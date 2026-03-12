@@ -22,6 +22,7 @@ type MasterInformationBlockSL struct {
 	DirectFrameNumberR12    runtime.BitString `asn1:"tag:2,context,implicit"`
 	DirectSubframeNumberR12 int64             `asn1:"tag:3,context,implicit"`
 	InCoverageR12           bool              `asn1:"tag:4,context,implicit"`
+	InCoverageR12Raw_       byte              `asn1:"-" json:"-"`
 	ReservedR12             runtime.BitString `asn1:"tag:5,context,implicit"`
 }
 
@@ -32,6 +33,7 @@ type MasterInformationBlockSLV2XR14 struct {
 	DirectFrameNumberR14    runtime.BitString `asn1:"tag:2,context,implicit"`
 	DirectSubframeNumberR14 int64             `asn1:"tag:3,context,implicit"`
 	InCoverageR14           bool              `asn1:"tag:4,context,implicit"`
+	InCoverageR14Raw_       byte              `asn1:"-" json:"-"`
 	ReservedR14             runtime.BitString `asn1:"tag:5,context,implicit"`
 }
 
@@ -47,6 +49,7 @@ type SBCCHSLBCHMessageType struct {
 	DirectFrameNumberR12    runtime.BitString `asn1:"tag:2,context,implicit"`
 	DirectSubframeNumberR12 int64             `asn1:"tag:3,context,implicit"`
 	InCoverageR12           bool              `asn1:"tag:4,context,implicit"`
+	InCoverageR12Raw_       byte              `asn1:"-" json:"-"`
 	ReservedR12             runtime.BitString `asn1:"tag:5,context,implicit"`
 }
 
@@ -57,6 +60,7 @@ type SBCCHSLBCHMessageTypeV2XR14 struct {
 	DirectFrameNumberR14    runtime.BitString `asn1:"tag:2,context,implicit"`
 	DirectSubframeNumberR14 int64             `asn1:"tag:3,context,implicit"`
 	InCoverageR14           bool              `asn1:"tag:4,context,implicit"`
+	InCoverageR14Raw_       byte              `asn1:"-" json:"-"`
 	ReservedR14             runtime.BitString `asn1:"tag:5,context,implicit"`
 }
 

@@ -942,7 +942,8 @@ func (v *InvokeLinkedId) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding absent: %w", tlvErr)
 		}
-		_ = rawVal // TODO: decode implicit NULL
+		_ = rawVal // NULL has no content
+		v.Absent = &struct{}{}
 	} else {
 		return fmt.Errorf("unknown tag %s for InvokeLinkedId CHOICE", peekTag)
 	}

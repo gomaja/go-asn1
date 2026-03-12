@@ -196,16 +196,19 @@ type AdditionalBandInfoListNBR14 = []FreqBandIndicatorNBR13
 
 // BCCHBCHMessageTypeNB represents the ASN.1 type BCCH-BCH-MessageType-NB (SEQUENCE).
 type BCCHBCHMessageTypeNB struct {
-	SystemFrameNumberMSBR13       runtime.BitString                        `asn1:"tag:0,context,implicit"`
-	HyperSFNLSBR13                runtime.BitString                        `asn1:"tag:1,context,implicit"`
-	SchedulingInfoSIB1R13         int64                                    `asn1:"tag:2,context,implicit"`
-	SystemInfoValueTagR13         int64                                    `asn1:"tag:3,context,implicit"`
-	AbEnabledR13                  bool                                     `asn1:"tag:4,context,implicit"`
-	OperationModeInfoR13          BCCHBCHMessageTypeNBOperationModeInfoR13 `asn1:"tag:5,context,explicit"`
-	AdditionalTransmissionSIB1R15 bool                                     `asn1:"tag:6,context,implicit"`
-	AbEnabled5GCR16               bool                                     `asn1:"tag:7,context,implicit"`
-	PartEARFCN17                  BCCHBCHMessageTypeNBPartEARFCN17         `asn1:"tag:8,context,explicit"`
-	Spare                         runtime.BitString                        `asn1:"tag:9,context,implicit"`
+	SystemFrameNumberMSBR13           runtime.BitString                        `asn1:"tag:0,context,implicit"`
+	HyperSFNLSBR13                    runtime.BitString                        `asn1:"tag:1,context,implicit"`
+	SchedulingInfoSIB1R13             int64                                    `asn1:"tag:2,context,implicit"`
+	SystemInfoValueTagR13             int64                                    `asn1:"tag:3,context,implicit"`
+	AbEnabledR13                      bool                                     `asn1:"tag:4,context,implicit"`
+	AbEnabledR13Raw_                  byte                                     `asn1:"-" json:"-"`
+	OperationModeInfoR13              BCCHBCHMessageTypeNBOperationModeInfoR13 `asn1:"tag:5,context,explicit"`
+	AdditionalTransmissionSIB1R15     bool                                     `asn1:"tag:6,context,implicit"`
+	AdditionalTransmissionSIB1R15Raw_ byte                                     `asn1:"-" json:"-"`
+	AbEnabled5GCR16                   bool                                     `asn1:"tag:7,context,implicit"`
+	AbEnabled5GCR16Raw_               byte                                     `asn1:"-" json:"-"`
+	PartEARFCN17                      BCCHBCHMessageTypeNBPartEARFCN17         `asn1:"tag:8,context,explicit"`
+	Spare                             runtime.BitString                        `asn1:"tag:9,context,implicit"`
 }
 
 // BCCHBCHMessageTypeTDDNBR15 represents the ASN.1 type BCCH-BCH-MessageType-TDD-NB-r15 (SEQUENCE).
@@ -215,9 +218,11 @@ type BCCHBCHMessageTypeTDDNBR15 struct {
 	SchedulingInfoSIB1R15   int64                                          `asn1:"tag:2,context,implicit"`
 	SystemInfoValueTagR15   int64                                          `asn1:"tag:3,context,implicit"`
 	AbEnabledR15            bool                                           `asn1:"tag:4,context,implicit"`
+	AbEnabledR15Raw_        byte                                           `asn1:"-" json:"-"`
 	OperationModeInfoR15    BCCHBCHMessageTypeTDDNBR15OperationModeInfoR15 `asn1:"tag:5,context,explicit"`
 	Sib1CarrierInfoR15      int64                                          `asn1:"tag:6,context,implicit"`
 	AbEnabled5GCR16         bool                                           `asn1:"tag:7,context,implicit"`
+	AbEnabled5GCR16Raw_     byte                                           `asn1:"-" json:"-"`
 	Spare                   runtime.BitString                              `asn1:"tag:8,context,implicit"`
 }
 
@@ -678,8 +683,9 @@ type EDTTBSInfoListNBR15 = []EDTTBSNBR15
 
 // EDTTBSNBR15 represents the ASN.1 type EDT-TBS-NB-r15 (SEQUENCE).
 type EDTTBSNBR15 struct {
-	EdtSmallTBSEnabledR15 bool  `asn1:"tag:0,context,implicit"`
-	EdtTBSR15             int64 `asn1:"tag:1,context,implicit"`
+	EdtSmallTBSEnabledR15     bool  `asn1:"tag:0,context,implicit"`
+	EdtSmallTBSEnabledR15Raw_ byte  `asn1:"-" json:"-"`
+	EdtTBSR15                 int64 `asn1:"tag:1,context,implicit"`
 }
 
 // EstablishmentCauseNBR13 represents the ASN.1 ENUMERATED type EstablishmentCause-NB-r13.
@@ -953,11 +959,12 @@ type IntraFreqNeighCellListNBV1530 = []IntraFreqNeighCellInfoNBV1530
 
 // LogicalChannelConfigNBR13 represents the ASN.1 type LogicalChannelConfig-NB-r13 (SEQUENCE).
 type LogicalChannelConfigNBR13 struct {
-	PriorityR13                 *int64   `asn1:"tag:0,context,implicit,optional" json:"PriorityR13,omitempty"`
-	LogicalChannelSRProhibitR13 *bool    `asn1:"tag:1,context,implicit,optional" json:"LogicalChannelSRProhibitR13,omitempty"`
-	ExtCount_                   int64    `asn1:"-" json:"-"`
-	ExtPresent_                 []bool   `asn1:"-" json:"-"`
-	ExtData_                    [][]byte `asn1:"-" json:"-"`
+	PriorityR13                     *int64   `asn1:"tag:0,context,implicit,optional" json:"PriorityR13,omitempty"`
+	LogicalChannelSRProhibitR13     *bool    `asn1:"tag:1,context,implicit,optional" json:"LogicalChannelSRProhibitR13,omitempty"`
+	LogicalChannelSRProhibitR13Raw_ byte     `asn1:"-" json:"-"`
+	ExtCount_                       int64    `asn1:"-" json:"-"`
+	ExtPresent_                     []bool   `asn1:"-" json:"-"`
+	ExtData_                        [][]byte `asn1:"-" json:"-"`
 }
 
 // MACMainConfigNBR13 represents the ASN.1 type MAC-MainConfig-NB-r13 (SEQUENCE).
@@ -1006,16 +1013,19 @@ type MBMSSAIInterFreqNBR14 struct {
 
 // MasterInformationBlockNB represents the ASN.1 type MasterInformationBlock-NB (SEQUENCE).
 type MasterInformationBlockNB struct {
-	SystemFrameNumberMSBR13       runtime.BitString                            `asn1:"tag:0,context,implicit"`
-	HyperSFNLSBR13                runtime.BitString                            `asn1:"tag:1,context,implicit"`
-	SchedulingInfoSIB1R13         int64                                        `asn1:"tag:2,context,implicit"`
-	SystemInfoValueTagR13         int64                                        `asn1:"tag:3,context,implicit"`
-	AbEnabledR13                  bool                                         `asn1:"tag:4,context,implicit"`
-	OperationModeInfoR13          MasterInformationBlockNBOperationModeInfoR13 `asn1:"tag:5,context,explicit"`
-	AdditionalTransmissionSIB1R15 bool                                         `asn1:"tag:6,context,implicit"`
-	AbEnabled5GCR16               bool                                         `asn1:"tag:7,context,implicit"`
-	PartEARFCN17                  MasterInformationBlockNBPartEARFCN17         `asn1:"tag:8,context,explicit"`
-	Spare                         runtime.BitString                            `asn1:"tag:9,context,implicit"`
+	SystemFrameNumberMSBR13           runtime.BitString                            `asn1:"tag:0,context,implicit"`
+	HyperSFNLSBR13                    runtime.BitString                            `asn1:"tag:1,context,implicit"`
+	SchedulingInfoSIB1R13             int64                                        `asn1:"tag:2,context,implicit"`
+	SystemInfoValueTagR13             int64                                        `asn1:"tag:3,context,implicit"`
+	AbEnabledR13                      bool                                         `asn1:"tag:4,context,implicit"`
+	AbEnabledR13Raw_                  byte                                         `asn1:"-" json:"-"`
+	OperationModeInfoR13              MasterInformationBlockNBOperationModeInfoR13 `asn1:"tag:5,context,explicit"`
+	AdditionalTransmissionSIB1R15     bool                                         `asn1:"tag:6,context,implicit"`
+	AdditionalTransmissionSIB1R15Raw_ byte                                         `asn1:"-" json:"-"`
+	AbEnabled5GCR16                   bool                                         `asn1:"tag:7,context,implicit"`
+	AbEnabled5GCR16Raw_               byte                                         `asn1:"-" json:"-"`
+	PartEARFCN17                      MasterInformationBlockNBPartEARFCN17         `asn1:"tag:8,context,explicit"`
+	Spare                             runtime.BitString                            `asn1:"tag:9,context,implicit"`
 }
 
 // MasterInformationBlockTDDNBR15 represents the ASN.1 type MasterInformationBlock-TDD-NB-r15 (SEQUENCE).
@@ -1025,9 +1035,11 @@ type MasterInformationBlockTDDNBR15 struct {
 	SchedulingInfoSIB1R15   int64                                              `asn1:"tag:2,context,implicit"`
 	SystemInfoValueTagR15   int64                                              `asn1:"tag:3,context,implicit"`
 	AbEnabledR15            bool                                               `asn1:"tag:4,context,implicit"`
+	AbEnabledR15Raw_        byte                                               `asn1:"-" json:"-"`
 	OperationModeInfoR15    MasterInformationBlockTDDNBR15OperationModeInfoR15 `asn1:"tag:5,context,explicit"`
 	Sib1CarrierInfoR15      int64                                              `asn1:"tag:6,context,implicit"`
 	AbEnabled5GCR16         bool                                               `asn1:"tag:7,context,implicit"`
+	AbEnabled5GCR16Raw_     byte                                               `asn1:"-" json:"-"`
 	Spare                   runtime.BitString                                  `asn1:"tag:8,context,implicit"`
 }
 
@@ -1225,6 +1237,7 @@ type NPUSCHConfigCommonNBR13 struct {
 type NPUSCHConfigDedicatedNBR13 struct {
 	AckNACKNumRepetitionsR13 *ACKNACKNumRepetitionsNBR13 `asn1:"tag:0,context,implicit,optional" json:"AckNACKNumRepetitionsR13,omitempty"`
 	NpuschAllSymbolsR13      *bool                       `asn1:"tag:1,context,implicit,optional" json:"NpuschAllSymbolsR13,omitempty"`
+	NpuschAllSymbolsR13Raw_  byte                        `asn1:"-" json:"-"`
 	GroupHoppingDisabledR13  *int64                      `asn1:"tag:2,context,implicit,optional" json:"GroupHoppingDisabledR13,omitempty"`
 }
 
@@ -1962,10 +1975,12 @@ type RACHInfoNBV1530 struct {
 
 // RACHReportNBR16 represents the ASN.1 type RACH-Report-NB-r16 (SEQUENCE).
 type RACHReportNBR16 struct {
-	NumberOfPreamblesSentR16 int64 `asn1:"tag:0,context,implicit"`
-	ContentionDetectedR16    bool  `asn1:"tag:1,context,implicit"`
-	InitialNRSRPLevelR16     int64 `asn1:"tag:2,context,implicit"`
-	EdtFallbackR16           bool  `asn1:"tag:3,context,implicit"`
+	NumberOfPreamblesSentR16  int64 `asn1:"tag:0,context,implicit"`
+	ContentionDetectedR16     bool  `asn1:"tag:1,context,implicit"`
+	ContentionDetectedR16Raw_ byte  `asn1:"-" json:"-"`
+	InitialNRSRPLevelR16      int64 `asn1:"tag:2,context,implicit"`
+	EdtFallbackR16            bool  `asn1:"tag:3,context,implicit"`
+	EdtFallbackR16Raw_        byte  `asn1:"-" json:"-"`
 }
 
 // RFParametersNBR13 represents the ASN.1 type RF-Parameters-NB-r13 (SEQUENCE).
@@ -2162,20 +2177,22 @@ type RRCConnectionReestablishmentRequestNB struct {
 
 // RRCConnectionReestablishmentRequestNBR13IEs represents the ASN.1 type RRCConnectionReestablishmentRequest-NB-r13-IEs (SEQUENCE).
 type RRCConnectionReestablishmentRequestNBR13IEs struct {
-	UeIdentityR13                ReestabUEIdentity         `asn1:"tag:0,context,implicit"`
-	ReestablishmentCauseR13      ReestablishmentCauseNBR13 `asn1:"tag:1,context,implicit"`
-	CqiNPDCCHR14                 CQINPDCCHNBR14            `asn1:"tag:2,context,implicit"`
-	EarlyContentionResolutionR14 bool                      `asn1:"tag:3,context,implicit"`
-	Spare                        runtime.BitString         `asn1:"tag:4,context,implicit"`
+	UeIdentityR13                    ReestabUEIdentity         `asn1:"tag:0,context,implicit"`
+	ReestablishmentCauseR13          ReestablishmentCauseNBR13 `asn1:"tag:1,context,implicit"`
+	CqiNPDCCHR14                     CQINPDCCHNBR14            `asn1:"tag:2,context,implicit"`
+	EarlyContentionResolutionR14     bool                      `asn1:"tag:3,context,implicit"`
+	EarlyContentionResolutionR14Raw_ byte                      `asn1:"-" json:"-"`
+	Spare                            runtime.BitString         `asn1:"tag:4,context,implicit"`
 }
 
 // RRCConnectionReestablishmentRequestNBR14IEs represents the ASN.1 type RRCConnectionReestablishmentRequest-NB-r14-IEs (SEQUENCE).
 type RRCConnectionReestablishmentRequestNBR14IEs struct {
-	UeIdentityR14                ReestabUEIdentityCPNBR14  `asn1:"tag:0,context,implicit"`
-	ReestablishmentCauseR14      ReestablishmentCauseNBR13 `asn1:"tag:1,context,implicit"`
-	CqiNPDCCHR14                 CQINPDCCHShortNBR14       `asn1:"tag:2,context,implicit"`
-	EarlyContentionResolutionR14 bool                      `asn1:"tag:3,context,implicit"`
-	Spare                        runtime.BitString         `asn1:"tag:4,context,implicit"`
+	UeIdentityR14                    ReestabUEIdentityCPNBR14  `asn1:"tag:0,context,implicit"`
+	ReestablishmentCauseR14          ReestablishmentCauseNBR13 `asn1:"tag:1,context,implicit"`
+	CqiNPDCCHR14                     CQINPDCCHShortNBR14       `asn1:"tag:2,context,implicit"`
+	EarlyContentionResolutionR14     bool                      `asn1:"tag:3,context,implicit"`
+	EarlyContentionResolutionR14Raw_ byte                      `asn1:"-" json:"-"`
+	Spare                            runtime.BitString         `asn1:"tag:4,context,implicit"`
 }
 
 // RRCConnectionReestablishmentNB represents the ASN.1 type RRCConnectionReestablishment-NB (SEQUENCE).
@@ -2282,13 +2299,14 @@ type RRCConnectionRequestNB struct {
 
 // RRCConnectionRequestNBR13IEs represents the ASN.1 type RRCConnectionRequest-NB-r13-IEs (SEQUENCE).
 type RRCConnectionRequestNBR13IEs struct {
-	UeIdentityR13                InitialUEIdentity       `asn1:"tag:0,context,explicit"`
-	EstablishmentCauseR13        EstablishmentCauseNBR13 `asn1:"tag:1,context,implicit"`
-	MultiToneSupportR13          *int64                  `asn1:"tag:2,context,implicit,optional" json:"MultiToneSupportR13,omitempty"`
-	MultiCarrierSupportR13       *int64                  `asn1:"tag:3,context,implicit,optional" json:"MultiCarrierSupportR13,omitempty"`
-	EarlyContentionResolutionR14 bool                    `asn1:"tag:4,context,implicit"`
-	CqiNPDCCHR14                 CQINPDCCHNBR14          `asn1:"tag:5,context,implicit"`
-	Spare                        runtime.BitString       `asn1:"tag:6,context,implicit"`
+	UeIdentityR13                    InitialUEIdentity       `asn1:"tag:0,context,explicit"`
+	EstablishmentCauseR13            EstablishmentCauseNBR13 `asn1:"tag:1,context,implicit"`
+	MultiToneSupportR13              *int64                  `asn1:"tag:2,context,implicit,optional" json:"MultiToneSupportR13,omitempty"`
+	MultiCarrierSupportR13           *int64                  `asn1:"tag:3,context,implicit,optional" json:"MultiCarrierSupportR13,omitempty"`
+	EarlyContentionResolutionR14     bool                    `asn1:"tag:4,context,implicit"`
+	EarlyContentionResolutionR14Raw_ byte                    `asn1:"-" json:"-"`
+	CqiNPDCCHR14                     CQINPDCCHNBR14          `asn1:"tag:5,context,implicit"`
+	Spare                            runtime.BitString       `asn1:"tag:6,context,implicit"`
 }
 
 // RRCConnectionResumeCompleteNB represents the ASN.1 type RRCConnectionResumeComplete-NB (SEQUENCE).
@@ -2340,13 +2358,15 @@ type RRCConnectionResumeRequestNB struct {
 
 // RRCConnectionResumeRequestNBR13IEs represents the ASN.1 type RRCConnectionResumeRequest-NB-r13-IEs (SEQUENCE).
 type RRCConnectionResumeRequestNBR13IEs struct {
-	ResumeIDR13                  ResumeIdentityR13       `asn1:"tag:0,context,implicit"`
-	ShortResumeMACIR13           ShortMACI               `asn1:"tag:1,context,implicit"`
-	ResumeCauseR13               EstablishmentCauseNBR13 `asn1:"tag:2,context,implicit"`
-	EarlyContentionResolutionR14 bool                    `asn1:"tag:3,context,implicit"`
-	CqiNPDCCHR14                 CQINPDCCHNBR14          `asn1:"tag:4,context,implicit"`
-	AnrInfoAvailableR16          bool                    `asn1:"tag:5,context,implicit"`
-	Spare                        runtime.BitString       `asn1:"tag:6,context,implicit"`
+	ResumeIDR13                      ResumeIdentityR13       `asn1:"tag:0,context,implicit"`
+	ShortResumeMACIR13               ShortMACI               `asn1:"tag:1,context,implicit"`
+	ResumeCauseR13                   EstablishmentCauseNBR13 `asn1:"tag:2,context,implicit"`
+	EarlyContentionResolutionR14     bool                    `asn1:"tag:3,context,implicit"`
+	EarlyContentionResolutionR14Raw_ byte                    `asn1:"-" json:"-"`
+	CqiNPDCCHR14                     CQINPDCCHNBR14          `asn1:"tag:4,context,implicit"`
+	AnrInfoAvailableR16              bool                    `asn1:"tag:5,context,implicit"`
+	AnrInfoAvailableR16Raw_          byte                    `asn1:"-" json:"-"`
+	Spare                            runtime.BitString       `asn1:"tag:6,context,implicit"`
 }
 
 // RRCConnectionResumeNB represents the ASN.1 type RRCConnectionResume-NB (SEQUENCE).
@@ -3565,8 +3585,11 @@ type UEInformationRequestNBR16 struct {
 // UEInformationRequestNBR16IEs represents the ASN.1 type UEInformationRequest-NB-r16-IEs (SEQUENCE).
 type UEInformationRequestNBR16IEs struct {
 	RachReportReqR16         bool              `asn1:"tag:0,context,implicit"`
+	RachReportReqR16Raw_     byte              `asn1:"-" json:"-"`
 	RlfReportReqR16          bool              `asn1:"tag:1,context,implicit"`
+	RlfReportReqR16Raw_      byte              `asn1:"-" json:"-"`
 	AnrReportReqR16          bool              `asn1:"tag:2,context,implicit"`
+	AnrReportReqR16Raw_      byte              `asn1:"-" json:"-"`
 	LateNonCriticalExtension []byte            `asn1:"tag:3,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
 	NonCriticalExtension     *runtime.RawValue `asn1:"tag:4,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
@@ -3850,8 +3873,9 @@ type ULDCCHMessageNB struct {
 
 // ULReferenceSignalsNPUSCHNBR13 represents the ASN.1 type UL-ReferenceSignalsNPUSCH-NB-r13 (SEQUENCE).
 type ULReferenceSignalsNPUSCHNBR13 struct {
-	GroupHoppingEnabledR13   bool  `asn1:"tag:0,context,implicit"`
-	GroupAssignmentNPUSCHR13 int64 `asn1:"tag:1,context,implicit"`
+	GroupHoppingEnabledR13     bool  `asn1:"tag:0,context,implicit"`
+	GroupHoppingEnabledR13Raw_ byte  `asn1:"-" json:"-"`
+	GroupAssignmentNPUSCHR13   int64 `asn1:"tag:1,context,implicit"`
 }
 
 // UplinkPowerControlCommonNBR13 represents the ASN.1 type UplinkPowerControlCommon-NB-r13 (SEQUENCE).
@@ -5010,24 +5034,38 @@ type PDCPConfigNBR13HeaderCompressionR13Rohc struct {
 
 // PDCPConfigNBR13HeaderCompressionR13RohcProfilesR13 represents the ASN.1 type PDCP-Config-NB-r13-headerCompression-r13-rohc-profiles-r13 (SEQUENCE).
 type PDCPConfigNBR13HeaderCompressionR13RohcProfilesR13 struct {
-	Profile0x0002 bool `asn1:"tag:0,context,implicit"`
-	Profile0x0003 bool `asn1:"tag:1,context,implicit"`
-	Profile0x0004 bool `asn1:"tag:2,context,implicit"`
-	Profile0x0006 bool `asn1:"tag:3,context,implicit"`
-	Profile0x0102 bool `asn1:"tag:4,context,implicit"`
-	Profile0x0103 bool `asn1:"tag:5,context,implicit"`
-	Profile0x0104 bool `asn1:"tag:6,context,implicit"`
+	Profile0x0002     bool `asn1:"tag:0,context,implicit"`
+	Profile0x0002Raw_ byte `asn1:"-" json:"-"`
+	Profile0x0003     bool `asn1:"tag:1,context,implicit"`
+	Profile0x0003Raw_ byte `asn1:"-" json:"-"`
+	Profile0x0004     bool `asn1:"tag:2,context,implicit"`
+	Profile0x0004Raw_ byte `asn1:"-" json:"-"`
+	Profile0x0006     bool `asn1:"tag:3,context,implicit"`
+	Profile0x0006Raw_ byte `asn1:"-" json:"-"`
+	Profile0x0102     bool `asn1:"tag:4,context,implicit"`
+	Profile0x0102Raw_ byte `asn1:"-" json:"-"`
+	Profile0x0103     bool `asn1:"tag:5,context,implicit"`
+	Profile0x0103Raw_ byte `asn1:"-" json:"-"`
+	Profile0x0104     bool `asn1:"tag:6,context,implicit"`
+	Profile0x0104Raw_ byte `asn1:"-" json:"-"`
 }
 
 // PDCPParametersNBR13SupportedROHCProfilesR13 represents the ASN.1 type PDCP-Parameters-NB-r13-supportedROHC-Profiles-r13 (SEQUENCE).
 type PDCPParametersNBR13SupportedROHCProfilesR13 struct {
-	Profile0x0002 bool `asn1:"tag:0,context,implicit"`
-	Profile0x0003 bool `asn1:"tag:1,context,implicit"`
-	Profile0x0004 bool `asn1:"tag:2,context,implicit"`
-	Profile0x0006 bool `asn1:"tag:3,context,implicit"`
-	Profile0x0102 bool `asn1:"tag:4,context,implicit"`
-	Profile0x0103 bool `asn1:"tag:5,context,implicit"`
-	Profile0x0104 bool `asn1:"tag:6,context,implicit"`
+	Profile0x0002     bool `asn1:"tag:0,context,implicit"`
+	Profile0x0002Raw_ byte `asn1:"-" json:"-"`
+	Profile0x0003     bool `asn1:"tag:1,context,implicit"`
+	Profile0x0003Raw_ byte `asn1:"-" json:"-"`
+	Profile0x0004     bool `asn1:"tag:2,context,implicit"`
+	Profile0x0004Raw_ byte `asn1:"-" json:"-"`
+	Profile0x0006     bool `asn1:"tag:3,context,implicit"`
+	Profile0x0006Raw_ byte `asn1:"-" json:"-"`
+	Profile0x0102     bool `asn1:"tag:4,context,implicit"`
+	Profile0x0102Raw_ byte `asn1:"-" json:"-"`
+	Profile0x0103     bool `asn1:"tag:5,context,implicit"`
+	Profile0x0103Raw_ byte `asn1:"-" json:"-"`
+	Profile0x0104     bool `asn1:"tag:6,context,implicit"`
+	Profile0x0104Raw_ byte `asn1:"-" json:"-"`
 }
 
 // PLMNIdentityInfo5GCNBR16PlmnIdentity5GCR16 choice constants.

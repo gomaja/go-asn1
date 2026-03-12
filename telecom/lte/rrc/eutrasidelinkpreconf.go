@@ -165,6 +165,7 @@ type SLV2XPreconfigCommPoolR14 struct {
 	SlOffsetIndicatorR14                       *SLOffsetIndicatorR12                      `asn1:"tag:0,context,explicit,optional" json:"SlOffsetIndicatorR14,omitempty"`
 	SlSubframeR14                              SubframeBitmapSLR14                        `asn1:"tag:1,context,explicit"`
 	AdjacencyPSCCHPSSCHR14                     bool                                       `asn1:"tag:2,context,implicit"`
+	AdjacencyPSCCHPSSCHR14Raw_                 byte                                       `asn1:"-" json:"-"`
 	SizeSubchannelR14                          int64                                      `asn1:"tag:3,context,implicit"`
 	NumSubchannelR14                           int64                                      `asn1:"tag:4,context,implicit"`
 	StartRBSubchannelR14                       int64                                      `asn1:"tag:5,context,implicit"`
@@ -302,13 +303,20 @@ type SLPreconfigDiscPoolR13TxParametersR13 struct {
 
 // SLPreconfigGeneralR12RohcProfilesR12 represents the ASN.1 type SL-PreconfigGeneral-r12-rohc-Profiles-r12 (SEQUENCE).
 type SLPreconfigGeneralR12RohcProfilesR12 struct {
-	Profile0x0001R12 bool `asn1:"tag:0,context,implicit"`
-	Profile0x0002R12 bool `asn1:"tag:1,context,implicit"`
-	Profile0x0004R12 bool `asn1:"tag:2,context,implicit"`
-	Profile0x0006R12 bool `asn1:"tag:3,context,implicit"`
-	Profile0x0101R12 bool `asn1:"tag:4,context,implicit"`
-	Profile0x0102R12 bool `asn1:"tag:5,context,implicit"`
-	Profile0x0104R12 bool `asn1:"tag:6,context,implicit"`
+	Profile0x0001R12     bool `asn1:"tag:0,context,implicit"`
+	Profile0x0001R12Raw_ byte `asn1:"-" json:"-"`
+	Profile0x0002R12     bool `asn1:"tag:1,context,implicit"`
+	Profile0x0002R12Raw_ byte `asn1:"-" json:"-"`
+	Profile0x0004R12     bool `asn1:"tag:2,context,implicit"`
+	Profile0x0004R12Raw_ byte `asn1:"-" json:"-"`
+	Profile0x0006R12     bool `asn1:"tag:3,context,implicit"`
+	Profile0x0006R12Raw_ byte `asn1:"-" json:"-"`
+	Profile0x0101R12     bool `asn1:"tag:4,context,implicit"`
+	Profile0x0101R12Raw_ byte `asn1:"-" json:"-"`
+	Profile0x0102R12     bool `asn1:"tag:5,context,implicit"`
+	Profile0x0102R12Raw_ byte `asn1:"-" json:"-"`
+	Profile0x0104R12     bool `asn1:"tag:6,context,implicit"`
+	Profile0x0104R12Raw_ byte `asn1:"-" json:"-"`
 }
 
 // SLPreconfigurationR12PreconfigCommV1310 represents the ASN.1 type SL-Preconfiguration-r12-preconfigComm-v1310 (SEQUENCE).
