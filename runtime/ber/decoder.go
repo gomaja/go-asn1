@@ -146,18 +146,19 @@ func DecodeSequenceChildren(data []byte) ([][]byte, error) {
 }
 
 // DecodeBoolean decodes a boolean from raw TLV bytes.
-func DecodeBoolean(data []byte) (bool, int, error) {
+// Returns (value, rawByte, totalConsumed, error).
+func DecodeBoolean(data []byte) (bool, byte, int, error) {
 	t, total, value, err := DecodeTLV(data)
 	if err != nil {
-		return false, 0, err
+		return false, 0, 0, err
 	}
 	if t.Class != tag.ClassUniversal || t.Number != tag.TagBoolean {
-		return false, 0, fmt.Errorf("%w: expected BOOLEAN tag, got %s", ErrInvalidTag, t)
+		return false, 0, 0, fmt.Errorf("%w: expected BOOLEAN tag, got %s", ErrInvalidTag, t)
 	}
 	if len(value) != 1 {
-		return false, 0, fmt.Errorf("%w: BOOLEAN value must be 1 byte, got %d", ErrInvalidValue, len(value))
+		return false, 0, 0, fmt.Errorf("%w: BOOLEAN value must be 1 byte, got %d", ErrInvalidValue, len(value))
 	}
-	return value[0] != 0, total, nil
+	return value[0] != 0, value[0], total, nil
 }
 
 // DecodeInteger decodes an integer from raw TLV bytes.
