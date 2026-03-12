@@ -1433,7 +1433,10 @@ func (v *GmscCamelSubscriptionInfo) MarshalBER() ([]byte, error) {
 		}
 		if v.OBcsmCamelTDPCriteriaListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_obcsmcameltdpcriterialist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_obcsmcameltdpcriterialist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_obcsmcameltdpcriterialist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, seqContent_)
 		} else {
 			enc_obcsmcameltdpcriterialist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_obcsmcameltdpcriterialist)
@@ -1447,7 +1450,10 @@ func (v *GmscCamelSubscriptionInfo) MarshalBER() ([]byte, error) {
 		}
 		if v.TBCSMCAMELTDPCriteriaListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_tbcsmcameltdpcriterialist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_tbcsmcameltdpcriterialist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_tbcsmcameltdpcriterialist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, seqContent_)
 		} else {
 			enc_tbcsmcameltdpcriterialist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_tbcsmcameltdpcriterialist)
@@ -2027,7 +2033,10 @@ func (v *ProvideRoamingNumberArg) MarshalBER() ([]byte, error) {
 		}
 		if v.PagingAreaIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_pagingarea)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_pagingarea)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_pagingarea = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 22}, seqContent_)
 		} else {
 			enc_pagingarea = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 22, true, enc_pagingarea)
@@ -3030,7 +3039,10 @@ func (v *ResumeCallHandlingArg) MarshalBER() ([]byte, error) {
 		}
 		if v.OBcsmCamelTDPCriteriaListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_obcsmcameltdpcriterialist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_obcsmcameltdpcriterialist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_obcsmcameltdpcriterialist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 13}, seqContent_)
 		} else {
 			enc_obcsmcameltdpcriterialist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 13, true, enc_obcsmcameltdpcriterialist)
@@ -4171,7 +4183,10 @@ func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
 		}
 		if v.SsListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_sslist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_sslist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_sslist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 		} else {
 			enc_sslist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_sslist)
@@ -4260,7 +4275,10 @@ func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
 		}
 		if v.SsList2Indef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_sslist2)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_sslist2)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_sslist2 = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 18}, seqContent_)
 		} else {
 			enc_sslist2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, true, enc_sslist2)

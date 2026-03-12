@@ -837,7 +837,10 @@ func (v *AreaDefinition) MarshalBER() ([]byte, error) {
 	}
 	if v.AreaListIndef_ {
 		// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-		_, _, seqContent_, _ := ber.DecodeTLV(enc_arealist)
+		_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_arealist)
+		if tlvErr_ != nil {
+			return nil, tlvErr_
+		}
 		enc_arealist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 0}, seqContent_)
 	} else {
 		enc_arealist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_arealist)
@@ -3132,7 +3135,10 @@ func (v *ReportingPLMNList) MarshalBER() ([]byte, error) {
 	}
 	if v.PlmnListIndef_ {
 		// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-		_, _, seqContent_, _ := ber.DecodeTLV(enc_plmnlist)
+		_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_plmnlist)
+		if tlvErr_ != nil {
+			return nil, tlvErr_
+		}
 		enc_plmnlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 	} else {
 		enc_plmnlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_plmnlist)

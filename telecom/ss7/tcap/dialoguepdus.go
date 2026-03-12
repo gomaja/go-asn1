@@ -203,7 +203,10 @@ func (v *AAREApdu) MarshalBER() ([]byte, error) {
 		}
 		if v.UserInformationIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_userinformation)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_userinformation)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_userinformation = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 30}, seqContent_)
 		} else {
 			enc_userinformation = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, true, enc_userinformation)
@@ -345,7 +348,10 @@ func (v *AARQApdu) MarshalBER() ([]byte, error) {
 		}
 		if v.UserInformationIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_userinformation)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_userinformation)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_userinformation = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 30}, seqContent_)
 		} else {
 			enc_userinformation = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, true, enc_userinformation)
@@ -444,7 +450,10 @@ func (v *ABRTApdu) MarshalBER() ([]byte, error) {
 		}
 		if v.UserInformationIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_userinformation)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_userinformation)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_userinformation = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 30}, seqContent_)
 		} else {
 			enc_userinformation = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, true, enc_userinformation)
@@ -665,7 +674,10 @@ func (v *RLREApdu) MarshalBER() ([]byte, error) {
 		}
 		if v.UserInformationIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_userinformation)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_userinformation)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_userinformation = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 30}, seqContent_)
 		} else {
 			enc_userinformation = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, true, enc_userinformation)
@@ -749,7 +761,10 @@ func (v *RLRQApdu) MarshalBER() ([]byte, error) {
 		}
 		if v.UserInformationIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_userinformation)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_userinformation)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_userinformation = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 30}, seqContent_)
 		} else {
 			enc_userinformation = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, true, enc_userinformation)

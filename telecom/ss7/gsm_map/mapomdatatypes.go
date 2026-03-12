@@ -1044,7 +1044,10 @@ func (v *AreaScope) MarshalBER() ([]byte, error) {
 		}
 		if v.CgiListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_cgilist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_cgilist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_cgilist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 0}, seqContent_)
 		} else {
 			enc_cgilist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_cgilist)
@@ -1058,7 +1061,10 @@ func (v *AreaScope) MarshalBER() ([]byte, error) {
 		}
 		if v.EUtranCgiListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_eutrancgilist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_eutrancgilist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_eutrancgilist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 		} else {
 			enc_eutrancgilist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_eutrancgilist)
@@ -1072,7 +1078,10 @@ func (v *AreaScope) MarshalBER() ([]byte, error) {
 		}
 		if v.RoutingAreaIdListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_routingareaidlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_routingareaidlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_routingareaidlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, seqContent_)
 		} else {
 			enc_routingareaidlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_routingareaidlist)
@@ -1086,7 +1095,10 @@ func (v *AreaScope) MarshalBER() ([]byte, error) {
 		}
 		if v.LocationAreaIdListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_locationareaidlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_locationareaidlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_locationareaidlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, seqContent_)
 		} else {
 			enc_locationareaidlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_locationareaidlist)
@@ -1100,7 +1112,10 @@ func (v *AreaScope) MarshalBER() ([]byte, error) {
 		}
 		if v.TrackingAreaIdListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_trackingareaidlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_trackingareaidlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_trackingareaidlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, seqContent_)
 		} else {
 			enc_trackingareaidlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_trackingareaidlist)
@@ -1650,7 +1665,10 @@ func (v *MDTConfiguration) MarshalBER() ([]byte, error) {
 		}
 		if v.MdtAllowedPLMNListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_mdtallowedplmnlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_mdtallowedplmnlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_mdtallowedplmnlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 14}, seqContent_)
 		} else {
 			enc_mdtallowedplmnlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, true, enc_mdtallowedplmnlist)

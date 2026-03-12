@@ -7850,6 +7850,8 @@ func (v *InterSystemInformationTransferType) unmarshalAPERFrom(bb *per.BitBuffer
 		_ = inner
 		v.Choice = int(extIdx) + 1 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("InterSystemInformationTransferType: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -10494,6 +10496,8 @@ func (v *ResetType) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("ResetType: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}

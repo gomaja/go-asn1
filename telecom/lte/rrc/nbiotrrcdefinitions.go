@@ -18207,6 +18207,8 @@ func (v *RLCConfigNBR13) unmarshalUPERFrom(bb *per.BitBuffer) error {
 		case RLCConfigNBR13ChoiceUmBiDirectionalR15:
 		case RLCConfigNBR13ChoiceUmUniDirectionalULR15:
 		case RLCConfigNBR13ChoiceUmUniDirectionalDLR15:
+		default:
+			return fmt.Errorf("RLCConfigNBR13: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}

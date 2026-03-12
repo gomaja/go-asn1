@@ -86,9 +86,9 @@ Protocols marked with **[compiled]** have generated Go code. Others have placeho
 
 | Package | Spec | Interface | Encoding | Status |
 |---------|------|-----------|----------|--------|
-| `ss7/tcap` | TCAP | MTP3/SCCP (transaction layer) | BER | planned |
+| `ss7/tcap` | TCAP | MTP3/SCCP (transaction layer) | BER | **[compiled]** |
 | `ss7/ansi_tcap` | ANSI TCAP | MTP3/SCCP (ANSI variant) | BER | planned |
-| `ss7/gsm_map` | GSM MAP | C/D/E/Gr (HLR/VLR/MSC) | BER | planned |
+| `ss7/gsm_map` | GSM MAP | C/D/E/Gr (HLR/VLR/MSC) | BER | **[compiled]** |
 | `ss7/camel` | CAMEL | gsmSSF ↔ gsmSCF | BER | planned |
 | `ss7/inap` | INAP | SSF ↔ SCF (IN CS-1/CS-2) | BER | planned |
 | `ss7/ain` | AIN | SSP ↔ SCP (N. America) | BER | planned |

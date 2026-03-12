@@ -74,7 +74,10 @@ func (v *ExtensionContainer) MarshalBER() ([]byte, error) {
 		}
 		if v.PrivateExtensionListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_privateextensionlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_privateextensionlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_privateextensionlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 0}, seqContent_)
 		} else {
 			enc_privateextensionlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_privateextensionlist)
@@ -266,7 +269,10 @@ func (v *SLRArgExtensionContainer) MarshalBER() ([]byte, error) {
 		}
 		if v.PrivateExtensionListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_privateextensionlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_privateextensionlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_privateextensionlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 0}, seqContent_)
 		} else {
 			enc_privateextensionlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_privateextensionlist)

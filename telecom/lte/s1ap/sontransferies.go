@@ -1348,6 +1348,8 @@ func (v *CellLoadReportingResponse) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding eHRPD: %w", err)
 			}
 			v.EHRPD = &dec_ehrpd
+		default:
+			return fmt.Errorf("CellLoadReportingResponse: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -2252,6 +2254,8 @@ func (v *FailureEventReport) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 1 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("FailureEventReport: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -2507,6 +2511,8 @@ func (v *IRATCellID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_ehrpd := EHRPDSectorID(val_ehrpd)
 			v.EHRPD = &tmp_ehrpd
+		default:
+			return fmt.Errorf("IRATCellID: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -2720,6 +2726,8 @@ func (v *MultiCellLoadReportingResponseItem) unmarshalAPERFrom(bb *per.BitBuffer
 				return fmt.Errorf("decoding eHRPD: %w", err)
 			}
 			v.EHRPD = &dec_ehrpd
+		default:
+			return fmt.Errorf("MultiCellLoadReportingResponseItem: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -3058,6 +3066,8 @@ func (v *SONtransferCause) unmarshalAPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_failureeventreporting := FailureEventReportingCause(val_failureeventreporting)
 			v.FailureEventReporting = &tmp_failureeventreporting
+		default:
+			return fmt.Errorf("SONtransferCause: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -3194,6 +3204,8 @@ func (v *SONtransferRequestContainer) unmarshalAPERFrom(bb *per.BitBuffer) error
 				return fmt.Errorf("decoding failureEventReporting: %w", err)
 			}
 			v.FailureEventReporting = &dec_failureeventreporting
+		default:
+			return fmt.Errorf("SONtransferRequestContainer: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -3314,6 +3326,8 @@ func (v *SONtransferResponseContainer) unmarshalAPERFrom(bb *per.BitBuffer) erro
 			v.EutranCellActivation = &dec_eutrancellactivation
 		case SONtransferResponseContainerChoiceEnergySavingsIndication:
 		case SONtransferResponseContainerChoiceFailureEventReporting:
+		default:
+			return fmt.Errorf("SONtransferResponseContainer: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}

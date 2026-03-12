@@ -62,13 +62,7 @@ func encodeIntBytes(v int64) []byte {
 	}
 
 	// Work with big-endian two's complement bytes.
-	var negative bool
 	uv := uint64(v)
-	if v < 0 {
-		negative = true
-		uv = uint64(v)
-	}
-	_ = negative
 
 	var buf [8]byte
 	for i := 7; i >= 0; i-- {
@@ -419,7 +413,8 @@ func EncodeOIDValue(oid []uint64) []byte {
 		return nil
 	}
 	var buf []byte
-	buf = append(buf, byte(oid[0]*40+oid[1]))
+	first := oid[0]*40 + oid[1]
+	buf = append(buf, encodeBase128(first)...)
 	for _, arc := range oid[2:] {
 		buf = append(buf, encodeBase128(arc)...)
 	}

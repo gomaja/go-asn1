@@ -6522,6 +6522,8 @@ func (v *AreaScopeOfMDT) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding tAIBased: %w", err)
 			}
 			v.TAIBased = &dec_taibased
+		default:
+			return fmt.Errorf("AreaScopeOfMDT: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -6615,6 +6617,8 @@ func (v *AreaScopeOfQMC) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 4 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("AreaScopeOfQMC: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -7566,6 +7570,8 @@ func (v *BroadcastCancelledAreaList) unmarshalAPERFrom(bb *per.BitBuffer) error 
 		_ = inner
 		v.Choice = int(extIdx) + 3 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("BroadcastCancelledAreaList: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -7693,6 +7699,8 @@ func (v *BroadcastCompletedAreaList) unmarshalAPERFrom(bb *per.BitBuffer) error 
 		_ = inner
 		v.Choice = int(extIdx) + 3 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("BroadcastCompletedAreaList: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -8829,6 +8837,8 @@ func (v *Cause) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 5 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("Cause: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -10981,6 +10991,8 @@ func (v *DLCOUNTPDCPSNlength) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 3 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("DLCOUNTPDCPSNlength: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -11497,6 +11509,8 @@ func (v *ENBID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_longmacroenbid := runtime.BitString{Bytes: bsBytes_longmacroenbid, BitLength: bsBitLen_longmacroenbid}
 			v.LongMacroENBID = &tmp_longmacroenbid
+		default:
+			return fmt.Errorf("ENBID: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -11850,6 +11864,8 @@ func (v *ENDCSONTransferType) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("ENDCSONTransferType: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -14828,6 +14844,8 @@ func (v *GNBIdentity) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 1 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("GNBIdentity: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -15282,6 +15300,8 @@ func (v *GlobalRANNODEID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("GlobalRANNODEID: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -16849,6 +16869,8 @@ func (v *LastVisitedCellItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_ngrancell := LastVisitedNGRANCellInformation(val_ngrancell)
 			v.NGRANCell = &tmp_ngrancell
+		default:
+			return fmt.Errorf("LastVisitedCellItem: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -17059,6 +17081,8 @@ func (v *LastVisitedGERANCellInformation) unmarshalAPERFrom(bb *per.BitBuffer) e
 		_ = inner
 		v.Choice = int(extIdx) + 1 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("LastVisitedGERANCellInformation: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -17666,6 +17690,8 @@ func (v *LoggedMDTTrigger) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("LoggedMDTTrigger: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -18779,6 +18805,8 @@ func (v *MDTMode) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding mDTMode-Extension: %w", err)
 			}
 			v.MDTModeExtension = &dec_mdtmodeextension
+		default:
+			return fmt.Errorf("MDTMode: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -19039,6 +19067,8 @@ func (v *MMEPagingTarget) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("MMEPagingTarget: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -19123,6 +19153,8 @@ func (v *MeasurementThresholdA2) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("MeasurementThresholdA2: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -20171,6 +20203,8 @@ func (v *OverloadResponse) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 1 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("OverloadResponse: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -21498,6 +21532,8 @@ func (v *RIMRoutingAddress) unmarshalAPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_ehrpdsectorid := val_ehrpdsectorid
 			v.EHRPDSectorID = tmp_ehrpdsectorid
+		default:
+			return fmt.Errorf("RIMRoutingAddress: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -22621,6 +22657,8 @@ func (v *SONInformation) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding sONInformation-Extension: %w", err)
 			}
 			v.SONInformationExtension = &dec_soninformationextension
+		default:
+			return fmt.Errorf("SONInformation: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -22827,6 +22865,8 @@ func (v *SONInformationReport) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 1 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("SONInformationReport: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -26302,6 +26342,8 @@ func (v *TargetID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding targetgNgRanNode-ID: %w", err)
 			}
 			v.TargetgNgRanNodeID = &dec_targetgngrannodeid
+		default:
+			return fmt.Errorf("TargetID: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -27657,6 +27699,8 @@ func (v *UEPagingID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("UEPagingID: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -28109,6 +28153,8 @@ func (v *UES1APIDs) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("UES1APIDs: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -29053,6 +29099,8 @@ func (v *WarningAreaList) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 3 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("WarningAreaList: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}

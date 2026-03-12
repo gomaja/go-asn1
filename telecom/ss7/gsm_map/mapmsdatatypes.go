@@ -4650,7 +4650,10 @@ func (v *APNConfiguration) MarshalBER() ([]byte, error) {
 		}
 		if v.SpecificAPNInfoListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_specificapninfolist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_specificapninfolist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_specificapninfolist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 10}, seqContent_)
 		} else {
 			enc_specificapninfolist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, true, enc_specificapninfolist)
@@ -5157,7 +5160,10 @@ func (v *APNConfigurationProfile) MarshalBER() ([]byte, error) {
 	}
 	if v.EpsDataListIndef_ {
 		// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-		_, _, seqContent_, _ := ber.DecodeTLV(enc_epsdatalist)
+		_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_epsdatalist)
+		if tlvErr_ != nil {
+			return nil, tlvErr_
+		}
 		enc_epsdatalist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 	} else {
 		enc_epsdatalist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_epsdatalist)
@@ -6755,7 +6761,10 @@ func (v *AnyTimeSubscriptionInterrogationRes) MarshalBER() ([]byte, error) {
 		}
 		if v.MsisdnBSListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_msisdnbslist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_msisdnbslist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_msisdnbslist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 10}, seqContent_)
 		} else {
 			enc_msisdnbslist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, true, enc_msisdnbslist)
@@ -6769,7 +6778,10 @@ func (v *AnyTimeSubscriptionInterrogationRes) MarshalBER() ([]byte, error) {
 		}
 		if v.CsgSubscriptionDataListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_csgsubscriptiondatalist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_csgsubscriptiondatalist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_csgsubscriptiondatalist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 11}, seqContent_)
 		} else {
 			enc_csgsubscriptiondatalist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, true, enc_csgsubscriptiondatalist)
@@ -7993,7 +8005,10 @@ func (v *CAMELSubscriptionInfo) MarshalBER() ([]byte, error) {
 		}
 		if v.OBcsmCamelTDPCriteriaListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_obcsmcameltdpcriterialist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_obcsmcameltdpcriterialist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_obcsmcameltdpcriterialist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 		} else {
 			enc_obcsmcameltdpcriterialist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_obcsmcameltdpcriterialist)
@@ -8023,7 +8038,10 @@ func (v *CAMELSubscriptionInfo) MarshalBER() ([]byte, error) {
 		}
 		if v.TBCSMCAMELTDPCriteriaListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_tbcsmcameltdpcriterialist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_tbcsmcameltdpcriterialist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_tbcsmcameltdpcriterialist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, seqContent_)
 		} else {
 			enc_tbcsmcameltdpcriterialist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_tbcsmcameltdpcriterialist)
@@ -8045,7 +8063,10 @@ func (v *CAMELSubscriptionInfo) MarshalBER() ([]byte, error) {
 		}
 		if v.VtBCSMCAMELTDPCriteriaListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_vtbcsmcameltdpcriterialist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_vtbcsmcameltdpcriterialist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_vtbcsmcameltdpcriterialist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 6}, seqContent_)
 		} else {
 			enc_vtbcsmcameltdpcriterialist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, true, enc_vtbcsmcameltdpcriterialist)
@@ -8122,7 +8143,10 @@ func (v *CAMELSubscriptionInfo) MarshalBER() ([]byte, error) {
 		}
 		if v.MtSmsCAMELTDPCriteriaListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_mtsmscameltdpcriterialist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_mtsmscameltdpcriterialist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_mtsmscameltdpcriterialist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 16}, seqContent_)
 		} else {
 			enc_mtsmscameltdpcriterialist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, true, enc_mtsmscameltdpcriterialist)
@@ -8152,7 +8176,10 @@ func (v *CAMELSubscriptionInfo) MarshalBER() ([]byte, error) {
 		}
 		if v.OIMBcsmCamelTDPCriteriaListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_oimbcsmcameltdpcriterialist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_oimbcsmcameltdpcriterialist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_oimbcsmcameltdpcriterialist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 19}, seqContent_)
 		} else {
 			enc_oimbcsmcameltdpcriterialist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, true, enc_oimbcsmcameltdpcriterialist)
@@ -8182,7 +8209,10 @@ func (v *CAMELSubscriptionInfo) MarshalBER() ([]byte, error) {
 		}
 		if v.VtIMBCSMCAMELTDPCriteriaListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_vtimbcsmcameltdpcriterialist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_vtimbcsmcameltdpcriterialist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_vtimbcsmcameltdpcriterialist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 22}, seqContent_)
 		} else {
 			enc_vtimbcsmcameltdpcriterialist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 22, true, enc_vtimbcsmcameltdpcriterialist)
@@ -8694,7 +8724,10 @@ func (v *CSGSubscriptionData) MarshalBER() ([]byte, error) {
 		}
 		if v.LipaAllowedAPNListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_lipaallowedapnlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_lipaallowedapnlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_lipaallowedapnlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 0}, seqContent_)
 		} else {
 			enc_lipaallowedapnlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_lipaallowedapnlist)
@@ -9504,7 +9537,10 @@ func (v *CallWaitingData) MarshalBER() ([]byte, error) {
 	}
 	if v.CwFeatureListIndef_ {
 		// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-		_, _, seqContent_, _ := ber.DecodeTLV(enc_cwfeaturelist)
+		_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_cwfeaturelist)
+		if tlvErr_ != nil {
+			return nil, tlvErr_
+		}
 		enc_cwfeaturelist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 	} else {
 		enc_cwfeaturelist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_cwfeaturelist)
@@ -10804,7 +10840,10 @@ func (v *DCSI) MarshalBER() ([]byte, error) {
 		}
 		if v.DpAnalysedInfoCriteriaListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_dpanalysedinfocriterialist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_dpanalysedinfocriterialist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_dpanalysedinfocriterialist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 0}, seqContent_)
 		} else {
 			enc_dpanalysedinfocriterialist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_dpanalysedinfocriterialist)
@@ -10956,7 +10995,10 @@ func (v *DeleteSubscriberDataArg) MarshalBER() ([]byte, error) {
 		}
 		if v.BasicServiceListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_basicservicelist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_basicservicelist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_basicservicelist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 		} else {
 			enc_basicservicelist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_basicservicelist)
@@ -10970,7 +11012,10 @@ func (v *DeleteSubscriberDataArg) MarshalBER() ([]byte, error) {
 		}
 		if v.SsListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_sslist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_sslist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_sslist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, seqContent_)
 		} else {
 			enc_sslist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_sslist)
@@ -11735,7 +11780,10 @@ func (v *DestinationNumberCriteria) MarshalBER() ([]byte, error) {
 		}
 		if v.DestinationNumberListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_destinationnumberlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_destinationnumberlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_destinationnumberlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 		} else {
 			enc_destinationnumberlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_destinationnumberlist)
@@ -11749,7 +11797,10 @@ func (v *DestinationNumberCriteria) MarshalBER() ([]byte, error) {
 		}
 		if v.DestinationNumberLengthListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_destinationnumberlengthlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_destinationnumberlengthlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_destinationnumberlengthlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, seqContent_)
 		} else {
 			enc_destinationnumberlengthlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_destinationnumberlengthlist)
@@ -12943,7 +12994,10 @@ func (v *ExtCallBarringInfoForCSE) MarshalBER() ([]byte, error) {
 	}
 	if v.CallBarringFeatureListIndef_ {
 		// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-		_, _, seqContent_, _ := ber.DecodeTLV(enc_callbarringfeaturelist)
+		_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_callbarringfeaturelist)
+		if tlvErr_ != nil {
+			return nil, tlvErr_
+		}
 		enc_callbarringfeaturelist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 	} else {
 		enc_callbarringfeaturelist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_callbarringfeaturelist)
@@ -13559,7 +13613,10 @@ func (v *ExtForwardingInfoForCSE) MarshalBER() ([]byte, error) {
 	}
 	if v.ForwardingFeatureListIndef_ {
 		// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-		_, _, seqContent_, _ := ber.DecodeTLV(enc_forwardingfeaturelist)
+		_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_forwardingfeaturelist)
+		if tlvErr_ != nil {
+			return nil, tlvErr_
+		}
 		enc_forwardingfeaturelist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 	} else {
 		enc_forwardingfeaturelist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_forwardingfeaturelist)
@@ -14431,7 +14488,10 @@ func (v *ForwardAccessSignallingArg) MarshalBER() ([]byte, error) {
 		}
 		if v.RadioResourceListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_radioresourcelist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_radioresourcelist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_radioresourcelist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 7}, seqContent_)
 		} else {
 			enc_radioresourcelist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, true, enc_radioresourcelist)
@@ -14455,7 +14515,10 @@ func (v *ForwardAccessSignallingArg) MarshalBER() ([]byte, error) {
 		}
 		if v.BssmapServiceHandoverListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_bssmapservicehandoverlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_bssmapservicehandoverlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_bssmapservicehandoverlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 10}, seqContent_)
 		} else {
 			enc_bssmapservicehandoverlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, true, enc_bssmapservicehandoverlist)
@@ -15055,7 +15118,10 @@ func (v *GPRSSubscriptionData) MarshalBER() ([]byte, error) {
 	}
 	if v.GprsDataListIndef_ {
 		// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-		_, _, seqContent_, _ := ber.DecodeTLV(enc_gprsdatalist)
+		_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_gprsdatalist)
+		if tlvErr_ != nil {
+			return nil, tlvErr_
+		}
 		enc_gprsdatalist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 	} else {
 		enc_gprsdatalist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_gprsdatalist)
@@ -15231,7 +15297,10 @@ func (v *GPRSCSI) MarshalBER() ([]byte, error) {
 		}
 		if v.GprsCamelTDPDataListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_gprscameltdpdatalist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_gprscameltdpdatalist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_gprscameltdpdatalist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 0}, seqContent_)
 		} else {
 			enc_gprscameltdpdatalist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_gprscameltdpdatalist)
@@ -15731,7 +15800,10 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		}
 		if v.BearerServiceListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_bearerservicelist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_bearerservicelist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_bearerservicelist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, seqContent_)
 		} else {
 			enc_bearerservicelist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_bearerservicelist)
@@ -15745,7 +15817,10 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		}
 		if v.TeleserviceListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_teleservicelist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_teleservicelist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_teleservicelist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 6}, seqContent_)
 		} else {
 			enc_teleservicelist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, true, enc_teleservicelist)
@@ -15759,7 +15834,10 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		}
 		if v.ProvisionedSSIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_provisionedss)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_provisionedss)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_provisionedss = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 7}, seqContent_)
 		} else {
 			enc_provisionedss = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, true, enc_provisionedss)
@@ -15786,7 +15864,10 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		}
 		if v.RegionalSubscriptionDataIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_regionalsubscriptiondata)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_regionalsubscriptiondata)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_regionalsubscriptiondata = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 10}, seqContent_)
 		} else {
 			enc_regionalsubscriptiondata = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, true, enc_regionalsubscriptiondata)
@@ -15800,7 +15881,10 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		}
 		if v.VbsSubscriptionDataIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_vbssubscriptiondata)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_vbssubscriptiondata)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_vbssubscriptiondata = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 11}, seqContent_)
 		} else {
 			enc_vbssubscriptiondata = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, true, enc_vbssubscriptiondata)
@@ -15814,7 +15898,10 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		}
 		if v.VgcsSubscriptionDataIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_vgcssubscriptiondata)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_vgcssubscriptiondata)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_vgcssubscriptiondata = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 12}, seqContent_)
 		} else {
 			enc_vgcssubscriptiondata = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, true, enc_vgcssubscriptiondata)
@@ -15950,7 +16037,10 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		}
 		if v.CsgSubscriptionDataListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_csgsubscriptiondatalist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_csgsubscriptiondatalist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_csgsubscriptiondatalist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 32}, seqContent_)
 		} else {
 			enc_csgsubscriptiondatalist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 32, true, enc_csgsubscriptiondatalist)
@@ -16004,7 +16094,10 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		}
 		if v.VplmnCsgSubscriptionDataListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_vplmncsgsubscriptiondatalist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_vplmncsgsubscriptiondatalist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_vplmncsgsubscriptiondatalist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 40}, seqContent_)
 		} else {
 			enc_vplmncsgsubscriptiondatalist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 40, true, enc_vplmncsgsubscriptiondatalist)
@@ -16043,7 +16136,10 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		}
 		if v.AdjacentAccessRestrictionDataListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_adjacentaccessrestrictiondatalist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_adjacentaccessrestrictiondatalist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_adjacentaccessrestrictiondatalist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 46}, seqContent_)
 		} else {
 			enc_adjacentaccessrestrictiondatalist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 46, true, enc_adjacentaccessrestrictiondatalist)
@@ -16057,7 +16153,10 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		}
 		if v.ImsiGroupIdListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_imsigroupidlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_imsigroupidlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_imsigroupidlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 47}, seqContent_)
 		} else {
 			enc_imsigroupidlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 47, true, enc_imsigroupidlist)
@@ -16086,7 +16185,10 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		}
 		if v.ResetIdListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_resetidlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_resetidlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_resetidlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 51}, seqContent_)
 		} else {
 			enc_resetidlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 51, true, enc_resetidlist)
@@ -16100,7 +16202,10 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		}
 		if v.EDRXCycleLengthListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_edrxcyclelengthlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_edrxcyclelengthlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_edrxcyclelengthlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 52}, seqContent_)
 		} else {
 			enc_edrxcyclelengthlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 52, true, enc_edrxcyclelengthlist)
@@ -17130,7 +17235,10 @@ func (v *InsertSubscriberDataRes) MarshalBER() ([]byte, error) {
 		}
 		if v.TeleserviceListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_teleservicelist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_teleservicelist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_teleservicelist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 		} else {
 			enc_teleservicelist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_teleservicelist)
@@ -17144,7 +17252,10 @@ func (v *InsertSubscriberDataRes) MarshalBER() ([]byte, error) {
 		}
 		if v.BearerServiceListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_bearerservicelist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_bearerservicelist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_bearerservicelist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, seqContent_)
 		} else {
 			enc_bearerservicelist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_bearerservicelist)
@@ -17158,7 +17269,10 @@ func (v *InsertSubscriberDataRes) MarshalBER() ([]byte, error) {
 		}
 		if v.SsListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_sslist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_sslist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_sslist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, seqContent_)
 		} else {
 			enc_sslist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_sslist)
@@ -17440,7 +17554,10 @@ func (v *LCSInformation) MarshalBER() ([]byte, error) {
 		}
 		if v.GmlcListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_gmlclist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_gmlclist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_gmlclist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 0}, seqContent_)
 		} else {
 			enc_gmlclist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_gmlclist)
@@ -17454,7 +17571,10 @@ func (v *LCSInformation) MarshalBER() ([]byte, error) {
 		}
 		if v.LcsPrivacyExceptionListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_lcsprivacyexceptionlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_lcsprivacyexceptionlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_lcsprivacyexceptionlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 		} else {
 			enc_lcsprivacyexceptionlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_lcsprivacyexceptionlist)
@@ -17468,7 +17588,10 @@ func (v *LCSInformation) MarshalBER() ([]byte, error) {
 		}
 		if v.MolrListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_molrlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_molrlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_molrlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, seqContent_)
 		} else {
 			enc_molrlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_molrlist)
@@ -17482,7 +17605,10 @@ func (v *LCSInformation) MarshalBER() ([]byte, error) {
 		}
 		if v.AddLcsPrivacyExceptionListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_addlcsprivacyexceptionlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_addlcsprivacyexceptionlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_addlcsprivacyexceptionlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, seqContent_)
 		} else {
 			enc_addlcsprivacyexceptionlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_addlcsprivacyexceptionlist)
@@ -17627,7 +17753,10 @@ func (v *LCSPrivacyClass) MarshalBER() ([]byte, error) {
 		}
 		if v.ExternalClientListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_externalclientlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_externalclientlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_externalclientlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 		} else {
 			enc_externalclientlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_externalclientlist)
@@ -17641,7 +17770,10 @@ func (v *LCSPrivacyClass) MarshalBER() ([]byte, error) {
 		}
 		if v.PlmnClientListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_plmnclientlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_plmnclientlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_plmnclientlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, seqContent_)
 		} else {
 			enc_plmnclientlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_plmnclientlist)
@@ -17663,7 +17795,10 @@ func (v *LCSPrivacyClass) MarshalBER() ([]byte, error) {
 		}
 		if v.ExtExternalClientListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_extexternalclientlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_extexternalclientlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_extexternalclientlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, seqContent_)
 		} else {
 			enc_extexternalclientlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_extexternalclientlist)
@@ -17677,7 +17812,10 @@ func (v *LCSPrivacyClass) MarshalBER() ([]byte, error) {
 		}
 		if v.ServiceTypeListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_servicetypelist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_servicetypelist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_servicetypelist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 5}, seqContent_)
 		} else {
 			enc_servicetypelist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, true, enc_servicetypelist)
@@ -18112,7 +18250,10 @@ func (v *LSAInformation) MarshalBER() ([]byte, error) {
 		}
 		if v.LsaDataListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_lsadatalist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_lsadatalist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_lsadatalist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, seqContent_)
 		} else {
 			enc_lsadatalist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_lsadatalist)
@@ -19777,7 +19918,10 @@ func (v *MSISDNBS) MarshalBER() ([]byte, error) {
 		}
 		if v.BasicServiceListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_basicservicelist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_basicservicelist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_basicservicelist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 0}, seqContent_)
 		} else {
 			enc_basicservicelist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_basicservicelist)
@@ -19913,7 +20057,10 @@ func (v *MTSmsCAMELTDPCriteria) MarshalBER() ([]byte, error) {
 		}
 		if v.TpduTypeCriterionIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_tpdutypecriterion)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_tpdutypecriterion)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_tpdutypecriterion = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 0}, seqContent_)
 		} else {
 			enc_tpdutypecriterion = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_tpdutypecriterion)
@@ -21995,7 +22142,10 @@ func (v *NoteSubscriberDataModifiedArg) MarshalBER() ([]byte, error) {
 		}
 		if v.CsgSubscriptionDataListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_csgsubscriptiondatalist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_csgsubscriptiondatalist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_csgsubscriptiondatalist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 6}, seqContent_)
 		} else {
 			enc_csgsubscriptiondatalist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, true, enc_csgsubscriptiondatalist)
@@ -22745,7 +22895,10 @@ func (v *OBcsmCamelTDPCriteria) MarshalBER() ([]byte, error) {
 		}
 		if v.BasicServiceCriteriaIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_basicservicecriteria)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_basicservicecriteria)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_basicservicecriteria = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 		} else {
 			enc_basicservicecriteria = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_basicservicecriteria)
@@ -22764,7 +22917,10 @@ func (v *OBcsmCamelTDPCriteria) MarshalBER() ([]byte, error) {
 		}
 		if v.OCauseValueCriteriaIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_ocausevaluecriteria)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_ocausevaluecriteria)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_ocausevaluecriteria = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, seqContent_)
 		} else {
 			enc_ocausevaluecriteria = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_ocausevaluecriteria)
@@ -24690,7 +24846,10 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		}
 		if v.RadioResourceListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_radioresourcelist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_radioresourcelist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_radioresourcelist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 11}, seqContent_)
 		} else {
 			enc_radioresourcelist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, true, enc_radioresourcelist)
@@ -24727,7 +24886,10 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		}
 		if v.BssmapServiceHandoverListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_bssmapservicehandoverlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_bssmapservicehandoverlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_bssmapservicehandoverlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 15}, seqContent_)
 		} else {
 			enc_bssmapservicehandoverlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 15, true, enc_bssmapservicehandoverlist)
@@ -24803,7 +24965,10 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		}
 		if v.RegionalSubscriptionDataIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_regionalsubscriptiondata)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_regionalsubscriptiondata)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_regionalsubscriptiondata = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 27}, seqContent_)
 		} else {
 			enc_regionalsubscriptiondata = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 27, true, enc_regionalsubscriptiondata)
@@ -24832,7 +24997,10 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		}
 		if v.CsgSubscriptionDataListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_csgsubscriptiondatalist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_csgsubscriptiondatalist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_csgsubscriptiondatalist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 31}, seqContent_)
 		} else {
 			enc_csgsubscriptiondatalist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 31, true, enc_csgsubscriptiondatalist)
@@ -25429,7 +25597,10 @@ func (v *PrepareHORes) MarshalBER() ([]byte, error) {
 		}
 		if v.RelocationNumberListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_relocationnumberlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_relocationnumberlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_relocationnumberlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 		} else {
 			enc_relocationnumberlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_relocationnumberlist)
@@ -27622,7 +27793,10 @@ func (v *ResetArg) MarshalBER() ([]byte, error) {
 		}
 		if v.ResetIdListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_resetidlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_resetidlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_resetidlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 		} else {
 			enc_resetidlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_resetidlist)
@@ -28051,7 +28225,10 @@ func (v *SGSNCAMELSubscriptionInfo) MarshalBER() ([]byte, error) {
 		}
 		if v.MtSmsCAMELTDPCriteriaListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_mtsmscameltdpcriterialist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_mtsmscameltdpcriterialist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_mtsmscameltdpcriterialist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, seqContent_)
 		} else {
 			enc_mtsmscameltdpcriterialist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_mtsmscameltdpcriterialist)
@@ -28786,7 +28963,10 @@ func (v *SMSCSI) MarshalBER() ([]byte, error) {
 		}
 		if v.SmsCAMELTDPDataListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_smscameltdpdatalist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_smscameltdpdatalist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_smscameltdpdatalist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 0}, seqContent_)
 		} else {
 			enc_smscameltdpdatalist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_smscameltdpdatalist)
@@ -29498,7 +29678,10 @@ func (v *SendAuthenticationInfoRes) MarshalBER() ([]byte, error) {
 		}
 		if v.EpsAuthenticationSetListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_epsauthenticationsetlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_epsauthenticationsetlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_epsauthenticationsetlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, seqContent_)
 		} else {
 			enc_epsauthenticationsetlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_epsauthenticationsetlist)
@@ -30664,7 +30847,10 @@ func (v *SubscriberData) MarshalBER() ([]byte, error) {
 		}
 		if v.BearerServiceListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_bearerservicelist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_bearerservicelist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_bearerservicelist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, seqContent_)
 		} else {
 			enc_bearerservicelist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_bearerservicelist)
@@ -30678,7 +30864,10 @@ func (v *SubscriberData) MarshalBER() ([]byte, error) {
 		}
 		if v.TeleserviceListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_teleservicelist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_teleservicelist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_teleservicelist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 6}, seqContent_)
 		} else {
 			enc_teleservicelist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, true, enc_teleservicelist)
@@ -30692,7 +30881,10 @@ func (v *SubscriberData) MarshalBER() ([]byte, error) {
 		}
 		if v.ProvisionedSSIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_provisionedss)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_provisionedss)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_provisionedss = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 7}, seqContent_)
 		} else {
 			enc_provisionedss = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, true, enc_provisionedss)
@@ -30719,7 +30911,10 @@ func (v *SubscriberData) MarshalBER() ([]byte, error) {
 		}
 		if v.RegionalSubscriptionDataIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_regionalsubscriptiondata)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_regionalsubscriptiondata)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_regionalsubscriptiondata = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 10}, seqContent_)
 		} else {
 			enc_regionalsubscriptiondata = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, true, enc_regionalsubscriptiondata)
@@ -30733,7 +30928,10 @@ func (v *SubscriberData) MarshalBER() ([]byte, error) {
 		}
 		if v.VbsSubscriptionDataIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_vbssubscriptiondata)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_vbssubscriptiondata)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_vbssubscriptiondata = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 11}, seqContent_)
 		} else {
 			enc_vbssubscriptiondata = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, true, enc_vbssubscriptiondata)
@@ -30747,7 +30945,10 @@ func (v *SubscriberData) MarshalBER() ([]byte, error) {
 		}
 		if v.VgcsSubscriptionDataIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_vgcssubscriptiondata)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_vgcssubscriptiondata)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_vgcssubscriptiondata = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 12}, seqContent_)
 		} else {
 			enc_vgcssubscriptiondata = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, true, enc_vgcssubscriptiondata)
@@ -31748,7 +31949,10 @@ func (v *TBCSMCAMELTDPCriteria) MarshalBER() ([]byte, error) {
 		}
 		if v.BasicServiceCriteriaIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_basicservicecriteria)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_basicservicecriteria)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_basicservicecriteria = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 0}, seqContent_)
 		} else {
 			enc_basicservicecriteria = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_basicservicecriteria)
@@ -31762,7 +31966,10 @@ func (v *TBCSMCAMELTDPCriteria) MarshalBER() ([]byte, error) {
 		}
 		if v.TCauseValueCriteriaIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_tcausevaluecriteria)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_tcausevaluecriteria)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_tcausevaluecriteria = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 		} else {
 			enc_tcausevaluecriteria = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_tcausevaluecriteria)
@@ -32489,7 +32696,10 @@ func (v *UpdateGprsLocationArg) MarshalBER() ([]byte, error) {
 		}
 		if v.EplmnListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_eplmnlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_eplmnlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_eplmnlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 15}, seqContent_)
 		} else {
 			enc_eplmnlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 15, true, enc_eplmnlist)
@@ -32538,7 +32748,10 @@ func (v *UpdateGprsLocationArg) MarshalBER() ([]byte, error) {
 		}
 		if v.AdjacentPLMNListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_adjacentplmnlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_adjacentplmnlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_adjacentplmnlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 23}, seqContent_)
 		} else {
 			enc_adjacentplmnlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 23, true, enc_adjacentplmnlist)
@@ -33181,7 +33394,10 @@ func (v *UpdateLocationArg) MarshalBER() ([]byte, error) {
 		}
 		if v.PagingAreaIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_pagingarea)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_pagingarea)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_pagingarea = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 14}, seqContent_)
 		} else {
 			enc_pagingarea = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, true, enc_pagingarea)
@@ -33205,7 +33421,10 @@ func (v *UpdateLocationArg) MarshalBER() ([]byte, error) {
 		}
 		if v.EplmnListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_eplmnlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_eplmnlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_eplmnlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, seqContent_)
 		} else {
 			enc_eplmnlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_eplmnlist)
@@ -34331,7 +34550,10 @@ func (v *VlrCamelSubscriptionInfo) MarshalBER() ([]byte, error) {
 		}
 		if v.OBcsmCamelTDPCriteriaListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_obcsmcameltdpcriterialist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_obcsmcameltdpcriterialist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_obcsmcameltdpcriterialist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, seqContent_)
 		} else {
 			enc_obcsmcameltdpcriterialist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_obcsmcameltdpcriterialist)
@@ -34374,7 +34596,10 @@ func (v *VlrCamelSubscriptionInfo) MarshalBER() ([]byte, error) {
 		}
 		if v.TBCSMCAMELTDPCriteriaListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_tbcsmcameltdpcriterialist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_tbcsmcameltdpcriterialist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_tbcsmcameltdpcriterialist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 8}, seqContent_)
 		} else {
 			enc_tbcsmcameltdpcriterialist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, true, enc_tbcsmcameltdpcriterialist)
@@ -34404,7 +34629,10 @@ func (v *VlrCamelSubscriptionInfo) MarshalBER() ([]byte, error) {
 		}
 		if v.MtSmsCAMELTDPCriteriaListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_mtsmscameltdpcriterialist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_mtsmscameltdpcriterialist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_mtsmscameltdpcriterialist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 11}, seqContent_)
 		} else {
 			enc_mtsmscameltdpcriterialist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, true, enc_mtsmscameltdpcriterialist)

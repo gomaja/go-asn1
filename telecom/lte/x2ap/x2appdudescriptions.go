@@ -279,6 +279,8 @@ func (v *X2APPDU) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 3 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("X2APPDU: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}

@@ -6919,6 +6919,8 @@ func (v *ABSInformation) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 3 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("ABSInformation: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -8221,6 +8223,8 @@ func (v *AreaScopeOfMDT) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding tAIBased: %w", err)
 			}
 			v.TAIBased = &dec_taibased
+		default:
+			return fmt.Errorf("AreaScopeOfMDT: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -8314,6 +8318,8 @@ func (v *AreaScopeOfQMC) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 4 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("AreaScopeOfQMC: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -11803,6 +11809,8 @@ func (v *CPTransportLayerInformation) unmarshalAPERFrom(bb *per.BitBuffer) error
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("CPTransportLayerInformation: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -12313,6 +12321,8 @@ func (v *Cause) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 4 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("Cause: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -13969,6 +13979,8 @@ func (v *DLResourcesULandDLSharing) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("DLResourcesULandDLSharing: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -14305,6 +14317,8 @@ func (v *DynamicDLTransmissionInformation) unmarshalAPERFrom(bb *per.BitBuffer) 
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("DynamicDLTransmissionInformation: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -14710,6 +14724,8 @@ func (v *ENBID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_longmacroenbid := runtime.BitString{Bytes: bsBytes_longmacroenbid, BitLength: bsBitLen_longmacroenbid}
 			v.LongMacroENBID = &tmp_longmacroenbid
+		default:
+			return fmt.Errorf("ENBID: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -15054,6 +15070,8 @@ func (v *EUTRAModeInfo) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("EUTRAModeInfo: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -17521,6 +17539,8 @@ func (v *GNBID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 1 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("GNBID: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -18769,6 +18789,8 @@ func (v *LastVisitedCellItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_ngrancell := LastVisitedNGRANCellInformation(val_ngrancell)
 			v.NGRANCell = &tmp_ngrancell
+		default:
+			return fmt.Errorf("LastVisitedCellItem: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -18979,6 +19001,8 @@ func (v *LastVisitedGERANCellInformation) unmarshalAPERFrom(bb *per.BitBuffer) e
 		_ = inner
 		v.Choice = int(extIdx) + 1 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("LastVisitedGERANCellInformation: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -20907,6 +20931,8 @@ func (v *MeasurementThresholdA2) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("MeasurementThresholdA2: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -25716,6 +25742,8 @@ func (v *ResumeID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("ResumeID: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -27872,6 +27900,8 @@ func (v *SharedResourceType) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("SharedResourceType: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -28383,6 +28413,8 @@ func (v *SubbandCQICodeword0) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 3 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("SubbandCQICodeword0: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -28481,6 +28513,8 @@ func (v *SubbandCQICodeword1) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 4 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("SubbandCQICodeword1: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -28700,6 +28734,8 @@ func (v *SubframeAllocation) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("SubframeAllocation: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -32207,6 +32243,8 @@ func (v *ULResourcesULandDLSharing) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("ULResourcesULandDLSharing: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -32531,6 +32569,8 @@ func (v *UsableABSInformation) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("UsableABSInformation: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -33185,6 +33225,8 @@ func (v *WTID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("WTID: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -33499,6 +33541,8 @@ func (v *WidebandCQICodeword1) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("WidebandCQICodeword1: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
@@ -33583,6 +33627,8 @@ func (v *NPRACHConfigurationFddOrTdd) unmarshalAPERFrom(bb *per.BitBuffer) error
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
+		default:
+			return fmt.Errorf("NPRACHConfigurationFddOrTdd: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}

@@ -97,9 +97,14 @@ func DecodeTLV(data []byte) (tag.Tag, int, []byte, error) {
 			if pos+2 > len(data) {
 				return tag.Tag{}, 0, nil, ErrTruncated
 			}
-			if data[pos] == 0x00 && data[pos+1] == 0x00 && depth == 0 {
-				value := data[headerLen:pos]
-				return t, pos + 2, value, nil
+			if data[pos] == 0x00 && data[pos+1] == 0x00 {
+				if depth == 0 {
+					value := data[headerLen:pos]
+					return t, pos + 2, value, nil
+				}
+				depth--
+				pos += 2
+				continue
 			}
 			// Skip nested TLVs.
 			_, innerTagLen, err := DecodeTag(data[pos:])
@@ -570,11 +575,11 @@ func DecodeRealValue(value []byte) (float64, error) {
 		}
 		return sign * float64(mantissa) * math.Pow(2, float64(scaleFactor)) * math.Pow(base, float64(exp)), nil
 	}
-	if info&0x40 != 0 {
-		return math.Inf(-1), nil
-	}
 	if info == 0x40 {
 		return math.Inf(1), nil
+	}
+	if info == 0x41 {
+		return math.Inf(-1), nil
 	}
 	return 0, fmt.Errorf("%w: unsupported REAL encoding", ErrInvalidValue)
 }
@@ -586,7 +591,11 @@ func DecodeOIDValue(value []byte) ([]uint64, error) {
 	}
 	result := make([]uint64, 0, 8)
 	first := uint64(value[0])
-	result = append(result, first/40, first%40)
+	if first >= 80 {
+		result = append(result, 2, first-80)
+	} else {
+		result = append(result, first/40, first%40)
+	}
 	offset := 1
 	for offset < len(value) {
 		v, consumed := decodeBase128(value, offset)

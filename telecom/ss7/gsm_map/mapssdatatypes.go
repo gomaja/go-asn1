@@ -1392,7 +1392,10 @@ func (v *GenericServiceInfo) MarshalBER() ([]byte, error) {
 		}
 		if v.CcbsFeatureListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_ccbsfeaturelist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_ccbsfeaturelist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_ccbsfeaturelist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, seqContent_)
 		} else {
 			enc_ccbsfeaturelist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_ccbsfeaturelist)
@@ -2395,7 +2398,10 @@ func (v *SSInvocationNotificationArg) MarshalBER() ([]byte, error) {
 		}
 		if v.SsEventSpecificationIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_sseventspecification)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_sseventspecification)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_sseventspecification = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, seqContent_)
 		} else {
 			enc_sseventspecification = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_sseventspecification)

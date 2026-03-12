@@ -204,7 +204,10 @@ func DecodeUnconstrainedLength(bb *BitBuffer) (int64, error) {
 	}
 	// Fragmentation marker (11xxxxxx).
 	// Read remaining 6 bits to see the multiplier
-	mul, _ := bb.ReadBits(6)
+	mul, err := bb.ReadBits(6)
+	if err != nil {
+		return 0, err
+	}
 	return 0, fmt.Errorf("per: fragmented length determinant not yet supported (mul=%d, bitPos=%d)", mul, bb.BitPos())
 }
 

@@ -2249,7 +2249,10 @@ func (v *MTForwardSMVGCSRes) MarshalBER() ([]byte, error) {
 		}
 		if v.DispatcherListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_dispatcherlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_dispatcherlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_dispatcherlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 		} else {
 			enc_dispatcherlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_dispatcherlist)
@@ -2275,7 +2278,10 @@ func (v *MTForwardSMVGCSRes) MarshalBER() ([]byte, error) {
 		}
 		if v.AdditionalDispatcherListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_additionaldispatcherlist)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_additionaldispatcherlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_additionaldispatcherlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, seqContent_)
 		} else {
 			enc_additionaldispatcherlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_additionaldispatcherlist)

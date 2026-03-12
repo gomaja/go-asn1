@@ -279,7 +279,10 @@ func (v *Begin) MarshalBER() ([]byte, error) {
 		}
 		if v.ComponentsIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_components)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_components)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_components = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassApplication, Number: 12}, seqContent_)
 		} else {
 			enc_components = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 12, true, enc_components)
@@ -483,7 +486,10 @@ func (v *Continue) MarshalBER() ([]byte, error) {
 		}
 		if v.ComponentsIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_components)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_components)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_components = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassApplication, Number: 12}, seqContent_)
 		} else {
 			enc_components = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 12, true, enc_components)
@@ -598,7 +604,10 @@ func (v *End) MarshalBER() ([]byte, error) {
 		}
 		if v.ComponentsIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, _ := ber.DecodeTLV(enc_components)
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_components)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
 			enc_components = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassApplication, Number: 12}, seqContent_)
 		} else {
 			enc_components = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 12, true, enc_components)
@@ -833,7 +842,10 @@ func (v *Unidirectional) MarshalBER() ([]byte, error) {
 	}
 	if v.ComponentsIndef_ {
 		// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-		_, _, seqContent_, _ := ber.DecodeTLV(enc_components)
+		_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_components)
+		if tlvErr_ != nil {
+			return nil, tlvErr_
+		}
 		enc_components = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassApplication, Number: 12}, seqContent_)
 	} else {
 		enc_components = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 12, true, enc_components)
