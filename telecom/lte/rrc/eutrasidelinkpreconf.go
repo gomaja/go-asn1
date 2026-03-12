@@ -23,21 +23,25 @@ type SLCBRPPPPTxPreconfigListV1530 = []SLPPPPTxPreconfigIndexV1530
 
 // SLCBRPreconfigTxConfigListR14 represents the ASN.1 type SL-CBR-PreconfigTxConfigList-r14 (SEQUENCE).
 type SLCBRPreconfigTxConfigListR14 struct {
-	CbrRangeCommonConfigListR14 SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 `asn1:"tag:0,context,implicit"`
-	SlCBRPSSCHTxConfigListR14   SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14   `asn1:"tag:1,context,implicit"`
+	CbrRangeCommonConfigListR14       SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 `asn1:"tag:0,context,implicit"`
+	CbrRangeCommonConfigListR14Indef_ bool                                                     `asn1:"-" json:"-"`
+	SlCBRPSSCHTxConfigListR14         SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14   `asn1:"tag:1,context,implicit"`
+	SlCBRPSSCHTxConfigListR14Indef_   bool                                                     `asn1:"-" json:"-"`
 }
 
 // SLPPPPTxPreconfigIndexR14 represents the ASN.1 type SL-PPPP-TxPreconfigIndex-r14 (SEQUENCE).
 type SLPPPPTxPreconfigIndexR14 struct {
-	PriorityThresholdR14    SLPriorityR13                                 `asn1:"tag:0,context,implicit"`
-	DefaultTxConfigIndexR14 int64                                         `asn1:"tag:1,context,implicit"`
-	CbrConfigIndexR14       int64                                         `asn1:"tag:2,context,implicit"`
-	TxConfigIndexListR14    SLPPPPTxPreconfigIndexR14TxConfigIndexListR14 `asn1:"tag:3,context,implicit"`
+	PriorityThresholdR14       SLPriorityR13                                 `asn1:"tag:0,context,implicit"`
+	DefaultTxConfigIndexR14    int64                                         `asn1:"tag:1,context,implicit"`
+	CbrConfigIndexR14          int64                                         `asn1:"tag:2,context,implicit"`
+	TxConfigIndexListR14       SLPPPPTxPreconfigIndexR14TxConfigIndexListR14 `asn1:"tag:3,context,implicit"`
+	TxConfigIndexListR14Indef_ bool                                          `asn1:"-" json:"-"`
 }
 
 // SLPPPPTxPreconfigIndexV1530 represents the ASN.1 type SL-PPPP-TxPreconfigIndex-v1530 (SEQUENCE).
 type SLPPPPTxPreconfigIndexV1530 struct {
-	McsPSSCHRangeR15 *SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 `asn1:"tag:0,context,implicit,optional" json:"McsPSSCHRangeR15,omitempty"`
+	McsPSSCHRangeR15       SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 `asn1:"tag:0,context,implicit,optional" json:"McsPSSCHRangeR15,omitempty"`
+	McsPSSCHRangeR15Indef_ bool                                        `asn1:"-" json:"-"`
 }
 
 // SLPreconfigCommPoolList4R12 represents the ASN.1 type SL-PreconfigCommPoolList4-r12 (SEQUENCE_OF).
@@ -54,7 +58,8 @@ type SLPreconfigCommPoolR12 struct {
 	DataHoppingConfigR12    SLHoppingConfigCommR12 `asn1:"tag:6,context,implicit"`
 	DataTxParametersR12     P0SLR12                `asn1:"tag:7,context,implicit"`
 	TrptSubsetR12           SLTRPTSubsetR12        `asn1:"tag:8,context,implicit"`
-	PriorityListR13         *SLPriorityListR13     `asn1:"tag:9,context,implicit,optional" json:"PriorityListR13,omitempty"`
+	PriorityListR13         SLPriorityListR13      `asn1:"tag:9,context,implicit,optional" json:"PriorityListR13,omitempty"`
+	PriorityListR13Indef_   bool                   `asn1:"-" json:"-"`
 	ExtCount_               int64                  `asn1:"-" json:"-"`
 	ExtPresent_             []bool                 `asn1:"-" json:"-"`
 	ExtData_                [][]byte               `asn1:"-" json:"-"`
@@ -143,56 +148,65 @@ type SLPreconfigV2XTxPoolListR14 = []SLV2XPreconfigCommPoolR14
 
 // SLPreconfigurationR12 represents the ASN.1 type SL-Preconfiguration-r12 (SEQUENCE).
 type SLPreconfigurationR12 struct {
-	PreconfigGeneralR12 SLPreconfigGeneralR12                    `asn1:"tag:0,context,implicit"`
-	PreconfigSyncR12    SLPreconfigSyncR12                       `asn1:"tag:1,context,implicit"`
-	PreconfigCommR12    SLPreconfigCommPoolList4R12              `asn1:"tag:2,context,implicit"`
-	PreconfigCommV1310  *SLPreconfigurationR12PreconfigCommV1310 `asn1:"tag:3,context,implicit,optional" json:"PreconfigCommV1310,omitempty"`
-	PreconfigDiscR13    *SLPreconfigurationR12PreconfigDiscR13   `asn1:"tag:4,context,implicit,optional" json:"PreconfigDiscR13,omitempty"`
-	PreconfigRelayR13   *SLPreconfigRelayR13                     `asn1:"tag:5,context,implicit,optional" json:"PreconfigRelayR13,omitempty"`
-	ExtCount_           int64                                    `asn1:"-" json:"-"`
-	ExtPresent_         []bool                                   `asn1:"-" json:"-"`
-	ExtData_            [][]byte                                 `asn1:"-" json:"-"`
+	PreconfigGeneralR12    SLPreconfigGeneralR12                    `asn1:"tag:0,context,implicit"`
+	PreconfigSyncR12       SLPreconfigSyncR12                       `asn1:"tag:1,context,implicit"`
+	PreconfigCommR12       SLPreconfigCommPoolList4R12              `asn1:"tag:2,context,implicit"`
+	PreconfigCommR12Indef_ bool                                     `asn1:"-" json:"-"`
+	PreconfigCommV1310     *SLPreconfigurationR12PreconfigCommV1310 `asn1:"tag:3,context,implicit,optional" json:"PreconfigCommV1310,omitempty"`
+	PreconfigDiscR13       *SLPreconfigurationR12PreconfigDiscR13   `asn1:"tag:4,context,implicit,optional" json:"PreconfigDiscR13,omitempty"`
+	PreconfigRelayR13      *SLPreconfigRelayR13                     `asn1:"tag:5,context,implicit,optional" json:"PreconfigRelayR13,omitempty"`
+	ExtCount_              int64                                    `asn1:"-" json:"-"`
+	ExtPresent_            []bool                                   `asn1:"-" json:"-"`
+	ExtData_               [][]byte                                 `asn1:"-" json:"-"`
 }
 
 // SLV2XPreconfigCommPoolR14 represents the ASN.1 type SL-V2X-PreconfigCommPool-r14 (SEQUENCE).
 type SLV2XPreconfigCommPoolR14 struct {
-	SlOffsetIndicatorR14                 *SLOffsetIndicatorR12                       `asn1:"tag:0,context,explicit,optional" json:"SlOffsetIndicatorR14,omitempty"`
-	SlSubframeR14                        SubframeBitmapSLR14                         `asn1:"tag:1,context,explicit"`
-	AdjacencyPSCCHPSSCHR14               bool                                        `asn1:"tag:2,context,implicit"`
-	SizeSubchannelR14                    int64                                       `asn1:"tag:3,context,implicit"`
-	NumSubchannelR14                     int64                                       `asn1:"tag:4,context,implicit"`
-	StartRBSubchannelR14                 int64                                       `asn1:"tag:5,context,implicit"`
-	StartRBPSCCHPoolR14                  *int64                                      `asn1:"tag:6,context,implicit,optional" json:"StartRBPSCCHPoolR14,omitempty"`
-	DataTxParametersR14                  P0SLR12                                     `asn1:"tag:7,context,implicit"`
-	ZoneIDR14                            *int64                                      `asn1:"tag:8,context,implicit,optional" json:"ZoneIDR14,omitempty"`
-	ThreshSRSSICBRR14                    *int64                                      `asn1:"tag:9,context,implicit,optional" json:"ThreshSRSSICBRR14,omitempty"`
-	CbrPsschTxConfigListR14              *SLCBRPPPPTxPreconfigListR14                `asn1:"tag:10,context,implicit,optional" json:"CbrPsschTxConfigListR14,omitempty"`
-	ResourceSelectionConfigP2XR14        *SLP2XResourceSelectionConfigR14            `asn1:"tag:11,context,implicit,optional" json:"ResourceSelectionConfigP2XR14,omitempty"`
-	SyncAllowedR14                       *SLSyncAllowedR14                           `asn1:"tag:12,context,implicit,optional" json:"SyncAllowedR14,omitempty"`
-	RestrictResourceReservationPeriodR14 *SLRestrictResourceReservationPeriodListR14 `asn1:"tag:13,context,implicit,optional" json:"RestrictResourceReservationPeriodR14,omitempty"`
-	SlMinT2ValueListR15                  *SLMinT2ValueListR15                        `asn1:"tag:14,context,implicit,optional" json:"SlMinT2ValueListR15,omitempty"`
-	CbrPsschTxConfigListV1530            *SLCBRPPPPTxPreconfigListV1530              `asn1:"tag:15,context,implicit,optional" json:"CbrPsschTxConfigListV1530,omitempty"`
-	ExtCount_                            int64                                       `asn1:"-" json:"-"`
-	ExtPresent_                          []bool                                      `asn1:"-" json:"-"`
-	ExtData_                             [][]byte                                    `asn1:"-" json:"-"`
+	SlOffsetIndicatorR14                       *SLOffsetIndicatorR12                      `asn1:"tag:0,context,explicit,optional" json:"SlOffsetIndicatorR14,omitempty"`
+	SlSubframeR14                              SubframeBitmapSLR14                        `asn1:"tag:1,context,explicit"`
+	AdjacencyPSCCHPSSCHR14                     bool                                       `asn1:"tag:2,context,implicit"`
+	SizeSubchannelR14                          int64                                      `asn1:"tag:3,context,implicit"`
+	NumSubchannelR14                           int64                                      `asn1:"tag:4,context,implicit"`
+	StartRBSubchannelR14                       int64                                      `asn1:"tag:5,context,implicit"`
+	StartRBPSCCHPoolR14                        *int64                                     `asn1:"tag:6,context,implicit,optional" json:"StartRBPSCCHPoolR14,omitempty"`
+	DataTxParametersR14                        P0SLR12                                    `asn1:"tag:7,context,implicit"`
+	ZoneIDR14                                  *int64                                     `asn1:"tag:8,context,implicit,optional" json:"ZoneIDR14,omitempty"`
+	ThreshSRSSICBRR14                          *int64                                     `asn1:"tag:9,context,implicit,optional" json:"ThreshSRSSICBRR14,omitempty"`
+	CbrPsschTxConfigListR14                    SLCBRPPPPTxPreconfigListR14                `asn1:"tag:10,context,implicit,optional" json:"CbrPsschTxConfigListR14,omitempty"`
+	CbrPsschTxConfigListR14Indef_              bool                                       `asn1:"-" json:"-"`
+	ResourceSelectionConfigP2XR14              *SLP2XResourceSelectionConfigR14           `asn1:"tag:11,context,implicit,optional" json:"ResourceSelectionConfigP2XR14,omitempty"`
+	SyncAllowedR14                             *SLSyncAllowedR14                          `asn1:"tag:12,context,implicit,optional" json:"SyncAllowedR14,omitempty"`
+	RestrictResourceReservationPeriodR14       SLRestrictResourceReservationPeriodListR14 `asn1:"tag:13,context,implicit,optional" json:"RestrictResourceReservationPeriodR14,omitempty"`
+	RestrictResourceReservationPeriodR14Indef_ bool                                       `asn1:"-" json:"-"`
+	SlMinT2ValueListR15                        SLMinT2ValueListR15                        `asn1:"tag:14,context,implicit,optional" json:"SlMinT2ValueListR15,omitempty"`
+	SlMinT2ValueListR15Indef_                  bool                                       `asn1:"-" json:"-"`
+	CbrPsschTxConfigListV1530                  SLCBRPPPPTxPreconfigListV1530              `asn1:"tag:15,context,implicit,optional" json:"CbrPsschTxConfigListV1530,omitempty"`
+	CbrPsschTxConfigListV1530Indef_            bool                                       `asn1:"-" json:"-"`
+	ExtCount_                                  int64                                      `asn1:"-" json:"-"`
+	ExtPresent_                                []bool                                     `asn1:"-" json:"-"`
+	ExtData_                                   [][]byte                                   `asn1:"-" json:"-"`
 }
 
 // SLV2XPreconfigFreqInfoR14 represents the ASN.1 type SL-V2X-PreconfigFreqInfo-r14 (SEQUENCE).
 type SLV2XPreconfigFreqInfoR14 struct {
-	V2xCommPreconfigGeneralR14    SLPreconfigGeneralR12            `asn1:"tag:0,context,implicit"`
-	V2xCommPreconfigSyncR14       *SLPreconfigV2XSyncR14           `asn1:"tag:1,context,implicit,optional" json:"V2xCommPreconfigSyncR14,omitempty"`
-	V2xCommRxPoolListR14          SLPreconfigV2XRxPoolListR14      `asn1:"tag:2,context,implicit"`
-	V2xCommTxPoolListR14          SLPreconfigV2XTxPoolListR14      `asn1:"tag:3,context,implicit"`
-	P2xCommTxPoolListR14          SLPreconfigV2XTxPoolListR14      `asn1:"tag:4,context,implicit"`
-	V2xResourceSelectionConfigR14 *SLCommTxPoolSensingConfigR14    `asn1:"tag:5,context,implicit,optional" json:"V2xResourceSelectionConfigR14,omitempty"`
-	ZoneConfigR14                 *SLZoneConfigR14                 `asn1:"tag:6,context,implicit,optional" json:"ZoneConfigR14,omitempty"`
-	SyncPriorityR14               int64                            `asn1:"tag:7,context,implicit"`
-	ThresSLTxPrioritizationR14    *SLPriorityR13                   `asn1:"tag:8,context,implicit,optional" json:"ThresSLTxPrioritizationR14,omitempty"`
-	OffsetDFNR14                  *int64                           `asn1:"tag:9,context,implicit,optional" json:"OffsetDFNR14,omitempty"`
-	V2xFreqSelectionConfigListR15 *SLV2XFreqSelectionConfigListR15 `asn1:"tag:10,context,implicit,optional" json:"V2xFreqSelectionConfigListR15,omitempty"`
-	ExtCount_                     int64                            `asn1:"-" json:"-"`
-	ExtPresent_                   []bool                           `asn1:"-" json:"-"`
-	ExtData_                      [][]byte                         `asn1:"-" json:"-"`
+	V2xCommPreconfigGeneralR14          SLPreconfigGeneralR12           `asn1:"tag:0,context,implicit"`
+	V2xCommPreconfigSyncR14             *SLPreconfigV2XSyncR14          `asn1:"tag:1,context,implicit,optional" json:"V2xCommPreconfigSyncR14,omitempty"`
+	V2xCommRxPoolListR14                SLPreconfigV2XRxPoolListR14     `asn1:"tag:2,context,implicit"`
+	V2xCommRxPoolListR14Indef_          bool                            `asn1:"-" json:"-"`
+	V2xCommTxPoolListR14                SLPreconfigV2XTxPoolListR14     `asn1:"tag:3,context,implicit"`
+	V2xCommTxPoolListR14Indef_          bool                            `asn1:"-" json:"-"`
+	P2xCommTxPoolListR14                SLPreconfigV2XTxPoolListR14     `asn1:"tag:4,context,implicit"`
+	P2xCommTxPoolListR14Indef_          bool                            `asn1:"-" json:"-"`
+	V2xResourceSelectionConfigR14       *SLCommTxPoolSensingConfigR14   `asn1:"tag:5,context,implicit,optional" json:"V2xResourceSelectionConfigR14,omitempty"`
+	ZoneConfigR14                       *SLZoneConfigR14                `asn1:"tag:6,context,implicit,optional" json:"ZoneConfigR14,omitempty"`
+	SyncPriorityR14                     int64                           `asn1:"tag:7,context,implicit"`
+	ThresSLTxPrioritizationR14          *SLPriorityR13                  `asn1:"tag:8,context,implicit,optional" json:"ThresSLTxPrioritizationR14,omitempty"`
+	OffsetDFNR14                        *int64                          `asn1:"tag:9,context,implicit,optional" json:"OffsetDFNR14,omitempty"`
+	V2xFreqSelectionConfigListR15       SLV2XFreqSelectionConfigListR15 `asn1:"tag:10,context,implicit,optional" json:"V2xFreqSelectionConfigListR15,omitempty"`
+	V2xFreqSelectionConfigListR15Indef_ bool                            `asn1:"-" json:"-"`
+	ExtCount_                           int64                           `asn1:"-" json:"-"`
+	ExtPresent_                         []bool                          `asn1:"-" json:"-"`
+	ExtData_                            [][]byte                        `asn1:"-" json:"-"`
 }
 
 // SLV2XPreconfigFreqListR14 represents the ASN.1 type SL-V2X-PreconfigFreqList-r14 (SEQUENCE_OF).
@@ -200,17 +214,22 @@ type SLV2XPreconfigFreqListR14 = []SLV2XPreconfigFreqInfoR14
 
 // SLV2XPreconfigurationR14 represents the ASN.1 type SL-V2X-Preconfiguration-r14 (SEQUENCE).
 type SLV2XPreconfigurationR14 struct {
-	V2xPreconfigFreqListR14       SLV2XPreconfigFreqListR14        `asn1:"tag:0,context,implicit"`
-	AnchorCarrierFreqListR14      *SLAnchorCarrierFreqListV2XR14   `asn1:"tag:1,context,implicit,optional" json:"AnchorCarrierFreqListR14,omitempty"`
-	CbrPreconfigListR14           *SLCBRPreconfigTxConfigListR14   `asn1:"tag:2,context,implicit,optional" json:"CbrPreconfigListR14,omitempty"`
-	V2xPacketDuplicationConfigR15 *SLV2XPacketDuplicationConfigR15 `asn1:"tag:3,context,implicit,optional" json:"V2xPacketDuplicationConfigR15,omitempty"`
-	SyncFreqListR15               *SLV2XSyncFreqListR15            `asn1:"tag:4,context,implicit,optional" json:"SyncFreqListR15,omitempty"`
-	SlssTxMultiFreqR15            *int64                           `asn1:"tag:5,context,implicit,optional" json:"SlssTxMultiFreqR15,omitempty"`
-	V2xTxProfileListR15           *SLV2XTxProfileListR15           `asn1:"tag:6,context,implicit,optional" json:"V2xTxProfileListR15,omitempty"`
-	AnchorCarrierFreqListNRR16    *SLNRAnchorCarrierFreqListR16    `asn1:"tag:7,context,implicit,optional" json:"AnchorCarrierFreqListNRR16,omitempty"`
-	ExtCount_                     int64                            `asn1:"-" json:"-"`
-	ExtPresent_                   []bool                           `asn1:"-" json:"-"`
-	ExtData_                      [][]byte                         `asn1:"-" json:"-"`
+	V2xPreconfigFreqListR14          SLV2XPreconfigFreqListR14        `asn1:"tag:0,context,implicit"`
+	V2xPreconfigFreqListR14Indef_    bool                             `asn1:"-" json:"-"`
+	AnchorCarrierFreqListR14         SLAnchorCarrierFreqListV2XR14    `asn1:"tag:1,context,implicit,optional" json:"AnchorCarrierFreqListR14,omitempty"`
+	AnchorCarrierFreqListR14Indef_   bool                             `asn1:"-" json:"-"`
+	CbrPreconfigListR14              *SLCBRPreconfigTxConfigListR14   `asn1:"tag:2,context,implicit,optional" json:"CbrPreconfigListR14,omitempty"`
+	V2xPacketDuplicationConfigR15    *SLV2XPacketDuplicationConfigR15 `asn1:"tag:3,context,implicit,optional" json:"V2xPacketDuplicationConfigR15,omitempty"`
+	SyncFreqListR15                  SLV2XSyncFreqListR15             `asn1:"tag:4,context,implicit,optional" json:"SyncFreqListR15,omitempty"`
+	SyncFreqListR15Indef_            bool                             `asn1:"-" json:"-"`
+	SlssTxMultiFreqR15               *int64                           `asn1:"tag:5,context,implicit,optional" json:"SlssTxMultiFreqR15,omitempty"`
+	V2xTxProfileListR15              SLV2XTxProfileListR15            `asn1:"tag:6,context,implicit,optional" json:"V2xTxProfileListR15,omitempty"`
+	V2xTxProfileListR15Indef_        bool                             `asn1:"-" json:"-"`
+	AnchorCarrierFreqListNRR16       SLNRAnchorCarrierFreqListR16     `asn1:"tag:7,context,implicit,optional" json:"AnchorCarrierFreqListNRR16,omitempty"`
+	AnchorCarrierFreqListNRR16Indef_ bool                             `asn1:"-" json:"-"`
+	ExtCount_                        int64                            `asn1:"-" json:"-"`
+	ExtPresent_                      []bool                           `asn1:"-" json:"-"`
+	ExtData_                         [][]byte                         `asn1:"-" json:"-"`
 }
 
 // SLV2XSyncOffsetIndicatorsR14 represents the ASN.1 type SL-V2X-SyncOffsetIndicators-r14 (SEQUENCE).
@@ -294,14 +313,18 @@ type SLPreconfigGeneralR12RohcProfilesR12 struct {
 
 // SLPreconfigurationR12PreconfigCommV1310 represents the ASN.1 type SL-Preconfiguration-r12-preconfigComm-v1310 (SEQUENCE).
 type SLPreconfigurationR12PreconfigCommV1310 struct {
-	CommRxPoolListR13 SLPreconfigCommRxPoolListR13  `asn1:"tag:0,context,implicit"`
-	CommTxPoolListR13 *SLPreconfigCommTxPoolListR13 `asn1:"tag:1,context,implicit,optional" json:"CommTxPoolListR13,omitempty"`
+	CommRxPoolListR13       SLPreconfigCommRxPoolListR13 `asn1:"tag:0,context,implicit"`
+	CommRxPoolListR13Indef_ bool                         `asn1:"-" json:"-"`
+	CommTxPoolListR13       SLPreconfigCommTxPoolListR13 `asn1:"tag:1,context,implicit,optional" json:"CommTxPoolListR13,omitempty"`
+	CommTxPoolListR13Indef_ bool                         `asn1:"-" json:"-"`
 }
 
 // SLPreconfigurationR12PreconfigDiscR13 represents the ASN.1 type SL-Preconfiguration-r12-preconfigDisc-r13 (SEQUENCE).
 type SLPreconfigurationR12PreconfigDiscR13 struct {
-	DiscRxPoolListR13 SLPreconfigDiscRxPoolListR13  `asn1:"tag:0,context,implicit"`
-	DiscTxPoolListR13 *SLPreconfigDiscTxPoolListR13 `asn1:"tag:1,context,implicit,optional" json:"DiscTxPoolListR13,omitempty"`
+	DiscRxPoolListR13       SLPreconfigDiscRxPoolListR13 `asn1:"tag:0,context,implicit"`
+	DiscRxPoolListR13Indef_ bool                         `asn1:"-" json:"-"`
+	DiscTxPoolListR13       SLPreconfigDiscTxPoolListR13 `asn1:"tag:1,context,implicit,optional" json:"DiscTxPoolListR13,omitempty"`
+	DiscTxPoolListR13Indef_ bool                         `asn1:"-" json:"-"`
 }
 
 // MarshalUPER encodes SLCBRPreconfigTxConfigListR14 to UPER format.
@@ -460,10 +483,10 @@ func (v *SLPPPPTxPreconfigIndexV1530) marshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.McsPSSCHRangeR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.McsPSSCHRangeR15)), 1, 16); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.McsPSSCHRangeR15)), 1, 16); err != nil {
 			return fmt.Errorf("encoding mcs-PSSCH-Range-r15 length: %w", err)
 		}
-		for _, elem := range *v.McsPSSCHRangeR15 {
+		for _, elem := range v.McsPSSCHRangeR15 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding mcs-PSSCH-Range-r15 element: %w", err)
 			}
@@ -495,7 +518,7 @@ func (v *SLPPPPTxPreconfigIndexV1530) unmarshalUPERFrom(bb *per.BitBuffer) error
 				return fmt.Errorf("decoding mcs-PSSCH-Range-r15 element: %w", err)
 			}
 		}
-		v.McsPSSCHRangeR15 = &tmp_mcspsschranger15
+		v.McsPSSCHRangeR15 = tmp_mcspsschranger15
 	}
 	return nil
 }
@@ -571,10 +594,10 @@ func (v *SLPreconfigCommPoolR12) marshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.PriorityListR13 != nil {
-				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(*v.PriorityListR13)), 1, 8); err != nil {
+				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(v.PriorityListR13)), 1, 8); err != nil {
 					return fmt.Errorf("encoding priorityList-r13 length: %w", err)
 				}
-				for _, elem := range *v.PriorityListR13 {
+				for _, elem := range v.PriorityListR13 {
 					if err := per.EncodeInteger(extBuf, int64(elem), int64Ptr(1), int64Ptr(8), false); err != nil {
 						return fmt.Errorf("encoding priorityList-r13 element: %w", err)
 					}
@@ -687,7 +710,7 @@ func (v *SLPreconfigCommPoolR12) unmarshalUPERFrom(bb *per.BitBuffer) error {
 					}
 					tmp_prioritylistr13[i] = SLPriorityR13(val)
 				}
-				v.PriorityListR13 = &tmp_prioritylistr13
+				v.PriorityListR13 = tmp_prioritylistr13
 			}
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -1677,10 +1700,10 @@ func (v *SLV2XPreconfigCommPoolR14) marshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.CbrPsschTxConfigListR14 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.CbrPsschTxConfigListR14)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.CbrPsschTxConfigListR14)), 1, 8); err != nil {
 			return fmt.Errorf("encoding cbr-pssch-TxConfigList-r14 length: %w", err)
 		}
-		for _, elem := range *v.CbrPsschTxConfigListR14 {
+		for _, elem := range v.CbrPsschTxConfigListR14 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cbr-pssch-TxConfigList-r14 element: %w", err)
 			}
@@ -1697,10 +1720,10 @@ func (v *SLV2XPreconfigCommPoolR14) marshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.RestrictResourceReservationPeriodR14 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.RestrictResourceReservationPeriodR14)), 1, 16); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.RestrictResourceReservationPeriodR14)), 1, 16); err != nil {
 			return fmt.Errorf("encoding restrictResourceReservationPeriod-r14 length: %w", err)
 		}
-		for _, elem := range *v.RestrictResourceReservationPeriodR14 {
+		for _, elem := range v.RestrictResourceReservationPeriodR14 {
 			if err := per.EncodeEnumerated(bb, int64(elem), 16, false); err != nil {
 				return fmt.Errorf("encoding restrictResourceReservationPeriod-r14 element: %w", err)
 			}
@@ -1739,20 +1762,20 @@ func (v *SLV2XPreconfigCommPoolR14) marshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.SlMinT2ValueListR15 != nil {
-				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(*v.SlMinT2ValueListR15)), 1, 8); err != nil {
+				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(v.SlMinT2ValueListR15)), 1, 8); err != nil {
 					return fmt.Errorf("encoding sl-MinT2ValueList-r15 length: %w", err)
 				}
-				for _, elem := range *v.SlMinT2ValueListR15 {
+				for _, elem := range v.SlMinT2ValueListR15 {
 					if err := elem.marshalUPERTo(extBuf); err != nil {
 						return fmt.Errorf("encoding sl-MinT2ValueList-r15 element: %w", err)
 					}
 				}
 			}
 			if v.CbrPsschTxConfigListV1530 != nil {
-				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(*v.CbrPsschTxConfigListV1530)), 1, 8); err != nil {
+				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(v.CbrPsschTxConfigListV1530)), 1, 8); err != nil {
 					return fmt.Errorf("encoding cbr-pssch-TxConfigList-v1530 length: %w", err)
 				}
-				for _, elem := range *v.CbrPsschTxConfigListV1530 {
+				for _, elem := range v.CbrPsschTxConfigListV1530 {
 					if err := elem.marshalUPERTo(extBuf); err != nil {
 						return fmt.Errorf("encoding cbr-pssch-TxConfigList-v1530 element: %w", err)
 					}
@@ -1886,7 +1909,7 @@ func (v *SLV2XPreconfigCommPoolR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding cbr-pssch-TxConfigList-r14 element: %w", err)
 			}
 		}
-		v.CbrPsschTxConfigListR14 = &tmp_cbrpsschtxconfiglistr14
+		v.CbrPsschTxConfigListR14 = tmp_cbrpsschtxconfiglistr14
 	}
 	if opt_resourceselectionconfigp2xr14 {
 		var dec_resourceselectionconfigp2xr14 SLP2XResourceSelectionConfigR14
@@ -1915,7 +1938,7 @@ func (v *SLV2XPreconfigCommPoolR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_restrictresourcereservationperiodr14[i] = SLRestrictResourceReservationPeriodR14(val)
 		}
-		v.RestrictResourceReservationPeriodR14 = &tmp_restrictresourcereservationperiodr14
+		v.RestrictResourceReservationPeriodR14 = tmp_restrictresourcereservationperiodr14
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegative(bb)
@@ -1959,7 +1982,7 @@ func (v *SLV2XPreconfigCommPoolR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 						return fmt.Errorf("decoding sl-MinT2ValueList-r15 element: %w", err)
 					}
 				}
-				v.SlMinT2ValueListR15 = &tmp_slmint2valuelistr15
+				v.SlMinT2ValueListR15 = tmp_slmint2valuelistr15
 			}
 			if ext_opt_cbrpsschtxconfiglistv1530 {
 				seqLen_cbrpsschtxconfiglistv1530, err := per.DecodeConstrainedWholeNumber(extBB, 1, 8)
@@ -1972,7 +1995,7 @@ func (v *SLV2XPreconfigCommPoolR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 						return fmt.Errorf("decoding cbr-pssch-TxConfigList-v1530 element: %w", err)
 					}
 				}
-				v.CbrPsschTxConfigListV1530 = &tmp_cbrpsschtxconfiglistv1530
+				v.CbrPsschTxConfigListV1530 = tmp_cbrpsschtxconfiglistv1530
 			}
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -2104,10 +2127,10 @@ func (v *SLV2XPreconfigFreqInfoR14) marshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.V2xFreqSelectionConfigListR15 != nil {
-				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(*v.V2xFreqSelectionConfigListR15)), 1, 8); err != nil {
+				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(v.V2xFreqSelectionConfigListR15)), 1, 8); err != nil {
 					return fmt.Errorf("encoding v2x-FreqSelectionConfigList-r15 length: %w", err)
 				}
-				for _, elem := range *v.V2xFreqSelectionConfigListR15 {
+				for _, elem := range v.V2xFreqSelectionConfigListR15 {
 					if err := elem.marshalUPERTo(extBuf); err != nil {
 						return fmt.Errorf("encoding v2x-FreqSelectionConfigList-r15 element: %w", err)
 					}
@@ -2273,7 +2296,7 @@ func (v *SLV2XPreconfigFreqInfoR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 						return fmt.Errorf("decoding v2x-FreqSelectionConfigList-r15 element: %w", err)
 					}
 				}
-				v.V2xFreqSelectionConfigListR15 = &tmp_v2xfreqselectionconfiglistr15
+				v.V2xFreqSelectionConfigListR15 = tmp_v2xfreqselectionconfiglistr15
 			}
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -2320,10 +2343,10 @@ func (v *SLV2XPreconfigurationR14) marshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.AnchorCarrierFreqListR14 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.AnchorCarrierFreqListR14)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.AnchorCarrierFreqListR14)), 1, 8); err != nil {
 			return fmt.Errorf("encoding anchorCarrierFreqList-r14 length: %w", err)
 		}
-		for _, elem := range *v.AnchorCarrierFreqListR14 {
+		for _, elem := range v.AnchorCarrierFreqListR14 {
 			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(0), int64Ptr(262143), false); err != nil {
 				return fmt.Errorf("encoding anchorCarrierFreqList-r14 element: %w", err)
 			}
@@ -2387,10 +2410,10 @@ func (v *SLV2XPreconfigurationR14) marshalUPERTo(bb *per.BitBuffer) error {
 				}
 			}
 			if v.SyncFreqListR15 != nil {
-				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(*v.SyncFreqListR15)), 1, 8); err != nil {
+				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(v.SyncFreqListR15)), 1, 8); err != nil {
 					return fmt.Errorf("encoding syncFreqList-r15 length: %w", err)
 				}
-				for _, elem := range *v.SyncFreqListR15 {
+				for _, elem := range v.SyncFreqListR15 {
 					if err := per.EncodeInteger(extBuf, int64(elem), int64Ptr(0), int64Ptr(262143), false); err != nil {
 						return fmt.Errorf("encoding syncFreqList-r15 element: %w", err)
 					}
@@ -2402,10 +2425,10 @@ func (v *SLV2XPreconfigurationR14) marshalUPERTo(bb *per.BitBuffer) error {
 				}
 			}
 			if v.V2xTxProfileListR15 != nil {
-				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(*v.V2xTxProfileListR15)), 1, 256); err != nil {
+				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(v.V2xTxProfileListR15)), 1, 256); err != nil {
 					return fmt.Errorf("encoding v2x-TxProfileList-r15 length: %w", err)
 				}
-				for _, elem := range *v.V2xTxProfileListR15 {
+				for _, elem := range v.V2xTxProfileListR15 {
 					if err := per.EncodeEnumerated(extBuf, int64(elem), 8, true); err != nil {
 						return fmt.Errorf("encoding v2x-TxProfileList-r15 element: %w", err)
 					}
@@ -2421,10 +2444,10 @@ func (v *SLV2XPreconfigurationR14) marshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.AnchorCarrierFreqListNRR16 != nil {
-				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(*v.AnchorCarrierFreqListNRR16)), 1, 8); err != nil {
+				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(v.AnchorCarrierFreqListNRR16)), 1, 8); err != nil {
 					return fmt.Errorf("encoding anchorCarrierFreqListNR-r16 length: %w", err)
 				}
-				for _, elem := range *v.AnchorCarrierFreqListNRR16 {
+				for _, elem := range v.AnchorCarrierFreqListNRR16 {
 					if err := per.EncodeInteger(extBuf, int64(elem), int64Ptr(0), int64Ptr(3279165), false); err != nil {
 						return fmt.Errorf("encoding anchorCarrierFreqListNR-r16 element: %w", err)
 					}
@@ -2490,7 +2513,7 @@ func (v *SLV2XPreconfigurationR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_anchorcarrierfreqlistr14[i] = ARFCNValueEUTRAR9(val)
 		}
-		v.AnchorCarrierFreqListR14 = &tmp_anchorcarrierfreqlistr14
+		v.AnchorCarrierFreqListR14 = tmp_anchorcarrierfreqlistr14
 	}
 	if opt_cbrpreconfiglistr14 {
 		var dec_cbrpreconfiglistr14 SLCBRPreconfigTxConfigListR14
@@ -2558,7 +2581,7 @@ func (v *SLV2XPreconfigurationR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 					}
 					tmp_syncfreqlistr15[i] = ARFCNValueEUTRAR9(val)
 				}
-				v.SyncFreqListR15 = &tmp_syncfreqlistr15
+				v.SyncFreqListR15 = tmp_syncfreqlistr15
 			}
 			if ext_opt_slsstxmultifreqr15 {
 				val_slsstxmultifreqr15, err := per.DecodeEnumerated(extBB, 1, false)
@@ -2580,7 +2603,7 @@ func (v *SLV2XPreconfigurationR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 					}
 					tmp_v2xtxprofilelistr15[i] = SLV2XTxProfileR15(val)
 				}
-				v.V2xTxProfileListR15 = &tmp_v2xtxprofilelistr15
+				v.V2xTxProfileListR15 = tmp_v2xtxprofilelistr15
 			}
 		}
 		if int64(1) <= extCount && extPresent[1] {
@@ -2607,7 +2630,7 @@ func (v *SLV2XPreconfigurationR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 					}
 					tmp_anchorcarrierfreqlistnrr16[i] = ARFCNValueNRR15(val)
 				}
-				v.AnchorCarrierFreqListNRR16 = &tmp_anchorcarrierfreqlistnrr16
+				v.AnchorCarrierFreqListNRR16 = tmp_anchorcarrierfreqlistnrr16
 			}
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -2825,10 +2848,10 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) marshalUPERTo(bb *per.BitBuffe
 		}
 	}
 	if v.CommTxPoolListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.CommTxPoolListR13)), 1, 7); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.CommTxPoolListR13)), 1, 7); err != nil {
 			return fmt.Errorf("encoding commTxPoolList-r13 length: %w", err)
 		}
-		for _, elem := range *v.CommTxPoolListR13 {
+		for _, elem := range v.CommTxPoolListR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding commTxPoolList-r13 element: %w", err)
 			}
@@ -2870,7 +2893,7 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) unmarshalUPERFrom(bb *per.BitB
 				return fmt.Errorf("decoding commTxPoolList-r13 element: %w", err)
 			}
 		}
-		v.CommTxPoolListR13 = &tmp_commtxpoollistr13
+		v.CommTxPoolListR13 = tmp_commtxpoollistr13
 	}
 	return nil
 }
@@ -2898,10 +2921,10 @@ func (v *SLPreconfigurationR12PreconfigDiscR13) marshalUPERTo(bb *per.BitBuffer)
 		}
 	}
 	if v.DiscTxPoolListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.DiscTxPoolListR13)), 1, 4); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.DiscTxPoolListR13)), 1, 4); err != nil {
 			return fmt.Errorf("encoding discTxPoolList-r13 length: %w", err)
 		}
-		for _, elem := range *v.DiscTxPoolListR13 {
+		for _, elem := range v.DiscTxPoolListR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding discTxPoolList-r13 element: %w", err)
 			}
@@ -2943,7 +2966,7 @@ func (v *SLPreconfigurationR12PreconfigDiscR13) unmarshalUPERFrom(bb *per.BitBuf
 				return fmt.Errorf("decoding discTxPoolList-r13 element: %w", err)
 			}
 		}
-		v.DiscTxPoolListR13 = &tmp_disctxpoollistr13
+		v.DiscTxPoolListR13 = tmp_disctxpoollistr13
 	}
 	return nil
 }

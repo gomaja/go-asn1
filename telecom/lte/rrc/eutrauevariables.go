@@ -32,7 +32,8 @@ type SSBIndexListR15 = []RSIndexNRR15
 
 // VarConditionalReconfiguration represents the ASN.1 type VarConditionalReconfiguration (SEQUENCE).
 type VarConditionalReconfiguration struct {
-	CondReconfigurationListR16 *CondReconfigurationToAddModListR16 `asn1:"tag:0,context,implicit,optional" json:"CondReconfigurationListR16,omitempty"`
+	CondReconfigurationListR16       CondReconfigurationToAddModListR16 `asn1:"tag:0,context,implicit,optional" json:"CondReconfigurationListR16,omitempty"`
+	CondReconfigurationListR16Indef_ bool                               `asn1:"-" json:"-"`
 }
 
 // VarConnEstFailReportR11 represents the ASN.1 type VarConnEstFailReport-r11 (SEQUENCE).
@@ -58,35 +59,42 @@ type VarLogMeasConfigR11 struct {
 
 // VarLogMeasConfigR12 represents the ASN.1 type VarLogMeasConfig-r12 (SEQUENCE).
 type VarLogMeasConfigR12 struct {
-	AreaConfigurationR10   *AreaConfigurationR10   `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
-	AreaConfigurationV1130 *AreaConfigurationV1130 `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
-	LoggingDurationR10     LoggingDurationR10      `asn1:"tag:2,context,implicit"`
-	LoggingIntervalR10     LoggingIntervalR10      `asn1:"tag:3,context,implicit"`
-	TargetMBSFNAreaListR12 *TargetMBSFNAreaListR12 `asn1:"tag:4,context,implicit,optional" json:"TargetMBSFNAreaListR12,omitempty"`
+	AreaConfigurationR10         *AreaConfigurationR10   `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
+	AreaConfigurationV1130       *AreaConfigurationV1130 `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
+	LoggingDurationR10           LoggingDurationR10      `asn1:"tag:2,context,implicit"`
+	LoggingIntervalR10           LoggingIntervalR10      `asn1:"tag:3,context,implicit"`
+	TargetMBSFNAreaListR12       TargetMBSFNAreaListR12  `asn1:"tag:4,context,implicit,optional" json:"TargetMBSFNAreaListR12,omitempty"`
+	TargetMBSFNAreaListR12Indef_ bool                    `asn1:"-" json:"-"`
 }
 
 // VarLogMeasConfigR15 represents the ASN.1 type VarLogMeasConfig-r15 (SEQUENCE).
 type VarLogMeasConfigR15 struct {
-	AreaConfigurationR10   *AreaConfigurationR10   `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
-	AreaConfigurationV1130 *AreaConfigurationV1130 `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
-	LoggingDurationR10     LoggingDurationR10      `asn1:"tag:2,context,implicit"`
-	LoggingIntervalR10     LoggingIntervalR10      `asn1:"tag:3,context,implicit"`
-	TargetMBSFNAreaListR12 *TargetMBSFNAreaListR12 `asn1:"tag:4,context,implicit,optional" json:"TargetMBSFNAreaListR12,omitempty"`
-	BtNameListR15          *BTNameListR15          `asn1:"tag:5,context,implicit,optional" json:"BtNameListR15,omitempty"`
-	WlanNameListR15        *WLANNameListR15        `asn1:"tag:6,context,implicit,optional" json:"WlanNameListR15,omitempty"`
+	AreaConfigurationR10         *AreaConfigurationR10   `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
+	AreaConfigurationV1130       *AreaConfigurationV1130 `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
+	LoggingDurationR10           LoggingDurationR10      `asn1:"tag:2,context,implicit"`
+	LoggingIntervalR10           LoggingIntervalR10      `asn1:"tag:3,context,implicit"`
+	TargetMBSFNAreaListR12       TargetMBSFNAreaListR12  `asn1:"tag:4,context,implicit,optional" json:"TargetMBSFNAreaListR12,omitempty"`
+	TargetMBSFNAreaListR12Indef_ bool                    `asn1:"-" json:"-"`
+	BtNameListR15                BTNameListR15           `asn1:"tag:5,context,implicit,optional" json:"BtNameListR15,omitempty"`
+	BtNameListR15Indef_          bool                    `asn1:"-" json:"-"`
+	WlanNameListR15              WLANNameListR15         `asn1:"tag:6,context,implicit,optional" json:"WlanNameListR15,omitempty"`
+	WlanNameListR15Indef_        bool                    `asn1:"-" json:"-"`
 }
 
 // VarLogMeasConfigR17 represents the ASN.1 type VarLogMeasConfig-r17 (SEQUENCE).
 type VarLogMeasConfigR17 struct {
-	AreaConfigurationR10        *AreaConfigurationR10        `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
-	AreaConfigurationV1130      *AreaConfigurationV1130      `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
-	LoggingDurationR10          LoggingDurationR10           `asn1:"tag:2,context,implicit"`
-	LoggingIntervalR10          LoggingIntervalR10           `asn1:"tag:3,context,implicit"`
-	TargetMBSFNAreaListR12      *TargetMBSFNAreaListR12      `asn1:"tag:4,context,implicit,optional" json:"TargetMBSFNAreaListR12,omitempty"`
-	BtNameListR15               *BTNameListR15               `asn1:"tag:5,context,implicit,optional" json:"BtNameListR15,omitempty"`
-	WlanNameListR15             *WLANNameListR15             `asn1:"tag:6,context,implicit,optional" json:"WlanNameListR15,omitempty"`
-	LoggedEventTriggerConfigR17 *LoggedEventTriggerConfigR17 `asn1:"tag:7,context,implicit,optional" json:"LoggedEventTriggerConfigR17,omitempty"`
-	MeasUncomBarPreR17          *int64                       `asn1:"tag:8,context,implicit,optional" json:"MeasUncomBarPreR17,omitempty"`
+	AreaConfigurationR10         *AreaConfigurationR10        `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
+	AreaConfigurationV1130       *AreaConfigurationV1130      `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
+	LoggingDurationR10           LoggingDurationR10           `asn1:"tag:2,context,implicit"`
+	LoggingIntervalR10           LoggingIntervalR10           `asn1:"tag:3,context,implicit"`
+	TargetMBSFNAreaListR12       TargetMBSFNAreaListR12       `asn1:"tag:4,context,implicit,optional" json:"TargetMBSFNAreaListR12,omitempty"`
+	TargetMBSFNAreaListR12Indef_ bool                         `asn1:"-" json:"-"`
+	BtNameListR15                BTNameListR15                `asn1:"tag:5,context,implicit,optional" json:"BtNameListR15,omitempty"`
+	BtNameListR15Indef_          bool                         `asn1:"-" json:"-"`
+	WlanNameListR15              WLANNameListR15              `asn1:"tag:6,context,implicit,optional" json:"WlanNameListR15,omitempty"`
+	WlanNameListR15Indef_        bool                         `asn1:"-" json:"-"`
+	LoggedEventTriggerConfigR17  *LoggedEventTriggerConfigR17 `asn1:"tag:7,context,implicit,optional" json:"LoggedEventTriggerConfigR17,omitempty"`
+	MeasUncomBarPreR17           *int64                       `asn1:"tag:8,context,implicit,optional" json:"MeasUncomBarPreR17,omitempty"`
 }
 
 // VarLogMeasReportR10 represents the ASN.1 type VarLogMeasReport-r10 (SEQUENCE).
@@ -97,6 +105,7 @@ type VarLogMeasReportR10 struct {
 	PlmnIdentityR10             PLMNIdentity        `asn1:"tag:3,context,implicit"`
 	AbsoluteTimeInfoR10         AbsoluteTimeInfoR10 `asn1:"tag:4,context,implicit"`
 	LogMeasInfoListR10          LogMeasInfoList2R10 `asn1:"tag:5,context,implicit"`
+	LogMeasInfoListR10Indef_    bool                `asn1:"-" json:"-"`
 }
 
 // VarLogMeasReportR11 represents the ASN.1 type VarLogMeasReport-r11 (SEQUENCE).
@@ -105,58 +114,77 @@ type VarLogMeasReportR11 struct {
 	TraceRecordingSessionRefR10 []byte               `asn1:"tag:1,context,implicit"`
 	TceIdR10                    []byte               `asn1:"tag:2,context,implicit"`
 	PlmnIdentityListR11         PLMNIdentityList3R11 `asn1:"tag:3,context,implicit"`
+	PlmnIdentityListR11Indef_   bool                 `asn1:"-" json:"-"`
 	AbsoluteTimeInfoR10         AbsoluteTimeInfoR10  `asn1:"tag:4,context,implicit"`
 	LogMeasInfoListR10          LogMeasInfoList2R10  `asn1:"tag:5,context,implicit"`
+	LogMeasInfoListR10Indef_    bool                 `asn1:"-" json:"-"`
 }
 
 // VarMeasConfig represents the ASN.1 type VarMeasConfig (SEQUENCE).
 type VarMeasConfig struct {
-	MeasIdList            *MeasIdToAddModList           `asn1:"tag:0,context,implicit,optional" json:"MeasIdList,omitempty"`
-	MeasIdListExtR12      *MeasIdToAddModListExtR12     `asn1:"tag:1,context,implicit,optional" json:"MeasIdListExtR12,omitempty"`
-	MeasIdListV1310       *MeasIdToAddModListV1310      `asn1:"tag:2,context,implicit,optional" json:"MeasIdListV1310,omitempty"`
-	MeasIdListExtV1310    *MeasIdToAddModListExtV1310   `asn1:"tag:3,context,implicit,optional" json:"MeasIdListExtV1310,omitempty"`
-	MeasObjectList        *MeasObjectToAddModList       `asn1:"tag:4,context,implicit,optional" json:"MeasObjectList,omitempty"`
-	MeasObjectListExtR13  *MeasObjectToAddModListExtR13 `asn1:"tag:5,context,implicit,optional" json:"MeasObjectListExtR13,omitempty"`
-	MeasObjectListV9i0    *MeasObjectToAddModListV9e0   `asn1:"tag:6,context,implicit,optional" json:"MeasObjectListV9i0,omitempty"`
-	ReportConfigList      *ReportConfigToAddModList     `asn1:"tag:7,context,implicit,optional" json:"ReportConfigList,omitempty"`
-	QuantityConfig        *QuantityConfig               `asn1:"tag:8,context,implicit,optional" json:"QuantityConfig,omitempty"`
-	MeasScaleFactorR12    *MeasScaleFactorR12           `asn1:"tag:9,context,implicit,optional" json:"MeasScaleFactorR12,omitempty"`
-	SMeasure              *int64                        `asn1:"tag:10,context,implicit,optional" json:"SMeasure,omitempty"`
-	SpeedStatePars        *VarMeasConfigSpeedStatePars  `asn1:"tag:11,context,explicit,optional" json:"SpeedStatePars,omitempty"`
-	AllowInterruptionsR11 *bool                         `asn1:"tag:12,context,implicit,optional" json:"AllowInterruptionsR11,omitempty"`
+	MeasIdList                 MeasIdToAddModList           `asn1:"tag:0,context,implicit,optional" json:"MeasIdList,omitempty"`
+	MeasIdListIndef_           bool                         `asn1:"-" json:"-"`
+	MeasIdListExtR12           MeasIdToAddModListExtR12     `asn1:"tag:1,context,implicit,optional" json:"MeasIdListExtR12,omitempty"`
+	MeasIdListExtR12Indef_     bool                         `asn1:"-" json:"-"`
+	MeasIdListV1310            MeasIdToAddModListV1310      `asn1:"tag:2,context,implicit,optional" json:"MeasIdListV1310,omitempty"`
+	MeasIdListV1310Indef_      bool                         `asn1:"-" json:"-"`
+	MeasIdListExtV1310         MeasIdToAddModListExtV1310   `asn1:"tag:3,context,implicit,optional" json:"MeasIdListExtV1310,omitempty"`
+	MeasIdListExtV1310Indef_   bool                         `asn1:"-" json:"-"`
+	MeasObjectList             MeasObjectToAddModList       `asn1:"tag:4,context,implicit,optional" json:"MeasObjectList,omitempty"`
+	MeasObjectListIndef_       bool                         `asn1:"-" json:"-"`
+	MeasObjectListExtR13       MeasObjectToAddModListExtR13 `asn1:"tag:5,context,implicit,optional" json:"MeasObjectListExtR13,omitempty"`
+	MeasObjectListExtR13Indef_ bool                         `asn1:"-" json:"-"`
+	MeasObjectListV9i0         MeasObjectToAddModListV9e0   `asn1:"tag:6,context,implicit,optional" json:"MeasObjectListV9i0,omitempty"`
+	MeasObjectListV9i0Indef_   bool                         `asn1:"-" json:"-"`
+	ReportConfigList           ReportConfigToAddModList     `asn1:"tag:7,context,implicit,optional" json:"ReportConfigList,omitempty"`
+	ReportConfigListIndef_     bool                         `asn1:"-" json:"-"`
+	QuantityConfig             *QuantityConfig              `asn1:"tag:8,context,implicit,optional" json:"QuantityConfig,omitempty"`
+	MeasScaleFactorR12         *MeasScaleFactorR12          `asn1:"tag:9,context,implicit,optional" json:"MeasScaleFactorR12,omitempty"`
+	SMeasure                   *int64                       `asn1:"tag:10,context,implicit,optional" json:"SMeasure,omitempty"`
+	SpeedStatePars             *VarMeasConfigSpeedStatePars `asn1:"tag:11,context,explicit,optional" json:"SpeedStatePars,omitempty"`
+	AllowInterruptionsR11      *bool                        `asn1:"tag:12,context,implicit,optional" json:"AllowInterruptionsR11,omitempty"`
 }
 
 // VarMeasIdleConfigR15 represents the ASN.1 type VarMeasIdleConfig-r15 (SEQUENCE).
 type VarMeasIdleConfigR15 struct {
-	MeasIdleCarrierListEUTRAR15 *EUTRACarrierListR15 `asn1:"tag:0,context,implicit,optional" json:"MeasIdleCarrierListEUTRAR15,omitempty"`
-	MeasIdleDurationR15         int64                `asn1:"tag:1,context,implicit"`
+	MeasIdleCarrierListEUTRAR15       EUTRACarrierListR15 `asn1:"tag:0,context,implicit,optional" json:"MeasIdleCarrierListEUTRAR15,omitempty"`
+	MeasIdleCarrierListEUTRAR15Indef_ bool                `asn1:"-" json:"-"`
+	MeasIdleDurationR15               int64               `asn1:"tag:1,context,implicit"`
 }
 
 // VarMeasIdleConfigR16 represents the ASN.1 type VarMeasIdleConfig-r16 (SEQUENCE).
 type VarMeasIdleConfigR16 struct {
-	MeasIdleCarrierListNRR16 *NRCarrierListR16    `asn1:"tag:0,context,implicit,optional" json:"MeasIdleCarrierListNRR16,omitempty"`
-	ValidityAreaListR16      *ValidityAreaListR16 `asn1:"tag:1,context,implicit,optional" json:"ValidityAreaListR16,omitempty"`
+	MeasIdleCarrierListNRR16       NRCarrierListR16    `asn1:"tag:0,context,implicit,optional" json:"MeasIdleCarrierListNRR16,omitempty"`
+	MeasIdleCarrierListNRR16Indef_ bool                `asn1:"-" json:"-"`
+	ValidityAreaListR16            ValidityAreaListR16 `asn1:"tag:1,context,implicit,optional" json:"ValidityAreaListR16,omitempty"`
+	ValidityAreaListR16Indef_      bool                `asn1:"-" json:"-"`
 }
 
 // VarMeasIdleReportR15 represents the ASN.1 type VarMeasIdleReport-r15 (SEQUENCE).
 type VarMeasIdleReportR15 struct {
-	MeasReportIdleR15 MeasResultListIdleR15 `asn1:"tag:0,context,implicit"`
+	MeasReportIdleR15       MeasResultListIdleR15 `asn1:"tag:0,context,implicit"`
+	MeasReportIdleR15Indef_ bool                  `asn1:"-" json:"-"`
 }
 
 // VarMeasIdleReportR16 represents the ASN.1 type VarMeasIdleReport-r16 (SEQUENCE).
 type VarMeasIdleReportR16 struct {
-	MeasReportIdleR16   *MeasResultListExtIdleR16 `asn1:"tag:0,context,implicit,optional" json:"MeasReportIdleR16,omitempty"`
-	MeasReportIdleNRR16 *MeasResultListIdleNRR16  `asn1:"tag:1,context,implicit,optional" json:"MeasReportIdleNRR16,omitempty"`
+	MeasReportIdleR16         MeasResultListExtIdleR16 `asn1:"tag:0,context,implicit,optional" json:"MeasReportIdleR16,omitempty"`
+	MeasReportIdleR16Indef_   bool                     `asn1:"-" json:"-"`
+	MeasReportIdleNRR16       MeasResultListIdleNRR16  `asn1:"tag:1,context,implicit,optional" json:"MeasReportIdleNRR16,omitempty"`
+	MeasReportIdleNRR16Indef_ bool                     `asn1:"-" json:"-"`
 }
 
 // VarMeasReport represents the ASN.1 type VarMeasReport (SEQUENCE).
 type VarMeasReport struct {
-	MeasId                MeasId                     `asn1:"tag:0,context,implicit"`
-	MeasIdV1250           *MeasIdV1250               `asn1:"tag:1,context,implicit,optional" json:"MeasIdV1250,omitempty"`
-	CellsTriggeredList    *CellsTriggeredList        `asn1:"tag:2,context,implicit,optional" json:"CellsTriggeredList,omitempty"`
-	CsiRSTriggeredListR12 *CSIRSTriggeredListR12     `asn1:"tag:3,context,implicit,optional" json:"CsiRSTriggeredListR12,omitempty"`
-	PoolsTriggeredListR14 *TxResourcePoolMeasListR14 `asn1:"tag:4,context,implicit,optional" json:"PoolsTriggeredListR14,omitempty"`
-	NumberOfReportsSent   int64                      `asn1:"tag:5,context,implicit"`
+	MeasId                      MeasId                    `asn1:"tag:0,context,implicit"`
+	MeasIdV1250                 *MeasIdV1250              `asn1:"tag:1,context,implicit,optional" json:"MeasIdV1250,omitempty"`
+	CellsTriggeredList          CellsTriggeredList        `asn1:"tag:2,context,implicit,optional" json:"CellsTriggeredList,omitempty"`
+	CellsTriggeredListIndef_    bool                      `asn1:"-" json:"-"`
+	CsiRSTriggeredListR12       CSIRSTriggeredListR12     `asn1:"tag:3,context,implicit,optional" json:"CsiRSTriggeredListR12,omitempty"`
+	CsiRSTriggeredListR12Indef_ bool                      `asn1:"-" json:"-"`
+	PoolsTriggeredListR14       TxResourcePoolMeasListR14 `asn1:"tag:4,context,implicit,optional" json:"PoolsTriggeredListR14,omitempty"`
+	PoolsTriggeredListR14Indef_ bool                      `asn1:"-" json:"-"`
+	NumberOfReportsSent         int64                     `asn1:"tag:5,context,implicit"`
 }
 
 // VarMeasReportList represents the ASN.1 type VarMeasReportList (SEQUENCE_OF).
@@ -181,8 +209,9 @@ type VarRLFReportR10 struct {
 
 // VarRLFReportR11 represents the ASN.1 type VarRLF-Report-r11 (SEQUENCE).
 type VarRLFReportR11 struct {
-	RlfReportR10        RLFReportR9          `asn1:"tag:0,context,implicit"`
-	PlmnIdentityListR11 PLMNIdentityList3R11 `asn1:"tag:1,context,implicit"`
+	RlfReportR10              RLFReportR9          `asn1:"tag:0,context,implicit"`
+	PlmnIdentityListR11       PLMNIdentityList3R11 `asn1:"tag:1,context,implicit"`
+	PlmnIdentityListR11Indef_ bool                 `asn1:"-" json:"-"`
 }
 
 // VarShortINACTIVEMACInputR15 represents the ASN.1 type VarShortINACTIVE-MAC-Input-r15 (SEQUENCE).
@@ -209,9 +238,10 @@ type VarShortResumeMACInputR13 struct {
 
 // VarWLANMobilityConfig represents the ASN.1 type VarWLAN-MobilityConfig (SEQUENCE).
 type VarWLANMobilityConfig struct {
-	WlanMobilitySetR13     *WLANIdListR13        `asn1:"tag:0,context,implicit,optional" json:"WlanMobilitySetR13,omitempty"`
-	SuccessReportRequested *int64                `asn1:"tag:1,context,implicit,optional" json:"SuccessReportRequested,omitempty"`
-	WlanSuspendConfigR14   *WLANSuspendConfigR14 `asn1:"tag:2,context,implicit,optional" json:"WlanSuspendConfigR14,omitempty"`
+	WlanMobilitySetR13       WLANIdListR13         `asn1:"tag:0,context,implicit,optional" json:"WlanMobilitySetR13,omitempty"`
+	WlanMobilitySetR13Indef_ bool                  `asn1:"-" json:"-"`
+	SuccessReportRequested   *int64                `asn1:"tag:1,context,implicit,optional" json:"SuccessReportRequested,omitempty"`
+	WlanSuspendConfigR14     *WLANSuspendConfigR14 `asn1:"tag:2,context,implicit,optional" json:"WlanSuspendConfigR14,omitempty"`
 }
 
 // VarWLANStatusR13 represents the ASN.1 type VarWLAN-Status-r13 (SEQUENCE).
@@ -270,10 +300,10 @@ func (v *VarConditionalReconfiguration) marshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.CondReconfigurationListR16 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.CondReconfigurationListR16)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.CondReconfigurationListR16)), 1, 8); err != nil {
 			return fmt.Errorf("encoding condReconfigurationList-r16 length: %w", err)
 		}
-		for _, elem := range *v.CondReconfigurationListR16 {
+		for _, elem := range v.CondReconfigurationListR16 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding condReconfigurationList-r16 element: %w", err)
 			}
@@ -305,7 +335,7 @@ func (v *VarConditionalReconfiguration) unmarshalUPERFrom(bb *per.BitBuffer) err
 				return fmt.Errorf("decoding condReconfigurationList-r16 element: %w", err)
 			}
 		}
-		v.CondReconfigurationListR16 = &tmp_condreconfigurationlistr16
+		v.CondReconfigurationListR16 = tmp_condreconfigurationlistr16
 	}
 	return nil
 }
@@ -521,10 +551,10 @@ func (v *VarLogMeasConfigR12) marshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding loggingInterval-r10: %w", err)
 	}
 	if v.TargetMBSFNAreaListR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.TargetMBSFNAreaListR12)), 0, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.TargetMBSFNAreaListR12)), 0, 8); err != nil {
 			return fmt.Errorf("encoding targetMBSFN-AreaList-r12 length: %w", err)
 		}
-		for _, elem := range *v.TargetMBSFNAreaListR12 {
+		for _, elem := range v.TargetMBSFNAreaListR12 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding targetMBSFN-AreaList-r12 element: %w", err)
 			}
@@ -588,7 +618,7 @@ func (v *VarLogMeasConfigR12) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding targetMBSFN-AreaList-r12 element: %w", err)
 			}
 		}
-		v.TargetMBSFNAreaListR12 = &tmp_targetmbsfnarealistr12
+		v.TargetMBSFNAreaListR12 = tmp_targetmbsfnarealistr12
 	}
 	return nil
 }
@@ -636,30 +666,30 @@ func (v *VarLogMeasConfigR15) marshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding loggingInterval-r10: %w", err)
 	}
 	if v.TargetMBSFNAreaListR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.TargetMBSFNAreaListR12)), 0, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.TargetMBSFNAreaListR12)), 0, 8); err != nil {
 			return fmt.Errorf("encoding targetMBSFN-AreaList-r12 length: %w", err)
 		}
-		for _, elem := range *v.TargetMBSFNAreaListR12 {
+		for _, elem := range v.TargetMBSFNAreaListR12 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding targetMBSFN-AreaList-r12 element: %w", err)
 			}
 		}
 	}
 	if v.BtNameListR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.BtNameListR15)), 1, 4); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.BtNameListR15)), 1, 4); err != nil {
 			return fmt.Errorf("encoding bt-NameList-r15 length: %w", err)
 		}
-		for _, elem := range *v.BtNameListR15 {
+		for _, elem := range v.BtNameListR15 {
 			if err := per.EncodeOctetString(bb, []byte(elem), 1, 248, true); err != nil {
 				return fmt.Errorf("encoding bt-NameList-r15 element: %w", err)
 			}
 		}
 	}
 	if v.WlanNameListR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.WlanNameListR15)), 1, 4); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.WlanNameListR15)), 1, 4); err != nil {
 			return fmt.Errorf("encoding wlan-NameList-r15 length: %w", err)
 		}
-		for _, elem := range *v.WlanNameListR15 {
+		for _, elem := range v.WlanNameListR15 {
 			if err := per.EncodeOctetString(bb, []byte(elem), 1, 32, true); err != nil {
 				return fmt.Errorf("encoding wlan-NameList-r15 element: %w", err)
 			}
@@ -731,7 +761,7 @@ func (v *VarLogMeasConfigR15) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding targetMBSFN-AreaList-r12 element: %w", err)
 			}
 		}
-		v.TargetMBSFNAreaListR12 = &tmp_targetmbsfnarealistr12
+		v.TargetMBSFNAreaListR12 = tmp_targetmbsfnarealistr12
 	}
 	if opt_btnamelistr15 {
 		seqLen_btnamelistr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
@@ -746,7 +776,7 @@ func (v *VarLogMeasConfigR15) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_btnamelistr15[i] = val
 		}
-		v.BtNameListR15 = &tmp_btnamelistr15
+		v.BtNameListR15 = tmp_btnamelistr15
 	}
 	if opt_wlannamelistr15 {
 		seqLen_wlannamelistr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
@@ -761,7 +791,7 @@ func (v *VarLogMeasConfigR15) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_wlannamelistr15[i] = val
 		}
-		v.WlanNameListR15 = &tmp_wlannamelistr15
+		v.WlanNameListR15 = tmp_wlannamelistr15
 	}
 	return nil
 }
@@ -815,30 +845,30 @@ func (v *VarLogMeasConfigR17) marshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding loggingInterval-r10: %w", err)
 	}
 	if v.TargetMBSFNAreaListR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.TargetMBSFNAreaListR12)), 0, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.TargetMBSFNAreaListR12)), 0, 8); err != nil {
 			return fmt.Errorf("encoding targetMBSFN-AreaList-r12 length: %w", err)
 		}
-		for _, elem := range *v.TargetMBSFNAreaListR12 {
+		for _, elem := range v.TargetMBSFNAreaListR12 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding targetMBSFN-AreaList-r12 element: %w", err)
 			}
 		}
 	}
 	if v.BtNameListR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.BtNameListR15)), 1, 4); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.BtNameListR15)), 1, 4); err != nil {
 			return fmt.Errorf("encoding bt-NameList-r15 length: %w", err)
 		}
-		for _, elem := range *v.BtNameListR15 {
+		for _, elem := range v.BtNameListR15 {
 			if err := per.EncodeOctetString(bb, []byte(elem), 1, 248, true); err != nil {
 				return fmt.Errorf("encoding bt-NameList-r15 element: %w", err)
 			}
 		}
 	}
 	if v.WlanNameListR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.WlanNameListR15)), 1, 4); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.WlanNameListR15)), 1, 4); err != nil {
 			return fmt.Errorf("encoding wlan-NameList-r15 length: %w", err)
 		}
-		for _, elem := range *v.WlanNameListR15 {
+		for _, elem := range v.WlanNameListR15 {
 			if err := per.EncodeOctetString(bb, []byte(elem), 1, 32, true); err != nil {
 				return fmt.Errorf("encoding wlan-NameList-r15 element: %w", err)
 			}
@@ -928,7 +958,7 @@ func (v *VarLogMeasConfigR17) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding targetMBSFN-AreaList-r12 element: %w", err)
 			}
 		}
-		v.TargetMBSFNAreaListR12 = &tmp_targetmbsfnarealistr12
+		v.TargetMBSFNAreaListR12 = tmp_targetmbsfnarealistr12
 	}
 	if opt_btnamelistr15 {
 		seqLen_btnamelistr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
@@ -943,7 +973,7 @@ func (v *VarLogMeasConfigR17) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_btnamelistr15[i] = val
 		}
-		v.BtNameListR15 = &tmp_btnamelistr15
+		v.BtNameListR15 = tmp_btnamelistr15
 	}
 	if opt_wlannamelistr15 {
 		seqLen_wlannamelistr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
@@ -958,7 +988,7 @@ func (v *VarLogMeasConfigR17) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_wlannamelistr15[i] = val
 		}
-		v.WlanNameListR15 = &tmp_wlannamelistr15
+		v.WlanNameListR15 = tmp_wlannamelistr15
 	}
 	if opt_loggedeventtriggerconfigr17 {
 		var dec_loggedeventtriggerconfigr17 LoggedEventTriggerConfigR17
@@ -1194,80 +1224,80 @@ func (v *VarMeasConfig) marshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.MeasIdList != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MeasIdList)), 1, 32); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasIdList)), 1, 32); err != nil {
 			return fmt.Errorf("encoding measIdList length: %w", err)
 		}
-		for _, elem := range *v.MeasIdList {
+		for _, elem := range v.MeasIdList {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding measIdList element: %w", err)
 			}
 		}
 	}
 	if v.MeasIdListExtR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MeasIdListExtR12)), 1, 32); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasIdListExtR12)), 1, 32); err != nil {
 			return fmt.Errorf("encoding measIdListExt-r12 length: %w", err)
 		}
-		for _, elem := range *v.MeasIdListExtR12 {
+		for _, elem := range v.MeasIdListExtR12 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding measIdListExt-r12 element: %w", err)
 			}
 		}
 	}
 	if v.MeasIdListV1310 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MeasIdListV1310)), 1, 32); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasIdListV1310)), 1, 32); err != nil {
 			return fmt.Errorf("encoding measIdList-v1310 length: %w", err)
 		}
-		for _, elem := range *v.MeasIdListV1310 {
+		for _, elem := range v.MeasIdListV1310 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding measIdList-v1310 element: %w", err)
 			}
 		}
 	}
 	if v.MeasIdListExtV1310 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MeasIdListExtV1310)), 1, 32); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasIdListExtV1310)), 1, 32); err != nil {
 			return fmt.Errorf("encoding measIdListExt-v1310 length: %w", err)
 		}
-		for _, elem := range *v.MeasIdListExtV1310 {
+		for _, elem := range v.MeasIdListExtV1310 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding measIdListExt-v1310 element: %w", err)
 			}
 		}
 	}
 	if v.MeasObjectList != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MeasObjectList)), 1, 32); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasObjectList)), 1, 32); err != nil {
 			return fmt.Errorf("encoding measObjectList length: %w", err)
 		}
-		for _, elem := range *v.MeasObjectList {
+		for _, elem := range v.MeasObjectList {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding measObjectList element: %w", err)
 			}
 		}
 	}
 	if v.MeasObjectListExtR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MeasObjectListExtR13)), 1, 32); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasObjectListExtR13)), 1, 32); err != nil {
 			return fmt.Errorf("encoding measObjectListExt-r13 length: %w", err)
 		}
-		for _, elem := range *v.MeasObjectListExtR13 {
+		for _, elem := range v.MeasObjectListExtR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding measObjectListExt-r13 element: %w", err)
 			}
 		}
 	}
 	if v.MeasObjectListV9i0 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MeasObjectListV9i0)), 1, 32); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasObjectListV9i0)), 1, 32); err != nil {
 			return fmt.Errorf("encoding measObjectList-v9i0 length: %w", err)
 		}
-		for _, elem := range *v.MeasObjectListV9i0 {
+		for _, elem := range v.MeasObjectListV9i0 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding measObjectList-v9i0 element: %w", err)
 			}
 		}
 	}
 	if v.ReportConfigList != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.ReportConfigList)), 1, 32); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.ReportConfigList)), 1, 32); err != nil {
 			return fmt.Errorf("encoding reportConfigList length: %w", err)
 		}
-		for _, elem := range *v.ReportConfigList {
+		for _, elem := range v.ReportConfigList {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding reportConfigList element: %w", err)
 			}
@@ -1372,7 +1402,7 @@ func (v *VarMeasConfig) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding measIdList element: %w", err)
 			}
 		}
-		v.MeasIdList = &tmp_measidlist
+		v.MeasIdList = tmp_measidlist
 	}
 	if opt_measidlistextr12 {
 		seqLen_measidlistextr12, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
@@ -1385,7 +1415,7 @@ func (v *VarMeasConfig) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding measIdListExt-r12 element: %w", err)
 			}
 		}
-		v.MeasIdListExtR12 = &tmp_measidlistextr12
+		v.MeasIdListExtR12 = tmp_measidlistextr12
 	}
 	if opt_measidlistv1310 {
 		seqLen_measidlistv1310, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
@@ -1398,7 +1428,7 @@ func (v *VarMeasConfig) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding measIdList-v1310 element: %w", err)
 			}
 		}
-		v.MeasIdListV1310 = &tmp_measidlistv1310
+		v.MeasIdListV1310 = tmp_measidlistv1310
 	}
 	if opt_measidlistextv1310 {
 		seqLen_measidlistextv1310, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
@@ -1411,7 +1441,7 @@ func (v *VarMeasConfig) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding measIdListExt-v1310 element: %w", err)
 			}
 		}
-		v.MeasIdListExtV1310 = &tmp_measidlistextv1310
+		v.MeasIdListExtV1310 = tmp_measidlistextv1310
 	}
 	if opt_measobjectlist {
 		seqLen_measobjectlist, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
@@ -1424,7 +1454,7 @@ func (v *VarMeasConfig) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding measObjectList element: %w", err)
 			}
 		}
-		v.MeasObjectList = &tmp_measobjectlist
+		v.MeasObjectList = tmp_measobjectlist
 	}
 	if opt_measobjectlistextr13 {
 		seqLen_measobjectlistextr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
@@ -1437,7 +1467,7 @@ func (v *VarMeasConfig) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding measObjectListExt-r13 element: %w", err)
 			}
 		}
-		v.MeasObjectListExtR13 = &tmp_measobjectlistextr13
+		v.MeasObjectListExtR13 = tmp_measobjectlistextr13
 	}
 	if opt_measobjectlistv9i0 {
 		seqLen_measobjectlistv9i0, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
@@ -1450,7 +1480,7 @@ func (v *VarMeasConfig) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding measObjectList-v9i0 element: %w", err)
 			}
 		}
-		v.MeasObjectListV9i0 = &tmp_measobjectlistv9i0
+		v.MeasObjectListV9i0 = tmp_measobjectlistv9i0
 	}
 	if opt_reportconfiglist {
 		seqLen_reportconfiglist, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
@@ -1463,7 +1493,7 @@ func (v *VarMeasConfig) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding reportConfigList element: %w", err)
 			}
 		}
-		v.ReportConfigList = &tmp_reportconfiglist
+		v.ReportConfigList = tmp_reportconfiglist
 	}
 	if opt_quantityconfig {
 		var dec_quantityconfig QuantityConfig
@@ -1519,10 +1549,10 @@ func (v *VarMeasIdleConfigR15) marshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.MeasIdleCarrierListEUTRAR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MeasIdleCarrierListEUTRAR15)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasIdleCarrierListEUTRAR15)), 1, 8); err != nil {
 			return fmt.Errorf("encoding measIdleCarrierListEUTRA-r15 length: %w", err)
 		}
-		for _, elem := range *v.MeasIdleCarrierListEUTRAR15 {
+		for _, elem := range v.MeasIdleCarrierListEUTRAR15 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding measIdleCarrierListEUTRA-r15 element: %w", err)
 			}
@@ -1557,7 +1587,7 @@ func (v *VarMeasIdleConfigR15) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding measIdleCarrierListEUTRA-r15 element: %w", err)
 			}
 		}
-		v.MeasIdleCarrierListEUTRAR15 = &tmp_measidlecarrierlisteutrar15
+		v.MeasIdleCarrierListEUTRAR15 = tmp_measidlecarrierlisteutrar15
 	}
 	val_measidledurationr15, err := per.DecodeEnumerated(bb, 7, false)
 	if err != nil {
@@ -1585,20 +1615,20 @@ func (v *VarMeasIdleConfigR16) marshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.MeasIdleCarrierListNRR16 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MeasIdleCarrierListNRR16)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasIdleCarrierListNRR16)), 1, 8); err != nil {
 			return fmt.Errorf("encoding measIdleCarrierListNR-r16 length: %w", err)
 		}
-		for _, elem := range *v.MeasIdleCarrierListNRR16 {
+		for _, elem := range v.MeasIdleCarrierListNRR16 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding measIdleCarrierListNR-r16 element: %w", err)
 			}
 		}
 	}
 	if v.ValidityAreaListR16 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.ValidityAreaListR16)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.ValidityAreaListR16)), 1, 8); err != nil {
 			return fmt.Errorf("encoding validityAreaList-r16 length: %w", err)
 		}
-		for _, elem := range *v.ValidityAreaListR16 {
+		for _, elem := range v.ValidityAreaListR16 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding validityAreaList-r16 element: %w", err)
 			}
@@ -1634,7 +1664,7 @@ func (v *VarMeasIdleConfigR16) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding measIdleCarrierListNR-r16 element: %w", err)
 			}
 		}
-		v.MeasIdleCarrierListNRR16 = &tmp_measidlecarrierlistnrr16
+		v.MeasIdleCarrierListNRR16 = tmp_measidlecarrierlistnrr16
 	}
 	if opt_validityarealistr16 {
 		seqLen_validityarealistr16, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
@@ -1647,7 +1677,7 @@ func (v *VarMeasIdleConfigR16) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding validityAreaList-r16 element: %w", err)
 			}
 		}
-		v.ValidityAreaListR16 = &tmp_validityarealistr16
+		v.ValidityAreaListR16 = tmp_validityarealistr16
 	}
 	return nil
 }
@@ -1711,10 +1741,10 @@ func (v *VarMeasIdleReportR16) marshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.MeasReportIdleR16 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MeasReportIdleR16)), 1, 5); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasReportIdleR16)), 1, 5); err != nil {
 			return fmt.Errorf("encoding measReportIdle-r16 length: %w", err)
 		}
-		for _, outerElem := range *v.MeasReportIdleR16 {
+		for _, outerElem := range v.MeasReportIdleR16 {
 			if err := per.EncodeConstrainedWholeNumber(bb, int64(len(outerElem)), 1, 8); err != nil {
 				return fmt.Errorf("encoding measReportIdle-r16 inner length: %w", err)
 			}
@@ -1722,10 +1752,10 @@ func (v *VarMeasIdleReportR16) marshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.MeasReportIdleNRR16 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MeasReportIdleNRR16)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasReportIdleNRR16)), 1, 8); err != nil {
 			return fmt.Errorf("encoding measReportIdleNR-r16 length: %w", err)
 		}
-		for _, elem := range *v.MeasReportIdleNRR16 {
+		for _, elem := range v.MeasReportIdleNRR16 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding measReportIdleNR-r16 element: %w", err)
 			}
@@ -1763,7 +1793,7 @@ func (v *VarMeasIdleReportR16) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			_ = innerLen // nested SEQUENCE_OF of SEQUENCE not yet supported
 		}
-		v.MeasReportIdleR16 = &tmp_measreportidler16
+		v.MeasReportIdleR16 = tmp_measreportidler16
 	}
 	if opt_measreportidlenrr16 {
 		seqLen_measreportidlenrr16, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
@@ -1776,7 +1806,7 @@ func (v *VarMeasIdleReportR16) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding measReportIdleNR-r16 element: %w", err)
 			}
 		}
-		v.MeasReportIdleNRR16 = &tmp_measreportidlenrr16
+		v.MeasReportIdleNRR16 = tmp_measreportidlenrr16
 	}
 	return nil
 }
@@ -1813,26 +1843,26 @@ func (v *VarMeasReport) marshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.CellsTriggeredList != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.CellsTriggeredList)), 1, 32); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.CellsTriggeredList)), 1, 32); err != nil {
 			return fmt.Errorf("encoding cellsTriggeredList length: %w", err)
 		}
-		_ = *v.CellsTriggeredList // SEQUENCE_OF with non-integer primitive elements (CHOICE)
+		_ = v.CellsTriggeredList // SEQUENCE_OF with non-integer primitive elements (CHOICE)
 	}
 	if v.CsiRSTriggeredListR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.CsiRSTriggeredListR12)), 1, 96); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.CsiRSTriggeredListR12)), 1, 96); err != nil {
 			return fmt.Errorf("encoding csi-RS-TriggeredList-r12 length: %w", err)
 		}
-		for _, elem := range *v.CsiRSTriggeredListR12 {
+		for _, elem := range v.CsiRSTriggeredListR12 {
 			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(96), false); err != nil {
 				return fmt.Errorf("encoding csi-RS-TriggeredList-r12 element: %w", err)
 			}
 		}
 	}
 	if v.PoolsTriggeredListR14 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.PoolsTriggeredListR14)), 1, 72); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.PoolsTriggeredListR14)), 1, 72); err != nil {
 			return fmt.Errorf("encoding poolsTriggeredList-r14 length: %w", err)
 		}
-		for _, elem := range *v.PoolsTriggeredListR14 {
+		for _, elem := range v.PoolsTriggeredListR14 {
 			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(72), false); err != nil {
 				return fmt.Errorf("encoding poolsTriggeredList-r14 element: %w", err)
 			}
@@ -1900,7 +1930,7 @@ func (v *VarMeasReport) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_csirstriggeredlistr12[i] = MeasCSIRSIdR12(val)
 		}
-		v.CsiRSTriggeredListR12 = &tmp_csirstriggeredlistr12
+		v.CsiRSTriggeredListR12 = tmp_csirstriggeredlistr12
 	}
 	if opt_poolstriggeredlistr14 {
 		seqLen_poolstriggeredlistr14, err := per.DecodeConstrainedWholeNumber(bb, 1, 72)
@@ -1915,7 +1945,7 @@ func (v *VarMeasReport) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_poolstriggeredlistr14[i] = SLV2XTxPoolReportIdentityR14(val)
 		}
-		v.PoolsTriggeredListR14 = &tmp_poolstriggeredlistr14
+		v.PoolsTriggeredListR14 = tmp_poolstriggeredlistr14
 	}
 	val_numberofreportssent, err := per.DecodeInteger(bb, nil, nil, false)
 	if err != nil {
@@ -2221,10 +2251,10 @@ func (v *VarWLANMobilityConfig) marshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.WlanMobilitySetR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.WlanMobilitySetR13)), 1, 32); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.WlanMobilitySetR13)), 1, 32); err != nil {
 			return fmt.Errorf("encoding wlan-MobilitySet-r13 length: %w", err)
 		}
-		for _, elem := range *v.WlanMobilitySetR13 {
+		for _, elem := range v.WlanMobilitySetR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding wlan-MobilitySet-r13 element: %w", err)
 			}
@@ -2274,7 +2304,7 @@ func (v *VarWLANMobilityConfig) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding wlan-MobilitySet-r13 element: %w", err)
 			}
 		}
-		v.WlanMobilitySetR13 = &tmp_wlanmobilitysetr13
+		v.WlanMobilitySetR13 = tmp_wlanmobilitysetr13
 	}
 	if opt_successreportrequested {
 		val_successreportrequested, err := per.DecodeEnumerated(bb, 1, false)

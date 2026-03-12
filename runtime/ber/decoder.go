@@ -616,3 +616,13 @@ func DecodeSequenceContent(data []byte) ([]byte, int, error) {
 	}
 	return value, total, nil
 }
+
+// DecodeConstructedContent decodes any constructed TLV and returns the content bytes,
+// the tag, and total bytes consumed. Used for APPLICATION-tagged types.
+func DecodeConstructedContent(data []byte) (tag.Tag, []byte, int, error) {
+	t, total, value, err := DecodeTLV(data)
+	if err != nil {
+		return tag.Tag{}, nil, 0, err
+	}
+	return t, value, total, nil
+}

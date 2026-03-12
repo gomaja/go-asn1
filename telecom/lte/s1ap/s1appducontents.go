@@ -17,149 +17,166 @@ var (
 
 // CSGMembershipInfo represents the ASN.1 type CSGMembershipInfo (SEQUENCE).
 type CSGMembershipInfo struct {
-	CSGMembershipStatus CSGMembershipStatus         `asn1:"tag:0,context,implicit"`
-	CSGId               CSGId                       `asn1:"tag:1,context,implicit"`
-	CellAccessMode      *CellAccessMode             `asn1:"tag:2,context,implicit,optional" json:"CellAccessMode,omitempty"`
-	PLMNidentity        *PLMNidentity               `asn1:"tag:3,context,implicit,optional" json:"PLMNidentity,omitempty"`
-	IEExtensions        *ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_           int64                       `asn1:"-" json:"-"`
-	ExtPresent_         []bool                      `asn1:"-" json:"-"`
-	ExtData_            [][]byte                    `asn1:"-" json:"-"`
+	CSGMembershipStatus CSGMembershipStatus        `asn1:"tag:0,context,implicit"`
+	CSGId               CSGId                      `asn1:"tag:1,context,implicit"`
+	CellAccessMode      *CellAccessMode            `asn1:"tag:2,context,implicit,optional" json:"CellAccessMode,omitempty"`
+	PLMNidentity        *PLMNidentity              `asn1:"tag:3,context,implicit,optional" json:"PLMNidentity,omitempty"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
 }
 
 // CellTrafficTrace represents the ASN.1 type CellTrafficTrace (SEQUENCE).
 type CellTrafficTrace struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ConnectionEstablishmentIndication represents the ASN.1 type ConnectionEstablishmentIndication (SEQUENCE).
 type ConnectionEstablishmentIndication struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // DeactivateTrace represents the ASN.1 type DeactivateTrace (SEQUENCE).
 type DeactivateTrace struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // DownlinkNASTransport represents the ASN.1 type DownlinkNASTransport (SEQUENCE).
 type DownlinkNASTransport struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // DownlinkNonUEAssociatedLPPaTransport represents the ASN.1 type DownlinkNonUEAssociatedLPPaTransport (SEQUENCE).
 type DownlinkNonUEAssociatedLPPaTransport struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // DownlinkS1cdma2000tunnelling represents the ASN.1 type DownlinkS1cdma2000tunnelling (SEQUENCE).
 type DownlinkS1cdma2000tunnelling struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // DownlinkUEAssociatedLPPaTransport represents the ASN.1 type DownlinkUEAssociatedLPPaTransport (SEQUENCE).
 type DownlinkUEAssociatedLPPaTransport struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ENBCPRelocationIndication represents the ASN.1 type ENBCPRelocationIndication (SEQUENCE).
 type ENBCPRelocationIndication struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ENBConfigurationTransfer represents the ASN.1 type ENBConfigurationTransfer (SEQUENCE).
 type ENBConfigurationTransfer struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ENBConfigurationUpdate represents the ASN.1 type ENBConfigurationUpdate (SEQUENCE).
 type ENBConfigurationUpdate struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ENBConfigurationUpdateAcknowledge represents the ASN.1 type ENBConfigurationUpdateAcknowledge (SEQUENCE).
 type ENBConfigurationUpdateAcknowledge struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ENBConfigurationUpdateFailure represents the ASN.1 type ENBConfigurationUpdateFailure (SEQUENCE).
 type ENBConfigurationUpdateFailure struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ENBDirectInformationTransfer represents the ASN.1 type ENBDirectInformationTransfer (SEQUENCE).
 type ENBDirectInformationTransfer struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ENBEarlyStatusTransfer represents the ASN.1 type ENBEarlyStatusTransfer (SEQUENCE).
 type ENBEarlyStatusTransfer struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ENBStatusTransfer represents the ASN.1 type ENBStatusTransfer (SEQUENCE).
 type ENBStatusTransfer struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ERABAdmittedItem represents the ASN.1 type E-RABAdmittedItem (SEQUENCE).
 type ERABAdmittedItem struct {
-	ERABID                  ERABID                      `asn1:"tag:0,context,implicit"`
-	TransportLayerAddress   TransportLayerAddress       `asn1:"tag:1,context,implicit"`
-	GTPTEID                 GTPTEID                     `asn1:"tag:2,context,implicit"`
-	DLTransportLayerAddress *TransportLayerAddress      `asn1:"tag:3,context,implicit,optional" json:"DLTransportLayerAddress,omitempty"`
-	DLGTPTEID               *GTPTEID                    `asn1:"tag:4,context,implicit,optional" json:"DLGTPTEID,omitempty"`
-	ULTransportLayerAddress *TransportLayerAddress      `asn1:"tag:5,context,implicit,optional" json:"ULTransportLayerAddress,omitempty"`
-	ULGTPTEID               *GTPTEID                    `asn1:"tag:6,context,implicit,optional" json:"ULGTPTEID,omitempty"`
-	IEExtensions            *ProtocolExtensionContainer `asn1:"tag:7,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_               int64                       `asn1:"-" json:"-"`
-	ExtPresent_             []bool                      `asn1:"-" json:"-"`
-	ExtData_                [][]byte                    `asn1:"-" json:"-"`
+	ERABID                  ERABID                     `asn1:"tag:0,context,implicit"`
+	TransportLayerAddress   TransportLayerAddress      `asn1:"tag:1,context,implicit"`
+	GTPTEID                 GTPTEID                    `asn1:"tag:2,context,implicit"`
+	DLTransportLayerAddress *TransportLayerAddress     `asn1:"tag:3,context,implicit,optional" json:"DLTransportLayerAddress,omitempty"`
+	DLGTPTEID               *GTPTEID                   `asn1:"tag:4,context,implicit,optional" json:"DLGTPTEID,omitempty"`
+	ULTransportLayerAddress *TransportLayerAddress     `asn1:"tag:5,context,implicit,optional" json:"ULTransportLayerAddress,omitempty"`
+	ULGTPTEID               *GTPTEID                   `asn1:"tag:6,context,implicit,optional" json:"ULGTPTEID,omitempty"`
+	IEExtensions            ProtocolExtensionContainer `asn1:"tag:7,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_      bool                       `asn1:"-" json:"-"`
+	ExtCount_               int64                      `asn1:"-" json:"-"`
+	ExtPresent_             []bool                     `asn1:"-" json:"-"`
+	ExtData_                [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABAdmittedList represents the ASN.1 type E-RABAdmittedList (SEQUENCE_OF).
@@ -167,35 +184,38 @@ type ERABAdmittedList = []ProtocolIESingleContainer
 
 // ERABDataForwardingItem represents the ASN.1 type E-RABDataForwardingItem (SEQUENCE).
 type ERABDataForwardingItem struct {
-	ERABID                  ERABID                      `asn1:"tag:0,context,implicit"`
-	DLTransportLayerAddress *TransportLayerAddress      `asn1:"tag:1,context,implicit,optional" json:"DLTransportLayerAddress,omitempty"`
-	DLGTPTEID               *GTPTEID                    `asn1:"tag:2,context,implicit,optional" json:"DLGTPTEID,omitempty"`
-	ULTransportLayerAddress *TransportLayerAddress      `asn1:"tag:3,context,implicit,optional" json:"ULTransportLayerAddress,omitempty"`
-	ULGTPTEID               *GTPTEID                    `asn1:"tag:4,context,implicit,optional" json:"ULGTPTEID,omitempty"`
-	IEExtensions            *ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_               int64                       `asn1:"-" json:"-"`
-	ExtPresent_             []bool                      `asn1:"-" json:"-"`
-	ExtData_                [][]byte                    `asn1:"-" json:"-"`
+	ERABID                  ERABID                     `asn1:"tag:0,context,implicit"`
+	DLTransportLayerAddress *TransportLayerAddress     `asn1:"tag:1,context,implicit,optional" json:"DLTransportLayerAddress,omitempty"`
+	DLGTPTEID               *GTPTEID                   `asn1:"tag:2,context,implicit,optional" json:"DLGTPTEID,omitempty"`
+	ULTransportLayerAddress *TransportLayerAddress     `asn1:"tag:3,context,implicit,optional" json:"ULTransportLayerAddress,omitempty"`
+	ULGTPTEID               *GTPTEID                   `asn1:"tag:4,context,implicit,optional" json:"ULGTPTEID,omitempty"`
+	IEExtensions            ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_      bool                       `asn1:"-" json:"-"`
+	ExtCount_               int64                      `asn1:"-" json:"-"`
+	ExtPresent_             []bool                     `asn1:"-" json:"-"`
+	ExtData_                [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABFailedToResumeItemResumeReq represents the ASN.1 type E-RABFailedToResumeItemResumeReq (SEQUENCE).
 type ERABFailedToResumeItemResumeReq struct {
-	ERABID       ERABID                      `asn1:"tag:0,context,implicit"`
-	Cause        Cause                       `asn1:"tag:1,context,explicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	Cause              Cause                      `asn1:"tag:1,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABFailedToResumeItemResumeRes represents the ASN.1 type E-RABFailedToResumeItemResumeRes (SEQUENCE).
 type ERABFailedToResumeItemResumeRes struct {
-	ERABID       ERABID                      `asn1:"tag:0,context,implicit"`
-	Cause        Cause                       `asn1:"tag:1,context,explicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	Cause              Cause                      `asn1:"tag:1,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABFailedToResumeListResumeReq represents the ASN.1 type E-RABFailedToResumeListResumeReq (SEQUENCE_OF).
@@ -206,12 +226,13 @@ type ERABFailedToResumeListResumeRes = []ProtocolIESingleContainer
 
 // ERABFailedToSetupItemHOReqAck represents the ASN.1 type E-RABFailedToSetupItemHOReqAck (SEQUENCE).
 type ERABFailedToSetupItemHOReqAck struct {
-	ERABID       ERABID                      `asn1:"tag:0,context,implicit"`
-	Cause        Cause                       `asn1:"tag:1,context,explicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	Cause              Cause                      `asn1:"tag:1,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABFailedtoSetupListHOReqAck represents the ASN.1 type E-RABFailedtoSetupListHOReqAck (SEQUENCE_OF).
@@ -219,36 +240,40 @@ type ERABFailedtoSetupListHOReqAck = []ProtocolIESingleContainer
 
 // ERABModificationConfirm represents the ASN.1 type E-RABModificationConfirm (SEQUENCE).
 type ERABModificationConfirm struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ERABModificationIndication represents the ASN.1 type E-RABModificationIndication (SEQUENCE).
 type ERABModificationIndication struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ERABModifyItemBearerModConf represents the ASN.1 type E-RABModifyItemBearerModConf (SEQUENCE).
 type ERABModifyItemBearerModConf struct {
-	ERABID       ERABID                      `asn1:"tag:0,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABModifyItemBearerModRes represents the ASN.1 type E-RABModifyItemBearerModRes (SEQUENCE).
 type ERABModifyItemBearerModRes struct {
-	ERABID       ERABID                      `asn1:"tag:0,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABModifyListBearerModConf represents the ASN.1 type E-RABModifyListBearerModConf (SEQUENCE_OF).
@@ -259,29 +284,32 @@ type ERABModifyListBearerModRes = []ProtocolIESingleContainer
 
 // ERABModifyRequest represents the ASN.1 type E-RABModifyRequest (SEQUENCE).
 type ERABModifyRequest struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ERABModifyResponse represents the ASN.1 type E-RABModifyResponse (SEQUENCE).
 type ERABModifyResponse struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ERABNotToBeModifiedItemBearerModInd represents the ASN.1 type E-RABNotToBeModifiedItemBearerModInd (SEQUENCE).
 type ERABNotToBeModifiedItemBearerModInd struct {
-	ERABID                ERABID                      `asn1:"tag:0,context,implicit"`
-	TransportLayerAddress TransportLayerAddress       `asn1:"tag:1,context,implicit"`
-	DLGTPTEID             GTPTEID                     `asn1:"tag:2,context,implicit"`
-	IEExtensions          *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_             int64                       `asn1:"-" json:"-"`
-	ExtPresent_           []bool                      `asn1:"-" json:"-"`
-	ExtData_              [][]byte                    `asn1:"-" json:"-"`
+	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
+	TransportLayerAddress TransportLayerAddress      `asn1:"tag:1,context,implicit"`
+	DLGTPTEID             GTPTEID                    `asn1:"tag:2,context,implicit"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABNotToBeModifiedListBearerModInd represents the ASN.1 type E-RABNotToBeModifiedListBearerModInd (SEQUENCE_OF).
@@ -289,27 +317,30 @@ type ERABNotToBeModifiedListBearerModInd = []ProtocolIESingleContainer
 
 // ERABReleaseCommand represents the ASN.1 type E-RABReleaseCommand (SEQUENCE).
 type ERABReleaseCommand struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ERABReleaseIndication represents the ASN.1 type E-RABReleaseIndication (SEQUENCE).
 type ERABReleaseIndication struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ERABReleaseItemBearerRelComp represents the ASN.1 type E-RABReleaseItemBearerRelComp (SEQUENCE).
 type ERABReleaseItemBearerRelComp struct {
-	ERABID       ERABID                      `asn1:"tag:0,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABReleaseListBearerRelComp represents the ASN.1 type E-RABReleaseListBearerRelComp (SEQUENCE_OF).
@@ -317,32 +348,35 @@ type ERABReleaseListBearerRelComp = []ProtocolIESingleContainer
 
 // ERABReleaseResponse represents the ASN.1 type E-RABReleaseResponse (SEQUENCE).
 type ERABReleaseResponse struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ERABSetupItemBearerSURes represents the ASN.1 type E-RABSetupItemBearerSURes (SEQUENCE).
 type ERABSetupItemBearerSURes struct {
-	ERABID                ERABID                      `asn1:"tag:0,context,implicit"`
-	TransportLayerAddress TransportLayerAddress       `asn1:"tag:1,context,implicit"`
-	GTPTEID               GTPTEID                     `asn1:"tag:2,context,implicit"`
-	IEExtensions          *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_             int64                       `asn1:"-" json:"-"`
-	ExtPresent_           []bool                      `asn1:"-" json:"-"`
-	ExtData_              [][]byte                    `asn1:"-" json:"-"`
+	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
+	TransportLayerAddress TransportLayerAddress      `asn1:"tag:1,context,implicit"`
+	GTPTEID               GTPTEID                    `asn1:"tag:2,context,implicit"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABSetupItemCtxtSURes represents the ASN.1 type E-RABSetupItemCtxtSURes (SEQUENCE).
 type ERABSetupItemCtxtSURes struct {
-	ERABID                ERABID                      `asn1:"tag:0,context,implicit"`
-	TransportLayerAddress TransportLayerAddress       `asn1:"tag:1,context,implicit"`
-	GTPTEID               GTPTEID                     `asn1:"tag:2,context,implicit"`
-	IEExtensions          *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_             int64                       `asn1:"-" json:"-"`
-	ExtPresent_           []bool                      `asn1:"-" json:"-"`
-	ExtData_              [][]byte                    `asn1:"-" json:"-"`
+	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
+	TransportLayerAddress TransportLayerAddress      `asn1:"tag:1,context,implicit"`
+	GTPTEID               GTPTEID                    `asn1:"tag:2,context,implicit"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABSetupListBearerSURes represents the ASN.1 type E-RABSetupListBearerSURes (SEQUENCE_OF).
@@ -353,18 +387,20 @@ type ERABSetupListCtxtSURes = []ProtocolIESingleContainer
 
 // ERABSetupRequest represents the ASN.1 type E-RABSetupRequest (SEQUENCE).
 type ERABSetupRequest struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ERABSetupResponse represents the ASN.1 type E-RABSetupResponse (SEQUENCE).
 type ERABSetupResponse struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ERABSubjecttoDataForwardingList represents the ASN.1 type E-RABSubjecttoDataForwardingList (SEQUENCE_OF).
@@ -372,24 +408,26 @@ type ERABSubjecttoDataForwardingList = []ProtocolIESingleContainer
 
 // ERABToBeModifiedItemBearerModInd represents the ASN.1 type E-RABToBeModifiedItemBearerModInd (SEQUENCE).
 type ERABToBeModifiedItemBearerModInd struct {
-	ERABID                ERABID                      `asn1:"tag:0,context,implicit"`
-	TransportLayerAddress TransportLayerAddress       `asn1:"tag:1,context,implicit"`
-	DLGTPTEID             GTPTEID                     `asn1:"tag:2,context,implicit"`
-	IEExtensions          *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_             int64                       `asn1:"-" json:"-"`
-	ExtPresent_           []bool                      `asn1:"-" json:"-"`
-	ExtData_              [][]byte                    `asn1:"-" json:"-"`
+	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
+	TransportLayerAddress TransportLayerAddress      `asn1:"tag:1,context,implicit"`
+	DLGTPTEID             GTPTEID                    `asn1:"tag:2,context,implicit"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABToBeModifiedItemBearerModReq represents the ASN.1 type E-RABToBeModifiedItemBearerModReq (SEQUENCE).
 type ERABToBeModifiedItemBearerModReq struct {
-	ERABID                 ERABID                      `asn1:"tag:0,context,implicit"`
-	ERABLevelQoSParameters ERABLevelQoSParameters      `asn1:"tag:1,context,implicit"`
-	NASPDU                 NASPDU                      `asn1:"tag:2,context,implicit"`
-	IEExtensions           *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_              int64                       `asn1:"-" json:"-"`
-	ExtPresent_            []bool                      `asn1:"-" json:"-"`
-	ExtData_               [][]byte                    `asn1:"-" json:"-"`
+	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
+	ERABLevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
+	NASPDU                 NASPDU                     `asn1:"tag:2,context,implicit"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABToBeModifiedListBearerModInd represents the ASN.1 type E-RABToBeModifiedListBearerModInd (SEQUENCE_OF).
@@ -400,40 +438,43 @@ type ERABToBeModifiedListBearerModReq = []ProtocolIESingleContainer
 
 // ERABToBeSetupItemBearerSUReq represents the ASN.1 type E-RABToBeSetupItemBearerSUReq (SEQUENCE).
 type ERABToBeSetupItemBearerSUReq struct {
-	ERABID                 ERABID                      `asn1:"tag:0,context,implicit"`
-	ERABlevelQoSParameters ERABLevelQoSParameters      `asn1:"tag:1,context,implicit"`
-	TransportLayerAddress  TransportLayerAddress       `asn1:"tag:2,context,implicit"`
-	GTPTEID                GTPTEID                     `asn1:"tag:3,context,implicit"`
-	NASPDU                 NASPDU                      `asn1:"tag:4,context,implicit"`
-	IEExtensions           *ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_              int64                       `asn1:"-" json:"-"`
-	ExtPresent_            []bool                      `asn1:"-" json:"-"`
-	ExtData_               [][]byte                    `asn1:"-" json:"-"`
+	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
+	ERABlevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
+	TransportLayerAddress  TransportLayerAddress      `asn1:"tag:2,context,implicit"`
+	GTPTEID                GTPTEID                    `asn1:"tag:3,context,implicit"`
+	NASPDU                 NASPDU                     `asn1:"tag:4,context,implicit"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABToBeSetupItemCtxtSUReq represents the ASN.1 type E-RABToBeSetupItemCtxtSUReq (SEQUENCE).
 type ERABToBeSetupItemCtxtSUReq struct {
-	ERABID                 ERABID                      `asn1:"tag:0,context,implicit"`
-	ERABlevelQoSParameters ERABLevelQoSParameters      `asn1:"tag:1,context,implicit"`
-	TransportLayerAddress  TransportLayerAddress       `asn1:"tag:2,context,implicit"`
-	GTPTEID                GTPTEID                     `asn1:"tag:3,context,implicit"`
-	NASPDU                 *NASPDU                     `asn1:"tag:4,context,implicit,optional" json:"NASPDU,omitempty"`
-	IEExtensions           *ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_              int64                       `asn1:"-" json:"-"`
-	ExtPresent_            []bool                      `asn1:"-" json:"-"`
-	ExtData_               [][]byte                    `asn1:"-" json:"-"`
+	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
+	ERABlevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
+	TransportLayerAddress  TransportLayerAddress      `asn1:"tag:2,context,implicit"`
+	GTPTEID                GTPTEID                    `asn1:"tag:3,context,implicit"`
+	NASPDU                 *NASPDU                    `asn1:"tag:4,context,implicit,optional" json:"NASPDU,omitempty"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABToBeSetupItemHOReq represents the ASN.1 type E-RABToBeSetupItemHOReq (SEQUENCE).
 type ERABToBeSetupItemHOReq struct {
-	ERABID                 ERABID                      `asn1:"tag:0,context,implicit"`
-	TransportLayerAddress  TransportLayerAddress       `asn1:"tag:1,context,implicit"`
-	GTPTEID                GTPTEID                     `asn1:"tag:2,context,implicit"`
-	ERABlevelQosParameters ERABLevelQoSParameters      `asn1:"tag:3,context,implicit"`
-	IEExtensions           *ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_              int64                       `asn1:"-" json:"-"`
-	ExtPresent_            []bool                      `asn1:"-" json:"-"`
-	ExtData_               [][]byte                    `asn1:"-" json:"-"`
+	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
+	TransportLayerAddress  TransportLayerAddress      `asn1:"tag:1,context,implicit"`
+	GTPTEID                GTPTEID                    `asn1:"tag:2,context,implicit"`
+	ERABlevelQosParameters ERABLevelQoSParameters     `asn1:"tag:3,context,implicit"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABToBeSetupListBearerSUReq represents the ASN.1 type E-RABToBeSetupListBearerSUReq (SEQUENCE_OF).
@@ -447,13 +488,14 @@ type ERABToBeSetupListHOReq = []ProtocolIESingleContainer
 
 // ERABToBeSwitchedDLItem represents the ASN.1 type E-RABToBeSwitchedDLItem (SEQUENCE).
 type ERABToBeSwitchedDLItem struct {
-	ERABID                ERABID                      `asn1:"tag:0,context,implicit"`
-	TransportLayerAddress TransportLayerAddress       `asn1:"tag:1,context,implicit"`
-	GTPTEID               GTPTEID                     `asn1:"tag:2,context,implicit"`
-	IEExtensions          *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_             int64                       `asn1:"-" json:"-"`
-	ExtPresent_           []bool                      `asn1:"-" json:"-"`
-	ExtData_              [][]byte                    `asn1:"-" json:"-"`
+	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
+	TransportLayerAddress TransportLayerAddress      `asn1:"tag:1,context,implicit"`
+	GTPTEID               GTPTEID                    `asn1:"tag:2,context,implicit"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABToBeSwitchedDLList represents the ASN.1 type E-RABToBeSwitchedDLList (SEQUENCE_OF).
@@ -461,13 +503,14 @@ type ERABToBeSwitchedDLList = []ProtocolIESingleContainer
 
 // ERABToBeSwitchedULItem represents the ASN.1 type E-RABToBeSwitchedULItem (SEQUENCE).
 type ERABToBeSwitchedULItem struct {
-	ERABID                ERABID                      `asn1:"tag:0,context,implicit"`
-	TransportLayerAddress TransportLayerAddress       `asn1:"tag:1,context,implicit"`
-	GTPTEID               GTPTEID                     `asn1:"tag:2,context,implicit"`
-	IEExtensions          *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_             int64                       `asn1:"-" json:"-"`
-	ExtPresent_           []bool                      `asn1:"-" json:"-"`
-	ExtData_              [][]byte                    `asn1:"-" json:"-"`
+	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
+	TransportLayerAddress TransportLayerAddress      `asn1:"tag:1,context,implicit"`
+	GTPTEID               GTPTEID                    `asn1:"tag:2,context,implicit"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABToBeSwitchedULList represents the ASN.1 type E-RABToBeSwitchedULList (SEQUENCE_OF).
@@ -475,12 +518,13 @@ type ERABToBeSwitchedULList = []ProtocolIESingleContainer
 
 // ERABToBeUpdatedItem represents the ASN.1 type E-RABToBeUpdatedItem (SEQUENCE).
 type ERABToBeUpdatedItem struct {
-	ERABID             ERABID                      `asn1:"tag:0,context,implicit"`
-	SecurityIndication *SecurityIndication         `asn1:"tag:1,context,implicit,optional" json:"SecurityIndication,omitempty"`
-	IEExtensions       *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_          int64                       `asn1:"-" json:"-"`
-	ExtPresent_        []bool                      `asn1:"-" json:"-"`
-	ExtData_           [][]byte                    `asn1:"-" json:"-"`
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	SecurityIndication *SecurityIndication        `asn1:"tag:1,context,implicit,optional" json:"SecurityIndication,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABToBeUpdatedList represents the ASN.1 type E-RABToBeUpdatedList (SEQUENCE_OF).
@@ -494,122 +538,137 @@ type ERABIEContainerPairList = []interface{}
 
 // ErrorIndication represents the ASN.1 type ErrorIndication (SEQUENCE).
 type ErrorIndication struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // HandoverCancel represents the ASN.1 type HandoverCancel (SEQUENCE).
 type HandoverCancel struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // HandoverCancelAcknowledge represents the ASN.1 type HandoverCancelAcknowledge (SEQUENCE).
 type HandoverCancelAcknowledge struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // HandoverCommand represents the ASN.1 type HandoverCommand (SEQUENCE).
 type HandoverCommand struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // HandoverFailure represents the ASN.1 type HandoverFailure (SEQUENCE).
 type HandoverFailure struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // HandoverNotify represents the ASN.1 type HandoverNotify (SEQUENCE).
 type HandoverNotify struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationFailure represents the ASN.1 type HandoverPreparationFailure (SEQUENCE).
 type HandoverPreparationFailure struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // HandoverRequest represents the ASN.1 type HandoverRequest (SEQUENCE).
 type HandoverRequest struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // HandoverRequestAcknowledge represents the ASN.1 type HandoverRequestAcknowledge (SEQUENCE).
 type HandoverRequestAcknowledge struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // HandoverRequired represents the ASN.1 type HandoverRequired (SEQUENCE).
 type HandoverRequired struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // HandoverSuccess represents the ASN.1 type HandoverSuccess (SEQUENCE).
 type HandoverSuccess struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // InitialContextSetupFailure represents the ASN.1 type InitialContextSetupFailure (SEQUENCE).
 type InitialContextSetupFailure struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // InitialContextSetupRequest represents the ASN.1 type InitialContextSetupRequest (SEQUENCE).
 type InitialContextSetupRequest struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // InitialContextSetupResponse represents the ASN.1 type InitialContextSetupResponse (SEQUENCE).
 type InitialContextSetupResponse struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // InitialUEMessage represents the ASN.1 type InitialUEMessage (SEQUENCE).
 type InitialUEMessage struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // InterSystemInformationTransferType choice constants.
@@ -633,194 +692,218 @@ func NewInterSystemInformationTransferTypeRIMTransfer(v RIMTransfer) InterSystem
 
 // KillRequest represents the ASN.1 type KillRequest (SEQUENCE).
 type KillRequest struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // KillResponse represents the ASN.1 type KillResponse (SEQUENCE).
 type KillResponse struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // LocationReport represents the ASN.1 type LocationReport (SEQUENCE).
 type LocationReport struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // LocationReportingControl represents the ASN.1 type LocationReportingControl (SEQUENCE).
 type LocationReportingControl struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // LocationReportingFailureIndication represents the ASN.1 type LocationReportingFailureIndication (SEQUENCE).
 type LocationReportingFailureIndication struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // MMECPRelocationIndication represents the ASN.1 type MMECPRelocationIndication (SEQUENCE).
 type MMECPRelocationIndication struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // MMEConfigurationTransfer represents the ASN.1 type MMEConfigurationTransfer (SEQUENCE).
 type MMEConfigurationTransfer struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // MMEConfigurationUpdate represents the ASN.1 type MMEConfigurationUpdate (SEQUENCE).
 type MMEConfigurationUpdate struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // MMEConfigurationUpdateAcknowledge represents the ASN.1 type MMEConfigurationUpdateAcknowledge (SEQUENCE).
 type MMEConfigurationUpdateAcknowledge struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // MMEConfigurationUpdateFailure represents the ASN.1 type MMEConfigurationUpdateFailure (SEQUENCE).
 type MMEConfigurationUpdateFailure struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // MMEDirectInformationTransfer represents the ASN.1 type MMEDirectInformationTransfer (SEQUENCE).
 type MMEDirectInformationTransfer struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // MMEEarlyStatusTransfer represents the ASN.1 type MMEEarlyStatusTransfer (SEQUENCE).
 type MMEEarlyStatusTransfer struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // MMEStatusTransfer represents the ASN.1 type MMEStatusTransfer (SEQUENCE).
 type MMEStatusTransfer struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // NASDeliveryIndication represents the ASN.1 type NASDeliveryIndication (SEQUENCE).
 type NASDeliveryIndication struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // NASNonDeliveryIndication represents the ASN.1 type NASNonDeliveryIndication (SEQUENCE).
 type NASNonDeliveryIndication struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // OverloadStart represents the ASN.1 type OverloadStart (SEQUENCE).
 type OverloadStart struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // OverloadStop represents the ASN.1 type OverloadStop (SEQUENCE).
 type OverloadStop struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // PWSFailureIndication represents the ASN.1 type PWSFailureIndication (SEQUENCE).
 type PWSFailureIndication struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // PWSRestartIndication represents the ASN.1 type PWSRestartIndication (SEQUENCE).
 type PWSRestartIndication struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // Paging represents the ASN.1 type Paging (SEQUENCE).
 type Paging struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // PathSwitchRequest represents the ASN.1 type PathSwitchRequest (SEQUENCE).
 type PathSwitchRequest struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // PathSwitchRequestAcknowledge represents the ASN.1 type PathSwitchRequestAcknowledge (SEQUENCE).
 type PathSwitchRequestAcknowledge struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // PathSwitchRequestFailure represents the ASN.1 type PathSwitchRequestFailure (SEQUENCE).
 type PathSwitchRequestFailure struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // PrivateMessage represents the ASN.1 type PrivateMessage (SEQUENCE).
 type PrivateMessage struct {
-	PrivateIEs  PrivateIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64              `asn1:"-" json:"-"`
-	ExtPresent_ []bool             `asn1:"-" json:"-"`
-	ExtData_    [][]byte           `asn1:"-" json:"-"`
+	PrivateIEs       PrivateIEContainer `asn1:"tag:0,context,implicit"`
+	PrivateIEsIndef_ bool               `asn1:"-" json:"-"`
+	ExtCount_        int64              `asn1:"-" json:"-"`
+	ExtPresent_      []bool             `asn1:"-" json:"-"`
+	ExtData_         [][]byte           `asn1:"-" json:"-"`
 }
 
 // ProtocolErrorIEContainerList represents the ASN.1 type ProtocolError-IE-ContainerList (SEQUENCE_OF).
@@ -828,26 +911,29 @@ type ProtocolErrorIEContainerList = []interface{}
 
 // RerouteNASRequest represents the ASN.1 type RerouteNASRequest (SEQUENCE).
 type RerouteNASRequest struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // Reset represents the ASN.1 type Reset (SEQUENCE).
 type Reset struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ResetAcknowledge represents the ASN.1 type ResetAcknowledge (SEQUENCE).
 type ResetAcknowledge struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // ResetAll represents the ASN.1 ENUMERATED type ResetAll.
@@ -875,8 +961,8 @@ const (
 // ResetType represents the ASN.1 CHOICE type ResetType.
 type ResetType struct {
 	Choice            int
-	S1Interface       *ResetAll                               `json:"S1Interface,omitempty"`
-	PartOfS1Interface *UEAssociatedLogicalS1ConnectionListRes `json:"PartOfS1Interface,omitempty"`
+	S1Interface       *ResetAll                              `json:"S1Interface,omitempty"`
+	PartOfS1Interface UEAssociatedLogicalS1ConnectionListRes `json:"PartOfS1Interface,omitempty"`
 }
 
 // NewResetTypeS1Interface creates a ResetType with the s1-Interface alternative.
@@ -891,57 +977,63 @@ func NewResetTypeS1Interface(v ResetAll) ResetType {
 func NewResetTypePartOfS1Interface(v UEAssociatedLogicalS1ConnectionListRes) ResetType {
 	return ResetType{
 		Choice:            ResetTypeChoicePartOfS1Interface,
-		PartOfS1Interface: &v,
+		PartOfS1Interface: v,
 	}
 }
 
 // RetrieveUEInformation represents the ASN.1 type RetrieveUEInformation (SEQUENCE).
 type RetrieveUEInformation struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // S1SetupFailure represents the ASN.1 type S1SetupFailure (SEQUENCE).
 type S1SetupFailure struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // S1SetupRequest represents the ASN.1 type S1SetupRequest (SEQUENCE).
 type S1SetupRequest struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // S1SetupResponse represents the ASN.1 type S1SetupResponse (SEQUENCE).
 type S1SetupResponse struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // SecondaryRATDataUsageReport represents the ASN.1 type SecondaryRATDataUsageReport (SEQUENCE).
 type SecondaryRATDataUsageReport struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // TAIItem represents the ASN.1 type TAIItem (SEQUENCE).
 type TAIItem struct {
-	TAI          TAI                         `asn1:"tag:0,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	TAI                TAI                        `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // TAIList represents the ASN.1 type TAIList (SEQUENCE_OF).
@@ -949,170 +1041,191 @@ type TAIList = []ProtocolIESingleContainer
 
 // TraceFailureIndication represents the ASN.1 type TraceFailureIndication (SEQUENCE).
 type TraceFailureIndication struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // TraceStart represents the ASN.1 type TraceStart (SEQUENCE).
 type TraceStart struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UECapabilityInfoIndication represents the ASN.1 type UECapabilityInfoIndication (SEQUENCE).
 type UECapabilityInfoIndication struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UEContextModificationConfirm represents the ASN.1 type UEContextModificationConfirm (SEQUENCE).
 type UEContextModificationConfirm struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UEContextModificationFailure represents the ASN.1 type UEContextModificationFailure (SEQUENCE).
 type UEContextModificationFailure struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UEContextModificationIndication represents the ASN.1 type UEContextModificationIndication (SEQUENCE).
 type UEContextModificationIndication struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UEContextModificationRequest represents the ASN.1 type UEContextModificationRequest (SEQUENCE).
 type UEContextModificationRequest struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UEContextModificationResponse represents the ASN.1 type UEContextModificationResponse (SEQUENCE).
 type UEContextModificationResponse struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UEContextReleaseCommand represents the ASN.1 type UEContextReleaseCommand (SEQUENCE).
 type UEContextReleaseCommand struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UEContextReleaseComplete represents the ASN.1 type UEContextReleaseComplete (SEQUENCE).
 type UEContextReleaseComplete struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UEContextReleaseRequest represents the ASN.1 type UEContextReleaseRequest (SEQUENCE).
 type UEContextReleaseRequest struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UEContextResumeFailure represents the ASN.1 type UEContextResumeFailure (SEQUENCE).
 type UEContextResumeFailure struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UEContextResumeRequest represents the ASN.1 type UEContextResumeRequest (SEQUENCE).
 type UEContextResumeRequest struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UEContextResumeResponse represents the ASN.1 type UEContextResumeResponse (SEQUENCE).
 type UEContextResumeResponse struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UEContextSuspendRequest represents the ASN.1 type UEContextSuspendRequest (SEQUENCE).
 type UEContextSuspendRequest struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UEContextSuspendResponse represents the ASN.1 type UEContextSuspendResponse (SEQUENCE).
 type UEContextSuspendResponse struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UEInformationTransfer represents the ASN.1 type UEInformationTransfer (SEQUENCE).
 type UEInformationTransfer struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UERadioCapabilityIDMappingRequest represents the ASN.1 type UERadioCapabilityIDMappingRequest (SEQUENCE).
 type UERadioCapabilityIDMappingRequest struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UERadioCapabilityIDMappingResponse represents the ASN.1 type UERadioCapabilityIDMappingResponse (SEQUENCE).
 type UERadioCapabilityIDMappingResponse struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UERadioCapabilityMatchRequest represents the ASN.1 type UERadioCapabilityMatchRequest (SEQUENCE).
 type UERadioCapabilityMatchRequest struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UERadioCapabilityMatchResponse represents the ASN.1 type UERadioCapabilityMatchResponse (SEQUENCE).
 type UERadioCapabilityMatchResponse struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UEAssociatedLogicalS1ConnectionListRes represents the ASN.1 type UE-associatedLogicalS1-ConnectionListRes (SEQUENCE_OF).
@@ -1123,50 +1236,56 @@ type UEAssociatedLogicalS1ConnectionListResAck = []ProtocolIESingleContainer
 
 // UplinkNASTransport represents the ASN.1 type UplinkNASTransport (SEQUENCE).
 type UplinkNASTransport struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UplinkNonUEAssociatedLPPaTransport represents the ASN.1 type UplinkNonUEAssociatedLPPaTransport (SEQUENCE).
 type UplinkNonUEAssociatedLPPaTransport struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UplinkS1cdma2000tunnelling represents the ASN.1 type UplinkS1cdma2000tunnelling (SEQUENCE).
 type UplinkS1cdma2000tunnelling struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UplinkUEAssociatedLPPaTransport represents the ASN.1 type UplinkUEAssociatedLPPaTransport (SEQUENCE).
 type UplinkUEAssociatedLPPaTransport struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // WriteReplaceWarningRequest represents the ASN.1 type WriteReplaceWarningRequest (SEQUENCE).
 type WriteReplaceWarningRequest struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // WriteReplaceWarningResponse represents the ASN.1 type WriteReplaceWarningResponse (SEQUENCE).
 type WriteReplaceWarningResponse struct {
-	ProtocolIEs ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // MarshalAPER encodes CSGMembershipInfo to APER format.
@@ -1210,10 +1329,10 @@ func (v *CSGMembershipInfo) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -1303,7 +1422,7 @@ func (v *CSGMembershipInfo) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -2819,10 +2938,10 @@ func (v *ERABAdmittedItem) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -2941,7 +3060,7 @@ func (v *ERABAdmittedItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -3026,10 +3145,10 @@ func (v *ERABDataForwardingItem) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -3138,7 +3257,7 @@ func (v *ERABDataForwardingItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -3194,10 +3313,10 @@ func (v *ERABFailedToResumeItemResumeReq) marshalAPERTo(bb *per.BitBuffer) error
 		return fmt.Errorf("encoding cause: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -3261,7 +3380,7 @@ func (v *ERABFailedToResumeItemResumeReq) unmarshalAPERFrom(bb *per.BitBuffer) e
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -3317,10 +3436,10 @@ func (v *ERABFailedToResumeItemResumeRes) marshalAPERTo(bb *per.BitBuffer) error
 		return fmt.Errorf("encoding cause: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -3384,7 +3503,7 @@ func (v *ERABFailedToResumeItemResumeRes) unmarshalAPERFrom(bb *per.BitBuffer) e
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -3440,10 +3559,10 @@ func (v *ERABFailedToSetupItemHOReqAck) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding cause: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -3507,7 +3626,7 @@ func (v *ERABFailedToSetupItemHOReqAck) unmarshalAPERFrom(bb *per.BitBuffer) err
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -3750,10 +3869,10 @@ func (v *ERABModifyItemBearerModConf) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding e-RAB-ID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -3814,7 +3933,7 @@ func (v *ERABModifyItemBearerModConf) unmarshalAPERFrom(bb *per.BitBuffer) error
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -3867,10 +3986,10 @@ func (v *ERABModifyItemBearerModRes) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding e-RAB-ID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -3931,7 +4050,7 @@ func (v *ERABModifyItemBearerModRes) unmarshalAPERFrom(bb *per.BitBuffer) error 
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -4180,10 +4299,10 @@ func (v *ERABNotToBeModifiedItemBearerModInd) marshalAPERTo(bb *per.BitBuffer) e
 		return fmt.Errorf("encoding dL-GTP-TEID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -4254,7 +4373,7 @@ func (v *ERABNotToBeModifiedItemBearerModInd) unmarshalAPERFrom(bb *per.BitBuffe
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -4497,10 +4616,10 @@ func (v *ERABReleaseItemBearerRelComp) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding e-RAB-ID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -4561,7 +4680,7 @@ func (v *ERABReleaseItemBearerRelComp) unmarshalAPERFrom(bb *per.BitBuffer) erro
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -4715,10 +4834,10 @@ func (v *ERABSetupItemBearerSURes) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding gTP-TEID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -4789,7 +4908,7 @@ func (v *ERABSetupItemBearerSURes) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -4848,10 +4967,10 @@ func (v *ERABSetupItemCtxtSURes) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding gTP-TEID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -4922,7 +5041,7 @@ func (v *ERABSetupItemCtxtSURes) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -5171,10 +5290,10 @@ func (v *ERABToBeModifiedItemBearerModInd) marshalAPERTo(bb *per.BitBuffer) erro
 		return fmt.Errorf("encoding dL-GTP-TEID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -5245,7 +5364,7 @@ func (v *ERABToBeModifiedItemBearerModInd) unmarshalAPERFrom(bb *per.BitBuffer) 
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -5304,10 +5423,10 @@ func (v *ERABToBeModifiedItemBearerModReq) marshalAPERTo(bb *per.BitBuffer) erro
 		return fmt.Errorf("encoding nAS-PDU: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -5376,7 +5495,7 @@ func (v *ERABToBeModifiedItemBearerModReq) unmarshalAPERFrom(bb *per.BitBuffer) 
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -5441,10 +5560,10 @@ func (v *ERABToBeSetupItemBearerSUReq) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding nAS-PDU: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -5523,7 +5642,7 @@ func (v *ERABToBeSetupItemBearerSUReq) unmarshalAPERFrom(bb *per.BitBuffer) erro
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -5593,10 +5712,10 @@ func (v *ERABToBeSetupItemCtxtSUReq) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -5682,7 +5801,7 @@ func (v *ERABToBeSetupItemCtxtSUReq) unmarshalAPERFrom(bb *per.BitBuffer) error 
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -5744,10 +5863,10 @@ func (v *ERABToBeSetupItemHOReq) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding e-RABlevelQosParameters: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -5821,7 +5940,7 @@ func (v *ERABToBeSetupItemHOReq) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -5880,10 +5999,10 @@ func (v *ERABToBeSwitchedDLItem) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding gTP-TEID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -5954,7 +6073,7 @@ func (v *ERABToBeSwitchedDLItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -6013,10 +6132,10 @@ func (v *ERABToBeSwitchedULItem) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding gTP-TEID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -6087,7 +6206,7 @@ func (v *ERABToBeSwitchedULItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -6148,10 +6267,10 @@ func (v *ERABToBeUpdatedItem) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -6223,7 +6342,7 @@ func (v *ERABToBeUpdatedItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -10337,10 +10456,10 @@ func (v *ResetType) marshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding s1-Interface: %w", err)
 		}
 	case ResetTypeChoicePartOfS1Interface:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.PartOfS1Interface)), 1, 256); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.PartOfS1Interface)), 1, 256); err != nil {
 			return fmt.Errorf("encoding partOfS1-Interface length: %w", err)
 		}
-		for _, elem := range *v.PartOfS1Interface {
+		for _, elem := range v.PartOfS1Interface {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding partOfS1-Interface element: %w", err)
 			}
@@ -10402,7 +10521,7 @@ func (v *ResetType) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding partOfS1-Interface element: %w", err)
 			}
 		}
-		v.PartOfS1Interface = &tmp_partofs1interface
+		v.PartOfS1Interface = tmp_partofs1interface
 	}
 	return nil
 }
@@ -10904,10 +11023,10 @@ func (v *TAIItem) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding tAI: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -10966,7 +11085,7 @@ func (v *TAIItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
