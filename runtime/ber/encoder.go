@@ -399,6 +399,12 @@ func EncodeBooleanValue(v bool) []byte {
 	return []byte{0x00}
 }
 
+// EncodeBooleanRaw encodes a boolean TLV using the provided raw value byte.
+// This preserves byte-exact BER round-trip when TRUE was encoded as a non-0xFF value.
+func EncodeBooleanRaw(rawByte byte) []byte {
+	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBoolean}, []byte{rawByte})
+}
+
 // EncodeBitStringValue returns the raw value bytes for a bit string.
 func EncodeBitStringValue(bytes []byte, unusedBits int) []byte {
 	result := make([]byte, 1+len(bytes))

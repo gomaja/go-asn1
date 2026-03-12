@@ -143,6 +143,7 @@ type VarMeasConfig struct {
 	SMeasure                   *int64                       `asn1:"tag:10,context,implicit,optional" json:"SMeasure,omitempty"`
 	SpeedStatePars             *VarMeasConfigSpeedStatePars `asn1:"tag:11,context,explicit,optional" json:"SpeedStatePars,omitempty"`
 	AllowInterruptionsR11      *bool                        `asn1:"tag:12,context,implicit,optional" json:"AllowInterruptionsR11,omitempty"`
+	AllowInterruptionsR11Raw_  byte                         `asn1:"-" json:"-"`
 }
 
 // VarMeasIdleConfigR15 represents the ASN.1 type VarMeasIdleConfig-r15 (SEQUENCE).
@@ -198,7 +199,8 @@ type VarMobilityHistoryReportR12 = []VisitedCellInfoR12
 
 // VarPendingRnaUpdateR15 represents the ASN.1 type VarPendingRnaUpdate-r15 (SEQUENCE).
 type VarPendingRnaUpdateR15 struct {
-	PendingRnaUpdate *bool `asn1:"tag:0,context,implicit,optional" json:"PendingRnaUpdate,omitempty"`
+	PendingRnaUpdate     *bool `asn1:"tag:0,context,implicit,optional" json:"PendingRnaUpdate,omitempty"`
+	PendingRnaUpdateRaw_ byte  `asn1:"-" json:"-"`
 }
 
 // VarRLFReportR10 represents the ASN.1 type VarRLF-Report-r10 (SEQUENCE).

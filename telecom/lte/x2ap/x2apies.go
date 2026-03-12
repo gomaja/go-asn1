@@ -4096,6 +4096,7 @@ type PRACHConfiguration struct {
 	RootSequenceIndex    int64                      `asn1:"tag:0,context,implicit"`
 	ZeroCorrelationIndex int64                      `asn1:"tag:1,context,implicit"`
 	HighSpeedFlag        bool                       `asn1:"tag:2,context,implicit"`
+	HighSpeedFlagRaw_    byte                       `asn1:"-" json:"-"`
 	PrachFreqOffset      int64                      `asn1:"tag:3,context,implicit"`
 	PrachConfigIndex     *int64                     `asn1:"tag:4,context,implicit,optional" json:"PrachConfigIndex,omitempty"`
 	IEExtensions         ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`

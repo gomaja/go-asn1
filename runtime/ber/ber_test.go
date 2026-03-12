@@ -109,7 +109,7 @@ func TestIndefiniteLength(t *testing.T) {
 func TestEncodeDecodeBoolean(t *testing.T) {
 	for _, val := range []bool{true, false} {
 		encoded := EncodeBoolean(val)
-		decoded, consumed, err := DecodeBoolean(encoded)
+		decoded, _, consumed, err := DecodeBoolean(encoded)
 		if err != nil {
 			t.Fatalf("bool=%v: decode error: %v", val, err)
 		}
@@ -435,7 +435,7 @@ func TestEncodeDecodeSequence(t *testing.T) {
 		t.Errorf("integer: got %d, want 42", intVal)
 	}
 
-	boolVal, _, err := DecodeBoolean(childTLVs[1])
+	boolVal, _, _, err := DecodeBoolean(childTLVs[1])
 	if err != nil {
 		t.Fatalf("decode boolean: %v", err)
 	}
