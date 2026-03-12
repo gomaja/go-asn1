@@ -71,12 +71,13 @@ type RRMConfigNB struct {
 
 // ReestablishmentInfoNB represents the ASN.1 type ReestablishmentInfo-NB (SEQUENCE).
 type ReestablishmentInfoNB struct {
-	SourcePhysCellIdR13          PhysCellId                 `asn1:"tag:0,context,implicit"`
-	TargetCellShortMACIR13       ShortMACI                  `asn1:"tag:1,context,implicit"`
-	AdditionalReestabInfoListR13 *AdditionalReestabInfoList `asn1:"tag:2,context,implicit,optional" json:"AdditionalReestabInfoListR13,omitempty"`
-	ExtCount_                    int64                      `asn1:"-" json:"-"`
-	ExtPresent_                  []bool                     `asn1:"-" json:"-"`
-	ExtData_                     [][]byte                   `asn1:"-" json:"-"`
+	SourcePhysCellIdR13                PhysCellId                `asn1:"tag:0,context,implicit"`
+	TargetCellShortMACIR13             ShortMACI                 `asn1:"tag:1,context,implicit"`
+	AdditionalReestabInfoListR13       AdditionalReestabInfoList `asn1:"tag:2,context,implicit,optional" json:"AdditionalReestabInfoListR13,omitempty"`
+	AdditionalReestabInfoListR13Indef_ bool                      `asn1:"-" json:"-"`
+	ExtCount_                          int64                     `asn1:"-" json:"-"`
+	ExtPresent_                        []bool                    `asn1:"-" json:"-"`
+	ExtData_                           [][]byte                  `asn1:"-" json:"-"`
 }
 
 // UEPagingCoverageInformationNB represents the ASN.1 type UEPagingCoverageInformation-NB (SEQUENCE).
@@ -1059,10 +1060,10 @@ func (v *ReestablishmentInfoNB) marshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding targetCellShortMAC-I-r13: %w", err)
 	}
 	if v.AdditionalReestabInfoListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.AdditionalReestabInfoListR13)), 1, 32); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.AdditionalReestabInfoListR13)), 1, 32); err != nil {
 			return fmt.Errorf("encoding additionalReestabInfoList-r13 length: %w", err)
 		}
-		for _, elem := range *v.AdditionalReestabInfoListR13 {
+		for _, elem := range v.AdditionalReestabInfoListR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding additionalReestabInfoList-r13 element: %w", err)
 			}
@@ -1128,7 +1129,7 @@ func (v *ReestablishmentInfoNB) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding additionalReestabInfoList-r13 element: %w", err)
 			}
 		}
-		v.AdditionalReestabInfoListR13 = &tmp_additionalreestabinfolistr13
+		v.AdditionalReestabInfoListR13 = tmp_additionalreestabinfolistr13
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegative(bb)

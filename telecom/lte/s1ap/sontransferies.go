@@ -74,19 +74,21 @@ func (v CellActivationCause) String() string {
 
 // CellActivationRequest represents the ASN.1 type CellActivationRequest (SEQUENCE).
 type CellActivationRequest struct {
-	CellsToActivateList   CellsToActivateList `asn1:"tag:0,context,implicit"`
-	MinimumActivationTime *int64              `asn1:"tag:1,context,implicit,optional" json:"MinimumActivationTime,omitempty"`
-	ExtCount_             int64               `asn1:"-" json:"-"`
-	ExtPresent_           []bool              `asn1:"-" json:"-"`
-	ExtData_              [][]byte            `asn1:"-" json:"-"`
+	CellsToActivateList       CellsToActivateList `asn1:"tag:0,context,implicit"`
+	CellsToActivateListIndef_ bool                `asn1:"-" json:"-"`
+	MinimumActivationTime     *int64              `asn1:"tag:1,context,implicit,optional" json:"MinimumActivationTime,omitempty"`
+	ExtCount_                 int64               `asn1:"-" json:"-"`
+	ExtPresent_               []bool              `asn1:"-" json:"-"`
+	ExtData_                  [][]byte            `asn1:"-" json:"-"`
 }
 
 // CellActivationResponse represents the ASN.1 type CellActivationResponse (SEQUENCE).
 type CellActivationResponse struct {
-	ActivatedCellsList ActivatedCellsList `asn1:"tag:0,context,implicit"`
-	ExtCount_          int64              `asn1:"-" json:"-"`
-	ExtPresent_        []bool             `asn1:"-" json:"-"`
-	ExtData_           [][]byte           `asn1:"-" json:"-"`
+	ActivatedCellsList       ActivatedCellsList `asn1:"tag:0,context,implicit"`
+	ActivatedCellsListIndef_ bool               `asn1:"-" json:"-"`
+	ExtCount_                int64              `asn1:"-" json:"-"`
+	ExtPresent_              []bool             `asn1:"-" json:"-"`
+	ExtData_                 [][]byte           `asn1:"-" json:"-"`
 }
 
 // CellLoadReportingCause represents the ASN.1 ENUMERATED type CellLoadReportingCause.
@@ -162,10 +164,11 @@ func NewCellLoadReportingResponseEHRPD(v EHRPDSectorLoadReportingResponse) CellL
 
 // CellStateIndication represents the ASN.1 type CellStateIndication (SEQUENCE).
 type CellStateIndication struct {
-	NotificationCellList NotificationCellList `asn1:"tag:0,context,implicit"`
-	ExtCount_            int64                `asn1:"-" json:"-"`
-	ExtPresent_          []bool               `asn1:"-" json:"-"`
-	ExtData_             [][]byte             `asn1:"-" json:"-"`
+	NotificationCellList       NotificationCellList `asn1:"tag:0,context,implicit"`
+	NotificationCellListIndef_ bool                 `asn1:"-" json:"-"`
+	ExtCount_                  int64                `asn1:"-" json:"-"`
+	ExtPresent_                []bool               `asn1:"-" json:"-"`
+	ExtData_                   [][]byte             `asn1:"-" json:"-"`
 }
 
 // CellStateIndicationCause represents the ASN.1 ENUMERATED type CellStateIndicationCause.
@@ -317,15 +320,17 @@ func (v FailureEventReportingCause) String() string {
 
 // HOReport represents the ASN.1 type HOReport (SEQUENCE).
 type HOReport struct {
-	HoType            HoType            `asn1:"tag:0,context,implicit"`
-	HoReportType      HoReportType      `asn1:"tag:1,context,implicit"`
-	HosourceID        IRATCellID        `asn1:"tag:2,context,explicit"`
-	HoTargetID        IRATCellID        `asn1:"tag:3,context,explicit"`
-	CandidateCellList CandidateCellList `asn1:"tag:4,context,implicit"`
-	CandidatePCIList  *CandidatePCIList `asn1:"tag:5,context,implicit,optional" json:"CandidatePCIList,omitempty"`
-	ExtCount_         int64             `asn1:"-" json:"-"`
-	ExtPresent_       []bool            `asn1:"-" json:"-"`
-	ExtData_          [][]byte          `asn1:"-" json:"-"`
+	HoType                  HoType            `asn1:"tag:0,context,implicit"`
+	HoReportType            HoReportType      `asn1:"tag:1,context,implicit"`
+	HosourceID              IRATCellID        `asn1:"tag:2,context,explicit"`
+	HoTargetID              IRATCellID        `asn1:"tag:3,context,explicit"`
+	CandidateCellList       CandidateCellList `asn1:"tag:4,context,implicit"`
+	CandidateCellListIndef_ bool              `asn1:"-" json:"-"`
+	CandidatePCIList        CandidatePCIList  `asn1:"tag:5,context,implicit,optional" json:"CandidatePCIList,omitempty"`
+	CandidatePCIListIndef_  bool              `asn1:"-" json:"-"`
+	ExtCount_               int64             `asn1:"-" json:"-"`
+	ExtPresent_             []bool            `asn1:"-" json:"-"`
+	ExtData_                [][]byte          `asn1:"-" json:"-"`
 }
 
 // HOReportingCause represents the ASN.1 ENUMERATED type HOReportingCause.
@@ -442,10 +447,11 @@ type IEsMobilityInformation = runtime.BitString
 
 // MultiCellLoadReportingRequest represents the ASN.1 type MultiCellLoadReportingRequest (SEQUENCE).
 type MultiCellLoadReportingRequest struct {
-	RequestedCellList RequestedCellList `asn1:"tag:0,context,implicit"`
-	ExtCount_         int64             `asn1:"-" json:"-"`
-	ExtPresent_       []bool            `asn1:"-" json:"-"`
-	ExtData_          [][]byte          `asn1:"-" json:"-"`
+	RequestedCellList       RequestedCellList `asn1:"tag:0,context,implicit"`
+	RequestedCellListIndef_ bool              `asn1:"-" json:"-"`
+	ExtCount_               int64             `asn1:"-" json:"-"`
+	ExtPresent_             []bool            `asn1:"-" json:"-"`
+	ExtData_                [][]byte          `asn1:"-" json:"-"`
 }
 
 // MultiCellLoadReportingResponse represents the ASN.1 type MultiCellLoadReportingResponse (SEQUENCE_OF).
@@ -796,7 +802,7 @@ const (
 type SONtransferResponseContainer struct {
 	Choice                          int
 	CellLoadReporting               *CellLoadReportingResponse               `json:"CellLoadReporting,omitempty"`
-	MultiCellLoadReporting          *MultiCellLoadReportingResponse          `json:"MultiCellLoadReporting,omitempty"`
+	MultiCellLoadReporting          MultiCellLoadReportingResponse           `json:"MultiCellLoadReporting,omitempty"`
 	EventTriggeredCellLoadReporting *EventTriggeredCellLoadReportingResponse `json:"EventTriggeredCellLoadReporting,omitempty"`
 	HOReporting                     *struct{}                                `json:"HOReporting,omitempty"`
 	EutranCellActivation            *CellActivationResponse                  `json:"EutranCellActivation,omitempty"`
@@ -816,7 +822,7 @@ func NewSONtransferResponseContainerCellLoadReporting(v CellLoadReportingRespons
 func NewSONtransferResponseContainerMultiCellLoadReporting(v MultiCellLoadReportingResponse) SONtransferResponseContainer {
 	return SONtransferResponseContainer{
 		Choice:                 SONtransferResponseContainerChoiceMultiCellLoadReporting,
-		MultiCellLoadReporting: &v,
+		MultiCellLoadReporting: v,
 	}
 }
 
@@ -2300,10 +2306,10 @@ func (v *HOReport) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.CandidatePCIList != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.CandidatePCIList)), 1, 16); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.CandidatePCIList)), 1, 16); err != nil {
 			return fmt.Errorf("encoding candidatePCIList length: %w", err)
 		}
-		for _, elem := range *v.CandidatePCIList {
+		for _, elem := range v.CandidatePCIList {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding candidatePCIList element: %w", err)
 			}
@@ -2385,7 +2391,7 @@ func (v *HOReport) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding candidatePCIList element: %w", err)
 			}
 		}
-		v.CandidatePCIList = &tmp_candidatepcilist
+		v.CandidatePCIList = tmp_candidatepcilist
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -3219,10 +3225,10 @@ func (v *SONtransferResponseContainer) marshalAPERTo(bb *per.BitBuffer) error {
 		inner := per.NewBitBuffer()
 		switch v.Choice {
 		case SONtransferResponseContainerChoiceMultiCellLoadReporting:
-			if err := per.EncodeConstrainedWholeNumberAligned(inner, int64(len(*v.MultiCellLoadReporting)), 1, 128); err != nil {
+			if err := per.EncodeConstrainedWholeNumberAligned(inner, int64(len(v.MultiCellLoadReporting)), 1, 128); err != nil {
 				return fmt.Errorf("encoding multiCellLoadReporting length: %w", err)
 			}
-			for _, elem := range *v.MultiCellLoadReporting {
+			for _, elem := range v.MultiCellLoadReporting {
 				if err := elem.marshalAPERTo(inner); err != nil {
 					return fmt.Errorf("encoding multiCellLoadReporting element: %w", err)
 				}
@@ -3292,7 +3298,7 @@ func (v *SONtransferResponseContainer) unmarshalAPERFrom(bb *per.BitBuffer) erro
 					return fmt.Errorf("decoding multiCellLoadReporting element: %w", err)
 				}
 			}
-			v.MultiCellLoadReporting = &tmp_multicellloadreporting
+			v.MultiCellLoadReporting = tmp_multicellloadreporting
 		case SONtransferResponseContainerChoiceEventTriggeredCellLoadReporting:
 			var dec_eventtriggeredcellloadreporting EventTriggeredCellLoadReportingResponse
 			if err := dec_eventtriggeredcellloadreporting.unmarshalAPERFrom(inner); err != nil {

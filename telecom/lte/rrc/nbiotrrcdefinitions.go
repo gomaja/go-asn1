@@ -112,11 +112,12 @@ type ANRCarrierListNBR16 = []ANRCarrierNBR16
 
 // ANRCarrierNBR16 represents the ASN.1 type ANR-Carrier-NB-r16 (SEQUENCE).
 type ANRCarrierNBR16 struct {
-	CarrierFreqIndexR16 int64                     `asn1:"tag:0,context,implicit"`
-	ExcludedCellListR16 *ANRExcludedCellListNBR16 `asn1:"tag:1,context,implicit,optional" json:"ExcludedCellListR16,omitempty"`
-	ExtCount_           int64                     `asn1:"-" json:"-"`
-	ExtPresent_         []bool                    `asn1:"-" json:"-"`
-	ExtData_            [][]byte                  `asn1:"-" json:"-"`
+	CarrierFreqIndexR16       int64                    `asn1:"tag:0,context,implicit"`
+	ExcludedCellListR16       ANRExcludedCellListNBR16 `asn1:"tag:1,context,implicit,optional" json:"ExcludedCellListR16,omitempty"`
+	ExcludedCellListR16Indef_ bool                     `asn1:"-" json:"-"`
+	ExtCount_                 int64                    `asn1:"-" json:"-"`
+	ExtPresent_               []bool                   `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                 `asn1:"-" json:"-"`
 }
 
 // ANRExcludedCellListNBR16 represents the ASN.1 type ANR-ExcludedCellList-NB-r16 (SEQUENCE_OF).
@@ -124,22 +125,24 @@ type ANRExcludedCellListNBR16 = []PhysCellId
 
 // ANRMeasConfigNBR16 represents the ASN.1 type ANR-MeasConfig-NB-r16 (SEQUENCE).
 type ANRMeasConfigNBR16 struct {
-	AnrQualityThresholdR16 NRSRPRangeNBR14     `asn1:"tag:0,context,implicit"`
-	AnrCarrierListR16      ANRCarrierListNBR16 `asn1:"tag:1,context,implicit"`
-	ExtCount_              int64               `asn1:"-" json:"-"`
-	ExtPresent_            []bool              `asn1:"-" json:"-"`
-	ExtData_               [][]byte            `asn1:"-" json:"-"`
+	AnrQualityThresholdR16  NRSRPRangeNBR14     `asn1:"tag:0,context,implicit"`
+	AnrCarrierListR16       ANRCarrierListNBR16 `asn1:"tag:1,context,implicit"`
+	AnrCarrierListR16Indef_ bool                `asn1:"-" json:"-"`
+	ExtCount_               int64               `asn1:"-" json:"-"`
+	ExtPresent_             []bool              `asn1:"-" json:"-"`
+	ExtData_                [][]byte            `asn1:"-" json:"-"`
 }
 
 // ANRMeasReportNBR16 represents the ASN.1 type ANR-MeasReport-NB-r16 (SEQUENCE).
 type ANRMeasReportNBR16 struct {
-	ServCellIdentityR16   *CellGlobalIdEUTRA                  `asn1:"tag:0,context,implicit,optional" json:"ServCellIdentityR16,omitempty"`
-	MeasResultServCellR16 MeasResultServCellNBR14             `asn1:"tag:1,context,implicit"`
-	RelativeTimeStampR16  int64                               `asn1:"tag:2,context,implicit"`
-	MeasResultListR16     ANRMeasReportNBR16MeasResultListR16 `asn1:"tag:3,context,implicit"`
-	ExtCount_             int64                               `asn1:"-" json:"-"`
-	ExtPresent_           []bool                              `asn1:"-" json:"-"`
-	ExtData_              [][]byte                            `asn1:"-" json:"-"`
+	ServCellIdentityR16     *CellGlobalIdEUTRA                  `asn1:"tag:0,context,implicit,optional" json:"ServCellIdentityR16,omitempty"`
+	MeasResultServCellR16   MeasResultServCellNBR14             `asn1:"tag:1,context,implicit"`
+	RelativeTimeStampR16    int64                               `asn1:"tag:2,context,implicit"`
+	MeasResultListR16       ANRMeasReportNBR16MeasResultListR16 `asn1:"tag:3,context,implicit"`
+	MeasResultListR16Indef_ bool                                `asn1:"-" json:"-"`
+	ExtCount_               int64                               `asn1:"-" json:"-"`
+	ExtPresent_             []bool                              `asn1:"-" json:"-"`
+	ExtData_                [][]byte                            `asn1:"-" json:"-"`
 }
 
 // ANRMeasResultNBR16 represents the ASN.1 type ANR-MeasResult-NB-r16 (SEQUENCE).
@@ -444,8 +447,9 @@ type ConnMeasConfigNBR17 struct {
 
 // CoverageBasedPagingConfigNBR17 represents the ASN.1 type CoverageBasedPagingConfig-NB-r17 (SEQUENCE).
 type CoverageBasedPagingConfigNBR17 struct {
-	CbpHystTimerR17  int64                                          `asn1:"tag:0,context,implicit"`
-	CbpConfigListR17 CoverageBasedPagingConfigNBR17CbpConfigListR17 `asn1:"tag:1,context,implicit"`
+	CbpHystTimerR17        int64                                          `asn1:"tag:0,context,implicit"`
+	CbpConfigListR17       CoverageBasedPagingConfigNBR17CbpConfigListR17 `asn1:"tag:1,context,implicit"`
+	CbpConfigListR17Indef_ bool                                           `asn1:"-" json:"-"`
 }
 
 // DLInformationTransferNB represents the ASN.1 type DLInformationTransfer-NB (SEQUENCE).
@@ -726,7 +730,8 @@ type GWUSConfigNBR16 struct {
 	ResourceConfigDRXR16       GWUSResourceConfigNBR16  `asn1:"tag:3,context,implicit"`
 	ResourceConfigEDRXShortR16 *GWUSResourceConfigNBR16 `asn1:"tag:4,context,implicit,optional" json:"ResourceConfigEDRXShortR16,omitempty"`
 	ResourceConfigEDRXLongR16  *GWUSResourceConfigNBR16 `asn1:"tag:5,context,implicit,optional" json:"ResourceConfigEDRXLongR16,omitempty"`
-	ProbThreshListR16          *GWUSProbThreshListNBR16 `asn1:"tag:6,context,implicit,optional" json:"ProbThreshListR16,omitempty"`
+	ProbThreshListR16          GWUSProbThreshListNBR16  `asn1:"tag:6,context,implicit,optional" json:"ProbThreshListR16,omitempty"`
+	ProbThreshListR16Indef_    bool                     `asn1:"-" json:"-"`
 	ExtCount_                  int64                    `asn1:"-" json:"-"`
 	ExtPresent_                []bool                   `asn1:"-" json:"-"`
 	ExtData_                   [][]byte                 `asn1:"-" json:"-"`
@@ -805,9 +810,11 @@ type GWUSProbThreshListNBR16 = []GWUSPagingProbThreshNBR16
 
 // GWUSResourceConfigNBR16 represents the ASN.1 type GWUS-ResourceConfig-NB-r16 (SEQUENCE).
 type GWUSResourceConfigNBR16 struct {
-	ResourcePositionR16     int64                          `asn1:"tag:0,context,implicit"`
-	NumGroupsListR16        *GWUSNumGroupsListNBR16        `asn1:"tag:1,context,implicit,optional" json:"NumGroupsListR16,omitempty"`
-	GroupsForServiceListR16 *GWUSGroupsForServiceListNBR16 `asn1:"tag:2,context,implicit,optional" json:"GroupsForServiceListR16,omitempty"`
+	ResourcePositionR16           int64                         `asn1:"tag:0,context,implicit"`
+	NumGroupsListR16              GWUSNumGroupsListNBR16        `asn1:"tag:1,context,implicit,optional" json:"NumGroupsListR16,omitempty"`
+	NumGroupsListR16Indef_        bool                          `asn1:"-" json:"-"`
+	GroupsForServiceListR16       GWUSGroupsForServiceListNBR16 `asn1:"tag:2,context,implicit,optional" json:"GroupsForServiceListR16,omitempty"`
+	GroupsForServiceListR16Indef_ bool                          `asn1:"-" json:"-"`
 }
 
 // GuardbandTDDNBR15 represents the ASN.1 type GuardbandTDD-NB-r15 (SEQUENCE).
@@ -880,23 +887,27 @@ func NewInitialUEIdentity5GCNBR16RandomValue(v runtime.BitString) InitialUEIdent
 
 // InterFreqCarrierFreqInfoNBR13 represents the ASN.1 type InterFreqCarrierFreqInfo-NB-r13 (SEQUENCE).
 type InterFreqCarrierFreqInfoNBR13 struct {
-	DlCarrierFreqR13             CarrierFreqNBR13                `asn1:"tag:0,context,implicit"`
-	QRxLevMinR13                 QRxLevMin                       `asn1:"tag:1,context,implicit"`
-	QQualMinR13                  *QQualMinR9                     `asn1:"tag:2,context,implicit,optional" json:"QQualMinR13,omitempty"`
-	PMaxR13                      *PMax                           `asn1:"tag:3,context,implicit,optional" json:"PMaxR13,omitempty"`
-	QOffsetFreqR13               *QOffsetRange                   `asn1:"tag:4,context,implicit,optional" json:"QOffsetFreqR13,omitempty"`
-	InterFreqNeighCellListR13    *InterFreqNeighCellListNBR13    `asn1:"tag:5,context,implicit,optional" json:"InterFreqNeighCellListR13,omitempty"`
-	InterFreqExcludedCellListR13 *InterFreqExcludedCellListNBR13 `asn1:"tag:6,context,implicit,optional" json:"InterFreqExcludedCellListR13,omitempty"`
-	MultiBandInfoListR13         *MultiBandInfoListNBR13         `asn1:"tag:7,context,implicit,optional" json:"MultiBandInfoListR13,omitempty"`
-	DeltaRxLevMinV1350           *int64                          `asn1:"tag:8,context,implicit,optional" json:"DeltaRxLevMinV1350,omitempty"`
-	PowerClass14dBmOffsetR14     *int64                          `asn1:"tag:9,context,implicit,optional" json:"PowerClass14dBmOffsetR14,omitempty"`
-	CeAuthorisationOffsetR14     *int64                          `asn1:"tag:10,context,implicit,optional" json:"CeAuthorisationOffsetR14,omitempty"`
-	NsssRRMConfigR15             *NSSSRRMConfigNBR15             `asn1:"tag:11,context,implicit,optional" json:"NsssRRMConfigR15,omitempty"`
-	InterFreqNeighCellListV1530  *InterFreqNeighCellListNBV1530  `asn1:"tag:12,context,implicit,optional" json:"InterFreqNeighCellListV1530,omitempty"`
-	DlCarrierFreqV1550           *CarrierFreqNBV1550             `asn1:"tag:13,context,implicit,optional" json:"DlCarrierFreqV1550,omitempty"`
-	ExtCount_                    int64                           `asn1:"-" json:"-"`
-	ExtPresent_                  []bool                          `asn1:"-" json:"-"`
-	ExtData_                     [][]byte                        `asn1:"-" json:"-"`
+	DlCarrierFreqR13                   CarrierFreqNBR13               `asn1:"tag:0,context,implicit"`
+	QRxLevMinR13                       QRxLevMin                      `asn1:"tag:1,context,implicit"`
+	QQualMinR13                        *QQualMinR9                    `asn1:"tag:2,context,implicit,optional" json:"QQualMinR13,omitempty"`
+	PMaxR13                            *PMax                          `asn1:"tag:3,context,implicit,optional" json:"PMaxR13,omitempty"`
+	QOffsetFreqR13                     *QOffsetRange                  `asn1:"tag:4,context,implicit,optional" json:"QOffsetFreqR13,omitempty"`
+	InterFreqNeighCellListR13          InterFreqNeighCellListNBR13    `asn1:"tag:5,context,implicit,optional" json:"InterFreqNeighCellListR13,omitempty"`
+	InterFreqNeighCellListR13Indef_    bool                           `asn1:"-" json:"-"`
+	InterFreqExcludedCellListR13       InterFreqExcludedCellListNBR13 `asn1:"tag:6,context,implicit,optional" json:"InterFreqExcludedCellListR13,omitempty"`
+	InterFreqExcludedCellListR13Indef_ bool                           `asn1:"-" json:"-"`
+	MultiBandInfoListR13               MultiBandInfoListNBR13         `asn1:"tag:7,context,implicit,optional" json:"MultiBandInfoListR13,omitempty"`
+	MultiBandInfoListR13Indef_         bool                           `asn1:"-" json:"-"`
+	DeltaRxLevMinV1350                 *int64                         `asn1:"tag:8,context,implicit,optional" json:"DeltaRxLevMinV1350,omitempty"`
+	PowerClass14dBmOffsetR14           *int64                         `asn1:"tag:9,context,implicit,optional" json:"PowerClass14dBmOffsetR14,omitempty"`
+	CeAuthorisationOffsetR14           *int64                         `asn1:"tag:10,context,implicit,optional" json:"CeAuthorisationOffsetR14,omitempty"`
+	NsssRRMConfigR15                   *NSSSRRMConfigNBR15            `asn1:"tag:11,context,implicit,optional" json:"NsssRRMConfigR15,omitempty"`
+	InterFreqNeighCellListV1530        InterFreqNeighCellListNBV1530  `asn1:"tag:12,context,implicit,optional" json:"InterFreqNeighCellListV1530,omitempty"`
+	InterFreqNeighCellListV1530Indef_  bool                           `asn1:"-" json:"-"`
+	DlCarrierFreqV1550                 *CarrierFreqNBV1550            `asn1:"tag:13,context,implicit,optional" json:"DlCarrierFreqV1550,omitempty"`
+	ExtCount_                          int64                          `asn1:"-" json:"-"`
+	ExtPresent_                        []bool                         `asn1:"-" json:"-"`
+	ExtData_                           [][]byte                       `asn1:"-" json:"-"`
 }
 
 // InterFreqCarrierFreqListNBR13 represents the ASN.1 type InterFreqCarrierFreqList-NB-r13 (SEQUENCE_OF).
@@ -986,9 +997,11 @@ type MBMSSAIInterFreqListNBR14 = []MBMSSAIInterFreqNBR14
 
 // MBMSSAIInterFreqNBR14 represents the ASN.1 type MBMS-SAI-InterFreq-NB-r14 (SEQUENCE).
 type MBMSSAIInterFreqNBR14 struct {
-	DlCarrierFreqR14     CarrierFreqNBR13             `asn1:"tag:0,context,implicit"`
-	MbmsSAIListR14       MBMSSAIListR11               `asn1:"tag:1,context,implicit"`
-	MultiBandInfoListR14 *AdditionalBandInfoListNBR14 `asn1:"tag:2,context,implicit,optional" json:"MultiBandInfoListR14,omitempty"`
+	DlCarrierFreqR14           CarrierFreqNBR13            `asn1:"tag:0,context,implicit"`
+	MbmsSAIListR14             MBMSSAIListR11              `asn1:"tag:1,context,implicit"`
+	MbmsSAIListR14Indef_       bool                        `asn1:"-" json:"-"`
+	MultiBandInfoListR14       AdditionalBandInfoListNBR14 `asn1:"tag:2,context,implicit,optional" json:"MultiBandInfoListR14,omitempty"`
+	MultiBandInfoListR14Indef_ bool                        `asn1:"-" json:"-"`
 }
 
 // MasterInformationBlockNB represents the ASN.1 type MasterInformationBlock-NB (SEQUENCE).
@@ -1040,8 +1053,9 @@ type MultiBandInfoListNBR13 = []MultiBandInfoNBR13
 
 // MultiBandInfoNBR13 represents the ASN.1 type MultiBandInfo-NB-r13 (SEQUENCE).
 type MultiBandInfoNBR13 struct {
-	FreqBandIndicatorR13 *FreqBandIndicatorNBR13 `asn1:"tag:0,context,implicit,optional" json:"FreqBandIndicatorR13,omitempty"`
-	FreqBandInfoR13      *NSPmaxListNBR13        `asn1:"tag:1,context,implicit,optional" json:"FreqBandInfoR13,omitempty"`
+	FreqBandIndicatorR13  *FreqBandIndicatorNBR13 `asn1:"tag:0,context,implicit,optional" json:"FreqBandIndicatorR13,omitempty"`
+	FreqBandInfoR13       NSPmaxListNBR13         `asn1:"tag:1,context,implicit,optional" json:"FreqBandInfoR13,omitempty"`
+	FreqBandInfoR13Indef_ bool                    `asn1:"-" json:"-"`
 }
 
 // NPDCCHConfigDedicatedNBR13 represents the ASN.1 type NPDCCH-ConfigDedicated-NB-r13 (SEQUENCE).
@@ -1092,14 +1106,17 @@ type NPDSCHMultiTBConfigNBR16 struct {
 
 // NPRACHConfigSIBNBR13 represents the ASN.1 type NPRACH-ConfigSIB-NB-r13 (SEQUENCE).
 type NPRACHConfigSIBNBR13 struct {
-	NprachCPLengthR13              int64                              `asn1:"tag:0,context,implicit"`
-	RsrpThresholdsPrachInfoListR13 *RSRPThresholdsNPRACHInfoListNBR13 `asn1:"tag:1,context,implicit,optional" json:"RsrpThresholdsPrachInfoListR13,omitempty"`
-	NprachParametersListR13        NPRACHParametersListNBR13          `asn1:"tag:2,context,implicit"`
+	NprachCPLengthR13                    int64                             `asn1:"tag:0,context,implicit"`
+	RsrpThresholdsPrachInfoListR13       RSRPThresholdsNPRACHInfoListNBR13 `asn1:"tag:1,context,implicit,optional" json:"RsrpThresholdsPrachInfoListR13,omitempty"`
+	RsrpThresholdsPrachInfoListR13Indef_ bool                              `asn1:"-" json:"-"`
+	NprachParametersListR13              NPRACHParametersListNBR13         `asn1:"tag:2,context,implicit"`
+	NprachParametersListR13Indef_        bool                              `asn1:"-" json:"-"`
 }
 
 // NPRACHConfigSIBNBV1330 represents the ASN.1 type NPRACH-ConfigSIB-NB-v1330 (SEQUENCE).
 type NPRACHConfigSIBNBV1330 struct {
-	NprachParametersListV1330 NPRACHParametersListNBV1330 `asn1:"tag:0,context,implicit"`
+	NprachParametersListV1330       NPRACHParametersListNBV1330 `asn1:"tag:0,context,implicit"`
+	NprachParametersListV1330Indef_ bool                        `asn1:"-" json:"-"`
 }
 
 // NPRACHConfigSIBNBV1450 represents the ASN.1 type NPRACH-ConfigSIB-NB-v1450 (SEQUENCE).
@@ -1197,10 +1214,11 @@ type NPRACHTxDurationFmt2NBR17 struct {
 
 // NPUSCHConfigCommonNBR13 represents the ASN.1 type NPUSCH-ConfigCommon-NB-r13 (SEQUENCE).
 type NPUSCHConfigCommonNBR13 struct {
-	AckNACKNumRepetitionsMsg4R13 NPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13 `asn1:"tag:0,context,implicit"`
-	SrsSubframeConfigR13         *int64                                              `asn1:"tag:1,context,implicit,optional" json:"SrsSubframeConfigR13,omitempty"`
-	DmrsConfigR13                *NPUSCHConfigCommonNBR13DmrsConfigR13               `asn1:"tag:2,context,implicit,optional" json:"DmrsConfigR13,omitempty"`
-	UlReferenceSignalsNPUSCHR13  ULReferenceSignalsNPUSCHNBR13                       `asn1:"tag:3,context,implicit"`
+	AckNACKNumRepetitionsMsg4R13       NPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13 `asn1:"tag:0,context,implicit"`
+	AckNACKNumRepetitionsMsg4R13Indef_ bool                                                `asn1:"-" json:"-"`
+	SrsSubframeConfigR13               *int64                                              `asn1:"tag:1,context,implicit,optional" json:"SrsSubframeConfigR13,omitempty"`
+	DmrsConfigR13                      *NPUSCHConfigCommonNBR13DmrsConfigR13               `asn1:"tag:2,context,implicit,optional" json:"DmrsConfigR13,omitempty"`
+	UlReferenceSignalsNPUSCHR13        ULReferenceSignalsNPUSCHNBR13                       `asn1:"tag:3,context,implicit"`
 }
 
 // NPUSCHConfigDedicatedNBR13 represents the ASN.1 type NPUSCH-ConfigDedicated-NB-r13 (SEQUENCE).
@@ -1487,7 +1505,8 @@ type PLMNIdentityInfoNBR13 struct {
 
 // PLMNIdentityInfoNBV1700 represents the ASN.1 type PLMN-IdentityInfo-NB-v1700 (SEQUENCE).
 type PLMNIdentityInfoNBV1700 struct {
-	TrackingAreaListR17 *TrackingAreaListNBR17 `asn1:"tag:0,context,implicit,optional" json:"TrackingAreaListR17,omitempty"`
+	TrackingAreaListR17       TrackingAreaListNBR17 `asn1:"tag:0,context,implicit,optional" json:"TrackingAreaListR17,omitempty"`
+	TrackingAreaListR17Indef_ bool                  `asn1:"-" json:"-"`
 }
 
 // PLMNIdentityList5GCNBR16 represents the ASN.1 type PLMN-IdentityList-5GC-NB-r16 (SEQUENCE_OF).
@@ -1783,16 +1802,18 @@ func (v PagingWeightNBR14) String() string {
 
 // PagingNB represents the ASN.1 type Paging-NB (SEQUENCE).
 type PagingNB struct {
-	PagingRecordListR13           *PagingRecordListNBR13 `asn1:"tag:0,context,implicit,optional" json:"PagingRecordListR13,omitempty"`
-	SystemInfoModificationR13     *int64                 `asn1:"tag:1,context,implicit,optional" json:"SystemInfoModificationR13,omitempty"`
-	SystemInfoModificationEDRXR13 *int64                 `asn1:"tag:2,context,implicit,optional" json:"SystemInfoModificationEDRXR13,omitempty"`
-	NonCriticalExtension          *PagingNBV1610IEs      `asn1:"tag:3,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PagingRecordListR13           PagingRecordListNBR13 `asn1:"tag:0,context,implicit,optional" json:"PagingRecordListR13,omitempty"`
+	PagingRecordListR13Indef_     bool                  `asn1:"-" json:"-"`
+	SystemInfoModificationR13     *int64                `asn1:"tag:1,context,implicit,optional" json:"SystemInfoModificationR13,omitempty"`
+	SystemInfoModificationEDRXR13 *int64                `asn1:"tag:2,context,implicit,optional" json:"SystemInfoModificationEDRXR13,omitempty"`
+	NonCriticalExtension          *PagingNBV1610IEs     `asn1:"tag:3,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // PagingNBV1610IEs represents the ASN.1 type Paging-NB-v1610-IEs (SEQUENCE).
 type PagingNBV1610IEs struct {
-	PagingRecordListV1610 *PagingRecordListNBV1610 `asn1:"tag:0,context,implicit,optional" json:"PagingRecordListV1610,omitempty"`
-	NonCriticalExtension  *runtime.RawValue        `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PagingRecordListV1610       PagingRecordListNBV1610 `asn1:"tag:0,context,implicit,optional" json:"PagingRecordListV1610,omitempty"`
+	PagingRecordListV1610Indef_ bool                    `asn1:"-" json:"-"`
+	NonCriticalExtension        *runtime.RawValue       `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // PeriodicBSRTimerNBR13 represents the ASN.1 ENUMERATED type PeriodicBSR-Timer-NB-r13.
@@ -1912,9 +1933,11 @@ type RACHConfigCommonNBR13 struct {
 	PreambleTransMaxCER13       PreambleTransMax               `asn1:"tag:0,context,implicit"`
 	PowerRampingParametersR13   PowerRampingParameters         `asn1:"tag:1,context,implicit"`
 	RachInfoListR13             RACHInfoListNBR13              `asn1:"tag:2,context,implicit"`
+	RachInfoListR13Indef_       bool                           `asn1:"-" json:"-"`
 	ConnEstFailOffsetR13        *int64                         `asn1:"tag:3,context,implicit,optional" json:"ConnEstFailOffsetR13,omitempty"`
 	PowerRampingParametersV1450 *PowerRampingParametersNBV1450 `asn1:"tag:4,context,implicit,optional" json:"PowerRampingParametersV1450,omitempty"`
-	RachInfoListV1530           *RACHInfoListNBV1530           `asn1:"tag:5,context,implicit,optional" json:"RachInfoListV1530,omitempty"`
+	RachInfoListV1530           RACHInfoListNBV1530            `asn1:"tag:5,context,implicit,optional" json:"RachInfoListV1530,omitempty"`
+	RachInfoListV1530Indef_     bool                           `asn1:"-" json:"-"`
 	ExtCount_                   int64                          `asn1:"-" json:"-"`
 	ExtPresent_                 []bool                         `asn1:"-" json:"-"`
 	ExtData_                    [][]byte                       `asn1:"-" json:"-"`
@@ -1947,8 +1970,9 @@ type RACHReportNBR16 struct {
 
 // RFParametersNBR13 represents the ASN.1 type RF-Parameters-NB-r13 (SEQUENCE).
 type RFParametersNBR13 struct {
-	SupportedBandListR13 SupportedBandListNBR13 `asn1:"tag:0,context,implicit"`
-	MultiNSPmaxR13       *int64                 `asn1:"tag:1,context,implicit,optional" json:"MultiNSPmaxR13,omitempty"`
+	SupportedBandListR13       SupportedBandListNBR13 `asn1:"tag:0,context,implicit"`
+	SupportedBandListR13Indef_ bool                   `asn1:"-" json:"-"`
+	MultiNSPmaxR13             *int64                 `asn1:"tag:1,context,implicit,optional" json:"MultiNSPmaxR13,omitempty"`
 }
 
 // RFParametersNBV1430 represents the ASN.1 type RF-Parameters-NB-v1430 (SEQUENCE).
@@ -1958,7 +1982,8 @@ type RFParametersNBV1430 struct {
 
 // RFParametersNBV1710 represents the ASN.1 type RF-Parameters-NB-v1710 (SEQUENCE).
 type RFParametersNBV1710 struct {
-	SupportedBandListV1710 *SupportedBandListNBV1710 `asn1:"tag:0,context,implicit,optional" json:"SupportedBandListV1710,omitempty"`
+	SupportedBandListV1710       SupportedBandListNBV1710 `asn1:"tag:0,context,implicit,optional" json:"SupportedBandListV1710,omitempty"`
+	SupportedBandListV1710Indef_ bool                     `asn1:"-" json:"-"`
 }
 
 // RLCConfigNBR13 choice constants.
@@ -2083,11 +2108,12 @@ type RRCConnectionReconfigurationNB struct {
 
 // RRCConnectionReconfigurationNBR13IEs represents the ASN.1 type RRCConnectionReconfiguration-NB-r13-IEs (SEQUENCE).
 type RRCConnectionReconfigurationNBR13IEs struct {
-	DedicatedInfoNASListR13         *RRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13 `asn1:"tag:0,context,implicit,optional" json:"DedicatedInfoNASListR13,omitempty"`
-	RadioResourceConfigDedicatedR13 *RadioResourceConfigDedicatedNBR13                           `asn1:"tag:1,context,implicit,optional" json:"RadioResourceConfigDedicatedR13,omitempty"`
-	FullConfigR13                   *int64                                                       `asn1:"tag:2,context,implicit,optional" json:"FullConfigR13,omitempty"`
-	LateNonCriticalExtension        []byte                                                       `asn1:"tag:3,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
-	NonCriticalExtension            *runtime.RawValue                                            `asn1:"tag:4,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	DedicatedInfoNASListR13         RRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13 `asn1:"tag:0,context,implicit,optional" json:"DedicatedInfoNASListR13,omitempty"`
+	DedicatedInfoNASListR13Indef_   bool                                                        `asn1:"-" json:"-"`
+	RadioResourceConfigDedicatedR13 *RadioResourceConfigDedicatedNBR13                          `asn1:"tag:1,context,implicit,optional" json:"RadioResourceConfigDedicatedR13,omitempty"`
+	FullConfigR13                   *int64                                                      `asn1:"tag:2,context,implicit,optional" json:"FullConfigR13,omitempty"`
+	LateNonCriticalExtension        []byte                                                      `asn1:"tag:3,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	NonCriticalExtension            *runtime.RawValue                                           `asn1:"tag:4,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // RRCConnectionReestablishmentCompleteNB represents the ASN.1 type RRCConnectionReestablishmentComplete-NB (SEQUENCE).
@@ -2377,17 +2403,18 @@ type RRCConnectionSetupCompleteNBV1470IEs struct {
 
 // RRCConnectionSetupCompleteNBV1610IEs represents the ASN.1 type RRCConnectionSetupComplete-NB-v1610-IEs (SEQUENCE).
 type RRCConnectionSetupCompleteNBV1610IEs struct {
-	Ng5GSTMSIR16             *NG5GSTMSIR15                                      `asn1:"tag:0,context,implicit,optional" json:"Ng5GSTMSIR16,omitempty"`
-	RegisteredAMFR16         *RegisteredAMFR15                                  `asn1:"tag:1,context,implicit,optional" json:"RegisteredAMFR16,omitempty"`
-	GummeiTypeV1610          *int64                                             `asn1:"tag:2,context,implicit,optional" json:"GummeiTypeV1610,omitempty"`
-	GuamiTypeR16             *int64                                             `asn1:"tag:3,context,implicit,optional" json:"GuamiTypeR16,omitempty"`
-	SNSSAIListR16            *RRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16 `asn1:"tag:4,context,implicit,optional" json:"SNSSAIListR16,omitempty"`
-	NgUDataTransferR16       *int64                                             `asn1:"tag:5,context,implicit,optional" json:"NgUDataTransferR16,omitempty"`
-	UpCIoT5GSOptimisationR16 *int64                                             `asn1:"tag:6,context,implicit,optional" json:"UpCIoT5GSOptimisationR16,omitempty"`
-	RlfInfoAvailableR16      *int64                                             `asn1:"tag:7,context,implicit,optional" json:"RlfInfoAvailableR16,omitempty"`
-	AnrInfoAvailableR16      *int64                                             `asn1:"tag:8,context,implicit,optional" json:"AnrInfoAvailableR16,omitempty"`
-	PurConfigIDR16           *PURConfigIDNBR16                                  `asn1:"tag:9,context,implicit,optional" json:"PurConfigIDR16,omitempty"`
-	NonCriticalExtension     *RRCConnectionSetupCompleteNBV1710IEs              `asn1:"tag:10,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	Ng5GSTMSIR16             *NG5GSTMSIR15                                     `asn1:"tag:0,context,implicit,optional" json:"Ng5GSTMSIR16,omitempty"`
+	RegisteredAMFR16         *RegisteredAMFR15                                 `asn1:"tag:1,context,implicit,optional" json:"RegisteredAMFR16,omitempty"`
+	GummeiTypeV1610          *int64                                            `asn1:"tag:2,context,implicit,optional" json:"GummeiTypeV1610,omitempty"`
+	GuamiTypeR16             *int64                                            `asn1:"tag:3,context,implicit,optional" json:"GuamiTypeR16,omitempty"`
+	SNSSAIListR16            RRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16 `asn1:"tag:4,context,implicit,optional" json:"SNSSAIListR16,omitempty"`
+	SNSSAIListR16Indef_      bool                                              `asn1:"-" json:"-"`
+	NgUDataTransferR16       *int64                                            `asn1:"tag:5,context,implicit,optional" json:"NgUDataTransferR16,omitempty"`
+	UpCIoT5GSOptimisationR16 *int64                                            `asn1:"tag:6,context,implicit,optional" json:"UpCIoT5GSOptimisationR16,omitempty"`
+	RlfInfoAvailableR16      *int64                                            `asn1:"tag:7,context,implicit,optional" json:"RlfInfoAvailableR16,omitempty"`
+	AnrInfoAvailableR16      *int64                                            `asn1:"tag:8,context,implicit,optional" json:"AnrInfoAvailableR16,omitempty"`
+	PurConfigIDR16           *PURConfigIDNBR16                                 `asn1:"tag:9,context,implicit,optional" json:"PurConfigIDR16,omitempty"`
+	NonCriticalExtension     *RRCConnectionSetupCompleteNBV1710IEs             `asn1:"tag:10,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // RRCConnectionSetupCompleteNBV1710IEs represents the ASN.1 type RRCConnectionSetupComplete-NB-v1710-IEs (SEQUENCE).
@@ -2501,9 +2528,12 @@ type RadioResourceConfigCommonSIBNBR13 struct {
 
 // RadioResourceConfigDedicatedNBR13 represents the ASN.1 type RadioResourceConfigDedicated-NB-r13 (SEQUENCE).
 type RadioResourceConfigDedicatedNBR13 struct {
-	SrbToAddModListR13         *SRBToAddModListNBR13                              `asn1:"tag:0,context,implicit,optional" json:"SrbToAddModListR13,omitempty"`
-	DrbToAddModListR13         *DRBToAddModListNBR13                              `asn1:"tag:1,context,implicit,optional" json:"DrbToAddModListR13,omitempty"`
-	DrbToReleaseListR13        *DRBToReleaseListNBR13                             `asn1:"tag:2,context,implicit,optional" json:"DrbToReleaseListR13,omitempty"`
+	SrbToAddModListR13         SRBToAddModListNBR13                               `asn1:"tag:0,context,implicit,optional" json:"SrbToAddModListR13,omitempty"`
+	SrbToAddModListR13Indef_   bool                                               `asn1:"-" json:"-"`
+	DrbToAddModListR13         DRBToAddModListNBR13                               `asn1:"tag:1,context,implicit,optional" json:"DrbToAddModListR13,omitempty"`
+	DrbToAddModListR13Indef_   bool                                               `asn1:"-" json:"-"`
+	DrbToReleaseListR13        DRBToReleaseListNBR13                              `asn1:"tag:2,context,implicit,optional" json:"DrbToReleaseListR13,omitempty"`
+	DrbToReleaseListR13Indef_  bool                                               `asn1:"-" json:"-"`
 	MacMainConfigR13           *RadioResourceConfigDedicatedNBR13MacMainConfigR13 `asn1:"tag:3,context,explicit,optional" json:"MacMainConfigR13,omitempty"`
 	PhysicalConfigDedicatedR13 *PhysicalConfigDedicatedNBR13                      `asn1:"tag:4,context,implicit,optional" json:"PhysicalConfigDedicatedR13,omitempty"`
 	RlfTimersAndConstantsR13   *RLFTimersAndConstantsNBR13                        `asn1:"tag:5,context,explicit,optional" json:"RlfTimersAndConstantsR13,omitempty"`
@@ -2647,17 +2677,20 @@ func (v RetxBSRTimerNBR13) String() string {
 
 // SCPTMConfigurationNBR14 represents the ASN.1 type SCPTMConfiguration-NB-r14 (SEQUENCE).
 type SCPTMConfigurationNBR14 struct {
-	ScMtchInfoListR14         SCMTCHInfoListNBR14          `asn1:"tag:0,context,implicit"`
-	ScptmNeighbourCellListR14 *SCPTMNeighbourCellListNBR14 `asn1:"tag:1,context,implicit,optional" json:"ScptmNeighbourCellListR14,omitempty"`
-	LateNonCriticalExtension  []byte                       `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
-	NonCriticalExtension      *SCPTMConfigurationNBV1610   `asn1:"tag:3,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	ScMtchInfoListR14               SCMTCHInfoListNBR14         `asn1:"tag:0,context,implicit"`
+	ScMtchInfoListR14Indef_         bool                        `asn1:"-" json:"-"`
+	ScptmNeighbourCellListR14       SCPTMNeighbourCellListNBR14 `asn1:"tag:1,context,implicit,optional" json:"ScptmNeighbourCellListR14,omitempty"`
+	ScptmNeighbourCellListR14Indef_ bool                        `asn1:"-" json:"-"`
+	LateNonCriticalExtension        []byte                      `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	NonCriticalExtension            *SCPTMConfigurationNBV1610  `asn1:"tag:3,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // SCPTMConfigurationNBV1610 represents the ASN.1 type SCPTMConfiguration-NB-v1610 (SEQUENCE).
 type SCPTMConfigurationNBV1610 struct {
-	ScMtchInfoListMultiTBR16 SCMTCHInfoListNBR14 `asn1:"tag:0,context,implicit"`
-	MultiTBGapR16            *int64              `asn1:"tag:1,context,implicit,optional" json:"MultiTBGapR16,omitempty"`
-	NonCriticalExtension     *runtime.RawValue   `asn1:"tag:2,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	ScMtchInfoListMultiTBR16       SCMTCHInfoListNBR14 `asn1:"tag:0,context,implicit"`
+	ScMtchInfoListMultiTBR16Indef_ bool                `asn1:"-" json:"-"`
+	MultiTBGapR16                  *int64              `asn1:"tag:1,context,implicit,optional" json:"MultiTBGapR16,omitempty"`
+	NonCriticalExtension           *runtime.RawValue   `asn1:"tag:2,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // SCPTMNeighbourCellListNBR14 represents the ASN.1 type SCPTM-NeighbourCellList-NB-r14 (SEQUENCE_OF).
@@ -2973,15 +3006,17 @@ type SchedulingInfoListNBV1530 = []SchedulingInfoNBV1530
 
 // SchedulingInfoNBR13 represents the ASN.1 type SchedulingInfo-NB-r13 (SEQUENCE).
 type SchedulingInfoNBR13 struct {
-	SiPeriodicityR13       int64               `asn1:"tag:0,context,implicit"`
-	SiRepetitionPatternR13 int64               `asn1:"tag:1,context,implicit"`
-	SibMappingInfoR13      SIBMappingInfoNBR13 `asn1:"tag:2,context,implicit"`
-	SiTBR13                int64               `asn1:"tag:3,context,implicit"`
+	SiPeriodicityR13        int64               `asn1:"tag:0,context,implicit"`
+	SiRepetitionPatternR13  int64               `asn1:"tag:1,context,implicit"`
+	SibMappingInfoR13       SIBMappingInfoNBR13 `asn1:"tag:2,context,implicit"`
+	SibMappingInfoR13Indef_ bool                `asn1:"-" json:"-"`
+	SiTBR13                 int64               `asn1:"tag:3,context,implicit"`
 }
 
 // SchedulingInfoNBV1530 represents the ASN.1 type SchedulingInfo-NB-v1530 (SEQUENCE).
 type SchedulingInfoNBV1530 struct {
-	SibMappingInfoV1530 *SIBMappingInfoNBV1530 `asn1:"tag:0,context,implicit,optional" json:"SibMappingInfoV1530,omitempty"`
+	SibMappingInfoV1530       SIBMappingInfoNBV1530 `asn1:"tag:0,context,implicit,optional" json:"SibMappingInfoV1530,omitempty"`
+	SibMappingInfoV1530Indef_ bool                  `asn1:"-" json:"-"`
 }
 
 // SchedulingRequestConfigNBR15 represents the ASN.1 type SchedulingRequestConfig-NB-r15 (SEQUENCE).
@@ -3039,12 +3074,14 @@ type SystemInformationBlockType14NBR13 struct {
 
 // SystemInformationBlockType15NBR14 represents the ASN.1 type SystemInformationBlockType15-NB-r14 (SEQUENCE).
 type SystemInformationBlockType15NBR14 struct {
-	MbmsSAIIntraFreqR14      *MBMSSAIListR11            `asn1:"tag:0,context,implicit,optional" json:"MbmsSAIIntraFreqR14,omitempty"`
-	MbmsSAIInterFreqListR14  *MBMSSAIInterFreqListNBR14 `asn1:"tag:1,context,implicit,optional" json:"MbmsSAIInterFreqListR14,omitempty"`
-	LateNonCriticalExtension []byte                     `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
-	ExtCount_                int64                      `asn1:"-" json:"-"`
-	ExtPresent_              []bool                     `asn1:"-" json:"-"`
-	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
+	MbmsSAIIntraFreqR14           MBMSSAIListR11            `asn1:"tag:0,context,implicit,optional" json:"MbmsSAIIntraFreqR14,omitempty"`
+	MbmsSAIIntraFreqR14Indef_     bool                      `asn1:"-" json:"-"`
+	MbmsSAIInterFreqListR14       MBMSSAIInterFreqListNBR14 `asn1:"tag:1,context,implicit,optional" json:"MbmsSAIInterFreqListR14,omitempty"`
+	MbmsSAIInterFreqListR14Indef_ bool                      `asn1:"-" json:"-"`
+	LateNonCriticalExtension      []byte                    `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	ExtCount_                     int64                     `asn1:"-" json:"-"`
+	ExtPresent_                   []bool                    `asn1:"-" json:"-"`
+	ExtData_                      [][]byte                  `asn1:"-" json:"-"`
 }
 
 // SystemInformationBlockType16NBR13 represents the ASN.1 type SystemInformationBlockType16-NB-r13 (SEQUENCE).
@@ -3059,22 +3096,26 @@ type SystemInformationBlockType16NBR13 struct {
 
 // SystemInformationBlockType1NB represents the ASN.1 type SystemInformationBlockType1-NB (SEQUENCE).
 type SystemInformationBlockType1NB struct {
-	HyperSFNMSBR13            runtime.BitString                                     `asn1:"tag:0,context,implicit"`
-	CellAccessRelatedInfoR13  SystemInformationBlockType1NBCellAccessRelatedInfoR13 `asn1:"tag:1,context,implicit"`
-	CellSelectionInfoR13      SystemInformationBlockType1NBCellSelectionInfoR13     `asn1:"tag:2,context,implicit"`
-	PMaxR13                   *PMax                                                 `asn1:"tag:3,context,implicit,optional" json:"PMaxR13,omitempty"`
-	FreqBandIndicatorR13      FreqBandIndicatorNBR13                                `asn1:"tag:4,context,implicit"`
-	FreqBandInfoR13           *NSPmaxListNBR13                                      `asn1:"tag:5,context,implicit,optional" json:"FreqBandInfoR13,omitempty"`
-	MultiBandInfoListR13      *MultiBandInfoListNBR13                               `asn1:"tag:6,context,implicit,optional" json:"MultiBandInfoListR13,omitempty"`
-	DownlinkBitmapR13         *DLBitmapNBR13                                        `asn1:"tag:7,context,explicit,optional" json:"DownlinkBitmapR13,omitempty"`
-	EutraControlRegionSizeR13 *int64                                                `asn1:"tag:8,context,implicit,optional" json:"EutraControlRegionSizeR13,omitempty"`
-	NrsCRSPowerOffsetR13      *int64                                                `asn1:"tag:9,context,implicit,optional" json:"NrsCRSPowerOffsetR13,omitempty"`
-	SchedulingInfoListR13     SchedulingInfoListNBR13                               `asn1:"tag:10,context,implicit"`
-	SiWindowLengthR13         int64                                                 `asn1:"tag:11,context,implicit"`
-	SiRadioFrameOffsetR13     *int64                                                `asn1:"tag:12,context,implicit,optional" json:"SiRadioFrameOffsetR13,omitempty"`
-	SystemInfoValueTagListR13 *SystemInfoValueTagListNBR13                          `asn1:"tag:13,context,implicit,optional" json:"SystemInfoValueTagListR13,omitempty"`
-	LateNonCriticalExtension  []byte                                                `asn1:"tag:14,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
-	NonCriticalExtension      *SystemInformationBlockType1NBV1350                   `asn1:"tag:15,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	HyperSFNMSBR13                  runtime.BitString                                     `asn1:"tag:0,context,implicit"`
+	CellAccessRelatedInfoR13        SystemInformationBlockType1NBCellAccessRelatedInfoR13 `asn1:"tag:1,context,implicit"`
+	CellSelectionInfoR13            SystemInformationBlockType1NBCellSelectionInfoR13     `asn1:"tag:2,context,implicit"`
+	PMaxR13                         *PMax                                                 `asn1:"tag:3,context,implicit,optional" json:"PMaxR13,omitempty"`
+	FreqBandIndicatorR13            FreqBandIndicatorNBR13                                `asn1:"tag:4,context,implicit"`
+	FreqBandInfoR13                 NSPmaxListNBR13                                       `asn1:"tag:5,context,implicit,optional" json:"FreqBandInfoR13,omitempty"`
+	FreqBandInfoR13Indef_           bool                                                  `asn1:"-" json:"-"`
+	MultiBandInfoListR13            MultiBandInfoListNBR13                                `asn1:"tag:6,context,implicit,optional" json:"MultiBandInfoListR13,omitempty"`
+	MultiBandInfoListR13Indef_      bool                                                  `asn1:"-" json:"-"`
+	DownlinkBitmapR13               *DLBitmapNBR13                                        `asn1:"tag:7,context,explicit,optional" json:"DownlinkBitmapR13,omitempty"`
+	EutraControlRegionSizeR13       *int64                                                `asn1:"tag:8,context,implicit,optional" json:"EutraControlRegionSizeR13,omitempty"`
+	NrsCRSPowerOffsetR13            *int64                                                `asn1:"tag:9,context,implicit,optional" json:"NrsCRSPowerOffsetR13,omitempty"`
+	SchedulingInfoListR13           SchedulingInfoListNBR13                               `asn1:"tag:10,context,implicit"`
+	SchedulingInfoListR13Indef_     bool                                                  `asn1:"-" json:"-"`
+	SiWindowLengthR13               int64                                                 `asn1:"tag:11,context,implicit"`
+	SiRadioFrameOffsetR13           *int64                                                `asn1:"tag:12,context,implicit,optional" json:"SiRadioFrameOffsetR13,omitempty"`
+	SystemInfoValueTagListR13       SystemInfoValueTagListNBR13                           `asn1:"tag:13,context,implicit,optional" json:"SystemInfoValueTagListR13,omitempty"`
+	SystemInfoValueTagListR13Indef_ bool                                                  `asn1:"-" json:"-"`
+	LateNonCriticalExtension        []byte                                                `asn1:"tag:14,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	NonCriticalExtension            *SystemInformationBlockType1NBV1350                   `asn1:"tag:15,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // SystemInformationBlockType1NBV1350 represents the ASN.1 type SystemInformationBlockType1-NB-v1350 (SEQUENCE).
@@ -3097,9 +3138,10 @@ type SystemInformationBlockType1NBV1450 struct {
 
 // SystemInformationBlockType1NBV1530 represents the ASN.1 type SystemInformationBlockType1-NB-v1530 (SEQUENCE).
 type SystemInformationBlockType1NBV1530 struct {
-	TddParametersR15        *SystemInformationBlockType1NBV1530TddParametersR15 `asn1:"tag:0,context,implicit,optional" json:"TddParametersR15,omitempty"`
-	SchedulingInfoListV1530 *SchedulingInfoListNBV1530                          `asn1:"tag:1,context,implicit,optional" json:"SchedulingInfoListV1530,omitempty"`
-	NonCriticalExtension    *SystemInformationBlockType1NBV1610                 `asn1:"tag:2,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	TddParametersR15              *SystemInformationBlockType1NBV1530TddParametersR15 `asn1:"tag:0,context,implicit,optional" json:"TddParametersR15,omitempty"`
+	SchedulingInfoListV1530       SchedulingInfoListNBV1530                           `asn1:"tag:1,context,implicit,optional" json:"SchedulingInfoListV1530,omitempty"`
+	SchedulingInfoListV1530Indef_ bool                                                `asn1:"-" json:"-"`
+	NonCriticalExtension          *SystemInformationBlockType1NBV1610                 `asn1:"tag:2,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // SystemInformationBlockType1NBV1610 represents the ASN.1 type SystemInformationBlockType1-NB-v1610 (SEQUENCE).
@@ -3130,65 +3172,74 @@ type SystemInformationBlockType20NBR14 struct {
 
 // SystemInformationBlockType22NBR14 represents the ASN.1 type SystemInformationBlockType22-NB-r14 (SEQUENCE).
 type SystemInformationBlockType22NBR14 struct {
-	DlConfigListR14                *DLConfigCommonListNBR14                                      `asn1:"tag:0,context,implicit,optional" json:"DlConfigListR14,omitempty"`
-	UlConfigListR14                *ULConfigCommonListNBR14                                      `asn1:"tag:1,context,implicit,optional" json:"UlConfigListR14,omitempty"`
-	PagingWeightAnchorR14          *PagingWeightNBR14                                            `asn1:"tag:2,context,implicit,optional" json:"PagingWeightAnchorR14,omitempty"`
-	NprachProbabilityAnchorListR14 *NPRACHProbabilityAnchorListNBR14                             `asn1:"tag:3,context,implicit,optional" json:"NprachProbabilityAnchorListR14,omitempty"`
-	LateNonCriticalExtension       []byte                                                        `asn1:"tag:4,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
-	MixedOperationModeConfigR15    *SystemInformationBlockType22NBR14MixedOperationModeConfigR15 `asn1:"tag:5,context,implicit,optional" json:"MixedOperationModeConfigR15,omitempty"`
-	UlConfigListR15                *ULConfigCommonListTDDNBR15                                   `asn1:"tag:6,context,implicit,optional" json:"UlConfigListR15,omitempty"`
-	CoverageBasedPagingConfigR17   *CoverageBasedPagingConfigNBR17                               `asn1:"tag:7,context,implicit,optional" json:"CoverageBasedPagingConfigR17,omitempty"`
-	ExtCount_                      int64                                                         `asn1:"-" json:"-"`
-	ExtPresent_                    []bool                                                        `asn1:"-" json:"-"`
-	ExtData_                       [][]byte                                                      `asn1:"-" json:"-"`
+	DlConfigListR14                      DLConfigCommonListNBR14                                       `asn1:"tag:0,context,implicit,optional" json:"DlConfigListR14,omitempty"`
+	DlConfigListR14Indef_                bool                                                          `asn1:"-" json:"-"`
+	UlConfigListR14                      ULConfigCommonListNBR14                                       `asn1:"tag:1,context,implicit,optional" json:"UlConfigListR14,omitempty"`
+	UlConfigListR14Indef_                bool                                                          `asn1:"-" json:"-"`
+	PagingWeightAnchorR14                *PagingWeightNBR14                                            `asn1:"tag:2,context,implicit,optional" json:"PagingWeightAnchorR14,omitempty"`
+	NprachProbabilityAnchorListR14       NPRACHProbabilityAnchorListNBR14                              `asn1:"tag:3,context,implicit,optional" json:"NprachProbabilityAnchorListR14,omitempty"`
+	NprachProbabilityAnchorListR14Indef_ bool                                                          `asn1:"-" json:"-"`
+	LateNonCriticalExtension             []byte                                                        `asn1:"tag:4,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	MixedOperationModeConfigR15          *SystemInformationBlockType22NBR14MixedOperationModeConfigR15 `asn1:"tag:5,context,implicit,optional" json:"MixedOperationModeConfigR15,omitempty"`
+	UlConfigListR15                      ULConfigCommonListTDDNBR15                                    `asn1:"tag:6,context,implicit,optional" json:"UlConfigListR15,omitempty"`
+	UlConfigListR15Indef_                bool                                                          `asn1:"-" json:"-"`
+	CoverageBasedPagingConfigR17         *CoverageBasedPagingConfigNBR17                               `asn1:"tag:7,context,implicit,optional" json:"CoverageBasedPagingConfigR17,omitempty"`
+	ExtCount_                            int64                                                         `asn1:"-" json:"-"`
+	ExtPresent_                          []bool                                                        `asn1:"-" json:"-"`
+	ExtData_                             [][]byte                                                      `asn1:"-" json:"-"`
 }
 
 // SystemInformationBlockType23NBR15 represents the ASN.1 type SystemInformationBlockType23-NB-r15 (SEQUENCE).
 type SystemInformationBlockType23NBR15 struct {
-	UlConfigListV1530        *ULConfigCommonListNBV1530 `asn1:"tag:0,context,implicit,optional" json:"UlConfigListV1530,omitempty"`
-	UlConfigListMixedV1530   *ULConfigCommonListNBV1530 `asn1:"tag:1,context,implicit,optional" json:"UlConfigListMixedV1530,omitempty"`
-	LateNonCriticalExtension []byte                     `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
-	ExtCount_                int64                      `asn1:"-" json:"-"`
-	ExtPresent_              []bool                     `asn1:"-" json:"-"`
-	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
+	UlConfigListV1530            ULConfigCommonListNBV1530 `asn1:"tag:0,context,implicit,optional" json:"UlConfigListV1530,omitempty"`
+	UlConfigListV1530Indef_      bool                      `asn1:"-" json:"-"`
+	UlConfigListMixedV1530       ULConfigCommonListNBV1530 `asn1:"tag:1,context,implicit,optional" json:"UlConfigListMixedV1530,omitempty"`
+	UlConfigListMixedV1530Indef_ bool                      `asn1:"-" json:"-"`
+	LateNonCriticalExtension     []byte                    `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	ExtCount_                    int64                     `asn1:"-" json:"-"`
+	ExtPresent_                  []bool                    `asn1:"-" json:"-"`
+	ExtData_                     [][]byte                  `asn1:"-" json:"-"`
 }
 
 // SystemInformationBlockType27NBR16 represents the ASN.1 type SystemInformationBlockType27-NB-r16 (SEQUENCE).
 type SystemInformationBlockType27NBR16 struct {
-	CarrierFreqListEUTRAR16  *CarrierFreqListEUTRANBR16  `asn1:"tag:0,context,implicit,optional" json:"CarrierFreqListEUTRAR16,omitempty"`
-	CarrierFreqsListGERANR16 *CarrierFreqsListGERANNBR16 `asn1:"tag:1,context,implicit,optional" json:"CarrierFreqsListGERANR16,omitempty"`
-	LateNonCriticalExtension []byte                      `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
-	ExtCount_                int64                       `asn1:"-" json:"-"`
-	ExtPresent_              []bool                      `asn1:"-" json:"-"`
-	ExtData_                 [][]byte                    `asn1:"-" json:"-"`
+	CarrierFreqListEUTRAR16        CarrierFreqListEUTRANBR16  `asn1:"tag:0,context,implicit,optional" json:"CarrierFreqListEUTRAR16,omitempty"`
+	CarrierFreqListEUTRAR16Indef_  bool                       `asn1:"-" json:"-"`
+	CarrierFreqsListGERANR16       CarrierFreqsListGERANNBR16 `asn1:"tag:1,context,implicit,optional" json:"CarrierFreqsListGERANR16,omitempty"`
+	CarrierFreqsListGERANR16Indef_ bool                       `asn1:"-" json:"-"`
+	LateNonCriticalExtension       []byte                     `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	ExtCount_                      int64                      `asn1:"-" json:"-"`
+	ExtPresent_                    []bool                     `asn1:"-" json:"-"`
+	ExtData_                       [][]byte                   `asn1:"-" json:"-"`
 }
 
 // SystemInformationBlockType2NBR13 represents the ASN.1 type SystemInformationBlockType2-NB-r13 (SEQUENCE).
 type SystemInformationBlockType2NBR13 struct {
-	RadioResourceConfigCommonR13 RadioResourceConfigCommonSIBNBR13                     `asn1:"tag:0,context,implicit"`
-	UeTimersAndConstantsR13      UETimersAndConstantsNBR13                             `asn1:"tag:1,context,implicit"`
-	FreqInfoR13                  SystemInformationBlockType2NBR13FreqInfoR13           `asn1:"tag:2,context,implicit"`
-	TimeAlignmentTimerCommonR13  TimeAlignmentTimer                                    `asn1:"tag:3,context,implicit"`
-	MultiBandInfoListR13         *SystemInformationBlockType2NBR13MultiBandInfoListR13 `asn1:"tag:4,context,implicit,optional" json:"MultiBandInfoListR13,omitempty"`
-	LateNonCriticalExtension     []byte                                                `asn1:"tag:5,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
-	CpReestablishmentR14         *int64                                                `asn1:"tag:6,context,implicit,optional" json:"CpReestablishmentR14,omitempty"`
-	ServingCellMeasInfoR14       *int64                                                `asn1:"tag:7,context,implicit,optional" json:"ServingCellMeasInfoR14,omitempty"`
-	CqiReportingR14              *int64                                                `asn1:"tag:8,context,implicit,optional" json:"CqiReportingR14,omitempty"`
-	EnhancedPHRR15               *int64                                                `asn1:"tag:9,context,implicit,optional" json:"EnhancedPHRR15,omitempty"`
-	FreqInfoV1530                *SystemInformationBlockType2NBR13FreqInfoV1530        `asn1:"tag:10,context,implicit,optional" json:"FreqInfoV1530,omitempty"`
-	CpEDTR15                     *int64                                                `asn1:"tag:11,context,implicit,optional" json:"CpEDTR15,omitempty"`
-	UpEDTR15                     *int64                                                `asn1:"tag:12,context,implicit,optional" json:"UpEDTR15,omitempty"`
-	EarlySecurityReactivationR16 *int64                                                `asn1:"tag:13,context,implicit,optional" json:"EarlySecurityReactivationR16,omitempty"`
-	CpEDT5GCR16                  *int64                                                `asn1:"tag:14,context,implicit,optional" json:"CpEDT5GCR16,omitempty"`
-	UpEDT5GCR16                  *int64                                                `asn1:"tag:15,context,implicit,optional" json:"UpEDT5GCR16,omitempty"`
-	CpPUREPCR16                  *int64                                                `asn1:"tag:16,context,implicit,optional" json:"CpPUREPCR16,omitempty"`
-	UpPUREPCR16                  *int64                                                `asn1:"tag:17,context,implicit,optional" json:"UpPUREPCR16,omitempty"`
-	CpPUR5GCR16                  *int64                                                `asn1:"tag:18,context,implicit,optional" json:"CpPUR5GCR16,omitempty"`
-	UpPUR5GCR16                  *int64                                                `asn1:"tag:19,context,implicit,optional" json:"UpPUR5GCR16,omitempty"`
-	RaiActivationEnhR16          *int64                                                `asn1:"tag:20,context,implicit,optional" json:"RaiActivationEnhR16,omitempty"`
-	ExtCount_                    int64                                                 `asn1:"-" json:"-"`
-	ExtPresent_                  []bool                                                `asn1:"-" json:"-"`
-	ExtData_                     [][]byte                                              `asn1:"-" json:"-"`
+	RadioResourceConfigCommonR13 RadioResourceConfigCommonSIBNBR13                    `asn1:"tag:0,context,implicit"`
+	UeTimersAndConstantsR13      UETimersAndConstantsNBR13                            `asn1:"tag:1,context,implicit"`
+	FreqInfoR13                  SystemInformationBlockType2NBR13FreqInfoR13          `asn1:"tag:2,context,implicit"`
+	TimeAlignmentTimerCommonR13  TimeAlignmentTimer                                   `asn1:"tag:3,context,implicit"`
+	MultiBandInfoListR13         SystemInformationBlockType2NBR13MultiBandInfoListR13 `asn1:"tag:4,context,implicit,optional" json:"MultiBandInfoListR13,omitempty"`
+	MultiBandInfoListR13Indef_   bool                                                 `asn1:"-" json:"-"`
+	LateNonCriticalExtension     []byte                                               `asn1:"tag:5,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	CpReestablishmentR14         *int64                                               `asn1:"tag:6,context,implicit,optional" json:"CpReestablishmentR14,omitempty"`
+	ServingCellMeasInfoR14       *int64                                               `asn1:"tag:7,context,implicit,optional" json:"ServingCellMeasInfoR14,omitempty"`
+	CqiReportingR14              *int64                                               `asn1:"tag:8,context,implicit,optional" json:"CqiReportingR14,omitempty"`
+	EnhancedPHRR15               *int64                                               `asn1:"tag:9,context,implicit,optional" json:"EnhancedPHRR15,omitempty"`
+	FreqInfoV1530                *SystemInformationBlockType2NBR13FreqInfoV1530       `asn1:"tag:10,context,implicit,optional" json:"FreqInfoV1530,omitempty"`
+	CpEDTR15                     *int64                                               `asn1:"tag:11,context,implicit,optional" json:"CpEDTR15,omitempty"`
+	UpEDTR15                     *int64                                               `asn1:"tag:12,context,implicit,optional" json:"UpEDTR15,omitempty"`
+	EarlySecurityReactivationR16 *int64                                               `asn1:"tag:13,context,implicit,optional" json:"EarlySecurityReactivationR16,omitempty"`
+	CpEDT5GCR16                  *int64                                               `asn1:"tag:14,context,implicit,optional" json:"CpEDT5GCR16,omitempty"`
+	UpEDT5GCR16                  *int64                                               `asn1:"tag:15,context,implicit,optional" json:"UpEDT5GCR16,omitempty"`
+	CpPUREPCR16                  *int64                                               `asn1:"tag:16,context,implicit,optional" json:"CpPUREPCR16,omitempty"`
+	UpPUREPCR16                  *int64                                               `asn1:"tag:17,context,implicit,optional" json:"UpPUREPCR16,omitempty"`
+	CpPUR5GCR16                  *int64                                               `asn1:"tag:18,context,implicit,optional" json:"CpPUR5GCR16,omitempty"`
+	UpPUR5GCR16                  *int64                                               `asn1:"tag:19,context,implicit,optional" json:"UpPUR5GCR16,omitempty"`
+	RaiActivationEnhR16          *int64                                               `asn1:"tag:20,context,implicit,optional" json:"RaiActivationEnhR16,omitempty"`
+	ExtCount_                    int64                                                `asn1:"-" json:"-"`
+	ExtPresent_                  []bool                                               `asn1:"-" json:"-"`
+	ExtData_                     [][]byte                                             `asn1:"-" json:"-"`
 }
 
 // SystemInformationBlockType31NBR17 represents the ASN.1 type SystemInformationBlockType31-NB-r17 (SEQUENCE).
@@ -3202,11 +3253,12 @@ type SystemInformationBlockType31NBR17 struct {
 
 // SystemInformationBlockType32NBR17 represents the ASN.1 type SystemInformationBlockType32-NB-r17 (SEQUENCE).
 type SystemInformationBlockType32NBR17 struct {
-	SatelliteInfoListR17     *SatelliteInfoListR17 `asn1:"tag:0,context,implicit,optional" json:"SatelliteInfoListR17,omitempty"`
-	LateNonCriticalExtension []byte                `asn1:"tag:1,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
-	ExtCount_                int64                 `asn1:"-" json:"-"`
-	ExtPresent_              []bool                `asn1:"-" json:"-"`
-	ExtData_                 [][]byte              `asn1:"-" json:"-"`
+	SatelliteInfoListR17       SatelliteInfoListR17 `asn1:"tag:0,context,implicit,optional" json:"SatelliteInfoListR17,omitempty"`
+	SatelliteInfoListR17Indef_ bool                 `asn1:"-" json:"-"`
+	LateNonCriticalExtension   []byte               `asn1:"tag:1,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	ExtCount_                  int64                `asn1:"-" json:"-"`
+	ExtPresent_                []bool               `asn1:"-" json:"-"`
+	ExtData_                   [][]byte             `asn1:"-" json:"-"`
 }
 
 // SystemInformationBlockType3NBR13 represents the ASN.1 type SystemInformationBlockType3-NB-r13 (SEQUENCE).
@@ -3214,8 +3266,10 @@ type SystemInformationBlockType3NBR13 struct {
 	CellReselectionInfoCommonR13      SystemInformationBlockType3NBR13CellReselectionInfoCommonR13      `asn1:"tag:0,context,implicit"`
 	CellReselectionServingFreqInfoR13 SystemInformationBlockType3NBR13CellReselectionServingFreqInfoR13 `asn1:"tag:1,context,implicit"`
 	IntraFreqCellReselectionInfoR13   SystemInformationBlockType3NBR13IntraFreqCellReselectionInfoR13   `asn1:"tag:2,context,implicit"`
-	FreqBandInfoR13                   *NSPmaxListNBR13                                                  `asn1:"tag:3,context,implicit,optional" json:"FreqBandInfoR13,omitempty"`
-	MultiBandInfoListR13              *SystemInformationBlockType3NBR13MultiBandInfoListR13             `asn1:"tag:4,context,implicit,optional" json:"MultiBandInfoListR13,omitempty"`
+	FreqBandInfoR13                   NSPmaxListNBR13                                                   `asn1:"tag:3,context,implicit,optional" json:"FreqBandInfoR13,omitempty"`
+	FreqBandInfoR13Indef_             bool                                                              `asn1:"-" json:"-"`
+	MultiBandInfoListR13              SystemInformationBlockType3NBR13MultiBandInfoListR13              `asn1:"tag:4,context,implicit,optional" json:"MultiBandInfoListR13,omitempty"`
+	MultiBandInfoListR13Indef_        bool                                                              `asn1:"-" json:"-"`
 	LateNonCriticalExtension          []byte                                                            `asn1:"tag:5,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
 	IntraFreqCellReselectionInfoV1350 *IntraFreqCellReselectionInfoNBV1350                              `asn1:"tag:6,context,implicit,optional" json:"IntraFreqCellReselectionInfoV1350,omitempty"`
 	IntraFreqCellReselectionInfoV1360 *IntraFreqCellReselectionInfoNBV1360                              `asn1:"tag:7,context,implicit,optional" json:"IntraFreqCellReselectionInfoV1360,omitempty"`
@@ -3232,25 +3286,29 @@ type SystemInformationBlockType3NBR13 struct {
 
 // SystemInformationBlockType4NBR13 represents the ASN.1 type SystemInformationBlockType4-NB-r13 (SEQUENCE).
 type SystemInformationBlockType4NBR13 struct {
-	IntraFreqNeighCellListR13    *IntraFreqNeighCellList        `asn1:"tag:0,context,implicit,optional" json:"IntraFreqNeighCellListR13,omitempty"`
-	IntraFreqExcludedCellListR13 *IntraFreqExcludedCellList     `asn1:"tag:1,context,implicit,optional" json:"IntraFreqExcludedCellListR13,omitempty"`
-	LateNonCriticalExtension     []byte                         `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
-	NsssRRMConfigR15             *NSSSRRMConfigNBR15            `asn1:"tag:3,context,implicit,optional" json:"NsssRRMConfigR15,omitempty"`
-	IntraFreqNeighCellListV1530  *IntraFreqNeighCellListNBV1530 `asn1:"tag:4,context,implicit,optional" json:"IntraFreqNeighCellListV1530,omitempty"`
-	ExtCount_                    int64                          `asn1:"-" json:"-"`
-	ExtPresent_                  []bool                         `asn1:"-" json:"-"`
-	ExtData_                     [][]byte                       `asn1:"-" json:"-"`
+	IntraFreqNeighCellListR13          IntraFreqNeighCellList        `asn1:"tag:0,context,implicit,optional" json:"IntraFreqNeighCellListR13,omitempty"`
+	IntraFreqNeighCellListR13Indef_    bool                          `asn1:"-" json:"-"`
+	IntraFreqExcludedCellListR13       IntraFreqExcludedCellList     `asn1:"tag:1,context,implicit,optional" json:"IntraFreqExcludedCellListR13,omitempty"`
+	IntraFreqExcludedCellListR13Indef_ bool                          `asn1:"-" json:"-"`
+	LateNonCriticalExtension           []byte                        `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	NsssRRMConfigR15                   *NSSSRRMConfigNBR15           `asn1:"tag:3,context,implicit,optional" json:"NsssRRMConfigR15,omitempty"`
+	IntraFreqNeighCellListV1530        IntraFreqNeighCellListNBV1530 `asn1:"tag:4,context,implicit,optional" json:"IntraFreqNeighCellListV1530,omitempty"`
+	IntraFreqNeighCellListV1530Indef_  bool                          `asn1:"-" json:"-"`
+	ExtCount_                          int64                         `asn1:"-" json:"-"`
+	ExtPresent_                        []bool                        `asn1:"-" json:"-"`
+	ExtData_                           [][]byte                      `asn1:"-" json:"-"`
 }
 
 // SystemInformationBlockType5NBR13 represents the ASN.1 type SystemInformationBlockType5-NB-r13 (SEQUENCE).
 type SystemInformationBlockType5NBR13 struct {
-	InterFreqCarrierFreqListR13 InterFreqCarrierFreqListNBR13 `asn1:"tag:0,context,implicit"`
-	TReselectionR13             TReselectionNBR13             `asn1:"tag:1,context,implicit"`
-	LateNonCriticalExtension    []byte                        `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
-	ScptmFreqOffsetR14          *int64                        `asn1:"tag:3,context,implicit,optional" json:"ScptmFreqOffsetR14,omitempty"`
-	ExtCount_                   int64                         `asn1:"-" json:"-"`
-	ExtPresent_                 []bool                        `asn1:"-" json:"-"`
-	ExtData_                    [][]byte                      `asn1:"-" json:"-"`
+	InterFreqCarrierFreqListR13       InterFreqCarrierFreqListNBR13 `asn1:"tag:0,context,implicit"`
+	InterFreqCarrierFreqListR13Indef_ bool                          `asn1:"-" json:"-"`
+	TReselectionR13                   TReselectionNBR13             `asn1:"tag:1,context,implicit"`
+	LateNonCriticalExtension          []byte                        `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	ScptmFreqOffsetR14                *int64                        `asn1:"tag:3,context,implicit,optional" json:"ScptmFreqOffsetR14,omitempty"`
+	ExtCount_                         int64                         `asn1:"-" json:"-"`
+	ExtPresent_                       []bool                        `asn1:"-" json:"-"`
+	ExtData_                          [][]byte                      `asn1:"-" json:"-"`
 }
 
 // SystemInformationNB represents the ASN.1 type SystemInformation-NB (SEQUENCE).
@@ -3261,6 +3319,7 @@ type SystemInformationNB struct {
 // SystemInformationNBR13IEs represents the ASN.1 type SystemInformation-NB-r13-IEs (SEQUENCE).
 type SystemInformationNBR13IEs struct {
 	SibTypeAndInfoR13        []runtime.RawValue `asn1:"tag:0,context,implicit"`
+	SibTypeAndInfoR13Indef_  bool               `asn1:"-" json:"-"`
 	LateNonCriticalExtension []byte             `asn1:"tag:1,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
 	NonCriticalExtension     *runtime.RawValue  `asn1:"tag:2,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
@@ -3430,7 +3489,8 @@ type UACBarringPerCatNBR16 struct {
 
 // UACBarringNBR16 represents the ASN.1 type UAC-Barring-NB-r16 (SEQUENCE).
 type UACBarringNBR16 struct {
-	UacBarringPerCatListR16        *UACBarringPerCatListNBR16 `asn1:"tag:0,context,implicit,optional" json:"UacBarringPerCatListR16,omitempty"`
+	UacBarringPerCatListR16        UACBarringPerCatListNBR16  `asn1:"tag:0,context,implicit,optional" json:"UacBarringPerCatListR16,omitempty"`
+	UacBarringPerCatListR16Indef_  bool                       `asn1:"-" json:"-"`
 	UacAC1SelectAssistInfoR16      *UACAC1SelectAssistInfoR15 `asn1:"tag:1,context,implicit,optional" json:"UacAC1SelectAssistInfoR16,omitempty"`
 	UacBarringForAccessIdentityR16 runtime.BitString          `asn1:"tag:2,context,implicit"`
 }
@@ -3444,8 +3504,8 @@ const (
 // UACParamNBR16 represents the ASN.1 CHOICE type UAC-Param-NB-r16.
 type UACParamNBR16 struct {
 	Choice                int
-	UacBarringCommon      *UACBarringNBR16                    `json:"UacBarringCommon,omitempty"`
-	UacBarringPerPLMNList *UACParamNBR16UacBarringPerPLMNList `json:"UacBarringPerPLMNList,omitempty"`
+	UacBarringCommon      *UACBarringNBR16                   `json:"UacBarringCommon,omitempty"`
+	UacBarringPerPLMNList UACParamNBR16UacBarringPerPLMNList `json:"UacBarringPerPLMNList,omitempty"`
 }
 
 // NewUACParamNBR16UacBarringCommon creates a UAC-Param-NB-r16 with the uac-BarringCommon alternative.
@@ -3460,7 +3520,7 @@ func NewUACParamNBR16UacBarringCommon(v UACBarringNBR16) UACParamNBR16 {
 func NewUACParamNBR16UacBarringPerPLMNList(v UACParamNBR16UacBarringPerPLMNList) UACParamNBR16 {
 	return UACParamNBR16{
 		Choice:                UACParamNBR16ChoiceUacBarringPerPLMNList,
-		UacBarringPerPLMNList: &v,
+		UacBarringPerPLMNList: v,
 	}
 }
 
@@ -3721,31 +3781,37 @@ type ULConfigCommonListNBV1530 = []ULConfigCommonNBV1530
 
 // ULConfigCommonTDDNBR15 represents the ASN.1 type UL-ConfigCommonTDD-NB-r15 (SEQUENCE).
 type ULConfigCommonTDDNBR15 struct {
-	TddULDLAlignmentOffsetR15  TDDULDLAlignmentOffsetNBR15   `asn1:"tag:0,context,implicit"`
-	NprachParametersListTDDR15 *NPRACHParametersListTDDNBR15 `asn1:"tag:1,context,implicit,optional" json:"NprachParametersListTDDR15,omitempty"`
-	ExtCount_                  int64                         `asn1:"-" json:"-"`
-	ExtPresent_                []bool                        `asn1:"-" json:"-"`
-	ExtData_                   [][]byte                      `asn1:"-" json:"-"`
+	TddULDLAlignmentOffsetR15        TDDULDLAlignmentOffsetNBR15  `asn1:"tag:0,context,implicit"`
+	NprachParametersListTDDR15       NPRACHParametersListTDDNBR15 `asn1:"tag:1,context,implicit,optional" json:"NprachParametersListTDDR15,omitempty"`
+	NprachParametersListTDDR15Indef_ bool                         `asn1:"-" json:"-"`
+	ExtCount_                        int64                        `asn1:"-" json:"-"`
+	ExtPresent_                      []bool                       `asn1:"-" json:"-"`
+	ExtData_                         [][]byte                     `asn1:"-" json:"-"`
 }
 
 // ULConfigCommonNBR14 represents the ASN.1 type UL-ConfigCommon-NB-r14 (SEQUENCE).
 type ULConfigCommonNBR14 struct {
-	UlCarrierFreqR14               CarrierFreqNBR13                   `asn1:"tag:0,context,implicit"`
-	NprachParametersListR14        *NPRACHParametersListNBR14         `asn1:"tag:1,context,implicit,optional" json:"NprachParametersListR14,omitempty"`
-	NprachParametersListEDTR15     *NPRACHParametersListNBR14         `asn1:"tag:2,context,implicit,optional" json:"NprachParametersListEDTR15,omitempty"`
-	RsrpThresholdsPrachInfoListR16 *RSRPThresholdsNPRACHInfoListNBR13 `asn1:"tag:3,context,implicit,optional" json:"RsrpThresholdsPrachInfoListR16,omitempty"`
-	ExtCount_                      int64                              `asn1:"-" json:"-"`
-	ExtPresent_                    []bool                             `asn1:"-" json:"-"`
-	ExtData_                       [][]byte                           `asn1:"-" json:"-"`
+	UlCarrierFreqR14                     CarrierFreqNBR13                  `asn1:"tag:0,context,implicit"`
+	NprachParametersListR14              NPRACHParametersListNBR14         `asn1:"tag:1,context,implicit,optional" json:"NprachParametersListR14,omitempty"`
+	NprachParametersListR14Indef_        bool                              `asn1:"-" json:"-"`
+	NprachParametersListEDTR15           NPRACHParametersListNBR14         `asn1:"tag:2,context,implicit,optional" json:"NprachParametersListEDTR15,omitempty"`
+	NprachParametersListEDTR15Indef_     bool                              `asn1:"-" json:"-"`
+	RsrpThresholdsPrachInfoListR16       RSRPThresholdsNPRACHInfoListNBR13 `asn1:"tag:3,context,implicit,optional" json:"RsrpThresholdsPrachInfoListR16,omitempty"`
+	RsrpThresholdsPrachInfoListR16Indef_ bool                              `asn1:"-" json:"-"`
+	ExtCount_                            int64                             `asn1:"-" json:"-"`
+	ExtPresent_                          []bool                            `asn1:"-" json:"-"`
+	ExtData_                             [][]byte                          `asn1:"-" json:"-"`
 }
 
 // ULConfigCommonNBV1530 represents the ASN.1 type UL-ConfigCommon-NB-v1530 (SEQUENCE).
 type ULConfigCommonNBV1530 struct {
-	NprachParametersListFmt2R15    *NPRACHParametersListFmt2NBR15 `asn1:"tag:0,context,implicit,optional" json:"NprachParametersListFmt2R15,omitempty"`
-	NprachParametersListFmt2EDTR15 *NPRACHParametersListFmt2NBR15 `asn1:"tag:1,context,implicit,optional" json:"NprachParametersListFmt2EDTR15,omitempty"`
-	ExtCount_                      int64                          `asn1:"-" json:"-"`
-	ExtPresent_                    []bool                         `asn1:"-" json:"-"`
-	ExtData_                       [][]byte                       `asn1:"-" json:"-"`
+	NprachParametersListFmt2R15          NPRACHParametersListFmt2NBR15 `asn1:"tag:0,context,implicit,optional" json:"NprachParametersListFmt2R15,omitempty"`
+	NprachParametersListFmt2R15Indef_    bool                          `asn1:"-" json:"-"`
+	NprachParametersListFmt2EDTR15       NPRACHParametersListFmt2NBR15 `asn1:"tag:1,context,implicit,optional" json:"NprachParametersListFmt2EDTR15,omitempty"`
+	NprachParametersListFmt2EDTR15Indef_ bool                          `asn1:"-" json:"-"`
+	ExtCount_                            int64                         `asn1:"-" json:"-"`
+	ExtPresent_                          []bool                        `asn1:"-" json:"-"`
+	ExtData_                             [][]byte                      `asn1:"-" json:"-"`
 }
 
 // ULDCCHMessageTypeNB choice constants.
@@ -3862,9 +3928,10 @@ type ANRMeasReportNBR16MeasResultListR16 = []ANRMeasResultNBR16
 
 // ANRMeasResultNBR16CgiInfoR16 represents the ASN.1 type ANR-MeasResult-NB-r16-cgi-Info-r16 (SEQUENCE).
 type ANRMeasResultNBR16CgiInfoR16 struct {
-	CellGlobalIdR16     CellGlobalIdEUTRA  `asn1:"tag:0,context,implicit"`
-	TrackingAreaCodeR16 TrackingAreaCode   `asn1:"tag:1,context,implicit"`
-	PlmnIdentityListR16 *PLMNIdentityList2 `asn1:"tag:2,context,implicit,optional" json:"PlmnIdentityListR16,omitempty"`
+	CellGlobalIdR16           CellGlobalIdEUTRA `asn1:"tag:0,context,implicit"`
+	TrackingAreaCodeR16       TrackingAreaCode  `asn1:"tag:1,context,implicit"`
+	PlmnIdentityListR16       PLMNIdentityList2 `asn1:"tag:2,context,implicit,optional" json:"PlmnIdentityListR16,omitempty"`
+	PlmnIdentityListR16Indef_ bool              `asn1:"-" json:"-"`
 }
 
 // BCCHBCHMessageTypeNBOperationModeInfoR13 choice constants.
@@ -4796,27 +4863,33 @@ func NewMasterInformationBlockTDDNBR15OperationModeInfoR15StandaloneR15(v Standa
 
 // NPRACHConfigSIBNBV1530TddParametersR15 represents the ASN.1 type NPRACH-ConfigSIB-NB-v1530-tdd-Parameters-r15 (SEQUENCE).
 type NPRACHConfigSIBNBV1530TddParametersR15 struct {
-	NprachPreambleFormatR15    int64                        `asn1:"tag:0,context,implicit"`
-	Dummy                      int64                        `asn1:"tag:1,context,implicit"`
-	NprachParametersListTDDR15 NPRACHParametersListTDDNBR15 `asn1:"tag:2,context,implicit"`
+	NprachPreambleFormatR15          int64                        `asn1:"tag:0,context,implicit"`
+	Dummy                            int64                        `asn1:"tag:1,context,implicit"`
+	NprachParametersListTDDR15       NPRACHParametersListTDDNBR15 `asn1:"tag:2,context,implicit"`
+	NprachParametersListTDDR15Indef_ bool                         `asn1:"-" json:"-"`
 }
 
 // NPRACHConfigSIBNBV1530Fmt2ParametersR15 represents the ASN.1 type NPRACH-ConfigSIB-NB-v1530-fmt2-Parameters-r15 (SEQUENCE).
 type NPRACHConfigSIBNBV1530Fmt2ParametersR15 struct {
-	NprachParametersListFmt2R15    *NPRACHParametersListFmt2NBR15 `asn1:"tag:0,context,implicit,optional" json:"NprachParametersListFmt2R15,omitempty"`
-	NprachParametersListFmt2EDTR15 *NPRACHParametersListFmt2NBR15 `asn1:"tag:1,context,implicit,optional" json:"NprachParametersListFmt2EDTR15,omitempty"`
+	NprachParametersListFmt2R15          NPRACHParametersListFmt2NBR15 `asn1:"tag:0,context,implicit,optional" json:"NprachParametersListFmt2R15,omitempty"`
+	NprachParametersListFmt2R15Indef_    bool                          `asn1:"-" json:"-"`
+	NprachParametersListFmt2EDTR15       NPRACHParametersListFmt2NBR15 `asn1:"tag:1,context,implicit,optional" json:"NprachParametersListFmt2EDTR15,omitempty"`
+	NprachParametersListFmt2EDTR15Indef_ bool                          `asn1:"-" json:"-"`
 }
 
 // NPRACHConfigSIBNBV1530EdtParametersR15 represents the ASN.1 type NPRACH-ConfigSIB-NB-v1530-edt-Parameters-r15 (SEQUENCE).
 type NPRACHConfigSIBNBV1530EdtParametersR15 struct {
-	EdtSmallTBSSubsetR15       *int64                     `asn1:"tag:0,context,implicit,optional" json:"EdtSmallTBSSubsetR15,omitempty"`
-	EdtTBSInfoListR15          EDTTBSInfoListNBR15        `asn1:"tag:1,context,implicit"`
-	NprachParametersListEDTR15 *NPRACHParametersListNBR14 `asn1:"tag:2,context,implicit,optional" json:"NprachParametersListEDTR15,omitempty"`
+	EdtSmallTBSSubsetR15             *int64                    `asn1:"tag:0,context,implicit,optional" json:"EdtSmallTBSSubsetR15,omitempty"`
+	EdtTBSInfoListR15                EDTTBSInfoListNBR15       `asn1:"tag:1,context,implicit"`
+	EdtTBSInfoListR15Indef_          bool                      `asn1:"-" json:"-"`
+	NprachParametersListEDTR15       NPRACHParametersListNBR14 `asn1:"tag:2,context,implicit,optional" json:"NprachParametersListEDTR15,omitempty"`
+	NprachParametersListEDTR15Indef_ bool                      `asn1:"-" json:"-"`
 }
 
 // NPRACHConfigSIBNBV1550TddParametersV1550 represents the ASN.1 type NPRACH-ConfigSIB-NB-v1550-tdd-Parameters-v1550 (SEQUENCE).
 type NPRACHConfigSIBNBV1550TddParametersV1550 struct {
-	NprachParametersListTDDV1550 NPRACHParametersListTDDNBV1550 `asn1:"tag:0,context,implicit"`
+	NprachParametersListTDDV1550       NPRACHParametersListTDDNBV1550 `asn1:"tag:0,context,implicit"`
+	NprachParametersListTDDV1550Indef_ bool                           `asn1:"-" json:"-"`
 }
 
 // NPRACHParametersFmt2NBR15NprachParametersR15 represents the ASN.1 type NPRACH-ParametersFmt2-NB-r15-nprach-Parameters-r15 (SEQUENCE).
@@ -6574,8 +6647,8 @@ const (
 // SystemInformationBlockType14NBR13AbParamR13 represents the ASN.1 CHOICE type SystemInformationBlockType14-NB-r13-ab-Param-r13.
 type SystemInformationBlockType14NBR13AbParamR13 struct {
 	Choice           int
-	AbCommonR13      *ABConfigNBR13                                               `json:"AbCommonR13,omitempty"`
-	AbPerPLMNListR13 *SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13 `json:"AbPerPLMNListR13,omitempty"`
+	AbCommonR13      *ABConfigNBR13                                              `json:"AbCommonR13,omitempty"`
+	AbPerPLMNListR13 SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13 `json:"AbPerPLMNListR13,omitempty"`
 }
 
 // NewSystemInformationBlockType14NBR13AbParamR13AbCommonR13 creates a SystemInformationBlockType14-NB-r13-ab-Param-r13 with the ab-Common-r13 alternative.
@@ -6590,7 +6663,7 @@ func NewSystemInformationBlockType14NBR13AbParamR13AbCommonR13(v ABConfigNBR13) 
 func NewSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13(v SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13) SystemInformationBlockType14NBR13AbParamR13 {
 	return SystemInformationBlockType14NBR13AbParamR13{
 		Choice:           SystemInformationBlockType14NBR13AbParamR13ChoiceAbPerPLMNListR13,
-		AbPerPLMNListR13: &v,
+		AbPerPLMNListR13: v,
 	}
 }
 
@@ -6607,11 +6680,12 @@ type SystemInformationBlockType16NBR13TimeInfoR11 struct {
 
 // SystemInformationBlockType1NBCellAccessRelatedInfoR13 represents the ASN.1 type SystemInformationBlockType1-NB-cellAccessRelatedInfo-r13 (SEQUENCE).
 type SystemInformationBlockType1NBCellAccessRelatedInfoR13 struct {
-	PlmnIdentityListR13     PLMNIdentityListNBR13 `asn1:"tag:0,context,implicit"`
-	TrackingAreaCodeR13     TrackingAreaCode      `asn1:"tag:1,context,implicit"`
-	CellIdentityR13         CellIdentity          `asn1:"tag:2,context,implicit"`
-	CellBarredR13           int64                 `asn1:"tag:3,context,implicit"`
-	IntraFreqReselectionR13 int64                 `asn1:"tag:4,context,implicit"`
+	PlmnIdentityListR13       PLMNIdentityListNBR13 `asn1:"tag:0,context,implicit"`
+	PlmnIdentityListR13Indef_ bool                  `asn1:"-" json:"-"`
+	TrackingAreaCodeR13       TrackingAreaCode      `asn1:"tag:1,context,implicit"`
+	CellIdentityR13           CellIdentity          `asn1:"tag:2,context,implicit"`
+	CellBarredR13             int64                 `asn1:"tag:3,context,implicit"`
+	IntraFreqReselectionR13   int64                 `asn1:"tag:4,context,implicit"`
 }
 
 // SystemInformationBlockType1NBCellSelectionInfoR13 represents the ASN.1 type SystemInformationBlockType1-NB-cellSelectionInfo-r13 (SEQUENCE).
@@ -6629,16 +6703,18 @@ type SystemInformationBlockType1NBV1530TddParametersR15 struct {
 
 // SystemInformationBlockType1NBV1610CellAccessRelatedInfo5GCR16 represents the ASN.1 type SystemInformationBlockType1-NB-v1610-cellAccessRelatedInfo-5GC-r16 (SEQUENCE).
 type SystemInformationBlockType1NBV1610CellAccessRelatedInfo5GCR16 struct {
-	PlmnIdentityListR16    PLMNIdentityList5GCNBR16 `asn1:"tag:0,context,implicit"`
-	TrackingAreaCode5GCR16 TrackingAreaCode5GCR15   `asn1:"tag:1,context,implicit"`
-	CellIdentityR16        *CellIdentity            `asn1:"tag:2,context,implicit,optional" json:"CellIdentityR16,omitempty"`
-	CellBarred5GCR16       int64                    `asn1:"tag:3,context,implicit"`
+	PlmnIdentityListR16       PLMNIdentityList5GCNBR16 `asn1:"tag:0,context,implicit"`
+	PlmnIdentityListR16Indef_ bool                     `asn1:"-" json:"-"`
+	TrackingAreaCode5GCR16    TrackingAreaCode5GCR15   `asn1:"tag:1,context,implicit"`
+	CellIdentityR16           *CellIdentity            `asn1:"tag:2,context,implicit,optional" json:"CellIdentityR16,omitempty"`
+	CellBarred5GCR16          int64                    `asn1:"tag:3,context,implicit"`
 }
 
 // SystemInformationBlockType1NBV1700CellAccessRelatedInfoNTNR17 represents the ASN.1 type SystemInformationBlockType1-NB-v1700-cellAccessRelatedInfo-NTN-r17 (SEQUENCE).
 type SystemInformationBlockType1NBV1700CellAccessRelatedInfoNTNR17 struct {
-	CellBarredNTNR17      int64                    `asn1:"tag:0,context,implicit"`
-	PlmnIdentityListV1700 *PLMNIdentityListNBV1700 `asn1:"tag:1,context,implicit,optional" json:"PlmnIdentityListV1700,omitempty"`
+	CellBarredNTNR17            int64                   `asn1:"tag:0,context,implicit"`
+	PlmnIdentityListV1700       PLMNIdentityListNBV1700 `asn1:"tag:1,context,implicit,optional" json:"PlmnIdentityListV1700,omitempty"`
+	PlmnIdentityListV1700Indef_ bool                    `asn1:"-" json:"-"`
 }
 
 // SystemInformationBlockType20NBR14ScMcchCarrierConfigR14 choice constants.
@@ -6672,10 +6748,12 @@ func NewSystemInformationBlockType20NBR14ScMcchCarrierConfigR14DlCarrierIndexR14
 
 // SystemInformationBlockType22NBR14MixedOperationModeConfigR15 represents the ASN.1 type SystemInformationBlockType22-NB-r14-mixedOperationModeConfig-r15 (SEQUENCE).
 type SystemInformationBlockType22NBR14MixedOperationModeConfigR15 struct {
-	DlConfigListMixedR15  *DLConfigCommonListNBR14 `asn1:"tag:0,context,implicit,optional" json:"DlConfigListMixedR15,omitempty"`
-	UlConfigListMixedR15  *ULConfigCommonListNBR14 `asn1:"tag:1,context,implicit,optional" json:"UlConfigListMixedR15,omitempty"`
-	PagingDistributionR15 *int64                   `asn1:"tag:2,context,implicit,optional" json:"PagingDistributionR15,omitempty"`
-	NprachDistributionR15 *int64                   `asn1:"tag:3,context,implicit,optional" json:"NprachDistributionR15,omitempty"`
+	DlConfigListMixedR15       DLConfigCommonListNBR14 `asn1:"tag:0,context,implicit,optional" json:"DlConfigListMixedR15,omitempty"`
+	DlConfigListMixedR15Indef_ bool                    `asn1:"-" json:"-"`
+	UlConfigListMixedR15       ULConfigCommonListNBR14 `asn1:"tag:1,context,implicit,optional" json:"UlConfigListMixedR15,omitempty"`
+	UlConfigListMixedR15Indef_ bool                    `asn1:"-" json:"-"`
+	PagingDistributionR15      *int64                  `asn1:"tag:2,context,implicit,optional" json:"PagingDistributionR15,omitempty"`
+	NprachDistributionR15      *int64                  `asn1:"tag:3,context,implicit,optional" json:"NprachDistributionR15,omitempty"`
 }
 
 // SystemInformationBlockType2NBR13FreqInfoR13 represents the ASN.1 type SystemInformationBlockType2-NB-r13-freqInfo-r13 (SEQUENCE).
@@ -7272,10 +7350,10 @@ func (v *ANRCarrierNBR16) marshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding carrierFreqIndex-r16: %w", err)
 	}
 	if v.ExcludedCellListR16 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.ExcludedCellListR16)), 1, 16); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.ExcludedCellListR16)), 1, 16); err != nil {
 			return fmt.Errorf("encoding excludedCellList-r16 length: %w", err)
 		}
-		for _, elem := range *v.ExcludedCellListR16 {
+		for _, elem := range v.ExcludedCellListR16 {
 			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(0), int64Ptr(503), false); err != nil {
 				return fmt.Errorf("encoding excludedCellList-r16 element: %w", err)
 			}
@@ -7338,7 +7416,7 @@ func (v *ANRCarrierNBR16) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_excludedcelllistr16[i] = PhysCellId(val)
 		}
-		v.ExcludedCellListR16 = &tmp_excludedcelllistr16
+		v.ExcludedCellListR16 = tmp_excludedcelllistr16
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegative(bb)
@@ -10382,10 +10460,10 @@ func (v *GWUSConfigNBR16) marshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.ProbThreshListR16 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.ProbThreshListR16)), 1, 3); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.ProbThreshListR16)), 1, 3); err != nil {
 			return fmt.Errorf("encoding probThreshList-r16 length: %w", err)
 		}
-		for _, elem := range *v.ProbThreshListR16 {
+		for _, elem := range v.ProbThreshListR16 {
 			if err := per.EncodeEnumerated(bb, int64(elem), 8, false); err != nil {
 				return fmt.Errorf("encoding probThreshList-r16 element: %w", err)
 			}
@@ -10501,7 +10579,7 @@ func (v *GWUSConfigNBR16) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_probthreshlistr16[i] = GWUSPagingProbThreshNBR16(val)
 		}
-		v.ProbThreshListR16 = &tmp_probthreshlistr16
+		v.ProbThreshListR16 = tmp_probthreshlistr16
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegative(bb)
@@ -10553,20 +10631,20 @@ func (v *GWUSResourceConfigNBR16) marshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding resourcePosition-r16: %w", err)
 	}
 	if v.NumGroupsListR16 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.NumGroupsListR16)), 1, 2); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.NumGroupsListR16)), 1, 2); err != nil {
 			return fmt.Errorf("encoding numGroupsList-r16 length: %w", err)
 		}
-		for _, elem := range *v.NumGroupsListR16 {
+		for _, elem := range v.NumGroupsListR16 {
 			if err := per.EncodeEnumerated(bb, int64(elem), 4, false); err != nil {
 				return fmt.Errorf("encoding numGroupsList-r16 element: %w", err)
 			}
 		}
 	}
 	if v.GroupsForServiceListR16 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.GroupsForServiceListR16)), 1, 3); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.GroupsForServiceListR16)), 1, 3); err != nil {
 			return fmt.Errorf("encoding groupsForServiceList-r16 length: %w", err)
 		}
-		for _, elem := range *v.GroupsForServiceListR16 {
+		for _, elem := range v.GroupsForServiceListR16 {
 			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(15), false); err != nil {
 				return fmt.Errorf("encoding groupsForServiceList-r16 element: %w", err)
 			}
@@ -10609,7 +10687,7 @@ func (v *GWUSResourceConfigNBR16) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_numgroupslistr16[i] = GWUSNumGroupsNBR16(val)
 		}
-		v.NumGroupsListR16 = &tmp_numgroupslistr16
+		v.NumGroupsListR16 = tmp_numgroupslistr16
 	}
 	if opt_groupsforservicelistr16 {
 		seqLen_groupsforservicelistr16, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
@@ -10624,7 +10702,7 @@ func (v *GWUSResourceConfigNBR16) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_groupsforservicelistr16[i] = int64(val)
 		}
-		v.GroupsForServiceListR16 = &tmp_groupsforservicelistr16
+		v.GroupsForServiceListR16 = tmp_groupsforservicelistr16
 	}
 	return nil
 }
@@ -10999,30 +11077,30 @@ func (v *InterFreqCarrierFreqInfoNBR13) marshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.InterFreqNeighCellListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.InterFreqNeighCellListR13)), 1, 16); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.InterFreqNeighCellListR13)), 1, 16); err != nil {
 			return fmt.Errorf("encoding interFreqNeighCellList-r13 length: %w", err)
 		}
-		for _, elem := range *v.InterFreqNeighCellListR13 {
+		for _, elem := range v.InterFreqNeighCellListR13 {
 			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(0), int64Ptr(503), false); err != nil {
 				return fmt.Errorf("encoding interFreqNeighCellList-r13 element: %w", err)
 			}
 		}
 	}
 	if v.InterFreqExcludedCellListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.InterFreqExcludedCellListR13)), 1, 16); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.InterFreqExcludedCellListR13)), 1, 16); err != nil {
 			return fmt.Errorf("encoding interFreqExcludedCellList-r13 length: %w", err)
 		}
-		for _, elem := range *v.InterFreqExcludedCellListR13 {
+		for _, elem := range v.InterFreqExcludedCellListR13 {
 			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(0), int64Ptr(503), false); err != nil {
 				return fmt.Errorf("encoding interFreqExcludedCellList-r13 element: %w", err)
 			}
 		}
 	}
 	if v.MultiBandInfoListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MultiBandInfoListR13)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MultiBandInfoListR13)), 1, 8); err != nil {
 			return fmt.Errorf("encoding multiBandInfoList-r13 length: %w", err)
 		}
-		for _, elem := range *v.MultiBandInfoListR13 {
+		for _, elem := range v.MultiBandInfoListR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding multiBandInfoList-r13 element: %w", err)
 			}
@@ -11129,10 +11207,10 @@ func (v *InterFreqCarrierFreqInfoNBR13) marshalUPERTo(bb *per.BitBuffer) error {
 				}
 			}
 			if v.InterFreqNeighCellListV1530 != nil {
-				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(*v.InterFreqNeighCellListV1530)), 1, 16); err != nil {
+				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(v.InterFreqNeighCellListV1530)), 1, 16); err != nil {
 					return fmt.Errorf("encoding interFreqNeighCellList-v1530 length: %w", err)
 				}
-				for _, elem := range *v.InterFreqNeighCellListV1530 {
+				for _, elem := range v.InterFreqNeighCellListV1530 {
 					if err := elem.marshalUPERTo(extBuf); err != nil {
 						return fmt.Errorf("encoding interFreqNeighCellList-v1530 element: %w", err)
 					}
@@ -11248,7 +11326,7 @@ func (v *InterFreqCarrierFreqInfoNBR13) unmarshalUPERFrom(bb *per.BitBuffer) err
 			}
 			tmp_interfreqneighcelllistr13[i] = PhysCellId(val)
 		}
-		v.InterFreqNeighCellListR13 = &tmp_interfreqneighcelllistr13
+		v.InterFreqNeighCellListR13 = tmp_interfreqneighcelllistr13
 	}
 	if opt_interfreqexcludedcelllistr13 {
 		seqLen_interfreqexcludedcelllistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 16)
@@ -11263,7 +11341,7 @@ func (v *InterFreqCarrierFreqInfoNBR13) unmarshalUPERFrom(bb *per.BitBuffer) err
 			}
 			tmp_interfreqexcludedcelllistr13[i] = PhysCellId(val)
 		}
-		v.InterFreqExcludedCellListR13 = &tmp_interfreqexcludedcelllistr13
+		v.InterFreqExcludedCellListR13 = tmp_interfreqexcludedcelllistr13
 	}
 	if opt_multibandinfolistr13 {
 		seqLen_multibandinfolistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
@@ -11276,7 +11354,7 @@ func (v *InterFreqCarrierFreqInfoNBR13) unmarshalUPERFrom(bb *per.BitBuffer) err
 				return fmt.Errorf("decoding multiBandInfoList-r13 element: %w", err)
 			}
 		}
-		v.MultiBandInfoListR13 = &tmp_multibandinfolistr13
+		v.MultiBandInfoListR13 = tmp_multibandinfolistr13
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegative(bb)
@@ -11376,7 +11454,7 @@ func (v *InterFreqCarrierFreqInfoNBR13) unmarshalUPERFrom(bb *per.BitBuffer) err
 						return fmt.Errorf("decoding interFreqNeighCellList-v1530 element: %w", err)
 					}
 				}
-				v.InterFreqNeighCellListV1530 = &tmp_interfreqneighcelllistv1530
+				v.InterFreqNeighCellListV1530 = tmp_interfreqneighcelllistv1530
 			}
 		}
 		if int64(3) <= extCount && extPresent[3] {
@@ -12256,10 +12334,10 @@ func (v *MBMSSAIInterFreqNBR14) marshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.MultiBandInfoListR14 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MultiBandInfoListR14)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MultiBandInfoListR14)), 1, 8); err != nil {
 			return fmt.Errorf("encoding multiBandInfoList-r14 length: %w", err)
 		}
-		for _, elem := range *v.MultiBandInfoListR14 {
+		for _, elem := range v.MultiBandInfoListR14 {
 			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(256), false); err != nil {
 				return fmt.Errorf("encoding multiBandInfoList-r14 element: %w", err)
 			}
@@ -12308,7 +12386,7 @@ func (v *MBMSSAIInterFreqNBR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_multibandinfolistr14[i] = FreqBandIndicatorNBR13(val)
 		}
-		v.MultiBandInfoListR14 = &tmp_multibandinfolistr14
+		v.MultiBandInfoListR14 = tmp_multibandinfolistr14
 	}
 	return nil
 }
@@ -12674,10 +12752,10 @@ func (v *MultiBandInfoNBR13) marshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.FreqBandInfoR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.FreqBandInfoR13)), 1, 4); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.FreqBandInfoR13)), 1, 4); err != nil {
 			return fmt.Errorf("encoding freqBandInfo-r13 length: %w", err)
 		}
-		for _, elem := range *v.FreqBandInfoR13 {
+		for _, elem := range v.FreqBandInfoR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding freqBandInfo-r13 element: %w", err)
 			}
@@ -12720,7 +12798,7 @@ func (v *MultiBandInfoNBR13) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding freqBandInfo-r13 element: %w", err)
 			}
 		}
-		v.FreqBandInfoR13 = &tmp_freqbandinfor13
+		v.FreqBandInfoR13 = tmp_freqbandinfor13
 	}
 	return nil
 }
@@ -13087,10 +13165,10 @@ func (v *NPRACHConfigSIBNBR13) marshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding nprach-CP-Length-r13: %w", err)
 	}
 	if v.RsrpThresholdsPrachInfoListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.RsrpThresholdsPrachInfoListR13)), 1, 2); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.RsrpThresholdsPrachInfoListR13)), 1, 2); err != nil {
 			return fmt.Errorf("encoding rsrp-ThresholdsPrachInfoList-r13 length: %w", err)
 		}
-		for _, elem := range *v.RsrpThresholdsPrachInfoListR13 {
+		for _, elem := range v.RsrpThresholdsPrachInfoListR13 {
 			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(0), int64Ptr(97), false); err != nil {
 				return fmt.Errorf("encoding rsrp-ThresholdsPrachInfoList-r13 element: %w", err)
 			}
@@ -13137,7 +13215,7 @@ func (v *NPRACHConfigSIBNBR13) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_rsrpthresholdsprachinfolistr13[i] = RSRPRange(val)
 		}
-		v.RsrpThresholdsPrachInfoListR13 = &tmp_rsrpthresholdsprachinfolistr13
+		v.RsrpThresholdsPrachInfoListR13 = tmp_rsrpthresholdsprachinfolistr13
 	}
 	seqLen_nprachparameterslistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
 	if err != nil {
@@ -15110,10 +15188,10 @@ func (v *PLMNIdentityInfoNBV1700) marshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.TrackingAreaListR17 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.TrackingAreaListR17)), 1, 12); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.TrackingAreaListR17)), 1, 12); err != nil {
 			return fmt.Errorf("encoding trackingAreaList-r17 length: %w", err)
 		}
-		_ = *v.TrackingAreaListR17 // SEQUENCE_OF with non-integer primitive elements (BIT_STRING)
+		_ = v.TrackingAreaListR17 // SEQUENCE_OF with non-integer primitive elements (BIT_STRING)
 	}
 	return nil
 }
@@ -16145,10 +16223,10 @@ func (v *PagingNB) marshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.PagingRecordListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.PagingRecordListR13)), 1, 16); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.PagingRecordListR13)), 1, 16); err != nil {
 			return fmt.Errorf("encoding pagingRecordList-r13 length: %w", err)
 		}
-		for _, elem := range *v.PagingRecordListR13 {
+		for _, elem := range v.PagingRecordListR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding pagingRecordList-r13 element: %w", err)
 			}
@@ -16207,7 +16285,7 @@ func (v *PagingNB) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding pagingRecordList-r13 element: %w", err)
 			}
 		}
-		v.PagingRecordListR13 = &tmp_pagingrecordlistr13
+		v.PagingRecordListR13 = tmp_pagingrecordlistr13
 	}
 	if opt_systeminfomodificationr13 {
 		val_systeminfomodificationr13, err := per.DecodeEnumerated(bb, 1, false)
@@ -16251,10 +16329,10 @@ func (v *PagingNBV1610IEs) marshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.PagingRecordListV1610 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.PagingRecordListV1610)), 1, 16); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.PagingRecordListV1610)), 1, 16); err != nil {
 			return fmt.Errorf("encoding pagingRecordList-v1610 length: %w", err)
 		}
-		for _, elem := range *v.PagingRecordListV1610 {
+		for _, elem := range v.PagingRecordListV1610 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding pagingRecordList-v1610 element: %w", err)
 			}
@@ -16292,7 +16370,7 @@ func (v *PagingNBV1610IEs) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding pagingRecordList-v1610 element: %w", err)
 			}
 		}
-		v.PagingRecordListV1610 = &tmp_pagingrecordlistv1610
+		v.PagingRecordListV1610 = tmp_pagingrecordlistv1610
 	}
 	if opt_noncriticalextension {
 		tmp_noncriticalextension := runtime.RawValue{}
@@ -17595,10 +17673,10 @@ func (v *RACHConfigCommonNBR13) marshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.RachInfoListV1530 != nil {
-				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(*v.RachInfoListV1530)), 1, 3); err != nil {
+				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(v.RachInfoListV1530)), 1, 3); err != nil {
 					return fmt.Errorf("encoding rach-InfoList-v1530 length: %w", err)
 				}
-				for _, elem := range *v.RachInfoListV1530 {
+				for _, elem := range v.RachInfoListV1530 {
 					if err := elem.marshalUPERTo(extBuf); err != nil {
 						return fmt.Errorf("encoding rach-InfoList-v1530 element: %w", err)
 					}
@@ -17719,7 +17797,7 @@ func (v *RACHConfigCommonNBR13) unmarshalUPERFrom(bb *per.BitBuffer) error {
 						return fmt.Errorf("decoding rach-InfoList-v1530 element: %w", err)
 					}
 				}
-				v.RachInfoListV1530 = &tmp_rachinfolistv1530
+				v.RachInfoListV1530 = tmp_rachinfolistv1530
 			}
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -17982,10 +18060,10 @@ func (v *RFParametersNBV1710) marshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.SupportedBandListV1710 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.SupportedBandListV1710)), 1, 64); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SupportedBandListV1710)), 1, 64); err != nil {
 			return fmt.Errorf("encoding supportedBandList-v1710 length: %w", err)
 		}
-		for _, elem := range *v.SupportedBandListV1710 {
+		for _, elem := range v.SupportedBandListV1710 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding supportedBandList-v1710 element: %w", err)
 			}
@@ -18017,7 +18095,7 @@ func (v *RFParametersNBV1710) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding supportedBandList-v1710 element: %w", err)
 			}
 		}
-		v.SupportedBandListV1710 = &tmp_supportedbandlistv1710
+		v.SupportedBandListV1710 = tmp_supportedbandlistv1710
 	}
 	return nil
 }
@@ -18526,10 +18604,10 @@ func (v *RRCConnectionReconfigurationNBR13IEs) marshalUPERTo(bb *per.BitBuffer) 
 		return err
 	}
 	if v.DedicatedInfoNASListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.DedicatedInfoNASListR13)), 1, 2); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.DedicatedInfoNASListR13)), 1, 2); err != nil {
 			return fmt.Errorf("encoding dedicatedInfoNASList-r13 length: %w", err)
 		}
-		for _, elem := range *v.DedicatedInfoNASListR13 {
+		for _, elem := range v.DedicatedInfoNASListR13 {
 			if err := per.EncodeOctetString(bb, []byte(elem), 0, 0, false); err != nil {
 				return fmt.Errorf("encoding dedicatedInfoNASList-r13 element: %w", err)
 			}
@@ -18596,7 +18674,7 @@ func (v *RRCConnectionReconfigurationNBR13IEs) unmarshalUPERFrom(bb *per.BitBuff
 			}
 			tmp_dedicatedinfonaslistr13[i] = val
 		}
-		v.DedicatedInfoNASListR13 = &tmp_dedicatedinfonaslistr13
+		v.DedicatedInfoNASListR13 = tmp_dedicatedinfonaslistr13
 	}
 	if opt_radioresourceconfigdedicatedr13 {
 		var dec_radioresourceconfigdedicatedr13 RadioResourceConfigDedicatedNBR13
@@ -21342,10 +21420,10 @@ func (v *RRCConnectionSetupCompleteNBV1610IEs) marshalUPERTo(bb *per.BitBuffer) 
 		}
 	}
 	if v.SNSSAIListR16 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.SNSSAIListR16)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SNSSAIListR16)), 1, 8); err != nil {
 			return fmt.Errorf("encoding s-NSSAI-list-r16 length: %w", err)
 		}
-		for _, elem := range *v.SNSSAIListR16 {
+		for _, elem := range v.SNSSAIListR16 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding s-NSSAI-list-r16 element: %w", err)
 			}
@@ -21476,7 +21554,7 @@ func (v *RRCConnectionSetupCompleteNBV1610IEs) unmarshalUPERFrom(bb *per.BitBuff
 				return fmt.Errorf("decoding s-NSSAI-list-r16 element: %w", err)
 			}
 		}
-		v.SNSSAIListR16 = &tmp_snssailistr16
+		v.SNSSAIListR16 = tmp_snssailistr16
 	}
 	if opt_ngudatatransferr16 {
 		val_ngudatatransferr16, err := per.DecodeEnumerated(bb, 1, false)
@@ -22801,30 +22879,30 @@ func (v *RadioResourceConfigDedicatedNBR13) marshalUPERTo(bb *per.BitBuffer) err
 		return err
 	}
 	if v.SrbToAddModListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.SrbToAddModListR13)), 1, 1); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SrbToAddModListR13)), 1, 1); err != nil {
 			return fmt.Errorf("encoding srb-ToAddModList-r13 length: %w", err)
 		}
-		for _, elem := range *v.SrbToAddModListR13 {
+		for _, elem := range v.SrbToAddModListR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding srb-ToAddModList-r13 element: %w", err)
 			}
 		}
 	}
 	if v.DrbToAddModListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.DrbToAddModListR13)), 1, 2); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.DrbToAddModListR13)), 1, 2); err != nil {
 			return fmt.Errorf("encoding drb-ToAddModList-r13 length: %w", err)
 		}
-		for _, elem := range *v.DrbToAddModListR13 {
+		for _, elem := range v.DrbToAddModListR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding drb-ToAddModList-r13 element: %w", err)
 			}
 		}
 	}
 	if v.DrbToReleaseListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.DrbToReleaseListR13)), 1, 2); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.DrbToReleaseListR13)), 1, 2); err != nil {
 			return fmt.Errorf("encoding drb-ToReleaseList-r13 length: %w", err)
 		}
-		for _, elem := range *v.DrbToReleaseListR13 {
+		for _, elem := range v.DrbToReleaseListR13 {
 			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(32), false); err != nil {
 				return fmt.Errorf("encoding drb-ToReleaseList-r13 element: %w", err)
 			}
@@ -22966,7 +23044,7 @@ func (v *RadioResourceConfigDedicatedNBR13) unmarshalUPERFrom(bb *per.BitBuffer)
 				return fmt.Errorf("decoding srb-ToAddModList-r13 element: %w", err)
 			}
 		}
-		v.SrbToAddModListR13 = &tmp_srbtoaddmodlistr13
+		v.SrbToAddModListR13 = tmp_srbtoaddmodlistr13
 	}
 	if opt_drbtoaddmodlistr13 {
 		seqLen_drbtoaddmodlistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
@@ -22979,7 +23057,7 @@ func (v *RadioResourceConfigDedicatedNBR13) unmarshalUPERFrom(bb *per.BitBuffer)
 				return fmt.Errorf("decoding drb-ToAddModList-r13 element: %w", err)
 			}
 		}
-		v.DrbToAddModListR13 = &tmp_drbtoaddmodlistr13
+		v.DrbToAddModListR13 = tmp_drbtoaddmodlistr13
 	}
 	if opt_drbtoreleaselistr13 {
 		seqLen_drbtoreleaselistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
@@ -22994,7 +23072,7 @@ func (v *RadioResourceConfigDedicatedNBR13) unmarshalUPERFrom(bb *per.BitBuffer)
 			}
 			tmp_drbtoreleaselistr13[i] = DRBIdentity(val)
 		}
-		v.DrbToReleaseListR13 = &tmp_drbtoreleaselistr13
+		v.DrbToReleaseListR13 = tmp_drbtoreleaselistr13
 	}
 	if opt_macmainconfigr13 {
 		var dec_macmainconfigr13 RadioResourceConfigDedicatedNBR13MacMainConfigR13
@@ -23428,10 +23506,10 @@ func (v *SCPTMConfigurationNBR14) marshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.ScptmNeighbourCellListR14 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.ScptmNeighbourCellListR14)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.ScptmNeighbourCellListR14)), 1, 8); err != nil {
 			return fmt.Errorf("encoding scptm-NeighbourCellList-r14 length: %w", err)
 		}
-		for _, elem := range *v.ScptmNeighbourCellListR14 {
+		for _, elem := range v.ScptmNeighbourCellListR14 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding scptm-NeighbourCellList-r14 element: %w", err)
 			}
@@ -23491,7 +23569,7 @@ func (v *SCPTMConfigurationNBR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding scptm-NeighbourCellList-r14 element: %w", err)
 			}
 		}
-		v.ScptmNeighbourCellListR14 = &tmp_scptmneighbourcelllistr14
+		v.ScptmNeighbourCellListR14 = tmp_scptmneighbourcelllistr14
 	}
 	if opt_latenoncriticalextension {
 		val_latenoncriticalextension, err := per.DecodeOctetString(bb, 0, 0, false)
@@ -24713,10 +24791,10 @@ func (v *SchedulingInfoNBV1530) marshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.SibMappingInfoV1530 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.SibMappingInfoV1530)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SibMappingInfoV1530)), 1, 8); err != nil {
 			return fmt.Errorf("encoding sib-MappingInfo-v1530 length: %w", err)
 		}
-		for _, elem := range *v.SibMappingInfoV1530 {
+		for _, elem := range v.SibMappingInfoV1530 {
 			if err := per.EncodeEnumerated(bb, int64(elem), 8, false); err != nil {
 				return fmt.Errorf("encoding sib-MappingInfo-v1530 element: %w", err)
 			}
@@ -24750,7 +24828,7 @@ func (v *SchedulingInfoNBV1530) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_sibmappinginfov1530[i] = SIBTypeNBV1530(val)
 		}
-		v.SibMappingInfoV1530 = &tmp_sibmappinginfov1530
+		v.SibMappingInfoV1530 = tmp_sibmappinginfov1530
 	}
 	return nil
 }
@@ -25338,20 +25416,20 @@ func (v *SystemInformationBlockType15NBR14) marshalUPERTo(bb *per.BitBuffer) err
 		return err
 	}
 	if v.MbmsSAIIntraFreqR14 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MbmsSAIIntraFreqR14)), 1, 64); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MbmsSAIIntraFreqR14)), 1, 64); err != nil {
 			return fmt.Errorf("encoding mbms-SAI-IntraFreq-r14 length: %w", err)
 		}
-		for _, elem := range *v.MbmsSAIIntraFreqR14 {
+		for _, elem := range v.MbmsSAIIntraFreqR14 {
 			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(0), int64Ptr(65535), false); err != nil {
 				return fmt.Errorf("encoding mbms-SAI-IntraFreq-r14 element: %w", err)
 			}
 		}
 	}
 	if v.MbmsSAIInterFreqListR14 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MbmsSAIInterFreqListR14)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MbmsSAIInterFreqListR14)), 1, 8); err != nil {
 			return fmt.Errorf("encoding mbms-SAI-InterFreqList-r14 length: %w", err)
 		}
-		for _, elem := range *v.MbmsSAIInterFreqListR14 {
+		for _, elem := range v.MbmsSAIInterFreqListR14 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding mbms-SAI-InterFreqList-r14 element: %w", err)
 			}
@@ -25422,7 +25500,7 @@ func (v *SystemInformationBlockType15NBR14) unmarshalUPERFrom(bb *per.BitBuffer)
 			}
 			tmp_mbmssaiintrafreqr14[i] = MBMSSAIR11(val)
 		}
-		v.MbmsSAIIntraFreqR14 = &tmp_mbmssaiintrafreqr14
+		v.MbmsSAIIntraFreqR14 = tmp_mbmssaiintrafreqr14
 	}
 	if opt_mbmssaiinterfreqlistr14 {
 		seqLen_mbmssaiinterfreqlistr14, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
@@ -25435,7 +25513,7 @@ func (v *SystemInformationBlockType15NBR14) unmarshalUPERFrom(bb *per.BitBuffer)
 				return fmt.Errorf("decoding mbms-SAI-InterFreqList-r14 element: %w", err)
 			}
 		}
-		v.MbmsSAIInterFreqListR14 = &tmp_mbmssaiinterfreqlistr14
+		v.MbmsSAIInterFreqListR14 = tmp_mbmssaiinterfreqlistr14
 	}
 	if opt_latenoncriticalextension {
 		val_latenoncriticalextension, err := per.DecodeOctetString(bb, 0, 0, false)
@@ -25699,20 +25777,20 @@ func (v *SystemInformationBlockType1NB) marshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding freqBandIndicator-r13: %w", err)
 	}
 	if v.FreqBandInfoR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.FreqBandInfoR13)), 1, 4); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.FreqBandInfoR13)), 1, 4); err != nil {
 			return fmt.Errorf("encoding freqBandInfo-r13 length: %w", err)
 		}
-		for _, elem := range *v.FreqBandInfoR13 {
+		for _, elem := range v.FreqBandInfoR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding freqBandInfo-r13 element: %w", err)
 			}
 		}
 	}
 	if v.MultiBandInfoListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MultiBandInfoListR13)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MultiBandInfoListR13)), 1, 8); err != nil {
 			return fmt.Errorf("encoding multiBandInfoList-r13 length: %w", err)
 		}
-		for _, elem := range *v.MultiBandInfoListR13 {
+		for _, elem := range v.MultiBandInfoListR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding multiBandInfoList-r13 element: %w", err)
 			}
@@ -25750,10 +25828,10 @@ func (v *SystemInformationBlockType1NB) marshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.SystemInfoValueTagListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.SystemInfoValueTagListR13)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SystemInfoValueTagListR13)), 1, 8); err != nil {
 			return fmt.Errorf("encoding systemInfoValueTagList-r13 length: %w", err)
 		}
-		for _, elem := range *v.SystemInfoValueTagListR13 {
+		for _, elem := range v.SystemInfoValueTagListR13 {
 			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(0), int64Ptr(3), false); err != nil {
 				return fmt.Errorf("encoding systemInfoValueTagList-r13 element: %w", err)
 			}
@@ -25854,7 +25932,7 @@ func (v *SystemInformationBlockType1NB) unmarshalUPERFrom(bb *per.BitBuffer) err
 				return fmt.Errorf("decoding freqBandInfo-r13 element: %w", err)
 			}
 		}
-		v.FreqBandInfoR13 = &tmp_freqbandinfor13
+		v.FreqBandInfoR13 = tmp_freqbandinfor13
 	}
 	if opt_multibandinfolistr13 {
 		seqLen_multibandinfolistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
@@ -25867,7 +25945,7 @@ func (v *SystemInformationBlockType1NB) unmarshalUPERFrom(bb *per.BitBuffer) err
 				return fmt.Errorf("decoding multiBandInfoList-r13 element: %w", err)
 			}
 		}
-		v.MultiBandInfoListR13 = &tmp_multibandinfolistr13
+		v.MultiBandInfoListR13 = tmp_multibandinfolistr13
 	}
 	if opt_downlinkbitmapr13 {
 		var dec_downlinkbitmapr13 DLBitmapNBR13
@@ -25925,7 +26003,7 @@ func (v *SystemInformationBlockType1NB) unmarshalUPERFrom(bb *per.BitBuffer) err
 			}
 			tmp_systeminfovaluetaglistr13[i] = SystemInfoValueTagSIR13(val)
 		}
-		v.SystemInfoValueTagListR13 = &tmp_systeminfovaluetaglistr13
+		v.SystemInfoValueTagListR13 = tmp_systeminfovaluetaglistr13
 	}
 	if opt_latenoncriticalextension {
 		val_latenoncriticalextension, err := per.DecodeOctetString(bb, 0, 0, false)
@@ -26160,10 +26238,10 @@ func (v *SystemInformationBlockType1NBV1530) marshalUPERTo(bb *per.BitBuffer) er
 		}
 	}
 	if v.SchedulingInfoListV1530 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.SchedulingInfoListV1530)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SchedulingInfoListV1530)), 1, 8); err != nil {
 			return fmt.Errorf("encoding schedulingInfoList-v1530 length: %w", err)
 		}
-		for _, elem := range *v.SchedulingInfoListV1530 {
+		for _, elem := range v.SchedulingInfoListV1530 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding schedulingInfoList-v1530 element: %w", err)
 			}
@@ -26215,7 +26293,7 @@ func (v *SystemInformationBlockType1NBV1530) unmarshalUPERFrom(bb *per.BitBuffer
 				return fmt.Errorf("decoding schedulingInfoList-v1530 element: %w", err)
 			}
 		}
-		v.SchedulingInfoListV1530 = &tmp_schedulinginfolistv1530
+		v.SchedulingInfoListV1530 = tmp_schedulinginfolistv1530
 	}
 	if opt_noncriticalextension {
 		var dec_noncriticalextension SystemInformationBlockType1NBV1610
@@ -26532,20 +26610,20 @@ func (v *SystemInformationBlockType22NBR14) marshalUPERTo(bb *per.BitBuffer) err
 		return err
 	}
 	if v.DlConfigListR14 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.DlConfigListR14)), 1, 15); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.DlConfigListR14)), 1, 15); err != nil {
 			return fmt.Errorf("encoding dl-ConfigList-r14 length: %w", err)
 		}
-		for _, elem := range *v.DlConfigListR14 {
+		for _, elem := range v.DlConfigListR14 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding dl-ConfigList-r14 element: %w", err)
 			}
 		}
 	}
 	if v.UlConfigListR14 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.UlConfigListR14)), 1, 15); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.UlConfigListR14)), 1, 15); err != nil {
 			return fmt.Errorf("encoding ul-ConfigList-r14 length: %w", err)
 		}
-		for _, elem := range *v.UlConfigListR14 {
+		for _, elem := range v.UlConfigListR14 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding ul-ConfigList-r14 element: %w", err)
 			}
@@ -26557,10 +26635,10 @@ func (v *SystemInformationBlockType22NBR14) marshalUPERTo(bb *per.BitBuffer) err
 		}
 	}
 	if v.NprachProbabilityAnchorListR14 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.NprachProbabilityAnchorListR14)), 1, 3); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.NprachProbabilityAnchorListR14)), 1, 3); err != nil {
 			return fmt.Errorf("encoding nprach-ProbabilityAnchorList-r14 length: %w", err)
 		}
-		for _, elem := range *v.NprachProbabilityAnchorListR14 {
+		for _, elem := range v.NprachProbabilityAnchorListR14 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding nprach-ProbabilityAnchorList-r14 element: %w", err)
 			}
@@ -26618,10 +26696,10 @@ func (v *SystemInformationBlockType22NBR14) marshalUPERTo(bb *per.BitBuffer) err
 				}
 			}
 			if v.UlConfigListR15 != nil {
-				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(*v.UlConfigListR15)), 1, 15); err != nil {
+				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(v.UlConfigListR15)), 1, 15); err != nil {
 					return fmt.Errorf("encoding ul-ConfigList-r15 length: %w", err)
 				}
-				for _, elem := range *v.UlConfigListR15 {
+				for _, elem := range v.UlConfigListR15 {
 					if err := elem.marshalUPERTo(extBuf); err != nil {
 						return fmt.Errorf("encoding ul-ConfigList-r15 element: %w", err)
 					}
@@ -26701,7 +26779,7 @@ func (v *SystemInformationBlockType22NBR14) unmarshalUPERFrom(bb *per.BitBuffer)
 				return fmt.Errorf("decoding dl-ConfigList-r14 element: %w", err)
 			}
 		}
-		v.DlConfigListR14 = &tmp_dlconfiglistr14
+		v.DlConfigListR14 = tmp_dlconfiglistr14
 	}
 	if opt_ulconfiglistr14 {
 		seqLen_ulconfiglistr14, err := per.DecodeConstrainedWholeNumber(bb, 1, 15)
@@ -26714,7 +26792,7 @@ func (v *SystemInformationBlockType22NBR14) unmarshalUPERFrom(bb *per.BitBuffer)
 				return fmt.Errorf("decoding ul-ConfigList-r14 element: %w", err)
 			}
 		}
-		v.UlConfigListR14 = &tmp_ulconfiglistr14
+		v.UlConfigListR14 = tmp_ulconfiglistr14
 	}
 	if opt_pagingweightanchorr14 {
 		val_pagingweightanchorr14, err := per.DecodeEnumerated(bb, 16, false)
@@ -26735,7 +26813,7 @@ func (v *SystemInformationBlockType22NBR14) unmarshalUPERFrom(bb *per.BitBuffer)
 				return fmt.Errorf("decoding nprach-ProbabilityAnchorList-r14 element: %w", err)
 			}
 		}
-		v.NprachProbabilityAnchorListR14 = &tmp_nprachprobabilityanchorlistr14
+		v.NprachProbabilityAnchorListR14 = tmp_nprachprobabilityanchorlistr14
 	}
 	if opt_latenoncriticalextension {
 		val_latenoncriticalextension, err := per.DecodeOctetString(bb, 0, 0, false)
@@ -26794,7 +26872,7 @@ func (v *SystemInformationBlockType22NBR14) unmarshalUPERFrom(bb *per.BitBuffer)
 						return fmt.Errorf("decoding ul-ConfigList-r15 element: %w", err)
 					}
 				}
-				v.UlConfigListR15 = &tmp_ulconfiglistr15
+				v.UlConfigListR15 = tmp_ulconfiglistr15
 			}
 		}
 		if int64(1) <= extCount && extPresent[1] {
@@ -26855,20 +26933,20 @@ func (v *SystemInformationBlockType23NBR15) marshalUPERTo(bb *per.BitBuffer) err
 		return err
 	}
 	if v.UlConfigListV1530 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.UlConfigListV1530)), 1, 15); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.UlConfigListV1530)), 1, 15); err != nil {
 			return fmt.Errorf("encoding ul-ConfigList-v1530 length: %w", err)
 		}
-		for _, elem := range *v.UlConfigListV1530 {
+		for _, elem := range v.UlConfigListV1530 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding ul-ConfigList-v1530 element: %w", err)
 			}
 		}
 	}
 	if v.UlConfigListMixedV1530 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.UlConfigListMixedV1530)), 1, 15); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.UlConfigListMixedV1530)), 1, 15); err != nil {
 			return fmt.Errorf("encoding ul-ConfigListMixed-v1530 length: %w", err)
 		}
-		for _, elem := range *v.UlConfigListMixedV1530 {
+		for _, elem := range v.UlConfigListMixedV1530 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding ul-ConfigListMixed-v1530 element: %w", err)
 			}
@@ -26937,7 +27015,7 @@ func (v *SystemInformationBlockType23NBR15) unmarshalUPERFrom(bb *per.BitBuffer)
 				return fmt.Errorf("decoding ul-ConfigList-v1530 element: %w", err)
 			}
 		}
-		v.UlConfigListV1530 = &tmp_ulconfiglistv1530
+		v.UlConfigListV1530 = tmp_ulconfiglistv1530
 	}
 	if opt_ulconfiglistmixedv1530 {
 		seqLen_ulconfiglistmixedv1530, err := per.DecodeConstrainedWholeNumber(bb, 1, 15)
@@ -26950,7 +27028,7 @@ func (v *SystemInformationBlockType23NBR15) unmarshalUPERFrom(bb *per.BitBuffer)
 				return fmt.Errorf("decoding ul-ConfigListMixed-v1530 element: %w", err)
 			}
 		}
-		v.UlConfigListMixedV1530 = &tmp_ulconfiglistmixedv1530
+		v.UlConfigListMixedV1530 = tmp_ulconfiglistmixedv1530
 	}
 	if opt_latenoncriticalextension {
 		val_latenoncriticalextension, err := per.DecodeOctetString(bb, 0, 0, false)
@@ -27014,20 +27092,20 @@ func (v *SystemInformationBlockType27NBR16) marshalUPERTo(bb *per.BitBuffer) err
 		return err
 	}
 	if v.CarrierFreqListEUTRAR16 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.CarrierFreqListEUTRAR16)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.CarrierFreqListEUTRAR16)), 1, 8); err != nil {
 			return fmt.Errorf("encoding carrierFreqListEUTRA-r16 length: %w", err)
 		}
-		for _, elem := range *v.CarrierFreqListEUTRAR16 {
+		for _, elem := range v.CarrierFreqListEUTRAR16 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding carrierFreqListEUTRA-r16 element: %w", err)
 			}
 		}
 	}
 	if v.CarrierFreqsListGERANR16 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.CarrierFreqsListGERANR16)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.CarrierFreqsListGERANR16)), 1, 8); err != nil {
 			return fmt.Errorf("encoding carrierFreqsListGERAN-r16 length: %w", err)
 		}
-		for _, elem := range *v.CarrierFreqsListGERANR16 {
+		for _, elem := range v.CarrierFreqsListGERANR16 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding carrierFreqsListGERAN-r16 element: %w", err)
 			}
@@ -27096,7 +27174,7 @@ func (v *SystemInformationBlockType27NBR16) unmarshalUPERFrom(bb *per.BitBuffer)
 				return fmt.Errorf("decoding carrierFreqListEUTRA-r16 element: %w", err)
 			}
 		}
-		v.CarrierFreqListEUTRAR16 = &tmp_carrierfreqlisteutrar16
+		v.CarrierFreqListEUTRAR16 = tmp_carrierfreqlisteutrar16
 	}
 	if opt_carrierfreqslistgeranr16 {
 		seqLen_carrierfreqslistgeranr16, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
@@ -27109,7 +27187,7 @@ func (v *SystemInformationBlockType27NBR16) unmarshalUPERFrom(bb *per.BitBuffer)
 				return fmt.Errorf("decoding carrierFreqsListGERAN-r16 element: %w", err)
 			}
 		}
-		v.CarrierFreqsListGERANR16 = &tmp_carrierfreqslistgeranr16
+		v.CarrierFreqsListGERANR16 = tmp_carrierfreqslistgeranr16
 	}
 	if opt_latenoncriticalextension {
 		val_latenoncriticalextension, err := per.DecodeOctetString(bb, 0, 0, false)
@@ -27182,10 +27260,10 @@ func (v *SystemInformationBlockType2NBR13) marshalUPERTo(bb *per.BitBuffer) erro
 		return fmt.Errorf("encoding timeAlignmentTimerCommon-r13: %w", err)
 	}
 	if v.MultiBandInfoListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MultiBandInfoListR13)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MultiBandInfoListR13)), 1, 8); err != nil {
 			return fmt.Errorf("encoding multiBandInfoList-r13 length: %w", err)
 		}
-		for _, elem := range *v.MultiBandInfoListR13 {
+		for _, elem := range v.MultiBandInfoListR13 {
 			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(32), false); err != nil {
 				return fmt.Errorf("encoding multiBandInfoList-r13 element: %w", err)
 			}
@@ -27451,7 +27529,7 @@ func (v *SystemInformationBlockType2NBR13) unmarshalUPERFrom(bb *per.BitBuffer) 
 			}
 			tmp_multibandinfolistr13[i] = AdditionalSpectrumEmission(val)
 		}
-		v.MultiBandInfoListR13 = &tmp_multibandinfolistr13
+		v.MultiBandInfoListR13 = tmp_multibandinfolistr13
 	}
 	if opt_latenoncriticalextension {
 		val_latenoncriticalextension, err := per.DecodeOctetString(bb, 0, 0, false)
@@ -27815,10 +27893,10 @@ func (v *SystemInformationBlockType32NBR17) marshalUPERTo(bb *per.BitBuffer) err
 		return err
 	}
 	if v.SatelliteInfoListR17 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.SatelliteInfoListR17)), 1, 4); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SatelliteInfoListR17)), 1, 4); err != nil {
 			return fmt.Errorf("encoding satelliteInfoList-r17 length: %w", err)
 		}
-		for _, elem := range *v.SatelliteInfoListR17 {
+		for _, elem := range v.SatelliteInfoListR17 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding satelliteInfoList-r17 element: %w", err)
 			}
@@ -27883,7 +27961,7 @@ func (v *SystemInformationBlockType32NBR17) unmarshalUPERFrom(bb *per.BitBuffer)
 				return fmt.Errorf("decoding satelliteInfoList-r17 element: %w", err)
 			}
 		}
-		v.SatelliteInfoListR17 = &tmp_satelliteinfolistr17
+		v.SatelliteInfoListR17 = tmp_satelliteinfolistr17
 	}
 	if opt_latenoncriticalextension {
 		val_latenoncriticalextension, err := per.DecodeOctetString(bb, 0, 0, false)
@@ -27956,20 +28034,20 @@ func (v *SystemInformationBlockType3NBR13) marshalUPERTo(bb *per.BitBuffer) erro
 		return fmt.Errorf("encoding intraFreqCellReselectionInfo-r13: %w", err)
 	}
 	if v.FreqBandInfoR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.FreqBandInfoR13)), 1, 4); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.FreqBandInfoR13)), 1, 4); err != nil {
 			return fmt.Errorf("encoding freqBandInfo-r13 length: %w", err)
 		}
-		for _, elem := range *v.FreqBandInfoR13 {
+		for _, elem := range v.FreqBandInfoR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding freqBandInfo-r13 element: %w", err)
 			}
 		}
 	}
 	if v.MultiBandInfoListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MultiBandInfoListR13)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MultiBandInfoListR13)), 1, 8); err != nil {
 			return fmt.Errorf("encoding multiBandInfoList-r13 length: %w", err)
 		}
-		for _, outerElem := range *v.MultiBandInfoListR13 {
+		for _, outerElem := range v.MultiBandInfoListR13 {
 			if err := per.EncodeConstrainedWholeNumber(bb, int64(len(outerElem)), 1, 4); err != nil {
 				return fmt.Errorf("encoding multiBandInfoList-r13 inner length: %w", err)
 			}
@@ -28207,7 +28285,7 @@ func (v *SystemInformationBlockType3NBR13) unmarshalUPERFrom(bb *per.BitBuffer) 
 				return fmt.Errorf("decoding freqBandInfo-r13 element: %w", err)
 			}
 		}
-		v.FreqBandInfoR13 = &tmp_freqbandinfor13
+		v.FreqBandInfoR13 = tmp_freqbandinfor13
 	}
 	if opt_multibandinfolistr13 {
 		seqLen_multibandinfolistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
@@ -28222,7 +28300,7 @@ func (v *SystemInformationBlockType3NBR13) unmarshalUPERFrom(bb *per.BitBuffer) 
 			}
 			_ = innerLen // nested SEQUENCE_OF of SEQUENCE not yet supported
 		}
-		v.MultiBandInfoListR13 = &tmp_multibandinfolistr13
+		v.MultiBandInfoListR13 = tmp_multibandinfolistr13
 	}
 	if opt_latenoncriticalextension {
 		val_latenoncriticalextension, err := per.DecodeOctetString(bb, 0, 0, false)
@@ -28423,20 +28501,20 @@ func (v *SystemInformationBlockType4NBR13) marshalUPERTo(bb *per.BitBuffer) erro
 		return err
 	}
 	if v.IntraFreqNeighCellListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.IntraFreqNeighCellListR13)), 1, 16); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.IntraFreqNeighCellListR13)), 1, 16); err != nil {
 			return fmt.Errorf("encoding intraFreqNeighCellList-r13 length: %w", err)
 		}
-		for _, elem := range *v.IntraFreqNeighCellListR13 {
+		for _, elem := range v.IntraFreqNeighCellListR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding intraFreqNeighCellList-r13 element: %w", err)
 			}
 		}
 	}
 	if v.IntraFreqExcludedCellListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.IntraFreqExcludedCellListR13)), 1, 16); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.IntraFreqExcludedCellListR13)), 1, 16); err != nil {
 			return fmt.Errorf("encoding intraFreqExcludedCellList-r13 length: %w", err)
 		}
-		for _, elem := range *v.IntraFreqExcludedCellListR13 {
+		for _, elem := range v.IntraFreqExcludedCellListR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding intraFreqExcludedCellList-r13 element: %w", err)
 			}
@@ -28485,10 +28563,10 @@ func (v *SystemInformationBlockType4NBR13) marshalUPERTo(bb *per.BitBuffer) erro
 				}
 			}
 			if v.IntraFreqNeighCellListV1530 != nil {
-				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(*v.IntraFreqNeighCellListV1530)), 1, 16); err != nil {
+				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(v.IntraFreqNeighCellListV1530)), 1, 16); err != nil {
 					return fmt.Errorf("encoding intraFreqNeighCellList-v1530 length: %w", err)
 				}
-				for _, elem := range *v.IntraFreqNeighCellListV1530 {
+				for _, elem := range v.IntraFreqNeighCellListV1530 {
 					if err := elem.marshalUPERTo(extBuf); err != nil {
 						return fmt.Errorf("encoding intraFreqNeighCellList-v1530 element: %w", err)
 					}
@@ -28546,7 +28624,7 @@ func (v *SystemInformationBlockType4NBR13) unmarshalUPERFrom(bb *per.BitBuffer) 
 				return fmt.Errorf("decoding intraFreqNeighCellList-r13 element: %w", err)
 			}
 		}
-		v.IntraFreqNeighCellListR13 = &tmp_intrafreqneighcelllistr13
+		v.IntraFreqNeighCellListR13 = tmp_intrafreqneighcelllistr13
 	}
 	if opt_intrafreqexcludedcelllistr13 {
 		seqLen_intrafreqexcludedcelllistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 16)
@@ -28559,7 +28637,7 @@ func (v *SystemInformationBlockType4NBR13) unmarshalUPERFrom(bb *per.BitBuffer) 
 				return fmt.Errorf("decoding intraFreqExcludedCellList-r13 element: %w", err)
 			}
 		}
-		v.IntraFreqExcludedCellListR13 = &tmp_intrafreqexcludedcelllistr13
+		v.IntraFreqExcludedCellListR13 = tmp_intrafreqexcludedcelllistr13
 	}
 	if opt_latenoncriticalextension {
 		val_latenoncriticalextension, err := per.DecodeOctetString(bb, 0, 0, false)
@@ -28618,7 +28696,7 @@ func (v *SystemInformationBlockType4NBR13) unmarshalUPERFrom(bb *per.BitBuffer) 
 						return fmt.Errorf("decoding intraFreqNeighCellList-v1530 element: %w", err)
 					}
 				}
-				v.IntraFreqNeighCellListV1530 = &tmp_intrafreqneighcelllistv1530
+				v.IntraFreqNeighCellListV1530 = tmp_intrafreqneighcelllistv1530
 			}
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -29307,10 +29385,10 @@ func (v *UACBarringNBR16) marshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.UacBarringPerCatListR16 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.UacBarringPerCatListR16)), 1, 63); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.UacBarringPerCatListR16)), 1, 63); err != nil {
 			return fmt.Errorf("encoding uac-BarringPerCatList-r16 length: %w", err)
 		}
-		for _, elem := range *v.UacBarringPerCatListR16 {
+		for _, elem := range v.UacBarringPerCatListR16 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding uac-BarringPerCatList-r16 element: %w", err)
 			}
@@ -29354,7 +29432,7 @@ func (v *UACBarringNBR16) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding uac-BarringPerCatList-r16 element: %w", err)
 			}
 		}
-		v.UacBarringPerCatListR16 = &tmp_uacbarringpercatlistr16
+		v.UacBarringPerCatListR16 = tmp_uacbarringpercatlistr16
 	}
 	if opt_uacac1selectassistinfor16 {
 		val_uacac1selectassistinfor16, err := per.DecodeEnumerated(bb, 3, false)
@@ -29391,10 +29469,10 @@ func (v *UACParamNBR16) marshalUPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding uac-BarringCommon: %w", err)
 		}
 	case UACParamNBR16ChoiceUacBarringPerPLMNList:
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.UacBarringPerPLMNList)), 1, 6); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.UacBarringPerPLMNList)), 1, 6); err != nil {
 			return fmt.Errorf("encoding uac-BarringPerPLMN-List length: %w", err)
 		}
-		for _, elem := range *v.UacBarringPerPLMNList {
+		for _, elem := range v.UacBarringPerPLMNList {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding uac-BarringPerPLMN-List element: %w", err)
 			}
@@ -29435,7 +29513,7 @@ func (v *UACParamNBR16) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding uac-BarringPerPLMN-List element: %w", err)
 			}
 		}
-		v.UacBarringPerPLMNList = &tmp_uacbarringperplmnlist
+		v.UacBarringPerPLMNList = tmp_uacbarringperplmnlist
 	}
 	return nil
 }
@@ -31912,10 +31990,10 @@ func (v *ULConfigCommonTDDNBR15) marshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding tdd-UL-DL-AlignmentOffset-r15: %w", err)
 	}
 	if v.NprachParametersListTDDR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.NprachParametersListTDDR15)), 1, 3); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.NprachParametersListTDDR15)), 1, 3); err != nil {
 			return fmt.Errorf("encoding nprach-ParametersListTDD-r15 length: %w", err)
 		}
-		for _, elem := range *v.NprachParametersListTDDR15 {
+		for _, elem := range v.NprachParametersListTDDR15 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding nprach-ParametersListTDD-r15 element: %w", err)
 			}
@@ -31976,7 +32054,7 @@ func (v *ULConfigCommonTDDNBR15) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding nprach-ParametersListTDD-r15 element: %w", err)
 			}
 		}
-		v.NprachParametersListTDDR15 = &tmp_nprachparameterslisttddr15
+		v.NprachParametersListTDDR15 = tmp_nprachparameterslisttddr15
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegative(bb)
@@ -32029,10 +32107,10 @@ func (v *ULConfigCommonNBR14) marshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding ul-CarrierFreq-r14: %w", err)
 	}
 	if v.NprachParametersListR14 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.NprachParametersListR14)), 1, 3); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.NprachParametersListR14)), 1, 3); err != nil {
 			return fmt.Errorf("encoding nprach-ParametersList-r14 length: %w", err)
 		}
-		for _, elem := range *v.NprachParametersListR14 {
+		for _, elem := range v.NprachParametersListR14 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding nprach-ParametersList-r14 element: %w", err)
 			}
@@ -32077,10 +32155,10 @@ func (v *ULConfigCommonNBR14) marshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.NprachParametersListEDTR15 != nil {
-				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(*v.NprachParametersListEDTR15)), 1, 3); err != nil {
+				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(v.NprachParametersListEDTR15)), 1, 3); err != nil {
 					return fmt.Errorf("encoding nprach-ParametersListEDT-r15 length: %w", err)
 				}
-				for _, elem := range *v.NprachParametersListEDTR15 {
+				for _, elem := range v.NprachParametersListEDTR15 {
 					if err := elem.marshalUPERTo(extBuf); err != nil {
 						return fmt.Errorf("encoding nprach-ParametersListEDT-r15 element: %w", err)
 					}
@@ -32096,10 +32174,10 @@ func (v *ULConfigCommonNBR14) marshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.RsrpThresholdsPrachInfoListR16 != nil {
-				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(*v.RsrpThresholdsPrachInfoListR16)), 1, 2); err != nil {
+				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(v.RsrpThresholdsPrachInfoListR16)), 1, 2); err != nil {
 					return fmt.Errorf("encoding rsrp-ThresholdsPrachInfoList-r16 length: %w", err)
 				}
-				for _, elem := range *v.RsrpThresholdsPrachInfoListR16 {
+				for _, elem := range v.RsrpThresholdsPrachInfoListR16 {
 					if err := per.EncodeInteger(extBuf, int64(elem), int64Ptr(0), int64Ptr(97), false); err != nil {
 						return fmt.Errorf("encoding rsrp-ThresholdsPrachInfoList-r16 element: %w", err)
 					}
@@ -32152,7 +32230,7 @@ func (v *ULConfigCommonNBR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding nprach-ParametersList-r14 element: %w", err)
 			}
 		}
-		v.NprachParametersListR14 = &tmp_nprachparameterslistr14
+		v.NprachParametersListR14 = tmp_nprachparameterslistr14
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegative(bb)
@@ -32192,7 +32270,7 @@ func (v *ULConfigCommonNBR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 						return fmt.Errorf("decoding nprach-ParametersListEDT-r15 element: %w", err)
 					}
 				}
-				v.NprachParametersListEDTR15 = &tmp_nprachparameterslistedtr15
+				v.NprachParametersListEDTR15 = tmp_nprachparameterslistedtr15
 			}
 		}
 		if int64(1) <= extCount && extPresent[1] {
@@ -32219,7 +32297,7 @@ func (v *ULConfigCommonNBR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 					}
 					tmp_rsrpthresholdsprachinfolistr16[i] = RSRPRange(val)
 				}
-				v.RsrpThresholdsPrachInfoListR16 = &tmp_rsrpthresholdsprachinfolistr16
+				v.RsrpThresholdsPrachInfoListR16 = tmp_rsrpthresholdsprachinfolistr16
 			}
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -32258,20 +32336,20 @@ func (v *ULConfigCommonNBV1530) marshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.NprachParametersListFmt2R15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.NprachParametersListFmt2R15)), 1, 3); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.NprachParametersListFmt2R15)), 1, 3); err != nil {
 			return fmt.Errorf("encoding nprach-ParametersListFmt2-r15 length: %w", err)
 		}
-		for _, elem := range *v.NprachParametersListFmt2R15 {
+		for _, elem := range v.NprachParametersListFmt2R15 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding nprach-ParametersListFmt2-r15 element: %w", err)
 			}
 		}
 	}
 	if v.NprachParametersListFmt2EDTR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.NprachParametersListFmt2EDTR15)), 1, 3); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.NprachParametersListFmt2EDTR15)), 1, 3); err != nil {
 			return fmt.Errorf("encoding nprach-ParametersListFmt2EDT-r15 length: %w", err)
 		}
-		for _, elem := range *v.NprachParametersListFmt2EDTR15 {
+		for _, elem := range v.NprachParametersListFmt2EDTR15 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding nprach-ParametersListFmt2EDT-r15 element: %w", err)
 			}
@@ -32331,7 +32409,7 @@ func (v *ULConfigCommonNBV1530) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding nprach-ParametersListFmt2-r15 element: %w", err)
 			}
 		}
-		v.NprachParametersListFmt2R15 = &tmp_nprachparameterslistfmt2r15
+		v.NprachParametersListFmt2R15 = tmp_nprachparameterslistfmt2r15
 	}
 	if opt_nprachparameterslistfmt2edtr15 {
 		seqLen_nprachparameterslistfmt2edtr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
@@ -32344,7 +32422,7 @@ func (v *ULConfigCommonNBV1530) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding nprach-ParametersListFmt2EDT-r15 element: %w", err)
 			}
 		}
-		v.NprachParametersListFmt2EDTR15 = &tmp_nprachparameterslistfmt2edtr15
+		v.NprachParametersListFmt2EDTR15 = tmp_nprachparameterslistfmt2edtr15
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegative(bb)
@@ -32804,10 +32882,10 @@ func (v *ANRMeasResultNBR16CgiInfoR16) marshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding trackingAreaCode-r16: %w", err)
 	}
 	if v.PlmnIdentityListR16 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.PlmnIdentityListR16)), 1, 5); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.PlmnIdentityListR16)), 1, 5); err != nil {
 			return fmt.Errorf("encoding plmn-IdentityList-r16 length: %w", err)
 		}
-		for _, elem := range *v.PlmnIdentityListR16 {
+		for _, elem := range v.PlmnIdentityListR16 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding plmn-IdentityList-r16 element: %w", err)
 			}
@@ -32847,7 +32925,7 @@ func (v *ANRMeasResultNBR16CgiInfoR16) unmarshalUPERFrom(bb *per.BitBuffer) erro
 				return fmt.Errorf("decoding plmn-IdentityList-r16 element: %w", err)
 			}
 		}
-		v.PlmnIdentityListR16 = &tmp_plmnidentitylistr16
+		v.PlmnIdentityListR16 = tmp_plmnidentitylistr16
 	}
 	return nil
 }
@@ -34662,20 +34740,20 @@ func (v *NPRACHConfigSIBNBV1530Fmt2ParametersR15) marshalUPERTo(bb *per.BitBuffe
 		return err
 	}
 	if v.NprachParametersListFmt2R15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.NprachParametersListFmt2R15)), 1, 3); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.NprachParametersListFmt2R15)), 1, 3); err != nil {
 			return fmt.Errorf("encoding nprach-ParametersListFmt2-r15 length: %w", err)
 		}
-		for _, elem := range *v.NprachParametersListFmt2R15 {
+		for _, elem := range v.NprachParametersListFmt2R15 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding nprach-ParametersListFmt2-r15 element: %w", err)
 			}
 		}
 	}
 	if v.NprachParametersListFmt2EDTR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.NprachParametersListFmt2EDTR15)), 1, 3); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.NprachParametersListFmt2EDTR15)), 1, 3); err != nil {
 			return fmt.Errorf("encoding nprach-ParametersListFmt2EDT-r15 length: %w", err)
 		}
-		for _, elem := range *v.NprachParametersListFmt2EDTR15 {
+		for _, elem := range v.NprachParametersListFmt2EDTR15 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding nprach-ParametersListFmt2EDT-r15 element: %w", err)
 			}
@@ -34711,7 +34789,7 @@ func (v *NPRACHConfigSIBNBV1530Fmt2ParametersR15) unmarshalUPERFrom(bb *per.BitB
 				return fmt.Errorf("decoding nprach-ParametersListFmt2-r15 element: %w", err)
 			}
 		}
-		v.NprachParametersListFmt2R15 = &tmp_nprachparameterslistfmt2r15
+		v.NprachParametersListFmt2R15 = tmp_nprachparameterslistfmt2r15
 	}
 	if opt_nprachparameterslistfmt2edtr15 {
 		seqLen_nprachparameterslistfmt2edtr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
@@ -34724,7 +34802,7 @@ func (v *NPRACHConfigSIBNBV1530Fmt2ParametersR15) unmarshalUPERFrom(bb *per.BitB
 				return fmt.Errorf("decoding nprach-ParametersListFmt2EDT-r15 element: %w", err)
 			}
 		}
-		v.NprachParametersListFmt2EDTR15 = &tmp_nprachparameterslistfmt2edtr15
+		v.NprachParametersListFmt2EDTR15 = tmp_nprachparameterslistfmt2edtr15
 	}
 	return nil
 }
@@ -34760,10 +34838,10 @@ func (v *NPRACHConfigSIBNBV1530EdtParametersR15) marshalUPERTo(bb *per.BitBuffer
 		}
 	}
 	if v.NprachParametersListEDTR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.NprachParametersListEDTR15)), 1, 3); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.NprachParametersListEDTR15)), 1, 3); err != nil {
 			return fmt.Errorf("encoding nprach-ParametersListEDT-r15 length: %w", err)
 		}
-		for _, elem := range *v.NprachParametersListEDTR15 {
+		for _, elem := range v.NprachParametersListEDTR15 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding nprach-ParametersListEDT-r15 element: %w", err)
 			}
@@ -34816,7 +34894,7 @@ func (v *NPRACHConfigSIBNBV1530EdtParametersR15) unmarshalUPERFrom(bb *per.BitBu
 				return fmt.Errorf("decoding nprach-ParametersListEDT-r15 element: %w", err)
 			}
 		}
-		v.NprachParametersListEDTR15 = &tmp_nprachparameterslistedtr15
+		v.NprachParametersListEDTR15 = tmp_nprachparameterslistedtr15
 	}
 	return nil
 }
@@ -39451,10 +39529,10 @@ func (v *SystemInformationBlockType14NBR13AbParamR13) marshalUPERTo(bb *per.BitB
 			return fmt.Errorf("encoding ab-Common-r13: %w", err)
 		}
 	case SystemInformationBlockType14NBR13AbParamR13ChoiceAbPerPLMNListR13:
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.AbPerPLMNListR13)), 1, 6); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.AbPerPLMNListR13)), 1, 6); err != nil {
 			return fmt.Errorf("encoding ab-PerPLMN-List-r13 length: %w", err)
 		}
-		for _, elem := range *v.AbPerPLMNListR13 {
+		for _, elem := range v.AbPerPLMNListR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding ab-PerPLMN-List-r13 element: %w", err)
 			}
@@ -39495,7 +39573,7 @@ func (v *SystemInformationBlockType14NBR13AbParamR13) unmarshalUPERFrom(bb *per.
 				return fmt.Errorf("decoding ab-PerPLMN-List-r13 element: %w", err)
 			}
 		}
-		v.AbPerPLMNListR13 = &tmp_abperplmnlistr13
+		v.AbPerPLMNListR13 = tmp_abperplmnlistr13
 	}
 	return nil
 }
@@ -39858,10 +39936,10 @@ func (v *SystemInformationBlockType1NBV1700CellAccessRelatedInfoNTNR17) marshalU
 		return fmt.Errorf("encoding cellBarred-NTN-r17: %w", err)
 	}
 	if v.PlmnIdentityListV1700 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.PlmnIdentityListV1700)), 1, 6); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.PlmnIdentityListV1700)), 1, 6); err != nil {
 			return fmt.Errorf("encoding plmn-IdentityList-v1700 length: %w", err)
 		}
-		for _, elem := range *v.PlmnIdentityListV1700 {
+		for _, elem := range v.PlmnIdentityListV1700 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding plmn-IdentityList-v1700 element: %w", err)
 			}
@@ -39898,7 +39976,7 @@ func (v *SystemInformationBlockType1NBV1700CellAccessRelatedInfoNTNR17) unmarsha
 				return fmt.Errorf("decoding plmn-IdentityList-v1700 element: %w", err)
 			}
 		}
-		v.PlmnIdentityListV1700 = &tmp_plmnidentitylistv1700
+		v.PlmnIdentityListV1700 = tmp_plmnidentitylistv1700
 	}
 	return nil
 }
@@ -39984,20 +40062,20 @@ func (v *SystemInformationBlockType22NBR14MixedOperationModeConfigR15) marshalUP
 		return err
 	}
 	if v.DlConfigListMixedR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.DlConfigListMixedR15)), 1, 15); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.DlConfigListMixedR15)), 1, 15); err != nil {
 			return fmt.Errorf("encoding dl-ConfigListMixed-r15 length: %w", err)
 		}
-		for _, elem := range *v.DlConfigListMixedR15 {
+		for _, elem := range v.DlConfigListMixedR15 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding dl-ConfigListMixed-r15 element: %w", err)
 			}
 		}
 	}
 	if v.UlConfigListMixedR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.UlConfigListMixedR15)), 1, 15); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.UlConfigListMixedR15)), 1, 15); err != nil {
 			return fmt.Errorf("encoding ul-ConfigListMixed-r15 length: %w", err)
 		}
-		for _, elem := range *v.UlConfigListMixedR15 {
+		for _, elem := range v.UlConfigListMixedR15 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding ul-ConfigListMixed-r15 element: %w", err)
 			}
@@ -40051,7 +40129,7 @@ func (v *SystemInformationBlockType22NBR14MixedOperationModeConfigR15) unmarshal
 				return fmt.Errorf("decoding dl-ConfigListMixed-r15 element: %w", err)
 			}
 		}
-		v.DlConfigListMixedR15 = &tmp_dlconfiglistmixedr15
+		v.DlConfigListMixedR15 = tmp_dlconfiglistmixedr15
 	}
 	if opt_ulconfiglistmixedr15 {
 		seqLen_ulconfiglistmixedr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 15)
@@ -40064,7 +40142,7 @@ func (v *SystemInformationBlockType22NBR14MixedOperationModeConfigR15) unmarshal
 				return fmt.Errorf("decoding ul-ConfigListMixed-r15 element: %w", err)
 			}
 		}
-		v.UlConfigListMixedR15 = &tmp_ulconfiglistmixedr15
+		v.UlConfigListMixedR15 = tmp_ulconfiglistmixedr15
 	}
 	if opt_pagingdistributionr15 {
 		val_pagingdistributionr15, err := per.DecodeEnumerated(bb, 1, false)

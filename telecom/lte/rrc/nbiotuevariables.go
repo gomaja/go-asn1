@@ -17,23 +17,27 @@ var (
 
 // VarANRMeasConfigNBR16 represents the ASN.1 type VarANR-MeasConfig-NB-r16 (SEQUENCE).
 type VarANRMeasConfigNBR16 struct {
-	AnrQualityThresholdR16 NRSRPRangeNBR14     `asn1:"tag:0,context,implicit"`
-	AnrCarrierListR16      ANRCarrierListNBR16 `asn1:"tag:1,context,implicit"`
+	AnrQualityThresholdR16  NRSRPRangeNBR14     `asn1:"tag:0,context,implicit"`
+	AnrCarrierListR16       ANRCarrierListNBR16 `asn1:"tag:1,context,implicit"`
+	AnrCarrierListR16Indef_ bool                `asn1:"-" json:"-"`
 }
 
 // VarANRMeasReportNBR16 represents the ASN.1 type VarANR-MeasReport-NB-r16 (SEQUENCE).
 type VarANRMeasReportNBR16 struct {
-	PlmnIdentityListR16   PLMNIdentityList3R11                   `asn1:"tag:0,context,implicit"`
-	ServCellIdentityR16   CellGlobalIdEUTRA                      `asn1:"tag:1,context,implicit"`
-	MeasResultServCellR16 MeasResultServCellNBR14                `asn1:"tag:2,context,implicit"`
-	RelativeTimeStampR16  int64                                  `asn1:"tag:3,context,implicit"`
-	MeasResultListR16     VarANRMeasReportNBR16MeasResultListR16 `asn1:"tag:4,context,implicit"`
+	PlmnIdentityListR16       PLMNIdentityList3R11                   `asn1:"tag:0,context,implicit"`
+	PlmnIdentityListR16Indef_ bool                                   `asn1:"-" json:"-"`
+	ServCellIdentityR16       CellGlobalIdEUTRA                      `asn1:"tag:1,context,implicit"`
+	MeasResultServCellR16     MeasResultServCellNBR14                `asn1:"tag:2,context,implicit"`
+	RelativeTimeStampR16      int64                                  `asn1:"tag:3,context,implicit"`
+	MeasResultListR16         VarANRMeasReportNBR16MeasResultListR16 `asn1:"tag:4,context,implicit"`
+	MeasResultListR16Indef_   bool                                   `asn1:"-" json:"-"`
 }
 
 // VarRLFReportNBR16 represents the ASN.1 type VarRLF-Report-NB-r16 (SEQUENCE).
 type VarRLFReportNBR16 struct {
-	RlfReportR16        RLFReportNBR16       `asn1:"tag:0,context,implicit"`
-	PlmnIdentityListR16 PLMNIdentityList3R11 `asn1:"tag:1,context,implicit"`
+	RlfReportR16              RLFReportNBR16       `asn1:"tag:0,context,implicit"`
+	PlmnIdentityListR16       PLMNIdentityList3R11 `asn1:"tag:1,context,implicit"`
+	PlmnIdentityListR16Indef_ bool                 `asn1:"-" json:"-"`
 }
 
 // VarShortMACInputNBR13 represents the ASN.1 type VarShortMAC-Input-NB-r13 (SEQUENCE).
