@@ -31,7 +31,8 @@ type ASConfig struct {
 	SourceDlCarrierFreq                  ARFCNValueEUTRA              `asn1:"tag:8,context,implicit"`
 	SourceSystemInformationBlockType1Ext []byte                       `asn1:"tag:9,context,implicit,optional" json:"SourceSystemInformationBlockType1Ext,omitempty"`
 	SourceOtherConfigR9                  *OtherConfigR9               `asn1:"tag:10,context,implicit" json:"SourceOtherConfigR9,omitempty"`
-	SourceSCellConfigListR10             *SCellToAddModListR10        `asn1:"tag:11,context,implicit,optional" json:"SourceSCellConfigListR10,omitempty"`
+	SourceSCellConfigListR10             SCellToAddModListR10         `asn1:"tag:11,context,implicit,optional" json:"SourceSCellConfigListR10,omitempty"`
+	SourceSCellConfigListR10Indef_       bool                         `asn1:"-" json:"-"`
 	SourceConfigSCGR12                   *SCGConfigR12                `asn1:"tag:12,context,implicit,optional" json:"SourceConfigSCGR12,omitempty"`
 	AsConfigNRR15                        *ASConfigNRR15               `asn1:"tag:13,context,implicit,optional" json:"AsConfigNRR15,omitempty"`
 	AsConfigV1550                        *ASConfigV1550               `asn1:"tag:14,context,implicit,optional" json:"AsConfigV1550,omitempty"`
@@ -73,23 +74,27 @@ type ASConfigV1250 struct {
 
 // ASConfigV1320 represents the ASN.1 type AS-Config-v1320 (SEQUENCE).
 type ASConfigV1320 struct {
-	SourceSCellConfigListR13    *SCellToAddModListExtR13 `asn1:"tag:0,context,implicit,optional" json:"SourceSCellConfigListR13,omitempty"`
-	SourceRCLWIConfigurationR13 *RCLWIConfigurationR13   `asn1:"tag:1,context,explicit,optional" json:"SourceRCLWIConfigurationR13,omitempty"`
+	SourceSCellConfigListR13       SCellToAddModListExtR13 `asn1:"tag:0,context,implicit,optional" json:"SourceSCellConfigListR13,omitempty"`
+	SourceSCellConfigListR13Indef_ bool                    `asn1:"-" json:"-"`
+	SourceRCLWIConfigurationR13    *RCLWIConfigurationR13  `asn1:"tag:1,context,explicit,optional" json:"SourceRCLWIConfigurationR13,omitempty"`
 }
 
 // ASConfigV13c0 represents the ASN.1 type AS-Config-v13c0 (SEQUENCE).
 type ASConfigV13c0 struct {
 	RadioResourceConfigDedicatedV13c01 *RadioResourceConfigDedicatedV1370 `asn1:"tag:0,context,implicit,optional" json:"RadioResourceConfigDedicatedV13c01,omitempty"`
 	RadioResourceConfigDedicatedV13c02 *RadioResourceConfigDedicatedV13c0 `asn1:"tag:1,context,implicit,optional" json:"RadioResourceConfigDedicatedV13c02,omitempty"`
-	SCellToAddModListV13c0             *SCellToAddModListV13c0            `asn1:"tag:2,context,implicit,optional" json:"SCellToAddModListV13c0,omitempty"`
-	SCellToAddModListExtV13c0          *SCellToAddModListExtV13c0         `asn1:"tag:3,context,implicit,optional" json:"SCellToAddModListExtV13c0,omitempty"`
+	SCellToAddModListV13c0             SCellToAddModListV13c0             `asn1:"tag:2,context,implicit,optional" json:"SCellToAddModListV13c0,omitempty"`
+	SCellToAddModListV13c0Indef_       bool                               `asn1:"-" json:"-"`
+	SCellToAddModListExtV13c0          SCellToAddModListExtV13c0          `asn1:"tag:3,context,implicit,optional" json:"SCellToAddModListExtV13c0,omitempty"`
+	SCellToAddModListExtV13c0Indef_    bool                               `asn1:"-" json:"-"`
 }
 
 // ASConfigV1430 represents the ASN.1 type AS-Config-v1430 (SEQUENCE).
 type ASConfigV1430 struct {
-	SourceSLV2XCommConfigR14 *SLV2XConfigDedicatedR14 `asn1:"tag:0,context,implicit,optional" json:"SourceSLV2XCommConfigR14,omitempty"`
-	SourceLWAConfigR14       *LWAConfigR13            `asn1:"tag:1,context,implicit,optional" json:"SourceLWAConfigR14,omitempty"`
-	SourceWLANMeasResultR14  *MeasResultListWLANR13   `asn1:"tag:2,context,implicit,optional" json:"SourceWLANMeasResultR14,omitempty"`
+	SourceSLV2XCommConfigR14      *SLV2XConfigDedicatedR14 `asn1:"tag:0,context,implicit,optional" json:"SourceSLV2XCommConfigR14,omitempty"`
+	SourceLWAConfigR14            *LWAConfigR13            `asn1:"tag:1,context,implicit,optional" json:"SourceLWAConfigR14,omitempty"`
+	SourceWLANMeasResultR14       MeasResultListWLANR13    `asn1:"tag:2,context,implicit,optional" json:"SourceWLANMeasResultR14,omitempty"`
+	SourceWLANMeasResultR14Indef_ bool                     `asn1:"-" json:"-"`
 }
 
 // ASConfigV1550 represents the ASN.1 type AS-Config-v1550 (SEQUENCE).
@@ -232,11 +237,12 @@ type HandoverPreparationInformation struct {
 
 // HandoverPreparationInformationR8IEs represents the ASN.1 type HandoverPreparationInformation-r8-IEs (SEQUENCE).
 type HandoverPreparationInformationR8IEs struct {
-	UeRadioAccessCapabilityInfo UECapabilityRATContainerList           `asn1:"tag:0,context,implicit"`
-	AsConfig                    *ASConfig                              `asn1:"tag:1,context,implicit,optional" json:"AsConfig,omitempty"`
-	RrmConfig                   *RRMConfig                             `asn1:"tag:2,context,implicit,optional" json:"RrmConfig,omitempty"`
-	AsContext                   *ASContext                             `asn1:"tag:3,context,implicit,optional" json:"AsContext,omitempty"`
-	NonCriticalExtension        *HandoverPreparationInformationV920IEs `asn1:"tag:4,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	UeRadioAccessCapabilityInfo       UECapabilityRATContainerList           `asn1:"tag:0,context,implicit"`
+	UeRadioAccessCapabilityInfoIndef_ bool                                   `asn1:"-" json:"-"`
+	AsConfig                          *ASConfig                              `asn1:"tag:1,context,implicit,optional" json:"AsConfig,omitempty"`
+	RrmConfig                         *RRMConfig                             `asn1:"tag:2,context,implicit,optional" json:"RrmConfig,omitempty"`
+	AsContext                         *ASContext                             `asn1:"tag:3,context,implicit,optional" json:"AsContext,omitempty"`
+	NonCriticalExtension              *HandoverPreparationInformationV920IEs `asn1:"tag:4,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // HandoverPreparationInformationV10j0IEs represents the ASN.1 type HandoverPreparationInformation-v10j0-IEs (SEQUENCE).
@@ -375,22 +381,25 @@ type MeasResultServCellSCGR12 struct {
 
 // RRMConfig represents the ASN.1 type RRM-Config (SEQUENCE).
 type RRMConfig struct {
-	UeInactiveTime             *int64                       `asn1:"tag:0,context,implicit,optional" json:"UeInactiveTime,omitempty"`
-	CandidateCellInfoListR10   *CandidateCellInfoListR10    `asn1:"tag:1,context,implicit,optional" json:"CandidateCellInfoListR10,omitempty"`
-	CandidateCellInfoListNRR15 *MeasResultServFreqListNRR15 `asn1:"tag:2,context,implicit,optional" json:"CandidateCellInfoListNRR15,omitempty"`
-	ExtCount_                  int64                        `asn1:"-" json:"-"`
-	ExtPresent_                []bool                       `asn1:"-" json:"-"`
-	ExtData_                   [][]byte                     `asn1:"-" json:"-"`
+	UeInactiveTime                   *int64                      `asn1:"tag:0,context,implicit,optional" json:"UeInactiveTime,omitempty"`
+	CandidateCellInfoListR10         CandidateCellInfoListR10    `asn1:"tag:1,context,implicit,optional" json:"CandidateCellInfoListR10,omitempty"`
+	CandidateCellInfoListR10Indef_   bool                        `asn1:"-" json:"-"`
+	CandidateCellInfoListNRR15       MeasResultServFreqListNRR15 `asn1:"tag:2,context,implicit,optional" json:"CandidateCellInfoListNRR15,omitempty"`
+	CandidateCellInfoListNRR15Indef_ bool                        `asn1:"-" json:"-"`
+	ExtCount_                        int64                       `asn1:"-" json:"-"`
+	ExtPresent_                      []bool                      `asn1:"-" json:"-"`
+	ExtData_                         [][]byte                    `asn1:"-" json:"-"`
 }
 
 // ReestablishmentInfo represents the ASN.1 type ReestablishmentInfo (SEQUENCE).
 type ReestablishmentInfo struct {
-	SourcePhysCellId          PhysCellId                 `asn1:"tag:0,context,implicit"`
-	TargetCellShortMACI       ShortMACI                  `asn1:"tag:1,context,implicit"`
-	AdditionalReestabInfoList *AdditionalReestabInfoList `asn1:"tag:2,context,implicit,optional" json:"AdditionalReestabInfoList,omitempty"`
-	ExtCount_                 int64                      `asn1:"-" json:"-"`
-	ExtPresent_               []bool                     `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+	SourcePhysCellId                PhysCellId                `asn1:"tag:0,context,implicit"`
+	TargetCellShortMACI             ShortMACI                 `asn1:"tag:1,context,implicit"`
+	AdditionalReestabInfoList       AdditionalReestabInfoList `asn1:"tag:2,context,implicit,optional" json:"AdditionalReestabInfoList,omitempty"`
+	AdditionalReestabInfoListIndef_ bool                      `asn1:"-" json:"-"`
+	ExtCount_                       int64                     `asn1:"-" json:"-"`
+	ExtPresent_                     []bool                    `asn1:"-" json:"-"`
+	ExtData_                        [][]byte                  `asn1:"-" json:"-"`
 }
 
 // SCGConfigInfoR12 represents the ASN.1 type SCG-ConfigInfo-r12 (SEQUENCE).
@@ -400,37 +409,48 @@ type SCGConfigInfoR12 struct {
 
 // SCGConfigInfoR12IEs represents the ASN.1 type SCG-ConfigInfo-r12-IEs (SEQUENCE).
 type SCGConfigInfoR12IEs struct {
-	RadioResourceConfigDedMCGR12 *RadioResourceConfigDedicated `asn1:"tag:0,context,implicit,optional" json:"RadioResourceConfigDedMCGR12,omitempty"`
-	SCellToAddModListMCGR12      *SCellToAddModListR10         `asn1:"tag:1,context,implicit,optional" json:"SCellToAddModListMCGR12,omitempty"`
-	MeasGapConfigR12             *MeasGapConfig                `asn1:"tag:2,context,explicit,optional" json:"MeasGapConfigR12,omitempty"`
-	PowerCoordinationInfoR12     *PowerCoordinationInfoR12     `asn1:"tag:3,context,implicit,optional" json:"PowerCoordinationInfoR12,omitempty"`
-	ScgRadioConfigR12            *SCGConfigPartSCGR12          `asn1:"tag:4,context,implicit,optional" json:"ScgRadioConfigR12,omitempty"`
-	EutraCapabilityInfoR12       []byte                        `asn1:"tag:5,context,implicit,optional" json:"EutraCapabilityInfoR12,omitempty"`
-	ScgConfigRestrictInfoR12     *SCGConfigRestrictInfoR12     `asn1:"tag:6,context,implicit,optional" json:"ScgConfigRestrictInfoR12,omitempty"`
-	MbmsInterestIndicationR12    []byte                        `asn1:"tag:7,context,implicit,optional" json:"MbmsInterestIndicationR12,omitempty"`
-	MeasResultServCellListSCGR12 *MeasResultServCellListSCGR12 `asn1:"tag:8,context,implicit,optional" json:"MeasResultServCellListSCGR12,omitempty"`
-	DrbToAddModListSCGR12        *DRBInfoListSCGR12            `asn1:"tag:9,context,implicit,optional" json:"DrbToAddModListSCGR12,omitempty"`
-	DrbToReleaseListSCGR12       *DRBToReleaseList             `asn1:"tag:10,context,implicit,optional" json:"DrbToReleaseListSCGR12,omitempty"`
-	SCellToAddModListSCGR12      *SCellToAddModListSCGR12      `asn1:"tag:11,context,implicit,optional" json:"SCellToAddModListSCGR12,omitempty"`
-	SCellToReleaseListSCGR12     *SCellToReleaseListR10        `asn1:"tag:12,context,implicit,optional" json:"SCellToReleaseListSCGR12,omitempty"`
-	PMaxR12                      *PMax                         `asn1:"tag:13,context,implicit,optional" json:"PMaxR12,omitempty"`
-	NonCriticalExtension         *SCGConfigInfoV1310IEs        `asn1:"tag:14,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	RadioResourceConfigDedMCGR12       *RadioResourceConfigDedicated `asn1:"tag:0,context,implicit,optional" json:"RadioResourceConfigDedMCGR12,omitempty"`
+	SCellToAddModListMCGR12            SCellToAddModListR10          `asn1:"tag:1,context,implicit,optional" json:"SCellToAddModListMCGR12,omitempty"`
+	SCellToAddModListMCGR12Indef_      bool                          `asn1:"-" json:"-"`
+	MeasGapConfigR12                   *MeasGapConfig                `asn1:"tag:2,context,explicit,optional" json:"MeasGapConfigR12,omitempty"`
+	PowerCoordinationInfoR12           *PowerCoordinationInfoR12     `asn1:"tag:3,context,implicit,optional" json:"PowerCoordinationInfoR12,omitempty"`
+	ScgRadioConfigR12                  *SCGConfigPartSCGR12          `asn1:"tag:4,context,implicit,optional" json:"ScgRadioConfigR12,omitempty"`
+	EutraCapabilityInfoR12             []byte                        `asn1:"tag:5,context,implicit,optional" json:"EutraCapabilityInfoR12,omitempty"`
+	ScgConfigRestrictInfoR12           *SCGConfigRestrictInfoR12     `asn1:"tag:6,context,implicit,optional" json:"ScgConfigRestrictInfoR12,omitempty"`
+	MbmsInterestIndicationR12          []byte                        `asn1:"tag:7,context,implicit,optional" json:"MbmsInterestIndicationR12,omitempty"`
+	MeasResultServCellListSCGR12       MeasResultServCellListSCGR12  `asn1:"tag:8,context,implicit,optional" json:"MeasResultServCellListSCGR12,omitempty"`
+	MeasResultServCellListSCGR12Indef_ bool                          `asn1:"-" json:"-"`
+	DrbToAddModListSCGR12              DRBInfoListSCGR12             `asn1:"tag:9,context,implicit,optional" json:"DrbToAddModListSCGR12,omitempty"`
+	DrbToAddModListSCGR12Indef_        bool                          `asn1:"-" json:"-"`
+	DrbToReleaseListSCGR12             DRBToReleaseList              `asn1:"tag:10,context,implicit,optional" json:"DrbToReleaseListSCGR12,omitempty"`
+	DrbToReleaseListSCGR12Indef_       bool                          `asn1:"-" json:"-"`
+	SCellToAddModListSCGR12            SCellToAddModListSCGR12       `asn1:"tag:11,context,implicit,optional" json:"SCellToAddModListSCGR12,omitempty"`
+	SCellToAddModListSCGR12Indef_      bool                          `asn1:"-" json:"-"`
+	SCellToReleaseListSCGR12           SCellToReleaseListR10         `asn1:"tag:12,context,implicit,optional" json:"SCellToReleaseListSCGR12,omitempty"`
+	SCellToReleaseListSCGR12Indef_     bool                          `asn1:"-" json:"-"`
+	PMaxR12                            *PMax                         `asn1:"tag:13,context,implicit,optional" json:"PMaxR12,omitempty"`
+	NonCriticalExtension               *SCGConfigInfoV1310IEs        `asn1:"tag:14,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // SCGConfigInfoV1310IEs represents the ASN.1 type SCG-ConfigInfo-v1310-IEs (SEQUENCE).
 type SCGConfigInfoV1310IEs struct {
-	MeasResultSSTDR13               *MeasResultSSTDR13               `asn1:"tag:0,context,implicit,optional" json:"MeasResultSSTDR13,omitempty"`
-	SCellToAddModListMCGExtR13      *SCellToAddModListExtR13         `asn1:"tag:1,context,implicit,optional" json:"SCellToAddModListMCGExtR13,omitempty"`
-	MeasResultServCellListSCGExtR13 *MeasResultServCellListSCGExtR13 `asn1:"tag:2,context,implicit,optional" json:"MeasResultServCellListSCGExtR13,omitempty"`
-	SCellToAddModListSCGExtR13      *SCellToAddModListSCGExtR13      `asn1:"tag:3,context,implicit,optional" json:"SCellToAddModListSCGExtR13,omitempty"`
-	SCellToReleaseListSCGExtR13     *SCellToReleaseListExtR13        `asn1:"tag:4,context,implicit,optional" json:"SCellToReleaseListSCGExtR13,omitempty"`
-	NonCriticalExtension            *SCGConfigInfoV1330IEs           `asn1:"tag:5,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	MeasResultSSTDR13                     *MeasResultSSTDR13              `asn1:"tag:0,context,implicit,optional" json:"MeasResultSSTDR13,omitempty"`
+	SCellToAddModListMCGExtR13            SCellToAddModListExtR13         `asn1:"tag:1,context,implicit,optional" json:"SCellToAddModListMCGExtR13,omitempty"`
+	SCellToAddModListMCGExtR13Indef_      bool                            `asn1:"-" json:"-"`
+	MeasResultServCellListSCGExtR13       MeasResultServCellListSCGExtR13 `asn1:"tag:2,context,implicit,optional" json:"MeasResultServCellListSCGExtR13,omitempty"`
+	MeasResultServCellListSCGExtR13Indef_ bool                            `asn1:"-" json:"-"`
+	SCellToAddModListSCGExtR13            SCellToAddModListSCGExtR13      `asn1:"tag:3,context,implicit,optional" json:"SCellToAddModListSCGExtR13,omitempty"`
+	SCellToAddModListSCGExtR13Indef_      bool                            `asn1:"-" json:"-"`
+	SCellToReleaseListSCGExtR13           SCellToReleaseListExtR13        `asn1:"tag:4,context,implicit,optional" json:"SCellToReleaseListSCGExtR13,omitempty"`
+	SCellToReleaseListSCGExtR13Indef_     bool                            `asn1:"-" json:"-"`
+	NonCriticalExtension                  *SCGConfigInfoV1330IEs          `asn1:"tag:5,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // SCGConfigInfoV1330IEs represents the ASN.1 type SCG-ConfigInfo-v1330-IEs (SEQUENCE).
 type SCGConfigInfoV1330IEs struct {
-	MeasResultListRSSISCGR13 *MeasResultListRSSISCGR13 `asn1:"tag:0,context,implicit,optional" json:"MeasResultListRSSISCGR13,omitempty"`
-	NonCriticalExtension     *SCGConfigInfoV1430IEs    `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	MeasResultListRSSISCGR13       MeasResultListRSSISCGR13 `asn1:"tag:0,context,implicit,optional" json:"MeasResultListRSSISCGR13,omitempty"`
+	MeasResultListRSSISCGR13Indef_ bool                     `asn1:"-" json:"-"`
+	NonCriticalExtension           *SCGConfigInfoV1430IEs   `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // SCGConfigInfoV1430IEs represents the ASN.1 type SCG-ConfigInfo-v1430-IEs (SEQUENCE).
@@ -442,9 +462,11 @@ type SCGConfigInfoV1430IEs struct {
 
 // SCGConfigInfoV1530IEs represents the ASN.1 type SCG-ConfigInfo-v1530-IEs (SEQUENCE).
 type SCGConfigInfoV1530IEs struct {
-	DrbToAddModListSCGR15  *DRBInfoListSCGR15   `asn1:"tag:0,context,implicit,optional" json:"DrbToAddModListSCGR15,omitempty"`
-	DrbToReleaseListSCGR15 *DRBToReleaseListR15 `asn1:"tag:1,context,implicit,optional" json:"DrbToReleaseListSCGR15,omitempty"`
-	NonCriticalExtension   *runtime.RawValue    `asn1:"tag:2,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	DrbToAddModListSCGR15        DRBInfoListSCGR15   `asn1:"tag:0,context,implicit,optional" json:"DrbToAddModListSCGR15,omitempty"`
+	DrbToAddModListSCGR15Indef_  bool                `asn1:"-" json:"-"`
+	DrbToReleaseListSCGR15       DRBToReleaseListR15 `asn1:"tag:1,context,implicit,optional" json:"DrbToReleaseListSCGR15,omitempty"`
+	DrbToReleaseListSCGR15Indef_ bool                `asn1:"-" json:"-"`
+	NonCriticalExtension         *runtime.RawValue   `asn1:"tag:2,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // SCGConfigRestrictInfoR12 represents the ASN.1 type SCG-ConfigRestrictInfo-r12 (SEQUENCE).
@@ -523,8 +545,9 @@ type UERadioPagingInformationR12IEs struct {
 
 // UERadioPagingInformationV1310IEs represents the ASN.1 type UERadioPagingInformation-v1310-IEs (SEQUENCE).
 type UERadioPagingInformationV1310IEs struct {
-	SupportedBandListEUTRAForPagingR13 *UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13 `asn1:"tag:0,context,implicit,optional" json:"SupportedBandListEUTRAForPagingR13,omitempty"`
-	NonCriticalExtension               *UERadioPagingInformationV1610IEs                                   `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	SupportedBandListEUTRAForPagingR13       UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13 `asn1:"tag:0,context,implicit,optional" json:"SupportedBandListEUTRAForPagingR13,omitempty"`
+	SupportedBandListEUTRAForPagingR13Indef_ bool                                                               `asn1:"-" json:"-"`
+	NonCriticalExtension                     *UERadioPagingInformationV1610IEs                                  `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // UERadioPagingInformationV1610IEs represents the ASN.1 type UERadioPagingInformation-v1610-IEs (SEQUENCE).
@@ -1538,10 +1561,10 @@ func (v *ASConfig) marshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.SourceSCellConfigListR10 != nil {
-				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(*v.SourceSCellConfigListR10)), 1, 4); err != nil {
+				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(v.SourceSCellConfigListR10)), 1, 4); err != nil {
 					return fmt.Errorf("encoding sourceSCellConfigList-r10 length: %w", err)
 				}
-				for _, elem := range *v.SourceSCellConfigListR10 {
+				for _, elem := range v.SourceSCellConfigListR10 {
 					if err := elem.marshalUPERTo(extBuf); err != nil {
 						return fmt.Errorf("encoding sourceSCellConfigList-r10 element: %w", err)
 					}
@@ -1739,7 +1762,7 @@ func (v *ASConfig) unmarshalUPERFrom(bb *per.BitBuffer) error {
 						return fmt.Errorf("decoding sourceSCellConfigList-r10 element: %w", err)
 					}
 				}
-				v.SourceSCellConfigListR10 = &tmp_sourcescellconfiglistr10
+				v.SourceSCellConfigListR10 = tmp_sourcescellconfiglistr10
 			}
 		}
 		if int64(2) <= extCount && extPresent[2] {
@@ -2140,10 +2163,10 @@ func (v *ASConfigV1320) marshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.SourceSCellConfigListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.SourceSCellConfigListR13)), 1, 31); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SourceSCellConfigListR13)), 1, 31); err != nil {
 			return fmt.Errorf("encoding sourceSCellConfigList-r13 length: %w", err)
 		}
-		for _, elem := range *v.SourceSCellConfigListR13 {
+		for _, elem := range v.SourceSCellConfigListR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding sourceSCellConfigList-r13 element: %w", err)
 			}
@@ -2184,7 +2207,7 @@ func (v *ASConfigV1320) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding sourceSCellConfigList-r13 element: %w", err)
 			}
 		}
-		v.SourceSCellConfigListR13 = &tmp_sourcescellconfiglistr13
+		v.SourceSCellConfigListR13 = tmp_sourcescellconfiglistr13
 	}
 	if opt_sourcerclwiconfigurationr13 {
 		var dec_sourcerclwiconfigurationr13 RCLWIConfigurationR13
@@ -2230,20 +2253,20 @@ func (v *ASConfigV13c0) marshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.SCellToAddModListV13c0 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.SCellToAddModListV13c0)), 1, 4); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SCellToAddModListV13c0)), 1, 4); err != nil {
 			return fmt.Errorf("encoding sCellToAddModList-v13c0 length: %w", err)
 		}
-		for _, elem := range *v.SCellToAddModListV13c0 {
+		for _, elem := range v.SCellToAddModListV13c0 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding sCellToAddModList-v13c0 element: %w", err)
 			}
 		}
 	}
 	if v.SCellToAddModListExtV13c0 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.SCellToAddModListExtV13c0)), 1, 31); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SCellToAddModListExtV13c0)), 1, 31); err != nil {
 			return fmt.Errorf("encoding sCellToAddModListExt-v13c0 length: %w", err)
 		}
-		for _, elem := range *v.SCellToAddModListExtV13c0 {
+		for _, elem := range v.SCellToAddModListExtV13c0 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding sCellToAddModListExt-v13c0 element: %w", err)
 			}
@@ -2301,7 +2324,7 @@ func (v *ASConfigV13c0) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding sCellToAddModList-v13c0 element: %w", err)
 			}
 		}
-		v.SCellToAddModListV13c0 = &tmp_scelltoaddmodlistv13c0
+		v.SCellToAddModListV13c0 = tmp_scelltoaddmodlistv13c0
 	}
 	if opt_scelltoaddmodlistextv13c0 {
 		seqLen_scelltoaddmodlistextv13c0, err := per.DecodeConstrainedWholeNumber(bb, 1, 31)
@@ -2314,7 +2337,7 @@ func (v *ASConfigV13c0) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding sCellToAddModListExt-v13c0 element: %w", err)
 			}
 		}
-		v.SCellToAddModListExtV13c0 = &tmp_scelltoaddmodlistextv13c0
+		v.SCellToAddModListExtV13c0 = tmp_scelltoaddmodlistextv13c0
 	}
 	return nil
 }
@@ -2350,10 +2373,10 @@ func (v *ASConfigV1430) marshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.SourceWLANMeasResultR14 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.SourceWLANMeasResultR14)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SourceWLANMeasResultR14)), 1, 8); err != nil {
 			return fmt.Errorf("encoding sourceWLAN-MeasResult-r14 length: %w", err)
 		}
-		for _, elem := range *v.SourceWLANMeasResultR14 {
+		for _, elem := range v.SourceWLANMeasResultR14 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding sourceWLAN-MeasResult-r14 element: %w", err)
 			}
@@ -2407,7 +2430,7 @@ func (v *ASConfigV1430) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding sourceWLAN-MeasResult-r14 element: %w", err)
 			}
 		}
-		v.SourceWLANMeasResultR14 = &tmp_sourcewlanmeasresultr14
+		v.SourceWLANMeasResultR14 = tmp_sourcewlanmeasresultr14
 	}
 	return nil
 }
@@ -5422,10 +5445,10 @@ func (v *RRMConfig) marshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.CandidateCellInfoListR10 != nil {
-				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(*v.CandidateCellInfoListR10)), 1, 8); err != nil {
+				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(v.CandidateCellInfoListR10)), 1, 8); err != nil {
 					return fmt.Errorf("encoding candidateCellInfoList-r10 length: %w", err)
 				}
-				for _, elem := range *v.CandidateCellInfoListR10 {
+				for _, elem := range v.CandidateCellInfoListR10 {
 					if err := elem.marshalUPERTo(extBuf); err != nil {
 						return fmt.Errorf("encoding candidateCellInfoList-r10 element: %w", err)
 					}
@@ -5441,10 +5464,10 @@ func (v *RRMConfig) marshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.CandidateCellInfoListNRR15 != nil {
-				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(*v.CandidateCellInfoListNRR15)), 1, 32); err != nil {
+				if err := per.EncodeConstrainedWholeNumber(extBuf, int64(len(v.CandidateCellInfoListNRR15)), 1, 32); err != nil {
 					return fmt.Errorf("encoding candidateCellInfoListNR-r15 length: %w", err)
 				}
-				for _, elem := range *v.CandidateCellInfoListNRR15 {
+				for _, elem := range v.CandidateCellInfoListNRR15 {
 					if err := elem.marshalUPERTo(extBuf); err != nil {
 						return fmt.Errorf("encoding candidateCellInfoListNR-r15 element: %w", err)
 					}
@@ -5528,7 +5551,7 @@ func (v *RRMConfig) unmarshalUPERFrom(bb *per.BitBuffer) error {
 						return fmt.Errorf("decoding candidateCellInfoList-r10 element: %w", err)
 					}
 				}
-				v.CandidateCellInfoListR10 = &tmp_candidatecellinfolistr10
+				v.CandidateCellInfoListR10 = tmp_candidatecellinfolistr10
 			}
 		}
 		if int64(1) <= extCount && extPresent[1] {
@@ -5553,7 +5576,7 @@ func (v *RRMConfig) unmarshalUPERFrom(bb *per.BitBuffer) error {
 						return fmt.Errorf("decoding candidateCellInfoListNR-r15 element: %w", err)
 					}
 				}
-				v.CandidateCellInfoListNRR15 = &tmp_candidatecellinfolistnrr15
+				v.CandidateCellInfoListNRR15 = tmp_candidatecellinfolistnrr15
 			}
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -5595,10 +5618,10 @@ func (v *ReestablishmentInfo) marshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding targetCellShortMAC-I: %w", err)
 	}
 	if v.AdditionalReestabInfoList != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.AdditionalReestabInfoList)), 1, 32); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.AdditionalReestabInfoList)), 1, 32); err != nil {
 			return fmt.Errorf("encoding additionalReestabInfoList length: %w", err)
 		}
-		for _, elem := range *v.AdditionalReestabInfoList {
+		for _, elem := range v.AdditionalReestabInfoList {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding additionalReestabInfoList element: %w", err)
 			}
@@ -5664,7 +5687,7 @@ func (v *ReestablishmentInfo) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding additionalReestabInfoList element: %w", err)
 			}
 		}
-		v.AdditionalReestabInfoList = &tmp_additionalreestabinfolist
+		v.AdditionalReestabInfoList = tmp_additionalreestabinfolist
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegative(bb)
@@ -5786,10 +5809,10 @@ func (v *SCGConfigInfoR12IEs) marshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.SCellToAddModListMCGR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.SCellToAddModListMCGR12)), 1, 4); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SCellToAddModListMCGR12)), 1, 4); err != nil {
 			return fmt.Errorf("encoding sCellToAddModListMCG-r12 length: %w", err)
 		}
-		for _, elem := range *v.SCellToAddModListMCGR12 {
+		for _, elem := range v.SCellToAddModListMCGR12 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding sCellToAddModListMCG-r12 element: %w", err)
 			}
@@ -5826,50 +5849,50 @@ func (v *SCGConfigInfoR12IEs) marshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.MeasResultServCellListSCGR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MeasResultServCellListSCGR12)), 1, 5); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasResultServCellListSCGR12)), 1, 5); err != nil {
 			return fmt.Errorf("encoding measResultServCellListSCG-r12 length: %w", err)
 		}
-		for _, elem := range *v.MeasResultServCellListSCGR12 {
+		for _, elem := range v.MeasResultServCellListSCGR12 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding measResultServCellListSCG-r12 element: %w", err)
 			}
 		}
 	}
 	if v.DrbToAddModListSCGR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.DrbToAddModListSCGR12)), 1, 11); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.DrbToAddModListSCGR12)), 1, 11); err != nil {
 			return fmt.Errorf("encoding drb-ToAddModListSCG-r12 length: %w", err)
 		}
-		for _, elem := range *v.DrbToAddModListSCGR12 {
+		for _, elem := range v.DrbToAddModListSCGR12 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding drb-ToAddModListSCG-r12 element: %w", err)
 			}
 		}
 	}
 	if v.DrbToReleaseListSCGR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.DrbToReleaseListSCGR12)), 1, 11); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.DrbToReleaseListSCGR12)), 1, 11); err != nil {
 			return fmt.Errorf("encoding drb-ToReleaseListSCG-r12 length: %w", err)
 		}
-		for _, elem := range *v.DrbToReleaseListSCGR12 {
+		for _, elem := range v.DrbToReleaseListSCGR12 {
 			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(32), false); err != nil {
 				return fmt.Errorf("encoding drb-ToReleaseListSCG-r12 element: %w", err)
 			}
 		}
 	}
 	if v.SCellToAddModListSCGR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.SCellToAddModListSCGR12)), 1, 4); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SCellToAddModListSCGR12)), 1, 4); err != nil {
 			return fmt.Errorf("encoding sCellToAddModListSCG-r12 length: %w", err)
 		}
-		for _, elem := range *v.SCellToAddModListSCGR12 {
+		for _, elem := range v.SCellToAddModListSCGR12 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding sCellToAddModListSCG-r12 element: %w", err)
 			}
 		}
 	}
 	if v.SCellToReleaseListSCGR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.SCellToReleaseListSCGR12)), 1, 4); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SCellToReleaseListSCGR12)), 1, 4); err != nil {
 			return fmt.Errorf("encoding sCellToReleaseListSCG-r12 length: %w", err)
 		}
-		for _, elem := range *v.SCellToReleaseListSCGR12 {
+		for _, elem := range v.SCellToReleaseListSCGR12 {
 			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(7), false); err != nil {
 				return fmt.Errorf("encoding sCellToReleaseListSCG-r12 element: %w", err)
 			}
@@ -5974,7 +5997,7 @@ func (v *SCGConfigInfoR12IEs) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding sCellToAddModListMCG-r12 element: %w", err)
 			}
 		}
-		v.SCellToAddModListMCGR12 = &tmp_scelltoaddmodlistmcgr12
+		v.SCellToAddModListMCGR12 = tmp_scelltoaddmodlistmcgr12
 	}
 	if opt_measgapconfigr12 {
 		var dec_measgapconfigr12 MeasGapConfig
@@ -6031,7 +6054,7 @@ func (v *SCGConfigInfoR12IEs) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding measResultServCellListSCG-r12 element: %w", err)
 			}
 		}
-		v.MeasResultServCellListSCGR12 = &tmp_measresultservcelllistscgr12
+		v.MeasResultServCellListSCGR12 = tmp_measresultservcelllistscgr12
 	}
 	if opt_drbtoaddmodlistscgr12 {
 		seqLen_drbtoaddmodlistscgr12, err := per.DecodeConstrainedWholeNumber(bb, 1, 11)
@@ -6044,7 +6067,7 @@ func (v *SCGConfigInfoR12IEs) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding drb-ToAddModListSCG-r12 element: %w", err)
 			}
 		}
-		v.DrbToAddModListSCGR12 = &tmp_drbtoaddmodlistscgr12
+		v.DrbToAddModListSCGR12 = tmp_drbtoaddmodlistscgr12
 	}
 	if opt_drbtoreleaselistscgr12 {
 		seqLen_drbtoreleaselistscgr12, err := per.DecodeConstrainedWholeNumber(bb, 1, 11)
@@ -6059,7 +6082,7 @@ func (v *SCGConfigInfoR12IEs) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_drbtoreleaselistscgr12[i] = DRBIdentity(val)
 		}
-		v.DrbToReleaseListSCGR12 = &tmp_drbtoreleaselistscgr12
+		v.DrbToReleaseListSCGR12 = tmp_drbtoreleaselistscgr12
 	}
 	if opt_scelltoaddmodlistscgr12 {
 		seqLen_scelltoaddmodlistscgr12, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
@@ -6072,7 +6095,7 @@ func (v *SCGConfigInfoR12IEs) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding sCellToAddModListSCG-r12 element: %w", err)
 			}
 		}
-		v.SCellToAddModListSCGR12 = &tmp_scelltoaddmodlistscgr12
+		v.SCellToAddModListSCGR12 = tmp_scelltoaddmodlistscgr12
 	}
 	if opt_scelltoreleaselistscgr12 {
 		seqLen_scelltoreleaselistscgr12, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
@@ -6087,7 +6110,7 @@ func (v *SCGConfigInfoR12IEs) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_scelltoreleaselistscgr12[i] = SCellIndexR10(val)
 		}
-		v.SCellToReleaseListSCGR12 = &tmp_scelltoreleaselistscgr12
+		v.SCellToReleaseListSCGR12 = tmp_scelltoreleaselistscgr12
 	}
 	if opt_pmaxr12 {
 		val_pmaxr12, err := per.DecodeInteger(bb, int64Ptr(-30), int64Ptr(33), false)
@@ -6141,40 +6164,40 @@ func (v *SCGConfigInfoV1310IEs) marshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.SCellToAddModListMCGExtR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.SCellToAddModListMCGExtR13)), 1, 31); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SCellToAddModListMCGExtR13)), 1, 31); err != nil {
 			return fmt.Errorf("encoding sCellToAddModListMCG-Ext-r13 length: %w", err)
 		}
-		for _, elem := range *v.SCellToAddModListMCGExtR13 {
+		for _, elem := range v.SCellToAddModListMCGExtR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding sCellToAddModListMCG-Ext-r13 element: %w", err)
 			}
 		}
 	}
 	if v.MeasResultServCellListSCGExtR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MeasResultServCellListSCGExtR13)), 1, 32); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasResultServCellListSCGExtR13)), 1, 32); err != nil {
 			return fmt.Errorf("encoding measResultServCellListSCG-Ext-r13 length: %w", err)
 		}
-		for _, elem := range *v.MeasResultServCellListSCGExtR13 {
+		for _, elem := range v.MeasResultServCellListSCGExtR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding measResultServCellListSCG-Ext-r13 element: %w", err)
 			}
 		}
 	}
 	if v.SCellToAddModListSCGExtR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.SCellToAddModListSCGExtR13)), 1, 31); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SCellToAddModListSCGExtR13)), 1, 31); err != nil {
 			return fmt.Errorf("encoding sCellToAddModListSCG-Ext-r13 length: %w", err)
 		}
-		for _, elem := range *v.SCellToAddModListSCGExtR13 {
+		for _, elem := range v.SCellToAddModListSCGExtR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding sCellToAddModListSCG-Ext-r13 element: %w", err)
 			}
 		}
 	}
 	if v.SCellToReleaseListSCGExtR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.SCellToReleaseListSCGExtR13)), 1, 31); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SCellToReleaseListSCGExtR13)), 1, 31); err != nil {
 			return fmt.Errorf("encoding sCellToReleaseListSCG-Ext-r13 length: %w", err)
 		}
-		for _, elem := range *v.SCellToReleaseListSCGExtR13 {
+		for _, elem := range v.SCellToReleaseListSCGExtR13 {
 			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(31), false); err != nil {
 				return fmt.Errorf("encoding sCellToReleaseListSCG-Ext-r13 element: %w", err)
 			}
@@ -6238,7 +6261,7 @@ func (v *SCGConfigInfoV1310IEs) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding sCellToAddModListMCG-Ext-r13 element: %w", err)
 			}
 		}
-		v.SCellToAddModListMCGExtR13 = &tmp_scelltoaddmodlistmcgextr13
+		v.SCellToAddModListMCGExtR13 = tmp_scelltoaddmodlistmcgextr13
 	}
 	if opt_measresultservcelllistscgextr13 {
 		seqLen_measresultservcelllistscgextr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
@@ -6251,7 +6274,7 @@ func (v *SCGConfigInfoV1310IEs) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding measResultServCellListSCG-Ext-r13 element: %w", err)
 			}
 		}
-		v.MeasResultServCellListSCGExtR13 = &tmp_measresultservcelllistscgextr13
+		v.MeasResultServCellListSCGExtR13 = tmp_measresultservcelllistscgextr13
 	}
 	if opt_scelltoaddmodlistscgextr13 {
 		seqLen_scelltoaddmodlistscgextr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 31)
@@ -6264,7 +6287,7 @@ func (v *SCGConfigInfoV1310IEs) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding sCellToAddModListSCG-Ext-r13 element: %w", err)
 			}
 		}
-		v.SCellToAddModListSCGExtR13 = &tmp_scelltoaddmodlistscgextr13
+		v.SCellToAddModListSCGExtR13 = tmp_scelltoaddmodlistscgextr13
 	}
 	if opt_scelltoreleaselistscgextr13 {
 		seqLen_scelltoreleaselistscgextr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 31)
@@ -6279,7 +6302,7 @@ func (v *SCGConfigInfoV1310IEs) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_scelltoreleaselistscgextr13[i] = SCellIndexR13(val)
 		}
-		v.SCellToReleaseListSCGExtR13 = &tmp_scelltoreleaselistscgextr13
+		v.SCellToReleaseListSCGExtR13 = tmp_scelltoreleaselistscgextr13
 	}
 	if opt_noncriticalextension {
 		var dec_noncriticalextension SCGConfigInfoV1330IEs
@@ -6309,10 +6332,10 @@ func (v *SCGConfigInfoV1330IEs) marshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.MeasResultListRSSISCGR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.MeasResultListRSSISCGR13)), 1, 32); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasResultListRSSISCGR13)), 1, 32); err != nil {
 			return fmt.Errorf("encoding measResultListRSSI-SCG-r13 length: %w", err)
 		}
-		for _, elem := range *v.MeasResultListRSSISCGR13 {
+		for _, elem := range v.MeasResultListRSSISCGR13 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding measResultListRSSI-SCG-r13 element: %w", err)
 			}
@@ -6353,7 +6376,7 @@ func (v *SCGConfigInfoV1330IEs) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding measResultListRSSI-SCG-r13 element: %w", err)
 			}
 		}
-		v.MeasResultListRSSISCGR13 = &tmp_measresultlistrssiscgr13
+		v.MeasResultListRSSISCGR13 = tmp_measresultlistrssiscgr13
 	}
 	if opt_noncriticalextension {
 		var dec_noncriticalextension SCGConfigInfoV1430IEs
@@ -6468,20 +6491,20 @@ func (v *SCGConfigInfoV1530IEs) marshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.DrbToAddModListSCGR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.DrbToAddModListSCGR15)), 1, 15); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.DrbToAddModListSCGR15)), 1, 15); err != nil {
 			return fmt.Errorf("encoding drb-ToAddModListSCG-r15 length: %w", err)
 		}
-		for _, elem := range *v.DrbToAddModListSCGR15 {
+		for _, elem := range v.DrbToAddModListSCGR15 {
 			if err := elem.marshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding drb-ToAddModListSCG-r15 element: %w", err)
 			}
 		}
 	}
 	if v.DrbToReleaseListSCGR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.DrbToReleaseListSCGR15)), 1, 15); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.DrbToReleaseListSCGR15)), 1, 15); err != nil {
 			return fmt.Errorf("encoding drb-ToReleaseListSCG-r15 length: %w", err)
 		}
-		for _, elem := range *v.DrbToReleaseListSCGR15 {
+		for _, elem := range v.DrbToReleaseListSCGR15 {
 			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(32), false); err != nil {
 				return fmt.Errorf("encoding drb-ToReleaseListSCG-r15 element: %w", err)
 			}
@@ -6523,7 +6546,7 @@ func (v *SCGConfigInfoV1530IEs) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding drb-ToAddModListSCG-r15 element: %w", err)
 			}
 		}
-		v.DrbToAddModListSCGR15 = &tmp_drbtoaddmodlistscgr15
+		v.DrbToAddModListSCGR15 = tmp_drbtoaddmodlistscgr15
 	}
 	if opt_drbtoreleaselistscgr15 {
 		seqLen_drbtoreleaselistscgr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 15)
@@ -6538,7 +6561,7 @@ func (v *SCGConfigInfoV1530IEs) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_drbtoreleaselistscgr15[i] = DRBIdentity(val)
 		}
-		v.DrbToReleaseListSCGR15 = &tmp_drbtoreleaselistscgr15
+		v.DrbToReleaseListSCGR15 = tmp_drbtoreleaselistscgr15
 	}
 	if opt_noncriticalextension {
 		tmp_noncriticalextension := runtime.RawValue{}
@@ -7116,10 +7139,10 @@ func (v *UERadioPagingInformationV1310IEs) marshalUPERTo(bb *per.BitBuffer) erro
 		return err
 	}
 	if v.SupportedBandListEUTRAForPagingR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(*v.SupportedBandListEUTRAForPagingR13)), 1, 64); err != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SupportedBandListEUTRAForPagingR13)), 1, 64); err != nil {
 			return fmt.Errorf("encoding supportedBandListEUTRAForPaging-r13 length: %w", err)
 		}
-		for _, elem := range *v.SupportedBandListEUTRAForPagingR13 {
+		for _, elem := range v.SupportedBandListEUTRAForPagingR13 {
 			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(256), false); err != nil {
 				return fmt.Errorf("encoding supportedBandListEUTRAForPaging-r13 element: %w", err)
 			}
@@ -7162,7 +7185,7 @@ func (v *UERadioPagingInformationV1310IEs) unmarshalUPERFrom(bb *per.BitBuffer) 
 			}
 			tmp_supportedbandlisteutraforpagingr13[i] = FreqBandIndicatorR11(val)
 		}
-		v.SupportedBandListEUTRAForPagingR13 = &tmp_supportedbandlisteutraforpagingr13
+		v.SupportedBandListEUTRAForPagingR13 = tmp_supportedbandlisteutraforpagingr13
 	}
 	if opt_noncriticalextension {
 		var dec_noncriticalextension UERadioPagingInformationV1610IEs

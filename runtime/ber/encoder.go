@@ -306,6 +306,19 @@ func EncodeSequence(children []byte) []byte {
 	)
 }
 
+// EncodeConstructedIndefinite encodes a constructed TLV using BER indefinite length form.
+// This produces: tag bytes + 0x80 + children + 0x00 0x00.
+func EncodeConstructedIndefinite(t tag.Tag, children []byte) []byte {
+	t.Constructed = true
+	tagBytes := t.Encode()
+	result := make([]byte, 0, len(tagBytes)+1+len(children)+2)
+	result = append(result, tagBytes...)
+	result = append(result, 0x80) // indefinite length
+	result = append(result, children...)
+	result = append(result, 0x00, 0x00) // end-of-contents
+	return result
+}
+
 // EncodeSet encodes a SET (constructed) from pre-encoded children.
 // For DER, children should be sorted by tag before calling this.
 func EncodeSet(children []byte) []byte {
@@ -323,6 +336,14 @@ func EncodeExplicitTag(tagNum int, content []byte) []byte {
 	)
 }
 
+// EncodeExplicitTagWithClass wraps encoded content in an explicit tag with the given class.
+func EncodeExplicitTagWithClass(tagClass tag.Class, tagNum int, content []byte) []byte {
+	return EncodeTLV(
+		tag.Tag{Class: tagClass, Number: tagNum, Constructed: true},
+		content,
+	)
+}
+
 // EncodeImplicitTag re-tags encoded content with an implicit context-specific tag.
 // It replaces the outermost tag but keeps the original constructed flag.
 func EncodeImplicitTag(tagNum int, constructed bool, content []byte) []byte {
@@ -336,6 +357,21 @@ func EncodeImplicitTag(tagNum int, constructed bool, content []byte) []byte {
 	}
 	return EncodeTLV(
 		tag.Tag{Class: tag.ClassContextSpecific, Number: tagNum, Constructed: constructed},
+		valueBytes,
+	)
+}
+
+// EncodeImplicitTagWithClass re-tags encoded content with an implicit tag of the given class.
+func EncodeImplicitTagWithClass(tagClass tag.Class, tagNum int, constructed bool, content []byte) []byte {
+	if len(content) == 0 {
+		return nil
+	}
+	_, _, valueBytes, err := DecodeTLV(content)
+	if err != nil {
+		return nil
+	}
+	return EncodeTLV(
+		tag.Tag{Class: tagClass, Number: tagNum, Constructed: constructed},
 		valueBytes,
 	)
 }

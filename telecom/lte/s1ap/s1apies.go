@@ -39,12 +39,13 @@ type AdditionalRRMPriorityIndex = runtime.BitString
 
 // AdditionalGUTI represents the ASN.1 type Additional-GUTI (SEQUENCE).
 type AdditionalGUTI struct {
-	GUMMEI       GUMMEI                      `asn1:"tag:0,context,implicit"`
-	MTMSI        MTMSI                       `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	GUMMEI             GUMMEI                     `asn1:"tag:0,context,implicit"`
+	MTMSI              MTMSI                      `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // AerialUEsubscriptionInformation represents the ASN.1 ENUMERATED type AerialUEsubscriptionInformation.
@@ -68,13 +69,14 @@ func (v AerialUEsubscriptionInformation) String() string {
 
 // AllocationAndRetentionPriority represents the ASN.1 type AllocationAndRetentionPriority (SEQUENCE).
 type AllocationAndRetentionPriority struct {
-	PriorityLevel           PriorityLevel               `asn1:"tag:0,context,implicit"`
-	PreEmptionCapability    PreEmptionCapability        `asn1:"tag:1,context,implicit"`
-	PreEmptionVulnerability PreEmptionVulnerability     `asn1:"tag:2,context,implicit"`
-	IEExtensions            *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_               int64                       `asn1:"-" json:"-"`
-	ExtPresent_             []bool                      `asn1:"-" json:"-"`
-	ExtData_                [][]byte                    `asn1:"-" json:"-"`
+	PriorityLevel           PriorityLevel              `asn1:"tag:0,context,implicit"`
+	PreEmptionCapability    PreEmptionCapability       `asn1:"tag:1,context,implicit"`
+	PreEmptionVulnerability PreEmptionVulnerability    `asn1:"tag:2,context,implicit"`
+	IEExtensions            ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_      bool                       `asn1:"-" json:"-"`
+	ExtCount_               int64                      `asn1:"-" json:"-"`
+	ExtPresent_             []bool                     `asn1:"-" json:"-"`
+	ExtData_                [][]byte                   `asn1:"-" json:"-"`
 }
 
 // AreaScopeOfMDT choice constants.
@@ -178,7 +180,8 @@ func NewAreaScopeOfQMCPLMNAreaBased(v PLMNAreaBasedQMC) AreaScopeOfQMC {
 // AssistanceDataForCECapableUEs represents the ASN.1 type AssistanceDataForCECapableUEs (SEQUENCE).
 type AssistanceDataForCECapableUEs struct {
 	CellIdentifierAndCELevelForCECapableUEs CellIdentifierAndCELevelForCECapableUEs `asn1:"tag:0,context,implicit"`
-	IEExtensions                            *ProtocolExtensionContainer             `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensions                            ProtocolExtensionContainer              `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_                      bool                                    `asn1:"-" json:"-"`
 	ExtCount_                               int64                                   `asn1:"-" json:"-"`
 	ExtPresent_                             []bool                                  `asn1:"-" json:"-"`
 	ExtData_                                [][]byte                                `asn1:"-" json:"-"`
@@ -189,7 +192,8 @@ type AssistanceDataForPaging struct {
 	AssistanceDataForRecommendedCells *AssistanceDataForRecommendedCells `asn1:"tag:0,context,implicit,optional" json:"AssistanceDataForRecommendedCells,omitempty"`
 	AssistanceDataForCECapableUEs     *AssistanceDataForCECapableUEs     `asn1:"tag:1,context,implicit,optional" json:"AssistanceDataForCECapableUEs,omitempty"`
 	PagingAttemptInformation          *PagingAttemptInformation          `asn1:"tag:2,context,implicit,optional" json:"PagingAttemptInformation,omitempty"`
-	IEExtensions                      *ProtocolExtensionContainer        `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensions                      ProtocolExtensionContainer         `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_                bool                               `asn1:"-" json:"-"`
 	ExtCount_                         int64                              `asn1:"-" json:"-"`
 	ExtPresent_                       []bool                             `asn1:"-" json:"-"`
 	ExtData_                          [][]byte                           `asn1:"-" json:"-"`
@@ -197,11 +201,12 @@ type AssistanceDataForPaging struct {
 
 // AssistanceDataForRecommendedCells represents the ASN.1 type AssistanceDataForRecommendedCells (SEQUENCE).
 type AssistanceDataForRecommendedCells struct {
-	RecommendedCellsForPaging RecommendedCellsForPaging   `asn1:"tag:0,context,implicit"`
-	IEExtensions              *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                 int64                       `asn1:"-" json:"-"`
-	ExtPresent_               []bool                      `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                    `asn1:"-" json:"-"`
+	RecommendedCellsForPaging RecommendedCellsForPaging  `asn1:"tag:0,context,implicit"`
+	IEExtensions              ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
+	ExtCount_                 int64                      `asn1:"-" json:"-"`
+	ExtPresent_               []bool                     `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
 }
 
 // BPLMNs represents the ASN.1 type BPLMNs (SEQUENCE_OF).
@@ -228,12 +233,13 @@ type BearersSubjectToEarlyStatusTransferList = []ProtocolIESingleContainer
 
 // BearersSubjectToEarlyStatusTransferItem represents the ASN.1 type Bearers-SubjectToEarlyStatusTransfer-Item (SEQUENCE).
 type BearersSubjectToEarlyStatusTransferItem struct {
-	ERABID              ERABID                      `asn1:"tag:0,context,implicit"`
-	DLCOUNTPDCPSNlength DLCOUNTPDCPSNlength         `asn1:"tag:1,context,explicit"`
-	IEExtensions        *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_           int64                       `asn1:"-" json:"-"`
-	ExtPresent_         []bool                      `asn1:"-" json:"-"`
-	ExtData_            [][]byte                    `asn1:"-" json:"-"`
+	ERABID              ERABID                     `asn1:"tag:0,context,implicit"`
+	DLCOUNTPDCPSNlength DLCOUNTPDCPSNlength        `asn1:"tag:1,context,explicit"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
 }
 
 // BearersSubjectToStatusTransferList represents the ASN.1 type Bearers-SubjectToStatusTransferList (SEQUENCE_OF).
@@ -241,14 +247,15 @@ type BearersSubjectToStatusTransferList = []ProtocolIESingleContainer
 
 // BearersSubjectToStatusTransferItem represents the ASN.1 type Bearers-SubjectToStatusTransfer-Item (SEQUENCE).
 type BearersSubjectToStatusTransferItem struct {
-	ERABID                    ERABID                      `asn1:"tag:0,context,implicit"`
-	ULCOUNTvalue              COUNTvalue                  `asn1:"tag:1,context,implicit"`
-	DLCOUNTvalue              COUNTvalue                  `asn1:"tag:2,context,implicit"`
-	ReceiveStatusofULPDCPSDUs *ReceiveStatusofULPDCPSDUs  `asn1:"tag:3,context,implicit,optional" json:"ReceiveStatusofULPDCPSDUs,omitempty"`
-	IEExtensions              *ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                 int64                       `asn1:"-" json:"-"`
-	ExtPresent_               []bool                      `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                    `asn1:"-" json:"-"`
+	ERABID                    ERABID                     `asn1:"tag:0,context,implicit"`
+	ULCOUNTvalue              COUNTvalue                 `asn1:"tag:1,context,implicit"`
+	DLCOUNTvalue              COUNTvalue                 `asn1:"tag:2,context,implicit"`
+	ReceiveStatusofULPDCPSDUs *ReceiveStatusofULPDCPSDUs `asn1:"tag:3,context,implicit,optional" json:"ReceiveStatusofULPDCPSDUs,omitempty"`
+	IEExtensions              ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
+	ExtCount_                 int64                      `asn1:"-" json:"-"`
+	ExtPresent_               []bool                     `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
 }
 
 // BitRate represents the ASN.1 type BitRate (INTEGER).
@@ -275,13 +282,15 @@ type BluetoothMeasConfigNameList = []BluetoothName
 
 // BluetoothMeasurementConfiguration represents the ASN.1 type BluetoothMeasurementConfiguration (SEQUENCE).
 type BluetoothMeasurementConfiguration struct {
-	BluetoothMeasConfig         BluetoothMeasConfig          `asn1:"tag:0,context,implicit"`
-	BluetoothMeasConfigNameList *BluetoothMeasConfigNameList `asn1:"tag:1,context,implicit,optional" json:"BluetoothMeasConfigNameList,omitempty"`
-	BtRssi                      *int64                       `asn1:"tag:2,context,implicit,optional" json:"BtRssi,omitempty"`
-	IEExtensions                *ProtocolExtensionContainer  `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                   int64                        `asn1:"-" json:"-"`
-	ExtPresent_                 []bool                       `asn1:"-" json:"-"`
-	ExtData_                    [][]byte                     `asn1:"-" json:"-"`
+	BluetoothMeasConfig               BluetoothMeasConfig         `asn1:"tag:0,context,implicit"`
+	BluetoothMeasConfigNameList       BluetoothMeasConfigNameList `asn1:"tag:1,context,implicit,optional" json:"BluetoothMeasConfigNameList,omitempty"`
+	BluetoothMeasConfigNameListIndef_ bool                        `asn1:"-" json:"-"`
+	BtRssi                            *int64                      `asn1:"tag:2,context,implicit,optional" json:"BtRssi,omitempty"`
+	IEExtensions                      ProtocolExtensionContainer  `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_                bool                        `asn1:"-" json:"-"`
+	ExtCount_                         int64                       `asn1:"-" json:"-"`
+	ExtPresent_                       []bool                      `asn1:"-" json:"-"`
+	ExtData_                          [][]byte                    `asn1:"-" json:"-"`
 }
 
 // BluetoothName represents the ASN.1 type BluetoothName (OCTET_STRING).
@@ -297,16 +306,16 @@ const (
 // BroadcastCancelledAreaList represents the ASN.1 CHOICE type BroadcastCancelledAreaList.
 type BroadcastCancelledAreaList struct {
 	Choice                   int
-	CellIDCancelled          *CellIDCancelled          `json:"CellIDCancelled,omitempty"`
-	TAICancelled             *TAICancelled             `json:"TAICancelled,omitempty"`
-	EmergencyAreaIDCancelled *EmergencyAreaIDCancelled `json:"EmergencyAreaIDCancelled,omitempty"`
+	CellIDCancelled          CellIDCancelled          `json:"CellIDCancelled,omitempty"`
+	TAICancelled             TAICancelled             `json:"TAICancelled,omitempty"`
+	EmergencyAreaIDCancelled EmergencyAreaIDCancelled `json:"EmergencyAreaIDCancelled,omitempty"`
 }
 
 // NewBroadcastCancelledAreaListCellIDCancelled creates a BroadcastCancelledAreaList with the cellID-Cancelled alternative.
 func NewBroadcastCancelledAreaListCellIDCancelled(v CellIDCancelled) BroadcastCancelledAreaList {
 	return BroadcastCancelledAreaList{
 		Choice:          BroadcastCancelledAreaListChoiceCellIDCancelled,
-		CellIDCancelled: &v,
+		CellIDCancelled: v,
 	}
 }
 
@@ -314,7 +323,7 @@ func NewBroadcastCancelledAreaListCellIDCancelled(v CellIDCancelled) BroadcastCa
 func NewBroadcastCancelledAreaListTAICancelled(v TAICancelled) BroadcastCancelledAreaList {
 	return BroadcastCancelledAreaList{
 		Choice:       BroadcastCancelledAreaListChoiceTAICancelled,
-		TAICancelled: &v,
+		TAICancelled: v,
 	}
 }
 
@@ -322,7 +331,7 @@ func NewBroadcastCancelledAreaListTAICancelled(v TAICancelled) BroadcastCancelle
 func NewBroadcastCancelledAreaListEmergencyAreaIDCancelled(v EmergencyAreaIDCancelled) BroadcastCancelledAreaList {
 	return BroadcastCancelledAreaList{
 		Choice:                   BroadcastCancelledAreaListChoiceEmergencyAreaIDCancelled,
-		EmergencyAreaIDCancelled: &v,
+		EmergencyAreaIDCancelled: v,
 	}
 }
 
@@ -336,16 +345,16 @@ const (
 // BroadcastCompletedAreaList represents the ASN.1 CHOICE type BroadcastCompletedAreaList.
 type BroadcastCompletedAreaList struct {
 	Choice                   int
-	CellIDBroadcast          *CellIDBroadcast          `json:"CellIDBroadcast,omitempty"`
-	TAIBroadcast             *TAIBroadcast             `json:"TAIBroadcast,omitempty"`
-	EmergencyAreaIDBroadcast *EmergencyAreaIDBroadcast `json:"EmergencyAreaIDBroadcast,omitempty"`
+	CellIDBroadcast          CellIDBroadcast          `json:"CellIDBroadcast,omitempty"`
+	TAIBroadcast             TAIBroadcast             `json:"TAIBroadcast,omitempty"`
+	EmergencyAreaIDBroadcast EmergencyAreaIDBroadcast `json:"EmergencyAreaIDBroadcast,omitempty"`
 }
 
 // NewBroadcastCompletedAreaListCellIDBroadcast creates a BroadcastCompletedAreaList with the cellID-Broadcast alternative.
 func NewBroadcastCompletedAreaListCellIDBroadcast(v CellIDBroadcast) BroadcastCompletedAreaList {
 	return BroadcastCompletedAreaList{
 		Choice:          BroadcastCompletedAreaListChoiceCellIDBroadcast,
-		CellIDBroadcast: &v,
+		CellIDBroadcast: v,
 	}
 }
 
@@ -353,7 +362,7 @@ func NewBroadcastCompletedAreaListCellIDBroadcast(v CellIDBroadcast) BroadcastCo
 func NewBroadcastCompletedAreaListTAIBroadcast(v TAIBroadcast) BroadcastCompletedAreaList {
 	return BroadcastCompletedAreaList{
 		Choice:       BroadcastCompletedAreaListChoiceTAIBroadcast,
-		TAIBroadcast: &v,
+		TAIBroadcast: v,
 	}
 }
 
@@ -361,7 +370,7 @@ func NewBroadcastCompletedAreaListTAIBroadcast(v TAIBroadcast) BroadcastComplete
 func NewBroadcastCompletedAreaListEmergencyAreaIDBroadcast(v EmergencyAreaIDBroadcast) BroadcastCompletedAreaList {
 	return BroadcastCompletedAreaList{
 		Choice:                   BroadcastCompletedAreaListChoiceEmergencyAreaIDBroadcast,
-		EmergencyAreaIDBroadcast: &v,
+		EmergencyAreaIDBroadcast: v,
 	}
 }
 
@@ -405,14 +414,15 @@ func (v CEModeBSupportIndicator) String() string {
 
 // CGI represents the ASN.1 type CGI (SEQUENCE).
 type CGI struct {
-	PLMNidentity PLMNidentity                `asn1:"tag:0,context,implicit"`
-	LAC          LAC                         `asn1:"tag:1,context,implicit"`
-	CI           CI                          `asn1:"tag:2,context,implicit"`
-	RAC          *RAC                        `asn1:"tag:3,context,implicit,optional" json:"RAC,omitempty"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	PLMNidentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
+	LAC                LAC                        `asn1:"tag:1,context,implicit"`
+	CI                 CI                         `asn1:"tag:2,context,implicit"`
+	RAC                *RAC                       `asn1:"tag:3,context,implicit,optional" json:"RAC,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // CI represents the ASN.1 type CI (OCTET_STRING).
@@ -461,42 +471,46 @@ type CNTypeRestrictions = []CNTypeRestrictionsItem
 
 // CNTypeRestrictionsItem represents the ASN.1 type CNTypeRestrictions-Item (SEQUENCE).
 type CNTypeRestrictionsItem struct {
-	PLMNIdentity PLMNidentity                `asn1:"tag:0,context,implicit"`
-	CNType       CNType                      `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	PLMNIdentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
+	CNType             CNType                     `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // COUNTValueExtended represents the ASN.1 type COUNTValueExtended (SEQUENCE).
 type COUNTValueExtended struct {
-	PDCPSNExtended PDCPSNExtended              `asn1:"tag:0,context,implicit"`
-	HFNModified    HFNModified                 `asn1:"tag:1,context,implicit"`
-	IEExtensions   *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_      int64                       `asn1:"-" json:"-"`
-	ExtPresent_    []bool                      `asn1:"-" json:"-"`
-	ExtData_       [][]byte                    `asn1:"-" json:"-"`
+	PDCPSNExtended     PDCPSNExtended             `asn1:"tag:0,context,implicit"`
+	HFNModified        HFNModified                `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // COUNTvalue represents the ASN.1 type COUNTvalue (SEQUENCE).
 type COUNTvalue struct {
-	PDCPSN       PDCPSN                      `asn1:"tag:0,context,implicit"`
-	HFN          HFN                         `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	PDCPSN             PDCPSN                     `asn1:"tag:0,context,implicit"`
+	HFN                HFN                        `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // COUNTvaluePDCPSNlength18 represents the ASN.1 type COUNTvaluePDCP-SNlength18 (SEQUENCE).
 type COUNTvaluePDCPSNlength18 struct {
-	PDCPSNlength18       PDCPSNlength18              `asn1:"tag:0,context,implicit"`
-	HFNforPDCPSNlength18 HFNforPDCPSNlength18        `asn1:"tag:1,context,implicit"`
-	IEExtensions         *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_            int64                       `asn1:"-" json:"-"`
-	ExtPresent_          []bool                      `asn1:"-" json:"-"`
-	ExtData_             [][]byte                    `asn1:"-" json:"-"`
+	PDCPSNlength18       PDCPSNlength18             `asn1:"tag:0,context,implicit"`
+	HFNforPDCPSNlength18 HFNforPDCPSNlength18       `asn1:"tag:1,context,implicit"`
+	IEExtensions         ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_   bool                       `asn1:"-" json:"-"`
+	ExtCount_            int64                      `asn1:"-" json:"-"`
+	ExtPresent_          []bool                     `asn1:"-" json:"-"`
+	ExtData_             [][]byte                   `asn1:"-" json:"-"`
 }
 
 // CSFallbackIndicator represents the ASN.1 ENUMERATED type CSFallbackIndicator.
@@ -545,11 +559,12 @@ type CSGIdList = []CSGIdListItem
 
 // CSGIdListItem represents the ASN.1 type CSG-IdList-Item (SEQUENCE).
 type CSGIdListItem struct {
-	CSGId        CSGId                       `asn1:"tag:0,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	CSGId              CSGId                      `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // CancelledCellinEAI represents the ASN.1 type CancelledCellinEAI (SEQUENCE_OF).
@@ -557,12 +572,13 @@ type CancelledCellinEAI = []CancelledCellinEAIItem
 
 // CancelledCellinEAIItem represents the ASN.1 type CancelledCellinEAI-Item (SEQUENCE).
 type CancelledCellinEAIItem struct {
-	ECGI               EUTRANCGI                   `asn1:"tag:0,context,implicit"`
-	NumberOfBroadcasts NumberOfBroadcasts          `asn1:"tag:1,context,implicit"`
-	IEExtensions       *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_          int64                       `asn1:"-" json:"-"`
-	ExtPresent_        []bool                      `asn1:"-" json:"-"`
-	ExtData_           [][]byte                    `asn1:"-" json:"-"`
+	ECGI               EUTRANCGI                  `asn1:"tag:0,context,implicit"`
+	NumberOfBroadcasts NumberOfBroadcasts         `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // CancelledCellinTAI represents the ASN.1 type CancelledCellinTAI (SEQUENCE_OF).
@@ -570,12 +586,13 @@ type CancelledCellinTAI = []CancelledCellinTAIItem
 
 // CancelledCellinTAIItem represents the ASN.1 type CancelledCellinTAI-Item (SEQUENCE).
 type CancelledCellinTAIItem struct {
-	ECGI               EUTRANCGI                   `asn1:"tag:0,context,implicit"`
-	NumberOfBroadcasts NumberOfBroadcasts          `asn1:"tag:1,context,implicit"`
-	IEExtensions       *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_          int64                       `asn1:"-" json:"-"`
-	ExtPresent_        []bool                      `asn1:"-" json:"-"`
-	ExtData_           [][]byte                    `asn1:"-" json:"-"`
+	ECGI               EUTRANCGI                  `asn1:"tag:0,context,implicit"`
+	NumberOfBroadcasts NumberOfBroadcasts         `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // Cause choice constants.
@@ -946,13 +963,14 @@ type Cdma2000OneXRAND = []byte
 
 // Cdma2000OneXSRVCCInfo represents the ASN.1 type Cdma2000OneXSRVCCInfo (SEQUENCE).
 type Cdma2000OneXSRVCCInfo struct {
-	Cdma2000OneXMEID  Cdma2000OneXMEID            `asn1:"tag:0,context,implicit"`
-	Cdma2000OneXMSI   Cdma2000OneXMSI             `asn1:"tag:1,context,implicit"`
-	Cdma2000OneXPilot Cdma2000OneXPilot           `asn1:"tag:2,context,implicit"`
-	IEExtensions      *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_         int64                       `asn1:"-" json:"-"`
-	ExtPresent_       []bool                      `asn1:"-" json:"-"`
-	ExtData_          [][]byte                    `asn1:"-" json:"-"`
+	Cdma2000OneXMEID   Cdma2000OneXMEID           `asn1:"tag:0,context,implicit"`
+	Cdma2000OneXMSI    Cdma2000OneXMSI            `asn1:"tag:1,context,implicit"`
+	Cdma2000OneXPilot  Cdma2000OneXPilot          `asn1:"tag:2,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // Cdma2000PDU represents the ASN.1 type Cdma2000PDU (OCTET_STRING).
@@ -998,20 +1016,24 @@ func (v CellAccessMode) String() string {
 
 // CellBasedMDT represents the ASN.1 type CellBasedMDT (SEQUENCE).
 type CellBasedMDT struct {
-	CellIdListforMDT CellIdListforMDT            `asn1:"tag:0,context,implicit"`
-	IEExtensions     *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_        int64                       `asn1:"-" json:"-"`
-	ExtPresent_      []bool                      `asn1:"-" json:"-"`
-	ExtData_         [][]byte                    `asn1:"-" json:"-"`
+	CellIdListforMDT       CellIdListforMDT           `asn1:"tag:0,context,implicit"`
+	CellIdListforMDTIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
 }
 
 // CellBasedQMC represents the ASN.1 type CellBasedQMC (SEQUENCE).
 type CellBasedQMC struct {
-	CellIdListforQMC CellIdListforQMC            `asn1:"tag:0,context,implicit"`
-	IEExtensions     *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_        int64                       `asn1:"-" json:"-"`
-	ExtPresent_      []bool                      `asn1:"-" json:"-"`
-	ExtData_         [][]byte                    `asn1:"-" json:"-"`
+	CellIdListforQMC       CellIdListforQMC           `asn1:"tag:0,context,implicit"`
+	CellIdListforQMCIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
 }
 
 // CellIDBroadcast represents the ASN.1 type CellID-Broadcast (SEQUENCE_OF).
@@ -1019,11 +1041,12 @@ type CellIDBroadcast = []CellIDBroadcastItem
 
 // CellIDBroadcastItem represents the ASN.1 type CellID-Broadcast-Item (SEQUENCE).
 type CellIDBroadcastItem struct {
-	ECGI         EUTRANCGI                   `asn1:"tag:0,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	ECGI               EUTRANCGI                  `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // CellIDCancelled represents the ASN.1 type CellID-Cancelled (SEQUENCE_OF).
@@ -1031,12 +1054,13 @@ type CellIDCancelled = []CellIDCancelledItem
 
 // CellIDCancelledItem represents the ASN.1 type CellID-Cancelled-Item (SEQUENCE).
 type CellIDCancelledItem struct {
-	ECGI               EUTRANCGI                   `asn1:"tag:0,context,implicit"`
-	NumberOfBroadcasts NumberOfBroadcasts          `asn1:"tag:1,context,implicit"`
-	IEExtensions       *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_          int64                       `asn1:"-" json:"-"`
-	ExtPresent_        []bool                      `asn1:"-" json:"-"`
-	ExtData_           [][]byte                    `asn1:"-" json:"-"`
+	ECGI               EUTRANCGI                  `asn1:"tag:0,context,implicit"`
+	NumberOfBroadcasts NumberOfBroadcasts         `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // CellIdListforMDT represents the ASN.1 type CellIdListforMDT (SEQUENCE_OF).
@@ -1047,12 +1071,13 @@ type CellIdListforQMC = []EUTRANCGI
 
 // CellIdentifierAndCELevelForCECapableUEs represents the ASN.1 type CellIdentifierAndCELevelForCECapableUEs (SEQUENCE).
 type CellIdentifierAndCELevelForCECapableUEs struct {
-	GlobalCellID EUTRANCGI                   `asn1:"tag:0,context,implicit"`
-	CELevel      CELevel                     `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	GlobalCellID       EUTRANCGI                  `asn1:"tag:0,context,implicit"`
+	CELevel            CELevel                    `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // CellIdentity represents the ASN.1 type CellIdentity (BIT_STRING).
@@ -1060,11 +1085,12 @@ type CellIdentity = runtime.BitString
 
 // CellType represents the ASN.1 type CellType (SEQUENCE).
 type CellType struct {
-	CellSize     CellSize                    `asn1:"tag:0,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	CellSize           CellSize                   `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // CellSize represents the ASN.1 ENUMERATED type Cell-Size.
@@ -1097,11 +1123,12 @@ type CompletedCellinEAI = []CompletedCellinEAIItem
 
 // CompletedCellinEAIItem represents the ASN.1 type CompletedCellinEAI-Item (SEQUENCE).
 type CompletedCellinEAIItem struct {
-	ECGI         EUTRANCGI                   `asn1:"tag:0,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	ECGI               EUTRANCGI                  `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // CompletedCellinTAI represents the ASN.1 type CompletedCellinTAI (SEQUENCE_OF).
@@ -1109,11 +1136,12 @@ type CompletedCellinTAI = []CompletedCellinTAIItem
 
 // CompletedCellinTAIItem represents the ASN.1 type CompletedCellinTAI-Item (SEQUENCE).
 type CompletedCellinTAIItem struct {
-	ECGI         EUTRANCGI                   `asn1:"tag:0,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	ECGI               EUTRANCGI                  `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ConcurrentWarningMessageIndicator represents the ASN.1 ENUMERATED type ConcurrentWarningMessageIndicator.
@@ -1134,12 +1162,14 @@ func (v ConcurrentWarningMessageIndicator) String() string {
 
 // ConnectedengNBItem represents the ASN.1 type ConnectedengNBItem (SEQUENCE).
 type ConnectedengNBItem struct {
-	EnGNBID      EnGNBID                     `asn1:"tag:0,context,implicit"`
-	SupportedTAs SupportedTAs                `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	EnGNBID            EnGNBID                    `asn1:"tag:0,context,implicit"`
+	SupportedTAs       SupportedTAs               `asn1:"tag:1,context,implicit"`
+	SupportedTAsIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ConnectedengNBList represents the ASN.1 type ConnectedengNBList (SEQUENCE_OF).
@@ -1147,12 +1177,13 @@ type ConnectedengNBList = []ConnectedengNBItem
 
 // ContextatSource represents the ASN.1 type ContextatSource (SEQUENCE).
 type ContextatSource struct {
-	SourceNGRANNodeID GlobalRANNODEID             `asn1:"tag:0,context,explicit"`
-	RANUENGAPID       RANUENGAPID                 `asn1:"tag:1,context,implicit"`
-	IEExtensions      *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_         int64                       `asn1:"-" json:"-"`
-	ExtPresent_       []bool                      `asn1:"-" json:"-"`
-	ExtData_          [][]byte                    `asn1:"-" json:"-"`
+	SourceNGRANNodeID  GlobalRANNODEID            `asn1:"tag:0,context,explicit"`
+	RANUENGAPID        RANUENGAPID                `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // CorrelationID represents the ASN.1 type Correlation-ID (OCTET_STRING).
@@ -1176,25 +1207,28 @@ func (v CoverageLevel) String() string {
 
 // CriticalityDiagnostics represents the ASN.1 type CriticalityDiagnostics (SEQUENCE).
 type CriticalityDiagnostics struct {
-	ProcedureCode             *ProcedureCode                `asn1:"tag:0,context,implicit,optional" json:"ProcedureCode,omitempty"`
-	TriggeringMessage         *TriggeringMessage            `asn1:"tag:1,context,implicit,optional" json:"TriggeringMessage,omitempty"`
-	ProcedureCriticality      *Criticality                  `asn1:"tag:2,context,implicit,optional" json:"ProcedureCriticality,omitempty"`
-	IEsCriticalityDiagnostics *CriticalityDiagnosticsIEList `asn1:"tag:3,context,implicit,optional" json:"IEsCriticalityDiagnostics,omitempty"`
-	IEExtensions              *ProtocolExtensionContainer   `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                 int64                         `asn1:"-" json:"-"`
-	ExtPresent_               []bool                        `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                      `asn1:"-" json:"-"`
+	ProcedureCode                   *ProcedureCode               `asn1:"tag:0,context,implicit,optional" json:"ProcedureCode,omitempty"`
+	TriggeringMessage               *TriggeringMessage           `asn1:"tag:1,context,implicit,optional" json:"TriggeringMessage,omitempty"`
+	ProcedureCriticality            *Criticality                 `asn1:"tag:2,context,implicit,optional" json:"ProcedureCriticality,omitempty"`
+	IEsCriticalityDiagnostics       CriticalityDiagnosticsIEList `asn1:"tag:3,context,implicit,optional" json:"IEsCriticalityDiagnostics,omitempty"`
+	IEsCriticalityDiagnosticsIndef_ bool                         `asn1:"-" json:"-"`
+	IEExtensions                    ProtocolExtensionContainer   `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_              bool                         `asn1:"-" json:"-"`
+	ExtCount_                       int64                        `asn1:"-" json:"-"`
+	ExtPresent_                     []bool                       `asn1:"-" json:"-"`
+	ExtData_                        [][]byte                     `asn1:"-" json:"-"`
 }
 
 // CriticalityDiagnosticsIEItem represents the ASN.1 type CriticalityDiagnostics-IE-Item (SEQUENCE).
 type CriticalityDiagnosticsIEItem struct {
-	IECriticality Criticality                 `asn1:"tag:0,context,implicit"`
-	IEID          ProtocolIEID                `asn1:"tag:1,context,implicit"`
-	TypeOfError   TypeOfError                 `asn1:"tag:2,context,implicit"`
-	IEExtensions  *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_     int64                       `asn1:"-" json:"-"`
-	ExtPresent_   []bool                      `asn1:"-" json:"-"`
-	ExtData_      [][]byte                    `asn1:"-" json:"-"`
+	IECriticality      Criticality                `asn1:"tag:0,context,implicit"`
+	IEID               ProtocolIEID               `asn1:"tag:1,context,implicit"`
+	TypeOfError        TypeOfError                `asn1:"tag:2,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // CriticalityDiagnosticsIEList represents the ASN.1 type CriticalityDiagnostics-IE-List (SEQUENCE_OF).
@@ -1202,30 +1236,33 @@ type CriticalityDiagnosticsIEList = []CriticalityDiagnosticsIEItem
 
 // DAPSRequestInfo represents the ASN.1 type DAPSRequestInfo (SEQUENCE).
 type DAPSRequestInfo struct {
-	DAPSIndicator int64                       `asn1:"tag:0,context,implicit"`
-	IEExtensions  *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_     int64                       `asn1:"-" json:"-"`
-	ExtPresent_   []bool                      `asn1:"-" json:"-"`
-	ExtData_      [][]byte                    `asn1:"-" json:"-"`
+	DAPSIndicator      int64                      `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // DAPSResponseInfo represents the ASN.1 type DAPSResponseInfo (SEQUENCE).
 type DAPSResponseInfo struct {
-	Dapsresponseindicator int64                       `asn1:"tag:0,context,implicit"`
-	IEExtensions          *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_             int64                       `asn1:"-" json:"-"`
-	ExtPresent_           []bool                      `asn1:"-" json:"-"`
-	ExtData_              [][]byte                    `asn1:"-" json:"-"`
+	Dapsresponseindicator int64                      `asn1:"tag:0,context,implicit"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
 // DAPSResponseInfoItem represents the ASN.1 type DAPSResponseInfoItem (SEQUENCE).
 type DAPSResponseInfoItem struct {
-	ERABID           ERABID                      `asn1:"tag:0,context,implicit"`
-	DAPSResponseInfo DAPSResponseInfo            `asn1:"tag:1,context,implicit"`
-	IEExtensions     *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_        int64                       `asn1:"-" json:"-"`
-	ExtPresent_      []bool                      `asn1:"-" json:"-"`
-	ExtData_         [][]byte                    `asn1:"-" json:"-"`
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	DAPSResponseInfo   DAPSResponseInfo           `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // DAPSResponseInfoList represents the ASN.1 type DAPSResponseInfoList (SEQUENCE_OF).
@@ -1291,11 +1328,12 @@ func (v DLNASPDUDeliveryAckRequest) String() string {
 
 // DLCPSecurityInformation represents the ASN.1 type DL-CP-SecurityInformation (SEQUENCE).
 type DLCPSecurityInformation struct {
-	DlNASMAC     DLNASMAC                    `asn1:"tag:0,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	DlNASMAC           DLNASMAC                   `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // DLForwarding represents the ASN.1 ENUMERATED type DL-Forwarding.
@@ -1388,12 +1426,14 @@ type ENBIndirectX2TransportLayerAddresses = []TransportLayerAddress
 
 // ENBX2ExtTLA represents the ASN.1 type ENBX2ExtTLA (SEQUENCE).
 type ENBX2ExtTLA struct {
-	IPsecTLA     *TransportLayerAddress      `asn1:"tag:0,context,implicit,optional" json:"IPsecTLA,omitempty"`
-	GTPTLAa      *ENBX2GTPTLAs               `asn1:"tag:1,context,implicit,optional" json:"GTPTLAa,omitempty"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	IPsecTLA           *TransportLayerAddress     `asn1:"tag:0,context,implicit,optional" json:"IPsecTLA,omitempty"`
+	GTPTLAa            ENBX2GTPTLAs               `asn1:"tag:1,context,implicit,optional" json:"GTPTLAa,omitempty"`
+	GTPTLAaIndef_      bool                       `asn1:"-" json:"-"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ENBX2ExtTLAs represents the ASN.1 type ENBX2ExtTLAs (SEQUENCE_OF).
@@ -1407,11 +1447,13 @@ type ENBX2TLAs = []TransportLayerAddress
 
 // ENBEarlyStatusTransferTransparentContainer represents the ASN.1 type ENB-EarlyStatusTransfer-TransparentContainer (SEQUENCE).
 type ENBEarlyStatusTransferTransparentContainer struct {
-	BearersSubjectToEarlyStatusTransferList BearersSubjectToEarlyStatusTransferList `asn1:"tag:0,context,implicit"`
-	IEExtensions                            *ProtocolExtensionContainer             `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                               int64                                   `asn1:"-" json:"-"`
-	ExtPresent_                             []bool                                  `asn1:"-" json:"-"`
-	ExtData_                                [][]byte                                `asn1:"-" json:"-"`
+	BearersSubjectToEarlyStatusTransferList       BearersSubjectToEarlyStatusTransferList `asn1:"tag:0,context,implicit"`
+	BearersSubjectToEarlyStatusTransferListIndef_ bool                                    `asn1:"-" json:"-"`
+	IEExtensions                                  ProtocolExtensionContainer              `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_                            bool                                    `asn1:"-" json:"-"`
+	ExtCount_                                     int64                                   `asn1:"-" json:"-"`
+	ExtPresent_                                   []bool                                  `asn1:"-" json:"-"`
+	ExtData_                                      [][]byte                                `asn1:"-" json:"-"`
 }
 
 // ENBID choice constants.
@@ -1465,11 +1507,13 @@ func NewENBIDLongMacroENBID(v runtime.BitString) ENBID {
 
 // ENBStatusTransferTransparentContainer represents the ASN.1 type ENB-StatusTransfer-TransparentContainer (SEQUENCE).
 type ENBStatusTransferTransparentContainer struct {
-	BearersSubjectToStatusTransferList BearersSubjectToStatusTransferList `asn1:"tag:0,context,implicit"`
-	IEExtensions                       *ProtocolExtensionContainer        `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                          int64                              `asn1:"-" json:"-"`
-	ExtPresent_                        []bool                             `asn1:"-" json:"-"`
-	ExtData_                           [][]byte                           `asn1:"-" json:"-"`
+	BearersSubjectToStatusTransferList       BearersSubjectToStatusTransferList `asn1:"tag:0,context,implicit"`
+	BearersSubjectToStatusTransferListIndef_ bool                               `asn1:"-" json:"-"`
+	IEExtensions                             ProtocolExtensionContainer         `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_                       bool                               `asn1:"-" json:"-"`
+	ExtCount_                                int64                              `asn1:"-" json:"-"`
+	ExtPresent_                              []bool                             `asn1:"-" json:"-"`
+	ExtData_                                 [][]byte                           `asn1:"-" json:"-"`
 }
 
 // ENBUES1APID represents the ASN.1 type ENB-UE-S1AP-ID (INTEGER).
@@ -1480,13 +1524,14 @@ type ENBname = string
 
 // ENDCSONConfigurationTransfer represents the ASN.1 type EN-DCSONConfigurationTransfer (SEQUENCE).
 type ENDCSONConfigurationTransfer struct {
-	Transfertype    ENDCSONTransferType         `asn1:"tag:0,context,explicit"`
-	SONInformation  SONInformation              `asn1:"tag:1,context,explicit"`
-	X2TNLConfigInfo *X2TNLConfigurationInfo     `asn1:"tag:2,context,implicit,optional" json:"X2TNLConfigInfo,omitempty"`
-	IEExtensions    *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_       int64                       `asn1:"-" json:"-"`
-	ExtPresent_     []bool                      `asn1:"-" json:"-"`
-	ExtData_        [][]byte                    `asn1:"-" json:"-"`
+	Transfertype       ENDCSONTransferType        `asn1:"tag:0,context,explicit"`
+	SONInformation     SONInformation             `asn1:"tag:1,context,explicit"`
+	X2TNLConfigInfo    *X2TNLConfigurationInfo    `asn1:"tag:2,context,implicit,optional" json:"X2TNLConfigInfo,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ENDCSONTransferType choice constants.
@@ -1520,45 +1565,49 @@ func NewENDCSONTransferTypeReply(v ENDCTransferTypeReply) ENDCSONTransferType {
 
 // ENDCSONeNBIdentification represents the ASN.1 type EN-DCSONeNBIdentification (SEQUENCE).
 type ENDCSONeNBIdentification struct {
-	GlobaleNBID  GlobalENBID                 `asn1:"tag:0,context,implicit"`
-	SelectedTAI  TAI                         `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	GlobaleNBID        GlobalENBID                `asn1:"tag:0,context,implicit"`
+	SelectedTAI        TAI                        `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ENDCSONengNBIdentification represents the ASN.1 type EN-DCSONengNBIdentification (SEQUENCE).
 type ENDCSONengNBIdentification struct {
-	GlobalengNBID GlobalEnGNBID               `asn1:"tag:0,context,implicit"`
-	SelectedTAI   TAI                         `asn1:"tag:1,context,implicit"`
-	IEExtensions  *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_     int64                       `asn1:"-" json:"-"`
-	ExtPresent_   []bool                      `asn1:"-" json:"-"`
-	ExtData_      [][]byte                    `asn1:"-" json:"-"`
+	GlobalengNBID      GlobalEnGNBID              `asn1:"tag:0,context,implicit"`
+	SelectedTAI        TAI                        `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ENDCTransferTypeReply represents the ASN.1 type EN-DCTransferTypeReply (SEQUENCE).
 type ENDCTransferTypeReply struct {
-	SourceengNB  ENDCSONengNBIdentification  `asn1:"tag:0,context,implicit"`
-	TargeteNB    ENDCSONeNBIdentification    `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	SourceengNB        ENDCSONengNBIdentification `asn1:"tag:0,context,implicit"`
+	TargeteNB          ENDCSONeNBIdentification   `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ENDCTransferTypeRequest represents the ASN.1 type EN-DCTransferTypeRequest (SEQUENCE).
 type ENDCTransferTypeRequest struct {
-	SourceeNB       ENDCSONeNBIdentification    `asn1:"tag:0,context,implicit"`
-	TargetengNB     ENDCSONengNBIdentification  `asn1:"tag:1,context,implicit"`
-	TargeteNB       *ENDCSONeNBIdentification   `asn1:"tag:2,context,implicit,optional" json:"TargeteNB,omitempty"`
-	AssociatedTAI   *TAI                        `asn1:"tag:3,context,implicit,optional" json:"AssociatedTAI,omitempty"`
-	Broadcast5GSTAI *FiveGSTAI                  `asn1:"tag:4,context,implicit,optional" json:"Broadcast5GSTAI,omitempty"`
-	IEExtensions    *ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_       int64                       `asn1:"-" json:"-"`
-	ExtPresent_     []bool                      `asn1:"-" json:"-"`
-	ExtData_        [][]byte                    `asn1:"-" json:"-"`
+	SourceeNB          ENDCSONeNBIdentification   `asn1:"tag:0,context,implicit"`
+	TargetengNB        ENDCSONengNBIdentification `asn1:"tag:1,context,implicit"`
+	TargeteNB          *ENDCSONeNBIdentification  `asn1:"tag:2,context,implicit,optional" json:"TargeteNB,omitempty"`
+	AssociatedTAI      *TAI                       `asn1:"tag:3,context,implicit,optional" json:"AssociatedTAI,omitempty"`
+	Broadcast5GSTAI    *FiveGSTAI                 `asn1:"tag:4,context,implicit,optional" json:"Broadcast5GSTAI,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // EPLMNs represents the ASN.1 type EPLMNs (SEQUENCE_OF).
@@ -1569,12 +1618,13 @@ type EUTRANRoundTripDelayEstimationInfo = int64
 
 // EUTRANCGI represents the ASN.1 type EUTRAN-CGI (SEQUENCE).
 type EUTRANCGI struct {
-	PLMNidentity PLMNidentity                `asn1:"tag:0,context,implicit"`
-	CellID       CellIdentity                `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	PLMNidentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
+	CellID             CellIdentity               `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABInformationList represents the ASN.1 type E-RABInformationList (SEQUENCE_OF).
@@ -1582,22 +1632,24 @@ type ERABInformationList = []ProtocolIESingleContainer
 
 // ERABInformationListItem represents the ASN.1 type E-RABInformationListItem (SEQUENCE).
 type ERABInformationListItem struct {
-	ERABID       ERABID                      `asn1:"tag:0,context,implicit"`
-	DLForwarding *DLForwarding               `asn1:"tag:1,context,implicit,optional" json:"DLForwarding,omitempty"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	DLForwarding       *DLForwarding              `asn1:"tag:1,context,implicit,optional" json:"DLForwarding,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABItem represents the ASN.1 type E-RABItem (SEQUENCE).
 type ERABItem struct {
-	ERABID       ERABID                      `asn1:"tag:0,context,implicit"`
-	Cause        Cause                       `asn1:"tag:1,context,explicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	Cause              Cause                      `asn1:"tag:1,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABLevelQoSParameters represents the ASN.1 type E-RABLevelQoSParameters (SEQUENCE).
@@ -1605,7 +1657,8 @@ type ERABLevelQoSParameters struct {
 	QCI                         QCI                            `asn1:"tag:0,context,implicit"`
 	AllocationRetentionPriority AllocationAndRetentionPriority `asn1:"tag:1,context,implicit"`
 	GbrQosInformation           *GBRQosInformation             `asn1:"tag:2,context,implicit,optional" json:"GbrQosInformation,omitempty"`
-	IEExtensions                *ProtocolExtensionContainer    `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensions                ProtocolExtensionContainer     `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_          bool                           `asn1:"-" json:"-"`
 	ExtCount_                   int64                          `asn1:"-" json:"-"`
 	ExtPresent_                 []bool                         `asn1:"-" json:"-"`
 	ExtData_                    [][]byte                       `asn1:"-" json:"-"`
@@ -1616,12 +1669,13 @@ type ERABList = []ProtocolIESingleContainer
 
 // ERABSecurityResultItem represents the ASN.1 type E-RABSecurityResultItem (SEQUENCE).
 type ERABSecurityResultItem struct {
-	ERABID         ERABID                      `asn1:"tag:0,context,implicit"`
-	SecurityResult SecurityResult              `asn1:"tag:1,context,implicit"`
-	IEExtensions   *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_      int64                       `asn1:"-" json:"-"`
-	ExtPresent_    []bool                      `asn1:"-" json:"-"`
-	ExtData_       [][]byte                    `asn1:"-" json:"-"`
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	SecurityResult     SecurityResult             `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABSecurityResultList represents the ASN.1 type E-RABSecurityResultList (SEQUENCE_OF).
@@ -1629,14 +1683,15 @@ type ERABSecurityResultList = []ProtocolIESingleContainer
 
 // ERABUsageReportItem represents the ASN.1 type E-RABUsageReportItem (SEQUENCE).
 type ERABUsageReportItem struct {
-	StartTimestamp []byte                      `asn1:"tag:0,context,implicit"`
-	EndTimestamp   []byte                      `asn1:"tag:1,context,implicit"`
-	UsageCountUL   int64                       `asn1:"tag:2,context,implicit"`
-	UsageCountDL   int64                       `asn1:"tag:3,context,implicit"`
-	IEExtensions   *ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_      int64                       `asn1:"-" json:"-"`
-	ExtPresent_    []bool                      `asn1:"-" json:"-"`
-	ExtData_       [][]byte                    `asn1:"-" json:"-"`
+	StartTimestamp     []byte                     `asn1:"tag:0,context,implicit"`
+	EndTimestamp       []byte                     `asn1:"tag:1,context,implicit"`
+	UsageCountUL       int64                      `asn1:"tag:2,context,implicit"`
+	UsageCountDL       int64                      `asn1:"tag:3,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ERABUsageReportList represents the ASN.1 type E-RABUsageReportList (SEQUENCE_OF).
@@ -1662,12 +1717,14 @@ type EmergencyAreaIDBroadcast = []EmergencyAreaIDBroadcastItem
 
 // EmergencyAreaIDBroadcastItem represents the ASN.1 type EmergencyAreaID-Broadcast-Item (SEQUENCE).
 type EmergencyAreaIDBroadcastItem struct {
-	EmergencyAreaID    EmergencyAreaID             `asn1:"tag:0,context,implicit"`
-	CompletedCellinEAI CompletedCellinEAI          `asn1:"tag:1,context,implicit"`
-	IEExtensions       *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_          int64                       `asn1:"-" json:"-"`
-	ExtPresent_        []bool                      `asn1:"-" json:"-"`
-	ExtData_           [][]byte                    `asn1:"-" json:"-"`
+	EmergencyAreaID          EmergencyAreaID            `asn1:"tag:0,context,implicit"`
+	CompletedCellinEAI       CompletedCellinEAI         `asn1:"tag:1,context,implicit"`
+	CompletedCellinEAIIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions             ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_       bool                       `asn1:"-" json:"-"`
+	ExtCount_                int64                      `asn1:"-" json:"-"`
+	ExtPresent_              []bool                     `asn1:"-" json:"-"`
+	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
 }
 
 // EmergencyAreaIDCancelled represents the ASN.1 type EmergencyAreaID-Cancelled (SEQUENCE_OF).
@@ -1675,12 +1732,14 @@ type EmergencyAreaIDCancelled = []EmergencyAreaIDCancelledItem
 
 // EmergencyAreaIDCancelledItem represents the ASN.1 type EmergencyAreaID-Cancelled-Item (SEQUENCE).
 type EmergencyAreaIDCancelledItem struct {
-	EmergencyAreaID    EmergencyAreaID             `asn1:"tag:0,context,implicit"`
-	CancelledCellinEAI CancelledCellinEAI          `asn1:"tag:1,context,implicit"`
-	IEExtensions       *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_          int64                       `asn1:"-" json:"-"`
-	ExtPresent_        []bool                      `asn1:"-" json:"-"`
-	ExtData_           [][]byte                    `asn1:"-" json:"-"`
+	EmergencyAreaID          EmergencyAreaID            `asn1:"tag:0,context,implicit"`
+	CancelledCellinEAI       CancelledCellinEAI         `asn1:"tag:1,context,implicit"`
+	CancelledCellinEAIIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions             ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_       bool                       `asn1:"-" json:"-"`
+	ExtCount_                int64                      `asn1:"-" json:"-"`
+	ExtPresent_              []bool                     `asn1:"-" json:"-"`
+	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
 }
 
 // EmergencyIndicator represents the ASN.1 ENUMERATED type EmergencyIndicator.
@@ -1758,13 +1817,14 @@ func (v EthernetType) String() string {
 
 // EventL1LoggedMDTConfig represents the ASN.1 type EventL1LoggedMDTConfig (SEQUENCE).
 type EventL1LoggedMDTConfig struct {
-	L1Threshold   MeasurementThresholdL1LoggedMDT `asn1:"tag:0,context,explicit"`
-	Hysteresis    Hysteresis                      `asn1:"tag:1,context,implicit"`
-	TimeToTrigger TimeToTrigger                   `asn1:"tag:2,context,implicit"`
-	IEExtensions  *ProtocolExtensionContainer     `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_     int64                           `asn1:"-" json:"-"`
-	ExtPresent_   []bool                          `asn1:"-" json:"-"`
-	ExtData_      [][]byte                        `asn1:"-" json:"-"`
+	L1Threshold        MeasurementThresholdL1LoggedMDT `asn1:"tag:0,context,explicit"`
+	Hysteresis         Hysteresis                      `asn1:"tag:1,context,implicit"`
+	TimeToTrigger      TimeToTrigger                   `asn1:"tag:2,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer      `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                            `asn1:"-" json:"-"`
+	ExtCount_          int64                           `asn1:"-" json:"-"`
+	ExtPresent_        []bool                          `asn1:"-" json:"-"`
+	ExtData_           [][]byte                        `asn1:"-" json:"-"`
 }
 
 // EventTrigger choice constants.
@@ -1873,7 +1933,8 @@ type ExpectedUEActivityBehaviour struct {
 	ExpectedActivityPeriod                 *ExpectedActivityPeriod                 `asn1:"tag:0,context,implicit,optional" json:"ExpectedActivityPeriod,omitempty"`
 	ExpectedIdlePeriod                     *ExpectedIdlePeriod                     `asn1:"tag:1,context,implicit,optional" json:"ExpectedIdlePeriod,omitempty"`
 	SourceofUEActivityBehaviourInformation *SourceOfUEActivityBehaviourInformation `asn1:"tag:2,context,implicit,optional" json:"SourceofUEActivityBehaviourInformation,omitempty"`
-	IEExtensions                           *ProtocolExtensionContainer             `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensions                           ProtocolExtensionContainer              `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_                     bool                                    `asn1:"-" json:"-"`
 	ExtCount_                              int64                                   `asn1:"-" json:"-"`
 	ExtPresent_                            []bool                                  `asn1:"-" json:"-"`
 	ExtData_                               [][]byte                                `asn1:"-" json:"-"`
@@ -1883,7 +1944,8 @@ type ExpectedUEActivityBehaviour struct {
 type ExpectedUEBehaviour struct {
 	ExpectedActivity   *ExpectedUEActivityBehaviour `asn1:"tag:0,context,implicit,optional" json:"ExpectedActivity,omitempty"`
 	ExpectedHOInterval *ExpectedHOInterval          `asn1:"tag:1,context,implicit,optional" json:"ExpectedHOInterval,omitempty"`
-	IEExtensions       *ProtocolExtensionContainer  `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensions       ProtocolExtensionContainer   `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                         `asn1:"-" json:"-"`
 	ExtCount_          int64                        `asn1:"-" json:"-"`
 	ExtPresent_        []bool                       `asn1:"-" json:"-"`
 	ExtData_           [][]byte                     `asn1:"-" json:"-"`
@@ -1906,12 +1968,13 @@ type FiveGSTAC = []byte
 
 // FiveGSTAI represents the ASN.1 type FiveGSTAI (SEQUENCE).
 type FiveGSTAI struct {
-	PLMNidentity PLMNidentity                `asn1:"tag:0,context,implicit"`
-	FiveGSTAC    FiveGSTAC                   `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	PLMNidentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
+	FiveGSTAC          FiveGSTAC                  `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // FiveQI represents the ASN.1 type FiveQI (INTEGER).
@@ -1956,12 +2019,14 @@ type ForbiddenLAs = []ForbiddenLAsItem
 
 // ForbiddenLAsItem represents the ASN.1 type ForbiddenLAs-Item (SEQUENCE).
 type ForbiddenLAsItem struct {
-	PLMNIdentity  PLMNidentity                `asn1:"tag:0,context,implicit"`
-	ForbiddenLACs ForbiddenLACs               `asn1:"tag:1,context,implicit"`
-	IEExtensions  *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_     int64                       `asn1:"-" json:"-"`
-	ExtPresent_   []bool                      `asn1:"-" json:"-"`
-	ExtData_      [][]byte                    `asn1:"-" json:"-"`
+	PLMNIdentity        PLMNidentity               `asn1:"tag:0,context,implicit"`
+	ForbiddenLACs       ForbiddenLACs              `asn1:"tag:1,context,implicit"`
+	ForbiddenLACsIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ForbiddenTACs represents the ASN.1 type ForbiddenTACs (SEQUENCE_OF).
@@ -1972,44 +2037,49 @@ type ForbiddenTAs = []ForbiddenTAsItem
 
 // ForbiddenTAsItem represents the ASN.1 type ForbiddenTAs-Item (SEQUENCE).
 type ForbiddenTAsItem struct {
-	PLMNIdentity  PLMNidentity                `asn1:"tag:0,context,implicit"`
-	ForbiddenTACs ForbiddenTACs               `asn1:"tag:1,context,implicit"`
-	IEExtensions  *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_     int64                       `asn1:"-" json:"-"`
-	ExtPresent_   []bool                      `asn1:"-" json:"-"`
-	ExtData_      [][]byte                    `asn1:"-" json:"-"`
+	PLMNIdentity        PLMNidentity               `asn1:"tag:0,context,implicit"`
+	ForbiddenTACs       ForbiddenTACs              `asn1:"tag:1,context,implicit"`
+	ForbiddenTACsIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
 }
 
 // GBRQosInformation represents the ASN.1 type GBR-QosInformation (SEQUENCE).
 type GBRQosInformation struct {
-	ERABMaximumBitrateDL    BitRate                     `asn1:"tag:0,context,implicit"`
-	ERABMaximumBitrateUL    BitRate                     `asn1:"tag:1,context,implicit"`
-	ERABGuaranteedBitrateDL BitRate                     `asn1:"tag:2,context,implicit"`
-	ERABGuaranteedBitrateUL BitRate                     `asn1:"tag:3,context,implicit"`
-	IEExtensions            *ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_               int64                       `asn1:"-" json:"-"`
-	ExtPresent_             []bool                      `asn1:"-" json:"-"`
-	ExtData_                [][]byte                    `asn1:"-" json:"-"`
+	ERABMaximumBitrateDL    BitRate                    `asn1:"tag:0,context,implicit"`
+	ERABMaximumBitrateUL    BitRate                    `asn1:"tag:1,context,implicit"`
+	ERABGuaranteedBitrateDL BitRate                    `asn1:"tag:2,context,implicit"`
+	ERABGuaranteedBitrateUL BitRate                    `asn1:"tag:3,context,implicit"`
+	IEExtensions            ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_      bool                       `asn1:"-" json:"-"`
+	ExtCount_               int64                      `asn1:"-" json:"-"`
+	ExtPresent_             []bool                     `asn1:"-" json:"-"`
+	ExtData_                [][]byte                   `asn1:"-" json:"-"`
 }
 
 // GERANCellID represents the ASN.1 type GERAN-Cell-ID (SEQUENCE).
 type GERANCellID struct {
-	LAI          LAI                         `asn1:"tag:0,context,implicit"`
-	RAC          RAC                         `asn1:"tag:1,context,implicit"`
-	CI           CI                          `asn1:"tag:2,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	LAI                LAI                        `asn1:"tag:0,context,implicit"`
+	RAC                RAC                        `asn1:"tag:1,context,implicit"`
+	CI                 CI                         `asn1:"tag:2,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // GNB represents the ASN.1 type GNB (SEQUENCE).
 type GNB struct {
-	GlobalGNBID  GlobalGNBID                 `asn1:"tag:0,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	GlobalGNBID        GlobalGNBID                `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // GNBID represents the ASN.1 type GNB-ID (BIT_STRING).
@@ -2039,13 +2109,14 @@ type GTPTEID = []byte
 
 // GUMMEI represents the ASN.1 type GUMMEI (SEQUENCE).
 type GUMMEI struct {
-	PLMNIdentity PLMNidentity                `asn1:"tag:0,context,implicit"`
-	MMEGroupID   MMEGroupID                  `asn1:"tag:1,context,implicit"`
-	MMECode      MMECode                     `asn1:"tag:2,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	PLMNIdentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
+	MMEGroupID         MMEGroupID                 `asn1:"tag:1,context,implicit"`
+	MMECode            MMECode                    `asn1:"tag:2,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // GUMMEIList represents the ASN.1 type GUMMEIList (SEQUENCE_OF).
@@ -2091,22 +2162,24 @@ func (v GWContextReleaseIndication) String() string {
 
 // GlobalENBID represents the ASN.1 type Global-ENB-ID (SEQUENCE).
 type GlobalENBID struct {
-	PLMNidentity PLMNidentity                `asn1:"tag:0,context,implicit"`
-	ENBID        ENBID                       `asn1:"tag:1,context,explicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	PLMNidentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
+	ENBID              ENBID                      `asn1:"tag:1,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // GlobalGNBID represents the ASN.1 type Global-GNB-ID (SEQUENCE).
 type GlobalGNBID struct {
-	PLMNIdentity PLMNidentity                `asn1:"tag:0,context,implicit"`
-	GNBID        GNBIdentity                 `asn1:"tag:1,context,explicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	PLMNIdentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
+	GNBID              GNBIdentity                `asn1:"tag:1,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // GlobalRANNODEID choice constants.
@@ -2140,12 +2213,13 @@ func NewGlobalRANNODEIDNgENB(v NGENB) GlobalRANNODEID {
 
 // GlobalEnGNBID represents the ASN.1 type Global-en-gNB-ID (SEQUENCE).
 type GlobalEnGNBID struct {
-	PLMNidentity PLMNidentity                `asn1:"tag:0,context,implicit"`
-	EnGNBID      EnGNBID                     `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	PLMNidentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
+	EnGNBID            EnGNBID                    `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // HFN represents the ASN.1 type HFN (INTEGER).
@@ -2175,15 +2249,19 @@ func (v HandoverFlag) String() string {
 
 // HandoverRestrictionList represents the ASN.1 type HandoverRestrictionList (SEQUENCE).
 type HandoverRestrictionList struct {
-	ServingPLMN        PLMNidentity                `asn1:"tag:0,context,implicit"`
-	EquivalentPLMNs    *EPLMNs                     `asn1:"tag:1,context,implicit,optional" json:"EquivalentPLMNs,omitempty"`
-	ForbiddenTAs       *ForbiddenTAs               `asn1:"tag:2,context,implicit,optional" json:"ForbiddenTAs,omitempty"`
-	ForbiddenLAs       *ForbiddenLAs               `asn1:"tag:3,context,implicit,optional" json:"ForbiddenLAs,omitempty"`
-	ForbiddenInterRATs *ForbiddenInterRATs         `asn1:"tag:4,context,implicit,optional" json:"ForbiddenInterRATs,omitempty"`
-	IEExtensions       *ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_          int64                       `asn1:"-" json:"-"`
-	ExtPresent_        []bool                      `asn1:"-" json:"-"`
-	ExtData_           [][]byte                    `asn1:"-" json:"-"`
+	ServingPLMN           PLMNidentity               `asn1:"tag:0,context,implicit"`
+	EquivalentPLMNs       EPLMNs                     `asn1:"tag:1,context,implicit,optional" json:"EquivalentPLMNs,omitempty"`
+	EquivalentPLMNsIndef_ bool                       `asn1:"-" json:"-"`
+	ForbiddenTAs          ForbiddenTAs               `asn1:"tag:2,context,implicit,optional" json:"ForbiddenTAs,omitempty"`
+	ForbiddenTAsIndef_    bool                       `asn1:"-" json:"-"`
+	ForbiddenLAs          ForbiddenLAs               `asn1:"tag:3,context,implicit,optional" json:"ForbiddenLAs,omitempty"`
+	ForbiddenLAsIndef_    bool                       `asn1:"-" json:"-"`
+	ForbiddenInterRATs    *ForbiddenInterRATs        `asn1:"tag:4,context,implicit,optional" json:"ForbiddenInterRATs,omitempty"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
 // HandoverType represents the ASN.1 ENUMERATED type HandoverType.
@@ -2295,24 +2373,26 @@ func (v IMSvoiceEPSfallbackfrom5G) String() string {
 
 // ImmediateMDT represents the ASN.1 type ImmediateMDT (SEQUENCE).
 type ImmediateMDT struct {
-	MeasurementsToActivate MeasurementsToActivate      `asn1:"tag:0,context,implicit"`
-	M1reportingTrigger     M1ReportingTrigger          `asn1:"tag:1,context,implicit"`
-	M1thresholdeventA2     *M1ThresholdEventA2         `asn1:"tag:2,context,implicit,optional" json:"M1thresholdeventA2,omitempty"`
-	M1periodicReporting    *M1PeriodicReporting        `asn1:"tag:3,context,implicit,optional" json:"M1periodicReporting,omitempty"`
-	IEExtensions           *ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_              int64                       `asn1:"-" json:"-"`
-	ExtPresent_            []bool                      `asn1:"-" json:"-"`
-	ExtData_               [][]byte                    `asn1:"-" json:"-"`
+	MeasurementsToActivate MeasurementsToActivate     `asn1:"tag:0,context,implicit"`
+	M1reportingTrigger     M1ReportingTrigger         `asn1:"tag:1,context,implicit"`
+	M1thresholdeventA2     *M1ThresholdEventA2        `asn1:"tag:2,context,implicit,optional" json:"M1thresholdeventA2,omitempty"`
+	M1periodicReporting    *M1PeriodicReporting       `asn1:"tag:3,context,implicit,optional" json:"M1periodicReporting,omitempty"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
 }
 
 // InformationOnRecommendedCellsAndENBsForPaging represents the ASN.1 type InformationOnRecommendedCellsAndENBsForPaging (SEQUENCE).
 type InformationOnRecommendedCellsAndENBsForPaging struct {
-	RecommendedCellsForPaging RecommendedCellsForPaging   `asn1:"tag:0,context,implicit"`
-	RecommendENBsForPaging    RecommendedENBsForPaging    `asn1:"tag:1,context,implicit"`
-	IEExtensions              *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                 int64                       `asn1:"-" json:"-"`
-	ExtPresent_               []bool                      `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                    `asn1:"-" json:"-"`
+	RecommendedCellsForPaging RecommendedCellsForPaging  `asn1:"tag:0,context,implicit"`
+	RecommendENBsForPaging    RecommendedENBsForPaging   `asn1:"tag:1,context,implicit"`
+	IEExtensions              ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
+	ExtCount_                 int64                      `asn1:"-" json:"-"`
+	ExtPresent_               []bool                     `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
 }
 
 // IntegrityProtectionAlgorithms represents the ASN.1 type IntegrityProtectionAlgorithms (BIT_STRING).
@@ -2364,17 +2444,18 @@ type IntendedNumberOfPagingAttempts = int64
 
 // InterSystemMeasurementItem represents the ASN.1 type InterSystemMeasurementItem (SEQUENCE).
 type InterSystemMeasurementItem struct {
-	FreqBandIndicatorNR       int64                       `asn1:"tag:0,context,implicit"`
-	SSBfrequencies            int64                       `asn1:"tag:1,context,implicit"`
-	SubcarrierSpacingSSB      int64                       `asn1:"tag:2,context,implicit"`
-	MaxRSIndexCellQual        *int64                      `asn1:"tag:3,context,implicit,optional" json:"MaxRSIndexCellQual,omitempty"`
-	SMTC                      []byte                      `asn1:"tag:4,context,implicit,optional" json:"SMTC,omitempty"`
-	ThreshRSIndexR15          []byte                      `asn1:"tag:5,context,implicit,optional" json:"ThreshRSIndexR15,omitempty"`
-	SSBToMeasure              []byte                      `asn1:"tag:6,context,implicit,optional" json:"SSBToMeasure,omitempty"`
-	SSRSSIMeasurement         []byte                      `asn1:"tag:7,context,implicit,optional" json:"SSRSSIMeasurement,omitempty"`
-	QuantityConfigNRR15       []byte                      `asn1:"tag:8,context,implicit,optional" json:"QuantityConfigNRR15,omitempty"`
-	ExcludedCellsToAddModList []byte                      `asn1:"tag:9,context,implicit,optional" json:"ExcludedCellsToAddModList,omitempty"`
-	IEExtensions              *ProtocolExtensionContainer `asn1:"tag:10,context,implicit,optional" json:"IEExtensions,omitempty"`
+	FreqBandIndicatorNR       int64                      `asn1:"tag:0,context,implicit"`
+	SSBfrequencies            int64                      `asn1:"tag:1,context,implicit"`
+	SubcarrierSpacingSSB      int64                      `asn1:"tag:2,context,implicit"`
+	MaxRSIndexCellQual        *int64                     `asn1:"tag:3,context,implicit,optional" json:"MaxRSIndexCellQual,omitempty"`
+	SMTC                      []byte                     `asn1:"tag:4,context,implicit,optional" json:"SMTC,omitempty"`
+	ThreshRSIndexR15          []byte                     `asn1:"tag:5,context,implicit,optional" json:"ThreshRSIndexR15,omitempty"`
+	SSBToMeasure              []byte                     `asn1:"tag:6,context,implicit,optional" json:"SSBToMeasure,omitempty"`
+	SSRSSIMeasurement         []byte                     `asn1:"tag:7,context,implicit,optional" json:"SSRSSIMeasurement,omitempty"`
+	QuantityConfigNRR15       []byte                     `asn1:"tag:8,context,implicit,optional" json:"QuantityConfigNRR15,omitempty"`
+	ExcludedCellsToAddModList []byte                     `asn1:"tag:9,context,implicit,optional" json:"ExcludedCellsToAddModList,omitempty"`
+	IEExtensions              ProtocolExtensionContainer `asn1:"tag:10,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
 }
 
 // InterSystemMeasurementList represents the ASN.1 type InterSystemMeasurementList (SEQUENCE_OF).
@@ -2382,12 +2463,14 @@ type InterSystemMeasurementList = []InterSystemMeasurementItem
 
 // InterSystemMeasurementParameters represents the ASN.1 type InterSystemMeasurementParameters (SEQUENCE).
 type InterSystemMeasurementParameters struct {
-	MeasurementDuration        int64                       `asn1:"tag:0,context,implicit"`
-	InterSystemMeasurementList *InterSystemMeasurementList `asn1:"tag:1,context,implicit,optional" json:"InterSystemMeasurementList,omitempty"`
-	IEExtensions               *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                  int64                       `asn1:"-" json:"-"`
-	ExtPresent_                []bool                      `asn1:"-" json:"-"`
-	ExtData_                   [][]byte                    `asn1:"-" json:"-"`
+	MeasurementDuration              int64                      `asn1:"tag:0,context,implicit"`
+	InterSystemMeasurementList       InterSystemMeasurementList `asn1:"tag:1,context,implicit,optional" json:"InterSystemMeasurementList,omitempty"`
+	InterSystemMeasurementListIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions                     ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_               bool                       `asn1:"-" json:"-"`
+	ExtCount_                        int64                      `asn1:"-" json:"-"`
+	ExtPresent_                      []bool                     `asn1:"-" json:"-"`
+	ExtData_                         [][]byte                   `asn1:"-" json:"-"`
 }
 
 // InterfacesToTrace represents the ASN.1 type InterfacesToTrace (BIT_STRING).
@@ -2399,7 +2482,8 @@ type IntersystemMeasurementConfiguration struct {
 	RSRQ                             *int64                           `asn1:"tag:1,context,implicit,optional" json:"RSRQ,omitempty"`
 	SINR                             *int64                           `asn1:"tag:2,context,implicit,optional" json:"SINR,omitempty"`
 	InterSystemMeasurementParameters InterSystemMeasurementParameters `asn1:"tag:3,context,implicit"`
-	IEExtensions                     *ProtocolExtensionContainer      `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensions                     ProtocolExtensionContainer       `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_               bool                             `asn1:"-" json:"-"`
 	ExtCount_                        int64                            `asn1:"-" json:"-"`
 	ExtPresent_                      []bool                           `asn1:"-" json:"-"`
 	ExtData_                         [][]byte                         `asn1:"-" json:"-"`
@@ -2432,12 +2516,13 @@ type LAC = []byte
 
 // LAI represents the ASN.1 type LAI (SEQUENCE).
 type LAI struct {
-	PLMNidentity PLMNidentity                `asn1:"tag:0,context,implicit"`
-	LAC          LAC                         `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	PLMNidentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
+	LAC                LAC                        `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // LHNID represents the ASN.1 type LHN-ID (OCTET_STRING).
@@ -2464,13 +2549,15 @@ func (v LTEMIndication) String() string {
 
 // LTENTNTAIInformation represents the ASN.1 type LTE-NTN-TAI-Information (SEQUENCE).
 type LTENTNTAIInformation struct {
-	ServingPLMN          PLMNidentity                `asn1:"tag:0,context,implicit"`
-	TACListInLTENTN      TACListInLTENTN             `asn1:"tag:1,context,implicit"`
-	UELocationDerivedTAC *TAC                        `asn1:"tag:2,context,implicit,optional" json:"UELocationDerivedTAC,omitempty"`
-	IEExtensions         *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_            int64                       `asn1:"-" json:"-"`
-	ExtPresent_          []bool                      `asn1:"-" json:"-"`
-	ExtData_             [][]byte                    `asn1:"-" json:"-"`
+	ServingPLMN           PLMNidentity               `asn1:"tag:0,context,implicit"`
+	TACListInLTENTN       TACListInLTENTN            `asn1:"tag:1,context,implicit"`
+	TACListInLTENTNIndef_ bool                       `asn1:"-" json:"-"`
+	UELocationDerivedTAC  *TAC                       `asn1:"tag:2,context,implicit,optional" json:"UELocationDerivedTAC,omitempty"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
 // LastVisitedCellItem choice constants.
@@ -2524,13 +2611,14 @@ func NewLastVisitedCellItemNGRANCell(v LastVisitedNGRANCellInformation) LastVisi
 
 // LastVisitedEUTRANCellInformation represents the ASN.1 type LastVisitedEUTRANCellInformation (SEQUENCE).
 type LastVisitedEUTRANCellInformation struct {
-	GlobalCellID       EUTRANCGI                   `asn1:"tag:0,context,implicit"`
-	CellType           CellType                    `asn1:"tag:1,context,implicit"`
-	TimeUEStayedInCell TimeUEStayedInCell          `asn1:"tag:2,context,implicit"`
-	IEExtensions       *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_          int64                       `asn1:"-" json:"-"`
-	ExtPresent_        []bool                      `asn1:"-" json:"-"`
-	ExtData_           [][]byte                    `asn1:"-" json:"-"`
+	GlobalCellID       EUTRANCGI                  `asn1:"tag:0,context,implicit"`
+	CellType           CellType                   `asn1:"tag:1,context,implicit"`
+	TimeUEStayedInCell TimeUEStayedInCell         `asn1:"tag:2,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // LastVisitedGERANCellInformation choice constants.
@@ -2557,12 +2645,13 @@ type LastVisitedNGRANCellInformation = []byte
 
 // LastVisitedPSCellInformation represents the ASN.1 type LastVisitedPSCellInformation (SEQUENCE).
 type LastVisitedPSCellInformation struct {
-	PSCellID     *PSCellInformation          `asn1:"tag:0,context,implicit,optional" json:"PSCellID,omitempty"`
-	TimeStay     int64                       `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	PSCellID           *PSCellInformation         `asn1:"tag:0,context,implicit,optional" json:"PSCellID,omitempty"`
+	TimeStay           int64                      `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // LastVisitedPSCellList represents the ASN.1 type LastVisitedPSCellList (SEQUENCE_OF).
@@ -2595,33 +2684,37 @@ func (v LinksToLog) String() string {
 
 // ListeningSubframePattern represents the ASN.1 type ListeningSubframePattern (SEQUENCE).
 type ListeningSubframePattern struct {
-	PatternPeriod int64                       `asn1:"tag:0,context,implicit"`
-	PatternOffset int64                       `asn1:"tag:1,context,implicit"`
-	IEExtensions  *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_     int64                       `asn1:"-" json:"-"`
-	ExtPresent_   []bool                      `asn1:"-" json:"-"`
-	ExtData_      [][]byte                    `asn1:"-" json:"-"`
+	PatternPeriod      int64                      `asn1:"tag:0,context,implicit"`
+	PatternOffset      int64                      `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // LoggedMBSFNMDT represents the ASN.1 type LoggedMBSFNMDT (SEQUENCE).
 type LoggedMBSFNMDT struct {
-	LoggingInterval  LoggingInterval             `asn1:"tag:0,context,implicit"`
-	LoggingDuration  LoggingDuration             `asn1:"tag:1,context,implicit"`
-	MBSFNResultToLog *MBSFNResultToLog           `asn1:"tag:2,context,implicit,optional" json:"MBSFNResultToLog,omitempty"`
-	IEExtensions     *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_        int64                       `asn1:"-" json:"-"`
-	ExtPresent_      []bool                      `asn1:"-" json:"-"`
-	ExtData_         [][]byte                    `asn1:"-" json:"-"`
+	LoggingInterval        LoggingInterval            `asn1:"tag:0,context,implicit"`
+	LoggingDuration        LoggingDuration            `asn1:"tag:1,context,implicit"`
+	MBSFNResultToLog       MBSFNResultToLog           `asn1:"tag:2,context,implicit,optional" json:"MBSFNResultToLog,omitempty"`
+	MBSFNResultToLogIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
 }
 
 // LoggedMDT represents the ASN.1 type LoggedMDT (SEQUENCE).
 type LoggedMDT struct {
-	LoggingInterval LoggingInterval             `asn1:"tag:0,context,implicit"`
-	LoggingDuration LoggingDuration             `asn1:"tag:1,context,implicit"`
-	IEExtensions    *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_       int64                       `asn1:"-" json:"-"`
-	ExtPresent_     []bool                      `asn1:"-" json:"-"`
-	ExtData_        [][]byte                    `asn1:"-" json:"-"`
+	LoggingInterval    LoggingInterval            `asn1:"tag:0,context,implicit"`
+	LoggingDuration    LoggingDuration            `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // LoggedMDTTrigger choice constants.
@@ -2723,12 +2816,13 @@ func (v LoggingInterval) String() string {
 
 // M1PeriodicReporting represents the ASN.1 type M1PeriodicReporting (SEQUENCE).
 type M1PeriodicReporting struct {
-	ReportInterval ReportIntervalMDT           `asn1:"tag:0,context,implicit"`
-	ReportAmount   ReportAmountMDT             `asn1:"tag:1,context,implicit"`
-	IEExtensions   *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_      int64                       `asn1:"-" json:"-"`
-	ExtPresent_    []bool                      `asn1:"-" json:"-"`
-	ExtData_       [][]byte                    `asn1:"-" json:"-"`
+	ReportInterval     ReportIntervalMDT          `asn1:"tag:0,context,implicit"`
+	ReportAmount       ReportAmountMDT            `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // M1ReportingTrigger represents the ASN.1 ENUMERATED type M1ReportingTrigger.
@@ -2755,20 +2849,22 @@ func (v M1ReportingTrigger) String() string {
 
 // M1ThresholdEventA2 represents the ASN.1 type M1ThresholdEventA2 (SEQUENCE).
 type M1ThresholdEventA2 struct {
-	MeasurementThreshold MeasurementThresholdA2      `asn1:"tag:0,context,explicit"`
-	IEExtensions         *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_            int64                       `asn1:"-" json:"-"`
-	ExtPresent_          []bool                      `asn1:"-" json:"-"`
-	ExtData_             [][]byte                    `asn1:"-" json:"-"`
+	MeasurementThreshold MeasurementThresholdA2     `asn1:"tag:0,context,explicit"`
+	IEExtensions         ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_   bool                       `asn1:"-" json:"-"`
+	ExtCount_            int64                      `asn1:"-" json:"-"`
+	ExtPresent_          []bool                     `asn1:"-" json:"-"`
+	ExtData_             [][]byte                   `asn1:"-" json:"-"`
 }
 
 // M3Configuration represents the ASN.1 type M3Configuration (SEQUENCE).
 type M3Configuration struct {
-	M3period     M3period                    `asn1:"tag:0,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	M3period           M3period                   `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // M3period represents the ASN.1 ENUMERATED type M3period.
@@ -2816,12 +2912,13 @@ func (v M3period) String() string {
 
 // M4Configuration represents the ASN.1 type M4Configuration (SEQUENCE).
 type M4Configuration struct {
-	M4period     M4period                    `asn1:"tag:0,context,implicit"`
-	M4LinksToLog LinksToLog                  `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	M4period           M4period                   `asn1:"tag:0,context,implicit"`
+	M4LinksToLog       LinksToLog                 `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // M4period represents the ASN.1 ENUMERATED type M4period.
@@ -2854,12 +2951,13 @@ func (v M4period) String() string {
 
 // M5Configuration represents the ASN.1 type M5Configuration (SEQUENCE).
 type M5Configuration struct {
-	M5period     M5period                    `asn1:"tag:0,context,implicit"`
-	M5LinksToLog LinksToLog                  `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	M5period           M5period                   `asn1:"tag:0,context,implicit"`
+	M5LinksToLog       LinksToLog                 `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // M5period represents the ASN.1 ENUMERATED type M5period.
@@ -2892,13 +2990,14 @@ func (v M5period) String() string {
 
 // M6Configuration represents the ASN.1 type M6Configuration (SEQUENCE).
 type M6Configuration struct {
-	M6reportInterval M6reportInterval            `asn1:"tag:0,context,implicit"`
-	M6delayThreshold *M6delayThreshold           `asn1:"tag:1,context,implicit,optional" json:"M6delayThreshold,omitempty"`
-	M6LinksToLog     LinksToLog                  `asn1:"tag:2,context,implicit"`
-	IEExtensions     *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_        int64                       `asn1:"-" json:"-"`
-	ExtPresent_      []bool                      `asn1:"-" json:"-"`
-	ExtData_         [][]byte                    `asn1:"-" json:"-"`
+	M6reportInterval   M6reportInterval           `asn1:"tag:0,context,implicit"`
+	M6delayThreshold   *M6delayThreshold          `asn1:"tag:1,context,implicit,optional" json:"M6delayThreshold,omitempty"`
+	M6LinksToLog       LinksToLog                 `asn1:"tag:2,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // M6delayThreshold represents the ASN.1 ENUMERATED type M6delay-threshold.
@@ -2977,12 +3076,13 @@ func (v M6reportInterval) String() string {
 
 // M7Configuration represents the ASN.1 type M7Configuration (SEQUENCE).
 type M7Configuration struct {
-	M7period     M7period                    `asn1:"tag:0,context,implicit"`
-	M7LinksToLog LinksToLog                  `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	M7period           M7period                   `asn1:"tag:0,context,implicit"`
+	M7LinksToLog       LinksToLog                 `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // M7period represents the ASN.1 type M7period (INTEGER).
@@ -2993,12 +3093,13 @@ type MBSFNResultToLog = []MBSFNResultToLogInfo
 
 // MBSFNResultToLogInfo represents the ASN.1 type MBSFN-ResultToLogInfo (SEQUENCE).
 type MBSFNResultToLogInfo struct {
-	MBSFNAreaId  *int64                      `asn1:"tag:0,context,implicit,optional" json:"MBSFNAreaId,omitempty"`
-	CarrierFreq  EARFCN                      `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	MBSFNAreaId        *int64                     `asn1:"tag:0,context,implicit,optional" json:"MBSFNAreaId,omitempty"`
+	CarrierFreq        EARFCN                     `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // MDTMode choice constants.
@@ -3077,13 +3178,14 @@ func (v MDTActivation) String() string {
 
 // MDTConfiguration represents the ASN.1 type MDT-Configuration (SEQUENCE).
 type MDTConfiguration struct {
-	MdtActivation  MDTActivation               `asn1:"tag:0,context,implicit"`
-	AreaScopeOfMDT AreaScopeOfMDT              `asn1:"tag:1,context,explicit"`
-	MDTMode        MDTMode                     `asn1:"tag:2,context,explicit"`
-	IEExtensions   *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_      int64                       `asn1:"-" json:"-"`
-	ExtPresent_    []bool                      `asn1:"-" json:"-"`
-	ExtData_       [][]byte                    `asn1:"-" json:"-"`
+	MdtActivation      MDTActivation              `asn1:"tag:0,context,implicit"`
+	AreaScopeOfMDT     AreaScopeOfMDT             `asn1:"tag:1,context,explicit"`
+	MDTMode            MDTMode                    `asn1:"tag:2,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // MDTConfigurationNR represents the ASN.1 type MDT-ConfigurationNR (OCTET_STRING).
@@ -3275,12 +3377,13 @@ func (v MutingAvailabilityIndication) String() string {
 
 // MutingPatternInformation represents the ASN.1 type MutingPatternInformation (SEQUENCE).
 type MutingPatternInformation struct {
-	MutingPatternPeriod int64                       `asn1:"tag:0,context,implicit"`
-	MutingPatternOffset *int64                      `asn1:"tag:1,context,implicit,optional" json:"MutingPatternOffset,omitempty"`
-	IEExtensions        *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_           int64                       `asn1:"-" json:"-"`
-	ExtPresent_         []bool                      `asn1:"-" json:"-"`
-	ExtData_            [][]byte                    `asn1:"-" json:"-"`
+	MutingPatternPeriod int64                      `asn1:"tag:0,context,implicit"`
+	MutingPatternOffset *int64                     `asn1:"tag:1,context,implicit,optional" json:"MutingPatternOffset,omitempty"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
 }
 
 // NASSecurityParametersfromEUTRAN represents the ASN.1 type NASSecurityParametersfromE-UTRAN (OCTET_STRING).
@@ -3411,12 +3514,13 @@ func (v NBIoTPagingTimeWindow) String() string {
 
 // NBIoTPagingEDRXInformation represents the ASN.1 type NB-IoT-Paging-eDRXInformation (SEQUENCE).
 type NBIoTPagingEDRXInformation struct {
-	NBIoTPagingEDRXCycle  NBIoTPagingEDRXCycle        `asn1:"tag:0,context,implicit"`
-	NBIoTPagingTimeWindow *NBIoTPagingTimeWindow      `asn1:"tag:1,context,implicit,optional" json:"NBIoTPagingTimeWindow,omitempty"`
-	IEExtensions          *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_             int64                       `asn1:"-" json:"-"`
-	ExtPresent_           []bool                      `asn1:"-" json:"-"`
-	ExtData_              [][]byte                    `asn1:"-" json:"-"`
+	NBIoTPagingEDRXCycle  NBIoTPagingEDRXCycle       `asn1:"tag:0,context,implicit"`
+	NBIoTPagingTimeWindow *NBIoTPagingTimeWindow     `asn1:"tag:1,context,implicit,optional" json:"NBIoTPagingTimeWindow,omitempty"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
 // NBIoTPagingEDRXCycle represents the ASN.1 ENUMERATED type NB-IoT-Paging-eDRX-Cycle.
@@ -3482,11 +3586,12 @@ type NBIoTUEIdentityIndexValue = runtime.BitString
 
 // NGENB represents the ASN.1 type NG-eNB (SEQUENCE).
 type NGENB struct {
-	GlobalNgENBID GlobalENBID                 `asn1:"tag:0,context,implicit"`
-	IEExtensions  *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_     int64                       `asn1:"-" json:"-"`
-	ExtPresent_   []bool                      `asn1:"-" json:"-"`
-	ExtData_      [][]byte                    `asn1:"-" json:"-"`
+	GlobalNgENBID      GlobalENBID                `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // NRCellIdentity represents the ASN.1 type NRCellIdentity (BIT_STRING).
@@ -3496,7 +3601,8 @@ type NRCellIdentity = runtime.BitString
 type NRUESecurityCapabilities struct {
 	NRencryptionAlgorithms          NRencryptionAlgorithms          `asn1:"tag:0,context,implicit"`
 	NRintegrityProtectionAlgorithms NRintegrityProtectionAlgorithms `asn1:"tag:1,context,implicit"`
-	IEExtensions                    *ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensions                    ProtocolExtensionContainer      `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_              bool                            `asn1:"-" json:"-"`
 	ExtCount_                       int64                           `asn1:"-" json:"-"`
 	ExtPresent_                     []bool                          `asn1:"-" json:"-"`
 	ExtData_                        [][]byte                        `asn1:"-" json:"-"`
@@ -3504,31 +3610,34 @@ type NRUESecurityCapabilities struct {
 
 // NRUESidelinkAggregateMaximumBitrate represents the ASN.1 type NRUESidelinkAggregateMaximumBitrate (SEQUENCE).
 type NRUESidelinkAggregateMaximumBitrate struct {
-	UEaggregateMaximumBitRate BitRate                     `asn1:"tag:0,context,implicit"`
-	IEExtensions              *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                 int64                       `asn1:"-" json:"-"`
-	ExtPresent_               []bool                      `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                    `asn1:"-" json:"-"`
+	UEaggregateMaximumBitRate BitRate                    `asn1:"tag:0,context,implicit"`
+	IEExtensions              ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
+	ExtCount_                 int64                      `asn1:"-" json:"-"`
+	ExtPresent_               []bool                     `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
 }
 
 // NRV2XServicesAuthorized represents the ASN.1 type NRV2XServicesAuthorized (SEQUENCE).
 type NRV2XServicesAuthorized struct {
-	VehicleUE    *VehicleUE                  `asn1:"tag:0,context,implicit,optional" json:"VehicleUE,omitempty"`
-	PedestrianUE *PedestrianUE               `asn1:"tag:1,context,implicit,optional" json:"PedestrianUE,omitempty"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	VehicleUE          *VehicleUE                 `asn1:"tag:0,context,implicit,optional" json:"VehicleUE,omitempty"`
+	PedestrianUE       *PedestrianUE              `asn1:"tag:1,context,implicit,optional" json:"PedestrianUE,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // NRCGI represents the ASN.1 type NR-CGI (SEQUENCE).
 type NRCGI struct {
-	PLMNIdentity   PLMNidentity                `asn1:"tag:0,context,implicit"`
-	NRCellIdentity NRCellIdentity              `asn1:"tag:1,context,implicit"`
-	IEExtensions   *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_      int64                       `asn1:"-" json:"-"`
-	ExtPresent_    []bool                      `asn1:"-" json:"-"`
-	ExtData_       [][]byte                    `asn1:"-" json:"-"`
+	PLMNIdentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
+	NRCellIdentity     NRCellIdentity             `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // NRencryptionAlgorithms represents the ASN.1 type NRencryptionAlgorithms (BIT_STRING).
@@ -3668,23 +3777,25 @@ func NewOverloadResponseOverloadAction(v OverloadAction) OverloadResponse {
 
 // PC5FlowBitRates represents the ASN.1 type PC5FlowBitRates (SEQUENCE).
 type PC5FlowBitRates struct {
-	GuaranteedFlowBitRate BitRate                     `asn1:"tag:0,context,implicit"`
-	MaximumFlowBitRate    BitRate                     `asn1:"tag:1,context,implicit"`
-	IEExtensions          *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_             int64                       `asn1:"-" json:"-"`
-	ExtPresent_           []bool                      `asn1:"-" json:"-"`
-	ExtData_              [][]byte                    `asn1:"-" json:"-"`
+	GuaranteedFlowBitRate BitRate                    `asn1:"tag:0,context,implicit"`
+	MaximumFlowBitRate    BitRate                    `asn1:"tag:1,context,implicit"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
 // PC5QoSFlowItem represents the ASN.1 type PC5QoSFlowItem (SEQUENCE).
 type PC5QoSFlowItem struct {
-	PQI             FiveQI                      `asn1:"tag:0,context,implicit"`
-	Pc5FlowBitRates *PC5FlowBitRates            `asn1:"tag:1,context,implicit,optional" json:"Pc5FlowBitRates,omitempty"`
-	Range           *Range                      `asn1:"tag:2,context,implicit,optional" json:"Range,omitempty"`
-	IEExtensions    *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_       int64                       `asn1:"-" json:"-"`
-	ExtPresent_     []bool                      `asn1:"-" json:"-"`
-	ExtData_        [][]byte                    `asn1:"-" json:"-"`
+	PQI                FiveQI                     `asn1:"tag:0,context,implicit"`
+	Pc5FlowBitRates    *PC5FlowBitRates           `asn1:"tag:1,context,implicit,optional" json:"Pc5FlowBitRates,omitempty"`
+	Range              *Range                     `asn1:"tag:2,context,implicit,optional" json:"Range,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // PC5QoSFlowList represents the ASN.1 type PC5QoSFlowList (SEQUENCE_OF).
@@ -3692,12 +3803,14 @@ type PC5QoSFlowList = []PC5QoSFlowItem
 
 // PC5QoSParameters represents the ASN.1 type PC5QoSParameters (SEQUENCE).
 type PC5QoSParameters struct {
-	Pc5QoSFlowList            PC5QoSFlowList              `asn1:"tag:0,context,implicit"`
-	Pc5LinkAggregatedBitRates *BitRate                    `asn1:"tag:1,context,implicit,optional" json:"Pc5LinkAggregatedBitRates,omitempty"`
-	IEExtensions              *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                 int64                       `asn1:"-" json:"-"`
-	ExtPresent_               []bool                      `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                    `asn1:"-" json:"-"`
+	Pc5QoSFlowList            PC5QoSFlowList             `asn1:"tag:0,context,implicit"`
+	Pc5QoSFlowListIndef_      bool                       `asn1:"-" json:"-"`
+	Pc5LinkAggregatedBitRates *BitRate                   `asn1:"tag:1,context,implicit,optional" json:"Pc5LinkAggregatedBitRates,omitempty"`
+	IEExtensions              ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
+	ExtCount_                 int64                      `asn1:"-" json:"-"`
+	ExtPresent_               []bool                     `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
 }
 
 // PDCPSN represents the ASN.1 type PDCP-SN (INTEGER).
@@ -3711,11 +3824,13 @@ type PDCPSNlength18 = int64
 
 // PLMNAreaBasedQMC represents the ASN.1 type PLMNAreaBasedQMC (SEQUENCE).
 type PLMNAreaBasedQMC struct {
-	PlmnListforQMC PLMNListforQMC              `asn1:"tag:0,context,implicit"`
-	IEExtensions   *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_      int64                       `asn1:"-" json:"-"`
-	ExtPresent_    []bool                      `asn1:"-" json:"-"`
-	ExtData_       [][]byte                    `asn1:"-" json:"-"`
+	PlmnListforQMC       PLMNListforQMC             `asn1:"tag:0,context,implicit"`
+	PlmnListforQMCIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions         ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_   bool                       `asn1:"-" json:"-"`
+	ExtCount_            int64                      `asn1:"-" json:"-"`
+	ExtPresent_          []bool                     `asn1:"-" json:"-"`
+	ExtData_             [][]byte                   `asn1:"-" json:"-"`
 }
 
 // PLMNListforQMC represents the ASN.1 type PLMNListforQMC (SEQUENCE_OF).
@@ -3726,11 +3841,12 @@ type PLMNidentity = []byte
 
 // PSCellInformation represents the ASN.1 type PSCellInformation (SEQUENCE).
 type PSCellInformation struct {
-	NCGI         NRCGI                       `asn1:"tag:0,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	NCGI               NRCGI                      `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // PSServiceNotAvailable represents the ASN.1 ENUMERATED type PS-ServiceNotAvailable.
@@ -3763,7 +3879,8 @@ type PagingAttemptInformation struct {
 	PagingAttemptCount             PagingAttemptCount             `asn1:"tag:0,context,implicit"`
 	IntendedNumberOfPagingAttempts IntendedNumberOfPagingAttempts `asn1:"tag:1,context,implicit"`
 	NextPagingAreaScope            *NextPagingAreaScope           `asn1:"tag:2,context,implicit,optional" json:"NextPagingAreaScope,omitempty"`
-	IEExtensions                   *ProtocolExtensionContainer    `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensions                   ProtocolExtensionContainer     `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_             bool                           `asn1:"-" json:"-"`
 	ExtCount_                      int64                          `asn1:"-" json:"-"`
 	ExtPresent_                    []bool                         `asn1:"-" json:"-"`
 	ExtData_                       [][]byte                       `asn1:"-" json:"-"`
@@ -3986,12 +4103,13 @@ func (v PagingTimeWindow) String() string {
 
 // PagingEDRXInformation represents the ASN.1 type Paging-eDRXInformation (SEQUENCE).
 type PagingEDRXInformation struct {
-	PagingEDRXCycle  PagingEDRXCycle             `asn1:"tag:0,context,implicit"`
-	PagingTimeWindow *PagingTimeWindow           `asn1:"tag:1,context,implicit,optional" json:"PagingTimeWindow,omitempty"`
-	IEExtensions     *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_        int64                       `asn1:"-" json:"-"`
-	ExtPresent_      []bool                      `asn1:"-" json:"-"`
-	ExtData_         [][]byte                    `asn1:"-" json:"-"`
+	PagingEDRXCycle    PagingEDRXCycle            `asn1:"tag:0,context,implicit"`
+	PagingTimeWindow   *PagingTimeWindow          `asn1:"tag:1,context,implicit,optional" json:"PagingTimeWindow,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // PagingEDRXCycle represents the ASN.1 ENUMERATED type Paging-eDRX-Cycle.
@@ -4156,12 +4274,13 @@ func (v PrivacyIndicator) String() string {
 
 // ProSeAuthorized represents the ASN.1 type ProSeAuthorized (SEQUENCE).
 type ProSeAuthorized struct {
-	ProSeDirectDiscovery     *ProSeDirectDiscovery       `asn1:"tag:0,context,implicit,optional" json:"ProSeDirectDiscovery,omitempty"`
-	ProSeDirectCommunication *ProSeDirectCommunication   `asn1:"tag:1,context,implicit,optional" json:"ProSeDirectCommunication,omitempty"`
-	IEExtensions             *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                int64                       `asn1:"-" json:"-"`
-	ExtPresent_              []bool                      `asn1:"-" json:"-"`
-	ExtData_                 [][]byte                    `asn1:"-" json:"-"`
+	ProSeDirectDiscovery     *ProSeDirectDiscovery      `asn1:"tag:0,context,implicit,optional" json:"ProSeDirectDiscovery,omitempty"`
+	ProSeDirectCommunication *ProSeDirectCommunication  `asn1:"tag:1,context,implicit,optional" json:"ProSeDirectCommunication,omitempty"`
+	IEExtensions             ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_       bool                       `asn1:"-" json:"-"`
+	ExtCount_                int64                      `asn1:"-" json:"-"`
+	ExtPresent_              []bool                     `asn1:"-" json:"-"`
+	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ProSeDirectCommunication represents the ASN.1 ENUMERATED type ProSeDirectCommunication.
@@ -4251,12 +4370,13 @@ type RATRestrictions = []RATRestrictionsItem
 
 // RATRestrictionsItem represents the ASN.1 type RAT-RestrictionsItem (SEQUENCE).
 type RATRestrictionsItem struct {
-	PLMNidentity              PLMNidentity                `asn1:"tag:0,context,implicit"`
-	RATRestrictionInformation runtime.BitString           `asn1:"tag:1,context,implicit"`
-	IEExtensions              *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                 int64                       `asn1:"-" json:"-"`
-	ExtPresent_               []bool                      `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                    `asn1:"-" json:"-"`
+	PLMNidentity              PLMNidentity               `asn1:"tag:0,context,implicit"`
+	RATRestrictionInformation runtime.BitString          `asn1:"tag:1,context,implicit"`
+	IEExtensions              ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
+	ExtCount_                 int64                      `asn1:"-" json:"-"`
+	ExtPresent_               []bool                     `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
 }
 
 // RATType represents the ASN.1 ENUMERATED type RAT-Type.
@@ -4343,19 +4463,21 @@ func NewRIMRoutingAddressEHRPDSectorID(v []byte) RIMRoutingAddress {
 
 // RIMTransfer represents the ASN.1 type RIMTransfer (SEQUENCE).
 type RIMTransfer struct {
-	RIMInformation    RIMInformation              `asn1:"tag:0,context,implicit"`
-	RIMRoutingAddress *RIMRoutingAddress          `asn1:"tag:1,context,explicit,optional" json:"RIMRoutingAddress,omitempty"`
-	IEExtensions      *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_         int64                       `asn1:"-" json:"-"`
-	ExtPresent_       []bool                      `asn1:"-" json:"-"`
-	ExtData_          [][]byte                    `asn1:"-" json:"-"`
+	RIMInformation     RIMInformation             `asn1:"tag:0,context,implicit"`
+	RIMRoutingAddress  *RIMRoutingAddress         `asn1:"tag:1,context,explicit,optional" json:"RIMRoutingAddress,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // RLFReportInformation represents the ASN.1 type RLFReportInformation (SEQUENCE).
 type RLFReportInformation struct {
 	UERLFReportContainer                 UERLFReportContainer                  `asn1:"tag:0,context,implicit"`
 	UERLFReportContainerForExtendedBands *UERLFReportContainerForExtendedBands `asn1:"tag:1,context,implicit,optional" json:"UERLFReportContainerForExtendedBands,omitempty"`
-	IEExtensions                         *ProtocolExtensionContainer           `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensions                         ProtocolExtensionContainer            `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_                   bool                                  `asn1:"-" json:"-"`
 	ExtCount_                            int64                                 `asn1:"-" json:"-"`
 	ExtPresent_                          []bool                                `asn1:"-" json:"-"`
 	ExtData_                             [][]byte                              `asn1:"-" json:"-"`
@@ -4455,12 +4577,13 @@ type ReceiveStatusofULPDCPSDUs = runtime.BitString
 
 // RecommendedCellItem represents the ASN.1 type RecommendedCellItem (SEQUENCE).
 type RecommendedCellItem struct {
-	EUTRANCGI        EUTRANCGI                   `asn1:"tag:0,context,implicit"`
-	TimeStayedInCell *int64                      `asn1:"tag:1,context,implicit,optional" json:"TimeStayedInCell,omitempty"`
-	IEExtensions     *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_        int64                       `asn1:"-" json:"-"`
-	ExtPresent_      []bool                      `asn1:"-" json:"-"`
-	ExtData_         [][]byte                    `asn1:"-" json:"-"`
+	EUTRANCGI          EUTRANCGI                  `asn1:"tag:0,context,implicit"`
+	TimeStayedInCell   *int64                     `asn1:"tag:1,context,implicit,optional" json:"TimeStayedInCell,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // RecommendedCellList represents the ASN.1 type RecommendedCellList (SEQUENCE_OF).
@@ -4468,20 +4591,23 @@ type RecommendedCellList = []ProtocolIESingleContainer
 
 // RecommendedCellsForPaging represents the ASN.1 type RecommendedCellsForPaging (SEQUENCE).
 type RecommendedCellsForPaging struct {
-	RecommendedCellList RecommendedCellList         `asn1:"tag:0,context,implicit"`
-	IEExtensions        *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_           int64                       `asn1:"-" json:"-"`
-	ExtPresent_         []bool                      `asn1:"-" json:"-"`
-	ExtData_            [][]byte                    `asn1:"-" json:"-"`
+	RecommendedCellList       RecommendedCellList        `asn1:"tag:0,context,implicit"`
+	RecommendedCellListIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions              ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
+	ExtCount_                 int64                      `asn1:"-" json:"-"`
+	ExtPresent_               []bool                     `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
 }
 
 // RecommendedENBItem represents the ASN.1 type RecommendedENBItem (SEQUENCE).
 type RecommendedENBItem struct {
-	MMEPagingTarget MMEPagingTarget             `asn1:"tag:0,context,explicit"`
-	IEExtensions    *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_       int64                       `asn1:"-" json:"-"`
-	ExtPresent_     []bool                      `asn1:"-" json:"-"`
-	ExtData_        [][]byte                    `asn1:"-" json:"-"`
+	MMEPagingTarget    MMEPagingTarget            `asn1:"tag:0,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // RecommendedENBList represents the ASN.1 type RecommendedENBList (SEQUENCE_OF).
@@ -4489,11 +4615,13 @@ type RecommendedENBList = []ProtocolIESingleContainer
 
 // RecommendedENBsForPaging represents the ASN.1 type RecommendedENBsForPaging (SEQUENCE).
 type RecommendedENBsForPaging struct {
-	RecommendedENBList RecommendedENBList          `asn1:"tag:0,context,implicit"`
-	IEExtensions       *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_          int64                       `asn1:"-" json:"-"`
-	ExtPresent_        []bool                      `asn1:"-" json:"-"`
-	ExtData_           [][]byte                    `asn1:"-" json:"-"`
+	RecommendedENBList       RecommendedENBList         `asn1:"tag:0,context,implicit"`
+	RecommendedENBListIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions             ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_       bool                       `asn1:"-" json:"-"`
+	ExtCount_                int64                      `asn1:"-" json:"-"`
+	ExtPresent_              []bool                     `asn1:"-" json:"-"`
+	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
 }
 
 // RelativeMMECapacity represents the ASN.1 type RelativeMMECapacity (INTEGER).
@@ -4625,12 +4753,13 @@ func (v ReportIntervalMDT) String() string {
 
 // RequestType represents the ASN.1 type RequestType (SEQUENCE).
 type RequestType struct {
-	EventType    EventType                   `asn1:"tag:0,context,implicit"`
-	ReportArea   ReportArea                  `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	EventType          EventType                  `asn1:"tag:0,context,implicit"`
+	ReportArea         ReportArea                 `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // RequestTypeAdditionalInfo represents the ASN.1 ENUMERATED type RequestTypeAdditionalInfo.
@@ -4654,13 +4783,14 @@ type RoutingID = int64
 
 // SONConfigurationTransfer represents the ASN.1 type SONConfigurationTransfer (SEQUENCE).
 type SONConfigurationTransfer struct {
-	TargeteNBID    TargeteNBID                 `asn1:"tag:0,context,implicit"`
-	SourceeNBID    SourceeNBID                 `asn1:"tag:1,context,implicit"`
-	SONInformation SONInformation              `asn1:"tag:2,context,explicit"`
-	IEExtensions   *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_      int64                       `asn1:"-" json:"-"`
-	ExtPresent_    []bool                      `asn1:"-" json:"-"`
-	ExtData_       [][]byte                    `asn1:"-" json:"-"`
+	TargeteNBID        TargeteNBID                `asn1:"tag:0,context,implicit"`
+	SourceeNBID        SourceeNBID                `asn1:"tag:1,context,implicit"`
+	SONInformation     SONInformation             `asn1:"tag:2,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // SONInformation choice constants.
@@ -4704,11 +4834,12 @@ func NewSONInformationSONInformationExtension(v SONInformationExtension) SONInfo
 
 // SONInformationReply represents the ASN.1 type SONInformationReply (SEQUENCE).
 type SONInformationReply struct {
-	X2TNLConfigurationInfo *X2TNLConfigurationInfo     `asn1:"tag:0,context,implicit,optional" json:"X2TNLConfigurationInfo,omitempty"`
-	IEExtensions           *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_              int64                       `asn1:"-" json:"-"`
-	ExtPresent_            []bool                      `asn1:"-" json:"-"`
-	ExtData_               [][]byte                    `asn1:"-" json:"-"`
+	X2TNLConfigurationInfo *X2TNLConfigurationInfo    `asn1:"tag:0,context,implicit,optional" json:"X2TNLConfigurationInfo,omitempty"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
 }
 
 // SONInformationReport choice constants.
@@ -4815,34 +4946,38 @@ func (v SRVCCOperationPossible) String() string {
 
 // STMSI represents the ASN.1 type S-TMSI (SEQUENCE).
 type STMSI struct {
-	MMEC         MMECode                     `asn1:"tag:0,context,implicit"`
-	MTMSI        MTMSI                       `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	MMEC               MMECode                    `asn1:"tag:0,context,implicit"`
+	MTMSI              MTMSI                      `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ScheduledCommunicationTime represents the ASN.1 type ScheduledCommunicationTime (SEQUENCE).
 type ScheduledCommunicationTime struct {
-	DayofWeek      *runtime.BitString          `asn1:"tag:0,context,implicit,optional" json:"DayofWeek,omitempty"`
-	TimeofDayStart *int64                      `asn1:"tag:1,context,implicit,optional" json:"TimeofDayStart,omitempty"`
-	TimeofDayEnd   *int64                      `asn1:"tag:2,context,implicit,optional" json:"TimeofDayEnd,omitempty"`
-	IEExtensions   *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_      int64                       `asn1:"-" json:"-"`
-	ExtPresent_    []bool                      `asn1:"-" json:"-"`
-	ExtData_       [][]byte                    `asn1:"-" json:"-"`
+	DayofWeek          *runtime.BitString         `asn1:"tag:0,context,implicit,optional" json:"DayofWeek,omitempty"`
+	TimeofDayStart     *int64                     `asn1:"tag:1,context,implicit,optional" json:"TimeofDayStart,omitempty"`
+	TimeofDayEnd       *int64                     `asn1:"tag:2,context,implicit,optional" json:"TimeofDayEnd,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // SecondaryRATDataUsageReportItem represents the ASN.1 type SecondaryRATDataUsageReportItem (SEQUENCE).
 type SecondaryRATDataUsageReportItem struct {
-	ERABID              ERABID                      `asn1:"tag:0,context,implicit"`
-	SecondaryRATType    SecondaryRATType            `asn1:"tag:1,context,implicit"`
-	ERABUsageReportList ERABUsageReportList         `asn1:"tag:2,context,implicit"`
-	IEExtensions        *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_           int64                       `asn1:"-" json:"-"`
-	ExtPresent_         []bool                      `asn1:"-" json:"-"`
-	ExtData_            [][]byte                    `asn1:"-" json:"-"`
+	ERABID                    ERABID                     `asn1:"tag:0,context,implicit"`
+	SecondaryRATType          SecondaryRATType           `asn1:"tag:1,context,implicit"`
+	ERABUsageReportList       ERABUsageReportList        `asn1:"tag:2,context,implicit"`
+	ERABUsageReportListIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions              ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
+	ExtCount_                 int64                      `asn1:"-" json:"-"`
+	ExtPresent_               []bool                     `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
 }
 
 // SecondaryRATDataUsageReportList represents the ASN.1 type SecondaryRATDataUsageReportList (SEQUENCE_OF).
@@ -4885,18 +5020,20 @@ func (v SecondaryRATType) String() string {
 
 // SecurityContext represents the ASN.1 type SecurityContext (SEQUENCE).
 type SecurityContext struct {
-	NextHopChainingCount int64                       `asn1:"tag:0,context,implicit"`
-	NextHopParameter     SecurityKey                 `asn1:"tag:1,context,implicit"`
-	IEExtensions         *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_            int64                       `asn1:"-" json:"-"`
-	ExtPresent_          []bool                      `asn1:"-" json:"-"`
-	ExtData_             [][]byte                    `asn1:"-" json:"-"`
+	NextHopChainingCount int64                      `asn1:"tag:0,context,implicit"`
+	NextHopParameter     SecurityKey                `asn1:"tag:1,context,implicit"`
+	IEExtensions         ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_   bool                       `asn1:"-" json:"-"`
+	ExtCount_            int64                      `asn1:"-" json:"-"`
+	ExtPresent_          []bool                     `asn1:"-" json:"-"`
+	ExtData_             [][]byte                   `asn1:"-" json:"-"`
 }
 
 // SecurityIndication represents the ASN.1 type SecurityIndication (SEQUENCE).
 type SecurityIndication struct {
 	IntegrityProtectionIndication IntegrityProtectionIndication `asn1:"tag:0,context,implicit"`
-	IEExtensions                  *ProtocolExtensionContainer   `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensions                  ProtocolExtensionContainer    `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_            bool                          `asn1:"-" json:"-"`
 	ExtCount_                     int64                         `asn1:"-" json:"-"`
 	ExtPresent_                   []bool                        `asn1:"-" json:"-"`
 	ExtData_                      [][]byte                      `asn1:"-" json:"-"`
@@ -4907,11 +5044,12 @@ type SecurityKey = runtime.BitString
 
 // SecurityResult represents the ASN.1 type SecurityResult (SEQUENCE).
 type SecurityResult struct {
-	IntegrityProtectionResult IntegrityProtectionResult   `asn1:"tag:0,context,implicit"`
-	IEExtensions              *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                 int64                       `asn1:"-" json:"-"`
-	ExtPresent_               []bool                      `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                    `asn1:"-" json:"-"`
+	IntegrityProtectionResult IntegrityProtectionResult  `asn1:"tag:0,context,implicit"`
+	IEExtensions              ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
+	ExtCount_                 int64                      `asn1:"-" json:"-"`
+	ExtPresent_               []bool                     `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
 }
 
 // SensorMeasConfig represents the ASN.1 ENUMERATED type SensorMeasConfig.
@@ -4932,11 +5070,12 @@ func (v SensorMeasConfig) String() string {
 
 // SensorMeasConfigNameItem represents the ASN.1 type SensorMeasConfigNameItem (SEQUENCE).
 type SensorMeasConfigNameItem struct {
-	SensorNameConfig SensorNameConfig            `asn1:"tag:0,context,explicit"`
-	IEExtensions     *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_        int64                       `asn1:"-" json:"-"`
-	ExtPresent_      []bool                      `asn1:"-" json:"-"`
-	ExtData_         [][]byte                    `asn1:"-" json:"-"`
+	SensorNameConfig   SensorNameConfig           `asn1:"tag:0,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // SensorMeasConfigNameList represents the ASN.1 type SensorMeasConfigNameList (SEQUENCE_OF).
@@ -4944,12 +5083,14 @@ type SensorMeasConfigNameList = []SensorMeasConfigNameItem
 
 // SensorMeasurementConfiguration represents the ASN.1 type SensorMeasurementConfiguration (SEQUENCE).
 type SensorMeasurementConfiguration struct {
-	SensorMeasConfig         SensorMeasConfig            `asn1:"tag:0,context,implicit"`
-	SensorMeasConfigNameList *SensorMeasConfigNameList   `asn1:"tag:1,context,implicit,optional" json:"SensorMeasConfigNameList,omitempty"`
-	IEExtensions             *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                int64                       `asn1:"-" json:"-"`
-	ExtPresent_              []bool                      `asn1:"-" json:"-"`
-	ExtData_                 [][]byte                    `asn1:"-" json:"-"`
+	SensorMeasConfig               SensorMeasConfig           `asn1:"tag:0,context,implicit"`
+	SensorMeasConfigNameList       SensorMeasConfigNameList   `asn1:"tag:1,context,implicit,optional" json:"SensorMeasConfigNameList,omitempty"`
+	SensorMeasConfigNameListIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions                   ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_             bool                       `asn1:"-" json:"-"`
+	ExtCount_                      int64                      `asn1:"-" json:"-"`
+	ExtPresent_                    []bool                     `asn1:"-" json:"-"`
+	ExtData_                       [][]byte                   `asn1:"-" json:"-"`
 }
 
 // SensorNameConfig choice constants.
@@ -4989,12 +5130,13 @@ type ServedDCNs = []ServedDCNsItem
 
 // ServedDCNsItem represents the ASN.1 type ServedDCNsItem (SEQUENCE).
 type ServedDCNsItem struct {
-	DCNID               DCNID                       `asn1:"tag:0,context,implicit"`
-	RelativeDCNCapacity RelativeMMECapacity         `asn1:"tag:1,context,implicit"`
-	IEExtensions        *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_           int64                       `asn1:"-" json:"-"`
-	ExtPresent_         []bool                      `asn1:"-" json:"-"`
-	ExtData_            [][]byte                    `asn1:"-" json:"-"`
+	DCNID               DCNID                      `asn1:"tag:0,context,implicit"`
+	RelativeDCNCapacity RelativeMMECapacity        `asn1:"tag:1,context,implicit"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ServedGUMMEIs represents the ASN.1 type ServedGUMMEIs (SEQUENCE_OF).
@@ -5002,13 +5144,17 @@ type ServedGUMMEIs = []ServedGUMMEIsItem
 
 // ServedGUMMEIsItem represents the ASN.1 type ServedGUMMEIsItem (SEQUENCE).
 type ServedGUMMEIsItem struct {
-	ServedPLMNs    ServedPLMNs                 `asn1:"tag:0,context,implicit"`
-	ServedGroupIDs ServedGroupIDs              `asn1:"tag:1,context,implicit"`
-	ServedMMECs    ServedMMECs                 `asn1:"tag:2,context,implicit"`
-	IEExtensions   *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_      int64                       `asn1:"-" json:"-"`
-	ExtPresent_    []bool                      `asn1:"-" json:"-"`
-	ExtData_       [][]byte                    `asn1:"-" json:"-"`
+	ServedPLMNs          ServedPLMNs                `asn1:"tag:0,context,implicit"`
+	ServedPLMNsIndef_    bool                       `asn1:"-" json:"-"`
+	ServedGroupIDs       ServedGroupIDs             `asn1:"tag:1,context,implicit"`
+	ServedGroupIDsIndef_ bool                       `asn1:"-" json:"-"`
+	ServedMMECs          ServedMMECs                `asn1:"tag:2,context,implicit"`
+	ServedMMECsIndef_    bool                       `asn1:"-" json:"-"`
+	IEExtensions         ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_   bool                       `asn1:"-" json:"-"`
+	ExtCount_            int64                      `asn1:"-" json:"-"`
+	ExtPresent_          []bool                     `asn1:"-" json:"-"`
+	ExtData_             [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ServedGroupIDs represents the ASN.1 type ServedGroupIDs (SEQUENCE_OF).
@@ -5044,12 +5190,13 @@ type SourceBSSToTargetBSSTransparentContainer = []byte
 
 // SourceNgRanNodeID represents the ASN.1 type SourceNgRanNode-ID (SEQUENCE).
 type SourceNgRanNodeID struct {
-	GlobalRANNODEID GlobalRANNODEID             `asn1:"tag:0,context,explicit"`
-	SelectedTAI     FiveGSTAI                   `asn1:"tag:1,context,implicit"`
-	IEExtensions    *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_       int64                       `asn1:"-" json:"-"`
-	ExtPresent_     []bool                      `asn1:"-" json:"-"`
-	ExtData_        [][]byte                    `asn1:"-" json:"-"`
+	GlobalRANNODEID    GlobalRANNODEID            `asn1:"tag:0,context,explicit"`
+	SelectedTAI        FiveGSTAI                  `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // SourceNgRanNodeToTargetNgRanNodeTransparentContainer represents the ASN.1 type SourceNgRanNode-ToTargetNgRanNode-TransparentContainer (OCTET_STRING).
@@ -5118,22 +5265,26 @@ type SourceToTargetTransparentContainer = []byte
 
 // SourceeNBID represents the ASN.1 type SourceeNB-ID (SEQUENCE).
 type SourceeNBID struct {
-	GlobalENBID  GlobalENBID                 `asn1:"tag:0,context,implicit"`
-	SelectedTAI  TAI                         `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	GlobalENBID        GlobalENBID                `asn1:"tag:0,context,implicit"`
+	SelectedTAI        TAI                        `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
 }
 
 // SourceeNBToTargeteNBTransparentContainer represents the ASN.1 type SourceeNB-ToTargeteNB-TransparentContainer (SEQUENCE).
 type SourceeNBToTargeteNBTransparentContainer struct {
-	RRCContainer              RRCContainer                `asn1:"tag:0,context,implicit"`
-	ERABInformationList       *ERABInformationList        `asn1:"tag:1,context,implicit,optional" json:"ERABInformationList,omitempty"`
-	TargetCellID              EUTRANCGI                   `asn1:"tag:2,context,implicit"`
-	SubscriberProfileIDforRFP *SubscriberProfileIDforRFP  `asn1:"tag:3,context,implicit,optional" json:"SubscriberProfileIDforRFP,omitempty"`
-	UEHistoryInformation      UEHistoryInformation        `asn1:"tag:4,context,implicit"`
-	IEExtensions              *ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                 int64                       `asn1:"-" json:"-"`
-	ExtPresent_               []bool                      `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                    `asn1:"-" json:"-"`
+	RRCContainer               RRCContainer               `asn1:"tag:0,context,implicit"`
+	ERABInformationList        ERABInformationList        `asn1:"tag:1,context,implicit,optional" json:"ERABInformationList,omitempty"`
+	ERABInformationListIndef_  bool                       `asn1:"-" json:"-"`
+	TargetCellID               EUTRANCGI                  `asn1:"tag:2,context,implicit"`
+	SubscriberProfileIDforRFP  *SubscriberProfileIDforRFP `asn1:"tag:3,context,implicit,optional" json:"SubscriberProfileIDforRFP,omitempty"`
+	UEHistoryInformation       UEHistoryInformation       `asn1:"tag:4,context,implicit"`
+	UEHistoryInformationIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions               ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_         bool                       `asn1:"-" json:"-"`
+	ExtCount_                  int64                      `asn1:"-" json:"-"`
+	ExtPresent_                []bool                     `asn1:"-" json:"-"`
+	ExtData_                   [][]byte                   `asn1:"-" json:"-"`
 }
 
 // StratumLevel represents the ASN.1 type StratumLevel (INTEGER).
@@ -5150,7 +5301,8 @@ type SubscriptionBasedUEDifferentiationInfo struct {
 	StationaryIndication           *int64                      `asn1:"tag:3,context,implicit,optional" json:"StationaryIndication,omitempty"`
 	TrafficProfile                 *int64                      `asn1:"tag:4,context,implicit,optional" json:"TrafficProfile,omitempty"`
 	BatteryIndication              *int64                      `asn1:"tag:5,context,implicit,optional" json:"BatteryIndication,omitempty"`
-	IEExtensions                   *ProtocolExtensionContainer `asn1:"tag:6,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensions                   ProtocolExtensionContainer  `asn1:"tag:6,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_             bool                        `asn1:"-" json:"-"`
 	ExtCount_                      int64                       `asn1:"-" json:"-"`
 	ExtPresent_                    []bool                      `asn1:"-" json:"-"`
 	ExtData_                       [][]byte                    `asn1:"-" json:"-"`
@@ -5161,23 +5313,27 @@ type SupportedTAs = []SupportedTAsItem
 
 // SupportedTAsItem represents the ASN.1 type SupportedTAs-Item (SEQUENCE).
 type SupportedTAsItem struct {
-	TAC            TAC                         `asn1:"tag:0,context,implicit"`
-	BroadcastPLMNs BPLMNs                      `asn1:"tag:1,context,implicit"`
-	IEExtensions   *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_      int64                       `asn1:"-" json:"-"`
-	ExtPresent_    []bool                      `asn1:"-" json:"-"`
-	ExtData_       [][]byte                    `asn1:"-" json:"-"`
+	TAC                  TAC                        `asn1:"tag:0,context,implicit"`
+	BroadcastPLMNs       BPLMNs                     `asn1:"tag:1,context,implicit"`
+	BroadcastPLMNsIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions         ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_   bool                       `asn1:"-" json:"-"`
+	ExtCount_            int64                      `asn1:"-" json:"-"`
+	ExtPresent_          []bool                     `asn1:"-" json:"-"`
+	ExtData_             [][]byte                   `asn1:"-" json:"-"`
 }
 
 // SynchronisationInformation represents the ASN.1 type SynchronisationInformation (SEQUENCE).
 type SynchronisationInformation struct {
-	SourceStratumLevel       *StratumLevel               `asn1:"tag:0,context,implicit,optional" json:"SourceStratumLevel,omitempty"`
-	ListeningSubframePattern *ListeningSubframePattern   `asn1:"tag:1,context,implicit,optional" json:"ListeningSubframePattern,omitempty"`
-	AggressoreCGIList        *IEsECGIList                `asn1:"tag:2,context,implicit,optional" json:"AggressoreCGIList,omitempty"`
-	IEExtensions             *ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                int64                       `asn1:"-" json:"-"`
-	ExtPresent_              []bool                      `asn1:"-" json:"-"`
-	ExtData_                 [][]byte                    `asn1:"-" json:"-"`
+	SourceStratumLevel       *StratumLevel              `asn1:"tag:0,context,implicit,optional" json:"SourceStratumLevel,omitempty"`
+	ListeningSubframePattern *ListeningSubframePattern  `asn1:"tag:1,context,implicit,optional" json:"ListeningSubframePattern,omitempty"`
+	AggressoreCGIList        IEsECGIList                `asn1:"tag:2,context,implicit,optional" json:"AggressoreCGIList,omitempty"`
+	AggressoreCGIListIndef_  bool                       `asn1:"-" json:"-"`
+	IEExtensions             ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_       bool                       `asn1:"-" json:"-"`
+	ExtCount_                int64                      `asn1:"-" json:"-"`
+	ExtPresent_              []bool                     `asn1:"-" json:"-"`
+	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
 }
 
 // SynchronisationStatus represents the ASN.1 ENUMERATED type SynchronisationStatus.
@@ -5201,20 +5357,24 @@ func (v SynchronisationStatus) String() string {
 
 // TABasedMDT represents the ASN.1 type TABasedMDT (SEQUENCE).
 type TABasedMDT struct {
-	TAListforMDT TAListforMDT                `asn1:"tag:0,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	TAListforMDT       TAListforMDT               `asn1:"tag:0,context,implicit"`
+	TAListforMDTIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // TABasedQMC represents the ASN.1 type TABasedQMC (SEQUENCE).
 type TABasedQMC struct {
-	TAListforQMC TAListforQMC                `asn1:"tag:0,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	TAListforQMC       TAListforQMC               `asn1:"tag:0,context,implicit"`
+	TAListforQMCIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // TAC represents the ASN.1 type TAC (OCTET_STRING).
@@ -5225,30 +5385,35 @@ type TACListInLTENTN = []TAC
 
 // TAI represents the ASN.1 type TAI (SEQUENCE).
 type TAI struct {
-	PLMNidentity PLMNidentity                `asn1:"tag:0,context,implicit"`
-	TAC          TAC                         `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	PLMNidentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
+	TAC                TAC                        `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // TAIBasedMDT represents the ASN.1 type TAIBasedMDT (SEQUENCE).
 type TAIBasedMDT struct {
-	TAIListforMDT TAIListforMDT               `asn1:"tag:0,context,implicit"`
-	IEExtensions  *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_     int64                       `asn1:"-" json:"-"`
-	ExtPresent_   []bool                      `asn1:"-" json:"-"`
-	ExtData_      [][]byte                    `asn1:"-" json:"-"`
+	TAIListforMDT       TAIListforMDT              `asn1:"tag:0,context,implicit"`
+	TAIListforMDTIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
 }
 
 // TAIBasedQMC represents the ASN.1 type TAIBasedQMC (SEQUENCE).
 type TAIBasedQMC struct {
-	TAIListforQMC TAIListforQMC               `asn1:"tag:0,context,implicit"`
-	IEExtensions  *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_     int64                       `asn1:"-" json:"-"`
-	ExtPresent_   []bool                      `asn1:"-" json:"-"`
-	ExtData_      [][]byte                    `asn1:"-" json:"-"`
+	TAIListforQMC       TAIListforQMC              `asn1:"tag:0,context,implicit"`
+	TAIListforQMCIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
 }
 
 // TAIListForRestart represents the ASN.1 type TAIListForRestart (SEQUENCE_OF).
@@ -5268,12 +5433,14 @@ type TAIBroadcast = []TAIBroadcastItem
 
 // TAIBroadcastItem represents the ASN.1 type TAI-Broadcast-Item (SEQUENCE).
 type TAIBroadcastItem struct {
-	TAI                TAI                         `asn1:"tag:0,context,implicit"`
-	CompletedCellinTAI CompletedCellinTAI          `asn1:"tag:1,context,implicit"`
-	IEExtensions       *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_          int64                       `asn1:"-" json:"-"`
-	ExtPresent_        []bool                      `asn1:"-" json:"-"`
-	ExtData_           [][]byte                    `asn1:"-" json:"-"`
+	TAI                      TAI                        `asn1:"tag:0,context,implicit"`
+	CompletedCellinTAI       CompletedCellinTAI         `asn1:"tag:1,context,implicit"`
+	CompletedCellinTAIIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions             ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_       bool                       `asn1:"-" json:"-"`
+	ExtCount_                int64                      `asn1:"-" json:"-"`
+	ExtPresent_              []bool                     `asn1:"-" json:"-"`
+	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
 }
 
 // TAICancelled represents the ASN.1 type TAI-Cancelled (SEQUENCE_OF).
@@ -5281,12 +5448,14 @@ type TAICancelled = []TAICancelledItem
 
 // TAICancelledItem represents the ASN.1 type TAI-Cancelled-Item (SEQUENCE).
 type TAICancelledItem struct {
-	TAI                TAI                         `asn1:"tag:0,context,implicit"`
-	CancelledCellinTAI CancelledCellinTAI          `asn1:"tag:1,context,implicit"`
-	IEExtensions       *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_          int64                       `asn1:"-" json:"-"`
-	ExtPresent_        []bool                      `asn1:"-" json:"-"`
-	ExtData_           [][]byte                    `asn1:"-" json:"-"`
+	TAI                      TAI                        `asn1:"tag:0,context,implicit"`
+	CancelledCellinTAI       CancelledCellinTAI         `asn1:"tag:1,context,implicit"`
+	CancelledCellinTAIIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions             ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_       bool                       `asn1:"-" json:"-"`
+	ExtCount_                int64                      `asn1:"-" json:"-"`
+	ExtPresent_              []bool                     `asn1:"-" json:"-"`
+	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
 }
 
 // TAListforMDT represents the ASN.1 type TAListforMDT (SEQUENCE_OF).
@@ -5352,12 +5521,13 @@ func NewTargetIDTargetgNgRanNodeID(v TargetNgRanNodeID) TargetID {
 
 // TargetNgRanNodeID represents the ASN.1 type TargetNgRanNode-ID (SEQUENCE).
 type TargetNgRanNodeID struct {
-	GlobalRANNODEID GlobalRANNODEID             `asn1:"tag:0,context,explicit"`
-	SelectedTAI     FiveGSTAI                   `asn1:"tag:1,context,implicit"`
-	IEExtensions    *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_       int64                       `asn1:"-" json:"-"`
-	ExtPresent_     []bool                      `asn1:"-" json:"-"`
-	ExtData_        [][]byte                    `asn1:"-" json:"-"`
+	GlobalRANNODEID    GlobalRANNODEID            `asn1:"tag:0,context,explicit"`
+	SelectedTAI        FiveGSTAI                  `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // TargetNgRanNodeToSourceNgRanNodeTransparentContainer represents the ASN.1 type TargetNgRanNode-ToSourceNgRanNode-TransparentContainer (OCTET_STRING).
@@ -5365,14 +5535,15 @@ type TargetNgRanNodeToSourceNgRanNodeTransparentContainer = []byte
 
 // TargetRNCID represents the ASN.1 type TargetRNC-ID (SEQUENCE).
 type TargetRNCID struct {
-	LAI           LAI                         `asn1:"tag:0,context,implicit"`
-	RAC           *RAC                        `asn1:"tag:1,context,implicit,optional" json:"RAC,omitempty"`
-	RNCID         RNCID                       `asn1:"tag:2,context,implicit"`
-	ExtendedRNCID *ExtendedRNCID              `asn1:"tag:3,context,implicit,optional" json:"ExtendedRNCID,omitempty"`
-	IEExtensions  *ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_     int64                       `asn1:"-" json:"-"`
-	ExtPresent_   []bool                      `asn1:"-" json:"-"`
-	ExtData_      [][]byte                    `asn1:"-" json:"-"`
+	LAI                LAI                        `asn1:"tag:0,context,implicit"`
+	RAC                *RAC                       `asn1:"tag:1,context,implicit,optional" json:"RAC,omitempty"`
+	RNCID              RNCID                      `asn1:"tag:2,context,implicit"`
+	ExtendedRNCID      *ExtendedRNCID             `asn1:"tag:3,context,implicit,optional" json:"ExtendedRNCID,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // TargetRNCToSourceRNCTransparentContainer represents the ASN.1 type TargetRNC-ToSourceRNC-TransparentContainer (OCTET_STRING).
@@ -5383,21 +5554,23 @@ type TargetToSourceTransparentContainer = []byte
 
 // TargeteNBID represents the ASN.1 type TargeteNB-ID (SEQUENCE).
 type TargeteNBID struct {
-	GlobalENBID  GlobalENBID                 `asn1:"tag:0,context,implicit"`
-	SelectedTAI  TAI                         `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	GlobalENBID        GlobalENBID                `asn1:"tag:0,context,implicit"`
+	SelectedTAI        TAI                        `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // TargeteNBToSourceeNBTransparentContainer represents the ASN.1 type TargeteNB-ToSourceeNB-TransparentContainer (SEQUENCE).
 type TargeteNBToSourceeNBTransparentContainer struct {
-	RRCContainer RRCContainer                `asn1:"tag:0,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	RRCContainer       RRCContainer               `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ThresholdRSRP represents the ASN.1 type Threshold-RSRP (INTEGER).
@@ -5411,12 +5584,13 @@ type TimeSinceSecondaryNodeRelease = []byte
 
 // TimeSynchronisationInfo represents the ASN.1 type TimeSynchronisationInfo (SEQUENCE).
 type TimeSynchronisationInfo struct {
-	StratumLevel          StratumLevel                `asn1:"tag:0,context,implicit"`
-	SynchronisationStatus SynchronisationStatus       `asn1:"tag:1,context,implicit"`
-	IEExtensions          *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_             int64                       `asn1:"-" json:"-"`
-	ExtPresent_           []bool                      `asn1:"-" json:"-"`
-	ExtData_              [][]byte                    `asn1:"-" json:"-"`
+	StratumLevel          StratumLevel               `asn1:"tag:0,context,implicit"`
+	SynchronisationStatus SynchronisationStatus      `asn1:"tag:1,context,implicit"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
 // TimeToTrigger represents the ASN.1 ENUMERATED type TimeToTrigger.
@@ -5519,14 +5693,15 @@ type TimeUEStayedInCellEnhancedGranularity = int64
 
 // TraceActivation represents the ASN.1 type TraceActivation (SEQUENCE).
 type TraceActivation struct {
-	EUTRANTraceID                  EUTRANTraceID               `asn1:"tag:0,context,implicit"`
-	InterfacesToTrace              InterfacesToTrace           `asn1:"tag:1,context,implicit"`
-	TraceDepth                     TraceDepth                  `asn1:"tag:2,context,implicit"`
-	TraceCollectionEntityIPAddress TransportLayerAddress       `asn1:"tag:3,context,implicit"`
-	IEExtensions                   *ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                      int64                       `asn1:"-" json:"-"`
-	ExtPresent_                    []bool                      `asn1:"-" json:"-"`
-	ExtData_                       [][]byte                    `asn1:"-" json:"-"`
+	EUTRANTraceID                  EUTRANTraceID              `asn1:"tag:0,context,implicit"`
+	InterfacesToTrace              InterfacesToTrace          `asn1:"tag:1,context,implicit"`
+	TraceDepth                     TraceDepth                 `asn1:"tag:2,context,implicit"`
+	TraceCollectionEntityIPAddress TransportLayerAddress      `asn1:"tag:3,context,implicit"`
+	IEExtensions                   ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_             bool                       `asn1:"-" json:"-"`
+	ExtCount_                      int64                      `asn1:"-" json:"-"`
+	ExtPresent_                    []bool                     `asn1:"-" json:"-"`
+	ExtData_                       [][]byte                   `asn1:"-" json:"-"`
 }
 
 // TraceDepth represents the ASN.1 ENUMERATED type TraceDepth.
@@ -5577,12 +5752,13 @@ type TransportLayerAddress = runtime.BitString
 
 // TunnelInformation represents the ASN.1 type TunnelInformation (SEQUENCE).
 type TunnelInformation struct {
-	TransportLayerAddress TransportLayerAddress       `asn1:"tag:0,context,implicit"`
-	UDPPortNumber         *PortNumber                 `asn1:"tag:1,context,implicit,optional" json:"UDPPortNumber,omitempty"`
-	IEExtensions          *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_             int64                       `asn1:"-" json:"-"`
-	ExtPresent_           []bool                      `asn1:"-" json:"-"`
-	ExtData_              [][]byte                    `asn1:"-" json:"-"`
+	TransportLayerAddress TransportLayerAddress      `asn1:"tag:0,context,implicit"`
+	UDPPortNumber         *PortNumber                `asn1:"tag:1,context,implicit,optional" json:"UDPPortNumber,omitempty"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
 // TypeOfError represents the ASN.1 ENUMERATED type TypeOfError.
@@ -5606,22 +5782,24 @@ func (v TypeOfError) String() string {
 
 // UEAggregateMaximumBitrate represents the ASN.1 type UEAggregateMaximumBitrate (SEQUENCE).
 type UEAggregateMaximumBitrate struct {
-	UEaggregateMaximumBitRateDL BitRate                     `asn1:"tag:0,context,implicit"`
-	UEaggregateMaximumBitRateUL BitRate                     `asn1:"tag:1,context,implicit"`
-	IEExtensions                *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                   int64                       `asn1:"-" json:"-"`
-	ExtPresent_                 []bool                      `asn1:"-" json:"-"`
-	ExtData_                    [][]byte                    `asn1:"-" json:"-"`
+	UEaggregateMaximumBitRateDL BitRate                    `asn1:"tag:0,context,implicit"`
+	UEaggregateMaximumBitRateUL BitRate                    `asn1:"tag:1,context,implicit"`
+	IEExtensions                ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_          bool                       `asn1:"-" json:"-"`
+	ExtCount_                   int64                      `asn1:"-" json:"-"`
+	ExtPresent_                 []bool                     `asn1:"-" json:"-"`
+	ExtData_                    [][]byte                   `asn1:"-" json:"-"`
 }
 
 // UEAppLayerMeasConfig represents the ASN.1 type UEAppLayerMeasConfig (SEQUENCE).
 type UEAppLayerMeasConfig struct {
-	ContainerForAppLayerMeasConfig []byte                      `asn1:"tag:0,context,implicit"`
-	AreaScopeOfQMC                 AreaScopeOfQMC              `asn1:"tag:1,context,explicit"`
-	IEExtensions                   *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                      int64                       `asn1:"-" json:"-"`
-	ExtPresent_                    []bool                      `asn1:"-" json:"-"`
-	ExtData_                       [][]byte                    `asn1:"-" json:"-"`
+	ContainerForAppLayerMeasConfig []byte                     `asn1:"tag:0,context,implicit"`
+	AreaScopeOfQMC                 AreaScopeOfQMC             `asn1:"tag:1,context,explicit"`
+	IEExtensions                   ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_             bool                       `asn1:"-" json:"-"`
+	ExtCount_                      int64                      `asn1:"-" json:"-"`
+	ExtPresent_                    []bool                     `asn1:"-" json:"-"`
+	ExtData_                       [][]byte                   `asn1:"-" json:"-"`
 }
 
 // UECapabilityInfoRequest represents the ASN.1 ENUMERATED type UECapabilityInfoRequest.
@@ -5685,7 +5863,8 @@ type UERadioCapabilityID = []byte
 type UESecurityCapabilities struct {
 	EncryptionAlgorithms          EncryptionAlgorithms          `asn1:"tag:0,context,implicit"`
 	IntegrityProtectionAlgorithms IntegrityProtectionAlgorithms `asn1:"tag:1,context,implicit"`
-	IEExtensions                  *ProtocolExtensionContainer   `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensions                  ProtocolExtensionContainer    `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_            bool                          `asn1:"-" json:"-"`
 	ExtCount_                     int64                         `asn1:"-" json:"-"`
 	ExtPresent_                   []bool                        `asn1:"-" json:"-"`
 	ExtData_                      [][]byte                      `asn1:"-" json:"-"`
@@ -5693,11 +5872,12 @@ type UESecurityCapabilities struct {
 
 // UESidelinkAggregateMaximumBitrate represents the ASN.1 type UESidelinkAggregateMaximumBitrate (SEQUENCE).
 type UESidelinkAggregateMaximumBitrate struct {
-	UESidelinkAggregateMaximumBitRate BitRate                     `asn1:"tag:0,context,implicit"`
-	IEExtensions                      *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                         int64                       `asn1:"-" json:"-"`
-	ExtPresent_                       []bool                      `asn1:"-" json:"-"`
-	ExtData_                          [][]byte                    `asn1:"-" json:"-"`
+	UESidelinkAggregateMaximumBitRate BitRate                    `asn1:"tag:0,context,implicit"`
+	IEExtensions                      ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_                bool                       `asn1:"-" json:"-"`
+	ExtCount_                         int64                      `asn1:"-" json:"-"`
+	ExtPresent_                       []bool                     `asn1:"-" json:"-"`
+	ExtData_                          [][]byte                   `asn1:"-" json:"-"`
 }
 
 // UEUserPlaneCIoTSupportIndicator represents the ASN.1 ENUMERATED type UEUserPlaneCIoTSupportIndicator.
@@ -5749,12 +5929,13 @@ func (v UERetentionInformation) String() string {
 
 // UES1APIDPair represents the ASN.1 type UE-S1AP-ID-pair (SEQUENCE).
 type UES1APIDPair struct {
-	MMEUES1APID  MMEUES1APID                 `asn1:"tag:0,context,implicit"`
-	ENBUES1APID  ENBUES1APID                 `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	MMEUES1APID        MMEUES1APID                `asn1:"tag:0,context,implicit"`
+	ENBUES1APID        ENBUES1APID                `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // UES1APIDs choice constants.
@@ -5791,22 +5972,24 @@ type UEUsageType = int64
 
 // UEAssociatedLogicalS1ConnectionItem represents the ASN.1 type UE-associatedLogicalS1-ConnectionItem (SEQUENCE).
 type UEAssociatedLogicalS1ConnectionItem struct {
-	MMEUES1APID  *MMEUES1APID                `asn1:"tag:0,context,implicit,optional" json:"MMEUES1APID,omitempty"`
-	ENBUES1APID  *ENBUES1APID                `asn1:"tag:1,context,implicit,optional" json:"ENBUES1APID,omitempty"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	MMEUES1APID        *MMEUES1APID               `asn1:"tag:0,context,implicit,optional" json:"MMEUES1APID,omitempty"`
+	ENBUES1APID        *ENBUES1APID               `asn1:"tag:1,context,implicit,optional" json:"ENBUES1APID,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ULCPSecurityInformation represents the ASN.1 type UL-CP-SecurityInformation (SEQUENCE).
 type ULCPSecurityInformation struct {
-	UlNASMAC     ULNASMAC                    `asn1:"tag:0,context,implicit"`
-	UlNASCount   ULNASCount                  `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	UlNASMAC           ULNASMAC                   `asn1:"tag:0,context,implicit"`
+	UlNASCount         ULNASCount                 `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // ULNASCount represents the ASN.1 type UL-NAS-Count (BIT_STRING).
@@ -5836,22 +6019,24 @@ func (v UnlicensedSpectrumRestriction) String() string {
 
 // UserLocationInformation represents the ASN.1 type UserLocationInformation (SEQUENCE).
 type UserLocationInformation struct {
-	EutranCgi    EUTRANCGI                   `asn1:"tag:0,context,implicit"`
-	Tai          TAI                         `asn1:"tag:1,context,implicit"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	EutranCgi          EUTRANCGI                  `asn1:"tag:0,context,implicit"`
+	Tai                TAI                        `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // V2XServicesAuthorized represents the ASN.1 type V2XServicesAuthorized (SEQUENCE).
 type V2XServicesAuthorized struct {
-	VehicleUE    *VehicleUE                  `asn1:"tag:0,context,implicit,optional" json:"VehicleUE,omitempty"`
-	PedestrianUE *PedestrianUE               `asn1:"tag:1,context,implicit,optional" json:"PedestrianUE,omitempty"`
-	IEExtensions *ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_    int64                       `asn1:"-" json:"-"`
-	ExtPresent_  []bool                      `asn1:"-" json:"-"`
-	ExtData_     [][]byte                    `asn1:"-" json:"-"`
+	VehicleUE          *VehicleUE                 `asn1:"tag:0,context,implicit,optional" json:"VehicleUE,omitempty"`
+	PedestrianUE       *PedestrianUE              `asn1:"tag:1,context,implicit,optional" json:"PedestrianUE,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // VehicleUE represents the ASN.1 ENUMERATED type VehicleUE.
@@ -5913,14 +6098,16 @@ type WLANMeasConfigNameList = []WLANName
 
 // WLANMeasurementConfiguration represents the ASN.1 type WLANMeasurementConfiguration (SEQUENCE).
 type WLANMeasurementConfiguration struct {
-	WlanMeasConfig         WLANMeasConfig              `asn1:"tag:0,context,implicit"`
-	WlanMeasConfigNameList *WLANMeasConfigNameList     `asn1:"tag:1,context,implicit,optional" json:"WlanMeasConfigNameList,omitempty"`
-	WlanRssi               *int64                      `asn1:"tag:2,context,implicit,optional" json:"WlanRssi,omitempty"`
-	WlanRtt                *int64                      `asn1:"tag:3,context,implicit,optional" json:"WlanRtt,omitempty"`
-	IEExtensions           *ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_              int64                       `asn1:"-" json:"-"`
-	ExtPresent_            []bool                      `asn1:"-" json:"-"`
-	ExtData_               [][]byte                    `asn1:"-" json:"-"`
+	WlanMeasConfig               WLANMeasConfig             `asn1:"tag:0,context,implicit"`
+	WlanMeasConfigNameList       WLANMeasConfigNameList     `asn1:"tag:1,context,implicit,optional" json:"WlanMeasConfigNameList,omitempty"`
+	WlanMeasConfigNameListIndef_ bool                       `asn1:"-" json:"-"`
+	WlanRssi                     *int64                     `asn1:"tag:2,context,implicit,optional" json:"WlanRssi,omitempty"`
+	WlanRtt                      *int64                     `asn1:"tag:3,context,implicit,optional" json:"WlanRtt,omitempty"`
+	IEExtensions                 ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_           bool                       `asn1:"-" json:"-"`
+	ExtCount_                    int64                      `asn1:"-" json:"-"`
+	ExtPresent_                  []bool                     `asn1:"-" json:"-"`
+	ExtData_                     [][]byte                   `asn1:"-" json:"-"`
 }
 
 // WLANName represents the ASN.1 type WLANName (OCTET_STRING).
@@ -5929,7 +6116,8 @@ type WLANName = []byte
 // WUSAssistanceInformation represents the ASN.1 type WUS-Assistance-Information (SEQUENCE).
 type WUSAssistanceInformation struct {
 	PagingProbabilityInformation PagingProbabilityInformation `asn1:"tag:0,context,implicit"`
-	IEExtensions                 *ProtocolExtensionContainer  `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensions                 ProtocolExtensionContainer   `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_           bool                         `asn1:"-" json:"-"`
 	ExtCount_                    int64                        `asn1:"-" json:"-"`
 	ExtPresent_                  []bool                       `asn1:"-" json:"-"`
 	ExtData_                     [][]byte                     `asn1:"-" json:"-"`
@@ -5948,9 +6136,9 @@ const (
 // WarningAreaList represents the ASN.1 CHOICE type WarningAreaList.
 type WarningAreaList struct {
 	Choice                     int
-	CellIDList                 []runtime.RawValue   `json:"CellIDList,omitempty"`
-	TrackingAreaListforWarning *TAIListforWarning   `json:"TrackingAreaListforWarning,omitempty"`
-	EmergencyAreaIDList        *EmergencyAreaIDList `json:"EmergencyAreaIDList,omitempty"`
+	CellIDList                 []runtime.RawValue  `json:"CellIDList,omitempty"`
+	TrackingAreaListforWarning TAIListforWarning   `json:"TrackingAreaListforWarning,omitempty"`
+	EmergencyAreaIDList        EmergencyAreaIDList `json:"EmergencyAreaIDList,omitempty"`
 }
 
 // NewWarningAreaListCellIDList creates a WarningAreaList with the cellIDList alternative.
@@ -5965,7 +6153,7 @@ func NewWarningAreaListCellIDList(v []runtime.RawValue) WarningAreaList {
 func NewWarningAreaListTrackingAreaListforWarning(v TAIListforWarning) WarningAreaList {
 	return WarningAreaList{
 		Choice:                     WarningAreaListChoiceTrackingAreaListforWarning,
-		TrackingAreaListforWarning: &v,
+		TrackingAreaListforWarning: v,
 	}
 }
 
@@ -5973,7 +6161,7 @@ func NewWarningAreaListTrackingAreaListforWarning(v TAIListforWarning) WarningAr
 func NewWarningAreaListEmergencyAreaIDList(v EmergencyAreaIDList) WarningAreaList {
 	return WarningAreaList{
 		Choice:              WarningAreaListChoiceEmergencyAreaIDList,
-		EmergencyAreaIDList: &v,
+		EmergencyAreaIDList: v,
 	}
 }
 
@@ -5988,11 +6176,13 @@ type WarningType = []byte
 
 // X2TNLConfigurationInfo represents the ASN.1 type X2TNLConfigurationInfo (SEQUENCE).
 type X2TNLConfigurationInfo struct {
-	ENBX2TransportLayerAddresses ENBX2TLAs                   `asn1:"tag:0,context,implicit"`
-	IEExtensions                 *ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	ExtCount_                    int64                       `asn1:"-" json:"-"`
-	ExtPresent_                  []bool                      `asn1:"-" json:"-"`
-	ExtData_                     [][]byte                    `asn1:"-" json:"-"`
+	ENBX2TransportLayerAddresses       ENBX2TLAs                  `asn1:"tag:0,context,implicit"`
+	ENBX2TransportLayerAddressesIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions                       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_                 bool                       `asn1:"-" json:"-"`
+	ExtCount_                          int64                      `asn1:"-" json:"-"`
+	ExtPresent_                        []bool                     `asn1:"-" json:"-"`
+	ExtData_                           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // MarshalAPER encodes AdditionalGUTI to APER format.
@@ -6020,10 +6210,10 @@ func (v *AdditionalGUTI) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding m-TMSI: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -6087,7 +6277,7 @@ func (v *AdditionalGUTI) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -6146,10 +6336,10 @@ func (v *AllocationAndRetentionPriority) marshalAPERTo(bb *per.BitBuffer) error 
 		return fmt.Errorf("encoding pre-emptionVulnerability: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -6220,7 +6410,7 @@ func (v *AllocationAndRetentionPriority) unmarshalAPERFrom(bb *per.BitBuffer) er
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -6484,10 +6674,10 @@ func (v *AssistanceDataForCECapableUEs) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding cellIdentifierAndCELevelForCECapableUEs: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -6546,7 +6736,7 @@ func (v *AssistanceDataForCECapableUEs) unmarshalAPERFrom(bb *per.BitBuffer) err
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -6620,10 +6810,10 @@ func (v *AssistanceDataForPaging) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -6712,7 +6902,7 @@ func (v *AssistanceDataForPaging) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -6765,10 +6955,10 @@ func (v *AssistanceDataForRecommendedCells) marshalAPERTo(bb *per.BitBuffer) err
 		return fmt.Errorf("encoding recommendedCellsForPaging: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -6827,7 +7017,7 @@ func (v *AssistanceDataForRecommendedCells) unmarshalAPERFrom(bb *per.BitBuffer)
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -6883,10 +7073,10 @@ func (v *BearersSubjectToEarlyStatusTransferItem) marshalAPERTo(bb *per.BitBuffe
 		return fmt.Errorf("encoding dLCOUNT-PDCP-SNlength: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -6950,7 +7140,7 @@ func (v *BearersSubjectToEarlyStatusTransferItem) unmarshalAPERFrom(bb *per.BitB
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -7017,10 +7207,10 @@ func (v *BearersSubjectToStatusTransferItem) marshalAPERTo(bb *per.BitBuffer) er
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -7099,7 +7289,7 @@ func (v *BearersSubjectToStatusTransferItem) unmarshalAPERFrom(bb *per.BitBuffer
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -7158,10 +7348,10 @@ func (v *BluetoothMeasurementConfiguration) marshalAPERTo(bb *per.BitBuffer) err
 		return fmt.Errorf("encoding bluetoothMeasConfig: %w", err)
 	}
 	if v.BluetoothMeasConfigNameList != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.BluetoothMeasConfigNameList)), 1, 4); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.BluetoothMeasConfigNameList)), 1, 4); err != nil {
 			return fmt.Errorf("encoding bluetoothMeasConfigNameList length: %w", err)
 		}
-		for _, elem := range *v.BluetoothMeasConfigNameList {
+		for _, elem := range v.BluetoothMeasConfigNameList {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 1, 248, true); err != nil {
 				return fmt.Errorf("encoding bluetoothMeasConfigNameList element: %w", err)
 			}
@@ -7173,10 +7363,10 @@ func (v *BluetoothMeasurementConfiguration) marshalAPERTo(bb *per.BitBuffer) err
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -7247,7 +7437,7 @@ func (v *BluetoothMeasurementConfiguration) unmarshalAPERFrom(bb *per.BitBuffer)
 			}
 			tmp_bluetoothmeasconfignamelist[i] = val
 		}
-		v.BluetoothMeasConfigNameList = &tmp_bluetoothmeasconfignamelist
+		v.BluetoothMeasConfigNameList = tmp_bluetoothmeasconfignamelist
 	}
 	if opt_btrssi {
 		val_btrssi, err := per.DecodeEnumeratedAligned(bb, 1, true)
@@ -7267,7 +7457,7 @@ func (v *BluetoothMeasurementConfiguration) unmarshalAPERFrom(bb *per.BitBuffer)
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -7320,28 +7510,28 @@ func (v *BroadcastCancelledAreaList) marshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case BroadcastCancelledAreaListChoiceCellIDCancelled:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.CellIDCancelled)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.CellIDCancelled)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding cellID-Cancelled length: %w", err)
 		}
-		for _, elem := range *v.CellIDCancelled {
+		for _, elem := range v.CellIDCancelled {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cellID-Cancelled element: %w", err)
 			}
 		}
 	case BroadcastCancelledAreaListChoiceTAICancelled:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.TAICancelled)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.TAICancelled)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding tAI-Cancelled length: %w", err)
 		}
-		for _, elem := range *v.TAICancelled {
+		for _, elem := range v.TAICancelled {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding tAI-Cancelled element: %w", err)
 			}
 		}
 	case BroadcastCancelledAreaListChoiceEmergencyAreaIDCancelled:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.EmergencyAreaIDCancelled)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.EmergencyAreaIDCancelled)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding emergencyAreaID-Cancelled length: %w", err)
 		}
-		for _, elem := range *v.EmergencyAreaIDCancelled {
+		for _, elem := range v.EmergencyAreaIDCancelled {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding emergencyAreaID-Cancelled element: %w", err)
 			}
@@ -7396,7 +7586,7 @@ func (v *BroadcastCancelledAreaList) unmarshalAPERFrom(bb *per.BitBuffer) error 
 				return fmt.Errorf("decoding cellID-Cancelled element: %w", err)
 			}
 		}
-		v.CellIDCancelled = &tmp_cellidcancelled
+		v.CellIDCancelled = tmp_cellidcancelled
 	case BroadcastCancelledAreaListChoiceTAICancelled:
 		seqLen_taicancelled, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -7408,7 +7598,7 @@ func (v *BroadcastCancelledAreaList) unmarshalAPERFrom(bb *per.BitBuffer) error 
 				return fmt.Errorf("decoding tAI-Cancelled element: %w", err)
 			}
 		}
-		v.TAICancelled = &tmp_taicancelled
+		v.TAICancelled = tmp_taicancelled
 	case BroadcastCancelledAreaListChoiceEmergencyAreaIDCancelled:
 		seqLen_emergencyareaidcancelled, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -7420,7 +7610,7 @@ func (v *BroadcastCancelledAreaList) unmarshalAPERFrom(bb *per.BitBuffer) error 
 				return fmt.Errorf("decoding emergencyAreaID-Cancelled element: %w", err)
 			}
 		}
-		v.EmergencyAreaIDCancelled = &tmp_emergencyareaidcancelled
+		v.EmergencyAreaIDCancelled = tmp_emergencyareaidcancelled
 	}
 	return nil
 }
@@ -7447,28 +7637,28 @@ func (v *BroadcastCompletedAreaList) marshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case BroadcastCompletedAreaListChoiceCellIDBroadcast:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.CellIDBroadcast)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.CellIDBroadcast)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding cellID-Broadcast length: %w", err)
 		}
-		for _, elem := range *v.CellIDBroadcast {
+		for _, elem := range v.CellIDBroadcast {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cellID-Broadcast element: %w", err)
 			}
 		}
 	case BroadcastCompletedAreaListChoiceTAIBroadcast:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.TAIBroadcast)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.TAIBroadcast)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding tAI-Broadcast length: %w", err)
 		}
-		for _, elem := range *v.TAIBroadcast {
+		for _, elem := range v.TAIBroadcast {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding tAI-Broadcast element: %w", err)
 			}
 		}
 	case BroadcastCompletedAreaListChoiceEmergencyAreaIDBroadcast:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.EmergencyAreaIDBroadcast)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.EmergencyAreaIDBroadcast)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding emergencyAreaID-Broadcast length: %w", err)
 		}
-		for _, elem := range *v.EmergencyAreaIDBroadcast {
+		for _, elem := range v.EmergencyAreaIDBroadcast {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding emergencyAreaID-Broadcast element: %w", err)
 			}
@@ -7523,7 +7713,7 @@ func (v *BroadcastCompletedAreaList) unmarshalAPERFrom(bb *per.BitBuffer) error 
 				return fmt.Errorf("decoding cellID-Broadcast element: %w", err)
 			}
 		}
-		v.CellIDBroadcast = &tmp_cellidbroadcast
+		v.CellIDBroadcast = tmp_cellidbroadcast
 	case BroadcastCompletedAreaListChoiceTAIBroadcast:
 		seqLen_taibroadcast, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -7535,7 +7725,7 @@ func (v *BroadcastCompletedAreaList) unmarshalAPERFrom(bb *per.BitBuffer) error 
 				return fmt.Errorf("decoding tAI-Broadcast element: %w", err)
 			}
 		}
-		v.TAIBroadcast = &tmp_taibroadcast
+		v.TAIBroadcast = tmp_taibroadcast
 	case BroadcastCompletedAreaListChoiceEmergencyAreaIDBroadcast:
 		seqLen_emergencyareaidbroadcast, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -7547,7 +7737,7 @@ func (v *BroadcastCompletedAreaList) unmarshalAPERFrom(bb *per.BitBuffer) error 
 				return fmt.Errorf("decoding emergencyAreaID-Broadcast element: %w", err)
 			}
 		}
-		v.EmergencyAreaIDBroadcast = &tmp_emergencyareaidbroadcast
+		v.EmergencyAreaIDBroadcast = tmp_emergencyareaidbroadcast
 	}
 	return nil
 }
@@ -7588,10 +7778,10 @@ func (v *CGI) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -7674,7 +7864,7 @@ func (v *CGI) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -7730,10 +7920,10 @@ func (v *CNTypeRestrictionsItem) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding cNType: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -7799,7 +7989,7 @@ func (v *CNTypeRestrictionsItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -7855,10 +8045,10 @@ func (v *COUNTValueExtended) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding hFNModified: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -7924,7 +8114,7 @@ func (v *COUNTValueExtended) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -7980,10 +8170,10 @@ func (v *COUNTvalue) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding hFN: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -8049,7 +8239,7 @@ func (v *COUNTvalue) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -8105,10 +8295,10 @@ func (v *COUNTvaluePDCPSNlength18) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding hFNforPDCP-SNlength18: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -8174,7 +8364,7 @@ func (v *COUNTvaluePDCPSNlength18) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -8227,10 +8417,10 @@ func (v *CSGIdListItem) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding cSG-Id: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -8291,7 +8481,7 @@ func (v *CSGIdListItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -8347,10 +8537,10 @@ func (v *CancelledCellinEAIItem) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding numberOfBroadcasts: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -8414,7 +8604,7 @@ func (v *CancelledCellinEAIItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -8470,10 +8660,10 @@ func (v *CancelledCellinTAIItem) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding numberOfBroadcasts: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -8537,7 +8727,7 @@ func (v *CancelledCellinTAIItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -8715,10 +8905,10 @@ func (v *Cdma2000OneXSRVCCInfo) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding cdma2000OneXPilot: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -8789,7 +8979,7 @@ func (v *Cdma2000OneXSRVCCInfo) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -8847,10 +9037,10 @@ func (v *CellBasedMDT) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -8916,7 +9106,7 @@ func (v *CellBasedMDT) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -8974,10 +9164,10 @@ func (v *CellBasedQMC) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -9043,7 +9233,7 @@ func (v *CellBasedQMC) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -9096,10 +9286,10 @@ func (v *CellIDBroadcastItem) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding eCGI: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -9158,7 +9348,7 @@ func (v *CellIDBroadcastItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -9214,10 +9404,10 @@ func (v *CellIDCancelledItem) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding numberOfBroadcasts: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -9281,7 +9471,7 @@ func (v *CellIDCancelledItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -9337,10 +9527,10 @@ func (v *CellIdentifierAndCELevelForCECapableUEs) marshalAPERTo(bb *per.BitBuffe
 		return fmt.Errorf("encoding cELevel: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -9404,7 +9594,7 @@ func (v *CellIdentifierAndCELevelForCECapableUEs) unmarshalAPERFrom(bb *per.BitB
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -9457,10 +9647,10 @@ func (v *CellType) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding cell-Size: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -9521,7 +9711,7 @@ func (v *CellType) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -9574,10 +9764,10 @@ func (v *CompletedCellinEAIItem) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding eCGI: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -9636,7 +9826,7 @@ func (v *CompletedCellinEAIItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -9689,10 +9879,10 @@ func (v *CompletedCellinTAIItem) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding eCGI: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -9751,7 +9941,7 @@ func (v *CompletedCellinTAIItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -9812,10 +10002,10 @@ func (v *ConnectedengNBItem) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -9886,7 +10076,7 @@ func (v *ConnectedengNBItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -9942,10 +10132,10 @@ func (v *ContextatSource) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding rAN-UE-NGAP-ID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -10009,7 +10199,7 @@ func (v *ContextatSource) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -10086,20 +10276,20 @@ func (v *CriticalityDiagnostics) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEsCriticalityDiagnostics != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEsCriticalityDiagnostics)), 1, 256); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEsCriticalityDiagnostics)), 1, 256); err != nil {
 			return fmt.Errorf("encoding iEsCriticalityDiagnostics length: %w", err)
 		}
-		for _, elem := range *v.IEsCriticalityDiagnostics {
+		for _, elem := range v.IEsCriticalityDiagnostics {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iEsCriticalityDiagnostics element: %w", err)
 			}
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -10194,7 +10384,7 @@ func (v *CriticalityDiagnostics) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iEsCriticalityDiagnostics element: %w", err)
 			}
 		}
-		v.IEsCriticalityDiagnostics = &tmp_iescriticalitydiagnostics
+		v.IEsCriticalityDiagnostics = tmp_iescriticalitydiagnostics
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -10207,7 +10397,7 @@ func (v *CriticalityDiagnostics) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -10266,10 +10456,10 @@ func (v *CriticalityDiagnosticsIEItem) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding typeOfError: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -10340,7 +10530,7 @@ func (v *CriticalityDiagnosticsIEItem) unmarshalAPERFrom(bb *per.BitBuffer) erro
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -10393,10 +10583,10 @@ func (v *DAPSRequestInfo) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding dAPSIndicator: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -10457,7 +10647,7 @@ func (v *DAPSRequestInfo) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -10510,10 +10700,10 @@ func (v *DAPSResponseInfo) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding dapsresponseindicator: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -10574,7 +10764,7 @@ func (v *DAPSResponseInfo) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -10630,10 +10820,10 @@ func (v *DAPSResponseInfoItem) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding dAPSResponseInfo: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -10697,7 +10887,7 @@ func (v *DAPSResponseInfoItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -10844,10 +11034,10 @@ func (v *DLCPSecurityInformation) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding dl-NAS-MAC: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -10908,7 +11098,7 @@ func (v *DLCPSecurityInformation) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -10969,16 +11159,16 @@ func (v *ENBX2ExtTLA) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.GTPTLAa != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.GTPTLAa)), 1, 16); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.GTPTLAa)), 1, 16); err != nil {
 			return fmt.Errorf("encoding gTPTLAa length: %w", err)
 		}
-		_ = *v.GTPTLAa // SEQUENCE_OF with non-integer primitive elements (BIT_STRING)
+		_ = v.GTPTLAa // SEQUENCE_OF with non-integer primitive elements (BIT_STRING)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -11057,7 +11247,7 @@ func (v *ENBX2ExtTLA) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -11115,10 +11305,10 @@ func (v *ENBEarlyStatusTransferTransparentContainer) marshalAPERTo(bb *per.BitBu
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -11184,7 +11374,7 @@ func (v *ENBEarlyStatusTransferTransparentContainer) unmarshalAPERFrom(bb *per.B
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -11361,10 +11551,10 @@ func (v *ENBStatusTransferTransparentContainer) marshalAPERTo(bb *per.BitBuffer)
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -11430,7 +11620,7 @@ func (v *ENBStatusTransferTransparentContainer) unmarshalAPERFrom(bb *per.BitBuf
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -11494,10 +11684,10 @@ func (v *ENDCSONConfigurationTransfer) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -11570,7 +11760,7 @@ func (v *ENDCSONConfigurationTransfer) unmarshalAPERFrom(bb *per.BitBuffer) erro
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -11710,10 +11900,10 @@ func (v *ENDCSONeNBIdentification) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding selectedTAI: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -11775,7 +11965,7 @@ func (v *ENDCSONeNBIdentification) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -11831,10 +12021,10 @@ func (v *ENDCSONengNBIdentification) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding selectedTAI: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -11896,7 +12086,7 @@ func (v *ENDCSONengNBIdentification) unmarshalAPERFrom(bb *per.BitBuffer) error 
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -11952,10 +12142,10 @@ func (v *ENDCTransferTypeReply) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding targeteNB: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -12017,7 +12207,7 @@ func (v *ENDCTransferTypeReply) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -12097,10 +12287,10 @@ func (v *ENDCTransferTypeRequest) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -12195,7 +12385,7 @@ func (v *ENDCTransferTypeRequest) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -12251,10 +12441,10 @@ func (v *EUTRANCGI) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding cell-ID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -12320,7 +12510,7 @@ func (v *EUTRANCGI) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -12381,10 +12571,10 @@ func (v *ERABInformationListItem) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -12457,7 +12647,7 @@ func (v *ERABInformationListItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -12513,10 +12703,10 @@ func (v *ERABItem) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding cause: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -12580,7 +12770,7 @@ func (v *ERABItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -12644,10 +12834,10 @@ func (v *ERABLevelQoSParameters) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -12722,7 +12912,7 @@ func (v *ERABLevelQoSParameters) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -12778,10 +12968,10 @@ func (v *ERABSecurityResultItem) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding securityResult: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -12845,7 +13035,7 @@ func (v *ERABSecurityResultItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -12907,10 +13097,10 @@ func (v *ERABUsageReportItem) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding usageCountDL: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -12986,7 +13176,7 @@ func (v *ERABUsageReportItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -13047,10 +13237,10 @@ func (v *EmergencyAreaIDBroadcastItem) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -13121,7 +13311,7 @@ func (v *EmergencyAreaIDBroadcastItem) unmarshalAPERFrom(bb *per.BitBuffer) erro
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -13182,10 +13372,10 @@ func (v *EmergencyAreaIDCancelledItem) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -13256,7 +13446,7 @@ func (v *EmergencyAreaIDCancelledItem) unmarshalAPERFrom(bb *per.BitBuffer) erro
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -13315,10 +13505,10 @@ func (v *EventL1LoggedMDTConfig) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding timeToTrigger: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -13387,7 +13577,7 @@ func (v *EventL1LoggedMDTConfig) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -13528,10 +13718,10 @@ func (v *ExpectedUEActivityBehaviour) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -13621,7 +13811,7 @@ func (v *ExpectedUEActivityBehaviour) unmarshalAPERFrom(bb *per.BitBuffer) error
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -13687,10 +13877,10 @@ func (v *ExpectedUEBehaviour) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -13769,7 +13959,7 @@ func (v *ExpectedUEBehaviour) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -13825,10 +14015,10 @@ func (v *FiveGSTAI) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding fiveGSTAC: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -13894,7 +14084,7 @@ func (v *FiveGSTAI) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -13955,10 +14145,10 @@ func (v *ForbiddenLAsItem) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -14031,7 +14221,7 @@ func (v *ForbiddenLAsItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -14092,10 +14282,10 @@ func (v *ForbiddenTAsItem) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -14168,7 +14358,7 @@ func (v *ForbiddenTAsItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -14230,10 +14420,10 @@ func (v *GBRQosInformation) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding e-RAB-GuaranteedBitrateUL: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -14309,7 +14499,7 @@ func (v *GBRQosInformation) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -14368,10 +14558,10 @@ func (v *GERANCellID) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding cI: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -14440,7 +14630,7 @@ func (v *GERANCellID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -14493,10 +14683,10 @@ func (v *GNB) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding global-gNB-ID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -14555,7 +14745,7 @@ func (v *GNB) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -14682,10 +14872,10 @@ func (v *GUMMEI) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding mME-Code: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -14756,7 +14946,7 @@ func (v *GUMMEI) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -14812,10 +15002,10 @@ func (v *GlobalENBID) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding eNB-ID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -14879,7 +15069,7 @@ func (v *GlobalENBID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -14935,10 +15125,10 @@ func (v *GlobalGNBID) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding gNB-ID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -15002,7 +15192,7 @@ func (v *GlobalGNBID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -15142,10 +15332,10 @@ func (v *GlobalEnGNBID) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding en-gNB-ID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -15211,7 +15401,7 @@ func (v *GlobalEnGNBID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -15276,30 +15466,30 @@ func (v *HandoverRestrictionList) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding servingPLMN: %w", err)
 	}
 	if v.EquivalentPLMNs != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.EquivalentPLMNs)), 1, 15); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.EquivalentPLMNs)), 1, 15); err != nil {
 			return fmt.Errorf("encoding equivalentPLMNs length: %w", err)
 		}
-		for _, elem := range *v.EquivalentPLMNs {
+		for _, elem := range v.EquivalentPLMNs {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
 				return fmt.Errorf("encoding equivalentPLMNs element: %w", err)
 			}
 		}
 	}
 	if v.ForbiddenTAs != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.ForbiddenTAs)), 1, 16); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ForbiddenTAs)), 1, 16); err != nil {
 			return fmt.Errorf("encoding forbiddenTAs length: %w", err)
 		}
-		for _, elem := range *v.ForbiddenTAs {
+		for _, elem := range v.ForbiddenTAs {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding forbiddenTAs element: %w", err)
 			}
 		}
 	}
 	if v.ForbiddenLAs != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.ForbiddenLAs)), 1, 16); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ForbiddenLAs)), 1, 16); err != nil {
 			return fmt.Errorf("encoding forbiddenLAs length: %w", err)
 		}
-		for _, elem := range *v.ForbiddenLAs {
+		for _, elem := range v.ForbiddenLAs {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding forbiddenLAs element: %w", err)
 			}
@@ -15311,10 +15501,10 @@ func (v *HandoverRestrictionList) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -15393,7 +15583,7 @@ func (v *HandoverRestrictionList) unmarshalAPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_equivalentplmns[i] = val
 		}
-		v.EquivalentPLMNs = &tmp_equivalentplmns
+		v.EquivalentPLMNs = tmp_equivalentplmns
 	}
 	if opt_forbiddentas {
 		seqLen_forbiddentas, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
@@ -15406,7 +15596,7 @@ func (v *HandoverRestrictionList) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding forbiddenTAs element: %w", err)
 			}
 		}
-		v.ForbiddenTAs = &tmp_forbiddentas
+		v.ForbiddenTAs = tmp_forbiddentas
 	}
 	if opt_forbiddenlas {
 		seqLen_forbiddenlas, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
@@ -15419,7 +15609,7 @@ func (v *HandoverRestrictionList) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding forbiddenLAs element: %w", err)
 			}
 		}
-		v.ForbiddenLAs = &tmp_forbiddenlas
+		v.ForbiddenLAs = tmp_forbiddenlas
 	}
 	if opt_forbiddeninterrats {
 		val_forbiddeninterrats, err := per.DecodeEnumeratedAligned(bb, 6, true)
@@ -15440,7 +15630,7 @@ func (v *HandoverRestrictionList) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -15512,10 +15702,10 @@ func (v *ImmediateMDT) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -15603,7 +15793,7 @@ func (v *ImmediateMDT) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -15659,10 +15849,10 @@ func (v *InformationOnRecommendedCellsAndENBsForPaging) marshalAPERTo(bb *per.Bi
 		return fmt.Errorf("encoding recommendENBsForPaging: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -15724,7 +15914,7 @@ func (v *InformationOnRecommendedCellsAndENBsForPaging) unmarshalAPERFrom(bb *pe
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -15835,10 +16025,10 @@ func (v *InterSystemMeasurementItem) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -15968,7 +16158,7 @@ func (v *InterSystemMeasurementItem) unmarshalAPERFrom(bb *per.BitBuffer) error 
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	return nil
 }
@@ -15998,20 +16188,20 @@ func (v *InterSystemMeasurementParameters) marshalAPERTo(bb *per.BitBuffer) erro
 		return fmt.Errorf("encoding measurementDuration: %w", err)
 	}
 	if v.InterSystemMeasurementList != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.InterSystemMeasurementList)), 1, 64); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.InterSystemMeasurementList)), 1, 64); err != nil {
 			return fmt.Errorf("encoding interSystemMeasurementList length: %w", err)
 		}
-		for _, elem := range *v.InterSystemMeasurementList {
+		for _, elem := range v.InterSystemMeasurementList {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding interSystemMeasurementList element: %w", err)
 			}
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -16076,7 +16266,7 @@ func (v *InterSystemMeasurementParameters) unmarshalAPERFrom(bb *per.BitBuffer) 
 				return fmt.Errorf("decoding interSystemMeasurementList element: %w", err)
 			}
 		}
-		v.InterSystemMeasurementList = &tmp_intersystemmeasurementlist
+		v.InterSystemMeasurementList = tmp_intersystemmeasurementlist
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -16089,7 +16279,7 @@ func (v *InterSystemMeasurementParameters) unmarshalAPERFrom(bb *per.BitBuffer) 
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -16166,10 +16356,10 @@ func (v *IntersystemMeasurementConfiguration) marshalAPERTo(bb *per.BitBuffer) e
 		return fmt.Errorf("encoding interSystemMeasurementParameters: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -16261,7 +16451,7 @@ func (v *IntersystemMeasurementConfiguration) unmarshalAPERFrom(bb *per.BitBuffe
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -16317,10 +16507,10 @@ func (v *LAI) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding lAC: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -16386,7 +16576,7 @@ func (v *LAI) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -16455,10 +16645,10 @@ func (v *LTENTNTAIInformation) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -16543,7 +16733,7 @@ func (v *LTENTNTAIInformation) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -16719,10 +16909,10 @@ func (v *LastVisitedEUTRANCellInformation) marshalAPERTo(bb *per.BitBuffer) erro
 		return fmt.Errorf("encoding time-UE-StayedInCell: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -16789,7 +16979,7 @@ func (v *LastVisitedEUTRANCellInformation) unmarshalAPERFrom(bb *per.BitBuffer) 
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -16909,10 +17099,10 @@ func (v *LastVisitedPSCellInformation) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding timeStay: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -16984,7 +17174,7 @@ func (v *LastVisitedPSCellInformation) unmarshalAPERFrom(bb *per.BitBuffer) erro
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -17040,10 +17230,10 @@ func (v *ListeningSubframePattern) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding pattern-offset: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -17109,7 +17299,7 @@ func (v *ListeningSubframePattern) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -17168,20 +17358,20 @@ func (v *LoggedMBSFNMDT) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding loggingDuration: %w", err)
 	}
 	if v.MBSFNResultToLog != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.MBSFNResultToLog)), 1, 8); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.MBSFNResultToLog)), 1, 8); err != nil {
 			return fmt.Errorf("encoding mBSFN-ResultToLog length: %w", err)
 		}
-		for _, elem := range *v.MBSFNResultToLog {
+		for _, elem := range v.MBSFNResultToLog {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding mBSFN-ResultToLog element: %w", err)
 			}
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -17251,7 +17441,7 @@ func (v *LoggedMBSFNMDT) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding mBSFN-ResultToLog element: %w", err)
 			}
 		}
-		v.MBSFNResultToLog = &tmp_mbsfnresulttolog
+		v.MBSFNResultToLog = tmp_mbsfnresulttolog
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -17264,7 +17454,7 @@ func (v *LoggedMBSFNMDT) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -17320,10 +17510,10 @@ func (v *LoggedMDT) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding loggingDuration: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -17389,7 +17579,7 @@ func (v *LoggedMDT) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -17521,10 +17711,10 @@ func (v *M1PeriodicReporting) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding reportAmount: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -17590,7 +17780,7 @@ func (v *M1PeriodicReporting) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -17643,10 +17833,10 @@ func (v *M1ThresholdEventA2) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding measurementThreshold: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -17705,7 +17895,7 @@ func (v *M1ThresholdEventA2) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -17758,10 +17948,10 @@ func (v *M3Configuration) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding m3period: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -17822,7 +18012,7 @@ func (v *M3Configuration) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -17878,10 +18068,10 @@ func (v *M4Configuration) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding m4-links-to-log: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -17947,7 +18137,7 @@ func (v *M4Configuration) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -18003,10 +18193,10 @@ func (v *M5Configuration) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding m5-links-to-log: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -18072,7 +18262,7 @@ func (v *M5Configuration) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -18136,10 +18326,10 @@ func (v *M6Configuration) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding m6-links-to-log: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -18217,7 +18407,7 @@ func (v *M6Configuration) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -18273,10 +18463,10 @@ func (v *M7Configuration) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding m7-links-to-log: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -18342,7 +18532,7 @@ func (v *M7Configuration) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -18403,10 +18593,10 @@ func (v *MBSFNResultToLogInfo) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding carrierFreq: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -18478,7 +18668,7 @@ func (v *MBSFNResultToLogInfo) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -18689,10 +18879,10 @@ func (v *MDTConfiguration) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding mDTMode: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -18759,7 +18949,7 @@ func (v *MDTConfiguration) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -19055,10 +19245,10 @@ func (v *MutingPatternInformation) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -19130,7 +19320,7 @@ func (v *MutingPatternInformation) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -19191,10 +19381,10 @@ func (v *NBIoTPagingEDRXInformation) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -19267,7 +19457,7 @@ func (v *NBIoTPagingEDRXInformation) unmarshalAPERFrom(bb *per.BitBuffer) error 
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -19320,10 +19510,10 @@ func (v *NGENB) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding global-ng-eNB-ID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -19382,7 +19572,7 @@ func (v *NGENB) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -19438,10 +19628,10 @@ func (v *NRUESecurityCapabilities) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding nRintegrityProtectionAlgorithms: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -19507,7 +19697,7 @@ func (v *NRUESecurityCapabilities) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -19560,10 +19750,10 @@ func (v *NRUESidelinkAggregateMaximumBitrate) marshalAPERTo(bb *per.BitBuffer) e
 		return fmt.Errorf("encoding uEaggregateMaximumBitRate: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -19624,7 +19814,7 @@ func (v *NRUESidelinkAggregateMaximumBitrate) unmarshalAPERFrom(bb *per.BitBuffe
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -19690,10 +19880,10 @@ func (v *NRV2XServicesAuthorized) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -19773,7 +19963,7 @@ func (v *NRV2XServicesAuthorized) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -19829,10 +20019,10 @@ func (v *NRCGI) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding nRCellIdentity: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -19898,7 +20088,7 @@ func (v *NRCGI) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -20022,10 +20212,10 @@ func (v *PC5FlowBitRates) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding maximumFlowBitRate: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -20091,7 +20281,7 @@ func (v *PC5FlowBitRates) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -20160,10 +20350,10 @@ func (v *PC5QoSFlowItem) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -20247,7 +20437,7 @@ func (v *PC5QoSFlowItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -20313,10 +20503,10 @@ func (v *PC5QoSParameters) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -20393,7 +20583,7 @@ func (v *PC5QoSParameters) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -20451,10 +20641,10 @@ func (v *PLMNAreaBasedQMC) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -20522,7 +20712,7 @@ func (v *PLMNAreaBasedQMC) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -20575,10 +20765,10 @@ func (v *PSCellInformation) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding nCGI: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -20637,7 +20827,7 @@ func (v *PSCellInformation) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -20701,10 +20891,10 @@ func (v *PagingAttemptInformation) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -20782,7 +20972,7 @@ func (v *PagingAttemptInformation) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -20843,10 +21033,10 @@ func (v *PagingEDRXInformation) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -20919,7 +21109,7 @@ func (v *PagingEDRXInformation) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -20985,10 +21175,10 @@ func (v *ProSeAuthorized) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -21068,7 +21258,7 @@ func (v *ProSeAuthorized) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -21124,10 +21314,10 @@ func (v *RATRestrictionsItem) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding rAT-RestrictionInformation: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -21193,7 +21383,7 @@ func (v *RATRestrictionsItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -21353,10 +21543,10 @@ func (v *RIMTransfer) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -21428,7 +21618,7 @@ func (v *RIMTransfer) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -21489,10 +21679,10 @@ func (v *RLFReportInformation) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -21565,7 +21755,7 @@ func (v *RLFReportInformation) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -21626,10 +21816,10 @@ func (v *RecommendedCellItem) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -21699,7 +21889,7 @@ func (v *RecommendedCellItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -21757,10 +21947,10 @@ func (v *RecommendedCellsForPaging) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -21826,7 +22016,7 @@ func (v *RecommendedCellsForPaging) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -21879,10 +22069,10 @@ func (v *RecommendedENBItem) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding mMEPagingTarget: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -21941,7 +22131,7 @@ func (v *RecommendedENBItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -21999,10 +22189,10 @@ func (v *RecommendedENBsForPaging) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -22068,7 +22258,7 @@ func (v *RecommendedENBsForPaging) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -22124,10 +22314,10 @@ func (v *RequestType) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding reportArea: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -22193,7 +22383,7 @@ func (v *RequestType) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -22252,10 +22442,10 @@ func (v *SONConfigurationTransfer) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding sONInformation: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -22320,7 +22510,7 @@ func (v *SONConfigurationTransfer) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -22484,10 +22674,10 @@ func (v *SONInformationReply) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -22554,7 +22744,7 @@ func (v *SONInformationReply) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -22724,10 +22914,10 @@ func (v *STMSI) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding m-TMSI: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -22793,7 +22983,7 @@ func (v *STMSI) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -22867,10 +23057,10 @@ func (v *ScheduledCommunicationTime) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -22960,7 +23150,7 @@ func (v *ScheduledCommunicationTime) unmarshalAPERFrom(bb *per.BitBuffer) error 
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -23024,10 +23214,10 @@ func (v *SecondaryRATDataUsageReportItem) marshalAPERTo(bb *per.BitBuffer) error
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -23103,7 +23293,7 @@ func (v *SecondaryRATDataUsageReportItem) unmarshalAPERFrom(bb *per.BitBuffer) e
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -23159,10 +23349,10 @@ func (v *SecurityContext) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding nextHopParameter: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -23228,7 +23418,7 @@ func (v *SecurityContext) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -23281,10 +23471,10 @@ func (v *SecurityIndication) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding integrityProtectionIndication: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -23345,7 +23535,7 @@ func (v *SecurityIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -23398,10 +23588,10 @@ func (v *SecurityResult) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding integrityProtectionResult: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -23462,7 +23652,7 @@ func (v *SecurityResult) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -23515,10 +23705,10 @@ func (v *SensorMeasConfigNameItem) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding sensorNameConfig: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -23577,7 +23767,7 @@ func (v *SensorMeasConfigNameItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -23633,20 +23823,20 @@ func (v *SensorMeasurementConfiguration) marshalAPERTo(bb *per.BitBuffer) error 
 		return fmt.Errorf("encoding sensorMeasConfig: %w", err)
 	}
 	if v.SensorMeasConfigNameList != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.SensorMeasConfigNameList)), 1, 3); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.SensorMeasConfigNameList)), 1, 3); err != nil {
 			return fmt.Errorf("encoding sensorMeasConfigNameList length: %w", err)
 		}
-		for _, elem := range *v.SensorMeasConfigNameList {
+		for _, elem := range v.SensorMeasConfigNameList {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding sensorMeasConfigNameList element: %w", err)
 			}
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -23711,7 +23901,7 @@ func (v *SensorMeasurementConfiguration) unmarshalAPERFrom(bb *per.BitBuffer) er
 				return fmt.Errorf("decoding sensorMeasConfigNameList element: %w", err)
 			}
 		}
-		v.SensorMeasConfigNameList = &tmp_sensormeasconfignamelist
+		v.SensorMeasConfigNameList = tmp_sensormeasconfignamelist
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -23724,7 +23914,7 @@ func (v *SensorMeasurementConfiguration) unmarshalAPERFrom(bb *per.BitBuffer) er
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -23837,10 +24027,10 @@ func (v *ServedDCNsItem) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding relativeDCNCapacity: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -23906,7 +24096,7 @@ func (v *ServedDCNsItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -23980,10 +24170,10 @@ func (v *ServedGUMMEIsItem) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -24075,7 +24265,7 @@ func (v *ServedGUMMEIsItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -24131,10 +24321,10 @@ func (v *SourceNgRanNodeID) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding selected-TAI: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -24196,7 +24386,7 @@ func (v *SourceNgRanNodeID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -24352,10 +24542,10 @@ func (v *SourceeNBID) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding selected-TAI: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -24393,7 +24583,7 @@ func (v *SourceeNBID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	return nil
 }
@@ -24426,10 +24616,10 @@ func (v *SourceeNBToTargeteNBTransparentContainer) marshalAPERTo(bb *per.BitBuff
 		return fmt.Errorf("encoding rRC-Container: %w", err)
 	}
 	if v.ERABInformationList != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.ERABInformationList)), 1, 256); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ERABInformationList)), 1, 256); err != nil {
 			return fmt.Errorf("encoding e-RABInformationList length: %w", err)
 		}
-		for _, elem := range *v.ERABInformationList {
+		for _, elem := range v.ERABInformationList {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding e-RABInformationList element: %w", err)
 			}
@@ -24452,10 +24642,10 @@ func (v *SourceeNBToTargeteNBTransparentContainer) marshalAPERTo(bb *per.BitBuff
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -24524,7 +24714,7 @@ func (v *SourceeNBToTargeteNBTransparentContainer) unmarshalAPERFrom(bb *per.Bit
 				return fmt.Errorf("decoding e-RABInformationList element: %w", err)
 			}
 		}
-		v.ERABInformationList = &tmp_erabinformationlist
+		v.ERABInformationList = tmp_erabinformationlist
 	}
 	if err := v.TargetCellID.unmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding targetCell-ID: %w", err)
@@ -24557,7 +24747,7 @@ func (v *SourceeNBToTargeteNBTransparentContainer) unmarshalAPERFrom(bb *per.Bit
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -24655,10 +24845,10 @@ func (v *SubscriptionBasedUEDifferentiationInfo) marshalAPERTo(bb *per.BitBuffer
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -24780,7 +24970,7 @@ func (v *SubscriptionBasedUEDifferentiationInfo) unmarshalAPERFrom(bb *per.BitBu
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -24841,10 +25031,10 @@ func (v *SupportedTAsItem) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -24917,7 +25107,7 @@ func (v *SupportedTAsItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -24986,20 +25176,20 @@ func (v *SynchronisationInformation) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.AggressoreCGIList != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.AggressoreCGIList)), 1, 256); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.AggressoreCGIList)), 1, 256); err != nil {
 			return fmt.Errorf("encoding aggressoreCGI-List length: %w", err)
 		}
-		for _, elem := range *v.AggressoreCGIList {
+		for _, elem := range v.AggressoreCGIList {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding aggressoreCGI-List element: %w", err)
 			}
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -25081,7 +25271,7 @@ func (v *SynchronisationInformation) unmarshalAPERFrom(bb *per.BitBuffer) error 
 				return fmt.Errorf("decoding aggressoreCGI-List element: %w", err)
 			}
 		}
-		v.AggressoreCGIList = &tmp_aggressorecgilist
+		v.AggressoreCGIList = tmp_aggressorecgilist
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -25094,7 +25284,7 @@ func (v *SynchronisationInformation) unmarshalAPERFrom(bb *per.BitBuffer) error 
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -25152,10 +25342,10 @@ func (v *TABasedMDT) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -25223,7 +25413,7 @@ func (v *TABasedMDT) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -25281,10 +25471,10 @@ func (v *TABasedQMC) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -25352,7 +25542,7 @@ func (v *TABasedQMC) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -25408,10 +25598,10 @@ func (v *TAI) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding tAC: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -25477,7 +25667,7 @@ func (v *TAI) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -25535,10 +25725,10 @@ func (v *TAIBasedMDT) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -25604,7 +25794,7 @@ func (v *TAIBasedMDT) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -25662,10 +25852,10 @@ func (v *TAIBasedQMC) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -25731,7 +25921,7 @@ func (v *TAIBasedQMC) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -25792,10 +25982,10 @@ func (v *TAIBroadcastItem) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -25864,7 +26054,7 @@ func (v *TAIBroadcastItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -25925,10 +26115,10 @@ func (v *TAICancelledItem) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -25997,7 +26187,7 @@ func (v *TAICancelledItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -26168,10 +26358,10 @@ func (v *TargetNgRanNodeID) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding selected-TAI: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -26233,7 +26423,7 @@ func (v *TargetNgRanNodeID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -26305,10 +26495,10 @@ func (v *TargetRNCID) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -26395,7 +26585,7 @@ func (v *TargetRNCID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -26451,10 +26641,10 @@ func (v *TargeteNBID) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding selected-TAI: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -26516,7 +26706,7 @@ func (v *TargeteNBID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -26569,10 +26759,10 @@ func (v *TargeteNBToSourceeNBTransparentContainer) marshalAPERTo(bb *per.BitBuff
 		return fmt.Errorf("encoding rRC-Container: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -26633,7 +26823,7 @@ func (v *TargeteNBToSourceeNBTransparentContainer) unmarshalAPERFrom(bb *per.Bit
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -26689,10 +26879,10 @@ func (v *TimeSynchronisationInfo) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding synchronisationStatus: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -26758,7 +26948,7 @@ func (v *TimeSynchronisationInfo) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -26820,10 +27010,10 @@ func (v *TraceActivation) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding traceCollectionEntityIPAddress: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -26899,7 +27089,7 @@ func (v *TraceActivation) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -27053,10 +27243,10 @@ func (v *TunnelInformation) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -27129,7 +27319,7 @@ func (v *TunnelInformation) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -27185,10 +27375,10 @@ func (v *UEAggregateMaximumBitrate) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding uEaggregateMaximumBitRateUL: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -27254,7 +27444,7 @@ func (v *UEAggregateMaximumBitrate) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -27310,10 +27500,10 @@ func (v *UEAppLayerMeasConfig) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding areaScopeOfQMC: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -27377,7 +27567,7 @@ func (v *UEAppLayerMeasConfig) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -27518,10 +27708,10 @@ func (v *UESecurityCapabilities) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding integrityProtectionAlgorithms: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -27587,7 +27777,7 @@ func (v *UESecurityCapabilities) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -27640,10 +27830,10 @@ func (v *UESidelinkAggregateMaximumBitrate) marshalAPERTo(bb *per.BitBuffer) err
 		return fmt.Errorf("encoding uESidelinkAggregateMaximumBitRate: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -27704,7 +27894,7 @@ func (v *UESidelinkAggregateMaximumBitrate) unmarshalAPERFrom(bb *per.BitBuffer)
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -27760,10 +27950,10 @@ func (v *UES1APIDPair) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding eNB-UE-S1AP-ID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -27829,7 +28019,7 @@ func (v *UES1APIDPair) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -27979,10 +28169,10 @@ func (v *UEAssociatedLogicalS1ConnectionItem) marshalAPERTo(bb *per.BitBuffer) e
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -28060,7 +28250,7 @@ func (v *UEAssociatedLogicalS1ConnectionItem) unmarshalAPERFrom(bb *per.BitBuffe
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -28116,10 +28306,10 @@ func (v *ULCPSecurityInformation) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding ul-NAS-Count: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -28185,7 +28375,7 @@ func (v *ULCPSecurityInformation) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -28241,10 +28431,10 @@ func (v *UserLocationInformation) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding tai: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -28306,7 +28496,7 @@ func (v *UserLocationInformation) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -28372,10 +28562,10 @@ func (v *V2XServicesAuthorized) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -28455,7 +28645,7 @@ func (v *V2XServicesAuthorized) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -28517,10 +28707,10 @@ func (v *WLANMeasurementConfiguration) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding wlanMeasConfig: %w", err)
 	}
 	if v.WlanMeasConfigNameList != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.WlanMeasConfigNameList)), 1, 4); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.WlanMeasConfigNameList)), 1, 4); err != nil {
 			return fmt.Errorf("encoding wlanMeasConfigNameList length: %w", err)
 		}
-		for _, elem := range *v.WlanMeasConfigNameList {
+		for _, elem := range v.WlanMeasConfigNameList {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 1, 32, true); err != nil {
 				return fmt.Errorf("encoding wlanMeasConfigNameList element: %w", err)
 			}
@@ -28537,10 +28727,10 @@ func (v *WLANMeasurementConfiguration) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -28615,7 +28805,7 @@ func (v *WLANMeasurementConfiguration) unmarshalAPERFrom(bb *per.BitBuffer) erro
 			}
 			tmp_wlanmeasconfignamelist[i] = val
 		}
-		v.WlanMeasConfigNameList = &tmp_wlanmeasconfignamelist
+		v.WlanMeasConfigNameList = tmp_wlanmeasconfignamelist
 	}
 	if opt_wlanrssi {
 		val_wlanrssi, err := per.DecodeEnumeratedAligned(bb, 1, true)
@@ -28642,7 +28832,7 @@ func (v *WLANMeasurementConfiguration) unmarshalAPERFrom(bb *per.BitBuffer) erro
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -28695,10 +28885,10 @@ func (v *WUSAssistanceInformation) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding pagingProbabilityInformation: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -28759,7 +28949,7 @@ func (v *WUSAssistanceInformation) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -28816,19 +29006,19 @@ func (v *WarningAreaList) marshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding cellIDList: %w", err)
 		}
 	case WarningAreaListChoiceTrackingAreaListforWarning:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.TrackingAreaListforWarning)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.TrackingAreaListforWarning)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding trackingAreaListforWarning length: %w", err)
 		}
-		for _, elem := range *v.TrackingAreaListforWarning {
+		for _, elem := range v.TrackingAreaListforWarning {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding trackingAreaListforWarning element: %w", err)
 			}
 		}
 	case WarningAreaListChoiceEmergencyAreaIDList:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.EmergencyAreaIDList)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.EmergencyAreaIDList)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding emergencyAreaIDList length: %w", err)
 		}
-		for _, elem := range *v.EmergencyAreaIDList {
+		for _, elem := range v.EmergencyAreaIDList {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
 				return fmt.Errorf("encoding emergencyAreaIDList element: %w", err)
 			}
@@ -28889,7 +29079,7 @@ func (v *WarningAreaList) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding trackingAreaListforWarning element: %w", err)
 			}
 		}
-		v.TrackingAreaListforWarning = &tmp_trackingarealistforwarning
+		v.TrackingAreaListforWarning = tmp_trackingarealistforwarning
 	case WarningAreaListChoiceEmergencyAreaIDList:
 		seqLen_emergencyareaidlist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -28903,7 +29093,7 @@ func (v *WarningAreaList) unmarshalAPERFrom(bb *per.BitBuffer) error {
 			}
 			tmp_emergencyareaidlist[i] = val
 		}
-		v.EmergencyAreaIDList = &tmp_emergencyareaidlist
+		v.EmergencyAreaIDList = tmp_emergencyareaidlist
 	}
 	return nil
 }
@@ -28931,10 +29121,10 @@ func (v *X2TNLConfigurationInfo) marshalAPERTo(bb *per.BitBuffer) error {
 	}
 	_ = v.ENBX2TransportLayerAddresses // SEQUENCE_OF with non-integer primitive elements (BIT_STRING)
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(*v.IEExtensions)), 1, 65535); err != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
-		for _, elem := range *v.IEExtensions {
+		for _, elem := range v.IEExtensions {
 			if err := elem.marshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
@@ -28995,7 +29185,7 @@ func (v *X2TNLConfigurationInfo) unmarshalAPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
-		v.IEExtensions = &tmp_ieextensions
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
