@@ -6616,11 +6616,7 @@ func (v *AreaScopeOfQMC) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 4 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("AreaScopeOfQMC: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("AreaScopeOfQMC: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 3)
 	if err != nil {
@@ -7569,11 +7565,7 @@ func (v *BroadcastCancelledAreaList) unmarshalAPERFrom(bb *per.BitBuffer) error 
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 3 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("BroadcastCancelledAreaList: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("BroadcastCancelledAreaList: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
 	if err != nil {
@@ -7698,11 +7690,7 @@ func (v *BroadcastCompletedAreaList) unmarshalAPERFrom(bb *per.BitBuffer) error 
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 3 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("BroadcastCompletedAreaList: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("BroadcastCompletedAreaList: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
 	if err != nil {
@@ -8836,11 +8824,7 @@ func (v *Cause) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 5 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("Cause: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("Cause: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 4)
 	if err != nil {
@@ -10990,11 +10974,7 @@ func (v *DLCOUNTPDCPSNlength) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 3 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("DLCOUNTPDCPSNlength: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("DLCOUNTPDCPSNlength: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
 	if err != nil {
@@ -11863,11 +11843,7 @@ func (v *ENDCSONTransferType) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ENDCSONTransferType: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ENDCSONTransferType: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -14843,11 +14819,7 @@ func (v *GNBIdentity) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 1 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("GNBIdentity: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("GNBIdentity: unsupported extension choice %d", v.Choice)
 	}
 	v.Choice = 1
 	switch v.Choice {
@@ -15299,11 +15271,7 @@ func (v *GlobalRANNODEID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("GlobalRANNODEID: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("GlobalRANNODEID: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -17080,11 +17048,7 @@ func (v *LastVisitedGERANCellInformation) unmarshalAPERFrom(bb *per.BitBuffer) e
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 1 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("LastVisitedGERANCellInformation: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("LastVisitedGERANCellInformation: unsupported extension choice %d", v.Choice)
 	}
 	v.Choice = 1
 	switch v.Choice {
@@ -17689,11 +17653,7 @@ func (v *LoggedMDTTrigger) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("LoggedMDTTrigger: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("LoggedMDTTrigger: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -19066,11 +19026,7 @@ func (v *MMEPagingTarget) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("MMEPagingTarget: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("MMEPagingTarget: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -19152,11 +19108,7 @@ func (v *MeasurementThresholdA2) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("MeasurementThresholdA2: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("MeasurementThresholdA2: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -20202,11 +20154,7 @@ func (v *OverloadResponse) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 1 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("OverloadResponse: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("OverloadResponse: unsupported extension choice %d", v.Choice)
 	}
 	v.Choice = 1
 	switch v.Choice {
@@ -22864,11 +22812,7 @@ func (v *SONInformationReport) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 1 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("SONInformationReport: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("SONInformationReport: unsupported extension choice %d", v.Choice)
 	}
 	v.Choice = 1
 	switch v.Choice {
@@ -27698,11 +27642,7 @@ func (v *UEPagingID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("UEPagingID: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("UEPagingID: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -28152,11 +28092,7 @@ func (v *UES1APIDs) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("UES1APIDs: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("UES1APIDs: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -29098,11 +29034,7 @@ func (v *WarningAreaList) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 3 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("WarningAreaList: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("WarningAreaList: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
 	if err != nil {
