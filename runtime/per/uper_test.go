@@ -207,11 +207,17 @@ func TestBitString_RoundTrip(t *testing.T) {
 			if gotBitLen != tc.bitLen {
 				t.Fatalf("bitLen: got %d, want %d", gotBitLen, tc.bitLen)
 			}
-			// Compare only the significant bits.
+			// Compare all significant bits, including the partial last byte.
 			fullBytes := tc.bitLen / 8
 			for i := 0; i < fullBytes; i++ {
 				if gotData[i] != tc.data[i] {
 					t.Fatalf("byte %d: got %02x, want %02x", i, gotData[i], tc.data[i])
+				}
+			}
+			if remBits := tc.bitLen % 8; remBits > 0 {
+				mask := byte(0xFF << (8 - remBits))
+				if gotData[fullBytes]&mask != tc.data[fullBytes]&mask {
+					t.Fatalf("partial byte %d: got %02x, want %02x (mask %02x)", fullBytes, gotData[fullBytes], tc.data[fullBytes], mask)
 				}
 			}
 		})

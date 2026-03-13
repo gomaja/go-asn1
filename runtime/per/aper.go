@@ -349,6 +349,9 @@ func EncodeBitStringAlignedExt(bb *BitBuffer, data []byte, bitLen int, lb, ub in
 	}
 	if constrained && lb == ub {
 		// Fixed size.
+		if int64(bitLen) != lb {
+			return fmt.Errorf("%w: BIT STRING length %d does not match fixed SIZE(%d)", ErrConstraintViolation, bitLen, lb)
+		}
 		if lb > 16 {
 			bb.AlignToOctetWrite()
 		}
@@ -443,6 +446,9 @@ func EncodeOctetStringAlignedExt(bb *BitBuffer, data []byte, lb, ub int64, const
 	}
 	if constrained && lb == ub {
 		// Fixed size.
+		if int64(len(data)) != lb {
+			return fmt.Errorf("%w: OCTET STRING length %d does not match fixed SIZE(%d)", ErrConstraintViolation, len(data), lb)
+		}
 		if lb > 2 {
 			bb.AlignToOctetWrite()
 		}
@@ -512,6 +518,9 @@ func DecodeOctetStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, exten
 func EncodeKnownMultiplierStringAligned(bb *BitBuffer, s string, bitsPerChar int, lb, ub int64, constrained bool) error {
 	length := int64(len(s))
 	if constrained && lb == ub {
+		if length != lb {
+			return fmt.Errorf("%w: string length %d does not match fixed SIZE(%d)", ErrConstraintViolation, length, lb)
+		}
 		if lb*int64(bitsPerChar) > 16 {
 			bb.AlignToOctetWrite()
 		}

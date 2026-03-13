@@ -194,6 +194,10 @@ func EncodeReal(v float64) []byte {
 	t := tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}
 
 	if v == 0 {
+		if math.Signbit(v) {
+			// Negative zero: X.690 §8.5.3 — encode as 0x43.
+			return EncodeTLV(t, []byte{0x43})
+		}
 		return EncodeTLV(t, nil)
 	}
 	if math.IsInf(v, 1) {
@@ -209,10 +213,16 @@ func EncodeReal(v float64) []byte {
 	// Binary encoding: info octet + exponent + mantissa.
 	bits := math.Float64bits(v)
 	sign := (bits >> 63) & 1
-	exp := int64((bits>>52)&0x7FF) - 1023 - 52
+	rawExp := (bits >> 52) & 0x7FF
 	mantissa := bits & 0x000FFFFFFFFFFFFF
-	if (bits>>52)&0x7FF != 0 {
-		mantissa |= 0x0010000000000000 // Restore implicit 1 bit.
+	var exp int64
+	if rawExp == 0 {
+		// Subnormal: exponent is 1 - bias - 52 = -1074, no implicit bit.
+		exp = 1 - 1023 - 52
+	} else {
+		// Normal: restore implicit 1 bit.
+		exp = int64(rawExp) - 1023 - 52
+		mantissa |= 0x0010000000000000
 	}
 
 	// Remove trailing zeros from mantissa.

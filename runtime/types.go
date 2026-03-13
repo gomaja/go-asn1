@@ -57,7 +57,7 @@ func (rv RawValue) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON decodes a hex string back into RawValue.Bytes.
 func (rv *RawValue) UnmarshalJSON(data []byte) error {
 	if len(data) < 2 || data[0] != '"' || data[len(data)-1] != '"' {
-		return fmt.Errorf("RawValue: expected hex string, got %s", data)
+		return fmt.Errorf("RawValue: expected hex string, got %q", data)
 	}
 	b, err := hex.DecodeString(string(data[1 : len(data)-1]))
 	if err != nil {

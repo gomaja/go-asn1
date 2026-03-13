@@ -306,6 +306,9 @@ func DecodeEnumerated(bb *BitBuffer, rootCount int, extensible bool) (int64, err
 func EncodeBitString(bb *BitBuffer, data []byte, bitLen int, lb, ub int64, constrained bool) error {
 	if constrained && lb == ub {
 		// Fixed size — write exactly lb bits.
+		if int64(bitLen) != lb {
+			return fmt.Errorf("%w: BIT STRING length %d does not match fixed SIZE(%d)", ErrConstraintViolation, bitLen, lb)
+		}
 		return bb.WriteBitsFromBytes(data, int(lb))
 	}
 	if constrained && ub <= 65536 {
@@ -349,6 +352,9 @@ func EncodeOctetString(bb *BitBuffer, data []byte, lb, ub int64, constrained boo
 	length := int64(len(data))
 	if constrained && lb == ub {
 		// Fixed size — write exactly lb octets.
+		if int64(len(data)) != lb {
+			return fmt.Errorf("%w: OCTET STRING length %d does not match fixed SIZE(%d)", ErrConstraintViolation, len(data), lb)
+		}
 		return bb.WriteBytes(data)
 	}
 	if constrained && ub <= 65536 {
@@ -398,6 +404,9 @@ func EncodeKnownMultiplierString(bb *BitBuffer, s string, bitsPerChar int, lb, u
 	length := int64(len(s))
 	if constrained && lb == ub {
 		// Fixed size — write exactly lb characters.
+		if length != lb {
+			return fmt.Errorf("%w: string length %d does not match fixed SIZE(%d)", ErrConstraintViolation, length, lb)
+		}
 		for _, ch := range []byte(s) {
 			if err := bb.WriteBits(uint64(ch), bitsPerChar); err != nil {
 				return err
@@ -584,12 +593,8 @@ func minimalSignedNegBytes(v int64) []byte {
 			return buf
 		}
 	}
-	buf := make([]byte, 8)
-	for i := 7; i >= 0; i-- {
-		buf[i] = byte(uv)
-		uv >>= 8
-	}
-	return buf
+	// Unreachable: n=8 always matches above.
+	return nil
 }
 
 func twosComplementToInt64(data []byte) int64 {

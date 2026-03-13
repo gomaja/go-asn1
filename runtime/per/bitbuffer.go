@@ -96,6 +96,9 @@ func (bb *BitBuffer) WriteBytes(data []byte) error {
 
 // ReadBytes reads n bytes (8*n bits).
 func (bb *BitBuffer) ReadBytes(n int) ([]byte, error) {
+	if n < 0 {
+		return nil, fmt.Errorf("%w: ReadBytes called with negative n=%d", ErrInvalidValue, n)
+	}
 	result := make([]byte, n)
 	for i := 0; i < n; i++ {
 		val, err := bb.ReadBits(8)
@@ -158,6 +161,9 @@ func (bb *BitBuffer) AlignToOctetRead() {
 	rem := bb.bitPos % 8
 	if rem != 0 {
 		bb.bitPos += 8 - rem
+	}
+	if bb.bitPos > bb.bitLen {
+		bb.bitPos = bb.bitLen
 	}
 }
 
