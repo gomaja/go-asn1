@@ -18,6 +18,9 @@ func (bs BitString) Has(bit int) bool {
 		return false
 	}
 	byteIndex := bit / 8
+	if byteIndex >= len(bs.Bytes) {
+		return false
+	}
 	bitIndex := 7 - (bit % 8)
 	return bs.Bytes[byteIndex]&(1<<uint(bitIndex)) != 0
 }

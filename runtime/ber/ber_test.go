@@ -351,7 +351,11 @@ func TestEncodeDecodeReal(t *testing.T) {
 				t.Errorf("consumed: got %d, want %d", consumed, len(encoded))
 			}
 			if math.IsInf(tc.value, 0) {
-				if !math.IsInf(decoded, int(tc.value)) {
+				sign := 1
+				if math.Signbit(tc.value) {
+					sign = -1
+				}
+				if !math.IsInf(decoded, sign) {
 					t.Errorf("got %v, want %v", decoded, tc.value)
 				}
 			} else if tc.value != decoded {

@@ -2648,10 +2648,16 @@ func unmarshalBERSSList(data []byte) (SSList, error) {
 func (v *SSSubscriptionOption) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case SSSubscriptionOptionChoiceCliRestrictionOption:
+		if v.CliRestrictionOption == nil {
+			return nil, fmt.Errorf("choice SSSubscriptionOption: cliRestrictionOption is nil")
+		}
 		enc_0 := ber.EncodeEnumerated(int64(*v.CliRestrictionOption))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_0)
 		return enc_0, nil
 	case SSSubscriptionOptionChoiceOverrideCategory:
+		if v.OverrideCategory == nil {
+			return nil, fmt.Errorf("choice SSSubscriptionOption: overrideCategory is nil")
+		}
 		enc_1 := ber.EncodeEnumerated(int64(*v.OverrideCategory))
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		return enc_1, nil

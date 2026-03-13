@@ -782,10 +782,16 @@ func (v *MAPUserAbortChoice) MarshalBER() ([]byte, error) {
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		return enc_1, nil
 	case MAPUserAbortChoiceChoiceResourceUnavailable:
+		if v.ResourceUnavailable == nil {
+			return nil, fmt.Errorf("choice MAPUserAbortChoice: resourceUnavailable is nil")
+		}
 		enc_2 := ber.EncodeEnumerated(int64(*v.ResourceUnavailable))
 		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_2)
 		return enc_2, nil
 	case MAPUserAbortChoiceChoiceApplicationProcedureCancellation:
+		if v.ApplicationProcedureCancellation == nil {
+			return nil, fmt.Errorf("choice MAPUserAbortChoice: applicationProcedureCancellation is nil")
+		}
 		enc_3 := ber.EncodeEnumerated(int64(*v.ApplicationProcedureCancellation))
 		enc_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_3)
 		return enc_3, nil

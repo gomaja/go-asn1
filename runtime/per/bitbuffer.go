@@ -129,6 +129,9 @@ func (bb *BitBuffer) BitPos() int {
 
 // WriteBitsFromBytes writes exactly bitLen bits from the given byte slice (MSB first).
 func (bb *BitBuffer) WriteBitsFromBytes(data []byte, bitLen int) error {
+	if bitLen < 0 || (bitLen+7)/8 > len(data) {
+		return fmt.Errorf("per: WriteBitsFromBytes: bitLen %d out of range for %d bytes", bitLen, len(data))
+	}
 	for i := 0; i < bitLen; i++ {
 		byteIdx := i / 8
 		bitIdx := uint(7 - i%8)

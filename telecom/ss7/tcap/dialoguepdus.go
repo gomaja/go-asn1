@@ -527,10 +527,16 @@ func (v *ABRTApdu) UnmarshalBER(data []byte) error {
 func (v *AssociateSourceDiagnostic) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case AssociateSourceDiagnosticChoiceDialogueServiceUser:
+		if v.DialogueServiceUser == nil {
+			return nil, fmt.Errorf("choice AssociateSourceDiagnostic: dialogue-service-user is nil")
+		}
 		enc_0 := ber.EncodeInteger(int64(*v.DialogueServiceUser))
 		enc_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 1, enc_0)
 		return enc_0, nil
 	case AssociateSourceDiagnosticChoiceDialogueServiceProvider:
+		if v.DialogueServiceProvider == nil {
+			return nil, fmt.Errorf("choice AssociateSourceDiagnostic: dialogue-service-provider is nil")
+		}
 		enc_1 := ber.EncodeInteger(int64(*v.DialogueServiceProvider))
 		enc_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_1)
 		return enc_1, nil

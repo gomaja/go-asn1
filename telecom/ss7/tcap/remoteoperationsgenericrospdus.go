@@ -495,6 +495,9 @@ func (v *Invoke) UnmarshalBER(data []byte) error {
 func (v *InvokeId) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case InvokeIdChoicePresent:
+		if v.Present == nil {
+			return nil, fmt.Errorf("choice InvokeId: present is nil")
+		}
 		enc_0 := ber.EncodeInteger(int64(*v.Present))
 		return enc_0, nil
 	case InvokeIdChoiceAbsent:
@@ -954,18 +957,30 @@ func (v *InvokeLinkedId) UnmarshalBER(data []byte) error {
 func (v *OperationsRejectProblem) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case OperationsRejectProblemChoiceGeneral:
+		if v.General == nil {
+			return nil, fmt.Errorf("choice OperationsRejectProblem: general is nil")
+		}
 		enc_0 := ber.EncodeInteger(int64(*v.General))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
 		return enc_0, nil
 	case OperationsRejectProblemChoiceInvoke:
+		if v.Invoke == nil {
+			return nil, fmt.Errorf("choice OperationsRejectProblem: invoke is nil")
+		}
 		enc_1 := ber.EncodeInteger(int64(*v.Invoke))
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		return enc_1, nil
 	case OperationsRejectProblemChoiceReturnResult:
+		if v.ReturnResult == nil {
+			return nil, fmt.Errorf("choice OperationsRejectProblem: returnResult is nil")
+		}
 		enc_2 := ber.EncodeInteger(int64(*v.ReturnResult))
 		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_2)
 		return enc_2, nil
 	case OperationsRejectProblemChoiceReturnError:
+		if v.ReturnError == nil {
+			return nil, fmt.Errorf("choice OperationsRejectProblem: returnError is nil")
+		}
 		enc_3 := ber.EncodeInteger(int64(*v.ReturnError))
 		enc_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_3)
 		return enc_3, nil

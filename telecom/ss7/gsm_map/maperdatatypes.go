@@ -1323,6 +1323,9 @@ func (v *CUGRejectParam) UnmarshalBER(data []byte) error {
 func (v *CallBarredParam) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case CallBarredParamChoiceCallBarringCause:
+		if v.CallBarringCause == nil {
+			return nil, fmt.Errorf("choice CallBarredParam: callBarringCause is nil")
+		}
 		enc_0 := ber.EncodeEnumerated(int64(*v.CallBarringCause))
 		return enc_0, nil
 	case CallBarredParamChoiceExtensibleCallBarredParam:
@@ -3027,6 +3030,9 @@ func (v *SubBusyForMTSMSParam) UnmarshalBER(data []byte) error {
 func (v *SystemFailureParam) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case SystemFailureParamChoiceNetworkResource:
+		if v.NetworkResource == nil {
+			return nil, fmt.Errorf("choice SystemFailureParam: networkResource is nil")
+		}
 		enc_0 := ber.EncodeEnumerated(int64(*v.NetworkResource))
 		return enc_0, nil
 	case SystemFailureParamChoiceExtensibleSystemFailureParam:

@@ -530,6 +530,12 @@ func DecodeBitStringValue(value []byte) ([]byte, int, error) {
 		return nil, 0, fmt.Errorf("%w: empty BIT STRING value", ErrInvalidValue)
 	}
 	unusedBits := int(value[0])
+	if unusedBits > 7 {
+		return nil, 0, fmt.Errorf("%w: BIT STRING unused bits %d out of range (0-7)", ErrInvalidValue, unusedBits)
+	}
+	if len(value) == 1 && unusedBits != 0 {
+		return nil, 0, fmt.Errorf("%w: BIT STRING unused bits %d with no content bytes", ErrInvalidValue, unusedBits)
+	}
 	return value[1:], unusedBits, nil
 }
 
@@ -590,13 +596,15 @@ func DecodeOIDValue(value []byte) ([]uint64, error) {
 		return nil, fmt.Errorf("%w: empty OID value", ErrInvalidValue)
 	}
 	result := make([]uint64, 0, 8)
-	first := uint64(value[0])
+	first, offset := decodeBase128(value, 0)
+	if offset == 0 {
+		return nil, fmt.Errorf("%w: invalid OID first subidentifier encoding", ErrInvalidValue)
+	}
 	if first >= 80 {
 		result = append(result, 2, first-80)
 	} else {
 		result = append(result, first/40, first%40)
 	}
-	offset := 1
 	for offset < len(value) {
 		v, consumed := decodeBase128(value, offset)
 		if consumed <= offset {

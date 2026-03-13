@@ -53,6 +53,9 @@ type Priority = int64
 func (v *Code) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case CodeChoiceLocal:
+		if v.Local == nil {
+			return nil, fmt.Errorf("choice Code: local is nil")
+		}
 		enc_0 := ber.EncodeInteger(int64(*v.Local))
 		return enc_0, nil
 	case CodeChoiceGlobal:

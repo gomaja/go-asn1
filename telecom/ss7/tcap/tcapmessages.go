@@ -916,6 +916,9 @@ func (v *Unidirectional) UnmarshalBER(data []byte) error {
 func (v *AbortReason) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case AbortReasonChoicePAbortCause:
+		if v.PAbortCause == nil {
+			return nil, fmt.Errorf("choice AbortReason: p-abortCause is nil")
+		}
 		enc_0 := ber.EncodeInteger(int64(*v.PAbortCause))
 		return enc_0, nil
 	case AbortReasonChoiceUAbortCause:

@@ -24648,6 +24648,9 @@ func (v *PSSubscriberState) MarshalBER() ([]byte, error) {
 		enc_5 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, true, enc_5)
 		return enc_5, nil
 	case PSSubscriberStateChoiceNetDetNotReachable:
+		if v.NetDetNotReachable == nil {
+			return nil, fmt.Errorf("choice PSSubscriberState: netDetNotReachable is nil")
+		}
 		enc_6 := ber.EncodeEnumerated(int64(*v.NetDetNotReachable))
 		return enc_6, nil
 	default:
@@ -31689,6 +31692,9 @@ func (v *SubscriberState) MarshalBER() ([]byte, error) {
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		return enc_1, nil
 	case SubscriberStateChoiceNetDetNotReachable:
+		if v.NetDetNotReachable == nil {
+			return nil, fmt.Errorf("choice SubscriberState: netDetNotReachable is nil")
+		}
 		enc_2 := ber.EncodeEnumerated(int64(*v.NetDetNotReachable))
 		return enc_2, nil
 	case SubscriberStateChoiceNotProvidedFromVLR:
