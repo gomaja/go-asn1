@@ -4319,11 +4319,7 @@ func (v *CellAssistanceInformation) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("CellAssistanceInformation: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("CellAssistanceInformation: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -9118,11 +9114,7 @@ func (v *ERABsAdmittedToBeAddedItem) unmarshalAPERFrom(bb *per.BitBuffer) error 
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsAdmittedToBeAddedItem: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsAdmittedToBeAddedItem: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -9488,11 +9480,7 @@ func (v *ERABsAdmittedToBeAddedModAckItem) unmarshalAPERFrom(bb *per.BitBuffer) 
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsAdmittedToBeAddedModAckItem: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsAdmittedToBeAddedModAckItem: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -10844,11 +10832,7 @@ func (v *ERABsAdmittedToBeModifiedModAckItem) unmarshalAPERFrom(bb *per.BitBuffe
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsAdmittedToBeModifiedModAckItem: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsAdmittedToBeModifiedModAckItem: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -12221,11 +12205,7 @@ func (v *ERABsAdmittedToReleasedModAckItem) unmarshalAPERFrom(bb *per.BitBuffer)
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsAdmittedToReleasedModAckItem: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsAdmittedToReleasedModAckItem: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -12974,11 +12954,7 @@ func (v *ERABsToBeAddedItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsToBeAddedItem: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsToBeAddedItem: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -13338,11 +13314,7 @@ func (v *ERABsToBeAddedModReqItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsToBeAddedModReqItem: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsToBeAddedModReqItem: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -14668,11 +14640,7 @@ func (v *ERABsToBeModifiedModReqItem) unmarshalAPERFrom(bb *per.BitBuffer) error
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsToBeModifiedModReqItem: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsToBeModifiedModReqItem: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -16005,11 +15973,7 @@ func (v *ERABsToBeReleasedModReqItem) unmarshalAPERFrom(bb *per.BitBuffer) error
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsToBeReleasedModReqItem: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsToBeReleasedModReqItem: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -16505,11 +16469,7 @@ func (v *ERABsToBeReleasedRelConfItem) unmarshalAPERFrom(bb *per.BitBuffer) erro
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsToBeReleasedRelConfItem: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsToBeReleasedRelConfItem: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -16882,11 +16842,7 @@ func (v *ERABsToBeReleasedRelReqItem) unmarshalAPERFrom(bb *per.BitBuffer) error
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsToBeReleasedRelReqItem: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsToBeReleasedRelReqItem: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -20559,11 +20515,7 @@ func (v *InitiatingNodeTypeEndcConfigUpdate) unmarshalAPERFrom(bb *per.BitBuffer
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("InitiatingNodeTypeEndcConfigUpdate: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("InitiatingNodeTypeEndcConfigUpdate: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -20667,11 +20619,7 @@ func (v *InitiatingNodeTypeEndcX2Removal) unmarshalAPERFrom(bb *per.BitBuffer) e
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("InitiatingNodeTypeEndcX2Removal: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("InitiatingNodeTypeEndcX2Removal: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -20775,11 +20723,7 @@ func (v *InitiatingNodeTypeEndcX2Setup) unmarshalAPERFrom(bb *per.BitBuffer) err
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("InitiatingNodeTypeEndcX2Setup: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("InitiatingNodeTypeEndcX2Setup: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -20883,11 +20827,7 @@ func (v *InitiatingNodeTypeEutranrCellResourceCoordination) unmarshalAPERFrom(bb
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("InitiatingNodeTypeEutranrCellResourceCoordination: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("InitiatingNodeTypeEutranrCellResourceCoordination: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -22695,11 +22635,7 @@ func (v *RespondingNodeTypeEndcConfigUpdate) unmarshalAPERFrom(bb *per.BitBuffer
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("RespondingNodeTypeEndcConfigUpdate: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("RespondingNodeTypeEndcConfigUpdate: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -22803,11 +22739,7 @@ func (v *RespondingNodeTypeEndcX2Removal) unmarshalAPERFrom(bb *per.BitBuffer) e
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("RespondingNodeTypeEndcX2Removal: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("RespondingNodeTypeEndcX2Removal: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -22911,11 +22843,7 @@ func (v *RespondingNodeTypeEndcX2Setup) unmarshalAPERFrom(bb *per.BitBuffer) err
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("RespondingNodeTypeEndcX2Setup: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("RespondingNodeTypeEndcX2Setup: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -23019,11 +22947,7 @@ func (v *RespondingNodeTypeEutranrCellResourceCoordination) unmarshalAPERFrom(bb
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("RespondingNodeTypeEutranrCellResourceCoordination: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("RespondingNodeTypeEutranrCellResourceCoordination: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -23117,11 +23041,7 @@ func (v *ResponseInformationSeNBReconfComp) unmarshalAPERFrom(bb *per.BitBuffer)
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ResponseInformationSeNBReconfComp: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ResponseInformationSeNBReconfComp: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -23467,11 +23387,7 @@ func (v *ResponseInformationSgNBReconfComp) unmarshalAPERFrom(bb *per.BitBuffer)
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ResponseInformationSgNBReconfComp: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ResponseInformationSgNBReconfComp: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -30988,11 +30904,7 @@ func (v *ERABsAdmittedToBeModifiedSgNBModConfItemResourceConfiguration) unmarsha
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsAdmittedToBeModifiedSgNBModConfItemResourceConfiguration: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsAdmittedToBeModifiedSgNBModConfItemResourceConfiguration: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -31074,11 +30986,7 @@ func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemResourceConfiguration) unmarshal
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsAdmittedToBeAddedSgNBAddReqAckItemResourceConfiguration: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsAdmittedToBeAddedSgNBAddReqAckItemResourceConfiguration: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -31160,11 +31068,7 @@ func (v *ERABsAdmittedToBeAddedSgNBModAckItemResourceConfiguration) unmarshalAPE
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsAdmittedToBeAddedSgNBModAckItemResourceConfiguration: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsAdmittedToBeAddedSgNBModAckItemResourceConfiguration: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -31246,11 +31150,7 @@ func (v *ERABsAdmittedToBeModifiedSgNBModAckItemResourceConfiguration) unmarshal
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsAdmittedToBeModifiedSgNBModAckItemResourceConfiguration: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsAdmittedToBeModifiedSgNBModAckItemResourceConfiguration: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -31332,11 +31232,7 @@ func (v *ERABsAdmittedToReleasedSgNBModAckItemResourceConfiguration) unmarshalAP
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsAdmittedToReleasedSgNBModAckItemResourceConfiguration: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsAdmittedToReleasedSgNBModAckItemResourceConfiguration: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -31418,11 +31314,7 @@ func (v *ERABsToBeAddedSgNBAddReqItemResourceConfiguration) unmarshalAPERFrom(bb
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsToBeAddedSgNBAddReqItemResourceConfiguration: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsToBeAddedSgNBAddReqItemResourceConfiguration: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -31504,11 +31396,7 @@ func (v *ERABsToBeAddedSgNBModReqItemResourceConfiguration) unmarshalAPERFrom(bb
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsToBeAddedSgNBModReqItemResourceConfiguration: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsToBeAddedSgNBModReqItemResourceConfiguration: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -31590,11 +31478,7 @@ func (v *ERABsToBeModifiedSgNBModReqItemResourceConfiguration) unmarshalAPERFrom
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsToBeModifiedSgNBModReqItemResourceConfiguration: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsToBeModifiedSgNBModReqItemResourceConfiguration: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -31676,11 +31560,7 @@ func (v *ERABsToBeModifiedSgNBModReqdItemResourceConfiguration) unmarshalAPERFro
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsToBeModifiedSgNBModReqdItemResourceConfiguration: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsToBeModifiedSgNBModReqdItemResourceConfiguration: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -31762,11 +31642,7 @@ func (v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration) unmarshalAPERFro
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsToBeReleasedSgNBChaConfItemResourceConfiguration: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsToBeReleasedSgNBChaConfItemResourceConfiguration: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -31848,11 +31724,7 @@ func (v *ERABsToBeReleasedSgNBModReqItemResourceConfiguration) unmarshalAPERFrom
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsToBeReleasedSgNBModReqItemResourceConfiguration: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsToBeReleasedSgNBModReqItemResourceConfiguration: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -31934,11 +31806,7 @@ func (v *ERABsToBeReleasedSgNBRelConfItemResourceConfiguration) unmarshalAPERFro
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsToBeReleasedSgNBRelConfItemResourceConfiguration: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsToBeReleasedSgNBRelConfItemResourceConfiguration: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -32020,11 +31888,7 @@ func (v *ERABsToBeReleasedSgNBRelReqItemResourceConfiguration) unmarshalAPERFrom
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ERABsToBeReleasedSgNBRelReqItemResourceConfiguration: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ERABsToBeReleasedSgNBRelReqItemResourceConfiguration: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -32106,11 +31970,7 @@ func (v *ServedNRCellInformationNrModeInfo) unmarshalAPERFrom(bb *per.BitBuffer)
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
 		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ServedNRCellInformationNrModeInfo: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("ServedNRCellInformationNrModeInfo: unsupported extension choice %d", v.Choice)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
