@@ -222,6 +222,9 @@ func DecodeBigInt(data []byte) (*big.Int, int, error) {
 	if t.Class != tag.ClassUniversal || t.Number != tag.TagInteger {
 		return nil, 0, fmt.Errorf("%w: expected INTEGER tag, got %s", ErrInvalidTag, t)
 	}
+	if t.Constructed {
+		return nil, 0, fmt.Errorf("%w: INTEGER must be primitive, got constructed", ErrInvalidTag)
+	}
 	if len(value) == 0 {
 		return nil, 0, fmt.Errorf("%w: INTEGER value must have at least 1 byte", ErrInvalidValue)
 	}
@@ -407,6 +410,9 @@ func DecodeReal(data []byte) (float64, int, error) {
 	}
 	if info == 0x42 {
 		return math.NaN(), total, nil
+	}
+	if info == 0x43 {
+		return math.Copysign(0, -1), total, nil
 	}
 
 	if info&0x80 == 0 {
@@ -599,6 +605,9 @@ func DecodeRealValue(value []byte) (float64, error) {
 	}
 	if info == 0x42 {
 		return math.NaN(), nil
+	}
+	if info == 0x43 {
+		return math.Copysign(0, -1), nil
 	}
 
 	if info&0x80 == 0 {
