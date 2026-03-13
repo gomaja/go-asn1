@@ -90,6 +90,9 @@ func DecodeTLV(data []byte) (tag.Tag, int, []byte, error) {
 	headerLen := tagLen + lenLen
 
 	if indefinite {
+		if !t.Constructed {
+			return tag.Tag{}, 0, nil, fmt.Errorf("%w: indefinite length used with primitive tag %s", ErrInvalidLength, t)
+		}
 		// Scan for end-of-contents octets (0x00, 0x00).
 		pos := headerLen
 		depth := 0
@@ -250,6 +253,9 @@ func DecodeBitString(data []byte) ([]byte, int, int, error) {
 	if unusedBits > 7 {
 		return nil, 0, 0, fmt.Errorf("%w: invalid unused bits count %d", ErrInvalidValue, unusedBits)
 	}
+	if len(value) == 1 && unusedBits != 0 {
+		return nil, 0, 0, fmt.Errorf("%w: BIT STRING unused bits %d with no content bytes", ErrInvalidValue, unusedBits)
+	}
 	return value[1:], unusedBits, total, nil
 }
 
@@ -310,7 +316,10 @@ func DecodeObjectIdentifier(data []byte) ([]uint64, int, error) {
 	}
 
 	// Decode first two components.
-	firstVal, offset := decodeBase128(value, 0)
+	firstVal, offset, err := decodeBase128(value, 0)
+	if err != nil {
+		return nil, 0, fmt.Errorf("decoding OID first subidentifier: %w", err)
+	}
 	var oid []uint64
 	if firstVal < 80 {
 		oid = append(oid, firstVal/40, firstVal%40)
@@ -320,7 +329,10 @@ func DecodeObjectIdentifier(data []byte) ([]uint64, int, error) {
 
 	// Decode remaining components.
 	for offset < len(value) {
-		v, newOffset := decodeBase128(value, offset)
+		v, newOffset, err := decodeBase128(value, offset)
+		if err != nil {
+			return nil, 0, fmt.Errorf("decoding OID subidentifier: %w", err)
+		}
 		oid = append(oid, v)
 		offset = newOffset
 	}
@@ -328,17 +340,21 @@ func DecodeObjectIdentifier(data []byte) ([]uint64, int, error) {
 	return oid, total, nil
 }
 
-func decodeBase128(data []byte, offset int) (uint64, int) {
+func decodeBase128(data []byte, offset int) (uint64, int, error) {
 	var v uint64
+	start := offset
 	for offset < len(data) {
 		b := data[offset]
 		offset++
 		v = (v << 7) | uint64(b&0x7F)
 		if b&0x80 == 0 {
-			break
+			return v, offset, nil
 		}
 	}
-	return v, offset
+	if offset == start {
+		return 0, offset, fmt.Errorf("%w: empty base-128 encoding", ErrInvalidValue)
+	}
+	return 0, offset, fmt.Errorf("%w: truncated base-128 encoding", ErrTruncated)
 }
 
 // DecodeEnumerated decodes an ENUMERATED value from raw TLV bytes.
@@ -465,6 +481,12 @@ func DecodeUTCTime(data []byte) (time.Time, int, error) {
 	} {
 		t, err := time.Parse(layout, s)
 		if err == nil {
+			// ASN.1 UTCTime: YY >= 50 → 19YY, YY < 50 → 20YY.
+			// Go's time.Parse uses cutoff 69, so years 50-68 are wrong.
+			year := t.Year()
+			if year >= 2050 && year <= 2068 {
+				t = t.AddDate(-100, 0, 0)
+			}
 			return t, total, nil
 		}
 	}
@@ -596,9 +618,9 @@ func DecodeOIDValue(value []byte) ([]uint64, error) {
 		return nil, fmt.Errorf("%w: empty OID value", ErrInvalidValue)
 	}
 	result := make([]uint64, 0, 8)
-	first, offset := decodeBase128(value, 0)
-	if offset == 0 {
-		return nil, fmt.Errorf("%w: invalid OID first subidentifier encoding", ErrInvalidValue)
+	first, offset, err := decodeBase128(value, 0)
+	if err != nil {
+		return nil, fmt.Errorf("decoding OID first subidentifier: %w", err)
 	}
 	if first >= 80 {
 		result = append(result, 2, first-80)
@@ -606,9 +628,9 @@ func DecodeOIDValue(value []byte) ([]uint64, error) {
 		result = append(result, first/40, first%40)
 	}
 	for offset < len(value) {
-		v, consumed := decodeBase128(value, offset)
-		if consumed <= offset {
-			return nil, fmt.Errorf("%w: invalid OID base-128 encoding", ErrInvalidValue)
+		v, consumed, err := decodeBase128(value, offset)
+		if err != nil {
+			return nil, fmt.Errorf("decoding OID subidentifier: %w", err)
 		}
 		result = append(result, v)
 		offset = consumed
