@@ -1,3 +1,2 @@
-reviews:
-  path_filters:
-    - "!**/.gitkeep"
+# CodeRabbit configuration
+# https://docs.coderabbit.ai/guides/configure-coderabbit
