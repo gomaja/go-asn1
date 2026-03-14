@@ -257,12 +257,16 @@ func (v *AAREApdu) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for application-context-name, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_applicationcontextname, _, err := ber.DecodeTLV(content[offset:])
+	_, n_applicationcontextname, innerData_applicationcontextname, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding application-context-name: %w", err)
 	}
 	// Decode inner value from explicit tag wrapper
-	// TODO: decode OBJECT_IDENTIFIER type from explicit tag
+	val_applicationcontextname, _, oidErr := ber.DecodeObjectIdentifier(innerData_applicationcontextname)
+	if oidErr != nil {
+		return fmt.Errorf("decoding application-context-name: %w", oidErr)
+	}
+	v.ApplicationContextName = runtime.ObjectIdentifier(val_applicationcontextname)
 	offset += n_applicationcontextname
 	// Decode result
 	if offset >= len(content) {
@@ -402,12 +406,16 @@ func (v *AARQApdu) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for application-context-name, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_applicationcontextname, _, err := ber.DecodeTLV(content[offset:])
+	_, n_applicationcontextname, innerData_applicationcontextname, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding application-context-name: %w", err)
 	}
 	// Decode inner value from explicit tag wrapper
-	// TODO: decode OBJECT_IDENTIFIER type from explicit tag
+	val_applicationcontextname, _, oidErr := ber.DecodeObjectIdentifier(innerData_applicationcontextname)
+	if oidErr != nil {
+		return fmt.Errorf("decoding application-context-name: %w", oidErr)
+	}
+	v.ApplicationContextName = runtime.ObjectIdentifier(val_applicationcontextname)
 	offset += n_applicationcontextname
 	// Decode user-information
 	if offset < len(content) {
@@ -843,7 +851,7 @@ func (v *RLRQApdu) UnmarshalBER(data []byte) error {
 func marshalBERAAREApduUserInformation(list AAREApduUserInformation) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
-		_ = elem // TODO: encode EXTERNAL element
+		children = append(children, elem.Bytes...)
 	}
 	return ber.EncodeSequence(children), nil
 }
@@ -857,7 +865,11 @@ func unmarshalBERAAREApduUserInformation(data []byte) (AAREApduUserInformation, 
 	var result AAREApduUserInformation
 	offset := 0
 	for offset < len(content) {
-		_, n, _, _ := ber.DecodeTLV(content[offset:])
+		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
+		if tlvErr != nil {
+			return nil, fmt.Errorf("decoding element: %w", tlvErr)
+		}
+		result = append(result, runtime.RawValue{Bytes: content[offset : offset+n]})
 		offset += n
 	}
 	return result, nil
@@ -867,7 +879,7 @@ func unmarshalBERAAREApduUserInformation(data []byte) (AAREApduUserInformation, 
 func marshalBERAARQApduUserInformation(list AARQApduUserInformation) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
-		_ = elem // TODO: encode EXTERNAL element
+		children = append(children, elem.Bytes...)
 	}
 	return ber.EncodeSequence(children), nil
 }
@@ -881,7 +893,11 @@ func unmarshalBERAARQApduUserInformation(data []byte) (AARQApduUserInformation, 
 	var result AARQApduUserInformation
 	offset := 0
 	for offset < len(content) {
-		_, n, _, _ := ber.DecodeTLV(content[offset:])
+		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
+		if tlvErr != nil {
+			return nil, fmt.Errorf("decoding element: %w", tlvErr)
+		}
+		result = append(result, runtime.RawValue{Bytes: content[offset : offset+n]})
 		offset += n
 	}
 	return result, nil
@@ -891,7 +907,7 @@ func unmarshalBERAARQApduUserInformation(data []byte) (AARQApduUserInformation, 
 func marshalBERABRTApduUserInformation(list ABRTApduUserInformation) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
-		_ = elem // TODO: encode EXTERNAL element
+		children = append(children, elem.Bytes...)
 	}
 	return ber.EncodeSequence(children), nil
 }
@@ -905,7 +921,11 @@ func unmarshalBERABRTApduUserInformation(data []byte) (ABRTApduUserInformation, 
 	var result ABRTApduUserInformation
 	offset := 0
 	for offset < len(content) {
-		_, n, _, _ := ber.DecodeTLV(content[offset:])
+		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
+		if tlvErr != nil {
+			return nil, fmt.Errorf("decoding element: %w", tlvErr)
+		}
+		result = append(result, runtime.RawValue{Bytes: content[offset : offset+n]})
 		offset += n
 	}
 	return result, nil
@@ -915,7 +935,7 @@ func unmarshalBERABRTApduUserInformation(data []byte) (ABRTApduUserInformation, 
 func marshalBERRLREApduUserInformation(list RLREApduUserInformation) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
-		_ = elem // TODO: encode EXTERNAL element
+		children = append(children, elem.Bytes...)
 	}
 	return ber.EncodeSequence(children), nil
 }
@@ -929,7 +949,11 @@ func unmarshalBERRLREApduUserInformation(data []byte) (RLREApduUserInformation, 
 	var result RLREApduUserInformation
 	offset := 0
 	for offset < len(content) {
-		_, n, _, _ := ber.DecodeTLV(content[offset:])
+		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
+		if tlvErr != nil {
+			return nil, fmt.Errorf("decoding element: %w", tlvErr)
+		}
+		result = append(result, runtime.RawValue{Bytes: content[offset : offset+n]})
 		offset += n
 	}
 	return result, nil
@@ -939,7 +963,7 @@ func unmarshalBERRLREApduUserInformation(data []byte) (RLREApduUserInformation, 
 func marshalBERRLRQApduUserInformation(list RLRQApduUserInformation) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
-		_ = elem // TODO: encode EXTERNAL element
+		children = append(children, elem.Bytes...)
 	}
 	return ber.EncodeSequence(children), nil
 }
@@ -953,7 +977,11 @@ func unmarshalBERRLRQApduUserInformation(data []byte) (RLRQApduUserInformation, 
 	var result RLRQApduUserInformation
 	offset := 0
 	for offset < len(content) {
-		_, n, _, _ := ber.DecodeTLV(content[offset:])
+		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
+		if tlvErr != nil {
+			return nil, fmt.Errorf("decoding element: %w", tlvErr)
+		}
+		result = append(result, runtime.RawValue{Bytes: content[offset : offset+n]})
 		offset += n
 	}
 	return result, nil
