@@ -122,12 +122,16 @@ func (v *AUDTApdu) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for application-context-name, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_applicationcontextname, _, err := ber.DecodeTLV(content[offset:])
+	_, n_applicationcontextname, innerData_applicationcontextname, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding application-context-name: %w", err)
 	}
 	// Decode inner value from explicit tag wrapper
-	// TODO: decode OBJECT_IDENTIFIER type from explicit tag
+	val_applicationcontextname, _, oidErr := ber.DecodeObjectIdentifier(innerData_applicationcontextname)
+	if oidErr != nil {
+		return fmt.Errorf("decoding application-context-name: %w", oidErr)
+	}
+	v.ApplicationContextName = runtime.ObjectIdentifier(val_applicationcontextname)
 	offset += n_applicationcontextname
 	// Decode user-information
 	if offset < len(content) {
@@ -206,7 +210,7 @@ func (v *UniDialoguePDU) UnmarshalBER(data []byte) error {
 func marshalBERAUDTApduUserInformation(list AUDTApduUserInformation) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
-		_ = elem // TODO: encode EXTERNAL element
+		children = append(children, elem.Bytes...)
 	}
 	return ber.EncodeSequence(children), nil
 }
@@ -220,7 +224,11 @@ func unmarshalBERAUDTApduUserInformation(data []byte) (AUDTApduUserInformation, 
 	var result AUDTApduUserInformation
 	offset := 0
 	for offset < len(content) {
-		_, n, _, _ := ber.DecodeTLV(content[offset:])
+		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
+		if tlvErr != nil {
+			return nil, fmt.Errorf("decoding element: %w", tlvErr)
+		}
+		result = append(result, runtime.RawValue{Bytes: content[offset : offset+n]})
 		offset += n
 	}
 	return result, nil
