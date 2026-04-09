@@ -4,7 +4,7 @@ package tcap
 
 import "fmt"
 
-// ErrorCode is a typed alias for MAP error codes.
+// ErrorCode is a named type for tcap error codes.
 type ErrorCode int64
 
 const (
@@ -15,7 +15,7 @@ const (
 // String returns the ASN.1 name of the error code.
 func (c ErrorCode) String() string {
 	switch c {
-	case -1:
+	case Refuse:
 		return "refuse"
 	default:
 		return fmt.Sprintf("ErrorCode(%d)", int64(c))

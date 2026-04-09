@@ -4,7 +4,7 @@ package gsm_map
 
 import "fmt"
 
-// ErrorCode is a typed alias for MAP error codes.
+// ErrorCode is a named type for gsm_map error codes.
 type ErrorCode int64
 
 const (
@@ -127,126 +127,126 @@ const (
 // String returns the ASN.1 name of the error code.
 func (c ErrorCode) String() string {
 	switch c {
-	case 27:
+	case AbsentSubscriber:
 		return "absentSubscriber"
-	case 6:
+	case AbsentSubscriberSM:
 		return "absentSubscriberSM"
-	case 49:
+	case AtiNotAllowed:
 		return "ati-NotAllowed"
-	case 61:
+	case AtmNotAllowed:
 		return "atm-NotAllowed"
-	case 60:
+	case AtsiNotAllowed:
 		return "atsi-NotAllowed"
-	case 10:
+	case BearerServiceNotProvisioned:
 		return "bearerServiceNotProvisioned"
-	case 45:
+	case BusySubscriber:
 		return "busySubscriber"
-	case 13:
+	case CallBarred:
 		return "callBarred"
-	case 15:
+	case CugReject:
 		return "cug-Reject"
-	case 35:
+	case DataMissing:
 		return "dataMissing"
-	case 21:
+	case FacilityNotSupported:
 		return "facilityNotSupported"
-	case 47:
+	case ForwardingFailed:
 		return "forwardingFailed"
-	case 14:
+	case ForwardingViolation:
 		return "forwardingViolation"
-	case 12:
+	case IllegalEquipment:
 		return "illegalEquipment"
-	case 16:
+	case IllegalSSOperation:
 		return "illegalSS-Operation"
-	case 9:
+	case IllegalSubscriber:
 		return "illegalSubscriber"
-	case 28:
+	case IncompatibleTerminal:
 		return "incompatibleTerminal"
-	case 62:
+	case InformationNotAvailable:
 		return "informationNotAvailable"
-	case 30:
+	case LongTermDenial:
 		return "longTermDenial"
-	case 33:
+	case MessageWaitingListFull:
 		return "messageWaitingListFull"
-	case 59:
+	case MmEventNotSupported:
 		return "mm-EventNotSupported"
-	case 38:
+	case NegativePWCheck:
 		return "negativePW-Check"
-	case 50:
+	case NoGroupCallNumberAvailable:
 		return "noGroupCallNumberAvailable"
-	case 25:
+	case NoHandoverNumberAvailable:
 		return "noHandoverNumberAvailable"
-	case 39:
+	case NoRoamingNumberAvailable:
 		return "noRoamingNumberAvailable"
-	case 46:
+	case NoSubscriberReply:
 		return "noSubscriberReply"
-	case 44:
+	case NumberChanged:
 		return "numberChanged"
-	case 43:
+	case NumberOfPWAttemptsViolation:
 		return "numberOfPW-AttemptsViolation"
-	case 22:
+	case OngoingGroupCall:
 		return "ongoingGroupCall"
-	case 48:
+	case OrNotAllowed:
 		return "or-NotAllowed"
-	case 54:
+	case PositionMethodFailure:
 		return "positionMethodFailure"
-	case 37:
+	case PwRegistrationFailure:
 		return "pw-RegistrationFailure"
-	case 51:
+	case ResourceLimitation:
 		return "resourceLimitation"
-	case 8:
+	case RoamingNotAllowed:
 		return "roamingNotAllowed"
-	case 29:
+	case ShortTermDenial:
 		return "shortTermDenial"
-	case 32:
+	case SmDeliveryFailure:
 		return "sm-DeliveryFailure"
-	case 17:
+	case SsErrorStatus:
 		return "ss-ErrorStatus"
-	case 20:
+	case SsIncompatibility:
 		return "ss-Incompatibility"
-	case 18:
+	case SsNotAvailable:
 		return "ss-NotAvailable"
-	case 19:
+	case SsSubscriptionViolation:
 		return "ss-SubscriptionViolation"
-	case 31:
+	case SubscriberBusyForMTSMS:
 		return "subscriberBusyForMT-SMS"
-	case 26:
+	case SubsequentHandoverFailure:
 		return "subsequentHandoverFailure"
-	case 34:
+	case SystemFailure:
 		return "systemFailure"
-	case 42:
+	case TargetCellOutsideGroupCallArea:
 		return "targetCellOutsideGroupCallArea"
-	case 11:
+	case TeleserviceNotProvisioned:
 		return "teleserviceNotProvisioned"
-	case 40:
+	case TracingBufferFull:
 		return "tracingBufferFull"
-	case 53:
+	case UnauthorizedLCSClient:
 		return "unauthorizedLCSClient"
-	case 52:
+	case UnauthorizedRequestingNetwork:
 		return "unauthorizedRequestingNetwork"
-	case 36:
+	case UnexpectedDataValue:
 		return "unexpectedDataValue"
-	case 5:
+	case UnidentifiedSubscriber:
 		return "unidentifiedSubscriber"
-	case 71:
+	case UnknownAlphabet:
 		return "unknownAlphabet"
-	case 7:
+	case UnknownEquipment:
 		return "unknownEquipment"
-	case 3:
+	case UnknownMSC:
 		return "unknownMSC"
-	case 58:
+	case UnknownOrUnreachableLCSClient:
 		return "unknownOrUnreachableLCSClient"
-	case 1:
+	case UnknownSubscriber:
 		return "unknownSubscriber"
-	case 72:
+	case UssdBusy:
 		return "ussd-Busy"
-	case -1:
+	case Refuse:
 		return "refuse"
 	default:
 		return fmt.Sprintf("ErrorCode(%d)", int64(c))
 	}
 }
 
-// OperationCode is a typed alias for MAP operation codes.
+// OperationCode is a named type for gsm_map operation codes.
 type OperationCode int64
 
 const (
@@ -395,145 +395,145 @@ const (
 // String returns the ASN.1 name of the operation code.
 func (c OperationCode) String() string {
 	switch c {
-	case 87:
+	case IstAlert:
 		return "ist-Alert"
-	case 88:
+	case IstCommand:
 		return "ist-Command"
-	case 4:
+	case ProvideRoamingNumber:
 		return "provideRoamingNumber"
-	case 20:
+	case ReleaseResources:
 		return "releaseResources"
-	case 75:
+	case RemoteUserFree:
 		return "remoteUserFree"
-	case 6:
+	case ResumeCallHandling:
 		return "resumeCallHandling"
-	case 22:
+	case SendRoutingInfo:
 		return "sendRoutingInfo"
-	case 73:
+	case SetReportingState:
 		return "setReportingState"
-	case 74:
+	case StatusReport:
 		return "statusReport"
-	case 42:
+	case ForwardGroupCallSignalling:
 		return "forwardGroupCallSignalling"
-	case 39:
+	case PrepareGroupCall:
 		return "prepareGroupCall"
-	case 41:
+	case ProcessGroupCallSignalling:
 		return "processGroupCallSignalling"
-	case 40:
+	case SendGroupCallEndSignal:
 		return "sendGroupCallEndSignal"
-	case 84:
+	case SendGroupCallInfo:
 		return "sendGroupCallInfo"
-	case 83:
+	case ProvideSubscriberLocation:
 		return "provideSubscriberLocation"
-	case 85:
+	case SendRoutingInfoForLCS:
 		return "sendRoutingInfoForLCS"
-	case 86:
+	case SubscriberLocationReport:
 		return "subscriberLocationReport"
-	case 71:
+	case AnyTimeInterrogation:
 		return "anyTimeInterrogation"
-	case 65:
+	case AnyTimeModification:
 		return "anyTimeModification"
-	case 62:
+	case AnyTimeSubscriptionInterrogation:
 		return "anyTimeSubscriptionInterrogation"
-	case 15:
+	case AuthenticationFailureReport:
 		return "authenticationFailureReport"
-	case 3:
+	case CancelLocation:
 		return "cancelLocation"
-	case 36:
+	case CancelVcsgLocation:
 		return "cancelVcsgLocation"
-	case 43:
+	case CheckIMEI:
 		return "checkIMEI"
-	case 8:
+	case DeleteSubscriberData:
 		return "deleteSubscriberData"
-	case 25:
+	case FailureReport:
 		return "failureReport"
-	case 34:
+	case ForwardAccessSignalling:
 		return "forwardAccessSignalling"
-	case 38:
+	case ForwardCheckSSIndication:
 		return "forwardCheckSS-Indication"
-	case 7:
+	case InsertSubscriberData:
 		return "insertSubscriberData"
-	case 89:
+	case NoteMMEvent:
 		return "noteMM-Event"
-	case 26:
+	case NoteMsPresentForGprs:
 		return "noteMsPresentForGprs"
-	case 5:
+	case NoteSubscriberDataModified:
 		return "noteSubscriberDataModified"
-	case 68:
+	case PrepareHandover:
 		return "prepareHandover"
-	case 69:
+	case PrepareSubsequentHandover:
 		return "prepareSubsequentHandover"
-	case 33:
+	case ProcessAccessSignalling:
 		return "processAccessSignalling"
-	case 70:
+	case ProvideSubscriberInfo:
 		return "provideSubscriberInfo"
-	case 67:
+	case PurgeMS:
 		return "purgeMS"
-	case 37:
+	case Reset:
 		return "reset"
-	case 57:
+	case RestoreData:
 		return "restoreData"
-	case 56:
+	case SendAuthenticationInfo:
 		return "sendAuthenticationInfo"
-	case 29:
+	case SendEndSignal:
 		return "sendEndSignal"
-	case 55:
+	case SendIdentification:
 		return "sendIdentification"
-	case 24:
+	case SendRoutingInfoForGprs:
 		return "sendRoutingInfoForGprs"
-	case 23:
+	case UpdateGprsLocation:
 		return "updateGprsLocation"
-	case 2:
+	case UpdateLocation:
 		return "updateLocation"
-	case 53:
+	case UpdateVcsgLocation:
 		return "updateVcsgLocation"
-	case 50:
+	case ActivateTraceMode:
 		return "activateTraceMode"
-	case 51:
+	case DeactivateTraceMode:
 		return "deactivateTraceMode"
-	case 58:
+	case SendIMSI:
 		return "sendIMSI"
-	case 64:
+	case AlertServiceCentre:
 		return "alertServiceCentre"
-	case 63:
+	case InformServiceCentre:
 		return "informServiceCentre"
-	case 46:
+	case MoForwardSM:
 		return "mo-ForwardSM"
-	case 44:
+	case MtForwardSM:
 		return "mt-ForwardSM"
-	case 21:
+	case MtForwardSMVGCS:
 		return "mt-ForwardSM-VGCS"
-	case 66:
+	case ReadyForSM:
 		return "readyForSM"
-	case 47:
+	case ReportSMDeliveryStatus:
 		return "reportSM-DeliveryStatus"
-	case 45:
+	case SendRoutingInfoForSM:
 		return "sendRoutingInfoForSM"
-	case 12:
+	case ActivateSS:
 		return "activateSS"
-	case 13:
+	case DeactivateSS:
 		return "deactivateSS"
-	case 77:
+	case EraseCCEntry:
 		return "eraseCC-Entry"
-	case 11:
+	case EraseSS:
 		return "eraseSS"
-	case 18:
+	case GetPassword:
 		return "getPassword"
-	case 14:
+	case InterrogateSS:
 		return "interrogateSS"
-	case 59:
+	case ProcessUnstructuredSSRequest:
 		return "processUnstructuredSS-Request"
-	case 76:
+	case RegisterCCEntry:
 		return "registerCC-Entry"
-	case 17:
+	case RegisterPassword:
 		return "registerPassword"
-	case 10:
+	case RegisterSS:
 		return "registerSS"
-	case 72:
+	case SsInvocationNotification:
 		return "ss-InvocationNotification"
-	case 61:
+	case UnstructuredSSNotify:
 		return "unstructuredSS-Notify"
-	case 60:
+	case UnstructuredSSRequest:
 		return "unstructuredSS-Request"
 	default:
 		return fmt.Sprintf("OperationCode(%d)", int64(c))
