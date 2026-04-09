@@ -17,8 +17,11 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// UniDialogueAsId is the OID value for uniDialogue-as-id.
-var UniDialogueAsId = []uint64{0, 0, 17, 773, 1, 2, 1}
+var (
+
+	// UniDialogueAsId is the OID value for uniDialogue-as-id.
+	UniDialogueAsId = []uint64{0, 0, 17, 773, 1, 2, 1}
+)
 
 // AUDTApdu represents the ASN.1 type AUDT-apdu (SEQUENCE).
 type AUDTApdu struct {

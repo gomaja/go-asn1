@@ -15,17 +15,20 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// ForwardGroupCallSignalling is the integer value for forwardGroupCallSignalling.
-const ForwardGroupCallSignalling int64 = 42
+const (
 
-// PrepareGroupCall is the integer value for prepareGroupCall.
-const PrepareGroupCall int64 = 39
+	// ForwardGroupCallSignalling is the integer constant for forwardGroupCallSignalling.
+	ForwardGroupCallSignalling int64 = 42
 
-// ProcessGroupCallSignalling is the integer value for processGroupCallSignalling.
-const ProcessGroupCallSignalling int64 = 41
+	// PrepareGroupCall is the integer constant for prepareGroupCall.
+	PrepareGroupCall int64 = 39
 
-// SendGroupCallEndSignal is the integer value for sendGroupCallEndSignal.
-const SendGroupCallEndSignal int64 = 40
+	// ProcessGroupCallSignalling is the integer constant for processGroupCallSignalling.
+	ProcessGroupCallSignalling int64 = 41
 
-// SendGroupCallInfo is the integer value for sendGroupCallInfo.
-const SendGroupCallInfo int64 = 84
+	// SendGroupCallEndSignal is the integer constant for sendGroupCallEndSignal.
+	SendGroupCallEndSignal int64 = 40
+
+	// SendGroupCallInfo is the integer constant for sendGroupCallInfo.
+	SendGroupCallInfo int64 = 84
+)

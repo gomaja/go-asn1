@@ -15,11 +15,14 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// ActivateTraceMode is the integer value for activateTraceMode.
-const ActivateTraceMode int64 = 50
+const (
 
-// DeactivateTraceMode is the integer value for deactivateTraceMode.
-const DeactivateTraceMode int64 = 51
+	// ActivateTraceMode is the integer constant for activateTraceMode.
+	ActivateTraceMode int64 = 50
 
-// SendIMSI is the integer value for sendIMSI.
-const SendIMSI int64 = 58
+	// DeactivateTraceMode is the integer constant for deactivateTraceMode.
+	DeactivateTraceMode int64 = 51
+
+	// SendIMSI is the integer constant for sendIMSI.
+	SendIMSI int64 = 58
+)

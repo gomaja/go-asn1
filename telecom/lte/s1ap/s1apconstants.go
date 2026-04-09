@@ -13,1337 +13,1340 @@ var (
 	_ = per.NewBitBuffer
 )
 
-// IdAdditionalCSFallbackIndicator is the integer value for id-AdditionalCSFallbackIndicator.
-const IdAdditionalCSFallbackIndicator int64 = 187
+const (
 
-// IdAdditionalRRMPriorityIndex is the integer value for id-AdditionalRRMPriorityIndex.
-const IdAdditionalRRMPriorityIndex int64 = 299
+	// IdAdditionalCSFallbackIndicator is the integer constant for id-AdditionalCSFallbackIndicator.
+	IdAdditionalCSFallbackIndicator int64 = 187
 
-// IdAdditionalGUTI is the integer value for id-Additional-GUTI.
-const IdAdditionalGUTI int64 = 224
+	// IdAdditionalRRMPriorityIndex is the integer constant for id-AdditionalRRMPriorityIndex.
+	IdAdditionalRRMPriorityIndex int64 = 299
 
-// IdAerialUEsubscriptionInformation is the integer value for id-AerialUEsubscriptionInformation.
-const IdAerialUEsubscriptionInformation int64 = 277
+	// IdAdditionalGUTI is the integer constant for id-Additional-GUTI.
+	IdAdditionalGUTI int64 = 224
 
-// IdAssistanceDataForPaging is the integer value for id-AssistanceDataForPaging.
-const IdAssistanceDataForPaging int64 = 211
+	// IdAerialUEsubscriptionInformation is the integer constant for id-AerialUEsubscriptionInformation.
+	IdAerialUEsubscriptionInformation int64 = 277
 
-// IdBearerType is the integer value for id-BearerType.
-const IdBearerType int64 = 233
+	// IdAssistanceDataForPaging is the integer constant for id-AssistanceDataForPaging.
+	IdAssistanceDataForPaging int64 = 211
 
-// IdBearersSubjectToEarlyStatusTransferItem is the integer value for id-Bearers-SubjectToEarlyStatusTransfer-Item.
-const IdBearersSubjectToEarlyStatusTransferItem int64 = 322
+	// IdBearerType is the integer constant for id-BearerType.
+	IdBearerType int64 = 233
 
-// IdBearersSubjectToStatusTransferItem is the integer value for id-Bearers-SubjectToStatusTransfer-Item.
-const IdBearersSubjectToStatusTransferItem int64 = 89
+	// IdBearersSubjectToEarlyStatusTransferItem is the integer constant for id-Bearers-SubjectToEarlyStatusTransfer-Item.
+	IdBearersSubjectToEarlyStatusTransferItem int64 = 322
 
-// IdBluetoothMeasurementConfiguration is the integer value for id-BluetoothMeasurementConfiguration.
-const IdBluetoothMeasurementConfiguration int64 = 284
+	// IdBearersSubjectToStatusTransferItem is the integer constant for id-Bearers-SubjectToStatusTransfer-Item.
+	IdBearersSubjectToStatusTransferItem int64 = 89
 
-// IdBroadcastCancelledAreaList is the integer value for id-BroadcastCancelledAreaList.
-const IdBroadcastCancelledAreaList int64 = 141
+	// IdBluetoothMeasurementConfiguration is the integer constant for id-BluetoothMeasurementConfiguration.
+	IdBluetoothMeasurementConfiguration int64 = 284
 
-// IdBroadcastCompletedAreaList is the integer value for id-BroadcastCompletedAreaList.
-const IdBroadcastCompletedAreaList int64 = 120
+	// IdBroadcastCancelledAreaList is the integer constant for id-BroadcastCancelledAreaList.
+	IdBroadcastCancelledAreaList int64 = 141
 
-// IdCEModeBRestricted is the integer value for id-CE-ModeBRestricted.
-const IdCEModeBRestricted int64 = 271
+	// IdBroadcastCompletedAreaList is the integer constant for id-BroadcastCompletedAreaList.
+	IdBroadcastCompletedAreaList int64 = 120
 
-// IdCEModeBSupportIndicator is the integer value for id-CE-mode-B-SupportIndicator.
-const IdCEModeBSupportIndicator int64 = 242
+	// IdCEModeBRestricted is the integer constant for id-CE-ModeBRestricted.
+	IdCEModeBRestricted int64 = 271
 
-// IdCNDomain is the integer value for id-CNDomain.
-const IdCNDomain int64 = 109
+	// IdCEModeBSupportIndicator is the integer constant for id-CE-mode-B-SupportIndicator.
+	IdCEModeBSupportIndicator int64 = 242
 
-// IdCNTypeRestrictions is the integer value for id-CNTypeRestrictions.
-const IdCNTypeRestrictions int64 = 282
+	// IdCNDomain is the integer constant for id-CNDomain.
+	IdCNDomain int64 = 109
 
-// IdCSFallbackIndicator is the integer value for id-CSFallbackIndicator.
-const IdCSFallbackIndicator int64 = 108
+	// IdCNTypeRestrictions is the integer constant for id-CNTypeRestrictions.
+	IdCNTypeRestrictions int64 = 282
 
-// IdCSGMembershipInfo is the integer value for id-CSGMembershipInfo.
-const IdCSGMembershipInfo int64 = 226
+	// IdCSFallbackIndicator is the integer constant for id-CSFallbackIndicator.
+	IdCSFallbackIndicator int64 = 108
 
-// IdCSGMembershipStatus is the integer value for id-CSGMembershipStatus.
-const IdCSGMembershipStatus int64 = 146
+	// IdCSGMembershipInfo is the integer constant for id-CSGMembershipInfo.
+	IdCSGMembershipInfo int64 = 226
 
-// IdCSGId is the integer value for id-CSG-Id.
-const IdCSGId int64 = 127
+	// IdCSGMembershipStatus is the integer constant for id-CSGMembershipStatus.
+	IdCSGMembershipStatus int64 = 146
 
-// IdCSGIdList is the integer value for id-CSG-IdList.
-const IdCSGIdList int64 = 128
+	// IdCSGId is the integer constant for id-CSG-Id.
+	IdCSGId int64 = 127
 
-// IdCause is the integer value for id-Cause.
-const IdCause int64 = 2
+	// IdCSGIdList is the integer constant for id-CSG-IdList.
+	IdCSGIdList int64 = 128
 
-// IdCellAccessMode is the integer value for id-CellAccessMode.
-const IdCellAccessMode int64 = 145
+	// IdCause is the integer constant for id-Cause.
+	IdCause int64 = 2
 
-// IdCellIdentifierAndCELevelForCECapableUEs is the integer value for id-CellIdentifierAndCELevelForCECapableUEs.
-const IdCellIdentifierAndCELevelForCECapableUEs int64 = 212
+	// IdCellAccessMode is the integer constant for id-CellAccessMode.
+	IdCellAccessMode int64 = 145
 
-// IdCellTrafficTrace is the integer value for id-CellTrafficTrace.
-const IdCellTrafficTrace int64 = 42
+	// IdCellIdentifierAndCELevelForCECapableUEs is the integer constant for id-CellIdentifierAndCELevelForCECapableUEs.
+	IdCellIdentifierAndCELevelForCECapableUEs int64 = 212
 
-// IdConcurrentWarningMessageIndicator is the integer value for id-ConcurrentWarningMessageIndicator.
-const IdConcurrentWarningMessageIndicator int64 = 142
+	// IdCellTrafficTrace is the integer constant for id-CellTrafficTrace.
+	IdCellTrafficTrace int64 = 42
 
-// IdConnectedengNBList is the integer value for id-ConnectedengNBList.
-const IdConnectedengNBList int64 = 291
+	// IdConcurrentWarningMessageIndicator is the integer constant for id-ConcurrentWarningMessageIndicator.
+	IdConcurrentWarningMessageIndicator int64 = 142
 
-// IdConnectedengNBToAddList is the integer value for id-ConnectedengNBToAddList.
-const IdConnectedengNBToAddList int64 = 292
+	// IdConnectedengNBList is the integer constant for id-ConnectedengNBList.
+	IdConnectedengNBList int64 = 291
 
-// IdConnectedengNBToRemoveList is the integer value for id-ConnectedengNBToRemoveList.
-const IdConnectedengNBToRemoveList int64 = 293
+	// IdConnectedengNBToAddList is the integer constant for id-ConnectedengNBToAddList.
+	IdConnectedengNBToAddList int64 = 292
 
-// IdConnectionEstablishmentIndication is the integer value for id-ConnectionEstablishmentIndication.
-const IdConnectionEstablishmentIndication int64 = 54
+	// IdConnectedengNBToRemoveList is the integer constant for id-ConnectedengNBToRemoveList.
+	IdConnectedengNBToRemoveList int64 = 293
 
-// IdContextatSource is the integer value for id-ContextatSource.
-const IdContextatSource int64 = 300
+	// IdConnectionEstablishmentIndication is the integer constant for id-ConnectionEstablishmentIndication.
+	IdConnectionEstablishmentIndication int64 = 54
 
-// IdCorrelationID is the integer value for id-Correlation-ID.
-const IdCorrelationID int64 = 156
+	// IdContextatSource is the integer constant for id-ContextatSource.
+	IdContextatSource int64 = 300
 
-// IdCoverageLevel is the integer value for id-Coverage-Level.
-const IdCoverageLevel int64 = 250
+	// IdCorrelationID is the integer constant for id-Correlation-ID.
+	IdCorrelationID int64 = 156
 
-// IdCriticalityDiagnostics is the integer value for id-CriticalityDiagnostics.
-const IdCriticalityDiagnostics int64 = 58
+	// IdCoverageLevel is the integer constant for id-Coverage-Level.
+	IdCoverageLevel int64 = 250
 
-// IdDAPSRequestInfo is the integer value for id-DAPSRequestInfo.
-const IdDAPSRequestInfo int64 = 317
+	// IdCriticalityDiagnostics is the integer constant for id-CriticalityDiagnostics.
+	IdCriticalityDiagnostics int64 = 58
 
-// IdDAPSResponseInfoItem is the integer value for id-DAPSResponseInfoItem.
-const IdDAPSResponseInfoItem int64 = 319
+	// IdDAPSRequestInfo is the integer constant for id-DAPSRequestInfo.
+	IdDAPSRequestInfo int64 = 317
 
-// IdDAPSResponseInfoList is the integer value for id-DAPSResponseInfoList.
-const IdDAPSResponseInfoList int64 = 318
+	// IdDAPSResponseInfoItem is the integer constant for id-DAPSResponseInfoItem.
+	IdDAPSResponseInfoItem int64 = 319
 
-// IdDCNID is the integer value for id-DCN-ID.
-const IdDCNID int64 = 246
+	// IdDAPSResponseInfoList is the integer constant for id-DAPSResponseInfoList.
+	IdDAPSResponseInfoList int64 = 318
 
-// IdDLCOUNTValueExtended is the integer value for id-DLCOUNTValueExtended.
-const IdDLCOUNTValueExtended int64 = 180
+	// IdDCNID is the integer constant for id-DCN-ID.
+	IdDCNID int64 = 246
 
-// IdDLCOUNTValuePDCPSNlength18 is the integer value for id-DLCOUNTValuePDCP-SNlength18.
-const IdDLCOUNTValuePDCPSNlength18 int64 = 218
+	// IdDLCOUNTValueExtended is the integer constant for id-DLCOUNTValueExtended.
+	IdDLCOUNTValueExtended int64 = 180
 
-// IdDLNASPDUDeliveryAckRequest is the integer value for id-DLNASPDUDeliveryAckRequest.
-const IdDLNASPDUDeliveryAckRequest int64 = 249
+	// IdDLCOUNTValuePDCPSNlength18 is the integer constant for id-DLCOUNTValuePDCP-SNlength18.
+	IdDLCOUNTValuePDCPSNlength18 int64 = 218
 
-// IdDLCPSecurityInformation is the integer value for id-DL-CP-SecurityInformation.
-const IdDLCPSecurityInformation int64 = 253
+	// IdDLNASPDUDeliveryAckRequest is the integer constant for id-DLNASPDUDeliveryAckRequest.
+	IdDLNASPDUDeliveryAckRequest int64 = 249
 
-// IdDataCodingScheme is the integer value for id-DataCodingScheme.
-const IdDataCodingScheme int64 = 118
+	// IdDLCPSecurityInformation is the integer constant for id-DL-CP-SecurityInformation.
+	IdDLCPSecurityInformation int64 = 253
 
-// IdDataSize is the integer value for id-DataSize.
-const IdDataSize int64 = 304
+	// IdDataCodingScheme is the integer constant for id-DataCodingScheme.
+	IdDataCodingScheme int64 = 118
 
-// IdDataForwardingNotPossible is the integer value for id-Data-Forwarding-Not-Possible.
-const IdDataForwardingNotPossible int64 = 143
+	// IdDataSize is the integer constant for id-DataSize.
+	IdDataSize int64 = 304
 
-// IdDeactivateTrace is the integer value for id-DeactivateTrace.
-const IdDeactivateTrace int64 = 26
+	// IdDataForwardingNotPossible is the integer constant for id-Data-Forwarding-Not-Possible.
+	IdDataForwardingNotPossible int64 = 143
 
-// IdDefaultPagingDRX is the integer value for id-DefaultPagingDRX.
-const IdDefaultPagingDRX int64 = 137
+	// IdDeactivateTrace is the integer constant for id-DeactivateTrace.
+	IdDeactivateTrace int64 = 26
 
-// IdDirectForwardingPathAvailability is the integer value for id-Direct-Forwarding-Path-Availability.
-const IdDirectForwardingPathAvailability int64 = 79
+	// IdDefaultPagingDRX is the integer constant for id-DefaultPagingDRX.
+	IdDefaultPagingDRX int64 = 137
 
-// IdDownlinkPacketLossRate is the integer value for id-DownlinkPacketLossRate.
-const IdDownlinkPacketLossRate int64 = 273
+	// IdDirectForwardingPathAvailability is the integer constant for id-Direct-Forwarding-Path-Availability.
+	IdDirectForwardingPathAvailability int64 = 79
 
-// IdDownlinkS1cdma2000tunnelling is the integer value for id-DownlinkS1cdma2000tunnelling.
-const IdDownlinkS1cdma2000tunnelling int64 = 19
+	// IdDownlinkPacketLossRate is the integer constant for id-DownlinkPacketLossRate.
+	IdDownlinkPacketLossRate int64 = 273
 
-// IdECGIListForRestart is the integer value for id-ECGIListForRestart.
-const IdECGIListForRestart int64 = 182
+	// IdDownlinkS1cdma2000tunnelling is the integer constant for id-DownlinkS1cdma2000tunnelling.
+	IdDownlinkS1cdma2000tunnelling int64 = 19
 
-// IdEDTSession is the integer value for id-EDT-Session.
-const IdEDTSession int64 = 281
+	// IdECGIListForRestart is the integer constant for id-ECGIListForRestart.
+	IdECGIListForRestart int64 = 182
 
-// IdENBConfigurationUpdate is the integer value for id-ENBConfigurationUpdate.
-const IdENBConfigurationUpdate int64 = 29
+	// IdEDTSession is the integer constant for id-EDT-Session.
+	IdEDTSession int64 = 281
 
-// IdENDCSONConfigurationTransferECT is the integer value for id-EN-DCSONConfigurationTransfer-ECT.
-const IdENDCSONConfigurationTransferECT int64 = 294
+	// IdENBConfigurationUpdate is the integer constant for id-ENBConfigurationUpdate.
+	IdENBConfigurationUpdate int64 = 29
 
-// IdENDCSONConfigurationTransferMCT is the integer value for id-EN-DCSONConfigurationTransfer-MCT.
-const IdENDCSONConfigurationTransferMCT int64 = 295
+	// IdENDCSONConfigurationTransferECT is the integer constant for id-EN-DCSONConfigurationTransfer-ECT.
+	IdENDCSONConfigurationTransferECT int64 = 294
 
-// IdEUTRANRoundTripDelayEstimationInfo is the integer value for id-EUTRANRoundTripDelayEstimationInfo.
-const IdEUTRANRoundTripDelayEstimationInfo int64 = 140
+	// IdENDCSONConfigurationTransferMCT is the integer constant for id-EN-DCSONConfigurationTransfer-MCT.
+	IdENDCSONConfigurationTransferMCT int64 = 295
 
-// IdEUTRANCGI is the integer value for id-EUTRAN-CGI.
-const IdEUTRANCGI int64 = 100
+	// IdEUTRANRoundTripDelayEstimationInfo is the integer constant for id-EUTRANRoundTripDelayEstimationInfo.
+	IdEUTRANRoundTripDelayEstimationInfo int64 = 140
 
-// IdERABAdmittedItem is the integer value for id-E-RABAdmittedItem.
-const IdERABAdmittedItem int64 = 20
+	// IdEUTRANCGI is the integer constant for id-EUTRAN-CGI.
+	IdEUTRANCGI int64 = 100
 
-// IdERABAdmittedList is the integer value for id-E-RABAdmittedList.
-const IdERABAdmittedList int64 = 18
+	// IdERABAdmittedItem is the integer constant for id-E-RABAdmittedItem.
+	IdERABAdmittedItem int64 = 20
 
-// IdERABDataForwardingItem is the integer value for id-E-RABDataForwardingItem.
-const IdERABDataForwardingItem int64 = 14
+	// IdERABAdmittedList is the integer constant for id-E-RABAdmittedList.
+	IdERABAdmittedList int64 = 18
 
-// IdERABFailedToBeReleasedList is the integer value for id-E-RABFailedToBeReleasedList.
-const IdERABFailedToBeReleasedList int64 = 103
+	// IdERABDataForwardingItem is the integer constant for id-E-RABDataForwardingItem.
+	IdERABDataForwardingItem int64 = 14
 
-// IdERABFailedToModifyList is the integer value for id-E-RABFailedToModifyList.
-const IdERABFailedToModifyList int64 = 32
+	// IdERABFailedToBeReleasedList is the integer constant for id-E-RABFailedToBeReleasedList.
+	IdERABFailedToBeReleasedList int64 = 103
 
-// IdERABFailedToModifyListBearerModConf is the integer value for id-E-RABFailedToModifyListBearerModConf.
-const IdERABFailedToModifyListBearerModConf int64 = 205
+	// IdERABFailedToModifyList is the integer constant for id-E-RABFailedToModifyList.
+	IdERABFailedToModifyList int64 = 32
 
-// IdERABFailedToReleaseList is the integer value for id-E-RABFailedToReleaseList.
-const IdERABFailedToReleaseList int64 = 34
+	// IdERABFailedToModifyListBearerModConf is the integer constant for id-E-RABFailedToModifyListBearerModConf.
+	IdERABFailedToModifyListBearerModConf int64 = 205
 
-// IdERABFailedToResumeItemResumeReq is the integer value for id-E-RABFailedToResumeItemResumeReq.
-const IdERABFailedToResumeItemResumeReq int64 = 236
+	// IdERABFailedToReleaseList is the integer constant for id-E-RABFailedToReleaseList.
+	IdERABFailedToReleaseList int64 = 34
 
-// IdERABFailedToResumeItemResumeRes is the integer value for id-E-RABFailedToResumeItemResumeRes.
-const IdERABFailedToResumeItemResumeRes int64 = 238
+	// IdERABFailedToResumeItemResumeReq is the integer constant for id-E-RABFailedToResumeItemResumeReq.
+	IdERABFailedToResumeItemResumeReq int64 = 236
 
-// IdERABFailedToResumeListResumeReq is the integer value for id-E-RABFailedToResumeListResumeReq.
-const IdERABFailedToResumeListResumeReq int64 = 235
+	// IdERABFailedToResumeItemResumeRes is the integer constant for id-E-RABFailedToResumeItemResumeRes.
+	IdERABFailedToResumeItemResumeRes int64 = 238
 
-// IdERABFailedToResumeListResumeRes is the integer value for id-E-RABFailedToResumeListResumeRes.
-const IdERABFailedToResumeListResumeRes int64 = 237
+	// IdERABFailedToResumeListResumeReq is the integer constant for id-E-RABFailedToResumeListResumeReq.
+	IdERABFailedToResumeListResumeReq int64 = 235
 
-// IdERABFailedToSetupListBearerSURes is the integer value for id-E-RABFailedToSetupListBearerSURes.
-const IdERABFailedToSetupListBearerSURes int64 = 29
+	// IdERABFailedToResumeListResumeRes is the integer constant for id-E-RABFailedToResumeListResumeRes.
+	IdERABFailedToResumeListResumeRes int64 = 237
 
-// IdERABFailedToSetupListCtxtSURes is the integer value for id-E-RABFailedToSetupListCtxtSURes.
-const IdERABFailedToSetupListCtxtSURes int64 = 48
+	// IdERABFailedToSetupListBearerSURes is the integer constant for id-E-RABFailedToSetupListBearerSURes.
+	IdERABFailedToSetupListBearerSURes int64 = 29
 
-// IdERABFailedToSetupListHOReqAck is the integer value for id-E-RABFailedToSetupListHOReqAck.
-const IdERABFailedToSetupListHOReqAck int64 = 19
+	// IdERABFailedToSetupListCtxtSURes is the integer constant for id-E-RABFailedToSetupListCtxtSURes.
+	IdERABFailedToSetupListCtxtSURes int64 = 48
 
-// IdERABFailedtoSetupItemHOReqAck is the integer value for id-E-RABFailedtoSetupItemHOReqAck.
-const IdERABFailedtoSetupItemHOReqAck int64 = 21
+	// IdERABFailedToSetupListHOReqAck is the integer constant for id-E-RABFailedToSetupListHOReqAck.
+	IdERABFailedToSetupListHOReqAck int64 = 19
 
-// IdERABInformationListItem is the integer value for id-E-RABInformationListItem.
-const IdERABInformationListItem int64 = 78
+	// IdERABFailedtoSetupItemHOReqAck is the integer constant for id-E-RABFailedtoSetupItemHOReqAck.
+	IdERABFailedtoSetupItemHOReqAck int64 = 21
 
-// IdERABItem is the integer value for id-E-RABItem.
-const IdERABItem int64 = 35
+	// IdERABInformationListItem is the integer constant for id-E-RABInformationListItem.
+	IdERABInformationListItem int64 = 78
 
-// IdERABModificationIndication is the integer value for id-E-RABModificationIndication.
-const IdERABModificationIndication int64 = 50
+	// IdERABItem is the integer constant for id-E-RABItem.
+	IdERABItem int64 = 35
 
-// IdERABModify is the integer value for id-E-RABModify.
-const IdERABModify int64 = 6
+	// IdERABModificationIndication is the integer constant for id-E-RABModificationIndication.
+	IdERABModificationIndication int64 = 50
 
-// IdERABModifyItemBearerModConf is the integer value for id-E-RABModifyItemBearerModConf.
-const IdERABModifyItemBearerModConf int64 = 204
+	// IdERABModify is the integer constant for id-E-RABModify.
+	IdERABModify int64 = 6
 
-// IdERABModifyItemBearerModRes is the integer value for id-E-RABModifyItemBearerModRes.
-const IdERABModifyItemBearerModRes int64 = 37
+	// IdERABModifyItemBearerModConf is the integer constant for id-E-RABModifyItemBearerModConf.
+	IdERABModifyItemBearerModConf int64 = 204
 
-// IdERABModifyListBearerModConf is the integer value for id-E-RABModifyListBearerModConf.
-const IdERABModifyListBearerModConf int64 = 203
+	// IdERABModifyItemBearerModRes is the integer constant for id-E-RABModifyItemBearerModRes.
+	IdERABModifyItemBearerModRes int64 = 37
 
-// IdERABModifyListBearerModRes is the integer value for id-E-RABModifyListBearerModRes.
-const IdERABModifyListBearerModRes int64 = 31
+	// IdERABModifyListBearerModConf is the integer constant for id-E-RABModifyListBearerModConf.
+	IdERABModifyListBearerModConf int64 = 203
 
-// IdERABNotToBeModifiedItemBearerModInd is the integer value for id-E-RABNotToBeModifiedItemBearerModInd.
-const IdERABNotToBeModifiedItemBearerModInd int64 = 202
+	// IdERABModifyListBearerModRes is the integer constant for id-E-RABModifyListBearerModRes.
+	IdERABModifyListBearerModRes int64 = 31
 
-// IdERABNotToBeModifiedListBearerModInd is the integer value for id-E-RABNotToBeModifiedListBearerModInd.
-const IdERABNotToBeModifiedListBearerModInd int64 = 201
+	// IdERABNotToBeModifiedItemBearerModInd is the integer constant for id-E-RABNotToBeModifiedItemBearerModInd.
+	IdERABNotToBeModifiedItemBearerModInd int64 = 202
 
-// IdERABRelease is the integer value for id-E-RABRelease.
-const IdERABRelease int64 = 7
+	// IdERABNotToBeModifiedListBearerModInd is the integer constant for id-E-RABNotToBeModifiedListBearerModInd.
+	IdERABNotToBeModifiedListBearerModInd int64 = 201
 
-// IdERABReleaseIndication is the integer value for id-E-RABReleaseIndication.
-const IdERABReleaseIndication int64 = 8
+	// IdERABRelease is the integer constant for id-E-RABRelease.
+	IdERABRelease int64 = 7
 
-// IdERABReleaseItem is the integer value for id-E-RABReleaseItem.
-const IdERABReleaseItem int64 = 38
+	// IdERABReleaseIndication is the integer constant for id-E-RABReleaseIndication.
+	IdERABReleaseIndication int64 = 8
 
-// IdERABReleaseItemBearerRelComp is the integer value for id-E-RABReleaseItemBearerRelComp.
-const IdERABReleaseItemBearerRelComp int64 = 15
+	// IdERABReleaseItem is the integer constant for id-E-RABReleaseItem.
+	IdERABReleaseItem int64 = 38
 
-// IdERABReleaseItemHOCmd is the integer value for id-E-RABReleaseItemHOCmd.
-const IdERABReleaseItemHOCmd int64 = 49
+	// IdERABReleaseItemBearerRelComp is the integer constant for id-E-RABReleaseItemBearerRelComp.
+	IdERABReleaseItemBearerRelComp int64 = 15
 
-// IdERABReleaseListBearerRelComp is the integer value for id-E-RABReleaseListBearerRelComp.
-const IdERABReleaseListBearerRelComp int64 = 69
+	// IdERABReleaseItemHOCmd is the integer constant for id-E-RABReleaseItemHOCmd.
+	IdERABReleaseItemHOCmd int64 = 49
 
-// IdERABReleasedList is the integer value for id-E-RABReleasedList.
-const IdERABReleasedList int64 = 110
+	// IdERABReleaseListBearerRelComp is the integer constant for id-E-RABReleaseListBearerRelComp.
+	IdERABReleaseListBearerRelComp int64 = 69
 
-// IdERABSecurityResultItem is the integer value for id-E-RABSecurityResultItem.
-const IdERABSecurityResultItem int64 = 334
+	// IdERABReleasedList is the integer constant for id-E-RABReleasedList.
+	IdERABReleasedList int64 = 110
 
-// IdERABSecurityResultList is the integer value for id-E-RABSecurityResultList.
-const IdERABSecurityResultList int64 = 335
+	// IdERABSecurityResultItem is the integer constant for id-E-RABSecurityResultItem.
+	IdERABSecurityResultItem int64 = 334
 
-// IdERABSetup is the integer value for id-E-RABSetup.
-const IdERABSetup int64 = 5
+	// IdERABSecurityResultList is the integer constant for id-E-RABSecurityResultList.
+	IdERABSecurityResultList int64 = 335
 
-// IdERABSetupItemBearerSURes is the integer value for id-E-RABSetupItemBearerSURes.
-const IdERABSetupItemBearerSURes int64 = 39
+	// IdERABSetup is the integer constant for id-E-RABSetup.
+	IdERABSetup int64 = 5
 
-// IdERABSetupItemCtxtSURes is the integer value for id-E-RABSetupItemCtxtSURes.
-const IdERABSetupItemCtxtSURes int64 = 50
+	// IdERABSetupItemBearerSURes is the integer constant for id-E-RABSetupItemBearerSURes.
+	IdERABSetupItemBearerSURes int64 = 39
 
-// IdERABSetupListBearerSURes is the integer value for id-E-RABSetupListBearerSURes.
-const IdERABSetupListBearerSURes int64 = 28
+	// IdERABSetupItemCtxtSURes is the integer constant for id-E-RABSetupItemCtxtSURes.
+	IdERABSetupItemCtxtSURes int64 = 50
 
-// IdERABSetupListCtxtSURes is the integer value for id-E-RABSetupListCtxtSURes.
-const IdERABSetupListCtxtSURes int64 = 51
+	// IdERABSetupListBearerSURes is the integer constant for id-E-RABSetupListBearerSURes.
+	IdERABSetupListBearerSURes int64 = 28
 
-// IdERABSubjecttoDataForwardingList is the integer value for id-E-RABSubjecttoDataForwardingList.
-const IdERABSubjecttoDataForwardingList int64 = 12
+	// IdERABSetupListCtxtSURes is the integer constant for id-E-RABSetupListCtxtSURes.
+	IdERABSetupListCtxtSURes int64 = 51
 
-// IdERABToBeModifiedItemBearerModInd is the integer value for id-E-RABToBeModifiedItemBearerModInd.
-const IdERABToBeModifiedItemBearerModInd int64 = 200
+	// IdERABSubjecttoDataForwardingList is the integer constant for id-E-RABSubjecttoDataForwardingList.
+	IdERABSubjecttoDataForwardingList int64 = 12
 
-// IdERABToBeModifiedItemBearerModReq is the integer value for id-E-RABToBeModifiedItemBearerModReq.
-const IdERABToBeModifiedItemBearerModReq int64 = 36
+	// IdERABToBeModifiedItemBearerModInd is the integer constant for id-E-RABToBeModifiedItemBearerModInd.
+	IdERABToBeModifiedItemBearerModInd int64 = 200
 
-// IdERABToBeModifiedListBearerModInd is the integer value for id-E-RABToBeModifiedListBearerModInd.
-const IdERABToBeModifiedListBearerModInd int64 = 199
+	// IdERABToBeModifiedItemBearerModReq is the integer constant for id-E-RABToBeModifiedItemBearerModReq.
+	IdERABToBeModifiedItemBearerModReq int64 = 36
 
-// IdERABToBeModifiedListBearerModReq is the integer value for id-E-RABToBeModifiedListBearerModReq.
-const IdERABToBeModifiedListBearerModReq int64 = 30
+	// IdERABToBeModifiedListBearerModInd is the integer constant for id-E-RABToBeModifiedListBearerModInd.
+	IdERABToBeModifiedListBearerModInd int64 = 199
 
-// IdERABToBeReleasedList is the integer value for id-E-RABToBeReleasedList.
-const IdERABToBeReleasedList int64 = 33
+	// IdERABToBeModifiedListBearerModReq is the integer constant for id-E-RABToBeModifiedListBearerModReq.
+	IdERABToBeModifiedListBearerModReq int64 = 30
 
-// IdERABToBeReleasedListBearerModConf is the integer value for id-E-RABToBeReleasedListBearerModConf.
-const IdERABToBeReleasedListBearerModConf int64 = 210
+	// IdERABToBeReleasedList is the integer constant for id-E-RABToBeReleasedList.
+	IdERABToBeReleasedList int64 = 33
 
-// IdERABToBeSetupItemBearerSUReq is the integer value for id-E-RABToBeSetupItemBearerSUReq.
-const IdERABToBeSetupItemBearerSUReq int64 = 17
+	// IdERABToBeReleasedListBearerModConf is the integer constant for id-E-RABToBeReleasedListBearerModConf.
+	IdERABToBeReleasedListBearerModConf int64 = 210
 
-// IdERABToBeSetupItemCtxtSUReq is the integer value for id-E-RABToBeSetupItemCtxtSUReq.
-const IdERABToBeSetupItemCtxtSUReq int64 = 52
+	// IdERABToBeSetupItemBearerSUReq is the integer constant for id-E-RABToBeSetupItemBearerSUReq.
+	IdERABToBeSetupItemBearerSUReq int64 = 17
 
-// IdERABToBeSetupItemHOReq is the integer value for id-E-RABToBeSetupItemHOReq.
-const IdERABToBeSetupItemHOReq int64 = 27
+	// IdERABToBeSetupItemCtxtSUReq is the integer constant for id-E-RABToBeSetupItemCtxtSUReq.
+	IdERABToBeSetupItemCtxtSUReq int64 = 52
 
-// IdERABToBeSetupListBearerSUReq is the integer value for id-E-RABToBeSetupListBearerSUReq.
-const IdERABToBeSetupListBearerSUReq int64 = 16
+	// IdERABToBeSetupItemHOReq is the integer constant for id-E-RABToBeSetupItemHOReq.
+	IdERABToBeSetupItemHOReq int64 = 27
 
-// IdERABToBeSetupListCtxtSUReq is the integer value for id-E-RABToBeSetupListCtxtSUReq.
-const IdERABToBeSetupListCtxtSUReq int64 = 24
+	// IdERABToBeSetupListBearerSUReq is the integer constant for id-E-RABToBeSetupListBearerSUReq.
+	IdERABToBeSetupListBearerSUReq int64 = 16
 
-// IdERABToBeSetupListHOReq is the integer value for id-E-RABToBeSetupListHOReq.
-const IdERABToBeSetupListHOReq int64 = 53
+	// IdERABToBeSetupListCtxtSUReq is the integer constant for id-E-RABToBeSetupListCtxtSUReq.
+	IdERABToBeSetupListCtxtSUReq int64 = 24
 
-// IdERABToBeSwitchedDLItem is the integer value for id-E-RABToBeSwitchedDLItem.
-const IdERABToBeSwitchedDLItem int64 = 23
+	// IdERABToBeSetupListHOReq is the integer constant for id-E-RABToBeSetupListHOReq.
+	IdERABToBeSetupListHOReq int64 = 53
 
-// IdERABToBeSwitchedDLList is the integer value for id-E-RABToBeSwitchedDLList.
-const IdERABToBeSwitchedDLList int64 = 22
+	// IdERABToBeSwitchedDLItem is the integer constant for id-E-RABToBeSwitchedDLItem.
+	IdERABToBeSwitchedDLItem int64 = 23
 
-// IdERABToBeSwitchedULItem is the integer value for id-E-RABToBeSwitchedULItem.
-const IdERABToBeSwitchedULItem int64 = 94
+	// IdERABToBeSwitchedDLList is the integer constant for id-E-RABToBeSwitchedDLList.
+	IdERABToBeSwitchedDLList int64 = 22
 
-// IdERABToBeSwitchedULList is the integer value for id-E-RABToBeSwitchedULList.
-const IdERABToBeSwitchedULList int64 = 95
+	// IdERABToBeSwitchedULItem is the integer constant for id-E-RABToBeSwitchedULItem.
+	IdERABToBeSwitchedULItem int64 = 94
 
-// IdERABToBeUpdatedItem is the integer value for id-E-RABToBeUpdatedItem.
-const IdERABToBeUpdatedItem int64 = 342
+	// IdERABToBeSwitchedULList is the integer constant for id-E-RABToBeSwitchedULList.
+	IdERABToBeSwitchedULList int64 = 95
 
-// IdERABToBeUpdatedList is the integer value for id-E-RABToBeUpdatedList.
-const IdERABToBeUpdatedList int64 = 341
+	// IdERABToBeUpdatedItem is the integer constant for id-E-RABToBeUpdatedItem.
+	IdERABToBeUpdatedItem int64 = 342
 
-// IdERABUsageReportItem is the integer value for id-E-RABUsageReportItem.
-const IdERABUsageReportItem int64 = 267
+	// IdERABToBeUpdatedList is the integer constant for id-E-RABToBeUpdatedList.
+	IdERABToBeUpdatedList int64 = 341
 
-// IdERABtoReleaseListHOCmd is the integer value for id-E-RABtoReleaseListHOCmd.
-const IdERABtoReleaseListHOCmd int64 = 13
+	// IdERABUsageReportItem is the integer constant for id-E-RABUsageReportItem.
+	IdERABUsageReportItem int64 = 267
 
-// IdEUTRANTraceID is the integer value for id-E-UTRAN-Trace-ID.
-const IdEUTRANTraceID int64 = 86
+	// IdERABtoReleaseListHOCmd is the integer constant for id-E-RABtoReleaseListHOCmd.
+	IdERABtoReleaseListHOCmd int64 = 13
 
-// IdEmergencyAreaIDListForRestart is the integer value for id-EmergencyAreaIDListForRestart.
-const IdEmergencyAreaIDListForRestart int64 = 190
+	// IdEUTRANTraceID is the integer constant for id-E-UTRAN-Trace-ID.
+	IdEUTRANTraceID int64 = 86
 
-// IdEmergencyIndicator is the integer value for id-EmergencyIndicator.
-const IdEmergencyIndicator int64 = 326
+	// IdEmergencyAreaIDListForRestart is the integer constant for id-EmergencyAreaIDListForRestart.
+	IdEmergencyAreaIDListForRestart int64 = 190
 
-// IdEndIndication is the integer value for id-EndIndication.
-const IdEndIndication int64 = 280
+	// IdEmergencyIndicator is the integer constant for id-EmergencyIndicator.
+	IdEmergencyIndicator int64 = 326
 
-// IdEnhancedCoverageRestricted is the integer value for id-EnhancedCoverageRestricted.
-const IdEnhancedCoverageRestricted int64 = 251
+	// IdEndIndication is the integer constant for id-EndIndication.
+	IdEndIndication int64 = 280
 
-// IdErrorIndication is the integer value for id-ErrorIndication.
-const IdErrorIndication int64 = 15
+	// IdEnhancedCoverageRestricted is the integer constant for id-EnhancedCoverageRestricted.
+	IdEnhancedCoverageRestricted int64 = 251
 
-// IdEthernetType is the integer value for id-Ethernet-Type.
-const IdEthernetType int64 = 305
+	// IdErrorIndication is the integer constant for id-ErrorIndication.
+	IdErrorIndication int64 = 15
 
-// IdExpectedUEBehaviour is the integer value for id-ExpectedUEBehaviour.
-const IdExpectedUEBehaviour int64 = 196
+	// IdEthernetType is the integer constant for id-Ethernet-Type.
+	IdEthernetType int64 = 305
 
-// IdExtendedRepetitionPeriod is the integer value for id-ExtendedRepetitionPeriod.
-const IdExtendedRepetitionPeriod int64 = 144
+	// IdExpectedUEBehaviour is the integer constant for id-ExpectedUEBehaviour.
+	IdExpectedUEBehaviour int64 = 196
 
-// IdGERANtoLTEHOInformationRes is the integer value for id-GERANtoLTEHOInformationRes.
-const IdGERANtoLTEHOInformationRes int64 = 55
+	// IdExtendedRepetitionPeriod is the integer constant for id-ExtendedRepetitionPeriod.
+	IdExtendedRepetitionPeriod int64 = 144
 
-// IdGUMMEIList is the integer value for id-GUMMEIList.
-const IdGUMMEIList int64 = 154
+	// IdGERANtoLTEHOInformationRes is the integer constant for id-GERANtoLTEHOInformationRes.
+	IdGERANtoLTEHOInformationRes int64 = 55
 
-// IdGUMMEIType is the integer value for id-GUMMEIType.
-const IdGUMMEIType int64 = 170
+	// IdGUMMEIList is the integer constant for id-GUMMEIList.
+	IdGUMMEIList int64 = 154
 
-// IdGUMMEIID is the integer value for id-GUMMEI-ID.
-const IdGUMMEIID int64 = 75
+	// IdGUMMEIType is the integer constant for id-GUMMEIType.
+	IdGUMMEIType int64 = 170
 
-// IdGWContextReleaseIndication is the integer value for id-GWContextReleaseIndication.
-const IdGWContextReleaseIndication int64 = 164
+	// IdGUMMEIID is the integer constant for id-GUMMEI-ID.
+	IdGUMMEIID int64 = 75
 
-// IdGWTransportLayerAddress is the integer value for id-GW-TransportLayerAddress.
-const IdGWTransportLayerAddress int64 = 155
+	// IdGWContextReleaseIndication is the integer constant for id-GWContextReleaseIndication.
+	IdGWContextReleaseIndication int64 = 164
 
-// IdGlobalENBID is the integer value for id-Global-ENB-ID.
-const IdGlobalENBID int64 = 59
+	// IdGWTransportLayerAddress is the integer constant for id-GW-TransportLayerAddress.
+	IdGWTransportLayerAddress int64 = 155
 
-// IdHOCause is the integer value for id-HO-Cause.
-const IdHOCause int64 = 168
+	// IdGlobalENBID is the integer constant for id-Global-ENB-ID.
+	IdGlobalENBID int64 = 59
 
-// IdHandoverCancel is the integer value for id-HandoverCancel.
-const IdHandoverCancel int64 = 4
+	// IdHOCause is the integer constant for id-HO-Cause.
+	IdHOCause int64 = 168
 
-// IdHandoverFlag is the integer value for id-HandoverFlag.
-const IdHandoverFlag int64 = 266
+	// IdHandoverCancel is the integer constant for id-HandoverCancel.
+	IdHandoverCancel int64 = 4
 
-// IdHandoverNotification is the integer value for id-HandoverNotification.
-const IdHandoverNotification int64 = 2
+	// IdHandoverFlag is the integer constant for id-HandoverFlag.
+	IdHandoverFlag int64 = 266
 
-// IdHandoverPreparation is the integer value for id-HandoverPreparation.
-const IdHandoverPreparation int64 = 0
+	// IdHandoverNotification is the integer constant for id-HandoverNotification.
+	IdHandoverNotification int64 = 2
 
-// IdHandoverResourceAllocation is the integer value for id-HandoverResourceAllocation.
-const IdHandoverResourceAllocation int64 = 1
+	// IdHandoverPreparation is the integer constant for id-HandoverPreparation.
+	IdHandoverPreparation int64 = 0
 
-// IdHandoverRestrictionList is the integer value for id-HandoverRestrictionList.
-const IdHandoverRestrictionList int64 = 41
+	// IdHandoverResourceAllocation is the integer constant for id-HandoverResourceAllocation.
+	IdHandoverResourceAllocation int64 = 1
 
-// IdHandoverSuccess is the integer value for id-HandoverSuccess.
-const IdHandoverSuccess int64 = 64
+	// IdHandoverRestrictionList is the integer constant for id-HandoverRestrictionList.
+	IdHandoverRestrictionList int64 = 41
 
-// IdHandoverType is the integer value for id-HandoverType.
-const IdHandoverType int64 = 1
+	// IdHandoverSuccess is the integer constant for id-HandoverSuccess.
+	IdHandoverSuccess int64 = 64
 
-// IdIABAuthorized is the integer value for id-IAB-Authorized.
-const IdIABAuthorized int64 = 301
+	// IdHandoverType is the integer constant for id-HandoverType.
+	IdHandoverType int64 = 1
 
-// IdIABNodeIndication is the integer value for id-IAB-Node-Indication.
-const IdIABNodeIndication int64 = 302
+	// IdIABAuthorized is the integer constant for id-IAB-Authorized.
+	IdIABAuthorized int64 = 301
 
-// IdIABSupported is the integer value for id-IAB-Supported.
-const IdIABSupported int64 = 303
+	// IdIABNodeIndication is the integer constant for id-IAB-Node-Indication.
+	IdIABNodeIndication int64 = 302
 
-// IdIMSvoiceEPSfallbackfrom5G is the integer value for id-IMSvoiceEPSfallbackfrom5G.
-const IdIMSvoiceEPSfallbackfrom5G int64 = 296
+	// IdIABSupported is the integer constant for id-IAB-Supported.
+	IdIABSupported int64 = 303
 
-// IdInformationOnRecommendedCellsAndENBsForPaging is the integer value for id-InformationOnRecommendedCellsAndENBsForPaging.
-const IdInformationOnRecommendedCellsAndENBsForPaging int64 = 213
+	// IdIMSvoiceEPSfallbackfrom5G is the integer constant for id-IMSvoiceEPSfallbackfrom5G.
+	IdIMSvoiceEPSfallbackfrom5G int64 = 296
 
-// IdInitialContextSetup is the integer value for id-InitialContextSetup.
-const IdInitialContextSetup int64 = 9
+	// IdInformationOnRecommendedCellsAndENBsForPaging is the integer constant for id-InformationOnRecommendedCellsAndENBsForPaging.
+	IdInformationOnRecommendedCellsAndENBsForPaging int64 = 213
 
-// IdInterSystemInformationTransferTypeEDT is the integer value for id-Inter-SystemInformationTransferTypeEDT.
-const IdInterSystemInformationTransferTypeEDT int64 = 121
+	// IdInitialContextSetup is the integer constant for id-InitialContextSetup.
+	IdInitialContextSetup int64 = 9
 
-// IdInterSystemInformationTransferTypeMDT is the integer value for id-Inter-SystemInformationTransferTypeMDT.
-const IdInterSystemInformationTransferTypeMDT int64 = 122
+	// IdInterSystemInformationTransferTypeEDT is the integer constant for id-Inter-SystemInformationTransferTypeEDT.
+	IdInterSystemInformationTransferTypeEDT int64 = 121
 
-// IdIntersystemMeasurementConfiguration is the integer value for id-IntersystemMeasurementConfiguration.
-const IdIntersystemMeasurementConfiguration int64 = 311
+	// IdInterSystemInformationTransferTypeMDT is the integer constant for id-Inter-SystemInformationTransferTypeMDT.
+	IdInterSystemInformationTransferTypeMDT int64 = 122
 
-// IdIntersystemSONConfigurationTransferECT is the integer value for id-IntersystemSONConfigurationTransferECT.
-const IdIntersystemSONConfigurationTransferECT int64 = 310
+	// IdIntersystemMeasurementConfiguration is the integer constant for id-IntersystemMeasurementConfiguration.
+	IdIntersystemMeasurementConfiguration int64 = 311
 
-// IdIntersystemSONConfigurationTransferMCT is the integer value for id-IntersystemSONConfigurationTransferMCT.
-const IdIntersystemSONConfigurationTransferMCT int64 = 309
+	// IdIntersystemSONConfigurationTransferECT is the integer constant for id-IntersystemSONConfigurationTransferECT.
+	IdIntersystemSONConfigurationTransferECT int64 = 310
 
-// IdKill is the integer value for id-Kill.
-const IdKill int64 = 43
+	// IdIntersystemSONConfigurationTransferMCT is the integer constant for id-IntersystemSONConfigurationTransferMCT.
+	IdIntersystemSONConfigurationTransferMCT int64 = 309
 
-// IdKillAllWarningMessages is the integer value for id-KillAllWarningMessages.
-const IdKillAllWarningMessages int64 = 191
+	// IdKill is the integer constant for id-Kill.
+	IdKill int64 = 43
 
-// IdLHNID is the integer value for id-LHN-ID.
-const IdLHNID int64 = 186
+	// IdKillAllWarningMessages is the integer constant for id-KillAllWarningMessages.
+	IdKillAllWarningMessages int64 = 191
 
-// IdLPPaPDU is the integer value for id-LPPa-PDU.
-const IdLPPaPDU int64 = 147
+	// IdLHNID is the integer constant for id-LHN-ID.
+	IdLHNID int64 = 186
 
-// IdLTEMIndication is the integer value for id-LTE-M-Indication.
-const IdLTEMIndication int64 = 272
+	// IdLPPaPDU is the integer constant for id-LPPa-PDU.
+	IdLPPaPDU int64 = 147
 
-// IdLTENTNTAIInformation is the integer value for id-LTE-NTN-TAI-Information.
-const IdLTENTNTAIInformation int64 = 339
+	// IdLTEMIndication is the integer constant for id-LTE-M-Indication.
+	IdLTEMIndication int64 = 272
 
-// IdLastNGRANPLMNIdentity is the integer value for id-LastNG-RANPLMNIdentity.
-const IdLastNGRANPLMNIdentity int64 = 290
+	// IdLTENTNTAIInformation is the integer constant for id-LTE-NTN-TAI-Information.
+	IdLTENTNTAIInformation int64 = 339
 
-// IdLocationReport is the integer value for id-LocationReport.
-const IdLocationReport int64 = 33
+	// IdLastNGRANPLMNIdentity is the integer constant for id-LastNG-RANPLMNIdentity.
+	IdLastNGRANPLMNIdentity int64 = 290
 
-// IdLocationReportingControl is the integer value for id-LocationReportingControl.
-const IdLocationReportingControl int64 = 31
+	// IdLocationReport is the integer constant for id-LocationReport.
+	IdLocationReport int64 = 33
 
-// IdLocationReportingFailureIndication is the integer value for id-LocationReportingFailureIndication.
-const IdLocationReportingFailureIndication int64 = 32
+	// IdLocationReportingControl is the integer constant for id-LocationReportingControl.
+	IdLocationReportingControl int64 = 31
 
-// IdLoggedMBSFNMDT is the integer value for id-LoggedMBSFNMDT.
-const IdLoggedMBSFNMDT int64 = 197
+	// IdLocationReportingFailureIndication is the integer constant for id-LocationReportingFailureIndication.
+	IdLocationReportingFailureIndication int64 = 32
 
-// IdLoggedMDTTrigger is the integer value for id-LoggedMDTTrigger.
-const IdLoggedMDTTrigger int64 = 344
+	// IdLoggedMBSFNMDT is the integer constant for id-LoggedMBSFNMDT.
+	IdLoggedMBSFNMDT int64 = 197
 
-// IdM3Configuration is the integer value for id-M3Configuration.
-const IdM3Configuration int64 = 171
+	// IdLoggedMDTTrigger is the integer constant for id-LoggedMDTTrigger.
+	IdLoggedMDTTrigger int64 = 344
 
-// IdM4Configuration is the integer value for id-M4Configuration.
-const IdM4Configuration int64 = 172
+	// IdM3Configuration is the integer constant for id-M3Configuration.
+	IdM3Configuration int64 = 171
 
-// IdM5Configuration is the integer value for id-M5Configuration.
-const IdM5Configuration int64 = 173
+	// IdM4Configuration is the integer constant for id-M4Configuration.
+	IdM4Configuration int64 = 172
 
-// IdM6Configuration is the integer value for id-M6Configuration.
-const IdM6Configuration int64 = 220
+	// IdM5Configuration is the integer constant for id-M5Configuration.
+	IdM5Configuration int64 = 173
 
-// IdM7Configuration is the integer value for id-M7Configuration.
-const IdM7Configuration int64 = 221
+	// IdM6Configuration is the integer constant for id-M6Configuration.
+	IdM6Configuration int64 = 220
 
-// IdMDTConfiguration is the integer value for id-MDTConfiguration.
-const IdMDTConfiguration int64 = 162
+	// IdM7Configuration is the integer constant for id-M7Configuration.
+	IdM7Configuration int64 = 221
 
-// IdMDTConfigurationNR is the integer value for id-MDTConfigurationNR.
-const IdMDTConfigurationNR int64 = 316
+	// IdMDTConfiguration is the integer constant for id-MDTConfiguration.
+	IdMDTConfiguration int64 = 162
 
-// IdMDTLocationInfo is the integer value for id-MDT-Location-Info.
-const IdMDTLocationInfo int64 = 174
+	// IdMDTConfigurationNR is the integer constant for id-MDTConfigurationNR.
+	IdMDTConfigurationNR int64 = 316
 
-// IdMMECPRelocationIndication is the integer value for id-MMECPRelocationIndication.
-const IdMMECPRelocationIndication int64 = 61
+	// IdMDTLocationInfo is the integer constant for id-MDT-Location-Info.
+	IdMDTLocationInfo int64 = 174
 
-// IdMMEConfigurationTransfer is the integer value for id-MMEConfigurationTransfer.
-const IdMMEConfigurationTransfer int64 = 41
+	// IdMMECPRelocationIndication is the integer constant for id-MMECPRelocationIndication.
+	IdMMECPRelocationIndication int64 = 61
 
-// IdMMEConfigurationUpdate is the integer value for id-MMEConfigurationUpdate.
-const IdMMEConfigurationUpdate int64 = 30
+	// IdMMEConfigurationTransfer is the integer constant for id-MMEConfigurationTransfer.
+	IdMMEConfigurationTransfer int64 = 41
 
-// IdMMEDirectInformationTransfer is the integer value for id-MMEDirectInformationTransfer.
-const IdMMEDirectInformationTransfer int64 = 38
+	// IdMMEConfigurationUpdate is the integer constant for id-MMEConfigurationUpdate.
+	IdMMEConfigurationUpdate int64 = 30
 
-// IdMMEEarlyStatusTransfer is the integer value for id-MMEEarlyStatusTransfer.
-const IdMMEEarlyStatusTransfer int64 = 66
+	// IdMMEDirectInformationTransfer is the integer constant for id-MMEDirectInformationTransfer.
+	IdMMEDirectInformationTransfer int64 = 38
 
-// IdMMERelaySupportIndicator is the integer value for id-MMERelaySupportIndicator.
-const IdMMERelaySupportIndicator int64 = 163
+	// IdMMEEarlyStatusTransfer is the integer constant for id-MMEEarlyStatusTransfer.
+	IdMMEEarlyStatusTransfer int64 = 66
 
-// IdMMEStatusTransfer is the integer value for id-MMEStatusTransfer.
-const IdMMEStatusTransfer int64 = 25
+	// IdMMERelaySupportIndicator is the integer constant for id-MMERelaySupportIndicator.
+	IdMMERelaySupportIndicator int64 = 163
 
-// IdMMEGroupID is the integer value for id-MME-Group-ID.
-const IdMMEGroupID int64 = 223
+	// IdMMEStatusTransfer is the integer constant for id-MMEStatusTransfer.
+	IdMMEStatusTransfer int64 = 25
 
-// IdMMEUES1APID is the integer value for id-MME-UE-S1AP-ID.
-const IdMMEUES1APID int64 = 0
+	// IdMMEGroupID is the integer constant for id-MME-Group-ID.
+	IdMMEGroupID int64 = 223
 
-// IdMMEUES1APID2 is the integer value for id-MME-UE-S1AP-ID-2.
-const IdMMEUES1APID2 int64 = 158
+	// IdMMEUES1APID is the integer constant for id-MME-UE-S1AP-ID.
+	IdMMEUES1APID int64 = 0
 
-// IdMMEname is the integer value for id-MMEname.
-const IdMMEname int64 = 61
+	// IdMMEUES1APID2 is the integer constant for id-MME-UE-S1AP-ID-2.
+	IdMMEUES1APID2 int64 = 158
 
-// IdMSClassmark2 is the integer value for id-MSClassmark2.
-const IdMSClassmark2 int64 = 132
+	// IdMMEname is the integer constant for id-MMEname.
+	IdMMEname int64 = 61
 
-// IdMSClassmark3 is the integer value for id-MSClassmark3.
-const IdMSClassmark3 int64 = 133
+	// IdMSClassmark2 is the integer constant for id-MSClassmark2.
+	IdMSClassmark2 int64 = 132
 
-// IdManagementBasedMDTAllowed is the integer value for id-ManagementBasedMDTAllowed.
-const IdManagementBasedMDTAllowed int64 = 165
+	// IdMSClassmark3 is the integer constant for id-MSClassmark3.
+	IdMSClassmark3 int64 = 133
 
-// IdManagementBasedMDTPLMNList is the integer value for id-ManagementBasedMDTPLMNList.
-const IdManagementBasedMDTPLMNList int64 = 177
+	// IdManagementBasedMDTAllowed is the integer constant for id-ManagementBasedMDTAllowed.
+	IdManagementBasedMDTAllowed int64 = 165
 
-// IdMaskedIMEISV is the integer value for id-Masked-IMEISV.
-const IdMaskedIMEISV int64 = 192
+	// IdManagementBasedMDTPLMNList is the integer constant for id-ManagementBasedMDTPLMNList.
+	IdManagementBasedMDTPLMNList int64 = 177
 
-// IdMessageIdentifier is the integer value for id-MessageIdentifier.
-const IdMessageIdentifier int64 = 111
+	// IdMaskedIMEISV is the integer constant for id-Masked-IMEISV.
+	IdMaskedIMEISV int64 = 192
 
-// IdMobilityInformation is the integer value for id-MobilityInformation.
-const IdMobilityInformation int64 = 175
+	// IdMessageIdentifier is the integer constant for id-MessageIdentifier.
+	IdMessageIdentifier int64 = 111
 
-// IdMutingAvailabilityIndication is the integer value for id-Muting-Availability-Indication.
-const IdMutingAvailabilityIndication int64 = 207
+	// IdMobilityInformation is the integer constant for id-MobilityInformation.
+	IdMobilityInformation int64 = 175
 
-// IdMutingPatternInformation is the integer value for id-Muting-Pattern-Information.
-const IdMutingPatternInformation int64 = 208
+	// IdMutingAvailabilityIndication is the integer constant for id-Muting-Availability-Indication.
+	IdMutingAvailabilityIndication int64 = 207
 
-// IdNASDeliveryIndication is the integer value for id-NASDeliveryIndication.
-const IdNASDeliveryIndication int64 = 57
+	// IdMutingPatternInformation is the integer constant for id-Muting-Pattern-Information.
+	IdMutingPatternInformation int64 = 208
 
-// IdNASNonDeliveryIndication is the integer value for id-NASNonDeliveryIndication.
-const IdNASNonDeliveryIndication int64 = 16
+	// IdNASDeliveryIndication is the integer constant for id-NASDeliveryIndication.
+	IdNASDeliveryIndication int64 = 57
 
-// IdNASSecurityParametersfromEUTRAN is the integer value for id-NASSecurityParametersfromE-UTRAN.
-const IdNASSecurityParametersfromEUTRAN int64 = 135
+	// IdNASNonDeliveryIndication is the integer constant for id-NASNonDeliveryIndication.
+	IdNASNonDeliveryIndication int64 = 16
 
-// IdNASSecurityParameterstoEUTRAN is the integer value for id-NASSecurityParameterstoE-UTRAN.
-const IdNASSecurityParameterstoEUTRAN int64 = 136
+	// IdNASSecurityParametersfromEUTRAN is the integer constant for id-NASSecurityParametersfromE-UTRAN.
+	IdNASSecurityParametersfromEUTRAN int64 = 135
 
-// IdNASDownlinkCount is the integer value for id-NAS-DownlinkCount.
-const IdNASDownlinkCount int64 = 126
+	// IdNASSecurityParameterstoEUTRAN is the integer constant for id-NASSecurityParameterstoE-UTRAN.
+	IdNASSecurityParameterstoEUTRAN int64 = 136
 
-// IdNASPDU is the integer value for id-NAS-PDU.
-const IdNASPDU int64 = 26
+	// IdNASDownlinkCount is the integer constant for id-NAS-DownlinkCount.
+	IdNASDownlinkCount int64 = 126
 
-// IdNBIoTDefaultPagingDRX is the integer value for id-NB-IoT-DefaultPagingDRX.
-const IdNBIoTDefaultPagingDRX int64 = 234
+	// IdNASPDU is the integer constant for id-NAS-PDU.
+	IdNASPDU int64 = 26
 
-// IdNBIoTPagingDRX is the integer value for id-NB-IoT-PagingDRX.
-const IdNBIoTPagingDRX int64 = 324
+	// IdNBIoTDefaultPagingDRX is the integer constant for id-NB-IoT-DefaultPagingDRX.
+	IdNBIoTDefaultPagingDRX int64 = 234
 
-// IdNBIoTPagingEDRXInformation is the integer value for id-NB-IoT-Paging-eDRXInformation.
-const IdNBIoTPagingEDRXInformation int64 = 239
+	// IdNBIoTPagingDRX is the integer constant for id-NB-IoT-PagingDRX.
+	IdNBIoTPagingDRX int64 = 324
 
-// IdNBIoTRLFReportContainer is the integer value for id-NB-IoT-RLF-Report-Container.
-const IdNBIoTRLFReportContainer int64 = 313
+	// IdNBIoTPagingEDRXInformation is the integer constant for id-NB-IoT-Paging-eDRXInformation.
+	IdNBIoTPagingEDRXInformation int64 = 239
 
-// IdNBIoTUEIdentityIndexValue is the integer value for id-NB-IoT-UEIdentityIndexValue.
-const IdNBIoTUEIdentityIndexValue int64 = 244
+	// IdNBIoTRLFReportContainer is the integer constant for id-NB-IoT-RLF-Report-Container.
+	IdNBIoTRLFReportContainer int64 = 313
 
-// IdNRUESecurityCapabilities is the integer value for id-NRUESecurityCapabilities.
-const IdNRUESecurityCapabilities int64 = 269
+	// IdNBIoTUEIdentityIndexValue is the integer constant for id-NB-IoT-UEIdentityIndexValue.
+	IdNBIoTUEIdentityIndexValue int64 = 244
 
-// IdNRUESidelinkAggregateMaximumBitrate is the integer value for id-NRUESidelinkAggregateMaximumBitrate.
-const IdNRUESidelinkAggregateMaximumBitrate int64 = 307
+	// IdNRUESecurityCapabilities is the integer constant for id-NRUESecurityCapabilities.
+	IdNRUESecurityCapabilities int64 = 269
 
-// IdNRV2XServicesAuthorized is the integer value for id-NRV2XServicesAuthorized.
-const IdNRV2XServicesAuthorized int64 = 306
+	// IdNRUESidelinkAggregateMaximumBitrate is the integer constant for id-NRUESidelinkAggregateMaximumBitrate.
+	IdNRUESidelinkAggregateMaximumBitrate int64 = 307
 
-// IdNRrestrictionin5GS is the integer value for id-NRrestrictionin5GS.
-const IdNRrestrictionin5GS int64 = 287
+	// IdNRV2XServicesAuthorized is the integer constant for id-NRV2XServicesAuthorized.
+	IdNRV2XServicesAuthorized int64 = 306
 
-// IdNRrestrictioninEPSasSecondaryRAT is the integer value for id-NRrestrictioninEPSasSecondaryRAT.
-const IdNRrestrictioninEPSasSecondaryRAT int64 = 261
+	// IdNRrestrictionin5GS is the integer constant for id-NRrestrictionin5GS.
+	IdNRrestrictionin5GS int64 = 287
 
-// IdNotifySourceeNB is the integer value for id-NotifySourceeNB.
-const IdNotifySourceeNB int64 = 320
+	// IdNRrestrictioninEPSasSecondaryRAT is the integer constant for id-NRrestrictioninEPSasSecondaryRAT.
+	IdNRrestrictioninEPSasSecondaryRAT int64 = 261
 
-// IdNumberofBroadcastRequest is the integer value for id-NumberofBroadcastRequest.
-const IdNumberofBroadcastRequest int64 = 115
+	// IdNotifySourceeNB is the integer constant for id-NotifySourceeNB.
+	IdNotifySourceeNB int64 = 320
 
-// IdOverloadResponse is the integer value for id-OverloadResponse.
-const IdOverloadResponse int64 = 101
+	// IdNumberofBroadcastRequest is the integer constant for id-NumberofBroadcastRequest.
+	IdNumberofBroadcastRequest int64 = 115
 
-// IdOverloadStart is the integer value for id-OverloadStart.
-const IdOverloadStart int64 = 34
+	// IdOverloadResponse is the integer constant for id-OverloadResponse.
+	IdOverloadResponse int64 = 101
 
-// IdOverloadStop is the integer value for id-OverloadStop.
-const IdOverloadStop int64 = 35
+	// IdOverloadStart is the integer constant for id-OverloadStart.
+	IdOverloadStart int64 = 34
 
-// IdPC5QoSParameters is the integer value for id-PC5QoSParameters.
-const IdPC5QoSParameters int64 = 308
+	// IdOverloadStop is the integer constant for id-OverloadStop.
+	IdOverloadStop int64 = 35
 
-// IdPSCellInformation is the integer value for id-PSCellInformation.
-const IdPSCellInformation int64 = 288
+	// IdPC5QoSParameters is the integer constant for id-PC5QoSParameters.
+	IdPC5QoSParameters int64 = 308
 
-// IdPSServiceNotAvailable is the integer value for id-PS-ServiceNotAvailable.
-const IdPSServiceNotAvailable int64 = 150
+	// IdPSCellInformation is the integer constant for id-PSCellInformation.
+	IdPSCellInformation int64 = 288
 
-// IdPWSFailureIndication is the integer value for id-PWSFailureIndication.
-const IdPWSFailureIndication int64 = 51
+	// IdPSServiceNotAvailable is the integer constant for id-PS-ServiceNotAvailable.
+	IdPSServiceNotAvailable int64 = 150
 
-// IdPWSRestartIndication is the integer value for id-PWSRestartIndication.
-const IdPWSRestartIndication int64 = 49
+	// IdPWSFailureIndication is the integer constant for id-PWSFailureIndication.
+	IdPWSFailureIndication int64 = 51
 
-// IdPWSfailedECGIList is the integer value for id-PWSfailedECGIList.
-const IdPWSfailedECGIList int64 = 222
+	// IdPWSRestartIndication is the integer constant for id-PWSRestartIndication.
+	IdPWSRestartIndication int64 = 49
 
-// IdPaging is the integer value for id-Paging.
-const IdPaging int64 = 10
+	// IdPWSfailedECGIList is the integer constant for id-PWSfailedECGIList.
+	IdPWSfailedECGIList int64 = 222
 
-// IdPagingCause is the integer value for id-PagingCause.
-const IdPagingCause int64 = 331
+	// IdPaging is the integer constant for id-Paging.
+	IdPaging int64 = 10
 
-// IdPagingPriority is the integer value for id-PagingPriority.
-const IdPagingPriority int64 = 151
+	// IdPagingCause is the integer constant for id-PagingCause.
+	IdPagingCause int64 = 331
 
-// IdPagingEDRXInformation is the integer value for id-Paging-eDRXInformation.
-const IdPagingEDRXInformation int64 = 227
+	// IdPagingPriority is the integer constant for id-PagingPriority.
+	IdPagingPriority int64 = 151
 
-// IdPathSwitchRequest is the integer value for id-PathSwitchRequest.
-const IdPathSwitchRequest int64 = 3
+	// IdPagingEDRXInformation is the integer constant for id-Paging-eDRXInformation.
+	IdPagingEDRXInformation int64 = 227
 
-// IdPendingDataIndication is the integer value for id-PendingDataIndication.
-const IdPendingDataIndication int64 = 283
+	// IdPathSwitchRequest is the integer constant for id-PathSwitchRequest.
+	IdPathSwitchRequest int64 = 3
 
-// IdPrivacyIndicator is the integer value for id-PrivacyIndicator.
-const IdPrivacyIndicator int64 = 166
+	// IdPendingDataIndication is the integer constant for id-PendingDataIndication.
+	IdPendingDataIndication int64 = 283
 
-// IdPrivateMessage is the integer value for id-PrivateMessage.
-const IdPrivateMessage int64 = 39
+	// IdPrivacyIndicator is the integer constant for id-PrivacyIndicator.
+	IdPrivacyIndicator int64 = 166
 
-// IdProSeAuthorized is the integer value for id-ProSeAuthorized.
-const IdProSeAuthorized int64 = 195
+	// IdPrivateMessage is the integer constant for id-PrivateMessage.
+	IdPrivateMessage int64 = 39
 
-// IdProSeUEtoNetworkRelaying is the integer value for id-ProSeUEtoNetworkRelaying.
-const IdProSeUEtoNetworkRelaying int64 = 216
+	// IdProSeAuthorized is the integer constant for id-ProSeAuthorized.
+	IdProSeAuthorized int64 = 195
 
-// IdRACSIndication is the integer value for id-RACSIndication.
-const IdRACSIndication int64 = 330
+	// IdProSeUEtoNetworkRelaying is the integer constant for id-ProSeUEtoNetworkRelaying.
+	IdProSeUEtoNetworkRelaying int64 = 216
 
-// IdRATRestrictions is the integer value for id-RAT-Restrictions.
-const IdRATRestrictions int64 = 336
+	// IdRACSIndication is the integer constant for id-RACSIndication.
+	IdRACSIndication int64 = 330
 
-// IdRATType is the integer value for id-RAT-Type.
-const IdRATType int64 = 232
+	// IdRATRestrictions is the integer constant for id-RAT-Restrictions.
+	IdRATRestrictions int64 = 336
 
-// IdRRCEstablishmentCause is the integer value for id-RRC-Establishment-Cause.
-const IdRRCEstablishmentCause int64 = 134
+	// IdRATType is the integer constant for id-RAT-Type.
+	IdRATType int64 = 232
 
-// IdRRCResumeCause is the integer value for id-RRC-Resume-Cause.
-const IdRRCResumeCause int64 = 245
+	// IdRRCEstablishmentCause is the integer constant for id-RRC-Establishment-Cause.
+	IdRRCEstablishmentCause int64 = 134
 
-// IdReceiveStatusOfULPDCPSDUsExtended is the integer value for id-ReceiveStatusOfULPDCPSDUsExtended.
-const IdReceiveStatusOfULPDCPSDUsExtended int64 = 181
+	// IdRRCResumeCause is the integer constant for id-RRC-Resume-Cause.
+	IdRRCResumeCause int64 = 245
 
-// IdReceiveStatusOfULPDCPSDUsPDCPSNlength18 is the integer value for id-ReceiveStatusOfULPDCPSDUsPDCP-SNlength18.
-const IdReceiveStatusOfULPDCPSDUsPDCPSNlength18 int64 = 219
+	// IdReceiveStatusOfULPDCPSDUsExtended is the integer constant for id-ReceiveStatusOfULPDCPSDUsExtended.
+	IdReceiveStatusOfULPDCPSDUsExtended int64 = 181
 
-// IdRecommendedCellItem is the integer value for id-RecommendedCellItem.
-const IdRecommendedCellItem int64 = 214
+	// IdReceiveStatusOfULPDCPSDUsPDCPSNlength18 is the integer constant for id-ReceiveStatusOfULPDCPSDUsPDCP-SNlength18.
+	IdReceiveStatusOfULPDCPSDUsPDCPSNlength18 int64 = 219
 
-// IdRecommendedENBItem is the integer value for id-RecommendedENBItem.
-const IdRecommendedENBItem int64 = 215
+	// IdRecommendedCellItem is the integer constant for id-RecommendedCellItem.
+	IdRecommendedCellItem int64 = 214
 
-// IdRegisteredLAI is the integer value for id-RegisteredLAI.
-const IdRegisteredLAI int64 = 159
+	// IdRecommendedENBItem is the integer constant for id-RecommendedENBItem.
+	IdRecommendedENBItem int64 = 215
 
-// IdRelativeMMECapacity is the integer value for id-RelativeMMECapacity.
-const IdRelativeMMECapacity int64 = 87
+	// IdRegisteredLAI is the integer constant for id-RegisteredLAI.
+	IdRegisteredLAI int64 = 159
 
-// IdRelayNodeIndicator is the integer value for id-RelayNode-Indicator.
-const IdRelayNodeIndicator int64 = 160
+	// IdRelativeMMECapacity is the integer constant for id-RelativeMMECapacity.
+	IdRelativeMMECapacity int64 = 87
 
-// IdRepetitionPeriod is the integer value for id-RepetitionPeriod.
-const IdRepetitionPeriod int64 = 114
+	// IdRelayNodeIndicator is the integer constant for id-RelayNode-Indicator.
+	IdRelayNodeIndicator int64 = 160
 
-// IdRequestType is the integer value for id-RequestType.
-const IdRequestType int64 = 98
+	// IdRepetitionPeriod is the integer constant for id-RepetitionPeriod.
+	IdRepetitionPeriod int64 = 114
 
-// IdRequestTypeAdditionalInfo is the integer value for id-RequestTypeAdditionalInfo.
-const IdRequestTypeAdditionalInfo int64 = 298
+	// IdRequestType is the integer constant for id-RequestType.
+	IdRequestType int64 = 98
 
-// IdRerouteNASRequest is the integer value for id-RerouteNASRequest.
-const IdRerouteNASRequest int64 = 52
+	// IdRequestTypeAdditionalInfo is the integer constant for id-RequestTypeAdditionalInfo.
+	IdRequestTypeAdditionalInfo int64 = 298
 
-// IdReset is the integer value for id-Reset.
-const IdReset int64 = 14
+	// IdRerouteNASRequest is the integer constant for id-RerouteNASRequest.
+	IdRerouteNASRequest int64 = 52
 
-// IdResetType is the integer value for id-ResetType.
-const IdResetType int64 = 92
+	// IdReset is the integer constant for id-Reset.
+	IdReset int64 = 14
 
-// IdRetrieveUEInformation is the integer value for id-RetrieveUEInformation.
-const IdRetrieveUEInformation int64 = 58
+	// IdResetType is the integer constant for id-ResetType.
+	IdResetType int64 = 92
 
-// IdRoutingID is the integer value for id-Routing-ID.
-const IdRoutingID int64 = 148
+	// IdRetrieveUEInformation is the integer constant for id-RetrieveUEInformation.
+	IdRetrieveUEInformation int64 = 58
 
-// IdS1Setup is the integer value for id-S1Setup.
-const IdS1Setup int64 = 17
+	// IdRoutingID is the integer constant for id-Routing-ID.
+	IdRoutingID int64 = 148
 
-// IdS1Message is the integer value for id-S1-Message.
-const IdS1Message int64 = 225
+	// IdS1Setup is the integer constant for id-S1Setup.
+	IdS1Setup int64 = 17
 
-// IdSIPTOCorrelationID is the integer value for id-SIPTO-Correlation-ID.
-const IdSIPTOCorrelationID int64 = 183
+	// IdS1Message is the integer constant for id-S1-Message.
+	IdS1Message int64 = 225
 
-// IdSIPTOLGWTransportLayerAddress is the integer value for id-SIPTO-L-GW-TransportLayerAddress.
-const IdSIPTOLGWTransportLayerAddress int64 = 184
+	// IdSIPTOCorrelationID is the integer constant for id-SIPTO-Correlation-ID.
+	IdSIPTOCorrelationID int64 = 183
 
-// IdSONConfigurationTransferECT is the integer value for id-SONConfigurationTransferECT.
-const IdSONConfigurationTransferECT int64 = 129
+	// IdSIPTOLGWTransportLayerAddress is the integer constant for id-SIPTO-L-GW-TransportLayerAddress.
+	IdSIPTOLGWTransportLayerAddress int64 = 184
 
-// IdSONConfigurationTransferMCT is the integer value for id-SONConfigurationTransferMCT.
-const IdSONConfigurationTransferMCT int64 = 130
+	// IdSONConfigurationTransferECT is the integer constant for id-SONConfigurationTransferECT.
+	IdSONConfigurationTransferECT int64 = 129
 
-// IdSONInformationReport is the integer value for id-SON-Information-Report.
-const IdSONInformationReport int64 = 206
+	// IdSONConfigurationTransferMCT is the integer constant for id-SONConfigurationTransferMCT.
+	IdSONConfigurationTransferMCT int64 = 130
 
-// IdSRVCCHOIndication is the integer value for id-SRVCCHOIndication.
-const IdSRVCCHOIndication int64 = 125
+	// IdSONInformationReport is the integer constant for id-SON-Information-Report.
+	IdSONInformationReport int64 = 206
 
-// IdSRVCCOperationNotPossible is the integer value for id-SRVCCOperationNotPossible.
-const IdSRVCCOperationNotPossible int64 = 243
+	// IdSRVCCHOIndication is the integer constant for id-SRVCCHOIndication.
+	IdSRVCCHOIndication int64 = 125
 
-// IdSRVCCOperationPossible is the integer value for id-SRVCCOperationPossible.
-const IdSRVCCOperationPossible int64 = 124
+	// IdSRVCCOperationNotPossible is the integer constant for id-SRVCCOperationNotPossible.
+	IdSRVCCOperationNotPossible int64 = 243
 
-// IdSTMSI is the integer value for id-S-TMSI.
-const IdSTMSI int64 = 96
+	// IdSRVCCOperationPossible is the integer constant for id-SRVCCOperationPossible.
+	IdSRVCCOperationPossible int64 = 124
 
-// IdSecondaryRATDataUsageReport is the integer value for id-SecondaryRATDataUsageReport.
-const IdSecondaryRATDataUsageReport int64 = 62
+	// IdSTMSI is the integer constant for id-S-TMSI.
+	IdSTMSI int64 = 96
 
-// IdSecondaryRATDataUsageReportItem is the integer value for id-SecondaryRATDataUsageReportItem.
-const IdSecondaryRATDataUsageReportItem int64 = 265
+	// IdSecondaryRATDataUsageReport is the integer constant for id-SecondaryRATDataUsageReport.
+	IdSecondaryRATDataUsageReport int64 = 62
 
-// IdSecondaryRATDataUsageReportList is the integer value for id-SecondaryRATDataUsageReportList.
-const IdSecondaryRATDataUsageReportList int64 = 264
+	// IdSecondaryRATDataUsageReportItem is the integer constant for id-SecondaryRATDataUsageReportItem.
+	IdSecondaryRATDataUsageReportItem int64 = 265
 
-// IdSecondaryRATDataUsageRequest is the integer value for id-SecondaryRATDataUsageRequest.
-const IdSecondaryRATDataUsageRequest int64 = 268
+	// IdSecondaryRATDataUsageReportList is the integer constant for id-SecondaryRATDataUsageReportList.
+	IdSecondaryRATDataUsageReportList int64 = 264
 
-// IdSecurityContext is the integer value for id-SecurityContext.
-const IdSecurityContext int64 = 40
+	// IdSecondaryRATDataUsageRequest is the integer constant for id-SecondaryRATDataUsageRequest.
+	IdSecondaryRATDataUsageRequest int64 = 268
 
-// IdSecurityIndication is the integer value for id-SecurityIndication.
-const IdSecurityIndication int64 = 332
+	// IdSecurityContext is the integer constant for id-SecurityContext.
+	IdSecurityContext int64 = 40
 
-// IdSecurityKey is the integer value for id-SecurityKey.
-const IdSecurityKey int64 = 73
+	// IdSecurityIndication is the integer constant for id-SecurityIndication.
+	IdSecurityIndication int64 = 332
 
-// IdSecurityResult is the integer value for id-SecurityResult.
-const IdSecurityResult int64 = 333
+	// IdSecurityKey is the integer constant for id-SecurityKey.
+	IdSecurityKey int64 = 73
 
-// IdSensorMeasurementConfiguration is the integer value for id-SensorMeasurementConfiguration.
-const IdSensorMeasurementConfiguration int64 = 345
+	// IdSecurityResult is the integer constant for id-SecurityResult.
+	IdSecurityResult int64 = 333
 
-// IdSerialNumber is the integer value for id-SerialNumber.
-const IdSerialNumber int64 = 112
+	// IdSensorMeasurementConfiguration is the integer constant for id-SensorMeasurementConfiguration.
+	IdSensorMeasurementConfiguration int64 = 345
 
-// IdServedDCNs is the integer value for id-ServedDCNs.
-const IdServedDCNs int64 = 247
+	// IdSerialNumber is the integer constant for id-SerialNumber.
+	IdSerialNumber int64 = 112
 
-// IdServedGUMMEIs is the integer value for id-ServedGUMMEIs.
-const IdServedGUMMEIs int64 = 105
+	// IdServedDCNs is the integer constant for id-ServedDCNs.
+	IdServedDCNs int64 = 247
 
-// IdServedPLMNs is the integer value for id-ServedPLMNs.
-const IdServedPLMNs int64 = 63
+	// IdServedGUMMEIs is the integer constant for id-ServedGUMMEIs.
+	IdServedGUMMEIs int64 = 105
 
-// IdSignallingBasedMDTPLMNList is the integer value for id-SignallingBasedMDTPLMNList.
-const IdSignallingBasedMDTPLMNList int64 = 178
+	// IdServedPLMNs is the integer constant for id-ServedPLMNs.
+	IdServedPLMNs int64 = 63
 
-// IdSourceID is the integer value for id-SourceID.
-const IdSourceID int64 = 3
+	// IdSignallingBasedMDTPLMNList is the integer constant for id-SignallingBasedMDTPLMNList.
+	IdSignallingBasedMDTPLMNList int64 = 178
 
-// IdSourceMMEGUMMEI is the integer value for id-SourceMME-GUMMEI.
-const IdSourceMMEGUMMEI int64 = 157
+	// IdSourceID is the integer constant for id-SourceID.
+	IdSourceID int64 = 3
 
-// IdSourceMMEUES1APID is the integer value for id-SourceMME-UE-S1AP-ID.
-const IdSourceMMEUES1APID int64 = 88
+	// IdSourceMMEGUMMEI is the integer constant for id-SourceMME-GUMMEI.
+	IdSourceMMEGUMMEI int64 = 157
 
-// IdSourceNodeID is the integer value for id-SourceNodeID.
-const IdSourceNodeID int64 = 312
+	// IdSourceMMEUES1APID is the integer constant for id-SourceMME-UE-S1AP-ID.
+	IdSourceMMEUES1APID int64 = 88
 
-// IdSourceNodeTransportLayerAddress is the integer value for id-SourceNodeTransportLayerAddress.
-const IdSourceNodeTransportLayerAddress int64 = 340
+	// IdSourceNodeID is the integer constant for id-SourceNodeID.
+	IdSourceNodeID int64 = 312
 
-// IdSourceSNID is the integer value for id-SourceSNID.
-const IdSourceSNID int64 = 343
+	// IdSourceNodeTransportLayerAddress is the integer constant for id-SourceNodeTransportLayerAddress.
+	IdSourceNodeTransportLayerAddress int64 = 340
 
-// IdSourceTransportLayerAddress is the integer value for id-SourceTransportLayerAddress.
-const IdSourceTransportLayerAddress int64 = 328
+	// IdSourceSNID is the integer constant for id-SourceSNID.
+	IdSourceSNID int64 = 343
 
-// IdSourceToTargetTransparentContainer is the integer value for id-Source-ToTarget-TransparentContainer.
-const IdSourceToTargetTransparentContainer int64 = 104
+	// IdSourceTransportLayerAddress is the integer constant for id-SourceTransportLayerAddress.
+	IdSourceTransportLayerAddress int64 = 328
 
-// IdSourceToTargetTransparentContainerSecondary is the integer value for id-Source-ToTarget-TransparentContainer-Secondary.
-const IdSourceToTargetTransparentContainerSecondary int64 = 138
+	// IdSourceToTargetTransparentContainer is the integer constant for id-Source-ToTarget-TransparentContainer.
+	IdSourceToTargetTransparentContainer int64 = 104
 
-// IdSubscriberProfileIDforRFP is the integer value for id-SubscriberProfileIDforRFP.
-const IdSubscriberProfileIDforRFP int64 = 106
+	// IdSourceToTargetTransparentContainerSecondary is the integer constant for id-Source-ToTarget-TransparentContainer-Secondary.
+	IdSourceToTargetTransparentContainerSecondary int64 = 138
 
-// IdSubscriptionBasedUEDifferentiationInfo is the integer value for id-Subscription-Based-UE-DifferentiationInfo.
-const IdSubscriptionBasedUEDifferentiationInfo int64 = 278
+	// IdSubscriberProfileIDforRFP is the integer constant for id-SubscriberProfileIDforRFP.
+	IdSubscriberProfileIDforRFP int64 = 106
 
-// IdSupportedTAs is the integer value for id-SupportedTAs.
-const IdSupportedTAs int64 = 64
+	// IdSubscriptionBasedUEDifferentiationInfo is the integer constant for id-Subscription-Based-UE-DifferentiationInfo.
+	IdSubscriptionBasedUEDifferentiationInfo int64 = 278
 
-// IdSynchronisationInformation is the integer value for id-Synchronisation-Information.
-const IdSynchronisationInformation int64 = 209
+	// IdSupportedTAs is the integer constant for id-SupportedTAs.
+	IdSupportedTAs int64 = 64
 
-// IdTAI is the integer value for id-TAI.
-const IdTAI int64 = 67
+	// IdSynchronisationInformation is the integer constant for id-Synchronisation-Information.
+	IdSynchronisationInformation int64 = 209
 
-// IdTAIItem is the integer value for id-TAIItem.
-const IdTAIItem int64 = 47
+	// IdTAI is the integer constant for id-TAI.
+	IdTAI int64 = 67
 
-// IdTAIList is the integer value for id-TAIList.
-const IdTAIList int64 = 46
+	// IdTAIItem is the integer constant for id-TAIItem.
+	IdTAIItem int64 = 47
 
-// IdTAIListForRestart is the integer value for id-TAIListForRestart.
-const IdTAIListForRestart int64 = 188
+	// IdTAIList is the integer constant for id-TAIList.
+	IdTAIList int64 = 46
 
-// IdTargetID is the integer value for id-TargetID.
-const IdTargetID int64 = 4
+	// IdTAIListForRestart is the integer constant for id-TAIListForRestart.
+	IdTAIListForRestart int64 = 188
 
-// IdTargetToSourceTransparentContainer is the integer value for id-Target-ToSource-TransparentContainer.
-const IdTargetToSourceTransparentContainer int64 = 123
+	// IdTargetID is the integer constant for id-TargetID.
+	IdTargetID int64 = 4
 
-// IdTargetToSourceTransparentContainerSecondary is the integer value for id-Target-ToSource-TransparentContainer-Secondary.
-const IdTargetToSourceTransparentContainerSecondary int64 = 139
+	// IdTargetToSourceTransparentContainer is the integer constant for id-Target-ToSource-TransparentContainer.
+	IdTargetToSourceTransparentContainer int64 = 123
 
-// IdTimeSinceSecondaryNodeRelease is the integer value for id-TimeSinceSecondaryNodeRelease.
-const IdTimeSinceSecondaryNodeRelease int64 = 297
+	// IdTargetToSourceTransparentContainerSecondary is the integer constant for id-Target-ToSource-TransparentContainer-Secondary.
+	IdTargetToSourceTransparentContainerSecondary int64 = 139
 
-// IdTimeToWait is the integer value for id-TimeToWait.
-const IdTimeToWait int64 = 65
+	// IdTimeSinceSecondaryNodeRelease is the integer constant for id-TimeSinceSecondaryNodeRelease.
+	IdTimeSinceSecondaryNodeRelease int64 = 297
 
-// IdTimeSynchronisationInfo is the integer value for id-Time-Synchronisation-Info.
-const IdTimeSynchronisationInfo int64 = 149
+	// IdTimeToWait is the integer constant for id-TimeToWait.
+	IdTimeToWait int64 = 65
 
-// IdTimeUEStayedInCellEnhancedGranularity is the integer value for id-Time-UE-StayedInCell-EnhancedGranularity.
-const IdTimeUEStayedInCellEnhancedGranularity int64 = 167
+	// IdTimeSynchronisationInfo is the integer constant for id-Time-Synchronisation-Info.
+	IdTimeSynchronisationInfo int64 = 149
 
-// IdTraceActivation is the integer value for id-TraceActivation.
-const IdTraceActivation int64 = 25
+	// IdTimeUEStayedInCellEnhancedGranularity is the integer constant for id-Time-UE-StayedInCell-EnhancedGranularity.
+	IdTimeUEStayedInCellEnhancedGranularity int64 = 167
 
-// IdTraceCollectionEntityIPAddress is the integer value for id-TraceCollectionEntityIPAddress.
-const IdTraceCollectionEntityIPAddress int64 = 131
+	// IdTraceActivation is the integer constant for id-TraceActivation.
+	IdTraceActivation int64 = 25
 
-// IdTraceCollectionEntityURI is the integer value for id-TraceCollectionEntityURI.
-const IdTraceCollectionEntityURI int64 = 325
+	// IdTraceCollectionEntityIPAddress is the integer constant for id-TraceCollectionEntityIPAddress.
+	IdTraceCollectionEntityIPAddress int64 = 131
 
-// IdTraceFailureIndication is the integer value for id-TraceFailureIndication.
-const IdTraceFailureIndication int64 = 28
+	// IdTraceCollectionEntityURI is the integer constant for id-TraceCollectionEntityURI.
+	IdTraceCollectionEntityURI int64 = 325
 
-// IdTraceStart is the integer value for id-TraceStart.
-const IdTraceStart int64 = 27
+	// IdTraceFailureIndication is the integer constant for id-TraceFailureIndication.
+	IdTraceFailureIndication int64 = 28
 
-// IdTrafficLoadReductionIndication is the integer value for id-TrafficLoadReductionIndication.
-const IdTrafficLoadReductionIndication int64 = 161
+	// IdTraceStart is the integer constant for id-TraceStart.
+	IdTraceStart int64 = 27
 
-// IdTransportInformation is the integer value for id-TransportInformation.
-const IdTransportInformation int64 = 185
+	// IdTrafficLoadReductionIndication is the integer constant for id-TrafficLoadReductionIndication.
+	IdTrafficLoadReductionIndication int64 = 161
 
-// IdTunnelInformationForBBF is the integer value for id-Tunnel-Information-for-BBF.
-const IdTunnelInformationForBBF int64 = 176
+	// IdTransportInformation is the integer constant for id-TransportInformation.
+	IdTransportInformation int64 = 185
 
-// IdUEAppLayerMeasConfig is the integer value for id-UEAppLayerMeasConfig.
-const IdUEAppLayerMeasConfig int64 = 262
+	// IdTunnelInformationForBBF is the integer constant for id-Tunnel-Information-for-BBF.
+	IdTunnelInformationForBBF int64 = 176
 
-// IdUECapabilityInfoIndication is the integer value for id-UECapabilityInfoIndication.
-const IdUECapabilityInfoIndication int64 = 22
+	// IdUEAppLayerMeasConfig is the integer constant for id-UEAppLayerMeasConfig.
+	IdUEAppLayerMeasConfig int64 = 262
 
-// IdUECapabilityInfoRequest is the integer value for id-UECapabilityInfoRequest.
-const IdUECapabilityInfoRequest int64 = 275
+	// IdUECapabilityInfoIndication is the integer constant for id-UECapabilityInfoIndication.
+	IdUECapabilityInfoIndication int64 = 22
 
-// IdUEContextModification is the integer value for id-UEContextModification.
-const IdUEContextModification int64 = 21
+	// IdUECapabilityInfoRequest is the integer constant for id-UECapabilityInfoRequest.
+	IdUECapabilityInfoRequest int64 = 275
 
-// IdUEContextModificationIndication is the integer value for id-UEContextModificationIndication.
-const IdUEContextModificationIndication int64 = 53
+	// IdUEContextModification is the integer constant for id-UEContextModification.
+	IdUEContextModification int64 = 21
 
-// IdUEContextReferenceatSourceeNB is the integer value for id-UEContextReferenceatSourceeNB.
-const IdUEContextReferenceatSourceeNB int64 = 337
+	// IdUEContextModificationIndication is the integer constant for id-UEContextModificationIndication.
+	IdUEContextModificationIndication int64 = 53
 
-// IdUEContextRelease is the integer value for id-UEContextRelease.
-const IdUEContextRelease int64 = 23
+	// IdUEContextReferenceatSourceeNB is the integer constant for id-UEContextReferenceatSourceeNB.
+	IdUEContextReferenceatSourceeNB int64 = 337
 
-// IdUEContextReleaseRequest is the integer value for id-UEContextReleaseRequest.
-const IdUEContextReleaseRequest int64 = 18
+	// IdUEContextRelease is the integer constant for id-UEContextRelease.
+	IdUEContextRelease int64 = 23
 
-// IdUEContextResume is the integer value for id-UEContextResume.
-const IdUEContextResume int64 = 56
+	// IdUEContextReleaseRequest is the integer constant for id-UEContextReleaseRequest.
+	IdUEContextReleaseRequest int64 = 18
 
-// IdUEContextSuspend is the integer value for id-UEContextSuspend.
-const IdUEContextSuspend int64 = 55
+	// IdUEContextResume is the integer constant for id-UEContextResume.
+	IdUEContextResume int64 = 56
 
-// IdUEIdentityIndexValue is the integer value for id-UEIdentityIndexValue.
-const IdUEIdentityIndexValue int64 = 80
+	// IdUEContextSuspend is the integer constant for id-UEContextSuspend.
+	IdUEContextSuspend int64 = 55
 
-// IdUEInformationTransfer is the integer value for id-UEInformationTransfer.
-const IdUEInformationTransfer int64 = 59
+	// IdUEIdentityIndexValue is the integer constant for id-UEIdentityIndexValue.
+	IdUEIdentityIndexValue int64 = 80
 
-// IdUEPagingID is the integer value for id-UEPagingID.
-const IdUEPagingID int64 = 43
+	// IdUEInformationTransfer is the integer constant for id-UEInformationTransfer.
+	IdUEInformationTransfer int64 = 59
 
-// IdUERadioCapability is the integer value for id-UERadioCapability.
-const IdUERadioCapability int64 = 74
+	// IdUEPagingID is the integer constant for id-UEPagingID.
+	IdUEPagingID int64 = 43
 
-// IdUERadioCapabilityForPaging is the integer value for id-UERadioCapabilityForPaging.
-const IdUERadioCapabilityForPaging int64 = 198
+	// IdUERadioCapability is the integer constant for id-UERadioCapability.
+	IdUERadioCapability int64 = 74
 
-// IdUERadioCapabilityForPagingNRFormat is the integer value for id-UERadioCapabilityForPaging-NR-Format.
-const IdUERadioCapabilityForPagingNRFormat int64 = 327
+	// IdUERadioCapabilityForPaging is the integer constant for id-UERadioCapabilityForPaging.
+	IdUERadioCapabilityForPaging int64 = 198
 
-// IdUERadioCapabilityID is the integer value for id-UERadioCapabilityID.
-const IdUERadioCapabilityID int64 = 314
+	// IdUERadioCapabilityForPagingNRFormat is the integer constant for id-UERadioCapabilityForPaging-NR-Format.
+	IdUERadioCapabilityForPagingNRFormat int64 = 327
 
-// IdUERadioCapabilityIDMapping is the integer value for id-UERadioCapabilityIDMapping.
-const IdUERadioCapabilityIDMapping int64 = 63
+	// IdUERadioCapabilityID is the integer constant for id-UERadioCapabilityID.
+	IdUERadioCapabilityID int64 = 314
 
-// IdUERadioCapabilityMatch is the integer value for id-UERadioCapabilityMatch.
-const IdUERadioCapabilityMatch int64 = 48
+	// IdUERadioCapabilityIDMapping is the integer constant for id-UERadioCapabilityIDMapping.
+	IdUERadioCapabilityIDMapping int64 = 63
 
-// IdUERadioCapabilityNRFormat is the integer value for id-UERadioCapability-NR-Format.
-const IdUERadioCapabilityNRFormat int64 = 315
+	// IdUERadioCapabilityMatch is the integer constant for id-UERadioCapabilityMatch.
+	IdUERadioCapabilityMatch int64 = 48
 
-// IdUESecurityCapabilities is the integer value for id-UESecurityCapabilities.
-const IdUESecurityCapabilities int64 = 107
+	// IdUERadioCapabilityNRFormat is the integer constant for id-UERadioCapability-NR-Format.
+	IdUERadioCapabilityNRFormat int64 = 315
 
-// IdUESidelinkAggregateMaximumBitrate is the integer value for id-UESidelinkAggregateMaximumBitrate.
-const IdUESidelinkAggregateMaximumBitrate int64 = 248
+	// IdUESecurityCapabilities is the integer constant for id-UESecurityCapabilities.
+	IdUESecurityCapabilities int64 = 107
 
-// IdUEUserPlaneCIoTSupportIndicator is the integer value for id-UEUserPlaneCIoTSupportIndicator.
-const IdUEUserPlaneCIoTSupportIndicator int64 = 241
+	// IdUESidelinkAggregateMaximumBitrate is the integer constant for id-UESidelinkAggregateMaximumBitrate.
+	IdUESidelinkAggregateMaximumBitrate int64 = 248
 
-// IdUEApplicationLayerMeasurementCapability is the integer value for id-UE-Application-Layer-Measurement-Capability.
-const IdUEApplicationLayerMeasurementCapability int64 = 263
+	// IdUEUserPlaneCIoTSupportIndicator is the integer constant for id-UEUserPlaneCIoTSupportIndicator.
+	IdUEUserPlaneCIoTSupportIndicator int64 = 241
 
-// IdUELevelQoSParameters is the integer value for id-UE-Level-QoS-Parameters.
-const IdUELevelQoSParameters int64 = 252
+	// IdUEApplicationLayerMeasurementCapability is the integer constant for id-UE-Application-Layer-Measurement-Capability.
+	IdUEApplicationLayerMeasurementCapability int64 = 263
 
-// IdUERetentionInformation is the integer value for id-UE-RetentionInformation.
-const IdUERetentionInformation int64 = 228
+	// IdUELevelQoSParameters is the integer constant for id-UE-Level-QoS-Parameters.
+	IdUELevelQoSParameters int64 = 252
 
-// IdUES1APIDs is the integer value for id-UE-S1AP-IDs.
-const IdUES1APIDs int64 = 99
+	// IdUERetentionInformation is the integer constant for id-UE-RetentionInformation.
+	IdUERetentionInformation int64 = 228
 
-// IdUEUsageType is the integer value for id-UE-Usage-Type.
-const IdUEUsageType int64 = 230
+	// IdUES1APIDs is the integer constant for id-UE-S1AP-IDs.
+	IdUES1APIDs int64 = 99
 
-// IdUEAssociatedLogicalS1ConnectionItem is the integer value for id-UE-associatedLogicalS1-ConnectionItem.
-const IdUEAssociatedLogicalS1ConnectionItem int64 = 91
+	// IdUEUsageType is the integer constant for id-UE-Usage-Type.
+	IdUEUsageType int64 = 230
 
-// IdUEAssociatedLogicalS1ConnectionListResAck is the integer value for id-UE-associatedLogicalS1-ConnectionListResAck.
-const IdUEAssociatedLogicalS1ConnectionListResAck int64 = 93
+	// IdUEAssociatedLogicalS1ConnectionItem is the integer constant for id-UE-associatedLogicalS1-ConnectionItem.
+	IdUEAssociatedLogicalS1ConnectionItem int64 = 91
 
-// IdULCOUNTValueExtended is the integer value for id-ULCOUNTValueExtended.
-const IdULCOUNTValueExtended int64 = 179
+	// IdUEAssociatedLogicalS1ConnectionListResAck is the integer constant for id-UE-associatedLogicalS1-ConnectionListResAck.
+	IdUEAssociatedLogicalS1ConnectionListResAck int64 = 93
 
-// IdULCOUNTValuePDCPSNlength18 is the integer value for id-ULCOUNTValuePDCP-SNlength18.
-const IdULCOUNTValuePDCPSNlength18 int64 = 217
+	// IdULCOUNTValueExtended is the integer constant for id-ULCOUNTValueExtended.
+	IdULCOUNTValueExtended int64 = 179
 
-// IdULCPSecurityInformation is the integer value for id-UL-CP-SecurityInformation.
-const IdULCPSecurityInformation int64 = 254
+	// IdULCOUNTValuePDCPSNlength18 is the integer constant for id-ULCOUNTValuePDCP-SNlength18.
+	IdULCOUNTValuePDCPSNlength18 int64 = 217
 
-// IdUTRANtoLTEHOInformationRes is the integer value for id-UTRANtoLTEHOInformationRes.
-const IdUTRANtoLTEHOInformationRes int64 = 57
+	// IdULCPSecurityInformation is the integer constant for id-UL-CP-SecurityInformation.
+	IdULCPSecurityInformation int64 = 254
 
-// IdUnlicensedSpectrumRestriction is the integer value for id-UnlicensedSpectrumRestriction.
-const IdUnlicensedSpectrumRestriction int64 = 270
+	// IdUTRANtoLTEHOInformationRes is the integer constant for id-UTRANtoLTEHOInformationRes.
+	IdUTRANtoLTEHOInformationRes int64 = 57
 
-// IdUplinkPacketLossRate is the integer value for id-UplinkPacketLossRate.
-const IdUplinkPacketLossRate int64 = 274
+	// IdUnlicensedSpectrumRestriction is the integer constant for id-UnlicensedSpectrumRestriction.
+	IdUnlicensedSpectrumRestriction int64 = 270
 
-// IdUplinkS1cdma2000tunnelling is the integer value for id-UplinkS1cdma2000tunnelling.
-const IdUplinkS1cdma2000tunnelling int64 = 20
+	// IdUplinkPacketLossRate is the integer constant for id-UplinkPacketLossRate.
+	IdUplinkPacketLossRate int64 = 274
 
-// IdUserLocationInformation is the integer value for id-UserLocationInformation.
-const IdUserLocationInformation int64 = 189
+	// IdUplinkS1cdma2000tunnelling is the integer constant for id-UplinkS1cdma2000tunnelling.
+	IdUplinkS1cdma2000tunnelling int64 = 20
 
-// IdV2XServicesAuthorized is the integer value for id-V2XServicesAuthorized.
-const IdV2XServicesAuthorized int64 = 240
+	// IdUserLocationInformation is the integer constant for id-UserLocationInformation.
+	IdUserLocationInformation int64 = 189
 
-// IdVoiceSupportMatchIndicator is the integer value for id-VoiceSupportMatchIndicator.
-const IdVoiceSupportMatchIndicator int64 = 169
+	// IdV2XServicesAuthorized is the integer constant for id-V2XServicesAuthorized.
+	IdV2XServicesAuthorized int64 = 240
 
-// IdWLANMeasurementConfiguration is the integer value for id-WLANMeasurementConfiguration.
-const IdWLANMeasurementConfiguration int64 = 285
+	// IdVoiceSupportMatchIndicator is the integer constant for id-VoiceSupportMatchIndicator.
+	IdVoiceSupportMatchIndicator int64 = 169
 
-// IdWUSAssistanceInformation is the integer value for id-WUS-Assistance-Information.
-const IdWUSAssistanceInformation int64 = 323
+	// IdWLANMeasurementConfiguration is the integer constant for id-WLANMeasurementConfiguration.
+	IdWLANMeasurementConfiguration int64 = 285
 
-// IdWarningAreaCoordinates is the integer value for id-WarningAreaCoordinates.
-const IdWarningAreaCoordinates int64 = 286
+	// IdWUSAssistanceInformation is the integer constant for id-WUS-Assistance-Information.
+	IdWUSAssistanceInformation int64 = 323
 
-// IdWarningAreaList is the integer value for id-WarningAreaList.
-const IdWarningAreaList int64 = 113
+	// IdWarningAreaCoordinates is the integer constant for id-WarningAreaCoordinates.
+	IdWarningAreaCoordinates int64 = 286
 
-// IdWarningMessageContents is the integer value for id-WarningMessageContents.
-const IdWarningMessageContents int64 = 119
+	// IdWarningAreaList is the integer constant for id-WarningAreaList.
+	IdWarningAreaList int64 = 113
 
-// IdWarningSecurityInfo is the integer value for id-WarningSecurityInfo.
-const IdWarningSecurityInfo int64 = 117
+	// IdWarningMessageContents is the integer constant for id-WarningMessageContents.
+	IdWarningMessageContents int64 = 119
 
-// IdWarningType is the integer value for id-WarningType.
-const IdWarningType int64 = 116
+	// IdWarningSecurityInfo is the integer constant for id-WarningSecurityInfo.
+	IdWarningSecurityInfo int64 = 117
 
-// IdWriteReplaceWarning is the integer value for id-WriteReplaceWarning.
-const IdWriteReplaceWarning int64 = 36
+	// IdWarningType is the integer constant for id-WarningType.
+	IdWarningType int64 = 116
 
-// IdCdma2000HORequiredIndication is the integer value for id-cdma2000HORequiredIndication.
-const IdCdma2000HORequiredIndication int64 = 84
+	// IdWriteReplaceWarning is the integer constant for id-WriteReplaceWarning.
+	IdWriteReplaceWarning int64 = 36
 
-// IdCdma2000HOStatus is the integer value for id-cdma2000HOStatus.
-const IdCdma2000HOStatus int64 = 83
+	// IdCdma2000HORequiredIndication is the integer constant for id-cdma2000HORequiredIndication.
+	IdCdma2000HORequiredIndication int64 = 84
 
-// IdCdma2000OneXRAND is the integer value for id-cdma2000OneXRAND.
-const IdCdma2000OneXRAND int64 = 97
+	// IdCdma2000HOStatus is the integer constant for id-cdma2000HOStatus.
+	IdCdma2000HOStatus int64 = 83
 
-// IdCdma2000OneXSRVCCInfo is the integer value for id-cdma2000OneXSRVCCInfo.
-const IdCdma2000OneXSRVCCInfo int64 = 102
+	// IdCdma2000OneXRAND is the integer constant for id-cdma2000OneXRAND.
+	IdCdma2000OneXRAND int64 = 97
 
-// IdCdma2000PDU is the integer value for id-cdma2000PDU.
-const IdCdma2000PDU int64 = 70
+	// IdCdma2000OneXSRVCCInfo is the integer constant for id-cdma2000OneXSRVCCInfo.
+	IdCdma2000OneXSRVCCInfo int64 = 102
 
-// IdCdma2000RATType is the integer value for id-cdma2000RATType.
-const IdCdma2000RATType int64 = 71
+	// IdCdma2000PDU is the integer constant for id-cdma2000PDU.
+	IdCdma2000PDU int64 = 70
 
-// IdCdma2000SectorID is the integer value for id-cdma2000SectorID.
-const IdCdma2000SectorID int64 = 72
+	// IdCdma2000RATType is the integer constant for id-cdma2000RATType.
+	IdCdma2000RATType int64 = 71
 
-// IdDownlinkNASTransport is the integer value for id-downlinkNASTransport.
-const IdDownlinkNASTransport int64 = 11
+	// IdCdma2000SectorID is the integer constant for id-cdma2000SectorID.
+	IdCdma2000SectorID int64 = 72
 
-// IdDownlinkNonUEAssociatedLPPaTransport is the integer value for id-downlinkNonUEAssociatedLPPaTransport.
-const IdDownlinkNonUEAssociatedLPPaTransport int64 = 46
+	// IdDownlinkNASTransport is the integer constant for id-downlinkNASTransport.
+	IdDownlinkNASTransport int64 = 11
 
-// IdDownlinkUEAssociatedLPPaTransport is the integer value for id-downlinkUEAssociatedLPPaTransport.
-const IdDownlinkUEAssociatedLPPaTransport int64 = 44
+	// IdDownlinkNonUEAssociatedLPPaTransport is the integer constant for id-downlinkNonUEAssociatedLPPaTransport.
+	IdDownlinkNonUEAssociatedLPPaTransport int64 = 46
 
-// IdENBCPRelocationIndication is the integer value for id-eNBCPRelocationIndication.
-const IdENBCPRelocationIndication int64 = 60
+	// IdDownlinkUEAssociatedLPPaTransport is the integer constant for id-downlinkUEAssociatedLPPaTransport.
+	IdDownlinkUEAssociatedLPPaTransport int64 = 44
 
-// IdENBConfigurationTransfer is the integer value for id-eNBConfigurationTransfer.
-const IdENBConfigurationTransfer int64 = 40
+	// IdENBCPRelocationIndication is the integer constant for id-eNBCPRelocationIndication.
+	IdENBCPRelocationIndication int64 = 60
 
-// IdENBDirectInformationTransfer is the integer value for id-eNBDirectInformationTransfer.
-const IdENBDirectInformationTransfer int64 = 37
+	// IdENBConfigurationTransfer is the integer constant for id-eNBConfigurationTransfer.
+	IdENBConfigurationTransfer int64 = 40
 
-// IdENBEarlyStatusTransfer is the integer value for id-eNBEarlyStatusTransfer.
-const IdENBEarlyStatusTransfer int64 = 65
+	// IdENBDirectInformationTransfer is the integer constant for id-eNBDirectInformationTransfer.
+	IdENBDirectInformationTransfer int64 = 37
 
-// IdENBIndirectX2TransportLayerAddresses is the integer value for id-eNBIndirectX2TransportLayerAddresses.
-const IdENBIndirectX2TransportLayerAddresses int64 = 193
+	// IdENBEarlyStatusTransfer is the integer constant for id-eNBEarlyStatusTransfer.
+	IdENBEarlyStatusTransfer int64 = 65
 
-// IdENBStatusTransfer is the integer value for id-eNBStatusTransfer.
-const IdENBStatusTransfer int64 = 24
+	// IdENBIndirectX2TransportLayerAddresses is the integer constant for id-eNBIndirectX2TransportLayerAddresses.
+	IdENBIndirectX2TransportLayerAddresses int64 = 193
 
-// IdENBX2ExtendedTransportLayerAddresses is the integer value for id-eNBX2ExtendedTransportLayerAddresses.
-const IdENBX2ExtendedTransportLayerAddresses int64 = 153
+	// IdENBStatusTransfer is the integer constant for id-eNBStatusTransfer.
+	IdENBStatusTransfer int64 = 24
 
-// IdENBEarlyStatusTransferTransparentContainer is the integer value for id-eNB-EarlyStatusTransfer-TransparentContainer.
-const IdENBEarlyStatusTransferTransparentContainer int64 = 321
+	// IdENBX2ExtendedTransportLayerAddresses is the integer constant for id-eNBX2ExtendedTransportLayerAddresses.
+	IdENBX2ExtendedTransportLayerAddresses int64 = 153
 
-// IdENBStatusTransferTransparentContainer is the integer value for id-eNB-StatusTransfer-TransparentContainer.
-const IdENBStatusTransferTransparentContainer int64 = 90
+	// IdENBEarlyStatusTransferTransparentContainer is the integer constant for id-eNB-EarlyStatusTransfer-TransparentContainer.
+	IdENBEarlyStatusTransferTransparentContainer int64 = 321
 
-// IdENBUES1APID is the integer value for id-eNB-UE-S1AP-ID.
-const IdENBUES1APID int64 = 8
+	// IdENBStatusTransferTransparentContainer is the integer constant for id-eNB-StatusTransfer-TransparentContainer.
+	IdENBStatusTransferTransparentContainer int64 = 90
 
-// IdENBname is the integer value for id-eNBname.
-const IdENBname int64 = 60
+	// IdENBUES1APID is the integer constant for id-eNB-UE-S1AP-ID.
+	IdENBUES1APID int64 = 8
 
-// IdExtendedUEIdentityIndexValue is the integer value for id-extended-UEIdentityIndexValue.
-const IdExtendedUEIdentityIndexValue int64 = 231
+	// IdENBname is the integer constant for id-eNBname.
+	IdENBname int64 = 60
 
-// IdExtendedERABGuaranteedBitrateDL is the integer value for id-extended-e-RAB-GuaranteedBitrateDL.
-const IdExtendedERABGuaranteedBitrateDL int64 = 257
+	// IdExtendedUEIdentityIndexValue is the integer constant for id-extended-UEIdentityIndexValue.
+	IdExtendedUEIdentityIndexValue int64 = 231
 
-// IdExtendedERABGuaranteedBitrateUL is the integer value for id-extended-e-RAB-GuaranteedBitrateUL.
-const IdExtendedERABGuaranteedBitrateUL int64 = 258
+	// IdExtendedERABGuaranteedBitrateDL is the integer constant for id-extended-e-RAB-GuaranteedBitrateDL.
+	IdExtendedERABGuaranteedBitrateDL int64 = 257
 
-// IdExtendedERABMaximumBitrateDL is the integer value for id-extended-e-RAB-MaximumBitrateDL.
-const IdExtendedERABMaximumBitrateDL int64 = 255
+	// IdExtendedERABGuaranteedBitrateUL is the integer constant for id-extended-e-RAB-GuaranteedBitrateUL.
+	IdExtendedERABGuaranteedBitrateUL int64 = 258
 
-// IdExtendedERABMaximumBitrateUL is the integer value for id-extended-e-RAB-MaximumBitrateUL.
-const IdExtendedERABMaximumBitrateUL int64 = 256
+	// IdExtendedERABMaximumBitrateDL is the integer constant for id-extended-e-RAB-MaximumBitrateDL.
+	IdExtendedERABMaximumBitrateDL int64 = 255
 
-// IdExtendedUEaggregateMaximumBitRateDL is the integer value for id-extended-uEaggregateMaximumBitRateDL.
-const IdExtendedUEaggregateMaximumBitRateDL int64 = 259
+	// IdExtendedERABMaximumBitrateUL is the integer constant for id-extended-e-RAB-MaximumBitrateUL.
+	IdExtendedERABMaximumBitrateUL int64 = 256
 
-// IdExtendedUEaggregateMaximumBitRateUL is the integer value for id-extended-uEaggregateMaximumBitRateUL.
-const IdExtendedUEaggregateMaximumBitRateUL int64 = 260
+	// IdExtendedUEaggregateMaximumBitRateDL is the integer constant for id-extended-uEaggregateMaximumBitRateDL.
+	IdExtendedUEaggregateMaximumBitRateDL int64 = 259
 
-// IdInitialUEMessage is the integer value for id-initialUEMessage.
-const IdInitialUEMessage int64 = 12
+	// IdExtendedUEaggregateMaximumBitRateUL is the integer constant for id-extended-uEaggregateMaximumBitRateUL.
+	IdExtendedUEaggregateMaximumBitRateUL int64 = 260
 
-// IdLastVisitedPSCellList is the integer value for id-lastVisitedPSCellList.
-const IdLastVisitedPSCellList int64 = 329
+	// IdInitialUEMessage is the integer constant for id-initialUEMessage.
+	IdInitialUEMessage int64 = 12
 
-// IdPagingDRX is the integer value for id-pagingDRX.
-const IdPagingDRX int64 = 44
+	// IdLastVisitedPSCellList is the integer constant for id-lastVisitedPSCellList.
+	IdLastVisitedPSCellList int64 = 329
 
-// IdServiceType is the integer value for id-serviceType.
-const IdServiceType int64 = 276
+	// IdPagingDRX is the integer constant for id-pagingDRX.
+	IdPagingDRX int64 = 44
 
-// IdUEHistoryInformationFromTheUE is the integer value for id-uE-HistoryInformationFromTheUE.
-const IdUEHistoryInformationFromTheUE int64 = 194
+	// IdServiceType is the integer constant for id-serviceType.
+	IdServiceType int64 = 276
 
-// IdUEaggregateMaximumBitrate is the integer value for id-uEaggregateMaximumBitrate.
-const IdUEaggregateMaximumBitrate int64 = 66
+	// IdUEHistoryInformationFromTheUE is the integer constant for id-uE-HistoryInformationFromTheUE.
+	IdUEHistoryInformationFromTheUE int64 = 194
 
-// IdUplinkNASTransport is the integer value for id-uplinkNASTransport.
-const IdUplinkNASTransport int64 = 13
+	// IdUEaggregateMaximumBitrate is the integer constant for id-uEaggregateMaximumBitrate.
+	IdUEaggregateMaximumBitrate int64 = 66
 
-// IdUplinkNonUEAssociatedLPPaTransport is the integer value for id-uplinkNonUEAssociatedLPPaTransport.
-const IdUplinkNonUEAssociatedLPPaTransport int64 = 47
+	// IdUplinkNASTransport is the integer constant for id-uplinkNASTransport.
+	IdUplinkNASTransport int64 = 13
 
-// IdUplinkUEAssociatedLPPaTransport is the integer value for id-uplinkUEAssociatedLPPaTransport.
-const IdUplinkUEAssociatedLPPaTransport int64 = 45
+	// IdUplinkNonUEAssociatedLPPaTransport is the integer constant for id-uplinkNonUEAssociatedLPPaTransport.
+	IdUplinkNonUEAssociatedLPPaTransport int64 = 47
 
-// IdX2TNLConfigurationInfo is the integer value for id-x2TNLConfigurationInfo.
-const IdX2TNLConfigurationInfo int64 = 152
+	// IdUplinkUEAssociatedLPPaTransport is the integer constant for id-uplinkUEAssociatedLPPaTransport.
+	IdUplinkUEAssociatedLPPaTransport int64 = 45
 
-// MaxEARFCN is the integer value for maxEARFCN.
-const MaxEARFCN int64 = 262143
+	// IdX2TNLConfigurationInfo is the integer constant for id-x2TNLConfigurationInfo.
+	IdX2TNLConfigurationInfo int64 = 152
 
-// MaxNARFCN is the integer value for maxNARFCN.
-const MaxNARFCN int64 = 3.279165e+06
+	// MaxEARFCN is the integer constant for maxEARFCN.
+	MaxEARFCN int64 = 262143
 
-// MaxPrivateIEs is the integer value for maxPrivateIEs.
-const MaxPrivateIEs int64 = 65535
+	// MaxNARFCN is the integer constant for maxNARFCN.
+	MaxNARFCN int64 = 3.279165e+06
 
-// MaxProtocolExtensions is the integer value for maxProtocolExtensions.
-const MaxProtocolExtensions int64 = 65535
+	// MaxPrivateIEs is the integer constant for maxPrivateIEs.
+	MaxPrivateIEs int64 = 65535
 
-// MaxProtocolIEs is the integer value for maxProtocolIEs.
-const MaxProtocolIEs int64 = 65535
+	// MaxProtocolExtensions is the integer constant for maxProtocolExtensions.
+	MaxProtocolExtensions int64 = 65535
 
-// MaxRSIndexCellQual is the integer value for maxRS-IndexCellQual.
-const MaxRSIndexCellQual int64 = 16
+	// MaxProtocolIEs is the integer constant for maxProtocolIEs.
+	MaxProtocolIEs int64 = 65535
 
-// MaxnoofBPLMNs is the integer value for maxnoofBPLMNs.
-const MaxnoofBPLMNs int64 = 6
+	// MaxRSIndexCellQual is the integer constant for maxRS-IndexCellQual.
+	MaxRSIndexCellQual int64 = 16
 
-// MaxnoofBluetoothName is the integer value for maxnoofBluetoothName.
-const MaxnoofBluetoothName int64 = 4
+	// MaxnoofBPLMNs is the integer constant for maxnoofBPLMNs.
+	MaxnoofBPLMNs int64 = 6
 
-// MaxnoofCSGs is the integer value for maxnoofCSGs.
-const MaxnoofCSGs int64 = 256
+	// MaxnoofBluetoothName is the integer constant for maxnoofBluetoothName.
+	MaxnoofBluetoothName int64 = 4
 
-// MaxnoofCellID is the integer value for maxnoofCellID.
-const MaxnoofCellID int64 = 65535
+	// MaxnoofCSGs is the integer constant for maxnoofCSGs.
+	MaxnoofCSGs int64 = 256
 
-// MaxnoofCellIDforMDT is the integer value for maxnoofCellIDforMDT.
-const MaxnoofCellIDforMDT int64 = 32
+	// MaxnoofCellID is the integer constant for maxnoofCellID.
+	MaxnoofCellID int64 = 65535
 
-// MaxnoofCellIDforQMC is the integer value for maxnoofCellIDforQMC.
-const MaxnoofCellIDforQMC int64 = 32
+	// MaxnoofCellIDforMDT is the integer constant for maxnoofCellIDforMDT.
+	MaxnoofCellIDforMDT int64 = 32
 
-// MaxnoofCellinEAI is the integer value for maxnoofCellinEAI.
-const MaxnoofCellinEAI int64 = 65535
+	// MaxnoofCellIDforQMC is the integer constant for maxnoofCellIDforQMC.
+	MaxnoofCellIDforQMC int64 = 32
 
-// MaxnoofCellinTAI is the integer value for maxnoofCellinTAI.
-const MaxnoofCellinTAI int64 = 65535
+	// MaxnoofCellinEAI is the integer constant for maxnoofCellinEAI.
+	MaxnoofCellinEAI int64 = 65535
 
-// MaxnoofCellsforRestart is the integer value for maxnoofCellsforRestart.
-const MaxnoofCellsforRestart int64 = 256
+	// MaxnoofCellinTAI is the integer constant for maxnoofCellinTAI.
+	MaxnoofCellinTAI int64 = 65535
 
-// MaxnoofCellsinUEHistoryInfo is the integer value for maxnoofCellsinUEHistoryInfo.
-const MaxnoofCellsinUEHistoryInfo int64 = 16
+	// MaxnoofCellsforRestart is the integer constant for maxnoofCellsforRestart.
+	MaxnoofCellsforRestart int64 = 256
 
-// MaxnoofCellsineNB is the integer value for maxnoofCellsineNB.
-const MaxnoofCellsineNB int64 = 256
+	// MaxnoofCellsinUEHistoryInfo is the integer constant for maxnoofCellsinUEHistoryInfo.
+	MaxnoofCellsinUEHistoryInfo int64 = 16
 
-// MaxnoofConnectedengNBs is the integer value for maxnoofConnectedengNBs.
-const MaxnoofConnectedengNBs int64 = 256
+	// MaxnoofCellsineNB is the integer constant for maxnoofCellsineNB.
+	MaxnoofCellsineNB int64 = 256
 
-// MaxnoofDCNs is the integer value for maxnoofDCNs.
-const MaxnoofDCNs int64 = 32
+	// MaxnoofConnectedengNBs is the integer constant for maxnoofConnectedengNBs.
+	MaxnoofConnectedengNBs int64 = 256
 
-// MaxnoofEPLMNs is the integer value for maxnoofEPLMNs.
-const MaxnoofEPLMNs int64 = 15
+	// MaxnoofDCNs is the integer constant for maxnoofDCNs.
+	MaxnoofDCNs int64 = 32
 
-// MaxnoofEPLMNsPlusOne is the integer value for maxnoofEPLMNsPlusOne.
-const MaxnoofEPLMNsPlusOne int64 = 16
+	// MaxnoofEPLMNs is the integer constant for maxnoofEPLMNs.
+	MaxnoofEPLMNs int64 = 15
 
-// MaxnoofERABs is the integer value for maxnoofE-RABs.
-const MaxnoofERABs int64 = 256
+	// MaxnoofEPLMNsPlusOne is the integer constant for maxnoofEPLMNsPlusOne.
+	MaxnoofEPLMNsPlusOne int64 = 16
 
-// MaxnoofEmergencyAreaID is the integer value for maxnoofEmergencyAreaID.
-const MaxnoofEmergencyAreaID int64 = 65535
+	// MaxnoofERABs is the integer constant for maxnoofE-RABs.
+	MaxnoofERABs int64 = 256
 
-// MaxnoofErrors is the integer value for maxnoofErrors.
-const MaxnoofErrors int64 = 256
+	// MaxnoofEmergencyAreaID is the integer constant for maxnoofEmergencyAreaID.
+	MaxnoofEmergencyAreaID int64 = 65535
 
-// MaxnoofForbLACs is the integer value for maxnoofForbLACs.
-const MaxnoofForbLACs int64 = 4096
+	// MaxnoofErrors is the integer constant for maxnoofErrors.
+	MaxnoofErrors int64 = 256
 
-// MaxnoofForbTACs is the integer value for maxnoofForbTACs.
-const MaxnoofForbTACs int64 = 4096
+	// MaxnoofForbLACs is the integer constant for maxnoofForbLACs.
+	MaxnoofForbLACs int64 = 4096
 
-// MaxnoofGroupIDs is the integer value for maxnoofGroupIDs.
-const MaxnoofGroupIDs int64 = 65535
+	// MaxnoofForbTACs is the integer constant for maxnoofForbTACs.
+	MaxnoofForbTACs int64 = 4096
 
-// MaxnoofIndividualS1ConnectionsToReset is the integer value for maxnoofIndividualS1ConnectionsToReset.
-const MaxnoofIndividualS1ConnectionsToReset int64 = 256
+	// MaxnoofGroupIDs is the integer constant for maxnoofGroupIDs.
+	MaxnoofGroupIDs int64 = 65535
 
-// MaxnoofMBSFNAreaMDT is the integer value for maxnoofMBSFNAreaMDT.
-const MaxnoofMBSFNAreaMDT int64 = 8
+	// MaxnoofIndividualS1ConnectionsToReset is the integer constant for maxnoofIndividualS1ConnectionsToReset.
+	MaxnoofIndividualS1ConnectionsToReset int64 = 256
 
-// MaxnoofMDTPLMNs is the integer value for maxnoofMDTPLMNs.
-const MaxnoofMDTPLMNs int64 = 16
+	// MaxnoofMBSFNAreaMDT is the integer constant for maxnoofMBSFNAreaMDT.
+	MaxnoofMBSFNAreaMDT int64 = 8
 
-// MaxnoofMMECs is the integer value for maxnoofMMECs.
-const MaxnoofMMECs int64 = 256
+	// MaxnoofMDTPLMNs is the integer constant for maxnoofMDTPLMNs.
+	MaxnoofMDTPLMNs int64 = 16
 
-// MaxnoofPC5QoSFlows is the integer value for maxnoofPC5QoSFlows.
-const MaxnoofPC5QoSFlows int64 = 2048
+	// MaxnoofMMECs is the integer constant for maxnoofMMECs.
+	MaxnoofMMECs int64 = 256
 
-// MaxnoofPLMNforQMC is the integer value for maxnoofPLMNforQMC.
-const MaxnoofPLMNforQMC int64 = 16
+	// MaxnoofPC5QoSFlows is the integer constant for maxnoofPC5QoSFlows.
+	MaxnoofPC5QoSFlows int64 = 2048
 
-// MaxnoofPLMNsPerMME is the integer value for maxnoofPLMNsPerMME.
-const MaxnoofPLMNsPerMME int64 = 32
+	// MaxnoofPLMNforQMC is the integer constant for maxnoofPLMNforQMC.
+	MaxnoofPLMNforQMC int64 = 16
 
-// MaxnoofPSCellsPerPrimaryCellinUEHistoryInfo is the integer value for maxnoofPSCellsPerPrimaryCellinUEHistoryInfo.
-const MaxnoofPSCellsPerPrimaryCellinUEHistoryInfo int64 = 8
+	// MaxnoofPLMNsPerMME is the integer constant for maxnoofPLMNsPerMME.
+	MaxnoofPLMNsPerMME int64 = 32
 
-// MaxnoofRATs is the integer value for maxnoofRATs.
-const MaxnoofRATs int64 = 8
+	// MaxnoofPSCellsPerPrimaryCellinUEHistoryInfo is the integer constant for maxnoofPSCellsPerPrimaryCellinUEHistoryInfo.
+	MaxnoofPSCellsPerPrimaryCellinUEHistoryInfo int64 = 8
 
-// MaxnoofRecommendedCells is the integer value for maxnoofRecommendedCells.
-const MaxnoofRecommendedCells int64 = 16
+	// MaxnoofRATs is the integer constant for maxnoofRATs.
+	MaxnoofRATs int64 = 8
 
-// MaxnoofRecommendedENBs is the integer value for maxnoofRecommendedENBs.
-const MaxnoofRecommendedENBs int64 = 16
+	// MaxnoofRecommendedCells is the integer constant for maxnoofRecommendedCells.
+	MaxnoofRecommendedCells int64 = 16
 
-// MaxnoofRestartEmergencyAreaIDs is the integer value for maxnoofRestartEmergencyAreaIDs.
-const MaxnoofRestartEmergencyAreaIDs int64 = 256
+	// MaxnoofRecommendedENBs is the integer constant for maxnoofRecommendedENBs.
+	MaxnoofRecommendedENBs int64 = 16
 
-// MaxnoofRestartTAIs is the integer value for maxnoofRestartTAIs.
-const MaxnoofRestartTAIs int64 = 2048
+	// MaxnoofRestartEmergencyAreaIDs is the integer constant for maxnoofRestartEmergencyAreaIDs.
+	MaxnoofRestartEmergencyAreaIDs int64 = 256
 
-// MaxnoofSensorName is the integer value for maxnoofSensorName.
-const MaxnoofSensorName int64 = 3
+	// MaxnoofRestartTAIs is the integer constant for maxnoofRestartTAIs.
+	MaxnoofRestartTAIs int64 = 2048
 
-// MaxnoofTACs is the integer value for maxnoofTACs.
-const MaxnoofTACs int64 = 256
+	// MaxnoofSensorName is the integer constant for maxnoofSensorName.
+	MaxnoofSensorName int64 = 3
 
-// MaxnoofTACsInNTN is the integer value for maxnoofTACsInNTN.
-const MaxnoofTACsInNTN int64 = 12
+	// MaxnoofTACs is the integer constant for maxnoofTACs.
+	MaxnoofTACs int64 = 256
 
-// MaxnoofTAIforWarning is the integer value for maxnoofTAIforWarning.
-const MaxnoofTAIforWarning int64 = 65535
+	// MaxnoofTACsInNTN is the integer constant for maxnoofTACsInNTN.
+	MaxnoofTACsInNTN int64 = 12
 
-// MaxnoofTAIs is the integer value for maxnoofTAIs.
-const MaxnoofTAIs int64 = 256
+	// MaxnoofTAIforWarning is the integer constant for maxnoofTAIforWarning.
+	MaxnoofTAIforWarning int64 = 65535
 
-// MaxnoofTAforMDT is the integer value for maxnoofTAforMDT.
-const MaxnoofTAforMDT int64 = 8
+	// MaxnoofTAIs is the integer constant for maxnoofTAIs.
+	MaxnoofTAIs int64 = 256
 
-// MaxnoofTAforQMC is the integer value for maxnoofTAforQMC.
-const MaxnoofTAforQMC int64 = 8
+	// MaxnoofTAforMDT is the integer constant for maxnoofTAforMDT.
+	MaxnoofTAforMDT int64 = 8
 
-// MaxnoofWLANName is the integer value for maxnoofWLANName.
-const MaxnoofWLANName int64 = 4
+	// MaxnoofTAforQMC is the integer constant for maxnoofTAforQMC.
+	MaxnoofTAforQMC int64 = 8
 
-// MaxnoofeNBX2ExtTLAs is the integer value for maxnoofeNBX2ExtTLAs.
-const MaxnoofeNBX2ExtTLAs int64 = 16
+	// MaxnoofWLANName is the integer constant for maxnoofWLANName.
+	MaxnoofWLANName int64 = 4
 
-// MaxnoofeNBX2GTPTLAs is the integer value for maxnoofeNBX2GTPTLAs.
-const MaxnoofeNBX2GTPTLAs int64 = 16
+	// MaxnoofeNBX2ExtTLAs is the integer constant for maxnoofeNBX2ExtTLAs.
+	MaxnoofeNBX2ExtTLAs int64 = 16
 
-// MaxnoofeNBX2TLAs is the integer value for maxnoofeNBX2TLAs.
-const MaxnoofeNBX2TLAs int64 = 2
+	// MaxnoofeNBX2GTPTLAs is the integer constant for maxnoofeNBX2GTPTLAs.
+	MaxnoofeNBX2GTPTLAs int64 = 16
 
-// Maxnooffrequencies is the integer value for maxnooffrequencies.
-const Maxnooffrequencies int64 = 64
+	// MaxnoofeNBX2TLAs is the integer constant for maxnoofeNBX2TLAs.
+	MaxnoofeNBX2TLAs int64 = 2
 
-// Maxnooftimeperiods is the integer value for maxnooftimeperiods.
-const Maxnooftimeperiods int64 = 2
+	// Maxnooffrequencies is the integer constant for maxnooffrequencies.
+	Maxnooffrequencies int64 = 64
+
+	// Maxnooftimeperiods is the integer constant for maxnooftimeperiods.
+	Maxnooftimeperiods int64 = 2
+)

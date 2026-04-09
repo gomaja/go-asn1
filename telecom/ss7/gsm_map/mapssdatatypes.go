@@ -17,20 +17,23 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// MaxEventSpecification is the integer value for maxEventSpecification.
-const MaxEventSpecification int64 = 2
+const (
 
-// MaxNumOfBasicServiceGroups is the integer value for maxNumOfBasicServiceGroups.
-const MaxNumOfBasicServiceGroups int64 = 13
+	// MaxEventSpecification is the integer constant for maxEventSpecification.
+	MaxEventSpecification int64 = 2
 
-// MaxNumOfCCBSRequests is the integer value for maxNumOfCCBS-Requests.
-const MaxNumOfCCBSRequests int64 = 5
+	// MaxNumOfBasicServiceGroups is the integer constant for maxNumOfBasicServiceGroups.
+	MaxNumOfBasicServiceGroups int64 = 13
 
-// MaxNumOfSS is the integer value for maxNumOfSS.
-const MaxNumOfSS int64 = 30
+	// MaxNumOfCCBSRequests is the integer constant for maxNumOfCCBS-Requests.
+	MaxNumOfCCBSRequests int64 = 5
 
-// MaxUSSDStringLength is the integer value for maxUSSD-StringLength.
-const MaxUSSDStringLength int64 = 160
+	// MaxNumOfSS is the integer constant for maxNumOfSS.
+	MaxNumOfSS int64 = 30
+
+	// MaxUSSDStringLength is the integer constant for maxUSSD-StringLength.
+	MaxUSSDStringLength int64 = 160
+)
 
 // BasicServiceGroupList represents the ASN.1 type BasicServiceGroupList (SEQUENCE_OF).
 type BasicServiceGroupList = []BasicServiceCode

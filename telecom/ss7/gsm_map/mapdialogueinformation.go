@@ -17,8 +17,11 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// MapDialogueAS is the OID value for map-DialogueAS.
-var MapDialogueAS = []uint64{0, 4, 0, 0, 1, 1, 1, 1}
+var (
+
+	// MapDialogueAS is the OID value for map-DialogueAS.
+	MapDialogueAS = []uint64{0, 4, 0, 0, 1, 1, 1, 1}
+)
 
 // MAPAcceptInfo represents the ASN.1 type MAP-AcceptInfo (SEQUENCE).
 type MAPAcceptInfo struct {

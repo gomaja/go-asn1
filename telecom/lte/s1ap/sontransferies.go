@@ -15,14 +15,17 @@ var (
 	_ = per.NewBitBuffer
 )
 
-// MaxnoofCellineNB is the integer value for maxnoofCellineNB.
-const MaxnoofCellineNB int64 = 256
+const (
 
-// MaxnoofIRATReportingCells is the integer value for maxnoofIRATReportingCells.
-const MaxnoofIRATReportingCells int64 = 128
+	// MaxnoofCellineNB is the integer constant for maxnoofCellineNB.
+	MaxnoofCellineNB int64 = 256
 
-// MaxnoofcandidateCells is the integer value for maxnoofcandidateCells.
-const MaxnoofcandidateCells int64 = 16
+	// MaxnoofIRATReportingCells is the integer constant for maxnoofIRATReportingCells.
+	MaxnoofIRATReportingCells int64 = 128
+
+	// MaxnoofcandidateCells is the integer constant for maxnoofcandidateCells.
+	MaxnoofcandidateCells int64 = 16
+)
 
 // ActivatedCellsList represents the ASN.1 type ActivatedCellsList (SEQUENCE_OF).
 type ActivatedCellsList = []ActivatedCellsListItem

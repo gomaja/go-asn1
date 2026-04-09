@@ -15,26 +15,29 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// AlertServiceCentre is the integer value for alertServiceCentre.
-const AlertServiceCentre int64 = 64
+const (
 
-// InformServiceCentre is the integer value for informServiceCentre.
-const InformServiceCentre int64 = 63
+	// AlertServiceCentre is the integer constant for alertServiceCentre.
+	AlertServiceCentre int64 = 64
 
-// MoForwardSM is the integer value for mo-ForwardSM.
-const MoForwardSM int64 = 46
+	// InformServiceCentre is the integer constant for informServiceCentre.
+	InformServiceCentre int64 = 63
 
-// MtForwardSM is the integer value for mt-ForwardSM.
-const MtForwardSM int64 = 44
+	// MoForwardSM is the integer constant for mo-ForwardSM.
+	MoForwardSM int64 = 46
 
-// MtForwardSMVGCS is the integer value for mt-ForwardSM-VGCS.
-const MtForwardSMVGCS int64 = 21
+	// MtForwardSM is the integer constant for mt-ForwardSM.
+	MtForwardSM int64 = 44
 
-// ReadyForSM is the integer value for readyForSM.
-const ReadyForSM int64 = 66
+	// MtForwardSMVGCS is the integer constant for mt-ForwardSM-VGCS.
+	MtForwardSMVGCS int64 = 21
 
-// ReportSMDeliveryStatus is the integer value for reportSM-DeliveryStatus.
-const ReportSMDeliveryStatus int64 = 47
+	// ReadyForSM is the integer constant for readyForSM.
+	ReadyForSM int64 = 66
 
-// SendRoutingInfoForSM is the integer value for sendRoutingInfoForSM.
-const SendRoutingInfoForSM int64 = 45
+	// ReportSMDeliveryStatus is the integer constant for reportSM-DeliveryStatus.
+	ReportSMDeliveryStatus int64 = 47
+
+	// SendRoutingInfoForSM is the integer constant for sendRoutingInfoForSM.
+	SendRoutingInfoForSM int64 = 45
+)

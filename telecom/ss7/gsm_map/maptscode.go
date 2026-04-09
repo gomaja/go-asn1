@@ -15,101 +15,104 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// AllDataTeleservices is the octet string value for allDataTeleservices.
-const AllDataTeleservices = "\x70"
+const (
 
-// AllFacsimileTransmissionServices is the octet string value for allFacsimileTransmissionServices.
-const AllFacsimileTransmissionServices = "\x60"
+	// AllDataTeleservices is the octet string constant for allDataTeleservices.
+	AllDataTeleservices = "\x70"
 
-// AllPLMNSpecificTS is the octet string value for allPLMN-specificTS.
-const AllPLMNSpecificTS = "\xd0"
+	// AllFacsimileTransmissionServices is the octet string constant for allFacsimileTransmissionServices.
+	AllFacsimileTransmissionServices = "\x60"
 
-// AllShortMessageServices is the octet string value for allShortMessageServices.
-const AllShortMessageServices = "\x20"
+	// AllPLMNSpecificTS is the octet string constant for allPLMN-specificTS.
+	AllPLMNSpecificTS = "\xd0"
 
-// AllSpeechTransmissionServices is the octet string value for allSpeechTransmissionServices.
-const AllSpeechTransmissionServices = "\x10"
+	// AllShortMessageServices is the octet string constant for allShortMessageServices.
+	AllShortMessageServices = "\x20"
 
-// AllTeleservices is the octet string value for allTeleservices.
-const AllTeleservices = "\x00"
+	// AllSpeechTransmissionServices is the octet string constant for allSpeechTransmissionServices.
+	AllSpeechTransmissionServices = "\x10"
 
-// AllTeleservicesExeptSMS is the octet string value for allTeleservices-ExeptSMS.
-const AllTeleservicesExeptSMS = "\x80"
+	// AllTeleservices is the octet string constant for allTeleservices.
+	AllTeleservices = "\x00"
 
-// AllVoiceGroupCallServices is the octet string value for allVoiceGroupCallServices.
-const AllVoiceGroupCallServices = "\x90"
+	// AllTeleservicesExeptSMS is the octet string constant for allTeleservices-ExeptSMS.
+	AllTeleservicesExeptSMS = "\x80"
 
-// AutomaticFacsimileGroup3 is the octet string value for automaticFacsimileGroup3.
-const AutomaticFacsimileGroup3 = "\x62"
+	// AllVoiceGroupCallServices is the octet string constant for allVoiceGroupCallServices.
+	AllVoiceGroupCallServices = "\x90"
 
-// EmergencyCalls is the octet string value for emergencyCalls.
-const EmergencyCalls = "\x12"
+	// AutomaticFacsimileGroup3 is the octet string constant for automaticFacsimileGroup3.
+	AutomaticFacsimileGroup3 = "\x62"
 
-// FacsimileGroup3AndAlterSpeech is the octet string value for facsimileGroup3AndAlterSpeech.
-const FacsimileGroup3AndAlterSpeech = "\x61"
+	// EmergencyCalls is the octet string constant for emergencyCalls.
+	EmergencyCalls = "\x12"
 
-// FacsimileGroup4 is the octet string value for facsimileGroup4.
-const FacsimileGroup4 = "\x63"
+	// FacsimileGroup3AndAlterSpeech is the octet string constant for facsimileGroup3AndAlterSpeech.
+	FacsimileGroup3AndAlterSpeech = "\x61"
 
-// PlmnSpecificTS1 is the octet string value for plmn-specificTS-1.
-const PlmnSpecificTS1 = "\xd1"
+	// FacsimileGroup4 is the octet string constant for facsimileGroup4.
+	FacsimileGroup4 = "\x63"
 
-// PlmnSpecificTS2 is the octet string value for plmn-specificTS-2.
-const PlmnSpecificTS2 = "\xd2"
+	// PlmnSpecificTS1 is the octet string constant for plmn-specificTS-1.
+	PlmnSpecificTS1 = "\xd1"
 
-// PlmnSpecificTS3 is the octet string value for plmn-specificTS-3.
-const PlmnSpecificTS3 = "\xd3"
+	// PlmnSpecificTS2 is the octet string constant for plmn-specificTS-2.
+	PlmnSpecificTS2 = "\xd2"
 
-// PlmnSpecificTS4 is the octet string value for plmn-specificTS-4.
-const PlmnSpecificTS4 = "\xd4"
+	// PlmnSpecificTS3 is the octet string constant for plmn-specificTS-3.
+	PlmnSpecificTS3 = "\xd3"
 
-// PlmnSpecificTS5 is the octet string value for plmn-specificTS-5.
-const PlmnSpecificTS5 = "\xd5"
+	// PlmnSpecificTS4 is the octet string constant for plmn-specificTS-4.
+	PlmnSpecificTS4 = "\xd4"
 
-// PlmnSpecificTS6 is the octet string value for plmn-specificTS-6.
-const PlmnSpecificTS6 = "\xd6"
+	// PlmnSpecificTS5 is the octet string constant for plmn-specificTS-5.
+	PlmnSpecificTS5 = "\xd5"
 
-// PlmnSpecificTS7 is the octet string value for plmn-specificTS-7.
-const PlmnSpecificTS7 = "\xd7"
+	// PlmnSpecificTS6 is the octet string constant for plmn-specificTS-6.
+	PlmnSpecificTS6 = "\xd6"
 
-// PlmnSpecificTS8 is the octet string value for plmn-specificTS-8.
-const PlmnSpecificTS8 = "\xd8"
+	// PlmnSpecificTS7 is the octet string constant for plmn-specificTS-7.
+	PlmnSpecificTS7 = "\xd7"
 
-// PlmnSpecificTS9 is the octet string value for plmn-specificTS-9.
-const PlmnSpecificTS9 = "\xd9"
+	// PlmnSpecificTS8 is the octet string constant for plmn-specificTS-8.
+	PlmnSpecificTS8 = "\xd8"
 
-// PlmnSpecificTSA is the octet string value for plmn-specificTS-A.
-const PlmnSpecificTSA = "\xda"
+	// PlmnSpecificTS9 is the octet string constant for plmn-specificTS-9.
+	PlmnSpecificTS9 = "\xd9"
 
-// PlmnSpecificTSB is the octet string value for plmn-specificTS-B.
-const PlmnSpecificTSB = "\xdb"
+	// PlmnSpecificTSA is the octet string constant for plmn-specificTS-A.
+	PlmnSpecificTSA = "\xda"
 
-// PlmnSpecificTSC is the octet string value for plmn-specificTS-C.
-const PlmnSpecificTSC = "\xdc"
+	// PlmnSpecificTSB is the octet string constant for plmn-specificTS-B.
+	PlmnSpecificTSB = "\xdb"
 
-// PlmnSpecificTSD is the octet string value for plmn-specificTS-D.
-const PlmnSpecificTSD = "\xdd"
+	// PlmnSpecificTSC is the octet string constant for plmn-specificTS-C.
+	PlmnSpecificTSC = "\xdc"
 
-// PlmnSpecificTSE is the octet string value for plmn-specificTS-E.
-const PlmnSpecificTSE = "\xde"
+	// PlmnSpecificTSD is the octet string constant for plmn-specificTS-D.
+	PlmnSpecificTSD = "\xdd"
 
-// PlmnSpecificTSF is the octet string value for plmn-specificTS-F.
-const PlmnSpecificTSF = "\xdf"
+	// PlmnSpecificTSE is the octet string constant for plmn-specificTS-E.
+	PlmnSpecificTSE = "\xde"
 
-// ShortMessageMOPP is the octet string value for shortMessageMO-PP.
-const ShortMessageMOPP = "\x22"
+	// PlmnSpecificTSF is the octet string constant for plmn-specificTS-F.
+	PlmnSpecificTSF = "\xdf"
 
-// ShortMessageMTPP is the octet string value for shortMessageMT-PP.
-const ShortMessageMTPP = "\x21"
+	// ShortMessageMOPP is the octet string constant for shortMessageMO-PP.
+	ShortMessageMOPP = "\x22"
 
-// Telephony is the octet string value for telephony.
-const Telephony = "\x11"
+	// ShortMessageMTPP is the octet string constant for shortMessageMT-PP.
+	ShortMessageMTPP = "\x21"
 
-// VoiceBroadcastCall is the octet string value for voiceBroadcastCall.
-const VoiceBroadcastCall = "\x92"
+	// Telephony is the octet string constant for telephony.
+	Telephony = "\x11"
 
-// VoiceGroupCall is the octet string value for voiceGroupCall.
-const VoiceGroupCall = "\x91"
+	// VoiceBroadcastCall is the octet string constant for voiceBroadcastCall.
+	VoiceBroadcastCall = "\x92"
+
+	// VoiceGroupCall is the octet string constant for voiceGroupCall.
+	VoiceGroupCall = "\x91"
+)
 
 // ExtTeleserviceCode represents the ASN.1 type Ext-TeleserviceCode (OCTET_STRING).
 type ExtTeleserviceCode = []byte

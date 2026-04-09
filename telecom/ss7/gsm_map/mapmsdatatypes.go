@@ -17,125 +17,128 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// MaxNrOfRABs is the integer value for maxNrOfRABs.
-const MaxNrOfRABs int64 = 255
+const (
 
-// MaxNumOfAPNConfigurations is the integer value for maxNumOfAPN-Configurations.
-const MaxNumOfAPNConfigurations int64 = 50
+	// MaxNrOfRABs is the integer constant for maxNrOfRABs.
+	MaxNrOfRABs int64 = 255
 
-// MaxNumOfBasicServices is the integer value for maxNumOfBasicServices.
-const MaxNumOfBasicServices int64 = 70
+	// MaxNumOfAPNConfigurations is the integer constant for maxNumOfAPN-Configurations.
+	MaxNumOfAPNConfigurations int64 = 50
 
-// MaxNumOfBearerServices is the integer value for maxNumOfBearerServices.
-const MaxNumOfBearerServices int64 = 50
+	// MaxNumOfBasicServices is the integer constant for maxNumOfBasicServices.
+	MaxNumOfBasicServices int64 = 70
 
-// MaxNumOfCAMELOCauseValueCriteria is the integer value for maxNumOfCAMEL-O-CauseValueCriteria.
-const MaxNumOfCAMELOCauseValueCriteria int64 = 5
+	// MaxNumOfBearerServices is the integer constant for maxNumOfBearerServices.
+	MaxNumOfBearerServices int64 = 50
 
-// MaxNumOfCAMELTCauseValueCriteria is the integer value for maxNumOfCAMEL-T-CauseValueCriteria.
-const MaxNumOfCAMELTCauseValueCriteria int64 = 5
+	// MaxNumOfCAMELOCauseValueCriteria is the integer constant for maxNumOfCAMEL-O-CauseValueCriteria.
+	MaxNumOfCAMELOCauseValueCriteria int64 = 5
 
-// MaxNumOfCUG is the integer value for maxNumOfCUG.
-const MaxNumOfCUG int64 = 10
+	// MaxNumOfCAMELTCauseValueCriteria is the integer constant for maxNumOfCAMEL-T-CauseValueCriteria.
+	MaxNumOfCAMELTCauseValueCriteria int64 = 5
 
-// MaxNumOfCamelBasicServiceCriteria is the integer value for maxNumOfCamelBasicServiceCriteria.
-const MaxNumOfCamelBasicServiceCriteria int64 = 5
+	// MaxNumOfCUG is the integer constant for maxNumOfCUG.
+	MaxNumOfCUG int64 = 10
 
-// MaxNumOfCamelDestinationNumberLengths is the integer value for maxNumOfCamelDestinationNumberLengths.
-const MaxNumOfCamelDestinationNumberLengths int64 = 3
+	// MaxNumOfCamelBasicServiceCriteria is the integer constant for maxNumOfCamelBasicServiceCriteria.
+	MaxNumOfCamelBasicServiceCriteria int64 = 5
 
-// MaxNumOfCamelDestinationNumbers is the integer value for maxNumOfCamelDestinationNumbers.
-const MaxNumOfCamelDestinationNumbers int64 = 10
+	// MaxNumOfCamelDestinationNumberLengths is the integer constant for maxNumOfCamelDestinationNumberLengths.
+	MaxNumOfCamelDestinationNumberLengths int64 = 3
 
-// MaxNumOfCamelSSEvents is the integer value for maxNumOfCamelSSEvents.
-const MaxNumOfCamelSSEvents int64 = 10
+	// MaxNumOfCamelDestinationNumbers is the integer constant for maxNumOfCamelDestinationNumbers.
+	MaxNumOfCamelDestinationNumbers int64 = 10
 
-// MaxNumOfCamelTDPData is the integer value for maxNumOfCamelTDPData.
-const MaxNumOfCamelTDPData int64 = 10
+	// MaxNumOfCamelSSEvents is the integer constant for maxNumOfCamelSSEvents.
+	MaxNumOfCamelSSEvents int64 = 10
 
-// MaxNumOfDPAnalysedInfoCriteria is the integer value for maxNumOfDP-AnalysedInfoCriteria.
-const MaxNumOfDPAnalysedInfoCriteria int64 = 10
+	// MaxNumOfCamelTDPData is the integer constant for maxNumOfCamelTDPData.
+	MaxNumOfCamelTDPData int64 = 10
 
-// MaxNumOfEncryptionInfo is the integer value for maxNumOfEncryptionInfo.
-const MaxNumOfEncryptionInfo int64 = 100
+	// MaxNumOfDPAnalysedInfoCriteria is the integer constant for maxNumOfDP-AnalysedInfoCriteria.
+	MaxNumOfDPAnalysedInfoCriteria int64 = 10
 
-// MaxNumOfExtBasicServiceGroups is the integer value for maxNumOfExt-BasicServiceGroups.
-const MaxNumOfExtBasicServiceGroups int64 = 32
+	// MaxNumOfEncryptionInfo is the integer constant for maxNumOfEncryptionInfo.
+	MaxNumOfEncryptionInfo int64 = 100
 
-// MaxNumOfExtExternalClient is the integer value for maxNumOfExt-ExternalClient.
-const MaxNumOfExtExternalClient int64 = 35
+	// MaxNumOfExtBasicServiceGroups is the integer constant for maxNumOfExt-BasicServiceGroups.
+	MaxNumOfExtBasicServiceGroups int64 = 32
 
-// MaxNumOfExternalClient is the integer value for maxNumOfExternalClient.
-const MaxNumOfExternalClient int64 = 5
+	// MaxNumOfExtExternalClient is the integer constant for maxNumOfExt-ExternalClient.
+	MaxNumOfExtExternalClient int64 = 35
 
-// MaxNumOfGMLC is the integer value for maxNumOfGMLC.
-const MaxNumOfGMLC int64 = 5
+	// MaxNumOfExternalClient is the integer constant for maxNumOfExternalClient.
+	MaxNumOfExternalClient int64 = 5
 
-// MaxNumOfISDNAddressDigits is the integer value for maxNumOfISDN-AddressDigits.
-const MaxNumOfISDNAddressDigits int64 = 15
+	// MaxNumOfGMLC is the integer constant for maxNumOfGMLC.
+	MaxNumOfGMLC int64 = 5
 
-// MaxNumOfIntegrityInfo is the integer value for maxNumOfIntegrityInfo.
-const MaxNumOfIntegrityInfo int64 = 100
+	// MaxNumOfISDNAddressDigits is the integer constant for maxNumOfISDN-AddressDigits.
+	MaxNumOfISDNAddressDigits int64 = 15
 
-// MaxNumOfLIPAAllowedAPN is the integer value for maxNumOfLIPAAllowedAPN.
-const MaxNumOfLIPAAllowedAPN int64 = 50
+	// MaxNumOfIntegrityInfo is the integer constant for maxNumOfIntegrityInfo.
+	MaxNumOfIntegrityInfo int64 = 100
 
-// MaxNumOfLSAs is the integer value for maxNumOfLSAs.
-const MaxNumOfLSAs int64 = 20
+	// MaxNumOfLIPAAllowedAPN is the integer constant for maxNumOfLIPAAllowedAPN.
+	MaxNumOfLIPAAllowedAPN int64 = 50
 
-// MaxNumOfMOLRClass is the integer value for maxNumOfMOLR-Class.
-const MaxNumOfMOLRClass int64 = 3
+	// MaxNumOfLSAs is the integer constant for maxNumOfLSAs.
+	MaxNumOfLSAs int64 = 20
 
-// MaxNumOfMSISDN is the integer value for maxNumOfMSISDN.
-const MaxNumOfMSISDN int64 = 50
+	// MaxNumOfMOLRClass is the integer constant for maxNumOfMOLR-Class.
+	MaxNumOfMOLRClass int64 = 3
 
-// MaxNumOfMobilityTriggers is the integer value for maxNumOfMobilityTriggers.
-const MaxNumOfMobilityTriggers int64 = 10
+	// MaxNumOfMSISDN is the integer constant for maxNumOfMSISDN.
+	MaxNumOfMSISDN int64 = 50
 
-// MaxNumOfPDPContexts is the integer value for maxNumOfPDP-Contexts.
-const MaxNumOfPDPContexts int64 = 50
+	// MaxNumOfMobilityTriggers is the integer constant for maxNumOfMobilityTriggers.
+	MaxNumOfMobilityTriggers int64 = 10
 
-// MaxNumOfPLMNClient is the integer value for maxNumOfPLMNClient.
-const MaxNumOfPLMNClient int64 = 5
+	// MaxNumOfPDPContexts is the integer constant for maxNumOfPDP-Contexts.
+	MaxNumOfPDPContexts int64 = 50
 
-// MaxNumOfPrivacyClass is the integer value for maxNumOfPrivacyClass.
-const MaxNumOfPrivacyClass int64 = 4
+	// MaxNumOfPLMNClient is the integer constant for maxNumOfPLMNClient.
+	MaxNumOfPLMNClient int64 = 5
 
-// MaxNumOfRadioResources is the integer value for maxNumOfRadioResources.
-const MaxNumOfRadioResources int64 = 7
+	// MaxNumOfPrivacyClass is the integer constant for maxNumOfPrivacyClass.
+	MaxNumOfPrivacyClass int64 = 4
 
-// MaxNumOfRelocationNumber is the integer value for maxNumOfRelocationNumber.
-const MaxNumOfRelocationNumber int64 = 7
+	// MaxNumOfRadioResources is the integer constant for maxNumOfRadioResources.
+	MaxNumOfRadioResources int64 = 7
 
-// MaxNumOfServiceHandovers is the integer value for maxNumOfServiceHandovers.
-const MaxNumOfServiceHandovers int64 = 7
+	// MaxNumOfRelocationNumber is the integer constant for maxNumOfRelocationNumber.
+	MaxNumOfRelocationNumber int64 = 7
 
-// MaxNumOfServiceType is the integer value for maxNumOfServiceType.
-const MaxNumOfServiceType int64 = 32
+	// MaxNumOfServiceHandovers is the integer constant for maxNumOfServiceHandovers.
+	MaxNumOfServiceHandovers int64 = 7
 
-// MaxNumOfSpecificAPNInfos is the integer value for maxNumOfSpecificAPNInfos.
-const MaxNumOfSpecificAPNInfos int64 = 50
+	// MaxNumOfServiceType is the integer constant for maxNumOfServiceType.
+	MaxNumOfServiceType int64 = 32
 
-// MaxNumOfTPDUTypes is the integer value for maxNumOfTPDUTypes.
-const MaxNumOfTPDUTypes int64 = 5
+	// MaxNumOfSpecificAPNInfos is the integer constant for maxNumOfSpecificAPNInfos.
+	MaxNumOfSpecificAPNInfos int64 = 50
 
-// MaxNumOfTeleservices is the integer value for maxNumOfTeleservices.
-const MaxNumOfTeleservices int64 = 20
+	// MaxNumOfTPDUTypes is the integer constant for maxNumOfTPDUTypes.
+	MaxNumOfTPDUTypes int64 = 5
 
-// MaxNumOfVBSGroupIds is the integer value for maxNumOfVBSGroupIds.
-const MaxNumOfVBSGroupIds int64 = 50
+	// MaxNumOfTeleservices is the integer constant for maxNumOfTeleservices.
+	MaxNumOfTeleservices int64 = 20
 
-// MaxNumOfVGCSGroupIds is the integer value for maxNumOfVGCSGroupIds.
-const MaxNumOfVGCSGroupIds int64 = 50
+	// MaxNumOfVBSGroupIds is the integer constant for maxNumOfVBSGroupIds.
+	MaxNumOfVBSGroupIds int64 = 50
 
-// MaxNumOfZoneCodes is the integer value for maxNumOfZoneCodes.
-const MaxNumOfZoneCodes int64 = 10
+	// MaxNumOfVGCSGroupIds is the integer constant for maxNumOfVGCSGroupIds.
+	MaxNumOfVGCSGroupIds int64 = 50
 
-// MaxPermittedEncryptionAlgorithmsLength is the integer value for maxPermittedEncryptionAlgorithmsLength.
-const MaxPermittedEncryptionAlgorithmsLength int64 = 9
+	// MaxNumOfZoneCodes is the integer constant for maxNumOfZoneCodes.
+	MaxNumOfZoneCodes int64 = 10
 
-// MaxPermittedIntegrityProtectionAlgorithmsLength is the integer value for maxPermittedIntegrityProtectionAlgorithmsLength.
-const MaxPermittedIntegrityProtectionAlgorithmsLength int64 = 9
+	// MaxPermittedEncryptionAlgorithmsLength is the integer constant for maxPermittedEncryptionAlgorithmsLength.
+	MaxPermittedEncryptionAlgorithmsLength int64 = 9
+
+	// MaxPermittedIntegrityProtectionAlgorithmsLength is the integer constant for maxPermittedIntegrityProtectionAlgorithmsLength.
+	MaxPermittedIntegrityProtectionAlgorithmsLength int64 = 9
+)
 
 // ADDInfo represents the ASN.1 type ADD-Info (SEQUENCE).
 type ADDInfo struct {
