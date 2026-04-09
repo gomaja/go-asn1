@@ -14,3 +14,12 @@ var (
 	_ = ber.EncodeTLV
 	_ = tag.ClassUniversal
 )
+
+// ProvideSubscriberLocation is the integer value for provideSubscriberLocation.
+const ProvideSubscriberLocation int64 = 83
+
+// SendRoutingInfoForLCS is the integer value for sendRoutingInfoForLCS.
+const SendRoutingInfoForLCS int64 = 85
+
+// SubscriberLocationReport is the integer value for subscriberLocationReport.
+const SubscriberLocationReport int64 = 86

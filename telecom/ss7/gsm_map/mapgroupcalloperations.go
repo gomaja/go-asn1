@@ -14,3 +14,18 @@ var (
 	_ = ber.EncodeTLV
 	_ = tag.ClassUniversal
 )
+
+// ForwardGroupCallSignalling is the integer value for forwardGroupCallSignalling.
+const ForwardGroupCallSignalling int64 = 42
+
+// PrepareGroupCall is the integer value for prepareGroupCall.
+const PrepareGroupCall int64 = 39
+
+// ProcessGroupCallSignalling is the integer value for processGroupCallSignalling.
+const ProcessGroupCallSignalling int64 = 41
+
+// SendGroupCallEndSignal is the integer value for sendGroupCallEndSignal.
+const SendGroupCallEndSignal int64 = 40
+
+// SendGroupCallInfo is the integer value for sendGroupCallInfo.
+const SendGroupCallInfo int64 = 84

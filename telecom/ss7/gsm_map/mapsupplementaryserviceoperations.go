@@ -14,3 +14,42 @@ var (
 	_ = ber.EncodeTLV
 	_ = tag.ClassUniversal
 )
+
+// ActivateSS is the integer value for activateSS.
+const ActivateSS int64 = 12
+
+// DeactivateSS is the integer value for deactivateSS.
+const DeactivateSS int64 = 13
+
+// EraseCCEntry is the integer value for eraseCC-Entry.
+const EraseCCEntry int64 = 77
+
+// EraseSS is the integer value for eraseSS.
+const EraseSS int64 = 11
+
+// GetPassword is the integer value for getPassword.
+const GetPassword int64 = 18
+
+// InterrogateSS is the integer value for interrogateSS.
+const InterrogateSS int64 = 14
+
+// ProcessUnstructuredSSRequest is the integer value for processUnstructuredSS-Request.
+const ProcessUnstructuredSSRequest int64 = 59
+
+// RegisterCCEntry is the integer value for registerCC-Entry.
+const RegisterCCEntry int64 = 76
+
+// RegisterPassword is the integer value for registerPassword.
+const RegisterPassword int64 = 17
+
+// RegisterSS is the integer value for registerSS.
+const RegisterSS int64 = 10
+
+// SsInvocationNotification is the integer value for ss-InvocationNotification.
+const SsInvocationNotification int64 = 72
+
+// UnstructuredSSNotify is the integer value for unstructuredSS-Notify.
+const UnstructuredSSNotify int64 = 61
+
+// UnstructuredSSRequest is the integer value for unstructuredSS-Request.
+const UnstructuredSSRequest int64 = 60
