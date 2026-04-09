@@ -17,8 +17,11 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// Refuse is the integer value for refuse.
-const Refuse int64 = -1
+const (
+
+	// Refuse is the integer constant for refuse.
+	Refuse int64 = -1
+)
 
 // Code choice constants.
 const (

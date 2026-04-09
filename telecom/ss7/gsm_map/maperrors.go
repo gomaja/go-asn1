@@ -15,170 +15,173 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// AbsentSubscriber is the integer value for absentSubscriber.
-const AbsentSubscriber int64 = 27
+const (
 
-// AbsentSubscriberSM is the integer value for absentSubscriberSM.
-const AbsentSubscriberSM int64 = 6
+	// AbsentSubscriber is the integer constant for absentSubscriber.
+	AbsentSubscriber int64 = 27
 
-// AtiNotAllowed is the integer value for ati-NotAllowed.
-const AtiNotAllowed int64 = 49
+	// AbsentSubscriberSM is the integer constant for absentSubscriberSM.
+	AbsentSubscriberSM int64 = 6
 
-// AtmNotAllowed is the integer value for atm-NotAllowed.
-const AtmNotAllowed int64 = 61
+	// AtiNotAllowed is the integer constant for ati-NotAllowed.
+	AtiNotAllowed int64 = 49
 
-// AtsiNotAllowed is the integer value for atsi-NotAllowed.
-const AtsiNotAllowed int64 = 60
+	// AtmNotAllowed is the integer constant for atm-NotAllowed.
+	AtmNotAllowed int64 = 61
 
-// BearerServiceNotProvisioned is the integer value for bearerServiceNotProvisioned.
-const BearerServiceNotProvisioned int64 = 10
+	// AtsiNotAllowed is the integer constant for atsi-NotAllowed.
+	AtsiNotAllowed int64 = 60
 
-// BusySubscriber is the integer value for busySubscriber.
-const BusySubscriber int64 = 45
+	// BearerServiceNotProvisioned is the integer constant for bearerServiceNotProvisioned.
+	BearerServiceNotProvisioned int64 = 10
 
-// CallBarred is the integer value for callBarred.
-const CallBarred int64 = 13
+	// BusySubscriber is the integer constant for busySubscriber.
+	BusySubscriber int64 = 45
 
-// CugReject is the integer value for cug-Reject.
-const CugReject int64 = 15
+	// CallBarred is the integer constant for callBarred.
+	CallBarred int64 = 13
 
-// DataMissing is the integer value for dataMissing.
-const DataMissing int64 = 35
+	// CugReject is the integer constant for cug-Reject.
+	CugReject int64 = 15
 
-// FacilityNotSupported is the integer value for facilityNotSupported.
-const FacilityNotSupported int64 = 21
+	// DataMissing is the integer constant for dataMissing.
+	DataMissing int64 = 35
 
-// ForwardingFailed is the integer value for forwardingFailed.
-const ForwardingFailed int64 = 47
+	// FacilityNotSupported is the integer constant for facilityNotSupported.
+	FacilityNotSupported int64 = 21
 
-// ForwardingViolation is the integer value for forwardingViolation.
-const ForwardingViolation int64 = 14
+	// ForwardingFailed is the integer constant for forwardingFailed.
+	ForwardingFailed int64 = 47
 
-// IllegalEquipment is the integer value for illegalEquipment.
-const IllegalEquipment int64 = 12
+	// ForwardingViolation is the integer constant for forwardingViolation.
+	ForwardingViolation int64 = 14
 
-// IllegalSSOperation is the integer value for illegalSS-Operation.
-const IllegalSSOperation int64 = 16
+	// IllegalEquipment is the integer constant for illegalEquipment.
+	IllegalEquipment int64 = 12
 
-// IllegalSubscriber is the integer value for illegalSubscriber.
-const IllegalSubscriber int64 = 9
+	// IllegalSSOperation is the integer constant for illegalSS-Operation.
+	IllegalSSOperation int64 = 16
 
-// IncompatibleTerminal is the integer value for incompatibleTerminal.
-const IncompatibleTerminal int64 = 28
+	// IllegalSubscriber is the integer constant for illegalSubscriber.
+	IllegalSubscriber int64 = 9
 
-// InformationNotAvailable is the integer value for informationNotAvailable.
-const InformationNotAvailable int64 = 62
+	// IncompatibleTerminal is the integer constant for incompatibleTerminal.
+	IncompatibleTerminal int64 = 28
 
-// LongTermDenial is the integer value for longTermDenial.
-const LongTermDenial int64 = 30
+	// InformationNotAvailable is the integer constant for informationNotAvailable.
+	InformationNotAvailable int64 = 62
 
-// MessageWaitingListFull is the integer value for messageWaitingListFull.
-const MessageWaitingListFull int64 = 33
+	// LongTermDenial is the integer constant for longTermDenial.
+	LongTermDenial int64 = 30
 
-// MmEventNotSupported is the integer value for mm-EventNotSupported.
-const MmEventNotSupported int64 = 59
+	// MessageWaitingListFull is the integer constant for messageWaitingListFull.
+	MessageWaitingListFull int64 = 33
 
-// NegativePWCheck is the integer value for negativePW-Check.
-const NegativePWCheck int64 = 38
+	// MmEventNotSupported is the integer constant for mm-EventNotSupported.
+	MmEventNotSupported int64 = 59
 
-// NoGroupCallNumberAvailable is the integer value for noGroupCallNumberAvailable.
-const NoGroupCallNumberAvailable int64 = 50
+	// NegativePWCheck is the integer constant for negativePW-Check.
+	NegativePWCheck int64 = 38
 
-// NoHandoverNumberAvailable is the integer value for noHandoverNumberAvailable.
-const NoHandoverNumberAvailable int64 = 25
+	// NoGroupCallNumberAvailable is the integer constant for noGroupCallNumberAvailable.
+	NoGroupCallNumberAvailable int64 = 50
 
-// NoRoamingNumberAvailable is the integer value for noRoamingNumberAvailable.
-const NoRoamingNumberAvailable int64 = 39
+	// NoHandoverNumberAvailable is the integer constant for noHandoverNumberAvailable.
+	NoHandoverNumberAvailable int64 = 25
 
-// NoSubscriberReply is the integer value for noSubscriberReply.
-const NoSubscriberReply int64 = 46
+	// NoRoamingNumberAvailable is the integer constant for noRoamingNumberAvailable.
+	NoRoamingNumberAvailable int64 = 39
 
-// NumberChanged is the integer value for numberChanged.
-const NumberChanged int64 = 44
+	// NoSubscriberReply is the integer constant for noSubscriberReply.
+	NoSubscriberReply int64 = 46
 
-// NumberOfPWAttemptsViolation is the integer value for numberOfPW-AttemptsViolation.
-const NumberOfPWAttemptsViolation int64 = 43
+	// NumberChanged is the integer constant for numberChanged.
+	NumberChanged int64 = 44
 
-// OngoingGroupCall is the integer value for ongoingGroupCall.
-const OngoingGroupCall int64 = 22
+	// NumberOfPWAttemptsViolation is the integer constant for numberOfPW-AttemptsViolation.
+	NumberOfPWAttemptsViolation int64 = 43
 
-// OrNotAllowed is the integer value for or-NotAllowed.
-const OrNotAllowed int64 = 48
+	// OngoingGroupCall is the integer constant for ongoingGroupCall.
+	OngoingGroupCall int64 = 22
 
-// PositionMethodFailure is the integer value for positionMethodFailure.
-const PositionMethodFailure int64 = 54
+	// OrNotAllowed is the integer constant for or-NotAllowed.
+	OrNotAllowed int64 = 48
 
-// PwRegistrationFailure is the integer value for pw-RegistrationFailure.
-const PwRegistrationFailure int64 = 37
+	// PositionMethodFailure is the integer constant for positionMethodFailure.
+	PositionMethodFailure int64 = 54
 
-// ResourceLimitation is the integer value for resourceLimitation.
-const ResourceLimitation int64 = 51
+	// PwRegistrationFailure is the integer constant for pw-RegistrationFailure.
+	PwRegistrationFailure int64 = 37
 
-// RoamingNotAllowed is the integer value for roamingNotAllowed.
-const RoamingNotAllowed int64 = 8
+	// ResourceLimitation is the integer constant for resourceLimitation.
+	ResourceLimitation int64 = 51
 
-// ShortTermDenial is the integer value for shortTermDenial.
-const ShortTermDenial int64 = 29
+	// RoamingNotAllowed is the integer constant for roamingNotAllowed.
+	RoamingNotAllowed int64 = 8
 
-// SmDeliveryFailure is the integer value for sm-DeliveryFailure.
-const SmDeliveryFailure int64 = 32
+	// ShortTermDenial is the integer constant for shortTermDenial.
+	ShortTermDenial int64 = 29
 
-// SsErrorStatus is the integer value for ss-ErrorStatus.
-const SsErrorStatus int64 = 17
+	// SmDeliveryFailure is the integer constant for sm-DeliveryFailure.
+	SmDeliveryFailure int64 = 32
 
-// SsIncompatibility is the integer value for ss-Incompatibility.
-const SsIncompatibility int64 = 20
+	// SsErrorStatus is the integer constant for ss-ErrorStatus.
+	SsErrorStatus int64 = 17
 
-// SsNotAvailable is the integer value for ss-NotAvailable.
-const SsNotAvailable int64 = 18
+	// SsIncompatibility is the integer constant for ss-Incompatibility.
+	SsIncompatibility int64 = 20
 
-// SsSubscriptionViolation is the integer value for ss-SubscriptionViolation.
-const SsSubscriptionViolation int64 = 19
+	// SsNotAvailable is the integer constant for ss-NotAvailable.
+	SsNotAvailable int64 = 18
 
-// SubscriberBusyForMTSMS is the integer value for subscriberBusyForMT-SMS.
-const SubscriberBusyForMTSMS int64 = 31
+	// SsSubscriptionViolation is the integer constant for ss-SubscriptionViolation.
+	SsSubscriptionViolation int64 = 19
 
-// SubsequentHandoverFailure is the integer value for subsequentHandoverFailure.
-const SubsequentHandoverFailure int64 = 26
+	// SubscriberBusyForMTSMS is the integer constant for subscriberBusyForMT-SMS.
+	SubscriberBusyForMTSMS int64 = 31
 
-// SystemFailure is the integer value for systemFailure.
-const SystemFailure int64 = 34
+	// SubsequentHandoverFailure is the integer constant for subsequentHandoverFailure.
+	SubsequentHandoverFailure int64 = 26
 
-// TargetCellOutsideGroupCallArea is the integer value for targetCellOutsideGroupCallArea.
-const TargetCellOutsideGroupCallArea int64 = 42
+	// SystemFailure is the integer constant for systemFailure.
+	SystemFailure int64 = 34
 
-// TeleserviceNotProvisioned is the integer value for teleserviceNotProvisioned.
-const TeleserviceNotProvisioned int64 = 11
+	// TargetCellOutsideGroupCallArea is the integer constant for targetCellOutsideGroupCallArea.
+	TargetCellOutsideGroupCallArea int64 = 42
 
-// TracingBufferFull is the integer value for tracingBufferFull.
-const TracingBufferFull int64 = 40
+	// TeleserviceNotProvisioned is the integer constant for teleserviceNotProvisioned.
+	TeleserviceNotProvisioned int64 = 11
 
-// UnauthorizedLCSClient is the integer value for unauthorizedLCSClient.
-const UnauthorizedLCSClient int64 = 53
+	// TracingBufferFull is the integer constant for tracingBufferFull.
+	TracingBufferFull int64 = 40
 
-// UnauthorizedRequestingNetwork is the integer value for unauthorizedRequestingNetwork.
-const UnauthorizedRequestingNetwork int64 = 52
+	// UnauthorizedLCSClient is the integer constant for unauthorizedLCSClient.
+	UnauthorizedLCSClient int64 = 53
 
-// UnexpectedDataValue is the integer value for unexpectedDataValue.
-const UnexpectedDataValue int64 = 36
+	// UnauthorizedRequestingNetwork is the integer constant for unauthorizedRequestingNetwork.
+	UnauthorizedRequestingNetwork int64 = 52
 
-// UnidentifiedSubscriber is the integer value for unidentifiedSubscriber.
-const UnidentifiedSubscriber int64 = 5
+	// UnexpectedDataValue is the integer constant for unexpectedDataValue.
+	UnexpectedDataValue int64 = 36
 
-// UnknownAlphabet is the integer value for unknownAlphabet.
-const UnknownAlphabet int64 = 71
+	// UnidentifiedSubscriber is the integer constant for unidentifiedSubscriber.
+	UnidentifiedSubscriber int64 = 5
 
-// UnknownEquipment is the integer value for unknownEquipment.
-const UnknownEquipment int64 = 7
+	// UnknownAlphabet is the integer constant for unknownAlphabet.
+	UnknownAlphabet int64 = 71
 
-// UnknownMSC is the integer value for unknownMSC.
-const UnknownMSC int64 = 3
+	// UnknownEquipment is the integer constant for unknownEquipment.
+	UnknownEquipment int64 = 7
 
-// UnknownOrUnreachableLCSClient is the integer value for unknownOrUnreachableLCSClient.
-const UnknownOrUnreachableLCSClient int64 = 58
+	// UnknownMSC is the integer constant for unknownMSC.
+	UnknownMSC int64 = 3
 
-// UnknownSubscriber is the integer value for unknownSubscriber.
-const UnknownSubscriber int64 = 1
+	// UnknownOrUnreachableLCSClient is the integer constant for unknownOrUnreachableLCSClient.
+	UnknownOrUnreachableLCSClient int64 = 58
 
-// UssdBusy is the integer value for ussd-Busy.
-const UssdBusy int64 = 72
+	// UnknownSubscriber is the integer constant for unknownSubscriber.
+	UnknownSubscriber int64 = 1
+
+	// UssdBusy is the integer constant for ussd-Busy.
+	UssdBusy int64 = 72
+)

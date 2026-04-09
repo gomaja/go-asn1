@@ -15,41 +15,44 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// ActivateSS is the integer value for activateSS.
-const ActivateSS int64 = 12
+const (
 
-// DeactivateSS is the integer value for deactivateSS.
-const DeactivateSS int64 = 13
+	// ActivateSS is the integer constant for activateSS.
+	ActivateSS int64 = 12
 
-// EraseCCEntry is the integer value for eraseCC-Entry.
-const EraseCCEntry int64 = 77
+	// DeactivateSS is the integer constant for deactivateSS.
+	DeactivateSS int64 = 13
 
-// EraseSS is the integer value for eraseSS.
-const EraseSS int64 = 11
+	// EraseCCEntry is the integer constant for eraseCC-Entry.
+	EraseCCEntry int64 = 77
 
-// GetPassword is the integer value for getPassword.
-const GetPassword int64 = 18
+	// EraseSS is the integer constant for eraseSS.
+	EraseSS int64 = 11
 
-// InterrogateSS is the integer value for interrogateSS.
-const InterrogateSS int64 = 14
+	// GetPassword is the integer constant for getPassword.
+	GetPassword int64 = 18
 
-// ProcessUnstructuredSSRequest is the integer value for processUnstructuredSS-Request.
-const ProcessUnstructuredSSRequest int64 = 59
+	// InterrogateSS is the integer constant for interrogateSS.
+	InterrogateSS int64 = 14
 
-// RegisterCCEntry is the integer value for registerCC-Entry.
-const RegisterCCEntry int64 = 76
+	// ProcessUnstructuredSSRequest is the integer constant for processUnstructuredSS-Request.
+	ProcessUnstructuredSSRequest int64 = 59
 
-// RegisterPassword is the integer value for registerPassword.
-const RegisterPassword int64 = 17
+	// RegisterCCEntry is the integer constant for registerCC-Entry.
+	RegisterCCEntry int64 = 76
 
-// RegisterSS is the integer value for registerSS.
-const RegisterSS int64 = 10
+	// RegisterPassword is the integer constant for registerPassword.
+	RegisterPassword int64 = 17
 
-// SsInvocationNotification is the integer value for ss-InvocationNotification.
-const SsInvocationNotification int64 = 72
+	// RegisterSS is the integer constant for registerSS.
+	RegisterSS int64 = 10
 
-// UnstructuredSSNotify is the integer value for unstructuredSS-Notify.
-const UnstructuredSSNotify int64 = 61
+	// SsInvocationNotification is the integer constant for ss-InvocationNotification.
+	SsInvocationNotification int64 = 72
 
-// UnstructuredSSRequest is the integer value for unstructuredSS-Request.
-const UnstructuredSSRequest int64 = 60
+	// UnstructuredSSNotify is the integer constant for unstructuredSS-Notify.
+	UnstructuredSSNotify int64 = 61
+
+	// UnstructuredSSRequest is the integer constant for unstructuredSS-Request.
+	UnstructuredSSRequest int64 = 60
+)

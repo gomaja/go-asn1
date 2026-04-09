@@ -15,35 +15,41 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// AcId is the integer value for ac-Id.
-const AcId int64 = 0
+const (
 
-// AsId is the integer value for as-Id.
-const AsId int64 = 1
+	// AcId is the integer constant for ac-Id.
+	AcId int64 = 0
 
-// AseId is the integer value for ase-Id.
-const AseId int64 = 2
+	// AsId is the integer constant for as-Id.
+	AsId int64 = 1
 
-// ErId is the integer value for er-Id.
-const ErId int64 = 4
+	// AseId is the integer constant for ase-Id.
+	AseId int64 = 2
 
-// GsmAccessId is the OID value for gsm-AccessId.
-var GsmAccessId = []uint64{0, 4, 0, 0, 2}
+	// ErId is the integer constant for er-Id.
+	ErId int64 = 4
 
-// GsmMessagingId is the OID value for gsm-MessagingId.
-var GsmMessagingId = []uint64{0, 4, 0, 0, 4}
+	// ModuleId is the integer constant for moduleId.
+	ModuleId int64 = 3
+)
 
-// GsmNetworkId is the OID value for gsm-NetworkId.
-var GsmNetworkId = []uint64{0, 4, 0, 0, 1}
+var (
 
-// GsmOperationAndMaintenanceId is the OID value for gsm-OperationAndMaintenanceId.
-var GsmOperationAndMaintenanceId = []uint64{0, 4, 0, 0, 3}
+	// GsmAccessId is the OID value for gsm-AccessId.
+	GsmAccessId = []uint64{0, 4, 0, 0, 2}
 
-// MobileDomainId is the OID value for mobileDomainId.
-var MobileDomainId = []uint64{0, 4, 0, 0}
+	// GsmMessagingId is the OID value for gsm-MessagingId.
+	GsmMessagingId = []uint64{0, 4, 0, 0, 4}
 
-// ModuleId is the integer value for moduleId.
-const ModuleId int64 = 3
+	// GsmNetworkId is the OID value for gsm-NetworkId.
+	GsmNetworkId = []uint64{0, 4, 0, 0, 1}
+
+	// GsmOperationAndMaintenanceId is the OID value for gsm-OperationAndMaintenanceId.
+	GsmOperationAndMaintenanceId = []uint64{0, 4, 0, 0, 3}
+
+	// MobileDomainId is the OID value for mobileDomainId.
+	MobileDomainId = []uint64{0, 4, 0, 0}
+)
 
 // CommonComponentId represents the ASN.1 type CommonComponentId (INTEGER).
 type CommonComponentId = int64

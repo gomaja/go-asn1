@@ -15,14 +15,17 @@ var (
 	_ = per.NewBitBuffer
 )
 
-// MaxPrivateIEs is the integer value for maxPrivateIEs.
-const MaxPrivateIEs int64 = 65535
+const (
 
-// MaxProtocolExtensions is the integer value for maxProtocolExtensions.
-const MaxProtocolExtensions int64 = 65535
+	// MaxPrivateIEs is the integer constant for maxPrivateIEs.
+	MaxPrivateIEs int64 = 65535
 
-// MaxProtocolIEs is the integer value for maxProtocolIEs.
-const MaxProtocolIEs int64 = 65535
+	// MaxProtocolExtensions is the integer constant for maxProtocolExtensions.
+	MaxProtocolExtensions int64 = 65535
+
+	// MaxProtocolIEs is the integer constant for maxProtocolIEs.
+	MaxProtocolIEs int64 = 65535
+)
 
 // Criticality represents the ASN.1 ENUMERATED type Criticality.
 type Criticality int64

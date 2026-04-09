@@ -15,11 +15,14 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// ProvideSubscriberLocation is the integer value for provideSubscriberLocation.
-const ProvideSubscriberLocation int64 = 83
+const (
 
-// SendRoutingInfoForLCS is the integer value for sendRoutingInfoForLCS.
-const SendRoutingInfoForLCS int64 = 85
+	// ProvideSubscriberLocation is the integer constant for provideSubscriberLocation.
+	ProvideSubscriberLocation int64 = 83
 
-// SubscriberLocationReport is the integer value for subscriberLocationReport.
-const SubscriberLocationReport int64 = 86
+	// SendRoutingInfoForLCS is the integer constant for sendRoutingInfoForLCS.
+	SendRoutingInfoForLCS int64 = 85
+
+	// SubscriberLocationReport is the integer constant for subscriberLocationReport.
+	SubscriberLocationReport int64 = 86
+)

@@ -15,221 +15,224 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// AllAdditionalInfoTransferSS is the octet string value for allAdditionalInfoTransferSS.
-const AllAdditionalInfoTransferSS = "\x80"
+const (
 
-// AllBarringSS is the octet string value for allBarringSS.
-const AllBarringSS = "\x90"
+	// AllAdditionalInfoTransferSS is the octet string constant for allAdditionalInfoTransferSS.
+	AllAdditionalInfoTransferSS = "\x80"
 
-// AllCallCompletionSS is the octet string value for allCallCompletionSS.
-const AllCallCompletionSS = "\x40"
+	// AllBarringSS is the octet string constant for allBarringSS.
+	AllBarringSS = "\x90"
 
-// AllCallOfferingSS is the octet string value for allCallOfferingSS.
-const AllCallOfferingSS = "\x30"
+	// AllCallCompletionSS is the octet string constant for allCallCompletionSS.
+	AllCallCompletionSS = "\x40"
 
-// AllCallPrioritySS is the octet string value for allCallPrioritySS.
-const AllCallPrioritySS = "\xa0"
+	// AllCallOfferingSS is the octet string constant for allCallOfferingSS.
+	AllCallOfferingSS = "\x30"
 
-// AllChargingSS is the octet string value for allChargingSS.
-const AllChargingSS = "\x70"
+	// AllCallPrioritySS is the octet string constant for allCallPrioritySS.
+	AllCallPrioritySS = "\xa0"
 
-// AllCommunityOfInterestSS is the octet string value for allCommunityOfInterest-SS.
-const AllCommunityOfInterestSS = "\x60"
+	// AllChargingSS is the octet string constant for allChargingSS.
+	AllChargingSS = "\x70"
 
-// AllCondForwardingSS is the octet string value for allCondForwardingSS.
-const AllCondForwardingSS = "\x28"
+	// AllCommunityOfInterestSS is the octet string constant for allCommunityOfInterest-SS.
+	AllCommunityOfInterestSS = "\x60"
 
-// AllForwardingSS is the octet string value for allForwardingSS.
-const AllForwardingSS = "\x20"
+	// AllCondForwardingSS is the octet string constant for allCondForwardingSS.
+	AllCondForwardingSS = "\x28"
 
-// AllLCSPrivacyException is the octet string value for allLCSPrivacyException.
-const AllLCSPrivacyException = "\xb0"
+	// AllForwardingSS is the octet string constant for allForwardingSS.
+	AllForwardingSS = "\x20"
 
-// AllLineIdentificationSS is the octet string value for allLineIdentificationSS.
-const AllLineIdentificationSS = "\x10"
+	// AllLCSPrivacyException is the octet string constant for allLCSPrivacyException.
+	AllLCSPrivacyException = "\xb0"
 
-// AllMOLRSS is the octet string value for allMOLR-SS.
-const AllMOLRSS = "\xc0"
+	// AllLineIdentificationSS is the octet string constant for allLineIdentificationSS.
+	AllLineIdentificationSS = "\x10"
 
-// AllMultiPartySS is the octet string value for allMultiPartySS.
-const AllMultiPartySS = "\x50"
+	// AllMOLRSS is the octet string constant for allMOLR-SS.
+	AllMOLRSS = "\xc0"
 
-// AllNameIdentificationSS is the octet string value for allNameIdentificationSS.
-const AllNameIdentificationSS = "\x18"
+	// AllMultiPartySS is the octet string constant for allMultiPartySS.
+	AllMultiPartySS = "\x50"
 
-// AllPLMNSpecificSS is the octet string value for allPLMN-specificSS.
-const AllPLMNSpecificSS = "\xf0"
+	// AllNameIdentificationSS is the octet string constant for allNameIdentificationSS.
+	AllNameIdentificationSS = "\x18"
 
-// AllSS is the octet string value for allSS.
-const AllSS = "\x00"
+	// AllPLMNSpecificSS is the octet string constant for allPLMN-specificSS.
+	AllPLMNSpecificSS = "\xf0"
 
-// Aocc is the octet string value for aocc.
-const Aocc = "\x72"
+	// AllSS is the octet string constant for allSS.
+	AllSS = "\x00"
 
-// Aoci is the octet string value for aoci.
-const Aoci = "\x71"
+	// Aocc is the octet string constant for aocc.
+	Aocc = "\x72"
 
-// AutonomousSelfLocation is the octet string value for autonomousSelfLocation.
-const AutonomousSelfLocation = "\xc2"
+	// Aoci is the octet string constant for aoci.
+	Aoci = "\x71"
 
-// Baic is the octet string value for baic.
-const Baic = "\x9a"
+	// AutonomousSelfLocation is the octet string constant for autonomousSelfLocation.
+	AutonomousSelfLocation = "\xc2"
 
-// Baoc is the octet string value for baoc.
-const Baoc = "\x92"
+	// Baic is the octet string constant for baic.
+	Baic = "\x9a"
 
-// BarringOfIncomingCalls is the octet string value for barringOfIncomingCalls.
-const BarringOfIncomingCalls = "\x99"
+	// Baoc is the octet string constant for baoc.
+	Baoc = "\x92"
 
-// BarringOfOutgoingCalls is the octet string value for barringOfOutgoingCalls.
-const BarringOfOutgoingCalls = "\x91"
+	// BarringOfIncomingCalls is the octet string constant for barringOfIncomingCalls.
+	BarringOfIncomingCalls = "\x99"
 
-// BasicSelfLocation is the octet string value for basicSelfLocation.
-const BasicSelfLocation = "\xc1"
+	// BarringOfOutgoingCalls is the octet string constant for barringOfOutgoingCalls.
+	BarringOfOutgoingCalls = "\x91"
 
-// BicRoam is the octet string value for bicRoam.
-const BicRoam = "\x9b"
+	// BasicSelfLocation is the octet string constant for basicSelfLocation.
+	BasicSelfLocation = "\xc1"
 
-// Boic is the octet string value for boic.
-const Boic = "\x93"
+	// BicRoam is the octet string constant for bicRoam.
+	BicRoam = "\x9b"
 
-// BoicExHC is the octet string value for boicExHC.
-const BoicExHC = "\x94"
+	// Boic is the octet string constant for boic.
+	Boic = "\x93"
 
-// CallSessionRelated is the octet string value for callSessionRelated.
-const CallSessionRelated = "\xb2"
+	// BoicExHC is the octet string constant for boicExHC.
+	BoicExHC = "\x94"
 
-// CallSessionUnrelated is the octet string value for callSessionUnrelated.
-const CallSessionUnrelated = "\xb3"
+	// CallSessionRelated is the octet string constant for callSessionRelated.
+	CallSessionRelated = "\xb2"
 
-// CcbsA is the octet string value for ccbs-A.
-const CcbsA = "\x43"
+	// CallSessionUnrelated is the octet string constant for callSessionUnrelated.
+	CallSessionUnrelated = "\xb3"
 
-// CcbsB is the octet string value for ccbs-B.
-const CcbsB = "\x44"
+	// CcbsA is the octet string constant for ccbs-A.
+	CcbsA = "\x43"
 
-// Cd is the octet string value for cd.
-const Cd = "\x24"
+	// CcbsB is the octet string constant for ccbs-B.
+	CcbsB = "\x44"
 
-// Cfb is the octet string value for cfb.
-const Cfb = "\x29"
+	// Cd is the octet string constant for cd.
+	Cd = "\x24"
 
-// Cfnrc is the octet string value for cfnrc.
-const Cfnrc = "\x2b"
+	// Cfb is the octet string constant for cfb.
+	Cfb = "\x29"
 
-// Cfnry is the octet string value for cfnry.
-const Cfnry = "\x2a"
+	// Cfnrc is the octet string constant for cfnrc.
+	Cfnrc = "\x2b"
 
-// Cfu is the octet string value for cfu.
-const Cfu = "\x21"
+	// Cfnry is the octet string constant for cfnry.
+	Cfnry = "\x2a"
 
-// Clip is the octet string value for clip.
-const Clip = "\x11"
+	// Cfu is the octet string constant for cfu.
+	Cfu = "\x21"
 
-// Clir is the octet string value for clir.
-const Clir = "\x12"
+	// Clip is the octet string constant for clip.
+	Clip = "\x11"
 
-// Cnap is the octet string value for cnap.
-const Cnap = "\x19"
+	// Clir is the octet string constant for clir.
+	Clir = "\x12"
 
-// Colp is the octet string value for colp.
-const Colp = "\x13"
+	// Cnap is the octet string constant for cnap.
+	Cnap = "\x19"
 
-// Colr is the octet string value for colr.
-const Colr = "\x14"
+	// Colp is the octet string constant for colp.
+	Colp = "\x13"
 
-// Cug is the octet string value for cug.
-const Cug = "\x61"
+	// Colr is the octet string constant for colr.
+	Colr = "\x14"
 
-// Cw is the octet string value for cw.
-const Cw = "\x41"
+	// Cug is the octet string constant for cug.
+	Cug = "\x61"
 
-// Ect is the octet string value for ect.
-const Ect = "\x31"
+	// Cw is the octet string constant for cw.
+	Cw = "\x41"
 
-// Emlpp is the octet string value for emlpp.
-const Emlpp = "\xa1"
+	// Ect is the octet string constant for ect.
+	Ect = "\x31"
 
-// Hold is the octet string value for hold.
-const Hold = "\x42"
+	// Emlpp is the octet string constant for emlpp.
+	Emlpp = "\xa1"
 
-// Mah is the octet string value for mah.
-const Mah = "\x32"
+	// Hold is the octet string constant for hold.
+	Hold = "\x42"
 
-// Mc is the octet string value for mc.
-const Mc = "\x45"
+	// Mah is the octet string constant for mah.
+	Mah = "\x32"
 
-// Mci is the octet string value for mci.
-const Mci = "\x15"
+	// Mc is the octet string constant for mc.
+	Mc = "\x45"
 
-// MultiPTY is the octet string value for multiPTY.
-const MultiPTY = "\x51"
+	// Mci is the octet string constant for mci.
+	Mci = "\x15"
 
-// PlmnSpecificSS1 is the octet string value for plmn-specificSS-1.
-const PlmnSpecificSS1 = "\xf1"
+	// MultiPTY is the octet string constant for multiPTY.
+	MultiPTY = "\x51"
 
-// PlmnSpecificSS2 is the octet string value for plmn-specificSS-2.
-const PlmnSpecificSS2 = "\xf2"
+	// PlmnSpecificSS1 is the octet string constant for plmn-specificSS-1.
+	PlmnSpecificSS1 = "\xf1"
 
-// PlmnSpecificSS3 is the octet string value for plmn-specificSS-3.
-const PlmnSpecificSS3 = "\xf3"
+	// PlmnSpecificSS2 is the octet string constant for plmn-specificSS-2.
+	PlmnSpecificSS2 = "\xf2"
 
-// PlmnSpecificSS4 is the octet string value for plmn-specificSS-4.
-const PlmnSpecificSS4 = "\xf4"
+	// PlmnSpecificSS3 is the octet string constant for plmn-specificSS-3.
+	PlmnSpecificSS3 = "\xf3"
 
-// PlmnSpecificSS5 is the octet string value for plmn-specificSS-5.
-const PlmnSpecificSS5 = "\xf5"
+	// PlmnSpecificSS4 is the octet string constant for plmn-specificSS-4.
+	PlmnSpecificSS4 = "\xf4"
 
-// PlmnSpecificSS6 is the octet string value for plmn-specificSS-6.
-const PlmnSpecificSS6 = "\xf6"
+	// PlmnSpecificSS5 is the octet string constant for plmn-specificSS-5.
+	PlmnSpecificSS5 = "\xf5"
 
-// PlmnSpecificSS7 is the octet string value for plmn-specificSS-7.
-const PlmnSpecificSS7 = "\xf7"
+	// PlmnSpecificSS6 is the octet string constant for plmn-specificSS-6.
+	PlmnSpecificSS6 = "\xf6"
 
-// PlmnSpecificSS8 is the octet string value for plmn-specificSS-8.
-const PlmnSpecificSS8 = "\xf8"
+	// PlmnSpecificSS7 is the octet string constant for plmn-specificSS-7.
+	PlmnSpecificSS7 = "\xf7"
 
-// PlmnSpecificSS9 is the octet string value for plmn-specificSS-9.
-const PlmnSpecificSS9 = "\xf9"
+	// PlmnSpecificSS8 is the octet string constant for plmn-specificSS-8.
+	PlmnSpecificSS8 = "\xf8"
 
-// PlmnSpecificSSA is the octet string value for plmn-specificSS-A.
-const PlmnSpecificSSA = "\xfa"
+	// PlmnSpecificSS9 is the octet string constant for plmn-specificSS-9.
+	PlmnSpecificSS9 = "\xf9"
 
-// PlmnSpecificSSB is the octet string value for plmn-specificSS-B.
-const PlmnSpecificSSB = "\xfb"
+	// PlmnSpecificSSA is the octet string constant for plmn-specificSS-A.
+	PlmnSpecificSSA = "\xfa"
 
-// PlmnSpecificSSC is the octet string value for plmn-specificSS-C.
-const PlmnSpecificSSC = "\xfc"
+	// PlmnSpecificSSB is the octet string constant for plmn-specificSS-B.
+	PlmnSpecificSSB = "\xfb"
 
-// PlmnSpecificSSD is the octet string value for plmn-specificSS-D.
-const PlmnSpecificSSD = "\xfd"
+	// PlmnSpecificSSC is the octet string constant for plmn-specificSS-C.
+	PlmnSpecificSSC = "\xfc"
 
-// PlmnSpecificSSE is the octet string value for plmn-specificSS-E.
-const PlmnSpecificSSE = "\xfe"
+	// PlmnSpecificSSD is the octet string constant for plmn-specificSS-D.
+	PlmnSpecificSSD = "\xfd"
 
-// PlmnSpecificSSF is the octet string value for plmn-specificSS-F.
-const PlmnSpecificSSF = "\xff"
+	// PlmnSpecificSSE is the octet string constant for plmn-specificSS-E.
+	PlmnSpecificSSE = "\xfe"
 
-// Plmnoperator is the octet string value for plmnoperator.
-const Plmnoperator = "\xb4"
+	// PlmnSpecificSSF is the octet string constant for plmn-specificSS-F.
+	PlmnSpecificSSF = "\xff"
 
-// ServiceTypeValue is the octet string value for serviceType.
-const ServiceTypeValue = "\xb5"
+	// Plmnoperator is the octet string constant for plmnoperator.
+	Plmnoperator = "\xb4"
 
-// TransferToThirdParty is the octet string value for transferToThirdParty.
-const TransferToThirdParty = "\xc3"
+	// ServiceTypeValue is the octet string constant for serviceType.
+	ServiceTypeValue = "\xb5"
 
-// Universal is the octet string value for universal.
-const Universal = "\xb1"
+	// TransferToThirdParty is the octet string constant for transferToThirdParty.
+	TransferToThirdParty = "\xc3"
 
-// Uus1 is the octet string value for uus1.
-const Uus1 = "\x81"
+	// Universal is the octet string constant for universal.
+	Universal = "\xb1"
 
-// Uus2 is the octet string value for uus2.
-const Uus2 = "\x82"
+	// Uus1 is the octet string constant for uus1.
+	Uus1 = "\x81"
 
-// Uus3 is the octet string value for uus3.
-const Uus3 = "\x83"
+	// Uus2 is the octet string constant for uus2.
+	Uus2 = "\x82"
+
+	// Uus3 is the octet string constant for uus3.
+	Uus3 = "\x83"
+)
 
 // SSCode represents the ASN.1 type SS-Code (OCTET_STRING).
 type SSCode = []byte

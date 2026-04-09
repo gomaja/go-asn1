@@ -15,137 +15,140 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// AnyTimeInfoEnquiryContextV3 is the OID value for anyTimeInfoEnquiryContext-v3.
-var AnyTimeInfoEnquiryContextV3 = []uint64{0, 4, 0, 0, 1, 0, 29, 3}
+var (
 
-// AnyTimeInfoHandlingContextV3 is the OID value for anyTimeInfoHandlingContext-v3.
-var AnyTimeInfoHandlingContextV3 = []uint64{0, 4, 0, 0, 1, 0, 43, 3}
+	// AnyTimeInfoEnquiryContextV3 is the OID value for anyTimeInfoEnquiryContext-v3.
+	AnyTimeInfoEnquiryContextV3 = []uint64{0, 4, 0, 0, 1, 0, 29, 3}
 
-// AuthenticationFailureReportContextV3 is the OID value for authenticationFailureReportContext-v3.
-var AuthenticationFailureReportContextV3 = []uint64{0, 4, 0, 0, 1, 0, 39, 3}
+	// AnyTimeInfoHandlingContextV3 is the OID value for anyTimeInfoHandlingContext-v3.
+	AnyTimeInfoHandlingContextV3 = []uint64{0, 4, 0, 0, 1, 0, 43, 3}
 
-// CallCompletionContextV3 is the OID value for callCompletionContext-v3.
-var CallCompletionContextV3 = []uint64{0, 4, 0, 0, 1, 0, 8, 3}
+	// AuthenticationFailureReportContextV3 is the OID value for authenticationFailureReportContext-v3.
+	AuthenticationFailureReportContextV3 = []uint64{0, 4, 0, 0, 1, 0, 39, 3}
 
-// CallControlTransferContextV4 is the OID value for callControlTransferContext-v4.
-var CallControlTransferContextV4 = []uint64{0, 4, 0, 0, 1, 0, 6, 4}
+	// CallCompletionContextV3 is the OID value for callCompletionContext-v3.
+	CallCompletionContextV3 = []uint64{0, 4, 0, 0, 1, 0, 8, 3}
 
-// EquipmentMngtContextV3 is the OID value for equipmentMngtContext-v3.
-var EquipmentMngtContextV3 = []uint64{0, 4, 0, 0, 1, 0, 13, 3}
+	// CallControlTransferContextV4 is the OID value for callControlTransferContext-v4.
+	CallControlTransferContextV4 = []uint64{0, 4, 0, 0, 1, 0, 6, 4}
 
-// FailureReportContextV3 is the OID value for failureReportContext-v3.
-var FailureReportContextV3 = []uint64{0, 4, 0, 0, 1, 0, 34, 3}
+	// EquipmentMngtContextV3 is the OID value for equipmentMngtContext-v3.
+	EquipmentMngtContextV3 = []uint64{0, 4, 0, 0, 1, 0, 13, 3}
 
-// GprsLocationInfoRetrievalContextV4 is the OID value for gprsLocationInfoRetrievalContext-v4.
-var GprsLocationInfoRetrievalContextV4 = []uint64{0, 4, 0, 0, 1, 0, 33, 4}
+	// FailureReportContextV3 is the OID value for failureReportContext-v3.
+	FailureReportContextV3 = []uint64{0, 4, 0, 0, 1, 0, 34, 3}
 
-// GprsLocationUpdateContextV3 is the OID value for gprsLocationUpdateContext-v3.
-var GprsLocationUpdateContextV3 = []uint64{0, 4, 0, 0, 1, 0, 32, 3}
+	// GprsLocationInfoRetrievalContextV4 is the OID value for gprsLocationInfoRetrievalContext-v4.
+	GprsLocationInfoRetrievalContextV4 = []uint64{0, 4, 0, 0, 1, 0, 33, 4}
 
-// GprsNotifyContextV3 is the OID value for gprsNotifyContext-v3.
-var GprsNotifyContextV3 = []uint64{0, 4, 0, 0, 1, 0, 35, 3}
+	// GprsLocationUpdateContextV3 is the OID value for gprsLocationUpdateContext-v3.
+	GprsLocationUpdateContextV3 = []uint64{0, 4, 0, 0, 1, 0, 32, 3}
 
-// GroupCallControlContextV3 is the OID value for groupCallControlContext-v3.
-var GroupCallControlContextV3 = []uint64{0, 4, 0, 0, 1, 0, 31, 3}
+	// GprsNotifyContextV3 is the OID value for gprsNotifyContext-v3.
+	GprsNotifyContextV3 = []uint64{0, 4, 0, 0, 1, 0, 35, 3}
 
-// GroupCallInfoRetrievalContextV3 is the OID value for groupCallInfoRetrievalContext-v3.
-var GroupCallInfoRetrievalContextV3 = []uint64{0, 4, 0, 0, 1, 0, 45, 3}
+	// GroupCallControlContextV3 is the OID value for groupCallControlContext-v3.
+	GroupCallControlContextV3 = []uint64{0, 4, 0, 0, 1, 0, 31, 3}
 
-// HandoverControlContextV3 is the OID value for handoverControlContext-v3.
-var HandoverControlContextV3 = []uint64{0, 4, 0, 0, 1, 0, 11, 3}
+	// GroupCallInfoRetrievalContextV3 is the OID value for groupCallInfoRetrievalContext-v3.
+	GroupCallInfoRetrievalContextV3 = []uint64{0, 4, 0, 0, 1, 0, 45, 3}
 
-// ImsiRetrievalContextV2 is the OID value for imsiRetrievalContext-v2.
-var ImsiRetrievalContextV2 = []uint64{0, 4, 0, 0, 1, 0, 26, 2}
+	// HandoverControlContextV3 is the OID value for handoverControlContext-v3.
+	HandoverControlContextV3 = []uint64{0, 4, 0, 0, 1, 0, 11, 3}
 
-// InfoRetrievalContextV3 is the OID value for infoRetrievalContext-v3.
-var InfoRetrievalContextV3 = []uint64{0, 4, 0, 0, 1, 0, 14, 3}
+	// ImsiRetrievalContextV2 is the OID value for imsiRetrievalContext-v2.
+	ImsiRetrievalContextV2 = []uint64{0, 4, 0, 0, 1, 0, 26, 2}
 
-// InterVlrInfoRetrievalContextV3 is the OID value for interVlrInfoRetrievalContext-v3.
-var InterVlrInfoRetrievalContextV3 = []uint64{0, 4, 0, 0, 1, 0, 15, 3}
+	// InfoRetrievalContextV3 is the OID value for infoRetrievalContext-v3.
+	InfoRetrievalContextV3 = []uint64{0, 4, 0, 0, 1, 0, 14, 3}
 
-// IstAlertingContextV3 is the OID value for istAlertingContext-v3.
-var IstAlertingContextV3 = []uint64{0, 4, 0, 0, 1, 0, 4, 3}
+	// InterVlrInfoRetrievalContextV3 is the OID value for interVlrInfoRetrievalContext-v3.
+	InterVlrInfoRetrievalContextV3 = []uint64{0, 4, 0, 0, 1, 0, 15, 3}
 
-// LocationCancellationContextV3 is the OID value for locationCancellationContext-v3.
-var LocationCancellationContextV3 = []uint64{0, 4, 0, 0, 1, 0, 2, 3}
+	// IstAlertingContextV3 is the OID value for istAlertingContext-v3.
+	IstAlertingContextV3 = []uint64{0, 4, 0, 0, 1, 0, 4, 3}
 
-// LocationInfoRetrievalContextV3 is the OID value for locationInfoRetrievalContext-v3.
-var LocationInfoRetrievalContextV3 = []uint64{0, 4, 0, 0, 1, 0, 5, 3}
+	// LocationCancellationContextV3 is the OID value for locationCancellationContext-v3.
+	LocationCancellationContextV3 = []uint64{0, 4, 0, 0, 1, 0, 2, 3}
 
-// LocationSvcEnquiryContextV3 is the OID value for locationSvcEnquiryContext-v3.
-var LocationSvcEnquiryContextV3 = []uint64{0, 4, 0, 0, 1, 0, 38, 3}
+	// LocationInfoRetrievalContextV3 is the OID value for locationInfoRetrievalContext-v3.
+	LocationInfoRetrievalContextV3 = []uint64{0, 4, 0, 0, 1, 0, 5, 3}
 
-// LocationSvcGatewayContextV3 is the OID value for locationSvcGatewayContext-v3.
-var LocationSvcGatewayContextV3 = []uint64{0, 4, 0, 0, 1, 0, 37, 3}
+	// LocationSvcEnquiryContextV3 is the OID value for locationSvcEnquiryContext-v3.
+	LocationSvcEnquiryContextV3 = []uint64{0, 4, 0, 0, 1, 0, 38, 3}
 
-// MapAc is the OID value for map-ac.
-var MapAc = []uint64{0, 4, 0, 0, 1, 0}
+	// LocationSvcGatewayContextV3 is the OID value for locationSvcGatewayContext-v3.
+	LocationSvcGatewayContextV3 = []uint64{0, 4, 0, 0, 1, 0, 37, 3}
 
-// MmEventReportingContextV3 is the OID value for mm-EventReportingContext-v3.
-var MmEventReportingContextV3 = []uint64{0, 4, 0, 0, 1, 0, 42, 3}
+	// MapAc is the OID value for map-ac.
+	MapAc = []uint64{0, 4, 0, 0, 1, 0}
 
-// MsPurgingContextV3 is the OID value for msPurgingContext-v3.
-var MsPurgingContextV3 = []uint64{0, 4, 0, 0, 1, 0, 27, 3}
+	// MmEventReportingContextV3 is the OID value for mm-EventReportingContext-v3.
+	MmEventReportingContextV3 = []uint64{0, 4, 0, 0, 1, 0, 42, 3}
 
-// MwdMngtContextV3 is the OID value for mwdMngtContext-v3.
-var MwdMngtContextV3 = []uint64{0, 4, 0, 0, 1, 0, 24, 3}
+	// MsPurgingContextV3 is the OID value for msPurgingContext-v3.
+	MsPurgingContextV3 = []uint64{0, 4, 0, 0, 1, 0, 27, 3}
 
-// NetworkFunctionalSsContextV2 is the OID value for networkFunctionalSsContext-v2.
-var NetworkFunctionalSsContextV2 = []uint64{0, 4, 0, 0, 1, 0, 18, 2}
+	// MwdMngtContextV3 is the OID value for mwdMngtContext-v3.
+	MwdMngtContextV3 = []uint64{0, 4, 0, 0, 1, 0, 24, 3}
 
-// NetworkLocUpContextV3 is the OID value for networkLocUpContext-v3.
-var NetworkLocUpContextV3 = []uint64{0, 4, 0, 0, 1, 0, 1, 3}
+	// NetworkFunctionalSsContextV2 is the OID value for networkFunctionalSsContext-v2.
+	NetworkFunctionalSsContextV2 = []uint64{0, 4, 0, 0, 1, 0, 18, 2}
 
-// NetworkUnstructuredSsContextV2 is the OID value for networkUnstructuredSsContext-v2.
-var NetworkUnstructuredSsContextV2 = []uint64{0, 4, 0, 0, 1, 0, 19, 2}
+	// NetworkLocUpContextV3 is the OID value for networkLocUpContext-v3.
+	NetworkLocUpContextV3 = []uint64{0, 4, 0, 0, 1, 0, 1, 3}
 
-// ReportingContextV3 is the OID value for reportingContext-v3.
-var ReportingContextV3 = []uint64{0, 4, 0, 0, 1, 0, 7, 3}
+	// NetworkUnstructuredSsContextV2 is the OID value for networkUnstructuredSsContext-v2.
+	NetworkUnstructuredSsContextV2 = []uint64{0, 4, 0, 0, 1, 0, 19, 2}
 
-// ResetContextV3 is the OID value for resetContext-v3.
-var ResetContextV3 = []uint64{0, 4, 0, 0, 1, 0, 10, 3}
+	// ReportingContextV3 is the OID value for reportingContext-v3.
+	ReportingContextV3 = []uint64{0, 4, 0, 0, 1, 0, 7, 3}
 
-// ResourceManagementContextV3 is the OID value for resourceManagementContext-v3.
-var ResourceManagementContextV3 = []uint64{0, 4, 0, 0, 1, 0, 44, 3}
+	// ResetContextV3 is the OID value for resetContext-v3.
+	ResetContextV3 = []uint64{0, 4, 0, 0, 1, 0, 10, 3}
 
-// RoamingNumberEnquiryContextV3 is the OID value for roamingNumberEnquiryContext-v3.
-var RoamingNumberEnquiryContextV3 = []uint64{0, 4, 0, 0, 1, 0, 3, 3}
+	// ResourceManagementContextV3 is the OID value for resourceManagementContext-v3.
+	ResourceManagementContextV3 = []uint64{0, 4, 0, 0, 1, 0, 44, 3}
 
-// ServiceTerminationContextV3 is the OID value for serviceTerminationContext-v3.
-var ServiceTerminationContextV3 = []uint64{0, 4, 0, 0, 1, 0, 9, 3}
+	// RoamingNumberEnquiryContextV3 is the OID value for roamingNumberEnquiryContext-v3.
+	RoamingNumberEnquiryContextV3 = []uint64{0, 4, 0, 0, 1, 0, 3, 3}
 
-// ShortMsgAlertContextV2 is the OID value for shortMsgAlertContext-v2.
-var ShortMsgAlertContextV2 = []uint64{0, 4, 0, 0, 1, 0, 23, 2}
+	// ServiceTerminationContextV3 is the OID value for serviceTerminationContext-v3.
+	ServiceTerminationContextV3 = []uint64{0, 4, 0, 0, 1, 0, 9, 3}
 
-// ShortMsgGatewayContextV3 is the OID value for shortMsgGatewayContext-v3.
-var ShortMsgGatewayContextV3 = []uint64{0, 4, 0, 0, 1, 0, 20, 3}
+	// ShortMsgAlertContextV2 is the OID value for shortMsgAlertContext-v2.
+	ShortMsgAlertContextV2 = []uint64{0, 4, 0, 0, 1, 0, 23, 2}
 
-// ShortMsgMORelayContextV3 is the OID value for shortMsgMO-RelayContext-v3.
-var ShortMsgMORelayContextV3 = []uint64{0, 4, 0, 0, 1, 0, 21, 3}
+	// ShortMsgGatewayContextV3 is the OID value for shortMsgGatewayContext-v3.
+	ShortMsgGatewayContextV3 = []uint64{0, 4, 0, 0, 1, 0, 20, 3}
 
-// ShortMsgMTRelayContextV3 is the OID value for shortMsgMT-RelayContext-v3.
-var ShortMsgMTRelayContextV3 = []uint64{0, 4, 0, 0, 1, 0, 25, 3}
+	// ShortMsgMORelayContextV3 is the OID value for shortMsgMO-RelayContext-v3.
+	ShortMsgMORelayContextV3 = []uint64{0, 4, 0, 0, 1, 0, 21, 3}
 
-// ShortMsgMTRelayVGCSContextV3 is the OID value for shortMsgMT-Relay-VGCS-Context-v3.
-var ShortMsgMTRelayVGCSContextV3 = []uint64{0, 4, 0, 0, 1, 0, 41, 3}
+	// ShortMsgMTRelayContextV3 is the OID value for shortMsgMT-RelayContext-v3.
+	ShortMsgMTRelayContextV3 = []uint64{0, 4, 0, 0, 1, 0, 25, 3}
 
-// SsInvocationNotificationContextV3 is the OID value for ss-InvocationNotificationContext-v3.
-var SsInvocationNotificationContextV3 = []uint64{0, 4, 0, 0, 1, 0, 36, 3}
+	// ShortMsgMTRelayVGCSContextV3 is the OID value for shortMsgMT-Relay-VGCS-Context-v3.
+	ShortMsgMTRelayVGCSContextV3 = []uint64{0, 4, 0, 0, 1, 0, 41, 3}
 
-// SubscriberDataMngtContextV3 is the OID value for subscriberDataMngtContext-v3.
-var SubscriberDataMngtContextV3 = []uint64{0, 4, 0, 0, 1, 0, 16, 3}
+	// SsInvocationNotificationContextV3 is the OID value for ss-InvocationNotificationContext-v3.
+	SsInvocationNotificationContextV3 = []uint64{0, 4, 0, 0, 1, 0, 36, 3}
 
-// SubscriberDataModificationNotificationContextV3 is the OID value for subscriberDataModificationNotificationContext-v3.
-var SubscriberDataModificationNotificationContextV3 = []uint64{0, 4, 0, 0, 1, 0, 22, 3}
+	// SubscriberDataMngtContextV3 is the OID value for subscriberDataMngtContext-v3.
+	SubscriberDataMngtContextV3 = []uint64{0, 4, 0, 0, 1, 0, 16, 3}
 
-// SubscriberInfoEnquiryContextV3 is the OID value for subscriberInfoEnquiryContext-v3.
-var SubscriberInfoEnquiryContextV3 = []uint64{0, 4, 0, 0, 1, 0, 28, 3}
+	// SubscriberDataModificationNotificationContextV3 is the OID value for subscriberDataModificationNotificationContext-v3.
+	SubscriberDataModificationNotificationContextV3 = []uint64{0, 4, 0, 0, 1, 0, 22, 3}
 
-// TracingContextV3 is the OID value for tracingContext-v3.
-var TracingContextV3 = []uint64{0, 4, 0, 0, 1, 0, 17, 3}
+	// SubscriberInfoEnquiryContextV3 is the OID value for subscriberInfoEnquiryContext-v3.
+	SubscriberInfoEnquiryContextV3 = []uint64{0, 4, 0, 0, 1, 0, 28, 3}
 
-// VcsgLocationCancellationContextV3 is the OID value for vcsgLocationCancellationContext-v3.
-var VcsgLocationCancellationContextV3 = []uint64{0, 4, 0, 0, 1, 0, 47, 3}
+	// TracingContextV3 is the OID value for tracingContext-v3.
+	TracingContextV3 = []uint64{0, 4, 0, 0, 1, 0, 17, 3}
 
-// VcsgLocationUpdateContextV3 is the OID value for vcsgLocationUpdateContext-v3.
-var VcsgLocationUpdateContextV3 = []uint64{0, 4, 0, 0, 1, 0, 46, 3}
+	// VcsgLocationCancellationContextV3 is the OID value for vcsgLocationCancellationContext-v3.
+	VcsgLocationCancellationContextV3 = []uint64{0, 4, 0, 0, 1, 0, 47, 3}
+
+	// VcsgLocationUpdateContextV3 is the OID value for vcsgLocationUpdateContext-v3.
+	VcsgLocationUpdateContextV3 = []uint64{0, 4, 0, 0, 1, 0, 46, 3}
+)

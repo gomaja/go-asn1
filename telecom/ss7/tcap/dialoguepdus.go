@@ -17,8 +17,11 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// DialogueAsId is the OID value for dialogue-as-id.
-var DialogueAsId = []uint64{0, 0, 17, 773, 1, 1, 1}
+var (
+
+	// DialogueAsId is the OID value for dialogue-as-id.
+	DialogueAsId = []uint64{0, 0, 17, 773, 1, 1, 1}
+)
 
 // AAREApdu represents the ASN.1 type AARE-apdu (SEQUENCE).
 type AAREApdu struct {

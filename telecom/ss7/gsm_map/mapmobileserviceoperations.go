@@ -15,89 +15,92 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// AnyTimeInterrogation is the integer value for anyTimeInterrogation.
-const AnyTimeInterrogation int64 = 71
+const (
 
-// AnyTimeModification is the integer value for anyTimeModification.
-const AnyTimeModification int64 = 65
+	// AnyTimeInterrogation is the integer constant for anyTimeInterrogation.
+	AnyTimeInterrogation int64 = 71
 
-// AnyTimeSubscriptionInterrogation is the integer value for anyTimeSubscriptionInterrogation.
-const AnyTimeSubscriptionInterrogation int64 = 62
+	// AnyTimeModification is the integer constant for anyTimeModification.
+	AnyTimeModification int64 = 65
 
-// AuthenticationFailureReport is the integer value for authenticationFailureReport.
-const AuthenticationFailureReport int64 = 15
+	// AnyTimeSubscriptionInterrogation is the integer constant for anyTimeSubscriptionInterrogation.
+	AnyTimeSubscriptionInterrogation int64 = 62
 
-// CancelLocation is the integer value for cancelLocation.
-const CancelLocation int64 = 3
+	// AuthenticationFailureReport is the integer constant for authenticationFailureReport.
+	AuthenticationFailureReport int64 = 15
 
-// CancelVcsgLocation is the integer value for cancelVcsgLocation.
-const CancelVcsgLocation int64 = 36
+	// CancelLocation is the integer constant for cancelLocation.
+	CancelLocation int64 = 3
 
-// CheckIMEI is the integer value for checkIMEI.
-const CheckIMEI int64 = 43
+	// CancelVcsgLocation is the integer constant for cancelVcsgLocation.
+	CancelVcsgLocation int64 = 36
 
-// DeleteSubscriberData is the integer value for deleteSubscriberData.
-const DeleteSubscriberData int64 = 8
+	// CheckIMEI is the integer constant for checkIMEI.
+	CheckIMEI int64 = 43
 
-// FailureReport is the integer value for failureReport.
-const FailureReport int64 = 25
+	// DeleteSubscriberData is the integer constant for deleteSubscriberData.
+	DeleteSubscriberData int64 = 8
 
-// ForwardAccessSignalling is the integer value for forwardAccessSignalling.
-const ForwardAccessSignalling int64 = 34
+	// FailureReport is the integer constant for failureReport.
+	FailureReport int64 = 25
 
-// ForwardCheckSSIndication is the integer value for forwardCheckSS-Indication.
-const ForwardCheckSSIndication int64 = 38
+	// ForwardAccessSignalling is the integer constant for forwardAccessSignalling.
+	ForwardAccessSignalling int64 = 34
 
-// InsertSubscriberData is the integer value for insertSubscriberData.
-const InsertSubscriberData int64 = 7
+	// ForwardCheckSSIndication is the integer constant for forwardCheckSS-Indication.
+	ForwardCheckSSIndication int64 = 38
 
-// NoteMMEvent is the integer value for noteMM-Event.
-const NoteMMEvent int64 = 89
+	// InsertSubscriberData is the integer constant for insertSubscriberData.
+	InsertSubscriberData int64 = 7
 
-// NoteMsPresentForGprs is the integer value for noteMsPresentForGprs.
-const NoteMsPresentForGprs int64 = 26
+	// NoteMMEvent is the integer constant for noteMM-Event.
+	NoteMMEvent int64 = 89
 
-// NoteSubscriberDataModified is the integer value for noteSubscriberDataModified.
-const NoteSubscriberDataModified int64 = 5
+	// NoteMsPresentForGprs is the integer constant for noteMsPresentForGprs.
+	NoteMsPresentForGprs int64 = 26
 
-// PrepareHandover is the integer value for prepareHandover.
-const PrepareHandover int64 = 68
+	// NoteSubscriberDataModified is the integer constant for noteSubscriberDataModified.
+	NoteSubscriberDataModified int64 = 5
 
-// PrepareSubsequentHandover is the integer value for prepareSubsequentHandover.
-const PrepareSubsequentHandover int64 = 69
+	// PrepareHandover is the integer constant for prepareHandover.
+	PrepareHandover int64 = 68
 
-// ProcessAccessSignalling is the integer value for processAccessSignalling.
-const ProcessAccessSignalling int64 = 33
+	// PrepareSubsequentHandover is the integer constant for prepareSubsequentHandover.
+	PrepareSubsequentHandover int64 = 69
 
-// ProvideSubscriberInfo is the integer value for provideSubscriberInfo.
-const ProvideSubscriberInfo int64 = 70
+	// ProcessAccessSignalling is the integer constant for processAccessSignalling.
+	ProcessAccessSignalling int64 = 33
 
-// PurgeMS is the integer value for purgeMS.
-const PurgeMS int64 = 67
+	// ProvideSubscriberInfo is the integer constant for provideSubscriberInfo.
+	ProvideSubscriberInfo int64 = 70
 
-// Reset is the integer value for reset.
-const Reset int64 = 37
+	// PurgeMS is the integer constant for purgeMS.
+	PurgeMS int64 = 67
 
-// RestoreData is the integer value for restoreData.
-const RestoreData int64 = 57
+	// Reset is the integer constant for reset.
+	Reset int64 = 37
 
-// SendAuthenticationInfo is the integer value for sendAuthenticationInfo.
-const SendAuthenticationInfo int64 = 56
+	// RestoreData is the integer constant for restoreData.
+	RestoreData int64 = 57
 
-// SendEndSignal is the integer value for sendEndSignal.
-const SendEndSignal int64 = 29
+	// SendAuthenticationInfo is the integer constant for sendAuthenticationInfo.
+	SendAuthenticationInfo int64 = 56
 
-// SendIdentification is the integer value for sendIdentification.
-const SendIdentification int64 = 55
+	// SendEndSignal is the integer constant for sendEndSignal.
+	SendEndSignal int64 = 29
 
-// SendRoutingInfoForGprs is the integer value for sendRoutingInfoForGprs.
-const SendRoutingInfoForGprs int64 = 24
+	// SendIdentification is the integer constant for sendIdentification.
+	SendIdentification int64 = 55
 
-// UpdateGprsLocation is the integer value for updateGprsLocation.
-const UpdateGprsLocation int64 = 23
+	// SendRoutingInfoForGprs is the integer constant for sendRoutingInfoForGprs.
+	SendRoutingInfoForGprs int64 = 24
 
-// UpdateLocation is the integer value for updateLocation.
-const UpdateLocation int64 = 2
+	// UpdateGprsLocation is the integer constant for updateGprsLocation.
+	UpdateGprsLocation int64 = 23
 
-// UpdateVcsgLocation is the integer value for updateVcsgLocation.
-const UpdateVcsgLocation int64 = 53
+	// UpdateLocation is the integer constant for updateLocation.
+	UpdateLocation int64 = 2
+
+	// UpdateVcsgLocation is the integer constant for updateVcsgLocation.
+	UpdateVcsgLocation int64 = 53
+)

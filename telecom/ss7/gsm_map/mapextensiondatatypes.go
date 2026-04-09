@@ -17,8 +17,11 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// MaxNumOfPrivateExtensions is the integer value for maxNumOfPrivateExtensions.
-const MaxNumOfPrivateExtensions int64 = 10
+const (
+
+	// MaxNumOfPrivateExtensions is the integer constant for maxNumOfPrivateExtensions.
+	MaxNumOfPrivateExtensions int64 = 10
+)
 
 // ExtensionContainer represents the ASN.1 type ExtensionContainer (SEQUENCE).
 type ExtensionContainer struct {

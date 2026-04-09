@@ -17,47 +17,50 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// MaxAddGeographicalInformation is the integer value for maxAdd-GeographicalInformation.
-const MaxAddGeographicalInformation int64 = 91
+const (
 
-// MaxExtGeographicalInformation is the integer value for maxExt-GeographicalInformation.
-const MaxExtGeographicalInformation int64 = 20
+	// MaxAddGeographicalInformation is the integer constant for maxAdd-GeographicalInformation.
+	MaxAddGeographicalInformation int64 = 91
 
-// MaxGeranGANSSpositioningData is the integer value for maxGeranGANSSpositioningData.
-const MaxGeranGANSSpositioningData int64 = 10
+	// MaxExtGeographicalInformation is the integer constant for maxExt-GeographicalInformation.
+	MaxExtGeographicalInformation int64 = 20
 
-// MaxLCSCodewordStringLength is the integer value for maxLCSCodewordStringLength.
-const MaxLCSCodewordStringLength int64 = 20
+	// MaxGeranGANSSpositioningData is the integer constant for maxGeranGANSSpositioningData.
+	MaxGeranGANSSpositioningData int64 = 10
 
-// MaxNameStringLength is the integer value for maxNameStringLength.
-const MaxNameStringLength int64 = 63
+	// MaxLCSCodewordStringLength is the integer constant for maxLCSCodewordStringLength.
+	MaxLCSCodewordStringLength int64 = 20
 
-// MaxNumOfAreas is the integer value for maxNumOfAreas.
-const MaxNumOfAreas int64 = 10
+	// MaxNameStringLength is the integer constant for maxNameStringLength.
+	MaxNameStringLength int64 = 63
 
-// MaxNumOfReportingPLMN is the integer value for maxNumOfReportingPLMN.
-const MaxNumOfReportingPLMN int64 = 20
+	// MaxNumOfAreas is the integer constant for maxNumOfAreas.
+	MaxNumOfAreas int64 = 10
 
-// MaxPositioningDataInformation is the integer value for maxPositioningDataInformation.
-const MaxPositioningDataInformation int64 = 10
+	// MaxNumOfReportingPLMN is the integer constant for maxNumOfReportingPLMN.
+	MaxNumOfReportingPLMN int64 = 20
 
-// MaxReportingAmount is the integer value for maxReportingAmount.
-const MaxReportingAmount int64 = 8.639999e+06
+	// MaxPositioningDataInformation is the integer constant for maxPositioningDataInformation.
+	MaxPositioningDataInformation int64 = 10
 
-// MaxReportingInterval is the integer value for maxReportingInterval.
-const MaxReportingInterval int64 = 8.639999e+06
+	// MaxReportingAmount is the integer constant for maxReportingAmount.
+	MaxReportingAmount int64 = 8.639999e+06
 
-// MaxRequestorIDStringLength is the integer value for maxRequestorIDStringLength.
-const MaxRequestorIDStringLength int64 = 63
+	// MaxReportingInterval is the integer constant for maxReportingInterval.
+	MaxReportingInterval int64 = 8.639999e+06
 
-// MaxUtranAdditionalPositioningData is the integer value for maxUtranAdditionalPositioningData.
-const MaxUtranAdditionalPositioningData int64 = 8
+	// MaxRequestorIDStringLength is the integer constant for maxRequestorIDStringLength.
+	MaxRequestorIDStringLength int64 = 63
 
-// MaxUtranGANSSpositioningData is the integer value for maxUtranGANSSpositioningData.
-const MaxUtranGANSSpositioningData int64 = 9
+	// MaxUtranAdditionalPositioningData is the integer constant for maxUtranAdditionalPositioningData.
+	MaxUtranAdditionalPositioningData int64 = 8
 
-// MaxUtranPositioningDataInfo is the integer value for maxUtranPositioningDataInfo.
-const MaxUtranPositioningDataInfo int64 = 11
+	// MaxUtranGANSSpositioningData is the integer constant for maxUtranGANSSpositioningData.
+	MaxUtranGANSSpositioningData int64 = 9
+
+	// MaxUtranPositioningDataInfo is the integer constant for maxUtranPositioningDataInfo.
+	MaxUtranPositioningDataInfo int64 = 11
+)
 
 // AccuracyFulfilmentIndicator represents the ASN.1 ENUMERATED type AccuracyFulfilmentIndicator.
 type AccuracyFulfilmentIndicator int64

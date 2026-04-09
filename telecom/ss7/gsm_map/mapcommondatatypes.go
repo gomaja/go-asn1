@@ -17,329 +17,332 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// AlertingCategory1 is the octet string value for alertingCategory-1.
-const AlertingCategory1 = "\x04"
+const (
 
-// AlertingCategory2 is the octet string value for alertingCategory-2.
-const AlertingCategory2 = "\x05"
+	// AlertingCategory1 is the octet string constant for alertingCategory-1.
+	AlertingCategory1 = "\x04"
 
-// AlertingCategory3 is the octet string value for alertingCategory-3.
-const AlertingCategory3 = "\x06"
+	// AlertingCategory2 is the octet string constant for alertingCategory-2.
+	AlertingCategory2 = "\x05"
 
-// AlertingCategory4 is the octet string value for alertingCategory-4.
-const AlertingCategory4 = "\x07"
+	// AlertingCategory3 is the octet string constant for alertingCategory-3.
+	AlertingCategory3 = "\x06"
 
-// AlertingCategory5 is the octet string value for alertingCategory-5.
-const AlertingCategory5 = "\x08"
+	// AlertingCategory4 is the octet string constant for alertingCategory-4.
+	AlertingCategory4 = "\x07"
 
-// AlertingLevel0 is the octet string value for alertingLevel-0.
-const AlertingLevel0 = "\x00"
+	// AlertingCategory5 is the octet string constant for alertingCategory-5.
+	AlertingCategory5 = "\x08"
 
-// AlertingLevel1 is the octet string value for alertingLevel-1.
-const AlertingLevel1 = "\x01"
+	// AlertingLevel0 is the octet string constant for alertingLevel-0.
+	AlertingLevel0 = "\x00"
 
-// AlertingLevel2 is the octet string value for alertingLevel-2.
-const AlertingLevel2 = "\x02"
+	// AlertingLevel1 is the octet string constant for alertingLevel-1.
+	AlertingLevel1 = "\x01"
 
-// AssetAndServiceFinding is the integer value for assetAndServiceFinding.
-const AssetAndServiceFinding int64 = 14
+	// AlertingLevel2 is the octet string constant for alertingLevel-2.
+	AlertingLevel2 = "\x02"
 
-// AssetManagement is the integer value for assetManagement.
-const AssetManagement int64 = 4
+	// AssetAndServiceFinding is the integer constant for assetAndServiceFinding.
+	AssetAndServiceFinding int64 = 14
 
-// Chatting is the integer value for chatting.
-const Chatting int64 = 18
+	// AssetManagement is the integer constant for assetManagement.
+	AssetManagement int64 = 4
 
-// CitySightseeing is the integer value for citySightseeing.
-const CitySightseeing int64 = 9
+	// Chatting is the integer constant for chatting.
+	Chatting int64 = 18
 
-// Dating is the integer value for dating.
-const Dating int64 = 17
+	// CitySightseeing is the integer constant for citySightseeing.
+	CitySightseeing int64 = 9
 
-// EmergencyAlertServices is the integer value for emergencyAlertServices.
-const EmergencyAlertServices int64 = 1
+	// Dating is the integer constant for dating.
+	Dating int64 = 17
 
-// EmergencyServices is the integer value for emergencyServices.
-const EmergencyServices int64 = 0
+	// EmergencyAlertServices is the integer constant for emergencyAlertServices.
+	EmergencyAlertServices int64 = 1
 
-// FindYourFriend is the integer value for findYourFriend.
-const FindYourFriend int64 = 16
+	// EmergencyServices is the integer constant for emergencyServices.
+	EmergencyServices int64 = 0
 
-// FleetManagement is the integer value for fleetManagement.
-const FleetManagement int64 = 3
+	// FindYourFriend is the integer constant for findYourFriend.
+	FindYourFriend int64 = 16
 
-// Gaming is the integer value for gaming.
-const Gaming int64 = 15
+	// FleetManagement is the integer constant for fleetManagement.
+	FleetManagement int64 = 3
 
-// LocalizedAdvertising is the integer value for localizedAdvertising.
-const LocalizedAdvertising int64 = 10
+	// Gaming is the integer constant for gaming.
+	Gaming int64 = 15
 
-// MaxAddressLength is the integer value for maxAddressLength.
-const MaxAddressLength int64 = 20
+	// LocalizedAdvertising is the integer constant for localizedAdvertising.
+	LocalizedAdvertising int64 = 10
 
-// MaxFTNAddressLength is the integer value for maxFTN-AddressLength.
-const MaxFTNAddressLength int64 = 15
+	// MaxAddressLength is the integer constant for maxAddressLength.
+	MaxAddressLength int64 = 20
 
-// MaxISDNAddressLength is the integer value for maxISDN-AddressLength.
-const MaxISDNAddressLength int64 = 9
+	// MaxFTNAddressLength is the integer constant for maxFTN-AddressLength.
+	MaxFTNAddressLength int64 = 15
 
-// MaxISDNSubaddressLength is the integer value for maxISDN-SubaddressLength.
-const MaxISDNSubaddressLength int64 = 21
+	// MaxISDNAddressLength is the integer constant for maxISDN-AddressLength.
+	MaxISDNAddressLength int64 = 9
 
-// MaxLongSignalInfoLength is the integer value for maxLongSignalInfoLength.
-const MaxLongSignalInfoLength int64 = 2560
+	// MaxISDNSubaddressLength is the integer constant for maxISDN-SubaddressLength.
+	MaxISDNSubaddressLength int64 = 21
 
-// MaxNumOfHLRId is the integer value for maxNumOfHLR-Id.
-const MaxNumOfHLRId int64 = 50
+	// MaxLongSignalInfoLength is the integer constant for maxLongSignalInfoLength.
+	MaxLongSignalInfoLength int64 = 2560
 
-// MaxNumOfMCBearers is the integer value for maxNumOfMC-Bearers.
-const MaxNumOfMCBearers int64 = 7
+	// MaxNumOfHLRId is the integer constant for maxNumOfHLR-Id.
+	MaxNumOfHLRId int64 = 50
 
-// MaxSignalInfoLength is the integer value for maxSignalInfoLength.
-const MaxSignalInfoLength int64 = 200
+	// MaxNumOfMCBearers is the integer constant for maxNumOfMC-Bearers.
+	MaxNumOfMCBearers int64 = 7
 
-// MobileYellowPages is the integer value for mobileYellowPages.
-const MobileYellowPages int64 = 11
+	// MaxSignalInfoLength is the integer constant for maxSignalInfoLength.
+	MaxSignalInfoLength int64 = 200
 
-// Navigation is the integer value for navigation.
-const Navigation int64 = 8
+	// MobileYellowPages is the integer constant for mobileYellowPages.
+	MobileYellowPages int64 = 11
 
-// PersonTracking is the integer value for personTracking.
-const PersonTracking int64 = 2
+	// Navigation is the integer constant for navigation.
+	Navigation int64 = 8
 
-// PriorityLevel0 is the integer value for priorityLevel0.
-const PriorityLevel0 int64 = 0
+	// PersonTracking is the integer constant for personTracking.
+	PersonTracking int64 = 2
 
-// PriorityLevel1 is the integer value for priorityLevel1.
-const PriorityLevel1 int64 = 1
+	// PriorityLevel0 is the integer constant for priorityLevel0.
+	PriorityLevel0 int64 = 0
 
-// PriorityLevel2 is the integer value for priorityLevel2.
-const PriorityLevel2 int64 = 2
+	// PriorityLevel1 is the integer constant for priorityLevel1.
+	PriorityLevel1 int64 = 1
 
-// PriorityLevel3 is the integer value for priorityLevel3.
-const PriorityLevel3 int64 = 3
+	// PriorityLevel2 is the integer constant for priorityLevel2.
+	PriorityLevel2 int64 = 2
 
-// PriorityLevel4 is the integer value for priorityLevel4.
-const PriorityLevel4 int64 = 4
+	// PriorityLevel3 is the integer constant for priorityLevel3.
+	PriorityLevel3 int64 = 3
 
-// PriorityLevelA is the integer value for priorityLevelA.
-const PriorityLevelA int64 = 6
+	// PriorityLevel4 is the integer constant for priorityLevel4.
+	PriorityLevel4 int64 = 4
 
-// PriorityLevelB is the integer value for priorityLevelB.
-const PriorityLevelB int64 = 5
+	// PriorityLevelA is the integer constant for priorityLevelA.
+	PriorityLevelA int64 = 6
 
-// RoadsideAssistance is the integer value for roadsideAssistance.
-const RoadsideAssistance int64 = 6
+	// PriorityLevelB is the integer constant for priorityLevelB.
+	PriorityLevelB int64 = 5
 
-// RouteFinding is the integer value for routeFinding.
-const RouteFinding int64 = 19
+	// RoadsideAssistance is the integer constant for roadsideAssistance.
+	RoadsideAssistance int64 = 6
 
-// RoutingToNearestCommercialEnterprise is the integer value for routingToNearestCommercialEnterprise.
-const RoutingToNearestCommercialEnterprise int64 = 7
+	// RouteFinding is the integer constant for routeFinding.
+	RouteFinding int64 = 19
 
-// Serv100 is the integer value for serv100.
-const Serv100 int64 = 100
+	// RoutingToNearestCommercialEnterprise is the integer constant for routingToNearestCommercialEnterprise.
+	RoutingToNearestCommercialEnterprise int64 = 7
 
-// Serv101 is the integer value for serv101.
-const Serv101 int64 = 101
+	// Serv100 is the integer constant for serv100.
+	Serv100 int64 = 100
 
-// Serv102 is the integer value for serv102.
-const Serv102 int64 = 102
+	// Serv101 is the integer constant for serv101.
+	Serv101 int64 = 101
 
-// Serv103 is the integer value for serv103.
-const Serv103 int64 = 103
+	// Serv102 is the integer constant for serv102.
+	Serv102 int64 = 102
 
-// Serv104 is the integer value for serv104.
-const Serv104 int64 = 104
+	// Serv103 is the integer constant for serv103.
+	Serv103 int64 = 103
 
-// Serv105 is the integer value for serv105.
-const Serv105 int64 = 105
+	// Serv104 is the integer constant for serv104.
+	Serv104 int64 = 104
 
-// Serv106 is the integer value for serv106.
-const Serv106 int64 = 106
+	// Serv105 is the integer constant for serv105.
+	Serv105 int64 = 105
 
-// Serv107 is the integer value for serv107.
-const Serv107 int64 = 107
+	// Serv106 is the integer constant for serv106.
+	Serv106 int64 = 106
 
-// Serv108 is the integer value for serv108.
-const Serv108 int64 = 108
+	// Serv107 is the integer constant for serv107.
+	Serv107 int64 = 107
 
-// Serv109 is the integer value for serv109.
-const Serv109 int64 = 109
+	// Serv108 is the integer constant for serv108.
+	Serv108 int64 = 108
 
-// Serv110 is the integer value for serv110.
-const Serv110 int64 = 110
+	// Serv109 is the integer constant for serv109.
+	Serv109 int64 = 109
 
-// Serv111 is the integer value for serv111.
-const Serv111 int64 = 111
+	// Serv110 is the integer constant for serv110.
+	Serv110 int64 = 110
 
-// Serv112 is the integer value for serv112.
-const Serv112 int64 = 112
+	// Serv111 is the integer constant for serv111.
+	Serv111 int64 = 111
 
-// Serv113 is the integer value for serv113.
-const Serv113 int64 = 113
+	// Serv112 is the integer constant for serv112.
+	Serv112 int64 = 112
 
-// Serv114 is the integer value for serv114.
-const Serv114 int64 = 114
+	// Serv113 is the integer constant for serv113.
+	Serv113 int64 = 113
 
-// Serv115 is the integer value for serv115.
-const Serv115 int64 = 115
+	// Serv114 is the integer constant for serv114.
+	Serv114 int64 = 114
 
-// Serv116 is the integer value for serv116.
-const Serv116 int64 = 116
+	// Serv115 is the integer constant for serv115.
+	Serv115 int64 = 115
 
-// Serv117 is the integer value for serv117.
-const Serv117 int64 = 117
+	// Serv116 is the integer constant for serv116.
+	Serv116 int64 = 116
 
-// Serv118 is the integer value for serv118.
-const Serv118 int64 = 118
+	// Serv117 is the integer constant for serv117.
+	Serv117 int64 = 117
 
-// Serv119 is the integer value for serv119.
-const Serv119 int64 = 119
+	// Serv118 is the integer constant for serv118.
+	Serv118 int64 = 118
 
-// Serv120 is the integer value for serv120.
-const Serv120 int64 = 120
+	// Serv119 is the integer constant for serv119.
+	Serv119 int64 = 119
 
-// Serv121 is the integer value for serv121.
-const Serv121 int64 = 121
+	// Serv120 is the integer constant for serv120.
+	Serv120 int64 = 120
 
-// Serv122 is the integer value for serv122.
-const Serv122 int64 = 122
+	// Serv121 is the integer constant for serv121.
+	Serv121 int64 = 121
 
-// Serv123 is the integer value for serv123.
-const Serv123 int64 = 123
+	// Serv122 is the integer constant for serv122.
+	Serv122 int64 = 122
 
-// Serv124 is the integer value for serv124.
-const Serv124 int64 = 124
+	// Serv123 is the integer constant for serv123.
+	Serv123 int64 = 123
 
-// Serv125 is the integer value for serv125.
-const Serv125 int64 = 125
+	// Serv124 is the integer constant for serv124.
+	Serv124 int64 = 124
 
-// Serv126 is the integer value for serv126.
-const Serv126 int64 = 126
+	// Serv125 is the integer constant for serv125.
+	Serv125 int64 = 125
 
-// Serv127 is the integer value for serv127.
-const Serv127 int64 = 127
+	// Serv126 is the integer constant for serv126.
+	Serv126 int64 = 126
 
-// Serv64 is the integer value for serv64.
-const Serv64 int64 = 64
+	// Serv127 is the integer constant for serv127.
+	Serv127 int64 = 127
 
-// Serv65 is the integer value for serv65.
-const Serv65 int64 = 65
+	// Serv64 is the integer constant for serv64.
+	Serv64 int64 = 64
 
-// Serv66 is the integer value for serv66.
-const Serv66 int64 = 66
+	// Serv65 is the integer constant for serv65.
+	Serv65 int64 = 65
 
-// Serv67 is the integer value for serv67.
-const Serv67 int64 = 67
+	// Serv66 is the integer constant for serv66.
+	Serv66 int64 = 66
 
-// Serv68 is the integer value for serv68.
-const Serv68 int64 = 68
+	// Serv67 is the integer constant for serv67.
+	Serv67 int64 = 67
 
-// Serv69 is the integer value for serv69.
-const Serv69 int64 = 69
+	// Serv68 is the integer constant for serv68.
+	Serv68 int64 = 68
 
-// Serv70 is the integer value for serv70.
-const Serv70 int64 = 70
+	// Serv69 is the integer constant for serv69.
+	Serv69 int64 = 69
 
-// Serv71 is the integer value for serv71.
-const Serv71 int64 = 71
+	// Serv70 is the integer constant for serv70.
+	Serv70 int64 = 70
 
-// Serv72 is the integer value for serv72.
-const Serv72 int64 = 72
+	// Serv71 is the integer constant for serv71.
+	Serv71 int64 = 71
 
-// Serv73 is the integer value for serv73.
-const Serv73 int64 = 73
+	// Serv72 is the integer constant for serv72.
+	Serv72 int64 = 72
 
-// Serv74 is the integer value for serv74.
-const Serv74 int64 = 74
+	// Serv73 is the integer constant for serv73.
+	Serv73 int64 = 73
 
-// Serv75 is the integer value for serv75.
-const Serv75 int64 = 75
+	// Serv74 is the integer constant for serv74.
+	Serv74 int64 = 74
 
-// Serv76 is the integer value for serv76.
-const Serv76 int64 = 76
+	// Serv75 is the integer constant for serv75.
+	Serv75 int64 = 75
 
-// Serv77 is the integer value for serv77.
-const Serv77 int64 = 77
+	// Serv76 is the integer constant for serv76.
+	Serv76 int64 = 76
 
-// Serv78 is the integer value for serv78.
-const Serv78 int64 = 78
+	// Serv77 is the integer constant for serv77.
+	Serv77 int64 = 77
 
-// Serv79 is the integer value for serv79.
-const Serv79 int64 = 79
+	// Serv78 is the integer constant for serv78.
+	Serv78 int64 = 78
 
-// Serv80 is the integer value for serv80.
-const Serv80 int64 = 80
+	// Serv79 is the integer constant for serv79.
+	Serv79 int64 = 79
 
-// Serv81 is the integer value for serv81.
-const Serv81 int64 = 81
+	// Serv80 is the integer constant for serv80.
+	Serv80 int64 = 80
 
-// Serv82 is the integer value for serv82.
-const Serv82 int64 = 82
+	// Serv81 is the integer constant for serv81.
+	Serv81 int64 = 81
 
-// Serv83 is the integer value for serv83.
-const Serv83 int64 = 83
+	// Serv82 is the integer constant for serv82.
+	Serv82 int64 = 82
 
-// Serv84 is the integer value for serv84.
-const Serv84 int64 = 84
+	// Serv83 is the integer constant for serv83.
+	Serv83 int64 = 83
 
-// Serv85 is the integer value for serv85.
-const Serv85 int64 = 85
+	// Serv84 is the integer constant for serv84.
+	Serv84 int64 = 84
 
-// Serv86 is the integer value for serv86.
-const Serv86 int64 = 86
+	// Serv85 is the integer constant for serv85.
+	Serv85 int64 = 85
 
-// Serv87 is the integer value for serv87.
-const Serv87 int64 = 87
+	// Serv86 is the integer constant for serv86.
+	Serv86 int64 = 86
 
-// Serv88 is the integer value for serv88.
-const Serv88 int64 = 88
+	// Serv87 is the integer constant for serv87.
+	Serv87 int64 = 87
 
-// Serv89 is the integer value for serv89.
-const Serv89 int64 = 89
+	// Serv88 is the integer constant for serv88.
+	Serv88 int64 = 88
 
-// Serv90 is the integer value for serv90.
-const Serv90 int64 = 90
+	// Serv89 is the integer constant for serv89.
+	Serv89 int64 = 89
 
-// Serv91 is the integer value for serv91.
-const Serv91 int64 = 91
+	// Serv90 is the integer constant for serv90.
+	Serv90 int64 = 90
 
-// Serv92 is the integer value for serv92.
-const Serv92 int64 = 92
+	// Serv91 is the integer constant for serv91.
+	Serv91 int64 = 91
 
-// Serv93 is the integer value for serv93.
-const Serv93 int64 = 93
+	// Serv92 is the integer constant for serv92.
+	Serv92 int64 = 92
 
-// Serv94 is the integer value for serv94.
-const Serv94 int64 = 94
+	// Serv93 is the integer constant for serv93.
+	Serv93 int64 = 93
 
-// Serv95 is the integer value for serv95.
-const Serv95 int64 = 95
+	// Serv94 is the integer constant for serv94.
+	Serv94 int64 = 94
 
-// Serv96 is the integer value for serv96.
-const Serv96 int64 = 96
+	// Serv95 is the integer constant for serv95.
+	Serv95 int64 = 95
 
-// Serv97 is the integer value for serv97.
-const Serv97 int64 = 97
+	// Serv96 is the integer constant for serv96.
+	Serv96 int64 = 96
 
-// Serv98 is the integer value for serv98.
-const Serv98 int64 = 98
+	// Serv97 is the integer constant for serv97.
+	Serv97 int64 = 97
 
-// Serv99 is the integer value for serv99.
-const Serv99 int64 = 99
+	// Serv98 is the integer constant for serv98.
+	Serv98 int64 = 98
 
-// TrafficAndPublicTransportationInfo is the integer value for trafficAndPublicTransportationInfo.
-const TrafficAndPublicTransportationInfo int64 = 12
+	// Serv99 is the integer constant for serv99.
+	Serv99 int64 = 99
 
-// TrafficCongestionReporting is the integer value for trafficCongestionReporting.
-const TrafficCongestionReporting int64 = 5
+	// TrafficAndPublicTransportationInfo is the integer constant for trafficAndPublicTransportationInfo.
+	TrafficAndPublicTransportationInfo int64 = 12
 
-// Weather is the integer value for weather.
-const Weather int64 = 13
+	// TrafficCongestionReporting is the integer constant for trafficCongestionReporting.
+	TrafficCongestionReporting int64 = 5
 
-// WhereAmI is the integer value for whereAmI.
-const WhereAmI int64 = 20
+	// Weather is the integer constant for weather.
+	Weather int64 = 13
+
+	// WhereAmI is the integer constant for whereAmI.
+	WhereAmI int64 = 20
+)
 
 // ASCICallReference represents the ASN.1 type ASCI-CallReference (OCTET_STRING).
 type ASCICallReference = []byte

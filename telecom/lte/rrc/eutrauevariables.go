@@ -15,8 +15,11 @@ var (
 	_ = per.NewBitBuffer
 )
 
-// MaxLogMeasR10 is the integer value for maxLogMeas-r10.
-const MaxLogMeasR10 int64 = 4060
+const (
+
+	// MaxLogMeasR10 is the integer constant for maxLogMeas-r10.
+	MaxLogMeasR10 int64 = 4060
+)
 
 // CSIRSTriggeredListR12 represents the ASN.1 type CSI-RS-TriggeredList-r12 (SEQUENCE_OF).
 type CSIRSTriggeredListR12 = []MeasCSIRSIdR12

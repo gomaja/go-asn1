@@ -15,47 +15,50 @@ var (
 	_ = per.NewBitBuffer
 )
 
-// MaxDRBNBR13 is the integer value for maxDRB-NB-r13.
-const MaxDRBNBR13 int64 = 2
+const (
 
-// MaxFreqANRNBR16 is the integer value for maxFreqANR-NB-r16.
-const MaxFreqANRNBR16 int64 = 2
+	// MaxDRBNBR13 is the integer constant for maxDRB-NB-r13.
+	MaxDRBNBR13 int64 = 2
 
-// MaxFreqEUTRANBR16 is the integer value for maxFreqEUTRA-NB-r16.
-const MaxFreqEUTRANBR16 int64 = 8
+	// MaxFreqANRNBR16 is the integer constant for maxFreqANR-NB-r16.
+	MaxFreqANRNBR16 int64 = 2
 
-// MaxFreqsGERANNBR16 is the integer value for maxFreqsGERAN-NB-r16.
-const MaxFreqsGERANNBR16 int64 = 8
+	// MaxFreqEUTRANBR16 is the integer constant for maxFreqEUTRA-NB-r16.
+	MaxFreqEUTRANBR16 int64 = 8
 
-// MaxGWUSGroups1NBR16 is the integer value for maxGWUS-Groups-1-NB-r16.
-const MaxGWUSGroups1NBR16 int64 = 15
+	// MaxFreqsGERANNBR16 is the integer constant for maxFreqsGERAN-NB-r16.
+	MaxFreqsGERANNBR16 int64 = 8
 
-// MaxGWUSProbThresholdsNBR16 is the integer value for maxGWUS-ProbThresholds-NB-r16.
-const MaxGWUSProbThresholdsNBR16 int64 = 3
+	// MaxGWUSGroups1NBR16 is the integer constant for maxGWUS-Groups-1-NB-r16.
+	MaxGWUSGroups1NBR16 int64 = 15
 
-// MaxGWUSResourcesNBR16 is the integer value for maxGWUS-Resources-NB-r16.
-const MaxGWUSResourcesNBR16 int64 = 2
+	// MaxGWUSProbThresholdsNBR16 is the integer constant for maxGWUS-ProbThresholds-NB-r16.
+	MaxGWUSProbThresholdsNBR16 int64 = 3
 
-// MaxNPRACHResourcesNBR13 is the integer value for maxNPRACH-Resources-NB-r13.
-const MaxNPRACHResourcesNBR13 int64 = 3
+	// MaxGWUSResourcesNBR16 is the integer constant for maxGWUS-Resources-NB-r16.
+	MaxGWUSResourcesNBR16 int64 = 2
 
-// MaxNSPmaxNBR13 is the integer value for maxNS-Pmax-NB-r13.
-const MaxNSPmaxNBR13 int64 = 4
+	// MaxNPRACHResourcesNBR13 is the integer constant for maxNPRACH-Resources-NB-r13.
+	MaxNPRACHResourcesNBR13 int64 = 3
 
-// MaxNeighCellSCPTMNBR14 is the integer value for maxNeighCell-SCPTM-NB-r14.
-const MaxNeighCellSCPTMNBR14 int64 = 8
+	// MaxNSPmaxNBR13 is the integer constant for maxNS-Pmax-NB-r13.
+	MaxNSPmaxNBR13 int64 = 4
 
-// MaxNonAnchorCarriersNBR14 is the integer value for maxNonAnchorCarriers-NB-r14.
-const MaxNonAnchorCarriersNBR14 int64 = 15
+	// MaxNeighCellSCPTMNBR14 is the integer constant for maxNeighCell-SCPTM-NB-r14.
+	MaxNeighCellSCPTMNBR14 int64 = 8
 
-// MaxSCMTCHNBR14 is the integer value for maxSC-MTCH-NB-r14.
-const MaxSCMTCHNBR14 int64 = 64
+	// MaxNonAnchorCarriersNBR14 is the integer constant for maxNonAnchorCarriers-NB-r14.
+	MaxNonAnchorCarriersNBR14 int64 = 15
 
-// MaxSIMessageNBR13 is the integer value for maxSI-Message-NB-r13.
-const MaxSIMessageNBR13 int64 = 8
+	// MaxSCMTCHNBR14 is the integer constant for maxSC-MTCH-NB-r14.
+	MaxSCMTCHNBR14 int64 = 64
 
-// MaxTACNBR17 is the integer value for maxTAC-NB-r17.
-const MaxTACNBR17 int64 = 12
+	// MaxSIMessageNBR13 is the integer constant for maxSI-Message-NB-r13.
+	MaxSIMessageNBR13 int64 = 8
+
+	// MaxTACNBR17 is the integer constant for maxTAC-NB-r17.
+	MaxTACNBR17 int64 = 12
+)
 
 // ABConfigPLMNNBR13 represents the ASN.1 type AB-ConfigPLMN-NB-r13 (SEQUENCE).
 type ABConfigPLMNNBR13 struct {

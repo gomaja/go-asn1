@@ -15,8 +15,11 @@ var (
 	_ = per.NewBitBuffer
 )
 
-// MaxReestabInfo is the integer value for maxReestabInfo.
-const MaxReestabInfo int64 = 32
+const (
+
+	// MaxReestabInfo is the integer constant for maxReestabInfo.
+	MaxReestabInfo int64 = 32
+)
 
 // ASConfig represents the ASN.1 type AS-Config (SEQUENCE).
 type ASConfig struct {

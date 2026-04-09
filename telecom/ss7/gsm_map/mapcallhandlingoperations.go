@@ -15,29 +15,32 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// IstAlert is the integer value for ist-Alert.
-const IstAlert int64 = 87
+const (
 
-// IstCommand is the integer value for ist-Command.
-const IstCommand int64 = 88
+	// IstAlert is the integer constant for ist-Alert.
+	IstAlert int64 = 87
 
-// ProvideRoamingNumber is the integer value for provideRoamingNumber.
-const ProvideRoamingNumber int64 = 4
+	// IstCommand is the integer constant for ist-Command.
+	IstCommand int64 = 88
 
-// ReleaseResources is the integer value for releaseResources.
-const ReleaseResources int64 = 20
+	// ProvideRoamingNumber is the integer constant for provideRoamingNumber.
+	ProvideRoamingNumber int64 = 4
 
-// RemoteUserFree is the integer value for remoteUserFree.
-const RemoteUserFree int64 = 75
+	// ReleaseResources is the integer constant for releaseResources.
+	ReleaseResources int64 = 20
 
-// ResumeCallHandling is the integer value for resumeCallHandling.
-const ResumeCallHandling int64 = 6
+	// RemoteUserFree is the integer constant for remoteUserFree.
+	RemoteUserFree int64 = 75
 
-// SendRoutingInfo is the integer value for sendRoutingInfo.
-const SendRoutingInfo int64 = 22
+	// ResumeCallHandling is the integer constant for resumeCallHandling.
+	ResumeCallHandling int64 = 6
 
-// SetReportingState is the integer value for setReportingState.
-const SetReportingState int64 = 73
+	// SendRoutingInfo is the integer constant for sendRoutingInfo.
+	SendRoutingInfo int64 = 22
 
-// StatusReport is the integer value for statusReport.
-const StatusReport int64 = 74
+	// SetReportingState is the integer constant for setReportingState.
+	SetReportingState int64 = 73
+
+	// StatusReport is the integer constant for statusReport.
+	StatusReport int64 = 74
+)

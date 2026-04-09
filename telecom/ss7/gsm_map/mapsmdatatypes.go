@@ -17,11 +17,14 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// MaxNumOfAdditionalDispatchers is the integer value for maxNumOfAdditionalDispatchers.
-const MaxNumOfAdditionalDispatchers int64 = 15
+const (
 
-// MaxNumOfDispatchers is the integer value for maxNumOfDispatchers.
-const MaxNumOfDispatchers int64 = 5
+	// MaxNumOfAdditionalDispatchers is the integer constant for maxNumOfAdditionalDispatchers.
+	MaxNumOfAdditionalDispatchers int64 = 15
+
+	// MaxNumOfDispatchers is the integer constant for maxNumOfDispatchers.
+	MaxNumOfDispatchers int64 = 5
+)
 
 // AdditionalDispatcherList represents the ASN.1 type AdditionalDispatcherList (SEQUENCE_OF).
 type AdditionalDispatcherList = []ISDNAddressString
