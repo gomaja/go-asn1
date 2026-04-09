@@ -18,28 +18,28 @@ var (
 )
 
 // AlertingCategory1 is the octet string value for alertingCategory-1.
-var AlertingCategory1 = []byte{0x04}
+const AlertingCategory1 = "\x04"
 
 // AlertingCategory2 is the octet string value for alertingCategory-2.
-var AlertingCategory2 = []byte{0x05}
+const AlertingCategory2 = "\x05"
 
 // AlertingCategory3 is the octet string value for alertingCategory-3.
-var AlertingCategory3 = []byte{0x06}
+const AlertingCategory3 = "\x06"
 
 // AlertingCategory4 is the octet string value for alertingCategory-4.
-var AlertingCategory4 = []byte{0x07}
+const AlertingCategory4 = "\x07"
 
 // AlertingCategory5 is the octet string value for alertingCategory-5.
-var AlertingCategory5 = []byte{0x08}
+const AlertingCategory5 = "\x08"
 
 // AlertingLevel0 is the octet string value for alertingLevel-0.
-var AlertingLevel0 = []byte{0x00}
+const AlertingLevel0 = "\x00"
 
 // AlertingLevel1 is the octet string value for alertingLevel-1.
-var AlertingLevel1 = []byte{0x01}
+const AlertingLevel1 = "\x01"
 
 // AlertingLevel2 is the octet string value for alertingLevel-2.
-var AlertingLevel2 = []byte{0x02}
+const AlertingLevel2 = "\x02"
 
 // AssetAndServiceFinding is the integer value for assetAndServiceFinding.
 const AssetAndServiceFinding int64 = 14

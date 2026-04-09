@@ -16,100 +16,100 @@ var (
 )
 
 // AllDataTeleservices is the octet string value for allDataTeleservices.
-var AllDataTeleservices = []byte{0x70}
+const AllDataTeleservices = "\x70"
 
 // AllFacsimileTransmissionServices is the octet string value for allFacsimileTransmissionServices.
-var AllFacsimileTransmissionServices = []byte{0x60}
+const AllFacsimileTransmissionServices = "\x60"
 
 // AllPLMNSpecificTS is the octet string value for allPLMN-specificTS.
-var AllPLMNSpecificTS = []byte{0xd0}
+const AllPLMNSpecificTS = "\xd0"
 
 // AllShortMessageServices is the octet string value for allShortMessageServices.
-var AllShortMessageServices = []byte{0x20}
+const AllShortMessageServices = "\x20"
 
 // AllSpeechTransmissionServices is the octet string value for allSpeechTransmissionServices.
-var AllSpeechTransmissionServices = []byte{0x10}
+const AllSpeechTransmissionServices = "\x10"
 
 // AllTeleservices is the octet string value for allTeleservices.
-var AllTeleservices = []byte{0x00}
+const AllTeleservices = "\x00"
 
 // AllTeleservicesExeptSMS is the octet string value for allTeleservices-ExeptSMS.
-var AllTeleservicesExeptSMS = []byte{0x80}
+const AllTeleservicesExeptSMS = "\x80"
 
 // AllVoiceGroupCallServices is the octet string value for allVoiceGroupCallServices.
-var AllVoiceGroupCallServices = []byte{0x90}
+const AllVoiceGroupCallServices = "\x90"
 
 // AutomaticFacsimileGroup3 is the octet string value for automaticFacsimileGroup3.
-var AutomaticFacsimileGroup3 = []byte{0x62}
+const AutomaticFacsimileGroup3 = "\x62"
 
 // EmergencyCalls is the octet string value for emergencyCalls.
-var EmergencyCalls = []byte{0x12}
+const EmergencyCalls = "\x12"
 
 // FacsimileGroup3AndAlterSpeech is the octet string value for facsimileGroup3AndAlterSpeech.
-var FacsimileGroup3AndAlterSpeech = []byte{0x61}
+const FacsimileGroup3AndAlterSpeech = "\x61"
 
 // FacsimileGroup4 is the octet string value for facsimileGroup4.
-var FacsimileGroup4 = []byte{0x63}
+const FacsimileGroup4 = "\x63"
 
 // PlmnSpecificTS1 is the octet string value for plmn-specificTS-1.
-var PlmnSpecificTS1 = []byte{0xd1}
+const PlmnSpecificTS1 = "\xd1"
 
 // PlmnSpecificTS2 is the octet string value for plmn-specificTS-2.
-var PlmnSpecificTS2 = []byte{0xd2}
+const PlmnSpecificTS2 = "\xd2"
 
 // PlmnSpecificTS3 is the octet string value for plmn-specificTS-3.
-var PlmnSpecificTS3 = []byte{0xd3}
+const PlmnSpecificTS3 = "\xd3"
 
 // PlmnSpecificTS4 is the octet string value for plmn-specificTS-4.
-var PlmnSpecificTS4 = []byte{0xd4}
+const PlmnSpecificTS4 = "\xd4"
 
 // PlmnSpecificTS5 is the octet string value for plmn-specificTS-5.
-var PlmnSpecificTS5 = []byte{0xd5}
+const PlmnSpecificTS5 = "\xd5"
 
 // PlmnSpecificTS6 is the octet string value for plmn-specificTS-6.
-var PlmnSpecificTS6 = []byte{0xd6}
+const PlmnSpecificTS6 = "\xd6"
 
 // PlmnSpecificTS7 is the octet string value for plmn-specificTS-7.
-var PlmnSpecificTS7 = []byte{0xd7}
+const PlmnSpecificTS7 = "\xd7"
 
 // PlmnSpecificTS8 is the octet string value for plmn-specificTS-8.
-var PlmnSpecificTS8 = []byte{0xd8}
+const PlmnSpecificTS8 = "\xd8"
 
 // PlmnSpecificTS9 is the octet string value for plmn-specificTS-9.
-var PlmnSpecificTS9 = []byte{0xd9}
+const PlmnSpecificTS9 = "\xd9"
 
 // PlmnSpecificTSA is the octet string value for plmn-specificTS-A.
-var PlmnSpecificTSA = []byte{0xda}
+const PlmnSpecificTSA = "\xda"
 
 // PlmnSpecificTSB is the octet string value for plmn-specificTS-B.
-var PlmnSpecificTSB = []byte{0xdb}
+const PlmnSpecificTSB = "\xdb"
 
 // PlmnSpecificTSC is the octet string value for plmn-specificTS-C.
-var PlmnSpecificTSC = []byte{0xdc}
+const PlmnSpecificTSC = "\xdc"
 
 // PlmnSpecificTSD is the octet string value for plmn-specificTS-D.
-var PlmnSpecificTSD = []byte{0xdd}
+const PlmnSpecificTSD = "\xdd"
 
 // PlmnSpecificTSE is the octet string value for plmn-specificTS-E.
-var PlmnSpecificTSE = []byte{0xde}
+const PlmnSpecificTSE = "\xde"
 
 // PlmnSpecificTSF is the octet string value for plmn-specificTS-F.
-var PlmnSpecificTSF = []byte{0xdf}
+const PlmnSpecificTSF = "\xdf"
 
 // ShortMessageMOPP is the octet string value for shortMessageMO-PP.
-var ShortMessageMOPP = []byte{0x22}
+const ShortMessageMOPP = "\x22"
 
 // ShortMessageMTPP is the octet string value for shortMessageMT-PP.
-var ShortMessageMTPP = []byte{0x21}
+const ShortMessageMTPP = "\x21"
 
 // Telephony is the octet string value for telephony.
-var Telephony = []byte{0x11}
+const Telephony = "\x11"
 
 // VoiceBroadcastCall is the octet string value for voiceBroadcastCall.
-var VoiceBroadcastCall = []byte{0x92}
+const VoiceBroadcastCall = "\x92"
 
 // VoiceGroupCall is the octet string value for voiceGroupCall.
-var VoiceGroupCall = []byte{0x91}
+const VoiceGroupCall = "\x91"
 
 // ExtTeleserviceCode represents the ASN.1 type Ext-TeleserviceCode (OCTET_STRING).
 type ExtTeleserviceCode = []byte

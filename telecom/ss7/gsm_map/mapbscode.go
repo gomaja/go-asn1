@@ -16,160 +16,160 @@ var (
 )
 
 // AllAlternateSpeechDataCDA is the octet string value for allAlternateSpeech-DataCDA.
-var AllAlternateSpeechDataCDA = []byte{0x30}
+const AllAlternateSpeechDataCDA = "\x30"
 
 // AllAlternateSpeechDataCDS is the octet string value for allAlternateSpeech-DataCDS.
-var AllAlternateSpeechDataCDS = []byte{0x38}
+const AllAlternateSpeechDataCDS = "\x38"
 
 // AllAsynchronousServices is the octet string value for allAsynchronousServices.
-var AllAsynchronousServices = []byte{0x60}
+const AllAsynchronousServices = "\x60"
 
 // AllBearerServices is the octet string value for allBearerServices.
-var AllBearerServices = []byte{0x00}
+const AllBearerServices = "\x00"
 
 // AllDataCDAServices is the octet string value for allDataCDA-Services.
-var AllDataCDAServices = []byte{0x10}
+const AllDataCDAServices = "\x10"
 
 // AllDataCDSServices is the octet string value for allDataCDS-Services.
-var AllDataCDSServices = []byte{0x18}
+const AllDataCDSServices = "\x18"
 
 // AllDataCircuitAsynchronous is the octet string value for allDataCircuitAsynchronous.
-var AllDataCircuitAsynchronous = []byte{0x50}
+const AllDataCircuitAsynchronous = "\x50"
 
 // AllDataCircuitSynchronous is the octet string value for allDataCircuitSynchronous.
-var AllDataCircuitSynchronous = []byte{0x58}
+const AllDataCircuitSynchronous = "\x58"
 
 // AllDataPDSServices is the octet string value for allDataPDS-Services.
-var AllDataPDSServices = []byte{0x28}
+const AllDataPDSServices = "\x28"
 
 // AllPLMNSpecificBS is the octet string value for allPLMN-specificBS.
-var AllPLMNSpecificBS = []byte{0xd0}
+const AllPLMNSpecificBS = "\xd0"
 
 // AllPadAccessCAServices is the octet string value for allPadAccessCA-Services.
-var AllPadAccessCAServices = []byte{0x20}
+const AllPadAccessCAServices = "\x20"
 
 // AllSpeechFollowedByDataCDA is the octet string value for allSpeechFollowedByDataCDA.
-var AllSpeechFollowedByDataCDA = []byte{0x40}
+const AllSpeechFollowedByDataCDA = "\x40"
 
 // AllSpeechFollowedByDataCDS is the octet string value for allSpeechFollowedByDataCDS.
-var AllSpeechFollowedByDataCDS = []byte{0x48}
+const AllSpeechFollowedByDataCDS = "\x48"
 
 // AllSynchronousServices is the octet string value for allSynchronousServices.
-var AllSynchronousServices = []byte{0x68}
+const AllSynchronousServices = "\x68"
 
 // DataCDA120075bps is the octet string value for dataCDA-1200-75bps.
-var DataCDA120075bps = []byte{0x13}
+const DataCDA120075bps = "\x13"
 
 // DataCDA1200bps is the octet string value for dataCDA-1200bps.
-var DataCDA1200bps = []byte{0x12}
+const DataCDA1200bps = "\x12"
 
 // DataCDA2400bps is the octet string value for dataCDA-2400bps.
-var DataCDA2400bps = []byte{0x14}
+const DataCDA2400bps = "\x14"
 
 // DataCDA300bps is the octet string value for dataCDA-300bps.
-var DataCDA300bps = []byte{0x11}
+const DataCDA300bps = "\x11"
 
 // DataCDA4800bps is the octet string value for dataCDA-4800bps.
-var DataCDA4800bps = []byte{0x15}
+const DataCDA4800bps = "\x15"
 
 // DataCDA9600bps is the octet string value for dataCDA-9600bps.
-var DataCDA9600bps = []byte{0x16}
+const DataCDA9600bps = "\x16"
 
 // DataCDS1200bps is the octet string value for dataCDS-1200bps.
-var DataCDS1200bps = []byte{0x1a}
+const DataCDS1200bps = "\x1a"
 
 // DataCDS2400bps is the octet string value for dataCDS-2400bps.
-var DataCDS2400bps = []byte{0x1c}
+const DataCDS2400bps = "\x1c"
 
 // DataCDS4800bps is the octet string value for dataCDS-4800bps.
-var DataCDS4800bps = []byte{0x1d}
+const DataCDS4800bps = "\x1d"
 
 // DataCDS9600bps is the octet string value for dataCDS-9600bps.
-var DataCDS9600bps = []byte{0x1e}
+const DataCDS9600bps = "\x1e"
 
 // DataPDS2400bps is the octet string value for dataPDS-2400bps.
-var DataPDS2400bps = []byte{0x2c}
+const DataPDS2400bps = "\x2c"
 
 // DataPDS4800bps is the octet string value for dataPDS-4800bps.
-var DataPDS4800bps = []byte{0x2d}
+const DataPDS4800bps = "\x2d"
 
 // DataPDS9600bps is the octet string value for dataPDS-9600bps.
-var DataPDS9600bps = []byte{0x2e}
+const DataPDS9600bps = "\x2e"
 
 // GeneralDataCDA is the octet string value for general-dataCDA.
-var GeneralDataCDA = []byte{0x17}
+const GeneralDataCDA = "\x17"
 
 // GeneralDataCDS is the octet string value for general-dataCDS.
-var GeneralDataCDS = []byte{0x1f}
+const GeneralDataCDS = "\x1f"
 
 // GeneralDataPDS is the octet string value for general-dataPDS.
-var GeneralDataPDS = []byte{0x2f}
+const GeneralDataPDS = "\x2f"
 
 // GeneralPadAccessCA is the octet string value for general-padAccessCA.
-var GeneralPadAccessCA = []byte{0x27}
+const GeneralPadAccessCA = "\x27"
 
 // PadAccessCA120075bps is the octet string value for padAccessCA-1200-75bps.
-var PadAccessCA120075bps = []byte{0x23}
+const PadAccessCA120075bps = "\x23"
 
 // PadAccessCA1200bps is the octet string value for padAccessCA-1200bps.
-var PadAccessCA1200bps = []byte{0x22}
+const PadAccessCA1200bps = "\x22"
 
 // PadAccessCA2400bps is the octet string value for padAccessCA-2400bps.
-var PadAccessCA2400bps = []byte{0x24}
+const PadAccessCA2400bps = "\x24"
 
 // PadAccessCA300bps is the octet string value for padAccessCA-300bps.
-var PadAccessCA300bps = []byte{0x21}
+const PadAccessCA300bps = "\x21"
 
 // PadAccessCA4800bps is the octet string value for padAccessCA-4800bps.
-var PadAccessCA4800bps = []byte{0x25}
+const PadAccessCA4800bps = "\x25"
 
 // PadAccessCA9600bps is the octet string value for padAccessCA-9600bps.
-var PadAccessCA9600bps = []byte{0x26}
+const PadAccessCA9600bps = "\x26"
 
 // PlmnSpecificBS1 is the octet string value for plmn-specificBS-1.
-var PlmnSpecificBS1 = []byte{0xd1}
+const PlmnSpecificBS1 = "\xd1"
 
 // PlmnSpecificBS2 is the octet string value for plmn-specificBS-2.
-var PlmnSpecificBS2 = []byte{0xd2}
+const PlmnSpecificBS2 = "\xd2"
 
 // PlmnSpecificBS3 is the octet string value for plmn-specificBS-3.
-var PlmnSpecificBS3 = []byte{0xd3}
+const PlmnSpecificBS3 = "\xd3"
 
 // PlmnSpecificBS4 is the octet string value for plmn-specificBS-4.
-var PlmnSpecificBS4 = []byte{0xd4}
+const PlmnSpecificBS4 = "\xd4"
 
 // PlmnSpecificBS5 is the octet string value for plmn-specificBS-5.
-var PlmnSpecificBS5 = []byte{0xd5}
+const PlmnSpecificBS5 = "\xd5"
 
 // PlmnSpecificBS6 is the octet string value for plmn-specificBS-6.
-var PlmnSpecificBS6 = []byte{0xd6}
+const PlmnSpecificBS6 = "\xd6"
 
 // PlmnSpecificBS7 is the octet string value for plmn-specificBS-7.
-var PlmnSpecificBS7 = []byte{0xd7}
+const PlmnSpecificBS7 = "\xd7"
 
 // PlmnSpecificBS8 is the octet string value for plmn-specificBS-8.
-var PlmnSpecificBS8 = []byte{0xd8}
+const PlmnSpecificBS8 = "\xd8"
 
 // PlmnSpecificBS9 is the octet string value for plmn-specificBS-9.
-var PlmnSpecificBS9 = []byte{0xd9}
+const PlmnSpecificBS9 = "\xd9"
 
 // PlmnSpecificBSA is the octet string value for plmn-specificBS-A.
-var PlmnSpecificBSA = []byte{0xda}
+const PlmnSpecificBSA = "\xda"
 
 // PlmnSpecificBSB is the octet string value for plmn-specificBS-B.
-var PlmnSpecificBSB = []byte{0xdb}
+const PlmnSpecificBSB = "\xdb"
 
 // PlmnSpecificBSC is the octet string value for plmn-specificBS-C.
-var PlmnSpecificBSC = []byte{0xdc}
+const PlmnSpecificBSC = "\xdc"
 
 // PlmnSpecificBSD is the octet string value for plmn-specificBS-D.
-var PlmnSpecificBSD = []byte{0xdd}
+const PlmnSpecificBSD = "\xdd"
 
 // PlmnSpecificBSE is the octet string value for plmn-specificBS-E.
-var PlmnSpecificBSE = []byte{0xde}
+const PlmnSpecificBSE = "\xde"
 
 // PlmnSpecificBSF is the octet string value for plmn-specificBS-F.
-var PlmnSpecificBSF = []byte{0xdf}
+const PlmnSpecificBSF = "\xdf"
 
 // BearerServiceCode represents the ASN.1 type BearerServiceCode (OCTET_STRING).
 type BearerServiceCode = []byte
