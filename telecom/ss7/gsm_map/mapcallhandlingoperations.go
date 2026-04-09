@@ -14,33 +14,3 @@ var (
 	_ = ber.EncodeTLV
 	_ = tag.ClassUniversal
 )
-
-const (
-
-	// IstAlert is the integer constant for ist-Alert.
-	IstAlert int64 = 87
-
-	// IstCommand is the integer constant for ist-Command.
-	IstCommand int64 = 88
-
-	// ProvideRoamingNumber is the integer constant for provideRoamingNumber.
-	ProvideRoamingNumber int64 = 4
-
-	// ReleaseResources is the integer constant for releaseResources.
-	ReleaseResources int64 = 20
-
-	// RemoteUserFree is the integer constant for remoteUserFree.
-	RemoteUserFree int64 = 75
-
-	// ResumeCallHandling is the integer constant for resumeCallHandling.
-	ResumeCallHandling int64 = 6
-
-	// SendRoutingInfo is the integer constant for sendRoutingInfo.
-	SendRoutingInfo int64 = 22
-
-	// SetReportingState is the integer constant for setReportingState.
-	SetReportingState int64 = 73
-
-	// StatusReport is the integer constant for statusReport.
-	StatusReport int64 = 74
-)

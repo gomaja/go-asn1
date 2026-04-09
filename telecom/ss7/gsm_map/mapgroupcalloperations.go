@@ -14,21 +14,3 @@ var (
 	_ = ber.EncodeTLV
 	_ = tag.ClassUniversal
 )
-
-const (
-
-	// ForwardGroupCallSignalling is the integer constant for forwardGroupCallSignalling.
-	ForwardGroupCallSignalling int64 = 42
-
-	// PrepareGroupCall is the integer constant for prepareGroupCall.
-	PrepareGroupCall int64 = 39
-
-	// ProcessGroupCallSignalling is the integer constant for processGroupCallSignalling.
-	ProcessGroupCallSignalling int64 = 41
-
-	// SendGroupCallEndSignal is the integer constant for sendGroupCallEndSignal.
-	SendGroupCallEndSignal int64 = 40
-
-	// SendGroupCallInfo is the integer constant for sendGroupCallInfo.
-	SendGroupCallInfo int64 = 84
-)
