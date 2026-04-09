@@ -14,15 +14,3 @@ var (
 	_ = ber.EncodeTLV
 	_ = tag.ClassUniversal
 )
-
-const (
-
-	// ProvideSubscriberLocation is the integer constant for provideSubscriberLocation.
-	ProvideSubscriberLocation int64 = 83
-
-	// SendRoutingInfoForLCS is the integer constant for sendRoutingInfoForLCS.
-	SendRoutingInfoForLCS int64 = 85
-
-	// SubscriberLocationReport is the integer constant for subscriberLocationReport.
-	SubscriberLocationReport int64 = 86
-)

@@ -14,30 +14,3 @@ var (
 	_ = ber.EncodeTLV
 	_ = tag.ClassUniversal
 )
-
-const (
-
-	// AlertServiceCentre is the integer constant for alertServiceCentre.
-	AlertServiceCentre int64 = 64
-
-	// InformServiceCentre is the integer constant for informServiceCentre.
-	InformServiceCentre int64 = 63
-
-	// MoForwardSM is the integer constant for mo-ForwardSM.
-	MoForwardSM int64 = 46
-
-	// MtForwardSM is the integer constant for mt-ForwardSM.
-	MtForwardSM int64 = 44
-
-	// MtForwardSMVGCS is the integer constant for mt-ForwardSM-VGCS.
-	MtForwardSMVGCS int64 = 21
-
-	// ReadyForSM is the integer constant for readyForSM.
-	ReadyForSM int64 = 66
-
-	// ReportSMDeliveryStatus is the integer constant for reportSM-DeliveryStatus.
-	ReportSMDeliveryStatus int64 = 47
-
-	// SendRoutingInfoForSM is the integer constant for sendRoutingInfoForSM.
-	SendRoutingInfoForSM int64 = 45
-)
