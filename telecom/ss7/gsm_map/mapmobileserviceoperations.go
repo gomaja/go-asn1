@@ -14,3 +14,90 @@ var (
 	_ = ber.EncodeTLV
 	_ = tag.ClassUniversal
 )
+
+// AnyTimeInterrogation is the integer value for anyTimeInterrogation.
+const AnyTimeInterrogation int64 = 71
+
+// AnyTimeModification is the integer value for anyTimeModification.
+const AnyTimeModification int64 = 65
+
+// AnyTimeSubscriptionInterrogation is the integer value for anyTimeSubscriptionInterrogation.
+const AnyTimeSubscriptionInterrogation int64 = 62
+
+// AuthenticationFailureReport is the integer value for authenticationFailureReport.
+const AuthenticationFailureReport int64 = 15
+
+// CancelLocation is the integer value for cancelLocation.
+const CancelLocation int64 = 3
+
+// CancelVcsgLocation is the integer value for cancelVcsgLocation.
+const CancelVcsgLocation int64 = 36
+
+// CheckIMEI is the integer value for checkIMEI.
+const CheckIMEI int64 = 43
+
+// DeleteSubscriberData is the integer value for deleteSubscriberData.
+const DeleteSubscriberData int64 = 8
+
+// FailureReport is the integer value for failureReport.
+const FailureReport int64 = 25
+
+// ForwardAccessSignalling is the integer value for forwardAccessSignalling.
+const ForwardAccessSignalling int64 = 34
+
+// ForwardCheckSSIndication is the integer value for forwardCheckSS-Indication.
+const ForwardCheckSSIndication int64 = 38
+
+// InsertSubscriberData is the integer value for insertSubscriberData.
+const InsertSubscriberData int64 = 7
+
+// NoteMMEvent is the integer value for noteMM-Event.
+const NoteMMEvent int64 = 89
+
+// NoteMsPresentForGprs is the integer value for noteMsPresentForGprs.
+const NoteMsPresentForGprs int64 = 26
+
+// NoteSubscriberDataModified is the integer value for noteSubscriberDataModified.
+const NoteSubscriberDataModified int64 = 5
+
+// PrepareHandover is the integer value for prepareHandover.
+const PrepareHandover int64 = 68
+
+// PrepareSubsequentHandover is the integer value for prepareSubsequentHandover.
+const PrepareSubsequentHandover int64 = 69
+
+// ProcessAccessSignalling is the integer value for processAccessSignalling.
+const ProcessAccessSignalling int64 = 33
+
+// ProvideSubscriberInfo is the integer value for provideSubscriberInfo.
+const ProvideSubscriberInfo int64 = 70
+
+// PurgeMS is the integer value for purgeMS.
+const PurgeMS int64 = 67
+
+// Reset is the integer value for reset.
+const Reset int64 = 37
+
+// RestoreData is the integer value for restoreData.
+const RestoreData int64 = 57
+
+// SendAuthenticationInfo is the integer value for sendAuthenticationInfo.
+const SendAuthenticationInfo int64 = 56
+
+// SendEndSignal is the integer value for sendEndSignal.
+const SendEndSignal int64 = 29
+
+// SendIdentification is the integer value for sendIdentification.
+const SendIdentification int64 = 55
+
+// SendRoutingInfoForGprs is the integer value for sendRoutingInfoForGprs.
+const SendRoutingInfoForGprs int64 = 24
+
+// UpdateGprsLocation is the integer value for updateGprsLocation.
+const UpdateGprsLocation int64 = 23
+
+// UpdateLocation is the integer value for updateLocation.
+const UpdateLocation int64 = 2
+
+// UpdateVcsgLocation is the integer value for updateVcsgLocation.
+const UpdateVcsgLocation int64 = 53

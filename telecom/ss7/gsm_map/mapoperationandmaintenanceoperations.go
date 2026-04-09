@@ -14,3 +14,12 @@ var (
 	_ = ber.EncodeTLV
 	_ = tag.ClassUniversal
 )
+
+// ActivateTraceMode is the integer value for activateTraceMode.
+const ActivateTraceMode int64 = 50
+
+// DeactivateTraceMode is the integer value for deactivateTraceMode.
+const DeactivateTraceMode int64 = 51
+
+// SendIMSI is the integer value for sendIMSI.
+const SendIMSI int64 = 58

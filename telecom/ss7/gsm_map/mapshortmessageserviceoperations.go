@@ -14,3 +14,27 @@ var (
 	_ = ber.EncodeTLV
 	_ = tag.ClassUniversal
 )
+
+// AlertServiceCentre is the integer value for alertServiceCentre.
+const AlertServiceCentre int64 = 64
+
+// InformServiceCentre is the integer value for informServiceCentre.
+const InformServiceCentre int64 = 63
+
+// MoForwardSM is the integer value for mo-ForwardSM.
+const MoForwardSM int64 = 46
+
+// MtForwardSM is the integer value for mt-ForwardSM.
+const MtForwardSM int64 = 44
+
+// MtForwardSMVGCS is the integer value for mt-ForwardSM-VGCS.
+const MtForwardSMVGCS int64 = 21
+
+// ReadyForSM is the integer value for readyForSM.
+const ReadyForSM int64 = 66
+
+// ReportSMDeliveryStatus is the integer value for reportSM-DeliveryStatus.
+const ReportSMDeliveryStatus int64 = 47
+
+// SendRoutingInfoForSM is the integer value for sendRoutingInfoForSM.
+const SendRoutingInfoForSM int64 = 45

@@ -14,3 +14,171 @@ var (
 	_ = ber.EncodeTLV
 	_ = tag.ClassUniversal
 )
+
+// AbsentSubscriber is the integer value for absentSubscriber.
+const AbsentSubscriber int64 = 27
+
+// AbsentSubscriberSM is the integer value for absentSubscriberSM.
+const AbsentSubscriberSM int64 = 6
+
+// AtiNotAllowed is the integer value for ati-NotAllowed.
+const AtiNotAllowed int64 = 49
+
+// AtmNotAllowed is the integer value for atm-NotAllowed.
+const AtmNotAllowed int64 = 61
+
+// AtsiNotAllowed is the integer value for atsi-NotAllowed.
+const AtsiNotAllowed int64 = 60
+
+// BearerServiceNotProvisioned is the integer value for bearerServiceNotProvisioned.
+const BearerServiceNotProvisioned int64 = 10
+
+// BusySubscriber is the integer value for busySubscriber.
+const BusySubscriber int64 = 45
+
+// CallBarred is the integer value for callBarred.
+const CallBarred int64 = 13
+
+// CugReject is the integer value for cug-Reject.
+const CugReject int64 = 15
+
+// DataMissing is the integer value for dataMissing.
+const DataMissing int64 = 35
+
+// FacilityNotSupported is the integer value for facilityNotSupported.
+const FacilityNotSupported int64 = 21
+
+// ForwardingFailed is the integer value for forwardingFailed.
+const ForwardingFailed int64 = 47
+
+// ForwardingViolation is the integer value for forwardingViolation.
+const ForwardingViolation int64 = 14
+
+// IllegalEquipment is the integer value for illegalEquipment.
+const IllegalEquipment int64 = 12
+
+// IllegalSSOperation is the integer value for illegalSS-Operation.
+const IllegalSSOperation int64 = 16
+
+// IllegalSubscriber is the integer value for illegalSubscriber.
+const IllegalSubscriber int64 = 9
+
+// IncompatibleTerminal is the integer value for incompatibleTerminal.
+const IncompatibleTerminal int64 = 28
+
+// InformationNotAvailable is the integer value for informationNotAvailable.
+const InformationNotAvailable int64 = 62
+
+// LongTermDenial is the integer value for longTermDenial.
+const LongTermDenial int64 = 30
+
+// MessageWaitingListFull is the integer value for messageWaitingListFull.
+const MessageWaitingListFull int64 = 33
+
+// MmEventNotSupported is the integer value for mm-EventNotSupported.
+const MmEventNotSupported int64 = 59
+
+// NegativePWCheck is the integer value for negativePW-Check.
+const NegativePWCheck int64 = 38
+
+// NoGroupCallNumberAvailable is the integer value for noGroupCallNumberAvailable.
+const NoGroupCallNumberAvailable int64 = 50
+
+// NoHandoverNumberAvailable is the integer value for noHandoverNumberAvailable.
+const NoHandoverNumberAvailable int64 = 25
+
+// NoRoamingNumberAvailable is the integer value for noRoamingNumberAvailable.
+const NoRoamingNumberAvailable int64 = 39
+
+// NoSubscriberReply is the integer value for noSubscriberReply.
+const NoSubscriberReply int64 = 46
+
+// NumberChanged is the integer value for numberChanged.
+const NumberChanged int64 = 44
+
+// NumberOfPWAttemptsViolation is the integer value for numberOfPW-AttemptsViolation.
+const NumberOfPWAttemptsViolation int64 = 43
+
+// OngoingGroupCall is the integer value for ongoingGroupCall.
+const OngoingGroupCall int64 = 22
+
+// OrNotAllowed is the integer value for or-NotAllowed.
+const OrNotAllowed int64 = 48
+
+// PositionMethodFailure is the integer value for positionMethodFailure.
+const PositionMethodFailure int64 = 54
+
+// PwRegistrationFailure is the integer value for pw-RegistrationFailure.
+const PwRegistrationFailure int64 = 37
+
+// ResourceLimitation is the integer value for resourceLimitation.
+const ResourceLimitation int64 = 51
+
+// RoamingNotAllowed is the integer value for roamingNotAllowed.
+const RoamingNotAllowed int64 = 8
+
+// ShortTermDenial is the integer value for shortTermDenial.
+const ShortTermDenial int64 = 29
+
+// SmDeliveryFailure is the integer value for sm-DeliveryFailure.
+const SmDeliveryFailure int64 = 32
+
+// SsErrorStatus is the integer value for ss-ErrorStatus.
+const SsErrorStatus int64 = 17
+
+// SsIncompatibility is the integer value for ss-Incompatibility.
+const SsIncompatibility int64 = 20
+
+// SsNotAvailable is the integer value for ss-NotAvailable.
+const SsNotAvailable int64 = 18
+
+// SsSubscriptionViolation is the integer value for ss-SubscriptionViolation.
+const SsSubscriptionViolation int64 = 19
+
+// SubscriberBusyForMTSMS is the integer value for subscriberBusyForMT-SMS.
+const SubscriberBusyForMTSMS int64 = 31
+
+// SubsequentHandoverFailure is the integer value for subsequentHandoverFailure.
+const SubsequentHandoverFailure int64 = 26
+
+// SystemFailure is the integer value for systemFailure.
+const SystemFailure int64 = 34
+
+// TargetCellOutsideGroupCallArea is the integer value for targetCellOutsideGroupCallArea.
+const TargetCellOutsideGroupCallArea int64 = 42
+
+// TeleserviceNotProvisioned is the integer value for teleserviceNotProvisioned.
+const TeleserviceNotProvisioned int64 = 11
+
+// TracingBufferFull is the integer value for tracingBufferFull.
+const TracingBufferFull int64 = 40
+
+// UnauthorizedLCSClient is the integer value for unauthorizedLCSClient.
+const UnauthorizedLCSClient int64 = 53
+
+// UnauthorizedRequestingNetwork is the integer value for unauthorizedRequestingNetwork.
+const UnauthorizedRequestingNetwork int64 = 52
+
+// UnexpectedDataValue is the integer value for unexpectedDataValue.
+const UnexpectedDataValue int64 = 36
+
+// UnidentifiedSubscriber is the integer value for unidentifiedSubscriber.
+const UnidentifiedSubscriber int64 = 5
+
+// UnknownAlphabet is the integer value for unknownAlphabet.
+const UnknownAlphabet int64 = 71
+
+// UnknownEquipment is the integer value for unknownEquipment.
+const UnknownEquipment int64 = 7
+
+// UnknownMSC is the integer value for unknownMSC.
+const UnknownMSC int64 = 3
+
+// UnknownOrUnreachableLCSClient is the integer value for unknownOrUnreachableLCSClient.
+const UnknownOrUnreachableLCSClient int64 = 58
+
+// UnknownSubscriber is the integer value for unknownSubscriber.
+const UnknownSubscriber int64 = 1
+
+// UssdBusy is the integer value for ussd-Busy.
+const UssdBusy int64 = 72

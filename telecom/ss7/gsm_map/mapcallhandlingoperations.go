@@ -14,3 +14,30 @@ var (
 	_ = ber.EncodeTLV
 	_ = tag.ClassUniversal
 )
+
+// IstAlert is the integer value for ist-Alert.
+const IstAlert int64 = 87
+
+// IstCommand is the integer value for ist-Command.
+const IstCommand int64 = 88
+
+// ProvideRoamingNumber is the integer value for provideRoamingNumber.
+const ProvideRoamingNumber int64 = 4
+
+// ReleaseResources is the integer value for releaseResources.
+const ReleaseResources int64 = 20
+
+// RemoteUserFree is the integer value for remoteUserFree.
+const RemoteUserFree int64 = 75
+
+// ResumeCallHandling is the integer value for resumeCallHandling.
+const ResumeCallHandling int64 = 6
+
+// SendRoutingInfo is the integer value for sendRoutingInfo.
+const SendRoutingInfo int64 = 22
+
+// SetReportingState is the integer value for setReportingState.
+const SetReportingState int64 = 73
+
+// StatusReport is the integer value for statusReport.
+const StatusReport int64 = 74

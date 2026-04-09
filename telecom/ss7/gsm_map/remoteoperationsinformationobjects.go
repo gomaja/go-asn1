@@ -17,6 +17,9 @@ var (
 	_ = tag.ClassUniversal
 )
 
+// Refuse is the integer value for refuse.
+const Refuse int64 = -1
+
 // Code choice constants.
 const (
 	CodeChoiceLocal  = 1
