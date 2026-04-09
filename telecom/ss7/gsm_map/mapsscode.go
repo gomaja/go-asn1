@@ -15,5 +15,221 @@ var (
 	_ = tag.ClassUniversal
 )
 
+// AllAdditionalInfoTransferSS is the octet string value for allAdditionalInfoTransferSS.
+var AllAdditionalInfoTransferSS = []byte{0x80}
+
+// AllBarringSS is the octet string value for allBarringSS.
+var AllBarringSS = []byte{0x90}
+
+// AllCallCompletionSS is the octet string value for allCallCompletionSS.
+var AllCallCompletionSS = []byte{0x40}
+
+// AllCallOfferingSS is the octet string value for allCallOfferingSS.
+var AllCallOfferingSS = []byte{0x30}
+
+// AllCallPrioritySS is the octet string value for allCallPrioritySS.
+var AllCallPrioritySS = []byte{0xa0}
+
+// AllChargingSS is the octet string value for allChargingSS.
+var AllChargingSS = []byte{0x70}
+
+// AllCommunityOfInterestSS is the octet string value for allCommunityOfInterest-SS.
+var AllCommunityOfInterestSS = []byte{0x60}
+
+// AllCondForwardingSS is the octet string value for allCondForwardingSS.
+var AllCondForwardingSS = []byte{0x28}
+
+// AllForwardingSS is the octet string value for allForwardingSS.
+var AllForwardingSS = []byte{0x20}
+
+// AllLCSPrivacyException is the octet string value for allLCSPrivacyException.
+var AllLCSPrivacyException = []byte{0xb0}
+
+// AllLineIdentificationSS is the octet string value for allLineIdentificationSS.
+var AllLineIdentificationSS = []byte{0x10}
+
+// AllMOLRSS is the octet string value for allMOLR-SS.
+var AllMOLRSS = []byte{0xc0}
+
+// AllMultiPartySS is the octet string value for allMultiPartySS.
+var AllMultiPartySS = []byte{0x50}
+
+// AllNameIdentificationSS is the octet string value for allNameIdentificationSS.
+var AllNameIdentificationSS = []byte{0x18}
+
+// AllPLMNSpecificSS is the octet string value for allPLMN-specificSS.
+var AllPLMNSpecificSS = []byte{0xf0}
+
+// AllSS is the octet string value for allSS.
+var AllSS = []byte{0x00}
+
+// Aocc is the octet string value for aocc.
+var Aocc = []byte{0x72}
+
+// Aoci is the octet string value for aoci.
+var Aoci = []byte{0x71}
+
+// AutonomousSelfLocation is the octet string value for autonomousSelfLocation.
+var AutonomousSelfLocation = []byte{0xc2}
+
+// Baic is the octet string value for baic.
+var Baic = []byte{0x9a}
+
+// Baoc is the octet string value for baoc.
+var Baoc = []byte{0x92}
+
+// BarringOfIncomingCalls is the octet string value for barringOfIncomingCalls.
+var BarringOfIncomingCalls = []byte{0x99}
+
+// BarringOfOutgoingCalls is the octet string value for barringOfOutgoingCalls.
+var BarringOfOutgoingCalls = []byte{0x91}
+
+// BasicSelfLocation is the octet string value for basicSelfLocation.
+var BasicSelfLocation = []byte{0xc1}
+
+// BicRoam is the octet string value for bicRoam.
+var BicRoam = []byte{0x9b}
+
+// Boic is the octet string value for boic.
+var Boic = []byte{0x93}
+
+// BoicExHC is the octet string value for boicExHC.
+var BoicExHC = []byte{0x94}
+
+// CallSessionRelated is the octet string value for callSessionRelated.
+var CallSessionRelated = []byte{0xb2}
+
+// CallSessionUnrelated is the octet string value for callSessionUnrelated.
+var CallSessionUnrelated = []byte{0xb3}
+
+// CcbsA is the octet string value for ccbs-A.
+var CcbsA = []byte{0x43}
+
+// CcbsB is the octet string value for ccbs-B.
+var CcbsB = []byte{0x44}
+
+// Cd is the octet string value for cd.
+var Cd = []byte{0x24}
+
+// Cfb is the octet string value for cfb.
+var Cfb = []byte{0x29}
+
+// Cfnrc is the octet string value for cfnrc.
+var Cfnrc = []byte{0x2b}
+
+// Cfnry is the octet string value for cfnry.
+var Cfnry = []byte{0x2a}
+
+// Cfu is the octet string value for cfu.
+var Cfu = []byte{0x21}
+
+// Clip is the octet string value for clip.
+var Clip = []byte{0x11}
+
+// Clir is the octet string value for clir.
+var Clir = []byte{0x12}
+
+// Cnap is the octet string value for cnap.
+var Cnap = []byte{0x19}
+
+// Colp is the octet string value for colp.
+var Colp = []byte{0x13}
+
+// Colr is the octet string value for colr.
+var Colr = []byte{0x14}
+
+// Cug is the octet string value for cug.
+var Cug = []byte{0x61}
+
+// Cw is the octet string value for cw.
+var Cw = []byte{0x41}
+
+// Ect is the octet string value for ect.
+var Ect = []byte{0x31}
+
+// Emlpp is the octet string value for emlpp.
+var Emlpp = []byte{0xa1}
+
+// Hold is the octet string value for hold.
+var Hold = []byte{0x42}
+
+// Mah is the octet string value for mah.
+var Mah = []byte{0x32}
+
+// Mc is the octet string value for mc.
+var Mc = []byte{0x45}
+
+// Mci is the octet string value for mci.
+var Mci = []byte{0x15}
+
+// MultiPTY is the octet string value for multiPTY.
+var MultiPTY = []byte{0x51}
+
+// PlmnSpecificSS1 is the octet string value for plmn-specificSS-1.
+var PlmnSpecificSS1 = []byte{0xf1}
+
+// PlmnSpecificSS2 is the octet string value for plmn-specificSS-2.
+var PlmnSpecificSS2 = []byte{0xf2}
+
+// PlmnSpecificSS3 is the octet string value for plmn-specificSS-3.
+var PlmnSpecificSS3 = []byte{0xf3}
+
+// PlmnSpecificSS4 is the octet string value for plmn-specificSS-4.
+var PlmnSpecificSS4 = []byte{0xf4}
+
+// PlmnSpecificSS5 is the octet string value for plmn-specificSS-5.
+var PlmnSpecificSS5 = []byte{0xf5}
+
+// PlmnSpecificSS6 is the octet string value for plmn-specificSS-6.
+var PlmnSpecificSS6 = []byte{0xf6}
+
+// PlmnSpecificSS7 is the octet string value for plmn-specificSS-7.
+var PlmnSpecificSS7 = []byte{0xf7}
+
+// PlmnSpecificSS8 is the octet string value for plmn-specificSS-8.
+var PlmnSpecificSS8 = []byte{0xf8}
+
+// PlmnSpecificSS9 is the octet string value for plmn-specificSS-9.
+var PlmnSpecificSS9 = []byte{0xf9}
+
+// PlmnSpecificSSA is the octet string value for plmn-specificSS-A.
+var PlmnSpecificSSA = []byte{0xfa}
+
+// PlmnSpecificSSB is the octet string value for plmn-specificSS-B.
+var PlmnSpecificSSB = []byte{0xfb}
+
+// PlmnSpecificSSC is the octet string value for plmn-specificSS-C.
+var PlmnSpecificSSC = []byte{0xfc}
+
+// PlmnSpecificSSD is the octet string value for plmn-specificSS-D.
+var PlmnSpecificSSD = []byte{0xfd}
+
+// PlmnSpecificSSE is the octet string value for plmn-specificSS-E.
+var PlmnSpecificSSE = []byte{0xfe}
+
+// PlmnSpecificSSF is the octet string value for plmn-specificSS-F.
+var PlmnSpecificSSF = []byte{0xff}
+
+// Plmnoperator is the octet string value for plmnoperator.
+var Plmnoperator = []byte{0xb4}
+
+// ServiceTypeValue is the octet string value for serviceType.
+var ServiceTypeValue = []byte{0xb5}
+
+// TransferToThirdParty is the octet string value for transferToThirdParty.
+var TransferToThirdParty = []byte{0xc3}
+
+// Universal is the octet string value for universal.
+var Universal = []byte{0xb1}
+
+// Uus1 is the octet string value for uus1.
+var Uus1 = []byte{0x81}
+
+// Uus2 is the octet string value for uus2.
+var Uus2 = []byte{0x82}
+
+// Uus3 is the octet string value for uus3.
+var Uus3 = []byte{0x83}
+
 // SSCode represents the ASN.1 type SS-Code (OCTET_STRING).
 type SSCode = []byte

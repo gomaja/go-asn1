@@ -15,6 +15,102 @@ var (
 	_ = tag.ClassUniversal
 )
 
+// AllDataTeleservices is the octet string value for allDataTeleservices.
+var AllDataTeleservices = []byte{0x70}
+
+// AllFacsimileTransmissionServices is the octet string value for allFacsimileTransmissionServices.
+var AllFacsimileTransmissionServices = []byte{0x60}
+
+// AllPLMNSpecificTS is the octet string value for allPLMN-specificTS.
+var AllPLMNSpecificTS = []byte{0xd0}
+
+// AllShortMessageServices is the octet string value for allShortMessageServices.
+var AllShortMessageServices = []byte{0x20}
+
+// AllSpeechTransmissionServices is the octet string value for allSpeechTransmissionServices.
+var AllSpeechTransmissionServices = []byte{0x10}
+
+// AllTeleservices is the octet string value for allTeleservices.
+var AllTeleservices = []byte{0x00}
+
+// AllTeleservicesExeptSMS is the octet string value for allTeleservices-ExeptSMS.
+var AllTeleservicesExeptSMS = []byte{0x80}
+
+// AllVoiceGroupCallServices is the octet string value for allVoiceGroupCallServices.
+var AllVoiceGroupCallServices = []byte{0x90}
+
+// AutomaticFacsimileGroup3 is the octet string value for automaticFacsimileGroup3.
+var AutomaticFacsimileGroup3 = []byte{0x62}
+
+// EmergencyCalls is the octet string value for emergencyCalls.
+var EmergencyCalls = []byte{0x12}
+
+// FacsimileGroup3AndAlterSpeech is the octet string value for facsimileGroup3AndAlterSpeech.
+var FacsimileGroup3AndAlterSpeech = []byte{0x61}
+
+// FacsimileGroup4 is the octet string value for facsimileGroup4.
+var FacsimileGroup4 = []byte{0x63}
+
+// PlmnSpecificTS1 is the octet string value for plmn-specificTS-1.
+var PlmnSpecificTS1 = []byte{0xd1}
+
+// PlmnSpecificTS2 is the octet string value for plmn-specificTS-2.
+var PlmnSpecificTS2 = []byte{0xd2}
+
+// PlmnSpecificTS3 is the octet string value for plmn-specificTS-3.
+var PlmnSpecificTS3 = []byte{0xd3}
+
+// PlmnSpecificTS4 is the octet string value for plmn-specificTS-4.
+var PlmnSpecificTS4 = []byte{0xd4}
+
+// PlmnSpecificTS5 is the octet string value for plmn-specificTS-5.
+var PlmnSpecificTS5 = []byte{0xd5}
+
+// PlmnSpecificTS6 is the octet string value for plmn-specificTS-6.
+var PlmnSpecificTS6 = []byte{0xd6}
+
+// PlmnSpecificTS7 is the octet string value for plmn-specificTS-7.
+var PlmnSpecificTS7 = []byte{0xd7}
+
+// PlmnSpecificTS8 is the octet string value for plmn-specificTS-8.
+var PlmnSpecificTS8 = []byte{0xd8}
+
+// PlmnSpecificTS9 is the octet string value for plmn-specificTS-9.
+var PlmnSpecificTS9 = []byte{0xd9}
+
+// PlmnSpecificTSA is the octet string value for plmn-specificTS-A.
+var PlmnSpecificTSA = []byte{0xda}
+
+// PlmnSpecificTSB is the octet string value for plmn-specificTS-B.
+var PlmnSpecificTSB = []byte{0xdb}
+
+// PlmnSpecificTSC is the octet string value for plmn-specificTS-C.
+var PlmnSpecificTSC = []byte{0xdc}
+
+// PlmnSpecificTSD is the octet string value for plmn-specificTS-D.
+var PlmnSpecificTSD = []byte{0xdd}
+
+// PlmnSpecificTSE is the octet string value for plmn-specificTS-E.
+var PlmnSpecificTSE = []byte{0xde}
+
+// PlmnSpecificTSF is the octet string value for plmn-specificTS-F.
+var PlmnSpecificTSF = []byte{0xdf}
+
+// ShortMessageMOPP is the octet string value for shortMessageMO-PP.
+var ShortMessageMOPP = []byte{0x22}
+
+// ShortMessageMTPP is the octet string value for shortMessageMT-PP.
+var ShortMessageMTPP = []byte{0x21}
+
+// Telephony is the octet string value for telephony.
+var Telephony = []byte{0x11}
+
+// VoiceBroadcastCall is the octet string value for voiceBroadcastCall.
+var VoiceBroadcastCall = []byte{0x92}
+
+// VoiceGroupCall is the octet string value for voiceGroupCall.
+var VoiceGroupCall = []byte{0x91}
+
 // ExtTeleserviceCode represents the ASN.1 type Ext-TeleserviceCode (OCTET_STRING).
 type ExtTeleserviceCode = []byte
 
