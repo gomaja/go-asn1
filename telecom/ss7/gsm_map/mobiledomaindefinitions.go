@@ -33,23 +33,22 @@ const (
 	ModuleId int64 = 3
 )
 
-var (
+// GsmAccessId returns the OID value for gsm-AccessId.
+func GsmAccessId() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{0, 4, 0, 0, 2} }
 
-	// GsmAccessId is the OID value for gsm-AccessId.
-	GsmAccessId = []uint64{0, 4, 0, 0, 2}
+// GsmMessagingId returns the OID value for gsm-MessagingId.
+func GsmMessagingId() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{0, 4, 0, 0, 4} }
 
-	// GsmMessagingId is the OID value for gsm-MessagingId.
-	GsmMessagingId = []uint64{0, 4, 0, 0, 4}
+// GsmNetworkId returns the OID value for gsm-NetworkId.
+func GsmNetworkId() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{0, 4, 0, 0, 1} }
 
-	// GsmNetworkId is the OID value for gsm-NetworkId.
-	GsmNetworkId = []uint64{0, 4, 0, 0, 1}
+// GsmOperationAndMaintenanceId returns the OID value for gsm-OperationAndMaintenanceId.
+func GsmOperationAndMaintenanceId() runtime.ObjectIdentifier {
+	return runtime.ObjectIdentifier{0, 4, 0, 0, 3}
+}
 
-	// GsmOperationAndMaintenanceId is the OID value for gsm-OperationAndMaintenanceId.
-	GsmOperationAndMaintenanceId = []uint64{0, 4, 0, 0, 3}
-
-	// MobileDomainId is the OID value for mobileDomainId.
-	MobileDomainId = []uint64{0, 4, 0, 0}
-)
+// MobileDomainId returns the OID value for mobileDomainId.
+func MobileDomainId() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{0, 4, 0, 0} }
 
 // CommonComponentId represents the ASN.1 type CommonComponentId (INTEGER).
 type CommonComponentId = int64
