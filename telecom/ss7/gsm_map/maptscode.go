@@ -15,6 +15,102 @@ var (
 	_ = tag.ClassUniversal
 )
 
+// AllDataTeleservices is the octet string value for allDataTeleservices.
+const AllDataTeleservices = "\x70"
+
+// AllFacsimileTransmissionServices is the octet string value for allFacsimileTransmissionServices.
+const AllFacsimileTransmissionServices = "\x60"
+
+// AllPLMNSpecificTS is the octet string value for allPLMN-specificTS.
+const AllPLMNSpecificTS = "\xd0"
+
+// AllShortMessageServices is the octet string value for allShortMessageServices.
+const AllShortMessageServices = "\x20"
+
+// AllSpeechTransmissionServices is the octet string value for allSpeechTransmissionServices.
+const AllSpeechTransmissionServices = "\x10"
+
+// AllTeleservices is the octet string value for allTeleservices.
+const AllTeleservices = "\x00"
+
+// AllTeleservicesExeptSMS is the octet string value for allTeleservices-ExeptSMS.
+const AllTeleservicesExeptSMS = "\x80"
+
+// AllVoiceGroupCallServices is the octet string value for allVoiceGroupCallServices.
+const AllVoiceGroupCallServices = "\x90"
+
+// AutomaticFacsimileGroup3 is the octet string value for automaticFacsimileGroup3.
+const AutomaticFacsimileGroup3 = "\x62"
+
+// EmergencyCalls is the octet string value for emergencyCalls.
+const EmergencyCalls = "\x12"
+
+// FacsimileGroup3AndAlterSpeech is the octet string value for facsimileGroup3AndAlterSpeech.
+const FacsimileGroup3AndAlterSpeech = "\x61"
+
+// FacsimileGroup4 is the octet string value for facsimileGroup4.
+const FacsimileGroup4 = "\x63"
+
+// PlmnSpecificTS1 is the octet string value for plmn-specificTS-1.
+const PlmnSpecificTS1 = "\xd1"
+
+// PlmnSpecificTS2 is the octet string value for plmn-specificTS-2.
+const PlmnSpecificTS2 = "\xd2"
+
+// PlmnSpecificTS3 is the octet string value for plmn-specificTS-3.
+const PlmnSpecificTS3 = "\xd3"
+
+// PlmnSpecificTS4 is the octet string value for plmn-specificTS-4.
+const PlmnSpecificTS4 = "\xd4"
+
+// PlmnSpecificTS5 is the octet string value for plmn-specificTS-5.
+const PlmnSpecificTS5 = "\xd5"
+
+// PlmnSpecificTS6 is the octet string value for plmn-specificTS-6.
+const PlmnSpecificTS6 = "\xd6"
+
+// PlmnSpecificTS7 is the octet string value for plmn-specificTS-7.
+const PlmnSpecificTS7 = "\xd7"
+
+// PlmnSpecificTS8 is the octet string value for plmn-specificTS-8.
+const PlmnSpecificTS8 = "\xd8"
+
+// PlmnSpecificTS9 is the octet string value for plmn-specificTS-9.
+const PlmnSpecificTS9 = "\xd9"
+
+// PlmnSpecificTSA is the octet string value for plmn-specificTS-A.
+const PlmnSpecificTSA = "\xda"
+
+// PlmnSpecificTSB is the octet string value for plmn-specificTS-B.
+const PlmnSpecificTSB = "\xdb"
+
+// PlmnSpecificTSC is the octet string value for plmn-specificTS-C.
+const PlmnSpecificTSC = "\xdc"
+
+// PlmnSpecificTSD is the octet string value for plmn-specificTS-D.
+const PlmnSpecificTSD = "\xdd"
+
+// PlmnSpecificTSE is the octet string value for plmn-specificTS-E.
+const PlmnSpecificTSE = "\xde"
+
+// PlmnSpecificTSF is the octet string value for plmn-specificTS-F.
+const PlmnSpecificTSF = "\xdf"
+
+// ShortMessageMOPP is the octet string value for shortMessageMO-PP.
+const ShortMessageMOPP = "\x22"
+
+// ShortMessageMTPP is the octet string value for shortMessageMT-PP.
+const ShortMessageMTPP = "\x21"
+
+// Telephony is the octet string value for telephony.
+const Telephony = "\x11"
+
+// VoiceBroadcastCall is the octet string value for voiceBroadcastCall.
+const VoiceBroadcastCall = "\x92"
+
+// VoiceGroupCall is the octet string value for voiceGroupCall.
+const VoiceGroupCall = "\x91"
+
 // ExtTeleserviceCode represents the ASN.1 type Ext-TeleserviceCode (OCTET_STRING).
 type ExtTeleserviceCode = []byte
 

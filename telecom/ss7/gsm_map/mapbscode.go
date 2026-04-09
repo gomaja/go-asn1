@@ -15,6 +15,162 @@ var (
 	_ = tag.ClassUniversal
 )
 
+// AllAlternateSpeechDataCDA is the octet string value for allAlternateSpeech-DataCDA.
+const AllAlternateSpeechDataCDA = "\x30"
+
+// AllAlternateSpeechDataCDS is the octet string value for allAlternateSpeech-DataCDS.
+const AllAlternateSpeechDataCDS = "\x38"
+
+// AllAsynchronousServices is the octet string value for allAsynchronousServices.
+const AllAsynchronousServices = "\x60"
+
+// AllBearerServices is the octet string value for allBearerServices.
+const AllBearerServices = "\x00"
+
+// AllDataCDAServices is the octet string value for allDataCDA-Services.
+const AllDataCDAServices = "\x10"
+
+// AllDataCDSServices is the octet string value for allDataCDS-Services.
+const AllDataCDSServices = "\x18"
+
+// AllDataCircuitAsynchronous is the octet string value for allDataCircuitAsynchronous.
+const AllDataCircuitAsynchronous = "\x50"
+
+// AllDataCircuitSynchronous is the octet string value for allDataCircuitSynchronous.
+const AllDataCircuitSynchronous = "\x58"
+
+// AllDataPDSServices is the octet string value for allDataPDS-Services.
+const AllDataPDSServices = "\x28"
+
+// AllPLMNSpecificBS is the octet string value for allPLMN-specificBS.
+const AllPLMNSpecificBS = "\xd0"
+
+// AllPadAccessCAServices is the octet string value for allPadAccessCA-Services.
+const AllPadAccessCAServices = "\x20"
+
+// AllSpeechFollowedByDataCDA is the octet string value for allSpeechFollowedByDataCDA.
+const AllSpeechFollowedByDataCDA = "\x40"
+
+// AllSpeechFollowedByDataCDS is the octet string value for allSpeechFollowedByDataCDS.
+const AllSpeechFollowedByDataCDS = "\x48"
+
+// AllSynchronousServices is the octet string value for allSynchronousServices.
+const AllSynchronousServices = "\x68"
+
+// DataCDA120075bps is the octet string value for dataCDA-1200-75bps.
+const DataCDA120075bps = "\x13"
+
+// DataCDA1200bps is the octet string value for dataCDA-1200bps.
+const DataCDA1200bps = "\x12"
+
+// DataCDA2400bps is the octet string value for dataCDA-2400bps.
+const DataCDA2400bps = "\x14"
+
+// DataCDA300bps is the octet string value for dataCDA-300bps.
+const DataCDA300bps = "\x11"
+
+// DataCDA4800bps is the octet string value for dataCDA-4800bps.
+const DataCDA4800bps = "\x15"
+
+// DataCDA9600bps is the octet string value for dataCDA-9600bps.
+const DataCDA9600bps = "\x16"
+
+// DataCDS1200bps is the octet string value for dataCDS-1200bps.
+const DataCDS1200bps = "\x1a"
+
+// DataCDS2400bps is the octet string value for dataCDS-2400bps.
+const DataCDS2400bps = "\x1c"
+
+// DataCDS4800bps is the octet string value for dataCDS-4800bps.
+const DataCDS4800bps = "\x1d"
+
+// DataCDS9600bps is the octet string value for dataCDS-9600bps.
+const DataCDS9600bps = "\x1e"
+
+// DataPDS2400bps is the octet string value for dataPDS-2400bps.
+const DataPDS2400bps = "\x2c"
+
+// DataPDS4800bps is the octet string value for dataPDS-4800bps.
+const DataPDS4800bps = "\x2d"
+
+// DataPDS9600bps is the octet string value for dataPDS-9600bps.
+const DataPDS9600bps = "\x2e"
+
+// GeneralDataCDA is the octet string value for general-dataCDA.
+const GeneralDataCDA = "\x17"
+
+// GeneralDataCDS is the octet string value for general-dataCDS.
+const GeneralDataCDS = "\x1f"
+
+// GeneralDataPDS is the octet string value for general-dataPDS.
+const GeneralDataPDS = "\x2f"
+
+// GeneralPadAccessCA is the octet string value for general-padAccessCA.
+const GeneralPadAccessCA = "\x27"
+
+// PadAccessCA120075bps is the octet string value for padAccessCA-1200-75bps.
+const PadAccessCA120075bps = "\x23"
+
+// PadAccessCA1200bps is the octet string value for padAccessCA-1200bps.
+const PadAccessCA1200bps = "\x22"
+
+// PadAccessCA2400bps is the octet string value for padAccessCA-2400bps.
+const PadAccessCA2400bps = "\x24"
+
+// PadAccessCA300bps is the octet string value for padAccessCA-300bps.
+const PadAccessCA300bps = "\x21"
+
+// PadAccessCA4800bps is the octet string value for padAccessCA-4800bps.
+const PadAccessCA4800bps = "\x25"
+
+// PadAccessCA9600bps is the octet string value for padAccessCA-9600bps.
+const PadAccessCA9600bps = "\x26"
+
+// PlmnSpecificBS1 is the octet string value for plmn-specificBS-1.
+const PlmnSpecificBS1 = "\xd1"
+
+// PlmnSpecificBS2 is the octet string value for plmn-specificBS-2.
+const PlmnSpecificBS2 = "\xd2"
+
+// PlmnSpecificBS3 is the octet string value for plmn-specificBS-3.
+const PlmnSpecificBS3 = "\xd3"
+
+// PlmnSpecificBS4 is the octet string value for plmn-specificBS-4.
+const PlmnSpecificBS4 = "\xd4"
+
+// PlmnSpecificBS5 is the octet string value for plmn-specificBS-5.
+const PlmnSpecificBS5 = "\xd5"
+
+// PlmnSpecificBS6 is the octet string value for plmn-specificBS-6.
+const PlmnSpecificBS6 = "\xd6"
+
+// PlmnSpecificBS7 is the octet string value for plmn-specificBS-7.
+const PlmnSpecificBS7 = "\xd7"
+
+// PlmnSpecificBS8 is the octet string value for plmn-specificBS-8.
+const PlmnSpecificBS8 = "\xd8"
+
+// PlmnSpecificBS9 is the octet string value for plmn-specificBS-9.
+const PlmnSpecificBS9 = "\xd9"
+
+// PlmnSpecificBSA is the octet string value for plmn-specificBS-A.
+const PlmnSpecificBSA = "\xda"
+
+// PlmnSpecificBSB is the octet string value for plmn-specificBS-B.
+const PlmnSpecificBSB = "\xdb"
+
+// PlmnSpecificBSC is the octet string value for plmn-specificBS-C.
+const PlmnSpecificBSC = "\xdc"
+
+// PlmnSpecificBSD is the octet string value for plmn-specificBS-D.
+const PlmnSpecificBSD = "\xdd"
+
+// PlmnSpecificBSE is the octet string value for plmn-specificBS-E.
+const PlmnSpecificBSE = "\xde"
+
+// PlmnSpecificBSF is the octet string value for plmn-specificBS-F.
+const PlmnSpecificBSF = "\xdf"
+
 // BearerServiceCode represents the ASN.1 type BearerServiceCode (OCTET_STRING).
 type BearerServiceCode = []byte
 

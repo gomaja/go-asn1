@@ -15,5 +15,221 @@ var (
 	_ = tag.ClassUniversal
 )
 
+// AllAdditionalInfoTransferSS is the octet string value for allAdditionalInfoTransferSS.
+const AllAdditionalInfoTransferSS = "\x80"
+
+// AllBarringSS is the octet string value for allBarringSS.
+const AllBarringSS = "\x90"
+
+// AllCallCompletionSS is the octet string value for allCallCompletionSS.
+const AllCallCompletionSS = "\x40"
+
+// AllCallOfferingSS is the octet string value for allCallOfferingSS.
+const AllCallOfferingSS = "\x30"
+
+// AllCallPrioritySS is the octet string value for allCallPrioritySS.
+const AllCallPrioritySS = "\xa0"
+
+// AllChargingSS is the octet string value for allChargingSS.
+const AllChargingSS = "\x70"
+
+// AllCommunityOfInterestSS is the octet string value for allCommunityOfInterest-SS.
+const AllCommunityOfInterestSS = "\x60"
+
+// AllCondForwardingSS is the octet string value for allCondForwardingSS.
+const AllCondForwardingSS = "\x28"
+
+// AllForwardingSS is the octet string value for allForwardingSS.
+const AllForwardingSS = "\x20"
+
+// AllLCSPrivacyException is the octet string value for allLCSPrivacyException.
+const AllLCSPrivacyException = "\xb0"
+
+// AllLineIdentificationSS is the octet string value for allLineIdentificationSS.
+const AllLineIdentificationSS = "\x10"
+
+// AllMOLRSS is the octet string value for allMOLR-SS.
+const AllMOLRSS = "\xc0"
+
+// AllMultiPartySS is the octet string value for allMultiPartySS.
+const AllMultiPartySS = "\x50"
+
+// AllNameIdentificationSS is the octet string value for allNameIdentificationSS.
+const AllNameIdentificationSS = "\x18"
+
+// AllPLMNSpecificSS is the octet string value for allPLMN-specificSS.
+const AllPLMNSpecificSS = "\xf0"
+
+// AllSS is the octet string value for allSS.
+const AllSS = "\x00"
+
+// Aocc is the octet string value for aocc.
+const Aocc = "\x72"
+
+// Aoci is the octet string value for aoci.
+const Aoci = "\x71"
+
+// AutonomousSelfLocation is the octet string value for autonomousSelfLocation.
+const AutonomousSelfLocation = "\xc2"
+
+// Baic is the octet string value for baic.
+const Baic = "\x9a"
+
+// Baoc is the octet string value for baoc.
+const Baoc = "\x92"
+
+// BarringOfIncomingCalls is the octet string value for barringOfIncomingCalls.
+const BarringOfIncomingCalls = "\x99"
+
+// BarringOfOutgoingCalls is the octet string value for barringOfOutgoingCalls.
+const BarringOfOutgoingCalls = "\x91"
+
+// BasicSelfLocation is the octet string value for basicSelfLocation.
+const BasicSelfLocation = "\xc1"
+
+// BicRoam is the octet string value for bicRoam.
+const BicRoam = "\x9b"
+
+// Boic is the octet string value for boic.
+const Boic = "\x93"
+
+// BoicExHC is the octet string value for boicExHC.
+const BoicExHC = "\x94"
+
+// CallSessionRelated is the octet string value for callSessionRelated.
+const CallSessionRelated = "\xb2"
+
+// CallSessionUnrelated is the octet string value for callSessionUnrelated.
+const CallSessionUnrelated = "\xb3"
+
+// CcbsA is the octet string value for ccbs-A.
+const CcbsA = "\x43"
+
+// CcbsB is the octet string value for ccbs-B.
+const CcbsB = "\x44"
+
+// Cd is the octet string value for cd.
+const Cd = "\x24"
+
+// Cfb is the octet string value for cfb.
+const Cfb = "\x29"
+
+// Cfnrc is the octet string value for cfnrc.
+const Cfnrc = "\x2b"
+
+// Cfnry is the octet string value for cfnry.
+const Cfnry = "\x2a"
+
+// Cfu is the octet string value for cfu.
+const Cfu = "\x21"
+
+// Clip is the octet string value for clip.
+const Clip = "\x11"
+
+// Clir is the octet string value for clir.
+const Clir = "\x12"
+
+// Cnap is the octet string value for cnap.
+const Cnap = "\x19"
+
+// Colp is the octet string value for colp.
+const Colp = "\x13"
+
+// Colr is the octet string value for colr.
+const Colr = "\x14"
+
+// Cug is the octet string value for cug.
+const Cug = "\x61"
+
+// Cw is the octet string value for cw.
+const Cw = "\x41"
+
+// Ect is the octet string value for ect.
+const Ect = "\x31"
+
+// Emlpp is the octet string value for emlpp.
+const Emlpp = "\xa1"
+
+// Hold is the octet string value for hold.
+const Hold = "\x42"
+
+// Mah is the octet string value for mah.
+const Mah = "\x32"
+
+// Mc is the octet string value for mc.
+const Mc = "\x45"
+
+// Mci is the octet string value for mci.
+const Mci = "\x15"
+
+// MultiPTY is the octet string value for multiPTY.
+const MultiPTY = "\x51"
+
+// PlmnSpecificSS1 is the octet string value for plmn-specificSS-1.
+const PlmnSpecificSS1 = "\xf1"
+
+// PlmnSpecificSS2 is the octet string value for plmn-specificSS-2.
+const PlmnSpecificSS2 = "\xf2"
+
+// PlmnSpecificSS3 is the octet string value for plmn-specificSS-3.
+const PlmnSpecificSS3 = "\xf3"
+
+// PlmnSpecificSS4 is the octet string value for plmn-specificSS-4.
+const PlmnSpecificSS4 = "\xf4"
+
+// PlmnSpecificSS5 is the octet string value for plmn-specificSS-5.
+const PlmnSpecificSS5 = "\xf5"
+
+// PlmnSpecificSS6 is the octet string value for plmn-specificSS-6.
+const PlmnSpecificSS6 = "\xf6"
+
+// PlmnSpecificSS7 is the octet string value for plmn-specificSS-7.
+const PlmnSpecificSS7 = "\xf7"
+
+// PlmnSpecificSS8 is the octet string value for plmn-specificSS-8.
+const PlmnSpecificSS8 = "\xf8"
+
+// PlmnSpecificSS9 is the octet string value for plmn-specificSS-9.
+const PlmnSpecificSS9 = "\xf9"
+
+// PlmnSpecificSSA is the octet string value for plmn-specificSS-A.
+const PlmnSpecificSSA = "\xfa"
+
+// PlmnSpecificSSB is the octet string value for plmn-specificSS-B.
+const PlmnSpecificSSB = "\xfb"
+
+// PlmnSpecificSSC is the octet string value for plmn-specificSS-C.
+const PlmnSpecificSSC = "\xfc"
+
+// PlmnSpecificSSD is the octet string value for plmn-specificSS-D.
+const PlmnSpecificSSD = "\xfd"
+
+// PlmnSpecificSSE is the octet string value for plmn-specificSS-E.
+const PlmnSpecificSSE = "\xfe"
+
+// PlmnSpecificSSF is the octet string value for plmn-specificSS-F.
+const PlmnSpecificSSF = "\xff"
+
+// Plmnoperator is the octet string value for plmnoperator.
+const Plmnoperator = "\xb4"
+
+// ServiceTypeValue is the octet string value for serviceType.
+const ServiceTypeValue = "\xb5"
+
+// TransferToThirdParty is the octet string value for transferToThirdParty.
+const TransferToThirdParty = "\xc3"
+
+// Universal is the octet string value for universal.
+const Universal = "\xb1"
+
+// Uus1 is the octet string value for uus1.
+const Uus1 = "\x81"
+
+// Uus2 is the octet string value for uus2.
+const Uus2 = "\x82"
+
+// Uus3 is the octet string value for uus3.
+const Uus3 = "\x83"
+
 // SSCode represents the ASN.1 type SS-Code (OCTET_STRING).
 type SSCode = []byte

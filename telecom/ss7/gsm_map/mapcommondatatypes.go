@@ -17,6 +17,30 @@ var (
 	_ = tag.ClassUniversal
 )
 
+// AlertingCategory1 is the octet string value for alertingCategory-1.
+const AlertingCategory1 = "\x04"
+
+// AlertingCategory2 is the octet string value for alertingCategory-2.
+const AlertingCategory2 = "\x05"
+
+// AlertingCategory3 is the octet string value for alertingCategory-3.
+const AlertingCategory3 = "\x06"
+
+// AlertingCategory4 is the octet string value for alertingCategory-4.
+const AlertingCategory4 = "\x07"
+
+// AlertingCategory5 is the octet string value for alertingCategory-5.
+const AlertingCategory5 = "\x08"
+
+// AlertingLevel0 is the octet string value for alertingLevel-0.
+const AlertingLevel0 = "\x00"
+
+// AlertingLevel1 is the octet string value for alertingLevel-1.
+const AlertingLevel1 = "\x01"
+
+// AlertingLevel2 is the octet string value for alertingLevel-2.
+const AlertingLevel2 = "\x02"
+
 // AssetAndServiceFinding is the integer value for assetAndServiceFinding.
 const AssetAndServiceFinding int64 = 14
 
