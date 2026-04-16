@@ -12303,7 +12303,12 @@ func (v *EPSInfo) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding isr-Information: %w", tlvErr)
 		}
-		_ = rawVal // TODO: decode implicit BIT_STRING
+		bsBytes, bsUnused, bsErr := ber.DecodeBitStringValue(rawVal)
+		if bsErr != nil {
+			return fmt.Errorf("decoding isr-Information: %w", bsErr)
+		}
+		tmp := runtime.BitString{Bytes: bsBytes, BitLength: len(bsBytes)*8 - bsUnused}
+		v.IsrInformation = &tmp
 	} else {
 		return fmt.Errorf("unknown tag %s for EPSInfo CHOICE", peekTag)
 	}
