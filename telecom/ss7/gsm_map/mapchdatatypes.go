@@ -4351,7 +4351,7 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte) error {
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
+			if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) {
 				// Decode nested CHOICE (ExtendedRoutingInfo)
 				_, n_extendedroutinginfo, _, tlvErr_extendedroutinginfo := ber.DecodeTLV(content[offset:])
 				if tlvErr_extendedroutinginfo != nil {
