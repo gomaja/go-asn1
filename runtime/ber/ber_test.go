@@ -3,6 +3,7 @@ package ber
 import (
 	"bytes"
 	"encoding/hex"
+	"errors"
 	"math"
 	"math/big"
 	"testing"
@@ -438,14 +439,14 @@ func TestEncodeDecodeGeneralizedTimeValue(t *testing.T) {
 }
 
 func TestDecodeUTCTimeValueInvalid(t *testing.T) {
-	if _, err := DecodeUTCTimeValue([]byte("not-a-time")); err == nil {
-		t.Fatal("expected error for malformed UTCTime value")
+	if _, err := DecodeUTCTimeValue([]byte("not-a-time")); !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("got %v, want ErrInvalidValue", err)
 	}
 }
 
 func TestDecodeGeneralizedTimeValueInvalid(t *testing.T) {
-	if _, err := DecodeGeneralizedTimeValue([]byte("not-a-time")); err == nil {
-		t.Fatal("expected error for malformed GeneralizedTime value")
+	if _, err := DecodeGeneralizedTimeValue([]byte("not-a-time")); !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("got %v, want ErrInvalidValue", err)
 	}
 }
 
@@ -453,15 +454,16 @@ func TestEncodeStringTag(t *testing.T) {
 	cases := []struct {
 		name   string
 		tagNum int
+		value  string
 	}{
-		{"UTF8String", tag.TagUTF8String},
-		{"PrintableString", tag.TagPrintableString},
-		{"IA5String", tag.TagIA5String},
-		{"T61String", tag.TagT61String},
-		{"VisibleString", tag.TagVisibleString},
-		{"NumericString", tag.TagNumericString},
-		{"BMPString", tag.TagBMPString},
-		{"UniversalString", tag.TagUniversalString},
+		{"UTF8String", tag.TagUTF8String, "hello"},
+		{"PrintableString", tag.TagPrintableString, "hello"},
+		{"IA5String", tag.TagIA5String, "hello"},
+		{"T61String", tag.TagT61String, "hello"},
+		{"VisibleString", tag.TagVisibleString, "hello"},
+		{"NumericString", tag.TagNumericString, "hello"},
+		{"BMPString", tag.TagBMPString, "\x00h\x00e\x00l\x00l\x00o"},
+		{"UniversalString", tag.TagUniversalString, "\x00\x00\x00h\x00\x00\x00e\x00\x00\x00l\x00\x00\x00l\x00\x00\x00o"},
 	}
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
@@ -473,8 +475,43 @@ func TestEncodeStringTag(t *testing.T) {
 			if n != len(encoded) {
 				t.Errorf("consumed: got %d, want %d", n, len(encoded))
 			}
-			if decoded != "hello" {
-				t.Errorf("got %q, want %q", decoded, "hello")
+			if decoded != c.value {
+				t.Errorf("got %q, want %q", decoded, c.value)
+			}
+		})
+	}
+}
+
+func TestEncodeStringTagContents(t *testing.T) {
+	cases := []struct {
+		name   string
+		tagNum int
+		value  string
+		want   []byte
+	}{
+		{"UTF8String", tag.TagUTF8String, "Cafe", []byte("Cafe")},
+		{"PrintableString", tag.TagPrintableString, "Cafe", []byte("Cafe")},
+		{"IA5String", tag.TagIA5String, "Cafe", []byte("Cafe")},
+		{"BMPString", tag.TagBMPString, "Cafe", []byte{0x00, 'C', 0x00, 'a', 0x00, 'f', 0x00, 'e'}},
+		{"BMPString non-ASCII", tag.TagBMPString, "Cafe\u0301", []byte{0x00, 'C', 0x00, 'a', 0x00, 'f', 0x00, 'e', 0x03, 0x01}},
+		{"UniversalString", tag.TagUniversalString, "Cafe", []byte{0x00, 0x00, 0x00, 'C', 0x00, 0x00, 0x00, 'a', 0x00, 0x00, 0x00, 'f', 0x00, 0x00, 0x00, 'e'}},
+		{"UniversalString non-ASCII", tag.TagUniversalString, "Cafe\u0301", []byte{0x00, 0x00, 0x00, 'C', 0x00, 0x00, 0x00, 'a', 0x00, 0x00, 0x00, 'f', 0x00, 0x00, 0x00, 'e', 0x00, 0x00, 0x03, 0x01}},
+	}
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			encoded := EncodeStringTag(c.tagNum, c.value)
+			gotTag, consumed, got, err := DecodeTLV(encoded)
+			if err != nil {
+				t.Fatalf("DecodeTLV error: %v", err)
+			}
+			if consumed != len(encoded) {
+				t.Fatalf("consumed: got %d, want %d", consumed, len(encoded))
+			}
+			if gotTag.Class != tag.ClassUniversal || gotTag.Number != c.tagNum {
+				t.Fatalf("tag: got %s, want UNIVERSAL %d", gotTag, c.tagNum)
+			}
+			if !bytes.Equal(got, c.want) {
+				t.Fatalf("contents: got % x, want % x", got, c.want)
 			}
 		})
 	}

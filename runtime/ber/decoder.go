@@ -229,6 +229,18 @@ func DecodeBigInt(data []byte) (*big.Int, int, error) {
 		return nil, 0, fmt.Errorf("%w: INTEGER value must have at least 1 byte", ErrInvalidValue)
 	}
 
+	v, err := decodeBigIntBytes(value)
+	if err != nil {
+		return nil, 0, err
+	}
+	return v, total, nil
+}
+
+func decodeBigIntBytes(value []byte) (*big.Int, error) {
+	if len(value) == 0 {
+		return nil, fmt.Errorf("%w: INTEGER value must have at least 1 byte", ErrInvalidValue)
+	}
+
 	v := new(big.Int)
 	if value[0]&0x80 != 0 {
 		// Negative: convert two's complement.
@@ -242,7 +254,7 @@ func DecodeBigInt(data []byte) (*big.Int, int, error) {
 	} else {
 		v.SetBytes(value)
 	}
-	return v, total, nil
+	return v, nil
 }
 
 // DecodeBitString decodes a bit string from raw TLV bytes.
@@ -752,20 +764,5 @@ func DecodeConstructedContent(data []byte) (tag.Tag, []byte, int, error) {
 // ones legitimately exceed 64 bits: RFC 5280 Section 4.1.2.2 requires certificate
 // users to handle a serialNumber of up to 20 octets.
 func DecodeBigIntValue(value []byte) (*big.Int, error) {
-	if len(value) == 0 {
-		return nil, fmt.Errorf("%w: empty integer", ErrInvalidValue)
-	}
-	v := new(big.Int)
-	if value[0]&0x80 != 0 {
-		notBytes := make([]byte, len(value))
-		for i, b := range value {
-			notBytes[i] = ^b
-		}
-		v.SetBytes(notBytes)
-		v.Add(v, big.NewInt(1))
-		v.Neg(v)
-		return v, nil
-	}
-	v.SetBytes(value)
-	return v, nil
+	return decodeBigIntBytes(value)
 }

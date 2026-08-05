@@ -2,6 +2,7 @@ package ber
 
 import (
 	"bytes"
+	"errors"
 	"math/big"
 	"testing"
 )
@@ -47,7 +48,7 @@ func TestBigIntValueRoundTrip(t *testing.T) {
 		}
 	}
 
-	if _, err := DecodeBigIntValue(nil); err == nil {
-		t.Error("empty contents accepted")
+	if _, err := DecodeBigIntValue(nil); !errors.Is(err, ErrInvalidValue) {
+		t.Errorf("got %v, want ErrInvalidValue", err)
 	}
 }

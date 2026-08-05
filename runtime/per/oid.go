@@ -64,6 +64,15 @@ func oidContents(oid []uint64) ([]byte, error) {
 	if len(oid) < 2 {
 		return nil, fmt.Errorf("object identifier needs at least 2 arcs, got %d", len(oid))
 	}
+	if oid[0] > 2 {
+		return nil, fmt.Errorf("object identifier first arc must be 0, 1, or 2, got %d", oid[0])
+	}
+	if oid[0] < 2 && oid[1] > 39 {
+		return nil, fmt.Errorf("object identifier second arc must be 0..39 when first arc is %d, got %d", oid[0], oid[1])
+	}
+	if oid[0] == 2 && oid[1] > (^uint64(0)-80) {
+		return nil, fmt.Errorf("object identifier first subidentifier overflows uint64: first arc %d, second arc %d", oid[0], oid[1])
+	}
 	return ber.EncodeOIDValue(oid), nil
 }
 

@@ -4,6 +4,7 @@ import (
 	"math"
 	"math/big"
 	"time"
+	"unicode/utf16"
 
 	"github.com/gomaja/go-asn1/runtime/tag"
 )
@@ -90,6 +91,14 @@ func EncodeBigInt(v *big.Int) []byte {
 	if v == nil {
 		return EncodeInteger(0)
 	}
+	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagInteger}, encodeBigIntBytes(v))
+}
+
+func encodeBigIntBytes(v *big.Int) []byte {
+	if v == nil {
+		return encodeIntBytes(0)
+	}
+
 	b := v.Bytes() // absolute value, big-endian
 	if v.Sign() >= 0 {
 		// Add leading zero if high bit is set.
@@ -123,7 +132,7 @@ func EncodeBigInt(v *big.Int) []byte {
 		}
 		b = tc
 	}
-	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagInteger}, b)
+	return b
 }
 
 // EncodeBitString encodes a bit string per X.690 section 8.6.
@@ -286,18 +295,40 @@ func EncodePrintableString(v string) []byte {
 }
 
 // EncodeStringTag encodes a character string value under an arbitrary
-// UNIVERSAL tag number. This is the single encoder generated code uses for
-// every ASN.1 character string kind (UTF8String, PrintableString, IA5String,
-// T61String, VisibleString, NumericString, BMPString, UniversalString,
-// GraphicString, GeneralString, VideotexString, ...): the wire content is
-// identical byte-for-byte across all of them (this codec does not transcode
-// content, matching how the decoder already treats string content as opaque
-// bytes) and only the tag number distinguishes the kind. A single
-// tag-parameterised function keeps every string kind's tag correct by
-// construction, rather than requiring one hand-written Encode<Kind>String
-// function per kind kept in sync with tag.go by hand.
+// UNIVERSAL tag number. BMPString and UniversalString have fixed-width
+// contents octets, while legacy 8-bit string kinds are kept as supplied bytes
+// because this runtime does not validate or transcode their character sets.
 func EncodeStringTag(tagNum int, v string) []byte {
-	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tagNum}, []byte(v))
+	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tagNum}, encodeStringTagValue(tagNum, v))
+}
+
+func encodeStringTagValue(tagNum int, v string) []byte {
+	switch tagNum {
+	case tag.TagBMPString:
+		return encodeBMPStringValue(v)
+	case tag.TagUniversalString:
+		return encodeUniversalStringValue(v)
+	default:
+		return []byte(v)
+	}
+}
+
+func encodeBMPStringValue(v string) []byte {
+	units := utf16.Encode([]rune(v))
+	out := make([]byte, 0, len(units)*2)
+	for _, u := range units {
+		out = append(out, byte(u>>8), byte(u))
+	}
+	return out
+}
+
+func encodeUniversalStringValue(v string) []byte {
+	out := make([]byte, 0, len(v)*4)
+	for _, r := range v {
+		cp := uint32(r)
+		out = append(out, byte(cp>>24), byte(cp>>16), byte(cp>>8), byte(cp))
+	}
+	return out
 }
 
 // EncodeUTCTime encodes a UTCTime per X.690 section 11.8.
@@ -453,15 +484,5 @@ func EncodeStringValue(s string) []byte {
 // SEQUENCE are assembled from value-level encoders, so this is the
 // arbitrary-precision counterpart to EncodeIntegerValue.
 func EncodeBigIntValue(v *big.Int) []byte {
-	full := EncodeBigInt(v)
-	// EncodeBigInt emits tag + length + contents; the contents start after
-	// the 1-octet universal INTEGER tag and its length field.
-	_, _, value, err := DecodeTLV(full)
-	if err != nil {
-		// EncodeBigInt always produces a well-formed TLV, so this is
-		// unreachable; return the whole thing rather than silently dropping
-		// the value if that ever stops being true.
-		return full
-	}
-	return value
+	return encodeBigIntBytes(v)
 }
