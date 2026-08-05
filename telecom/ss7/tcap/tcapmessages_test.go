@@ -202,6 +202,7 @@ func TestEndWithReturnResultLastFixtureRoundTrips(t *testing.T) {
 
 func TestBeginWithIndefiniteComponentPortionRoundTrips(t *testing.T) {
 	input := mustDecodeHex(t, "620f4801016c80a10602010002012d0000")
+	definite := mustDecodeHex(t, "620d4801016c08a10602010002012d")
 
 	var msg TCMessage
 	if err := msg.UnmarshalBER(input); err != nil {
@@ -220,5 +221,19 @@ func TestBeginWithIndefiniteComponentPortionRoundTrips(t *testing.T) {
 	}
 	if !bytes.Equal(got, input) {
 		t.Fatalf("TCMessage round-trip = % x, want % x", got, input)
+	}
+
+	if err := msg.UnmarshalBER(definite); err != nil {
+		t.Fatalf("TCMessage.UnmarshalBER definite reuse: %v", err)
+	}
+	if msg.Begin.ComponentsIndef_ {
+		t.Fatalf("Begin.ComponentsIndef_ after definite reuse = true, want false")
+	}
+	got, err = msg.MarshalBER()
+	if err != nil {
+		t.Fatalf("TCMessage.MarshalBER definite reuse: %v", err)
+	}
+	if !bytes.Equal(got, definite) {
+		t.Fatalf("TCMessage definite reuse round-trip = % x, want % x", got, definite)
 	}
 }

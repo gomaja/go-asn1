@@ -202,6 +202,7 @@ func (v *AUDTApdu) UnmarshalBER(data []byte) error {
 	v.ApplicationContextName = runtime.ObjectIdentifier(val_applicationcontextname)
 	offset += n_applicationcontextname
 	// Decode user-information
+	v.UserInformationIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {

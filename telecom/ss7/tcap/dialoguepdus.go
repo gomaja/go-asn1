@@ -418,6 +418,7 @@ func (v *AARQApdu) UnmarshalBER(data []byte) error {
 	v.ApplicationContextName = runtime.ObjectIdentifier(val_applicationcontextname)
 	offset += n_applicationcontextname
 	// Decode user-information
+	v.UserInformationIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -585,6 +586,7 @@ func (v *AAREApdu) UnmarshalBER(data []byte) error {
 	}
 	offset += n_resultsourcediagnostic
 	// Decode user-information
+	v.UserInformationIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -682,6 +684,7 @@ func (v *RLRQApdu) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode user-information
+	v.UserInformationIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -779,6 +782,7 @@ func (v *RLREApdu) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode user-information
+	v.UserInformationIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -874,6 +878,7 @@ func (v *ABRTApdu) UnmarshalBER(data []byte) error {
 	v.AbortSource = ABRTSource(decVal_abortsource)
 	offset += n_abortsource
 	// Decode user-information
+	v.UserInformationIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {

@@ -427,6 +427,7 @@ func (v *Unidirectional) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for components, got %s", "APPLICATION", 12, reqTag_)
 		}
 	}
+	v.ComponentsIndef_ = false
 	// Decode nested SEQUENCE_OF (ComponentPortion)
 	_, n_components, _, tlvErr_components := ber.DecodeTLV(content[offset:])
 	if tlvErr_components != nil {
@@ -527,6 +528,7 @@ func (v *Begin) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode components
+	v.ComponentsIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -634,6 +636,7 @@ func (v *End) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode components
+	v.ComponentsIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -759,6 +762,7 @@ func (v *Continue) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode components
+	v.ComponentsIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
