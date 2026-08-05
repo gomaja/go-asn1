@@ -922,13 +922,26 @@ type TBSCertificate struct {
 }
 
 // Version represents the ASN.1 INTEGER type Version with named numbers.
-type Version = int64
+type Version int64
 
 const (
 	VersionV1 Version = 0
 	VersionV2 Version = 1
 	VersionV3 Version = 2
 )
+
+func (v Version) String() string {
+	switch v {
+	case VersionV1:
+		return "v1"
+	case VersionV2:
+		return "v2"
+	case VersionV3:
+		return "v3"
+	default:
+		return "unknown"
+	}
+}
 
 // CertificateSerialNumber represents the ASN.1 type CertificateSerialNumber (INTEGER).
 type CertificateSerialNumber = *big.Int
@@ -1340,7 +1353,7 @@ type PresentationAddress struct {
 }
 
 // TerminalType represents the ASN.1 INTEGER type TerminalType with named numbers.
-type TerminalType = int64
+type TerminalType int64
 
 const (
 	TerminalTypeTelex       TerminalType = 3
@@ -1350,6 +1363,25 @@ const (
 	TerminalTypeIa5Terminal TerminalType = 7
 	TerminalTypeVideotex    TerminalType = 8
 )
+
+func (v TerminalType) String() string {
+	switch v {
+	case TerminalTypeTelex:
+		return "telex"
+	case TerminalTypeTeletex:
+		return "teletex"
+	case TerminalTypeG3Facsimile:
+		return "g3-facsimile"
+	case TerminalTypeG4Facsimile:
+		return "g4-facsimile"
+	case TerminalTypeIa5Terminal:
+		return "ia5-terminal"
+	case TerminalTypeVideotex:
+		return "videotex"
+	default:
+		return "unknown"
+	}
+}
 
 // TeletexDomainDefinedAttributes represents the ASN.1 type TeletexDomainDefinedAttributes (SEQUENCE_OF).
 type TeletexDomainDefinedAttributes = []TeletexDomainDefinedAttribute
@@ -2643,6 +2675,9 @@ func (v *TBSCertificate) MarshalBER() ([]byte, error) {
 		enc_version := ber.EncodeInteger(int64(*v.Version))
 		enc_version = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 0, enc_version)
 		children = append(children, enc_version...)
+	}
+	if v.SerialNumber == nil {
+		return nil, fmt.Errorf("encoding serialNumber: required INTEGER is nil")
 	}
 	enc_serialnumber := ber.EncodeBigInt(v.SerialNumber)
 	children = append(children, enc_serialnumber...)
@@ -5130,6 +5165,9 @@ func UnmarshalBERAttributeValues(data []byte) (AttributeValues, error) {
 // MarshalBER encodes TBSCertListRevokedCertificatesElem to BER format.
 func (v *TBSCertListRevokedCertificatesElem) MarshalBER() ([]byte, error) {
 	var children []byte
+	if v.UserCertificate == nil {
+		return nil, fmt.Errorf("encoding userCertificate: required INTEGER is nil")
+	}
 	enc_usercertificate := ber.EncodeBigInt(v.UserCertificate)
 	children = append(children, enc_usercertificate...)
 	enc_revocationdate, err := v.RevocationDate.MarshalBER()

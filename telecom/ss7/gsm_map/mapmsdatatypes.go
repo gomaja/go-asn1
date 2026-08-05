@@ -458,9 +458,9 @@ type QuintupletList = []AuthenticationQuintuplet
 
 // AuthenticationTriplet represents the ASN.1 type AuthenticationTriplet (SEQUENCE).
 type AuthenticationTriplet struct {
-	Rand        RAND     `asn1:""`
-	Sres        SRES     `asn1:""`
-	Kc          Kc       `asn1:""`
+	Rand        MSRAND   `asn1:""`
+	Sres        MSSRES   `asn1:""`
+	Kc          MSKc     `asn1:""`
 	ExtCount_   int64    `asn1:"-" json:"-"`
 	ExtPresent_ []bool   `asn1:"-" json:"-"`
 	ExtData_    [][]byte `asn1:"-" json:"-"`
@@ -468,7 +468,7 @@ type AuthenticationTriplet struct {
 
 // AuthenticationQuintuplet represents the ASN.1 type AuthenticationQuintuplet (SEQUENCE).
 type AuthenticationQuintuplet struct {
-	Rand        RAND     `asn1:""`
+	Rand        MSRAND   `asn1:""`
 	Xres        XRES     `asn1:""`
 	Ck          CK       `asn1:""`
 	Ik          IK       `asn1:""`
@@ -509,7 +509,7 @@ func NewCurrentSecurityContextUmtsSecurityContextData(v UMTSSecurityContextData)
 
 // GSMSecurityContextData represents the ASN.1 type GSM-SecurityContextData (SEQUENCE).
 type GSMSecurityContextData struct {
-	Kc          Kc       `asn1:""`
+	Kc          MSKc     `asn1:""`
 	Cksn        Cksn     `asn1:""`
 	ExtCount_   int64    `asn1:"-" json:"-"`
 	ExtPresent_ []bool   `asn1:"-" json:"-"`
@@ -526,14 +526,14 @@ type UMTSSecurityContextData struct {
 	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// RAND represents the ASN.1 type RAND (OCTET_STRING).
-type RAND = []byte
+// MSRAND represents the ASN.1 type MSRAND (OCTET_STRING).
+type MSRAND = []byte
 
-// SRES represents the ASN.1 type SRES (OCTET_STRING).
-type SRES = []byte
+// MSSRES represents the ASN.1 type MSSRES (OCTET_STRING).
+type MSSRES = []byte
 
-// Kc represents the ASN.1 type Kc (OCTET_STRING).
-type Kc = []byte
+// MSKc represents the ASN.1 type MSKc (OCTET_STRING).
+type MSKc = []byte
 
 // XRES represents the ASN.1 type XRES (OCTET_STRING).
 type XRES = []byte
@@ -564,7 +564,7 @@ type AuthenticationFailureReportArg struct {
 	ReAttempt          *bool               `asn1:",optional" json:"ReAttempt,omitempty"`
 	ReAttemptRaw_      byte                `asn1:"-" json:"-"`
 	AccessType         *AccessType         `asn1:",optional" json:"AccessType,omitempty"`
-	Rand               *RAND               `asn1:",optional" json:"Rand,omitempty"`
+	Rand               *MSRAND             `asn1:",optional" json:"Rand,omitempty"`
 	VlrNumber          *ISDNAddressString  `asn1:"tag:0,context,implicit,optional" json:"VlrNumber,omitempty"`
 	SgsnNumber         *ISDNAddressString  `asn1:"tag:1,context,implicit,optional" json:"SgsnNumber,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -1213,7 +1213,7 @@ type NumberOfRequestedVectors = int64
 
 // ReSynchronisationInfo represents the ASN.1 type Re-synchronisationInfo (SEQUENCE).
 type ReSynchronisationInfo struct {
-	Rand        RAND     `asn1:""`
+	Rand        MSRAND   `asn1:""`
 	Auts        AUTS     `asn1:""`
 	ExtCount_   int64    `asn1:"-" json:"-"`
 	ExtPresent_ []bool   `asn1:"-" json:"-"`
@@ -1240,7 +1240,7 @@ type UEUsageType = []byte
 
 // EPCAV represents the ASN.1 type EPC-AV (SEQUENCE).
 type EPCAV struct {
-	Rand               RAND                `asn1:""`
+	Rand               MSRAND              `asn1:""`
 	Xres               XRES                `asn1:""`
 	Autn               AUTN                `asn1:""`
 	Kasme              KASME               `asn1:""`
@@ -1354,7 +1354,7 @@ func (v EquipmentStatus) String() string {
 type InsertSubscriberDataArg struct {
 	Imsi                                           *IMSI                             `asn1:"tag:0,context,implicit,optional" json:"Imsi,omitempty"`
 	Msisdn                                         *ISDNAddressString                `asn1:"tag:1,context,implicit,optional" json:"Msisdn,omitempty"`
-	Category                                       *Category                         `asn1:"tag:2,context,implicit,optional" json:"Category,omitempty"`
+	Category                                       *MSCategory                       `asn1:"tag:2,context,implicit,optional" json:"Category,omitempty"`
 	SubscriberStatus                               *SubscriberStatus                 `asn1:"tag:3,context,implicit,optional" json:"SubscriberStatus,omitempty"`
 	BearerServiceList                              BearerServiceList                 `asn1:"tag:4,context,implicit,optional" json:"BearerServiceList,omitempty"`
 	BearerServiceListIndef_                        bool                              `asn1:"-" json:"-"`
@@ -2078,7 +2078,7 @@ type LSAAttributes = []byte
 // SubscriberData represents the ASN.1 type SubscriberData (SEQUENCE).
 type SubscriberData struct {
 	Msisdn                                    *ISDNAddressString        `asn1:"tag:1,context,implicit,optional" json:"Msisdn,omitempty"`
-	Category                                  *Category                 `asn1:"tag:2,context,implicit,optional" json:"Category,omitempty"`
+	Category                                  *MSCategory               `asn1:"tag:2,context,implicit,optional" json:"Category,omitempty"`
 	SubscriberStatus                          *SubscriberStatus         `asn1:"tag:3,context,implicit,optional" json:"SubscriberStatus,omitempty"`
 	BearerServiceList                         BearerServiceList         `asn1:"tag:4,context,implicit,optional" json:"BearerServiceList,omitempty"`
 	BearerServiceListIndef_                   bool                      `asn1:"-" json:"-"`
@@ -2097,8 +2097,8 @@ type SubscriberData struct {
 	VlrCamelSubscriptionInfo                  *VlrCamelSubscriptionInfo `asn1:"tag:13,context,implicit,optional" json:"VlrCamelSubscriptionInfo,omitempty"`
 }
 
-// Category represents the ASN.1 type Category (OCTET_STRING).
-type Category = []byte
+// MSCategory represents the ASN.1 type MSCategory (OCTET_STRING).
+type MSCategory = []byte
 
 // SubscriberStatus represents the ASN.1 ENUMERATED type SubscriberStatus.
 type SubscriberStatus int64
@@ -3281,7 +3281,7 @@ type LongGroupId = TBCDSTRING
 type ProvideSubscriberInfoArg struct {
 	Imsi               IMSI                `asn1:"tag:0,context,implicit"`
 	Lmsi               *LMSI               `asn1:"tag:1,context,implicit,optional" json:"Lmsi,omitempty"`
-	RequestedInfo      RequestedInfo       `asn1:"tag:2,context,implicit"`
+	RequestedInfo      MSRequestedInfo     `asn1:"tag:2,context,implicit"`
 	ExtensionContainer *ExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"ExtensionContainer,omitempty"`
 	CallPriority       *EMLPPPriority      `asn1:"tag:4,context,implicit,optional" json:"CallPriority,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -3427,8 +3427,8 @@ type MSNetworkCapability = []byte
 // MSRadioAccessCapability represents the ASN.1 type MSRadioAccessCapability (OCTET_STRING).
 type MSRadioAccessCapability = []byte
 
-// RequestedInfo represents the ASN.1 type RequestedInfo (SEQUENCE).
-type RequestedInfo struct {
+// MSRequestedInfo represents the ASN.1 type MSRequestedInfo (SEQUENCE).
+type MSRequestedInfo struct {
 	LocationInformation             *struct{}           `asn1:"tag:0,context,implicit,optional" json:"LocationInformation,omitempty"`
 	SubscriberState                 *struct{}           `asn1:"tag:1,context,implicit,optional" json:"SubscriberState,omitempty"`
 	ExtensionContainer              *ExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"ExtensionContainer,omitempty"`
@@ -3769,7 +3769,7 @@ func (v NotReachableReason) String() string {
 // AnyTimeInterrogationArg represents the ASN.1 type AnyTimeInterrogationArg (SEQUENCE).
 type AnyTimeInterrogationArg struct {
 	SubscriberIdentity SubscriberIdentity  `asn1:"tag:0,context,explicit"`
-	RequestedInfo      RequestedInfo       `asn1:"tag:1,context,implicit"`
+	RequestedInfo      MSRequestedInfo     `asn1:"tag:1,context,implicit"`
 	GsmSCFAddress      ISDNAddressString   `asn1:"tag:3,context,implicit"`
 	ExtensionContainer *ExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -6883,7 +6883,7 @@ func (v *AuthenticationTriplet) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding rand: %w", err)
 	}
-	v.Rand = RAND(val_rand)
+	v.Rand = MSRAND(val_rand)
 	offset += n
 	// Decode sres
 	if offset >= len(content) {
@@ -6893,7 +6893,7 @@ func (v *AuthenticationTriplet) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding sres: %w", err)
 	}
-	v.Sres = SRES(val_sres)
+	v.Sres = MSSRES(val_sres)
 	offset += n
 	// Decode kc
 	if offset >= len(content) {
@@ -6903,7 +6903,7 @@ func (v *AuthenticationTriplet) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding kc: %w", err)
 	}
-	v.Kc = Kc(val_kc)
+	v.Kc = MSKc(val_kc)
 	offset += n
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
@@ -6976,7 +6976,7 @@ func (v *AuthenticationQuintuplet) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding rand: %w", err)
 	}
-	v.Rand = RAND(val_rand)
+	v.Rand = MSRAND(val_rand)
 	offset += n
 	// Decode xres
 	if offset >= len(content) {
@@ -7165,7 +7165,7 @@ func (v *GSMSecurityContextData) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding kc: %w", err)
 	}
-	v.Kc = Kc(val_kc)
+	v.Kc = MSKc(val_kc)
 	offset += n
 	// Decode cksn
 	if offset >= len(content) {
@@ -7435,7 +7435,7 @@ func (v *AuthenticationFailureReportArg) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding rand: %w", err)
 				}
-				tmp_rand := RAND(val_rand)
+				tmp_rand := MSRAND(val_rand)
 				v.Rand = &tmp_rand
 				offset += n
 			}
@@ -13334,7 +13334,7 @@ func (v *ReSynchronisationInfo) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding rand: %w", err)
 	}
-	v.Rand = RAND(val_rand)
+	v.Rand = MSRAND(val_rand)
 	offset += n
 	// Decode auts
 	if offset >= len(content) {
@@ -13631,7 +13631,7 @@ func (v *EPCAV) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding rand: %w", err)
 	}
-	v.Rand = RAND(val_rand)
+	v.Rand = MSRAND(val_rand)
 	offset += n
 	// Decode xres
 	if offset >= len(content) {
@@ -14552,7 +14552,7 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding category: %w", err)
 				}
-				tmp_category := Category(rawVal_category)
+				tmp_category := MSCategory(rawVal_category)
 				v.Category = &tmp_category
 				offset += n_category
 			}
@@ -17312,9 +17312,15 @@ func (v *EPSQoSSubscribed) UnmarshalBER(data []byte) error {
 // MarshalBER encodes AMBR to BER format.
 func (v *AMBR) MarshalBER() ([]byte, error) {
 	var children []byte
+	if v.MaxRequestedBandwidthUL == nil {
+		return nil, fmt.Errorf("encoding max-RequestedBandwidth-UL: required INTEGER is nil")
+	}
 	enc_maxrequestedbandwidthul := ber.EncodeBigInt(v.MaxRequestedBandwidthUL)
 	enc_maxrequestedbandwidthul = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_maxrequestedbandwidthul)
 	children = append(children, enc_maxrequestedbandwidthul...)
+	if v.MaxRequestedBandwidthDL == nil {
+		return nil, fmt.Errorf("encoding max-RequestedBandwidth-DL: required INTEGER is nil")
+	}
 	enc_maxrequestedbandwidthdl := ber.EncodeBigInt(v.MaxRequestedBandwidthDL)
 	enc_maxrequestedbandwidthdl = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_maxrequestedbandwidthdl)
 	children = append(children, enc_maxrequestedbandwidthdl...)
@@ -17643,6 +17649,9 @@ func (v *SpecificAPNInfo) UnmarshalBER(data []byte) error {
 // MarshalBER encodes AllocationRetentionPriority to BER format.
 func (v *AllocationRetentionPriority) MarshalBER() ([]byte, error) {
 	var children []byte
+	if v.PriorityLevel == nil {
+		return nil, fmt.Errorf("encoding priority-level: required INTEGER is nil")
+	}
 	enc_prioritylevel := ber.EncodeBigInt(v.PriorityLevel)
 	enc_prioritylevel = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_prioritylevel)
 	children = append(children, enc_prioritylevel...)
@@ -20329,7 +20338,7 @@ func (v *SubscriberData) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding category: %w", err)
 				}
-				tmp_category := Category(rawVal_category)
+				tmp_category := MSCategory(rawVal_category)
 				v.Category = &tmp_category
 				offset += n_category
 			}
@@ -30768,8 +30777,8 @@ func (v *GPRSMSClass) UnmarshalBER(data []byte) error {
 	return nil
 }
 
-// MarshalBER encodes RequestedInfo to BER format.
-func (v *RequestedInfo) MarshalBER() ([]byte, error) {
+// MarshalBER encodes MSRequestedInfo to BER format.
+func (v *MSRequestedInfo) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.LocationInformation != nil {
 		enc_locationinformation := ber.EncodeNull()
@@ -30852,8 +30861,8 @@ func (v *RequestedInfo) MarshalBER() ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes RequestedInfo to DER format.
-func (v *RequestedInfo) MarshalDER() ([]byte, error) {
+// MarshalDER encodes MSRequestedInfo to DER format.
+func (v *MSRequestedInfo) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
@@ -30863,14 +30872,14 @@ func (v *RequestedInfo) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes RequestedInfo from BER/DER format.
-func (v *RequestedInfo) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes MSRequestedInfo from BER/DER format.
+func (v *MSRequestedInfo) UnmarshalBER(data []byte) error {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding RequestedInfo SEQUENCE: %w", err)
+		return fmt.Errorf("decoding MSRequestedInfo SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "RequestedInfo", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "MSRequestedInfo", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode locationInformation
@@ -31086,7 +31095,7 @@ func (v *RequestedInfo) UnmarshalBER(data []byte) error {
 	for offset < len(content) {
 		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "RequestedInfo", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "MSRequestedInfo", Cause: extErr_}
 		}
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)

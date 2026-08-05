@@ -4244,7 +4244,7 @@ func (v PreEmptionVulnerability) String() string {
 }
 
 // PriorityLevel represents the ASN.1 INTEGER type PriorityLevel with named numbers.
-type PriorityLevel = int64
+type PriorityLevel int64
 
 const (
 	PriorityLevelSpare      PriorityLevel = 0
@@ -4252,6 +4252,21 @@ const (
 	PriorityLevelLowest     PriorityLevel = 14
 	PriorityLevelNoPriority PriorityLevel = 15
 )
+
+func (v PriorityLevel) String() string {
+	switch v {
+	case PriorityLevelSpare:
+		return "spare"
+	case PriorityLevelHighest:
+		return "highest"
+	case PriorityLevelLowest:
+		return "lowest"
+	case PriorityLevelNoPriority:
+		return "no-priority"
+	default:
+		return "unknown"
+	}
+}
 
 // PrivacyIndicator represents the ASN.1 ENUMERATED type PrivacyIndicator.
 type PrivacyIndicator int64
@@ -6388,7 +6403,7 @@ func (v *AllocationAndRetentionPriority) UnmarshalAPERFrom(bb *per.BitBuffer) er
 	if err != nil {
 		return fmt.Errorf("decoding priorityLevel: %w", err)
 	}
-	v.PriorityLevel = val_prioritylevel
+	v.PriorityLevel = PriorityLevel(val_prioritylevel)
 	val_preemptioncapability, err := per.DecodeEnumeratedAligned(bb, 2, false)
 	if err != nil {
 		return fmt.Errorf("decoding pre-emptionCapability: %w", err)
@@ -7118,7 +7133,7 @@ func (v *BearersSubjectToEarlyStatusTransferItem) UnmarshalAPERFrom(bb *per.BitB
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.DLCOUNTPDCPSNlength.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding dLCOUNT-PDCP-SNlength: %w", err)
 	}
@@ -7256,7 +7271,7 @@ func (v *BearersSubjectToStatusTransferItem) UnmarshalAPERFrom(bb *per.BitBuffer
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.ULCOUNTvalue.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding uL-COUNTvalue: %w", err)
 	}
@@ -8072,12 +8087,12 @@ func (v *COUNTValueExtended) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding pDCP-SNExtended: %w", err)
 	}
-	v.PDCPSNExtended = val_pdcpsnextended
+	v.PDCPSNExtended = PDCPSNExtended(val_pdcpsnextended)
 	val_hfnmodified, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(131071), false)
 	if err != nil {
 		return fmt.Errorf("decoding hFNModified: %w", err)
 	}
-	v.HFNModified = val_hfnmodified
+	v.HFNModified = HFNModified(val_hfnmodified)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -8197,12 +8212,12 @@ func (v *COUNTvalue) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding pDCP-SN: %w", err)
 	}
-	v.PDCPSN = val_pdcpsn
+	v.PDCPSN = PDCPSN(val_pdcpsn)
 	val_hfn, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(1048575), false)
 	if err != nil {
 		return fmt.Errorf("decoding hFN: %w", err)
 	}
-	v.HFN = val_hfn
+	v.HFN = HFN(val_hfn)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -8322,12 +8337,12 @@ func (v *COUNTvaluePDCPSNlength18) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding pDCP-SNlength18: %w", err)
 	}
-	v.PDCPSNlength18 = val_pdcpsnlength18
+	v.PDCPSNlength18 = PDCPSNlength18(val_pdcpsnlength18)
 	val_hfnforpdcpsnlength18, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16383), false)
 	if err != nil {
 		return fmt.Errorf("decoding hFNforPDCP-SNlength18: %w", err)
 	}
-	v.HFNforPDCPSNlength18 = val_hfnforpdcpsnlength18
+	v.HFNforPDCPSNlength18 = HFNforPDCPSNlength18(val_hfnforpdcpsnlength18)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -8567,7 +8582,7 @@ func (v *CancelledCellinEAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding numberOfBroadcasts: %w", err)
 	}
-	v.NumberOfBroadcasts = val_numberofbroadcasts
+	v.NumberOfBroadcasts = NumberOfBroadcasts(val_numberofbroadcasts)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -8690,7 +8705,7 @@ func (v *CancelledCellinTAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding numberOfBroadcasts: %w", err)
 	}
-	v.NumberOfBroadcasts = val_numberofbroadcasts
+	v.NumberOfBroadcasts = NumberOfBroadcasts(val_numberofbroadcasts)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -9425,7 +9440,7 @@ func (v *CellIDCancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding numberOfBroadcasts: %w", err)
 	}
-	v.NumberOfBroadcasts = val_numberofbroadcasts
+	v.NumberOfBroadcasts = NumberOfBroadcasts(val_numberofbroadcasts)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -10153,7 +10168,7 @@ func (v *ContextatSource) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding rAN-UE-NGAP-ID: %w", err)
 	}
-	v.RANUENGAPID = val_ranuengapid
+	v.RANUENGAPID = RANUENGAPID(val_ranuengapid)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -10321,7 +10336,8 @@ func (v *CriticalityDiagnostics) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return fmt.Errorf("decoding procedureCode: %w", err)
 		}
-		v.ProcedureCode = &val_procedurecode
+		tmp_procedurecode := ProcedureCode(val_procedurecode)
+		v.ProcedureCode = &tmp_procedurecode
 	}
 	if opt_triggeringmessage {
 		val_triggeringmessage, err := per.DecodeEnumeratedAligned(bb, 3, false)
@@ -10479,7 +10495,7 @@ func (v *CriticalityDiagnosticsIEItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if err != nil {
 		return fmt.Errorf("decoding iE-ID: %w", err)
 	}
-	v.IEID = val_ieid
+	v.IEID = ProtocolIEID(val_ieid)
 	val_typeoferror, err := per.DecodeEnumeratedAligned(bb, 2, true)
 	if err != nil {
 		return fmt.Errorf("decoding typeOfError: %w", err)
@@ -10838,7 +10854,7 @@ func (v *DAPSResponseInfoItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.DAPSResponseInfo.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding dAPSResponseInfo: %w", err)
 	}
@@ -12579,7 +12595,7 @@ func (v *ERABInformationListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if opt_dlforwarding {
 		val_dlforwarding, err := per.DecodeEnumeratedAligned(bb, 1, true)
 		if err != nil {
@@ -12707,7 +12723,7 @@ func (v *ERABItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.Cause.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding cause: %w", err)
 	}
@@ -12842,7 +12858,7 @@ func (v *ERABLevelQoSParameters) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding qCI: %w", err)
 	}
-	v.QCI = val_qci
+	v.QCI = QCI(val_qci)
 	if err := v.AllocationRetentionPriority.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding allocationRetentionPriority: %w", err)
 	}
@@ -12972,7 +12988,7 @@ func (v *ERABSecurityResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.SecurityResult.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding securityResult: %w", err)
 	}
@@ -13512,7 +13528,7 @@ func (v *EventL1LoggedMDTConfig) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding hysteresis: %w", err)
 	}
-	v.Hysteresis = val_hysteresis
+	v.Hysteresis = Hysteresis(val_hysteresis)
 	val_timetotrigger, err := per.DecodeEnumeratedAligned(bb, 16, false)
 	if err != nil {
 		return fmt.Errorf("decoding timeToTrigger: %w", err)
@@ -13735,14 +13751,16 @@ func (v *ExpectedUEActivityBehaviour) UnmarshalAPERFrom(bb *per.BitBuffer) error
 		if err != nil {
 			return fmt.Errorf("decoding expectedActivityPeriod: %w", err)
 		}
-		v.ExpectedActivityPeriod = &val_expectedactivityperiod
+		tmp_expectedactivityperiod := ExpectedActivityPeriod(val_expectedactivityperiod)
+		v.ExpectedActivityPeriod = &tmp_expectedactivityperiod
 	}
 	if opt_expectedidleperiod {
 		val_expectedidleperiod, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(30), true)
 		if err != nil {
 			return fmt.Errorf("decoding expectedIdlePeriod: %w", err)
 		}
-		v.ExpectedIdlePeriod = &val_expectedidleperiod
+		tmp_expectedidleperiod := ExpectedIdlePeriod(val_expectedidleperiod)
+		v.ExpectedIdlePeriod = &tmp_expectedidleperiod
 	}
 	if opt_sourceofueactivitybehaviourinformation {
 		val_sourceofueactivitybehaviourinformation, err := per.DecodeEnumeratedAligned(bb, 2, true)
@@ -14424,22 +14442,22 @@ func (v *GBRQosInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-MaximumBitrateDL: %w", err)
 	}
-	v.ERABMaximumBitrateDL = val_erabmaximumbitratedl
+	v.ERABMaximumBitrateDL = BitRate(val_erabmaximumbitratedl)
 	val_erabmaximumbitrateul, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-MaximumBitrateUL: %w", err)
 	}
-	v.ERABMaximumBitrateUL = val_erabmaximumbitrateul
+	v.ERABMaximumBitrateUL = BitRate(val_erabmaximumbitrateul)
 	val_erabguaranteedbitratedl, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-GuaranteedBitrateDL: %w", err)
 	}
-	v.ERABGuaranteedBitrateDL = val_erabguaranteedbitratedl
+	v.ERABGuaranteedBitrateDL = BitRate(val_erabguaranteedbitratedl)
 	val_erabguaranteedbitrateul, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-GuaranteedBitrateUL: %w", err)
 	}
-	v.ERABGuaranteedBitrateUL = val_erabguaranteedbitrateul
+	v.ERABGuaranteedBitrateUL = BitRate(val_erabguaranteedbitrateul)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -16903,7 +16921,7 @@ func (v *LastVisitedEUTRANCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	if err != nil {
 		return fmt.Errorf("decoding time-UE-StayedInCell: %w", err)
 	}
-	v.TimeUEStayedInCell = val_timeuestayedincell
+	v.TimeUEStayedInCell = TimeUEStayedInCell(val_timeuestayedincell)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -18433,7 +18451,7 @@ func (v *M7Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding m7period: %w", err)
 	}
-	v.M7period = val_m7period
+	v.M7period = M7period(val_m7period)
 	val_m7linkstolog, err := per.DecodeEnumeratedAligned(bb, 3, true)
 	if err != nil {
 		return fmt.Errorf("decoding m7-links-to-log: %w", err)
@@ -18574,7 +18592,7 @@ func (v *MBSFNResultToLogInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding carrierFreq: %w", err)
 	}
-	v.CarrierFreq = val_carrierfreq
+	v.CarrierFreq = EARFCN(val_carrierfreq)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -19039,13 +19057,15 @@ func (v *MeasurementThresholdA2) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return fmt.Errorf("decoding threshold-RSRP: %w", err)
 		}
-		v.ThresholdRSRP = &val_thresholdrsrp
+		tmp_thresholdrsrp := ThresholdRSRP(val_thresholdrsrp)
+		v.ThresholdRSRP = &tmp_thresholdrsrp
 	case MeasurementThresholdA2ChoiceThresholdRSRQ:
 		val_thresholdrsrq, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(34), false)
 		if err != nil {
 			return fmt.Errorf("decoding threshold-RSRQ: %w", err)
 		}
-		v.ThresholdRSRQ = &val_thresholdrsrq
+		tmp_thresholdrsrq := ThresholdRSRQ(val_thresholdrsrq)
+		v.ThresholdRSRQ = &tmp_thresholdrsrq
 	}
 	return nil
 }
@@ -19100,13 +19120,15 @@ func (v *MeasurementThresholdL1LoggedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		if err != nil {
 			return fmt.Errorf("decoding threshold-RSRP: %w", err)
 		}
-		v.ThresholdRSRP = &val_thresholdrsrp
+		tmp_thresholdrsrp := ThresholdRSRP(val_thresholdrsrp)
+		v.ThresholdRSRP = &tmp_thresholdrsrp
 	case MeasurementThresholdL1LoggedMDTChoiceThresholdRSRQ:
 		val_thresholdrsrq, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(34), false)
 		if err != nil {
 			return fmt.Errorf("decoding threshold-RSRQ: %w", err)
 		}
-		v.ThresholdRSRQ = &val_thresholdrsrq
+		tmp_thresholdrsrq := ThresholdRSRQ(val_thresholdrsrq)
+		v.ThresholdRSRQ = &tmp_thresholdrsrq
 	case MeasurementThresholdL1LoggedMDTChoiceChoiceExtensions:
 		var dec_choiceextensions ProtocolIESingleContainer
 		if err := dec_choiceextensions.UnmarshalAPERFrom(bb); err != nil {
@@ -19704,7 +19726,7 @@ func (v *NRUESidelinkAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffe
 	if err != nil {
 		return fmt.Errorf("decoding uEaggregateMaximumBitRate: %w", err)
 	}
-	v.UEaggregateMaximumBitRate = val_ueaggregatemaximumbitrate
+	v.UEaggregateMaximumBitRate = BitRate(val_ueaggregatemaximumbitrate)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -20157,12 +20179,12 @@ func (v *PC5FlowBitRates) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding guaranteedFlowBitRate: %w", err)
 	}
-	v.GuaranteedFlowBitRate = val_guaranteedflowbitrate
+	v.GuaranteedFlowBitRate = BitRate(val_guaranteedflowbitrate)
 	val_maximumflowbitrate, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
 	if err != nil {
 		return fmt.Errorf("decoding maximumFlowBitRate: %w", err)
 	}
-	v.MaximumFlowBitRate = val_maximumflowbitrate
+	v.MaximumFlowBitRate = BitRate(val_maximumflowbitrate)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -20303,7 +20325,7 @@ func (v *PC5QoSFlowItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding pQI: %w", err)
 	}
-	v.PQI = val_pqi
+	v.PQI = FiveQI(val_pqi)
 	if opt_pc5flowbitrates {
 		var dec_pc5flowbitrates PC5FlowBitRates
 		if err := dec_pc5flowbitrates.UnmarshalAPERFrom(bb); err != nil {
@@ -20463,7 +20485,8 @@ func (v *PC5QoSParameters) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return fmt.Errorf("decoding pc5LinkAggregatedBitRates: %w", err)
 		}
-		v.Pc5LinkAggregatedBitRates = &val_pc5linkaggregatedbitrates
+		tmp_pc5linkaggregatedbitrates := BitRate(val_pc5linkaggregatedbitrates)
+		v.Pc5LinkAggregatedBitRates = &tmp_pc5linkaggregatedbitrates
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -20840,12 +20863,12 @@ func (v *PagingAttemptInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding pagingAttemptCount: %w", err)
 	}
-	v.PagingAttemptCount = val_pagingattemptcount
+	v.PagingAttemptCount = PagingAttemptCount(val_pagingattemptcount)
 	val_intendednumberofpagingattempts, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(16), true)
 	if err != nil {
 		return fmt.Errorf("decoding intendedNumberOfPagingAttempts: %w", err)
 	}
-	v.IntendedNumberOfPagingAttempts = val_intendednumberofpagingattempts
+	v.IntendedNumberOfPagingAttempts = IntendedNumberOfPagingAttempts(val_intendednumberofpagingattempts)
 	if opt_nextpagingareascope {
 		val_nextpagingareascope, err := per.DecodeEnumeratedAligned(bb, 2, true)
 		if err != nil {
@@ -23154,7 +23177,7 @@ func (v *SecondaryRATDataUsageReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	val_secondaryrattype, err := per.DecodeEnumeratedAligned(bb, 2, true)
 	if err != nil {
 		return fmt.Errorf("decoding secondaryRATType: %w", err)
@@ -23967,12 +23990,12 @@ func (v *ServedDCNsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding dCN-ID: %w", err)
 	}
-	v.DCNID = val_dcnid
+	v.DCNID = DCNID(val_dcnid)
 	val_relativedcncapacity, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 	if err != nil {
 		return fmt.Errorf("decoding relativeDCNCapacity: %w", err)
 	}
-	v.RelativeDCNCapacity = val_relativedcncapacity
+	v.RelativeDCNCapacity = RelativeMMECapacity(val_relativedcncapacity)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -24612,7 +24635,8 @@ func (v *SourceeNBToTargeteNBTransparentContainer) UnmarshalAPERFrom(bb *per.Bit
 		if err != nil {
 			return fmt.Errorf("decoding subscriberProfileIDforRFP: %w", err)
 		}
-		v.SubscriberProfileIDforRFP = &val_subscriberprofileidforrfp
+		tmp_subscriberprofileidforrfp := SubscriberProfileIDforRFP(val_subscriberprofileidforrfp)
+		v.SubscriberProfileIDforRFP = &tmp_subscriberprofileidforrfp
 	}
 	seqLen_uehistoryinformation, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
 	if err != nil {
@@ -25139,7 +25163,8 @@ func (v *SynchronisationInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 		if err != nil {
 			return fmt.Errorf("decoding sourceStratumLevel: %w", err)
 		}
-		v.SourceStratumLevel = &val_sourcestratumlevel
+		tmp_sourcestratumlevel := StratumLevel(val_sourcestratumlevel)
+		v.SourceStratumLevel = &tmp_sourcestratumlevel
 	}
 	if opt_listeningsubframepattern {
 		var dec_listeningsubframepattern ListeningSubframePattern
@@ -26456,13 +26481,14 @@ func (v *TargetRNCID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding rNC-ID: %w", err)
 	}
-	v.RNCID = val_rncid
+	v.RNCID = RNCID(val_rncid)
 	if opt_extendedrncid {
 		val_extendedrncid, err := per.DecodeIntegerAligned(bb, int64Ptr(4096), int64Ptr(65535), false)
 		if err != nil {
 			return fmt.Errorf("decoding extendedRNC-ID: %w", err)
 		}
-		v.ExtendedRNCID = &val_extendedrncid
+		tmp_extendedrncid := ExtendedRNCID(val_extendedrncid)
+		v.ExtendedRNCID = &tmp_extendedrncid
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -26821,7 +26847,7 @@ func (v *TimeSynchronisationInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding stratumLevel: %w", err)
 	}
-	v.StratumLevel = val_stratumlevel
+	v.StratumLevel = StratumLevel(val_stratumlevel)
 	val_synchronisationstatus, err := per.DecodeEnumeratedAligned(bb, 2, true)
 	if err != nil {
 		return fmt.Errorf("decoding synchronisationStatus: %w", err)
@@ -27317,12 +27343,12 @@ func (v *UEAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding uEaggregateMaximumBitRateDL: %w", err)
 	}
-	v.UEaggregateMaximumBitRateDL = val_ueaggregatemaximumbitratedl
+	v.UEaggregateMaximumBitRateDL = BitRate(val_ueaggregatemaximumbitratedl)
 	val_ueaggregatemaximumbitrateul, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
 	if err != nil {
 		return fmt.Errorf("decoding uEaggregateMaximumBitRateUL: %w", err)
 	}
-	v.UEaggregateMaximumBitRateUL = val_ueaggregatemaximumbitrateul
+	v.UEaggregateMaximumBitRateUL = BitRate(val_ueaggregatemaximumbitrateul)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -27763,7 +27789,7 @@ func (v *UESidelinkAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffer)
 	if err != nil {
 		return fmt.Errorf("decoding uESidelinkAggregateMaximumBitRate: %w", err)
 	}
-	v.UESidelinkAggregateMaximumBitRate = val_uesidelinkaggregatemaximumbitrate
+	v.UESidelinkAggregateMaximumBitRate = BitRate(val_uesidelinkaggregatemaximumbitrate)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -27883,12 +27909,12 @@ func (v *UES1APIDPair) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding mME-UE-S1AP-ID: %w", err)
 	}
-	v.MMEUES1APID = val_mmeues1apid
+	v.MMEUES1APID = MMEUES1APID(val_mmeues1apid)
 	val_enbues1apid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 	if err != nil {
 		return fmt.Errorf("decoding eNB-UE-S1AP-ID: %w", err)
 	}
-	v.ENBUES1APID = val_enbues1apid
+	v.ENBUES1APID = ENBUES1APID(val_enbues1apid)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -28001,7 +28027,8 @@ func (v *UES1APIDs) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return fmt.Errorf("decoding mME-UE-S1AP-ID: %w", err)
 		}
-		v.MMEUES1APID = &val_mmeues1apid
+		tmp_mmeues1apid := MMEUES1APID(val_mmeues1apid)
+		v.MMEUES1APID = &tmp_mmeues1apid
 	}
 	return nil
 }
@@ -28102,14 +28129,16 @@ func (v *UEAssociatedLogicalS1ConnectionItem) UnmarshalAPERFrom(bb *per.BitBuffe
 		if err != nil {
 			return fmt.Errorf("decoding mME-UE-S1AP-ID: %w", err)
 		}
-		v.MMEUES1APID = &val_mmeues1apid
+		tmp_mmeues1apid := MMEUES1APID(val_mmeues1apid)
+		v.MMEUES1APID = &tmp_mmeues1apid
 	}
 	if opt_enbues1apid {
 		val_enbues1apid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 		if err != nil {
 			return fmt.Errorf("decoding eNB-UE-S1AP-ID: %w", err)
 		}
-		v.ENBUES1APID = &val_enbues1apid
+		tmp_enbues1apid := ENBUES1APID(val_enbues1apid)
+		v.ENBUES1APID = &tmp_enbues1apid
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)

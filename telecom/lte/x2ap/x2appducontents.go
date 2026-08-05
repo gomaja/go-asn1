@@ -5709,7 +5709,8 @@ func (v *CellandCapacityAssistInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return fmt.Errorf("decoding maximumCellListSize: %w", err)
 		}
-		v.MaximumCellListSize = &val_maximumcelllistsize
+		tmp_maximumcelllistsize := MaximumCellListSize(val_maximumcelllistsize)
+		v.MaximumCellListSize = &tmp_maximumcelllistsize
 	}
 	if opt_cellassistanceinformation {
 		var dec_cellassistanceinformation CellAssistanceInformation
@@ -8665,7 +8666,7 @@ func (v *ERABsAdmittedToBeModifiedSgNBModConfItem) UnmarshalAPERFrom(bb *per.Bit
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.EnDCResourceConfiguration.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding en-DC-ResourceConfiguration: %w", err)
 	}
@@ -9049,7 +9050,7 @@ func (v *ERABsAdmittedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if opt_ulgtptunnelendpoint {
 		var dec_ulgtptunnelendpoint GTPtunnelEndpoint
 		if err := dec_ulgtptunnelendpoint.UnmarshalAPERFrom(bb); err != nil {
@@ -9282,7 +9283,7 @@ func (v *ERABsAdmittedToBeAddedItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffe
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.S1DLGTPtunnelEndpoint.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding s1-DL-GTPtunnelEndpoint: %w", err)
 	}
@@ -9419,7 +9420,7 @@ func (v *ERABsAdmittedToBeAddedItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuf
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.SeNBGTPtunnelEndpoint.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding seNB-GTPtunnelEndpoint: %w", err)
 	}
@@ -9641,7 +9642,7 @@ func (v *ERABsAdmittedToBeAddedModAckItemSCGBearer) UnmarshalAPERFrom(bb *per.Bi
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.S1DLGTPtunnelEndpoint.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding s1-DL-GTPtunnelEndpoint: %w", err)
 	}
@@ -9778,7 +9779,7 @@ func (v *ERABsAdmittedToBeAddedModAckItemSplitBearer) UnmarshalAPERFrom(bb *per.
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.SeNBGTPtunnelEndpoint.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding seNB-GTPtunnelEndpoint: %w", err)
 	}
@@ -9904,7 +9905,7 @@ func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItem) UnmarshalAPERFrom(bb *per.BitB
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.EnDCResourceConfiguration.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding en-DC-ResourceConfiguration: %w", err)
 	}
@@ -10397,7 +10398,7 @@ func (v *ERABsAdmittedToBeAddedSgNBModAckItem) UnmarshalAPERFrom(bb *per.BitBuff
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.EnDCResourceConfiguration.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding en-DC-ResourceConfiguration: %w", err)
 	}
@@ -10971,7 +10972,7 @@ func (v *ERABsAdmittedToBeModifiedModAckItemSCGBearer) UnmarshalAPERFrom(bb *per
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if opt_s1dlgtptunnelendpoint {
 		var dec_s1dlgtptunnelendpoint GTPtunnelEndpoint
 		if err := dec_s1dlgtptunnelendpoint.UnmarshalAPERFrom(bb); err != nil {
@@ -11107,7 +11108,7 @@ func (v *ERABsAdmittedToBeModifiedModAckItemSplitBearer) UnmarshalAPERFrom(bb *p
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if opt_senbgtptunnelendpoint {
 		var dec_senbgtptunnelendpoint GTPtunnelEndpoint
 		if err := dec_senbgtptunnelendpoint.UnmarshalAPERFrom(bb); err != nil {
@@ -11237,7 +11238,7 @@ func (v *ERABsAdmittedToBeModifiedSgNBModAckItem) UnmarshalAPERFrom(bb *per.BitB
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.EnDCResourceConfiguration.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding en-DC-ResourceConfiguration: %w", err)
 	}
@@ -11673,7 +11674,7 @@ func (v *ERABsAdmittedToBeReleasedModAckItemSCGBearer) UnmarshalAPERFrom(bb *per
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -11790,7 +11791,7 @@ func (v *ERABsAdmittedToBeReleasedModAckItemSplitBearer) UnmarshalAPERFrom(bb *p
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -12128,7 +12129,7 @@ func (v *ERABsAdmittedToBeReleasedSgNBRelReqAckItem) UnmarshalAPERFrom(bb *per.B
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	val_rlcmodetransferred, err := per.DecodeEnumeratedAligned(bb, 4, true)
 	if err != nil {
 		return fmt.Errorf("decoding rlc-Mode-transferred: %w", err)
@@ -12331,7 +12332,7 @@ func (v *ERABsAdmittedToReleasedSgNBModAckItem) UnmarshalAPERFrom(bb *per.BitBuf
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.EnDCResourceConfiguration.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding en-DC-ResourceConfiguration: %w", err)
 	}
@@ -12457,7 +12458,7 @@ func (v *ERABsDataForwardingAddressItem) UnmarshalAPERFrom(bb *per.BitBuffer) er
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.DlGTPtunnelEndpoint.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding dl-GTPtunnelEndpoint: %w", err)
 	}
@@ -12583,7 +12584,7 @@ func (v *ERABsSubjectToCounterCheckItem) UnmarshalAPERFrom(bb *per.BitBuffer) er
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	val_ulcount, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 	if err != nil {
 		return fmt.Errorf("decoding uL-Count: %w", err)
@@ -12716,7 +12717,7 @@ func (v *ERABsSubjectToSgNBCounterCheckItem) UnmarshalAPERFrom(bb *per.BitBuffer
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	val_ulcount, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 	if err != nil {
 		return fmt.Errorf("decoding uL-Count: %w", err)
@@ -12861,7 +12862,7 @@ func (v *ERABsSubjectToStatusTransferItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if opt_receivestatusofulpdcpsdus {
 		bsBytes_receivestatusofulpdcpsdus, bsBitLen_receivestatusofulpdcpsdus, err := per.DecodeBitStringAligned(bb, 4096, 4096, true)
 		if err != nil {
@@ -13085,7 +13086,7 @@ func (v *ERABsToBeAddedItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.ERABLevelQoSParameters.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding e-RAB-Level-QoS-Parameters: %w", err)
 	}
@@ -13222,7 +13223,7 @@ func (v *ERABsToBeAddedItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.ERABLevelQoSParameters.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding e-RAB-Level-QoS-Parameters: %w", err)
 	}
@@ -13438,7 +13439,7 @@ func (v *ERABsToBeAddedModReqItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffer)
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.ERABLevelQoSParameters.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding e-RAB-Level-QoS-Parameters: %w", err)
 	}
@@ -13575,7 +13576,7 @@ func (v *ERABsToBeAddedModReqItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuffe
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.ERABLevelQoSParameters.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding e-RAB-Level-QoS-Parameters: %w", err)
 	}
@@ -13707,12 +13708,12 @@ func (v *ERABsToBeAddedSgNBAddReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	val_drbid, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(32), false)
 	if err != nil {
 		return fmt.Errorf("decoding drb-ID: %w", err)
 	}
-	v.DrbID = val_drbid
+	v.DrbID = DRBID(val_drbid)
 	if err := v.EnDCResourceConfiguration.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding en-DC-ResourceConfiguration: %w", err)
 	}
@@ -14190,12 +14191,12 @@ func (v *ERABsToBeAddedSgNBModReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	val_drbid, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(32), false)
 	if err != nil {
 		return fmt.Errorf("decoding drb-ID: %w", err)
 	}
-	v.DrbID = val_drbid
+	v.DrbID = DRBID(val_drbid)
 	if err := v.EnDCResourceConfiguration.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding en-DC-ResourceConfiguration: %w", err)
 	}
@@ -14763,7 +14764,7 @@ func (v *ERABsToBeModifiedModReqItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuff
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if opt_erablevelqosparameters {
 		var dec_erablevelqosparameters ERABLevelQoSParameters
 		if err := dec_erablevelqosparameters.UnmarshalAPERFrom(bb); err != nil {
@@ -14918,7 +14919,7 @@ func (v *ERABsToBeModifiedModReqItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBu
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if opt_erablevelqosparameters {
 		var dec_erablevelqosparameters ERABLevelQoSParameters
 		if err := dec_erablevelqosparameters.UnmarshalAPERFrom(bb); err != nil {
@@ -15055,7 +15056,7 @@ func (v *ERABsToBeModifiedSgNBModReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.EnDCResourceConfiguration.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding en-DC-ResourceConfiguration: %w", err)
 	}
@@ -15535,7 +15536,7 @@ func (v *ERABsToBeModifiedSgNBModReqdItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.EnDCResourceConfiguration.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding en-DC-ResourceConfiguration: %w", err)
 	}
@@ -16089,7 +16090,7 @@ func (v *ERABsToBeReleasedModReqItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuff
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if opt_dlforwardinggtptunnelendpoint {
 		var dec_dlforwardinggtptunnelendpoint GTPtunnelEndpoint
 		if err := dec_dlforwardinggtptunnelendpoint.UnmarshalAPERFrom(bb); err != nil {
@@ -16232,7 +16233,7 @@ func (v *ERABsToBeReleasedModReqItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBu
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if opt_dlforwardinggtptunnelendpoint {
 		var dec_dlforwardinggtptunnelendpoint GTPtunnelEndpoint
 		if err := dec_dlforwardinggtptunnelendpoint.UnmarshalAPERFrom(bb); err != nil {
@@ -16359,7 +16360,7 @@ func (v *ERABsToBeReleasedModReqdItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.Cause.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding cause: %w", err)
 	}
@@ -16578,7 +16579,7 @@ func (v *ERABsToBeReleasedRelConfItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuf
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if opt_ulforwardinggtptunnelendpoint {
 		var dec_ulforwardinggtptunnelendpoint GTPtunnelEndpoint
 		if err := dec_ulforwardinggtptunnelendpoint.UnmarshalAPERFrom(bb); err != nil {
@@ -16721,7 +16722,7 @@ func (v *ERABsToBeReleasedRelConfItemSplitBearer) UnmarshalAPERFrom(bb *per.BitB
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if opt_dlforwardinggtptunnelendpoint {
 		var dec_dlforwardinggtptunnelendpoint GTPtunnelEndpoint
 		if err := dec_dlforwardinggtptunnelendpoint.UnmarshalAPERFrom(bb); err != nil {
@@ -16944,7 +16945,7 @@ func (v *ERABsToBeReleasedRelReqItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuff
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if opt_ulforwardinggtptunnelendpoint {
 		var dec_ulforwardinggtptunnelendpoint GTPtunnelEndpoint
 		if err := dec_ulforwardinggtptunnelendpoint.UnmarshalAPERFrom(bb); err != nil {
@@ -17087,7 +17088,7 @@ func (v *ERABsToBeReleasedRelReqItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBu
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if opt_dlforwardinggtptunnelendpoint {
 		var dec_dlforwardinggtptunnelendpoint GTPtunnelEndpoint
 		if err := dec_dlforwardinggtptunnelendpoint.UnmarshalAPERFrom(bb); err != nil {
@@ -17217,7 +17218,7 @@ func (v *ERABsToBeReleasedSgNBChaConfItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.EnDCResourceConfiguration.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding en-DC-ResourceConfiguration: %w", err)
 	}
@@ -17602,7 +17603,7 @@ func (v *ERABsToBeReleasedSgNBModReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.EnDCResourceConfiguration.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding en-DC-ResourceConfiguration: %w", err)
 	}
@@ -17984,7 +17985,7 @@ func (v *ERABsToBeReleasedSgNBModReqdItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.Cause.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding cause: %w", err)
 	}
@@ -18110,7 +18111,7 @@ func (v *ERABsToBeReleasedSgNBRelConfItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.EnDCResourceConfiguration.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding en-DC-ResourceConfiguration: %w", err)
 	}
@@ -18495,7 +18496,7 @@ func (v *ERABsToBeReleasedSgNBRelReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.EnDCResourceConfiguration.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding en-DC-ResourceConfiguration: %w", err)
 	}
@@ -18877,7 +18878,7 @@ func (v *ERABsToBeReleasedSgNBRelReqdItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	val_rlcmodetransferred, err := per.DecodeEnumeratedAligned(bb, 4, true)
 	if err != nil {
 		return fmt.Errorf("decoding rlc-Mode-transferred: %w", err)
@@ -19014,7 +19015,7 @@ func (v *ERABsToBeSetupRetrieveItem) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.ERABLevelQoSParameters.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding e-RAB-Level-QoS-Parameters: %w", err)
 	}
@@ -19160,7 +19161,7 @@ func (v *ERABsToBeSetupItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.ERABLevelQoSParameters.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding e-RAB-Level-QoS-Parameters: %w", err)
 	}
@@ -24019,7 +24020,7 @@ func (v *SSBToReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding ssbIndex: %w", err)
 	}
-	v.SsbIndex = val_ssbindex
+	v.SsbIndex = SSBIndex(val_ssbindex)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -25868,7 +25869,7 @@ func (v *ServedNRCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding nrpCI: %w", err)
 	}
-	v.NrpCI = val_nrpci
+	v.NrpCI = NRPCI(val_nrpci)
 	if err := v.NrCellID.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding nrCellID: %w", err)
 	}
@@ -28767,7 +28768,7 @@ func (v *UEContextInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding mME-UE-S1AP-ID: %w", err)
 	}
-	v.MMEUES1APID = val_mmeues1apid
+	v.MMEUES1APID = UES1APID(val_mmeues1apid)
 	if err := v.UESecurityCapabilities.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding uESecurityCapabilities: %w", err)
 	}
@@ -28782,7 +28783,8 @@ func (v *UEContextInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return fmt.Errorf("decoding subscriberProfileIDforRFP: %w", err)
 		}
-		v.SubscriberProfileIDforRFP = &val_subscriberprofileidforrfp
+		tmp_subscriberprofileidforrfp := SubscriberProfileIDforRFP(val_subscriberprofileidforrfp)
+		v.SubscriberProfileIDforRFP = &tmp_subscriberprofileidforrfp
 	}
 	seqLen_erabstobesetuplist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
 	if err != nil {
@@ -29014,7 +29016,7 @@ func (v *UEContextInformationRetrieve) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if err != nil {
 		return fmt.Errorf("decoding mME-UE-S1AP-ID: %w", err)
 	}
-	v.MMEUES1APID = val_mmeues1apid
+	v.MMEUES1APID = UES1APID(val_mmeues1apid)
 	if err := v.UESecurityCapabilities.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding uESecurityCapabilities: %w", err)
 	}
@@ -29029,7 +29031,8 @@ func (v *UEContextInformationRetrieve) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		if err != nil {
 			return fmt.Errorf("decoding subscriberProfileIDforRFP: %w", err)
 		}
-		v.SubscriberProfileIDforRFP = &val_subscriberprofileidforrfp
+		tmp_subscriberprofileidforrfp := SubscriberProfileIDforRFP(val_subscriberprofileidforrfp)
+		v.SubscriberProfileIDforRFP = &tmp_subscriberprofileidforrfp
 	}
 	seqLen_erabstobesetuplistretrieve, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
 	if err != nil {
@@ -29722,12 +29725,12 @@ func (v *UEContextReferenceAtSeNB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding seNB-UE-X2AP-ID: %w", err)
 	}
-	v.SeNBUEX2APID = val_senbuex2apid
+	v.SeNBUEX2APID = UEX2APID(val_senbuex2apid)
 	val_senbuex2apidextension, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 	if err != nil {
 		return fmt.Errorf("decoding seNB-UE-X2AP-ID-Extension: %w", err)
 	}
-	v.SeNBUEX2APIDExtension = val_senbuex2apidextension
+	v.SeNBUEX2APIDExtension = UEX2APIDExtension(val_senbuex2apidextension)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -29850,7 +29853,7 @@ func (v *UEContextReferenceAtSgNB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding sgNB-UE-X2AP-ID: %w", err)
 	}
-	v.SgNBUEX2APID = val_sgnbuex2apid
+	v.SgNBUEX2APID = SgNBUEX2APID(val_sgnbuex2apid)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {

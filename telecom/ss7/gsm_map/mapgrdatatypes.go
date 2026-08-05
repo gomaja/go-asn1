@@ -147,7 +147,7 @@ type StateAttributes struct {
 
 // SendGroupCallInfoArg represents the ASN.1 type SendGroupCallInfoArg (SEQUENCE).
 type SendGroupCallInfoArg struct {
-	RequestedInfo      GRRequestedInfo     `asn1:""`
+	RequestedInfo      RequestedInfo       `asn1:""`
 	GroupId            LongGroupId         `asn1:""`
 	Teleservice        ExtTeleserviceCode  `asn1:""`
 	CellId             *GlobalCellId       `asn1:"tag:0,context,implicit,optional" json:"CellId,omitempty"`
@@ -162,19 +162,19 @@ type SendGroupCallInfoArg struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// GRRequestedInfo represents the ASN.1 ENUMERATED type GRRequestedInfo.
-type GRRequestedInfo int64
+// RequestedInfo represents the ASN.1 ENUMERATED type RequestedInfo.
+type RequestedInfo int64
 
 const (
-	GRRequestedInfoAnchorMSCAddressAndASCICallReference           GRRequestedInfo = 0
-	GRRequestedInfoImsiAndAdditionalInfoAndAdditionalSubscription GRRequestedInfo = 1
+	RequestedInfoAnchorMSCAddressAndASCICallReference           RequestedInfo = 0
+	RequestedInfoImsiAndAdditionalInfoAndAdditionalSubscription RequestedInfo = 1
 )
 
-func (v GRRequestedInfo) String() string {
+func (v RequestedInfo) String() string {
 	switch v {
-	case GRRequestedInfoAnchorMSCAddressAndASCICallReference:
+	case RequestedInfoAnchorMSCAddressAndASCICallReference:
 		return "anchorMSC-AddressAndASCI-CallReference"
-	case GRRequestedInfoImsiAndAdditionalInfoAndAdditionalSubscription:
+	case RequestedInfoImsiAndAdditionalInfoAndAdditionalSubscription:
 		return "imsiAndAdditionalInfoAndAdditionalSubscription"
 	default:
 		return "unknown"
@@ -1578,7 +1578,7 @@ func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding requestedInfo: %w", err)
 	}
-	v.RequestedInfo = GRRequestedInfo(val_requestedinfo)
+	v.RequestedInfo = RequestedInfo(val_requestedinfo)
 	offset += n
 	// Decode groupId
 	if offset >= len(content) {

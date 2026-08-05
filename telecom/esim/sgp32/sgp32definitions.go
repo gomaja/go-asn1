@@ -80,13 +80,26 @@ type EimConfigurationData struct {
 }
 
 // EimIdType represents the ASN.1 INTEGER type EimIdType with named numbers.
-type EimIdType = int64
+type EimIdType int64
 
 const (
 	EimIdTypeEimIdTypeOid         EimIdType = 1
 	EimIdTypeEimIdTypeFqdn        EimIdType = 2
 	EimIdTypeEimIdTypeProprietary EimIdType = 3
 )
+
+func (v EimIdType) String() string {
+	switch v {
+	case EimIdTypeEimIdTypeOid:
+		return "eimIdTypeOid"
+	case EimIdTypeEimIdTypeFqdn:
+		return "eimIdTypeFqdn"
+	case EimIdTypeEimIdTypeProprietary:
+		return "eimIdTypeProprietary"
+	default:
+		return "unknown"
+	}
+}
 
 // EimSupportedProtocol represents the ASN.1 type EimSupportedProtocol (BIT_STRING).
 type EimSupportedProtocol = runtime.BitString
@@ -528,7 +541,7 @@ type EuiccPackageErrorDataSigned struct {
 }
 
 // EuiccPackageErrorCode represents the ASN.1 INTEGER type EuiccPackageErrorCode with named numbers.
-type EuiccPackageErrorCode = int64
+type EuiccPackageErrorCode int64
 
 const (
 	EuiccPackageErrorCodeInvalidEid             EuiccPackageErrorCode = 3
@@ -539,13 +552,43 @@ const (
 	EuiccPackageErrorCodeUndefinedError         EuiccPackageErrorCode = 127
 )
 
+func (v EuiccPackageErrorCode) String() string {
+	switch v {
+	case EuiccPackageErrorCodeInvalidEid:
+		return "invalidEid"
+	case EuiccPackageErrorCodeReplayError:
+		return "replayError"
+	case EuiccPackageErrorCodeCounterValueOutOfRange:
+		return "counterValueOutOfRange"
+	case EuiccPackageErrorCodeSizeOverflow:
+		return "sizeOverflow"
+	case EuiccPackageErrorCodeEcallActive:
+		return "ecallActive"
+	case EuiccPackageErrorCodeUndefinedError:
+		return "undefinedError"
+	default:
+		return "unknown"
+	}
+}
+
 // EuiccPackageUnsignedErrorCode represents the ASN.1 INTEGER type EuiccPackageUnsignedErrorCode with named numbers.
-type EuiccPackageUnsignedErrorCode = int64
+type EuiccPackageUnsignedErrorCode int64
 
 const (
 	EuiccPackageUnsignedErrorCodeSizeOverflow   EuiccPackageUnsignedErrorCode = 15
 	EuiccPackageUnsignedErrorCodeUndefinedError EuiccPackageUnsignedErrorCode = 127
 )
+
+func (v EuiccPackageUnsignedErrorCode) String() string {
+	switch v {
+	case EuiccPackageUnsignedErrorCodeSizeOverflow:
+		return "sizeOverflow"
+	case EuiccPackageUnsignedErrorCodeUndefinedError:
+		return "undefinedError"
+	default:
+		return "unknown"
+	}
+}
 
 // EuiccPackageErrorUnsigned represents the ASN.1 type EuiccPackageErrorUnsigned (SEQUENCE).
 type EuiccPackageErrorUnsigned struct {
@@ -556,7 +599,7 @@ type EuiccPackageErrorUnsigned struct {
 }
 
 // ConfigureImmediateEnableResult represents the ASN.1 INTEGER type ConfigureImmediateEnableResult with named numbers.
-type ConfigureImmediateEnableResult = int64
+type ConfigureImmediateEnableResult int64
 
 const (
 	ConfigureImmediateEnableResultOk                 ConfigureImmediateEnableResult = 0
@@ -565,8 +608,23 @@ const (
 	ConfigureImmediateEnableResultUndefinedError     ConfigureImmediateEnableResult = 127
 )
 
+func (v ConfigureImmediateEnableResult) String() string {
+	switch v {
+	case ConfigureImmediateEnableResultOk:
+		return "ok"
+	case ConfigureImmediateEnableResultInsufficientMemory:
+		return "insufficientMemory"
+	case ConfigureImmediateEnableResultCommandError:
+		return "commandError"
+	case ConfigureImmediateEnableResultUndefinedError:
+		return "undefinedError"
+	default:
+		return "unknown"
+	}
+}
+
 // EnableProfileResult represents the ASN.1 INTEGER type EnableProfileResult with named numbers.
-type EnableProfileResult = int64
+type EnableProfileResult int64
 
 const (
 	EnableProfileResultOk                        EnableProfileResult = 0
@@ -578,8 +636,29 @@ const (
 	EnableProfileResultUndefinedError            EnableProfileResult = 127
 )
 
+func (v EnableProfileResult) String() string {
+	switch v {
+	case EnableProfileResultOk:
+		return "ok"
+	case EnableProfileResultIccidOrAidNotFound:
+		return "iccidOrAidNotFound"
+	case EnableProfileResultProfileNotInDisabledState:
+		return "profileNotInDisabledState"
+	case EnableProfileResultDisallowedByPolicy:
+		return "disallowedByPolicy"
+	case EnableProfileResultCatBusy:
+		return "catBusy"
+	case EnableProfileResultRollbackNotAvailable:
+		return "rollbackNotAvailable"
+	case EnableProfileResultUndefinedError:
+		return "undefinedError"
+	default:
+		return "unknown"
+	}
+}
+
 // DisableProfileResult represents the ASN.1 INTEGER type DisableProfileResult with named numbers.
-type DisableProfileResult = int64
+type DisableProfileResult int64
 
 const (
 	DisableProfileResultOk                       DisableProfileResult = 0
@@ -590,8 +669,27 @@ const (
 	DisableProfileResultUndefinedError           DisableProfileResult = 127
 )
 
+func (v DisableProfileResult) String() string {
+	switch v {
+	case DisableProfileResultOk:
+		return "ok"
+	case DisableProfileResultIccidOrAidNotFound:
+		return "iccidOrAidNotFound"
+	case DisableProfileResultProfileNotInEnabledState:
+		return "profileNotInEnabledState"
+	case DisableProfileResultDisallowedByPolicy:
+		return "disallowedByPolicy"
+	case DisableProfileResultCatBusy:
+		return "catBusy"
+	case DisableProfileResultUndefinedError:
+		return "undefinedError"
+	default:
+		return "unknown"
+	}
+}
+
 // DeleteProfileResult represents the ASN.1 INTEGER type DeleteProfileResult with named numbers.
-type DeleteProfileResult = int64
+type DeleteProfileResult int64
 
 const (
 	DeleteProfileResultOk                        DeleteProfileResult = 0
@@ -602,6 +700,27 @@ const (
 	DeleteProfileResultReturnFallbackProfile     DeleteProfileResult = 21
 	DeleteProfileResultUndefinedError            DeleteProfileResult = 127
 )
+
+func (v DeleteProfileResult) String() string {
+	switch v {
+	case DeleteProfileResultOk:
+		return "ok"
+	case DeleteProfileResultIccidOrAidNotFound:
+		return "iccidOrAidNotFound"
+	case DeleteProfileResultProfileNotInDisabledState:
+		return "profileNotInDisabledState"
+	case DeleteProfileResultDisallowedByPolicy:
+		return "disallowedByPolicy"
+	case DeleteProfileResultRollbackNotAvailable:
+		return "rollbackNotAvailable"
+	case DeleteProfileResultReturnFallbackProfile:
+		return "returnFallbackProfile"
+	case DeleteProfileResultUndefinedError:
+		return "undefinedError"
+	default:
+		return "unknown"
+	}
+}
 
 // ProfileInfoListResponse choice constants.
 const (
@@ -633,7 +752,7 @@ func NewProfileInfoListResponseProfileInfoListError(v ProfileInfoListError) Prof
 }
 
 // ProfileInfoListError represents the ASN.1 INTEGER type ProfileInfoListError with named numbers.
-type ProfileInfoListError = int64
+type ProfileInfoListError int64
 
 const (
 	ProfileInfoListErrorIncorrectInputValues ProfileInfoListError = 1
@@ -641,16 +760,40 @@ const (
 	ProfileInfoListErrorUndefinedError       ProfileInfoListError = 127
 )
 
+func (v ProfileInfoListError) String() string {
+	switch v {
+	case ProfileInfoListErrorIncorrectInputValues:
+		return "incorrectInputValues"
+	case ProfileInfoListErrorProfileChangeOngoing:
+		return "profileChangeOngoing"
+	case ProfileInfoListErrorUndefinedError:
+		return "undefinedError"
+	default:
+		return "unknown"
+	}
+}
+
 // RollbackProfileResult represents the ASN.1 INTEGER type RollbackProfileResult with named numbers.
-type RollbackProfileResult = int64
+type RollbackProfileResult int64
 
 const (
 	RollbackProfileResultOk             RollbackProfileResult = 0
 	RollbackProfileResultUndefinedError RollbackProfileResult = 127
 )
 
+func (v RollbackProfileResult) String() string {
+	switch v {
+	case RollbackProfileResultOk:
+		return "ok"
+	case RollbackProfileResultUndefinedError:
+		return "undefinedError"
+	default:
+		return "unknown"
+	}
+}
+
 // SetFallbackAttributeResult represents the ASN.1 INTEGER type SetFallbackAttributeResult with named numbers.
-type SetFallbackAttributeResult = int64
+type SetFallbackAttributeResult int64
 
 const (
 	SetFallbackAttributeResultOk                     SetFallbackAttributeResult = 0
@@ -660,8 +803,25 @@ const (
 	SetFallbackAttributeResultUndefinedError         SetFallbackAttributeResult = 127
 )
 
+func (v SetFallbackAttributeResult) String() string {
+	switch v {
+	case SetFallbackAttributeResultOk:
+		return "ok"
+	case SetFallbackAttributeResultIccidOrAidNotFound:
+		return "iccidOrAidNotFound"
+	case SetFallbackAttributeResultFallbackNotAllowed:
+		return "fallbackNotAllowed"
+	case SetFallbackAttributeResultFallbackProfileEnabled:
+		return "fallbackProfileEnabled"
+	case SetFallbackAttributeResultUndefinedError:
+		return "undefinedError"
+	default:
+		return "unknown"
+	}
+}
+
 // UnsetFallbackAttributeResult represents the ASN.1 INTEGER type UnsetFallbackAttributeResult with named numbers.
-type UnsetFallbackAttributeResult = int64
+type UnsetFallbackAttributeResult int64
 
 const (
 	UnsetFallbackAttributeResultOk                     UnsetFallbackAttributeResult = 0
@@ -670,6 +830,23 @@ const (
 	UnsetFallbackAttributeResultCommandError           UnsetFallbackAttributeResult = 7
 	UnsetFallbackAttributeResultUndefinedError         UnsetFallbackAttributeResult = 127
 )
+
+func (v UnsetFallbackAttributeResult) String() string {
+	switch v {
+	case UnsetFallbackAttributeResultOk:
+		return "ok"
+	case UnsetFallbackAttributeResultNoFallbackAttribute:
+		return "noFallbackAttribute"
+	case UnsetFallbackAttributeResultFallbackProfileEnabled:
+		return "fallbackProfileEnabled"
+	case UnsetFallbackAttributeResultCommandError:
+		return "commandError"
+	case UnsetFallbackAttributeResultUndefinedError:
+		return "undefinedError"
+	default:
+		return "unknown"
+	}
+}
 
 // AddEimResult choice constants.
 const (
@@ -701,7 +878,7 @@ func NewAddEimResultAddEimResultCode(v int64) AddEimResult {
 }
 
 // DeleteEimResult represents the ASN.1 INTEGER type DeleteEimResult with named numbers.
-type DeleteEimResult = int64
+type DeleteEimResult int64
 
 const (
 	DeleteEimResultOk             DeleteEimResult = 0
@@ -711,8 +888,25 @@ const (
 	DeleteEimResultUndefinedError DeleteEimResult = 127
 )
 
+func (v DeleteEimResult) String() string {
+	switch v {
+	case DeleteEimResultOk:
+		return "ok"
+	case DeleteEimResultEimNotFound:
+		return "eimNotFound"
+	case DeleteEimResultLastEimDeleted:
+		return "lastEimDeleted"
+	case DeleteEimResultCommandError:
+		return "commandError"
+	case DeleteEimResultUndefinedError:
+		return "undefinedError"
+	default:
+		return "unknown"
+	}
+}
+
 // UpdateEimResult represents the ASN.1 INTEGER type UpdateEimResult with named numbers.
-type UpdateEimResult = int64
+type UpdateEimResult int64
 
 const (
 	UpdateEimResultOk                     UpdateEimResult = 0
@@ -722,6 +916,25 @@ const (
 	UpdateEimResultCommandError           UpdateEimResult = 7
 	UpdateEimResultUndefinedError         UpdateEimResult = 127
 )
+
+func (v UpdateEimResult) String() string {
+	switch v {
+	case UpdateEimResultOk:
+		return "ok"
+	case UpdateEimResultEimNotFound:
+		return "eimNotFound"
+	case UpdateEimResultCiPKUnknown:
+		return "ciPKUnknown"
+	case UpdateEimResultCounterValueOutOfRange:
+		return "counterValueOutOfRange"
+	case UpdateEimResultCommandError:
+		return "commandError"
+	case UpdateEimResultUndefinedError:
+		return "undefinedError"
+	default:
+		return "unknown"
+	}
+}
 
 // ListEimResult choice constants.
 const (
@@ -759,7 +972,7 @@ type EimIdInfo struct {
 }
 
 // IpaEuiccDataErrorCode represents the ASN.1 INTEGER type IpaEuiccDataErrorCode with named numbers.
-type IpaEuiccDataErrorCode = int64
+type IpaEuiccDataErrorCode int64
 
 const (
 	IpaEuiccDataErrorCodeIncorrectTagList    IpaEuiccDataErrorCode = 1
@@ -767,6 +980,21 @@ const (
 	IpaEuiccDataErrorCodeEcallActive         IpaEuiccDataErrorCode = 104
 	IpaEuiccDataErrorCodeUndefinedError      IpaEuiccDataErrorCode = 127
 )
+
+func (v IpaEuiccDataErrorCode) String() string {
+	switch v {
+	case IpaEuiccDataErrorCodeIncorrectTagList:
+		return "incorrectTagList"
+	case IpaEuiccDataErrorCodeEuiccCiPKIdNotFound:
+		return "euiccCiPKIdNotFound"
+	case IpaEuiccDataErrorCodeEcallActive:
+		return "ecallActive"
+	case IpaEuiccDataErrorCodeUndefinedError:
+		return "undefinedError"
+	default:
+		return "unknown"
+	}
+}
 
 // IpaEuiccDataResponseError represents the ASN.1 type IpaEuiccDataResponseError (SEQUENCE).
 type IpaEuiccDataResponseError struct {
@@ -967,12 +1195,23 @@ type IoTSpecificInfo struct {
 }
 
 // IpaMode represents the ASN.1 INTEGER type IpaMode with named numbers.
-type IpaMode = int64
+type IpaMode int64
 
 const (
 	IpaModeIpad IpaMode = 0
 	IpaModeIpae IpaMode = 1
 )
+
+func (v IpaMode) String() string {
+	switch v {
+	case IpaModeIpad:
+		return "ipad"
+	case IpaModeIpae:
+		return "ipae"
+	default:
+		return "unknown"
+	}
+}
 
 // AddInitialEimRequest represents the ASN.1 type AddInitialEimRequest (SEQUENCE).
 type AddInitialEimRequest struct {
@@ -1228,12 +1467,23 @@ type ConnectivityParameters struct {
 }
 
 // ConnectivityParametersError represents the ASN.1 INTEGER type ConnectivityParametersError with named numbers.
-type ConnectivityParametersError = int64
+type ConnectivityParametersError int64
 
 const (
 	ConnectivityParametersErrorParametersNotAvailable ConnectivityParametersError = 1
 	ConnectivityParametersErrorUndefinedError         ConnectivityParametersError = 127
 )
+
+func (v ConnectivityParametersError) String() string {
+	switch v {
+	case ConnectivityParametersErrorParametersNotAvailable:
+		return "parametersNotAvailable"
+	case ConnectivityParametersErrorUndefinedError:
+		return "undefinedError"
+	default:
+		return "unknown"
+	}
+}
 
 // SetDefaultDpAddressRequest represents the ASN.1 type SetDefaultDpAddressRequest (SEQUENCE).
 type SetDefaultDpAddressRequest struct {
@@ -1887,7 +2137,7 @@ type CancelSessionOk struct {
 }
 
 // StateChangeCause represents the ASN.1 INTEGER type StateChangeCause with named numbers.
-type StateChangeCause = int64
+type StateChangeCause int64
 
 const (
 	StateChangeCauseOtherEim               StateChangeCause = 0
@@ -1899,6 +2149,29 @@ const (
 	StateChangeCauseDeviceChange           StateChangeCause = 6
 	StateChangeCauseUndefined              StateChangeCause = 127
 )
+
+func (v StateChangeCause) String() string {
+	switch v {
+	case StateChangeCauseOtherEim:
+		return "otherEim"
+	case StateChangeCauseFallback:
+		return "fallback"
+	case StateChangeCauseEmergencyProfile:
+		return "emergencyProfile"
+	case StateChangeCauseLocal:
+		return "local"
+	case StateChangeCauseReset:
+		return "reset"
+	case StateChangeCauseImmediateEnableProfile:
+		return "immediateEnableProfile"
+	case StateChangeCauseDeviceChange:
+		return "deviceChange"
+	case StateChangeCauseUndefined:
+		return "undefined"
+	default:
+		return "unknown"
+	}
+}
 
 // GetEimPackageRequest represents the ASN.1 type GetEimPackageRequest (SEQUENCE).
 type GetEimPackageRequest struct {
@@ -1958,13 +2231,26 @@ func NewGetEimPackageResponseEimPackageError(v int64) GetEimPackageResponse {
 }
 
 // EimPackageResultErrorCode represents the ASN.1 INTEGER type EimPackageResultErrorCode with named numbers.
-type EimPackageResultErrorCode = int64
+type EimPackageResultErrorCode int64
 
 const (
 	EimPackageResultErrorCodeInvalidPackageFormat EimPackageResultErrorCode = 1
 	EimPackageResultErrorCodeUnknownPackage       EimPackageResultErrorCode = 2
 	EimPackageResultErrorCodeUndefinedError       EimPackageResultErrorCode = 127
 )
+
+func (v EimPackageResultErrorCode) String() string {
+	switch v {
+	case EimPackageResultErrorCodeInvalidPackageFormat:
+		return "invalidPackageFormat"
+	case EimPackageResultErrorCodeUnknownPackage:
+		return "unknownPackage"
+	case EimPackageResultErrorCodeUndefinedError:
+		return "undefinedError"
+	default:
+		return "unknown"
+	}
+}
 
 // EimPackageResultResponseError represents the ASN.1 type EimPackageResultResponseError (SEQUENCE).
 type EimPackageResultResponseError struct {
@@ -2762,6 +3048,9 @@ func (v *EuiccPackageSigned) MarshalBER() ([]byte, error) {
 	enc_eidvalue := ber.EncodeOctetString([]byte(v.EidValue))
 	enc_eidvalue = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 26, false, enc_eidvalue)
 	children = append(children, enc_eidvalue...)
+	if v.CounterValue == nil {
+		return nil, fmt.Errorf("encoding counterValue: required INTEGER is nil")
+	}
 	enc_countervalue := ber.EncodeBigInt(v.CounterValue)
 	enc_countervalue = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_countervalue)
 	children = append(children, enc_countervalue...)
@@ -4139,6 +4428,9 @@ func (v *EuiccPackageResultDataSigned) MarshalBER() ([]byte, error) {
 	enc_eimid := ber.EncodeStringTag(12, v.EimId)
 	enc_eimid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_eimid)
 	children = append(children, enc_eimid...)
+	if v.CounterValue == nil {
+		return nil, fmt.Errorf("encoding counterValue: required INTEGER is nil")
+	}
 	enc_countervalue := ber.EncodeBigInt(v.CounterValue)
 	enc_countervalue = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_countervalue)
 	children = append(children, enc_countervalue...)
@@ -4146,6 +4438,9 @@ func (v *EuiccPackageResultDataSigned) MarshalBER() ([]byte, error) {
 		enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		enc_eimtransactionid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_eimtransactionid)
 		children = append(children, enc_eimtransactionid...)
+	}
+	if v.SeqNumber == nil {
+		return nil, fmt.Errorf("encoding seqNumber: required INTEGER is nil")
 	}
 	enc_seqnumber := ber.EncodeBigInt(v.SeqNumber)
 	enc_seqnumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_seqnumber)
@@ -4652,6 +4947,9 @@ func (v *EuiccPackageErrorDataSigned) MarshalBER() ([]byte, error) {
 	enc_eimid := ber.EncodeStringTag(12, v.EimId)
 	enc_eimid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_eimid)
 	children = append(children, enc_eimid...)
+	if v.CounterValue == nil {
+		return nil, fmt.Errorf("encoding counterValue: required INTEGER is nil")
+	}
 	enc_countervalue := ber.EncodeBigInt(v.CounterValue)
 	enc_countervalue = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_countervalue)
 	children = append(children, enc_countervalue...)
@@ -10992,6 +11290,9 @@ func (v *CompactProfileInstallationResultData) MarshalBER() ([]byte, error) {
 	enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	enc_transactionid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_transactionid)
 	children = append(children, enc_transactionid...)
+	if v.SeqNumber == nil {
+		return nil, fmt.Errorf("encoding seqNumber: required INTEGER is nil")
+	}
 	enc_seqnumber := ber.EncodeBigInt(v.SeqNumber)
 	children = append(children, enc_seqnumber...)
 	if v.IccidPresent != nil {

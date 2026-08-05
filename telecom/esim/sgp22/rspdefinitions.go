@@ -117,11 +117,20 @@ type VersionType = []byte
 type Iccid = []byte
 
 // RemoteOpId represents the ASN.1 INTEGER type RemoteOpId with named numbers.
-type RemoteOpId = int64
+type RemoteOpId int64
 
 const (
 	RemoteOpIdInstallBoundProfilePackage RemoteOpId = 1
 )
+
+func (v RemoteOpId) String() string {
+	switch v {
+	case RemoteOpIdInstallBoundProfilePackage:
+		return "installBoundProfilePackage"
+	default:
+		return "unknown"
+	}
+}
 
 // TransactionId represents the ASN.1 type TransactionId (OCTET_STRING).
 type TransactionId = []byte
@@ -180,7 +189,7 @@ type ErrorResult struct {
 }
 
 // BppCommandId represents the ASN.1 INTEGER type BppCommandId with named numbers.
-type BppCommandId = int64
+type BppCommandId int64
 
 const (
 	BppCommandIdInitialiseSecureChannel BppCommandId = 0
@@ -191,8 +200,27 @@ const (
 	BppCommandIdLoadProfileElements     BppCommandId = 5
 )
 
+func (v BppCommandId) String() string {
+	switch v {
+	case BppCommandIdInitialiseSecureChannel:
+		return "initialiseSecureChannel"
+	case BppCommandIdConfigureISDP:
+		return "configureISDP"
+	case BppCommandIdStoreMetadata:
+		return "storeMetadata"
+	case BppCommandIdStoreMetadata2:
+		return "storeMetadata2"
+	case BppCommandIdReplaceSessionKeys:
+		return "replaceSessionKeys"
+	case BppCommandIdLoadProfileElements:
+		return "loadProfileElements"
+	default:
+		return "unknown"
+	}
+}
+
 // ErrorReason represents the ASN.1 INTEGER type ErrorReason with named numbers.
-type ErrorReason = int64
+type ErrorReason int64
 
 const (
 	ErrorReasonIncorrectInputValues                                  ErrorReason = 1
@@ -214,6 +242,49 @@ const (
 	ErrorReasonInstallFailedDueToServerAddressAbsentInEuiccAllowList ErrorReason = 32
 	ErrorReasonInstallFailedDueToUnknownError                        ErrorReason = 127
 )
+
+func (v ErrorReason) String() string {
+	switch v {
+	case ErrorReasonIncorrectInputValues:
+		return "incorrectInputValues"
+	case ErrorReasonInvalidSignature:
+		return "invalidSignature"
+	case ErrorReasonInvalidTransactionId:
+		return "invalidTransactionId"
+	case ErrorReasonUnsupportedCrtValues:
+		return "unsupportedCrtValues"
+	case ErrorReasonUnsupportedRemoteOperationType:
+		return "unsupportedRemoteOperationType"
+	case ErrorReasonUnsupportedProfileClass:
+		return "unsupportedProfileClass"
+	case ErrorReasonScp03tStructureError:
+		return "scp03tStructureError"
+	case ErrorReasonScp03tSecurityError:
+		return "scp03tSecurityError"
+	case ErrorReasonInstallFailedDueToIccidAlreadyExistsOnEuicc:
+		return "installFailedDueToIccidAlreadyExistsOnEuicc"
+	case ErrorReasonInstallFailedDueToInsufficientMemoryForProfile:
+		return "installFailedDueToInsufficientMemoryForProfile"
+	case ErrorReasonInstallFailedDueToInterruption:
+		return "installFailedDueToInterruption"
+	case ErrorReasonInstallFailedDueToPEProcessingError:
+		return "installFailedDueToPEProcessingError"
+	case ErrorReasonInstallFailedDueToDataMismatch:
+		return "installFailedDueToDataMismatch"
+	case ErrorReasonTestProfileInstallFailedDueToInvalidNaaKey:
+		return "testProfileInstallFailedDueToInvalidNaaKey"
+	case ErrorReasonPprNotAllowed:
+		return "pprNotAllowed"
+	case ErrorReasonInstallFailedDueToInsufficientMinimumSecurityLevel:
+		return "installFailedDueToInsufficientMinimumSecurityLevel"
+	case ErrorReasonInstallFailedDueToServerAddressAbsentInEuiccAllowList:
+		return "installFailedDueToServerAddressAbsentInEuiccAllowList"
+	case ErrorReasonInstallFailedDueToUnknownError:
+		return "installFailedDueToUnknownError"
+	default:
+		return "unknown"
+	}
+}
 
 // DeviceInfo represents the ASN.1 type DeviceInfo (SEQUENCE).
 type DeviceInfo struct {
@@ -486,7 +557,7 @@ type PrepareDownloadResponseError struct {
 }
 
 // DownloadErrorCode represents the ASN.1 INTEGER type DownloadErrorCode with named numbers.
-type DownloadErrorCode = int64
+type DownloadErrorCode int64
 
 const (
 	DownloadErrorCodeInvalidCertificate   DownloadErrorCode = 1
@@ -496,6 +567,25 @@ const (
 	DownloadErrorCodeInvalidTransactionId DownloadErrorCode = 5
 	DownloadErrorCodeUndefinedError       DownloadErrorCode = 127
 )
+
+func (v DownloadErrorCode) String() string {
+	switch v {
+	case DownloadErrorCodeInvalidCertificate:
+		return "invalidCertificate"
+	case DownloadErrorCodeInvalidSignature:
+		return "invalidSignature"
+	case DownloadErrorCodeUnsupportedCurve:
+		return "unsupportedCurve"
+	case DownloadErrorCodeNoSessionContext:
+		return "noSessionContext"
+	case DownloadErrorCodeInvalidTransactionId:
+		return "invalidTransactionId"
+	case DownloadErrorCodeUndefinedError:
+		return "undefinedError"
+	default:
+		return "unknown"
+	}
+}
 
 // GetEuiccChallengeRequest represents the ASN.1 type GetEuiccChallengeRequest (SEQUENCE).
 type GetEuiccChallengeRequest struct {
@@ -735,7 +825,7 @@ type LoadCRLResponseOk struct {
 }
 
 // LoadCRLResponseError represents the ASN.1 INTEGER type LoadCRLResponseError with named numbers.
-type LoadCRLResponseError = int64
+type LoadCRLResponseError int64
 
 const (
 	LoadCRLResponseErrorInvalidSignature        LoadCRLResponseError = 1
@@ -746,6 +836,27 @@ const (
 	LoadCRLResponseErrorBaseCrlMissing          LoadCRLResponseError = 6
 	LoadCRLResponseErrorUndefinedError          LoadCRLResponseError = 127
 )
+
+func (v LoadCRLResponseError) String() string {
+	switch v {
+	case LoadCRLResponseErrorInvalidSignature:
+		return "invalidSignature"
+	case LoadCRLResponseErrorInvalidCRLFormat:
+		return "invalidCRLFormat"
+	case LoadCRLResponseErrorNotEnoughMemorySpace:
+		return "notEnoughMemorySpace"
+	case LoadCRLResponseErrorVerificationKeyNotFound:
+		return "verificationKeyNotFound"
+	case LoadCRLResponseErrorFresherCrlAlreadyLoaded:
+		return "fresherCrlAlreadyLoaded"
+	case LoadCRLResponseErrorBaseCrlMissing:
+		return "baseCrlMissing"
+	case LoadCRLResponseErrorUndefinedError:
+		return "undefinedError"
+	default:
+		return "unknown"
+	}
+}
 
 // AuthenticateServerRequest represents the ASN.1 type AuthenticateServerRequest (SEQUENCE).
 type AuthenticateServerRequest struct {
@@ -842,7 +953,7 @@ type AuthenticateResponseError struct {
 }
 
 // AuthenticateErrorCode represents the ASN.1 INTEGER type AuthenticateErrorCode with named numbers.
-type AuthenticateErrorCode = int64
+type AuthenticateErrorCode int64
 
 const (
 	AuthenticateErrorCodeInvalidCertificate     AuthenticateErrorCode = 1
@@ -855,6 +966,29 @@ const (
 	AuthenticateErrorCodeUndefinedError         AuthenticateErrorCode = 127
 )
 
+func (v AuthenticateErrorCode) String() string {
+	switch v {
+	case AuthenticateErrorCodeInvalidCertificate:
+		return "invalidCertificate"
+	case AuthenticateErrorCodeInvalidSignature:
+		return "invalidSignature"
+	case AuthenticateErrorCodeUnsupportedCurve:
+		return "unsupportedCurve"
+	case AuthenticateErrorCodeNoSessionContext:
+		return "noSessionContext"
+	case AuthenticateErrorCodeInvalidOid:
+		return "invalidOid"
+	case AuthenticateErrorCodeEuiccChallengeMismatch:
+		return "euiccChallengeMismatch"
+	case AuthenticateErrorCodeCiPKUnknown:
+		return "ciPKUnknown"
+	case AuthenticateErrorCodeUndefinedError:
+		return "undefinedError"
+	default:
+		return "unknown"
+	}
+}
+
 // CancelSessionRequest represents the ASN.1 type CancelSessionRequest (SEQUENCE).
 type CancelSessionRequest struct {
 	TransactionId TransactionId       `asn1:"tag:0,context,implicit"`
@@ -862,7 +996,7 @@ type CancelSessionRequest struct {
 }
 
 // CancelSessionReason represents the ASN.1 INTEGER type CancelSessionReason with named numbers.
-type CancelSessionReason = int64
+type CancelSessionReason int64
 
 const (
 	CancelSessionReasonEndUserRejection      CancelSessionReason = 0
@@ -873,6 +1007,27 @@ const (
 	CancelSessionReasonLoadBppExecutionError CancelSessionReason = 5
 	CancelSessionReasonUndefinedReason       CancelSessionReason = 127
 )
+
+func (v CancelSessionReason) String() string {
+	switch v {
+	case CancelSessionReasonEndUserRejection:
+		return "endUserRejection"
+	case CancelSessionReasonPostponed:
+		return "postponed"
+	case CancelSessionReasonTimeout:
+		return "timeout"
+	case CancelSessionReasonPprNotAllowed:
+		return "pprNotAllowed"
+	case CancelSessionReasonMetadataMismatch:
+		return "metadataMismatch"
+	case CancelSessionReasonLoadBppExecutionError:
+		return "loadBppExecutionError"
+	case CancelSessionReasonUndefinedReason:
+		return "undefinedReason"
+	default:
+		return "unknown"
+	}
+}
 
 // CancelSessionResponse choice constants.
 const (
@@ -980,23 +1135,45 @@ type ProfileInfo struct {
 }
 
 // IconType represents the ASN.1 INTEGER type IconType with named numbers.
-type IconType = int64
+type IconType int64
 
 const (
 	IconTypeJpg IconType = 0
 	IconTypePng IconType = 1
 )
 
+func (v IconType) String() string {
+	switch v {
+	case IconTypeJpg:
+		return "jpg"
+	case IconTypePng:
+		return "png"
+	default:
+		return "unknown"
+	}
+}
+
 // ProfileState represents the ASN.1 INTEGER type ProfileState with named numbers.
-type ProfileState = int64
+type ProfileState int64
 
 const (
 	ProfileStateDisabled ProfileState = 0
 	ProfileStateEnabled  ProfileState = 1
 )
 
+func (v ProfileState) String() string {
+	switch v {
+	case ProfileStateDisabled:
+		return "disabled"
+	case ProfileStateEnabled:
+		return "enabled"
+	default:
+		return "unknown"
+	}
+}
+
 // ProfileClass represents the ASN.1 INTEGER type ProfileClass with named numbers.
-type ProfileClass = int64
+type ProfileClass int64
 
 const (
 	ProfileClassTest         ProfileClass = 0
@@ -1004,13 +1181,37 @@ const (
 	ProfileClassOperational  ProfileClass = 2
 )
 
+func (v ProfileClass) String() string {
+	switch v {
+	case ProfileClassTest:
+		return "test"
+	case ProfileClassProvisioning:
+		return "provisioning"
+	case ProfileClassOperational:
+		return "operational"
+	default:
+		return "unknown"
+	}
+}
+
 // ProfileInfoListError represents the ASN.1 INTEGER type ProfileInfoListError with named numbers.
-type ProfileInfoListError = int64
+type ProfileInfoListError int64
 
 const (
 	ProfileInfoListErrorIncorrectInputValues ProfileInfoListError = 1
 	ProfileInfoListErrorUndefinedError       ProfileInfoListError = 127
 )
+
+func (v ProfileInfoListError) String() string {
+	switch v {
+	case ProfileInfoListErrorIncorrectInputValues:
+		return "incorrectInputValues"
+	case ProfileInfoListErrorUndefinedError:
+		return "undefinedError"
+	default:
+		return "unknown"
+	}
+}
 
 // EnableProfileRequest represents the ASN.1 type EnableProfileRequest (SEQUENCE).
 type EnableProfileRequest struct {
@@ -6078,6 +6279,9 @@ func (v *ListNotificationResponse) UnmarshalBER(data []byte) error {
 // MarshalBER encodes NotificationMetadata to BER format.
 func (v *NotificationMetadata) MarshalBER() ([]byte, error) {
 	var children []byte
+	if v.SeqNumber == nil {
+		return nil, fmt.Errorf("encoding seqNumber: required INTEGER is nil")
+	}
 	enc_seqnumber := ber.EncodeBigInt(v.SeqNumber)
 	enc_seqnumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_seqnumber)
 	children = append(children, enc_seqnumber...)
@@ -6507,6 +6711,9 @@ func (v *OtherSignedNotification) UnmarshalBER(data []byte) error {
 // MarshalBER encodes NotificationSentRequest to BER format.
 func (v *NotificationSentRequest) MarshalBER() ([]byte, error) {
 	var children []byte
+	if v.SeqNumber == nil {
+		return nil, fmt.Errorf("encoding seqNumber: required INTEGER is nil")
+	}
 	enc_seqnumber := ber.EncodeBigInt(v.SeqNumber)
 	enc_seqnumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_seqnumber)
 	children = append(children, enc_seqnumber...)
