@@ -63,6 +63,7 @@ func (v *UniDialoguePDU) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding unidialoguePDU: %w", err)
 		}
+		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 0, true, enc_0)
 		return enc_0, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for UniDialoguePDU", v.Choice)
@@ -79,23 +80,29 @@ func (v *UniDialoguePDU) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for UniDialoguePDU CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for UniDialoguePDU: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding UniDialoguePDU CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "UniDialoguePDU", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassApplication && peekTag.Number == 0 {
 		v.Choice = UniDialoguePDUChoiceUnidialoguePDU
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding unidialoguePDU: %w", tlvErr)
+		}
+		reconstructed := ber.EncodeSequence(rawVal)
 		var dec AUDTApdu
-		if unmErr := dec.UnmarshalBER(data); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
 			return fmt.Errorf("decoding unidialoguePDU: %w", unmErr)
 		}
 		v.UnidialoguePDU = &dec

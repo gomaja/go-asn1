@@ -10,7 +10,7 @@ import (
 func TestProtocolIEFieldAPERHeaderUsesConstrainedLayout(t *testing.T) {
 	field := ProtocolIEField{
 		Id:          0x1234,
-		Criticality: int64(CriticalityIgnore),
+		Criticality: CriticalityIgnore,
 		Value:       runtime.RawValue{Bytes: []byte{0xaa}},
 	}
 

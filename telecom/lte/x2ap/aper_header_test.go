@@ -11,7 +11,7 @@ import (
 func TestProtocolIEFieldAPERHeaderUsesConstrainedLayout(t *testing.T) {
 	field := ProtocolIEField{
 		Id:          0x1234,
-		Criticality: int64(CriticalityIgnore),
+		Criticality: CriticalityIgnore,
 		Value:       runtime.RawValue{Bytes: []byte{0xaa}},
 	}
 
@@ -64,28 +64,20 @@ func TestX2APPDUAPERHeaderUsesConstrainedLayout(t *testing.T) {
 	}
 }
 
-func TestRachIndicationIEValueDispatch(t *testing.T) {
+func TestHandoverRequestIEValueDispatch(t *testing.T) {
 	bb := per.NewBitBuffer()
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, 1, 1, MaxnoofUEsforRAReportIndications); err != nil {
-		t.Fatalf("encode list length: %v", err)
+	if err := per.EncodeIntegerAligned(bb, 7, int64Ptr(0), int64Ptr(4095), false); err != nil {
+		t.Fatalf("encode UE-X2AP-ID: %v", err)
 	}
-	item := RaReportIndicationListItem{MeNBUEX2APID: 7}
-	if err := item.MarshalAPERTo(bb); err != nil {
-		t.Fatalf("encode item: %v", err)
-	}
-
-	got, err := DecodeIEFieldValue("RachIndication", IdRaReportIndicationList, bb.Bytes())
+	got, err := DecodeIEFieldValue("HandoverRequest", IdOldENBUEX2APID, bb.Bytes())
 	if err != nil {
 		t.Fatalf("DecodeIEFieldValue: %v", err)
 	}
-	list, ok := got.(*RaReportIndicationList)
+	ueID, ok := got.(*UEX2APID)
 	if !ok {
 		t.Fatalf("decoded type: got %T", got)
 	}
-	if len(*list) != 1 {
-		t.Fatalf("decoded length: got %d, want 1", len(*list))
-	}
-	if (*list)[0].MeNBUEX2APID != item.MeNBUEX2APID {
-		t.Fatalf("decoded item: got %+v, want %+v", (*list)[0], item)
+	if *ueID != 7 {
+		t.Fatalf("decoded UE-X2AP-ID: got %d, want 7", *ueID)
 	}
 }

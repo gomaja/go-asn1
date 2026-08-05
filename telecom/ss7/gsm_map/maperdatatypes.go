@@ -17,84 +17,14 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// ATINotAllowedParam represents the ASN.1 type ATI-NotAllowedParam (SEQUENCE).
-type ATINotAllowedParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// ATMNotAllowedParam represents the ASN.1 type ATM-NotAllowedParam (SEQUENCE).
-type ATMNotAllowedParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// ATSINotAllowedParam represents the ASN.1 type ATSI-NotAllowedParam (SEQUENCE).
-type ATSINotAllowedParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// AbsentSubscriberDiagnosticSM represents the ASN.1 type AbsentSubscriberDiagnosticSM (INTEGER).
-type AbsentSubscriberDiagnosticSM = int64
-
-// AbsentSubscriberParam represents the ASN.1 type AbsentSubscriberParam (SEQUENCE).
-type AbsentSubscriberParam struct {
-	ExtensionContainer     *ExtensionContainer     `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	AbsentSubscriberReason *AbsentSubscriberReason `asn1:"tag:0,context,implicit,optional" json:"AbsentSubscriberReason,omitempty"`
-	ExtCount_              int64                   `asn1:"-" json:"-"`
-	ExtPresent_            []bool                  `asn1:"-" json:"-"`
-	ExtData_               [][]byte                `asn1:"-" json:"-"`
-}
-
-// AbsentSubscriberReason represents the ASN.1 ENUMERATED type AbsentSubscriberReason.
-type AbsentSubscriberReason int64
-
-const (
-	AbsentSubscriberReasonImsiDetach     AbsentSubscriberReason = 0
-	AbsentSubscriberReasonRestrictedArea AbsentSubscriberReason = 1
-	AbsentSubscriberReasonNoPageResponse AbsentSubscriberReason = 2
-	AbsentSubscriberReasonPurgedMS       AbsentSubscriberReason = 3
-	AbsentSubscriberReasonMtRoamingRetry AbsentSubscriberReason = 4
-	AbsentSubscriberReasonBusySubscriber AbsentSubscriberReason = 5
-)
-
-func (v AbsentSubscriberReason) String() string {
-	switch v {
-	case AbsentSubscriberReasonImsiDetach:
-		return "imsiDetach"
-	case AbsentSubscriberReasonRestrictedArea:
-		return "restrictedArea"
-	case AbsentSubscriberReasonNoPageResponse:
-		return "noPageResponse"
-	case AbsentSubscriberReasonPurgedMS:
-		return "purgedMS"
-	case AbsentSubscriberReasonMtRoamingRetry:
-		return "mtRoamingRetry"
-	case AbsentSubscriberReasonBusySubscriber:
-		return "busySubscriber"
-	default:
-		return "unknown"
-	}
-}
-
-// AbsentSubscriberSMParam represents the ASN.1 type AbsentSubscriberSM-Param (SEQUENCE).
-type AbsentSubscriberSMParam struct {
-	AbsentSubscriberDiagnosticSM           *AbsentSubscriberDiagnosticSM `asn1:",optional" json:"AbsentSubscriberDiagnosticSM,omitempty"`
-	ExtensionContainer                     *ExtensionContainer           `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	AdditionalAbsentSubscriberDiagnosticSM *AbsentSubscriberDiagnosticSM `asn1:"tag:0,context,implicit,optional" json:"AdditionalAbsentSubscriberDiagnosticSM,omitempty"`
-	Imsi                                   *IMSI                         `asn1:"tag:1,context,implicit,optional" json:"Imsi,omitempty"`
-	RequestedRetransmissionTime            *Time                         `asn1:"tag:2,context,implicit,optional" json:"RequestedRetransmissionTime,omitempty"`
-	UserIdentifierAlert                    *IMSI                         `asn1:"tag:3,context,implicit,optional" json:"UserIdentifierAlert,omitempty"`
-	ExtCount_                              int64                         `asn1:"-" json:"-"`
-	ExtPresent_                            []bool                        `asn1:"-" json:"-"`
-	ExtData_                               [][]byte                      `asn1:"-" json:"-"`
+// RoamingNotAllowedParam represents the ASN.1 type RoamingNotAllowedParam (SEQUENCE).
+type RoamingNotAllowedParam struct {
+	RoamingNotAllowedCause           RoamingNotAllowedCause            `asn1:""`
+	ExtensionContainer               *ExtensionContainer               `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	AdditionalRoamingNotAllowedCause *AdditionalRoamingNotAllowedCause `asn1:"tag:0,context,implicit,optional" json:"AdditionalRoamingNotAllowedCause,omitempty"`
+	ExtCount_                        int64                             `asn1:"-" json:"-"`
+	ExtPresent_                      []bool                            `asn1:"-" json:"-"`
+	ExtData_                         [][]byte                          `asn1:"-" json:"-"`
 }
 
 // AdditionalRoamingNotAllowedCause represents the ASN.1 ENUMERATED type AdditionalRoamingNotAllowedCause.
@@ -113,56 +43,23 @@ func (v AdditionalRoamingNotAllowedCause) String() string {
 	}
 }
 
-// BearerServNotProvParam represents the ASN.1 type BearerServNotProvParam (SEQUENCE).
-type BearerServNotProvParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// BusySubscriberParam represents the ASN.1 type BusySubscriberParam (SEQUENCE).
-type BusySubscriberParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	CcbsPossible       *struct{}           `asn1:"tag:0,context,implicit,optional" json:"CcbsPossible,omitempty"`
-	CcbsBusy           *struct{}           `asn1:"tag:1,context,implicit,optional" json:"CcbsBusy,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// CUGRejectCause represents the ASN.1 ENUMERATED type CUG-RejectCause.
-type CUGRejectCause int64
+// RoamingNotAllowedCause represents the ASN.1 ENUMERATED type RoamingNotAllowedCause.
+type RoamingNotAllowedCause int64
 
 const (
-	CUGRejectCauseIncomingCallsBarredWithinCUG                CUGRejectCause = 0
-	CUGRejectCauseSubscriberNotMemberOfCUG                    CUGRejectCause = 1
-	CUGRejectCauseRequestedBasicServiceViolatesCUGConstraints CUGRejectCause = 5
-	CUGRejectCauseCalledPartySSInteractionViolation           CUGRejectCause = 7
+	RoamingNotAllowedCausePlmnRoamingNotAllowed     RoamingNotAllowedCause = 0
+	RoamingNotAllowedCauseOperatorDeterminedBarring RoamingNotAllowedCause = 3
 )
 
-func (v CUGRejectCause) String() string {
+func (v RoamingNotAllowedCause) String() string {
 	switch v {
-	case CUGRejectCauseIncomingCallsBarredWithinCUG:
-		return "incomingCallsBarredWithinCUG"
-	case CUGRejectCauseSubscriberNotMemberOfCUG:
-		return "subscriberNotMemberOfCUG"
-	case CUGRejectCauseRequestedBasicServiceViolatesCUGConstraints:
-		return "requestedBasicServiceViolatesCUG-Constraints"
-	case CUGRejectCauseCalledPartySSInteractionViolation:
-		return "calledPartySS-InteractionViolation"
+	case RoamingNotAllowedCausePlmnRoamingNotAllowed:
+		return "plmnRoamingNotAllowed"
+	case RoamingNotAllowedCauseOperatorDeterminedBarring:
+		return "operatorDeterminedBarring"
 	default:
 		return "unknown"
 	}
-}
-
-// CUGRejectParam represents the ASN.1 type CUG-RejectParam (SEQUENCE).
-type CUGRejectParam struct {
-	CugRejectCause     *CUGRejectCause     `asn1:",optional" json:"CugRejectCause,omitempty"`
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
 // CallBarredParam choice constants.
@@ -213,14 +110,6 @@ func (v CallBarringCause) String() string {
 	}
 }
 
-// DataMissingParam represents the ASN.1 type DataMissingParam (SEQUENCE).
-type DataMissingParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
 // ExtensibleCallBarredParam represents the ASN.1 type ExtensibleCallBarredParam (SEQUENCE).
 type ExtensibleCallBarredParam struct {
 	CallBarringCause              *CallBarringCause   `asn1:",optional" json:"CallBarringCause,omitempty"`
@@ -232,168 +121,48 @@ type ExtensibleCallBarredParam struct {
 	ExtData_                      [][]byte            `asn1:"-" json:"-"`
 }
 
-// ExtensibleSystemFailureParam represents the ASN.1 type ExtensibleSystemFailureParam (SEQUENCE).
-type ExtensibleSystemFailureParam struct {
-	NetworkResource           *NetworkResource           `asn1:",optional" json:"NetworkResource,omitempty"`
-	ExtensionContainer        *ExtensionContainer        `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	AdditionalNetworkResource *AdditionalNetworkResource `asn1:"tag:0,context,implicit,optional" json:"AdditionalNetworkResource,omitempty"`
-	FailureCauseParam         *FailureCauseParam         `asn1:"tag:1,context,implicit,optional" json:"FailureCauseParam,omitempty"`
-	ExtCount_                 int64                      `asn1:"-" json:"-"`
-	ExtPresent_               []bool                     `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+// CUGRejectParam represents the ASN.1 type CUG-RejectParam (SEQUENCE).
+type CUGRejectParam struct {
+	CugRejectCause     *CUGRejectCause     `asn1:",optional" json:"CugRejectCause,omitempty"`
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// FacilityNotSupParam represents the ASN.1 type FacilityNotSupParam (SEQUENCE).
-type FacilityNotSupParam struct {
-	ExtensionContainer                           *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ShapeOfLocationEstimateNotSupported          *struct{}           `asn1:"tag:0,context,implicit,optional" json:"ShapeOfLocationEstimateNotSupported,omitempty"`
-	NeededLcsCapabilityNotSupportedInServingNode *struct{}           `asn1:"tag:1,context,implicit,optional" json:"NeededLcsCapabilityNotSupportedInServingNode,omitempty"`
-	ExtCount_                                    int64               `asn1:"-" json:"-"`
-	ExtPresent_                                  []bool              `asn1:"-" json:"-"`
-	ExtData_                                     [][]byte            `asn1:"-" json:"-"`
-}
-
-// FailureCauseParam represents the ASN.1 ENUMERATED type FailureCauseParam.
-type FailureCauseParam int64
+// CUGRejectCause represents the ASN.1 ENUMERATED type CUG-RejectCause.
+type CUGRejectCause int64
 
 const (
-	FailureCauseParamLimitReachedOnNumberOfConcurrentLocationRequests FailureCauseParam = 0
+	CUGRejectCauseIncomingCallsBarredWithinCUG                CUGRejectCause = 0
+	CUGRejectCauseSubscriberNotMemberOfCUG                    CUGRejectCause = 1
+	CUGRejectCauseRequestedBasicServiceViolatesCUGConstraints CUGRejectCause = 5
+	CUGRejectCauseCalledPartySSInteractionViolation           CUGRejectCause = 7
 )
 
-func (v FailureCauseParam) String() string {
+func (v CUGRejectCause) String() string {
 	switch v {
-	case FailureCauseParamLimitReachedOnNumberOfConcurrentLocationRequests:
-		return "limitReachedOnNumberOfConcurrentLocationRequests"
+	case CUGRejectCauseIncomingCallsBarredWithinCUG:
+		return "incomingCallsBarredWithinCUG"
+	case CUGRejectCauseSubscriberNotMemberOfCUG:
+		return "subscriberNotMemberOfCUG"
+	case CUGRejectCauseRequestedBasicServiceViolatesCUGConstraints:
+		return "requestedBasicServiceViolatesCUG-Constraints"
+	case CUGRejectCauseCalledPartySSInteractionViolation:
+		return "calledPartySS-InteractionViolation"
 	default:
 		return "unknown"
 	}
 }
 
-// ForwardingFailedParam represents the ASN.1 type ForwardingFailedParam (SEQUENCE).
-type ForwardingFailedParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// ForwardingViolationParam represents the ASN.1 type ForwardingViolationParam (SEQUENCE).
-type ForwardingViolationParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// IllegalEquipmentParam represents the ASN.1 type IllegalEquipmentParam (SEQUENCE).
-type IllegalEquipmentParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// IllegalSSOperationParam represents the ASN.1 type IllegalSS-OperationParam (SEQUENCE).
-type IllegalSSOperationParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// IllegalSubscriberParam represents the ASN.1 type IllegalSubscriberParam (SEQUENCE).
-type IllegalSubscriberParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// IncompatibleTerminalParam represents the ASN.1 type IncompatibleTerminalParam (SEQUENCE).
-type IncompatibleTerminalParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// InformationNotAvailableParam represents the ASN.1 type InformationNotAvailableParam (SEQUENCE).
-type InformationNotAvailableParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// LongTermDenialParam represents the ASN.1 type LongTermDenialParam (SEQUENCE).
-type LongTermDenialParam struct {
-	ExtCount_   int64    `asn1:"-" json:"-"`
-	ExtPresent_ []bool   `asn1:"-" json:"-"`
-	ExtData_    [][]byte `asn1:"-" json:"-"`
-}
-
-// MMEventNotSupportedParam represents the ASN.1 type MM-EventNotSupported-Param (SEQUENCE).
-type MMEventNotSupportedParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// MessageWaitListFullParam represents the ASN.1 type MessageWaitListFullParam (SEQUENCE).
-type MessageWaitListFullParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// NoGroupCallNbParam represents the ASN.1 type NoGroupCallNbParam (SEQUENCE).
-type NoGroupCallNbParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// NoRoamingNbParam represents the ASN.1 type NoRoamingNbParam (SEQUENCE).
-type NoRoamingNbParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// NoSubscriberReplyParam represents the ASN.1 type NoSubscriberReplyParam (SEQUENCE).
-type NoSubscriberReplyParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// NumberChangedParam represents the ASN.1 type NumberChangedParam (SEQUENCE).
-type NumberChangedParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// ORNotAllowedParam represents the ASN.1 type OR-NotAllowedParam (SEQUENCE).
-type ORNotAllowedParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// OngoingGroupCallParam represents the ASN.1 type OngoingGroupCallParam (SEQUENCE).
-type OngoingGroupCallParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
+// SSIncompatibilityCause represents the ASN.1 type SS-IncompatibilityCause (SEQUENCE).
+type SSIncompatibilityCause struct {
+	SsCode       *SSCode           `asn1:"tag:1,context,implicit,optional" json:"SsCode,omitempty"`
+	BasicService *BasicServiceCode `asn1:",optional" json:"BasicService,omitempty"`
+	SsStatus     *SSStatus         `asn1:"tag:4,context,implicit,optional" json:"SsStatus,omitempty"`
+	ExtCount_    int64             `asn1:"-" json:"-"`
+	ExtPresent_  []bool            `asn1:"-" json:"-"`
+	ExtData_     [][]byte          `asn1:"-" json:"-"`
 }
 
 // PWRegistrationFailureCause represents the ASN.1 ENUMERATED type PW-RegistrationFailureCause.
@@ -416,6 +185,500 @@ func (v PWRegistrationFailureCause) String() string {
 	default:
 		return "unknown"
 	}
+}
+
+// SMEnumeratedDeliveryFailureCause represents the ASN.1 ENUMERATED type SM-EnumeratedDeliveryFailureCause.
+type SMEnumeratedDeliveryFailureCause int64
+
+const (
+	SMEnumeratedDeliveryFailureCauseMemoryCapacityExceeded    SMEnumeratedDeliveryFailureCause = 0
+	SMEnumeratedDeliveryFailureCauseEquipmentProtocolError    SMEnumeratedDeliveryFailureCause = 1
+	SMEnumeratedDeliveryFailureCauseEquipmentNotSMEquipped    SMEnumeratedDeliveryFailureCause = 2
+	SMEnumeratedDeliveryFailureCauseUnknownServiceCentre      SMEnumeratedDeliveryFailureCause = 3
+	SMEnumeratedDeliveryFailureCauseScCongestion              SMEnumeratedDeliveryFailureCause = 4
+	SMEnumeratedDeliveryFailureCauseInvalidSMEAddress         SMEnumeratedDeliveryFailureCause = 5
+	SMEnumeratedDeliveryFailureCauseSubscriberNotSCSubscriber SMEnumeratedDeliveryFailureCause = 6
+)
+
+func (v SMEnumeratedDeliveryFailureCause) String() string {
+	switch v {
+	case SMEnumeratedDeliveryFailureCauseMemoryCapacityExceeded:
+		return "memoryCapacityExceeded"
+	case SMEnumeratedDeliveryFailureCauseEquipmentProtocolError:
+		return "equipmentProtocolError"
+	case SMEnumeratedDeliveryFailureCauseEquipmentNotSMEquipped:
+		return "equipmentNotSM-Equipped"
+	case SMEnumeratedDeliveryFailureCauseUnknownServiceCentre:
+		return "unknownServiceCentre"
+	case SMEnumeratedDeliveryFailureCauseScCongestion:
+		return "sc-Congestion"
+	case SMEnumeratedDeliveryFailureCauseInvalidSMEAddress:
+		return "invalidSME-Address"
+	case SMEnumeratedDeliveryFailureCauseSubscriberNotSCSubscriber:
+		return "subscriberNotSC-Subscriber"
+	default:
+		return "unknown"
+	}
+}
+
+// SMDeliveryFailureCause represents the ASN.1 type SM-DeliveryFailureCause (SEQUENCE).
+type SMDeliveryFailureCause struct {
+	SmEnumeratedDeliveryFailureCause SMEnumeratedDeliveryFailureCause `asn1:""`
+	DiagnosticInfo                   *SignalInfo                      `asn1:",optional" json:"DiagnosticInfo,omitempty"`
+	ExtensionContainer               *ExtensionContainer              `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_                        int64                            `asn1:"-" json:"-"`
+	ExtPresent_                      []bool                           `asn1:"-" json:"-"`
+	ExtData_                         [][]byte                         `asn1:"-" json:"-"`
+}
+
+// AbsentSubscriberSMParam represents the ASN.1 type AbsentSubscriberSM-Param (SEQUENCE).
+type AbsentSubscriberSMParam struct {
+	AbsentSubscriberDiagnosticSM           *AbsentSubscriberDiagnosticSM `asn1:",optional" json:"AbsentSubscriberDiagnosticSM,omitempty"`
+	ExtensionContainer                     *ExtensionContainer           `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	AdditionalAbsentSubscriberDiagnosticSM *AbsentSubscriberDiagnosticSM `asn1:"tag:0,context,implicit,optional" json:"AdditionalAbsentSubscriberDiagnosticSM,omitempty"`
+	Imsi                                   *IMSI                         `asn1:"tag:1,context,implicit,optional" json:"Imsi,omitempty"`
+	RequestedRetransmissionTime            *Time                         `asn1:"tag:2,context,implicit,optional" json:"RequestedRetransmissionTime,omitempty"`
+	UserIdentifierAlert                    *IMSI                         `asn1:"tag:3,context,implicit,optional" json:"UserIdentifierAlert,omitempty"`
+	ExtCount_                              int64                         `asn1:"-" json:"-"`
+	ExtPresent_                            []bool                        `asn1:"-" json:"-"`
+	ExtData_                               [][]byte                      `asn1:"-" json:"-"`
+}
+
+// AbsentSubscriberDiagnosticSM represents the ASN.1 type AbsentSubscriberDiagnosticSM (INTEGER).
+type AbsentSubscriberDiagnosticSM = int64
+
+// SystemFailureParam choice constants.
+const (
+	SystemFailureParamChoiceNetworkResource              = 1
+	SystemFailureParamChoiceExtensibleSystemFailureParam = 2
+)
+
+// SystemFailureParam represents the ASN.1 CHOICE type SystemFailureParam.
+type SystemFailureParam struct {
+	Choice                       int
+	NetworkResource              *NetworkResource              `json:"NetworkResource,omitempty"`
+	ExtensibleSystemFailureParam *ExtensibleSystemFailureParam `json:"ExtensibleSystemFailureParam,omitempty"`
+}
+
+// NewSystemFailureParamNetworkResource creates a SystemFailureParam with the networkResource alternative.
+func NewSystemFailureParamNetworkResource(v NetworkResource) SystemFailureParam {
+	return SystemFailureParam{
+		Choice:          SystemFailureParamChoiceNetworkResource,
+		NetworkResource: &v,
+	}
+}
+
+// NewSystemFailureParamExtensibleSystemFailureParam creates a SystemFailureParam with the extensibleSystemFailureParam alternative.
+func NewSystemFailureParamExtensibleSystemFailureParam(v ExtensibleSystemFailureParam) SystemFailureParam {
+	return SystemFailureParam{
+		Choice:                       SystemFailureParamChoiceExtensibleSystemFailureParam,
+		ExtensibleSystemFailureParam: &v,
+	}
+}
+
+// ExtensibleSystemFailureParam represents the ASN.1 type ExtensibleSystemFailureParam (SEQUENCE).
+type ExtensibleSystemFailureParam struct {
+	NetworkResource           *NetworkResource           `asn1:",optional" json:"NetworkResource,omitempty"`
+	ExtensionContainer        *ExtensionContainer        `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	AdditionalNetworkResource *AdditionalNetworkResource `asn1:"tag:0,context,implicit,optional" json:"AdditionalNetworkResource,omitempty"`
+	FailureCauseParam         *FailureCauseParam         `asn1:"tag:1,context,implicit,optional" json:"FailureCauseParam,omitempty"`
+	ExtCount_                 int64                      `asn1:"-" json:"-"`
+	ExtPresent_               []bool                     `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+}
+
+// FailureCauseParam represents the ASN.1 ENUMERATED type FailureCauseParam.
+type FailureCauseParam int64
+
+const (
+	FailureCauseParamLimitReachedOnNumberOfConcurrentLocationRequests FailureCauseParam = 0
+)
+
+func (v FailureCauseParam) String() string {
+	switch v {
+	case FailureCauseParamLimitReachedOnNumberOfConcurrentLocationRequests:
+		return "limitReachedOnNumberOfConcurrentLocationRequests"
+	default:
+		return "unknown"
+	}
+}
+
+// DataMissingParam represents the ASN.1 type DataMissingParam (SEQUENCE).
+type DataMissingParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// UnexpectedDataParam represents the ASN.1 type UnexpectedDataParam (SEQUENCE).
+type UnexpectedDataParam struct {
+	ExtensionContainer   *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	UnexpectedSubscriber *struct{}           `asn1:"tag:0,context,implicit,optional" json:"UnexpectedSubscriber,omitempty"`
+	ExtCount_            int64               `asn1:"-" json:"-"`
+	ExtPresent_          []bool              `asn1:"-" json:"-"`
+	ExtData_             [][]byte            `asn1:"-" json:"-"`
+}
+
+// FacilityNotSupParam represents the ASN.1 type FacilityNotSupParam (SEQUENCE).
+type FacilityNotSupParam struct {
+	ExtensionContainer                           *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ShapeOfLocationEstimateNotSupported          *struct{}           `asn1:"tag:0,context,implicit,optional" json:"ShapeOfLocationEstimateNotSupported,omitempty"`
+	NeededLcsCapabilityNotSupportedInServingNode *struct{}           `asn1:"tag:1,context,implicit,optional" json:"NeededLcsCapabilityNotSupportedInServingNode,omitempty"`
+	ExtCount_                                    int64               `asn1:"-" json:"-"`
+	ExtPresent_                                  []bool              `asn1:"-" json:"-"`
+	ExtData_                                     [][]byte            `asn1:"-" json:"-"`
+}
+
+// ORNotAllowedParam represents the ASN.1 type OR-NotAllowedParam (SEQUENCE).
+type ORNotAllowedParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// UnknownSubscriberParam represents the ASN.1 type UnknownSubscriberParam (SEQUENCE).
+type UnknownSubscriberParam struct {
+	ExtensionContainer          *ExtensionContainer          `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	UnknownSubscriberDiagnostic *UnknownSubscriberDiagnostic `asn1:",optional" json:"UnknownSubscriberDiagnostic,omitempty"`
+	ExtCount_                   int64                        `asn1:"-" json:"-"`
+	ExtPresent_                 []bool                       `asn1:"-" json:"-"`
+	ExtData_                    [][]byte                     `asn1:"-" json:"-"`
+}
+
+// UnknownSubscriberDiagnostic represents the ASN.1 ENUMERATED type UnknownSubscriberDiagnostic.
+type UnknownSubscriberDiagnostic int64
+
+const (
+	UnknownSubscriberDiagnosticImsiUnknown                UnknownSubscriberDiagnostic = 0
+	UnknownSubscriberDiagnosticGprsEpsSubscriptionUnknown UnknownSubscriberDiagnostic = 1
+	UnknownSubscriberDiagnosticNpdbMismatch               UnknownSubscriberDiagnostic = 2
+)
+
+func (v UnknownSubscriberDiagnostic) String() string {
+	switch v {
+	case UnknownSubscriberDiagnosticImsiUnknown:
+		return "imsiUnknown"
+	case UnknownSubscriberDiagnosticGprsEpsSubscriptionUnknown:
+		return "gprs-eps-SubscriptionUnknown"
+	case UnknownSubscriberDiagnosticNpdbMismatch:
+		return "npdbMismatch"
+	default:
+		return "unknown"
+	}
+}
+
+// NumberChangedParam represents the ASN.1 type NumberChangedParam (SEQUENCE).
+type NumberChangedParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// UnidentifiedSubParam represents the ASN.1 type UnidentifiedSubParam (SEQUENCE).
+type UnidentifiedSubParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// IllegalSubscriberParam represents the ASN.1 type IllegalSubscriberParam (SEQUENCE).
+type IllegalSubscriberParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// IllegalEquipmentParam represents the ASN.1 type IllegalEquipmentParam (SEQUENCE).
+type IllegalEquipmentParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// BearerServNotProvParam represents the ASN.1 type BearerServNotProvParam (SEQUENCE).
+type BearerServNotProvParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// TeleservNotProvParam represents the ASN.1 type TeleservNotProvParam (SEQUENCE).
+type TeleservNotProvParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// TracingBufferFullParam represents the ASN.1 type TracingBufferFullParam (SEQUENCE).
+type TracingBufferFullParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// NoRoamingNbParam represents the ASN.1 type NoRoamingNbParam (SEQUENCE).
+type NoRoamingNbParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// AbsentSubscriberParam represents the ASN.1 type AbsentSubscriberParam (SEQUENCE).
+type AbsentSubscriberParam struct {
+	ExtensionContainer     *ExtensionContainer     `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	AbsentSubscriberReason *AbsentSubscriberReason `asn1:"tag:0,context,implicit,optional" json:"AbsentSubscriberReason,omitempty"`
+	ExtCount_              int64                   `asn1:"-" json:"-"`
+	ExtPresent_            []bool                  `asn1:"-" json:"-"`
+	ExtData_               [][]byte                `asn1:"-" json:"-"`
+}
+
+// AbsentSubscriberReason represents the ASN.1 ENUMERATED type AbsentSubscriberReason.
+type AbsentSubscriberReason int64
+
+const (
+	AbsentSubscriberReasonImsiDetach     AbsentSubscriberReason = 0
+	AbsentSubscriberReasonRestrictedArea AbsentSubscriberReason = 1
+	AbsentSubscriberReasonNoPageResponse AbsentSubscriberReason = 2
+	AbsentSubscriberReasonPurgedMS       AbsentSubscriberReason = 3
+	AbsentSubscriberReasonMtRoamingRetry AbsentSubscriberReason = 4
+	AbsentSubscriberReasonBusySubscriber AbsentSubscriberReason = 5
+)
+
+func (v AbsentSubscriberReason) String() string {
+	switch v {
+	case AbsentSubscriberReasonImsiDetach:
+		return "imsiDetach"
+	case AbsentSubscriberReasonRestrictedArea:
+		return "restrictedArea"
+	case AbsentSubscriberReasonNoPageResponse:
+		return "noPageResponse"
+	case AbsentSubscriberReasonPurgedMS:
+		return "purgedMS"
+	case AbsentSubscriberReasonMtRoamingRetry:
+		return "mtRoamingRetry"
+	case AbsentSubscriberReasonBusySubscriber:
+		return "busySubscriber"
+	default:
+		return "unknown"
+	}
+}
+
+// BusySubscriberParam represents the ASN.1 type BusySubscriberParam (SEQUENCE).
+type BusySubscriberParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	CcbsPossible       *struct{}           `asn1:"tag:0,context,implicit,optional" json:"CcbsPossible,omitempty"`
+	CcbsBusy           *struct{}           `asn1:"tag:1,context,implicit,optional" json:"CcbsBusy,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// NoSubscriberReplyParam represents the ASN.1 type NoSubscriberReplyParam (SEQUENCE).
+type NoSubscriberReplyParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// ForwardingViolationParam represents the ASN.1 type ForwardingViolationParam (SEQUENCE).
+type ForwardingViolationParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// ForwardingFailedParam represents the ASN.1 type ForwardingFailedParam (SEQUENCE).
+type ForwardingFailedParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// ATINotAllowedParam represents the ASN.1 type ATI-NotAllowedParam (SEQUENCE).
+type ATINotAllowedParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// ATSINotAllowedParam represents the ASN.1 type ATSI-NotAllowedParam (SEQUENCE).
+type ATSINotAllowedParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// ATMNotAllowedParam represents the ASN.1 type ATM-NotAllowedParam (SEQUENCE).
+type ATMNotAllowedParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// IllegalSSOperationParam represents the ASN.1 type IllegalSS-OperationParam (SEQUENCE).
+type IllegalSSOperationParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// SSNotAvailableParam represents the ASN.1 type SS-NotAvailableParam (SEQUENCE).
+type SSNotAvailableParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// SSSubscriptionViolationParam represents the ASN.1 type SS-SubscriptionViolationParam (SEQUENCE).
+type SSSubscriptionViolationParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// InformationNotAvailableParam represents the ASN.1 type InformationNotAvailableParam (SEQUENCE).
+type InformationNotAvailableParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// SubBusyForMTSMSParam represents the ASN.1 type SubBusyForMT-SMS-Param (SEQUENCE).
+type SubBusyForMTSMSParam struct {
+	ExtensionContainer      *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	GprsConnectionSuspended *struct{}           `asn1:",optional" json:"GprsConnectionSuspended,omitempty"`
+	ExtCount_               int64               `asn1:"-" json:"-"`
+	ExtPresent_             []bool              `asn1:"-" json:"-"`
+	ExtData_                [][]byte            `asn1:"-" json:"-"`
+}
+
+// MessageWaitListFullParam represents the ASN.1 type MessageWaitListFullParam (SEQUENCE).
+type MessageWaitListFullParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// ResourceLimitationParam represents the ASN.1 type ResourceLimitationParam (SEQUENCE).
+type ResourceLimitationParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// NoGroupCallNbParam represents the ASN.1 type NoGroupCallNbParam (SEQUENCE).
+type NoGroupCallNbParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// IncompatibleTerminalParam represents the ASN.1 type IncompatibleTerminalParam (SEQUENCE).
+type IncompatibleTerminalParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// ShortTermDenialParam represents the ASN.1 type ShortTermDenialParam (SEQUENCE).
+type ShortTermDenialParam struct {
+	ExtCount_   int64    `asn1:"-" json:"-"`
+	ExtPresent_ []bool   `asn1:"-" json:"-"`
+	ExtData_    [][]byte `asn1:"-" json:"-"`
+}
+
+// LongTermDenialParam represents the ASN.1 type LongTermDenialParam (SEQUENCE).
+type LongTermDenialParam struct {
+	ExtCount_   int64    `asn1:"-" json:"-"`
+	ExtPresent_ []bool   `asn1:"-" json:"-"`
+	ExtData_    [][]byte `asn1:"-" json:"-"`
+}
+
+// UnauthorizedRequestingNetworkParam represents the ASN.1 type UnauthorizedRequestingNetwork-Param (SEQUENCE).
+type UnauthorizedRequestingNetworkParam struct {
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// UnauthorizedLCSClientParam represents the ASN.1 type UnauthorizedLCSClient-Param (SEQUENCE).
+type UnauthorizedLCSClientParam struct {
+	UnauthorizedLCSClientDiagnostic *UnauthorizedLCSClientDiagnostic `asn1:"tag:0,context,implicit,optional" json:"UnauthorizedLCSClientDiagnostic,omitempty"`
+	ExtensionContainer              *ExtensionContainer              `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_                       int64                            `asn1:"-" json:"-"`
+	ExtPresent_                     []bool                           `asn1:"-" json:"-"`
+	ExtData_                        [][]byte                         `asn1:"-" json:"-"`
+}
+
+// UnauthorizedLCSClientDiagnostic represents the ASN.1 ENUMERATED type UnauthorizedLCSClient-Diagnostic.
+type UnauthorizedLCSClientDiagnostic int64
+
+const (
+	UnauthorizedLCSClientDiagnosticNoAdditionalInformation                        UnauthorizedLCSClientDiagnostic = 0
+	UnauthorizedLCSClientDiagnosticClientNotInMSPrivacyExceptionList              UnauthorizedLCSClientDiagnostic = 1
+	UnauthorizedLCSClientDiagnosticCallToClientNotSetup                           UnauthorizedLCSClientDiagnostic = 2
+	UnauthorizedLCSClientDiagnosticPrivacyOverrideNotApplicable                   UnauthorizedLCSClientDiagnostic = 3
+	UnauthorizedLCSClientDiagnosticDisallowedByLocalRegulatoryRequirements        UnauthorizedLCSClientDiagnostic = 4
+	UnauthorizedLCSClientDiagnosticUnauthorizedPrivacyClass                       UnauthorizedLCSClientDiagnostic = 5
+	UnauthorizedLCSClientDiagnosticUnauthorizedCallSessionUnrelatedExternalClient UnauthorizedLCSClientDiagnostic = 6
+	UnauthorizedLCSClientDiagnosticUnauthorizedCallSessionRelatedExternalClient   UnauthorizedLCSClientDiagnostic = 7
+)
+
+func (v UnauthorizedLCSClientDiagnostic) String() string {
+	switch v {
+	case UnauthorizedLCSClientDiagnosticNoAdditionalInformation:
+		return "noAdditionalInformation"
+	case UnauthorizedLCSClientDiagnosticClientNotInMSPrivacyExceptionList:
+		return "clientNotInMSPrivacyExceptionList"
+	case UnauthorizedLCSClientDiagnosticCallToClientNotSetup:
+		return "callToClientNotSetup"
+	case UnauthorizedLCSClientDiagnosticPrivacyOverrideNotApplicable:
+		return "privacyOverrideNotApplicable"
+	case UnauthorizedLCSClientDiagnosticDisallowedByLocalRegulatoryRequirements:
+		return "disallowedByLocalRegulatoryRequirements"
+	case UnauthorizedLCSClientDiagnosticUnauthorizedPrivacyClass:
+		return "unauthorizedPrivacyClass"
+	case UnauthorizedLCSClientDiagnosticUnauthorizedCallSessionUnrelatedExternalClient:
+		return "unauthorizedCallSessionUnrelatedExternalClient"
+	case UnauthorizedLCSClientDiagnosticUnauthorizedCallSessionRelatedExternalClient:
+		return "unauthorizedCallSessionRelatedExternalClient"
+	default:
+		return "unknown"
+	}
+}
+
+// PositionMethodFailureParam represents the ASN.1 type PositionMethodFailure-Param (SEQUENCE).
+type PositionMethodFailureParam struct {
+	PositionMethodFailureDiagnostic *PositionMethodFailureDiagnostic `asn1:"tag:0,context,implicit,optional" json:"PositionMethodFailureDiagnostic,omitempty"`
+	ExtensionContainer              *ExtensionContainer              `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_                       int64                            `asn1:"-" json:"-"`
+	ExtPresent_                     []bool                           `asn1:"-" json:"-"`
+	ExtData_                        [][]byte                         `asn1:"-" json:"-"`
 }
 
 // PositionMethodFailureDiagnostic represents the ASN.1 ENUMERATED type PositionMethodFailure-Diagnostic.
@@ -458,165 +721,20 @@ func (v PositionMethodFailureDiagnostic) String() string {
 	}
 }
 
-// PositionMethodFailureParam represents the ASN.1 type PositionMethodFailure-Param (SEQUENCE).
-type PositionMethodFailureParam struct {
-	PositionMethodFailureDiagnostic *PositionMethodFailureDiagnostic `asn1:"tag:0,context,implicit,optional" json:"PositionMethodFailureDiagnostic,omitempty"`
-	ExtensionContainer              *ExtensionContainer              `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_                       int64                            `asn1:"-" json:"-"`
-	ExtPresent_                     []bool                           `asn1:"-" json:"-"`
-	ExtData_                        [][]byte                         `asn1:"-" json:"-"`
-}
-
-// ResourceLimitationParam represents the ASN.1 type ResourceLimitationParam (SEQUENCE).
-type ResourceLimitationParam struct {
+// UnknownOrUnreachableLCSClientParam represents the ASN.1 type UnknownOrUnreachableLCSClient-Param (SEQUENCE).
+type UnknownOrUnreachableLCSClientParam struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// RoamingNotAllowedCause represents the ASN.1 ENUMERATED type RoamingNotAllowedCause.
-type RoamingNotAllowedCause int64
-
-const (
-	RoamingNotAllowedCausePlmnRoamingNotAllowed     RoamingNotAllowedCause = 0
-	RoamingNotAllowedCauseOperatorDeterminedBarring RoamingNotAllowedCause = 3
-)
-
-func (v RoamingNotAllowedCause) String() string {
-	switch v {
-	case RoamingNotAllowedCausePlmnRoamingNotAllowed:
-		return "plmnRoamingNotAllowed"
-	case RoamingNotAllowedCauseOperatorDeterminedBarring:
-		return "operatorDeterminedBarring"
-	default:
-		return "unknown"
-	}
-}
-
-// RoamingNotAllowedParam represents the ASN.1 type RoamingNotAllowedParam (SEQUENCE).
-type RoamingNotAllowedParam struct {
-	RoamingNotAllowedCause           RoamingNotAllowedCause            `asn1:""`
-	ExtensionContainer               *ExtensionContainer               `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	AdditionalRoamingNotAllowedCause *AdditionalRoamingNotAllowedCause `asn1:"tag:0,context,implicit,optional" json:"AdditionalRoamingNotAllowedCause,omitempty"`
-	ExtCount_                        int64                             `asn1:"-" json:"-"`
-	ExtPresent_                      []bool                            `asn1:"-" json:"-"`
-	ExtData_                         [][]byte                          `asn1:"-" json:"-"`
-}
-
-// SMDeliveryFailureCause represents the ASN.1 type SM-DeliveryFailureCause (SEQUENCE).
-type SMDeliveryFailureCause struct {
-	SmEnumeratedDeliveryFailureCause SMEnumeratedDeliveryFailureCause `asn1:""`
-	DiagnosticInfo                   *SignalInfo                      `asn1:",optional" json:"DiagnosticInfo,omitempty"`
-	ExtensionContainer               *ExtensionContainer              `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_                        int64                            `asn1:"-" json:"-"`
-	ExtPresent_                      []bool                           `asn1:"-" json:"-"`
-	ExtData_                         [][]byte                         `asn1:"-" json:"-"`
-}
-
-// SMEnumeratedDeliveryFailureCause represents the ASN.1 ENUMERATED type SM-EnumeratedDeliveryFailureCause.
-type SMEnumeratedDeliveryFailureCause int64
-
-const (
-	SMEnumeratedDeliveryFailureCauseMemoryCapacityExceeded    SMEnumeratedDeliveryFailureCause = 0
-	SMEnumeratedDeliveryFailureCauseEquipmentProtocolError    SMEnumeratedDeliveryFailureCause = 1
-	SMEnumeratedDeliveryFailureCauseEquipmentNotSMEquipped    SMEnumeratedDeliveryFailureCause = 2
-	SMEnumeratedDeliveryFailureCauseUnknownServiceCentre      SMEnumeratedDeliveryFailureCause = 3
-	SMEnumeratedDeliveryFailureCauseScCongestion              SMEnumeratedDeliveryFailureCause = 4
-	SMEnumeratedDeliveryFailureCauseInvalidSMEAddress         SMEnumeratedDeliveryFailureCause = 5
-	SMEnumeratedDeliveryFailureCauseSubscriberNotSCSubscriber SMEnumeratedDeliveryFailureCause = 6
-)
-
-func (v SMEnumeratedDeliveryFailureCause) String() string {
-	switch v {
-	case SMEnumeratedDeliveryFailureCauseMemoryCapacityExceeded:
-		return "memoryCapacityExceeded"
-	case SMEnumeratedDeliveryFailureCauseEquipmentProtocolError:
-		return "equipmentProtocolError"
-	case SMEnumeratedDeliveryFailureCauseEquipmentNotSMEquipped:
-		return "equipmentNotSM-Equipped"
-	case SMEnumeratedDeliveryFailureCauseUnknownServiceCentre:
-		return "unknownServiceCentre"
-	case SMEnumeratedDeliveryFailureCauseScCongestion:
-		return "sc-Congestion"
-	case SMEnumeratedDeliveryFailureCauseInvalidSMEAddress:
-		return "invalidSME-Address"
-	case SMEnumeratedDeliveryFailureCauseSubscriberNotSCSubscriber:
-		return "subscriberNotSC-Subscriber"
-	default:
-		return "unknown"
-	}
-}
-
-// SSIncompatibilityCause represents the ASN.1 type SS-IncompatibilityCause (SEQUENCE).
-type SSIncompatibilityCause struct {
-	SsCode       *SSCode           `asn1:"tag:1,context,implicit,optional" json:"SsCode,omitempty"`
-	BasicService *BasicServiceCode `asn1:",optional" json:"BasicService,omitempty"`
-	SsStatus     *SSStatus         `asn1:"tag:4,context,implicit,optional" json:"SsStatus,omitempty"`
-	ExtCount_    int64             `asn1:"-" json:"-"`
-	ExtPresent_  []bool            `asn1:"-" json:"-"`
-	ExtData_     [][]byte          `asn1:"-" json:"-"`
-}
-
-// SSNotAvailableParam represents the ASN.1 type SS-NotAvailableParam (SEQUENCE).
-type SSNotAvailableParam struct {
+// MMEventNotSupportedParam represents the ASN.1 type MM-EventNotSupported-Param (SEQUENCE).
+type MMEventNotSupportedParam struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// SSSubscriptionViolationParam represents the ASN.1 type SS-SubscriptionViolationParam (SEQUENCE).
-type SSSubscriptionViolationParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// ShortTermDenialParam represents the ASN.1 type ShortTermDenialParam (SEQUENCE).
-type ShortTermDenialParam struct {
-	ExtCount_   int64    `asn1:"-" json:"-"`
-	ExtPresent_ []bool   `asn1:"-" json:"-"`
-	ExtData_    [][]byte `asn1:"-" json:"-"`
-}
-
-// SubBusyForMTSMSParam represents the ASN.1 type SubBusyForMT-SMS-Param (SEQUENCE).
-type SubBusyForMTSMSParam struct {
-	ExtensionContainer      *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	GprsConnectionSuspended *struct{}           `asn1:",optional" json:"GprsConnectionSuspended,omitempty"`
-	ExtCount_               int64               `asn1:"-" json:"-"`
-	ExtPresent_             []bool              `asn1:"-" json:"-"`
-	ExtData_                [][]byte            `asn1:"-" json:"-"`
-}
-
-// SystemFailureParam choice constants.
-const (
-	SystemFailureParamChoiceNetworkResource              = 1
-	SystemFailureParamChoiceExtensibleSystemFailureParam = 2
-)
-
-// SystemFailureParam represents the ASN.1 CHOICE type SystemFailureParam.
-type SystemFailureParam struct {
-	Choice                       int
-	NetworkResource              *NetworkResource              `json:"NetworkResource,omitempty"`
-	ExtensibleSystemFailureParam *ExtensibleSystemFailureParam `json:"ExtensibleSystemFailureParam,omitempty"`
-}
-
-// NewSystemFailureParamNetworkResource creates a SystemFailureParam with the networkResource alternative.
-func NewSystemFailureParamNetworkResource(v NetworkResource) SystemFailureParam {
-	return SystemFailureParam{
-		Choice:          SystemFailureParamChoiceNetworkResource,
-		NetworkResource: &v,
-	}
-}
-
-// NewSystemFailureParamExtensibleSystemFailureParam creates a SystemFailureParam with the extensibleSystemFailureParam alternative.
-func NewSystemFailureParamExtensibleSystemFailureParam(v ExtensibleSystemFailureParam) SystemFailureParam {
-	return SystemFailureParam{
-		Choice:                       SystemFailureParamChoiceExtensibleSystemFailureParam,
-		ExtensibleSystemFailureParam: &v,
-	}
 }
 
 // TargetCellOutsideGCAParam represents the ASN.1 type TargetCellOutsideGCA-Param (SEQUENCE).
@@ -627,141 +745,30 @@ type TargetCellOutsideGCAParam struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// TeleservNotProvParam represents the ASN.1 type TeleservNotProvParam (SEQUENCE).
-type TeleservNotProvParam struct {
+// OngoingGroupCallParam represents the ASN.1 type OngoingGroupCallParam (SEQUENCE).
+type OngoingGroupCallParam struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// TracingBufferFullParam represents the ASN.1 type TracingBufferFullParam (SEQUENCE).
-type TracingBufferFullParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// UnauthorizedLCSClientDiagnostic represents the ASN.1 ENUMERATED type UnauthorizedLCSClient-Diagnostic.
-type UnauthorizedLCSClientDiagnostic int64
-
-const (
-	UnauthorizedLCSClientDiagnosticNoAdditionalInformation                        UnauthorizedLCSClientDiagnostic = 0
-	UnauthorizedLCSClientDiagnosticClientNotInMSPrivacyExceptionList              UnauthorizedLCSClientDiagnostic = 1
-	UnauthorizedLCSClientDiagnosticCallToClientNotSetup                           UnauthorizedLCSClientDiagnostic = 2
-	UnauthorizedLCSClientDiagnosticPrivacyOverrideNotApplicable                   UnauthorizedLCSClientDiagnostic = 3
-	UnauthorizedLCSClientDiagnosticDisallowedByLocalRegulatoryRequirements        UnauthorizedLCSClientDiagnostic = 4
-	UnauthorizedLCSClientDiagnosticUnauthorizedPrivacyClass                       UnauthorizedLCSClientDiagnostic = 5
-	UnauthorizedLCSClientDiagnosticUnauthorizedCallSessionUnrelatedExternalClient UnauthorizedLCSClientDiagnostic = 6
-	UnauthorizedLCSClientDiagnosticUnauthorizedCallSessionRelatedExternalClient   UnauthorizedLCSClientDiagnostic = 7
-)
-
-func (v UnauthorizedLCSClientDiagnostic) String() string {
-	switch v {
-	case UnauthorizedLCSClientDiagnosticNoAdditionalInformation:
-		return "noAdditionalInformation"
-	case UnauthorizedLCSClientDiagnosticClientNotInMSPrivacyExceptionList:
-		return "clientNotInMSPrivacyExceptionList"
-	case UnauthorizedLCSClientDiagnosticCallToClientNotSetup:
-		return "callToClientNotSetup"
-	case UnauthorizedLCSClientDiagnosticPrivacyOverrideNotApplicable:
-		return "privacyOverrideNotApplicable"
-	case UnauthorizedLCSClientDiagnosticDisallowedByLocalRegulatoryRequirements:
-		return "disallowedByLocalRegulatoryRequirements"
-	case UnauthorizedLCSClientDiagnosticUnauthorizedPrivacyClass:
-		return "unauthorizedPrivacyClass"
-	case UnauthorizedLCSClientDiagnosticUnauthorizedCallSessionUnrelatedExternalClient:
-		return "unauthorizedCallSessionUnrelatedExternalClient"
-	case UnauthorizedLCSClientDiagnosticUnauthorizedCallSessionRelatedExternalClient:
-		return "unauthorizedCallSessionRelatedExternalClient"
-	default:
-		return "unknown"
-	}
-}
-
-// UnauthorizedLCSClientParam represents the ASN.1 type UnauthorizedLCSClient-Param (SEQUENCE).
-type UnauthorizedLCSClientParam struct {
-	UnauthorizedLCSClientDiagnostic *UnauthorizedLCSClientDiagnostic `asn1:"tag:0,context,implicit,optional" json:"UnauthorizedLCSClientDiagnostic,omitempty"`
-	ExtensionContainer              *ExtensionContainer              `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_                       int64                            `asn1:"-" json:"-"`
-	ExtPresent_                     []bool                           `asn1:"-" json:"-"`
-	ExtData_                        [][]byte                         `asn1:"-" json:"-"`
-}
-
-// UnauthorizedRequestingNetworkParam represents the ASN.1 type UnauthorizedRequestingNetwork-Param (SEQUENCE).
-type UnauthorizedRequestingNetworkParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// UnexpectedDataParam represents the ASN.1 type UnexpectedDataParam (SEQUENCE).
-type UnexpectedDataParam struct {
-	ExtensionContainer   *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	UnexpectedSubscriber *struct{}           `asn1:"tag:0,context,implicit,optional" json:"UnexpectedSubscriber,omitempty"`
-	ExtCount_            int64               `asn1:"-" json:"-"`
-	ExtPresent_          []bool              `asn1:"-" json:"-"`
-	ExtData_             [][]byte            `asn1:"-" json:"-"`
-}
-
-// UnidentifiedSubParam represents the ASN.1 type UnidentifiedSubParam (SEQUENCE).
-type UnidentifiedSubParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// UnknownOrUnreachableLCSClientParam represents the ASN.1 type UnknownOrUnreachableLCSClient-Param (SEQUENCE).
-type UnknownOrUnreachableLCSClientParam struct {
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// UnknownSubscriberDiagnostic represents the ASN.1 ENUMERATED type UnknownSubscriberDiagnostic.
-type UnknownSubscriberDiagnostic int64
-
-const (
-	UnknownSubscriberDiagnosticImsiUnknown                UnknownSubscriberDiagnostic = 0
-	UnknownSubscriberDiagnosticGprsEpsSubscriptionUnknown UnknownSubscriberDiagnostic = 1
-	UnknownSubscriberDiagnosticNpdbMismatch               UnknownSubscriberDiagnostic = 2
-)
-
-func (v UnknownSubscriberDiagnostic) String() string {
-	switch v {
-	case UnknownSubscriberDiagnosticImsiUnknown:
-		return "imsiUnknown"
-	case UnknownSubscriberDiagnosticGprsEpsSubscriptionUnknown:
-		return "gprs-eps-SubscriptionUnknown"
-	case UnknownSubscriberDiagnosticNpdbMismatch:
-		return "npdbMismatch"
-	default:
-		return "unknown"
-	}
-}
-
-// UnknownSubscriberParam represents the ASN.1 type UnknownSubscriberParam (SEQUENCE).
-type UnknownSubscriberParam struct {
-	ExtensionContainer          *ExtensionContainer          `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	UnknownSubscriberDiagnostic *UnknownSubscriberDiagnostic `asn1:",optional" json:"UnknownSubscriberDiagnostic,omitempty"`
-	ExtCount_                   int64                        `asn1:"-" json:"-"`
-	ExtPresent_                 []bool                       `asn1:"-" json:"-"`
-	ExtData_                    [][]byte                     `asn1:"-" json:"-"`
-}
-
-// MarshalBER encodes ATINotAllowedParam to BER format.
-func (v *ATINotAllowedParam) MarshalBER() ([]byte, error) {
+// MarshalBER encodes RoamingNotAllowedParam to BER format.
+func (v *RoamingNotAllowedParam) MarshalBER() ([]byte, error) {
 	var children []byte
+	enc_roamingnotallowedcause := ber.EncodeEnumerated(int64(v.RoamingNotAllowedCause))
+	children = append(children, enc_roamingnotallowedcause...)
 	if v.ExtensionContainer != nil {
 		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
 		children = append(children, enc_extensioncontainer...)
+	}
+	if v.AdditionalRoamingNotAllowedCause != nil {
+		enc_additionalroamingnotallowedcause := ber.EncodeEnumerated(int64(*v.AdditionalRoamingNotAllowedCause))
+		enc_additionalroamingnotallowedcause = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_additionalroamingnotallowedcause)
+		children = append(children, enc_additionalroamingnotallowedcause...)
 	}
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -776,22 +783,37 @@ func (v *ATINotAllowedParam) MarshalBER() ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes ATINotAllowedParam to DER format.
-func (v *ATINotAllowedParam) MarshalDER() ([]byte, error) {
+// MarshalDER encodes RoamingNotAllowedParam to DER format.
+func (v *RoamingNotAllowedParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes ATINotAllowedParam from BER/DER format.
-func (v *ATINotAllowedParam) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes RoamingNotAllowedParam from BER/DER format.
+func (v *RoamingNotAllowedParam) UnmarshalBER(data []byte) error {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding ATINotAllowedParam SEQUENCE: %w", err)
+		return fmt.Errorf("decoding RoamingNotAllowedParam SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ATINotAllowedParam", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "RoamingNotAllowedParam", Cause: ber.ErrExtraData}
 	}
 	offset := 0
+	// Decode roamingNotAllowedCause
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field roamingNotAllowedCause")
+	}
+	val_roamingnotallowedcause, n, err := ber.DecodeInteger(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding roamingNotAllowedCause: %w", err)
+	}
+	v.RoamingNotAllowedCause = RoamingNotAllowedCause(val_roamingnotallowedcause)
+	offset += n
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -811,249 +833,22 @@ func (v *ATINotAllowedParam) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ATINotAllowedParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes ATMNotAllowedParam to BER format.
-func (v *ATMNotAllowedParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes ATMNotAllowedParam to DER format.
-func (v *ATMNotAllowedParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes ATMNotAllowedParam from BER/DER format.
-func (v *ATMNotAllowedParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding ATMNotAllowedParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ATMNotAllowedParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ATMNotAllowedParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes ATSINotAllowedParam to BER format.
-func (v *ATSINotAllowedParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes ATSINotAllowedParam to DER format.
-func (v *ATSINotAllowedParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes ATSINotAllowedParam from BER/DER format.
-func (v *ATSINotAllowedParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding ATSINotAllowedParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ATSINotAllowedParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ATSINotAllowedParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes AbsentSubscriberParam to BER format.
-func (v *AbsentSubscriberParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	if v.AbsentSubscriberReason != nil {
-		enc_absentsubscriberreason := ber.EncodeEnumerated(int64(*v.AbsentSubscriberReason))
-		enc_absentsubscriberreason = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_absentsubscriberreason)
-		children = append(children, enc_absentsubscriberreason...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes AbsentSubscriberParam to DER format.
-func (v *AbsentSubscriberParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes AbsentSubscriberParam from BER/DER format.
-func (v *AbsentSubscriberParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding AbsentSubscriberParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "AbsentSubscriberParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	// Decode absentSubscriberReason
+	// Decode additionalRoamingNotAllowedCause
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_absentsubscriberreason, rawVal_absentsubscriberreason, err := ber.DecodeTLV(content[offset:])
+				_, n_additionalroamingnotallowedcause, rawVal_additionalroamingnotallowedcause, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
-					return fmt.Errorf("decoding absentSubscriberReason: %w", err)
+					return fmt.Errorf("decoding additionalRoamingNotAllowedCause: %w", err)
 				}
-				decVal_absentsubscriberreason, intErr := ber.DecodeIntegerValue(rawVal_absentsubscriberreason)
+				decVal_additionalroamingnotallowedcause, intErr := ber.DecodeIntegerValue(rawVal_additionalroamingnotallowedcause)
 				if intErr != nil {
-					return fmt.Errorf("decoding absentSubscriberReason: %w", intErr)
+					return fmt.Errorf("decoding additionalRoamingNotAllowedCause: %w", intErr)
 				}
-				tmp_absentsubscriberreason := AbsentSubscriberReason(decVal_absentsubscriberreason)
-				v.AbsentSubscriberReason = &tmp_absentsubscriberreason
-				offset += n_absentsubscriberreason
+				tmp_additionalroamingnotallowedcause := AdditionalRoamingNotAllowedCause(decVal_additionalroamingnotallowedcause)
+				v.AdditionalRoamingNotAllowedCause = &tmp_additionalroamingnotallowedcause
+				offset += n_additionalroamingnotallowedcause
 			}
 		}
 	}
@@ -1063,7 +858,535 @@ func (v *AbsentSubscriberParam) UnmarshalBER(data []byte) error {
 	for offset < len(content) {
 		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "AbsentSubscriberParam", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "RoamingNotAllowedParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes CallBarredParam to BER format.
+func (v *CallBarredParam) MarshalBER() ([]byte, error) {
+	switch v.Choice {
+	case CallBarredParamChoiceCallBarringCause:
+		if v.CallBarringCause == nil {
+			return nil, fmt.Errorf("choice CallBarredParam: callBarringCause is nil")
+		}
+		enc_0 := ber.EncodeEnumerated(int64(*v.CallBarringCause))
+		return enc_0, nil
+	case CallBarredParamChoiceExtensibleCallBarredParam:
+		if v.ExtensibleCallBarredParam == nil {
+			return nil, fmt.Errorf("choice CallBarredParam: extensibleCallBarredParam is nil")
+		}
+		enc_1, err := v.ExtensibleCallBarredParam.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensibleCallBarredParam: %w", err)
+		}
+		return enc_1, nil
+	default:
+		return nil, fmt.Errorf("unknown choice %d for CallBarredParam", v.Choice)
+	}
+}
+
+// MarshalDER encodes CallBarredParam to DER format.
+func (v *CallBarredParam) MarshalDER() ([]byte, error) {
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes CallBarredParam from BER/DER format.
+func (v *CallBarredParam) UnmarshalBER(data []byte) error {
+	if len(data) == 0 {
+		return fmt.Errorf("empty data for CallBarredParam CHOICE")
+	}
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
+	if peekErr != nil {
+		return fmt.Errorf("peeking tag for CallBarredParam: %w", peekErr)
+	}
+
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
+	if tlvErr != nil {
+		return fmt.Errorf("decoding CallBarredParam CHOICE: %w", tlvErr)
+	}
+	if total != len(choiceData) {
+		return &ber.DecodeError{Offset: total, TypeName: "CallBarredParam", Cause: ber.ErrExtraData}
+	}
+
+	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 {
+		v.Choice = CallBarredParamChoiceCallBarringCause
+		decVal, _, intErr := ber.DecodeInteger(choiceData)
+		if intErr != nil {
+			return fmt.Errorf("decoding callBarringCause: %w", intErr)
+		}
+		tmp := CallBarringCause(decVal)
+		v.CallBarringCause = &tmp
+	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+		v.Choice = CallBarredParamChoiceExtensibleCallBarredParam
+		var dec ExtensibleCallBarredParam
+		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
+			return fmt.Errorf("decoding extensibleCallBarredParam: %w", unmErr)
+		}
+		v.ExtensibleCallBarredParam = &dec
+	} else {
+		return fmt.Errorf("unknown tag %s for CallBarredParam CHOICE", peekTag)
+	}
+	return nil
+}
+
+// MarshalBER encodes ExtensibleCallBarredParam to BER format.
+func (v *ExtensibleCallBarredParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.CallBarringCause != nil {
+		enc_callbarringcause := ber.EncodeEnumerated(int64(*v.CallBarringCause))
+		children = append(children, enc_callbarringcause...)
+	}
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	if v.UnauthorisedMessageOriginator != nil {
+		enc_unauthorisedmessageoriginator := ber.EncodeNull()
+		enc_unauthorisedmessageoriginator = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_unauthorisedmessageoriginator)
+		children = append(children, enc_unauthorisedmessageoriginator...)
+	}
+	if v.AnonymousCallRejection != nil {
+		enc_anonymouscallrejection := ber.EncodeNull()
+		enc_anonymouscallrejection = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_anonymouscallrejection)
+		children = append(children, enc_anonymouscallrejection...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes ExtensibleCallBarredParam to DER format.
+func (v *ExtensibleCallBarredParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ExtensibleCallBarredParam from BER/DER format.
+func (v *ExtensibleCallBarredParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding ExtensibleCallBarredParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "ExtensibleCallBarredParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode callBarringCause
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 {
+				val_callbarringcause, n, err := ber.DecodeInteger(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding callBarringCause: %w", err)
+				}
+				tmp_callbarringcause := CallBarringCause(val_callbarringcause)
+				v.CallBarringCause = &tmp_callbarringcause
+				offset += n
+			}
+		}
+	}
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	// Decode unauthorisedMessageOriginator
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+				_, n_unauthorisedmessageoriginator, rawVal_unauthorisedmessageoriginator, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding unauthorisedMessageOriginator: %w", err)
+				}
+				_ = rawVal_unauthorisedmessageoriginator
+				v.UnauthorisedMessageOriginator = &struct{}{}
+				offset += n_unauthorisedmessageoriginator
+			}
+		}
+	}
+	// Decode anonymousCallRejection
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
+				_, n_anonymouscallrejection, rawVal_anonymouscallrejection, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding anonymousCallRejection: %w", err)
+				}
+				_ = rawVal_anonymouscallrejection
+				v.AnonymousCallRejection = &struct{}{}
+				offset += n_anonymouscallrejection
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ExtensibleCallBarredParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes CUGRejectParam to BER format.
+func (v *CUGRejectParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.CugRejectCause != nil {
+		enc_cugrejectcause := ber.EncodeEnumerated(int64(*v.CugRejectCause))
+		children = append(children, enc_cugrejectcause...)
+	}
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes CUGRejectParam to DER format.
+func (v *CUGRejectParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes CUGRejectParam from BER/DER format.
+func (v *CUGRejectParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding CUGRejectParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "CUGRejectParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode cug-RejectCause
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 {
+				val_cugrejectcause, n, err := ber.DecodeInteger(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding cug-RejectCause: %w", err)
+				}
+				tmp_cugrejectcause := CUGRejectCause(val_cugrejectcause)
+				v.CugRejectCause = &tmp_cugrejectcause
+				offset += n
+			}
+		}
+	}
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "CUGRejectParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes SSIncompatibilityCause to BER format.
+func (v *SSIncompatibilityCause) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.SsCode != nil {
+		enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
+		enc_sscode = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_sscode)
+		children = append(children, enc_sscode...)
+	}
+	if v.BasicService != nil {
+		enc_basicservice, err := v.BasicService.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding basicService: %w", err)
+		}
+		children = append(children, enc_basicservice...)
+	}
+	if v.SsStatus != nil {
+		enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
+		enc_ssstatus = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_ssstatus)
+		children = append(children, enc_ssstatus...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes SSIncompatibilityCause to DER format.
+func (v *SSIncompatibilityCause) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes SSIncompatibilityCause from BER/DER format.
+func (v *SSIncompatibilityCause) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding SSIncompatibilityCause SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "SSIncompatibilityCause", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode ss-Code
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+				_, n_sscode, rawVal_sscode, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding ss-Code: %w", err)
+				}
+				tmp_sscode := SSCode(rawVal_sscode)
+				v.SsCode = &tmp_sscode
+				offset += n_sscode
+			}
+		}
+	}
+	// Decode basicService
+	if offset < len(content) {
+		// Decode nested CHOICE (BasicServiceCode)
+		_, n_basicservice, _, tlvErr_basicservice := ber.DecodeTLV(content[offset:])
+		if tlvErr_basicservice != nil {
+			return fmt.Errorf("decoding basicService: %w", tlvErr_basicservice)
+		}
+		var dec_basicservice BasicServiceCode
+		if unmErr := dec_basicservice.UnmarshalBER(content[offset : offset+n_basicservice]); unmErr != nil {
+			return fmt.Errorf("decoding basicService: %w", unmErr)
+		}
+		v.BasicService = &dec_basicservice
+		offset += n_basicservice
+	}
+	// Decode ss-Status
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
+				_, n_ssstatus, rawVal_ssstatus, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding ss-Status: %w", err)
+				}
+				tmp_ssstatus := SSStatus(rawVal_ssstatus)
+				v.SsStatus = &tmp_ssstatus
+				offset += n_ssstatus
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SSIncompatibilityCause", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes SMDeliveryFailureCause to BER format.
+func (v *SMDeliveryFailureCause) MarshalBER() ([]byte, error) {
+	var children []byte
+	enc_smenumerateddeliveryfailurecause := ber.EncodeEnumerated(int64(v.SmEnumeratedDeliveryFailureCause))
+	children = append(children, enc_smenumerateddeliveryfailurecause...)
+	if v.DiagnosticInfo != nil {
+		enc_diagnosticinfo := ber.EncodeOctetString([]byte(*v.DiagnosticInfo))
+		children = append(children, enc_diagnosticinfo...)
+	}
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes SMDeliveryFailureCause to DER format.
+func (v *SMDeliveryFailureCause) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes SMDeliveryFailureCause from BER/DER format.
+func (v *SMDeliveryFailureCause) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding SMDeliveryFailureCause SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "SMDeliveryFailureCause", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode sm-EnumeratedDeliveryFailureCause
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field sm-EnumeratedDeliveryFailureCause")
+	}
+	val_smenumerateddeliveryfailurecause, n, err := ber.DecodeInteger(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding sm-EnumeratedDeliveryFailureCause: %w", err)
+	}
+	v.SmEnumeratedDeliveryFailureCause = SMEnumeratedDeliveryFailureCause(val_smenumerateddeliveryfailurecause)
+	offset += n
+	// Decode diagnosticInfo
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 4 {
+				val_diagnosticinfo, n, err := ber.DecodeOctetString(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding diagnosticInfo: %w", err)
+				}
+				tmp_diagnosticinfo := SignalInfo(val_diagnosticinfo)
+				v.DiagnosticInfo = &tmp_diagnosticinfo
+				offset += n
+			}
+		}
+	}
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SMDeliveryFailureCause", Cause: extErr_}
 		}
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
@@ -1122,6 +1445,11 @@ func (v *AbsentSubscriberSMParam) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AbsentSubscriberSMParam to DER format.
 func (v *AbsentSubscriberSMParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -1145,7 +1473,8 @@ func (v *AbsentSubscriberSMParam) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding absentSubscriberDiagnosticSM: %w", err)
 				}
-				v.AbsentSubscriberDiagnosticSM = &val_absentsubscriberdiagnosticsm
+				tmp_absentsubscriberdiagnosticsm := AbsentSubscriberDiagnosticSM(val_absentsubscriberdiagnosticsm)
+				v.AbsentSubscriberDiagnosticSM = &tmp_absentsubscriberdiagnosticsm
 				offset += n
 			}
 		}
@@ -1182,7 +1511,8 @@ func (v *AbsentSubscriberSMParam) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding additionalAbsentSubscriberDiagnosticSM: %w", intErr)
 				}
-				v.AdditionalAbsentSubscriberDiagnosticSM = &decVal_additionalabsentsubscriberdiagnosticsm
+				tmp_additionalabsentsubscriberdiagnosticsm := AbsentSubscriberDiagnosticSM(decVal_additionalabsentsubscriberdiagnosticsm)
+				v.AdditionalAbsentSubscriberDiagnosticSM = &tmp_additionalabsentsubscriberdiagnosticsm
 				offset += n_additionalabsentsubscriberdiagnosticsm
 			}
 		}
@@ -1248,554 +1578,71 @@ func (v *AbsentSubscriberSMParam) UnmarshalBER(data []byte) error {
 	return nil
 }
 
-// MarshalBER encodes BearerServNotProvParam to BER format.
-func (v *BearerServNotProvParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes BearerServNotProvParam to DER format.
-func (v *BearerServNotProvParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes BearerServNotProvParam from BER/DER format.
-func (v *BearerServNotProvParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding BearerServNotProvParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "BearerServNotProvParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "BearerServNotProvParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes BusySubscriberParam to BER format.
-func (v *BusySubscriberParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	if v.CcbsPossible != nil {
-		enc_ccbspossible := ber.EncodeNull()
-		enc_ccbspossible = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_ccbspossible)
-		children = append(children, enc_ccbspossible...)
-	}
-	if v.CcbsBusy != nil {
-		enc_ccbsbusy := ber.EncodeNull()
-		enc_ccbsbusy = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_ccbsbusy)
-		children = append(children, enc_ccbsbusy...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes BusySubscriberParam to DER format.
-func (v *BusySubscriberParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes BusySubscriberParam from BER/DER format.
-func (v *BusySubscriberParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding BusySubscriberParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "BusySubscriberParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	// Decode ccbs-Possible
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_ccbspossible, _, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding ccbs-Possible: %w", err)
-				}
-				v.CcbsPossible = &struct{}{}
-				offset += n_ccbspossible
-			}
-		}
-	}
-	// Decode ccbs-Busy
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_ccbsbusy, _, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding ccbs-Busy: %w", err)
-				}
-				v.CcbsBusy = &struct{}{}
-				offset += n_ccbsbusy
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "BusySubscriberParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes CUGRejectParam to BER format.
-func (v *CUGRejectParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.CugRejectCause != nil {
-		enc_cugrejectcause := ber.EncodeEnumerated(int64(*v.CugRejectCause))
-		children = append(children, enc_cugrejectcause...)
-	}
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes CUGRejectParam to DER format.
-func (v *CUGRejectParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes CUGRejectParam from BER/DER format.
-func (v *CUGRejectParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding CUGRejectParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "CUGRejectParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode cug-RejectCause
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 {
-				val_cugrejectcause, n, err := ber.DecodeInteger(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding cug-RejectCause: %w", err)
-				}
-				tmp_cugrejectcause := CUGRejectCause(val_cugrejectcause)
-				v.CugRejectCause = &tmp_cugrejectcause
-				offset += n
-			}
-		}
-	}
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "CUGRejectParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes CallBarredParam to BER format.
-func (v *CallBarredParam) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SystemFailureParam to BER format.
+func (v *SystemFailureParam) MarshalBER() ([]byte, error) {
 	switch v.Choice {
-	case CallBarredParamChoiceCallBarringCause:
-		if v.CallBarringCause == nil {
-			return nil, fmt.Errorf("choice CallBarredParam: callBarringCause is nil")
+	case SystemFailureParamChoiceNetworkResource:
+		if v.NetworkResource == nil {
+			return nil, fmt.Errorf("choice SystemFailureParam: networkResource is nil")
 		}
-		enc_0 := ber.EncodeEnumerated(int64(*v.CallBarringCause))
+		enc_0 := ber.EncodeEnumerated(int64(*v.NetworkResource))
 		return enc_0, nil
-	case CallBarredParamChoiceExtensibleCallBarredParam:
-		if v.ExtensibleCallBarredParam == nil {
-			return nil, fmt.Errorf("choice CallBarredParam: extensibleCallBarredParam is nil")
+	case SystemFailureParamChoiceExtensibleSystemFailureParam:
+		if v.ExtensibleSystemFailureParam == nil {
+			return nil, fmt.Errorf("choice SystemFailureParam: extensibleSystemFailureParam is nil")
 		}
-		enc_1, err := v.ExtensibleCallBarredParam.MarshalBER()
+		enc_1, err := v.ExtensibleSystemFailureParam.MarshalBER()
 		if err != nil {
-			return nil, fmt.Errorf("encoding extensibleCallBarredParam: %w", err)
+			return nil, fmt.Errorf("encoding extensibleSystemFailureParam: %w", err)
 		}
 		return enc_1, nil
 	default:
-		return nil, fmt.Errorf("unknown choice %d for CallBarredParam", v.Choice)
+		return nil, fmt.Errorf("unknown choice %d for SystemFailureParam", v.Choice)
 	}
 }
 
-// MarshalDER encodes CallBarredParam to DER format.
-func (v *CallBarredParam) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SystemFailureParam to DER format.
+func (v *SystemFailureParam) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes CallBarredParam from BER/DER format.
-func (v *CallBarredParam) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SystemFailureParam from BER/DER format.
+func (v *SystemFailureParam) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for CallBarredParam CHOICE")
+		return fmt.Errorf("empty data for SystemFailureParam CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for CallBarredParam: %w", peekErr)
+		return fmt.Errorf("peeking tag for SystemFailureParam: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
-		return fmt.Errorf("decoding CallBarredParam CHOICE: %w", tlvErr)
+		return fmt.Errorf("decoding SystemFailureParam CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "CallBarredParam", Cause: ber.ErrExtraData}
+	if total != len(choiceData) {
+		return &ber.DecodeError{Offset: total, TypeName: "SystemFailureParam", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 {
-		v.Choice = CallBarredParamChoiceCallBarringCause
-		decVal, _, intErr := ber.DecodeInteger(data)
+		v.Choice = SystemFailureParamChoiceNetworkResource
+		decVal, _, intErr := ber.DecodeInteger(choiceData)
 		if intErr != nil {
-			return fmt.Errorf("decoding callBarringCause: %w", intErr)
+			return fmt.Errorf("decoding networkResource: %w", intErr)
 		}
-		tmp := CallBarringCause(decVal)
-		v.CallBarringCause = &tmp
+		tmp := NetworkResource(decVal)
+		v.NetworkResource = &tmp
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-		v.Choice = CallBarredParamChoiceExtensibleCallBarredParam
-		var dec ExtensibleCallBarredParam
-		if unmErr := dec.UnmarshalBER(data); unmErr != nil {
-			return fmt.Errorf("decoding extensibleCallBarredParam: %w", unmErr)
+		v.Choice = SystemFailureParamChoiceExtensibleSystemFailureParam
+		var dec ExtensibleSystemFailureParam
+		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
+			return fmt.Errorf("decoding extensibleSystemFailureParam: %w", unmErr)
 		}
-		v.ExtensibleCallBarredParam = &dec
+		v.ExtensibleSystemFailureParam = &dec
 	} else {
-		return fmt.Errorf("unknown tag %s for CallBarredParam CHOICE", peekTag)
+		return fmt.Errorf("unknown tag %s for SystemFailureParam CHOICE", peekTag)
 	}
-	return nil
-}
-
-// MarshalBER encodes DataMissingParam to BER format.
-func (v *DataMissingParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes DataMissingParam to DER format.
-func (v *DataMissingParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes DataMissingParam from BER/DER format.
-func (v *DataMissingParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding DataMissingParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "DataMissingParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "DataMissingParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes ExtensibleCallBarredParam to BER format.
-func (v *ExtensibleCallBarredParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.CallBarringCause != nil {
-		enc_callbarringcause := ber.EncodeEnumerated(int64(*v.CallBarringCause))
-		children = append(children, enc_callbarringcause...)
-	}
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	if v.UnauthorisedMessageOriginator != nil {
-		enc_unauthorisedmessageoriginator := ber.EncodeNull()
-		enc_unauthorisedmessageoriginator = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_unauthorisedmessageoriginator)
-		children = append(children, enc_unauthorisedmessageoriginator...)
-	}
-	if v.AnonymousCallRejection != nil {
-		enc_anonymouscallrejection := ber.EncodeNull()
-		enc_anonymouscallrejection = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_anonymouscallrejection)
-		children = append(children, enc_anonymouscallrejection...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes ExtensibleCallBarredParam to DER format.
-func (v *ExtensibleCallBarredParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes ExtensibleCallBarredParam from BER/DER format.
-func (v *ExtensibleCallBarredParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding ExtensibleCallBarredParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ExtensibleCallBarredParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode callBarringCause
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 {
-				val_callbarringcause, n, err := ber.DecodeInteger(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding callBarringCause: %w", err)
-				}
-				tmp_callbarringcause := CallBarringCause(val_callbarringcause)
-				v.CallBarringCause = &tmp_callbarringcause
-				offset += n
-			}
-		}
-	}
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	// Decode unauthorisedMessageOriginator
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_unauthorisedmessageoriginator, _, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding unauthorisedMessageOriginator: %w", err)
-				}
-				v.UnauthorisedMessageOriginator = &struct{}{}
-				offset += n_unauthorisedmessageoriginator
-			}
-		}
-	}
-	// Decode anonymousCallRejection
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_anonymouscallrejection, _, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding anonymousCallRejection: %w", err)
-				}
-				v.AnonymousCallRejection = &struct{}{}
-				offset += n_anonymouscallrejection
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ExtensibleCallBarredParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -1838,6 +1685,11 @@ func (v *ExtensibleSystemFailureParam) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ExtensibleSystemFailureParam to DER format.
 func (v *ExtensibleSystemFailureParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -1940,6 +1792,184 @@ func (v *ExtensibleSystemFailureParam) UnmarshalBER(data []byte) error {
 	return nil
 }
 
+// MarshalBER encodes DataMissingParam to BER format.
+func (v *DataMissingParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes DataMissingParam to DER format.
+func (v *DataMissingParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes DataMissingParam from BER/DER format.
+func (v *DataMissingParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding DataMissingParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "DataMissingParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "DataMissingParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes UnexpectedDataParam to BER format.
+func (v *UnexpectedDataParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	if v.UnexpectedSubscriber != nil {
+		enc_unexpectedsubscriber := ber.EncodeNull()
+		enc_unexpectedsubscriber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_unexpectedsubscriber)
+		children = append(children, enc_unexpectedsubscriber...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes UnexpectedDataParam to DER format.
+func (v *UnexpectedDataParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes UnexpectedDataParam from BER/DER format.
+func (v *UnexpectedDataParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding UnexpectedDataParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "UnexpectedDataParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	// Decode unexpectedSubscriber
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+				_, n_unexpectedsubscriber, rawVal_unexpectedsubscriber, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding unexpectedSubscriber: %w", err)
+				}
+				_ = rawVal_unexpectedsubscriber
+				v.UnexpectedSubscriber = &struct{}{}
+				offset += n_unexpectedsubscriber
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "UnexpectedDataParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
 // MarshalBER encodes FacilityNotSupParam to BER format.
 func (v *FacilityNotSupParam) MarshalBER() ([]byte, error) {
 	var children []byte
@@ -1975,6 +2005,11 @@ func (v *FacilityNotSupParam) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes FacilityNotSupParam to DER format.
 func (v *FacilityNotSupParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -2013,10 +2048,11 @@ func (v *FacilityNotSupParam) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_shapeoflocationestimatenotsupported, _, err := ber.DecodeTLV(content[offset:])
+				_, n_shapeoflocationestimatenotsupported, rawVal_shapeoflocationestimatenotsupported, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding shapeOfLocationEstimateNotSupported: %w", err)
 				}
+				_ = rawVal_shapeoflocationestimatenotsupported
 				v.ShapeOfLocationEstimateNotSupported = &struct{}{}
 				offset += n_shapeoflocationestimatenotsupported
 			}
@@ -2027,10 +2063,11 @@ func (v *FacilityNotSupParam) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_neededlcscapabilitynotsupportedinservingnode, _, err := ber.DecodeTLV(content[offset:])
+				_, n_neededlcscapabilitynotsupportedinservingnode, rawVal_neededlcscapabilitynotsupportedinservingnode, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding neededLcsCapabilityNotSupportedInServingNode: %w", err)
 				}
+				_ = rawVal_neededlcscapabilitynotsupportedinservingnode
 				v.NeededLcsCapabilityNotSupportedInServingNode = &struct{}{}
 				offset += n_neededlcscapabilitynotsupportedinservingnode
 			}
@@ -2043,1007 +2080,6 @@ func (v *FacilityNotSupParam) UnmarshalBER(data []byte) error {
 		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "FacilityNotSupParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes ForwardingFailedParam to BER format.
-func (v *ForwardingFailedParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes ForwardingFailedParam to DER format.
-func (v *ForwardingFailedParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes ForwardingFailedParam from BER/DER format.
-func (v *ForwardingFailedParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding ForwardingFailedParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ForwardingFailedParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ForwardingFailedParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes ForwardingViolationParam to BER format.
-func (v *ForwardingViolationParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes ForwardingViolationParam to DER format.
-func (v *ForwardingViolationParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes ForwardingViolationParam from BER/DER format.
-func (v *ForwardingViolationParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding ForwardingViolationParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ForwardingViolationParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ForwardingViolationParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes IllegalEquipmentParam to BER format.
-func (v *IllegalEquipmentParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes IllegalEquipmentParam to DER format.
-func (v *IllegalEquipmentParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes IllegalEquipmentParam from BER/DER format.
-func (v *IllegalEquipmentParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding IllegalEquipmentParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "IllegalEquipmentParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "IllegalEquipmentParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes IllegalSSOperationParam to BER format.
-func (v *IllegalSSOperationParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes IllegalSSOperationParam to DER format.
-func (v *IllegalSSOperationParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes IllegalSSOperationParam from BER/DER format.
-func (v *IllegalSSOperationParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding IllegalSSOperationParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "IllegalSSOperationParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "IllegalSSOperationParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes IllegalSubscriberParam to BER format.
-func (v *IllegalSubscriberParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes IllegalSubscriberParam to DER format.
-func (v *IllegalSubscriberParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes IllegalSubscriberParam from BER/DER format.
-func (v *IllegalSubscriberParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding IllegalSubscriberParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "IllegalSubscriberParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "IllegalSubscriberParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes IncompatibleTerminalParam to BER format.
-func (v *IncompatibleTerminalParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes IncompatibleTerminalParam to DER format.
-func (v *IncompatibleTerminalParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes IncompatibleTerminalParam from BER/DER format.
-func (v *IncompatibleTerminalParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding IncompatibleTerminalParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "IncompatibleTerminalParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "IncompatibleTerminalParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes InformationNotAvailableParam to BER format.
-func (v *InformationNotAvailableParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes InformationNotAvailableParam to DER format.
-func (v *InformationNotAvailableParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes InformationNotAvailableParam from BER/DER format.
-func (v *InformationNotAvailableParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding InformationNotAvailableParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "InformationNotAvailableParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "InformationNotAvailableParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes LongTermDenialParam to BER format.
-func (v *LongTermDenialParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes LongTermDenialParam to DER format.
-func (v *LongTermDenialParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes LongTermDenialParam from BER/DER format.
-func (v *LongTermDenialParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding LongTermDenialParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "LongTermDenialParam", Cause: ber.ErrExtraData}
-	}
-	var captureErr error
-	v.ExtData_, v.ExtPresent_, v.ExtCount_, captureErr = captureRawExtensions(content, 0, "LongTermDenialParam")
-	if captureErr != nil {
-		return captureErr
-	}
-	return nil
-}
-
-// MarshalBER encodes MMEventNotSupportedParam to BER format.
-func (v *MMEventNotSupportedParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes MMEventNotSupportedParam to DER format.
-func (v *MMEventNotSupportedParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes MMEventNotSupportedParam from BER/DER format.
-func (v *MMEventNotSupportedParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding MMEventNotSupportedParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "MMEventNotSupportedParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "MMEventNotSupportedParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes MessageWaitListFullParam to BER format.
-func (v *MessageWaitListFullParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes MessageWaitListFullParam to DER format.
-func (v *MessageWaitListFullParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes MessageWaitListFullParam from BER/DER format.
-func (v *MessageWaitListFullParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding MessageWaitListFullParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "MessageWaitListFullParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "MessageWaitListFullParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes NoGroupCallNbParam to BER format.
-func (v *NoGroupCallNbParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes NoGroupCallNbParam to DER format.
-func (v *NoGroupCallNbParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes NoGroupCallNbParam from BER/DER format.
-func (v *NoGroupCallNbParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding NoGroupCallNbParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "NoGroupCallNbParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "NoGroupCallNbParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes NoRoamingNbParam to BER format.
-func (v *NoRoamingNbParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes NoRoamingNbParam to DER format.
-func (v *NoRoamingNbParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes NoRoamingNbParam from BER/DER format.
-func (v *NoRoamingNbParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding NoRoamingNbParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "NoRoamingNbParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "NoRoamingNbParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes NoSubscriberReplyParam to BER format.
-func (v *NoSubscriberReplyParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes NoSubscriberReplyParam to DER format.
-func (v *NoSubscriberReplyParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes NoSubscriberReplyParam from BER/DER format.
-func (v *NoSubscriberReplyParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding NoSubscriberReplyParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "NoSubscriberReplyParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "NoSubscriberReplyParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes NumberChangedParam to BER format.
-func (v *NumberChangedParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes NumberChangedParam to DER format.
-func (v *NumberChangedParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes NumberChangedParam from BER/DER format.
-func (v *NumberChangedParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding NumberChangedParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "NumberChangedParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "NumberChangedParam", Cause: extErr_}
 		}
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
@@ -3078,6 +2114,11 @@ func (v *ORNotAllowedParam) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ORNotAllowedParam to DER format.
 func (v *ORNotAllowedParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -3127,8 +2168,8 @@ func (v *ORNotAllowedParam) UnmarshalBER(data []byte) error {
 	return nil
 }
 
-// MarshalBER encodes OngoingGroupCallParam to BER format.
-func (v *OngoingGroupCallParam) MarshalBER() ([]byte, error) {
+// MarshalBER encodes UnknownSubscriberParam to BER format.
+func (v *UnknownSubscriberParam) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.ExtensionContainer != nil {
 		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
@@ -3136,6 +2177,10 @@ func (v *OngoingGroupCallParam) MarshalBER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
 		children = append(children, enc_extensioncontainer...)
+	}
+	if v.UnknownSubscriberDiagnostic != nil {
+		enc_unknownsubscriberdiagnostic := ber.EncodeEnumerated(int64(*v.UnknownSubscriberDiagnostic))
+		children = append(children, enc_unknownsubscriberdiagnostic...)
 	}
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -3150,20 +2195,25 @@ func (v *OngoingGroupCallParam) MarshalBER() ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes OngoingGroupCallParam to DER format.
-func (v *OngoingGroupCallParam) MarshalDER() ([]byte, error) {
+// MarshalDER encodes UnknownSubscriberParam to DER format.
+func (v *UnknownSubscriberParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes OngoingGroupCallParam from BER/DER format.
-func (v *OngoingGroupCallParam) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes UnknownSubscriberParam from BER/DER format.
+func (v *UnknownSubscriberParam) UnmarshalBER(data []byte) error {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding OngoingGroupCallParam SEQUENCE: %w", err)
+		return fmt.Errorf("decoding UnknownSubscriberParam SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "OngoingGroupCallParam", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "UnknownSubscriberParam", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode extensionContainer
@@ -3185,783 +2235,17 @@ func (v *OngoingGroupCallParam) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "OngoingGroupCallParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes PositionMethodFailureParam to BER format.
-func (v *PositionMethodFailureParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.PositionMethodFailureDiagnostic != nil {
-		enc_positionmethodfailurediagnostic := ber.EncodeEnumerated(int64(*v.PositionMethodFailureDiagnostic))
-		enc_positionmethodfailurediagnostic = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_positionmethodfailurediagnostic)
-		children = append(children, enc_positionmethodfailurediagnostic...)
-	}
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		enc_extensioncontainer = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_extensioncontainer)
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes PositionMethodFailureParam to DER format.
-func (v *PositionMethodFailureParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes PositionMethodFailureParam from BER/DER format.
-func (v *PositionMethodFailureParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding PositionMethodFailureParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "PositionMethodFailureParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode positionMethodFailure-Diagnostic
+	// Decode unknownSubscriberDiagnostic
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_positionmethodfailurediagnostic, rawVal_positionmethodfailurediagnostic, err := ber.DecodeTLV(content[offset:])
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 {
+				val_unknownsubscriberdiagnostic, n, err := ber.DecodeInteger(content[offset:])
 				if err != nil {
-					return fmt.Errorf("decoding positionMethodFailure-Diagnostic: %w", err)
+					return fmt.Errorf("decoding unknownSubscriberDiagnostic: %w", err)
 				}
-				decVal_positionmethodfailurediagnostic, intErr := ber.DecodeIntegerValue(rawVal_positionmethodfailurediagnostic)
-				if intErr != nil {
-					return fmt.Errorf("decoding positionMethodFailure-Diagnostic: %w", intErr)
-				}
-				tmp_positionmethodfailurediagnostic := PositionMethodFailureDiagnostic(decVal_positionmethodfailurediagnostic)
-				v.PositionMethodFailureDiagnostic = &tmp_positionmethodfailurediagnostic
-				offset += n_positionmethodfailurediagnostic
-			}
-		}
-	}
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", err)
-				}
-				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "PositionMethodFailureParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes ResourceLimitationParam to BER format.
-func (v *ResourceLimitationParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes ResourceLimitationParam to DER format.
-func (v *ResourceLimitationParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes ResourceLimitationParam from BER/DER format.
-func (v *ResourceLimitationParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding ResourceLimitationParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ResourceLimitationParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ResourceLimitationParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes RoamingNotAllowedParam to BER format.
-func (v *RoamingNotAllowedParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	enc_roamingnotallowedcause := ber.EncodeEnumerated(int64(v.RoamingNotAllowedCause))
-	children = append(children, enc_roamingnotallowedcause...)
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	if v.AdditionalRoamingNotAllowedCause != nil {
-		enc_additionalroamingnotallowedcause := ber.EncodeEnumerated(int64(*v.AdditionalRoamingNotAllowedCause))
-		enc_additionalroamingnotallowedcause = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_additionalroamingnotallowedcause)
-		children = append(children, enc_additionalroamingnotallowedcause...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes RoamingNotAllowedParam to DER format.
-func (v *RoamingNotAllowedParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes RoamingNotAllowedParam from BER/DER format.
-func (v *RoamingNotAllowedParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding RoamingNotAllowedParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "RoamingNotAllowedParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode roamingNotAllowedCause
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field roamingNotAllowedCause")
-	}
-	val_roamingnotallowedcause, n, err := ber.DecodeInteger(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding roamingNotAllowedCause: %w", err)
-	}
-	v.RoamingNotAllowedCause = RoamingNotAllowedCause(val_roamingnotallowedcause)
-	offset += n
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	// Decode additionalRoamingNotAllowedCause
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_additionalroamingnotallowedcause, rawVal_additionalroamingnotallowedcause, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding additionalRoamingNotAllowedCause: %w", err)
-				}
-				decVal_additionalroamingnotallowedcause, intErr := ber.DecodeIntegerValue(rawVal_additionalroamingnotallowedcause)
-				if intErr != nil {
-					return fmt.Errorf("decoding additionalRoamingNotAllowedCause: %w", intErr)
-				}
-				tmp_additionalroamingnotallowedcause := AdditionalRoamingNotAllowedCause(decVal_additionalroamingnotallowedcause)
-				v.AdditionalRoamingNotAllowedCause = &tmp_additionalroamingnotallowedcause
-				offset += n_additionalroamingnotallowedcause
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "RoamingNotAllowedParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes SMDeliveryFailureCause to BER format.
-func (v *SMDeliveryFailureCause) MarshalBER() ([]byte, error) {
-	var children []byte
-	enc_smenumerateddeliveryfailurecause := ber.EncodeEnumerated(int64(v.SmEnumeratedDeliveryFailureCause))
-	children = append(children, enc_smenumerateddeliveryfailurecause...)
-	if v.DiagnosticInfo != nil {
-		enc_diagnosticinfo := ber.EncodeOctetString([]byte(*v.DiagnosticInfo))
-		children = append(children, enc_diagnosticinfo...)
-	}
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes SMDeliveryFailureCause to DER format.
-func (v *SMDeliveryFailureCause) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes SMDeliveryFailureCause from BER/DER format.
-func (v *SMDeliveryFailureCause) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding SMDeliveryFailureCause SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SMDeliveryFailureCause", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode sm-EnumeratedDeliveryFailureCause
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field sm-EnumeratedDeliveryFailureCause")
-	}
-	val_smenumerateddeliveryfailurecause, n, err := ber.DecodeInteger(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding sm-EnumeratedDeliveryFailureCause: %w", err)
-	}
-	v.SmEnumeratedDeliveryFailureCause = SMEnumeratedDeliveryFailureCause(val_smenumerateddeliveryfailurecause)
-	offset += n
-	// Decode diagnosticInfo
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 4 {
-				val_diagnosticinfo, n, err := ber.DecodeOctetString(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding diagnosticInfo: %w", err)
-				}
-				tmp_diagnosticinfo := SignalInfo(val_diagnosticinfo)
-				v.DiagnosticInfo = &tmp_diagnosticinfo
-				offset += n
-			}
-		}
-	}
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "SMDeliveryFailureCause", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes SSIncompatibilityCause to BER format.
-func (v *SSIncompatibilityCause) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.SsCode != nil {
-		enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
-		enc_sscode = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_sscode)
-		children = append(children, enc_sscode...)
-	}
-	if v.BasicService != nil {
-		enc_basicservice, err := v.BasicService.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding basicService: %w", err)
-		}
-		children = append(children, enc_basicservice...)
-	}
-	if v.SsStatus != nil {
-		enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
-		enc_ssstatus = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_ssstatus)
-		children = append(children, enc_ssstatus...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes SSIncompatibilityCause to DER format.
-func (v *SSIncompatibilityCause) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes SSIncompatibilityCause from BER/DER format.
-func (v *SSIncompatibilityCause) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding SSIncompatibilityCause SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SSIncompatibilityCause", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode ss-Code
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_sscode, rawVal_sscode, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding ss-Code: %w", err)
-				}
-				tmp_sscode := SSCode(rawVal_sscode)
-				v.SsCode = &tmp_sscode
-				offset += n_sscode
-			}
-		}
-	}
-	// Decode basicService
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) {
-				// Decode nested CHOICE (BasicServiceCode)
-				_, n_basicservice, _, tlvErr_basicservice := ber.DecodeTLV(content[offset:])
-				if tlvErr_basicservice != nil {
-					return fmt.Errorf("decoding basicService: %w", tlvErr_basicservice)
-				}
-				var dec_basicservice BasicServiceCode
-				if unmErr := dec_basicservice.UnmarshalBER(content[offset : offset+n_basicservice]); unmErr != nil {
-					return fmt.Errorf("decoding basicService: %w", unmErr)
-				}
-				v.BasicService = &dec_basicservice
-				offset += n_basicservice
-			}
-		}
-	}
-	// Decode ss-Status
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_ssstatus, rawVal_ssstatus, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding ss-Status: %w", err)
-				}
-				tmp_ssstatus := SSStatus(rawVal_ssstatus)
-				v.SsStatus = &tmp_ssstatus
-				offset += n_ssstatus
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "SSIncompatibilityCause", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes SSNotAvailableParam to BER format.
-func (v *SSNotAvailableParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes SSNotAvailableParam to DER format.
-func (v *SSNotAvailableParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes SSNotAvailableParam from BER/DER format.
-func (v *SSNotAvailableParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding SSNotAvailableParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SSNotAvailableParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "SSNotAvailableParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes SSSubscriptionViolationParam to BER format.
-func (v *SSSubscriptionViolationParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes SSSubscriptionViolationParam to DER format.
-func (v *SSSubscriptionViolationParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes SSSubscriptionViolationParam from BER/DER format.
-func (v *SSSubscriptionViolationParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding SSSubscriptionViolationParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SSSubscriptionViolationParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "SSSubscriptionViolationParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes ShortTermDenialParam to BER format.
-func (v *ShortTermDenialParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes ShortTermDenialParam to DER format.
-func (v *ShortTermDenialParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes ShortTermDenialParam from BER/DER format.
-func (v *ShortTermDenialParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding ShortTermDenialParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ShortTermDenialParam", Cause: ber.ErrExtraData}
-	}
-	var captureErr error
-	v.ExtData_, v.ExtPresent_, v.ExtCount_, captureErr = captureRawExtensions(content, 0, "ShortTermDenialParam")
-	if captureErr != nil {
-		return captureErr
-	}
-	return nil
-}
-
-// MarshalBER encodes SubBusyForMTSMSParam to BER format.
-func (v *SubBusyForMTSMSParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	if v.GprsConnectionSuspended != nil {
-		enc_gprsconnectionsuspended := ber.EncodeNull()
-		children = append(children, enc_gprsconnectionsuspended...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes SubBusyForMTSMSParam to DER format.
-func (v *SubBusyForMTSMSParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes SubBusyForMTSMSParam from BER/DER format.
-func (v *SubBusyForMTSMSParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding SubBusyForMTSMSParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SubBusyForMTSMSParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	// Decode gprsConnectionSuspended
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 5 {
-				n, err := ber.DecodeNull(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding gprsConnectionSuspended: %w", err)
-				}
-				v.GprsConnectionSuspended = &struct{}{}
+				tmp_unknownsubscriberdiagnostic := UnknownSubscriberDiagnostic(val_unknownsubscriberdiagnostic)
+				v.UnknownSubscriberDiagnostic = &tmp_unknownsubscriberdiagnostic
 				offset += n
 			}
 		}
@@ -3972,7 +2256,7 @@ func (v *SubBusyForMTSMSParam) UnmarshalBER(data []byte) error {
 	for offset < len(content) {
 		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "SubBusyForMTSMSParam", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "UnknownSubscriberParam", Cause: extErr_}
 		}
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
@@ -3982,75 +2266,8 @@ func (v *SubBusyForMTSMSParam) UnmarshalBER(data []byte) error {
 	return nil
 }
 
-// MarshalBER encodes SystemFailureParam to BER format.
-func (v *SystemFailureParam) MarshalBER() ([]byte, error) {
-	switch v.Choice {
-	case SystemFailureParamChoiceNetworkResource:
-		if v.NetworkResource == nil {
-			return nil, fmt.Errorf("choice SystemFailureParam: networkResource is nil")
-		}
-		enc_0 := ber.EncodeEnumerated(int64(*v.NetworkResource))
-		return enc_0, nil
-	case SystemFailureParamChoiceExtensibleSystemFailureParam:
-		if v.ExtensibleSystemFailureParam == nil {
-			return nil, fmt.Errorf("choice SystemFailureParam: extensibleSystemFailureParam is nil")
-		}
-		enc_1, err := v.ExtensibleSystemFailureParam.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensibleSystemFailureParam: %w", err)
-		}
-		return enc_1, nil
-	default:
-		return nil, fmt.Errorf("unknown choice %d for SystemFailureParam", v.Choice)
-	}
-}
-
-// MarshalDER encodes SystemFailureParam to DER format.
-func (v *SystemFailureParam) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes SystemFailureParam from BER/DER format.
-func (v *SystemFailureParam) UnmarshalBER(data []byte) error {
-	if len(data) == 0 {
-		return fmt.Errorf("empty data for SystemFailureParam CHOICE")
-	}
-	peekTag, peekErr := ber.PeekTag(data)
-	if peekErr != nil {
-		return fmt.Errorf("peeking tag for SystemFailureParam: %w", peekErr)
-	}
-
-	_, total, _, tlvErr := ber.DecodeTLV(data)
-	if tlvErr != nil {
-		return fmt.Errorf("decoding SystemFailureParam CHOICE: %w", tlvErr)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SystemFailureParam", Cause: ber.ErrExtraData}
-	}
-
-	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 {
-		v.Choice = SystemFailureParamChoiceNetworkResource
-		decVal, _, intErr := ber.DecodeInteger(data)
-		if intErr != nil {
-			return fmt.Errorf("decoding networkResource: %w", intErr)
-		}
-		tmp := NetworkResource(decVal)
-		v.NetworkResource = &tmp
-	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-		v.Choice = SystemFailureParamChoiceExtensibleSystemFailureParam
-		var dec ExtensibleSystemFailureParam
-		if unmErr := dec.UnmarshalBER(data); unmErr != nil {
-			return fmt.Errorf("decoding extensibleSystemFailureParam: %w", unmErr)
-		}
-		v.ExtensibleSystemFailureParam = &dec
-	} else {
-		return fmt.Errorf("unknown tag %s for SystemFailureParam CHOICE", peekTag)
-	}
-	return nil
-}
-
-// MarshalBER encodes TargetCellOutsideGCAParam to BER format.
-func (v *TargetCellOutsideGCAParam) MarshalBER() ([]byte, error) {
+// MarshalBER encodes NumberChangedParam to BER format.
+func (v *NumberChangedParam) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.ExtensionContainer != nil {
 		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
@@ -4072,20 +2289,25 @@ func (v *TargetCellOutsideGCAParam) MarshalBER() ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes TargetCellOutsideGCAParam to DER format.
-func (v *TargetCellOutsideGCAParam) MarshalDER() ([]byte, error) {
+// MarshalDER encodes NumberChangedParam to DER format.
+func (v *NumberChangedParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes TargetCellOutsideGCAParam from BER/DER format.
-func (v *TargetCellOutsideGCAParam) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes NumberChangedParam from BER/DER format.
+func (v *NumberChangedParam) UnmarshalBER(data []byte) error {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding TargetCellOutsideGCAParam SEQUENCE: %w", err)
+		return fmt.Errorf("decoding NumberChangedParam SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "TargetCellOutsideGCAParam", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "NumberChangedParam", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode extensionContainer
@@ -4113,7 +2335,323 @@ func (v *TargetCellOutsideGCAParam) UnmarshalBER(data []byte) error {
 	for offset < len(content) {
 		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "TargetCellOutsideGCAParam", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "NumberChangedParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes UnidentifiedSubParam to BER format.
+func (v *UnidentifiedSubParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes UnidentifiedSubParam to DER format.
+func (v *UnidentifiedSubParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes UnidentifiedSubParam from BER/DER format.
+func (v *UnidentifiedSubParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding UnidentifiedSubParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "UnidentifiedSubParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "UnidentifiedSubParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes IllegalSubscriberParam to BER format.
+func (v *IllegalSubscriberParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes IllegalSubscriberParam to DER format.
+func (v *IllegalSubscriberParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes IllegalSubscriberParam from BER/DER format.
+func (v *IllegalSubscriberParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding IllegalSubscriberParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "IllegalSubscriberParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "IllegalSubscriberParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes IllegalEquipmentParam to BER format.
+func (v *IllegalEquipmentParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes IllegalEquipmentParam to DER format.
+func (v *IllegalEquipmentParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes IllegalEquipmentParam from BER/DER format.
+func (v *IllegalEquipmentParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding IllegalEquipmentParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "IllegalEquipmentParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "IllegalEquipmentParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes BearerServNotProvParam to BER format.
+func (v *BearerServNotProvParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes BearerServNotProvParam to DER format.
+func (v *BearerServNotProvParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes BearerServNotProvParam from BER/DER format.
+func (v *BearerServNotProvParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding BearerServNotProvParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "BearerServNotProvParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "BearerServNotProvParam", Cause: extErr_}
 		}
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
@@ -4148,6 +2686,11 @@ func (v *TeleservNotProvParam) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes TeleservNotProvParam to DER format.
 func (v *TeleservNotProvParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -4222,6 +2765,11 @@ func (v *TracingBufferFullParam) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes TracingBufferFullParam to DER format.
 func (v *TracingBufferFullParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -4271,6 +2819,1695 @@ func (v *TracingBufferFullParam) UnmarshalBER(data []byte) error {
 	return nil
 }
 
+// MarshalBER encodes NoRoamingNbParam to BER format.
+func (v *NoRoamingNbParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes NoRoamingNbParam to DER format.
+func (v *NoRoamingNbParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes NoRoamingNbParam from BER/DER format.
+func (v *NoRoamingNbParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding NoRoamingNbParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "NoRoamingNbParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "NoRoamingNbParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes AbsentSubscriberParam to BER format.
+func (v *AbsentSubscriberParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	if v.AbsentSubscriberReason != nil {
+		enc_absentsubscriberreason := ber.EncodeEnumerated(int64(*v.AbsentSubscriberReason))
+		enc_absentsubscriberreason = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_absentsubscriberreason)
+		children = append(children, enc_absentsubscriberreason...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes AbsentSubscriberParam to DER format.
+func (v *AbsentSubscriberParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes AbsentSubscriberParam from BER/DER format.
+func (v *AbsentSubscriberParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding AbsentSubscriberParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "AbsentSubscriberParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	// Decode absentSubscriberReason
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+				_, n_absentsubscriberreason, rawVal_absentsubscriberreason, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding absentSubscriberReason: %w", err)
+				}
+				decVal_absentsubscriberreason, intErr := ber.DecodeIntegerValue(rawVal_absentsubscriberreason)
+				if intErr != nil {
+					return fmt.Errorf("decoding absentSubscriberReason: %w", intErr)
+				}
+				tmp_absentsubscriberreason := AbsentSubscriberReason(decVal_absentsubscriberreason)
+				v.AbsentSubscriberReason = &tmp_absentsubscriberreason
+				offset += n_absentsubscriberreason
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "AbsentSubscriberParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes BusySubscriberParam to BER format.
+func (v *BusySubscriberParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	if v.CcbsPossible != nil {
+		enc_ccbspossible := ber.EncodeNull()
+		enc_ccbspossible = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_ccbspossible)
+		children = append(children, enc_ccbspossible...)
+	}
+	if v.CcbsBusy != nil {
+		enc_ccbsbusy := ber.EncodeNull()
+		enc_ccbsbusy = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_ccbsbusy)
+		children = append(children, enc_ccbsbusy...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes BusySubscriberParam to DER format.
+func (v *BusySubscriberParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes BusySubscriberParam from BER/DER format.
+func (v *BusySubscriberParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding BusySubscriberParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "BusySubscriberParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	// Decode ccbs-Possible
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+				_, n_ccbspossible, rawVal_ccbspossible, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding ccbs-Possible: %w", err)
+				}
+				_ = rawVal_ccbspossible
+				v.CcbsPossible = &struct{}{}
+				offset += n_ccbspossible
+			}
+		}
+	}
+	// Decode ccbs-Busy
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+				_, n_ccbsbusy, rawVal_ccbsbusy, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding ccbs-Busy: %w", err)
+				}
+				_ = rawVal_ccbsbusy
+				v.CcbsBusy = &struct{}{}
+				offset += n_ccbsbusy
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "BusySubscriberParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes NoSubscriberReplyParam to BER format.
+func (v *NoSubscriberReplyParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes NoSubscriberReplyParam to DER format.
+func (v *NoSubscriberReplyParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes NoSubscriberReplyParam from BER/DER format.
+func (v *NoSubscriberReplyParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding NoSubscriberReplyParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "NoSubscriberReplyParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "NoSubscriberReplyParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes ForwardingViolationParam to BER format.
+func (v *ForwardingViolationParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes ForwardingViolationParam to DER format.
+func (v *ForwardingViolationParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ForwardingViolationParam from BER/DER format.
+func (v *ForwardingViolationParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding ForwardingViolationParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "ForwardingViolationParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ForwardingViolationParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes ForwardingFailedParam to BER format.
+func (v *ForwardingFailedParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes ForwardingFailedParam to DER format.
+func (v *ForwardingFailedParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ForwardingFailedParam from BER/DER format.
+func (v *ForwardingFailedParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding ForwardingFailedParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "ForwardingFailedParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ForwardingFailedParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes ATINotAllowedParam to BER format.
+func (v *ATINotAllowedParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes ATINotAllowedParam to DER format.
+func (v *ATINotAllowedParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ATINotAllowedParam from BER/DER format.
+func (v *ATINotAllowedParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding ATINotAllowedParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "ATINotAllowedParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ATINotAllowedParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes ATSINotAllowedParam to BER format.
+func (v *ATSINotAllowedParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes ATSINotAllowedParam to DER format.
+func (v *ATSINotAllowedParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ATSINotAllowedParam from BER/DER format.
+func (v *ATSINotAllowedParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding ATSINotAllowedParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "ATSINotAllowedParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ATSINotAllowedParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes ATMNotAllowedParam to BER format.
+func (v *ATMNotAllowedParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes ATMNotAllowedParam to DER format.
+func (v *ATMNotAllowedParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ATMNotAllowedParam from BER/DER format.
+func (v *ATMNotAllowedParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding ATMNotAllowedParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "ATMNotAllowedParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ATMNotAllowedParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes IllegalSSOperationParam to BER format.
+func (v *IllegalSSOperationParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes IllegalSSOperationParam to DER format.
+func (v *IllegalSSOperationParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes IllegalSSOperationParam from BER/DER format.
+func (v *IllegalSSOperationParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding IllegalSSOperationParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "IllegalSSOperationParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "IllegalSSOperationParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes SSNotAvailableParam to BER format.
+func (v *SSNotAvailableParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes SSNotAvailableParam to DER format.
+func (v *SSNotAvailableParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes SSNotAvailableParam from BER/DER format.
+func (v *SSNotAvailableParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding SSNotAvailableParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "SSNotAvailableParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SSNotAvailableParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes SSSubscriptionViolationParam to BER format.
+func (v *SSSubscriptionViolationParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes SSSubscriptionViolationParam to DER format.
+func (v *SSSubscriptionViolationParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes SSSubscriptionViolationParam from BER/DER format.
+func (v *SSSubscriptionViolationParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding SSSubscriptionViolationParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "SSSubscriptionViolationParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SSSubscriptionViolationParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes InformationNotAvailableParam to BER format.
+func (v *InformationNotAvailableParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes InformationNotAvailableParam to DER format.
+func (v *InformationNotAvailableParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes InformationNotAvailableParam from BER/DER format.
+func (v *InformationNotAvailableParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding InformationNotAvailableParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "InformationNotAvailableParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "InformationNotAvailableParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes SubBusyForMTSMSParam to BER format.
+func (v *SubBusyForMTSMSParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	if v.GprsConnectionSuspended != nil {
+		enc_gprsconnectionsuspended := ber.EncodeNull()
+		children = append(children, enc_gprsconnectionsuspended...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes SubBusyForMTSMSParam to DER format.
+func (v *SubBusyForMTSMSParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes SubBusyForMTSMSParam from BER/DER format.
+func (v *SubBusyForMTSMSParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding SubBusyForMTSMSParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "SubBusyForMTSMSParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	// Decode gprsConnectionSuspended
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 5 {
+				n, err := ber.DecodeNull(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding gprsConnectionSuspended: %w", err)
+				}
+				v.GprsConnectionSuspended = &struct{}{}
+				offset += n
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SubBusyForMTSMSParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes MessageWaitListFullParam to BER format.
+func (v *MessageWaitListFullParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes MessageWaitListFullParam to DER format.
+func (v *MessageWaitListFullParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes MessageWaitListFullParam from BER/DER format.
+func (v *MessageWaitListFullParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding MessageWaitListFullParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "MessageWaitListFullParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "MessageWaitListFullParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes ResourceLimitationParam to BER format.
+func (v *ResourceLimitationParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes ResourceLimitationParam to DER format.
+func (v *ResourceLimitationParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ResourceLimitationParam from BER/DER format.
+func (v *ResourceLimitationParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding ResourceLimitationParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "ResourceLimitationParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ResourceLimitationParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes NoGroupCallNbParam to BER format.
+func (v *NoGroupCallNbParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes NoGroupCallNbParam to DER format.
+func (v *NoGroupCallNbParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes NoGroupCallNbParam from BER/DER format.
+func (v *NoGroupCallNbParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding NoGroupCallNbParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "NoGroupCallNbParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "NoGroupCallNbParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes IncompatibleTerminalParam to BER format.
+func (v *IncompatibleTerminalParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes IncompatibleTerminalParam to DER format.
+func (v *IncompatibleTerminalParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes IncompatibleTerminalParam from BER/DER format.
+func (v *IncompatibleTerminalParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding IncompatibleTerminalParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "IncompatibleTerminalParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "IncompatibleTerminalParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes ShortTermDenialParam to BER format.
+func (v *ShortTermDenialParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes ShortTermDenialParam to DER format.
+func (v *ShortTermDenialParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ShortTermDenialParam from BER/DER format.
+func (v *ShortTermDenialParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding ShortTermDenialParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "ShortTermDenialParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ShortTermDenialParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes LongTermDenialParam to BER format.
+func (v *LongTermDenialParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes LongTermDenialParam to DER format.
+func (v *LongTermDenialParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes LongTermDenialParam from BER/DER format.
+func (v *LongTermDenialParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding LongTermDenialParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "LongTermDenialParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "LongTermDenialParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes UnauthorizedRequestingNetworkParam to BER format.
+func (v *UnauthorizedRequestingNetworkParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes UnauthorizedRequestingNetworkParam to DER format.
+func (v *UnauthorizedRequestingNetworkParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes UnauthorizedRequestingNetworkParam from BER/DER format.
+func (v *UnauthorizedRequestingNetworkParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding UnauthorizedRequestingNetworkParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "UnauthorizedRequestingNetworkParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "UnauthorizedRequestingNetworkParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
 // MarshalBER encodes UnauthorizedLCSClientParam to BER format.
 func (v *UnauthorizedLCSClientParam) MarshalBER() ([]byte, error) {
 	var children []byte
@@ -4302,6 +4539,11 @@ func (v *UnauthorizedLCSClientParam) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes UnauthorizedLCSClientParam to DER format.
 func (v *UnauthorizedLCSClientParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -4370,14 +4612,20 @@ func (v *UnauthorizedLCSClientParam) UnmarshalBER(data []byte) error {
 	return nil
 }
 
-// MarshalBER encodes UnauthorizedRequestingNetworkParam to BER format.
-func (v *UnauthorizedRequestingNetworkParam) MarshalBER() ([]byte, error) {
+// MarshalBER encodes PositionMethodFailureParam to BER format.
+func (v *PositionMethodFailureParam) MarshalBER() ([]byte, error) {
 	var children []byte
+	if v.PositionMethodFailureDiagnostic != nil {
+		enc_positionmethodfailurediagnostic := ber.EncodeEnumerated(int64(*v.PositionMethodFailureDiagnostic))
+		enc_positionmethodfailurediagnostic = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_positionmethodfailurediagnostic)
+		children = append(children, enc_positionmethodfailurediagnostic...)
+	}
 	if v.ExtensionContainer != nil {
 		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
+		enc_extensioncontainer = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -4393,201 +4641,58 @@ func (v *UnauthorizedRequestingNetworkParam) MarshalBER() ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes UnauthorizedRequestingNetworkParam to DER format.
-func (v *UnauthorizedRequestingNetworkParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes UnauthorizedRequestingNetworkParam from BER/DER format.
-func (v *UnauthorizedRequestingNetworkParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding UnauthorizedRequestingNetworkParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "UnauthorizedRequestingNetworkParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "UnauthorizedRequestingNetworkParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes UnexpectedDataParam to BER format.
-func (v *UnexpectedDataParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	if v.UnexpectedSubscriber != nil {
-		enc_unexpectedsubscriber := ber.EncodeNull()
-		enc_unexpectedsubscriber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_unexpectedsubscriber)
-		children = append(children, enc_unexpectedsubscriber...)
-	}
+// MarshalDER encodes PositionMethodFailureParam to DER format.
+func (v *PositionMethodFailureParam) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes UnexpectedDataParam to DER format.
-func (v *UnexpectedDataParam) MarshalDER() ([]byte, error) {
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes UnexpectedDataParam from BER/DER format.
-func (v *UnexpectedDataParam) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes PositionMethodFailureParam from BER/DER format.
+func (v *PositionMethodFailureParam) UnmarshalBER(data []byte) error {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding UnexpectedDataParam SEQUENCE: %w", err)
+		return fmt.Errorf("decoding PositionMethodFailureParam SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "UnexpectedDataParam", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "PositionMethodFailureParam", Cause: ber.ErrExtraData}
 	}
 	offset := 0
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	// Decode unexpectedSubscriber
+	// Decode positionMethodFailure-Diagnostic
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_unexpectedsubscriber, _, err := ber.DecodeTLV(content[offset:])
+				_, n_positionmethodfailurediagnostic, rawVal_positionmethodfailurediagnostic, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
-					return fmt.Errorf("decoding unexpectedSubscriber: %w", err)
+					return fmt.Errorf("decoding positionMethodFailure-Diagnostic: %w", err)
 				}
-				v.UnexpectedSubscriber = &struct{}{}
-				offset += n_unexpectedsubscriber
+				decVal_positionmethodfailurediagnostic, intErr := ber.DecodeIntegerValue(rawVal_positionmethodfailurediagnostic)
+				if intErr != nil {
+					return fmt.Errorf("decoding positionMethodFailure-Diagnostic: %w", intErr)
+				}
+				tmp_positionmethodfailurediagnostic := PositionMethodFailureDiagnostic(decVal_positionmethodfailurediagnostic)
+				v.PositionMethodFailureDiagnostic = &tmp_positionmethodfailurediagnostic
+				offset += n_positionmethodfailurediagnostic
 			}
 		}
 	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "UnexpectedDataParam", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes UnidentifiedSubParam to BER format.
-func (v *UnidentifiedSubParam) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes UnidentifiedSubParam to DER format.
-func (v *UnidentifiedSubParam) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes UnidentifiedSubParam from BER/DER format.
-func (v *UnidentifiedSubParam) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding UnidentifiedSubParam SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "UnidentifiedSubParam", Cause: ber.ErrExtraData}
-	}
-	offset := 0
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+				_, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", err)
 				}
+				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -4601,7 +4706,7 @@ func (v *UnidentifiedSubParam) UnmarshalBER(data []byte) error {
 	for offset < len(content) {
 		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "UnidentifiedSubParam", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "PositionMethodFailureParam", Cause: extErr_}
 		}
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
@@ -4636,6 +4741,11 @@ func (v *UnknownOrUnreachableLCSClientParam) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes UnknownOrUnreachableLCSClientParam to DER format.
 func (v *UnknownOrUnreachableLCSClientParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -4685,8 +4795,8 @@ func (v *UnknownOrUnreachableLCSClientParam) UnmarshalBER(data []byte) error {
 	return nil
 }
 
-// MarshalBER encodes UnknownSubscriberParam to BER format.
-func (v *UnknownSubscriberParam) MarshalBER() ([]byte, error) {
+// MarshalBER encodes MMEventNotSupportedParam to BER format.
+func (v *MMEventNotSupportedParam) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.ExtensionContainer != nil {
 		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
@@ -4694,10 +4804,6 @@ func (v *UnknownSubscriberParam) MarshalBER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
 		children = append(children, enc_extensioncontainer...)
-	}
-	if v.UnknownSubscriberDiagnostic != nil {
-		enc_unknownsubscriberdiagnostic := ber.EncodeEnumerated(int64(*v.UnknownSubscriberDiagnostic))
-		children = append(children, enc_unknownsubscriberdiagnostic...)
 	}
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -4712,20 +4818,25 @@ func (v *UnknownSubscriberParam) MarshalBER() ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes UnknownSubscriberParam to DER format.
-func (v *UnknownSubscriberParam) MarshalDER() ([]byte, error) {
+// MarshalDER encodes MMEventNotSupportedParam to DER format.
+func (v *MMEventNotSupportedParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes UnknownSubscriberParam from BER/DER format.
-func (v *UnknownSubscriberParam) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes MMEventNotSupportedParam from BER/DER format.
+func (v *MMEventNotSupportedParam) UnmarshalBER(data []byte) error {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding UnknownSubscriberParam SEQUENCE: %w", err)
+		return fmt.Errorf("decoding MMEventNotSupportedParam SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "UnknownSubscriberParam", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "MMEventNotSupportedParam", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode extensionContainer
@@ -4747,18 +4858,82 @@ func (v *UnknownSubscriberParam) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	// Decode unknownSubscriberDiagnostic
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "MMEventNotSupportedParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes TargetCellOutsideGCAParam to BER format.
+func (v *TargetCellOutsideGCAParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes TargetCellOutsideGCAParam to DER format.
+func (v *TargetCellOutsideGCAParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes TargetCellOutsideGCAParam from BER/DER format.
+func (v *TargetCellOutsideGCAParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding TargetCellOutsideGCAParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "TargetCellOutsideGCAParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 {
-				val_unknownsubscriberdiagnostic, n, err := ber.DecodeInteger(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding unknownSubscriberDiagnostic: %w", err)
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
 				}
-				tmp_unknownsubscriberdiagnostic := UnknownSubscriberDiagnostic(val_unknownsubscriberdiagnostic)
-				v.UnknownSubscriberDiagnostic = &tmp_unknownsubscriberdiagnostic
-				offset += n
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
 			}
 		}
 	}
@@ -4768,7 +4943,86 @@ func (v *UnknownSubscriberParam) UnmarshalBER(data []byte) error {
 	for offset < len(content) {
 		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "UnknownSubscriberParam", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "TargetCellOutsideGCAParam", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes OngoingGroupCallParam to BER format.
+func (v *OngoingGroupCallParam) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes OngoingGroupCallParam to DER format.
+func (v *OngoingGroupCallParam) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes OngoingGroupCallParam from BER/DER format.
+func (v *OngoingGroupCallParam) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding OngoingGroupCallParam SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "OngoingGroupCallParam", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "OngoingGroupCallParam", Cause: extErr_}
 		}
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)

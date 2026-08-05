@@ -21,18 +21,6 @@ const (
 	MaxLogMeasR10 int64 = 4060
 )
 
-// CSIRSTriggeredListR12 represents the ASN.1 type CSI-RS-TriggeredList-r12 (SEQUENCE_OF).
-type CSIRSTriggeredListR12 = []MeasCSIRSIdR12
-
-// CellsTriggeredList represents the ASN.1 type CellsTriggeredList (SEQUENCE_OF).
-type CellsTriggeredList = []runtime.RawValue
-
-// LogMeasInfoList2R10 represents the ASN.1 type LogMeasInfoList2-r10 (SEQUENCE_OF).
-type LogMeasInfoList2R10 = []LogMeasInfoR10
-
-// SSBIndexListR15 represents the ASN.1 type SSB-IndexList-r15 (SEQUENCE_OF).
-type SSBIndexListR15 = []RSIndexNRR15
-
 // VarConditionalReconfiguration represents the ASN.1 type VarConditionalReconfiguration (SEQUENCE).
 type VarConditionalReconfiguration struct {
 	CondReconfigurationListR16       CondReconfigurationToAddModListR16 `asn1:"tag:0,context,implicit,optional" json:"CondReconfigurationListR16,omitempty"`
@@ -121,7 +109,11 @@ type VarLogMeasReportR11 struct {
 	AbsoluteTimeInfoR10         AbsoluteTimeInfoR10  `asn1:"tag:4,context,implicit"`
 	LogMeasInfoListR10          LogMeasInfoList2R10  `asn1:"tag:5,context,implicit"`
 	LogMeasInfoListR10Indef_    bool                 `asn1:"-" json:"-"`
+	SigLoggedMeasTypeR18        int64                `asn1:"tag:6,context,implicit"`
 }
+
+// LogMeasInfoList2R10 represents the ASN.1 type LogMeasInfoList2-r10 (SEQUENCE_OF).
+type LogMeasInfoList2R10 = []LogMeasInfoR10
 
 // VarMeasConfig represents the ASN.1 type VarMeasConfig (SEQUENCE).
 type VarMeasConfig struct {
@@ -178,6 +170,12 @@ type VarMeasIdleReportR16 struct {
 	MeasReportIdleNRR16Indef_ bool                     `asn1:"-" json:"-"`
 }
 
+// VarMeasReportList represents the ASN.1 type VarMeasReportList (SEQUENCE_OF).
+type VarMeasReportList = []VarMeasReport
+
+// VarMeasReportListR12 represents the ASN.1 type VarMeasReportList-r12 (SEQUENCE_OF).
+type VarMeasReportListR12 = []VarMeasReport
+
 // VarMeasReport represents the ASN.1 type VarMeasReport (SEQUENCE).
 type VarMeasReport struct {
 	MeasId                      MeasId                    `asn1:"tag:0,context,implicit"`
@@ -191,14 +189,17 @@ type VarMeasReport struct {
 	NumberOfReportsSent         int64                     `asn1:"tag:5,context,implicit"`
 }
 
-// VarMeasReportList represents the ASN.1 type VarMeasReportList (SEQUENCE_OF).
-type VarMeasReportList = []VarMeasReport
+// CellsTriggeredList represents the ASN.1 type CellsTriggeredList (SEQUENCE_OF).
+type CellsTriggeredList = []CellsTriggeredListElem
 
-// VarMeasReportListR12 represents the ASN.1 type VarMeasReportList-r12 (SEQUENCE_OF).
-type VarMeasReportListR12 = []VarMeasReport
+// CSIRSTriggeredListR12 represents the ASN.1 type CSI-RS-TriggeredList-r12 (SEQUENCE_OF).
+type CSIRSTriggeredListR12 = []MeasCSIRSIdR12
+
+// SSBIndexListR15 represents the ASN.1 type SSB-IndexList-r15 (SEQUENCE_OF).
+type SSBIndexListR15 = []RSIndexNRR15
 
 // VarMobilityHistoryReportR12 represents the ASN.1 type VarMobilityHistoryReport-r12 (SEQUENCE_OF).
-type VarMobilityHistoryReportR12 = []VisitedCellInfoR12
+type VarMobilityHistoryReportR12 = VisitedCellInfoListR12
 
 // VarPendingRnaUpdateR15 represents the ASN.1 type VarPendingRnaUpdate-r15 (SEQUENCE).
 type VarPendingRnaUpdateR15 struct {
@@ -288,6 +289,118 @@ func NewVarMeasConfigSpeedStateParsSetup(v VarMeasConfigSpeedStateParsSetup) Var
 type VarMeasConfigSpeedStateParsSetup struct {
 	MobilityStateParameters MobilityStateParameters `asn1:"tag:0,context,implicit"`
 	TimeToTriggerSF         SpeedStateScaleFactors  `asn1:"tag:1,context,implicit"`
+}
+
+// CellsTriggeredListElem choice constants.
+const (
+	CellsTriggeredListElemChoicePhysCellIdEUTRA    = 1
+	CellsTriggeredListElemChoicePhysCellIdUTRA     = 2
+	CellsTriggeredListElemChoicePhysCellIdGERAN    = 3
+	CellsTriggeredListElemChoicePhysCellIdCDMA2000 = 4
+	CellsTriggeredListElemChoiceWlanIdentifiersR13 = 5
+	CellsTriggeredListElemChoicePhysCellIdNRR15    = 6
+)
+
+// CellsTriggeredListElem represents the ASN.1 CHOICE type CellsTriggeredList-Elem.
+type CellsTriggeredListElem struct {
+	Choice             int
+	PhysCellIdEUTRA    *PhysCellId                            `json:"PhysCellIdEUTRA,omitempty"`
+	PhysCellIdUTRA     *CellsTriggeredListElemPhysCellIdUTRA  `json:"PhysCellIdUTRA,omitempty"`
+	PhysCellIdGERAN    *CellsTriggeredListElemPhysCellIdGERAN `json:"PhysCellIdGERAN,omitempty"`
+	PhysCellIdCDMA2000 *PhysCellIdCDMA2000                    `json:"PhysCellIdCDMA2000,omitempty"`
+	WlanIdentifiersR13 *WLANIdentifiersR12                    `json:"WlanIdentifiersR13,omitempty"`
+	PhysCellIdNRR15    *CellsTriggeredListElemPhysCellIdNRR15 `json:"PhysCellIdNRR15,omitempty"`
+}
+
+// NewCellsTriggeredListElemPhysCellIdEUTRA creates a CellsTriggeredList-Elem with the physCellIdEUTRA alternative.
+func NewCellsTriggeredListElemPhysCellIdEUTRA(v PhysCellId) CellsTriggeredListElem {
+	return CellsTriggeredListElem{
+		Choice:          CellsTriggeredListElemChoicePhysCellIdEUTRA,
+		PhysCellIdEUTRA: &v,
+	}
+}
+
+// NewCellsTriggeredListElemPhysCellIdUTRA creates a CellsTriggeredList-Elem with the physCellIdUTRA alternative.
+func NewCellsTriggeredListElemPhysCellIdUTRA(v CellsTriggeredListElemPhysCellIdUTRA) CellsTriggeredListElem {
+	return CellsTriggeredListElem{
+		Choice:         CellsTriggeredListElemChoicePhysCellIdUTRA,
+		PhysCellIdUTRA: &v,
+	}
+}
+
+// NewCellsTriggeredListElemPhysCellIdGERAN creates a CellsTriggeredList-Elem with the physCellIdGERAN alternative.
+func NewCellsTriggeredListElemPhysCellIdGERAN(v CellsTriggeredListElemPhysCellIdGERAN) CellsTriggeredListElem {
+	return CellsTriggeredListElem{
+		Choice:          CellsTriggeredListElemChoicePhysCellIdGERAN,
+		PhysCellIdGERAN: &v,
+	}
+}
+
+// NewCellsTriggeredListElemPhysCellIdCDMA2000 creates a CellsTriggeredList-Elem with the physCellIdCDMA2000 alternative.
+func NewCellsTriggeredListElemPhysCellIdCDMA2000(v PhysCellIdCDMA2000) CellsTriggeredListElem {
+	return CellsTriggeredListElem{
+		Choice:             CellsTriggeredListElemChoicePhysCellIdCDMA2000,
+		PhysCellIdCDMA2000: &v,
+	}
+}
+
+// NewCellsTriggeredListElemWlanIdentifiersR13 creates a CellsTriggeredList-Elem with the wlan-Identifiers-r13 alternative.
+func NewCellsTriggeredListElemWlanIdentifiersR13(v WLANIdentifiersR12) CellsTriggeredListElem {
+	return CellsTriggeredListElem{
+		Choice:             CellsTriggeredListElemChoiceWlanIdentifiersR13,
+		WlanIdentifiersR13: &v,
+	}
+}
+
+// NewCellsTriggeredListElemPhysCellIdNRR15 creates a CellsTriggeredList-Elem with the physCellIdNR-r15 alternative.
+func NewCellsTriggeredListElemPhysCellIdNRR15(v CellsTriggeredListElemPhysCellIdNRR15) CellsTriggeredListElem {
+	return CellsTriggeredListElem{
+		Choice:          CellsTriggeredListElemChoicePhysCellIdNRR15,
+		PhysCellIdNRR15: &v,
+	}
+}
+
+// CellsTriggeredListElemPhysCellIdUTRA choice constants.
+const (
+	CellsTriggeredListElemPhysCellIdUTRAChoiceFdd = 1
+	CellsTriggeredListElemPhysCellIdUTRAChoiceTdd = 2
+)
+
+// CellsTriggeredListElemPhysCellIdUTRA represents the ASN.1 CHOICE type CellsTriggeredList-Elem-physCellIdUTRA.
+type CellsTriggeredListElemPhysCellIdUTRA struct {
+	Choice int
+	Fdd    *PhysCellIdUTRAFDD `json:"Fdd,omitempty"`
+	Tdd    *PhysCellIdUTRATDD `json:"Tdd,omitempty"`
+}
+
+// NewCellsTriggeredListElemPhysCellIdUTRAFdd creates a CellsTriggeredList-Elem-physCellIdUTRA with the fdd alternative.
+func NewCellsTriggeredListElemPhysCellIdUTRAFdd(v PhysCellIdUTRAFDD) CellsTriggeredListElemPhysCellIdUTRA {
+	return CellsTriggeredListElemPhysCellIdUTRA{
+		Choice: CellsTriggeredListElemPhysCellIdUTRAChoiceFdd,
+		Fdd:    &v,
+	}
+}
+
+// NewCellsTriggeredListElemPhysCellIdUTRATdd creates a CellsTriggeredList-Elem-physCellIdUTRA with the tdd alternative.
+func NewCellsTriggeredListElemPhysCellIdUTRATdd(v PhysCellIdUTRATDD) CellsTriggeredListElemPhysCellIdUTRA {
+	return CellsTriggeredListElemPhysCellIdUTRA{
+		Choice: CellsTriggeredListElemPhysCellIdUTRAChoiceTdd,
+		Tdd:    &v,
+	}
+}
+
+// CellsTriggeredListElemPhysCellIdGERAN represents the ASN.1 type CellsTriggeredList-Elem-physCellIdGERAN (SEQUENCE).
+type CellsTriggeredListElemPhysCellIdGERAN struct {
+	CarrierFreq CarrierFreqGERAN `asn1:"tag:0,context,implicit"`
+	PhysCellId  PhysCellIdGERAN  `asn1:"tag:1,context,implicit"`
+}
+
+// CellsTriggeredListElemPhysCellIdNRR15 represents the ASN.1 type CellsTriggeredList-Elem-physCellIdNR-r15 (SEQUENCE).
+type CellsTriggeredListElemPhysCellIdNRR15 struct {
+	CarrierFreq          ARFCNValueNRR15 `asn1:"tag:0,context,implicit"`
+	PhysCellId           PhysCellIdNRR15 `asn1:"tag:1,context,implicit"`
+	RsIndexListR15       SSBIndexListR15 `asn1:"tag:2,context,implicit,optional" json:"RsIndexListR15,omitempty"`
+	RsIndexListR15Indef_ bool            `asn1:"-" json:"-"`
 }
 
 // MarshalUPER encodes VarConditionalReconfiguration to UPER format.
@@ -1127,6 +1240,9 @@ func (v *VarLogMeasReportR11) MarshalUPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding logMeasInfoList-r10 element: %w", err)
 		}
 	}
+	if err := per.EncodeEnumerated(bb, int64(v.SigLoggedMeasTypeR18), 1, false); err != nil {
+		return fmt.Errorf("encoding sigLoggedMeasType-r18: %w", err)
+	}
 	return nil
 }
 
@@ -1175,6 +1291,11 @@ func (v *VarLogMeasReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("decoding logMeasInfoList-r10 element: %w", err)
 		}
 	}
+	val_sigloggedmeastyper18, err := per.DecodeEnumerated(bb, 1, false)
+	if err != nil {
+		return fmt.Errorf("decoding sigLoggedMeasType-r18: %w", err)
+	}
+	v.SigLoggedMeasTypeR18 = val_sigloggedmeastyper18
 	return nil
 }
 
@@ -1753,6 +1874,7 @@ func (v *VarMeasIdleReportR16) MarshalUPERTo(bb *per.BitBuffer) error {
 			if err := per.EncodeConstrainedWholeNumber(bb, int64(len(outerElem)), 1, 8); err != nil {
 				return fmt.Errorf("encoding measReportIdle-r16 inner length: %w", err)
 			}
+			// asn1c:unsupported {"encoding":"uper","operation":"encode","construct":"SEQUENCE_OF","reason":"nested-element-kind","field":"measReportIdle-r16","kind":"SEQUENCE"}
 			_ = outerElem // nested SEQUENCE_OF of SEQUENCE not yet supported
 		}
 	}
@@ -1796,6 +1918,7 @@ func (v *VarMeasIdleReportR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if err != nil {
 				return fmt.Errorf("decoding measReportIdle-r16 inner length: %w", err)
 			}
+			// asn1c:unsupported {"encoding":"uper","operation":"decode","construct":"SEQUENCE_OF","reason":"nested-element-kind","field":"measReportIdle-r16","kind":"SEQUENCE"}
 			_ = innerLen // nested SEQUENCE_OF of SEQUENCE not yet supported
 		}
 		v.MeasReportIdleR16 = tmp_measreportidler16
@@ -1851,7 +1974,11 @@ func (v *VarMeasReport) MarshalUPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.CellsTriggeredList)), 1, 32); err != nil {
 			return fmt.Errorf("encoding cellsTriggeredList length: %w", err)
 		}
-		_ = v.CellsTriggeredList // SEQUENCE_OF with non-integer primitive elements (CHOICE)
+		for _, elem := range v.CellsTriggeredList {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding cellsTriggeredList element: %w", err)
+			}
+		}
 	}
 	if v.CsiRSTriggeredListR12 != nil {
 		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.CsiRSTriggeredListR12)), 1, 96); err != nil {
@@ -1920,7 +2047,13 @@ func (v *VarMeasReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return fmt.Errorf("decoding cellsTriggeredList length: %w", err)
 		}
-		_ = seqLen_cellstriggeredlist // SEQUENCE_OF with non-integer primitive elements ()
+		tmp_cellstriggeredlist := make(CellsTriggeredList, seqLen_cellstriggeredlist)
+		for i := int64(0); i < seqLen_cellstriggeredlist; i++ {
+			if err := tmp_cellstriggeredlist[i].UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding cellsTriggeredList element: %w", err)
+			}
+		}
+		v.CellsTriggeredList = tmp_cellstriggeredlist
 	}
 	if opt_csirstriggeredlistr12 {
 		seqLen_csirstriggeredlistr12, err := per.DecodeConstrainedWholeNumber(bb, 1, 96)
@@ -2461,6 +2594,268 @@ func (v *VarMeasConfigSpeedStateParsSetup) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	}
 	if err := v.TimeToTriggerSF.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding timeToTrigger-SF: %w", err)
+	}
+	return nil
+}
+
+// MarshalUPER encodes CellsTriggeredListElem to UPER format.
+func (v *CellsTriggeredListElem) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *CellsTriggeredListElem) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 5); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case CellsTriggeredListElemChoicePhysCellIdEUTRA:
+		if err := per.EncodeInteger(bb, int64(*v.PhysCellIdEUTRA), int64Ptr(0), int64Ptr(503), false); err != nil {
+			return fmt.Errorf("encoding physCellIdEUTRA: %w", err)
+		}
+	case CellsTriggeredListElemChoicePhysCellIdUTRA:
+		if err := v.PhysCellIdUTRA.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding physCellIdUTRA: %w", err)
+		}
+	case CellsTriggeredListElemChoicePhysCellIdGERAN:
+		if err := v.PhysCellIdGERAN.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding physCellIdGERAN: %w", err)
+		}
+	case CellsTriggeredListElemChoicePhysCellIdCDMA2000:
+		if err := per.EncodeInteger(bb, int64(*v.PhysCellIdCDMA2000), int64Ptr(0), int64Ptr(511), false); err != nil {
+			return fmt.Errorf("encoding physCellIdCDMA2000: %w", err)
+		}
+	case CellsTriggeredListElemChoiceWlanIdentifiersR13:
+		if err := v.WlanIdentifiersR13.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding wlan-Identifiers-r13: %w", err)
+		}
+	case CellsTriggeredListElemChoicePhysCellIdNRR15:
+		if err := v.PhysCellIdNRR15.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding physCellIdNR-r15: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown CellsTriggeredListElem choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes CellsTriggeredListElem from UPER format.
+func (v *CellsTriggeredListElem) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *CellsTriggeredListElem) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 5)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case CellsTriggeredListElemChoicePhysCellIdEUTRA:
+		val_physcellideutra, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(503), false)
+		if err != nil {
+			return fmt.Errorf("decoding physCellIdEUTRA: %w", err)
+		}
+		v.PhysCellIdEUTRA = &val_physcellideutra
+	case CellsTriggeredListElemChoicePhysCellIdUTRA:
+		var dec_physcellidutra CellsTriggeredListElemPhysCellIdUTRA
+		if err := dec_physcellidutra.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding physCellIdUTRA: %w", err)
+		}
+		v.PhysCellIdUTRA = &dec_physcellidutra
+	case CellsTriggeredListElemChoicePhysCellIdGERAN:
+		var dec_physcellidgeran CellsTriggeredListElemPhysCellIdGERAN
+		if err := dec_physcellidgeran.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding physCellIdGERAN: %w", err)
+		}
+		v.PhysCellIdGERAN = &dec_physcellidgeran
+	case CellsTriggeredListElemChoicePhysCellIdCDMA2000:
+		val_physcellidcdma2000, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(511), false)
+		if err != nil {
+			return fmt.Errorf("decoding physCellIdCDMA2000: %w", err)
+		}
+		v.PhysCellIdCDMA2000 = &val_physcellidcdma2000
+	case CellsTriggeredListElemChoiceWlanIdentifiersR13:
+		var dec_wlanidentifiersr13 WLANIdentifiersR12
+		if err := dec_wlanidentifiersr13.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding wlan-Identifiers-r13: %w", err)
+		}
+		v.WlanIdentifiersR13 = &dec_wlanidentifiersr13
+	case CellsTriggeredListElemChoicePhysCellIdNRR15:
+		var dec_physcellidnrr15 CellsTriggeredListElemPhysCellIdNRR15
+		if err := dec_physcellidnrr15.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding physCellIdNR-r15: %w", err)
+		}
+		v.PhysCellIdNRR15 = &dec_physcellidnrr15
+	}
+	return nil
+}
+
+// MarshalUPER encodes CellsTriggeredListElemPhysCellIdUTRA to UPER format.
+func (v *CellsTriggeredListElemPhysCellIdUTRA) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *CellsTriggeredListElemPhysCellIdUTRA) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case CellsTriggeredListElemPhysCellIdUTRAChoiceFdd:
+		if err := per.EncodeInteger(bb, int64(*v.Fdd), int64Ptr(0), int64Ptr(511), false); err != nil {
+			return fmt.Errorf("encoding fdd: %w", err)
+		}
+	case CellsTriggeredListElemPhysCellIdUTRAChoiceTdd:
+		if err := per.EncodeInteger(bb, int64(*v.Tdd), int64Ptr(0), int64Ptr(127), false); err != nil {
+			return fmt.Errorf("encoding tdd: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown CellsTriggeredListElemPhysCellIdUTRA choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes CellsTriggeredListElemPhysCellIdUTRA from UPER format.
+func (v *CellsTriggeredListElemPhysCellIdUTRA) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *CellsTriggeredListElemPhysCellIdUTRA) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case CellsTriggeredListElemPhysCellIdUTRAChoiceFdd:
+		val_fdd, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(511), false)
+		if err != nil {
+			return fmt.Errorf("decoding fdd: %w", err)
+		}
+		v.Fdd = &val_fdd
+	case CellsTriggeredListElemPhysCellIdUTRAChoiceTdd:
+		val_tdd, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(127), false)
+		if err != nil {
+			return fmt.Errorf("decoding tdd: %w", err)
+		}
+		v.Tdd = &val_tdd
+	}
+	return nil
+}
+
+// MarshalUPER encodes CellsTriggeredListElemPhysCellIdGERAN to UPER format.
+func (v *CellsTriggeredListElemPhysCellIdGERAN) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *CellsTriggeredListElemPhysCellIdGERAN) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := v.CarrierFreq.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding carrierFreq: %w", err)
+	}
+	if err := v.PhysCellId.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding physCellId: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes CellsTriggeredListElemPhysCellIdGERAN from UPER format.
+func (v *CellsTriggeredListElemPhysCellIdGERAN) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *CellsTriggeredListElemPhysCellIdGERAN) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := v.CarrierFreq.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding carrierFreq: %w", err)
+	}
+	if err := v.PhysCellId.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding physCellId: %w", err)
+	}
+	return nil
+}
+
+// MarshalUPER encodes CellsTriggeredListElemPhysCellIdNRR15 to UPER format.
+func (v *CellsTriggeredListElemPhysCellIdNRR15) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *CellsTriggeredListElemPhysCellIdNRR15) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.RsIndexListR15 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeInteger(bb, int64(v.CarrierFreq), int64Ptr(0), int64Ptr(3279165), false); err != nil {
+		return fmt.Errorf("encoding carrierFreq: %w", err)
+	}
+	if err := per.EncodeInteger(bb, int64(v.PhysCellId), int64Ptr(0), int64Ptr(1007), false); err != nil {
+		return fmt.Errorf("encoding physCellId: %w", err)
+	}
+	if v.RsIndexListR15 != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.RsIndexListR15)), 1, 64); err != nil {
+			return fmt.Errorf("encoding rs-IndexList-r15 length: %w", err)
+		}
+		for _, elem := range v.RsIndexListR15 {
+			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(0), int64Ptr(63), false); err != nil {
+				return fmt.Errorf("encoding rs-IndexList-r15 element: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes CellsTriggeredListElemPhysCellIdNRR15 from UPER format.
+func (v *CellsTriggeredListElemPhysCellIdNRR15) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *CellsTriggeredListElemPhysCellIdNRR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_rsindexlistr15, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_carrierfreq, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(3279165), false)
+	if err != nil {
+		return fmt.Errorf("decoding carrierFreq: %w", err)
+	}
+	v.CarrierFreq = val_carrierfreq
+	val_physcellid, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(1007), false)
+	if err != nil {
+		return fmt.Errorf("decoding physCellId: %w", err)
+	}
+	v.PhysCellId = val_physcellid
+	if opt_rsindexlistr15 {
+		seqLen_rsindexlistr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 64)
+		if err != nil {
+			return fmt.Errorf("decoding rs-IndexList-r15 length: %w", err)
+		}
+		tmp_rsindexlistr15 := make(SSBIndexListR15, seqLen_rsindexlistr15)
+		for i := int64(0); i < seqLen_rsindexlistr15; i++ {
+			val, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(63), false)
+			if err != nil {
+				return fmt.Errorf("decoding rs-IndexList-r15 element: %w", err)
+			}
+			tmp_rsindexlistr15[i] = RSIndexNRR15(val)
+		}
+		v.RsIndexListR15 = tmp_rsindexlistr15
 	}
 	return nil
 }

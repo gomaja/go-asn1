@@ -31690,13 +31690,13 @@ func (v *RLCConfigNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 1 + 1
 		openData, err := per.DecodeOpenType(bb)
 		if err != nil {
 			return err
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
+		v.Choice = int(extIdx) + 1 + 1
 		switch v.Choice {
 		case RLCConfigNBR13ChoiceUmBiDirectionalR15:
 		case RLCConfigNBR13ChoiceUmUniDirectionalULR15:
@@ -41856,13 +41856,13 @@ func (v *SystemInformationNBR13IEsSibTypeAndInfoR13Elem) UnmarshalUPERFrom(bb *p
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 6 + 1
 		openData, err := per.DecodeOpenType(bb)
 		if err != nil {
 			return err
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
+		v.Choice = int(extIdx) + 6 + 1
 		switch v.Choice {
 		case SystemInformationNBR13IEsSibTypeAndInfoR13ElemChoiceSib15V1430:
 			var dec_sib15v1430 SystemInformationBlockType15NBR14

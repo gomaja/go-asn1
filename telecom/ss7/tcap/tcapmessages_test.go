@@ -2,15 +2,19 @@ package tcap
 
 import (
 	"bytes"
-	"reflect"
 	"strings"
 	"testing"
 )
 
 func testDialoguePortion() DialoguePortion {
-	return DialoguePortion{
-		Oid:    DialogueAsId(),
-		Dialog: []byte{0x60, 0x00},
+	return DialoguePortion{Bytes: testDialoguePortionBytes()}
+}
+
+func testDialoguePortionBytes() []byte {
+	return []byte{
+		0x28, 0x0d,
+		0x06, 0x07, 0x00, 0x11, 0x86, 0x05, 0x01, 0x01, 0x01,
+		0x80, 0x02, 0x60, 0x00,
 	}
 }
 
@@ -44,17 +48,14 @@ func TestBeginDialoguePortionUsesExplicitExternal(t *testing.T) {
 	if decoded.DialoguePortion == nil {
 		t.Fatalf("decoded dialoguePortion is nil")
 	}
-	if !bytes.Equal(decoded.DialoguePortion.Dialog, dialogue.Dialog) {
-		t.Fatalf("decoded dialog: got % x, want % x", decoded.DialoguePortion.Dialog, dialogue.Dialog)
-	}
-	if !reflect.DeepEqual(decoded.DialoguePortion.Oid, dialogue.Oid) {
-		t.Fatalf("decoded oid: got %v, want %v", decoded.DialoguePortion.Oid, dialogue.Oid)
+	if !bytes.Equal(decoded.DialoguePortion.Bytes, dialogue.Bytes) {
+		t.Fatalf("decoded dialoguePortion: got % x, want % x", decoded.DialoguePortion.Bytes, dialogue.Bytes)
 	}
 }
 
 func TestReasonUsesApplicationTags(t *testing.T) {
 	pAbortCause := PAbortCauseBadlyFormattedTransactionPortion
-	pReason := NewReasonPAbortCause(pAbortCause)
+	pReason := NewAbortReasonPAbortCause(pAbortCause)
 	got, err := pReason.MarshalBER()
 	if err != nil {
 		t.Fatalf("MarshalBER p-abortCause: %v", err)
@@ -64,7 +65,7 @@ func TestReasonUsesApplicationTags(t *testing.T) {
 		t.Fatalf("p-abortCause bytes: got % x, want % x", got, wantPAbort)
 	}
 
-	var decodedP Reason
+	var decodedP AbortReason
 	if err := decodedP.UnmarshalBER(wantPAbort); err != nil {
 		t.Fatalf("UnmarshalBER p-abortCause: %v", err)
 	}
@@ -73,7 +74,7 @@ func TestReasonUsesApplicationTags(t *testing.T) {
 	}
 
 	dialogue := testDialoguePortion()
-	uReason := NewReasonUAbortCause(dialogue)
+	uReason := NewAbortReasonUAbortCause(dialogue)
 	got, err = uReason.MarshalBER()
 	if err != nil {
 		t.Fatalf("MarshalBER u-abortCause: %v", err)
@@ -88,23 +89,23 @@ func TestReasonUsesApplicationTags(t *testing.T) {
 		t.Fatalf("u-abortCause bytes: got % x, want % x", got, wantUAbort)
 	}
 
-	var decodedU Reason
+	var decodedU AbortReason
 	if err := decodedU.UnmarshalBER(wantUAbort); err != nil {
 		t.Fatalf("UnmarshalBER u-abortCause: %v", err)
 	}
-	if decodedU.UAbortCause == nil || !bytes.Equal(decodedU.UAbortCause.Dialog, dialogue.Dialog) {
+	if decodedU.UAbortCause == nil || !bytes.Equal(decodedU.UAbortCause.Bytes, dialogue.Bytes) {
 		t.Fatalf("decoded u-abortCause: got %+v, want %+v", decodedU.UAbortCause, dialogue)
 	}
 }
 
 func TestReasonUAbortCauseNilReturnsError(t *testing.T) {
-	reason := Reason{Choice: ReasonChoiceUAbortCause}
+	reason := AbortReason{Choice: AbortReasonChoiceUAbortCause}
 
 	_, err := reason.MarshalBER()
 	if err == nil {
 		t.Fatalf("MarshalBER returned nil error")
 	}
-	if !strings.Contains(err.Error(), "choice Reason: u-abortCause is nil") {
+	if !strings.Contains(err.Error(), "choice AbortReason: u-abortCause is nil") {
 		t.Fatalf("MarshalBER error: got %q", err)
 	}
 }

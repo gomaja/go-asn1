@@ -87,10 +87,20 @@ func TestTransferEimPackageResponsePreservesEuiccPackageResultChoiceTLV(t *testi
 	if total != len(got) {
 		t.Fatalf("outer consumed %d bytes, want %d", total, len(got))
 	}
-	if outerTag.Class != tag.ClassContextSpecific || outerTag.Number != 81 {
-		t.Fatalf("outer tag = %s, want [CONTEXT 81]", outerTag)
+	if outerTag.Class != tag.ClassContextSpecific || outerTag.Number != 78 {
+		t.Fatalf("outer tag = %s, want [CONTEXT 78]", outerTag)
 	}
-	innerTag, err := ber.PeekTag(content)
+	resultTag, resultContent, resultTotal, err := ber.DecodeConstructedContent(content)
+	if err != nil {
+		t.Fatalf("DecodeConstructedContent(result) error = %v", err)
+	}
+	if resultTotal != len(content) {
+		t.Fatalf("result consumed %d bytes, want %d", resultTotal, len(content))
+	}
+	if resultTag.Class != tag.ClassContextSpecific || resultTag.Number != 81 {
+		t.Fatalf("result tag = %s, want [CONTEXT 81]", resultTag)
+	}
+	innerTag, err := ber.PeekTag(resultContent)
 	if err != nil {
 		t.Fatalf("PeekTag(inner) error = %v", err)
 	}

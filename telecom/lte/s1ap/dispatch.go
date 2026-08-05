@@ -415,12 +415,6 @@ func DecodeInitiatingMessageValue(procedureCode int64, data []byte) (interface{}
 			return nil, fmt.Errorf("decoding MMEEarlyStatusTransfer: %w", err)
 		}
 		return &v, nil
-	case 67: // id-S1Removal
-		var v S1RemovalRequest
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
-			return nil, fmt.Errorf("decoding S1RemovalRequest: %w", err)
-		}
-		return &v, nil
 	default:
 		return nil, nil
 	}
@@ -563,12 +557,6 @@ func DecodeSuccessfulOutcomeValue(procedureCode int64, data []byte) (interface{}
 			return nil, fmt.Errorf("decoding UERadioCapabilityIDMappingResponse: %w", err)
 		}
 		return &v, nil
-	case 67: // id-S1Removal
-		var v S1RemovalResponse
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
-			return nil, fmt.Errorf("decoding S1RemovalResponse: %w", err)
-		}
-		return &v, nil
 	default:
 		return nil, nil
 	}
@@ -633,12 +621,6 @@ func DecodeUnsuccessfulOutcomeValue(procedureCode int64, data []byte) (interface
 			return nil, fmt.Errorf("decoding UEContextResumeFailure: %w", err)
 		}
 		return &v, nil
-	case 67: // id-S1Removal
-		var v S1RemovalFailure
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
-			return nil, fmt.Errorf("decoding S1RemovalFailure: %w", err)
-		}
-		return &v, nil
 	default:
 		return nil, nil
 	}
@@ -680,15 +662,6 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			var v BearersSubjectToEarlyStatusTransferItem
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
 				return nil, fmt.Errorf("decoding IE Bearers-SubjectToEarlyStatusTransfer-Item (%d): %w", ieId, err)
-			}
-			return &v, nil
-		}
-	case "BearersSubjectToDLDiscardingItem":
-		switch ieId {
-		case 351: // id-Bearers-SubjectToDLDiscarding-Item -> Bearers-SubjectToDLDiscarding-Item
-			var v BearersSubjectToDLDiscardingItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE Bearers-SubjectToDLDiscarding-Item (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
@@ -1200,13 +1173,6 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := UERadioCapabilityID(v)
 			return &result, nil
-		case 355: // id-TimeRefDistribution -> TimeRefDistribution (ENUMERATED)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE TimeRefDistribution (%d): %w", ieId, err)
-			}
-			result := TimeRefDistribution(v)
-			return &result, nil
 		}
 	case "ERABToBeSetupItemHOReq":
 		switch ieId {
@@ -1671,13 +1637,6 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE E-RABToBeUpdatedList (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 355: // id-TimeRefDistribution -> TimeRefDistribution (ENUMERATED)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE TimeRefDistribution (%d): %w", ieId, err)
-			}
-			result := TimeRefDistribution(v)
-			return &result, nil
 		}
 	case "ERABToBeSwitchedULItem":
 		switch ieId {
@@ -2389,20 +2348,6 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := UERadioCapabilityID(v)
 			return &result, nil
-		case 354: // id-CoarseUELocation -> CoarseUELocation (OCTET_STRING)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE CoarseUELocation (%d): %w", ieId, err)
-			}
-			result := CoarseUELocation(v)
-			return &result, nil
-		case 355: // id-TimeRefDistribution -> TimeRefDistribution (ENUMERATED)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE TimeRefDistribution (%d): %w", ieId, err)
-			}
-			result := TimeRefDistribution(v)
-			return &result, nil
 		}
 	case "ERABToBeSetupItemCtxtSUReq":
 		switch ieId {
@@ -2582,7 +2527,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := CEModeBRestricted(v)
 			return &result, nil
 		case 304: // id-DataSize -> DataSize (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE DataSize (%d): %w", ieId, err)
 			}
@@ -2876,13 +2821,6 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := UERadioCapabilityID(v)
 			return &result, nil
-		case 355: // id-TimeRefDistribution -> TimeRefDistribution (ENUMERATED)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE TimeRefDistribution (%d): %w", ieId, err)
-			}
-			result := TimeRefDistribution(v)
-			return &result, nil
 		}
 	case "UEContextModificationResponse":
 		switch ieId {
@@ -3122,13 +3060,6 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := MaskedIMEISV{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
-		case 354: // id-CoarseUELocation -> CoarseUELocation (OCTET_STRING)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE CoarseUELocation (%d): %w", ieId, err)
-			}
-			result := CoarseUELocation(v)
-			return &result, nil
 		}
 	case "InitialUEMessage":
 		switch ieId {
@@ -3192,7 +3123,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := CellAccessMode(v)
 			return &result, nil
 		case 155: // id-GW-TransportLayerAddress -> TransportLayerAddress (BIT_STRING)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 1, 160, true)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TransportLayerAddress (%d): %w", ieId, err)
 			}
@@ -3219,7 +3150,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 184: // id-SIPTO-L-GW-TransportLayerAddress -> TransportLayerAddress (BIT_STRING)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 1, 160, true)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TransportLayerAddress (%d): %w", ieId, err)
 			}
@@ -3294,13 +3225,6 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE LTE-NTN-TAI-Information (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 353: // id-CoarseUELocationRequested -> CoarseUELocationRequested (ENUMERATED)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE CoarseUELocationRequested (%d): %w", ieId, err)
-			}
-			result := CoarseUELocationRequested(v)
-			return &result, nil
 		}
 	case "UplinkNASTransport":
 		switch ieId {
@@ -3338,14 +3262,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 155: // id-GW-TransportLayerAddress -> TransportLayerAddress (BIT_STRING)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 1, 160, true)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TransportLayerAddress (%d): %w", ieId, err)
 			}
 			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 184: // id-SIPTO-L-GW-TransportLayerAddress -> TransportLayerAddress (BIT_STRING)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 1, 160, true)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TransportLayerAddress (%d): %w", ieId, err)
 			}
@@ -3416,13 +3340,6 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE MME-UE-S1AP-ID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return &result, nil
-		case 225: // id-S1-Message -> S1-Message (OCTET_STRING)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE S1-Message (%d): %w", ieId, err)
-			}
-			result := S1Message(v)
 			return &result, nil
 		case 223: // id-MME-Group-ID -> MME-Group-ID (OCTET_STRING)
 			v, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
@@ -4026,7 +3943,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 131: // id-TraceCollectionEntityIPAddress -> TransportLayerAddress (BIT_STRING)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 1, 160, true)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TransportLayerAddress (%d): %w", ieId, err)
 			}
@@ -4951,13 +4868,6 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE Masked-IMEISV (%d): %w", ieId, err)
 			}
 			result := MaskedIMEISV{Bytes: bytes, BitLength: int(bitLen)}
-			return &result, nil
-		case 354: // id-CoarseUELocation -> CoarseUELocation (OCTET_STRING)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE CoarseUELocation (%d): %w", ieId, err)
-			}
-			result := CoarseUELocation(v)
 			return &result, nil
 		}
 	case "RetrieveUEInformation":
