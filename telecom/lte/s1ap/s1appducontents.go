@@ -15,21 +15,17 @@ var (
 	_ = per.NewBitBuffer
 )
 
-// CSGMembershipInfo represents the ASN.1 type CSGMembershipInfo (SEQUENCE).
-type CSGMembershipInfo struct {
-	CSGMembershipStatus CSGMembershipStatus        `asn1:"tag:0,context,implicit"`
-	CSGId               CSGId                      `asn1:"tag:1,context,implicit"`
-	CellAccessMode      *CellAccessMode            `asn1:"tag:2,context,implicit,optional" json:"CellAccessMode,omitempty"`
-	PLMNidentity        *PLMNidentity              `asn1:"tag:3,context,implicit,optional" json:"PLMNidentity,omitempty"`
-	IEExtensions        ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
-	ExtCount_           int64                      `asn1:"-" json:"-"`
-	ExtPresent_         []bool                     `asn1:"-" json:"-"`
-	ExtData_            [][]byte                   `asn1:"-" json:"-"`
-}
+// ERABIEContainerList represents the ASN.1 type E-RAB-IE-ContainerList (SEQUENCE_OF).
+type ERABIEContainerList = []ProtocolIESingleContainer
 
-// CellTrafficTrace represents the ASN.1 type CellTrafficTrace (SEQUENCE).
-type CellTrafficTrace struct {
+// ERABIEContainerPairList represents the ASN.1 type E-RAB-IE-ContainerPairList (SEQUENCE_OF).
+type ERABIEContainerPairList = []ProtocolIEContainerPair
+
+// ProtocolErrorIEContainerList represents the ASN.1 type ProtocolError-IE-ContainerList (SEQUENCE_OF).
+type ProtocolErrorIEContainerList = []ProtocolIESingleContainer
+
+// HandoverRequired represents the ASN.1 type HandoverRequired (SEQUENCE).
+type HandoverRequired struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -37,8 +33,8 @@ type CellTrafficTrace struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ConnectionEstablishmentIndication represents the ASN.1 type ConnectionEstablishmentIndication (SEQUENCE).
-type ConnectionEstablishmentIndication struct {
+// HandoverCommand represents the ASN.1 type HandoverCommand (SEQUENCE).
+type HandoverCommand struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -46,8 +42,515 @@ type ConnectionEstablishmentIndication struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// DeactivateTrace represents the ASN.1 type DeactivateTrace (SEQUENCE).
-type DeactivateTrace struct {
+// ERABSubjecttoDataForwardingList represents the ASN.1 type E-RABSubjecttoDataForwardingList (SEQUENCE_OF).
+type ERABSubjecttoDataForwardingList = []ProtocolIESingleContainer
+
+// ERABDataForwardingItem represents the ASN.1 type E-RABDataForwardingItem (SEQUENCE).
+type ERABDataForwardingItem struct {
+	ERABID                  ERABID                     `asn1:"tag:0,context,implicit"`
+	DLTransportLayerAddress *TransportLayerAddress     `asn1:"tag:1,context,implicit,optional" json:"DLTransportLayerAddress,omitempty"`
+	DLGTPTEID               *GTPTEID                   `asn1:"tag:2,context,implicit,optional" json:"DLGTPTEID,omitempty"`
+	ULTransportLayerAddress *TransportLayerAddress     `asn1:"tag:3,context,implicit,optional" json:"ULTransportLayerAddress,omitempty"`
+	ULGTPTEID               *GTPTEID                   `asn1:"tag:4,context,implicit,optional" json:"ULGTPTEID,omitempty"`
+	IEExtensions            ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_      bool                       `asn1:"-" json:"-"`
+	ExtCount_               int64                      `asn1:"-" json:"-"`
+	ExtPresent_             []bool                     `asn1:"-" json:"-"`
+	ExtData_                [][]byte                   `asn1:"-" json:"-"`
+}
+
+// HandoverPreparationFailure represents the ASN.1 type HandoverPreparationFailure (SEQUENCE).
+type HandoverPreparationFailure struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// HandoverRequest represents the ASN.1 type HandoverRequest (SEQUENCE).
+type HandoverRequest struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ERABToBeSetupListHOReq represents the ASN.1 type E-RABToBeSetupListHOReq (SEQUENCE_OF).
+type ERABToBeSetupListHOReq = []ProtocolIESingleContainer
+
+// ERABToBeSetupItemHOReq represents the ASN.1 type E-RABToBeSetupItemHOReq (SEQUENCE).
+type ERABToBeSetupItemHOReq struct {
+	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
+	TransportLayerAddress  TransportLayerAddress      `asn1:"tag:1,context,implicit"`
+	GTPTEID                GTPTEID                    `asn1:"tag:2,context,implicit"`
+	ERABlevelQosParameters ERABLevelQoSParameters     `asn1:"tag:3,context,implicit"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+}
+
+// HandoverRequestAcknowledge represents the ASN.1 type HandoverRequestAcknowledge (SEQUENCE).
+type HandoverRequestAcknowledge struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ERABAdmittedList represents the ASN.1 type E-RABAdmittedList (SEQUENCE_OF).
+type ERABAdmittedList = []ProtocolIESingleContainer
+
+// ERABAdmittedItem represents the ASN.1 type E-RABAdmittedItem (SEQUENCE).
+type ERABAdmittedItem struct {
+	ERABID                  ERABID                     `asn1:"tag:0,context,implicit"`
+	TransportLayerAddress   TransportLayerAddress      `asn1:"tag:1,context,implicit"`
+	GTPTEID                 GTPTEID                    `asn1:"tag:2,context,implicit"`
+	DLTransportLayerAddress *TransportLayerAddress     `asn1:"tag:3,context,implicit,optional" json:"DLTransportLayerAddress,omitempty"`
+	DLGTPTEID               *GTPTEID                   `asn1:"tag:4,context,implicit,optional" json:"DLGTPTEID,omitempty"`
+	ULTransportLayerAddress *TransportLayerAddress     `asn1:"tag:5,context,implicit,optional" json:"ULTransportLayerAddress,omitempty"`
+	ULGTPTEID               *GTPTEID                   `asn1:"tag:6,context,implicit,optional" json:"ULGTPTEID,omitempty"`
+	IEExtensions            ProtocolExtensionContainer `asn1:"tag:7,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_      bool                       `asn1:"-" json:"-"`
+	ExtCount_               int64                      `asn1:"-" json:"-"`
+	ExtPresent_             []bool                     `asn1:"-" json:"-"`
+	ExtData_                [][]byte                   `asn1:"-" json:"-"`
+}
+
+// ERABFailedtoSetupListHOReqAck represents the ASN.1 type E-RABFailedtoSetupListHOReqAck (SEQUENCE_OF).
+type ERABFailedtoSetupListHOReqAck = []ProtocolIESingleContainer
+
+// ERABFailedToSetupItemHOReqAck represents the ASN.1 type E-RABFailedToSetupItemHOReqAck (SEQUENCE).
+type ERABFailedToSetupItemHOReqAck struct {
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	Cause              Cause                      `asn1:"tag:1,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// HandoverFailure represents the ASN.1 type HandoverFailure (SEQUENCE).
+type HandoverFailure struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// HandoverNotify represents the ASN.1 type HandoverNotify (SEQUENCE).
+type HandoverNotify struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// PathSwitchRequest represents the ASN.1 type PathSwitchRequest (SEQUENCE).
+type PathSwitchRequest struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ERABToBeSwitchedDLList represents the ASN.1 type E-RABToBeSwitchedDLList (SEQUENCE_OF).
+type ERABToBeSwitchedDLList = []ProtocolIESingleContainer
+
+// ERABToBeSwitchedDLItem represents the ASN.1 type E-RABToBeSwitchedDLItem (SEQUENCE).
+type ERABToBeSwitchedDLItem struct {
+	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
+	TransportLayerAddress TransportLayerAddress      `asn1:"tag:1,context,implicit"`
+	GTPTEID               GTPTEID                    `asn1:"tag:2,context,implicit"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+}
+
+// PathSwitchRequestAcknowledge represents the ASN.1 type PathSwitchRequestAcknowledge (SEQUENCE).
+type PathSwitchRequestAcknowledge struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ERABToBeSwitchedULList represents the ASN.1 type E-RABToBeSwitchedULList (SEQUENCE_OF).
+type ERABToBeSwitchedULList = []ProtocolIESingleContainer
+
+// ERABToBeSwitchedULItem represents the ASN.1 type E-RABToBeSwitchedULItem (SEQUENCE).
+type ERABToBeSwitchedULItem struct {
+	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
+	TransportLayerAddress TransportLayerAddress      `asn1:"tag:1,context,implicit"`
+	GTPTEID               GTPTEID                    `asn1:"tag:2,context,implicit"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+}
+
+// ERABToBeUpdatedList represents the ASN.1 type E-RABToBeUpdatedList (SEQUENCE_OF).
+type ERABToBeUpdatedList = []ProtocolIESingleContainer
+
+// ERABToBeUpdatedItem represents the ASN.1 type E-RABToBeUpdatedItem (SEQUENCE).
+type ERABToBeUpdatedItem struct {
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	SecurityIndication *SecurityIndication        `asn1:"tag:1,context,implicit,optional" json:"SecurityIndication,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// PathSwitchRequestFailure represents the ASN.1 type PathSwitchRequestFailure (SEQUENCE).
+type PathSwitchRequestFailure struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// HandoverCancel represents the ASN.1 type HandoverCancel (SEQUENCE).
+type HandoverCancel struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// HandoverCancelAcknowledge represents the ASN.1 type HandoverCancelAcknowledge (SEQUENCE).
+type HandoverCancelAcknowledge struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// HandoverSuccess represents the ASN.1 type HandoverSuccess (SEQUENCE).
+type HandoverSuccess struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ENBEarlyStatusTransfer represents the ASN.1 type ENBEarlyStatusTransfer (SEQUENCE).
+type ENBEarlyStatusTransfer struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// MMEEarlyStatusTransfer represents the ASN.1 type MMEEarlyStatusTransfer (SEQUENCE).
+type MMEEarlyStatusTransfer struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ERABSetupRequest represents the ASN.1 type E-RABSetupRequest (SEQUENCE).
+type ERABSetupRequest struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ERABToBeSetupListBearerSUReq represents the ASN.1 type E-RABToBeSetupListBearerSUReq (SEQUENCE_OF).
+type ERABToBeSetupListBearerSUReq = []ProtocolIESingleContainer
+
+// ERABToBeSetupItemBearerSUReq represents the ASN.1 type E-RABToBeSetupItemBearerSUReq (SEQUENCE).
+type ERABToBeSetupItemBearerSUReq struct {
+	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
+	ERABlevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
+	TransportLayerAddress  TransportLayerAddress      `asn1:"tag:2,context,implicit"`
+	GTPTEID                GTPTEID                    `asn1:"tag:3,context,implicit"`
+	NASPDU                 NASPDU                     `asn1:"tag:4,context,implicit"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+}
+
+// ERABSetupResponse represents the ASN.1 type E-RABSetupResponse (SEQUENCE).
+type ERABSetupResponse struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ERABSetupListBearerSURes represents the ASN.1 type E-RABSetupListBearerSURes (SEQUENCE_OF).
+type ERABSetupListBearerSURes = []ProtocolIESingleContainer
+
+// ERABSetupItemBearerSURes represents the ASN.1 type E-RABSetupItemBearerSURes (SEQUENCE).
+type ERABSetupItemBearerSURes struct {
+	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
+	TransportLayerAddress TransportLayerAddress      `asn1:"tag:1,context,implicit"`
+	GTPTEID               GTPTEID                    `asn1:"tag:2,context,implicit"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+}
+
+// ERABModifyRequest represents the ASN.1 type E-RABModifyRequest (SEQUENCE).
+type ERABModifyRequest struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ERABToBeModifiedListBearerModReq represents the ASN.1 type E-RABToBeModifiedListBearerModReq (SEQUENCE_OF).
+type ERABToBeModifiedListBearerModReq = []ProtocolIESingleContainer
+
+// ERABToBeModifiedItemBearerModReq represents the ASN.1 type E-RABToBeModifiedItemBearerModReq (SEQUENCE).
+type ERABToBeModifiedItemBearerModReq struct {
+	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
+	ERABLevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
+	NASPDU                 NASPDU                     `asn1:"tag:2,context,implicit"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+}
+
+// ERABModifyResponse represents the ASN.1 type E-RABModifyResponse (SEQUENCE).
+type ERABModifyResponse struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ERABModifyListBearerModRes represents the ASN.1 type E-RABModifyListBearerModRes (SEQUENCE_OF).
+type ERABModifyListBearerModRes = []ProtocolIESingleContainer
+
+// ERABModifyItemBearerModRes represents the ASN.1 type E-RABModifyItemBearerModRes (SEQUENCE).
+type ERABModifyItemBearerModRes struct {
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// ERABReleaseCommand represents the ASN.1 type E-RABReleaseCommand (SEQUENCE).
+type ERABReleaseCommand struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ERABReleaseResponse represents the ASN.1 type E-RABReleaseResponse (SEQUENCE).
+type ERABReleaseResponse struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ERABReleaseListBearerRelComp represents the ASN.1 type E-RABReleaseListBearerRelComp (SEQUENCE_OF).
+type ERABReleaseListBearerRelComp = []ProtocolIESingleContainer
+
+// ERABReleaseItemBearerRelComp represents the ASN.1 type E-RABReleaseItemBearerRelComp (SEQUENCE).
+type ERABReleaseItemBearerRelComp struct {
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// ERABReleaseIndication represents the ASN.1 type E-RABReleaseIndication (SEQUENCE).
+type ERABReleaseIndication struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// InitialContextSetupRequest represents the ASN.1 type InitialContextSetupRequest (SEQUENCE).
+type InitialContextSetupRequest struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ERABToBeSetupListCtxtSUReq represents the ASN.1 type E-RABToBeSetupListCtxtSUReq (SEQUENCE_OF).
+type ERABToBeSetupListCtxtSUReq = []ProtocolIESingleContainer
+
+// ERABToBeSetupItemCtxtSUReq represents the ASN.1 type E-RABToBeSetupItemCtxtSUReq (SEQUENCE).
+type ERABToBeSetupItemCtxtSUReq struct {
+	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
+	ERABlevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
+	TransportLayerAddress  TransportLayerAddress      `asn1:"tag:2,context,implicit"`
+	GTPTEID                GTPTEID                    `asn1:"tag:3,context,implicit"`
+	NASPDU                 *NASPDU                    `asn1:"tag:4,context,implicit,optional" json:"NASPDU,omitempty"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+}
+
+// InitialContextSetupResponse represents the ASN.1 type InitialContextSetupResponse (SEQUENCE).
+type InitialContextSetupResponse struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ERABSetupListCtxtSURes represents the ASN.1 type E-RABSetupListCtxtSURes (SEQUENCE_OF).
+type ERABSetupListCtxtSURes = []ProtocolIESingleContainer
+
+// ERABSetupItemCtxtSURes represents the ASN.1 type E-RABSetupItemCtxtSURes (SEQUENCE).
+type ERABSetupItemCtxtSURes struct {
+	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
+	TransportLayerAddress TransportLayerAddress      `asn1:"tag:1,context,implicit"`
+	GTPTEID               GTPTEID                    `asn1:"tag:2,context,implicit"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+}
+
+// InitialContextSetupFailure represents the ASN.1 type InitialContextSetupFailure (SEQUENCE).
+type InitialContextSetupFailure struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// Paging represents the ASN.1 type Paging (SEQUENCE).
+type Paging struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// TAIList represents the ASN.1 type TAIList (SEQUENCE_OF).
+type TAIList = []ProtocolIESingleContainer
+
+// TAIItem represents the ASN.1 type TAIItem (SEQUENCE).
+type TAIItem struct {
+	TAI                TAI                        `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// UEContextReleaseRequest represents the ASN.1 type UEContextReleaseRequest (SEQUENCE).
+type UEContextReleaseRequest struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// UEContextReleaseCommand represents the ASN.1 type UEContextReleaseCommand (SEQUENCE).
+type UEContextReleaseCommand struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// UEContextReleaseComplete represents the ASN.1 type UEContextReleaseComplete (SEQUENCE).
+type UEContextReleaseComplete struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// UEContextModificationRequest represents the ASN.1 type UEContextModificationRequest (SEQUENCE).
+type UEContextModificationRequest struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// UEContextModificationResponse represents the ASN.1 type UEContextModificationResponse (SEQUENCE).
+type UEContextModificationResponse struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// UEContextModificationFailure represents the ASN.1 type UEContextModificationFailure (SEQUENCE).
+type UEContextModificationFailure struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// UERadioCapabilityMatchRequest represents the ASN.1 type UERadioCapabilityMatchRequest (SEQUENCE).
+type UERadioCapabilityMatchRequest struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// UERadioCapabilityMatchResponse represents the ASN.1 type UERadioCapabilityMatchResponse (SEQUENCE).
+type UERadioCapabilityMatchResponse struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -64,8 +567,8 @@ type DownlinkNASTransport struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// DownlinkNonUEAssociatedLPPaTransport represents the ASN.1 type DownlinkNonUEAssociatedLPPaTransport (SEQUENCE).
-type DownlinkNonUEAssociatedLPPaTransport struct {
+// InitialUEMessage represents the ASN.1 type InitialUEMessage (SEQUENCE).
+type InitialUEMessage struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -73,8 +576,8 @@ type DownlinkNonUEAssociatedLPPaTransport struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// DownlinkS1cdma2000tunnelling represents the ASN.1 type DownlinkS1cdma2000tunnelling (SEQUENCE).
-type DownlinkS1cdma2000tunnelling struct {
+// UplinkNASTransport represents the ASN.1 type UplinkNASTransport (SEQUENCE).
+type UplinkNASTransport struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -82,8 +585,8 @@ type DownlinkS1cdma2000tunnelling struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// DownlinkUEAssociatedLPPaTransport represents the ASN.1 type DownlinkUEAssociatedLPPaTransport (SEQUENCE).
-type DownlinkUEAssociatedLPPaTransport struct {
+// NASNonDeliveryIndication represents the ASN.1 type NASNonDeliveryIndication (SEQUENCE).
+type NASNonDeliveryIndication struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -91,8 +594,8 @@ type DownlinkUEAssociatedLPPaTransport struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ENBCPRelocationIndication represents the ASN.1 type ENBCPRelocationIndication (SEQUENCE).
-type ENBCPRelocationIndication struct {
+// RerouteNASRequest represents the ASN.1 type RerouteNASRequest (SEQUENCE).
+type RerouteNASRequest struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -100,8 +603,116 @@ type ENBCPRelocationIndication struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ENBConfigurationTransfer represents the ASN.1 type ENBConfigurationTransfer (SEQUENCE).
-type ENBConfigurationTransfer struct {
+// S1Message represents the ASN.1 type S1-Message (OCTET_STRING).
+type S1Message = []byte
+
+// NASDeliveryIndication represents the ASN.1 type NASDeliveryIndication (SEQUENCE).
+type NASDeliveryIndication struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// Reset represents the ASN.1 type Reset (SEQUENCE).
+type Reset struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ResetType choice constants.
+const (
+	ResetTypeChoiceS1Interface       = 1
+	ResetTypeChoicePartOfS1Interface = 2
+)
+
+// ResetType represents the ASN.1 CHOICE type ResetType.
+type ResetType struct {
+	Choice            int
+	S1Interface       *ResetAll                              `json:"S1Interface,omitempty"`
+	PartOfS1Interface UEAssociatedLogicalS1ConnectionListRes `json:"PartOfS1Interface,omitempty"`
+}
+
+// NewResetTypeS1Interface creates a ResetType with the s1-Interface alternative.
+func NewResetTypeS1Interface(v ResetAll) ResetType {
+	return ResetType{
+		Choice:      ResetTypeChoiceS1Interface,
+		S1Interface: &v,
+	}
+}
+
+// NewResetTypePartOfS1Interface creates a ResetType with the partOfS1-Interface alternative.
+func NewResetTypePartOfS1Interface(v UEAssociatedLogicalS1ConnectionListRes) ResetType {
+	return ResetType{
+		Choice:            ResetTypeChoicePartOfS1Interface,
+		PartOfS1Interface: v,
+	}
+}
+
+// ResetAll represents the ASN.1 ENUMERATED type ResetAll.
+type ResetAll int64
+
+const (
+	ResetAllResetAll ResetAll = 0
+)
+
+func (v ResetAll) String() string {
+	switch v {
+	case ResetAllResetAll:
+		return "reset-all"
+	default:
+		return "unknown"
+	}
+}
+
+// UEAssociatedLogicalS1ConnectionListRes represents the ASN.1 type UE-associatedLogicalS1-ConnectionListRes (SEQUENCE_OF).
+type UEAssociatedLogicalS1ConnectionListRes = []ProtocolIESingleContainer
+
+// ResetAcknowledge represents the ASN.1 type ResetAcknowledge (SEQUENCE).
+type ResetAcknowledge struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// UEAssociatedLogicalS1ConnectionListResAck represents the ASN.1 type UE-associatedLogicalS1-ConnectionListResAck (SEQUENCE_OF).
+type UEAssociatedLogicalS1ConnectionListResAck = []ProtocolIESingleContainer
+
+// ErrorIndication represents the ASN.1 type ErrorIndication (SEQUENCE).
+type ErrorIndication struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// S1SetupRequest represents the ASN.1 type S1SetupRequest (SEQUENCE).
+type S1SetupRequest struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// S1SetupResponse represents the ASN.1 type S1SetupResponse (SEQUENCE).
+type S1SetupResponse struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// S1SetupFailure represents the ASN.1 type S1SetupFailure (SEQUENCE).
+type S1SetupFailure struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -136,623 +747,6 @@ type ENBConfigurationUpdateFailure struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ENBDirectInformationTransfer represents the ASN.1 type ENBDirectInformationTransfer (SEQUENCE).
-type ENBDirectInformationTransfer struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// ENBEarlyStatusTransfer represents the ASN.1 type ENBEarlyStatusTransfer (SEQUENCE).
-type ENBEarlyStatusTransfer struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// ENBStatusTransfer represents the ASN.1 type ENBStatusTransfer (SEQUENCE).
-type ENBStatusTransfer struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// ERABAdmittedItem represents the ASN.1 type E-RABAdmittedItem (SEQUENCE).
-type ERABAdmittedItem struct {
-	ERABID                  ERABID                     `asn1:"tag:0,context,implicit"`
-	TransportLayerAddress   TransportLayerAddress      `asn1:"tag:1,context,implicit"`
-	GTPTEID                 GTPTEID                    `asn1:"tag:2,context,implicit"`
-	DLTransportLayerAddress *TransportLayerAddress     `asn1:"tag:3,context,implicit,optional" json:"DLTransportLayerAddress,omitempty"`
-	DLGTPTEID               *GTPTEID                   `asn1:"tag:4,context,implicit,optional" json:"DLGTPTEID,omitempty"`
-	ULTransportLayerAddress *TransportLayerAddress     `asn1:"tag:5,context,implicit,optional" json:"ULTransportLayerAddress,omitempty"`
-	ULGTPTEID               *GTPTEID                   `asn1:"tag:6,context,implicit,optional" json:"ULGTPTEID,omitempty"`
-	IEExtensions            ProtocolExtensionContainer `asn1:"tag:7,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_      bool                       `asn1:"-" json:"-"`
-	ExtCount_               int64                      `asn1:"-" json:"-"`
-	ExtPresent_             []bool                     `asn1:"-" json:"-"`
-	ExtData_                [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABAdmittedList represents the ASN.1 type E-RABAdmittedList (SEQUENCE_OF).
-type ERABAdmittedList = []ProtocolIESingleContainer
-
-// ERABDataForwardingItem represents the ASN.1 type E-RABDataForwardingItem (SEQUENCE).
-type ERABDataForwardingItem struct {
-	ERABID                  ERABID                     `asn1:"tag:0,context,implicit"`
-	DLTransportLayerAddress *TransportLayerAddress     `asn1:"tag:1,context,implicit,optional" json:"DLTransportLayerAddress,omitempty"`
-	DLGTPTEID               *GTPTEID                   `asn1:"tag:2,context,implicit,optional" json:"DLGTPTEID,omitempty"`
-	ULTransportLayerAddress *TransportLayerAddress     `asn1:"tag:3,context,implicit,optional" json:"ULTransportLayerAddress,omitempty"`
-	ULGTPTEID               *GTPTEID                   `asn1:"tag:4,context,implicit,optional" json:"ULGTPTEID,omitempty"`
-	IEExtensions            ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_      bool                       `asn1:"-" json:"-"`
-	ExtCount_               int64                      `asn1:"-" json:"-"`
-	ExtPresent_             []bool                     `asn1:"-" json:"-"`
-	ExtData_                [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABFailedToResumeItemResumeReq represents the ASN.1 type E-RABFailedToResumeItemResumeReq (SEQUENCE).
-type ERABFailedToResumeItemResumeReq struct {
-	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
-	Cause              Cause                      `asn1:"tag:1,context,explicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABFailedToResumeItemResumeRes represents the ASN.1 type E-RABFailedToResumeItemResumeRes (SEQUENCE).
-type ERABFailedToResumeItemResumeRes struct {
-	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
-	Cause              Cause                      `asn1:"tag:1,context,explicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABFailedToResumeListResumeReq represents the ASN.1 type E-RABFailedToResumeListResumeReq (SEQUENCE_OF).
-type ERABFailedToResumeListResumeReq = []ProtocolIESingleContainer
-
-// ERABFailedToResumeListResumeRes represents the ASN.1 type E-RABFailedToResumeListResumeRes (SEQUENCE_OF).
-type ERABFailedToResumeListResumeRes = []ProtocolIESingleContainer
-
-// ERABFailedToSetupItemHOReqAck represents the ASN.1 type E-RABFailedToSetupItemHOReqAck (SEQUENCE).
-type ERABFailedToSetupItemHOReqAck struct {
-	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
-	Cause              Cause                      `asn1:"tag:1,context,explicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABFailedtoSetupListHOReqAck represents the ASN.1 type E-RABFailedtoSetupListHOReqAck (SEQUENCE_OF).
-type ERABFailedtoSetupListHOReqAck = []ProtocolIESingleContainer
-
-// ERABModificationConfirm represents the ASN.1 type E-RABModificationConfirm (SEQUENCE).
-type ERABModificationConfirm struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// ERABModificationIndication represents the ASN.1 type E-RABModificationIndication (SEQUENCE).
-type ERABModificationIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// ERABModifyItemBearerModConf represents the ASN.1 type E-RABModifyItemBearerModConf (SEQUENCE).
-type ERABModifyItemBearerModConf struct {
-	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABModifyItemBearerModRes represents the ASN.1 type E-RABModifyItemBearerModRes (SEQUENCE).
-type ERABModifyItemBearerModRes struct {
-	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABModifyListBearerModConf represents the ASN.1 type E-RABModifyListBearerModConf (SEQUENCE_OF).
-type ERABModifyListBearerModConf = []ProtocolIESingleContainer
-
-// ERABModifyListBearerModRes represents the ASN.1 type E-RABModifyListBearerModRes (SEQUENCE_OF).
-type ERABModifyListBearerModRes = []ProtocolIESingleContainer
-
-// ERABModifyRequest represents the ASN.1 type E-RABModifyRequest (SEQUENCE).
-type ERABModifyRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// ERABModifyResponse represents the ASN.1 type E-RABModifyResponse (SEQUENCE).
-type ERABModifyResponse struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// ERABNotToBeModifiedItemBearerModInd represents the ASN.1 type E-RABNotToBeModifiedItemBearerModInd (SEQUENCE).
-type ERABNotToBeModifiedItemBearerModInd struct {
-	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
-	TransportLayerAddress TransportLayerAddress      `asn1:"tag:1,context,implicit"`
-	DLGTPTEID             GTPTEID                    `asn1:"tag:2,context,implicit"`
-	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
-	ExtCount_             int64                      `asn1:"-" json:"-"`
-	ExtPresent_           []bool                     `asn1:"-" json:"-"`
-	ExtData_              [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABNotToBeModifiedListBearerModInd represents the ASN.1 type E-RABNotToBeModifiedListBearerModInd (SEQUENCE_OF).
-type ERABNotToBeModifiedListBearerModInd = []ProtocolIESingleContainer
-
-// ERABReleaseCommand represents the ASN.1 type E-RABReleaseCommand (SEQUENCE).
-type ERABReleaseCommand struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// ERABReleaseIndication represents the ASN.1 type E-RABReleaseIndication (SEQUENCE).
-type ERABReleaseIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// ERABReleaseItemBearerRelComp represents the ASN.1 type E-RABReleaseItemBearerRelComp (SEQUENCE).
-type ERABReleaseItemBearerRelComp struct {
-	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABReleaseListBearerRelComp represents the ASN.1 type E-RABReleaseListBearerRelComp (SEQUENCE_OF).
-type ERABReleaseListBearerRelComp = []ProtocolIESingleContainer
-
-// ERABReleaseResponse represents the ASN.1 type E-RABReleaseResponse (SEQUENCE).
-type ERABReleaseResponse struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// ERABSetupItemBearerSURes represents the ASN.1 type E-RABSetupItemBearerSURes (SEQUENCE).
-type ERABSetupItemBearerSURes struct {
-	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
-	TransportLayerAddress TransportLayerAddress      `asn1:"tag:1,context,implicit"`
-	GTPTEID               GTPTEID                    `asn1:"tag:2,context,implicit"`
-	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
-	ExtCount_             int64                      `asn1:"-" json:"-"`
-	ExtPresent_           []bool                     `asn1:"-" json:"-"`
-	ExtData_              [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABSetupItemCtxtSURes represents the ASN.1 type E-RABSetupItemCtxtSURes (SEQUENCE).
-type ERABSetupItemCtxtSURes struct {
-	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
-	TransportLayerAddress TransportLayerAddress      `asn1:"tag:1,context,implicit"`
-	GTPTEID               GTPTEID                    `asn1:"tag:2,context,implicit"`
-	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
-	ExtCount_             int64                      `asn1:"-" json:"-"`
-	ExtPresent_           []bool                     `asn1:"-" json:"-"`
-	ExtData_              [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABSetupListBearerSURes represents the ASN.1 type E-RABSetupListBearerSURes (SEQUENCE_OF).
-type ERABSetupListBearerSURes = []ProtocolIESingleContainer
-
-// ERABSetupListCtxtSURes represents the ASN.1 type E-RABSetupListCtxtSURes (SEQUENCE_OF).
-type ERABSetupListCtxtSURes = []ProtocolIESingleContainer
-
-// ERABSetupRequest represents the ASN.1 type E-RABSetupRequest (SEQUENCE).
-type ERABSetupRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// ERABSetupResponse represents the ASN.1 type E-RABSetupResponse (SEQUENCE).
-type ERABSetupResponse struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// ERABSubjecttoDataForwardingList represents the ASN.1 type E-RABSubjecttoDataForwardingList (SEQUENCE_OF).
-type ERABSubjecttoDataForwardingList = []ProtocolIESingleContainer
-
-// ERABToBeModifiedItemBearerModInd represents the ASN.1 type E-RABToBeModifiedItemBearerModInd (SEQUENCE).
-type ERABToBeModifiedItemBearerModInd struct {
-	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
-	TransportLayerAddress TransportLayerAddress      `asn1:"tag:1,context,implicit"`
-	DLGTPTEID             GTPTEID                    `asn1:"tag:2,context,implicit"`
-	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
-	ExtCount_             int64                      `asn1:"-" json:"-"`
-	ExtPresent_           []bool                     `asn1:"-" json:"-"`
-	ExtData_              [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABToBeModifiedItemBearerModReq represents the ASN.1 type E-RABToBeModifiedItemBearerModReq (SEQUENCE).
-type ERABToBeModifiedItemBearerModReq struct {
-	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
-	ERABLevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
-	NASPDU                 NASPDU                     `asn1:"tag:2,context,implicit"`
-	IEExtensions           ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
-	ExtCount_              int64                      `asn1:"-" json:"-"`
-	ExtPresent_            []bool                     `asn1:"-" json:"-"`
-	ExtData_               [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABToBeModifiedListBearerModInd represents the ASN.1 type E-RABToBeModifiedListBearerModInd (SEQUENCE_OF).
-type ERABToBeModifiedListBearerModInd = []ProtocolIESingleContainer
-
-// ERABToBeModifiedListBearerModReq represents the ASN.1 type E-RABToBeModifiedListBearerModReq (SEQUENCE_OF).
-type ERABToBeModifiedListBearerModReq = []ProtocolIESingleContainer
-
-// ERABToBeSetupItemBearerSUReq represents the ASN.1 type E-RABToBeSetupItemBearerSUReq (SEQUENCE).
-type ERABToBeSetupItemBearerSUReq struct {
-	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
-	ERABlevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
-	TransportLayerAddress  TransportLayerAddress      `asn1:"tag:2,context,implicit"`
-	GTPTEID                GTPTEID                    `asn1:"tag:3,context,implicit"`
-	NASPDU                 NASPDU                     `asn1:"tag:4,context,implicit"`
-	IEExtensions           ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
-	ExtCount_              int64                      `asn1:"-" json:"-"`
-	ExtPresent_            []bool                     `asn1:"-" json:"-"`
-	ExtData_               [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABToBeSetupItemCtxtSUReq represents the ASN.1 type E-RABToBeSetupItemCtxtSUReq (SEQUENCE).
-type ERABToBeSetupItemCtxtSUReq struct {
-	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
-	ERABlevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
-	TransportLayerAddress  TransportLayerAddress      `asn1:"tag:2,context,implicit"`
-	GTPTEID                GTPTEID                    `asn1:"tag:3,context,implicit"`
-	NASPDU                 *NASPDU                    `asn1:"tag:4,context,implicit,optional" json:"NASPDU,omitempty"`
-	IEExtensions           ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
-	ExtCount_              int64                      `asn1:"-" json:"-"`
-	ExtPresent_            []bool                     `asn1:"-" json:"-"`
-	ExtData_               [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABToBeSetupItemHOReq represents the ASN.1 type E-RABToBeSetupItemHOReq (SEQUENCE).
-type ERABToBeSetupItemHOReq struct {
-	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
-	TransportLayerAddress  TransportLayerAddress      `asn1:"tag:1,context,implicit"`
-	GTPTEID                GTPTEID                    `asn1:"tag:2,context,implicit"`
-	ERABlevelQosParameters ERABLevelQoSParameters     `asn1:"tag:3,context,implicit"`
-	IEExtensions           ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
-	ExtCount_              int64                      `asn1:"-" json:"-"`
-	ExtPresent_            []bool                     `asn1:"-" json:"-"`
-	ExtData_               [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABToBeSetupListBearerSUReq represents the ASN.1 type E-RABToBeSetupListBearerSUReq (SEQUENCE_OF).
-type ERABToBeSetupListBearerSUReq = []ProtocolIESingleContainer
-
-// ERABToBeSetupListCtxtSUReq represents the ASN.1 type E-RABToBeSetupListCtxtSUReq (SEQUENCE_OF).
-type ERABToBeSetupListCtxtSUReq = []ProtocolIESingleContainer
-
-// ERABToBeSetupListHOReq represents the ASN.1 type E-RABToBeSetupListHOReq (SEQUENCE_OF).
-type ERABToBeSetupListHOReq = []ProtocolIESingleContainer
-
-// ERABToBeSwitchedDLItem represents the ASN.1 type E-RABToBeSwitchedDLItem (SEQUENCE).
-type ERABToBeSwitchedDLItem struct {
-	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
-	TransportLayerAddress TransportLayerAddress      `asn1:"tag:1,context,implicit"`
-	GTPTEID               GTPTEID                    `asn1:"tag:2,context,implicit"`
-	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
-	ExtCount_             int64                      `asn1:"-" json:"-"`
-	ExtPresent_           []bool                     `asn1:"-" json:"-"`
-	ExtData_              [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABToBeSwitchedDLList represents the ASN.1 type E-RABToBeSwitchedDLList (SEQUENCE_OF).
-type ERABToBeSwitchedDLList = []ProtocolIESingleContainer
-
-// ERABToBeSwitchedULItem represents the ASN.1 type E-RABToBeSwitchedULItem (SEQUENCE).
-type ERABToBeSwitchedULItem struct {
-	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
-	TransportLayerAddress TransportLayerAddress      `asn1:"tag:1,context,implicit"`
-	GTPTEID               GTPTEID                    `asn1:"tag:2,context,implicit"`
-	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
-	ExtCount_             int64                      `asn1:"-" json:"-"`
-	ExtPresent_           []bool                     `asn1:"-" json:"-"`
-	ExtData_              [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABToBeSwitchedULList represents the ASN.1 type E-RABToBeSwitchedULList (SEQUENCE_OF).
-type ERABToBeSwitchedULList = []ProtocolIESingleContainer
-
-// ERABToBeUpdatedItem represents the ASN.1 type E-RABToBeUpdatedItem (SEQUENCE).
-type ERABToBeUpdatedItem struct {
-	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
-	SecurityIndication *SecurityIndication        `asn1:"tag:1,context,implicit,optional" json:"SecurityIndication,omitempty"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABToBeUpdatedList represents the ASN.1 type E-RABToBeUpdatedList (SEQUENCE_OF).
-type ERABToBeUpdatedList = []ProtocolIESingleContainer
-
-// ERABIEContainerList represents the ASN.1 type E-RAB-IE-ContainerList (SEQUENCE_OF).
-type ERABIEContainerList = []interface{}
-
-// ERABIEContainerPairList represents the ASN.1 type E-RAB-IE-ContainerPairList (SEQUENCE_OF).
-type ERABIEContainerPairList = []interface{}
-
-// ErrorIndication represents the ASN.1 type ErrorIndication (SEQUENCE).
-type ErrorIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// HandoverCancel represents the ASN.1 type HandoverCancel (SEQUENCE).
-type HandoverCancel struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// HandoverCancelAcknowledge represents the ASN.1 type HandoverCancelAcknowledge (SEQUENCE).
-type HandoverCancelAcknowledge struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// HandoverCommand represents the ASN.1 type HandoverCommand (SEQUENCE).
-type HandoverCommand struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// HandoverFailure represents the ASN.1 type HandoverFailure (SEQUENCE).
-type HandoverFailure struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// HandoverNotify represents the ASN.1 type HandoverNotify (SEQUENCE).
-type HandoverNotify struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// HandoverPreparationFailure represents the ASN.1 type HandoverPreparationFailure (SEQUENCE).
-type HandoverPreparationFailure struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// HandoverRequest represents the ASN.1 type HandoverRequest (SEQUENCE).
-type HandoverRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// HandoverRequestAcknowledge represents the ASN.1 type HandoverRequestAcknowledge (SEQUENCE).
-type HandoverRequestAcknowledge struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// HandoverRequired represents the ASN.1 type HandoverRequired (SEQUENCE).
-type HandoverRequired struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// HandoverSuccess represents the ASN.1 type HandoverSuccess (SEQUENCE).
-type HandoverSuccess struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// InitialContextSetupFailure represents the ASN.1 type InitialContextSetupFailure (SEQUENCE).
-type InitialContextSetupFailure struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// InitialContextSetupRequest represents the ASN.1 type InitialContextSetupRequest (SEQUENCE).
-type InitialContextSetupRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// InitialContextSetupResponse represents the ASN.1 type InitialContextSetupResponse (SEQUENCE).
-type InitialContextSetupResponse struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// InitialUEMessage represents the ASN.1 type InitialUEMessage (SEQUENCE).
-type InitialUEMessage struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// InterSystemInformationTransferType choice constants.
-const (
-	InterSystemInformationTransferTypeChoiceRIMTransfer = 1
-)
-
-// InterSystemInformationTransferType represents the ASN.1 CHOICE type Inter-SystemInformationTransferType.
-type InterSystemInformationTransferType struct {
-	Choice      int
-	RIMTransfer *RIMTransfer `json:"RIMTransfer,omitempty"`
-}
-
-// NewInterSystemInformationTransferTypeRIMTransfer creates a Inter-SystemInformationTransferType with the rIMTransfer alternative.
-func NewInterSystemInformationTransferTypeRIMTransfer(v RIMTransfer) InterSystemInformationTransferType {
-	return InterSystemInformationTransferType{
-		Choice:      InterSystemInformationTransferTypeChoiceRIMTransfer,
-		RIMTransfer: &v,
-	}
-}
-
-// KillRequest represents the ASN.1 type KillRequest (SEQUENCE).
-type KillRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// KillResponse represents the ASN.1 type KillResponse (SEQUENCE).
-type KillResponse struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// LocationReport represents the ASN.1 type LocationReport (SEQUENCE).
-type LocationReport struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// LocationReportingControl represents the ASN.1 type LocationReportingControl (SEQUENCE).
-type LocationReportingControl struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// LocationReportingFailureIndication represents the ASN.1 type LocationReportingFailureIndication (SEQUENCE).
-type LocationReportingFailureIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// MMECPRelocationIndication represents the ASN.1 type MMECPRelocationIndication (SEQUENCE).
-type MMECPRelocationIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// MMEConfigurationTransfer represents the ASN.1 type MMEConfigurationTransfer (SEQUENCE).
-type MMEConfigurationTransfer struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
 // MMEConfigurationUpdate represents the ASN.1 type MMEConfigurationUpdate (SEQUENCE).
 type MMEConfigurationUpdate struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
@@ -780,8 +774,8 @@ type MMEConfigurationUpdateFailure struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// MMEDirectInformationTransfer represents the ASN.1 type MMEDirectInformationTransfer (SEQUENCE).
-type MMEDirectInformationTransfer struct {
+// DownlinkS1cdma2000tunnelling represents the ASN.1 type DownlinkS1cdma2000tunnelling (SEQUENCE).
+type DownlinkS1cdma2000tunnelling struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -789,8 +783,26 @@ type MMEDirectInformationTransfer struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// MMEEarlyStatusTransfer represents the ASN.1 type MMEEarlyStatusTransfer (SEQUENCE).
-type MMEEarlyStatusTransfer struct {
+// UplinkS1cdma2000tunnelling represents the ASN.1 type UplinkS1cdma2000tunnelling (SEQUENCE).
+type UplinkS1cdma2000tunnelling struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// UECapabilityInfoIndication represents the ASN.1 type UECapabilityInfoIndication (SEQUENCE).
+type UECapabilityInfoIndication struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ENBStatusTransfer represents the ASN.1 type ENBStatusTransfer (SEQUENCE).
+type ENBStatusTransfer struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -807,8 +819,8 @@ type MMEStatusTransfer struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// NASDeliveryIndication represents the ASN.1 type NASDeliveryIndication (SEQUENCE).
-type NASDeliveryIndication struct {
+// TraceStart represents the ASN.1 type TraceStart (SEQUENCE).
+type TraceStart struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -816,8 +828,53 @@ type NASDeliveryIndication struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// NASNonDeliveryIndication represents the ASN.1 type NASNonDeliveryIndication (SEQUENCE).
-type NASNonDeliveryIndication struct {
+// TraceFailureIndication represents the ASN.1 type TraceFailureIndication (SEQUENCE).
+type TraceFailureIndication struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// DeactivateTrace represents the ASN.1 type DeactivateTrace (SEQUENCE).
+type DeactivateTrace struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// CellTrafficTrace represents the ASN.1 type CellTrafficTrace (SEQUENCE).
+type CellTrafficTrace struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// LocationReportingControl represents the ASN.1 type LocationReportingControl (SEQUENCE).
+type LocationReportingControl struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// LocationReportingFailureIndication represents the ASN.1 type LocationReportingFailureIndication (SEQUENCE).
+type LocationReportingFailureIndication struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// LocationReport represents the ASN.1 type LocationReport (SEQUENCE).
+type LocationReport struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -843,8 +900,8 @@ type OverloadStop struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// PWSFailureIndication represents the ASN.1 type PWSFailureIndication (SEQUENCE).
-type PWSFailureIndication struct {
+// WriteReplaceWarningRequest represents the ASN.1 type WriteReplaceWarningRequest (SEQUENCE).
+type WriteReplaceWarningRequest struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -852,8 +909,8 @@ type PWSFailureIndication struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// PWSRestartIndication represents the ASN.1 type PWSRestartIndication (SEQUENCE).
-type PWSRestartIndication struct {
+// WriteReplaceWarningResponse represents the ASN.1 type WriteReplaceWarningResponse (SEQUENCE).
+type WriteReplaceWarningResponse struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -861,8 +918,8 @@ type PWSRestartIndication struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// Paging represents the ASN.1 type Paging (SEQUENCE).
-type Paging struct {
+// ENBDirectInformationTransfer represents the ASN.1 type ENBDirectInformationTransfer (SEQUENCE).
+type ENBDirectInformationTransfer struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -870,8 +927,27 @@ type Paging struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// PathSwitchRequest represents the ASN.1 type PathSwitchRequest (SEQUENCE).
-type PathSwitchRequest struct {
+// InterSystemInformationTransferType choice constants.
+const (
+	InterSystemInformationTransferTypeChoiceRIMTransfer = 1
+)
+
+// InterSystemInformationTransferType represents the ASN.1 CHOICE type Inter-SystemInformationTransferType.
+type InterSystemInformationTransferType struct {
+	Choice      int
+	RIMTransfer *RIMTransfer `json:"RIMTransfer,omitempty"`
+}
+
+// NewInterSystemInformationTransferTypeRIMTransfer creates a Inter-SystemInformationTransferType with the rIMTransfer alternative.
+func NewInterSystemInformationTransferTypeRIMTransfer(v RIMTransfer) InterSystemInformationTransferType {
+	return InterSystemInformationTransferType{
+		Choice:      InterSystemInformationTransferTypeChoiceRIMTransfer,
+		RIMTransfer: &v,
+	}
+}
+
+// MMEDirectInformationTransfer represents the ASN.1 type MMEDirectInformationTransfer (SEQUENCE).
+type MMEDirectInformationTransfer struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -879,8 +955,8 @@ type PathSwitchRequest struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// PathSwitchRequestAcknowledge represents the ASN.1 type PathSwitchRequestAcknowledge (SEQUENCE).
-type PathSwitchRequestAcknowledge struct {
+// ENBConfigurationTransfer represents the ASN.1 type ENBConfigurationTransfer (SEQUENCE).
+type ENBConfigurationTransfer struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -888,8 +964,8 @@ type PathSwitchRequestAcknowledge struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// PathSwitchRequestFailure represents the ASN.1 type PathSwitchRequestFailure (SEQUENCE).
-type PathSwitchRequestFailure struct {
+// MMEConfigurationTransfer represents the ASN.1 type MMEConfigurationTransfer (SEQUENCE).
+type MMEConfigurationTransfer struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -906,11 +982,8 @@ type PrivateMessage struct {
 	ExtData_         [][]byte           `asn1:"-" json:"-"`
 }
 
-// ProtocolErrorIEContainerList represents the ASN.1 type ProtocolError-IE-ContainerList (SEQUENCE_OF).
-type ProtocolErrorIEContainerList = []interface{}
-
-// RerouteNASRequest represents the ASN.1 type RerouteNASRequest (SEQUENCE).
-type RerouteNASRequest struct {
+// KillRequest represents the ASN.1 type KillRequest (SEQUENCE).
+type KillRequest struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -918,8 +991,8 @@ type RerouteNASRequest struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// Reset represents the ASN.1 type Reset (SEQUENCE).
-type Reset struct {
+// KillResponse represents the ASN.1 type KillResponse (SEQUENCE).
+type KillResponse struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -927,8 +1000,8 @@ type Reset struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ResetAcknowledge represents the ASN.1 type ResetAcknowledge (SEQUENCE).
-type ResetAcknowledge struct {
+// PWSRestartIndication represents the ASN.1 type PWSRestartIndication (SEQUENCE).
+type PWSRestartIndication struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -936,53 +1009,8 @@ type ResetAcknowledge struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ResetAll represents the ASN.1 ENUMERATED type ResetAll.
-type ResetAll int64
-
-const (
-	ResetAllResetAll ResetAll = 0
-)
-
-func (v ResetAll) String() string {
-	switch v {
-	case ResetAllResetAll:
-		return "reset-all"
-	default:
-		return "unknown"
-	}
-}
-
-// ResetType choice constants.
-const (
-	ResetTypeChoiceS1Interface       = 1
-	ResetTypeChoicePartOfS1Interface = 2
-)
-
-// ResetType represents the ASN.1 CHOICE type ResetType.
-type ResetType struct {
-	Choice            int
-	S1Interface       *ResetAll                              `json:"S1Interface,omitempty"`
-	PartOfS1Interface UEAssociatedLogicalS1ConnectionListRes `json:"PartOfS1Interface,omitempty"`
-}
-
-// NewResetTypeS1Interface creates a ResetType with the s1-Interface alternative.
-func NewResetTypeS1Interface(v ResetAll) ResetType {
-	return ResetType{
-		Choice:      ResetTypeChoiceS1Interface,
-		S1Interface: &v,
-	}
-}
-
-// NewResetTypePartOfS1Interface creates a ResetType with the partOfS1-Interface alternative.
-func NewResetTypePartOfS1Interface(v UEAssociatedLogicalS1ConnectionListRes) ResetType {
-	return ResetType{
-		Choice:            ResetTypeChoicePartOfS1Interface,
-		PartOfS1Interface: v,
-	}
-}
-
-// RetrieveUEInformation represents the ASN.1 type RetrieveUEInformation (SEQUENCE).
-type RetrieveUEInformation struct {
+// PWSFailureIndication represents the ASN.1 type PWSFailureIndication (SEQUENCE).
+type PWSFailureIndication struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -990,8 +1018,8 @@ type RetrieveUEInformation struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// S1SetupFailure represents the ASN.1 type S1SetupFailure (SEQUENCE).
-type S1SetupFailure struct {
+// DownlinkUEAssociatedLPPaTransport represents the ASN.1 type DownlinkUEAssociatedLPPaTransport (SEQUENCE).
+type DownlinkUEAssociatedLPPaTransport struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -999,8 +1027,8 @@ type S1SetupFailure struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// S1SetupRequest represents the ASN.1 type S1SetupRequest (SEQUENCE).
-type S1SetupRequest struct {
+// UplinkUEAssociatedLPPaTransport represents the ASN.1 type UplinkUEAssociatedLPPaTransport (SEQUENCE).
+type UplinkUEAssociatedLPPaTransport struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -1008,8 +1036,8 @@ type S1SetupRequest struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// S1SetupResponse represents the ASN.1 type S1SetupResponse (SEQUENCE).
-type S1SetupResponse struct {
+// DownlinkNonUEAssociatedLPPaTransport represents the ASN.1 type DownlinkNonUEAssociatedLPPaTransport (SEQUENCE).
+type DownlinkNonUEAssociatedLPPaTransport struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -1017,8 +1045,8 @@ type S1SetupResponse struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// SecondaryRATDataUsageReport represents the ASN.1 type SecondaryRATDataUsageReport (SEQUENCE).
-type SecondaryRATDataUsageReport struct {
+// UplinkNonUEAssociatedLPPaTransport represents the ASN.1 type UplinkNonUEAssociatedLPPaTransport (SEQUENCE).
+type UplinkNonUEAssociatedLPPaTransport struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -1026,62 +1054,78 @@ type SecondaryRATDataUsageReport struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// TAIItem represents the ASN.1 type TAIItem (SEQUENCE).
-type TAIItem struct {
-	TAI                TAI                        `asn1:"tag:0,context,implicit"`
+// ERABModificationIndication represents the ASN.1 type E-RABModificationIndication (SEQUENCE).
+type ERABModificationIndication struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ERABToBeModifiedListBearerModInd represents the ASN.1 type E-RABToBeModifiedListBearerModInd (SEQUENCE_OF).
+type ERABToBeModifiedListBearerModInd = []ProtocolIESingleContainer
+
+// ERABToBeModifiedItemBearerModInd represents the ASN.1 type E-RABToBeModifiedItemBearerModInd (SEQUENCE).
+type ERABToBeModifiedItemBearerModInd struct {
+	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
+	TransportLayerAddress TransportLayerAddress      `asn1:"tag:1,context,implicit"`
+	DLGTPTEID             GTPTEID                    `asn1:"tag:2,context,implicit"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+}
+
+// ERABNotToBeModifiedListBearerModInd represents the ASN.1 type E-RABNotToBeModifiedListBearerModInd (SEQUENCE_OF).
+type ERABNotToBeModifiedListBearerModInd = []ProtocolIESingleContainer
+
+// ERABNotToBeModifiedItemBearerModInd represents the ASN.1 type E-RABNotToBeModifiedItemBearerModInd (SEQUENCE).
+type ERABNotToBeModifiedItemBearerModInd struct {
+	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
+	TransportLayerAddress TransportLayerAddress      `asn1:"tag:1,context,implicit"`
+	DLGTPTEID             GTPTEID                    `asn1:"tag:2,context,implicit"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+}
+
+// CSGMembershipInfo represents the ASN.1 type CSGMembershipInfo (SEQUENCE).
+type CSGMembershipInfo struct {
+	CSGMembershipStatus CSGMembershipStatus        `asn1:"tag:0,context,implicit"`
+	CSGId               CSGId                      `asn1:"tag:1,context,implicit"`
+	CellAccessMode      *CellAccessMode            `asn1:"tag:2,context,implicit,optional" json:"CellAccessMode,omitempty"`
+	PLMNidentity        *PLMNidentity              `asn1:"tag:3,context,implicit,optional" json:"PLMNidentity,omitempty"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+}
+
+// ERABModificationConfirm represents the ASN.1 type E-RABModificationConfirm (SEQUENCE).
+type ERABModificationConfirm struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ERABModifyListBearerModConf represents the ASN.1 type E-RABModifyListBearerModConf (SEQUENCE_OF).
+type ERABModifyListBearerModConf = []ProtocolIESingleContainer
+
+// ERABModifyItemBearerModConf represents the ASN.1 type E-RABModifyItemBearerModConf (SEQUENCE).
+type ERABModifyItemBearerModConf struct {
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// TAIList represents the ASN.1 type TAIList (SEQUENCE_OF).
-type TAIList = []ProtocolIESingleContainer
-
-// TraceFailureIndication represents the ASN.1 type TraceFailureIndication (SEQUENCE).
-type TraceFailureIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// TraceStart represents the ASN.1 type TraceStart (SEQUENCE).
-type TraceStart struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// UECapabilityInfoIndication represents the ASN.1 type UECapabilityInfoIndication (SEQUENCE).
-type UECapabilityInfoIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// UEContextModificationConfirm represents the ASN.1 type UEContextModificationConfirm (SEQUENCE).
-type UEContextModificationConfirm struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// UEContextModificationFailure represents the ASN.1 type UEContextModificationFailure (SEQUENCE).
-type UEContextModificationFailure struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
 // UEContextModificationIndication represents the ASN.1 type UEContextModificationIndication (SEQUENCE).
@@ -1093,71 +1137,8 @@ type UEContextModificationIndication struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// UEContextModificationRequest represents the ASN.1 type UEContextModificationRequest (SEQUENCE).
-type UEContextModificationRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// UEContextModificationResponse represents the ASN.1 type UEContextModificationResponse (SEQUENCE).
-type UEContextModificationResponse struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// UEContextReleaseCommand represents the ASN.1 type UEContextReleaseCommand (SEQUENCE).
-type UEContextReleaseCommand struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// UEContextReleaseComplete represents the ASN.1 type UEContextReleaseComplete (SEQUENCE).
-type UEContextReleaseComplete struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// UEContextReleaseRequest represents the ASN.1 type UEContextReleaseRequest (SEQUENCE).
-type UEContextReleaseRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// UEContextResumeFailure represents the ASN.1 type UEContextResumeFailure (SEQUENCE).
-type UEContextResumeFailure struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// UEContextResumeRequest represents the ASN.1 type UEContextResumeRequest (SEQUENCE).
-type UEContextResumeRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// UEContextResumeResponse represents the ASN.1 type UEContextResumeResponse (SEQUENCE).
-type UEContextResumeResponse struct {
+// UEContextModificationConfirm represents the ASN.1 type UEContextModificationConfirm (SEQUENCE).
+type UEContextModificationConfirm struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -1183,8 +1164,108 @@ type UEContextSuspendResponse struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
+// UEContextResumeRequest represents the ASN.1 type UEContextResumeRequest (SEQUENCE).
+type UEContextResumeRequest struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ERABFailedToResumeListResumeReq represents the ASN.1 type E-RABFailedToResumeListResumeReq (SEQUENCE_OF).
+type ERABFailedToResumeListResumeReq = []ProtocolIESingleContainer
+
+// ERABFailedToResumeItemResumeReq represents the ASN.1 type E-RABFailedToResumeItemResumeReq (SEQUENCE).
+type ERABFailedToResumeItemResumeReq struct {
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	Cause              Cause                      `asn1:"tag:1,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// UEContextResumeResponse represents the ASN.1 type UEContextResumeResponse (SEQUENCE).
+type UEContextResumeResponse struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ERABFailedToResumeListResumeRes represents the ASN.1 type E-RABFailedToResumeListResumeRes (SEQUENCE_OF).
+type ERABFailedToResumeListResumeRes = []ProtocolIESingleContainer
+
+// ERABFailedToResumeItemResumeRes represents the ASN.1 type E-RABFailedToResumeItemResumeRes (SEQUENCE).
+type ERABFailedToResumeItemResumeRes struct {
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	Cause              Cause                      `asn1:"tag:1,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// UEContextResumeFailure represents the ASN.1 type UEContextResumeFailure (SEQUENCE).
+type UEContextResumeFailure struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ConnectionEstablishmentIndication represents the ASN.1 type ConnectionEstablishmentIndication (SEQUENCE).
+type ConnectionEstablishmentIndication struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// RetrieveUEInformation represents the ASN.1 type RetrieveUEInformation (SEQUENCE).
+type RetrieveUEInformation struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
 // UEInformationTransfer represents the ASN.1 type UEInformationTransfer (SEQUENCE).
 type UEInformationTransfer struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// ENBCPRelocationIndication represents the ASN.1 type ENBCPRelocationIndication (SEQUENCE).
+type ENBCPRelocationIndication struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// MMECPRelocationIndication represents the ASN.1 type MMECPRelocationIndication (SEQUENCE).
+type MMECPRelocationIndication struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// SecondaryRATDataUsageReport represents the ASN.1 type SecondaryRATDataUsageReport (SEQUENCE).
+type SecondaryRATDataUsageReport struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -1210,8 +1291,8 @@ type UERadioCapabilityIDMappingResponse struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// UERadioCapabilityMatchRequest represents the ASN.1 type UERadioCapabilityMatchRequest (SEQUENCE).
-type UERadioCapabilityMatchRequest struct {
+// S1RemovalRequest represents the ASN.1 type S1RemovalRequest (SEQUENCE).
+type S1RemovalRequest struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -1219,8 +1300,8 @@ type UERadioCapabilityMatchRequest struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// UERadioCapabilityMatchResponse represents the ASN.1 type UERadioCapabilityMatchResponse (SEQUENCE).
-type UERadioCapabilityMatchResponse struct {
+// S1RemovalResponse represents the ASN.1 type S1RemovalResponse (SEQUENCE).
+type S1RemovalResponse struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -1228,14 +1309,8 @@ type UERadioCapabilityMatchResponse struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// UEAssociatedLogicalS1ConnectionListRes represents the ASN.1 type UE-associatedLogicalS1-ConnectionListRes (SEQUENCE_OF).
-type UEAssociatedLogicalS1ConnectionListRes = []ProtocolIESingleContainer
-
-// UEAssociatedLogicalS1ConnectionListResAck represents the ASN.1 type UE-associatedLogicalS1-ConnectionListResAck (SEQUENCE_OF).
-type UEAssociatedLogicalS1ConnectionListResAck = []ProtocolIESingleContainer
-
-// UplinkNASTransport represents the ASN.1 type UplinkNASTransport (SEQUENCE).
-type UplinkNASTransport struct {
+// S1RemovalFailure represents the ASN.1 type S1RemovalFailure (SEQUENCE).
+type S1RemovalFailure struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
 	ExtCount_         int64               `asn1:"-" json:"-"`
@@ -1243,89 +1318,247 @@ type UplinkNASTransport struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// UplinkNonUEAssociatedLPPaTransport represents the ASN.1 type UplinkNonUEAssociatedLPPaTransport (SEQUENCE).
-type UplinkNonUEAssociatedLPPaTransport struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// UplinkS1cdma2000tunnelling represents the ASN.1 type UplinkS1cdma2000tunnelling (SEQUENCE).
-type UplinkS1cdma2000tunnelling struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// UplinkUEAssociatedLPPaTransport represents the ASN.1 type UplinkUEAssociatedLPPaTransport (SEQUENCE).
-type UplinkUEAssociatedLPPaTransport struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// WriteReplaceWarningRequest represents the ASN.1 type WriteReplaceWarningRequest (SEQUENCE).
-type WriteReplaceWarningRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// WriteReplaceWarningResponse represents the ASN.1 type WriteReplaceWarningResponse (SEQUENCE).
-type WriteReplaceWarningResponse struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
-}
-
-// MarshalAPER encodes CSGMembershipInfo to APER format.
-func (v *CSGMembershipInfo) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes HandoverRequired to APER format.
+func (v *HandoverRequired) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *CSGMembershipInfo) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *HandoverRequired) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes HandoverRequired from APER format.
+func (v *HandoverRequired) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *HandoverRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes HandoverCommand to APER format.
+func (v *HandoverCommand) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverCommand) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes HandoverCommand from APER format.
+func (v *HandoverCommand) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *HandoverCommand) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ERABDataForwardingItem to APER format.
+func (v *ERABDataForwardingItem) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ERABDataForwardingItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
 	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.CellAccessMode != nil); err != nil {
+	if err := per.EncodeBoolean(bb, v.DLTransportLayerAddress != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeBoolean(bb, v.PLMNidentity != nil); err != nil {
+	if err := per.EncodeBoolean(bb, v.DLGTPTEID != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.ULTransportLayerAddress != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.ULGTPTEID != nil); err != nil {
 		return err
 	}
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.CSGMembershipStatus), 2, false); err != nil {
-		return fmt.Errorf("encoding cSGMembershipStatus: %w", err)
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
+		return fmt.Errorf("encoding e-RAB-ID: %w", err)
 	}
-	if err := per.EncodeBitStringAligned(bb, v.CSGId.Bytes, v.CSGId.BitLength, 27, 27, true); err != nil {
-		return fmt.Errorf("encoding cSG-Id: %w", err)
-	}
-	if v.CellAccessMode != nil {
-		if err := per.EncodeEnumeratedAligned(bb, int64(*v.CellAccessMode), 1, true); err != nil {
-			return fmt.Errorf("encoding cellAccessMode: %w", err)
+	if v.DLTransportLayerAddress != nil {
+		if err := per.EncodeBitStringAligned(bb, v.DLTransportLayerAddress.Bytes, v.DLTransportLayerAddress.BitLength, 1, 160, true); err != nil {
+			return fmt.Errorf("encoding dL-transportLayerAddress: %w", err)
 		}
 	}
-	if v.PLMNidentity != nil {
-		if err := per.EncodeOctetStringAligned(bb, []byte(*v.PLMNidentity), 3, 3, true); err != nil {
-			return fmt.Errorf("encoding pLMNidentity: %w", err)
+	if v.DLGTPTEID != nil {
+		if err := per.EncodeOctetStringAligned(bb, []byte(*v.DLGTPTEID), 4, 4, true); err != nil {
+			return fmt.Errorf("encoding dL-gTP-TEID: %w", err)
+		}
+	}
+	if v.ULTransportLayerAddress != nil {
+		if err := per.EncodeBitStringAligned(bb, v.ULTransportLayerAddress.Bytes, v.ULTransportLayerAddress.BitLength, 1, 160, true); err != nil {
+			return fmt.Errorf("encoding uL-TransportLayerAddress: %w", err)
+		}
+	}
+	if v.ULGTPTEID != nil {
+		if err := per.EncodeOctetStringAligned(bb, []byte(*v.ULGTPTEID), 4, 4, true); err != nil {
+			return fmt.Errorf("encoding uL-GTP-TEID: %w", err)
 		}
 	}
 	if v.IEExtensions != nil {
@@ -1333,7 +1566,7 @@ func (v *CSGMembershipInfo) marshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
 		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
+			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
 		}
@@ -1361,23 +1594,31 @@ func (v *CSGMembershipInfo) marshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes CSGMembershipInfo from APER format.
-func (v *CSGMembershipInfo) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes ERABDataForwardingItem from APER format.
+func (v *ERABDataForwardingItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *CSGMembershipInfo) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ERABDataForwardingItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
 	// Read preamble bitmap for optional root fields
-	opt_cellaccessmode, err := per.DecodeBoolean(bb)
+	opt_dltransportlayeraddress, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	opt_plmnidentity, err := per.DecodeBoolean(bb)
+	opt_dlgtpteid, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ultransportlayeraddress, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ulgtpteid, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
@@ -1385,31 +1626,42 @@ func (v *CSGMembershipInfo) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_csgmembershipstatus, err := per.DecodeEnumeratedAligned(bb, 2, false)
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
 	if err != nil {
-		return fmt.Errorf("decoding cSGMembershipStatus: %w", err)
+		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.CSGMembershipStatus = CSGMembershipStatus(val_csgmembershipstatus)
-	bsBytes_csgid, bsBitLen_csgid, err := per.DecodeBitStringAligned(bb, 27, 27, true)
-	if err != nil {
-		return fmt.Errorf("decoding cSG-Id: %w", err)
-	}
-	v.CSGId = runtime.BitString{Bytes: bsBytes_csgid, BitLength: bsBitLen_csgid}
-	if opt_cellaccessmode {
-		val_cellaccessmode, err := per.DecodeEnumeratedAligned(bb, 1, true)
+	v.ERABID = val_erabid
+	if opt_dltransportlayeraddress {
+		bsBytes_dltransportlayeraddress, bsBitLen_dltransportlayeraddress, err := per.DecodeBitStringAligned(bb, 1, 160, true)
 		if err != nil {
-			return fmt.Errorf("decoding cellAccessMode: %w", err)
+			return fmt.Errorf("decoding dL-transportLayerAddress: %w", err)
 		}
-		tmp_cellaccessmode := CellAccessMode(val_cellaccessmode)
-		v.CellAccessMode = &tmp_cellaccessmode
+		tmp_dltransportlayeraddress := runtime.BitString{Bytes: bsBytes_dltransportlayeraddress, BitLength: bsBitLen_dltransportlayeraddress}
+		v.DLTransportLayerAddress = &tmp_dltransportlayeraddress
 	}
-	if opt_plmnidentity {
-		val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
+	if opt_dlgtpteid {
+		val_dlgtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
 		if err != nil {
-			return fmt.Errorf("decoding pLMNidentity: %w", err)
+			return fmt.Errorf("decoding dL-gTP-TEID: %w", err)
 		}
-		tmp_plmnidentity := PLMNidentity(val_plmnidentity)
-		v.PLMNidentity = &tmp_plmnidentity
+		tmp_dlgtpteid := GTPTEID(val_dlgtpteid)
+		v.DLGTPTEID = &tmp_dlgtpteid
+	}
+	if opt_ultransportlayeraddress {
+		bsBytes_ultransportlayeraddress, bsBitLen_ultransportlayeraddress, err := per.DecodeBitStringAligned(bb, 1, 160, true)
+		if err != nil {
+			return fmt.Errorf("decoding uL-TransportLayerAddress: %w", err)
+		}
+		tmp_ultransportlayeraddress := runtime.BitString{Bytes: bsBytes_ultransportlayeraddress, BitLength: bsBitLen_ultransportlayeraddress}
+		v.ULTransportLayerAddress = &tmp_ultransportlayeraddress
+	}
+	if opt_ulgtpteid {
+		val_ulgtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+		if err != nil {
+			return fmt.Errorf("decoding uL-GTP-TEID: %w", err)
+		}
+		tmp_ulgtpteid := GTPTEID(val_ulgtpteid)
+		v.ULGTPTEID = &tmp_ulgtpteid
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -1418,7 +1670,7 @@ func (v *CSGMembershipInfo) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
@@ -1453,16 +1705,16 @@ func (v *CSGMembershipInfo) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes CellTrafficTrace to APER format.
-func (v *CellTrafficTrace) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes HandoverPreparationFailure to APER format.
+func (v *HandoverPreparationFailure) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *CellTrafficTrace) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *HandoverPreparationFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -1471,7 +1723,7 @@ func (v *CellTrafficTrace) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -1498,13 +1750,13 @@ func (v *CellTrafficTrace) marshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes CellTrafficTrace from APER format.
-func (v *CellTrafficTrace) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes HandoverPreparationFailure from APER format.
+func (v *HandoverPreparationFailure) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *CellTrafficTrace) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *HandoverPreparationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1515,7 +1767,7 @@ func (v *CellTrafficTrace) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -1548,16 +1800,16 @@ func (v *CellTrafficTrace) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes ConnectionEstablishmentIndication to APER format.
-func (v *ConnectionEstablishmentIndication) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes HandoverRequest to APER format.
+func (v *HandoverRequest) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *ConnectionEstablishmentIndication) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *HandoverRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -1566,7 +1818,7 @@ func (v *ConnectionEstablishmentIndication) marshalAPERTo(bb *per.BitBuffer) err
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -1593,13 +1845,13 @@ func (v *ConnectionEstablishmentIndication) marshalAPERTo(bb *per.BitBuffer) err
 	return nil
 }
 
-// UnmarshalAPER decodes ConnectionEstablishmentIndication from APER format.
-func (v *ConnectionEstablishmentIndication) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes HandoverRequest from APER format.
+func (v *HandoverRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *ConnectionEstablishmentIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *HandoverRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1610,7 +1862,7 @@ func (v *ConnectionEstablishmentIndication) unmarshalAPERFrom(bb *per.BitBuffer)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -1643,26 +1895,44 @@ func (v *ConnectionEstablishmentIndication) unmarshalAPERFrom(bb *per.BitBuffer)
 	return nil
 }
 
-// MarshalAPER encodes DeactivateTrace to APER format.
-func (v *DeactivateTrace) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes ERABToBeSetupItemHOReq to APER format.
+func (v *ERABToBeSetupItemHOReq) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *DeactivateTrace) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *ERABToBeSetupItemHOReq) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
 	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
+		return fmt.Errorf("encoding e-RAB-ID: %w", err)
+	}
+	if err := per.EncodeBitStringAligned(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true); err != nil {
+		return fmt.Errorf("encoding transportLayerAddress: %w", err)
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.GTPTEID), 4, 4, true); err != nil {
+		return fmt.Errorf("encoding gTP-TEID: %w", err)
+	}
+	if err := v.ERABlevelQosParameters.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding e-RABlevelQosParameters: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
 		}
 	}
 	if hasExtensions {
@@ -1688,26 +1958,52 @@ func (v *DeactivateTrace) marshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes DeactivateTrace from APER format.
-func (v *DeactivateTrace) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes ERABToBeSetupItemHOReq from APER format.
+func (v *ERABToBeSetupItemHOReq) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *DeactivateTrace) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ERABToBeSetupItemHOReq) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
 	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+		return err
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
+	if err != nil {
+		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+	}
+	v.ERABID = val_erabid
+	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAligned(bb, 1, 160, true)
+	if err != nil {
+		return fmt.Errorf("decoding transportLayerAddress: %w", err)
+	}
+	v.TransportLayerAddress = runtime.BitString{Bytes: bsBytes_transportlayeraddress, BitLength: bsBitLen_transportlayeraddress}
+	val_gtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+	if err != nil {
+		return fmt.Errorf("decoding gTP-TEID: %w", err)
+	}
+	v.GTPTEID = GTPTEID(val_gtpteid)
+	if err := v.ERABlevelQosParameters.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding e-RABlevelQosParameters: %w", err)
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
 		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -1738,16 +2034,16 @@ func (v *DeactivateTrace) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes DownlinkNASTransport to APER format.
-func (v *DownlinkNASTransport) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes HandoverRequestAcknowledge to APER format.
+func (v *HandoverRequestAcknowledge) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *DownlinkNASTransport) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *HandoverRequestAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -1756,7 +2052,7 @@ func (v *DownlinkNASTransport) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -1783,13 +2079,13 @@ func (v *DownlinkNASTransport) marshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes DownlinkNASTransport from APER format.
-func (v *DownlinkNASTransport) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes HandoverRequestAcknowledge from APER format.
+func (v *HandoverRequestAcknowledge) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *DownlinkNASTransport) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *HandoverRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1800,1052 +2096,7 @@ func (v *DownlinkNASTransport) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes DownlinkNonUEAssociatedLPPaTransport to APER format.
-func (v *DownlinkNonUEAssociatedLPPaTransport) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *DownlinkNonUEAssociatedLPPaTransport) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes DownlinkNonUEAssociatedLPPaTransport from APER format.
-func (v *DownlinkNonUEAssociatedLPPaTransport) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *DownlinkNonUEAssociatedLPPaTransport) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes DownlinkS1cdma2000tunnelling to APER format.
-func (v *DownlinkS1cdma2000tunnelling) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *DownlinkS1cdma2000tunnelling) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes DownlinkS1cdma2000tunnelling from APER format.
-func (v *DownlinkS1cdma2000tunnelling) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *DownlinkS1cdma2000tunnelling) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes DownlinkUEAssociatedLPPaTransport to APER format.
-func (v *DownlinkUEAssociatedLPPaTransport) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *DownlinkUEAssociatedLPPaTransport) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes DownlinkUEAssociatedLPPaTransport from APER format.
-func (v *DownlinkUEAssociatedLPPaTransport) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *DownlinkUEAssociatedLPPaTransport) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ENBCPRelocationIndication to APER format.
-func (v *ENBCPRelocationIndication) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ENBCPRelocationIndication) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ENBCPRelocationIndication from APER format.
-func (v *ENBCPRelocationIndication) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ENBCPRelocationIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ENBConfigurationTransfer to APER format.
-func (v *ENBConfigurationTransfer) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ENBConfigurationTransfer) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ENBConfigurationTransfer from APER format.
-func (v *ENBConfigurationTransfer) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ENBConfigurationTransfer) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ENBConfigurationUpdate to APER format.
-func (v *ENBConfigurationUpdate) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ENBConfigurationUpdate) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ENBConfigurationUpdate from APER format.
-func (v *ENBConfigurationUpdate) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ENBConfigurationUpdate) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ENBConfigurationUpdateAcknowledge to APER format.
-func (v *ENBConfigurationUpdateAcknowledge) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ENBConfigurationUpdateAcknowledge) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ENBConfigurationUpdateAcknowledge from APER format.
-func (v *ENBConfigurationUpdateAcknowledge) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ENBConfigurationUpdateAcknowledge) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ENBConfigurationUpdateFailure to APER format.
-func (v *ENBConfigurationUpdateFailure) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ENBConfigurationUpdateFailure) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ENBConfigurationUpdateFailure from APER format.
-func (v *ENBConfigurationUpdateFailure) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ENBConfigurationUpdateFailure) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ENBDirectInformationTransfer to APER format.
-func (v *ENBDirectInformationTransfer) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ENBDirectInformationTransfer) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ENBDirectInformationTransfer from APER format.
-func (v *ENBDirectInformationTransfer) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ENBDirectInformationTransfer) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ENBEarlyStatusTransfer to APER format.
-func (v *ENBEarlyStatusTransfer) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ENBEarlyStatusTransfer) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ENBEarlyStatusTransfer from APER format.
-func (v *ENBEarlyStatusTransfer) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ENBEarlyStatusTransfer) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ENBStatusTransfer to APER format.
-func (v *ENBStatusTransfer) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ENBStatusTransfer) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ENBStatusTransfer from APER format.
-func (v *ENBStatusTransfer) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ENBStatusTransfer) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -2881,13 +2132,13 @@ func (v *ENBStatusTransfer) unmarshalAPERFrom(bb *per.BitBuffer) error {
 // MarshalAPER encodes ERABAdmittedItem to APER format.
 func (v *ERABAdmittedItem) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *ERABAdmittedItem) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *ERABAdmittedItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -2908,17 +2159,17 @@ func (v *ERABAdmittedItem) marshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
 		return fmt.Errorf("encoding e-RAB-ID: %w", err)
 	}
-	if err := per.EncodeBitStringAlignedExt(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true, true); err != nil {
+	if err := per.EncodeBitStringAligned(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true); err != nil {
 		return fmt.Errorf("encoding transportLayerAddress: %w", err)
 	}
 	if err := per.EncodeOctetStringAligned(bb, []byte(v.GTPTEID), 4, 4, true); err != nil {
 		return fmt.Errorf("encoding gTP-TEID: %w", err)
 	}
 	if v.DLTransportLayerAddress != nil {
-		if err := per.EncodeBitStringAlignedExt(bb, v.DLTransportLayerAddress.Bytes, v.DLTransportLayerAddress.BitLength, 1, 160, true, true); err != nil {
+		if err := per.EncodeBitStringAligned(bb, v.DLTransportLayerAddress.Bytes, v.DLTransportLayerAddress.BitLength, 1, 160, true); err != nil {
 			return fmt.Errorf("encoding dL-transportLayerAddress: %w", err)
 		}
 	}
@@ -2928,7 +2179,7 @@ func (v *ERABAdmittedItem) marshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.ULTransportLayerAddress != nil {
-		if err := per.EncodeBitStringAlignedExt(bb, v.ULTransportLayerAddress.Bytes, v.ULTransportLayerAddress.BitLength, 1, 160, true, true); err != nil {
+		if err := per.EncodeBitStringAligned(bb, v.ULTransportLayerAddress.Bytes, v.ULTransportLayerAddress.BitLength, 1, 160, true); err != nil {
 			return fmt.Errorf("encoding uL-TransportLayerAddress: %w", err)
 		}
 	}
@@ -2942,7 +2193,7 @@ func (v *ERABAdmittedItem) marshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
 		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
+			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
 		}
@@ -2973,10 +2224,10 @@ func (v *ERABAdmittedItem) marshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABAdmittedItem from APER format.
 func (v *ERABAdmittedItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *ERABAdmittedItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ERABAdmittedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -3002,12 +2253,12 @@ func (v *ERABAdmittedItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
 	v.ERABID = val_erabid
-	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAligned(bb, 1, 160, true)
 	if err != nil {
 		return fmt.Errorf("decoding transportLayerAddress: %w", err)
 	}
@@ -3018,7 +2269,7 @@ func (v *ERABAdmittedItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.GTPTEID = GTPTEID(val_gtpteid)
 	if opt_dltransportlayeraddress {
-		bsBytes_dltransportlayeraddress, bsBitLen_dltransportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+		bsBytes_dltransportlayeraddress, bsBitLen_dltransportlayeraddress, err := per.DecodeBitStringAligned(bb, 1, 160, true)
 		if err != nil {
 			return fmt.Errorf("decoding dL-transportLayerAddress: %w", err)
 		}
@@ -3034,7 +2285,7 @@ func (v *ERABAdmittedItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.DLGTPTEID = &tmp_dlgtpteid
 	}
 	if opt_ultransportlayeraddress {
-		bsBytes_ultransportlayeraddress, bsBitLen_ultransportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+		bsBytes_ultransportlayeraddress, bsBitLen_ultransportlayeraddress, err := per.DecodeBitStringAligned(bb, 1, 160, true)
 		if err != nil {
 			return fmt.Errorf("decoding uL-TransportLayerAddress: %w", err)
 		}
@@ -3056,450 +2307,7 @@ func (v *ERABAdmittedItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ERABDataForwardingItem to APER format.
-func (v *ERABDataForwardingItem) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ERABDataForwardingItem) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.DLTransportLayerAddress != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.DLGTPTEID != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.ULTransportLayerAddress != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.ULGTPTEID != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
-		return fmt.Errorf("encoding e-RAB-ID: %w", err)
-	}
-	if v.DLTransportLayerAddress != nil {
-		if err := per.EncodeBitStringAlignedExt(bb, v.DLTransportLayerAddress.Bytes, v.DLTransportLayerAddress.BitLength, 1, 160, true, true); err != nil {
-			return fmt.Errorf("encoding dL-transportLayerAddress: %w", err)
-		}
-	}
-	if v.DLGTPTEID != nil {
-		if err := per.EncodeOctetStringAligned(bb, []byte(*v.DLGTPTEID), 4, 4, true); err != nil {
-			return fmt.Errorf("encoding dL-gTP-TEID: %w", err)
-		}
-	}
-	if v.ULTransportLayerAddress != nil {
-		if err := per.EncodeBitStringAlignedExt(bb, v.ULTransportLayerAddress.Bytes, v.ULTransportLayerAddress.BitLength, 1, 160, true, true); err != nil {
-			return fmt.Errorf("encoding uL-TransportLayerAddress: %w", err)
-		}
-	}
-	if v.ULGTPTEID != nil {
-		if err := per.EncodeOctetStringAligned(bb, []byte(*v.ULGTPTEID), 4, 4, true); err != nil {
-			return fmt.Errorf("encoding uL-GTP-TEID: %w", err)
-		}
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ERABDataForwardingItem from APER format.
-func (v *ERABDataForwardingItem) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ERABDataForwardingItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_dltransportlayeraddress, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_dlgtpteid, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_ultransportlayeraddress, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_ulgtpteid, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
-	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
-	}
-	v.ERABID = val_erabid
-	if opt_dltransportlayeraddress {
-		bsBytes_dltransportlayeraddress, bsBitLen_dltransportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
-		if err != nil {
-			return fmt.Errorf("decoding dL-transportLayerAddress: %w", err)
-		}
-		tmp_dltransportlayeraddress := runtime.BitString{Bytes: bsBytes_dltransportlayeraddress, BitLength: bsBitLen_dltransportlayeraddress}
-		v.DLTransportLayerAddress = &tmp_dltransportlayeraddress
-	}
-	if opt_dlgtpteid {
-		val_dlgtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
-		if err != nil {
-			return fmt.Errorf("decoding dL-gTP-TEID: %w", err)
-		}
-		tmp_dlgtpteid := GTPTEID(val_dlgtpteid)
-		v.DLGTPTEID = &tmp_dlgtpteid
-	}
-	if opt_ultransportlayeraddress {
-		bsBytes_ultransportlayeraddress, bsBitLen_ultransportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
-		if err != nil {
-			return fmt.Errorf("decoding uL-TransportLayerAddress: %w", err)
-		}
-		tmp_ultransportlayeraddress := runtime.BitString{Bytes: bsBytes_ultransportlayeraddress, BitLength: bsBitLen_ultransportlayeraddress}
-		v.ULTransportLayerAddress = &tmp_ultransportlayeraddress
-	}
-	if opt_ulgtpteid {
-		val_ulgtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
-		if err != nil {
-			return fmt.Errorf("decoding uL-GTP-TEID: %w", err)
-		}
-		tmp_ulgtpteid := GTPTEID(val_ulgtpteid)
-		v.ULGTPTEID = &tmp_ulgtpteid
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ERABFailedToResumeItemResumeReq to APER format.
-func (v *ERABFailedToResumeItemResumeReq) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ERABFailedToResumeItemResumeReq) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
-		return fmt.Errorf("encoding e-RAB-ID: %w", err)
-	}
-	if err := v.Cause.marshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding cause: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ERABFailedToResumeItemResumeReq from APER format.
-func (v *ERABFailedToResumeItemResumeReq) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ERABFailedToResumeItemResumeReq) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
-	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
-	}
-	v.ERABID = val_erabid
-	if err := v.Cause.unmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding cause: %w", err)
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ERABFailedToResumeItemResumeRes to APER format.
-func (v *ERABFailedToResumeItemResumeRes) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ERABFailedToResumeItemResumeRes) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
-		return fmt.Errorf("encoding e-RAB-ID: %w", err)
-	}
-	if err := v.Cause.marshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding cause: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ERABFailedToResumeItemResumeRes from APER format.
-func (v *ERABFailedToResumeItemResumeRes) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ERABFailedToResumeItemResumeRes) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
-	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
-	}
-	v.ERABID = val_erabid
-	if err := v.Cause.unmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding cause: %w", err)
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
@@ -3537,13 +2345,13 @@ func (v *ERABFailedToResumeItemResumeRes) unmarshalAPERFrom(bb *per.BitBuffer) e
 // MarshalAPER encodes ERABFailedToSetupItemHOReqAck to APER format.
 func (v *ERABFailedToSetupItemHOReqAck) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *ERABFailedToSetupItemHOReqAck) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *ERABFailedToSetupItemHOReqAck) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -3552,10 +2360,10 @@ func (v *ERABFailedToSetupItemHOReqAck) marshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
 		return fmt.Errorf("encoding e-RAB-ID: %w", err)
 	}
-	if err := v.Cause.marshalAPERTo(bb); err != nil {
+	if err := v.Cause.MarshalAPERTo(bb); err != nil {
 		return fmt.Errorf("encoding cause: %w", err)
 	}
 	if v.IEExtensions != nil {
@@ -3563,7 +2371,7 @@ func (v *ERABFailedToSetupItemHOReqAck) marshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
 		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
+			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
 		}
@@ -3594,10 +2402,10 @@ func (v *ERABFailedToSetupItemHOReqAck) marshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABFailedToSetupItemHOReqAck from APER format.
 func (v *ERABFailedToSetupItemHOReqAck) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *ERABFailedToSetupItemHOReqAck) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ERABFailedToSetupItemHOReqAck) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -3607,12 +2415,12 @@ func (v *ERABFailedToSetupItemHOReqAck) unmarshalAPERFrom(bb *per.BitBuffer) err
 	if err != nil {
 		return err
 	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
 	v.ERABID = val_erabid
-	if err := v.Cause.unmarshalAPERFrom(bb); err != nil {
+	if err := v.Cause.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding cause: %w", err)
 	}
 	if opt_ieextensions {
@@ -3622,7 +2430,7 @@ func (v *ERABFailedToSetupItemHOReqAck) unmarshalAPERFrom(bb *per.BitBuffer) err
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
@@ -3657,16 +2465,16 @@ func (v *ERABFailedToSetupItemHOReqAck) unmarshalAPERFrom(bb *per.BitBuffer) err
 	return nil
 }
 
-// MarshalAPER encodes ERABModificationConfirm to APER format.
-func (v *ERABModificationConfirm) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes HandoverFailure to APER format.
+func (v *HandoverFailure) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *ERABModificationConfirm) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *HandoverFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -3675,7 +2483,7 @@ func (v *ERABModificationConfirm) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -3702,13 +2510,13 @@ func (v *ERABModificationConfirm) marshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes ERABModificationConfirm from APER format.
-func (v *ERABModificationConfirm) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes HandoverFailure from APER format.
+func (v *HandoverFailure) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *ERABModificationConfirm) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *HandoverFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -3719,7 +2527,7 @@ func (v *ERABModificationConfirm) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -3752,16 +2560,16 @@ func (v *ERABModificationConfirm) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes ERABModificationIndication to APER format.
-func (v *ERABModificationIndication) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes HandoverNotify to APER format.
+func (v *HandoverNotify) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *ERABModificationIndication) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *HandoverNotify) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -3770,7 +2578,7 @@ func (v *ERABModificationIndication) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -3797,13 +2605,13 @@ func (v *ERABModificationIndication) marshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes ERABModificationIndication from APER format.
-func (v *ERABModificationIndication) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes HandoverNotify from APER format.
+func (v *HandoverNotify) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *ERABModificationIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *HandoverNotify) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -3814,7 +2622,7 @@ func (v *ERABModificationIndication) unmarshalAPERFrom(bb *per.BitBuffer) error 
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -3847,250 +2655,16 @@ func (v *ERABModificationIndication) unmarshalAPERFrom(bb *per.BitBuffer) error 
 	return nil
 }
 
-// MarshalAPER encodes ERABModifyItemBearerModConf to APER format.
-func (v *ERABModifyItemBearerModConf) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes PathSwitchRequest to APER format.
+func (v *PathSwitchRequest) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *ERABModifyItemBearerModConf) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
-		return fmt.Errorf("encoding e-RAB-ID: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ERABModifyItemBearerModConf from APER format.
-func (v *ERABModifyItemBearerModConf) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ERABModifyItemBearerModConf) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
-	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
-	}
-	v.ERABID = val_erabid
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ERABModifyItemBearerModRes to APER format.
-func (v *ERABModifyItemBearerModRes) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ERABModifyItemBearerModRes) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
-		return fmt.Errorf("encoding e-RAB-ID: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ERABModifyItemBearerModRes from APER format.
-func (v *ERABModifyItemBearerModRes) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ERABModifyItemBearerModRes) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
-	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
-	}
-	v.ERABID = val_erabid
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ERABModifyRequest to APER format.
-func (v *ERABModifyRequest) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ERABModifyRequest) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *PathSwitchRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -4099,7 +2673,7 @@ func (v *ERABModifyRequest) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -4126,13 +2700,13 @@ func (v *ERABModifyRequest) marshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes ERABModifyRequest from APER format.
-func (v *ERABModifyRequest) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes PathSwitchRequest from APER format.
+func (v *PathSwitchRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *ERABModifyRequest) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *PathSwitchRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -4143,1804 +2717,9 @@ func (v *ERABModifyRequest) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ERABModifyResponse to APER format.
-func (v *ERABModifyResponse) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ERABModifyResponse) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ERABModifyResponse from APER format.
-func (v *ERABModifyResponse) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ERABModifyResponse) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ERABNotToBeModifiedItemBearerModInd to APER format.
-func (v *ERABNotToBeModifiedItemBearerModInd) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ERABNotToBeModifiedItemBearerModInd) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
-		return fmt.Errorf("encoding e-RAB-ID: %w", err)
-	}
-	if err := per.EncodeBitStringAlignedExt(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true, true); err != nil {
-		return fmt.Errorf("encoding transportLayerAddress: %w", err)
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.DLGTPTEID), 4, 4, true); err != nil {
-		return fmt.Errorf("encoding dL-GTP-TEID: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ERABNotToBeModifiedItemBearerModInd from APER format.
-func (v *ERABNotToBeModifiedItemBearerModInd) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ERABNotToBeModifiedItemBearerModInd) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
-	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
-	}
-	v.ERABID = val_erabid
-	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
-	if err != nil {
-		return fmt.Errorf("decoding transportLayerAddress: %w", err)
-	}
-	v.TransportLayerAddress = runtime.BitString{Bytes: bsBytes_transportlayeraddress, BitLength: bsBitLen_transportlayeraddress}
-	val_dlgtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
-	if err != nil {
-		return fmt.Errorf("decoding dL-GTP-TEID: %w", err)
-	}
-	v.DLGTPTEID = GTPTEID(val_dlgtpteid)
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ERABReleaseCommand to APER format.
-func (v *ERABReleaseCommand) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ERABReleaseCommand) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ERABReleaseCommand from APER format.
-func (v *ERABReleaseCommand) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ERABReleaseCommand) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ERABReleaseIndication to APER format.
-func (v *ERABReleaseIndication) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ERABReleaseIndication) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ERABReleaseIndication from APER format.
-func (v *ERABReleaseIndication) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ERABReleaseIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ERABReleaseItemBearerRelComp to APER format.
-func (v *ERABReleaseItemBearerRelComp) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ERABReleaseItemBearerRelComp) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
-		return fmt.Errorf("encoding e-RAB-ID: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ERABReleaseItemBearerRelComp from APER format.
-func (v *ERABReleaseItemBearerRelComp) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ERABReleaseItemBearerRelComp) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
-	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
-	}
-	v.ERABID = val_erabid
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ERABReleaseResponse to APER format.
-func (v *ERABReleaseResponse) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ERABReleaseResponse) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ERABReleaseResponse from APER format.
-func (v *ERABReleaseResponse) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ERABReleaseResponse) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ERABSetupItemBearerSURes to APER format.
-func (v *ERABSetupItemBearerSURes) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ERABSetupItemBearerSURes) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
-		return fmt.Errorf("encoding e-RAB-ID: %w", err)
-	}
-	if err := per.EncodeBitStringAlignedExt(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true, true); err != nil {
-		return fmt.Errorf("encoding transportLayerAddress: %w", err)
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.GTPTEID), 4, 4, true); err != nil {
-		return fmt.Errorf("encoding gTP-TEID: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ERABSetupItemBearerSURes from APER format.
-func (v *ERABSetupItemBearerSURes) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ERABSetupItemBearerSURes) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
-	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
-	}
-	v.ERABID = val_erabid
-	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
-	if err != nil {
-		return fmt.Errorf("decoding transportLayerAddress: %w", err)
-	}
-	v.TransportLayerAddress = runtime.BitString{Bytes: bsBytes_transportlayeraddress, BitLength: bsBitLen_transportlayeraddress}
-	val_gtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
-	if err != nil {
-		return fmt.Errorf("decoding gTP-TEID: %w", err)
-	}
-	v.GTPTEID = GTPTEID(val_gtpteid)
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ERABSetupItemCtxtSURes to APER format.
-func (v *ERABSetupItemCtxtSURes) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ERABSetupItemCtxtSURes) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
-		return fmt.Errorf("encoding e-RAB-ID: %w", err)
-	}
-	if err := per.EncodeBitStringAlignedExt(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true, true); err != nil {
-		return fmt.Errorf("encoding transportLayerAddress: %w", err)
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.GTPTEID), 4, 4, true); err != nil {
-		return fmt.Errorf("encoding gTP-TEID: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ERABSetupItemCtxtSURes from APER format.
-func (v *ERABSetupItemCtxtSURes) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ERABSetupItemCtxtSURes) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
-	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
-	}
-	v.ERABID = val_erabid
-	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
-	if err != nil {
-		return fmt.Errorf("decoding transportLayerAddress: %w", err)
-	}
-	v.TransportLayerAddress = runtime.BitString{Bytes: bsBytes_transportlayeraddress, BitLength: bsBitLen_transportlayeraddress}
-	val_gtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
-	if err != nil {
-		return fmt.Errorf("decoding gTP-TEID: %w", err)
-	}
-	v.GTPTEID = GTPTEID(val_gtpteid)
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ERABSetupRequest to APER format.
-func (v *ERABSetupRequest) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ERABSetupRequest) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ERABSetupRequest from APER format.
-func (v *ERABSetupRequest) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ERABSetupRequest) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ERABSetupResponse to APER format.
-func (v *ERABSetupResponse) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ERABSetupResponse) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ERABSetupResponse from APER format.
-func (v *ERABSetupResponse) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ERABSetupResponse) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ERABToBeModifiedItemBearerModInd to APER format.
-func (v *ERABToBeModifiedItemBearerModInd) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ERABToBeModifiedItemBearerModInd) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
-		return fmt.Errorf("encoding e-RAB-ID: %w", err)
-	}
-	if err := per.EncodeBitStringAlignedExt(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true, true); err != nil {
-		return fmt.Errorf("encoding transportLayerAddress: %w", err)
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.DLGTPTEID), 4, 4, true); err != nil {
-		return fmt.Errorf("encoding dL-GTP-TEID: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ERABToBeModifiedItemBearerModInd from APER format.
-func (v *ERABToBeModifiedItemBearerModInd) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ERABToBeModifiedItemBearerModInd) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
-	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
-	}
-	v.ERABID = val_erabid
-	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
-	if err != nil {
-		return fmt.Errorf("decoding transportLayerAddress: %w", err)
-	}
-	v.TransportLayerAddress = runtime.BitString{Bytes: bsBytes_transportlayeraddress, BitLength: bsBitLen_transportlayeraddress}
-	val_dlgtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
-	if err != nil {
-		return fmt.Errorf("decoding dL-GTP-TEID: %w", err)
-	}
-	v.DLGTPTEID = GTPTEID(val_dlgtpteid)
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ERABToBeModifiedItemBearerModReq to APER format.
-func (v *ERABToBeModifiedItemBearerModReq) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ERABToBeModifiedItemBearerModReq) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
-		return fmt.Errorf("encoding e-RAB-ID: %w", err)
-	}
-	if err := v.ERABLevelQoSParameters.marshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding e-RABLevelQoSParameters: %w", err)
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.NASPDU), 0, 0, false); err != nil {
-		return fmt.Errorf("encoding nAS-PDU: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ERABToBeModifiedItemBearerModReq from APER format.
-func (v *ERABToBeModifiedItemBearerModReq) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ERABToBeModifiedItemBearerModReq) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
-	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
-	}
-	v.ERABID = val_erabid
-	if err := v.ERABLevelQoSParameters.unmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding e-RABLevelQoSParameters: %w", err)
-	}
-	val_naspdu, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding nAS-PDU: %w", err)
-	}
-	v.NASPDU = NASPDU(val_naspdu)
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ERABToBeSetupItemBearerSUReq to APER format.
-func (v *ERABToBeSetupItemBearerSUReq) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ERABToBeSetupItemBearerSUReq) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
-		return fmt.Errorf("encoding e-RAB-ID: %w", err)
-	}
-	if err := v.ERABlevelQoSParameters.marshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding e-RABlevelQoSParameters: %w", err)
-	}
-	if err := per.EncodeBitStringAlignedExt(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true, true); err != nil {
-		return fmt.Errorf("encoding transportLayerAddress: %w", err)
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.GTPTEID), 4, 4, true); err != nil {
-		return fmt.Errorf("encoding gTP-TEID: %w", err)
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.NASPDU), 0, 0, false); err != nil {
-		return fmt.Errorf("encoding nAS-PDU: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ERABToBeSetupItemBearerSUReq from APER format.
-func (v *ERABToBeSetupItemBearerSUReq) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ERABToBeSetupItemBearerSUReq) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
-	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
-	}
-	v.ERABID = val_erabid
-	if err := v.ERABlevelQoSParameters.unmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding e-RABlevelQoSParameters: %w", err)
-	}
-	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
-	if err != nil {
-		return fmt.Errorf("decoding transportLayerAddress: %w", err)
-	}
-	v.TransportLayerAddress = runtime.BitString{Bytes: bsBytes_transportlayeraddress, BitLength: bsBitLen_transportlayeraddress}
-	val_gtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
-	if err != nil {
-		return fmt.Errorf("decoding gTP-TEID: %w", err)
-	}
-	v.GTPTEID = GTPTEID(val_gtpteid)
-	val_naspdu, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding nAS-PDU: %w", err)
-	}
-	v.NASPDU = NASPDU(val_naspdu)
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ERABToBeSetupItemCtxtSUReq to APER format.
-func (v *ERABToBeSetupItemCtxtSUReq) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ERABToBeSetupItemCtxtSUReq) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.NASPDU != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
-		return fmt.Errorf("encoding e-RAB-ID: %w", err)
-	}
-	if err := v.ERABlevelQoSParameters.marshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding e-RABlevelQoSParameters: %w", err)
-	}
-	if err := per.EncodeBitStringAlignedExt(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true, true); err != nil {
-		return fmt.Errorf("encoding transportLayerAddress: %w", err)
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.GTPTEID), 4, 4, true); err != nil {
-		return fmt.Errorf("encoding gTP-TEID: %w", err)
-	}
-	if v.NASPDU != nil {
-		if err := per.EncodeOctetStringAligned(bb, []byte(*v.NASPDU), 0, 0, false); err != nil {
-			return fmt.Errorf("encoding nAS-PDU: %w", err)
-		}
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ERABToBeSetupItemCtxtSUReq from APER format.
-func (v *ERABToBeSetupItemCtxtSUReq) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ERABToBeSetupItemCtxtSUReq) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_naspdu, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
-	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
-	}
-	v.ERABID = val_erabid
-	if err := v.ERABlevelQoSParameters.unmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding e-RABlevelQoSParameters: %w", err)
-	}
-	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
-	if err != nil {
-		return fmt.Errorf("decoding transportLayerAddress: %w", err)
-	}
-	v.TransportLayerAddress = runtime.BitString{Bytes: bsBytes_transportlayeraddress, BitLength: bsBitLen_transportlayeraddress}
-	val_gtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
-	if err != nil {
-		return fmt.Errorf("decoding gTP-TEID: %w", err)
-	}
-	v.GTPTEID = GTPTEID(val_gtpteid)
-	if opt_naspdu {
-		val_naspdu, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding nAS-PDU: %w", err)
-		}
-		tmp_naspdu := NASPDU(val_naspdu)
-		v.NASPDU = &tmp_naspdu
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ERABToBeSetupItemHOReq to APER format.
-func (v *ERABToBeSetupItemHOReq) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ERABToBeSetupItemHOReq) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
-		return fmt.Errorf("encoding e-RAB-ID: %w", err)
-	}
-	if err := per.EncodeBitStringAlignedExt(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true, true); err != nil {
-		return fmt.Errorf("encoding transportLayerAddress: %w", err)
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.GTPTEID), 4, 4, true); err != nil {
-		return fmt.Errorf("encoding gTP-TEID: %w", err)
-	}
-	if err := v.ERABlevelQosParameters.marshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding e-RABlevelQosParameters: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ERABToBeSetupItemHOReq from APER format.
-func (v *ERABToBeSetupItemHOReq) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ERABToBeSetupItemHOReq) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
-	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
-	}
-	v.ERABID = val_erabid
-	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
-	if err != nil {
-		return fmt.Errorf("decoding transportLayerAddress: %w", err)
-	}
-	v.TransportLayerAddress = runtime.BitString{Bytes: bsBytes_transportlayeraddress, BitLength: bsBitLen_transportlayeraddress}
-	val_gtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
-	if err != nil {
-		return fmt.Errorf("decoding gTP-TEID: %w", err)
-	}
-	v.GTPTEID = GTPTEID(val_gtpteid)
-	if err := v.ERABlevelQosParameters.unmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding e-RABlevelQosParameters: %w", err)
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
@@ -5974,13 +2753,13 @@ func (v *ERABToBeSetupItemHOReq) unmarshalAPERFrom(bb *per.BitBuffer) error {
 // MarshalAPER encodes ERABToBeSwitchedDLItem to APER format.
 func (v *ERABToBeSwitchedDLItem) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *ERABToBeSwitchedDLItem) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *ERABToBeSwitchedDLItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -5989,10 +2768,10 @@ func (v *ERABToBeSwitchedDLItem) marshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
 		return fmt.Errorf("encoding e-RAB-ID: %w", err)
 	}
-	if err := per.EncodeBitStringAlignedExt(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true, true); err != nil {
+	if err := per.EncodeBitStringAligned(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true); err != nil {
 		return fmt.Errorf("encoding transportLayerAddress: %w", err)
 	}
 	if err := per.EncodeOctetStringAligned(bb, []byte(v.GTPTEID), 4, 4, true); err != nil {
@@ -6003,7 +2782,7 @@ func (v *ERABToBeSwitchedDLItem) marshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
 		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
+			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
 		}
@@ -6034,10 +2813,10 @@ func (v *ERABToBeSwitchedDLItem) marshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABToBeSwitchedDLItem from APER format.
 func (v *ERABToBeSwitchedDLItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *ERABToBeSwitchedDLItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ERABToBeSwitchedDLItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -6047,12 +2826,12 @@ func (v *ERABToBeSwitchedDLItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
 	v.ERABID = val_erabid
-	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAligned(bb, 1, 160, true)
 	if err != nil {
 		return fmt.Errorf("decoding transportLayerAddress: %w", err)
 	}
@@ -6069,7 +2848,7 @@ func (v *ERABToBeSwitchedDLItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
@@ -6104,16 +2883,111 @@ func (v *ERABToBeSwitchedDLItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes ERABToBeSwitchedULItem to APER format.
-func (v *ERABToBeSwitchedULItem) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes PathSwitchRequestAcknowledge to APER format.
+func (v *PathSwitchRequestAcknowledge) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *ERABToBeSwitchedULItem) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *PathSwitchRequestAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes PathSwitchRequestAcknowledge from APER format.
+func (v *PathSwitchRequestAcknowledge) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *PathSwitchRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ERABToBeSwitchedULItem to APER format.
+func (v *ERABToBeSwitchedULItem) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ERABToBeSwitchedULItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -6122,10 +2996,10 @@ func (v *ERABToBeSwitchedULItem) marshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
 		return fmt.Errorf("encoding e-RAB-ID: %w", err)
 	}
-	if err := per.EncodeBitStringAlignedExt(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true, true); err != nil {
+	if err := per.EncodeBitStringAligned(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true); err != nil {
 		return fmt.Errorf("encoding transportLayerAddress: %w", err)
 	}
 	if err := per.EncodeOctetStringAligned(bb, []byte(v.GTPTEID), 4, 4, true); err != nil {
@@ -6136,7 +3010,7 @@ func (v *ERABToBeSwitchedULItem) marshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
 		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
+			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
 		}
@@ -6167,10 +3041,10 @@ func (v *ERABToBeSwitchedULItem) marshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABToBeSwitchedULItem from APER format.
 func (v *ERABToBeSwitchedULItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *ERABToBeSwitchedULItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ERABToBeSwitchedULItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -6180,12 +3054,12 @@ func (v *ERABToBeSwitchedULItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
 	v.ERABID = val_erabid
-	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAligned(bb, 1, 160, true)
 	if err != nil {
 		return fmt.Errorf("decoding transportLayerAddress: %w", err)
 	}
@@ -6202,7 +3076,7 @@ func (v *ERABToBeSwitchedULItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
@@ -6240,13 +3114,13 @@ func (v *ERABToBeSwitchedULItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 // MarshalAPER encodes ERABToBeUpdatedItem to APER format.
 func (v *ERABToBeUpdatedItem) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *ERABToBeUpdatedItem) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *ERABToBeUpdatedItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -6258,11 +3132,11 @@ func (v *ERABToBeUpdatedItem) marshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
 		return fmt.Errorf("encoding e-RAB-ID: %w", err)
 	}
 	if v.SecurityIndication != nil {
-		if err := v.SecurityIndication.marshalAPERTo(bb); err != nil {
+		if err := v.SecurityIndication.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding securityIndication: %w", err)
 		}
 	}
@@ -6271,7 +3145,7 @@ func (v *ERABToBeUpdatedItem) marshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
 		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
+			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
 		}
@@ -6302,10 +3176,10 @@ func (v *ERABToBeUpdatedItem) marshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABToBeUpdatedItem from APER format.
 func (v *ERABToBeUpdatedItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *ERABToBeUpdatedItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ERABToBeUpdatedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -6319,14 +3193,14 @@ func (v *ERABToBeUpdatedItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
 	v.ERABID = val_erabid
 	if opt_securityindication {
 		var dec_securityindication SecurityIndication
-		if err := dec_securityindication.unmarshalAPERFrom(bb); err != nil {
+		if err := dec_securityindication.UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding securityIndication: %w", err)
 		}
 		v.SecurityIndication = &dec_securityindication
@@ -6338,7 +3212,7 @@ func (v *ERABToBeUpdatedItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
@@ -6373,16 +3247,16 @@ func (v *ERABToBeUpdatedItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes ErrorIndication to APER format.
-func (v *ErrorIndication) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes PathSwitchRequestFailure to APER format.
+func (v *PathSwitchRequestFailure) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *ErrorIndication) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *PathSwitchRequestFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -6391,7 +3265,7 @@ func (v *ErrorIndication) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -6418,13 +3292,13 @@ func (v *ErrorIndication) marshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes ErrorIndication from APER format.
-func (v *ErrorIndication) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes PathSwitchRequestFailure from APER format.
+func (v *PathSwitchRequestFailure) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *ErrorIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *PathSwitchRequestFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -6435,7 +3309,7 @@ func (v *ErrorIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -6471,13 +3345,13 @@ func (v *ErrorIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
 // MarshalAPER encodes HandoverCancel to APER format.
 func (v *HandoverCancel) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *HandoverCancel) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *HandoverCancel) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -6486,7 +3360,7 @@ func (v *HandoverCancel) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -6516,10 +3390,10 @@ func (v *HandoverCancel) marshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes HandoverCancel from APER format.
 func (v *HandoverCancel) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *HandoverCancel) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *HandoverCancel) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -6530,7 +3404,7 @@ func (v *HandoverCancel) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -6566,13 +3440,13 @@ func (v *HandoverCancel) unmarshalAPERFrom(bb *per.BitBuffer) error {
 // MarshalAPER encodes HandoverCancelAcknowledge to APER format.
 func (v *HandoverCancelAcknowledge) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *HandoverCancelAcknowledge) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *HandoverCancelAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -6581,7 +3455,7 @@ func (v *HandoverCancelAcknowledge) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -6611,10 +3485,10 @@ func (v *HandoverCancelAcknowledge) marshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes HandoverCancelAcknowledge from APER format.
 func (v *HandoverCancelAcknowledge) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *HandoverCancelAcknowledge) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *HandoverCancelAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -6625,672 +3499,7 @@ func (v *HandoverCancelAcknowledge) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes HandoverCommand to APER format.
-func (v *HandoverCommand) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverCommand) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes HandoverCommand from APER format.
-func (v *HandoverCommand) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *HandoverCommand) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes HandoverFailure to APER format.
-func (v *HandoverFailure) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverFailure) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes HandoverFailure from APER format.
-func (v *HandoverFailure) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *HandoverFailure) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes HandoverNotify to APER format.
-func (v *HandoverNotify) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverNotify) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes HandoverNotify from APER format.
-func (v *HandoverNotify) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *HandoverNotify) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes HandoverPreparationFailure to APER format.
-func (v *HandoverPreparationFailure) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationFailure) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes HandoverPreparationFailure from APER format.
-func (v *HandoverPreparationFailure) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *HandoverPreparationFailure) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes HandoverRequest to APER format.
-func (v *HandoverRequest) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverRequest) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes HandoverRequest from APER format.
-func (v *HandoverRequest) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *HandoverRequest) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes HandoverRequestAcknowledge to APER format.
-func (v *HandoverRequestAcknowledge) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverRequestAcknowledge) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes HandoverRequestAcknowledge from APER format.
-func (v *HandoverRequestAcknowledge) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *HandoverRequestAcknowledge) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes HandoverRequired to APER format.
-func (v *HandoverRequired) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverRequired) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes HandoverRequired from APER format.
-func (v *HandoverRequired) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *HandoverRequired) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -7326,13 +3535,13 @@ func (v *HandoverRequired) unmarshalAPERFrom(bb *per.BitBuffer) error {
 // MarshalAPER encodes HandoverSuccess to APER format.
 func (v *HandoverSuccess) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *HandoverSuccess) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *HandoverSuccess) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -7341,7 +3550,7 @@ func (v *HandoverSuccess) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -7371,10 +3580,10 @@ func (v *HandoverSuccess) marshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes HandoverSuccess from APER format.
 func (v *HandoverSuccess) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *HandoverSuccess) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *HandoverSuccess) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -7385,7 +3594,7 @@ func (v *HandoverSuccess) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -7418,16 +3627,16 @@ func (v *HandoverSuccess) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes InitialContextSetupFailure to APER format.
-func (v *InitialContextSetupFailure) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes ENBEarlyStatusTransfer to APER format.
+func (v *ENBEarlyStatusTransfer) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *InitialContextSetupFailure) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *ENBEarlyStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -7436,7 +3645,7 @@ func (v *InitialContextSetupFailure) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -7463,13 +3672,13 @@ func (v *InitialContextSetupFailure) marshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes InitialContextSetupFailure from APER format.
-func (v *InitialContextSetupFailure) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes ENBEarlyStatusTransfer from APER format.
+func (v *ENBEarlyStatusTransfer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *InitialContextSetupFailure) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ENBEarlyStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -7480,1406 +3689,7 @@ func (v *InitialContextSetupFailure) unmarshalAPERFrom(bb *per.BitBuffer) error 
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes InitialContextSetupRequest to APER format.
-func (v *InitialContextSetupRequest) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *InitialContextSetupRequest) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes InitialContextSetupRequest from APER format.
-func (v *InitialContextSetupRequest) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *InitialContextSetupRequest) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes InitialContextSetupResponse to APER format.
-func (v *InitialContextSetupResponse) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *InitialContextSetupResponse) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes InitialContextSetupResponse from APER format.
-func (v *InitialContextSetupResponse) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *InitialContextSetupResponse) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes InitialUEMessage to APER format.
-func (v *InitialUEMessage) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *InitialUEMessage) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes InitialUEMessage from APER format.
-func (v *InitialUEMessage) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *InitialUEMessage) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes InterSystemInformationTransferType to APER format.
-func (v *InterSystemInformationTransferType) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *InterSystemInformationTransferType) marshalAPERTo(bb *per.BitBuffer) error {
-	isExtension := v.Choice > 1
-	if err := per.EncodeBoolean(bb, isExtension); err != nil {
-		return err
-	}
-	if isExtension {
-		return fmt.Errorf("InterSystemInformationTransferType: extension choice %d not supported", v.Choice)
-	}
-	switch v.Choice {
-	case InterSystemInformationTransferTypeChoiceRIMTransfer:
-		if err := v.RIMTransfer.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding rIMTransfer: %w", err)
-		}
-	default:
-		return fmt.Errorf("unknown InterSystemInformationTransferType choice %d", v.Choice)
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes InterSystemInformationTransferType from APER format.
-func (v *InterSystemInformationTransferType) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *InterSystemInformationTransferType) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	isExtension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if isExtension {
-		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		openData, err := per.DecodeOpenTypeAligned(bb)
-		if err != nil {
-			return err
-		}
-		inner := per.NewBitBufferFromBytes(openData)
-		_ = inner
-		v.Choice = int(extIdx) + 1 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("InterSystemInformationTransferType: unsupported extension choice %d", v.Choice)
-		}
-		return nil
-	}
-	v.Choice = 1
-	switch v.Choice {
-	case InterSystemInformationTransferTypeChoiceRIMTransfer:
-		var dec_rimtransfer RIMTransfer
-		if err := dec_rimtransfer.unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding rIMTransfer: %w", err)
-		}
-		v.RIMTransfer = &dec_rimtransfer
-	}
-	return nil
-}
-
-// MarshalAPER encodes KillRequest to APER format.
-func (v *KillRequest) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *KillRequest) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes KillRequest from APER format.
-func (v *KillRequest) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *KillRequest) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes KillResponse to APER format.
-func (v *KillResponse) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *KillResponse) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes KillResponse from APER format.
-func (v *KillResponse) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *KillResponse) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes LocationReport to APER format.
-func (v *LocationReport) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *LocationReport) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes LocationReport from APER format.
-func (v *LocationReport) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *LocationReport) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes LocationReportingControl to APER format.
-func (v *LocationReportingControl) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *LocationReportingControl) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes LocationReportingControl from APER format.
-func (v *LocationReportingControl) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *LocationReportingControl) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes LocationReportingFailureIndication to APER format.
-func (v *LocationReportingFailureIndication) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *LocationReportingFailureIndication) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes LocationReportingFailureIndication from APER format.
-func (v *LocationReportingFailureIndication) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *LocationReportingFailureIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes MMECPRelocationIndication to APER format.
-func (v *MMECPRelocationIndication) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *MMECPRelocationIndication) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes MMECPRelocationIndication from APER format.
-func (v *MMECPRelocationIndication) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *MMECPRelocationIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes MMEConfigurationTransfer to APER format.
-func (v *MMEConfigurationTransfer) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *MMEConfigurationTransfer) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes MMEConfigurationTransfer from APER format.
-func (v *MMEConfigurationTransfer) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *MMEConfigurationTransfer) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes MMEConfigurationUpdate to APER format.
-func (v *MMEConfigurationUpdate) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *MMEConfigurationUpdate) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes MMEConfigurationUpdate from APER format.
-func (v *MMEConfigurationUpdate) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *MMEConfigurationUpdate) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes MMEConfigurationUpdateAcknowledge to APER format.
-func (v *MMEConfigurationUpdateAcknowledge) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *MMEConfigurationUpdateAcknowledge) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes MMEConfigurationUpdateAcknowledge from APER format.
-func (v *MMEConfigurationUpdateAcknowledge) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *MMEConfigurationUpdateAcknowledge) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes MMEConfigurationUpdateFailure to APER format.
-func (v *MMEConfigurationUpdateFailure) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *MMEConfigurationUpdateFailure) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes MMEConfigurationUpdateFailure from APER format.
-func (v *MMEConfigurationUpdateFailure) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *MMEConfigurationUpdateFailure) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes MMEDirectInformationTransfer to APER format.
-func (v *MMEDirectInformationTransfer) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *MMEDirectInformationTransfer) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes MMEDirectInformationTransfer from APER format.
-func (v *MMEDirectInformationTransfer) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *MMEDirectInformationTransfer) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -8915,13 +3725,13 @@ func (v *MMEDirectInformationTransfer) unmarshalAPERFrom(bb *per.BitBuffer) erro
 // MarshalAPER encodes MMEEarlyStatusTransfer to APER format.
 func (v *MMEEarlyStatusTransfer) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *MMEEarlyStatusTransfer) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *MMEEarlyStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -8930,7 +3740,7 @@ func (v *MMEEarlyStatusTransfer) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -8960,10 +3770,10 @@ func (v *MMEEarlyStatusTransfer) marshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes MMEEarlyStatusTransfer from APER format.
 func (v *MMEEarlyStatusTransfer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *MMEEarlyStatusTransfer) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *MMEEarlyStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -8974,7 +3784,7 @@ func (v *MMEEarlyStatusTransfer) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -9007,16 +3817,16 @@ func (v *MMEEarlyStatusTransfer) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes MMEStatusTransfer to APER format.
-func (v *MMEStatusTransfer) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes ERABSetupRequest to APER format.
+func (v *ERABSetupRequest) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *MMEStatusTransfer) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *ERABSetupRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -9025,7 +3835,7 @@ func (v *MMEStatusTransfer) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -9052,13 +3862,13 @@ func (v *MMEStatusTransfer) marshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes MMEStatusTransfer from APER format.
-func (v *MMEStatusTransfer) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes ERABSetupRequest from APER format.
+func (v *ERABSetupRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *MMEStatusTransfer) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ERABSetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -9069,7 +3879,7 @@ func (v *MMEStatusTransfer) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -9102,16 +3912,163 @@ func (v *MMEStatusTransfer) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes NASDeliveryIndication to APER format.
-func (v *NASDeliveryIndication) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes ERABToBeSetupItemBearerSUReq to APER format.
+func (v *ERABToBeSetupItemBearerSUReq) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *NASDeliveryIndication) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *ERABToBeSetupItemBearerSUReq) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
+		return fmt.Errorf("encoding e-RAB-ID: %w", err)
+	}
+	if err := v.ERABlevelQoSParameters.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding e-RABlevelQoSParameters: %w", err)
+	}
+	if err := per.EncodeBitStringAligned(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true); err != nil {
+		return fmt.Errorf("encoding transportLayerAddress: %w", err)
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.GTPTEID), 4, 4, true); err != nil {
+		return fmt.Errorf("encoding gTP-TEID: %w", err)
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.NASPDU), 0, 0, false); err != nil {
+		return fmt.Errorf("encoding nAS-PDU: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ERABToBeSetupItemBearerSUReq from APER format.
+func (v *ERABToBeSetupItemBearerSUReq) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ERABToBeSetupItemBearerSUReq) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
+	if err != nil {
+		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+	}
+	v.ERABID = val_erabid
+	if err := v.ERABlevelQoSParameters.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding e-RABlevelQoSParameters: %w", err)
+	}
+	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAligned(bb, 1, 160, true)
+	if err != nil {
+		return fmt.Errorf("decoding transportLayerAddress: %w", err)
+	}
+	v.TransportLayerAddress = runtime.BitString{Bytes: bsBytes_transportlayeraddress, BitLength: bsBitLen_transportlayeraddress}
+	val_gtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+	if err != nil {
+		return fmt.Errorf("decoding gTP-TEID: %w", err)
+	}
+	v.GTPTEID = GTPTEID(val_gtpteid)
+	val_naspdu, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+	if err != nil {
+		return fmt.Errorf("decoding nAS-PDU: %w", err)
+	}
+	v.NASPDU = NASPDU(val_naspdu)
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ERABSetupResponse to APER format.
+func (v *ERABSetupResponse) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ERABSetupResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -9120,7 +4077,7 @@ func (v *NASDeliveryIndication) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -9147,13 +4104,13 @@ func (v *NASDeliveryIndication) marshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes NASDeliveryIndication from APER format.
-func (v *NASDeliveryIndication) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes ERABSetupResponse from APER format.
+func (v *ERABSetupResponse) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *NASDeliveryIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ERABSetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -9164,7 +4121,7 @@ func (v *NASDeliveryIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -9197,16 +4154,149 @@ func (v *NASDeliveryIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes NASNonDeliveryIndication to APER format.
-func (v *NASNonDeliveryIndication) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes ERABSetupItemBearerSURes to APER format.
+func (v *ERABSetupItemBearerSURes) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *NASNonDeliveryIndication) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *ERABSetupItemBearerSURes) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
+		return fmt.Errorf("encoding e-RAB-ID: %w", err)
+	}
+	if err := per.EncodeBitStringAligned(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true); err != nil {
+		return fmt.Errorf("encoding transportLayerAddress: %w", err)
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.GTPTEID), 4, 4, true); err != nil {
+		return fmt.Errorf("encoding gTP-TEID: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ERABSetupItemBearerSURes from APER format.
+func (v *ERABSetupItemBearerSURes) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ERABSetupItemBearerSURes) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
+	if err != nil {
+		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+	}
+	v.ERABID = val_erabid
+	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAligned(bb, 1, 160, true)
+	if err != nil {
+		return fmt.Errorf("decoding transportLayerAddress: %w", err)
+	}
+	v.TransportLayerAddress = runtime.BitString{Bytes: bsBytes_transportlayeraddress, BitLength: bsBitLen_transportlayeraddress}
+	val_gtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+	if err != nil {
+		return fmt.Errorf("decoding gTP-TEID: %w", err)
+	}
+	v.GTPTEID = GTPTEID(val_gtpteid)
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ERABModifyRequest to APER format.
+func (v *ERABModifyRequest) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ERABModifyRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -9215,7 +4305,7 @@ func (v *NASNonDeliveryIndication) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -9242,13 +4332,13 @@ func (v *NASNonDeliveryIndication) marshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes NASNonDeliveryIndication from APER format.
-func (v *NASNonDeliveryIndication) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes ERABModifyRequest from APER format.
+func (v *ERABModifyRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *NASNonDeliveryIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ERABModifyRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -9259,7 +4349,7 @@ func (v *NASNonDeliveryIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -9292,16 +4382,147 @@ func (v *NASNonDeliveryIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes OverloadStart to APER format.
-func (v *OverloadStart) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes ERABToBeModifiedItemBearerModReq to APER format.
+func (v *ERABToBeModifiedItemBearerModReq) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *OverloadStart) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *ERABToBeModifiedItemBearerModReq) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
+		return fmt.Errorf("encoding e-RAB-ID: %w", err)
+	}
+	if err := v.ERABLevelQoSParameters.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding e-RABLevelQoSParameters: %w", err)
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.NASPDU), 0, 0, false); err != nil {
+		return fmt.Errorf("encoding nAS-PDU: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ERABToBeModifiedItemBearerModReq from APER format.
+func (v *ERABToBeModifiedItemBearerModReq) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ERABToBeModifiedItemBearerModReq) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
+	if err != nil {
+		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+	}
+	v.ERABID = val_erabid
+	if err := v.ERABLevelQoSParameters.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding e-RABLevelQoSParameters: %w", err)
+	}
+	val_naspdu, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+	if err != nil {
+		return fmt.Errorf("decoding nAS-PDU: %w", err)
+	}
+	v.NASPDU = NASPDU(val_naspdu)
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ERABModifyResponse to APER format.
+func (v *ERABModifyResponse) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ERABModifyResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -9310,7 +4531,7 @@ func (v *OverloadStart) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -9337,13 +4558,13 @@ func (v *OverloadStart) marshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes OverloadStart from APER format.
-func (v *OverloadStart) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes ERABModifyResponse from APER format.
+func (v *ERABModifyResponse) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *OverloadStart) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ERABModifyResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -9354,7 +4575,7 @@ func (v *OverloadStart) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -9387,16 +4608,133 @@ func (v *OverloadStart) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes OverloadStop to APER format.
-func (v *OverloadStop) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes ERABModifyItemBearerModRes to APER format.
+func (v *ERABModifyItemBearerModRes) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *OverloadStop) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *ERABModifyItemBearerModRes) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
+		return fmt.Errorf("encoding e-RAB-ID: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ERABModifyItemBearerModRes from APER format.
+func (v *ERABModifyItemBearerModRes) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ERABModifyItemBearerModRes) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
+	if err != nil {
+		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+	}
+	v.ERABID = val_erabid
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ERABReleaseCommand to APER format.
+func (v *ERABReleaseCommand) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ERABReleaseCommand) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -9405,7 +4743,7 @@ func (v *OverloadStop) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -9432,13 +4770,13 @@ func (v *OverloadStop) marshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes OverloadStop from APER format.
-func (v *OverloadStop) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes ERABReleaseCommand from APER format.
+func (v *ERABReleaseCommand) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *OverloadStop) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ERABReleaseCommand) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -9449,7 +4787,7 @@ func (v *OverloadStop) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -9482,16 +4820,16 @@ func (v *OverloadStop) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes PWSFailureIndication to APER format.
-func (v *PWSFailureIndication) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes ERABReleaseResponse to APER format.
+func (v *ERABReleaseResponse) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *PWSFailureIndication) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *ERABReleaseResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -9500,7 +4838,7 @@ func (v *PWSFailureIndication) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -9527,13 +4865,13 @@ func (v *PWSFailureIndication) marshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes PWSFailureIndication from APER format.
-func (v *PWSFailureIndication) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes ERABReleaseResponse from APER format.
+func (v *ERABReleaseResponse) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *PWSFailureIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ERABReleaseResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -9544,7 +4882,7 @@ func (v *PWSFailureIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -9577,16 +4915,133 @@ func (v *PWSFailureIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes PWSRestartIndication to APER format.
-func (v *PWSRestartIndication) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes ERABReleaseItemBearerRelComp to APER format.
+func (v *ERABReleaseItemBearerRelComp) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *PWSRestartIndication) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *ERABReleaseItemBearerRelComp) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
+		return fmt.Errorf("encoding e-RAB-ID: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ERABReleaseItemBearerRelComp from APER format.
+func (v *ERABReleaseItemBearerRelComp) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ERABReleaseItemBearerRelComp) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
+	if err != nil {
+		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+	}
+	v.ERABID = val_erabid
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ERABReleaseIndication to APER format.
+func (v *ERABReleaseIndication) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ERABReleaseIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -9595,7 +5050,7 @@ func (v *PWSRestartIndication) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -9622,13 +5077,13 @@ func (v *PWSRestartIndication) marshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes PWSRestartIndication from APER format.
-func (v *PWSRestartIndication) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes ERABReleaseIndication from APER format.
+func (v *ERABReleaseIndication) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *PWSRestartIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ERABReleaseIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -9639,7 +5094,584 @@ func (v *PWSRestartIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes InitialContextSetupRequest to APER format.
+func (v *InitialContextSetupRequest) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *InitialContextSetupRequest) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes InitialContextSetupRequest from APER format.
+func (v *InitialContextSetupRequest) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *InitialContextSetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ERABToBeSetupItemCtxtSUReq to APER format.
+func (v *ERABToBeSetupItemCtxtSUReq) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ERABToBeSetupItemCtxtSUReq) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.NASPDU != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
+		return fmt.Errorf("encoding e-RAB-ID: %w", err)
+	}
+	if err := v.ERABlevelQoSParameters.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding e-RABlevelQoSParameters: %w", err)
+	}
+	if err := per.EncodeBitStringAligned(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true); err != nil {
+		return fmt.Errorf("encoding transportLayerAddress: %w", err)
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.GTPTEID), 4, 4, true); err != nil {
+		return fmt.Errorf("encoding gTP-TEID: %w", err)
+	}
+	if v.NASPDU != nil {
+		if err := per.EncodeOctetStringAligned(bb, []byte(*v.NASPDU), 0, 0, false); err != nil {
+			return fmt.Errorf("encoding nAS-PDU: %w", err)
+		}
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ERABToBeSetupItemCtxtSUReq from APER format.
+func (v *ERABToBeSetupItemCtxtSUReq) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ERABToBeSetupItemCtxtSUReq) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_naspdu, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
+	if err != nil {
+		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+	}
+	v.ERABID = val_erabid
+	if err := v.ERABlevelQoSParameters.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding e-RABlevelQoSParameters: %w", err)
+	}
+	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAligned(bb, 1, 160, true)
+	if err != nil {
+		return fmt.Errorf("decoding transportLayerAddress: %w", err)
+	}
+	v.TransportLayerAddress = runtime.BitString{Bytes: bsBytes_transportlayeraddress, BitLength: bsBitLen_transportlayeraddress}
+	val_gtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+	if err != nil {
+		return fmt.Errorf("decoding gTP-TEID: %w", err)
+	}
+	v.GTPTEID = GTPTEID(val_gtpteid)
+	if opt_naspdu {
+		val_naspdu, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+		if err != nil {
+			return fmt.Errorf("decoding nAS-PDU: %w", err)
+		}
+		tmp_naspdu := NASPDU(val_naspdu)
+		v.NASPDU = &tmp_naspdu
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes InitialContextSetupResponse to APER format.
+func (v *InitialContextSetupResponse) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *InitialContextSetupResponse) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes InitialContextSetupResponse from APER format.
+func (v *InitialContextSetupResponse) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *InitialContextSetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ERABSetupItemCtxtSURes to APER format.
+func (v *ERABSetupItemCtxtSURes) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ERABSetupItemCtxtSURes) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
+		return fmt.Errorf("encoding e-RAB-ID: %w", err)
+	}
+	if err := per.EncodeBitStringAligned(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true); err != nil {
+		return fmt.Errorf("encoding transportLayerAddress: %w", err)
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.GTPTEID), 4, 4, true); err != nil {
+		return fmt.Errorf("encoding gTP-TEID: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ERABSetupItemCtxtSURes from APER format.
+func (v *ERABSetupItemCtxtSURes) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ERABSetupItemCtxtSURes) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
+	if err != nil {
+		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+	}
+	v.ERABID = val_erabid
+	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAligned(bb, 1, 160, true)
+	if err != nil {
+		return fmt.Errorf("decoding transportLayerAddress: %w", err)
+	}
+	v.TransportLayerAddress = runtime.BitString{Bytes: bsBytes_transportlayeraddress, BitLength: bsBitLen_transportlayeraddress}
+	val_gtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+	if err != nil {
+		return fmt.Errorf("decoding gTP-TEID: %w", err)
+	}
+	v.GTPTEID = GTPTEID(val_gtpteid)
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes InitialContextSetupFailure to APER format.
+func (v *InitialContextSetupFailure) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *InitialContextSetupFailure) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes InitialContextSetupFailure from APER format.
+func (v *InitialContextSetupFailure) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *InitialContextSetupFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -9675,13 +5707,13 @@ func (v *PWSRestartIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
 // MarshalAPER encodes Paging to APER format.
 func (v *Paging) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *Paging) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *Paging) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -9690,7 +5722,7 @@ func (v *Paging) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -9720,10 +5752,10 @@ func (v *Paging) marshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes Paging from APER format.
 func (v *Paging) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *Paging) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *Paging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -9734,1245 +5766,7 @@ func (v *Paging) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes PathSwitchRequest to APER format.
-func (v *PathSwitchRequest) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *PathSwitchRequest) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes PathSwitchRequest from APER format.
-func (v *PathSwitchRequest) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *PathSwitchRequest) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes PathSwitchRequestAcknowledge to APER format.
-func (v *PathSwitchRequestAcknowledge) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *PathSwitchRequestAcknowledge) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes PathSwitchRequestAcknowledge from APER format.
-func (v *PathSwitchRequestAcknowledge) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *PathSwitchRequestAcknowledge) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes PathSwitchRequestFailure to APER format.
-func (v *PathSwitchRequestFailure) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *PathSwitchRequestFailure) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes PathSwitchRequestFailure from APER format.
-func (v *PathSwitchRequestFailure) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *PathSwitchRequestFailure) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes PrivateMessage to APER format.
-func (v *PrivateMessage) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *PrivateMessage) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.PrivateIEs)), 1, 65535); err != nil {
-		return fmt.Errorf("encoding privateIEs length: %w", err)
-	}
-	for _, elem := range v.PrivateIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding privateIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes PrivateMessage from APER format.
-func (v *PrivateMessage) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *PrivateMessage) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_privateies, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding privateIEs length: %w", err)
-	}
-	v.PrivateIEs = make(PrivateIEContainer, seqLen_privateies)
-	for i := int64(0); i < seqLen_privateies; i++ {
-		if err := v.PrivateIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding privateIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes RerouteNASRequest to APER format.
-func (v *RerouteNASRequest) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *RerouteNASRequest) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes RerouteNASRequest from APER format.
-func (v *RerouteNASRequest) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *RerouteNASRequest) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes Reset to APER format.
-func (v *Reset) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *Reset) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes Reset from APER format.
-func (v *Reset) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *Reset) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ResetAcknowledge to APER format.
-func (v *ResetAcknowledge) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ResetAcknowledge) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ResetAcknowledge from APER format.
-func (v *ResetAcknowledge) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ResetAcknowledge) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ResetType to APER format.
-func (v *ResetType) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ResetType) marshalAPERTo(bb *per.BitBuffer) error {
-	isExtension := v.Choice > 2
-	if err := per.EncodeBoolean(bb, isExtension); err != nil {
-		return err
-	}
-	if isExtension {
-		return fmt.Errorf("ResetType: extension choice %d not supported", v.Choice)
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
-		return err
-	}
-	switch v.Choice {
-	case ResetTypeChoiceS1Interface:
-		if err := per.EncodeEnumeratedAligned(bb, int64(*v.S1Interface), 1, true); err != nil {
-			return fmt.Errorf("encoding s1-Interface: %w", err)
-		}
-	case ResetTypeChoicePartOfS1Interface:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.PartOfS1Interface)), 1, 256); err != nil {
-			return fmt.Errorf("encoding partOfS1-Interface length: %w", err)
-		}
-		for _, elem := range v.PartOfS1Interface {
-			if err := elem.marshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding partOfS1-Interface element: %w", err)
-			}
-		}
-	default:
-		return fmt.Errorf("unknown ResetType choice %d", v.Choice)
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ResetType from APER format.
-func (v *ResetType) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *ResetType) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	isExtension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if isExtension {
-		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		openData, err := per.DecodeOpenTypeAligned(bb)
-		if err != nil {
-			return err
-		}
-		inner := per.NewBitBufferFromBytes(openData)
-		_ = inner
-		v.Choice = int(extIdx) + 2 + 1
-		switch v.Choice {
-		default:
-			return fmt.Errorf("ResetType: unsupported extension choice %d", v.Choice)
-		}
-		return nil
-	}
-	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
-	if err != nil {
-		return err
-	}
-	v.Choice = int(idx) + 1
-	switch v.Choice {
-	case ResetTypeChoiceS1Interface:
-		val_s1interface, err := per.DecodeEnumeratedAligned(bb, 1, true)
-		if err != nil {
-			return fmt.Errorf("decoding s1-Interface: %w", err)
-		}
-		tmp_s1interface := ResetAll(val_s1interface)
-		v.S1Interface = &tmp_s1interface
-	case ResetTypeChoicePartOfS1Interface:
-		seqLen_partofs1interface, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-		if err != nil {
-			return fmt.Errorf("decoding partOfS1-Interface length: %w", err)
-		}
-		tmp_partofs1interface := make(UEAssociatedLogicalS1ConnectionListRes, seqLen_partofs1interface)
-		for i := int64(0); i < seqLen_partofs1interface; i++ {
-			if err := tmp_partofs1interface[i].unmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding partOfS1-Interface element: %w", err)
-			}
-		}
-		v.PartOfS1Interface = tmp_partofs1interface
-	}
-	return nil
-}
-
-// MarshalAPER encodes RetrieveUEInformation to APER format.
-func (v *RetrieveUEInformation) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *RetrieveUEInformation) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes RetrieveUEInformation from APER format.
-func (v *RetrieveUEInformation) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *RetrieveUEInformation) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes S1SetupFailure to APER format.
-func (v *S1SetupFailure) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *S1SetupFailure) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes S1SetupFailure from APER format.
-func (v *S1SetupFailure) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *S1SetupFailure) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes S1SetupRequest to APER format.
-func (v *S1SetupRequest) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *S1SetupRequest) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes S1SetupRequest from APER format.
-func (v *S1SetupRequest) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *S1SetupRequest) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes S1SetupResponse to APER format.
-func (v *S1SetupResponse) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *S1SetupResponse) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes S1SetupResponse from APER format.
-func (v *S1SetupResponse) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *S1SetupResponse) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes SecondaryRATDataUsageReport to APER format.
-func (v *SecondaryRATDataUsageReport) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SecondaryRATDataUsageReport) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes SecondaryRATDataUsageReport from APER format.
-func (v *SecondaryRATDataUsageReport) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *SecondaryRATDataUsageReport) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -11008,13 +5802,13 @@ func (v *SecondaryRATDataUsageReport) unmarshalAPERFrom(bb *per.BitBuffer) error
 // MarshalAPER encodes TAIItem to APER format.
 func (v *TAIItem) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *TAIItem) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *TAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -11023,7 +5817,7 @@ func (v *TAIItem) marshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := v.TAI.marshalAPERTo(bb); err != nil {
+	if err := v.TAI.MarshalAPERTo(bb); err != nil {
 		return fmt.Errorf("encoding tAI: %w", err)
 	}
 	if v.IEExtensions != nil {
@@ -11031,7 +5825,7 @@ func (v *TAIItem) marshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding iE-Extensions length: %w", err)
 		}
 		for _, elem := range v.IEExtensions {
-			if err := elem.marshalAPERTo(bb); err != nil {
+			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding iE-Extensions element: %w", err)
 			}
 		}
@@ -11062,10 +5856,10 @@ func (v *TAIItem) marshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes TAIItem from APER format.
 func (v *TAIItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *TAIItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *TAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -11075,7 +5869,7 @@ func (v *TAIItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	if err := v.TAI.unmarshalAPERFrom(bb); err != nil {
+	if err := v.TAI.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding tAI: %w", err)
 	}
 	if opt_ieextensions {
@@ -11085,7 +5879,7 @@ func (v *TAIItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].unmarshalAPERFrom(bb); err != nil {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
 				return fmt.Errorf("decoding iE-Extensions element: %w", err)
 			}
 		}
@@ -11120,16 +5914,16 @@ func (v *TAIItem) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes TraceFailureIndication to APER format.
-func (v *TraceFailureIndication) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes UEContextReleaseRequest to APER format.
+func (v *UEContextReleaseRequest) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *TraceFailureIndication) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *UEContextReleaseRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -11138,7 +5932,7 @@ func (v *TraceFailureIndication) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -11165,13 +5959,13 @@ func (v *TraceFailureIndication) marshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes TraceFailureIndication from APER format.
-func (v *TraceFailureIndication) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes UEContextReleaseRequest from APER format.
+func (v *UEContextReleaseRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *TraceFailureIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *UEContextReleaseRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -11182,672 +5976,7 @@ func (v *TraceFailureIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes TraceStart to APER format.
-func (v *TraceStart) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *TraceStart) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes TraceStart from APER format.
-func (v *TraceStart) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *TraceStart) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes UECapabilityInfoIndication to APER format.
-func (v *UECapabilityInfoIndication) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UECapabilityInfoIndication) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes UECapabilityInfoIndication from APER format.
-func (v *UECapabilityInfoIndication) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *UECapabilityInfoIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes UEContextModificationConfirm to APER format.
-func (v *UEContextModificationConfirm) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UEContextModificationConfirm) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes UEContextModificationConfirm from APER format.
-func (v *UEContextModificationConfirm) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *UEContextModificationConfirm) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes UEContextModificationFailure to APER format.
-func (v *UEContextModificationFailure) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UEContextModificationFailure) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes UEContextModificationFailure from APER format.
-func (v *UEContextModificationFailure) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *UEContextModificationFailure) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes UEContextModificationIndication to APER format.
-func (v *UEContextModificationIndication) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UEContextModificationIndication) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes UEContextModificationIndication from APER format.
-func (v *UEContextModificationIndication) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *UEContextModificationIndication) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes UEContextModificationRequest to APER format.
-func (v *UEContextModificationRequest) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UEContextModificationRequest) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes UEContextModificationRequest from APER format.
-func (v *UEContextModificationRequest) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *UEContextModificationRequest) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes UEContextModificationResponse to APER format.
-func (v *UEContextModificationResponse) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UEContextModificationResponse) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes UEContextModificationResponse from APER format.
-func (v *UEContextModificationResponse) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *UEContextModificationResponse) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -11883,13 +6012,13 @@ func (v *UEContextModificationResponse) unmarshalAPERFrom(bb *per.BitBuffer) err
 // MarshalAPER encodes UEContextReleaseCommand to APER format.
 func (v *UEContextReleaseCommand) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *UEContextReleaseCommand) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *UEContextReleaseCommand) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -11898,7 +6027,7 @@ func (v *UEContextReleaseCommand) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -11928,10 +6057,10 @@ func (v *UEContextReleaseCommand) marshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UEContextReleaseCommand from APER format.
 func (v *UEContextReleaseCommand) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *UEContextReleaseCommand) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *UEContextReleaseCommand) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -11942,7 +6071,7 @@ func (v *UEContextReleaseCommand) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -11978,13 +6107,13 @@ func (v *UEContextReleaseCommand) unmarshalAPERFrom(bb *per.BitBuffer) error {
 // MarshalAPER encodes UEContextReleaseComplete to APER format.
 func (v *UEContextReleaseComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *UEContextReleaseComplete) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *UEContextReleaseComplete) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -11993,7 +6122,7 @@ func (v *UEContextReleaseComplete) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -12023,10 +6152,10 @@ func (v *UEContextReleaseComplete) marshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UEContextReleaseComplete from APER format.
 func (v *UEContextReleaseComplete) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *UEContextReleaseComplete) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *UEContextReleaseComplete) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -12037,7 +6166,7 @@ func (v *UEContextReleaseComplete) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -12070,16 +6199,16 @@ func (v *UEContextReleaseComplete) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes UEContextReleaseRequest to APER format.
-func (v *UEContextReleaseRequest) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes UEContextModificationRequest to APER format.
+func (v *UEContextModificationRequest) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *UEContextReleaseRequest) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *UEContextModificationRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -12088,7 +6217,7 @@ func (v *UEContextReleaseRequest) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -12115,13 +6244,13 @@ func (v *UEContextReleaseRequest) marshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes UEContextReleaseRequest from APER format.
-func (v *UEContextReleaseRequest) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes UEContextModificationRequest from APER format.
+func (v *UEContextModificationRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *UEContextReleaseRequest) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *UEContextModificationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -12132,7 +6261,7 @@ func (v *UEContextReleaseRequest) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -12165,16 +6294,16 @@ func (v *UEContextReleaseRequest) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes UEContextResumeFailure to APER format.
-func (v *UEContextResumeFailure) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes UEContextModificationResponse to APER format.
+func (v *UEContextModificationResponse) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *UEContextResumeFailure) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *UEContextModificationResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -12183,7 +6312,7 @@ func (v *UEContextResumeFailure) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -12210,13 +6339,13 @@ func (v *UEContextResumeFailure) marshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes UEContextResumeFailure from APER format.
-func (v *UEContextResumeFailure) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes UEContextModificationResponse from APER format.
+func (v *UEContextModificationResponse) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *UEContextResumeFailure) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *UEContextModificationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -12227,7 +6356,7 @@ func (v *UEContextResumeFailure) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -12260,16 +6389,16 @@ func (v *UEContextResumeFailure) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes UEContextResumeRequest to APER format.
-func (v *UEContextResumeRequest) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes UEContextModificationFailure to APER format.
+func (v *UEContextModificationFailure) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *UEContextResumeRequest) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *UEContextModificationFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -12278,7 +6407,7 @@ func (v *UEContextResumeRequest) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -12305,13 +6434,13 @@ func (v *UEContextResumeRequest) marshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes UEContextResumeRequest from APER format.
-func (v *UEContextResumeRequest) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes UEContextModificationFailure from APER format.
+func (v *UEContextModificationFailure) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *UEContextResumeRequest) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *UEContextModificationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -12322,577 +6451,7 @@ func (v *UEContextResumeRequest) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes UEContextResumeResponse to APER format.
-func (v *UEContextResumeResponse) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UEContextResumeResponse) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes UEContextResumeResponse from APER format.
-func (v *UEContextResumeResponse) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *UEContextResumeResponse) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes UEContextSuspendRequest to APER format.
-func (v *UEContextSuspendRequest) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UEContextSuspendRequest) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes UEContextSuspendRequest from APER format.
-func (v *UEContextSuspendRequest) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *UEContextSuspendRequest) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes UEContextSuspendResponse to APER format.
-func (v *UEContextSuspendResponse) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UEContextSuspendResponse) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes UEContextSuspendResponse from APER format.
-func (v *UEContextSuspendResponse) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *UEContextSuspendResponse) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes UEInformationTransfer to APER format.
-func (v *UEInformationTransfer) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UEInformationTransfer) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes UEInformationTransfer from APER format.
-func (v *UEInformationTransfer) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *UEInformationTransfer) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes UERadioCapabilityIDMappingRequest to APER format.
-func (v *UERadioCapabilityIDMappingRequest) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UERadioCapabilityIDMappingRequest) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes UERadioCapabilityIDMappingRequest from APER format.
-func (v *UERadioCapabilityIDMappingRequest) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *UERadioCapabilityIDMappingRequest) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes UERadioCapabilityIDMappingResponse to APER format.
-func (v *UERadioCapabilityIDMappingResponse) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UERadioCapabilityIDMappingResponse) marshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes UERadioCapabilityIDMappingResponse from APER format.
-func (v *UERadioCapabilityIDMappingResponse) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
-}
-
-func (v *UERadioCapabilityIDMappingResponse) unmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
-	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -12928,13 +6487,13 @@ func (v *UERadioCapabilityIDMappingResponse) unmarshalAPERFrom(bb *per.BitBuffer
 // MarshalAPER encodes UERadioCapabilityMatchRequest to APER format.
 func (v *UERadioCapabilityMatchRequest) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *UERadioCapabilityMatchRequest) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *UERadioCapabilityMatchRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -12943,7 +6502,7 @@ func (v *UERadioCapabilityMatchRequest) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -12973,10 +6532,10 @@ func (v *UERadioCapabilityMatchRequest) marshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UERadioCapabilityMatchRequest from APER format.
 func (v *UERadioCapabilityMatchRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *UERadioCapabilityMatchRequest) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *UERadioCapabilityMatchRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -12987,7 +6546,7 @@ func (v *UERadioCapabilityMatchRequest) unmarshalAPERFrom(bb *per.BitBuffer) err
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -13023,13 +6582,13 @@ func (v *UERadioCapabilityMatchRequest) unmarshalAPERFrom(bb *per.BitBuffer) err
 // MarshalAPER encodes UERadioCapabilityMatchResponse to APER format.
 func (v *UERadioCapabilityMatchResponse) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *UERadioCapabilityMatchResponse) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *UERadioCapabilityMatchResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -13038,7 +6597,7 @@ func (v *UERadioCapabilityMatchResponse) marshalAPERTo(bb *per.BitBuffer) error 
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -13068,10 +6627,10 @@ func (v *UERadioCapabilityMatchResponse) marshalAPERTo(bb *per.BitBuffer) error 
 // UnmarshalAPER decodes UERadioCapabilityMatchResponse from APER format.
 func (v *UERadioCapabilityMatchResponse) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *UERadioCapabilityMatchResponse) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *UERadioCapabilityMatchResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -13082,7 +6641,197 @@ func (v *UERadioCapabilityMatchResponse) unmarshalAPERFrom(bb *per.BitBuffer) er
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes DownlinkNASTransport to APER format.
+func (v *DownlinkNASTransport) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *DownlinkNASTransport) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes DownlinkNASTransport from APER format.
+func (v *DownlinkNASTransport) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *DownlinkNASTransport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes InitialUEMessage to APER format.
+func (v *InitialUEMessage) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *InitialUEMessage) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes InitialUEMessage from APER format.
+func (v *InitialUEMessage) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *InitialUEMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -13118,13 +6867,13 @@ func (v *UERadioCapabilityMatchResponse) unmarshalAPERFrom(bb *per.BitBuffer) er
 // MarshalAPER encodes UplinkNASTransport to APER format.
 func (v *UplinkNASTransport) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *UplinkNASTransport) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *UplinkNASTransport) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -13133,7 +6882,7 @@ func (v *UplinkNASTransport) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -13163,10 +6912,10 @@ func (v *UplinkNASTransport) marshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UplinkNASTransport from APER format.
 func (v *UplinkNASTransport) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *UplinkNASTransport) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *UplinkNASTransport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -13177,7 +6926,7 @@ func (v *UplinkNASTransport) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -13210,16 +6959,16 @@ func (v *UplinkNASTransport) unmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes UplinkNonUEAssociatedLPPaTransport to APER format.
-func (v *UplinkNonUEAssociatedLPPaTransport) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes NASNonDeliveryIndication to APER format.
+func (v *NASNonDeliveryIndication) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *UplinkNonUEAssociatedLPPaTransport) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *NASNonDeliveryIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -13228,7 +6977,7 @@ func (v *UplinkNonUEAssociatedLPPaTransport) marshalAPERTo(bb *per.BitBuffer) er
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -13255,13 +7004,13 @@ func (v *UplinkNonUEAssociatedLPPaTransport) marshalAPERTo(bb *per.BitBuffer) er
 	return nil
 }
 
-// UnmarshalAPER decodes UplinkNonUEAssociatedLPPaTransport from APER format.
-func (v *UplinkNonUEAssociatedLPPaTransport) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes NASNonDeliveryIndication from APER format.
+func (v *NASNonDeliveryIndication) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *UplinkNonUEAssociatedLPPaTransport) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *NASNonDeliveryIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -13272,7 +7021,1523 @@ func (v *UplinkNonUEAssociatedLPPaTransport) unmarshalAPERFrom(bb *per.BitBuffer
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes RerouteNASRequest to APER format.
+func (v *RerouteNASRequest) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *RerouteNASRequest) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes RerouteNASRequest from APER format.
+func (v *RerouteNASRequest) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *RerouteNASRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes NASDeliveryIndication to APER format.
+func (v *NASDeliveryIndication) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *NASDeliveryIndication) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes NASDeliveryIndication from APER format.
+func (v *NASDeliveryIndication) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *NASDeliveryIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes Reset to APER format.
+func (v *Reset) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *Reset) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes Reset from APER format.
+func (v *Reset) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *Reset) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ResetType to APER format.
+func (v *ResetType) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ResetType) MarshalAPERTo(bb *per.BitBuffer) error {
+	isExtension := v.Choice > 2
+	if err := per.EncodeBoolean(bb, isExtension); err != nil {
+		return err
+	}
+	if isExtension {
+		return fmt.Errorf("ResetType: extension choice %d not supported", v.Choice)
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case ResetTypeChoiceS1Interface:
+		if err := per.EncodeEnumeratedAligned(bb, int64(*v.S1Interface), 1, true); err != nil {
+			return fmt.Errorf("encoding s1-Interface: %w", err)
+		}
+	case ResetTypeChoicePartOfS1Interface:
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.PartOfS1Interface)), 1, 256); err != nil {
+			return fmt.Errorf("encoding partOfS1-Interface length: %w", err)
+		}
+		for _, elem := range v.PartOfS1Interface {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding partOfS1-Interface element: %w", err)
+			}
+		}
+	default:
+		return fmt.Errorf("unknown ResetType choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ResetType from APER format.
+func (v *ResetType) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ResetType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	isExtension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if isExtension {
+		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.Choice = int(extIdx) + 2 + 1
+		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
+			return err
+		}
+		return fmt.Errorf("ResetType: extension choice %d not supported", v.Choice)
+	}
+	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case ResetTypeChoiceS1Interface:
+		val_s1interface, err := per.DecodeEnumeratedAligned(bb, 1, true)
+		if err != nil {
+			return fmt.Errorf("decoding s1-Interface: %w", err)
+		}
+		tmp_s1interface := ResetAll(val_s1interface)
+		v.S1Interface = &tmp_s1interface
+	case ResetTypeChoicePartOfS1Interface:
+		seqLen_partofs1interface, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+		if err != nil {
+			return fmt.Errorf("decoding partOfS1-Interface length: %w", err)
+		}
+		tmp_partofs1interface := make(UEAssociatedLogicalS1ConnectionListRes, seqLen_partofs1interface)
+		for i := int64(0); i < seqLen_partofs1interface; i++ {
+			if err := tmp_partofs1interface[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding partOfS1-Interface element: %w", err)
+			}
+		}
+		v.PartOfS1Interface = tmp_partofs1interface
+	}
+	return nil
+}
+
+// MarshalAPER encodes ResetAcknowledge to APER format.
+func (v *ResetAcknowledge) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ResetAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ResetAcknowledge from APER format.
+func (v *ResetAcknowledge) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ResetAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ErrorIndication to APER format.
+func (v *ErrorIndication) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ErrorIndication) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ErrorIndication from APER format.
+func (v *ErrorIndication) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ErrorIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes S1SetupRequest to APER format.
+func (v *S1SetupRequest) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *S1SetupRequest) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes S1SetupRequest from APER format.
+func (v *S1SetupRequest) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *S1SetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes S1SetupResponse to APER format.
+func (v *S1SetupResponse) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *S1SetupResponse) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes S1SetupResponse from APER format.
+func (v *S1SetupResponse) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *S1SetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes S1SetupFailure to APER format.
+func (v *S1SetupFailure) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *S1SetupFailure) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes S1SetupFailure from APER format.
+func (v *S1SetupFailure) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *S1SetupFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ENBConfigurationUpdate to APER format.
+func (v *ENBConfigurationUpdate) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ENBConfigurationUpdate) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ENBConfigurationUpdate from APER format.
+func (v *ENBConfigurationUpdate) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ENBConfigurationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ENBConfigurationUpdateAcknowledge to APER format.
+func (v *ENBConfigurationUpdateAcknowledge) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ENBConfigurationUpdateAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ENBConfigurationUpdateAcknowledge from APER format.
+func (v *ENBConfigurationUpdateAcknowledge) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ENBConfigurationUpdateAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ENBConfigurationUpdateFailure to APER format.
+func (v *ENBConfigurationUpdateFailure) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ENBConfigurationUpdateFailure) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ENBConfigurationUpdateFailure from APER format.
+func (v *ENBConfigurationUpdateFailure) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ENBConfigurationUpdateFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes MMEConfigurationUpdate to APER format.
+func (v *MMEConfigurationUpdate) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *MMEConfigurationUpdate) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes MMEConfigurationUpdate from APER format.
+func (v *MMEConfigurationUpdate) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *MMEConfigurationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes MMEConfigurationUpdateAcknowledge to APER format.
+func (v *MMEConfigurationUpdateAcknowledge) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *MMEConfigurationUpdateAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes MMEConfigurationUpdateAcknowledge from APER format.
+func (v *MMEConfigurationUpdateAcknowledge) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *MMEConfigurationUpdateAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes MMEConfigurationUpdateFailure to APER format.
+func (v *MMEConfigurationUpdateFailure) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *MMEConfigurationUpdateFailure) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes MMEConfigurationUpdateFailure from APER format.
+func (v *MMEConfigurationUpdateFailure) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *MMEConfigurationUpdateFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes DownlinkS1cdma2000tunnelling to APER format.
+func (v *DownlinkS1cdma2000tunnelling) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *DownlinkS1cdma2000tunnelling) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes DownlinkS1cdma2000tunnelling from APER format.
+func (v *DownlinkS1cdma2000tunnelling) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *DownlinkS1cdma2000tunnelling) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -13308,13 +8573,13 @@ func (v *UplinkNonUEAssociatedLPPaTransport) unmarshalAPERFrom(bb *per.BitBuffer
 // MarshalAPER encodes UplinkS1cdma2000tunnelling to APER format.
 func (v *UplinkS1cdma2000tunnelling) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *UplinkS1cdma2000tunnelling) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *UplinkS1cdma2000tunnelling) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -13323,7 +8588,7 @@ func (v *UplinkS1cdma2000tunnelling) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -13353,10 +8618,10 @@ func (v *UplinkS1cdma2000tunnelling) marshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UplinkS1cdma2000tunnelling from APER format.
 func (v *UplinkS1cdma2000tunnelling) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *UplinkS1cdma2000tunnelling) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *UplinkS1cdma2000tunnelling) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -13367,7 +8632,7 @@ func (v *UplinkS1cdma2000tunnelling) unmarshalAPERFrom(bb *per.BitBuffer) error 
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -13400,16 +8665,16 @@ func (v *UplinkS1cdma2000tunnelling) unmarshalAPERFrom(bb *per.BitBuffer) error 
 	return nil
 }
 
-// MarshalAPER encodes UplinkUEAssociatedLPPaTransport to APER format.
-func (v *UplinkUEAssociatedLPPaTransport) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes UECapabilityInfoIndication to APER format.
+func (v *UECapabilityInfoIndication) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *UplinkUEAssociatedLPPaTransport) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *UECapabilityInfoIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -13418,7 +8683,7 @@ func (v *UplinkUEAssociatedLPPaTransport) marshalAPERTo(bb *per.BitBuffer) error
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -13445,13 +8710,13 @@ func (v *UplinkUEAssociatedLPPaTransport) marshalAPERTo(bb *per.BitBuffer) error
 	return nil
 }
 
-// UnmarshalAPER decodes UplinkUEAssociatedLPPaTransport from APER format.
-func (v *UplinkUEAssociatedLPPaTransport) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes UECapabilityInfoIndication from APER format.
+func (v *UECapabilityInfoIndication) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *UplinkUEAssociatedLPPaTransport) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *UECapabilityInfoIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -13462,7 +8727,1052 @@ func (v *UplinkUEAssociatedLPPaTransport) unmarshalAPERFrom(bb *per.BitBuffer) e
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ENBStatusTransfer to APER format.
+func (v *ENBStatusTransfer) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ENBStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ENBStatusTransfer from APER format.
+func (v *ENBStatusTransfer) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ENBStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes MMEStatusTransfer to APER format.
+func (v *MMEStatusTransfer) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *MMEStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes MMEStatusTransfer from APER format.
+func (v *MMEStatusTransfer) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *MMEStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes TraceStart to APER format.
+func (v *TraceStart) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *TraceStart) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes TraceStart from APER format.
+func (v *TraceStart) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *TraceStart) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes TraceFailureIndication to APER format.
+func (v *TraceFailureIndication) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *TraceFailureIndication) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes TraceFailureIndication from APER format.
+func (v *TraceFailureIndication) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *TraceFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes DeactivateTrace to APER format.
+func (v *DeactivateTrace) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *DeactivateTrace) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes DeactivateTrace from APER format.
+func (v *DeactivateTrace) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *DeactivateTrace) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes CellTrafficTrace to APER format.
+func (v *CellTrafficTrace) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *CellTrafficTrace) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes CellTrafficTrace from APER format.
+func (v *CellTrafficTrace) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *CellTrafficTrace) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes LocationReportingControl to APER format.
+func (v *LocationReportingControl) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *LocationReportingControl) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes LocationReportingControl from APER format.
+func (v *LocationReportingControl) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *LocationReportingControl) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes LocationReportingFailureIndication to APER format.
+func (v *LocationReportingFailureIndication) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *LocationReportingFailureIndication) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes LocationReportingFailureIndication from APER format.
+func (v *LocationReportingFailureIndication) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *LocationReportingFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes LocationReport to APER format.
+func (v *LocationReport) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *LocationReport) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes LocationReport from APER format.
+func (v *LocationReport) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *LocationReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes OverloadStart to APER format.
+func (v *OverloadStart) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *OverloadStart) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes OverloadStart from APER format.
+func (v *OverloadStart) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *OverloadStart) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes OverloadStop to APER format.
+func (v *OverloadStop) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *OverloadStop) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes OverloadStop from APER format.
+func (v *OverloadStop) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *OverloadStop) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -13498,13 +9808,13 @@ func (v *UplinkUEAssociatedLPPaTransport) unmarshalAPERFrom(bb *per.BitBuffer) e
 // MarshalAPER encodes WriteReplaceWarningRequest to APER format.
 func (v *WriteReplaceWarningRequest) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *WriteReplaceWarningRequest) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *WriteReplaceWarningRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -13513,7 +9823,7 @@ func (v *WriteReplaceWarningRequest) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -13543,10 +9853,10 @@ func (v *WriteReplaceWarningRequest) marshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes WriteReplaceWarningRequest from APER format.
 func (v *WriteReplaceWarningRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *WriteReplaceWarningRequest) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *WriteReplaceWarningRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -13557,7 +9867,7 @@ func (v *WriteReplaceWarningRequest) unmarshalAPERFrom(bb *per.BitBuffer) error 
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}
@@ -13593,13 +9903,13 @@ func (v *WriteReplaceWarningRequest) unmarshalAPERFrom(bb *per.BitBuffer) error 
 // MarshalAPER encodes WriteReplaceWarningResponse to APER format.
 func (v *WriteReplaceWarningResponse) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *WriteReplaceWarningResponse) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *WriteReplaceWarningResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -13608,7 +9918,7 @@ func (v *WriteReplaceWarningResponse) marshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs length: %w", err)
 	}
 	for _, elem := range v.ProtocolIEs {
-		if err := elem.marshalAPERTo(bb); err != nil {
+		if err := elem.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding protocolIEs element: %w", err)
 		}
 	}
@@ -13638,10 +9948,10 @@ func (v *WriteReplaceWarningResponse) marshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes WriteReplaceWarningResponse from APER format.
 func (v *WriteReplaceWarningResponse) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *WriteReplaceWarningResponse) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *WriteReplaceWarningResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -13652,7 +9962,3998 @@ func (v *WriteReplaceWarningResponse) unmarshalAPERFrom(bb *per.BitBuffer) error
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].unmarshalAPERFrom(bb); err != nil {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ENBDirectInformationTransfer to APER format.
+func (v *ENBDirectInformationTransfer) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ENBDirectInformationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ENBDirectInformationTransfer from APER format.
+func (v *ENBDirectInformationTransfer) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ENBDirectInformationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes InterSystemInformationTransferType to APER format.
+func (v *InterSystemInformationTransferType) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *InterSystemInformationTransferType) MarshalAPERTo(bb *per.BitBuffer) error {
+	isExtension := v.Choice > 1
+	if err := per.EncodeBoolean(bb, isExtension); err != nil {
+		return err
+	}
+	if isExtension {
+		return fmt.Errorf("InterSystemInformationTransferType: extension choice %d not supported", v.Choice)
+	}
+	switch v.Choice {
+	case InterSystemInformationTransferTypeChoiceRIMTransfer:
+		if err := v.RIMTransfer.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding rIMTransfer: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown InterSystemInformationTransferType choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes InterSystemInformationTransferType from APER format.
+func (v *InterSystemInformationTransferType) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *InterSystemInformationTransferType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	isExtension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if isExtension {
+		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.Choice = int(extIdx) + 1 + 1
+		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
+			return err
+		}
+		return fmt.Errorf("InterSystemInformationTransferType: extension choice %d not supported", v.Choice)
+	}
+	v.Choice = 1
+	switch v.Choice {
+	case InterSystemInformationTransferTypeChoiceRIMTransfer:
+		var dec_rimtransfer RIMTransfer
+		if err := dec_rimtransfer.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding rIMTransfer: %w", err)
+		}
+		v.RIMTransfer = &dec_rimtransfer
+	}
+	return nil
+}
+
+// MarshalAPER encodes MMEDirectInformationTransfer to APER format.
+func (v *MMEDirectInformationTransfer) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *MMEDirectInformationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes MMEDirectInformationTransfer from APER format.
+func (v *MMEDirectInformationTransfer) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *MMEDirectInformationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ENBConfigurationTransfer to APER format.
+func (v *ENBConfigurationTransfer) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ENBConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ENBConfigurationTransfer from APER format.
+func (v *ENBConfigurationTransfer) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ENBConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes MMEConfigurationTransfer to APER format.
+func (v *MMEConfigurationTransfer) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *MMEConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes MMEConfigurationTransfer from APER format.
+func (v *MMEConfigurationTransfer) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *MMEConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes PrivateMessage to APER format.
+func (v *PrivateMessage) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PrivateMessage) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.PrivateIEs)), 1, 65535); err != nil {
+		return fmt.Errorf("encoding privateIEs length: %w", err)
+	}
+	for _, elem := range v.PrivateIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding privateIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes PrivateMessage from APER format.
+func (v *PrivateMessage) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *PrivateMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_privateies, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding privateIEs length: %w", err)
+	}
+	v.PrivateIEs = make(PrivateIEContainer, seqLen_privateies)
+	for i := int64(0); i < seqLen_privateies; i++ {
+		if err := v.PrivateIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding privateIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes KillRequest to APER format.
+func (v *KillRequest) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *KillRequest) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes KillRequest from APER format.
+func (v *KillRequest) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *KillRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes KillResponse to APER format.
+func (v *KillResponse) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *KillResponse) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes KillResponse from APER format.
+func (v *KillResponse) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *KillResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes PWSRestartIndication to APER format.
+func (v *PWSRestartIndication) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PWSRestartIndication) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes PWSRestartIndication from APER format.
+func (v *PWSRestartIndication) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *PWSRestartIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes PWSFailureIndication to APER format.
+func (v *PWSFailureIndication) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PWSFailureIndication) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes PWSFailureIndication from APER format.
+func (v *PWSFailureIndication) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *PWSFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes DownlinkUEAssociatedLPPaTransport to APER format.
+func (v *DownlinkUEAssociatedLPPaTransport) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *DownlinkUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes DownlinkUEAssociatedLPPaTransport from APER format.
+func (v *DownlinkUEAssociatedLPPaTransport) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *DownlinkUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes UplinkUEAssociatedLPPaTransport to APER format.
+func (v *UplinkUEAssociatedLPPaTransport) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UplinkUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes UplinkUEAssociatedLPPaTransport from APER format.
+func (v *UplinkUEAssociatedLPPaTransport) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *UplinkUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes DownlinkNonUEAssociatedLPPaTransport to APER format.
+func (v *DownlinkNonUEAssociatedLPPaTransport) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *DownlinkNonUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes DownlinkNonUEAssociatedLPPaTransport from APER format.
+func (v *DownlinkNonUEAssociatedLPPaTransport) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *DownlinkNonUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes UplinkNonUEAssociatedLPPaTransport to APER format.
+func (v *UplinkNonUEAssociatedLPPaTransport) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UplinkNonUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes UplinkNonUEAssociatedLPPaTransport from APER format.
+func (v *UplinkNonUEAssociatedLPPaTransport) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *UplinkNonUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ERABModificationIndication to APER format.
+func (v *ERABModificationIndication) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ERABModificationIndication) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ERABModificationIndication from APER format.
+func (v *ERABModificationIndication) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ERABModificationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ERABToBeModifiedItemBearerModInd to APER format.
+func (v *ERABToBeModifiedItemBearerModInd) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ERABToBeModifiedItemBearerModInd) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
+		return fmt.Errorf("encoding e-RAB-ID: %w", err)
+	}
+	if err := per.EncodeBitStringAligned(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true); err != nil {
+		return fmt.Errorf("encoding transportLayerAddress: %w", err)
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.DLGTPTEID), 4, 4, true); err != nil {
+		return fmt.Errorf("encoding dL-GTP-TEID: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ERABToBeModifiedItemBearerModInd from APER format.
+func (v *ERABToBeModifiedItemBearerModInd) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ERABToBeModifiedItemBearerModInd) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
+	if err != nil {
+		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+	}
+	v.ERABID = val_erabid
+	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAligned(bb, 1, 160, true)
+	if err != nil {
+		return fmt.Errorf("decoding transportLayerAddress: %w", err)
+	}
+	v.TransportLayerAddress = runtime.BitString{Bytes: bsBytes_transportlayeraddress, BitLength: bsBitLen_transportlayeraddress}
+	val_dlgtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+	if err != nil {
+		return fmt.Errorf("decoding dL-GTP-TEID: %w", err)
+	}
+	v.DLGTPTEID = GTPTEID(val_dlgtpteid)
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ERABNotToBeModifiedItemBearerModInd to APER format.
+func (v *ERABNotToBeModifiedItemBearerModInd) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ERABNotToBeModifiedItemBearerModInd) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
+		return fmt.Errorf("encoding e-RAB-ID: %w", err)
+	}
+	if err := per.EncodeBitStringAligned(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true); err != nil {
+		return fmt.Errorf("encoding transportLayerAddress: %w", err)
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.DLGTPTEID), 4, 4, true); err != nil {
+		return fmt.Errorf("encoding dL-GTP-TEID: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ERABNotToBeModifiedItemBearerModInd from APER format.
+func (v *ERABNotToBeModifiedItemBearerModInd) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ERABNotToBeModifiedItemBearerModInd) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
+	if err != nil {
+		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+	}
+	v.ERABID = val_erabid
+	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAligned(bb, 1, 160, true)
+	if err != nil {
+		return fmt.Errorf("decoding transportLayerAddress: %w", err)
+	}
+	v.TransportLayerAddress = runtime.BitString{Bytes: bsBytes_transportlayeraddress, BitLength: bsBitLen_transportlayeraddress}
+	val_dlgtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+	if err != nil {
+		return fmt.Errorf("decoding dL-GTP-TEID: %w", err)
+	}
+	v.DLGTPTEID = GTPTEID(val_dlgtpteid)
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes CSGMembershipInfo to APER format.
+func (v *CSGMembershipInfo) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *CSGMembershipInfo) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.CellAccessMode != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.PLMNidentity != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.CSGMembershipStatus), 2, false); err != nil {
+		return fmt.Errorf("encoding cSGMembershipStatus: %w", err)
+	}
+	if err := per.EncodeBitStringAligned(bb, v.CSGId.Bytes, v.CSGId.BitLength, 27, 27, true); err != nil {
+		return fmt.Errorf("encoding cSG-Id: %w", err)
+	}
+	if v.CellAccessMode != nil {
+		if err := per.EncodeEnumeratedAligned(bb, int64(*v.CellAccessMode), 1, true); err != nil {
+			return fmt.Errorf("encoding cellAccessMode: %w", err)
+		}
+	}
+	if v.PLMNidentity != nil {
+		if err := per.EncodeOctetStringAligned(bb, []byte(*v.PLMNidentity), 0, 0, false); err != nil {
+			return fmt.Errorf("encoding pLMNidentity: %w", err)
+		}
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes CSGMembershipInfo from APER format.
+func (v *CSGMembershipInfo) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *CSGMembershipInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_cellaccessmode, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_plmnidentity, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_csgmembershipstatus, err := per.DecodeEnumeratedAligned(bb, 2, false)
+	if err != nil {
+		return fmt.Errorf("decoding cSGMembershipStatus: %w", err)
+	}
+	v.CSGMembershipStatus = CSGMembershipStatus(val_csgmembershipstatus)
+	bsBytes_csgid, bsBitLen_csgid, err := per.DecodeBitStringAligned(bb, 27, 27, true)
+	if err != nil {
+		return fmt.Errorf("decoding cSG-Id: %w", err)
+	}
+	v.CSGId = runtime.BitString{Bytes: bsBytes_csgid, BitLength: bsBitLen_csgid}
+	if opt_cellaccessmode {
+		val_cellaccessmode, err := per.DecodeEnumeratedAligned(bb, 1, true)
+		if err != nil {
+			return fmt.Errorf("decoding cellAccessMode: %w", err)
+		}
+		tmp_cellaccessmode := CellAccessMode(val_cellaccessmode)
+		v.CellAccessMode = &tmp_cellaccessmode
+	}
+	if opt_plmnidentity {
+		val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+		if err != nil {
+			return fmt.Errorf("decoding pLMNidentity: %w", err)
+		}
+		tmp_plmnidentity := PLMNidentity(val_plmnidentity)
+		v.PLMNidentity = &tmp_plmnidentity
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ERABModificationConfirm to APER format.
+func (v *ERABModificationConfirm) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ERABModificationConfirm) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ERABModificationConfirm from APER format.
+func (v *ERABModificationConfirm) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ERABModificationConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ERABModifyItemBearerModConf to APER format.
+func (v *ERABModifyItemBearerModConf) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ERABModifyItemBearerModConf) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
+		return fmt.Errorf("encoding e-RAB-ID: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ERABModifyItemBearerModConf from APER format.
+func (v *ERABModifyItemBearerModConf) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ERABModifyItemBearerModConf) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
+	if err != nil {
+		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+	}
+	v.ERABID = val_erabid
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes UEContextModificationIndication to APER format.
+func (v *UEContextModificationIndication) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UEContextModificationIndication) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes UEContextModificationIndication from APER format.
+func (v *UEContextModificationIndication) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *UEContextModificationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes UEContextModificationConfirm to APER format.
+func (v *UEContextModificationConfirm) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UEContextModificationConfirm) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes UEContextModificationConfirm from APER format.
+func (v *UEContextModificationConfirm) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *UEContextModificationConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes UEContextSuspendRequest to APER format.
+func (v *UEContextSuspendRequest) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UEContextSuspendRequest) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes UEContextSuspendRequest from APER format.
+func (v *UEContextSuspendRequest) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *UEContextSuspendRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes UEContextSuspendResponse to APER format.
+func (v *UEContextSuspendResponse) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UEContextSuspendResponse) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes UEContextSuspendResponse from APER format.
+func (v *UEContextSuspendResponse) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *UEContextSuspendResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes UEContextResumeRequest to APER format.
+func (v *UEContextResumeRequest) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UEContextResumeRequest) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes UEContextResumeRequest from APER format.
+func (v *UEContextResumeRequest) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *UEContextResumeRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ERABFailedToResumeItemResumeReq to APER format.
+func (v *ERABFailedToResumeItemResumeReq) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ERABFailedToResumeItemResumeReq) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
+		return fmt.Errorf("encoding e-RAB-ID: %w", err)
+	}
+	if err := v.Cause.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding cause: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ERABFailedToResumeItemResumeReq from APER format.
+func (v *ERABFailedToResumeItemResumeReq) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ERABFailedToResumeItemResumeReq) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
+	if err != nil {
+		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+	}
+	v.ERABID = val_erabid
+	if err := v.Cause.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding cause: %w", err)
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes UEContextResumeResponse to APER format.
+func (v *UEContextResumeResponse) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UEContextResumeResponse) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes UEContextResumeResponse from APER format.
+func (v *UEContextResumeResponse) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *UEContextResumeResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ERABFailedToResumeItemResumeRes to APER format.
+func (v *ERABFailedToResumeItemResumeRes) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ERABFailedToResumeItemResumeRes) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
+		return fmt.Errorf("encoding e-RAB-ID: %w", err)
+	}
+	if err := v.Cause.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding cause: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ERABFailedToResumeItemResumeRes from APER format.
+func (v *ERABFailedToResumeItemResumeRes) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ERABFailedToResumeItemResumeRes) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
+	if err != nil {
+		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+	}
+	v.ERABID = val_erabid
+	if err := v.Cause.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding cause: %w", err)
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes UEContextResumeFailure to APER format.
+func (v *UEContextResumeFailure) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UEContextResumeFailure) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes UEContextResumeFailure from APER format.
+func (v *UEContextResumeFailure) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *UEContextResumeFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ConnectionEstablishmentIndication to APER format.
+func (v *ConnectionEstablishmentIndication) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ConnectionEstablishmentIndication) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ConnectionEstablishmentIndication from APER format.
+func (v *ConnectionEstablishmentIndication) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ConnectionEstablishmentIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes RetrieveUEInformation to APER format.
+func (v *RetrieveUEInformation) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *RetrieveUEInformation) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes RetrieveUEInformation from APER format.
+func (v *RetrieveUEInformation) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *RetrieveUEInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes UEInformationTransfer to APER format.
+func (v *UEInformationTransfer) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UEInformationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes UEInformationTransfer from APER format.
+func (v *UEInformationTransfer) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *UEInformationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ENBCPRelocationIndication to APER format.
+func (v *ENBCPRelocationIndication) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ENBCPRelocationIndication) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ENBCPRelocationIndication from APER format.
+func (v *ENBCPRelocationIndication) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ENBCPRelocationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes MMECPRelocationIndication to APER format.
+func (v *MMECPRelocationIndication) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *MMECPRelocationIndication) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes MMECPRelocationIndication from APER format.
+func (v *MMECPRelocationIndication) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *MMECPRelocationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes SecondaryRATDataUsageReport to APER format.
+func (v *SecondaryRATDataUsageReport) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SecondaryRATDataUsageReport) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes SecondaryRATDataUsageReport from APER format.
+func (v *SecondaryRATDataUsageReport) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *SecondaryRATDataUsageReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes UERadioCapabilityIDMappingRequest to APER format.
+func (v *UERadioCapabilityIDMappingRequest) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UERadioCapabilityIDMappingRequest) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes UERadioCapabilityIDMappingRequest from APER format.
+func (v *UERadioCapabilityIDMappingRequest) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *UERadioCapabilityIDMappingRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes UERadioCapabilityIDMappingResponse to APER format.
+func (v *UERadioCapabilityIDMappingResponse) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UERadioCapabilityIDMappingResponse) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes UERadioCapabilityIDMappingResponse from APER format.
+func (v *UERadioCapabilityIDMappingResponse) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *UERadioCapabilityIDMappingResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes S1RemovalRequest to APER format.
+func (v *S1RemovalRequest) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *S1RemovalRequest) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes S1RemovalRequest from APER format.
+func (v *S1RemovalRequest) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *S1RemovalRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes S1RemovalResponse to APER format.
+func (v *S1RemovalResponse) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *S1RemovalResponse) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes S1RemovalResponse from APER format.
+func (v *S1RemovalResponse) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *S1RemovalResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes S1RemovalFailure to APER format.
+func (v *S1RemovalFailure) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *S1RemovalFailure) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes S1RemovalFailure from APER format.
+func (v *S1RemovalFailure) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *S1RemovalFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding protocolIEs element: %w", err)
 		}
 	}

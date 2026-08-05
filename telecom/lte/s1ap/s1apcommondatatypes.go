@@ -122,13 +122,13 @@ func (v TriggeringMessage) String() string {
 // MarshalAPER encodes PrivateIEID to APER format.
 func (v *PrivateIEID) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalAPERTo(bb); err != nil {
+	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *PrivateIEID) marshalAPERTo(bb *per.BitBuffer) error {
+func (v *PrivateIEID) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -138,7 +138,9 @@ func (v *PrivateIEID) marshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding local: %w", err)
 		}
 	case PrivateIEIDChoiceGlobal:
-		// TODO: APER encode OBJECT_IDENTIFIER type  for field global
+		if err := per.EncodeObjectIdentifierAligned(bb, []uint64(v.Global)); err != nil {
+			return fmt.Errorf("encoding global: %w", err)
+		}
 	default:
 		return fmt.Errorf("unknown PrivateIEID choice %d", v.Choice)
 	}
@@ -148,10 +150,10 @@ func (v *PrivateIEID) marshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes PrivateIEID from APER format.
 func (v *PrivateIEID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalAPERFrom(bb)
+	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *PrivateIEID) unmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *PrivateIEID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
 		return err
@@ -165,7 +167,11 @@ func (v *PrivateIEID) unmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		v.Local = &val_local
 	case PrivateIEIDChoiceGlobal:
-		// TODO: APER decode OBJECT_IDENTIFIER type  for field global
+		val_global, err := per.DecodeObjectIdentifierAligned(bb)
+		if err != nil {
+			return fmt.Errorf("decoding global: %w", err)
+		}
+		v.Global = runtime.ObjectIdentifier(val_global)
 	}
 	return nil
 }
