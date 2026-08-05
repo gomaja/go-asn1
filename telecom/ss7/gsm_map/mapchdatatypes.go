@@ -1743,17 +1743,22 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte) error {
 	}
 	// Decode extendedRoutingInfo
 	if offset < len(content) {
-		// Decode nested CHOICE (ExtendedRoutingInfo)
-		_, n_extendedroutinginfo, _, tlvErr_extendedroutinginfo := ber.DecodeTLV(content[offset:])
-		if tlvErr_extendedroutinginfo != nil {
-			return fmt.Errorf("decoding extendedRoutingInfo: %w", tlvErr_extendedroutinginfo)
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) {
+				// Decode nested CHOICE (ExtendedRoutingInfo)
+				_, n_extendedroutinginfo, _, tlvErr_extendedroutinginfo := ber.DecodeTLV(content[offset:])
+				if tlvErr_extendedroutinginfo != nil {
+					return fmt.Errorf("decoding extendedRoutingInfo: %w", tlvErr_extendedroutinginfo)
+				}
+				var dec_extendedroutinginfo ExtendedRoutingInfo
+				if unmErr := dec_extendedroutinginfo.UnmarshalBER(content[offset : offset+n_extendedroutinginfo]); unmErr != nil {
+					return fmt.Errorf("decoding extendedRoutingInfo: %w", unmErr)
+				}
+				v.ExtendedRoutingInfo = &dec_extendedroutinginfo
+				offset += n_extendedroutinginfo
+			}
 		}
-		var dec_extendedroutinginfo ExtendedRoutingInfo
-		if unmErr := dec_extendedroutinginfo.UnmarshalBER(content[offset : offset+n_extendedroutinginfo]); unmErr != nil {
-			return fmt.Errorf("decoding extendedRoutingInfo: %w", unmErr)
-		}
-		v.ExtendedRoutingInfo = &dec_extendedroutinginfo
-		offset += n_extendedroutinginfo
 	}
 	// Decode cug-CheckInfo
 	if offset < len(content) {

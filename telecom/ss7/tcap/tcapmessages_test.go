@@ -128,3 +128,21 @@ func TestAUDTApduUserInformationRequiresSequence(t *testing.T) {
 		t.Fatalf("decoded user-information: got %+v", got)
 	}
 }
+
+func TestComponentPortionUsesApplicationTag(t *testing.T) {
+	got, err := MarshalBERComponentPortion(nil)
+	if err != nil {
+		t.Fatalf("MarshalBERComponentPortion: %v", err)
+	}
+	want := []byte{0x6c, 0x00}
+	if !bytes.Equal(got, want) {
+		t.Fatalf("MarshalBERComponentPortion = % x, want % x", got, want)
+	}
+
+	if _, err := UnmarshalBERComponentPortion(want); err != nil {
+		t.Fatalf("UnmarshalBERComponentPortion application tag: %v", err)
+	}
+	if decoded, err := UnmarshalBERComponentPortion([]byte{0x30, 0x00}); err == nil {
+		t.Fatalf("UnmarshalBERComponentPortion universal sequence = %+v, nil error", decoded)
+	}
+}

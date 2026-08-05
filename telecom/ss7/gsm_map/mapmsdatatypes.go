@@ -6571,17 +6571,22 @@ func (v *SendIdentificationRes) UnmarshalBER(data []byte) error {
 	}
 	// Decode authenticationSetList
 	if offset < len(content) {
-		// Decode nested CHOICE (AuthenticationSetList)
-		_, n_authenticationsetlist, _, tlvErr_authenticationsetlist := ber.DecodeTLV(content[offset:])
-		if tlvErr_authenticationsetlist != nil {
-			return fmt.Errorf("decoding authenticationSetList: %w", tlvErr_authenticationsetlist)
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
+				// Decode nested CHOICE (AuthenticationSetList)
+				_, n_authenticationsetlist, _, tlvErr_authenticationsetlist := ber.DecodeTLV(content[offset:])
+				if tlvErr_authenticationsetlist != nil {
+					return fmt.Errorf("decoding authenticationSetList: %w", tlvErr_authenticationsetlist)
+				}
+				var dec_authenticationsetlist AuthenticationSetList
+				if unmErr := dec_authenticationsetlist.UnmarshalBER(content[offset : offset+n_authenticationsetlist]); unmErr != nil {
+					return fmt.Errorf("decoding authenticationSetList: %w", unmErr)
+				}
+				v.AuthenticationSetList = &dec_authenticationsetlist
+				offset += n_authenticationsetlist
+			}
 		}
-		var dec_authenticationsetlist AuthenticationSetList
-		if unmErr := dec_authenticationsetlist.UnmarshalBER(content[offset : offset+n_authenticationsetlist]); unmErr != nil {
-			return fmt.Errorf("decoding authenticationSetList: %w", unmErr)
-		}
-		v.AuthenticationSetList = &dec_authenticationsetlist
-		offset += n_authenticationsetlist
 	}
 	// Decode currentSecurityContext
 	if offset < len(content) {
@@ -13435,17 +13440,22 @@ func (v *SendAuthenticationInfoRes) UnmarshalBER(data []byte) error {
 	offset := 0
 	// Decode authenticationSetList
 	if offset < len(content) {
-		// Decode nested CHOICE (AuthenticationSetList)
-		_, n_authenticationsetlist, _, tlvErr_authenticationsetlist := ber.DecodeTLV(content[offset:])
-		if tlvErr_authenticationsetlist != nil {
-			return fmt.Errorf("decoding authenticationSetList: %w", tlvErr_authenticationsetlist)
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
+				// Decode nested CHOICE (AuthenticationSetList)
+				_, n_authenticationsetlist, _, tlvErr_authenticationsetlist := ber.DecodeTLV(content[offset:])
+				if tlvErr_authenticationsetlist != nil {
+					return fmt.Errorf("decoding authenticationSetList: %w", tlvErr_authenticationsetlist)
+				}
+				var dec_authenticationsetlist AuthenticationSetList
+				if unmErr := dec_authenticationsetlist.UnmarshalBER(content[offset : offset+n_authenticationsetlist]); unmErr != nil {
+					return fmt.Errorf("decoding authenticationSetList: %w", unmErr)
+				}
+				v.AuthenticationSetList = &dec_authenticationsetlist
+				offset += n_authenticationsetlist
+			}
 		}
-		var dec_authenticationsetlist AuthenticationSetList
-		if unmErr := dec_authenticationsetlist.UnmarshalBER(content[offset : offset+n_authenticationsetlist]); unmErr != nil {
-			return fmt.Errorf("decoding authenticationSetList: %w", unmErr)
-		}
-		v.AuthenticationSetList = &dec_authenticationsetlist
-		offset += n_authenticationsetlist
 	}
 	// Decode extensionContainer
 	if offset < len(content) {
@@ -21145,17 +21155,22 @@ func (v *ExtForwFeature) UnmarshalBER(data []byte) error {
 	offset := 0
 	// Decode basicService
 	if offset < len(content) {
-		// Decode nested CHOICE (ExtBasicServiceCode)
-		_, n_basicservice, _, tlvErr_basicservice := ber.DecodeTLV(content[offset:])
-		if tlvErr_basicservice != nil {
-			return fmt.Errorf("decoding basicService: %w", tlvErr_basicservice)
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) {
+				// Decode nested CHOICE (ExtBasicServiceCode)
+				_, n_basicservice, _, tlvErr_basicservice := ber.DecodeTLV(content[offset:])
+				if tlvErr_basicservice != nil {
+					return fmt.Errorf("decoding basicService: %w", tlvErr_basicservice)
+				}
+				var dec_basicservice ExtBasicServiceCode
+				if unmErr := dec_basicservice.UnmarshalBER(content[offset : offset+n_basicservice]); unmErr != nil {
+					return fmt.Errorf("decoding basicService: %w", unmErr)
+				}
+				v.BasicService = &dec_basicservice
+				offset += n_basicservice
+			}
 		}
-		var dec_basicservice ExtBasicServiceCode
-		if unmErr := dec_basicservice.UnmarshalBER(content[offset : offset+n_basicservice]); unmErr != nil {
-			return fmt.Errorf("decoding basicService: %w", unmErr)
-		}
-		v.BasicService = &dec_basicservice
-		offset += n_basicservice
 	}
 	// Decode ss-Status
 	if offset >= len(content) {
@@ -21492,17 +21507,22 @@ func (v *ExtCallBarringFeature) UnmarshalBER(data []byte) error {
 	offset := 0
 	// Decode basicService
 	if offset < len(content) {
-		// Decode nested CHOICE (ExtBasicServiceCode)
-		_, n_basicservice, _, tlvErr_basicservice := ber.DecodeTLV(content[offset:])
-		if tlvErr_basicservice != nil {
-			return fmt.Errorf("decoding basicService: %w", tlvErr_basicservice)
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) {
+				// Decode nested CHOICE (ExtBasicServiceCode)
+				_, n_basicservice, _, tlvErr_basicservice := ber.DecodeTLV(content[offset:])
+				if tlvErr_basicservice != nil {
+					return fmt.Errorf("decoding basicService: %w", tlvErr_basicservice)
+				}
+				var dec_basicservice ExtBasicServiceCode
+				if unmErr := dec_basicservice.UnmarshalBER(content[offset : offset+n_basicservice]); unmErr != nil {
+					return fmt.Errorf("decoding basicService: %w", unmErr)
+				}
+				v.BasicService = &dec_basicservice
+				offset += n_basicservice
+			}
 		}
-		var dec_basicservice ExtBasicServiceCode
-		if unmErr := dec_basicservice.UnmarshalBER(content[offset : offset+n_basicservice]); unmErr != nil {
-			return fmt.Errorf("decoding basicService: %w", unmErr)
-		}
-		v.BasicService = &dec_basicservice
-		offset += n_basicservice
 	}
 	// Decode ss-Status
 	if offset >= len(content) {
@@ -21998,17 +22018,22 @@ func (v *CUGFeature) UnmarshalBER(data []byte) error {
 	offset := 0
 	// Decode basicService
 	if offset < len(content) {
-		// Decode nested CHOICE (ExtBasicServiceCode)
-		_, n_basicservice, _, tlvErr_basicservice := ber.DecodeTLV(content[offset:])
-		if tlvErr_basicservice != nil {
-			return fmt.Errorf("decoding basicService: %w", tlvErr_basicservice)
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) {
+				// Decode nested CHOICE (ExtBasicServiceCode)
+				_, n_basicservice, _, tlvErr_basicservice := ber.DecodeTLV(content[offset:])
+				if tlvErr_basicservice != nil {
+					return fmt.Errorf("decoding basicService: %w", tlvErr_basicservice)
+				}
+				var dec_basicservice ExtBasicServiceCode
+				if unmErr := dec_basicservice.UnmarshalBER(content[offset : offset+n_basicservice]); unmErr != nil {
+					return fmt.Errorf("decoding basicService: %w", unmErr)
+				}
+				v.BasicService = &dec_basicservice
+				offset += n_basicservice
+			}
 		}
-		var dec_basicservice ExtBasicServiceCode
-		if unmErr := dec_basicservice.UnmarshalBER(content[offset : offset+n_basicservice]); unmErr != nil {
-			return fmt.Errorf("decoding basicService: %w", unmErr)
-		}
-		v.BasicService = &dec_basicservice
-		offset += n_basicservice
 	}
 	// Decode preferentialCUG-Indicator
 	if offset < len(content) {
@@ -22161,17 +22186,22 @@ func (v *ExtSSData) UnmarshalBER(data []byte) error {
 	offset += n_ssstatus
 	// Decode ss-SubscriptionOption
 	if offset < len(content) {
-		// Decode nested CHOICE (SSSubscriptionOption)
-		_, n_sssubscriptionoption, _, tlvErr_sssubscriptionoption := ber.DecodeTLV(content[offset:])
-		if tlvErr_sssubscriptionoption != nil {
-			return fmt.Errorf("decoding ss-SubscriptionOption: %w", tlvErr_sssubscriptionoption)
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
+				// Decode nested CHOICE (SSSubscriptionOption)
+				_, n_sssubscriptionoption, _, tlvErr_sssubscriptionoption := ber.DecodeTLV(content[offset:])
+				if tlvErr_sssubscriptionoption != nil {
+					return fmt.Errorf("decoding ss-SubscriptionOption: %w", tlvErr_sssubscriptionoption)
+				}
+				var dec_sssubscriptionoption SSSubscriptionOption
+				if unmErr := dec_sssubscriptionoption.UnmarshalBER(content[offset : offset+n_sssubscriptionoption]); unmErr != nil {
+					return fmt.Errorf("decoding ss-SubscriptionOption: %w", unmErr)
+				}
+				v.SsSubscriptionOption = &dec_sssubscriptionoption
+				offset += n_sssubscriptionoption
+			}
 		}
-		var dec_sssubscriptionoption SSSubscriptionOption
-		if unmErr := dec_sssubscriptionoption.UnmarshalBER(content[offset : offset+n_sssubscriptionoption]); unmErr != nil {
-			return fmt.Errorf("decoding ss-SubscriptionOption: %w", unmErr)
-		}
-		v.SsSubscriptionOption = &dec_sssubscriptionoption
-		offset += n_sssubscriptionoption
 	}
 	// Decode basicServiceGroupList
 	if offset < len(content) {

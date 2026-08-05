@@ -3590,17 +3590,22 @@ func (v *PlmnContainer) UnmarshalBER(data []byte) error {
 	}
 	// Decode basicService
 	if offset < len(content) {
-		// Decode nested CHOICE (BasicServiceCode)
-		_, n_basicservice, _, tlvErr_basicservice := ber.DecodeTLV(content[offset:])
-		if tlvErr_basicservice != nil {
-			return fmt.Errorf("decoding basicService: %w", tlvErr_basicservice)
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) {
+				// Decode nested CHOICE (BasicServiceCode)
+				_, n_basicservice, _, tlvErr_basicservice := ber.DecodeTLV(content[offset:])
+				if tlvErr_basicservice != nil {
+					return fmt.Errorf("decoding basicService: %w", tlvErr_basicservice)
+				}
+				var dec_basicservice BasicServiceCode
+				if unmErr := dec_basicservice.UnmarshalBER(content[offset : offset+n_basicservice]); unmErr != nil {
+					return fmt.Errorf("decoding basicService: %w", unmErr)
+				}
+				v.BasicService = &dec_basicservice
+				offset += n_basicservice
+			}
 		}
-		var dec_basicservice BasicServiceCode
-		if unmErr := dec_basicservice.UnmarshalBER(content[offset : offset+n_basicservice]); unmErr != nil {
-			return fmt.Errorf("decoding basicService: %w", unmErr)
-		}
-		v.BasicService = &dec_basicservice
-		offset += n_basicservice
 	}
 	// Decode operatorSS-Code
 	if offset < len(content) {
