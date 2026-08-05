@@ -1198,6 +1198,17 @@ func (v *Identity) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Identity to DER format.
 func (v *Identity) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case IdentityChoiceImsiWithLMSI:
+		if v.ImsiWithLMSI == nil {
+			return nil, fmt.Errorf("choice Identity: imsi-WithLMSI is nil")
+		}
+		enc_der_1, err := v.ImsiWithLMSI.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding imsi-WithLMSI: %w", err)
+		}
+		return enc_der_1, nil
+	}
 	return v.MarshalBER()
 }
 

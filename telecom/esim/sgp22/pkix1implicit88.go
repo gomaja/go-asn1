@@ -630,7 +630,10 @@ func (v *AuthorityKeyIdentifier) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AuthorityKeyIdentifier to DER format.
 func (v *AuthorityKeyIdentifier) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.AuthorityCertIssuerIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -660,6 +663,7 @@ func (v *AuthorityKeyIdentifier) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode authorityCertIssuer
+	v.AuthorityCertIssuerIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -838,7 +842,10 @@ func (v *PolicyInformation) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes PolicyInformation to DER format.
 func (v *PolicyInformation) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.PolicyQualifiersIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -863,6 +870,7 @@ func (v *PolicyInformation) UnmarshalBER(data []byte) error {
 	v.PolicyIdentifier = runtime.ObjectIdentifier(val_policyidentifier)
 	offset += n
 	// Decode policyQualifiers
+	v.PolicyQualifiersIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -872,7 +880,14 @@ func (v *PolicyInformation) UnmarshalBER(data []byte) error {
 				if tlvErr_policyqualifiers != nil {
 					return fmt.Errorf("decoding policyQualifiers: %w", tlvErr_policyqualifiers)
 				}
-				dec_policyqualifiers, unmErr := UnmarshalBERPolicyInformationPolicyQualifiers(content[offset : offset+n_policyqualifiers])
+				tlv_policyqualifiers := content[offset : offset+n_policyqualifiers]
+				{
+					_, tagSz_, _ := ber.DecodeTag(tlv_policyqualifiers)
+					if tagSz_ < len(tlv_policyqualifiers) && tlv_policyqualifiers[tagSz_] == 0x80 {
+						v.PolicyQualifiersIndef_ = true
+					}
+				}
+				dec_policyqualifiers, unmErr := UnmarshalBERPolicyInformationPolicyQualifiers(tlv_policyqualifiers)
 				if unmErr != nil {
 					return fmt.Errorf("decoding policyQualifiers: %w", unmErr)
 				}
@@ -1037,7 +1052,10 @@ func (v *NoticeReference) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes NoticeReference to DER format.
 func (v *NoticeReference) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.NoticeNumbersIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -1068,12 +1086,20 @@ func (v *NoticeReference) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field noticeNumbers")
 	}
+	v.NoticeNumbersIndef_ = false
 	// Decode nested SEQUENCE_OF (NoticeReferenceNoticeNumbers)
 	_, n_noticenumbers, _, tlvErr_noticenumbers := ber.DecodeTLV(content[offset:])
 	if tlvErr_noticenumbers != nil {
 		return fmt.Errorf("decoding noticeNumbers: %w", tlvErr_noticenumbers)
 	}
-	dec_noticenumbers, unmErr := UnmarshalBERNoticeReferenceNoticeNumbers(content[offset : offset+n_noticenumbers])
+	tlv_noticenumbers := content[offset : offset+n_noticenumbers]
+	{
+		_, tagSz_, _ := ber.DecodeTag(tlv_noticenumbers)
+		if tagSz_ < len(tlv_noticenumbers) && tlv_noticenumbers[tagSz_] == 0x80 {
+			v.NoticeNumbersIndef_ = true
+		}
+	}
+	dec_noticenumbers, unmErr := UnmarshalBERNoticeReferenceNoticeNumbers(tlv_noticenumbers)
 	if unmErr != nil {
 		return fmt.Errorf("decoding noticeNumbers: %w", unmErr)
 	}
@@ -1332,6 +1358,48 @@ func (v *GeneralName) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes GeneralName to DER format.
 func (v *GeneralName) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case GeneralNameChoiceOtherName:
+		if v.OtherName == nil {
+			return nil, fmt.Errorf("choice GeneralName: otherName is nil")
+		}
+		enc_der_0, err := v.OtherName.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding otherName: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		return enc_der_0, nil
+	case GeneralNameChoiceX400Address:
+		if v.X400Address == nil {
+			return nil, fmt.Errorf("choice GeneralName: x400Address is nil")
+		}
+		enc_der_3, err := v.X400Address.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding x400Address: %w", err)
+		}
+		enc_der_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_der_3)
+		return enc_der_3, nil
+	case GeneralNameChoiceDirectoryName:
+		if v.DirectoryName == nil {
+			return nil, fmt.Errorf("choice GeneralName: directoryName is nil")
+		}
+		enc_der_4, err := v.DirectoryName.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding directoryName: %w", err)
+		}
+		enc_der_4 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 4, enc_der_4)
+		return enc_der_4, nil
+	case GeneralNameChoiceEdiPartyName:
+		if v.EdiPartyName == nil {
+			return nil, fmt.Errorf("choice GeneralName: ediPartyName is nil")
+		}
+		enc_der_5, err := v.EdiPartyName.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding ediPartyName: %w", err)
+		}
+		enc_der_5 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, true, enc_der_5)
+		return enc_der_5, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -1738,7 +1806,11 @@ func (v *NameConstraints) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes NameConstraints to DER format.
 func (v *NameConstraints) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.PermittedSubtreesIndef_ = false
+	derValue.ExcludedSubtreesIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -1753,6 +1825,7 @@ func (v *NameConstraints) UnmarshalBER(data []byte) error {
 	}
 	offset := 0
 	// Decode permittedSubtrees
+	v.PermittedSubtreesIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -1778,6 +1851,7 @@ func (v *NameConstraints) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode excludedSubtrees
+	v.ExcludedSubtreesIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -2090,7 +2164,10 @@ func (v *DistributionPoint) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes DistributionPoint to DER format.
 func (v *DistributionPoint) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.CRLIssuerIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -2143,6 +2220,7 @@ func (v *DistributionPoint) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode cRLIssuer
+	v.CRLIssuerIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {

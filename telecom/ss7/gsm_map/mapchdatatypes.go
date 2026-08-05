@@ -1709,7 +1709,11 @@ func (v *SendRoutingInfoRes) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.SsListIndef_ = false
+	derValue.SsList2Indef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -1814,6 +1818,7 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode ss-List
+	v.SsListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -2055,6 +2060,7 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode ss-List2
+	v.SsList2Indef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -2328,6 +2334,17 @@ func (v *RoutingInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RoutingInfo to DER format.
 func (v *RoutingInfo) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case RoutingInfoChoiceForwardingData:
+		if v.ForwardingData == nil {
+			return nil, fmt.Errorf("choice RoutingInfo: forwardingData is nil")
+		}
+		enc_der_1, err := v.ForwardingData.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding forwardingData: %w", err)
+		}
+		return enc_der_1, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -2704,7 +2721,10 @@ func (v *ProvideRoamingNumberArg) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.PagingAreaIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -3058,6 +3078,7 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode pagingArea
+	v.PagingAreaIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -3424,7 +3445,10 @@ func (v *ResumeCallHandlingArg) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.OBcsmCamelTDPCriteriaListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -3647,6 +3671,7 @@ func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode o-BcsmCamelTDPCriteriaList
+	v.OBcsmCamelTDPCriteriaListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -4102,6 +4127,27 @@ func (v *ExtendedRoutingInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ExtendedRoutingInfo to DER format.
 func (v *ExtendedRoutingInfo) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case ExtendedRoutingInfoChoiceRoutingInfo:
+		if v.RoutingInfo == nil {
+			return nil, fmt.Errorf("choice ExtendedRoutingInfo: routingInfo is nil")
+		}
+		enc_der_0, err := v.RoutingInfo.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding routingInfo: %w", err)
+		}
+		return enc_der_0, nil
+	case ExtendedRoutingInfoChoiceCamelRoutingInfo:
+		if v.CamelRoutingInfo == nil {
+			return nil, fmt.Errorf("choice ExtendedRoutingInfo: camelRoutingInfo is nil")
+		}
+		enc_der_1, err := v.CamelRoutingInfo.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding camelRoutingInfo: %w", err)
+		}
+		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, true, enc_der_1)
+		return enc_der_1, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -4366,7 +4412,11 @@ func (v *GmscCamelSubscriptionInfo) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.OBcsmCamelTDPCriteriaListIndef_ = false
+	derValue.TBCSMCAMELTDPCriteriaListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -4438,6 +4488,7 @@ func (v *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode o-BcsmCamelTDP-CriteriaList
+	v.OBcsmCamelTDPCriteriaListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -4463,6 +4514,7 @@ func (v *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode t-BCSM-CAMEL-TDP-CriteriaList
+	v.TBCSMCAMELTDPCriteriaListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {

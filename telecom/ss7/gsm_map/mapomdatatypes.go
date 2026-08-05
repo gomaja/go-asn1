@@ -1131,7 +1131,10 @@ func (v *MDTConfiguration) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.MdtAllowedPLMNListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -1474,6 +1477,7 @@ func (v *MDTConfiguration) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode mdt-Allowed-PLMN-List
+	v.MdtAllowedPLMNListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -1661,7 +1665,14 @@ func (v *AreaScope) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.CgiListIndef_ = false
+	derValue.EUtranCgiListIndef_ = false
+	derValue.RoutingAreaIdListIndef_ = false
+	derValue.LocationAreaIdListIndef_ = false
+	derValue.TrackingAreaIdListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -1676,6 +1687,7 @@ func (v *AreaScope) UnmarshalBER(data []byte) error {
 	}
 	offset := 0
 	// Decode cgi-List
+	v.CgiListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -1701,6 +1713,7 @@ func (v *AreaScope) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode e-utran-cgi-List
+	v.EUtranCgiListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -1726,6 +1739,7 @@ func (v *AreaScope) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode routingAreaId-List
+	v.RoutingAreaIdListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -1751,6 +1765,7 @@ func (v *AreaScope) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode locationAreaId-List
+	v.LocationAreaIdListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -1776,6 +1791,7 @@ func (v *AreaScope) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode trackingAreaId-List
+	v.TrackingAreaIdListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {

@@ -1716,6 +1716,58 @@ func (v *Component) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Component to DER format.
 func (v *Component) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case ComponentChoiceInvoke:
+		if v.Invoke == nil {
+			return nil, fmt.Errorf("choice Component: invoke is nil")
+		}
+		enc_der_0, err := v.Invoke.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding invoke: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_0)
+		return enc_der_0, nil
+	case ComponentChoiceReturnResultLast:
+		if v.ReturnResultLast == nil {
+			return nil, fmt.Errorf("choice Component: returnResultLast is nil")
+		}
+		enc_der_1, err := v.ReturnResultLast.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding returnResultLast: %w", err)
+		}
+		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_der_1)
+		return enc_der_1, nil
+	case ComponentChoiceReturnError:
+		if v.ReturnError == nil {
+			return nil, fmt.Errorf("choice Component: returnError is nil")
+		}
+		enc_der_2, err := v.ReturnError.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding returnError: %w", err)
+		}
+		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_der_2)
+		return enc_der_2, nil
+	case ComponentChoiceReject:
+		if v.Reject == nil {
+			return nil, fmt.Errorf("choice Component: reject is nil")
+		}
+		enc_der_3, err := v.Reject.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding reject: %w", err)
+		}
+		enc_der_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_der_3)
+		return enc_der_3, nil
+	case ComponentChoiceReturnResultNotLast:
+		if v.ReturnResultNotLast == nil {
+			return nil, fmt.Errorf("choice Component: returnResultNotLast is nil")
+		}
+		enc_der_4, err := v.ReturnResultNotLast.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding returnResultNotLast: %w", err)
+		}
+		enc_der_4 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, true, enc_der_4)
+		return enc_der_4, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -3042,7 +3094,10 @@ func (v *SendIdentificationResV2) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.TripletListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -3072,6 +3127,7 @@ func (v *SendIdentificationResV2) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode tripletList
+	v.TripletListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -3081,7 +3137,14 @@ func (v *SendIdentificationResV2) UnmarshalBER(data []byte) error {
 				if tlvErr_tripletlist != nil {
 					return fmt.Errorf("decoding tripletList: %w", tlvErr_tripletlist)
 				}
-				dec_tripletlist, unmErr := UnmarshalBERTripletListold(content[offset : offset+n_tripletlist])
+				tlv_tripletlist := content[offset : offset+n_tripletlist]
+				{
+					_, tagSz_, _ := ber.DecodeTag(tlv_tripletlist)
+					if tagSz_ < len(tlv_tripletlist) && tlv_tripletlist[tagSz_] == 0x80 {
+						v.TripletListIndef_ = true
+					}
+				}
+				dec_tripletlist, unmErr := UnmarshalBERTripletListold(tlv_tripletlist)
 				if unmErr != nil {
 					return fmt.Errorf("decoding tripletList: %w", unmErr)
 				}
@@ -3806,6 +3869,28 @@ func (v *OriginalComponentIdentifier) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes OriginalComponentIdentifier to DER format.
 func (v *OriginalComponentIdentifier) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case OriginalComponentIdentifierChoiceOperationCode:
+		if v.OperationCode == nil {
+			return nil, fmt.Errorf("choice OriginalComponentIdentifier: operationCode is nil")
+		}
+		enc_der_0, err := v.OperationCode.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding operationCode: %w", err)
+		}
+		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 0, enc_der_0)
+		return enc_der_0, nil
+	case OriginalComponentIdentifierChoiceErrorCode:
+		if v.ErrorCode == nil {
+			return nil, fmt.Errorf("choice OriginalComponentIdentifier: errorCode is nil")
+		}
+		enc_der_1, err := v.ErrorCode.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding errorCode: %w", err)
+		}
+		enc_der_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 1, enc_der_1)
+		return enc_der_1, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -4045,7 +4130,10 @@ func (v *PlmnContainer) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.OperatorSSCodeIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -4112,6 +4200,7 @@ func (v *PlmnContainer) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode operatorSS-Code
+	v.OperatorSSCodeIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -5255,7 +5344,10 @@ func (v *SendParametersArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SendParametersArg to DER format.
 func (v *SendParametersArg) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.RequestParameterListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -5286,12 +5378,20 @@ func (v *SendParametersArg) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field requestParameterList")
 	}
+	v.RequestParameterListIndef_ = false
 	// Decode nested SEQUENCE_OF (RequestParameterList)
 	_, n_requestparameterlist, _, tlvErr_requestparameterlist := ber.DecodeTLV(content[offset:])
 	if tlvErr_requestparameterlist != nil {
 		return fmt.Errorf("decoding requestParameterList: %w", tlvErr_requestparameterlist)
 	}
-	dec_requestparameterlist, unmErr := UnmarshalBERRequestParameterList(content[offset : offset+n_requestparameterlist])
+	tlv_requestparameterlist := content[offset : offset+n_requestparameterlist]
+	{
+		_, tagSz_, _ := ber.DecodeTag(tlv_requestparameterlist)
+		if tagSz_ < len(tlv_requestparameterlist) && tlv_requestparameterlist[tagSz_] == 0x80 {
+			v.RequestParameterListIndef_ = true
+		}
+	}
+	dec_requestparameterlist, unmErr := UnmarshalBERRequestParameterList(tlv_requestparameterlist)
 	if unmErr != nil {
 		return fmt.Errorf("decoding requestParameterList: %w", unmErr)
 	}
@@ -5372,6 +5472,28 @@ func (v *SentParameter) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SentParameter to DER format.
 func (v *SentParameter) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case SentParameterChoiceAuthenticationSet:
+		if v.AuthenticationSet == nil {
+			return nil, fmt.Errorf("choice SentParameter: authenticationSet is nil")
+		}
+		enc_der_1, err := v.AuthenticationSet.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding authenticationSet: %w", err)
+		}
+		enc_der_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 1, enc_der_1)
+		return enc_der_1, nil
+	case SentParameterChoiceSubscriberData:
+		if v.SubscriberData == nil {
+			return nil, fmt.Errorf("choice SentParameter: subscriberData is nil")
+		}
+		enc_der_2, err := v.SubscriberData.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding subscriberData: %w", err)
+		}
+		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_der_2)
+		return enc_der_2, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -5596,7 +5718,10 @@ func (v *ResetArgV2) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.HlrListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -5636,6 +5761,7 @@ func (v *ResetArgV2) UnmarshalBER(data []byte) error {
 	v.HlrNumber = ISDNAddressString(val_hlrnumber)
 	offset += n
 	// Decode hlr-List
+	v.HlrListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -5645,7 +5771,14 @@ func (v *ResetArgV2) UnmarshalBER(data []byte) error {
 				if tlvErr_hlrlist != nil {
 					return fmt.Errorf("decoding hlr-List: %w", tlvErr_hlrlist)
 				}
-				dec_hlrlist, unmErr := UnmarshalBERHLRList(content[offset : offset+n_hlrlist])
+				tlv_hlrlist := content[offset : offset+n_hlrlist]
+				{
+					_, tagSz_, _ := ber.DecodeTag(tlv_hlrlist)
+					if tagSz_ < len(tlv_hlrlist) && tlv_hlrlist[tagSz_] == 0x80 {
+						v.HlrListIndef_ = true
+					}
+				}
+				dec_hlrlist, unmErr := UnmarshalBERHLRList(tlv_hlrlist)
 				if unmErr != nil {
 					return fmt.Errorf("decoding hlr-List: %w", unmErr)
 				}

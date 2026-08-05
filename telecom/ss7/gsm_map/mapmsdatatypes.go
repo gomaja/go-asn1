@@ -4520,7 +4520,11 @@ func (v *UpdateLocationArg) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.PagingAreaIndef_ = false
+	derValue.EplmnListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -4687,6 +4691,7 @@ func (v *UpdateLocationArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode pagingArea
+	v.PagingAreaIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -4742,6 +4747,7 @@ func (v *UpdateLocationArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode eplmn-List
+	v.EplmnListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -7064,6 +7070,28 @@ func (v *CurrentSecurityContext) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CurrentSecurityContext to DER format.
 func (v *CurrentSecurityContext) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case CurrentSecurityContextChoiceGsmSecurityContextData:
+		if v.GsmSecurityContextData == nil {
+			return nil, fmt.Errorf("choice CurrentSecurityContext: gsm-SecurityContextData is nil")
+		}
+		enc_der_0, err := v.GsmSecurityContextData.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding gsm-SecurityContextData: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		return enc_der_0, nil
+	case CurrentSecurityContextChoiceUmtsSecurityContextData:
+		if v.UmtsSecurityContextData == nil {
+			return nil, fmt.Errorf("choice CurrentSecurityContext: umts-SecurityContextData is nil")
+		}
+		enc_der_1, err := v.UmtsSecurityContextData.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding umts-SecurityContextData: %w", err)
+		}
+		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_1)
+		return enc_der_1, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -7755,7 +7783,11 @@ func (v *UpdateGprsLocationArg) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.EplmnListIndef_ = false
+	derValue.AdjacentPLMNListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -8064,6 +8096,7 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode eplmn-List
+	v.EplmnListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -8198,6 +8231,7 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode adjacentPLMN-List
+	v.AdjacentPLMNListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -8262,6 +8296,18 @@ func (v *EPSInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EPSInfo to DER format.
 func (v *EPSInfo) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case EPSInfoChoicePdnGwUpdate:
+		if v.PdnGwUpdate == nil {
+			return nil, fmt.Errorf("choice EPSInfo: pdn-gw-update is nil")
+		}
+		enc_der_0, err := v.PdnGwUpdate.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding pdn-gw-update: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		return enc_der_0, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -9291,7 +9337,11 @@ func (v *ForwardAccessSignallingArg) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.RadioResourceListIndef_ = false
+	derValue.BssmapServiceHandoverListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -9439,6 +9489,7 @@ func (v *ForwardAccessSignallingArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode radioResourceList
+	v.RadioResourceListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -9494,6 +9545,7 @@ func (v *ForwardAccessSignallingArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode bssmap-ServiceHandoverList
+	v.BssmapServiceHandoverListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -10071,7 +10123,13 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.RadioResourceListIndef_ = false
+	derValue.BssmapServiceHandoverListIndef_ = false
+	derValue.RegionalSubscriptionDataIndef_ = false
+	derValue.CsgSubscriptionDataListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -10261,6 +10319,7 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode radioResourceList
+	v.RadioResourceListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -10354,6 +10413,7 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode bssmap-ServiceHandoverList
+	v.BssmapServiceHandoverListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -10545,6 +10605,7 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode regionalSubscriptionData
+	v.RegionalSubscriptionDataIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -10623,6 +10684,7 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode csg-SubscriptionDataList
+	v.CsgSubscriptionDataListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -11007,7 +11069,10 @@ func (v *PrepareHORes) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.RelocationNumberListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -11040,6 +11105,7 @@ func (v *PrepareHORes) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode relocationNumberList
+	v.RelocationNumberListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -13421,7 +13487,10 @@ func (v *SendAuthenticationInfoRes) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.EpsAuthenticationSetListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -13477,6 +13546,7 @@ func (v *SendAuthenticationInfoRes) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode eps-AuthenticationSetList
+	v.EpsAuthenticationSetListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -14499,7 +14569,21 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.BearerServiceListIndef_ = false
+	derValue.TeleserviceListIndef_ = false
+	derValue.ProvisionedSSIndef_ = false
+	derValue.RegionalSubscriptionDataIndef_ = false
+	derValue.VbsSubscriptionDataIndef_ = false
+	derValue.VgcsSubscriptionDataIndef_ = false
+	derValue.CsgSubscriptionDataListIndef_ = false
+	derValue.VplmnCsgSubscriptionDataListIndef_ = false
+	derValue.AdjacentAccessRestrictionDataListIndef_ = false
+	derValue.ImsiGroupIdListIndef_ = false
+	derValue.ResetIdListIndef_ = false
+	derValue.EDRXCycleLengthListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -14578,6 +14662,7 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode bearerServiceList
+	v.BearerServiceListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -14603,6 +14688,7 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode teleserviceList
+	v.TeleserviceListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -14628,6 +14714,7 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode provisionedSS
+	v.ProvisionedSSIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -14687,6 +14774,7 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode regionalSubscriptionData
+	v.RegionalSubscriptionDataIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -14712,6 +14800,7 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode vbsSubscriptionData
+	v.VbsSubscriptionDataIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -14737,6 +14826,7 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode vgcsSubscriptionData
+	v.VgcsSubscriptionDataIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -15086,6 +15176,7 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode csg-SubscriptionDataList
+	v.CsgSubscriptionDataListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -15230,6 +15321,7 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode vplmn-Csg-SubscriptionDataList
+	v.VplmnCsgSubscriptionDataListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -15330,6 +15422,7 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode adjacentAccessRestrictionDataList
+	v.AdjacentAccessRestrictionDataListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -15355,6 +15448,7 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode imsi-Group-Id-List
+	v.ImsiGroupIdListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -15429,6 +15523,7 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode reset-Id-List
+	v.ResetIdListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -15454,6 +15549,7 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode eDRX-Cycle-Length-List
+	v.EDRXCycleLengthListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -15938,7 +16034,10 @@ func (v *CSGSubscriptionData) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.LipaAllowedAPNListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -15997,6 +16096,7 @@ func (v *CSGSubscriptionData) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode lipa-AllowedAPNList
+	v.LipaAllowedAPNListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -16437,7 +16537,10 @@ func (v *APNConfigurationProfile) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.EpsDataListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -16484,6 +16587,7 @@ func (v *APNConfigurationProfile) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for epsDataList, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
+	v.EpsDataListIndef_ = false
 	_, n_epsdatalist, rawVal_epsdatalist, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding epsDataList: %w", err)
@@ -16751,7 +16855,10 @@ func (v *APNConfiguration) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.SpecificAPNInfoListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -16935,6 +17042,7 @@ func (v *APNConfiguration) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode specificAPNInfoList
+	v.SpecificAPNInfoListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -18328,7 +18436,13 @@ func (v *LCSInformation) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.GmlcListIndef_ = false
+	derValue.LcsPrivacyExceptionListIndef_ = false
+	derValue.MolrListIndef_ = false
+	derValue.AddLcsPrivacyExceptionListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -18343,6 +18457,7 @@ func (v *LCSInformation) UnmarshalBER(data []byte) error {
 	}
 	offset := 0
 	// Decode gmlc-List
+	v.GmlcListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -18368,6 +18483,7 @@ func (v *LCSInformation) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode lcs-PrivacyExceptionList
+	v.LcsPrivacyExceptionListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -18393,6 +18509,7 @@ func (v *LCSInformation) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode molr-List
+	v.MolrListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -18418,6 +18535,7 @@ func (v *LCSInformation) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode add-lcs-PrivacyExceptionList
+	v.AddLcsPrivacyExceptionListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -19092,7 +19210,10 @@ func (v *GPRSSubscriptionData) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.GprsDataListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -19129,6 +19250,7 @@ func (v *GPRSSubscriptionData) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for gprsDataList, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
+	v.GprsDataListIndef_ = false
 	_, n_gprsdatalist, rawVal_gprsdatalist, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding gprsDataList: %w", err)
@@ -19276,7 +19398,10 @@ func (v *SGSNCAMELSubscriptionInfo) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.MtSmsCAMELTDPCriteriaListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -19367,6 +19492,7 @@ func (v *SGSNCAMELSubscriptionInfo) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode mt-smsCAMELTDP-CriteriaList
+	v.MtSmsCAMELTDPCriteriaListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -19489,7 +19615,10 @@ func (v *GPRSCSI) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.GprsCamelTDPDataListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -19504,6 +19633,7 @@ func (v *GPRSCSI) UnmarshalBER(data []byte) error {
 	}
 	offset := 0
 	// Decode gprs-CamelTDPDataList
+	v.GprsCamelTDPDataListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -20047,7 +20177,10 @@ func (v *LSAInformation) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.LsaDataListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -20095,6 +20228,7 @@ func (v *LSAInformation) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode lsaDataList
+	v.LsaDataListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -20300,7 +20434,15 @@ func (v *SubscriberData) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SubscriberData to DER format.
 func (v *SubscriberData) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.BearerServiceListIndef_ = false
+	derValue.TeleserviceListIndef_ = false
+	derValue.ProvisionedSSIndef_ = false
+	derValue.RegionalSubscriptionDataIndef_ = false
+	derValue.VbsSubscriptionDataIndef_ = false
+	derValue.VgcsSubscriptionDataIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -20364,6 +20506,7 @@ func (v *SubscriberData) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode bearerServiceList
+	v.BearerServiceListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -20389,6 +20532,7 @@ func (v *SubscriberData) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode teleserviceList
+	v.TeleserviceListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -20414,6 +20558,7 @@ func (v *SubscriberData) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode provisionedSS
+	v.ProvisionedSSIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -20473,6 +20618,7 @@ func (v *SubscriberData) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode regionalSubscriptionData
+	v.RegionalSubscriptionDataIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -20498,6 +20644,7 @@ func (v *SubscriberData) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode vbsSubscriptionData
+	v.VbsSubscriptionDataIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -20523,6 +20670,7 @@ func (v *SubscriberData) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode vgcsSubscriptionData
+	v.VgcsSubscriptionDataIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -20843,6 +20991,58 @@ func (v *ExtSSInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ExtSSInfo to DER format.
 func (v *ExtSSInfo) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case ExtSSInfoChoiceForwardingInfo:
+		if v.ForwardingInfo == nil {
+			return nil, fmt.Errorf("choice ExtSSInfo: forwardingInfo is nil")
+		}
+		enc_der_0, err := v.ForwardingInfo.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding forwardingInfo: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		return enc_der_0, nil
+	case ExtSSInfoChoiceCallBarringInfo:
+		if v.CallBarringInfo == nil {
+			return nil, fmt.Errorf("choice ExtSSInfo: callBarringInfo is nil")
+		}
+		enc_der_1, err := v.CallBarringInfo.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding callBarringInfo: %w", err)
+		}
+		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_1)
+		return enc_der_1, nil
+	case ExtSSInfoChoiceCugInfo:
+		if v.CugInfo == nil {
+			return nil, fmt.Errorf("choice ExtSSInfo: cug-Info is nil")
+		}
+		enc_der_2, err := v.CugInfo.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding cug-Info: %w", err)
+		}
+		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_der_2)
+		return enc_der_2, nil
+	case ExtSSInfoChoiceSsData:
+		if v.SsData == nil {
+			return nil, fmt.Errorf("choice ExtSSInfo: ss-Data is nil")
+		}
+		enc_der_3, err := v.SsData.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding ss-Data: %w", err)
+		}
+		enc_der_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_der_3)
+		return enc_der_3, nil
+	case ExtSSInfoChoiceEmlppInfo:
+		if v.EmlppInfo == nil {
+			return nil, fmt.Errorf("choice ExtSSInfo: emlpp-Info is nil")
+		}
+		enc_der_4, err := v.EmlppInfo.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding emlpp-Info: %w", err)
+		}
+		enc_der_4 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_der_4)
+		return enc_der_4, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -20969,7 +21169,10 @@ func (v *ExtForwInfo) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.ForwardingFeatureListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -20997,12 +21200,20 @@ func (v *ExtForwInfo) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field forwardingFeatureList")
 	}
+	v.ForwardingFeatureListIndef_ = false
 	// Decode nested SEQUENCE_OF (ExtForwFeatureList)
 	_, n_forwardingfeaturelist, _, tlvErr_forwardingfeaturelist := ber.DecodeTLV(content[offset:])
 	if tlvErr_forwardingfeaturelist != nil {
 		return fmt.Errorf("decoding forwardingFeatureList: %w", tlvErr_forwardingfeaturelist)
 	}
-	dec_forwardingfeaturelist, unmErr := UnmarshalBERExtForwFeatureList(content[offset : offset+n_forwardingfeaturelist])
+	tlv_forwardingfeaturelist := content[offset : offset+n_forwardingfeaturelist]
+	{
+		_, tagSz_, _ := ber.DecodeTag(tlv_forwardingfeaturelist)
+		if tagSz_ < len(tlv_forwardingfeaturelist) && tlv_forwardingfeaturelist[tagSz_] == 0x80 {
+			v.ForwardingFeatureListIndef_ = true
+		}
+	}
+	dec_forwardingfeaturelist, unmErr := UnmarshalBERExtForwFeatureList(tlv_forwardingfeaturelist)
 	if unmErr != nil {
 		return fmt.Errorf("decoding forwardingFeatureList: %w", unmErr)
 	}
@@ -21347,7 +21558,10 @@ func (v *ExtCallBarInfo) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.CallBarringFeatureListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -21375,12 +21589,20 @@ func (v *ExtCallBarInfo) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field callBarringFeatureList")
 	}
+	v.CallBarringFeatureListIndef_ = false
 	// Decode nested SEQUENCE_OF (ExtCallBarFeatureList)
 	_, n_callbarringfeaturelist, _, tlvErr_callbarringfeaturelist := ber.DecodeTLV(content[offset:])
 	if tlvErr_callbarringfeaturelist != nil {
 		return fmt.Errorf("decoding callBarringFeatureList: %w", tlvErr_callbarringfeaturelist)
 	}
-	dec_callbarringfeaturelist, unmErr := UnmarshalBERExtCallBarFeatureList(content[offset : offset+n_callbarringfeaturelist])
+	tlv_callbarringfeaturelist := content[offset : offset+n_callbarringfeaturelist]
+	{
+		_, tagSz_, _ := ber.DecodeTag(tlv_callbarringfeaturelist)
+		if tagSz_ < len(tlv_callbarringfeaturelist) && tlv_callbarringfeaturelist[tagSz_] == 0x80 {
+			v.CallBarringFeatureListIndef_ = true
+		}
+	}
+	dec_callbarringfeaturelist, unmErr := UnmarshalBERExtCallBarFeatureList(tlv_callbarringfeaturelist)
 	if unmErr != nil {
 		return fmt.Errorf("decoding callBarringFeatureList: %w", unmErr)
 	}
@@ -21626,7 +21848,11 @@ func (v *CUGInfo) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.CugSubscriptionListIndef_ = false
+	derValue.CugFeatureListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -21644,18 +21870,27 @@ func (v *CUGInfo) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field cug-SubscriptionList")
 	}
+	v.CugSubscriptionListIndef_ = false
 	// Decode nested SEQUENCE_OF (CUGSubscriptionList)
 	_, n_cugsubscriptionlist, _, tlvErr_cugsubscriptionlist := ber.DecodeTLV(content[offset:])
 	if tlvErr_cugsubscriptionlist != nil {
 		return fmt.Errorf("decoding cug-SubscriptionList: %w", tlvErr_cugsubscriptionlist)
 	}
-	dec_cugsubscriptionlist, unmErr := UnmarshalBERCUGSubscriptionList(content[offset : offset+n_cugsubscriptionlist])
+	tlv_cugsubscriptionlist := content[offset : offset+n_cugsubscriptionlist]
+	{
+		_, tagSz_, _ := ber.DecodeTag(tlv_cugsubscriptionlist)
+		if tagSz_ < len(tlv_cugsubscriptionlist) && tlv_cugsubscriptionlist[tagSz_] == 0x80 {
+			v.CugSubscriptionListIndef_ = true
+		}
+	}
+	dec_cugsubscriptionlist, unmErr := UnmarshalBERCUGSubscriptionList(tlv_cugsubscriptionlist)
 	if unmErr != nil {
 		return fmt.Errorf("decoding cug-SubscriptionList: %w", unmErr)
 	}
 	v.CugSubscriptionList = dec_cugsubscriptionlist
 	offset += n_cugsubscriptionlist
 	// Decode cug-FeatureList
+	v.CugFeatureListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -21665,7 +21900,14 @@ func (v *CUGInfo) UnmarshalBER(data []byte) error {
 				if tlvErr_cugfeaturelist != nil {
 					return fmt.Errorf("decoding cug-FeatureList: %w", tlvErr_cugfeaturelist)
 				}
-				dec_cugfeaturelist, unmErr := UnmarshalBERCUGFeatureList(content[offset : offset+n_cugfeaturelist])
+				tlv_cugfeaturelist := content[offset : offset+n_cugfeaturelist]
+				{
+					_, tagSz_, _ := ber.DecodeTag(tlv_cugfeaturelist)
+					if tagSz_ < len(tlv_cugfeaturelist) && tlv_cugfeaturelist[tagSz_] == 0x80 {
+						v.CugFeatureListIndef_ = true
+					}
+				}
+				dec_cugfeaturelist, unmErr := UnmarshalBERCUGFeatureList(tlv_cugfeaturelist)
 				if unmErr != nil {
 					return fmt.Errorf("decoding cug-FeatureList: %w", unmErr)
 				}
@@ -21792,7 +22034,10 @@ func (v *CUGSubscription) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.BasicServiceGroupListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -21837,6 +22082,7 @@ func (v *CUGSubscription) UnmarshalBER(data []byte) error {
 	v.IntraCUGOptions = IntraCUGOptions(val_intracugoptions)
 	offset += n
 	// Decode basicServiceGroupList
+	v.BasicServiceGroupListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -21846,7 +22092,14 @@ func (v *CUGSubscription) UnmarshalBER(data []byte) error {
 				if tlvErr_basicservicegrouplist != nil {
 					return fmt.Errorf("decoding basicServiceGroupList: %w", tlvErr_basicservicegrouplist)
 				}
-				dec_basicservicegrouplist, unmErr := UnmarshalBERExtBasicServiceGroupList(content[offset : offset+n_basicservicegrouplist])
+				tlv_basicservicegrouplist := content[offset : offset+n_basicservicegrouplist]
+				{
+					_, tagSz_, _ := ber.DecodeTag(tlv_basicservicegrouplist)
+					if tagSz_ < len(tlv_basicservicegrouplist) && tlv_basicservicegrouplist[tagSz_] == 0x80 {
+						v.BasicServiceGroupListIndef_ = true
+					}
+				}
+				dec_basicservicegrouplist, unmErr := UnmarshalBERExtBasicServiceGroupList(tlv_basicservicegrouplist)
 				if unmErr != nil {
 					return fmt.Errorf("decoding basicServiceGroupList: %w", unmErr)
 				}
@@ -22154,7 +22407,10 @@ func (v *ExtSSData) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.BasicServiceGroupListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -22213,6 +22469,7 @@ func (v *ExtSSData) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode basicServiceGroupList
+	v.BasicServiceGroupListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -22222,7 +22479,14 @@ func (v *ExtSSData) UnmarshalBER(data []byte) error {
 				if tlvErr_basicservicegrouplist != nil {
 					return fmt.Errorf("decoding basicServiceGroupList: %w", tlvErr_basicservicegrouplist)
 				}
-				dec_basicservicegrouplist, unmErr := UnmarshalBERExtBasicServiceGroupList(content[offset : offset+n_basicservicegrouplist])
+				tlv_basicservicegrouplist := content[offset : offset+n_basicservicegrouplist]
+				{
+					_, tagSz_, _ := ber.DecodeTag(tlv_basicservicegrouplist)
+					if tagSz_ < len(tlv_basicservicegrouplist) && tlv_basicservicegrouplist[tagSz_] == 0x80 {
+						v.BasicServiceGroupListIndef_ = true
+					}
+				}
+				dec_basicservicegrouplist, unmErr := UnmarshalBERExtBasicServiceGroupList(tlv_basicservicegrouplist)
 				if unmErr != nil {
 					return fmt.Errorf("decoding basicServiceGroupList: %w", unmErr)
 				}
@@ -22413,7 +22677,13 @@ func (v *LCSPrivacyClass) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.ExternalClientListIndef_ = false
+	derValue.PlmnClientListIndef_ = false
+	derValue.ExtExternalClientListIndef_ = false
+	derValue.ServiceTypeListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -22467,6 +22737,7 @@ func (v *LCSPrivacyClass) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode externalClientList
+	v.ExternalClientListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -22492,6 +22763,7 @@ func (v *LCSPrivacyClass) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode plmnClientList
+	v.PlmnClientListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -22536,6 +22808,7 @@ func (v *LCSPrivacyClass) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode ext-externalClientList
+	v.ExtExternalClientListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -22561,6 +22834,7 @@ func (v *LCSPrivacyClass) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode serviceTypeList
+	v.ServiceTypeListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -23321,7 +23595,12 @@ func (v *InsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.TeleserviceListIndef_ = false
+	derValue.BearerServiceListIndef_ = false
+	derValue.SsListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -23336,6 +23615,7 @@ func (v *InsertSubscriberDataRes) UnmarshalBER(data []byte) error {
 	}
 	offset := 0
 	// Decode teleserviceList
+	v.TeleserviceListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -23361,6 +23641,7 @@ func (v *InsertSubscriberDataRes) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode bearerServiceList
+	v.BearerServiceListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -23386,6 +23667,7 @@ func (v *InsertSubscriberDataRes) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode ss-List
+	v.SsListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -23776,7 +24058,11 @@ func (v *DeleteSubscriberDataArg) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.BasicServiceListIndef_ = false
+	derValue.SsListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -23806,6 +24092,7 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 	v.Imsi = IMSI(rawVal_imsi)
 	offset += n_imsi
 	// Decode basicServiceList
+	v.BasicServiceListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -23831,6 +24118,7 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode ss-List
+	v.SsListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -24862,7 +25150,12 @@ func (v *VlrCamelSubscriptionInfo) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.OBcsmCamelTDPCriteriaListIndef_ = false
+	derValue.TBCSMCAMELTDPCriteriaListIndef_ = false
+	derValue.MtSmsCAMELTDPCriteriaListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -24934,6 +25227,7 @@ func (v *VlrCamelSubscriptionInfo) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode o-BcsmCamelTDP-CriteriaList
+	v.OBcsmCamelTDPCriteriaListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -25031,6 +25325,7 @@ func (v *VlrCamelSubscriptionInfo) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode t-BCSM-CAMEL-TDP-CriteriaList
+	v.TBCSMCAMELTDPCriteriaListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -25094,6 +25389,7 @@ func (v *VlrCamelSubscriptionInfo) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode mt-smsCAMELTDP-CriteriaList
+	v.MtSmsCAMELTDPCriteriaListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -25215,7 +25511,10 @@ func (v *MTSmsCAMELTDPCriteria) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.TpduTypeCriterionIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -25240,6 +25539,7 @@ func (v *MTSmsCAMELTDPCriteria) UnmarshalBER(data []byte) error {
 	v.SmsTriggerDetectionPoint = SMSTriggerDetectionPoint(val_smstriggerdetectionpoint)
 	offset += n
 	// Decode tpdu-TypeCriterion
+	v.TpduTypeCriterionIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -25374,7 +25674,10 @@ func (v *DCSI) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.DpAnalysedInfoCriteriaListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -25389,6 +25692,7 @@ func (v *DCSI) UnmarshalBER(data []byte) error {
 	}
 	offset := 0
 	// Decode dp-AnalysedInfoCriteriaList
+	v.DpAnalysedInfoCriteriaListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -25838,7 +26142,10 @@ func (v *SSCamelData) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.SsEventListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -25856,12 +26163,20 @@ func (v *SSCamelData) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field ss-EventList")
 	}
+	v.SsEventListIndef_ = false
 	// Decode nested SEQUENCE_OF (SSEventList)
 	_, n_sseventlist, _, tlvErr_sseventlist := ber.DecodeTLV(content[offset:])
 	if tlvErr_sseventlist != nil {
 		return fmt.Errorf("decoding ss-EventList: %w", tlvErr_sseventlist)
 	}
-	dec_sseventlist, unmErr := UnmarshalBERSSEventList(content[offset : offset+n_sseventlist])
+	tlv_sseventlist := content[offset : offset+n_sseventlist]
+	{
+		_, tagSz_, _ := ber.DecodeTag(tlv_sseventlist)
+		if tagSz_ < len(tlv_sseventlist) && tlv_sseventlist[tagSz_] == 0x80 {
+			v.SsEventListIndef_ = true
+		}
+	}
+	dec_sseventlist, unmErr := UnmarshalBERSSEventList(tlv_sseventlist)
 	if unmErr != nil {
 		return fmt.Errorf("decoding ss-EventList: %w", unmErr)
 	}
@@ -25993,7 +26308,10 @@ func (v *OCSI) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.OBcsmCamelTDPDataListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -26011,12 +26329,20 @@ func (v *OCSI) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field o-BcsmCamelTDPDataList")
 	}
+	v.OBcsmCamelTDPDataListIndef_ = false
 	// Decode nested SEQUENCE_OF (OBcsmCamelTDPDataList)
 	_, n_obcsmcameltdpdatalist, _, tlvErr_obcsmcameltdpdatalist := ber.DecodeTLV(content[offset:])
 	if tlvErr_obcsmcameltdpdatalist != nil {
 		return fmt.Errorf("decoding o-BcsmCamelTDPDataList: %w", tlvErr_obcsmcameltdpdatalist)
 	}
-	dec_obcsmcameltdpdatalist, unmErr := UnmarshalBEROBcsmCamelTDPDataList(content[offset : offset+n_obcsmcameltdpdatalist])
+	tlv_obcsmcameltdpdatalist := content[offset : offset+n_obcsmcameltdpdatalist]
+	{
+		_, tagSz_, _ := ber.DecodeTag(tlv_obcsmcameltdpdatalist)
+		if tagSz_ < len(tlv_obcsmcameltdpdatalist) && tlv_obcsmcameltdpdatalist[tagSz_] == 0x80 {
+			v.OBcsmCamelTDPDataListIndef_ = true
+		}
+	}
+	dec_obcsmcameltdpdatalist, unmErr := UnmarshalBEROBcsmCamelTDPDataList(tlv_obcsmcameltdpdatalist)
 	if unmErr != nil {
 		return fmt.Errorf("decoding o-BcsmCamelTDPDataList: %w", unmErr)
 	}
@@ -26447,7 +26773,11 @@ func (v *OBcsmCamelTDPCriteria) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.BasicServiceCriteriaIndef_ = false
+	derValue.OCauseValueCriteriaIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -26491,6 +26821,7 @@ func (v *OBcsmCamelTDPCriteria) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode basicServiceCriteria
+	v.BasicServiceCriteriaIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -26535,6 +26866,7 @@ func (v *OBcsmCamelTDPCriteria) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode o-CauseValueCriteria
+	v.OCauseValueCriteriaIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -26653,7 +26985,11 @@ func (v *TBCSMCAMELTDPCriteria) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.BasicServiceCriteriaIndef_ = false
+	derValue.TCauseValueCriteriaIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -26678,6 +27014,7 @@ func (v *TBCSMCAMELTDPCriteria) UnmarshalBER(data []byte) error {
 	v.TBCSMTriggerDetectionPoint = TBcsmTriggerDetectionPoint(val_tbcsmtriggerdetectionpoint)
 	offset += n
 	// Decode basicServiceCriteria
+	v.BasicServiceCriteriaIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -26703,6 +27040,7 @@ func (v *TBCSMCAMELTDPCriteria) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode t-CauseValueCriteria
+	v.TCauseValueCriteriaIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -26803,7 +27141,11 @@ func (v *DestinationNumberCriteria) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.DestinationNumberListIndef_ = false
+	derValue.DestinationNumberLengthListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -26837,6 +27179,7 @@ func (v *DestinationNumberCriteria) UnmarshalBER(data []byte) error {
 	v.MatchType = MatchType(decVal_matchtype)
 	offset += n_matchtype
 	// Decode destinationNumberList
+	v.DestinationNumberListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -26862,6 +27205,7 @@ func (v *DestinationNumberCriteria) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode destinationNumberLengthList
+	v.DestinationNumberLengthListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -27128,7 +27472,10 @@ func (v *SMSCSI) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.SmsCAMELTDPDataListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -27143,6 +27490,7 @@ func (v *SMSCSI) UnmarshalBER(data []byte) error {
 	}
 	offset := 0
 	// Decode sms-CAMEL-TDP-DataList
+	v.SmsCAMELTDPDataListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -27505,7 +27853,10 @@ func (v *MCSI) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.MobilityTriggersIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -27523,12 +27874,20 @@ func (v *MCSI) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field mobilityTriggers")
 	}
+	v.MobilityTriggersIndef_ = false
 	// Decode nested SEQUENCE_OF (MobilityTriggers)
 	_, n_mobilitytriggers, _, tlvErr_mobilitytriggers := ber.DecodeTLV(content[offset:])
 	if tlvErr_mobilitytriggers != nil {
 		return fmt.Errorf("decoding mobilityTriggers: %w", tlvErr_mobilitytriggers)
 	}
-	dec_mobilitytriggers, unmErr := UnmarshalBERMobilityTriggers(content[offset : offset+n_mobilitytriggers])
+	tlv_mobilitytriggers := content[offset : offset+n_mobilitytriggers]
+	{
+		_, tagSz_, _ := ber.DecodeTag(tlv_mobilitytriggers)
+		if tagSz_ < len(tlv_mobilitytriggers) && tlv_mobilitytriggers[tagSz_] == 0x80 {
+			v.MobilityTriggersIndef_ = true
+		}
+	}
+	dec_mobilitytriggers, unmErr := UnmarshalBERMobilityTriggers(tlv_mobilitytriggers)
 	if unmErr != nil {
 		return fmt.Errorf("decoding mobilityTriggers: %w", unmErr)
 	}
@@ -27675,7 +28034,10 @@ func (v *MGCSI) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.MobilityTriggersIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -27693,12 +28055,20 @@ func (v *MGCSI) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field mobilityTriggers")
 	}
+	v.MobilityTriggersIndef_ = false
 	// Decode nested SEQUENCE_OF (MobilityTriggers)
 	_, n_mobilitytriggers, _, tlvErr_mobilitytriggers := ber.DecodeTLV(content[offset:])
 	if tlvErr_mobilitytriggers != nil {
 		return fmt.Errorf("decoding mobilityTriggers: %w", tlvErr_mobilitytriggers)
 	}
-	dec_mobilitytriggers, unmErr := UnmarshalBERMobilityTriggers(content[offset : offset+n_mobilitytriggers])
+	tlv_mobilitytriggers := content[offset : offset+n_mobilitytriggers]
+	{
+		_, tagSz_, _ := ber.DecodeTag(tlv_mobilitytriggers)
+		if tagSz_ < len(tlv_mobilitytriggers) && tlv_mobilitytriggers[tagSz_] == 0x80 {
+			v.MobilityTriggersIndef_ = true
+		}
+	}
+	dec_mobilitytriggers, unmErr := UnmarshalBERMobilityTriggers(tlv_mobilitytriggers)
 	if unmErr != nil {
 		return fmt.Errorf("decoding mobilityTriggers: %w", unmErr)
 	}
@@ -27875,7 +28245,10 @@ func (v *TCSI) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.TBcsmCamelTDPDataListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -27893,12 +28266,20 @@ func (v *TCSI) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field t-BcsmCamelTDPDataList")
 	}
+	v.TBcsmCamelTDPDataListIndef_ = false
 	// Decode nested SEQUENCE_OF (TBcsmCamelTDPDataList)
 	_, n_tbcsmcameltdpdatalist, _, tlvErr_tbcsmcameltdpdatalist := ber.DecodeTLV(content[offset:])
 	if tlvErr_tbcsmcameltdpdatalist != nil {
 		return fmt.Errorf("decoding t-BcsmCamelTDPDataList: %w", tlvErr_tbcsmcameltdpdatalist)
 	}
-	dec_tbcsmcameltdpdatalist, unmErr := UnmarshalBERTBcsmCamelTDPDataList(content[offset : offset+n_tbcsmcameltdpdatalist])
+	tlv_tbcsmcameltdpdatalist := content[offset : offset+n_tbcsmcameltdpdatalist]
+	{
+		_, tagSz_, _ := ber.DecodeTag(tlv_tbcsmcameltdpdatalist)
+		if tagSz_ < len(tlv_tbcsmcameltdpdatalist) && tlv_tbcsmcameltdpdatalist[tagSz_] == 0x80 {
+			v.TBcsmCamelTDPDataListIndef_ = true
+		}
+	}
+	dec_tbcsmcameltdpdatalist, unmErr := UnmarshalBERTBcsmCamelTDPDataList(tlv_tbcsmcameltdpdatalist)
 	if unmErr != nil {
 		return fmt.Errorf("decoding t-BcsmCamelTDPDataList: %w", unmErr)
 	}
@@ -28977,7 +29358,11 @@ func (v *ResetArg) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.HlrListIndef_ = false
+	derValue.ResetIdListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -29005,6 +29390,7 @@ func (v *ResetArg) UnmarshalBER(data []byte) error {
 	}
 	offset += n_sendingnodenumber
 	// Decode hlr-List
+	v.HlrListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -29014,7 +29400,14 @@ func (v *ResetArg) UnmarshalBER(data []byte) error {
 				if tlvErr_hlrlist != nil {
 					return fmt.Errorf("decoding hlr-List: %w", tlvErr_hlrlist)
 				}
-				dec_hlrlist, unmErr := UnmarshalBERHLRList(content[offset : offset+n_hlrlist])
+				tlv_hlrlist := content[offset : offset+n_hlrlist]
+				{
+					_, tagSz_, _ := ber.DecodeTag(tlv_hlrlist)
+					if tagSz_ < len(tlv_hlrlist) && tlv_hlrlist[tagSz_] == 0x80 {
+						v.HlrListIndef_ = true
+					}
+				}
+				dec_hlrlist, unmErr := UnmarshalBERHLRList(tlv_hlrlist)
 				if unmErr != nil {
 					return fmt.Errorf("decoding hlr-List: %w", unmErr)
 				}
@@ -29043,6 +29436,7 @@ func (v *ResetArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode reset-Id-List
+	v.ResetIdListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -33918,7 +34312,11 @@ func (v *AnyTimeSubscriptionInterrogationRes) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.MsisdnBSListIndef_ = false
+	derValue.CsgSubscriptionDataListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -34104,6 +34502,7 @@ func (v *AnyTimeSubscriptionInterrogationRes) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode msisdn-BS-List
+	v.MsisdnBSListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -34129,6 +34528,7 @@ func (v *AnyTimeSubscriptionInterrogationRes) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode csg-SubscriptionDataList
+	v.CsgSubscriptionDataListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -34307,7 +34707,10 @@ func (v *CallWaitingData) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.CwFeatureListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -34330,6 +34733,7 @@ func (v *CallWaitingData) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for cwFeatureList, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
+	v.CwFeatureListIndef_ = false
 	_, n_cwfeaturelist, rawVal_cwfeaturelist, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding cwFeatureList: %w", err)
@@ -35366,7 +35770,10 @@ func (v *MSISDNBS) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.BasicServiceListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -35391,6 +35798,7 @@ func (v *MSISDNBS) UnmarshalBER(data []byte) error {
 	v.Msisdn = ISDNAddressString(val_msisdn)
 	offset += n
 	// Decode basicServiceList
+	v.BasicServiceListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -35490,7 +35898,10 @@ func (v *CallForwardingData) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.ForwardingFeatureListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -35508,12 +35919,20 @@ func (v *CallForwardingData) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field forwardingFeatureList")
 	}
+	v.ForwardingFeatureListIndef_ = false
 	// Decode nested SEQUENCE_OF (ExtForwFeatureList)
 	_, n_forwardingfeaturelist, _, tlvErr_forwardingfeaturelist := ber.DecodeTLV(content[offset:])
 	if tlvErr_forwardingfeaturelist != nil {
 		return fmt.Errorf("decoding forwardingFeatureList: %w", tlvErr_forwardingfeaturelist)
 	}
-	dec_forwardingfeaturelist, unmErr := UnmarshalBERExtForwFeatureList(content[offset : offset+n_forwardingfeaturelist])
+	tlv_forwardingfeaturelist := content[offset : offset+n_forwardingfeaturelist]
+	{
+		_, tagSz_, _ := ber.DecodeTag(tlv_forwardingfeaturelist)
+		if tagSz_ < len(tlv_forwardingfeaturelist) && tlv_forwardingfeaturelist[tagSz_] == 0x80 {
+			v.ForwardingFeatureListIndef_ = true
+		}
+	}
+	dec_forwardingfeaturelist, unmErr := UnmarshalBERExtForwFeatureList(tlv_forwardingfeaturelist)
 	if unmErr != nil {
 		return fmt.Errorf("decoding forwardingFeatureList: %w", unmErr)
 	}
@@ -35615,7 +36034,10 @@ func (v *CallBarringData) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.CallBarringFeatureListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -35633,12 +36055,20 @@ func (v *CallBarringData) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field callBarringFeatureList")
 	}
+	v.CallBarringFeatureListIndef_ = false
 	// Decode nested SEQUENCE_OF (ExtCallBarFeatureList)
 	_, n_callbarringfeaturelist, _, tlvErr_callbarringfeaturelist := ber.DecodeTLV(content[offset:])
 	if tlvErr_callbarringfeaturelist != nil {
 		return fmt.Errorf("decoding callBarringFeatureList: %w", tlvErr_callbarringfeaturelist)
 	}
-	dec_callbarringfeaturelist, unmErr := UnmarshalBERExtCallBarFeatureList(content[offset : offset+n_callbarringfeaturelist])
+	tlv_callbarringfeaturelist := content[offset : offset+n_callbarringfeaturelist]
+	{
+		_, tagSz_, _ := ber.DecodeTag(tlv_callbarringfeaturelist)
+		if tagSz_ < len(tlv_callbarringfeaturelist) && tlv_callbarringfeaturelist[tagSz_] == 0x80 {
+			v.CallBarringFeatureListIndef_ = true
+		}
+	}
+	dec_callbarringfeaturelist, unmErr := UnmarshalBERExtCallBarFeatureList(tlv_callbarringfeaturelist)
 	if unmErr != nil {
 		return fmt.Errorf("decoding callBarringFeatureList: %w", unmErr)
 	}
@@ -36089,7 +36519,15 @@ func (v *CAMELSubscriptionInfo) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.OBcsmCamelTDPCriteriaListIndef_ = false
+	derValue.TBCSMCAMELTDPCriteriaListIndef_ = false
+	derValue.VtBCSMCAMELTDPCriteriaListIndef_ = false
+	derValue.MtSmsCAMELTDPCriteriaListIndef_ = false
+	derValue.OIMBcsmCamelTDPCriteriaListIndef_ = false
+	derValue.VtIMBCSMCAMELTDPCriteriaListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -36123,6 +36561,7 @@ func (v *CAMELSubscriptionInfo) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode o-BcsmCamelTDP-CriteriaList
+	v.OBcsmCamelTDPCriteriaListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -36186,6 +36625,7 @@ func (v *CAMELSubscriptionInfo) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode t-BCSM-CAMEL-TDP-CriteriaList
+	v.TBCSMCAMELTDPCriteriaListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -36230,6 +36670,7 @@ func (v *CAMELSubscriptionInfo) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode vt-BCSM-CAMEL-TDP-CriteriaList
+	v.VtBCSMCAMELTDPCriteriaListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -36418,6 +36859,7 @@ func (v *CAMELSubscriptionInfo) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode mt-smsCAMELTDP-CriteriaList
+	v.MtSmsCAMELTDPCriteriaListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -36481,6 +36923,7 @@ func (v *CAMELSubscriptionInfo) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode o-IM-BcsmCamelTDP-CriteriaList
+	v.OIMBcsmCamelTDPCriteriaListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -36544,6 +36987,7 @@ func (v *CAMELSubscriptionInfo) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode vt-IM-BCSM-CAMEL-TDP-CriteriaList
+	v.VtIMBCSMCAMELTDPCriteriaListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -39177,7 +39621,10 @@ func (v *NoteSubscriberDataModifiedArg) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.CsgSubscriptionDataListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -39341,6 +39788,7 @@ func (v *NoteSubscriberDataModifiedArg) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode csg-SubscriptionDataList
+	v.CsgSubscriptionDataListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -39912,6 +40360,28 @@ func (v *ExtSSInfoForCSE) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ExtSSInfoForCSE to DER format.
 func (v *ExtSSInfoForCSE) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case ExtSSInfoForCSEChoiceForwardingInfoForCSE:
+		if v.ForwardingInfoForCSE == nil {
+			return nil, fmt.Errorf("choice ExtSSInfoForCSE: forwardingInfoFor-CSE is nil")
+		}
+		enc_der_0, err := v.ForwardingInfoForCSE.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding forwardingInfoFor-CSE: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		return enc_der_0, nil
+	case ExtSSInfoForCSEChoiceCallBarringInfoForCSE:
+		if v.CallBarringInfoForCSE == nil {
+			return nil, fmt.Errorf("choice ExtSSInfoForCSE: callBarringInfoFor-CSE is nil")
+		}
+		enc_der_1, err := v.CallBarringInfoForCSE.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding callBarringInfoFor-CSE: %w", err)
+		}
+		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_1)
+		return enc_der_1, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -40018,7 +40488,10 @@ func (v *ExtForwardingInfoForCSE) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.ForwardingFeatureListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -40056,6 +40529,7 @@ func (v *ExtForwardingInfoForCSE) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for forwardingFeatureList, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
+	v.ForwardingFeatureListIndef_ = false
 	_, n_forwardingfeaturelist, rawVal_forwardingfeaturelist, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding forwardingFeatureList: %w", err)
@@ -40187,7 +40661,10 @@ func (v *ExtCallBarringInfoForCSE) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.CallBarringFeatureListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -40225,6 +40702,7 @@ func (v *ExtCallBarringInfoForCSE) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for callBarringFeatureList, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
+	v.CallBarringFeatureListIndef_ = false
 	_, n_callbarringfeaturelist, rawVal_callbarringfeaturelist, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding callBarringFeatureList: %w", err)
