@@ -214,6 +214,48 @@ func (v *ROSSingleAS) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ROSSingleAS to DER format.
 func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case ROSSingleASChoiceInvoke:
+		if v.Invoke == nil {
+			return nil, fmt.Errorf("choice ROSSingleAS: invoke is nil")
+		}
+		enc_der_0, err := v.Invoke.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding invoke: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_0)
+		return enc_der_0, nil
+	case ROSSingleASChoiceReturnResult:
+		if v.ReturnResult == nil {
+			return nil, fmt.Errorf("choice ROSSingleAS: returnResult is nil")
+		}
+		enc_der_1, err := v.ReturnResult.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding returnResult: %w", err)
+		}
+		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_der_1)
+		return enc_der_1, nil
+	case ROSSingleASChoiceReturnError:
+		if v.ReturnError == nil {
+			return nil, fmt.Errorf("choice ROSSingleAS: returnError is nil")
+		}
+		enc_der_2, err := v.ReturnError.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding returnError: %w", err)
+		}
+		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_der_2)
+		return enc_der_2, nil
+	case ROSSingleASChoiceReject:
+		if v.Reject == nil {
+			return nil, fmt.Errorf("choice ROSSingleAS: reject is nil")
+		}
+		enc_der_3, err := v.Reject.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding reject: %w", err)
+		}
+		enc_der_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_der_3)
+		return enc_der_3, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -340,6 +382,48 @@ func (v *ROSConsumerAS) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ROSConsumerAS to DER format.
 func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case ROSConsumerASChoiceInvoke:
+		if v.Invoke == nil {
+			return nil, fmt.Errorf("choice ROSConsumerAS: invoke is nil")
+		}
+		enc_der_0, err := v.Invoke.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding invoke: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_0)
+		return enc_der_0, nil
+	case ROSConsumerASChoiceReturnResult:
+		if v.ReturnResult == nil {
+			return nil, fmt.Errorf("choice ROSConsumerAS: returnResult is nil")
+		}
+		enc_der_1, err := v.ReturnResult.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding returnResult: %w", err)
+		}
+		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_der_1)
+		return enc_der_1, nil
+	case ROSConsumerASChoiceReturnError:
+		if v.ReturnError == nil {
+			return nil, fmt.Errorf("choice ROSConsumerAS: returnError is nil")
+		}
+		enc_der_2, err := v.ReturnError.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding returnError: %w", err)
+		}
+		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_der_2)
+		return enc_der_2, nil
+	case ROSConsumerASChoiceReject:
+		if v.Reject == nil {
+			return nil, fmt.Errorf("choice ROSConsumerAS: reject is nil")
+		}
+		enc_der_3, err := v.Reject.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding reject: %w", err)
+		}
+		enc_der_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_der_3)
+		return enc_der_3, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -466,6 +550,48 @@ func (v *ROSSupplierAS) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ROSSupplierAS to DER format.
 func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case ROSSupplierASChoiceInvoke:
+		if v.Invoke == nil {
+			return nil, fmt.Errorf("choice ROSSupplierAS: invoke is nil")
+		}
+		enc_der_0, err := v.Invoke.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding invoke: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_0)
+		return enc_der_0, nil
+	case ROSSupplierASChoiceReturnResult:
+		if v.ReturnResult == nil {
+			return nil, fmt.Errorf("choice ROSSupplierAS: returnResult is nil")
+		}
+		enc_der_1, err := v.ReturnResult.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding returnResult: %w", err)
+		}
+		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_der_1)
+		return enc_der_1, nil
+	case ROSSupplierASChoiceReturnError:
+		if v.ReturnError == nil {
+			return nil, fmt.Errorf("choice ROSSupplierAS: returnError is nil")
+		}
+		enc_der_2, err := v.ReturnError.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding returnError: %w", err)
+		}
+		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_der_2)
+		return enc_der_2, nil
+	case ROSSupplierASChoiceReject:
+		if v.Reject == nil {
+			return nil, fmt.Errorf("choice ROSSupplierAS: reject is nil")
+		}
+		enc_der_3, err := v.Reject.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding reject: %w", err)
+		}
+		enc_der_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_der_3)
+		return enc_der_3, nil
+	}
 	return v.MarshalBER()
 }
 
