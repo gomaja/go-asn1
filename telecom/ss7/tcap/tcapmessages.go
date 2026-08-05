@@ -153,8 +153,31 @@ func NewReasonUAbortCause(v DialoguePortion) Reason {
 	}
 }
 
-// DialoguePortion represents the ASN.1 type DialoguePortion (OCTET_STRING).
-type DialoguePortion = []byte
+// DialoguePortion represents the ASN.1 type DialoguePortion ([APPLICATION 11] EXPLICIT EXTERNAL).
+type DialoguePortion = ExternalPDU
+
+func marshalBERDialoguePortion(v *DialoguePortion) ([]byte, error) {
+	enc, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	return ber.EncodeExplicitTagWithClass(tag.ClassApplication, 11, enc), nil
+}
+
+func unmarshalBERDialoguePortion(data []byte) (DialoguePortion, int, error) {
+	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
+	if err != nil {
+		return DialoguePortion{}, 0, err
+	}
+	if decodedTag.Class != tag.ClassApplication || decodedTag.Number != 11 || !decodedTag.Constructed {
+		return DialoguePortion{}, 0, fmt.Errorf("%w: expected tag [APPLICATION 11], got %s", ber.ErrInvalidTag, decodedTag)
+	}
+	var v DialoguePortion
+	if err := v.UnmarshalBER(content); err != nil {
+		return DialoguePortion{}, 0, err
+	}
+	return v, total, nil
+}
 
 // DialogueOC represents the ASN.1 type DialogueOC (OCTET_STRING).
 type DialogueOC = []byte
@@ -697,8 +720,10 @@ func (v *TCMessage) UnmarshalBER(data []byte) error {
 func (v *Unidirectional) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.DialoguePortion != nil {
-		enc_dialogueportion := ber.EncodeOctetString([]byte(*v.DialoguePortion))
-		enc_dialogueportion = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 11, false, enc_dialogueportion)
+		enc_dialogueportion, err := marshalBERDialoguePortion(v.DialoguePortion)
+		if err != nil {
+			return nil, fmt.Errorf("encoding dialoguePortion: %w", err)
+		}
 		children = append(children, enc_dialogueportion...)
 	}
 	enc_components, err := MarshalBERComponentPortion(v.Components)
@@ -740,11 +765,10 @@ func (v *Unidirectional) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassApplication && peekTag.Number == 11 {
-				_, n_dialogueportion, rawVal_dialogueportion, err := ber.DecodeTLV(content[offset:])
+				tmp_dialogueportion, n_dialogueportion, err := unmarshalBERDialoguePortion(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding dialoguePortion: %w", err)
 				}
-				tmp_dialogueportion := DialoguePortion(rawVal_dialogueportion)
 				v.DialoguePortion = &tmp_dialogueportion
 				offset += n_dialogueportion
 			}
@@ -789,8 +813,10 @@ func (v *Begin) MarshalBER() ([]byte, error) {
 	enc_otid = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 8, false, enc_otid)
 	children = append(children, enc_otid...)
 	if v.DialoguePortion != nil {
-		enc_dialogueportion := ber.EncodeOctetString([]byte(*v.DialoguePortion))
-		enc_dialogueportion = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 11, false, enc_dialogueportion)
+		enc_dialogueportion, err := marshalBERDialoguePortion(v.DialoguePortion)
+		if err != nil {
+			return nil, fmt.Errorf("encoding dialoguePortion: %w", err)
+		}
 		children = append(children, enc_dialogueportion...)
 	}
 	if v.Components != nil {
@@ -849,11 +875,10 @@ func (v *Begin) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassApplication && peekTag.Number == 11 {
-				_, n_dialogueportion, rawVal_dialogueportion, err := ber.DecodeTLV(content[offset:])
+				tmp_dialogueportion, n_dialogueportion, err := unmarshalBERDialoguePortion(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding dialoguePortion: %w", err)
 				}
-				tmp_dialogueportion := DialoguePortion(rawVal_dialogueportion)
 				v.DialoguePortion = &tmp_dialogueportion
 				offset += n_dialogueportion
 			}
@@ -897,8 +922,10 @@ func (v *End) MarshalBER() ([]byte, error) {
 	enc_dtid = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, false, enc_dtid)
 	children = append(children, enc_dtid...)
 	if v.DialoguePortion != nil {
-		enc_dialogueportion := ber.EncodeOctetString([]byte(*v.DialoguePortion))
-		enc_dialogueportion = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 11, false, enc_dialogueportion)
+		enc_dialogueportion, err := marshalBERDialoguePortion(v.DialoguePortion)
+		if err != nil {
+			return nil, fmt.Errorf("encoding dialoguePortion: %w", err)
+		}
 		children = append(children, enc_dialogueportion...)
 	}
 	if v.Components != nil {
@@ -957,11 +984,10 @@ func (v *End) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassApplication && peekTag.Number == 11 {
-				_, n_dialogueportion, rawVal_dialogueportion, err := ber.DecodeTLV(content[offset:])
+				tmp_dialogueportion, n_dialogueportion, err := unmarshalBERDialoguePortion(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding dialoguePortion: %w", err)
 				}
-				tmp_dialogueportion := DialoguePortion(rawVal_dialogueportion)
 				v.DialoguePortion = &tmp_dialogueportion
 				offset += n_dialogueportion
 			}
@@ -1008,8 +1034,10 @@ func (v *Continue) MarshalBER() ([]byte, error) {
 	enc_dtid = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, false, enc_dtid)
 	children = append(children, enc_dtid...)
 	if v.DialoguePortion != nil {
-		enc_dialogueportion := ber.EncodeOctetString([]byte(*v.DialoguePortion))
-		enc_dialogueportion = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 11, false, enc_dialogueportion)
+		enc_dialogueportion, err := marshalBERDialoguePortion(v.DialoguePortion)
+		if err != nil {
+			return nil, fmt.Errorf("encoding dialoguePortion: %w", err)
+		}
 		children = append(children, enc_dialogueportion...)
 	}
 	if v.Components != nil {
@@ -1083,11 +1111,10 @@ func (v *Continue) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassApplication && peekTag.Number == 11 {
-				_, n_dialogueportion, rawVal_dialogueportion, err := ber.DecodeTLV(content[offset:])
+				tmp_dialogueportion, n_dialogueportion, err := unmarshalBERDialoguePortion(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding dialoguePortion: %w", err)
 				}
-				tmp_dialogueportion := DialoguePortion(rawVal_dialogueportion)
 				v.DialoguePortion = &tmp_dialogueportion
 				offset += n_dialogueportion
 			}
@@ -1198,11 +1225,13 @@ func (v *Reason) MarshalBER() ([]byte, error) {
 		if v.PAbortCause == nil {
 			return nil, fmt.Errorf("choice Reason: p-abortCause is nil")
 		}
-		enc_0 := ber.EncodeInteger(int64(*v.PAbortCause))
+		enc_0 := ber.EncodeTLV(tag.Tag{Class: tag.ClassApplication, Number: 10}, ber.EncodeIntegerValue(int64(*v.PAbortCause)))
 		return enc_0, nil
 	case ReasonChoiceUAbortCause:
-		enc_1 := ber.EncodeOctetString([]byte(*v.UAbortCause))
-		return enc_1, nil
+		if v.UAbortCause == nil {
+			return nil, fmt.Errorf("choice Reason: u-abortCause is nil")
+		}
+		return marshalBERDialoguePortion(v.UAbortCause)
 	default:
 		return nil, fmt.Errorf("unknown choice %d for Reason", v.Choice)
 	}
@@ -1223,7 +1252,7 @@ func (v *Reason) UnmarshalBER(data []byte) error {
 		return fmt.Errorf("peeking tag for Reason: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, rawVal, tlvErr := ber.DecodeTLV(data)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding Reason CHOICE: %w", tlvErr)
 	}
@@ -1233,19 +1262,18 @@ func (v *Reason) UnmarshalBER(data []byte) error {
 
 	if peekTag.Class == tag.ClassApplication && peekTag.Number == 10 {
 		v.Choice = ReasonChoicePAbortCause
-		decVal, _, intErr := ber.DecodeInteger(data)
+		decVal, intErr := ber.DecodeIntegerValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding p-abortCause: %w", intErr)
 		}
 		v.PAbortCause = &decVal
 	} else if peekTag.Class == tag.ClassApplication && peekTag.Number == 11 {
 		v.Choice = ReasonChoiceUAbortCause
-		decVal, _, osErr := ber.DecodeOctetString(data)
-		if osErr != nil {
-			return fmt.Errorf("decoding u-abortCause: %w", osErr)
+		decVal, _, dialogueErr := unmarshalBERDialoguePortion(data)
+		if dialogueErr != nil {
+			return fmt.Errorf("decoding u-abortCause: %w", dialogueErr)
 		}
-		tmp := DialoguePortion(decVal)
-		v.UAbortCause = &tmp
+		v.UAbortCause = &decVal
 	} else {
 		return fmt.Errorf("unknown tag %s for Reason CHOICE", peekTag)
 	}

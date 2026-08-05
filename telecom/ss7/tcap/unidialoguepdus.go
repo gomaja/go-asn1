@@ -236,7 +236,7 @@ func MarshalBERAUDTApduUserInformation(list AUDTApduUserInformation) ([]byte, er
 
 // UnmarshalBERAUDTApduUserInformation decodes a AUDTApduUserInformation list from BER.
 func UnmarshalBERAUDTApduUserInformation(data []byte) (AUDTApduUserInformation, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding AUDTApduUserInformation: %w", err)
 	}
