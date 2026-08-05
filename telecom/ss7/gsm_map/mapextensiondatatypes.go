@@ -115,7 +115,10 @@ func (v *ExtensionContainer) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.PrivateExtensionListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -130,6 +133,7 @@ func (v *ExtensionContainer) UnmarshalBER(data []byte) error {
 	}
 	offset := 0
 	// Decode privateExtensionList
+	v.PrivateExtensionListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -237,7 +241,10 @@ func (v *SLRArgExtensionContainer) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.PrivateExtensionListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -252,6 +259,7 @@ func (v *SLRArgExtensionContainer) UnmarshalBER(data []byte) error {
 	}
 	offset := 0
 	// Decode privateExtensionList
+	v.PrivateExtensionListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {

@@ -358,6 +358,68 @@ func (v *MAPDialoguePDU) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes MAPDialoguePDU to DER format.
 func (v *MAPDialoguePDU) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case MAPDialoguePDUChoiceMapOpen:
+		if v.MapOpen == nil {
+			return nil, fmt.Errorf("choice MAPDialoguePDU: map-open is nil")
+		}
+		enc_der_0, err := v.MapOpen.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding map-open: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		return enc_der_0, nil
+	case MAPDialoguePDUChoiceMapAccept:
+		if v.MapAccept == nil {
+			return nil, fmt.Errorf("choice MAPDialoguePDU: map-accept is nil")
+		}
+		enc_der_1, err := v.MapAccept.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding map-accept: %w", err)
+		}
+		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_1)
+		return enc_der_1, nil
+	case MAPDialoguePDUChoiceMapClose:
+		if v.MapClose == nil {
+			return nil, fmt.Errorf("choice MAPDialoguePDU: map-close is nil")
+		}
+		enc_der_2, err := v.MapClose.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding map-close: %w", err)
+		}
+		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_der_2)
+		return enc_der_2, nil
+	case MAPDialoguePDUChoiceMapRefuse:
+		if v.MapRefuse == nil {
+			return nil, fmt.Errorf("choice MAPDialoguePDU: map-refuse is nil")
+		}
+		enc_der_3, err := v.MapRefuse.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding map-refuse: %w", err)
+		}
+		enc_der_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_der_3)
+		return enc_der_3, nil
+	case MAPDialoguePDUChoiceMapUserAbort:
+		if v.MapUserAbort == nil {
+			return nil, fmt.Errorf("choice MAPDialoguePDU: map-userAbort is nil")
+		}
+		enc_der_4, err := v.MapUserAbort.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding map-userAbort: %w", err)
+		}
+		enc_der_4 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_der_4)
+		return enc_der_4, nil
+	case MAPDialoguePDUChoiceMapProviderAbort:
+		if v.MapProviderAbort == nil {
+			return nil, fmt.Errorf("choice MAPDialoguePDU: map-providerAbort is nil")
+		}
+		enc_der_5, err := v.MapProviderAbort.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding map-providerAbort: %w", err)
+		}
+		enc_der_5 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, true, enc_der_5)
+		return enc_der_5, nil
+	}
 	return v.MarshalBER()
 }
 

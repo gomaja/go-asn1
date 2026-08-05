@@ -3127,7 +3127,10 @@ func (v *AreaDefinition) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.AreaListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -3150,6 +3153,7 @@ func (v *AreaDefinition) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for areaList, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
+	v.AreaListIndef_ = false
 	_, n_arealist, rawVal_arealist, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding areaList: %w", err)
@@ -3539,7 +3543,10 @@ func (v *ReportingPLMNList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.PlmnListIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -3577,6 +3584,7 @@ func (v *ReportingPLMNList) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for plmn-List, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
+	v.PlmnListIndef_ = false
 	_, n_plmnlist, rawVal_plmnlist, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding plmn-List: %w", err)

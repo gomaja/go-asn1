@@ -2058,7 +2058,13 @@ func (v *BoundProfilePackage) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes BoundProfilePackage to DER format.
 func (v *BoundProfilePackage) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.FirstSequenceOf87Indef_ = false
+	derValue.SequenceOf88Indef_ = false
+	derValue.SecondSequenceOf87Indef_ = false
+	derValue.SequenceOf86Indef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -2102,6 +2108,7 @@ func (v *BoundProfilePackage) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for firstSequenceOf87, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
+	v.FirstSequenceOf87Indef_ = false
 	_, n_firstsequenceof87, rawVal_firstsequenceof87, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding firstSequenceOf87: %w", err)
@@ -2128,6 +2135,7 @@ func (v *BoundProfilePackage) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for sequenceOf88, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
+	v.SequenceOf88Indef_ = false
 	_, n_sequenceof88, rawVal_sequenceof88, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding sequenceOf88: %w", err)
@@ -2146,6 +2154,7 @@ func (v *BoundProfilePackage) UnmarshalBER(data []byte) error {
 	}
 	offset += n_sequenceof88
 	// Decode secondSequenceOf87
+	v.SecondSequenceOf87Indef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -2179,6 +2188,7 @@ func (v *BoundProfilePackage) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for sequenceOf86, got %s", "CONTEXT", 3, reqTag_)
 		}
 	}
+	v.SequenceOf86Indef_ = false
 	_, n_sequenceof86, rawVal_sequenceof86, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding sequenceOf86: %w", err)
@@ -3224,7 +3234,10 @@ func (v *UpdateMetadataRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes UpdateMetadataRequest to DER format.
 func (v *UpdateMetadataRequest) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.ServiceSpecificDataStoredInEuiccIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -3325,6 +3338,7 @@ func (v *UpdateMetadataRequest) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode serviceSpecificDataStoredInEuicc
+	v.ServiceSpecificDataStoredInEuiccIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -3821,7 +3835,12 @@ func (v *StoreMetadataRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes StoreMetadataRequest to DER format.
 func (v *StoreMetadataRequest) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.NotificationConfigurationInfoIndef_ = false
+	derValue.ServiceSpecificDataStoredInEuiccIndef_ = false
+	derValue.ServiceSpecificDataNotStoredInEuiccIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -3939,6 +3958,7 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode notificationConfigurationInfo
+	v.NotificationConfigurationInfoIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -4002,6 +4022,7 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode serviceSpecificDataStoredInEuicc
+	v.ServiceSpecificDataStoredInEuiccIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -4027,6 +4048,7 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode serviceSpecificDataNotStoredInEuicc
+	v.ServiceSpecificDataNotStoredInEuiccIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -4904,6 +4926,30 @@ func (v *PrepareDownloadResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes PrepareDownloadResponse to DER format.
 func (v *PrepareDownloadResponse) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case PrepareDownloadResponseChoiceDownloadResponseOk:
+		if v.DownloadResponseOk == nil {
+			return nil, fmt.Errorf("choice PrepareDownloadResponse: downloadResponseOk is nil")
+		}
+		enc_der_0, err := v.DownloadResponseOk.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding downloadResponseOk: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 33, enc_der_0)
+		return enc_der_0, nil
+	case PrepareDownloadResponseChoiceDownloadResponseError:
+		if v.DownloadResponseError == nil {
+			return nil, fmt.Errorf("choice PrepareDownloadResponse: downloadResponseError is nil")
+		}
+		enc_der_1, err := v.DownloadResponseError.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding downloadResponseError: %w", err)
+		}
+		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_1)
+		enc_der_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 33, enc_der_1)
+		return enc_der_1, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -5343,7 +5389,11 @@ func (v *EUICCInfo1) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EUICCInfo1 to DER format.
 func (v *EUICCInfo1) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.EuiccCiPKIdListForVerificationIndef_ = false
+	derValue.EuiccCiPKIdListForSigningIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -5384,6 +5434,7 @@ func (v *EUICCInfo1) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for euiccCiPKIdListForVerification, got %s", "CONTEXT", 9, reqTag_)
 		}
 	}
+	v.EuiccCiPKIdListForVerificationIndef_ = false
 	_, n_euicccipkidlistforverification, rawVal_euicccipkidlistforverification, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding euiccCiPKIdListForVerification: %w", err)
@@ -5410,6 +5461,7 @@ func (v *EUICCInfo1) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for euiccCiPKIdListForSigning, got %s", "CONTEXT", 10, reqTag_)
 		}
 	}
+	v.EuiccCiPKIdListForSigningIndef_ = false
 	_, n_euicccipkidlistforsigning, rawVal_euicccipkidlistforsigning, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding euiccCiPKIdListForSigning: %w", err)
@@ -5593,7 +5645,13 @@ func (v *EUICCInfo2) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EUICCInfo2 to DER format.
 func (v *EUICCInfo2) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.EuiccCiPKIdListForVerificationIndef_ = false
+	derValue.EuiccCiPKIdListForSigningIndef_ = false
+	derValue.AdditionalEuiccProfilePackageVersionsIndef_ = false
+	derValue.EuiccCiPKIdListForSigningV3Indef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -5747,6 +5805,7 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for euiccCiPKIdListForVerification, got %s", "CONTEXT", 9, reqTag_)
 		}
 	}
+	v.EuiccCiPKIdListForVerificationIndef_ = false
 	_, n_euicccipkidlistforverification, rawVal_euicccipkidlistforverification, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding euiccCiPKIdListForVerification: %w", err)
@@ -5773,6 +5832,7 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for euiccCiPKIdListForSigning, got %s", "CONTEXT", 10, reqTag_)
 		}
 	}
+	v.EuiccCiPKIdListForSigningIndef_ = false
 	_, n_euicccipkidlistforsigning, rawVal_euicccipkidlistforsigning, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding euiccCiPKIdListForSigning: %w", err)
@@ -5901,6 +5961,7 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode additionalEuiccProfilePackageVersions
+	v.AdditionalEuiccProfilePackageVersionsIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -5944,6 +6005,7 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode euiccCiPKIdListForSigningV3
+	v.EuiccCiPKIdListForSigningV3Indef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -6566,6 +6628,26 @@ func (v *PendingNotification) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes PendingNotification to DER format.
 func (v *PendingNotification) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case PendingNotificationChoiceProfileInstallationResult:
+		if v.ProfileInstallationResult == nil {
+			return nil, fmt.Errorf("choice PendingNotification: profileInstallationResult is nil")
+		}
+		enc_der_0, err := v.ProfileInstallationResult.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding profileInstallationResult: %w", err)
+		}
+		return enc_der_0, nil
+	case PendingNotificationChoiceOtherSignedNotification:
+		if v.OtherSignedNotification == nil {
+			return nil, fmt.Errorf("choice PendingNotification: otherSignedNotification is nil")
+		}
+		enc_der_1, err := v.OtherSignedNotification.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding otherSignedNotification: %w", err)
+		}
+		return enc_der_1, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -6901,6 +6983,19 @@ func (v *LoadCRLResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LoadCRLResponse to DER format.
 func (v *LoadCRLResponse) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case LoadCRLResponseChoiceLoadCRLResponseOk:
+		if v.LoadCRLResponseOk == nil {
+			return nil, fmt.Errorf("choice LoadCRLResponse: loadCRLResponseOk is nil")
+		}
+		enc_der_0, err := v.LoadCRLResponseOk.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding loadCRLResponseOk: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 53, enc_der_0)
+		return enc_der_0, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -6992,7 +7087,10 @@ func (v *LoadCRLResponseOk) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LoadCRLResponseOk to DER format.
 func (v *LoadCRLResponseOk) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.MissingPartsIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -7007,6 +7105,7 @@ func (v *LoadCRLResponseOk) UnmarshalBER(data []byte) error {
 	}
 	offset := 0
 	// Decode missingParts
+	v.MissingPartsIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -7273,6 +7372,18 @@ func (v *CtxParams1) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CtxParams1 to DER format.
 func (v *CtxParams1) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case CtxParams1ChoiceCtxParamsForCommonAuthentication:
+		if v.CtxParamsForCommonAuthentication == nil {
+			return nil, fmt.Errorf("choice CtxParams1: ctxParamsForCommonAuthentication is nil")
+		}
+		enc_der_0, err := v.CtxParamsForCommonAuthentication.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding ctxParamsForCommonAuthentication: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		return enc_der_0, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -7417,6 +7528,30 @@ func (v *AuthenticateServerResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AuthenticateServerResponse to DER format.
 func (v *AuthenticateServerResponse) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case AuthenticateServerResponseChoiceAuthenticateResponseOk:
+		if v.AuthenticateResponseOk == nil {
+			return nil, fmt.Errorf("choice AuthenticateServerResponse: authenticateResponseOk is nil")
+		}
+		enc_der_0, err := v.AuthenticateResponseOk.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding authenticateResponseOk: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 56, enc_der_0)
+		return enc_der_0, nil
+	case AuthenticateServerResponseChoiceAuthenticateResponseError:
+		if v.AuthenticateResponseError == nil {
+			return nil, fmt.Errorf("choice AuthenticateServerResponse: authenticateResponseError is nil")
+		}
+		enc_der_1, err := v.AuthenticateResponseError.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding authenticateResponseError: %w", err)
+		}
+		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_1)
+		enc_der_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 56, enc_der_1)
+		return enc_der_1, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -7865,6 +8000,19 @@ func (v *CancelSessionResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CancelSessionResponse to DER format.
 func (v *CancelSessionResponse) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case CancelSessionResponseChoiceCancelSessionResponseOk:
+		if v.CancelSessionResponseOk == nil {
+			return nil, fmt.Errorf("choice CancelSessionResponse: cancelSessionResponseOk is nil")
+		}
+		enc_der_0, err := v.CancelSessionResponseOk.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding cancelSessionResponseOk: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 65, enc_der_0)
+		return enc_der_0, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -8423,7 +8571,11 @@ func (v *ProfileInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ProfileInfo to DER format.
 func (v *ProfileInfo) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.NotificationConfigurationInfoIndef_ = false
+	derValue.ServiceSpecificDataStoredInEuiccIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -8588,6 +8740,7 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode notificationConfigurationInfo
+	v.NotificationConfigurationInfoIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -8670,6 +8823,7 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode serviceSpecificDataStoredInEuicc
+	v.ServiceSpecificDataStoredInEuiccIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -9563,7 +9717,10 @@ func (v *GetRatResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes GetRatResponse to DER format.
 func (v *GetRatResponse) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.RatIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -9589,6 +9746,7 @@ func (v *GetRatResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for rat, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
+	v.RatIndef_ = false
 	_, n_rat, rawVal_rat, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding rat: %w", err)
@@ -9680,7 +9838,10 @@ func (v *ProfilePolicyAuthorisationRule) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ProfilePolicyAuthorisationRule to DER format.
 func (v *ProfilePolicyAuthorisationRule) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.AllowedOperatorsIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -9722,6 +9883,7 @@ func (v *ProfilePolicyAuthorisationRule) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for allowedOperators, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
+	v.AllowedOperatorsIndef_ = false
 	_, n_allowedoperators, rawVal_allowedoperators, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding allowedOperators: %w", err)
@@ -9824,6 +9986,58 @@ func (v *RemoteProfileProvisioningRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RemoteProfileProvisioningRequest to DER format.
 func (v *RemoteProfileProvisioningRequest) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case RemoteProfileProvisioningRequestChoiceInitiateAuthenticationRequest:
+		if v.InitiateAuthenticationRequest == nil {
+			return nil, fmt.Errorf("choice RemoteProfileProvisioningRequest: initiateAuthenticationRequest is nil")
+		}
+		enc_der_0, err := v.InitiateAuthenticationRequest.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding initiateAuthenticationRequest: %w", err)
+		}
+		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_0)
+		return enc_der_0, nil
+	case RemoteProfileProvisioningRequestChoiceAuthenticateClientRequest:
+		if v.AuthenticateClientRequest == nil {
+			return nil, fmt.Errorf("choice RemoteProfileProvisioningRequest: authenticateClientRequest is nil")
+		}
+		enc_der_1, err := v.AuthenticateClientRequest.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding authenticateClientRequest: %w", err)
+		}
+		enc_der_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_1)
+		return enc_der_1, nil
+	case RemoteProfileProvisioningRequestChoiceGetBoundProfilePackageRequest:
+		if v.GetBoundProfilePackageRequest == nil {
+			return nil, fmt.Errorf("choice RemoteProfileProvisioningRequest: getBoundProfilePackageRequest is nil")
+		}
+		enc_der_2, err := v.GetBoundProfilePackageRequest.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding getBoundProfilePackageRequest: %w", err)
+		}
+		enc_der_2 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_2)
+		return enc_der_2, nil
+	case RemoteProfileProvisioningRequestChoiceCancelSessionRequestEs9:
+		if v.CancelSessionRequestEs9 == nil {
+			return nil, fmt.Errorf("choice RemoteProfileProvisioningRequest: cancelSessionRequestEs9 is nil")
+		}
+		enc_der_3, err := v.CancelSessionRequestEs9.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding cancelSessionRequestEs9: %w", err)
+		}
+		enc_der_3 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_3)
+		return enc_der_3, nil
+	case RemoteProfileProvisioningRequestChoiceHandleNotification:
+		if v.HandleNotification == nil {
+			return nil, fmt.Errorf("choice RemoteProfileProvisioningRequest: handleNotification is nil")
+		}
+		enc_der_4, err := v.HandleNotification.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding handleNotification: %w", err)
+		}
+		enc_der_4 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_4)
+		return enc_der_4, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -9961,6 +10175,58 @@ func (v *RemoteProfileProvisioningResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RemoteProfileProvisioningResponse to DER format.
 func (v *RemoteProfileProvisioningResponse) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case RemoteProfileProvisioningResponseChoiceInitiateAuthenticationResponse:
+		if v.InitiateAuthenticationResponse == nil {
+			return nil, fmt.Errorf("choice RemoteProfileProvisioningResponse: initiateAuthenticationResponse is nil")
+		}
+		enc_der_0, err := v.InitiateAuthenticationResponse.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding initiateAuthenticationResponse: %w", err)
+		}
+		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_0)
+		return enc_der_0, nil
+	case RemoteProfileProvisioningResponseChoiceAuthenticateClientResponseEs9:
+		if v.AuthenticateClientResponseEs9 == nil {
+			return nil, fmt.Errorf("choice RemoteProfileProvisioningResponse: authenticateClientResponseEs9 is nil")
+		}
+		enc_der_1, err := v.AuthenticateClientResponseEs9.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding authenticateClientResponseEs9: %w", err)
+		}
+		enc_der_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_1)
+		return enc_der_1, nil
+	case RemoteProfileProvisioningResponseChoiceGetBoundProfilePackageResponse:
+		if v.GetBoundProfilePackageResponse == nil {
+			return nil, fmt.Errorf("choice RemoteProfileProvisioningResponse: getBoundProfilePackageResponse is nil")
+		}
+		enc_der_2, err := v.GetBoundProfilePackageResponse.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding getBoundProfilePackageResponse: %w", err)
+		}
+		enc_der_2 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_2)
+		return enc_der_2, nil
+	case RemoteProfileProvisioningResponseChoiceCancelSessionResponseEs9:
+		if v.CancelSessionResponseEs9 == nil {
+			return nil, fmt.Errorf("choice RemoteProfileProvisioningResponse: cancelSessionResponseEs9 is nil")
+		}
+		enc_der_3, err := v.CancelSessionResponseEs9.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding cancelSessionResponseEs9: %w", err)
+		}
+		enc_der_3 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_3)
+		return enc_der_3, nil
+	case RemoteProfileProvisioningResponseChoiceAuthenticateClientResponseEs11:
+		if v.AuthenticateClientResponseEs11 == nil {
+			return nil, fmt.Errorf("choice RemoteProfileProvisioningResponse: authenticateClientResponseEs11 is nil")
+		}
+		enc_der_4, err := v.AuthenticateClientResponseEs11.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding authenticateClientResponseEs11: %w", err)
+		}
+		enc_der_4 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_4)
+		return enc_der_4, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -10153,6 +10419,19 @@ func (v *InitiateAuthenticationResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes InitiateAuthenticationResponse to DER format.
 func (v *InitiateAuthenticationResponse) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case InitiateAuthenticationResponseChoiceInitiateAuthenticationOk:
+		if v.InitiateAuthenticationOk == nil {
+			return nil, fmt.Errorf("choice InitiateAuthenticationResponse: initiateAuthenticationOk is nil")
+		}
+		enc_der_0, err := v.InitiateAuthenticationOk.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding initiateAuthenticationOk: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 57, enc_der_0)
+		return enc_der_0, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -10460,6 +10739,30 @@ func (v *AuthenticateClientResponseEs9) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AuthenticateClientResponseEs9 to DER format.
 func (v *AuthenticateClientResponseEs9) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case AuthenticateClientResponseEs9ChoiceAuthenticateClientOk:
+		if v.AuthenticateClientOk == nil {
+			return nil, fmt.Errorf("choice AuthenticateClientResponseEs9: authenticateClientOk is nil")
+		}
+		enc_der_0, err := v.AuthenticateClientOk.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding authenticateClientOk: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 59, enc_der_0)
+		return enc_der_0, nil
+	case AuthenticateClientResponseEs9ChoiceAuthenticateClientOkAcr:
+		if v.AuthenticateClientOkAcr == nil {
+			return nil, fmt.Errorf("choice AuthenticateClientResponseEs9: authenticateClientOkAcr is nil")
+		}
+		enc_der_2, err := v.AuthenticateClientOkAcr.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding authenticateClientOkAcr: %w", err)
+		}
+		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, true, enc_der_2)
+		enc_der_2 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 59, enc_der_2)
+		return enc_der_2, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -10830,6 +11133,19 @@ func (v *GetBoundProfilePackageResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes GetBoundProfilePackageResponse to DER format.
 func (v *GetBoundProfilePackageResponse) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case GetBoundProfilePackageResponseChoiceGetBoundProfilePackageOk:
+		if v.GetBoundProfilePackageOk == nil {
+			return nil, fmt.Errorf("choice GetBoundProfilePackageResponse: getBoundProfilePackageOk is nil")
+		}
+		enc_der_0, err := v.GetBoundProfilePackageOk.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding getBoundProfilePackageOk: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 58, enc_der_0)
+		return enc_der_0, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -11121,6 +11437,19 @@ func (v *CancelSessionResponseEs9) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CancelSessionResponseEs9 to DER format.
 func (v *CancelSessionResponseEs9) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case CancelSessionResponseEs9ChoiceCancelSessionOk:
+		if v.CancelSessionOk == nil {
+			return nil, fmt.Errorf("choice CancelSessionResponseEs9: cancelSessionOk is nil")
+		}
+		enc_der_0, err := v.CancelSessionOk.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding cancelSessionOk: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 65, enc_der_0)
+		return enc_der_0, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -11238,6 +11567,19 @@ func (v *AuthenticateClientResponseEs11) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AuthenticateClientResponseEs11 to DER format.
 func (v *AuthenticateClientResponseEs11) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case AuthenticateClientResponseEs11ChoiceAuthenticateClientOk:
+		if v.AuthenticateClientOk == nil {
+			return nil, fmt.Errorf("choice AuthenticateClientResponseEs11: authenticateClientOk is nil")
+		}
+		enc_der_0, err := v.AuthenticateClientOk.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding authenticateClientOk: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 64, enc_der_0)
+		return enc_der_0, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -11329,7 +11671,10 @@ func (v *AuthenticateClientOkEs11) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AuthenticateClientOkEs11 to DER format.
 func (v *AuthenticateClientOkEs11) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.EventEntriesIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -11367,6 +11712,7 @@ func (v *AuthenticateClientOkEs11) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for eventEntries, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
+	v.EventEntriesIndef_ = false
 	_, n_evententries, rawVal_evententries, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding eventEntries: %w", err)
@@ -11610,6 +11956,28 @@ func (v *ProfileInstallationResultDataFinalResult) MarshalBER() ([]byte, error) 
 
 // MarshalDER encodes ProfileInstallationResultDataFinalResult to DER format.
 func (v *ProfileInstallationResultDataFinalResult) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case ProfileInstallationResultDataFinalResultChoiceSuccessResult:
+		if v.SuccessResult == nil {
+			return nil, fmt.Errorf("choice ProfileInstallationResultDataFinalResult: successResult is nil")
+		}
+		enc_der_0, err := v.SuccessResult.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding successResult: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		return enc_der_0, nil
+	case ProfileInstallationResultDataFinalResultChoiceErrorResult:
+		if v.ErrorResult == nil {
+			return nil, fmt.Errorf("choice ProfileInstallationResultDataFinalResult: errorResult is nil")
+		}
+		enc_der_1, err := v.ErrorResult.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding errorResult: %w", err)
+		}
+		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_1)
+		return enc_der_1, nil
+	}
 	return v.MarshalBER()
 }
 

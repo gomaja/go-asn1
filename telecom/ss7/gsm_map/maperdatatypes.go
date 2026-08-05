@@ -893,6 +893,17 @@ func (v *CallBarredParam) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CallBarredParam to DER format.
 func (v *CallBarredParam) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case CallBarredParamChoiceExtensibleCallBarredParam:
+		if v.ExtensibleCallBarredParam == nil {
+			return nil, fmt.Errorf("choice CallBarredParam: extensibleCallBarredParam is nil")
+		}
+		enc_der_1, err := v.ExtensibleCallBarredParam.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensibleCallBarredParam: %w", err)
+		}
+		return enc_der_1, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -1608,6 +1619,17 @@ func (v *SystemFailureParam) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SystemFailureParam to DER format.
 func (v *SystemFailureParam) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case SystemFailureParamChoiceExtensibleSystemFailureParam:
+		if v.ExtensibleSystemFailureParam == nil {
+			return nil, fmt.Errorf("choice SystemFailureParam: extensibleSystemFailureParam is nil")
+		}
+		enc_der_1, err := v.ExtensibleSystemFailureParam.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensibleSystemFailureParam: %w", err)
+		}
+		return enc_der_1, nil
+	}
 	return v.MarshalBER()
 }
 

@@ -1433,7 +1433,10 @@ func (v *Attribute) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Attribute to DER format.
 func (v *Attribute) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.ValuesIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -1461,12 +1464,20 @@ func (v *Attribute) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field values")
 	}
+	v.ValuesIndef_ = false
 	// Decode nested SET_OF (AttributeValues)
 	_, n_values, _, tlvErr_values := ber.DecodeTLV(content[offset:])
 	if tlvErr_values != nil {
 		return fmt.Errorf("decoding values: %w", tlvErr_values)
 	}
-	dec_values, unmErr := UnmarshalBERAttributeValues(content[offset : offset+n_values])
+	tlv_values := content[offset : offset+n_values]
+	{
+		_, tagSz_, _ := ber.DecodeTag(tlv_values)
+		if tagSz_ < len(tlv_values) && tlv_values[tagSz_] == 0x80 {
+			v.ValuesIndef_ = true
+		}
+	}
+	dec_values, unmErr := UnmarshalBERAttributeValues(tlv_values)
 	if unmErr != nil {
 		return fmt.Errorf("decoding values: %w", unmErr)
 	}
@@ -2729,7 +2740,10 @@ func (v *TBSCertificate) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes TBSCertificate to DER format.
 func (v *TBSCertificate) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.ExtensionsIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -2877,6 +2891,7 @@ func (v *TBSCertificate) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode extensions
+	v.ExtensionsIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -3327,7 +3342,11 @@ func (v *TBSCertList) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes TBSCertList to DER format.
 func (v *TBSCertList) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.RevokedCertificatesIndef_ = false
+	derValue.CrlExtensionsIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -3415,6 +3434,7 @@ func (v *TBSCertList) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode revokedCertificates
+	v.RevokedCertificatesIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -3424,7 +3444,14 @@ func (v *TBSCertList) UnmarshalBER(data []byte) error {
 				if tlvErr_revokedcertificates != nil {
 					return fmt.Errorf("decoding revokedCertificates: %w", tlvErr_revokedcertificates)
 				}
-				dec_revokedcertificates, unmErr := UnmarshalBERTBSCertListRevokedCertificates(content[offset : offset+n_revokedcertificates])
+				tlv_revokedcertificates := content[offset : offset+n_revokedcertificates]
+				{
+					_, tagSz_, _ := ber.DecodeTag(tlv_revokedcertificates)
+					if tagSz_ < len(tlv_revokedcertificates) && tlv_revokedcertificates[tagSz_] == 0x80 {
+						v.RevokedCertificatesIndef_ = true
+					}
+				}
+				dec_revokedcertificates, unmErr := UnmarshalBERTBSCertListRevokedCertificates(tlv_revokedcertificates)
 				if unmErr != nil {
 					return fmt.Errorf("decoding revokedCertificates: %w", unmErr)
 				}
@@ -3434,6 +3461,7 @@ func (v *TBSCertList) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode crlExtensions
+	v.CrlExtensionsIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -3539,7 +3567,11 @@ func (v *ORAddress) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ORAddress to DER format.
 func (v *ORAddress) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.BuiltInDomainDefinedAttributesIndef_ = false
+	derValue.ExtensionAttributesIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -3567,6 +3599,7 @@ func (v *ORAddress) UnmarshalBER(data []byte) error {
 	}
 	offset += n_builtinstandardattributes
 	// Decode built-in-domain-defined-attributes
+	v.BuiltInDomainDefinedAttributesIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -3576,7 +3609,14 @@ func (v *ORAddress) UnmarshalBER(data []byte) error {
 				if tlvErr_builtindomaindefinedattributes != nil {
 					return fmt.Errorf("decoding built-in-domain-defined-attributes: %w", tlvErr_builtindomaindefinedattributes)
 				}
-				dec_builtindomaindefinedattributes, unmErr := UnmarshalBERBuiltInDomainDefinedAttributes(content[offset : offset+n_builtindomaindefinedattributes])
+				tlv_builtindomaindefinedattributes := content[offset : offset+n_builtindomaindefinedattributes]
+				{
+					_, tagSz_, _ := ber.DecodeTag(tlv_builtindomaindefinedattributes)
+					if tagSz_ < len(tlv_builtindomaindefinedattributes) && tlv_builtindomaindefinedattributes[tagSz_] == 0x80 {
+						v.BuiltInDomainDefinedAttributesIndef_ = true
+					}
+				}
+				dec_builtindomaindefinedattributes, unmErr := UnmarshalBERBuiltInDomainDefinedAttributes(tlv_builtindomaindefinedattributes)
 				if unmErr != nil {
 					return fmt.Errorf("decoding built-in-domain-defined-attributes: %w", unmErr)
 				}
@@ -3586,6 +3626,7 @@ func (v *ORAddress) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode extension-attributes
+	v.ExtensionAttributesIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -3595,7 +3636,14 @@ func (v *ORAddress) UnmarshalBER(data []byte) error {
 				if tlvErr_extensionattributes != nil {
 					return fmt.Errorf("decoding extension-attributes: %w", tlvErr_extensionattributes)
 				}
-				dec_extensionattributes, unmErr := UnmarshalBERExtensionAttributes(content[offset : offset+n_extensionattributes])
+				tlv_extensionattributes := content[offset : offset+n_extensionattributes]
+				{
+					_, tagSz_, _ := ber.DecodeTag(tlv_extensionattributes)
+					if tagSz_ < len(tlv_extensionattributes) && tlv_extensionattributes[tagSz_] == 0x80 {
+						v.ExtensionAttributesIndef_ = true
+					}
+				}
+				dec_extensionattributes, unmErr := UnmarshalBERExtensionAttributes(tlv_extensionattributes)
 				if unmErr != nil {
 					return fmt.Errorf("decoding extension-attributes: %w", unmErr)
 				}
@@ -3685,7 +3733,10 @@ func (v *BuiltInStandardAttributes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes BuiltInStandardAttributes to DER format.
 func (v *BuiltInStandardAttributes) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.OrganizationalUnitNamesIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -3836,6 +3887,7 @@ func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte) error {
 		}
 	}
 	// Decode organizational-unit-names
+	v.OrganizationalUnitNamesIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -4715,7 +4767,10 @@ func (v *UnformattedPostalAddress) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes UnformattedPostalAddress to DER format.
 func (v *UnformattedPostalAddress) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.PrintableAddressIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -4730,6 +4785,7 @@ func (v *UnformattedPostalAddress) UnmarshalBER(data []byte) error {
 	}
 	offset := 0
 	// Decode printable-address
+	v.PrintableAddressIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -4739,7 +4795,14 @@ func (v *UnformattedPostalAddress) UnmarshalBER(data []byte) error {
 				if tlvErr_printableaddress != nil {
 					return fmt.Errorf("decoding printable-address: %w", tlvErr_printableaddress)
 				}
-				dec_printableaddress, unmErr := UnmarshalBERUnformattedPostalAddressPrintableAddress(content[offset : offset+n_printableaddress])
+				tlv_printableaddress := content[offset : offset+n_printableaddress]
+				{
+					_, tagSz_, _ := ber.DecodeTag(tlv_printableaddress)
+					if tagSz_ < len(tlv_printableaddress) && tlv_printableaddress[tagSz_] == 0x80 {
+						v.PrintableAddressIndef_ = true
+					}
+				}
+				dec_printableaddress, unmErr := UnmarshalBERUnformattedPostalAddressPrintableAddress(tlv_printableaddress)
 				if unmErr != nil {
 					return fmt.Errorf("decoding printable-address: %w", unmErr)
 				}
@@ -4861,6 +4924,27 @@ func (v *ExtendedNetworkAddress) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ExtendedNetworkAddress to DER format.
 func (v *ExtendedNetworkAddress) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case ExtendedNetworkAddressChoiceE1634Address:
+		if v.E1634Address == nil {
+			return nil, fmt.Errorf("choice ExtendedNetworkAddress: e163-4-address is nil")
+		}
+		enc_der_0, err := v.E1634Address.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding e163-4-address: %w", err)
+		}
+		return enc_der_0, nil
+	case ExtendedNetworkAddressChoicePsapAddress:
+		if v.PsapAddress == nil {
+			return nil, fmt.Errorf("choice ExtendedNetworkAddress: psap-address is nil")
+		}
+		enc_der_1, err := v.PsapAddress.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding psap-address: %w", err)
+		}
+		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_1)
+		return enc_der_1, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -4937,7 +5021,10 @@ func (v *PresentationAddress) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes PresentationAddress to DER format.
 func (v *PresentationAddress) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.NAddressesIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -5020,6 +5107,7 @@ func (v *PresentationAddress) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for nAddresses, got %s", "CONTEXT", 3, reqTag_)
 		}
 	}
+	v.NAddressesIndef_ = false
 	_, n_naddresses, innerData_naddresses, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding nAddresses: %w", err)
@@ -5187,7 +5275,10 @@ func (v *TBSCertListRevokedCertificatesElem) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes TBSCertListRevokedCertificatesElem to DER format.
 func (v *TBSCertListRevokedCertificatesElem) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.CrlEntryExtensionsIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -5225,6 +5316,7 @@ func (v *TBSCertListRevokedCertificatesElem) UnmarshalBER(data []byte) error {
 	}
 	offset += n_revocationdate
 	// Decode crlEntryExtensions
+	v.CrlEntryExtensionsIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -5234,7 +5326,14 @@ func (v *TBSCertListRevokedCertificatesElem) UnmarshalBER(data []byte) error {
 				if tlvErr_crlentryextensions != nil {
 					return fmt.Errorf("decoding crlEntryExtensions: %w", tlvErr_crlentryextensions)
 				}
-				dec_crlentryextensions, unmErr := UnmarshalBERExtensions(content[offset : offset+n_crlentryextensions])
+				tlv_crlentryextensions := content[offset : offset+n_crlentryextensions]
+				{
+					_, tagSz_, _ := ber.DecodeTag(tlv_crlentryextensions)
+					if tagSz_ < len(tlv_crlentryextensions) && tlv_crlentryextensions[tagSz_] == 0x80 {
+						v.CrlEntryExtensionsIndef_ = true
+					}
+				}
+				dec_crlentryextensions, unmErr := UnmarshalBERExtensions(tlv_crlentryextensions)
 				if unmErr != nil {
 					return fmt.Errorf("decoding crlEntryExtensions: %w", unmErr)
 				}
