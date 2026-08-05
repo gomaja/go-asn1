@@ -26,29 +26,29 @@ const (
 	// AseId is the integer constant for ase-Id.
 	AseId int64 = 2
 
-	// ErId is the integer constant for er-Id.
-	ErId int64 = 4
-
 	// ModuleId is the integer constant for moduleId.
 	ModuleId int64 = 3
+
+	// ErId is the integer constant for er-Id.
+	ErId int64 = 4
 )
 
-// GsmAccessId returns the OID value for gsm-AccessId.
-func GsmAccessId() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{0, 4, 0, 0, 2} }
-
-// GsmMessagingId returns the OID value for gsm-MessagingId.
-func GsmMessagingId() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{0, 4, 0, 0, 4} }
+// MobileDomainId returns the OID value for mobileDomainId.
+func MobileDomainId() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{0, 4, 0, 0} }
 
 // GsmNetworkId returns the OID value for gsm-NetworkId.
 func GsmNetworkId() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{0, 4, 0, 0, 1} }
+
+// GsmAccessId returns the OID value for gsm-AccessId.
+func GsmAccessId() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{0, 4, 0, 0, 2} }
 
 // GsmOperationAndMaintenanceId returns the OID value for gsm-OperationAndMaintenanceId.
 func GsmOperationAndMaintenanceId() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{0, 4, 0, 0, 3}
 }
 
-// MobileDomainId returns the OID value for mobileDomainId.
-func MobileDomainId() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{0, 4, 0, 0} }
+// GsmMessagingId returns the OID value for gsm-MessagingId.
+func GsmMessagingId() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{0, 4, 0, 0, 4} }
 
 // CommonComponentId represents the ASN.1 type CommonComponentId (INTEGER).
 type CommonComponentId = int64

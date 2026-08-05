@@ -17,23 +17,41 @@ var (
 
 const (
 
-	// AllDataTeleservices is the octet string constant for allDataTeleservices.
-	AllDataTeleservices = "\x70"
-
-	// AllFacsimileTransmissionServices is the octet string constant for allFacsimileTransmissionServices.
-	AllFacsimileTransmissionServices = "\x60"
-
-	// AllPLMNSpecificTS is the octet string constant for allPLMN-specificTS.
-	AllPLMNSpecificTS = "\xd0"
-
-	// AllShortMessageServices is the octet string constant for allShortMessageServices.
-	AllShortMessageServices = "\x20"
+	// AllTeleservices is the octet string constant for allTeleservices.
+	AllTeleservices = "\x00"
 
 	// AllSpeechTransmissionServices is the octet string constant for allSpeechTransmissionServices.
 	AllSpeechTransmissionServices = "\x10"
 
-	// AllTeleservices is the octet string constant for allTeleservices.
-	AllTeleservices = "\x00"
+	// Telephony is the octet string constant for telephony.
+	Telephony = "\x11"
+
+	// EmergencyCalls is the octet string constant for emergencyCalls.
+	EmergencyCalls = "\x12"
+
+	// AllShortMessageServices is the octet string constant for allShortMessageServices.
+	AllShortMessageServices = "\x20"
+
+	// ShortMessageMTPP is the octet string constant for shortMessageMT-PP.
+	ShortMessageMTPP = "\x21"
+
+	// ShortMessageMOPP is the octet string constant for shortMessageMO-PP.
+	ShortMessageMOPP = "\x22"
+
+	// AllFacsimileTransmissionServices is the octet string constant for allFacsimileTransmissionServices.
+	AllFacsimileTransmissionServices = "\x60"
+
+	// FacsimileGroup3AndAlterSpeech is the octet string constant for facsimileGroup3AndAlterSpeech.
+	FacsimileGroup3AndAlterSpeech = "\x61"
+
+	// AutomaticFacsimileGroup3 is the octet string constant for automaticFacsimileGroup3.
+	AutomaticFacsimileGroup3 = "\x62"
+
+	// FacsimileGroup4 is the octet string constant for facsimileGroup4.
+	FacsimileGroup4 = "\x63"
+
+	// AllDataTeleservices is the octet string constant for allDataTeleservices.
+	AllDataTeleservices = "\x70"
 
 	// AllTeleservicesExeptSMS is the octet string constant for allTeleservices-ExeptSMS.
 	AllTeleservicesExeptSMS = "\x80"
@@ -41,17 +59,14 @@ const (
 	// AllVoiceGroupCallServices is the octet string constant for allVoiceGroupCallServices.
 	AllVoiceGroupCallServices = "\x90"
 
-	// AutomaticFacsimileGroup3 is the octet string constant for automaticFacsimileGroup3.
-	AutomaticFacsimileGroup3 = "\x62"
+	// VoiceGroupCall is the octet string constant for voiceGroupCall.
+	VoiceGroupCall = "\x91"
 
-	// EmergencyCalls is the octet string constant for emergencyCalls.
-	EmergencyCalls = "\x12"
+	// VoiceBroadcastCall is the octet string constant for voiceBroadcastCall.
+	VoiceBroadcastCall = "\x92"
 
-	// FacsimileGroup3AndAlterSpeech is the octet string constant for facsimileGroup3AndAlterSpeech.
-	FacsimileGroup3AndAlterSpeech = "\x61"
-
-	// FacsimileGroup4 is the octet string constant for facsimileGroup4.
-	FacsimileGroup4 = "\x63"
+	// AllPLMNSpecificTS is the octet string constant for allPLMN-specificTS.
+	AllPLMNSpecificTS = "\xd0"
 
 	// PlmnSpecificTS1 is the octet string constant for plmn-specificTS-1.
 	PlmnSpecificTS1 = "\xd1"
@@ -97,25 +112,10 @@ const (
 
 	// PlmnSpecificTSF is the octet string constant for plmn-specificTS-F.
 	PlmnSpecificTSF = "\xdf"
-
-	// ShortMessageMOPP is the octet string constant for shortMessageMO-PP.
-	ShortMessageMOPP = "\x22"
-
-	// ShortMessageMTPP is the octet string constant for shortMessageMT-PP.
-	ShortMessageMTPP = "\x21"
-
-	// Telephony is the octet string constant for telephony.
-	Telephony = "\x11"
-
-	// VoiceBroadcastCall is the octet string constant for voiceBroadcastCall.
-	VoiceBroadcastCall = "\x92"
-
-	// VoiceGroupCall is the octet string constant for voiceGroupCall.
-	VoiceGroupCall = "\x91"
 )
-
-// ExtTeleserviceCode represents the ASN.1 type Ext-TeleserviceCode (OCTET_STRING).
-type ExtTeleserviceCode = []byte
 
 // TeleserviceCode represents the ASN.1 type TeleserviceCode (OCTET_STRING).
 type TeleserviceCode = []byte
+
+// ExtTeleserviceCode represents the ASN.1 type Ext-TeleserviceCode (OCTET_STRING).
+type ExtTeleserviceCode = []byte

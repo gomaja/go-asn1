@@ -835,7 +835,7 @@ func NewNameRdnSequence(v RDNSequence) Name {
 type RDNSequence = []RelativeDistinguishedName
 
 // DistinguishedName represents the ASN.1 type DistinguishedName (SEQUENCE_OF).
-type DistinguishedName = []interface{}
+type DistinguishedName = RDNSequence
 
 // RelativeDistinguishedName represents the ASN.1 type RelativeDistinguishedName (SET_OF).
 type RelativeDistinguishedName = []AttributeTypeAndValue
@@ -1096,7 +1096,7 @@ func NewAdministrationDomainNamePrintable(v string) AdministrationDomainName {
 }
 
 // NetworkAddress represents the ASN.1 type NetworkAddress (NumericString).
-type NetworkAddress = string
+type NetworkAddress = X121Address
 
 // X121Address represents the ASN.1 type X121Address (NumericString).
 type X121Address = string
@@ -1546,50 +1546,51 @@ func (v *X520name) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for X520name CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for X520name: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding X520name CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "X520name", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 20 {
 		v.Choice = X520nameChoiceTeletexString
-		decVal, _, strErr := ber.DecodeString(data, 20)
+		decVal, _, strErr := ber.DecodeString(choiceData, 20)
 		if strErr != nil {
 			return fmt.Errorf("decoding teletexString: %w", strErr)
 		}
 		v.TeletexString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = X520nameChoicePrintableString
-		decVal, _, strErr := ber.DecodeString(data, 19)
+		decVal, _, strErr := ber.DecodeString(choiceData, 19)
 		if strErr != nil {
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 28 {
 		v.Choice = X520nameChoiceUniversalString
-		decVal, _, strErr := ber.DecodeString(data, 28)
+		decVal, _, strErr := ber.DecodeString(choiceData, 28)
 		if strErr != nil {
 			return fmt.Errorf("decoding universalString: %w", strErr)
 		}
 		v.UniversalString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 12 {
 		v.Choice = X520nameChoiceUtf8String
-		decVal, _, strErr := ber.DecodeString(data, 12)
+		decVal, _, strErr := ber.DecodeString(choiceData, 12)
 		if strErr != nil {
 			return fmt.Errorf("decoding utf8String: %w", strErr)
 		}
 		v.Utf8String = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 30 {
 		v.Choice = X520nameChoiceBmpString
-		decVal, _, strErr := ber.DecodeString(data, 30)
+		decVal, _, strErr := ber.DecodeString(choiceData, 30)
 		if strErr != nil {
 			return fmt.Errorf("decoding bmpString: %w", strErr)
 		}
@@ -1648,50 +1649,51 @@ func (v *X520CommonName) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for X520CommonName CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for X520CommonName: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding X520CommonName CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "X520CommonName", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 20 {
 		v.Choice = X520CommonNameChoiceTeletexString
-		decVal, _, strErr := ber.DecodeString(data, 20)
+		decVal, _, strErr := ber.DecodeString(choiceData, 20)
 		if strErr != nil {
 			return fmt.Errorf("decoding teletexString: %w", strErr)
 		}
 		v.TeletexString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = X520CommonNameChoicePrintableString
-		decVal, _, strErr := ber.DecodeString(data, 19)
+		decVal, _, strErr := ber.DecodeString(choiceData, 19)
 		if strErr != nil {
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 28 {
 		v.Choice = X520CommonNameChoiceUniversalString
-		decVal, _, strErr := ber.DecodeString(data, 28)
+		decVal, _, strErr := ber.DecodeString(choiceData, 28)
 		if strErr != nil {
 			return fmt.Errorf("decoding universalString: %w", strErr)
 		}
 		v.UniversalString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 12 {
 		v.Choice = X520CommonNameChoiceUtf8String
-		decVal, _, strErr := ber.DecodeString(data, 12)
+		decVal, _, strErr := ber.DecodeString(choiceData, 12)
 		if strErr != nil {
 			return fmt.Errorf("decoding utf8String: %w", strErr)
 		}
 		v.Utf8String = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 30 {
 		v.Choice = X520CommonNameChoiceBmpString
-		decVal, _, strErr := ber.DecodeString(data, 30)
+		decVal, _, strErr := ber.DecodeString(choiceData, 30)
 		if strErr != nil {
 			return fmt.Errorf("decoding bmpString: %w", strErr)
 		}
@@ -1750,50 +1752,51 @@ func (v *X520LocalityName) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for X520LocalityName CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for X520LocalityName: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding X520LocalityName CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "X520LocalityName", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 20 {
 		v.Choice = X520LocalityNameChoiceTeletexString
-		decVal, _, strErr := ber.DecodeString(data, 20)
+		decVal, _, strErr := ber.DecodeString(choiceData, 20)
 		if strErr != nil {
 			return fmt.Errorf("decoding teletexString: %w", strErr)
 		}
 		v.TeletexString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = X520LocalityNameChoicePrintableString
-		decVal, _, strErr := ber.DecodeString(data, 19)
+		decVal, _, strErr := ber.DecodeString(choiceData, 19)
 		if strErr != nil {
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 28 {
 		v.Choice = X520LocalityNameChoiceUniversalString
-		decVal, _, strErr := ber.DecodeString(data, 28)
+		decVal, _, strErr := ber.DecodeString(choiceData, 28)
 		if strErr != nil {
 			return fmt.Errorf("decoding universalString: %w", strErr)
 		}
 		v.UniversalString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 12 {
 		v.Choice = X520LocalityNameChoiceUtf8String
-		decVal, _, strErr := ber.DecodeString(data, 12)
+		decVal, _, strErr := ber.DecodeString(choiceData, 12)
 		if strErr != nil {
 			return fmt.Errorf("decoding utf8String: %w", strErr)
 		}
 		v.Utf8String = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 30 {
 		v.Choice = X520LocalityNameChoiceBmpString
-		decVal, _, strErr := ber.DecodeString(data, 30)
+		decVal, _, strErr := ber.DecodeString(choiceData, 30)
 		if strErr != nil {
 			return fmt.Errorf("decoding bmpString: %w", strErr)
 		}
@@ -1852,50 +1855,51 @@ func (v *X520StateOrProvinceName) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for X520StateOrProvinceName CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for X520StateOrProvinceName: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding X520StateOrProvinceName CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "X520StateOrProvinceName", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 20 {
 		v.Choice = X520StateOrProvinceNameChoiceTeletexString
-		decVal, _, strErr := ber.DecodeString(data, 20)
+		decVal, _, strErr := ber.DecodeString(choiceData, 20)
 		if strErr != nil {
 			return fmt.Errorf("decoding teletexString: %w", strErr)
 		}
 		v.TeletexString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = X520StateOrProvinceNameChoicePrintableString
-		decVal, _, strErr := ber.DecodeString(data, 19)
+		decVal, _, strErr := ber.DecodeString(choiceData, 19)
 		if strErr != nil {
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 28 {
 		v.Choice = X520StateOrProvinceNameChoiceUniversalString
-		decVal, _, strErr := ber.DecodeString(data, 28)
+		decVal, _, strErr := ber.DecodeString(choiceData, 28)
 		if strErr != nil {
 			return fmt.Errorf("decoding universalString: %w", strErr)
 		}
 		v.UniversalString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 12 {
 		v.Choice = X520StateOrProvinceNameChoiceUtf8String
-		decVal, _, strErr := ber.DecodeString(data, 12)
+		decVal, _, strErr := ber.DecodeString(choiceData, 12)
 		if strErr != nil {
 			return fmt.Errorf("decoding utf8String: %w", strErr)
 		}
 		v.Utf8String = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 30 {
 		v.Choice = X520StateOrProvinceNameChoiceBmpString
-		decVal, _, strErr := ber.DecodeString(data, 30)
+		decVal, _, strErr := ber.DecodeString(choiceData, 30)
 		if strErr != nil {
 			return fmt.Errorf("decoding bmpString: %w", strErr)
 		}
@@ -1954,50 +1958,51 @@ func (v *X520OrganizationName) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for X520OrganizationName CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for X520OrganizationName: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding X520OrganizationName CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "X520OrganizationName", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 20 {
 		v.Choice = X520OrganizationNameChoiceTeletexString
-		decVal, _, strErr := ber.DecodeString(data, 20)
+		decVal, _, strErr := ber.DecodeString(choiceData, 20)
 		if strErr != nil {
 			return fmt.Errorf("decoding teletexString: %w", strErr)
 		}
 		v.TeletexString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = X520OrganizationNameChoicePrintableString
-		decVal, _, strErr := ber.DecodeString(data, 19)
+		decVal, _, strErr := ber.DecodeString(choiceData, 19)
 		if strErr != nil {
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 28 {
 		v.Choice = X520OrganizationNameChoiceUniversalString
-		decVal, _, strErr := ber.DecodeString(data, 28)
+		decVal, _, strErr := ber.DecodeString(choiceData, 28)
 		if strErr != nil {
 			return fmt.Errorf("decoding universalString: %w", strErr)
 		}
 		v.UniversalString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 12 {
 		v.Choice = X520OrganizationNameChoiceUtf8String
-		decVal, _, strErr := ber.DecodeString(data, 12)
+		decVal, _, strErr := ber.DecodeString(choiceData, 12)
 		if strErr != nil {
 			return fmt.Errorf("decoding utf8String: %w", strErr)
 		}
 		v.Utf8String = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 30 {
 		v.Choice = X520OrganizationNameChoiceBmpString
-		decVal, _, strErr := ber.DecodeString(data, 30)
+		decVal, _, strErr := ber.DecodeString(choiceData, 30)
 		if strErr != nil {
 			return fmt.Errorf("decoding bmpString: %w", strErr)
 		}
@@ -2056,50 +2061,51 @@ func (v *X520OrganizationalUnitName) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for X520OrganizationalUnitName CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for X520OrganizationalUnitName: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding X520OrganizationalUnitName CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "X520OrganizationalUnitName", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 20 {
 		v.Choice = X520OrganizationalUnitNameChoiceTeletexString
-		decVal, _, strErr := ber.DecodeString(data, 20)
+		decVal, _, strErr := ber.DecodeString(choiceData, 20)
 		if strErr != nil {
 			return fmt.Errorf("decoding teletexString: %w", strErr)
 		}
 		v.TeletexString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = X520OrganizationalUnitNameChoicePrintableString
-		decVal, _, strErr := ber.DecodeString(data, 19)
+		decVal, _, strErr := ber.DecodeString(choiceData, 19)
 		if strErr != nil {
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 28 {
 		v.Choice = X520OrganizationalUnitNameChoiceUniversalString
-		decVal, _, strErr := ber.DecodeString(data, 28)
+		decVal, _, strErr := ber.DecodeString(choiceData, 28)
 		if strErr != nil {
 			return fmt.Errorf("decoding universalString: %w", strErr)
 		}
 		v.UniversalString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 12 {
 		v.Choice = X520OrganizationalUnitNameChoiceUtf8String
-		decVal, _, strErr := ber.DecodeString(data, 12)
+		decVal, _, strErr := ber.DecodeString(choiceData, 12)
 		if strErr != nil {
 			return fmt.Errorf("decoding utf8String: %w", strErr)
 		}
 		v.Utf8String = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 30 {
 		v.Choice = X520OrganizationalUnitNameChoiceBmpString
-		decVal, _, strErr := ber.DecodeString(data, 30)
+		decVal, _, strErr := ber.DecodeString(choiceData, 30)
 		if strErr != nil {
 			return fmt.Errorf("decoding bmpString: %w", strErr)
 		}
@@ -2158,50 +2164,51 @@ func (v *X520Title) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for X520Title CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for X520Title: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding X520Title CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "X520Title", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 20 {
 		v.Choice = X520TitleChoiceTeletexString
-		decVal, _, strErr := ber.DecodeString(data, 20)
+		decVal, _, strErr := ber.DecodeString(choiceData, 20)
 		if strErr != nil {
 			return fmt.Errorf("decoding teletexString: %w", strErr)
 		}
 		v.TeletexString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = X520TitleChoicePrintableString
-		decVal, _, strErr := ber.DecodeString(data, 19)
+		decVal, _, strErr := ber.DecodeString(choiceData, 19)
 		if strErr != nil {
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 28 {
 		v.Choice = X520TitleChoiceUniversalString
-		decVal, _, strErr := ber.DecodeString(data, 28)
+		decVal, _, strErr := ber.DecodeString(choiceData, 28)
 		if strErr != nil {
 			return fmt.Errorf("decoding universalString: %w", strErr)
 		}
 		v.UniversalString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 12 {
 		v.Choice = X520TitleChoiceUtf8String
-		decVal, _, strErr := ber.DecodeString(data, 12)
+		decVal, _, strErr := ber.DecodeString(choiceData, 12)
 		if strErr != nil {
 			return fmt.Errorf("decoding utf8String: %w", strErr)
 		}
 		v.Utf8String = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 30 {
 		v.Choice = X520TitleChoiceBmpString
-		decVal, _, strErr := ber.DecodeString(data, 30)
+		decVal, _, strErr := ber.DecodeString(choiceData, 30)
 		if strErr != nil {
 			return fmt.Errorf("decoding bmpString: %w", strErr)
 		}
@@ -2260,50 +2267,51 @@ func (v *X520Pseudonym) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for X520Pseudonym CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for X520Pseudonym: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding X520Pseudonym CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "X520Pseudonym", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 20 {
 		v.Choice = X520PseudonymChoiceTeletexString
-		decVal, _, strErr := ber.DecodeString(data, 20)
+		decVal, _, strErr := ber.DecodeString(choiceData, 20)
 		if strErr != nil {
 			return fmt.Errorf("decoding teletexString: %w", strErr)
 		}
 		v.TeletexString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = X520PseudonymChoicePrintableString
-		decVal, _, strErr := ber.DecodeString(data, 19)
+		decVal, _, strErr := ber.DecodeString(choiceData, 19)
 		if strErr != nil {
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 28 {
 		v.Choice = X520PseudonymChoiceUniversalString
-		decVal, _, strErr := ber.DecodeString(data, 28)
+		decVal, _, strErr := ber.DecodeString(choiceData, 28)
 		if strErr != nil {
 			return fmt.Errorf("decoding universalString: %w", strErr)
 		}
 		v.UniversalString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 12 {
 		v.Choice = X520PseudonymChoiceUtf8String
-		decVal, _, strErr := ber.DecodeString(data, 12)
+		decVal, _, strErr := ber.DecodeString(choiceData, 12)
 		if strErr != nil {
 			return fmt.Errorf("decoding utf8String: %w", strErr)
 		}
 		v.Utf8String = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 30 {
 		v.Choice = X520PseudonymChoiceBmpString
-		decVal, _, strErr := ber.DecodeString(data, 30)
+		decVal, _, strErr := ber.DecodeString(choiceData, 30)
 		if strErr != nil {
 			return fmt.Errorf("decoding bmpString: %w", strErr)
 		}
@@ -2341,22 +2349,23 @@ func (v *Name) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Name CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for Name: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding Name CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "Name", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
 		v.Choice = NameChoiceRdnSequence
-		dec, unmErr := UnmarshalBERRDNSequence(data)
+		dec, unmErr := UnmarshalBERRDNSequence(choiceData)
 		if unmErr != nil {
 			return fmt.Errorf("decoding rdnSequence: %w", unmErr)
 		}
@@ -2382,7 +2391,7 @@ func MarshalBERRDNSequence(list RDNSequence) ([]byte, error) {
 
 // UnmarshalBERRDNSequence decodes a RDNSequence list from BER.
 func UnmarshalBERRDNSequence(data []byte) (RDNSequence, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding RDNSequence: %w", err)
 	}
@@ -2421,9 +2430,12 @@ func MarshalBERRelativeDistinguishedName(list RelativeDistinguishedName) ([]byte
 
 // UnmarshalBERRelativeDistinguishedName decodes a RelativeDistinguishedName list from BER.
 func UnmarshalBERRelativeDistinguishedName(data []byte) (RelativeDistinguishedName, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding RelativeDistinguishedName: %w", err)
+	}
+	if decodedTag.Class != tag.ClassUniversal || decodedTag.Number != tag.TagSet || !decodedTag.Constructed {
+		return nil, fmt.Errorf("decoding RelativeDistinguishedName: %w: expected SET, got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "RelativeDistinguishedName", Cause: ber.ErrExtraData}
@@ -2493,50 +2505,51 @@ func (v *DirectoryString) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for DirectoryString CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for DirectoryString: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding DirectoryString CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "DirectoryString", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 20 {
 		v.Choice = DirectoryStringChoiceTeletexString
-		decVal, _, strErr := ber.DecodeString(data, 20)
+		decVal, _, strErr := ber.DecodeString(choiceData, 20)
 		if strErr != nil {
 			return fmt.Errorf("decoding teletexString: %w", strErr)
 		}
 		v.TeletexString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = DirectoryStringChoicePrintableString
-		decVal, _, strErr := ber.DecodeString(data, 19)
+		decVal, _, strErr := ber.DecodeString(choiceData, 19)
 		if strErr != nil {
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 28 {
 		v.Choice = DirectoryStringChoiceUniversalString
-		decVal, _, strErr := ber.DecodeString(data, 28)
+		decVal, _, strErr := ber.DecodeString(choiceData, 28)
 		if strErr != nil {
 			return fmt.Errorf("decoding universalString: %w", strErr)
 		}
 		v.UniversalString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 12 {
 		v.Choice = DirectoryStringChoiceUtf8String
-		decVal, _, strErr := ber.DecodeString(data, 12)
+		decVal, _, strErr := ber.DecodeString(choiceData, 12)
 		if strErr != nil {
 			return fmt.Errorf("decoding utf8String: %w", strErr)
 		}
 		v.Utf8String = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 30 {
 		v.Choice = DirectoryStringChoiceBmpString
-		decVal, _, strErr := ber.DecodeString(data, 30)
+		decVal, _, strErr := ber.DecodeString(choiceData, 30)
 		if strErr != nil {
 			return fmt.Errorf("decoding bmpString: %w", strErr)
 		}
@@ -2709,7 +2722,8 @@ func (v *TBSCertificate) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding version: %w", err)
 				}
-				v.Version = &val_version
+				tmp_version := Version(val_version)
+				v.Version = &tmp_version
 				offset += n_version
 			}
 		}
@@ -2946,29 +2960,30 @@ func (v *Time) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Time CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for Time: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding Time CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "Time", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 23 {
 		v.Choice = TimeChoiceUtcTime
-		decVal, _, timeErr := ber.DecodeUTCTime(data)
+		decVal, _, timeErr := ber.DecodeUTCTime(choiceData)
 		if timeErr != nil {
 			return fmt.Errorf("decoding utcTime: %w", timeErr)
 		}
 		v.UtcTime = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 24 {
 		v.Choice = TimeChoiceGeneralTime
-		decVal, _, timeErr := ber.DecodeGeneralizedTime(data)
+		decVal, _, timeErr := ber.DecodeGeneralizedTime(choiceData)
 		if timeErr != nil {
 			return fmt.Errorf("decoding generalTime: %w", timeErr)
 		}
@@ -3052,7 +3067,7 @@ func MarshalBERExtensions(list Extensions) ([]byte, error) {
 
 // UnmarshalBERExtensions decodes a Extensions list from BER.
 func UnmarshalBERExtensions(data []byte) (Extensions, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding Extensions: %w", err)
 	}
@@ -3300,7 +3315,8 @@ func (v *TBSCertList) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding version: %w", err)
 				}
-				v.Version = &val_version
+				tmp_version := Version(val_version)
+				v.Version = &tmp_version
 				offset += n
 			}
 		}
@@ -3808,12 +3824,14 @@ func (v *CountryName) MarshalBER() ([]byte, error) {
 			return nil, fmt.Errorf("choice CountryName: x121-dcc-code is nil")
 		}
 		enc_0 := ber.EncodeStringTag(18, *v.X121DccCode)
+		enc_0 = ber.EncodeExplicitTagWithClass(tag.ClassApplication, 1, enc_0)
 		return enc_0, nil
 	case CountryNameChoiceIso3166Alpha2Code:
 		if v.Iso3166Alpha2Code == nil {
 			return nil, fmt.Errorf("choice CountryName: iso-3166-alpha2-code is nil")
 		}
 		enc_1 := ber.EncodeStringTag(19, *v.Iso3166Alpha2Code)
+		enc_1 = ber.EncodeExplicitTagWithClass(tag.ClassApplication, 1, enc_1)
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for CountryName", v.Choice)
@@ -3830,29 +3848,44 @@ func (v *CountryName) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CountryName CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding CountryName CHOICE: %w", err)
+	}
+	if decodedTag.Class != tag.ClassApplication || decodedTag.Number != 1 || !decodedTag.Constructed {
+		return fmt.Errorf("decoding CountryName CHOICE: %w: expected tag [APPLICATION 1], got %s", ber.ErrInvalidTag, decodedTag)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "CountryName", Cause: ber.ErrExtraData}
+	}
+	if len(content) == 0 {
+		return fmt.Errorf("empty content for CountryName CHOICE")
+	}
+	choiceData = content
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for CountryName: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding CountryName CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "CountryName", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 18 {
 		v.Choice = CountryNameChoiceX121DccCode
-		decVal, _, strErr := ber.DecodeString(data, 18)
+		decVal, _, strErr := ber.DecodeString(choiceData, 18)
 		if strErr != nil {
 			return fmt.Errorf("decoding x121-dcc-code: %w", strErr)
 		}
 		v.X121DccCode = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = CountryNameChoiceIso3166Alpha2Code
-		decVal, _, strErr := ber.DecodeString(data, 19)
+		decVal, _, strErr := ber.DecodeString(choiceData, 19)
 		if strErr != nil {
 			return fmt.Errorf("decoding iso-3166-alpha2-code: %w", strErr)
 		}
@@ -3871,12 +3904,14 @@ func (v *AdministrationDomainName) MarshalBER() ([]byte, error) {
 			return nil, fmt.Errorf("choice AdministrationDomainName: numeric is nil")
 		}
 		enc_0 := ber.EncodeStringTag(18, *v.Numeric)
+		enc_0 = ber.EncodeExplicitTagWithClass(tag.ClassApplication, 2, enc_0)
 		return enc_0, nil
 	case AdministrationDomainNameChoicePrintable:
 		if v.Printable == nil {
 			return nil, fmt.Errorf("choice AdministrationDomainName: printable is nil")
 		}
 		enc_1 := ber.EncodeStringTag(19, *v.Printable)
+		enc_1 = ber.EncodeExplicitTagWithClass(tag.ClassApplication, 2, enc_1)
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for AdministrationDomainName", v.Choice)
@@ -3893,29 +3928,44 @@ func (v *AdministrationDomainName) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for AdministrationDomainName CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding AdministrationDomainName CHOICE: %w", err)
+	}
+	if decodedTag.Class != tag.ClassApplication || decodedTag.Number != 2 || !decodedTag.Constructed {
+		return fmt.Errorf("decoding AdministrationDomainName CHOICE: %w: expected tag [APPLICATION 2], got %s", ber.ErrInvalidTag, decodedTag)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "AdministrationDomainName", Cause: ber.ErrExtraData}
+	}
+	if len(content) == 0 {
+		return fmt.Errorf("empty content for AdministrationDomainName CHOICE")
+	}
+	choiceData = content
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for AdministrationDomainName: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding AdministrationDomainName CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "AdministrationDomainName", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 18 {
 		v.Choice = AdministrationDomainNameChoiceNumeric
-		decVal, _, strErr := ber.DecodeString(data, 18)
+		decVal, _, strErr := ber.DecodeString(choiceData, 18)
 		if strErr != nil {
 			return fmt.Errorf("decoding numeric: %w", strErr)
 		}
 		v.Numeric = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = AdministrationDomainNameChoicePrintable
-		decVal, _, strErr := ber.DecodeString(data, 19)
+		decVal, _, strErr := ber.DecodeString(choiceData, 19)
 		if strErr != nil {
 			return fmt.Errorf("decoding printable: %w", strErr)
 		}
@@ -3956,29 +4006,30 @@ func (v *PrivateDomainName) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for PrivateDomainName CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for PrivateDomainName: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding PrivateDomainName CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "PrivateDomainName", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 18 {
 		v.Choice = PrivateDomainNameChoiceNumeric
-		decVal, _, strErr := ber.DecodeString(data, 18)
+		decVal, _, strErr := ber.DecodeString(choiceData, 18)
 		if strErr != nil {
 			return fmt.Errorf("decoding numeric: %w", strErr)
 		}
 		v.Numeric = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = PrivateDomainNameChoicePrintable
-		decVal, _, strErr := ber.DecodeString(data, 19)
+		decVal, _, strErr := ber.DecodeString(choiceData, 19)
 		if strErr != nil {
 			return fmt.Errorf("decoding printable: %w", strErr)
 		}
@@ -4107,7 +4158,7 @@ func MarshalBEROrganizationalUnitNames(list OrganizationalUnitNames) ([]byte, er
 
 // UnmarshalBEROrganizationalUnitNames decodes a OrganizationalUnitNames list from BER.
 func UnmarshalBEROrganizationalUnitNames(data []byte) (OrganizationalUnitNames, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding OrganizationalUnitNames: %w", err)
 	}
@@ -4142,7 +4193,7 @@ func MarshalBERBuiltInDomainDefinedAttributes(list BuiltInDomainDefinedAttribute
 
 // UnmarshalBERBuiltInDomainDefinedAttributes decodes a BuiltInDomainDefinedAttributes list from BER.
 func UnmarshalBERBuiltInDomainDefinedAttributes(data []byte) (BuiltInDomainDefinedAttributes, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding BuiltInDomainDefinedAttributes: %w", err)
 	}
@@ -4233,9 +4284,12 @@ func MarshalBERExtensionAttributes(list ExtensionAttributes) ([]byte, error) {
 
 // UnmarshalBERExtensionAttributes decodes a ExtensionAttributes list from BER.
 func UnmarshalBERExtensionAttributes(data []byte) (ExtensionAttributes, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding ExtensionAttributes: %w", err)
+	}
+	if decodedTag.Class != tag.ClassUniversal || decodedTag.Number != tag.TagSet || !decodedTag.Constructed {
+		return nil, fmt.Errorf("decoding ExtensionAttributes: %w: expected SET, got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "ExtensionAttributes", Cause: ber.ErrExtraData}
@@ -4444,7 +4498,7 @@ func MarshalBERTeletexOrganizationalUnitNames(list TeletexOrganizationalUnitName
 
 // UnmarshalBERTeletexOrganizationalUnitNames decodes a TeletexOrganizationalUnitNames list from BER.
 func UnmarshalBERTeletexOrganizationalUnitNames(data []byte) (TeletexOrganizationalUnitNames, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding TeletexOrganizationalUnitNames: %w", err)
 	}
@@ -4494,29 +4548,30 @@ func (v *PhysicalDeliveryCountryName) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for PhysicalDeliveryCountryName CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for PhysicalDeliveryCountryName: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding PhysicalDeliveryCountryName CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "PhysicalDeliveryCountryName", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 18 {
 		v.Choice = PhysicalDeliveryCountryNameChoiceX121DccCode
-		decVal, _, strErr := ber.DecodeString(data, 18)
+		decVal, _, strErr := ber.DecodeString(choiceData, 18)
 		if strErr != nil {
 			return fmt.Errorf("decoding x121-dcc-code: %w", strErr)
 		}
 		v.X121DccCode = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = PhysicalDeliveryCountryNameChoiceIso3166Alpha2Code
-		decVal, _, strErr := ber.DecodeString(data, 19)
+		decVal, _, strErr := ber.DecodeString(choiceData, 19)
 		if strErr != nil {
 			return fmt.Errorf("decoding iso-3166-alpha2-code: %w", strErr)
 		}
@@ -4557,29 +4612,30 @@ func (v *PostalCode) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for PostalCode CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for PostalCode: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding PostalCode CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "PostalCode", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 18 {
 		v.Choice = PostalCodeChoiceNumericCode
-		decVal, _, strErr := ber.DecodeString(data, 18)
+		decVal, _, strErr := ber.DecodeString(choiceData, 18)
 		if strErr != nil {
 			return fmt.Errorf("decoding numeric-code: %w", strErr)
 		}
 		v.NumericCode = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = PostalCodeChoicePrintableCode
-		decVal, _, strErr := ber.DecodeString(data, 19)
+		decVal, _, strErr := ber.DecodeString(choiceData, 19)
 		if strErr != nil {
 			return fmt.Errorf("decoding printable-code: %w", strErr)
 		}
@@ -4763,29 +4819,30 @@ func (v *ExtendedNetworkAddress) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ExtendedNetworkAddress CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for ExtendedNetworkAddress: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding ExtendedNetworkAddress CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "ExtendedNetworkAddress", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
 		v.Choice = ExtendedNetworkAddressChoiceE1634Address
 		var dec ExtendedNetworkAddressE1634Address
-		if unmErr := dec.UnmarshalBER(data); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
 			return fmt.Errorf("decoding e163-4-address: %w", unmErr)
 		}
 		v.E1634Address = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
 		v.Choice = ExtendedNetworkAddressChoicePsapAddress
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding psap-address: %w", tlvErr)
 		}
@@ -4945,7 +5002,7 @@ func MarshalBERTeletexDomainDefinedAttributes(list TeletexDomainDefinedAttribute
 
 // UnmarshalBERTeletexDomainDefinedAttributes decodes a TeletexDomainDefinedAttributes list from BER.
 func UnmarshalBERTeletexDomainDefinedAttributes(data []byte) (TeletexDomainDefinedAttributes, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding TeletexDomainDefinedAttributes: %w", err)
 	}
@@ -5032,9 +5089,12 @@ func MarshalBERAttributeValues(list AttributeValues) ([]byte, error) {
 
 // UnmarshalBERAttributeValues decodes a AttributeValues list from BER.
 func UnmarshalBERAttributeValues(data []byte) (AttributeValues, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding AttributeValues: %w", err)
+	}
+	if decodedTag.Class != tag.ClassUniversal || decodedTag.Number != tag.TagSet || !decodedTag.Constructed {
+		return nil, fmt.Errorf("decoding AttributeValues: %w: expected SET, got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "AttributeValues", Cause: ber.ErrExtraData}
@@ -5151,7 +5211,7 @@ func MarshalBERTBSCertListRevokedCertificates(list TBSCertListRevokedCertificate
 
 // UnmarshalBERTBSCertListRevokedCertificates decodes a TBSCertListRevokedCertificates list from BER.
 func UnmarshalBERTBSCertListRevokedCertificates(data []byte) (TBSCertListRevokedCertificates, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding TBSCertListRevokedCertificates: %w", err)
 	}
@@ -5186,7 +5246,7 @@ func MarshalBERUnformattedPostalAddressPrintableAddress(list UnformattedPostalAd
 
 // UnmarshalBERUnformattedPostalAddressPrintableAddress decodes a UnformattedPostalAddressPrintableAddress list from BER.
 func UnmarshalBERUnformattedPostalAddressPrintableAddress(data []byte) (UnformattedPostalAddressPrintableAddress, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding UnformattedPostalAddressPrintableAddress: %w", err)
 	}
@@ -5284,9 +5344,12 @@ func MarshalBERPresentationAddressNAddresses(list PresentationAddressNAddresses)
 
 // UnmarshalBERPresentationAddressNAddresses decodes a PresentationAddressNAddresses list from BER.
 func UnmarshalBERPresentationAddressNAddresses(data []byte) (PresentationAddressNAddresses, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding PresentationAddressNAddresses: %w", err)
+	}
+	if decodedTag.Class != tag.ClassUniversal || decodedTag.Number != tag.TagSet || !decodedTag.Constructed {
+		return nil, fmt.Errorf("decoding PresentationAddressNAddresses: %w: expected SET, got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "PresentationAddressNAddresses", Cause: ber.ErrExtraData}

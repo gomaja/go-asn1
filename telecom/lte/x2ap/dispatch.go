@@ -367,24 +367,6 @@ func DecodeInitiatingMessageValue(procedureCode int64, data []byte) (interface{}
 			return nil, fmt.Errorf("decoding CPCCancel: %w", err)
 		}
 		return &v, nil
-	case 60: // id-rachIndication
-		var v RachIndication
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
-			return nil, fmt.Errorf("decoding RachIndication: %w", err)
-		}
-		return &v, nil
-	case 61: // id-scgFailureInformationReport
-		var v SCGFailureInformationReport
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
-			return nil, fmt.Errorf("decoding SCGFailureInformationReport: %w", err)
-		}
-		return &v, nil
-	case 62: // id-scgFailureTransfer
-		var v SCGFailureTransfer
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
-			return nil, fmt.Errorf("decoding SCGFailureTransfer: %w", err)
-		}
-		return &v, nil
 	default:
 		return nil, nil
 	}
@@ -714,20 +696,6 @@ func decodeProtocolIEFieldListConstrained(bb *per.BitBuffer, lb, ub int64) ([]Pr
 	return result, nil
 }
 
-func decodeRaReportIndicationList(bb *per.BitBuffer) (RaReportIndicationList, error) {
-	n, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, MaxnoofUEsforRAReportIndications)
-	if err != nil {
-		return nil, fmt.Errorf("decoding list length: %w", err)
-	}
-	result := make(RaReportIndicationList, n)
-	for i := int64(0); i < n; i++ {
-		if err := result[i].UnmarshalAPERFrom(bb); err != nil {
-			return nil, fmt.Errorf("decoding item %d: %w", i, err)
-		}
-	}
-	return result, nil
-}
-
 // DecodeIEFieldValue decodes a ProtocolIE-Field Value based on message type and IE ID.
 // Returns the decoded typed value, or nil if the combination is unknown.
 func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{}, error) {
@@ -853,7 +821,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -980,21 +948,21 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEContextKeptIndicator(v)
 			return &result, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -1051,7 +1019,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -1157,14 +1125,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEX2APID(v)
 			return &result, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -1207,14 +1175,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -1254,14 +1222,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEX2APID(v)
 			return &result, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -1305,14 +1273,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -1336,14 +1304,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEX2APID(v)
 			return &result, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -1379,14 +1347,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -1422,14 +1390,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -1443,7 +1411,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := SgNBUEX2APID(v)
 			return &result, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -1459,7 +1427,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -1475,7 +1443,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -1594,14 +1562,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 	case "ResourceStatusRequest":
 		switch ieId {
 		case 39: // id-ENB1-Measurement-ID -> Measurement-ID (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Measurement-ID (%d): %w", ieId, err)
 			}
 			result := MeasurementID(v)
 			return &result, nil
 		case 40: // id-ENB2-Measurement-ID -> Measurement-ID (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Measurement-ID (%d): %w", ieId, err)
 			}
@@ -1668,14 +1636,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 	case "ResourceStatusResponse":
 		switch ieId {
 		case 39: // id-ENB1-Measurement-ID -> Measurement-ID (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Measurement-ID (%d): %w", ieId, err)
 			}
 			result := MeasurementID(v)
 			return &result, nil
 		case 40: // id-ENB2-Measurement-ID -> Measurement-ID (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Measurement-ID (%d): %w", ieId, err)
 			}
@@ -1715,14 +1683,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 	case "ResourceStatusFailure":
 		switch ieId {
 		case 39: // id-ENB1-Measurement-ID -> Measurement-ID (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Measurement-ID (%d): %w", ieId, err)
 			}
 			result := MeasurementID(v)
 			return &result, nil
 		case 40: // id-ENB2-Measurement-ID -> Measurement-ID (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Measurement-ID (%d): %w", ieId, err)
 			}
@@ -1759,14 +1727,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 	case "ResourceStatusUpdate":
 		switch ieId {
 		case 39: // id-ENB1-Measurement-ID -> Measurement-ID (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Measurement-ID (%d): %w", ieId, err)
 			}
 			result := MeasurementID(v)
 			return &result, nil
 		case 40: // id-ENB2-Measurement-ID -> Measurement-ID (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Measurement-ID (%d): %w", ieId, err)
 			}
@@ -1878,7 +1846,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 	case "RLFIndication":
 		switch ieId {
 		case 48: // id-FailureCellPCI -> PCI (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(503), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(503), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PCI (%d): %w", ieId, err)
 			}
@@ -2052,7 +2020,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEX2APID(v)
 			return &result, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -2065,7 +2033,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -2123,28 +2091,28 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 165: // id-GW-TransportLayerAddress -> TransportLayerAddress (BIT_STRING)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 1, 160, true)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TransportLayerAddress (%d): %w", ieId, err)
 			}
 			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 168: // id-SIPTO-L-GW-TransportLayerAddress -> TransportLayerAddress (BIT_STRING)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 1, 160, true)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TransportLayerAddress (%d): %w", ieId, err)
 			}
 			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -2195,14 +2163,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -2232,14 +2200,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -2303,14 +2271,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := CSGMembershipStatus(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -2398,14 +2366,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -2468,14 +2436,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -2525,14 +2493,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := SeNBtoMeNBContainer(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -2578,14 +2546,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -2628,14 +2596,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -2678,14 +2646,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEContextKeptIndicator(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -2731,14 +2699,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -2774,14 +2742,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -2820,14 +2788,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -2852,7 +2820,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 169: // id-X2RemovalThreshold -> X2BenefitValue (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(8), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(8), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE X2BenefitValue (%d): %w", ieId, err)
 			}
@@ -2899,7 +2867,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEX2APID(v)
 			return &result, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -2933,7 +2901,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := CRNTI{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 48: // id-FailureCellPCI -> PCI (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(503), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(503), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PCI (%d): %w", ieId, err)
 			}
@@ -2950,7 +2918,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEX2APID(v)
 			return &result, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -2964,7 +2932,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEX2APID(v)
 			return &result, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -3071,7 +3039,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEX2APID(v)
 			return &result, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -3158,7 +3126,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -3305,13 +3273,6 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE CPAinformation-REQ (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 449: // id-IABAuthorized -> IABAuthorized (ENUMERATED)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE IABAuthorized (%d): %w", ieId, err)
-			}
-			result := IABAuthorized(v)
-			return &result, nil
 		}
 	case "ERABsToBeAddedSgNBAddReqItem":
 		switch ieId {
@@ -3364,7 +3325,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -3462,7 +3423,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -3492,7 +3453,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -3555,7 +3516,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := MeNBtoSgNBContainer(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -3668,13 +3629,6 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE CPCupdate-MOD (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 449: // id-IABAuthorized -> IABAuthorized (ENUMERATED)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE IABAuthorized (%d): %w", ieId, err)
-			}
-			result := IABAuthorized(v)
-			return &result, nil
 		}
 	case "ERABsToBeAddedSgNBModReqItem":
 		switch ieId {
@@ -3757,7 +3711,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -3880,7 +3834,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -3930,7 +3884,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := SgNBtoMeNBContainer(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -4036,7 +3990,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -4094,7 +4048,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -4137,7 +4091,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEContextKeptIndicator(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -4189,7 +4143,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -4240,7 +4194,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -4270,7 +4224,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -4328,7 +4282,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -4367,7 +4321,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -4419,7 +4373,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := SgNBtoMeNBContainer(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -4461,7 +4415,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -4519,7 +4473,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -4567,7 +4521,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -4583,7 +4537,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -4605,7 +4559,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -4643,7 +4597,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -4665,7 +4619,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -4716,7 +4670,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := TimeToWait(v)
 			return &result, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -4738,7 +4692,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -4769,7 +4723,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -4810,7 +4764,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := TimeToWait(v)
 			return &result, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -4827,7 +4781,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := ActivationID(v)
 			return &result, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -4850,7 +4804,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -4879,7 +4833,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -4889,14 +4843,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 	case "ENDCResourceStatusRequest":
 		switch ieId {
 		case 383: // id-E-UTRAN-Node1-Measurement-ID -> Measurement-ID-ENDC (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Measurement-ID-ENDC (%d): %w", ieId, err)
 			}
 			result := MeasurementIDENDC(v)
 			return &result, nil
 		case 384: // id-E-UTRAN-Node2-Measurement-ID -> Measurement-ID-ENDC (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Measurement-ID-ENDC (%d): %w", ieId, err)
 			}
@@ -4930,7 +4884,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -4964,14 +4918,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 	case "ENDCResourceStatusResponse":
 		switch ieId {
 		case 383: // id-E-UTRAN-Node1-Measurement-ID -> Measurement-ID-ENDC (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Measurement-ID-ENDC (%d): %w", ieId, err)
 			}
 			result := MeasurementIDENDC(v)
 			return &result, nil
 		case 384: // id-E-UTRAN-Node2-Measurement-ID -> Measurement-ID-ENDC (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Measurement-ID-ENDC (%d): %w", ieId, err)
 			}
@@ -4984,7 +4938,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -4994,14 +4948,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 	case "ENDCResourceStatusFailure":
 		switch ieId {
 		case 383: // id-E-UTRAN-Node1-Measurement-ID -> Measurement-ID-ENDC (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Measurement-ID-ENDC (%d): %w", ieId, err)
 			}
 			result := MeasurementIDENDC(v)
 			return &result, nil
 		case 384: // id-E-UTRAN-Node2-Measurement-ID -> Measurement-ID-ENDC (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Measurement-ID-ENDC (%d): %w", ieId, err)
 			}
@@ -5020,7 +4974,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -5030,14 +4984,14 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 	case "ENDCResourceStatusUpdate":
 		switch ieId {
 		case 383: // id-E-UTRAN-Node1-Measurement-ID -> Measurement-ID-ENDC (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Measurement-ID-ENDC (%d): %w", ieId, err)
 			}
 			result := MeasurementIDENDC(v)
 			return &result, nil
 		case 384: // id-E-UTRAN-Node2-Measurement-ID -> Measurement-ID-ENDC (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Measurement-ID-ENDC (%d): %w", ieId, err)
 			}
@@ -5050,7 +5004,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -5104,7 +5058,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -5135,7 +5089,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UserPlaneTrafficActivityReport(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -5151,7 +5105,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -5161,7 +5115,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 	case "ENDCPartialResetConfirm":
 		switch ieId {
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -5177,7 +5131,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -5225,7 +5179,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -5273,7 +5227,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -5307,7 +5261,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -5347,7 +5301,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -5364,7 +5318,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEX2APID(v)
 			return &result, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -5378,7 +5332,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEX2APID(v)
 			return &result, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -5437,7 +5391,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := GNBOverloadInformation(v)
 			return &result, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -5454,7 +5408,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := EndcSONConfigurationTransfer(v)
 			return &result, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
@@ -5484,7 +5438,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -5515,7 +5469,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := EUTRANTraceID(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -5546,7 +5500,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := EUTRANTraceID(v)
 			return &result, nil
 		case 377: // id-TraceCollectionEntityIPAddress -> TraceCollectionEntityIPAddress (BIT_STRING)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 1, 160, true)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TraceCollectionEntityIPAddress (%d): %w", ieId, err)
 			}
@@ -5560,7 +5514,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := PrivacyIndicator(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -5591,7 +5545,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := F1CTrafficContainer(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -5631,15 +5585,6 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "RachIndication":
-		switch ieId {
-		case 447: // id-RaReportIndicationList -> RaReportIndicationList
-			v, err := decodeRaReportIndicationList(bb)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE RaReportIndicationList (%d): %w", ieId, err)
-			}
-			return &v, nil
-		}
 	case "CPCCancel":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UE-X2AP-ID (INTEGER)
@@ -5657,7 +5602,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := SgNBUEX2APID(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
@@ -5692,32 +5637,12 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := SgNBUEX2APID(v)
 			return &result, nil
-		case 450: // id-SourcePSCellCGI -> NRCGI
+		case 0: // id-SourcePSCellCGI -> NRCGI
 			var v NRCGI
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
 				return nil, fmt.Errorf("decoding IE NRCGI (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 451: // id-FailedPSCellCGI -> NRCGI
-			var v NRCGI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE NRCGI (%d): %w", ieId, err)
-			}
-			return &v, nil
-		case 452: // id-SCG-FailureReportContainer -> SCG-FailureReportContainer (OCTET_STRING)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE SCG-FailureReportContainer (%d): %w", ieId, err)
-			}
-			result := SCGFailureReportContainer(v)
-			return &result, nil
-		case 453: // id-TimeSCG-Failure -> TimeSCG-Failure (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(1023), false)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE TimeSCG-Failure (%d): %w", ieId, err)
-			}
-			result := TimeSCGFailure(v)
-			return &result, nil
 		}
 	case "SCGFailureTransfer":
 		switch ieId {

@@ -5551,7 +5551,7 @@ type TimeSinceFailureR11 = int64
 type TimeUntilReconnectionR16 = int64
 
 // MobilityHistoryReportR12 represents the ASN.1 type MobilityHistoryReport-r12 (SEQUENCE_OF).
-type MobilityHistoryReportR12 = []interface{}
+type MobilityHistoryReportR12 = VisitedCellInfoListR12
 
 // FlightPathInfoReportR15 represents the ASN.1 type FlightPathInfoReport-r15 (SEQUENCE).
 type FlightPathInfoReportR15 struct {
@@ -17276,7 +17276,7 @@ func NewThresholdEUTRAThresholdRSRQ(v RSRQRange) ThresholdEUTRA {
 }
 
 // ThresholdEUTRAV1250 represents the ASN.1 type ThresholdEUTRA-v1250 (INTEGER).
-type ThresholdEUTRAV1250 = int64
+type ThresholdEUTRAV1250 = CSIRSRPRangeR12
 
 // MeasRSSIReportConfigR13 represents the ASN.1 type MeasRSSI-ReportConfig-r13 (SEQUENCE).
 type MeasRSSIReportConfigR13 struct {
@@ -48019,11 +48019,7 @@ func (v *TDMAssistanceInfoR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 2 + 1
-		if _, err := per.DecodeOpenType(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("TDMAssistanceInfoR11: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("TDMAssistanceInfoR11: unsupported extension choice %d", int(extIdx)+2+1)
 	}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
@@ -48104,11 +48100,7 @@ func (v *IDCSubframePatternR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 2 + 1
-		if _, err := per.DecodeOpenType(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("IDCSubframePatternR11: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("IDCSubframePatternR11: unsupported extension choice %d", int(extIdx)+2+1)
 	}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
@@ -49615,11 +49607,7 @@ func (v *EventTypeR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 2 + 1
-		if _, err := per.DecodeOpenType(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("EventTypeR17: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("EventTypeR17: unsupported extension choice %d", int(extIdx)+2+1)
 	}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
@@ -53527,13 +53515,13 @@ func (v *PagingUEIdentity) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 2 + 1
 		openData, err := per.DecodeOpenType(bb)
 		if err != nil {
 			return err
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
+		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
 		case PagingUEIdentityChoiceNg5GSTMSIR15:
 			bsBytes_ng5gstmsir15, bsBitLen_ng5gstmsir15, err := per.DecodeBitString(inner, 48, 48, true)
@@ -62179,13 +62167,13 @@ func (v *RedirectedCarrierInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 6 + 1
 		openData, err := per.DecodeOpenType(bb)
 		if err != nil {
 			return err
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
+		v.Choice = int(extIdx) + 6 + 1
 		switch v.Choice {
 		case RedirectedCarrierInfoChoiceUtraTDDR10:
 			seqLen_utratddr10, err := per.DecodeConstrainedWholeNumber(inner, 1, 6)
@@ -132348,11 +132336,7 @@ func (v *RLCConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 4 + 1
-		if _, err := per.DecodeOpenType(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("RLCConfig: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("RLCConfig: unsupported extension choice %d", int(extIdx)+4+1)
 	}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 3)
 	if err != nil {
@@ -157471,11 +157455,7 @@ func (v *MeasSubframePatternR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 2 + 1
-		if _, err := per.DecodeOpenType(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("MeasSubframePatternR10: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("MeasSubframePatternR10: unsupported extension choice %d", int(extIdx)+2+1)
 	}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
@@ -207962,11 +207942,7 @@ func (v *MobilityFromEUTRACommandR9IEsPurpose) UnmarshalUPERFrom(bb *per.BitBuff
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 3 + 1
-		if _, err := per.DecodeOpenType(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("MobilityFromEUTRACommandR9IEsPurpose: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("MobilityFromEUTRACommandR9IEsPurpose: unsupported extension choice %d", int(extIdx)+3+1)
 	}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 2)
 	if err != nil {
@@ -208063,11 +208039,7 @@ func (v *CellChangeOrderTargetRATType) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 1 + 1
-		if _, err := per.DecodeOpenType(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("CellChangeOrderTargetRATType: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("CellChangeOrderTargetRATType: unsupported extension choice %d", int(extIdx)+1+1)
 	}
 	v.Choice = 1
 	switch v.Choice {
@@ -208379,13 +208351,13 @@ func (v *ProximityIndicationR9IEsCarrierFreqR9) UnmarshalUPERFrom(bb *per.BitBuf
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 2 + 1
 		openData, err := per.DecodeOpenType(bb)
 		if err != nil {
 			return err
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
+		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
 		case ProximityIndicationR9IEsCarrierFreqR9ChoiceEutra2V9e0:
 			val_eutra2v9e0, err := per.DecodeInteger(inner, int64Ptr(65536), int64Ptr(262143), false)
@@ -211186,13 +211158,13 @@ func (v *RRCConnectionReleaseV920IEsCellInfoListR9) UnmarshalUPERFrom(bb *per.Bi
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 3 + 1
 		openData, err := per.DecodeOpenType(bb)
 		if err != nil {
 			return err
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
+		v.Choice = int(extIdx) + 3 + 1
 		switch v.Choice {
 		case RRCConnectionReleaseV920IEsCellInfoListR9ChoiceUtraTDDR10:
 			seqLen_utratddr10, err := per.DecodeConstrainedWholeNumber(inner, 1, 16)
@@ -214053,13 +214025,13 @@ func (v *SystemInformationR8IEsSibTypeAndInfoElem) UnmarshalUPERFrom(bb *per.Bit
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 10 + 1
 		openData, err := per.DecodeOpenType(bb)
 		if err != nil {
 			return err
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
+		v.Choice = int(extIdx) + 10 + 1
 		switch v.Choice {
 		case SystemInformationR8IEsSibTypeAndInfoElemChoiceSib12V920:
 			var dec_sib12v920 SystemInformationBlockType12R9
@@ -214519,13 +214491,13 @@ func (v *PosSystemInformationR15IEsPosSIBTypeAndInfoR15Elem) UnmarshalUPERFrom(b
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 27 + 1
 		openData, err := per.DecodeOpenType(bb)
 		if err != nil {
 			return err
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
+		v.Choice = int(extIdx) + 27 + 1
 		switch v.Choice {
 		case PosSystemInformationR15IEsPosSIBTypeAndInfoR15ElemChoicePosSib18V1610:
 			var dec_possib18v1610 SystemInformationBlockPosR15
@@ -242490,11 +242462,7 @@ func (v *RNSubframeConfigR10RpdcchConfigR10ResourceBlockAssignmentR10) Unmarshal
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 2 + 1
-		if _, err := per.DecodeOpenType(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("RNSubframeConfigR10RpdcchConfigR10ResourceBlockAssignmentR10: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("RNSubframeConfigR10RpdcchConfigR10ResourceBlockAssignmentR10: unsupported extension choice %d", int(extIdx)+2+1)
 	}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
@@ -248212,13 +248180,13 @@ func (v *LocationInfoR10LocationCoordinatesR10) UnmarshalUPERFrom(bb *per.BitBuf
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 2 + 1
 		openData, err := per.DecodeOpenType(bb)
 		if err != nil {
 			return err
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
+		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
 		case LocationInfoR10LocationCoordinatesR10ChoiceEllipsoidPointWithUncertaintyCircleR11:
 			val_ellipsoidpointwithuncertaintycircler11, err := per.DecodeOctetString(inner, 0, 0, false)
@@ -248734,11 +248702,7 @@ func (v *MeasDSConfigR12SetupDmtcPeriodOffsetR12) UnmarshalUPERFrom(bb *per.BitB
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 3 + 1
-		if _, err := per.DecodeOpenType(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("MeasDSConfigR12SetupDmtcPeriodOffsetR12: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("MeasDSConfigR12SetupDmtcPeriodOffsetR12: unsupported extension choice %d", int(extIdx)+3+1)
 	}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 2)
 	if err != nil {
@@ -248988,13 +248952,13 @@ func (v *MeasGapConfigSetupGapOffset) UnmarshalUPERFrom(bb *per.BitBuffer) error
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 2 + 1
 		openData, err := per.DecodeOpenType(bb)
 		if err != nil {
 			return err
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
+		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
 		case MeasGapConfigSetupGapOffsetChoiceGp2R14:
 			val_gp2r14, err := per.DecodeInteger(inner, int64Ptr(0), int64Ptr(39), false)
@@ -249287,11 +249251,7 @@ func (v *MeasGapConfigDensePRSR15SetupGapOffsetDensePRSR15) UnmarshalUPERFrom(bb
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 21 + 1
-		if _, err := per.DecodeOpenType(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("MeasGapConfigDensePRSR15SetupGapOffsetDensePRSR15: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("MeasGapConfigDensePRSR15SetupGapOffsetDensePRSR15: unsupported extension choice %d", int(extIdx)+21+1)
 	}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 20)
 	if err != nil {
@@ -250395,13 +250355,13 @@ func (v *MeasObjectToAddModMeasObject) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 4 + 1
 		openData, err := per.DecodeOpenType(bb)
 		if err != nil {
 			return err
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
+		v.Choice = int(extIdx) + 4 + 1
 		switch v.Choice {
 		case MeasObjectToAddModMeasObjectChoiceMeasObjectWLANR13:
 			var dec_measobjectwlanr13 MeasObjectWLANR13
@@ -250532,13 +250492,13 @@ func (v *MeasObjectToAddModExtR13MeasObjectR13) UnmarshalUPERFrom(bb *per.BitBuf
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 4 + 1
 		openData, err := per.DecodeOpenType(bb)
 		if err != nil {
 			return err
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
+		v.Choice = int(extIdx) + 4 + 1
 		switch v.Choice {
 		case MeasObjectToAddModExtR13MeasObjectR13ChoiceMeasObjectWLANV1320:
 			var dec_measobjectwlanv1320 MeasObjectWLANR13
@@ -250941,13 +250901,13 @@ func (v *MeasResultsMeasResultNeighCells) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 4 + 1
 		openData, err := per.DecodeOpenType(bb)
 		if err != nil {
 			return err
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
+		v.Choice = int(extIdx) + 4 + 1
 		switch v.Choice {
 		case MeasResultsMeasResultNeighCellsChoiceMeasResultNeighCellListNRR15:
 			seqLen_measresultneighcelllistnrr15, err := per.DecodeConstrainedWholeNumber(inner, 1, 8)
@@ -251725,11 +251685,7 @@ func (v *MeasResultIdleR15MeasResultNeighCellsR15) UnmarshalUPERFrom(bb *per.Bit
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 1 + 1
-		if _, err := per.DecodeOpenType(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("MeasResultIdleR15MeasResultNeighCellsR15: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("MeasResultIdleR15MeasResultNeighCellsR15: unsupported extension choice %d", int(extIdx)+1+1)
 	}
 	v.Choice = 1
 	switch v.Choice {
@@ -253206,13 +253162,13 @@ func (v *ReportConfigEUTRATriggerTypeEventEventId) UnmarshalUPERFrom(bb *per.Bit
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 5 + 1
 		openData, err := per.DecodeOpenType(bb)
 		if err != nil {
 			return err
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
+		v.Choice = int(extIdx) + 5 + 1
 		switch v.Choice {
 		case ReportConfigEUTRATriggerTypeEventEventIdChoiceEventA6R10:
 			var dec_eventa6r10 ReportConfigEUTRATriggerTypeEventEventIdEventA6R10
@@ -253523,7 +253479,7 @@ func (v *ReportConfigEUTRATriggerTypeEventEventIdEventC1R12) MarshalUPER() ([]by
 }
 
 func (v *ReportConfigEUTRATriggerTypeEventEventIdEventC1R12) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeInteger(bb, int64(v.C1ThresholdR12), nil, nil, false); err != nil {
+	if err := per.EncodeInteger(bb, int64(v.C1ThresholdR12), int64Ptr(0), int64Ptr(97), false); err != nil {
 		return fmt.Errorf("encoding c1-Threshold-r12: %w", err)
 	}
 	if err := per.EncodeBoolean(bb, v.C1ReportOnLeaveR12); err != nil {
@@ -253539,7 +253495,7 @@ func (v *ReportConfigEUTRATriggerTypeEventEventIdEventC1R12) UnmarshalUPER(data 
 }
 
 func (v *ReportConfigEUTRATriggerTypeEventEventIdEventC1R12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	val_c1thresholdr12, err := per.DecodeInteger(bb, nil, nil, false)
+	val_c1thresholdr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(97), false)
 	if err != nil {
 		return fmt.Errorf("decoding c1-Threshold-r12: %w", err)
 	}
@@ -254163,13 +254119,13 @@ func (v *CondReconfigurationTriggerEUTRAR16CondEventIdR16) UnmarshalUPERFrom(bb 
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 2 + 1
 		openData, err := per.DecodeOpenType(bb)
 		if err != nil {
 			return err
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
+		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
 		case CondReconfigurationTriggerEUTRAR16CondEventIdR16ChoiceCondEventA4R18:
 			var dec_condeventa4r18 CondReconfigurationTriggerEUTRAR16CondEventIdR16CondEventA4R18
@@ -254714,13 +254670,13 @@ func (v *ReportConfigInterRATTriggerTypeEventEventId) UnmarshalUPERFrom(bb *per.
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 2 + 1
 		openData, err := per.DecodeOpenType(bb)
 		if err != nil {
 			return err
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
+		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
 		case ReportConfigInterRATTriggerTypeEventEventIdChoiceEventW1R13:
 			var dec_eventw1r13 ReportConfigInterRATTriggerTypeEventEventIdEventW1R13
@@ -255282,11 +255238,7 @@ func (v *CondReconfigurationTriggerNRR17CondEventIdR17) UnmarshalUPERFrom(bb *pe
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 1 + 1
-		if _, err := per.DecodeOpenType(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("CondReconfigurationTriggerNRR17CondEventIdR17: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("CondReconfigurationTriggerNRR17CondEventIdR17: unsupported extension choice %d", int(extIdx)+1+1)
 	}
 	v.Choice = 1
 	switch v.Choice {
@@ -255531,11 +255483,7 @@ func (v *MeasSubframePatternR10SubframePatternTDDR10) UnmarshalUPERFrom(bb *per.
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 3 + 1
-		if _, err := per.DecodeOpenType(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("MeasSubframePatternR10SubframePatternTDDR10: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("MeasSubframePatternR10SubframePatternTDDR10: unsupported extension choice %d", int(extIdx)+3+1)
 	}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 2)
 	if err != nil {

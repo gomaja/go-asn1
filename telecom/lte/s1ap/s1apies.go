@@ -15,6 +15,28 @@ var (
 	_ = per.NewBitBuffer
 )
 
+// AdditionalCSFallbackIndicator represents the ASN.1 ENUMERATED type AdditionalCSFallbackIndicator.
+type AdditionalCSFallbackIndicator int64
+
+const (
+	AdditionalCSFallbackIndicatorNoRestriction AdditionalCSFallbackIndicator = 0
+	AdditionalCSFallbackIndicatorRestriction   AdditionalCSFallbackIndicator = 1
+)
+
+func (v AdditionalCSFallbackIndicator) String() string {
+	switch v {
+	case AdditionalCSFallbackIndicatorNoRestriction:
+		return "no-restriction"
+	case AdditionalCSFallbackIndicatorRestriction:
+		return "restriction"
+	default:
+		return "unknown"
+	}
+}
+
+// AdditionalRRMPriorityIndex represents the ASN.1 type AdditionalRRMPriorityIndex (BIT_STRING).
+type AdditionalRRMPriorityIndex = runtime.BitString
+
 // AdditionalGUTI represents the ASN.1 type Additional-GUTI (SEQUENCE).
 type AdditionalGUTI struct {
 	GUMMEI             GUMMEI                     `asn1:"tag:0,context,implicit"`
@@ -25,9 +47,6 @@ type AdditionalGUTI struct {
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
-
-// AdditionalRRMPriorityIndex represents the ASN.1 type AdditionalRRMPriorityIndex (BIT_STRING).
-type AdditionalRRMPriorityIndex = runtime.BitString
 
 // AerialUEsubscriptionInformation represents the ASN.1 ENUMERATED type AerialUEsubscriptionInformation.
 type AerialUEsubscriptionInformation int64
@@ -46,6 +65,18 @@ func (v AerialUEsubscriptionInformation) String() string {
 	default:
 		return "unknown"
 	}
+}
+
+// AllocationAndRetentionPriority represents the ASN.1 type AllocationAndRetentionPriority (SEQUENCE).
+type AllocationAndRetentionPriority struct {
+	PriorityLevel           PriorityLevel              `asn1:"tag:0,context,implicit"`
+	PreEmptionCapability    PreEmptionCapability       `asn1:"tag:1,context,implicit"`
+	PreEmptionVulnerability PreEmptionVulnerability    `asn1:"tag:2,context,implicit"`
+	IEExtensions            ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_      bool                       `asn1:"-" json:"-"`
+	ExtCount_               int64                      `asn1:"-" json:"-"`
+	ExtPresent_             []bool                     `asn1:"-" json:"-"`
+	ExtData_                [][]byte                   `asn1:"-" json:"-"`
 }
 
 // AreaScopeOfMDT choice constants.
@@ -146,18 +177,6 @@ func NewAreaScopeOfQMCPLMNAreaBased(v PLMNAreaBasedQMC) AreaScopeOfQMC {
 	}
 }
 
-// AllocationAndRetentionPriority represents the ASN.1 type AllocationAndRetentionPriority (SEQUENCE).
-type AllocationAndRetentionPriority struct {
-	PriorityLevel           PriorityLevel              `asn1:"tag:0,context,implicit"`
-	PreEmptionCapability    PreEmptionCapability       `asn1:"tag:1,context,implicit"`
-	PreEmptionVulnerability PreEmptionVulnerability    `asn1:"tag:2,context,implicit"`
-	IEExtensions            ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_      bool                       `asn1:"-" json:"-"`
-	ExtCount_               int64                      `asn1:"-" json:"-"`
-	ExtPresent_             []bool                     `asn1:"-" json:"-"`
-	ExtData_                [][]byte                   `asn1:"-" json:"-"`
-}
-
 // AssistanceDataForCECapableUEs represents the ASN.1 type AssistanceDataForCECapableUEs (SEQUENCE).
 type AssistanceDataForCECapableUEs struct {
 	CellIdentifierAndCELevelForCECapableUEs CellIdentifierAndCELevelForCECapableUEs `asn1:"tag:0,context,implicit"`
@@ -190,49 +209,8 @@ type AssistanceDataForRecommendedCells struct {
 	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
 }
 
-// BearersSubjectToStatusTransferList represents the ASN.1 type Bearers-SubjectToStatusTransferList (SEQUENCE_OF).
-type BearersSubjectToStatusTransferList = []ProtocolIESingleContainer
-
-// BearersSubjectToStatusTransferItem represents the ASN.1 type Bearers-SubjectToStatusTransfer-Item (SEQUENCE).
-type BearersSubjectToStatusTransferItem struct {
-	ERABID                    ERABID                     `asn1:"tag:0,context,implicit"`
-	ULCOUNTvalue              COUNTvalue                 `asn1:"tag:1,context,implicit"`
-	DLCOUNTvalue              COUNTvalue                 `asn1:"tag:2,context,implicit"`
-	ReceiveStatusofULPDCPSDUs *ReceiveStatusofULPDCPSDUs `asn1:"tag:3,context,implicit,optional" json:"ReceiveStatusofULPDCPSDUs,omitempty"`
-	IEExtensions              ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
-	ExtCount_                 int64                      `asn1:"-" json:"-"`
-	ExtPresent_               []bool                     `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
-}
-
-// BearersSubjectToEarlyStatusTransferList represents the ASN.1 type Bearers-SubjectToEarlyStatusTransferList (SEQUENCE_OF).
-type BearersSubjectToEarlyStatusTransferList = []ProtocolIESingleContainer
-
-// BearersSubjectToEarlyStatusTransferItem represents the ASN.1 type Bearers-SubjectToEarlyStatusTransfer-Item (SEQUENCE).
-type BearersSubjectToEarlyStatusTransferItem struct {
-	ERABID              ERABID                     `asn1:"tag:0,context,implicit"`
-	DLCOUNTPDCPSNlength DLCOUNTPDCPSNlength        `asn1:"tag:1,context,explicit"`
-	IEExtensions        ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
-	ExtCount_           int64                      `asn1:"-" json:"-"`
-	ExtPresent_         []bool                     `asn1:"-" json:"-"`
-	ExtData_            [][]byte                   `asn1:"-" json:"-"`
-}
-
-// BearersSubjectToDLDiscardingList represents the ASN.1 type Bearers-SubjectToDLDiscardingList (SEQUENCE_OF).
-type BearersSubjectToDLDiscardingList = []ProtocolIESingleContainer
-
-// BearersSubjectToDLDiscardingItem represents the ASN.1 type Bearers-SubjectToDLDiscarding-Item (SEQUENCE).
-type BearersSubjectToDLDiscardingItem struct {
-	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
-	DLDiscarding       DLDiscarding               `asn1:"tag:1,context,explicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
+// BPLMNs represents the ASN.1 type BPLMNs (SEQUENCE_OF).
+type BPLMNs = []PLMNidentity
 
 // BearerType represents the ASN.1 ENUMERATED type BearerType.
 type BearerType int64
@@ -250,24 +228,38 @@ func (v BearerType) String() string {
 	}
 }
 
-// BitRate represents the ASN.1 type BitRate (INTEGER).
-type BitRate = int64
+// BearersSubjectToEarlyStatusTransferList represents the ASN.1 type Bearers-SubjectToEarlyStatusTransferList (SEQUENCE_OF).
+type BearersSubjectToEarlyStatusTransferList = []ProtocolIESingleContainer
 
-// BluetoothMeasurementConfiguration represents the ASN.1 type BluetoothMeasurementConfiguration (SEQUENCE).
-type BluetoothMeasurementConfiguration struct {
-	BluetoothMeasConfig               BluetoothMeasConfig         `asn1:"tag:0,context,implicit"`
-	BluetoothMeasConfigNameList       BluetoothMeasConfigNameList `asn1:"tag:1,context,implicit,optional" json:"BluetoothMeasConfigNameList,omitempty"`
-	BluetoothMeasConfigNameListIndef_ bool                        `asn1:"-" json:"-"`
-	BtRssi                            *int64                      `asn1:"tag:2,context,implicit,optional" json:"BtRssi,omitempty"`
-	IEExtensions                      ProtocolExtensionContainer  `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_                bool                        `asn1:"-" json:"-"`
-	ExtCount_                         int64                       `asn1:"-" json:"-"`
-	ExtPresent_                       []bool                      `asn1:"-" json:"-"`
-	ExtData_                          [][]byte                    `asn1:"-" json:"-"`
+// BearersSubjectToEarlyStatusTransferItem represents the ASN.1 type Bearers-SubjectToEarlyStatusTransfer-Item (SEQUENCE).
+type BearersSubjectToEarlyStatusTransferItem struct {
+	ERABID              ERABID                     `asn1:"tag:0,context,implicit"`
+	DLCOUNTPDCPSNlength DLCOUNTPDCPSNlength        `asn1:"tag:1,context,explicit"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
 }
 
-// BluetoothMeasConfigNameList represents the ASN.1 type BluetoothMeasConfigNameList (SEQUENCE_OF).
-type BluetoothMeasConfigNameList = []BluetoothName
+// BearersSubjectToStatusTransferList represents the ASN.1 type Bearers-SubjectToStatusTransferList (SEQUENCE_OF).
+type BearersSubjectToStatusTransferList = []ProtocolIESingleContainer
+
+// BearersSubjectToStatusTransferItem represents the ASN.1 type Bearers-SubjectToStatusTransfer-Item (SEQUENCE).
+type BearersSubjectToStatusTransferItem struct {
+	ERABID                    ERABID                     `asn1:"tag:0,context,implicit"`
+	ULCOUNTvalue              COUNTvalue                 `asn1:"tag:1,context,implicit"`
+	DLCOUNTvalue              COUNTvalue                 `asn1:"tag:2,context,implicit"`
+	ReceiveStatusofULPDCPSDUs *ReceiveStatusofULPDCPSDUs `asn1:"tag:3,context,implicit,optional" json:"ReceiveStatusofULPDCPSDUs,omitempty"`
+	IEExtensions              ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
+	ExtCount_                 int64                      `asn1:"-" json:"-"`
+	ExtPresent_               []bool                     `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+}
+
+// BitRate represents the ASN.1 type BitRate (INTEGER).
+type BitRate = int64
 
 // BluetoothMeasConfig represents the ASN.1 ENUMERATED type BluetoothMeasConfig.
 type BluetoothMeasConfig int64
@@ -285,11 +277,24 @@ func (v BluetoothMeasConfig) String() string {
 	}
 }
 
+// BluetoothMeasConfigNameList represents the ASN.1 type BluetoothMeasConfigNameList (SEQUENCE_OF).
+type BluetoothMeasConfigNameList = []BluetoothName
+
+// BluetoothMeasurementConfiguration represents the ASN.1 type BluetoothMeasurementConfiguration (SEQUENCE).
+type BluetoothMeasurementConfiguration struct {
+	BluetoothMeasConfig               BluetoothMeasConfig         `asn1:"tag:0,context,implicit"`
+	BluetoothMeasConfigNameList       BluetoothMeasConfigNameList `asn1:"tag:1,context,implicit,optional" json:"BluetoothMeasConfigNameList,omitempty"`
+	BluetoothMeasConfigNameListIndef_ bool                        `asn1:"-" json:"-"`
+	BtRssi                            *int64                      `asn1:"tag:2,context,implicit,optional" json:"BtRssi,omitempty"`
+	IEExtensions                      ProtocolExtensionContainer  `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_                bool                        `asn1:"-" json:"-"`
+	ExtCount_                         int64                       `asn1:"-" json:"-"`
+	ExtPresent_                       []bool                      `asn1:"-" json:"-"`
+	ExtData_                          [][]byte                    `asn1:"-" json:"-"`
+}
+
 // BluetoothName represents the ASN.1 type BluetoothName (OCTET_STRING).
 type BluetoothName = []byte
-
-// BPLMNs represents the ASN.1 type BPLMNs (SEQUENCE_OF).
-type BPLMNs = []PLMNidentity
 
 // BroadcastCancelledAreaList choice constants.
 const (
@@ -367,6 +372,199 @@ func NewBroadcastCompletedAreaListEmergencyAreaIDBroadcast(v EmergencyAreaIDBroa
 		Choice:                   BroadcastCompletedAreaListChoiceEmergencyAreaIDBroadcast,
 		EmergencyAreaIDBroadcast: v,
 	}
+}
+
+// CELevel represents the ASN.1 type CELevel (OCTET_STRING).
+type CELevel = []byte
+
+// CEModeBRestricted represents the ASN.1 ENUMERATED type CE-ModeBRestricted.
+type CEModeBRestricted int64
+
+const (
+	CEModeBRestrictedRestricted    CEModeBRestricted = 0
+	CEModeBRestrictedNotRestricted CEModeBRestricted = 1
+)
+
+func (v CEModeBRestricted) String() string {
+	switch v {
+	case CEModeBRestrictedRestricted:
+		return "restricted"
+	case CEModeBRestrictedNotRestricted:
+		return "not-restricted"
+	default:
+		return "unknown"
+	}
+}
+
+// CEModeBSupportIndicator represents the ASN.1 ENUMERATED type CE-mode-B-SupportIndicator.
+type CEModeBSupportIndicator int64
+
+const (
+	CEModeBSupportIndicatorSupported CEModeBSupportIndicator = 0
+)
+
+func (v CEModeBSupportIndicator) String() string {
+	switch v {
+	case CEModeBSupportIndicatorSupported:
+		return "supported"
+	default:
+		return "unknown"
+	}
+}
+
+// CGI represents the ASN.1 type CGI (SEQUENCE).
+type CGI struct {
+	PLMNidentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
+	LAC                LAC                        `asn1:"tag:1,context,implicit"`
+	CI                 CI                         `asn1:"tag:2,context,implicit"`
+	RAC                *RAC                       `asn1:"tag:3,context,implicit,optional" json:"RAC,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// CI represents the ASN.1 type CI (OCTET_STRING).
+type CI = []byte
+
+// CNDomain represents the ASN.1 ENUMERATED type CNDomain.
+type CNDomain int64
+
+const (
+	CNDomainPs CNDomain = 0
+	CNDomainCs CNDomain = 1
+)
+
+func (v CNDomain) String() string {
+	switch v {
+	case CNDomainPs:
+		return "ps"
+	case CNDomainCs:
+		return "cs"
+	default:
+		return "unknown"
+	}
+}
+
+// CNType represents the ASN.1 ENUMERATED type CNType.
+type CNType int64
+
+const (
+	CNTypeFiveGCForbidden CNType = 0
+	CNTypeEpcForbiddden   CNType = 1
+)
+
+func (v CNType) String() string {
+	switch v {
+	case CNTypeFiveGCForbidden:
+		return "fiveGCForbidden"
+	case CNTypeEpcForbiddden:
+		return "epc-Forbiddden"
+	default:
+		return "unknown"
+	}
+}
+
+// CNTypeRestrictions represents the ASN.1 type CNTypeRestrictions (SEQUENCE_OF).
+type CNTypeRestrictions = []CNTypeRestrictionsItem
+
+// CNTypeRestrictionsItem represents the ASN.1 type CNTypeRestrictions-Item (SEQUENCE).
+type CNTypeRestrictionsItem struct {
+	PLMNIdentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
+	CNType             CNType                     `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// COUNTValueExtended represents the ASN.1 type COUNTValueExtended (SEQUENCE).
+type COUNTValueExtended struct {
+	PDCPSNExtended     PDCPSNExtended             `asn1:"tag:0,context,implicit"`
+	HFNModified        HFNModified                `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// COUNTvalue represents the ASN.1 type COUNTvalue (SEQUENCE).
+type COUNTvalue struct {
+	PDCPSN             PDCPSN                     `asn1:"tag:0,context,implicit"`
+	HFN                HFN                        `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// COUNTvaluePDCPSNlength18 represents the ASN.1 type COUNTvaluePDCP-SNlength18 (SEQUENCE).
+type COUNTvaluePDCPSNlength18 struct {
+	PDCPSNlength18       PDCPSNlength18             `asn1:"tag:0,context,implicit"`
+	HFNforPDCPSNlength18 HFNforPDCPSNlength18       `asn1:"tag:1,context,implicit"`
+	IEExtensions         ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_   bool                       `asn1:"-" json:"-"`
+	ExtCount_            int64                      `asn1:"-" json:"-"`
+	ExtPresent_          []bool                     `asn1:"-" json:"-"`
+	ExtData_             [][]byte                   `asn1:"-" json:"-"`
+}
+
+// CSFallbackIndicator represents the ASN.1 ENUMERATED type CSFallbackIndicator.
+type CSFallbackIndicator int64
+
+const (
+	CSFallbackIndicatorCsFallbackRequired     CSFallbackIndicator = 0
+	CSFallbackIndicatorCsFallbackHighPriority CSFallbackIndicator = 1
+)
+
+func (v CSFallbackIndicator) String() string {
+	switch v {
+	case CSFallbackIndicatorCsFallbackRequired:
+		return "cs-fallback-required"
+	case CSFallbackIndicatorCsFallbackHighPriority:
+		return "cs-fallback-high-priority"
+	default:
+		return "unknown"
+	}
+}
+
+// CSGMembershipStatus represents the ASN.1 ENUMERATED type CSGMembershipStatus.
+type CSGMembershipStatus int64
+
+const (
+	CSGMembershipStatusMember    CSGMembershipStatus = 0
+	CSGMembershipStatusNotMember CSGMembershipStatus = 1
+)
+
+func (v CSGMembershipStatus) String() string {
+	switch v {
+	case CSGMembershipStatusMember:
+		return "member"
+	case CSGMembershipStatusNotMember:
+		return "not-member"
+	default:
+		return "unknown"
+	}
+}
+
+// CSGId represents the ASN.1 type CSG-Id (BIT_STRING).
+type CSGId = runtime.BitString
+
+// CSGIdList represents the ASN.1 type CSG-IdList (SEQUENCE_OF).
+type CSGIdList = []CSGIdListItem
+
+// CSGIdListItem represents the ASN.1 type CSG-IdList-Item (SEQUENCE).
+type CSGIdListItem struct {
+	CSGId              CSGId                      `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // CancelledCellinEAI represents the ASN.1 type CancelledCellinEAI (SEQUENCE_OF).
@@ -487,6 +685,37 @@ func (v CauseMisc) String() string {
 	}
 }
 
+// CauseNas represents the ASN.1 ENUMERATED type CauseNas.
+type CauseNas int64
+
+const (
+	CauseNasNormalRelease          CauseNas = 0
+	CauseNasAuthenticationFailure  CauseNas = 1
+	CauseNasDetach                 CauseNas = 2
+	CauseNasUnspecified            CauseNas = 3
+	CauseNasCsgSubscriptionExpiry  CauseNas = 4
+	CauseNasUENotInPLMNServingArea CauseNas = 5
+)
+
+func (v CauseNas) String() string {
+	switch v {
+	case CauseNasNormalRelease:
+		return "normal-release"
+	case CauseNasAuthenticationFailure:
+		return "authentication-failure"
+	case CauseNasDetach:
+		return "detach"
+	case CauseNasUnspecified:
+		return "unspecified"
+	case CauseNasCsgSubscriptionExpiry:
+		return "csg-subscription-expiry"
+	case CauseNasUENotInPLMNServingArea:
+		return "uE-not-in-PLMN-serving-area"
+	default:
+		return "unknown"
+	}
+}
+
 // CauseProtocol represents the ASN.1 ENUMERATED type CauseProtocol.
 type CauseProtocol int64
 
@@ -569,7 +798,6 @@ const (
 	CauseRadioNetworkInsufficientUeCapabilities                               CauseRadioNetwork = 41
 	CauseRadioNetworkMaximumBearerPreEmptionRateExceeded                      CauseRadioNetwork = 42
 	CauseRadioNetworkUpIntegrityProtectionNotPossible                         CauseRadioNetwork = 43
-	CauseRadioNetworkReleaseDueToDiscontinuousCoverage                        CauseRadioNetwork = 44
 )
 
 func (v CauseRadioNetwork) String() string {
@@ -662,8 +890,6 @@ func (v CauseRadioNetwork) String() string {
 		return "maximum-bearer-pre-emption-rate-exceeded"
 	case CauseRadioNetworkUpIntegrityProtectionNotPossible:
 		return "up-integrity-protection-not-possible"
-	case CauseRadioNetworkReleaseDueToDiscontinuousCoverage:
-		return "release-due-to-discontinuous-coverage"
 	default:
 		return "unknown"
 	}
@@ -688,39 +914,89 @@ func (v CauseTransport) String() string {
 	}
 }
 
-// CauseNas represents the ASN.1 ENUMERATED type CauseNas.
-type CauseNas int64
+// Cdma2000HORequiredIndication represents the ASN.1 ENUMERATED type Cdma2000HORequiredIndication.
+type Cdma2000HORequiredIndication int64
 
 const (
-	CauseNasNormalRelease          CauseNas = 0
-	CauseNasAuthenticationFailure  CauseNas = 1
-	CauseNasDetach                 CauseNas = 2
-	CauseNasUnspecified            CauseNas = 3
-	CauseNasCsgSubscriptionExpiry  CauseNas = 4
-	CauseNasUENotInPLMNServingArea CauseNas = 5
-	CauseNasIabNotAuthorized       CauseNas = 6
+	Cdma2000HORequiredIndicationTrue Cdma2000HORequiredIndication = 0
 )
 
-func (v CauseNas) String() string {
+func (v Cdma2000HORequiredIndication) String() string {
 	switch v {
-	case CauseNasNormalRelease:
-		return "normal-release"
-	case CauseNasAuthenticationFailure:
-		return "authentication-failure"
-	case CauseNasDetach:
-		return "detach"
-	case CauseNasUnspecified:
-		return "unspecified"
-	case CauseNasCsgSubscriptionExpiry:
-		return "csg-subscription-expiry"
-	case CauseNasUENotInPLMNServingArea:
-		return "uE-not-in-PLMN-serving-area"
-	case CauseNasIabNotAuthorized:
-		return "iab-not-authorized"
+	case Cdma2000HORequiredIndicationTrue:
+		return "true"
 	default:
 		return "unknown"
 	}
 }
+
+// Cdma2000HOStatus represents the ASN.1 ENUMERATED type Cdma2000HOStatus.
+type Cdma2000HOStatus int64
+
+const (
+	Cdma2000HOStatusHOSuccess Cdma2000HOStatus = 0
+	Cdma2000HOStatusHOFailure Cdma2000HOStatus = 1
+)
+
+func (v Cdma2000HOStatus) String() string {
+	switch v {
+	case Cdma2000HOStatusHOSuccess:
+		return "hOSuccess"
+	case Cdma2000HOStatusHOFailure:
+		return "hOFailure"
+	default:
+		return "unknown"
+	}
+}
+
+// Cdma2000OneXMEID represents the ASN.1 type Cdma2000OneXMEID (OCTET_STRING).
+type Cdma2000OneXMEID = []byte
+
+// Cdma2000OneXMSI represents the ASN.1 type Cdma2000OneXMSI (OCTET_STRING).
+type Cdma2000OneXMSI = []byte
+
+// Cdma2000OneXPilot represents the ASN.1 type Cdma2000OneXPilot (OCTET_STRING).
+type Cdma2000OneXPilot = []byte
+
+// Cdma2000OneXRAND represents the ASN.1 type Cdma2000OneXRAND (OCTET_STRING).
+type Cdma2000OneXRAND = []byte
+
+// Cdma2000OneXSRVCCInfo represents the ASN.1 type Cdma2000OneXSRVCCInfo (SEQUENCE).
+type Cdma2000OneXSRVCCInfo struct {
+	Cdma2000OneXMEID   Cdma2000OneXMEID           `asn1:"tag:0,context,implicit"`
+	Cdma2000OneXMSI    Cdma2000OneXMSI            `asn1:"tag:1,context,implicit"`
+	Cdma2000OneXPilot  Cdma2000OneXPilot          `asn1:"tag:2,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// Cdma2000PDU represents the ASN.1 type Cdma2000PDU (OCTET_STRING).
+type Cdma2000PDU = []byte
+
+// Cdma2000RATType represents the ASN.1 ENUMERATED type Cdma2000RATType.
+type Cdma2000RATType int64
+
+const (
+	Cdma2000RATTypeHRPD    Cdma2000RATType = 0
+	Cdma2000RATTypeOnexRTT Cdma2000RATType = 1
+)
+
+func (v Cdma2000RATType) String() string {
+	switch v {
+	case Cdma2000RATTypeHRPD:
+		return "hRPD"
+	case Cdma2000RATTypeOnexRTT:
+		return "onexRTT"
+	default:
+		return "unknown"
+	}
+}
+
+// Cdma2000SectorID represents the ASN.1 type Cdma2000SectorID (OCTET_STRING).
+type Cdma2000SectorID = []byte
 
 // CellAccessMode represents the ASN.1 ENUMERATED type CellAccessMode.
 type CellAccessMode int64
@@ -738,38 +1014,27 @@ func (v CellAccessMode) String() string {
 	}
 }
 
-// CellIdentifierAndCELevelForCECapableUEs represents the ASN.1 type CellIdentifierAndCELevelForCECapableUEs (SEQUENCE).
-type CellIdentifierAndCELevelForCECapableUEs struct {
-	GlobalCellID       EUTRANCGI                  `asn1:"tag:0,context,implicit"`
-	CELevel            CELevel                    `asn1:"tag:1,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+// CellBasedMDT represents the ASN.1 type CellBasedMDT (SEQUENCE).
+type CellBasedMDT struct {
+	CellIdListforMDT       CellIdListforMDT           `asn1:"tag:0,context,implicit"`
+	CellIdListforMDTIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
 }
 
-// CELevel represents the ASN.1 type CELevel (OCTET_STRING).
-type CELevel = []byte
-
-// CEModeBSupportIndicator represents the ASN.1 ENUMERATED type CE-mode-B-SupportIndicator.
-type CEModeBSupportIndicator int64
-
-const (
-	CEModeBSupportIndicatorSupported CEModeBSupportIndicator = 0
-)
-
-func (v CEModeBSupportIndicator) String() string {
-	switch v {
-	case CEModeBSupportIndicatorSupported:
-		return "supported"
-	default:
-		return "unknown"
-	}
+// CellBasedQMC represents the ASN.1 type CellBasedQMC (SEQUENCE).
+type CellBasedQMC struct {
+	CellIdListforQMC       CellIdListforQMC           `asn1:"tag:0,context,implicit"`
+	CellIdListforQMCIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
 }
-
-// CellIdentity represents the ASN.1 type CellIdentity (BIT_STRING).
-type CellIdentity = runtime.BitString
 
 // CellIDBroadcast represents the ASN.1 type CellID-Broadcast (SEQUENCE_OF).
 type CellIDBroadcast = []CellIDBroadcastItem
@@ -798,117 +1063,35 @@ type CellIDCancelledItem struct {
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// CellBasedMDT represents the ASN.1 type CellBasedMDT (SEQUENCE).
-type CellBasedMDT struct {
-	CellIdListforMDT       CellIdListforMDT           `asn1:"tag:0,context,implicit"`
-	CellIdListforMDTIndef_ bool                       `asn1:"-" json:"-"`
-	IEExtensions           ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
-	ExtCount_              int64                      `asn1:"-" json:"-"`
-	ExtPresent_            []bool                     `asn1:"-" json:"-"`
-	ExtData_               [][]byte                   `asn1:"-" json:"-"`
-}
-
 // CellIdListforMDT represents the ASN.1 type CellIdListforMDT (SEQUENCE_OF).
 type CellIdListforMDT = []EUTRANCGI
-
-// CellBasedQMC represents the ASN.1 type CellBasedQMC (SEQUENCE).
-type CellBasedQMC struct {
-	CellIdListforQMC       CellIdListforQMC           `asn1:"tag:0,context,implicit"`
-	CellIdListforQMCIndef_ bool                       `asn1:"-" json:"-"`
-	IEExtensions           ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
-	ExtCount_              int64                      `asn1:"-" json:"-"`
-	ExtPresent_            []bool                     `asn1:"-" json:"-"`
-	ExtData_               [][]byte                   `asn1:"-" json:"-"`
-}
 
 // CellIdListforQMC represents the ASN.1 type CellIdListforQMC (SEQUENCE_OF).
 type CellIdListforQMC = []EUTRANCGI
 
-// Cdma2000PDU represents the ASN.1 type Cdma2000PDU (OCTET_STRING).
-type Cdma2000PDU = []byte
-
-// Cdma2000RATType represents the ASN.1 ENUMERATED type Cdma2000RATType.
-type Cdma2000RATType int64
-
-const (
-	Cdma2000RATTypeHRPD    Cdma2000RATType = 0
-	Cdma2000RATTypeOnexRTT Cdma2000RATType = 1
-)
-
-func (v Cdma2000RATType) String() string {
-	switch v {
-	case Cdma2000RATTypeHRPD:
-		return "hRPD"
-	case Cdma2000RATTypeOnexRTT:
-		return "onexRTT"
-	default:
-		return "unknown"
-	}
-}
-
-// Cdma2000SectorID represents the ASN.1 type Cdma2000SectorID (OCTET_STRING).
-type Cdma2000SectorID = []byte
-
-// Cdma2000HOStatus represents the ASN.1 ENUMERATED type Cdma2000HOStatus.
-type Cdma2000HOStatus int64
-
-const (
-	Cdma2000HOStatusHOSuccess Cdma2000HOStatus = 0
-	Cdma2000HOStatusHOFailure Cdma2000HOStatus = 1
-)
-
-func (v Cdma2000HOStatus) String() string {
-	switch v {
-	case Cdma2000HOStatusHOSuccess:
-		return "hOSuccess"
-	case Cdma2000HOStatusHOFailure:
-		return "hOFailure"
-	default:
-		return "unknown"
-	}
-}
-
-// Cdma2000HORequiredIndication represents the ASN.1 ENUMERATED type Cdma2000HORequiredIndication.
-type Cdma2000HORequiredIndication int64
-
-const (
-	Cdma2000HORequiredIndicationTrue Cdma2000HORequiredIndication = 0
-)
-
-func (v Cdma2000HORequiredIndication) String() string {
-	switch v {
-	case Cdma2000HORequiredIndicationTrue:
-		return "true"
-	default:
-		return "unknown"
-	}
-}
-
-// Cdma2000OneXSRVCCInfo represents the ASN.1 type Cdma2000OneXSRVCCInfo (SEQUENCE).
-type Cdma2000OneXSRVCCInfo struct {
-	Cdma2000OneXMEID   Cdma2000OneXMEID           `asn1:"tag:0,context,implicit"`
-	Cdma2000OneXMSI    Cdma2000OneXMSI            `asn1:"tag:1,context,implicit"`
-	Cdma2000OneXPilot  Cdma2000OneXPilot          `asn1:"tag:2,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+// CellIdentifierAndCELevelForCECapableUEs represents the ASN.1 type CellIdentifierAndCELevelForCECapableUEs (SEQUENCE).
+type CellIdentifierAndCELevelForCECapableUEs struct {
+	GlobalCellID       EUTRANCGI                  `asn1:"tag:0,context,implicit"`
+	CELevel            CELevel                    `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// Cdma2000OneXMEID represents the ASN.1 type Cdma2000OneXMEID (OCTET_STRING).
-type Cdma2000OneXMEID = []byte
+// CellIdentity represents the ASN.1 type CellIdentity (BIT_STRING).
+type CellIdentity = runtime.BitString
 
-// Cdma2000OneXMSI represents the ASN.1 type Cdma2000OneXMSI (OCTET_STRING).
-type Cdma2000OneXMSI = []byte
-
-// Cdma2000OneXPilot represents the ASN.1 type Cdma2000OneXPilot (OCTET_STRING).
-type Cdma2000OneXPilot = []byte
-
-// Cdma2000OneXRAND represents the ASN.1 type Cdma2000OneXRAND (OCTET_STRING).
-type Cdma2000OneXRAND = []byte
+// CellType represents the ASN.1 type CellType (SEQUENCE).
+type CellType struct {
+	CellSize           CellSize                   `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
 
 // CellSize represents the ASN.1 ENUMERATED type Cell-Size.
 type CellSize int64
@@ -935,9 +1118,12 @@ func (v CellSize) String() string {
 	}
 }
 
-// CellType represents the ASN.1 type CellType (SEQUENCE).
-type CellType struct {
-	CellSize           CellSize                   `asn1:"tag:0,context,implicit"`
+// CompletedCellinEAI represents the ASN.1 type CompletedCellinEAI (SEQUENCE_OF).
+type CompletedCellinEAI = []CompletedCellinEAIItem
+
+// CompletedCellinEAIItem represents the ASN.1 type CompletedCellinEAI-Item (SEQUENCE).
+type CompletedCellinEAIItem struct {
+	ECGI               EUTRANCGI                  `asn1:"tag:0,context,implicit"`
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
 	ExtCount_          int64                      `asn1:"-" json:"-"`
@@ -945,92 +1131,18 @@ type CellType struct {
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// CGI represents the ASN.1 type CGI (SEQUENCE).
-type CGI struct {
-	PLMNidentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
-	LAC                LAC                        `asn1:"tag:1,context,implicit"`
-	CI                 CI                         `asn1:"tag:2,context,implicit"`
-	RAC                *RAC                       `asn1:"tag:3,context,implicit,optional" json:"RAC,omitempty"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+// CompletedCellinTAI represents the ASN.1 type CompletedCellinTAI (SEQUENCE_OF).
+type CompletedCellinTAI = []CompletedCellinTAIItem
+
+// CompletedCellinTAIItem represents the ASN.1 type CompletedCellinTAI-Item (SEQUENCE).
+type CompletedCellinTAIItem struct {
+	ECGI               EUTRANCGI                  `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
-
-// CI represents the ASN.1 type CI (OCTET_STRING).
-type CI = []byte
-
-// CNDomain represents the ASN.1 ENUMERATED type CNDomain.
-type CNDomain int64
-
-const (
-	CNDomainPs CNDomain = 0
-	CNDomainCs CNDomain = 1
-)
-
-func (v CNDomain) String() string {
-	switch v {
-	case CNDomainPs:
-		return "ps"
-	case CNDomainCs:
-		return "cs"
-	default:
-		return "unknown"
-	}
-}
-
-// CNTypeRestrictions represents the ASN.1 type CNTypeRestrictions (SEQUENCE_OF).
-type CNTypeRestrictions = []CNTypeRestrictionsItem
-
-// CNTypeRestrictionsItem represents the ASN.1 type CNTypeRestrictions-Item (SEQUENCE).
-type CNTypeRestrictionsItem struct {
-	PLMNIdentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
-	CNType             CNType                     `asn1:"tag:1,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// CNType represents the ASN.1 ENUMERATED type CNType.
-type CNType int64
-
-const (
-	CNTypeFiveGCForbidden CNType = 0
-	CNTypeEpcForbiddden   CNType = 1
-)
-
-func (v CNType) String() string {
-	switch v {
-	case CNTypeFiveGCForbidden:
-		return "fiveGCForbidden"
-	case CNTypeEpcForbiddden:
-		return "epc-Forbiddden"
-	default:
-		return "unknown"
-	}
-}
-
-// CoarseUELocationRequested represents the ASN.1 ENUMERATED type CoarseUELocationRequested.
-type CoarseUELocationRequested int64
-
-const (
-	CoarseUELocationRequestedTrue CoarseUELocationRequested = 0
-)
-
-func (v CoarseUELocationRequested) String() string {
-	switch v {
-	case CoarseUELocationRequestedTrue:
-		return "true"
-	default:
-		return "unknown"
-	}
-}
-
-// CoarseUELocation represents the ASN.1 type CoarseUELocation (OCTET_STRING).
-type CoarseUELocation = []byte
 
 // ConcurrentWarningMessageIndicator represents the ASN.1 ENUMERATED type ConcurrentWarningMessageIndicator.
 type ConcurrentWarningMessageIndicator int64
@@ -1048,9 +1160,6 @@ func (v ConcurrentWarningMessageIndicator) String() string {
 	}
 }
 
-// ConnectedengNBList represents the ASN.1 type ConnectedengNBList (SEQUENCE_OF).
-type ConnectedengNBList = []ConnectedengNBItem
-
 // ConnectedengNBItem represents the ASN.1 type ConnectedengNBItem (SEQUENCE).
 type ConnectedengNBItem struct {
 	EnGNBID            EnGNBID                    `asn1:"tag:0,context,implicit"`
@@ -1062,6 +1171,9 @@ type ConnectedengNBItem struct {
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
+
+// ConnectedengNBList represents the ASN.1 type ConnectedengNBList (SEQUENCE_OF).
+type ConnectedengNBList = []ConnectedengNBItem
 
 // ContextatSource represents the ASN.1 type ContextatSource (SEQUENCE).
 type ContextatSource struct {
@@ -1076,112 +1188,6 @@ type ContextatSource struct {
 
 // CorrelationID represents the ASN.1 type Correlation-ID (OCTET_STRING).
 type CorrelationID = []byte
-
-// CSFallbackIndicator represents the ASN.1 ENUMERATED type CSFallbackIndicator.
-type CSFallbackIndicator int64
-
-const (
-	CSFallbackIndicatorCsFallbackRequired     CSFallbackIndicator = 0
-	CSFallbackIndicatorCsFallbackHighPriority CSFallbackIndicator = 1
-)
-
-func (v CSFallbackIndicator) String() string {
-	switch v {
-	case CSFallbackIndicatorCsFallbackRequired:
-		return "cs-fallback-required"
-	case CSFallbackIndicatorCsFallbackHighPriority:
-		return "cs-fallback-high-priority"
-	default:
-		return "unknown"
-	}
-}
-
-// AdditionalCSFallbackIndicator represents the ASN.1 ENUMERATED type AdditionalCSFallbackIndicator.
-type AdditionalCSFallbackIndicator int64
-
-const (
-	AdditionalCSFallbackIndicatorNoRestriction AdditionalCSFallbackIndicator = 0
-	AdditionalCSFallbackIndicatorRestriction   AdditionalCSFallbackIndicator = 1
-)
-
-func (v AdditionalCSFallbackIndicator) String() string {
-	switch v {
-	case AdditionalCSFallbackIndicatorNoRestriction:
-		return "no-restriction"
-	case AdditionalCSFallbackIndicatorRestriction:
-		return "restriction"
-	default:
-		return "unknown"
-	}
-}
-
-// CSGId represents the ASN.1 type CSG-Id (BIT_STRING).
-type CSGId = runtime.BitString
-
-// CSGIdList represents the ASN.1 type CSG-IdList (SEQUENCE_OF).
-type CSGIdList = []CSGIdListItem
-
-// CSGIdListItem represents the ASN.1 type CSG-IdList-Item (SEQUENCE).
-type CSGIdListItem struct {
-	CSGId              CSGId                      `asn1:"tag:0,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// CSGMembershipStatus represents the ASN.1 ENUMERATED type CSGMembershipStatus.
-type CSGMembershipStatus int64
-
-const (
-	CSGMembershipStatusMember    CSGMembershipStatus = 0
-	CSGMembershipStatusNotMember CSGMembershipStatus = 1
-)
-
-func (v CSGMembershipStatus) String() string {
-	switch v {
-	case CSGMembershipStatusMember:
-		return "member"
-	case CSGMembershipStatusNotMember:
-		return "not-member"
-	default:
-		return "unknown"
-	}
-}
-
-// COUNTvalue represents the ASN.1 type COUNTvalue (SEQUENCE).
-type COUNTvalue struct {
-	PDCPSN             PDCPSN                     `asn1:"tag:0,context,implicit"`
-	HFN                HFN                        `asn1:"tag:1,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// COUNTValueExtended represents the ASN.1 type COUNTValueExtended (SEQUENCE).
-type COUNTValueExtended struct {
-	PDCPSNExtended     PDCPSNExtended             `asn1:"tag:0,context,implicit"`
-	HFNModified        HFNModified                `asn1:"tag:1,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// COUNTvaluePDCPSNlength18 represents the ASN.1 type COUNTvaluePDCP-SNlength18 (SEQUENCE).
-type COUNTvaluePDCPSNlength18 struct {
-	PDCPSNlength18       PDCPSNlength18             `asn1:"tag:0,context,implicit"`
-	HFNforPDCPSNlength18 HFNforPDCPSNlength18       `asn1:"tag:1,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                       `asn1:"-" json:"-"`
-	ExtCount_            int64                      `asn1:"-" json:"-"`
-	ExtPresent_          []bool                     `asn1:"-" json:"-"`
-	ExtData_             [][]byte                   `asn1:"-" json:"-"`
-}
 
 // CoverageLevel represents the ASN.1 ENUMERATED type Coverage-Level.
 type CoverageLevel int64
@@ -1213,9 +1219,6 @@ type CriticalityDiagnostics struct {
 	ExtData_                        [][]byte                     `asn1:"-" json:"-"`
 }
 
-// CriticalityDiagnosticsIEList represents the ASN.1 type CriticalityDiagnostics-IE-List (SEQUENCE_OF).
-type CriticalityDiagnosticsIEList = []CriticalityDiagnosticsIEItem
-
 // CriticalityDiagnosticsIEItem represents the ASN.1 type CriticalityDiagnostics-IE-Item (SEQUENCE).
 type CriticalityDiagnosticsIEItem struct {
 	IECriticality      Criticality                `asn1:"tag:0,context,implicit"`
@@ -1228,24 +1231,13 @@ type CriticalityDiagnosticsIEItem struct {
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
+// CriticalityDiagnosticsIEList represents the ASN.1 type CriticalityDiagnostics-IE-List (SEQUENCE_OF).
+type CriticalityDiagnosticsIEList = []CriticalityDiagnosticsIEItem
+
 // DAPSRequestInfo represents the ASN.1 type DAPSRequestInfo (SEQUENCE).
 type DAPSRequestInfo struct {
 	DAPSIndicator      int64                      `asn1:"tag:0,context,implicit"`
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// DAPSResponseInfoList represents the ASN.1 type DAPSResponseInfoList (SEQUENCE_OF).
-type DAPSResponseInfoList = []ProtocolIESingleContainer
-
-// DAPSResponseInfoItem represents the ASN.1 type DAPSResponseInfoItem (SEQUENCE).
-type DAPSResponseInfoItem struct {
-	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
-	DAPSResponseInfo   DAPSResponseInfo           `asn1:"tag:1,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
@@ -1262,57 +1254,22 @@ type DAPSResponseInfo struct {
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
-// DataCodingScheme represents the ASN.1 type DataCodingScheme (BIT_STRING).
-type DataCodingScheme = runtime.BitString
-
-// DataSize represents the ASN.1 type DataSize (INTEGER).
-type DataSize = int64
-
-// DCNID represents the ASN.1 type DCN-ID (INTEGER).
-type DCNID = int64
-
-// ServedDCNs represents the ASN.1 type ServedDCNs (SEQUENCE_OF).
-type ServedDCNs = []ServedDCNsItem
-
-// ServedDCNsItem represents the ASN.1 type ServedDCNsItem (SEQUENCE).
-type ServedDCNsItem struct {
-	DCNID               DCNID                      `asn1:"tag:0,context,implicit"`
-	RelativeDCNCapacity RelativeMMECapacity        `asn1:"tag:1,context,implicit"`
-	IEExtensions        ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
-	ExtCount_           int64                      `asn1:"-" json:"-"`
-	ExtPresent_         []bool                     `asn1:"-" json:"-"`
-	ExtData_            [][]byte                   `asn1:"-" json:"-"`
-}
-
-// DLCPSecurityInformation represents the ASN.1 type DL-CP-SecurityInformation (SEQUENCE).
-type DLCPSecurityInformation struct {
-	DlNASMAC           DLNASMAC                   `asn1:"tag:0,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+// DAPSResponseInfoItem represents the ASN.1 type DAPSResponseInfoItem (SEQUENCE).
+type DAPSResponseInfoItem struct {
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	DAPSResponseInfo   DAPSResponseInfo           `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// DLForwarding represents the ASN.1 ENUMERATED type DL-Forwarding.
-type DLForwarding int64
+// DAPSResponseInfoList represents the ASN.1 type DAPSResponseInfoList (SEQUENCE_OF).
+type DAPSResponseInfoList = []ProtocolIESingleContainer
 
-const (
-	DLForwardingDLForwardingProposed DLForwarding = 0
-)
-
-func (v DLForwarding) String() string {
-	switch v {
-	case DLForwardingDLForwardingProposed:
-		return "dL-Forwarding-proposed"
-	default:
-		return "unknown"
-	}
-}
-
-// DLNASMAC represents the ASN.1 type DL-NAS-MAC (BIT_STRING).
-type DLNASMAC = runtime.BitString
+// DCNID represents the ASN.1 type DCN-ID (INTEGER).
+type DCNID = int64
 
 // DLCOUNTPDCPSNlength choice constants.
 const (
@@ -1353,42 +1310,70 @@ func NewDLCOUNTPDCPSNlengthDLCOUNTValuePDCPSNlength18(v COUNTvaluePDCPSNlength18
 	}
 }
 
-// DLDiscarding choice constants.
+// DLNASPDUDeliveryAckRequest represents the ASN.1 ENUMERATED type DLNASPDUDeliveryAckRequest.
+type DLNASPDUDeliveryAckRequest int64
+
 const (
-	DLDiscardingChoiceDiscardDLCOUNTValuePDCPSNlength12 = 1
-	DLDiscardingChoiceDiscardDLCOUNTValuePDCPSNlength15 = 2
-	DLDiscardingChoiceDiscardDLCOUNTValuePDCPSNlength18 = 3
+	DLNASPDUDeliveryAckRequestRequested DLNASPDUDeliveryAckRequest = 0
 )
 
-// DLDiscarding represents the ASN.1 CHOICE type DLDiscarding.
-type DLDiscarding struct {
-	Choice                            int
-	DiscardDLCOUNTValuePDCPSNlength12 *COUNTvalue               `json:"DiscardDLCOUNTValuePDCPSNlength12,omitempty"`
-	DiscardDLCOUNTValuePDCPSNlength15 *COUNTValueExtended       `json:"DiscardDLCOUNTValuePDCPSNlength15,omitempty"`
-	DiscardDLCOUNTValuePDCPSNlength18 *COUNTvaluePDCPSNlength18 `json:"DiscardDLCOUNTValuePDCPSNlength18,omitempty"`
-}
-
-// NewDLDiscardingDiscardDLCOUNTValuePDCPSNlength12 creates a DLDiscarding with the discardDLCOUNTValuePDCP-SNlength12 alternative.
-func NewDLDiscardingDiscardDLCOUNTValuePDCPSNlength12(v COUNTvalue) DLDiscarding {
-	return DLDiscarding{
-		Choice:                            DLDiscardingChoiceDiscardDLCOUNTValuePDCPSNlength12,
-		DiscardDLCOUNTValuePDCPSNlength12: &v,
+func (v DLNASPDUDeliveryAckRequest) String() string {
+	switch v {
+	case DLNASPDUDeliveryAckRequestRequested:
+		return "requested"
+	default:
+		return "unknown"
 	}
 }
 
-// NewDLDiscardingDiscardDLCOUNTValuePDCPSNlength15 creates a DLDiscarding with the discardDLCOUNTValuePDCP-SNlength15 alternative.
-func NewDLDiscardingDiscardDLCOUNTValuePDCPSNlength15(v COUNTValueExtended) DLDiscarding {
-	return DLDiscarding{
-		Choice:                            DLDiscardingChoiceDiscardDLCOUNTValuePDCPSNlength15,
-		DiscardDLCOUNTValuePDCPSNlength15: &v,
+// DLCPSecurityInformation represents the ASN.1 type DL-CP-SecurityInformation (SEQUENCE).
+type DLCPSecurityInformation struct {
+	DlNASMAC           DLNASMAC                   `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// DLForwarding represents the ASN.1 ENUMERATED type DL-Forwarding.
+type DLForwarding int64
+
+const (
+	DLForwardingDLForwardingProposed DLForwarding = 0
+)
+
+func (v DLForwarding) String() string {
+	switch v {
+	case DLForwardingDLForwardingProposed:
+		return "dL-Forwarding-proposed"
+	default:
+		return "unknown"
 	}
 }
 
-// NewDLDiscardingDiscardDLCOUNTValuePDCPSNlength18 creates a DLDiscarding with the discardDLCOUNTValuePDCP-SNlength18 alternative.
-func NewDLDiscardingDiscardDLCOUNTValuePDCPSNlength18(v COUNTvaluePDCPSNlength18) DLDiscarding {
-	return DLDiscarding{
-		Choice:                            DLDiscardingChoiceDiscardDLCOUNTValuePDCPSNlength18,
-		DiscardDLCOUNTValuePDCPSNlength18: &v,
+// DLNASMAC represents the ASN.1 type DL-NAS-MAC (BIT_STRING).
+type DLNASMAC = runtime.BitString
+
+// DataCodingScheme represents the ASN.1 type DataCodingScheme (BIT_STRING).
+type DataCodingScheme = runtime.BitString
+
+// DataSize represents the ASN.1 type DataSize (INTEGER).
+type DataSize = int64
+
+// DataForwardingNotPossible represents the ASN.1 ENUMERATED type Data-Forwarding-Not-Possible.
+type DataForwardingNotPossible int64
+
+const (
+	DataForwardingNotPossibleDataForwardingNotPossible DataForwardingNotPossible = 0
+)
+
+func (v DataForwardingNotPossible) String() string {
+	switch v {
+	case DataForwardingNotPossibleDataForwardingNotPossible:
+		return "data-Forwarding-not-Possible"
+	default:
+		return "unknown"
 	}
 }
 
@@ -1408,46 +1393,17 @@ func (v DirectForwardingPathAvailability) String() string {
 	}
 }
 
-// DataForwardingNotPossible represents the ASN.1 ENUMERATED type Data-Forwarding-Not-Possible.
-type DataForwardingNotPossible int64
-
-const (
-	DataForwardingNotPossibleDataForwardingNotPossible DataForwardingNotPossible = 0
-)
-
-func (v DataForwardingNotPossible) String() string {
-	switch v {
-	case DataForwardingNotPossibleDataForwardingNotPossible:
-		return "data-Forwarding-not-Possible"
-	default:
-		return "unknown"
-	}
-}
-
-// DLNASPDUDeliveryAckRequest represents the ASN.1 ENUMERATED type DLNASPDUDeliveryAckRequest.
-type DLNASPDUDeliveryAckRequest int64
-
-const (
-	DLNASPDUDeliveryAckRequestRequested DLNASPDUDeliveryAckRequest = 0
-)
-
-func (v DLNASPDUDeliveryAckRequest) String() string {
-	switch v {
-	case DLNASPDUDeliveryAckRequestRequested:
-		return "requested"
-	default:
-		return "unknown"
-	}
-}
-
 // EARFCN represents the ASN.1 type EARFCN (INTEGER).
 type EARFCN = int64
 
 // ECGIList represents the ASN.1 type ECGIList (SEQUENCE_OF).
 type ECGIList = []EUTRANCGI
 
-// PWSfailedECGIList represents the ASN.1 type PWSfailedECGIList (SEQUENCE_OF).
-type PWSfailedECGIList = []EUTRANCGI
+// ECGIListForRestart represents the ASN.1 type ECGIListForRestart (SEQUENCE_OF).
+type ECGIListForRestart = []EUTRANCGI
+
+// IEsECGIList represents the ASN.1 type IEsECGIList (SEQUENCE_OF).
+type IEsECGIList = []EUTRANCGI
 
 // EDTSession represents the ASN.1 ENUMERATED type EDT-Session.
 type EDTSession int64
@@ -1465,76 +1421,29 @@ func (v EDTSession) String() string {
 	}
 }
 
-// EmergencyAreaIDList represents the ASN.1 type EmergencyAreaIDList (SEQUENCE_OF).
-type EmergencyAreaIDList = []EmergencyAreaID
+// ENBIndirectX2TransportLayerAddresses represents the ASN.1 type ENBIndirectX2TransportLayerAddresses (SEQUENCE_OF).
+type ENBIndirectX2TransportLayerAddresses = []TransportLayerAddress
 
-// EmergencyAreaID represents the ASN.1 type EmergencyAreaID (OCTET_STRING).
-type EmergencyAreaID = []byte
-
-// EmergencyAreaIDBroadcast represents the ASN.1 type EmergencyAreaID-Broadcast (SEQUENCE_OF).
-type EmergencyAreaIDBroadcast = []EmergencyAreaIDBroadcastItem
-
-// EmergencyAreaIDBroadcastItem represents the ASN.1 type EmergencyAreaID-Broadcast-Item (SEQUENCE).
-type EmergencyAreaIDBroadcastItem struct {
-	EmergencyAreaID          EmergencyAreaID            `asn1:"tag:0,context,implicit"`
-	CompletedCellinEAI       CompletedCellinEAI         `asn1:"tag:1,context,implicit"`
-	CompletedCellinEAIIndef_ bool                       `asn1:"-" json:"-"`
-	IEExtensions             ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_       bool                       `asn1:"-" json:"-"`
-	ExtCount_                int64                      `asn1:"-" json:"-"`
-	ExtPresent_              []bool                     `asn1:"-" json:"-"`
-	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
-}
-
-// EmergencyAreaIDCancelled represents the ASN.1 type EmergencyAreaID-Cancelled (SEQUENCE_OF).
-type EmergencyAreaIDCancelled = []EmergencyAreaIDCancelledItem
-
-// EmergencyAreaIDCancelledItem represents the ASN.1 type EmergencyAreaID-Cancelled-Item (SEQUENCE).
-type EmergencyAreaIDCancelledItem struct {
-	EmergencyAreaID          EmergencyAreaID            `asn1:"tag:0,context,implicit"`
-	CancelledCellinEAI       CancelledCellinEAI         `asn1:"tag:1,context,implicit"`
-	CancelledCellinEAIIndef_ bool                       `asn1:"-" json:"-"`
-	IEExtensions             ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_       bool                       `asn1:"-" json:"-"`
-	ExtCount_                int64                      `asn1:"-" json:"-"`
-	ExtPresent_              []bool                     `asn1:"-" json:"-"`
-	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
-}
-
-// CompletedCellinEAI represents the ASN.1 type CompletedCellinEAI (SEQUENCE_OF).
-type CompletedCellinEAI = []CompletedCellinEAIItem
-
-// CompletedCellinEAIItem represents the ASN.1 type CompletedCellinEAI-Item (SEQUENCE).
-type CompletedCellinEAIItem struct {
-	ECGI               EUTRANCGI                  `asn1:"tag:0,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+// ENBX2ExtTLA represents the ASN.1 type ENBX2ExtTLA (SEQUENCE).
+type ENBX2ExtTLA struct {
+	IPsecTLA           *TransportLayerAddress     `asn1:"tag:0,context,implicit,optional" json:"IPsecTLA,omitempty"`
+	GTPTLAa            ENBX2GTPTLAs               `asn1:"tag:1,context,implicit,optional" json:"GTPTLAa,omitempty"`
+	GTPTLAaIndef_      bool                       `asn1:"-" json:"-"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// IEsECGIList represents the ASN.1 type IEsECGIList (SEQUENCE_OF).
-type IEsECGIList = []EUTRANCGI
+// ENBX2ExtTLAs represents the ASN.1 type ENBX2ExtTLAs (SEQUENCE_OF).
+type ENBX2ExtTLAs = []ENBX2ExtTLA
 
-// EmergencyAreaIDListForRestart represents the ASN.1 type EmergencyAreaIDListForRestart (SEQUENCE_OF).
-type EmergencyAreaIDListForRestart = []EmergencyAreaID
+// ENBX2GTPTLAs represents the ASN.1 type ENBX2GTPTLAs (SEQUENCE_OF).
+type ENBX2GTPTLAs = []TransportLayerAddress
 
-// EmergencyIndicator represents the ASN.1 ENUMERATED type EmergencyIndicator.
-type EmergencyIndicator int64
-
-const (
-	EmergencyIndicatorTrue EmergencyIndicator = 0
-)
-
-func (v EmergencyIndicator) String() string {
-	switch v {
-	case EmergencyIndicatorTrue:
-		return "true"
-	default:
-		return "unknown"
-	}
-}
+// ENBX2TLAs represents the ASN.1 type ENBX2TLAs (SEQUENCE_OF).
+type ENBX2TLAs = []TransportLayerAddress
 
 // ENBEarlyStatusTransferTransparentContainer represents the ASN.1 type ENB-EarlyStatusTransfer-TransparentContainer (SEQUENCE).
 type ENBEarlyStatusTransferTransparentContainer struct {
@@ -1596,46 +1505,6 @@ func NewENBIDLongMacroENBID(v runtime.BitString) ENBID {
 	}
 }
 
-// EnGNBID represents the ASN.1 type En-gNB-ID (BIT_STRING).
-type EnGNBID = runtime.BitString
-
-// GERANCellID represents the ASN.1 type GERAN-Cell-ID (SEQUENCE).
-type GERANCellID struct {
-	LAI                LAI                        `asn1:"tag:0,context,implicit"`
-	RAC                RAC                        `asn1:"tag:1,context,implicit"`
-	CI                 CI                         `asn1:"tag:2,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// GlobalENBID represents the ASN.1 type Global-ENB-ID (SEQUENCE).
-type GlobalENBID struct {
-	PLMNidentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
-	ENBID              ENBID                      `asn1:"tag:1,context,explicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// GlobalEnGNBID represents the ASN.1 type Global-en-gNB-ID (SEQUENCE).
-type GlobalEnGNBID struct {
-	PLMNidentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
-	EnGNBID            EnGNBID                    `asn1:"tag:1,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// GUMMEIList represents the ASN.1 type GUMMEIList (SEQUENCE_OF).
-type GUMMEIList = []GUMMEI
-
 // ENBStatusTransferTransparentContainer represents the ASN.1 type ENB-StatusTransfer-TransparentContainer (SEQUENCE).
 type ENBStatusTransferTransparentContainer struct {
 	BearersSubjectToStatusTransferList       BearersSubjectToStatusTransferList `asn1:"tag:0,context,implicit"`
@@ -1652,12 +1521,6 @@ type ENBUES1APID = int64
 
 // ENBname represents the ASN.1 type ENBname (PrintableString).
 type ENBname = string
-
-// ENBX2TLAs represents the ASN.1 type ENBX2TLAs (SEQUENCE_OF).
-type ENBX2TLAs = []TransportLayerAddress
-
-// EncryptionAlgorithms represents the ASN.1 type EncryptionAlgorithms (BIT_STRING).
-type EncryptionAlgorithms = runtime.BitString
 
 // ENDCSONConfigurationTransfer represents the ASN.1 type EN-DCSONConfigurationTransfer (SEQUENCE).
 type ENDCSONConfigurationTransfer struct {
@@ -1700,31 +1563,6 @@ func NewENDCSONTransferTypeReply(v ENDCTransferTypeReply) ENDCSONTransferType {
 	}
 }
 
-// ENDCTransferTypeRequest represents the ASN.1 type EN-DCTransferTypeRequest (SEQUENCE).
-type ENDCTransferTypeRequest struct {
-	SourceeNB          ENDCSONeNBIdentification   `asn1:"tag:0,context,implicit"`
-	TargetengNB        ENDCSONengNBIdentification `asn1:"tag:1,context,implicit"`
-	TargeteNB          *ENDCSONeNBIdentification  `asn1:"tag:2,context,implicit,optional" json:"TargeteNB,omitempty"`
-	AssociatedTAI      *TAI                       `asn1:"tag:3,context,implicit,optional" json:"AssociatedTAI,omitempty"`
-	Broadcast5GSTAI    *FiveGSTAI                 `asn1:"tag:4,context,implicit,optional" json:"Broadcast5GSTAI,omitempty"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ENDCTransferTypeReply represents the ASN.1 type EN-DCTransferTypeReply (SEQUENCE).
-type ENDCTransferTypeReply struct {
-	SourceengNB        ENDCSONengNBIdentification `asn1:"tag:0,context,implicit"`
-	TargeteNB          ENDCSONeNBIdentification   `asn1:"tag:1,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
 // ENDCSONeNBIdentification represents the ASN.1 type EN-DCSONeNBIdentification (SEQUENCE).
 type ENDCSONeNBIdentification struct {
 	GlobaleNBID        GlobalENBID                `asn1:"tag:0,context,implicit"`
@@ -1746,6 +1584,185 @@ type ENDCSONengNBIdentification struct {
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
+
+// ENDCTransferTypeReply represents the ASN.1 type EN-DCTransferTypeReply (SEQUENCE).
+type ENDCTransferTypeReply struct {
+	SourceengNB        ENDCSONengNBIdentification `asn1:"tag:0,context,implicit"`
+	TargeteNB          ENDCSONeNBIdentification   `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// ENDCTransferTypeRequest represents the ASN.1 type EN-DCTransferTypeRequest (SEQUENCE).
+type ENDCTransferTypeRequest struct {
+	SourceeNB          ENDCSONeNBIdentification   `asn1:"tag:0,context,implicit"`
+	TargetengNB        ENDCSONengNBIdentification `asn1:"tag:1,context,implicit"`
+	TargeteNB          *ENDCSONeNBIdentification  `asn1:"tag:2,context,implicit,optional" json:"TargeteNB,omitempty"`
+	AssociatedTAI      *TAI                       `asn1:"tag:3,context,implicit,optional" json:"AssociatedTAI,omitempty"`
+	Broadcast5GSTAI    *FiveGSTAI                 `asn1:"tag:4,context,implicit,optional" json:"Broadcast5GSTAI,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// EPLMNs represents the ASN.1 type EPLMNs (SEQUENCE_OF).
+type EPLMNs = []PLMNidentity
+
+// EUTRANRoundTripDelayEstimationInfo represents the ASN.1 type EUTRANRoundTripDelayEstimationInfo (INTEGER).
+type EUTRANRoundTripDelayEstimationInfo = int64
+
+// EUTRANCGI represents the ASN.1 type EUTRAN-CGI (SEQUENCE).
+type EUTRANCGI struct {
+	PLMNidentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
+	CellID             CellIdentity               `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// ERABInformationList represents the ASN.1 type E-RABInformationList (SEQUENCE_OF).
+type ERABInformationList = []ProtocolIESingleContainer
+
+// ERABInformationListItem represents the ASN.1 type E-RABInformationListItem (SEQUENCE).
+type ERABInformationListItem struct {
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	DLForwarding       *DLForwarding              `asn1:"tag:1,context,implicit,optional" json:"DLForwarding,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// ERABItem represents the ASN.1 type E-RABItem (SEQUENCE).
+type ERABItem struct {
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	Cause              Cause                      `asn1:"tag:1,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// ERABLevelQoSParameters represents the ASN.1 type E-RABLevelQoSParameters (SEQUENCE).
+type ERABLevelQoSParameters struct {
+	QCI                         QCI                            `asn1:"tag:0,context,implicit"`
+	AllocationRetentionPriority AllocationAndRetentionPriority `asn1:"tag:1,context,implicit"`
+	GbrQosInformation           *GBRQosInformation             `asn1:"tag:2,context,implicit,optional" json:"GbrQosInformation,omitempty"`
+	IEExtensions                ProtocolExtensionContainer     `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_          bool                           `asn1:"-" json:"-"`
+	ExtCount_                   int64                          `asn1:"-" json:"-"`
+	ExtPresent_                 []bool                         `asn1:"-" json:"-"`
+	ExtData_                    [][]byte                       `asn1:"-" json:"-"`
+}
+
+// ERABList represents the ASN.1 type E-RABList (SEQUENCE_OF).
+type ERABList = []ProtocolIESingleContainer
+
+// ERABSecurityResultItem represents the ASN.1 type E-RABSecurityResultItem (SEQUENCE).
+type ERABSecurityResultItem struct {
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	SecurityResult     SecurityResult             `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// ERABSecurityResultList represents the ASN.1 type E-RABSecurityResultList (SEQUENCE_OF).
+type ERABSecurityResultList = []ProtocolIESingleContainer
+
+// ERABUsageReportItem represents the ASN.1 type E-RABUsageReportItem (SEQUENCE).
+type ERABUsageReportItem struct {
+	StartTimestamp     []byte                     `asn1:"tag:0,context,implicit"`
+	EndTimestamp       []byte                     `asn1:"tag:1,context,implicit"`
+	UsageCountUL       int64                      `asn1:"tag:2,context,implicit"`
+	UsageCountDL       int64                      `asn1:"tag:3,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// ERABUsageReportList represents the ASN.1 type E-RABUsageReportList (SEQUENCE_OF).
+type ERABUsageReportList = []ProtocolIESingleContainer
+
+// ERABID represents the ASN.1 type E-RAB-ID (INTEGER).
+type ERABID = int64
+
+// EUTRANTraceID represents the ASN.1 type E-UTRAN-Trace-ID (OCTET_STRING).
+type EUTRANTraceID = []byte
+
+// EmergencyAreaID represents the ASN.1 type EmergencyAreaID (OCTET_STRING).
+type EmergencyAreaID = []byte
+
+// EmergencyAreaIDList represents the ASN.1 type EmergencyAreaIDList (SEQUENCE_OF).
+type EmergencyAreaIDList = []EmergencyAreaID
+
+// EmergencyAreaIDListForRestart represents the ASN.1 type EmergencyAreaIDListForRestart (SEQUENCE_OF).
+type EmergencyAreaIDListForRestart = []EmergencyAreaID
+
+// EmergencyAreaIDBroadcast represents the ASN.1 type EmergencyAreaID-Broadcast (SEQUENCE_OF).
+type EmergencyAreaIDBroadcast = []EmergencyAreaIDBroadcastItem
+
+// EmergencyAreaIDBroadcastItem represents the ASN.1 type EmergencyAreaID-Broadcast-Item (SEQUENCE).
+type EmergencyAreaIDBroadcastItem struct {
+	EmergencyAreaID          EmergencyAreaID            `asn1:"tag:0,context,implicit"`
+	CompletedCellinEAI       CompletedCellinEAI         `asn1:"tag:1,context,implicit"`
+	CompletedCellinEAIIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions             ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_       bool                       `asn1:"-" json:"-"`
+	ExtCount_                int64                      `asn1:"-" json:"-"`
+	ExtPresent_              []bool                     `asn1:"-" json:"-"`
+	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
+}
+
+// EmergencyAreaIDCancelled represents the ASN.1 type EmergencyAreaID-Cancelled (SEQUENCE_OF).
+type EmergencyAreaIDCancelled = []EmergencyAreaIDCancelledItem
+
+// EmergencyAreaIDCancelledItem represents the ASN.1 type EmergencyAreaID-Cancelled-Item (SEQUENCE).
+type EmergencyAreaIDCancelledItem struct {
+	EmergencyAreaID          EmergencyAreaID            `asn1:"tag:0,context,implicit"`
+	CancelledCellinEAI       CancelledCellinEAI         `asn1:"tag:1,context,implicit"`
+	CancelledCellinEAIIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions             ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_       bool                       `asn1:"-" json:"-"`
+	ExtCount_                int64                      `asn1:"-" json:"-"`
+	ExtPresent_              []bool                     `asn1:"-" json:"-"`
+	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
+}
+
+// EmergencyIndicator represents the ASN.1 ENUMERATED type EmergencyIndicator.
+type EmergencyIndicator int64
+
+const (
+	EmergencyIndicatorTrue EmergencyIndicator = 0
+)
+
+func (v EmergencyIndicator) String() string {
+	switch v {
+	case EmergencyIndicatorTrue:
+		return "true"
+	default:
+		return "unknown"
+	}
+}
+
+// EnGNBID represents the ASN.1 type En-gNB-ID (BIT_STRING).
+type EnGNBID = runtime.BitString
+
+// EncryptionAlgorithms represents the ASN.1 type EncryptionAlgorithms (BIT_STRING).
+type EncryptionAlgorithms = runtime.BitString
 
 // EndIndication represents the ASN.1 ENUMERATED type EndIndication.
 type EndIndication int64
@@ -1782,123 +1799,6 @@ func (v EnhancedCoverageRestricted) String() string {
 	}
 }
 
-// CEModeBRestricted represents the ASN.1 ENUMERATED type CE-ModeBRestricted.
-type CEModeBRestricted int64
-
-const (
-	CEModeBRestrictedRestricted    CEModeBRestricted = 0
-	CEModeBRestrictedNotRestricted CEModeBRestricted = 1
-)
-
-func (v CEModeBRestricted) String() string {
-	switch v {
-	case CEModeBRestrictedRestricted:
-		return "restricted"
-	case CEModeBRestrictedNotRestricted:
-		return "not-restricted"
-	default:
-		return "unknown"
-	}
-}
-
-// EPLMNs represents the ASN.1 type EPLMNs (SEQUENCE_OF).
-type EPLMNs = []PLMNidentity
-
-// EventType represents the ASN.1 ENUMERATED type EventType.
-type EventType int64
-
-const (
-	EventTypeDirect                EventType = 0
-	EventTypeChangeOfServeCell     EventType = 1
-	EventTypeStopChangeOfServeCell EventType = 2
-)
-
-func (v EventType) String() string {
-	switch v {
-	case EventTypeDirect:
-		return "direct"
-	case EventTypeChangeOfServeCell:
-		return "change-of-serve-cell"
-	case EventTypeStopChangeOfServeCell:
-		return "stop-change-of-serve-cell"
-	default:
-		return "unknown"
-	}
-}
-
-// ERABID represents the ASN.1 type E-RAB-ID (INTEGER).
-type ERABID = int64
-
-// ERABInformationList represents the ASN.1 type E-RABInformationList (SEQUENCE_OF).
-type ERABInformationList = []ProtocolIESingleContainer
-
-// ERABInformationListItem represents the ASN.1 type E-RABInformationListItem (SEQUENCE).
-type ERABInformationListItem struct {
-	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
-	DLForwarding       *DLForwarding              `asn1:"tag:1,context,implicit,optional" json:"DLForwarding,omitempty"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABList represents the ASN.1 type E-RABList (SEQUENCE_OF).
-type ERABList = []ProtocolIESingleContainer
-
-// ERABItem represents the ASN.1 type E-RABItem (SEQUENCE).
-type ERABItem struct {
-	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
-	Cause              Cause                      `asn1:"tag:1,context,explicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABLevelQoSParameters represents the ASN.1 type E-RABLevelQoSParameters (SEQUENCE).
-type ERABLevelQoSParameters struct {
-	QCI                         QCI                            `asn1:"tag:0,context,implicit"`
-	AllocationRetentionPriority AllocationAndRetentionPriority `asn1:"tag:1,context,implicit"`
-	GbrQosInformation           *GBRQosInformation             `asn1:"tag:2,context,implicit,optional" json:"GbrQosInformation,omitempty"`
-	IEExtensions                ProtocolExtensionContainer     `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_          bool                           `asn1:"-" json:"-"`
-	ExtCount_                   int64                          `asn1:"-" json:"-"`
-	ExtPresent_                 []bool                         `asn1:"-" json:"-"`
-	ExtData_                    [][]byte                       `asn1:"-" json:"-"`
-}
-
-// ERABSecurityResultList represents the ASN.1 type E-RABSecurityResultList (SEQUENCE_OF).
-type ERABSecurityResultList = []ProtocolIESingleContainer
-
-// ERABSecurityResultItem represents the ASN.1 type E-RABSecurityResultItem (SEQUENCE).
-type ERABSecurityResultItem struct {
-	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
-	SecurityResult     SecurityResult             `asn1:"tag:1,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ERABUsageReportList represents the ASN.1 type E-RABUsageReportList (SEQUENCE_OF).
-type ERABUsageReportList = []ProtocolIESingleContainer
-
-// ERABUsageReportItem represents the ASN.1 type E-RABUsageReportItem (SEQUENCE).
-type ERABUsageReportItem struct {
-	StartTimestamp     []byte                     `asn1:"tag:0,context,implicit"`
-	EndTimestamp       []byte                     `asn1:"tag:1,context,implicit"`
-	UsageCountUL       int64                      `asn1:"tag:2,context,implicit"`
-	UsageCountDL       int64                      `asn1:"tag:3,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
 // EthernetType represents the ASN.1 ENUMERATED type Ethernet-Type.
 type EthernetType int64
 
@@ -1914,20 +1814,6 @@ func (v EthernetType) String() string {
 		return "unknown"
 	}
 }
-
-// EUTRANCGI represents the ASN.1 type EUTRAN-CGI (SEQUENCE).
-type EUTRANCGI struct {
-	PLMNidentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
-	CellID             CellIdentity               `asn1:"tag:1,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// EUTRANRoundTripDelayEstimationInfo represents the ASN.1 type EUTRANRoundTripDelayEstimationInfo (INTEGER).
-type EUTRANRoundTripDelayEstimationInfo = int64
 
 // EventL1LoggedMDTConfig represents the ASN.1 type EventL1LoggedMDTConfig (SEQUENCE).
 type EventL1LoggedMDTConfig struct {
@@ -1980,53 +1866,30 @@ func NewEventTriggerChoiceExtensions(v ProtocolIESingleContainer) EventTrigger {
 	}
 }
 
-// ExpectedUEBehaviour represents the ASN.1 type ExpectedUEBehaviour (SEQUENCE).
-type ExpectedUEBehaviour struct {
-	ExpectedActivity   *ExpectedUEActivityBehaviour `asn1:"tag:0,context,implicit,optional" json:"ExpectedActivity,omitempty"`
-	ExpectedHOInterval *ExpectedHOInterval          `asn1:"tag:1,context,implicit,optional" json:"ExpectedHOInterval,omitempty"`
-	IEExtensions       ProtocolExtensionContainer   `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                         `asn1:"-" json:"-"`
-	ExtCount_          int64                        `asn1:"-" json:"-"`
-	ExtPresent_        []bool                       `asn1:"-" json:"-"`
-	ExtData_           [][]byte                     `asn1:"-" json:"-"`
-}
-
-// ExpectedUEActivityBehaviour represents the ASN.1 type ExpectedUEActivityBehaviour (SEQUENCE).
-type ExpectedUEActivityBehaviour struct {
-	ExpectedActivityPeriod                 *ExpectedActivityPeriod                 `asn1:"tag:0,context,implicit,optional" json:"ExpectedActivityPeriod,omitempty"`
-	ExpectedIdlePeriod                     *ExpectedIdlePeriod                     `asn1:"tag:1,context,implicit,optional" json:"ExpectedIdlePeriod,omitempty"`
-	SourceofUEActivityBehaviourInformation *SourceOfUEActivityBehaviourInformation `asn1:"tag:2,context,implicit,optional" json:"SourceofUEActivityBehaviourInformation,omitempty"`
-	IEExtensions                           ProtocolExtensionContainer              `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_                     bool                                    `asn1:"-" json:"-"`
-	ExtCount_                              int64                                   `asn1:"-" json:"-"`
-	ExtPresent_                            []bool                                  `asn1:"-" json:"-"`
-	ExtData_                               [][]byte                                `asn1:"-" json:"-"`
-}
-
-// ExpectedActivityPeriod represents the ASN.1 type ExpectedActivityPeriod (INTEGER).
-type ExpectedActivityPeriod = int64
-
-// ExpectedIdlePeriod represents the ASN.1 type ExpectedIdlePeriod (INTEGER).
-type ExpectedIdlePeriod = int64
-
-// SourceOfUEActivityBehaviourInformation represents the ASN.1 ENUMERATED type SourceOfUEActivityBehaviourInformation.
-type SourceOfUEActivityBehaviourInformation int64
+// EventType represents the ASN.1 ENUMERATED type EventType.
+type EventType int64
 
 const (
-	SourceOfUEActivityBehaviourInformationSubscriptionInformation SourceOfUEActivityBehaviourInformation = 0
-	SourceOfUEActivityBehaviourInformationStatistics              SourceOfUEActivityBehaviourInformation = 1
+	EventTypeDirect                EventType = 0
+	EventTypeChangeOfServeCell     EventType = 1
+	EventTypeStopChangeOfServeCell EventType = 2
 )
 
-func (v SourceOfUEActivityBehaviourInformation) String() string {
+func (v EventType) String() string {
 	switch v {
-	case SourceOfUEActivityBehaviourInformationSubscriptionInformation:
-		return "subscription-information"
-	case SourceOfUEActivityBehaviourInformationStatistics:
-		return "statistics"
+	case EventTypeDirect:
+		return "direct"
+	case EventTypeChangeOfServeCell:
+		return "change-of-serve-cell"
+	case EventTypeStopChangeOfServeCell:
+		return "stop-change-of-serve-cell"
 	default:
 		return "unknown"
 	}
 }
+
+// ExpectedActivityPeriod represents the ASN.1 type ExpectedActivityPeriod (INTEGER).
+type ExpectedActivityPeriod = int64
 
 // ExpectedHOInterval represents the ASN.1 ENUMERATED type ExpectedHOInterval.
 type ExpectedHOInterval int64
@@ -2060,6 +1923,32 @@ func (v ExpectedHOInterval) String() string {
 	default:
 		return "unknown"
 	}
+}
+
+// ExpectedIdlePeriod represents the ASN.1 type ExpectedIdlePeriod (INTEGER).
+type ExpectedIdlePeriod = int64
+
+// ExpectedUEActivityBehaviour represents the ASN.1 type ExpectedUEActivityBehaviour (SEQUENCE).
+type ExpectedUEActivityBehaviour struct {
+	ExpectedActivityPeriod                 *ExpectedActivityPeriod                 `asn1:"tag:0,context,implicit,optional" json:"ExpectedActivityPeriod,omitempty"`
+	ExpectedIdlePeriod                     *ExpectedIdlePeriod                     `asn1:"tag:1,context,implicit,optional" json:"ExpectedIdlePeriod,omitempty"`
+	SourceofUEActivityBehaviourInformation *SourceOfUEActivityBehaviourInformation `asn1:"tag:2,context,implicit,optional" json:"SourceofUEActivityBehaviourInformation,omitempty"`
+	IEExtensions                           ProtocolExtensionContainer              `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_                     bool                                    `asn1:"-" json:"-"`
+	ExtCount_                              int64                                   `asn1:"-" json:"-"`
+	ExtPresent_                            []bool                                  `asn1:"-" json:"-"`
+	ExtData_                               [][]byte                                `asn1:"-" json:"-"`
+}
+
+// ExpectedUEBehaviour represents the ASN.1 type ExpectedUEBehaviour (SEQUENCE).
+type ExpectedUEBehaviour struct {
+	ExpectedActivity   *ExpectedUEActivityBehaviour `asn1:"tag:0,context,implicit,optional" json:"ExpectedActivity,omitempty"`
+	ExpectedHOInterval *ExpectedHOInterval          `asn1:"tag:1,context,implicit,optional" json:"ExpectedHOInterval,omitempty"`
+	IEExtensions       ProtocolExtensionContainer   `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                         `asn1:"-" json:"-"`
+	ExtCount_          int64                        `asn1:"-" json:"-"`
+	ExtPresent_        []bool                       `asn1:"-" json:"-"`
+	ExtData_           [][]byte                     `asn1:"-" json:"-"`
 }
 
 // ExtendedBitRate represents the ASN.1 type ExtendedBitRate (INTEGER).
@@ -2122,23 +2011,8 @@ func (v ForbiddenInterRATs) String() string {
 	}
 }
 
-// ForbiddenTAs represents the ASN.1 type ForbiddenTAs (SEQUENCE_OF).
-type ForbiddenTAs = []ForbiddenTAsItem
-
-// ForbiddenTAsItem represents the ASN.1 type ForbiddenTAs-Item (SEQUENCE).
-type ForbiddenTAsItem struct {
-	PLMNIdentity        PLMNidentity               `asn1:"tag:0,context,implicit"`
-	ForbiddenTACs       ForbiddenTACs              `asn1:"tag:1,context,implicit"`
-	ForbiddenTACsIndef_ bool                       `asn1:"-" json:"-"`
-	IEExtensions        ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
-	ExtCount_           int64                      `asn1:"-" json:"-"`
-	ExtPresent_         []bool                     `asn1:"-" json:"-"`
-	ExtData_            [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ForbiddenTACs represents the ASN.1 type ForbiddenTACs (SEQUENCE_OF).
-type ForbiddenTACs = []TAC
+// ForbiddenLACs represents the ASN.1 type ForbiddenLACs (SEQUENCE_OF).
+type ForbiddenLACs = []LAC
 
 // ForbiddenLAs represents the ASN.1 type ForbiddenLAs (SEQUENCE_OF).
 type ForbiddenLAs = []ForbiddenLAsItem
@@ -2155,8 +2029,23 @@ type ForbiddenLAsItem struct {
 	ExtData_            [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ForbiddenLACs represents the ASN.1 type ForbiddenLACs (SEQUENCE_OF).
-type ForbiddenLACs = []LAC
+// ForbiddenTACs represents the ASN.1 type ForbiddenTACs (SEQUENCE_OF).
+type ForbiddenTACs = []TAC
+
+// ForbiddenTAs represents the ASN.1 type ForbiddenTAs (SEQUENCE_OF).
+type ForbiddenTAs = []ForbiddenTAsItem
+
+// ForbiddenTAsItem represents the ASN.1 type ForbiddenTAs-Item (SEQUENCE).
+type ForbiddenTAsItem struct {
+	PLMNIdentity        PLMNidentity               `asn1:"tag:0,context,implicit"`
+	ForbiddenTACs       ForbiddenTACs              `asn1:"tag:1,context,implicit"`
+	ForbiddenTACsIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+}
 
 // GBRQosInformation represents the ASN.1 type GBR-QosInformation (SEQUENCE).
 type GBRQosInformation struct {
@@ -2169,6 +2058,50 @@ type GBRQosInformation struct {
 	ExtCount_               int64                      `asn1:"-" json:"-"`
 	ExtPresent_             []bool                     `asn1:"-" json:"-"`
 	ExtData_                [][]byte                   `asn1:"-" json:"-"`
+}
+
+// GERANCellID represents the ASN.1 type GERAN-Cell-ID (SEQUENCE).
+type GERANCellID struct {
+	LAI                LAI                        `asn1:"tag:0,context,implicit"`
+	RAC                RAC                        `asn1:"tag:1,context,implicit"`
+	CI                 CI                         `asn1:"tag:2,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// GNB represents the ASN.1 type GNB (SEQUENCE).
+type GNB struct {
+	GlobalGNBID        GlobalGNBID                `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// GNBID represents the ASN.1 type GNB-ID (BIT_STRING).
+type GNBID = runtime.BitString
+
+// GNBIdentity choice constants.
+const (
+	GNBIdentityChoiceGNBID = 1
+)
+
+// GNBIdentity represents the ASN.1 CHOICE type GNB-Identity.
+type GNBIdentity struct {
+	Choice int
+	GNBID  *GNBID `json:"GNBID,omitempty"`
+}
+
+// NewGNBIdentityGNBID creates a GNB-Identity with the gNB-ID alternative.
+func NewGNBIdentityGNBID(v GNBID) GNBIdentity {
+	return GNBIdentity{
+		Choice: GNBIdentityChoiceGNBID,
+		GNBID:  &v,
+	}
 }
 
 // GTPTEID represents the ASN.1 type GTP-TEID (OCTET_STRING).
@@ -2185,6 +2118,9 @@ type GUMMEI struct {
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
+
+// GUMMEIList represents the ASN.1 type GUMMEIList (SEQUENCE_OF).
+type GUMMEIList = []GUMMEI
 
 // GUMMEIType represents the ASN.1 ENUMERATED type GUMMEIType.
 type GUMMEIType int64
@@ -2223,6 +2159,77 @@ func (v GWContextReleaseIndication) String() string {
 		return "unknown"
 	}
 }
+
+// GlobalENBID represents the ASN.1 type Global-ENB-ID (SEQUENCE).
+type GlobalENBID struct {
+	PLMNidentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
+	ENBID              ENBID                      `asn1:"tag:1,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// GlobalGNBID represents the ASN.1 type Global-GNB-ID (SEQUENCE).
+type GlobalGNBID struct {
+	PLMNIdentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
+	GNBID              GNBIdentity                `asn1:"tag:1,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// GlobalRANNODEID choice constants.
+const (
+	GlobalRANNODEIDChoiceGNB   = 1
+	GlobalRANNODEIDChoiceNgENB = 2
+)
+
+// GlobalRANNODEID represents the ASN.1 CHOICE type Global-RAN-NODE-ID.
+type GlobalRANNODEID struct {
+	Choice int
+	GNB    *GNB   `json:"GNB,omitempty"`
+	NgENB  *NGENB `json:"NgENB,omitempty"`
+}
+
+// NewGlobalRANNODEIDGNB creates a Global-RAN-NODE-ID with the gNB alternative.
+func NewGlobalRANNODEIDGNB(v GNB) GlobalRANNODEID {
+	return GlobalRANNODEID{
+		Choice: GlobalRANNODEIDChoiceGNB,
+		GNB:    &v,
+	}
+}
+
+// NewGlobalRANNODEIDNgENB creates a Global-RAN-NODE-ID with the ng-eNB alternative.
+func NewGlobalRANNODEIDNgENB(v NGENB) GlobalRANNODEID {
+	return GlobalRANNODEID{
+		Choice: GlobalRANNODEIDChoiceNgENB,
+		NgENB:  &v,
+	}
+}
+
+// GlobalEnGNBID represents the ASN.1 type Global-en-gNB-ID (SEQUENCE).
+type GlobalEnGNBID struct {
+	PLMNidentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
+	EnGNBID            EnGNBID                    `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// HFN represents the ASN.1 type HFN (INTEGER).
+type HFN = int64
+
+// HFNModified represents the ASN.1 type HFNModified (INTEGER).
+type HFNModified = int64
+
+// HFNforPDCPSNlength18 represents the ASN.1 type HFNforPDCP-SNlength18 (INTEGER).
+type HFNforPDCPSNlength18 = int64
 
 // HandoverFlag represents the ASN.1 ENUMERATED type HandoverFlag.
 type HandoverFlag int64
@@ -2291,20 +2298,78 @@ func (v HandoverType) String() string {
 	}
 }
 
-// HFN represents the ASN.1 type HFN (INTEGER).
-type HFN = int64
-
-// HFNModified represents the ASN.1 type HFNModified (INTEGER).
-type HFNModified = int64
-
-// HFNforPDCPSNlength18 represents the ASN.1 type HFNforPDCP-SNlength18 (INTEGER).
-type HFNforPDCPSNlength18 = int64
-
 // Hysteresis represents the ASN.1 type Hysteresis (INTEGER).
 type Hysteresis = int64
 
-// MaskedIMEISV represents the ASN.1 type Masked-IMEISV (BIT_STRING).
-type MaskedIMEISV = runtime.BitString
+// IABAuthorized represents the ASN.1 ENUMERATED type IAB-Authorized.
+type IABAuthorized int64
+
+const (
+	IABAuthorizedAuthorized    IABAuthorized = 0
+	IABAuthorizedNotAuthorized IABAuthorized = 1
+)
+
+func (v IABAuthorized) String() string {
+	switch v {
+	case IABAuthorizedAuthorized:
+		return "authorized"
+	case IABAuthorizedNotAuthorized:
+		return "not-authorized"
+	default:
+		return "unknown"
+	}
+}
+
+// IABNodeIndication represents the ASN.1 ENUMERATED type IAB-Node-Indication.
+type IABNodeIndication int64
+
+const (
+	IABNodeIndicationTrue IABNodeIndication = 0
+)
+
+func (v IABNodeIndication) String() string {
+	switch v {
+	case IABNodeIndicationTrue:
+		return "true"
+	default:
+		return "unknown"
+	}
+}
+
+// IABSupported represents the ASN.1 ENUMERATED type IAB-Supported.
+type IABSupported int64
+
+const (
+	IABSupportedTrue IABSupported = 0
+)
+
+func (v IABSupported) String() string {
+	switch v {
+	case IABSupportedTrue:
+		return "true"
+	default:
+		return "unknown"
+	}
+}
+
+// IMSI represents the ASN.1 type IMSI (OCTET_STRING).
+type IMSI = []byte
+
+// IMSvoiceEPSfallbackfrom5G represents the ASN.1 ENUMERATED type IMSvoiceEPSfallbackfrom5G.
+type IMSvoiceEPSfallbackfrom5G int64
+
+const (
+	IMSvoiceEPSfallbackfrom5GTrue IMSvoiceEPSfallbackfrom5G = 0
+)
+
+func (v IMSvoiceEPSfallbackfrom5G) String() string {
+	switch v {
+	case IMSvoiceEPSfallbackfrom5GTrue:
+		return "true"
+	default:
+		return "unknown"
+	}
+}
 
 // ImmediateMDT represents the ASN.1 type ImmediateMDT (SEQUENCE).
 type ImmediateMDT struct {
@@ -2318,9 +2383,6 @@ type ImmediateMDT struct {
 	ExtPresent_            []bool                     `asn1:"-" json:"-"`
 	ExtData_               [][]byte                   `asn1:"-" json:"-"`
 }
-
-// IMSI represents the ASN.1 type IMSI (OCTET_STRING).
-type IMSI = []byte
 
 // InformationOnRecommendedCellsAndENBsForPaging represents the ASN.1 type InformationOnRecommendedCellsAndENBsForPaging (SEQUENCE).
 type InformationOnRecommendedCellsAndENBsForPaging struct {
@@ -2380,37 +2442,6 @@ func (v IntegrityProtectionResult) String() string {
 // IntendedNumberOfPagingAttempts represents the ASN.1 type IntendedNumberOfPagingAttempts (INTEGER).
 type IntendedNumberOfPagingAttempts = int64
 
-// InterfacesToTrace represents the ASN.1 type InterfacesToTrace (BIT_STRING).
-type InterfacesToTrace = runtime.BitString
-
-// IntersystemMeasurementConfiguration represents the ASN.1 type IntersystemMeasurementConfiguration (SEQUENCE).
-type IntersystemMeasurementConfiguration struct {
-	RSRP                             *int64                           `asn1:"tag:0,context,implicit,optional" json:"RSRP,omitempty"`
-	RSRQ                             *int64                           `asn1:"tag:1,context,implicit,optional" json:"RSRQ,omitempty"`
-	SINR                             *int64                           `asn1:"tag:2,context,implicit,optional" json:"SINR,omitempty"`
-	InterSystemMeasurementParameters InterSystemMeasurementParameters `asn1:"tag:3,context,implicit"`
-	IEExtensions                     ProtocolExtensionContainer       `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_               bool                             `asn1:"-" json:"-"`
-	ExtCount_                        int64                            `asn1:"-" json:"-"`
-	ExtPresent_                      []bool                           `asn1:"-" json:"-"`
-	ExtData_                         [][]byte                         `asn1:"-" json:"-"`
-}
-
-// InterSystemMeasurementParameters represents the ASN.1 type InterSystemMeasurementParameters (SEQUENCE).
-type InterSystemMeasurementParameters struct {
-	MeasurementDuration              int64                      `asn1:"tag:0,context,implicit"`
-	InterSystemMeasurementList       InterSystemMeasurementList `asn1:"tag:1,context,implicit,optional" json:"InterSystemMeasurementList,omitempty"`
-	InterSystemMeasurementListIndef_ bool                       `asn1:"-" json:"-"`
-	IEExtensions                     ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_               bool                       `asn1:"-" json:"-"`
-	ExtCount_                        int64                      `asn1:"-" json:"-"`
-	ExtPresent_                      []bool                     `asn1:"-" json:"-"`
-	ExtData_                         [][]byte                   `asn1:"-" json:"-"`
-}
-
-// InterSystemMeasurementList represents the ASN.1 type InterSystemMeasurementList (SEQUENCE_OF).
-type InterSystemMeasurementList = []InterSystemMeasurementItem
-
 // InterSystemMeasurementItem represents the ASN.1 type InterSystemMeasurementItem (SEQUENCE).
 type InterSystemMeasurementItem struct {
 	FreqBandIndicatorNR       int64                      `asn1:"tag:0,context,implicit"`
@@ -2427,75 +2458,39 @@ type InterSystemMeasurementItem struct {
 	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
 }
 
+// InterSystemMeasurementList represents the ASN.1 type InterSystemMeasurementList (SEQUENCE_OF).
+type InterSystemMeasurementList = []InterSystemMeasurementItem
+
+// InterSystemMeasurementParameters represents the ASN.1 type InterSystemMeasurementParameters (SEQUENCE).
+type InterSystemMeasurementParameters struct {
+	MeasurementDuration              int64                      `asn1:"tag:0,context,implicit"`
+	InterSystemMeasurementList       InterSystemMeasurementList `asn1:"tag:1,context,implicit,optional" json:"InterSystemMeasurementList,omitempty"`
+	InterSystemMeasurementListIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions                     ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_               bool                       `asn1:"-" json:"-"`
+	ExtCount_                        int64                      `asn1:"-" json:"-"`
+	ExtPresent_                      []bool                     `asn1:"-" json:"-"`
+	ExtData_                         [][]byte                   `asn1:"-" json:"-"`
+}
+
+// InterfacesToTrace represents the ASN.1 type InterfacesToTrace (BIT_STRING).
+type InterfacesToTrace = runtime.BitString
+
+// IntersystemMeasurementConfiguration represents the ASN.1 type IntersystemMeasurementConfiguration (SEQUENCE).
+type IntersystemMeasurementConfiguration struct {
+	RSRP                             *int64                           `asn1:"tag:0,context,implicit,optional" json:"RSRP,omitempty"`
+	RSRQ                             *int64                           `asn1:"tag:1,context,implicit,optional" json:"RSRQ,omitempty"`
+	SINR                             *int64                           `asn1:"tag:2,context,implicit,optional" json:"SINR,omitempty"`
+	InterSystemMeasurementParameters InterSystemMeasurementParameters `asn1:"tag:3,context,implicit"`
+	IEExtensions                     ProtocolExtensionContainer       `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_               bool                             `asn1:"-" json:"-"`
+	ExtCount_                        int64                            `asn1:"-" json:"-"`
+	ExtPresent_                      []bool                           `asn1:"-" json:"-"`
+	ExtData_                         [][]byte                         `asn1:"-" json:"-"`
+}
+
 // IntersystemSONConfigurationTransfer represents the ASN.1 type IntersystemSONConfigurationTransfer (OCTET_STRING).
 type IntersystemSONConfigurationTransfer = []byte
-
-// IMSvoiceEPSfallbackfrom5G represents the ASN.1 ENUMERATED type IMSvoiceEPSfallbackfrom5G.
-type IMSvoiceEPSfallbackfrom5G int64
-
-const (
-	IMSvoiceEPSfallbackfrom5GTrue IMSvoiceEPSfallbackfrom5G = 0
-)
-
-func (v IMSvoiceEPSfallbackfrom5G) String() string {
-	switch v {
-	case IMSvoiceEPSfallbackfrom5GTrue:
-		return "true"
-	default:
-		return "unknown"
-	}
-}
-
-// IABAuthorized represents the ASN.1 ENUMERATED type IAB-Authorized.
-type IABAuthorized int64
-
-const (
-	IABAuthorizedAuthorized    IABAuthorized = 0
-	IABAuthorizedNotAuthorized IABAuthorized = 1
-)
-
-func (v IABAuthorized) String() string {
-	switch v {
-	case IABAuthorizedAuthorized:
-		return "authorized"
-	case IABAuthorizedNotAuthorized:
-		return "not-authorized"
-	default:
-		return "unknown"
-	}
-}
-
-// IABNodeIndication represents the ASN.1 ENUMERATED type IAB-Node-Indication.
-type IABNodeIndication int64
-
-const (
-	IABNodeIndicationTrue IABNodeIndication = 0
-)
-
-func (v IABNodeIndication) String() string {
-	switch v {
-	case IABNodeIndicationTrue:
-		return "true"
-	default:
-		return "unknown"
-	}
-}
-
-// IABSupported represents the ASN.1 ENUMERATED type IAB-Supported.
-type IABSupported int64
-
-const (
-	IABSupportedTrue IABSupported = 0
-)
-
-func (v IABSupported) String() string {
-	switch v {
-	case IABSupportedTrue:
-		return "true"
-	default:
-		return "unknown"
-	}
-}
 
 // KillAllWarningMessages represents the ASN.1 ENUMERATED type KillAllWarningMessages.
 type KillAllWarningMessages int64
@@ -2513,6 +2508,9 @@ func (v KillAllWarningMessages) String() string {
 	}
 }
 
+// L3Information represents the ASN.1 type L3-Information (OCTET_STRING).
+type L3Information = []byte
+
 // LAC represents the ASN.1 type LAC (OCTET_STRING).
 type LAC = []byte
 
@@ -2525,6 +2523,41 @@ type LAI struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// LHNID represents the ASN.1 type LHN-ID (OCTET_STRING).
+type LHNID = []byte
+
+// LPPaPDU represents the ASN.1 type LPPa-PDU (OCTET_STRING).
+type LPPaPDU = []byte
+
+// LTEMIndication represents the ASN.1 ENUMERATED type LTE-M-Indication.
+type LTEMIndication int64
+
+const (
+	LTEMIndicationLteM LTEMIndication = 0
+)
+
+func (v LTEMIndication) String() string {
+	switch v {
+	case LTEMIndicationLteM:
+		return "lte-m"
+	default:
+		return "unknown"
+	}
+}
+
+// LTENTNTAIInformation represents the ASN.1 type LTE-NTN-TAI-Information (SEQUENCE).
+type LTENTNTAIInformation struct {
+	ServingPLMN           PLMNidentity               `asn1:"tag:0,context,implicit"`
+	TACListInLTENTN       TACListInLTENTN            `asn1:"tag:1,context,implicit"`
+	TACListInLTENTNIndef_ bool                       `asn1:"-" json:"-"`
+	UELocationDerivedTAC  *TAC                       `asn1:"tag:2,context,implicit,optional" json:"UELocationDerivedTAC,omitempty"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
 // LastVisitedCellItem choice constants.
@@ -2588,26 +2621,6 @@ type LastVisitedEUTRANCellInformation struct {
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// LastVisitedPSCellList represents the ASN.1 type LastVisitedPSCellList (SEQUENCE_OF).
-type LastVisitedPSCellList = []LastVisitedPSCellInformation
-
-// LastVisitedPSCellInformation represents the ASN.1 type LastVisitedPSCellInformation (SEQUENCE).
-type LastVisitedPSCellInformation struct {
-	PSCellID           *PSCellInformation         `asn1:"tag:0,context,implicit,optional" json:"PSCellID,omitempty"`
-	TimeStay           int64                      `asn1:"tag:1,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// LastVisitedNGRANCellInformation represents the ASN.1 type LastVisitedNGRANCellInformation (OCTET_STRING).
-type LastVisitedNGRANCellInformation = []byte
-
-// LastVisitedUTRANCellInformation represents the ASN.1 type LastVisitedUTRANCellInformation (OCTET_STRING).
-type LastVisitedUTRANCellInformation = []byte
-
 // LastVisitedGERANCellInformation choice constants.
 const (
 	LastVisitedGERANCellInformationChoiceUndefined = 1
@@ -2627,14 +2640,25 @@ func NewLastVisitedGERANCellInformationUndefined(v struct{}) LastVisitedGERANCel
 	}
 }
 
-// L3Information represents the ASN.1 type L3-Information (OCTET_STRING).
-type L3Information = []byte
+// LastVisitedNGRANCellInformation represents the ASN.1 type LastVisitedNGRANCellInformation (OCTET_STRING).
+type LastVisitedNGRANCellInformation = []byte
 
-// LPPaPDU represents the ASN.1 type LPPa-PDU (OCTET_STRING).
-type LPPaPDU = []byte
+// LastVisitedPSCellInformation represents the ASN.1 type LastVisitedPSCellInformation (SEQUENCE).
+type LastVisitedPSCellInformation struct {
+	PSCellID           *PSCellInformation         `asn1:"tag:0,context,implicit,optional" json:"PSCellID,omitempty"`
+	TimeStay           int64                      `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
 
-// LHNID represents the ASN.1 type LHN-ID (OCTET_STRING).
-type LHNID = []byte
+// LastVisitedPSCellList represents the ASN.1 type LastVisitedPSCellList (SEQUENCE_OF).
+type LastVisitedPSCellList = []LastVisitedPSCellInformation
+
+// LastVisitedUTRANCellInformation represents the ASN.1 type LastVisitedUTRANCellInformation (OCTET_STRING).
+type LastVisitedUTRANCellInformation = []byte
 
 // LinksToLog represents the ASN.1 ENUMERATED type Links-to-log.
 type LinksToLog int64
@@ -2669,6 +2693,19 @@ type ListeningSubframePattern struct {
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
+// LoggedMBSFNMDT represents the ASN.1 type LoggedMBSFNMDT (SEQUENCE).
+type LoggedMBSFNMDT struct {
+	LoggingInterval        LoggingInterval            `asn1:"tag:0,context,implicit"`
+	LoggingDuration        LoggingDuration            `asn1:"tag:1,context,implicit"`
+	MBSFNResultToLog       MBSFNResultToLog           `asn1:"tag:2,context,implicit,optional" json:"MBSFNResultToLog,omitempty"`
+	MBSFNResultToLogIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+}
+
 // LoggedMDT represents the ASN.1 type LoggedMDT (SEQUENCE).
 type LoggedMDT struct {
 	LoggingInterval    LoggingInterval            `asn1:"tag:0,context,implicit"`
@@ -2678,6 +2715,66 @@ type LoggedMDT struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// LoggedMDTTrigger choice constants.
+const (
+	LoggedMDTTriggerChoicePeriodical   = 1
+	LoggedMDTTriggerChoiceEventTrigger = 2
+)
+
+// LoggedMDTTrigger represents the ASN.1 CHOICE type LoggedMDTTrigger.
+type LoggedMDTTrigger struct {
+	Choice       int
+	Periodical   *struct{}     `json:"Periodical,omitempty"`
+	EventTrigger *EventTrigger `json:"EventTrigger,omitempty"`
+}
+
+// NewLoggedMDTTriggerPeriodical creates a LoggedMDTTrigger with the periodical alternative.
+func NewLoggedMDTTriggerPeriodical(v struct{}) LoggedMDTTrigger {
+	return LoggedMDTTrigger{
+		Choice:     LoggedMDTTriggerChoicePeriodical,
+		Periodical: &v,
+	}
+}
+
+// NewLoggedMDTTriggerEventTrigger creates a LoggedMDTTrigger with the eventTrigger alternative.
+func NewLoggedMDTTriggerEventTrigger(v EventTrigger) LoggedMDTTrigger {
+	return LoggedMDTTrigger{
+		Choice:       LoggedMDTTriggerChoiceEventTrigger,
+		EventTrigger: &v,
+	}
+}
+
+// LoggingDuration represents the ASN.1 ENUMERATED type LoggingDuration.
+type LoggingDuration int64
+
+const (
+	LoggingDurationM10  LoggingDuration = 0
+	LoggingDurationM20  LoggingDuration = 1
+	LoggingDurationM40  LoggingDuration = 2
+	LoggingDurationM60  LoggingDuration = 3
+	LoggingDurationM90  LoggingDuration = 4
+	LoggingDurationM120 LoggingDuration = 5
+)
+
+func (v LoggingDuration) String() string {
+	switch v {
+	case LoggingDurationM10:
+		return "m10"
+	case LoggingDurationM20:
+		return "m20"
+	case LoggingDurationM40:
+		return "m40"
+	case LoggingDurationM60:
+		return "m60"
+	case LoggingDurationM90:
+		return "m90"
+	case LoggingDurationM120:
+		return "m120"
+	default:
+		return "unknown"
+	}
 }
 
 // LoggingInterval represents the ASN.1 ENUMERATED type LoggingInterval.
@@ -2717,106 +2814,47 @@ func (v LoggingInterval) String() string {
 	}
 }
 
-// LoggingDuration represents the ASN.1 ENUMERATED type LoggingDuration.
-type LoggingDuration int64
+// M1PeriodicReporting represents the ASN.1 type M1PeriodicReporting (SEQUENCE).
+type M1PeriodicReporting struct {
+	ReportInterval     ReportIntervalMDT          `asn1:"tag:0,context,implicit"`
+	ReportAmount       ReportAmountMDT            `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// M1ReportingTrigger represents the ASN.1 ENUMERATED type M1ReportingTrigger.
+type M1ReportingTrigger int64
 
 const (
-	LoggingDurationM10  LoggingDuration = 0
-	LoggingDurationM20  LoggingDuration = 1
-	LoggingDurationM40  LoggingDuration = 2
-	LoggingDurationM60  LoggingDuration = 3
-	LoggingDurationM90  LoggingDuration = 4
-	LoggingDurationM120 LoggingDuration = 5
+	M1ReportingTriggerPeriodic                 M1ReportingTrigger = 0
+	M1ReportingTriggerA2eventtriggered         M1ReportingTrigger = 1
+	M1ReportingTriggerA2eventtriggeredPeriodic M1ReportingTrigger = 2
 )
 
-func (v LoggingDuration) String() string {
+func (v M1ReportingTrigger) String() string {
 	switch v {
-	case LoggingDurationM10:
-		return "m10"
-	case LoggingDurationM20:
-		return "m20"
-	case LoggingDurationM40:
-		return "m40"
-	case LoggingDurationM60:
-		return "m60"
-	case LoggingDurationM90:
-		return "m90"
-	case LoggingDurationM120:
-		return "m120"
+	case M1ReportingTriggerPeriodic:
+		return "periodic"
+	case M1ReportingTriggerA2eventtriggered:
+		return "a2eventtriggered"
+	case M1ReportingTriggerA2eventtriggeredPeriodic:
+		return "a2eventtriggered-periodic"
 	default:
 		return "unknown"
 	}
 }
 
-// LoggedMBSFNMDT represents the ASN.1 type LoggedMBSFNMDT (SEQUENCE).
-type LoggedMBSFNMDT struct {
-	LoggingInterval        LoggingInterval            `asn1:"tag:0,context,implicit"`
-	LoggingDuration        LoggingDuration            `asn1:"tag:1,context,implicit"`
-	MBSFNResultToLog       MBSFNResultToLog           `asn1:"tag:2,context,implicit,optional" json:"MBSFNResultToLog,omitempty"`
-	MBSFNResultToLogIndef_ bool                       `asn1:"-" json:"-"`
-	IEExtensions           ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
-	ExtCount_              int64                      `asn1:"-" json:"-"`
-	ExtPresent_            []bool                     `asn1:"-" json:"-"`
-	ExtData_               [][]byte                   `asn1:"-" json:"-"`
-}
-
-// LoggedMDTTrigger choice constants.
-const (
-	LoggedMDTTriggerChoicePeriodical   = 1
-	LoggedMDTTriggerChoiceEventTrigger = 2
-)
-
-// LoggedMDTTrigger represents the ASN.1 CHOICE type LoggedMDTTrigger.
-type LoggedMDTTrigger struct {
-	Choice       int
-	Periodical   *struct{}     `json:"Periodical,omitempty"`
-	EventTrigger *EventTrigger `json:"EventTrigger,omitempty"`
-}
-
-// NewLoggedMDTTriggerPeriodical creates a LoggedMDTTrigger with the periodical alternative.
-func NewLoggedMDTTriggerPeriodical(v struct{}) LoggedMDTTrigger {
-	return LoggedMDTTrigger{
-		Choice:     LoggedMDTTriggerChoicePeriodical,
-		Periodical: &v,
-	}
-}
-
-// NewLoggedMDTTriggerEventTrigger creates a LoggedMDTTrigger with the eventTrigger alternative.
-func NewLoggedMDTTriggerEventTrigger(v EventTrigger) LoggedMDTTrigger {
-	return LoggedMDTTrigger{
-		Choice:       LoggedMDTTriggerChoiceEventTrigger,
-		EventTrigger: &v,
-	}
-}
-
-// LTEMIndication represents the ASN.1 ENUMERATED type LTE-M-Indication.
-type LTEMIndication int64
-
-const (
-	LTEMIndicationLteM LTEMIndication = 0
-)
-
-func (v LTEMIndication) String() string {
-	switch v {
-	case LTEMIndicationLteM:
-		return "lte-m"
-	default:
-		return "unknown"
-	}
-}
-
-// LTENTNTAIInformation represents the ASN.1 type LTE-NTN-TAI-Information (SEQUENCE).
-type LTENTNTAIInformation struct {
-	ServingPLMN           PLMNidentity               `asn1:"tag:0,context,implicit"`
-	TACListInLTENTN       TACListInLTENTN            `asn1:"tag:1,context,implicit"`
-	TACListInLTENTNIndef_ bool                       `asn1:"-" json:"-"`
-	UELocationDerivedTAC  *TAC                       `asn1:"tag:2,context,implicit,optional" json:"UELocationDerivedTAC,omitempty"`
-	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
-	ExtCount_             int64                      `asn1:"-" json:"-"`
-	ExtPresent_           []bool                     `asn1:"-" json:"-"`
-	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+// M1ThresholdEventA2 represents the ASN.1 type M1ThresholdEventA2 (SEQUENCE).
+type M1ThresholdEventA2 struct {
+	MeasurementThreshold MeasurementThresholdA2     `asn1:"tag:0,context,explicit"`
+	IEExtensions         ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_   bool                       `asn1:"-" json:"-"`
+	ExtCount_            int64                      `asn1:"-" json:"-"`
+	ExtPresent_          []bool                     `asn1:"-" json:"-"`
+	ExtData_             [][]byte                   `asn1:"-" json:"-"`
 }
 
 // M3Configuration represents the ASN.1 type M3Configuration (SEQUENCE).
@@ -2883,43 +2921,6 @@ type M4Configuration struct {
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// M4ReportAmountMDT represents the ASN.1 ENUMERATED type M4ReportAmountMDT.
-type M4ReportAmountMDT int64
-
-const (
-	M4ReportAmountMDTR1       M4ReportAmountMDT = 0
-	M4ReportAmountMDTR2       M4ReportAmountMDT = 1
-	M4ReportAmountMDTR4       M4ReportAmountMDT = 2
-	M4ReportAmountMDTR8       M4ReportAmountMDT = 3
-	M4ReportAmountMDTR16      M4ReportAmountMDT = 4
-	M4ReportAmountMDTR32      M4ReportAmountMDT = 5
-	M4ReportAmountMDTR64      M4ReportAmountMDT = 6
-	M4ReportAmountMDTInfinity M4ReportAmountMDT = 7
-)
-
-func (v M4ReportAmountMDT) String() string {
-	switch v {
-	case M4ReportAmountMDTR1:
-		return "r1"
-	case M4ReportAmountMDTR2:
-		return "r2"
-	case M4ReportAmountMDTR4:
-		return "r4"
-	case M4ReportAmountMDTR8:
-		return "r8"
-	case M4ReportAmountMDTR16:
-		return "r16"
-	case M4ReportAmountMDTR32:
-		return "r32"
-	case M4ReportAmountMDTR64:
-		return "r64"
-	case M4ReportAmountMDTInfinity:
-		return "infinity"
-	default:
-		return "unknown"
-	}
-}
-
 // M4period represents the ASN.1 ENUMERATED type M4period.
 type M4period int64
 
@@ -2957,43 +2958,6 @@ type M5Configuration struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// M5ReportAmountMDT represents the ASN.1 ENUMERATED type M5ReportAmountMDT.
-type M5ReportAmountMDT int64
-
-const (
-	M5ReportAmountMDTR1       M5ReportAmountMDT = 0
-	M5ReportAmountMDTR2       M5ReportAmountMDT = 1
-	M5ReportAmountMDTR4       M5ReportAmountMDT = 2
-	M5ReportAmountMDTR8       M5ReportAmountMDT = 3
-	M5ReportAmountMDTR16      M5ReportAmountMDT = 4
-	M5ReportAmountMDTR32      M5ReportAmountMDT = 5
-	M5ReportAmountMDTR64      M5ReportAmountMDT = 6
-	M5ReportAmountMDTInfinity M5ReportAmountMDT = 7
-)
-
-func (v M5ReportAmountMDT) String() string {
-	switch v {
-	case M5ReportAmountMDTR1:
-		return "r1"
-	case M5ReportAmountMDTR2:
-		return "r2"
-	case M5ReportAmountMDTR4:
-		return "r4"
-	case M5ReportAmountMDTR8:
-		return "r8"
-	case M5ReportAmountMDTR16:
-		return "r16"
-	case M5ReportAmountMDTR32:
-		return "r32"
-	case M5ReportAmountMDTR64:
-		return "r64"
-	case M5ReportAmountMDTInfinity:
-		return "infinity"
-	default:
-		return "unknown"
-	}
 }
 
 // M5period represents the ASN.1 ENUMERATED type M5period.
@@ -3034,68 +2998,6 @@ type M6Configuration struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// M6ReportAmountMDT represents the ASN.1 ENUMERATED type M6ReportAmountMDT.
-type M6ReportAmountMDT int64
-
-const (
-	M6ReportAmountMDTR1       M6ReportAmountMDT = 0
-	M6ReportAmountMDTR2       M6ReportAmountMDT = 1
-	M6ReportAmountMDTR4       M6ReportAmountMDT = 2
-	M6ReportAmountMDTR8       M6ReportAmountMDT = 3
-	M6ReportAmountMDTR16      M6ReportAmountMDT = 4
-	M6ReportAmountMDTR32      M6ReportAmountMDT = 5
-	M6ReportAmountMDTR64      M6ReportAmountMDT = 6
-	M6ReportAmountMDTInfinity M6ReportAmountMDT = 7
-)
-
-func (v M6ReportAmountMDT) String() string {
-	switch v {
-	case M6ReportAmountMDTR1:
-		return "r1"
-	case M6ReportAmountMDTR2:
-		return "r2"
-	case M6ReportAmountMDTR4:
-		return "r4"
-	case M6ReportAmountMDTR8:
-		return "r8"
-	case M6ReportAmountMDTR16:
-		return "r16"
-	case M6ReportAmountMDTR32:
-		return "r32"
-	case M6ReportAmountMDTR64:
-		return "r64"
-	case M6ReportAmountMDTInfinity:
-		return "infinity"
-	default:
-		return "unknown"
-	}
-}
-
-// M6reportInterval represents the ASN.1 ENUMERATED type M6report-Interval.
-type M6reportInterval int64
-
-const (
-	M6reportIntervalMs1024  M6reportInterval = 0
-	M6reportIntervalMs2048  M6reportInterval = 1
-	M6reportIntervalMs5120  M6reportInterval = 2
-	M6reportIntervalMs10240 M6reportInterval = 3
-)
-
-func (v M6reportInterval) String() string {
-	switch v {
-	case M6reportIntervalMs1024:
-		return "ms1024"
-	case M6reportIntervalMs2048:
-		return "ms2048"
-	case M6reportIntervalMs5120:
-		return "ms5120"
-	case M6reportIntervalMs10240:
-		return "ms10240"
-	default:
-		return "unknown"
-	}
 }
 
 // M6delayThreshold represents the ASN.1 ENUMERATED type M6delay-threshold.
@@ -3147,6 +3049,31 @@ func (v M6delayThreshold) String() string {
 	}
 }
 
+// M6reportInterval represents the ASN.1 ENUMERATED type M6report-Interval.
+type M6reportInterval int64
+
+const (
+	M6reportIntervalMs1024  M6reportInterval = 0
+	M6reportIntervalMs2048  M6reportInterval = 1
+	M6reportIntervalMs5120  M6reportInterval = 2
+	M6reportIntervalMs10240 M6reportInterval = 3
+)
+
+func (v M6reportInterval) String() string {
+	switch v {
+	case M6reportIntervalMs1024:
+		return "ms1024"
+	case M6reportIntervalMs2048:
+		return "ms2048"
+	case M6reportIntervalMs5120:
+		return "ms5120"
+	case M6reportIntervalMs10240:
+		return "ms10240"
+	default:
+		return "unknown"
+	}
+}
+
 // M7Configuration represents the ASN.1 type M7Configuration (SEQUENCE).
 type M7Configuration struct {
 	M7period           M7period                   `asn1:"tag:0,context,implicit"`
@@ -3158,101 +3085,8 @@ type M7Configuration struct {
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// M7ReportAmountMDT represents the ASN.1 ENUMERATED type M7ReportAmountMDT.
-type M7ReportAmountMDT int64
-
-const (
-	M7ReportAmountMDTR1       M7ReportAmountMDT = 0
-	M7ReportAmountMDTR2       M7ReportAmountMDT = 1
-	M7ReportAmountMDTR4       M7ReportAmountMDT = 2
-	M7ReportAmountMDTR8       M7ReportAmountMDT = 3
-	M7ReportAmountMDTR16      M7ReportAmountMDT = 4
-	M7ReportAmountMDTR32      M7ReportAmountMDT = 5
-	M7ReportAmountMDTR64      M7ReportAmountMDT = 6
-	M7ReportAmountMDTInfinity M7ReportAmountMDT = 7
-)
-
-func (v M7ReportAmountMDT) String() string {
-	switch v {
-	case M7ReportAmountMDTR1:
-		return "r1"
-	case M7ReportAmountMDTR2:
-		return "r2"
-	case M7ReportAmountMDTR4:
-		return "r4"
-	case M7ReportAmountMDTR8:
-		return "r8"
-	case M7ReportAmountMDTR16:
-		return "r16"
-	case M7ReportAmountMDTR32:
-		return "r32"
-	case M7ReportAmountMDTR64:
-		return "r64"
-	case M7ReportAmountMDTInfinity:
-		return "infinity"
-	default:
-		return "unknown"
-	}
-}
-
 // M7period represents the ASN.1 type M7period (INTEGER).
 type M7period = int64
-
-// MDTActivation represents the ASN.1 ENUMERATED type MDT-Activation.
-type MDTActivation int64
-
-const (
-	MDTActivationImmediateMDTOnly     MDTActivation = 0
-	MDTActivationImmediateMDTAndTrace MDTActivation = 1
-	MDTActivationLoggedMDTOnly        MDTActivation = 2
-	MDTActivationLoggedMBSFNMDT       MDTActivation = 3
-)
-
-func (v MDTActivation) String() string {
-	switch v {
-	case MDTActivationImmediateMDTOnly:
-		return "immediate-MDT-only"
-	case MDTActivationImmediateMDTAndTrace:
-		return "immediate-MDT-and-Trace"
-	case MDTActivationLoggedMDTOnly:
-		return "logged-MDT-only"
-	case MDTActivationLoggedMBSFNMDT:
-		return "logged-MBSFN-MDT"
-	default:
-		return "unknown"
-	}
-}
-
-// MDTLocationInfo represents the ASN.1 type MDT-Location-Info (BIT_STRING).
-type MDTLocationInfo = runtime.BitString
-
-// MDTConfiguration represents the ASN.1 type MDT-Configuration (SEQUENCE).
-type MDTConfiguration struct {
-	MdtActivation      MDTActivation              `asn1:"tag:0,context,implicit"`
-	AreaScopeOfMDT     AreaScopeOfMDT             `asn1:"tag:1,context,explicit"`
-	MDTMode            MDTMode                    `asn1:"tag:2,context,explicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ManagementBasedMDTAllowed represents the ASN.1 ENUMERATED type ManagementBasedMDTAllowed.
-type ManagementBasedMDTAllowed int64
-
-const (
-	ManagementBasedMDTAllowedAllowed ManagementBasedMDTAllowed = 0
-)
-
-func (v ManagementBasedMDTAllowed) String() string {
-	switch v {
-	case ManagementBasedMDTAllowedAllowed:
-		return "allowed"
-	default:
-		return "unknown"
-	}
-}
 
 // MBSFNResultToLog represents the ASN.1 type MBSFN-ResultToLog (SEQUENCE_OF).
 type MBSFNResultToLog = []MBSFNResultToLogInfo
@@ -3266,28 +3100,6 @@ type MBSFNResultToLogInfo struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// MDTPLMNList represents the ASN.1 type MDTPLMNList (SEQUENCE_OF).
-type MDTPLMNList = []PLMNidentity
-
-// PrivacyIndicator represents the ASN.1 ENUMERATED type PrivacyIndicator.
-type PrivacyIndicator int64
-
-const (
-	PrivacyIndicatorImmediateMDT PrivacyIndicator = 0
-	PrivacyIndicatorLoggedMDT    PrivacyIndicator = 1
-)
-
-func (v PrivacyIndicator) String() string {
-	switch v {
-	case PrivacyIndicatorImmediateMDT:
-		return "immediate-MDT"
-	case PrivacyIndicatorLoggedMDT:
-		return "logged-MDT"
-	default:
-		return "unknown"
-	}
 }
 
 // MDTMode choice constants.
@@ -3336,8 +3148,136 @@ type MDTModeExtension struct {
 	Value       runtime.RawValue `asn1:"tag:2,context,explicit"`
 }
 
-// MeasurementsToActivate represents the ASN.1 type MeasurementsToActivate (BIT_STRING).
-type MeasurementsToActivate = runtime.BitString
+// MDTPLMNList represents the ASN.1 type MDTPLMNList (SEQUENCE_OF).
+type MDTPLMNList = []PLMNidentity
+
+// MDTActivation represents the ASN.1 ENUMERATED type MDT-Activation.
+type MDTActivation int64
+
+const (
+	MDTActivationImmediateMDTOnly     MDTActivation = 0
+	MDTActivationImmediateMDTAndTrace MDTActivation = 1
+	MDTActivationLoggedMDTOnly        MDTActivation = 2
+	MDTActivationLoggedMBSFNMDT       MDTActivation = 3
+)
+
+func (v MDTActivation) String() string {
+	switch v {
+	case MDTActivationImmediateMDTOnly:
+		return "immediate-MDT-only"
+	case MDTActivationImmediateMDTAndTrace:
+		return "immediate-MDT-and-Trace"
+	case MDTActivationLoggedMDTOnly:
+		return "logged-MDT-only"
+	case MDTActivationLoggedMBSFNMDT:
+		return "logged-MBSFN-MDT"
+	default:
+		return "unknown"
+	}
+}
+
+// MDTConfiguration represents the ASN.1 type MDT-Configuration (SEQUENCE).
+type MDTConfiguration struct {
+	MdtActivation      MDTActivation              `asn1:"tag:0,context,implicit"`
+	AreaScopeOfMDT     AreaScopeOfMDT             `asn1:"tag:1,context,explicit"`
+	MDTMode            MDTMode                    `asn1:"tag:2,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// MDTConfigurationNR represents the ASN.1 type MDT-ConfigurationNR (OCTET_STRING).
+type MDTConfigurationNR = []byte
+
+// MDTLocationInfo represents the ASN.1 type MDT-Location-Info (BIT_STRING).
+type MDTLocationInfo = runtime.BitString
+
+// MMEPagingTarget choice constants.
+const (
+	MMEPagingTargetChoiceGlobalENBID = 1
+	MMEPagingTargetChoiceTAI         = 2
+)
+
+// MMEPagingTarget represents the ASN.1 CHOICE type MMEPagingTarget.
+type MMEPagingTarget struct {
+	Choice      int
+	GlobalENBID *GlobalENBID `json:"GlobalENBID,omitempty"`
+	TAI         *TAI         `json:"TAI,omitempty"`
+}
+
+// NewMMEPagingTargetGlobalENBID creates a MMEPagingTarget with the global-ENB-ID alternative.
+func NewMMEPagingTargetGlobalENBID(v GlobalENBID) MMEPagingTarget {
+	return MMEPagingTarget{
+		Choice:      MMEPagingTargetChoiceGlobalENBID,
+		GlobalENBID: &v,
+	}
+}
+
+// NewMMEPagingTargetTAI creates a MMEPagingTarget with the tAI alternative.
+func NewMMEPagingTargetTAI(v TAI) MMEPagingTarget {
+	return MMEPagingTarget{
+		Choice: MMEPagingTargetChoiceTAI,
+		TAI:    &v,
+	}
+}
+
+// MMERelaySupportIndicator represents the ASN.1 ENUMERATED type MMERelaySupportIndicator.
+type MMERelaySupportIndicator int64
+
+const (
+	MMERelaySupportIndicatorTrue MMERelaySupportIndicator = 0
+)
+
+func (v MMERelaySupportIndicator) String() string {
+	switch v {
+	case MMERelaySupportIndicatorTrue:
+		return "true"
+	default:
+		return "unknown"
+	}
+}
+
+// MMECode represents the ASN.1 type MME-Code (OCTET_STRING).
+type MMECode = []byte
+
+// MMEGroupID represents the ASN.1 type MME-Group-ID (OCTET_STRING).
+type MMEGroupID = []byte
+
+// MMEUES1APID represents the ASN.1 type MME-UE-S1AP-ID (INTEGER).
+type MMEUES1APID = int64
+
+// MMEname represents the ASN.1 type MMEname (PrintableString).
+type MMEname = string
+
+// MSClassmark2 represents the ASN.1 type MSClassmark2 (OCTET_STRING).
+type MSClassmark2 = []byte
+
+// MSClassmark3 represents the ASN.1 type MSClassmark3 (OCTET_STRING).
+type MSClassmark3 = []byte
+
+// MTMSI represents the ASN.1 type M-TMSI (OCTET_STRING).
+type MTMSI = []byte
+
+// ManagementBasedMDTAllowed represents the ASN.1 ENUMERATED type ManagementBasedMDTAllowed.
+type ManagementBasedMDTAllowed int64
+
+const (
+	ManagementBasedMDTAllowedAllowed ManagementBasedMDTAllowed = 0
+)
+
+func (v ManagementBasedMDTAllowed) String() string {
+	switch v {
+	case ManagementBasedMDTAllowedAllowed:
+		return "allowed"
+	default:
+		return "unknown"
+	}
+}
+
+// MaskedIMEISV represents the ASN.1 type Masked-IMEISV (BIT_STRING).
+type MaskedIMEISV = runtime.BitString
 
 // MeasurementThresholdA2 choice constants.
 const (
@@ -3407,77 +3347,14 @@ func NewMeasurementThresholdL1LoggedMDTChoiceExtensions(v ProtocolIESingleContai
 	}
 }
 
+// MeasurementsToActivate represents the ASN.1 type MeasurementsToActivate (BIT_STRING).
+type MeasurementsToActivate = runtime.BitString
+
 // MessageIdentifier represents the ASN.1 type MessageIdentifier (BIT_STRING).
 type MessageIdentifier = runtime.BitString
 
 // MobilityInformation represents the ASN.1 type MobilityInformation (BIT_STRING).
 type MobilityInformation = runtime.BitString
-
-// MMEname represents the ASN.1 type MMEname (PrintableString).
-type MMEname = string
-
-// MMEPagingTarget choice constants.
-const (
-	MMEPagingTargetChoiceGlobalENBID = 1
-	MMEPagingTargetChoiceTAI         = 2
-)
-
-// MMEPagingTarget represents the ASN.1 CHOICE type MMEPagingTarget.
-type MMEPagingTarget struct {
-	Choice      int
-	GlobalENBID *GlobalENBID `json:"GlobalENBID,omitempty"`
-	TAI         *TAI         `json:"TAI,omitempty"`
-}
-
-// NewMMEPagingTargetGlobalENBID creates a MMEPagingTarget with the global-ENB-ID alternative.
-func NewMMEPagingTargetGlobalENBID(v GlobalENBID) MMEPagingTarget {
-	return MMEPagingTarget{
-		Choice:      MMEPagingTargetChoiceGlobalENBID,
-		GlobalENBID: &v,
-	}
-}
-
-// NewMMEPagingTargetTAI creates a MMEPagingTarget with the tAI alternative.
-func NewMMEPagingTargetTAI(v TAI) MMEPagingTarget {
-	return MMEPagingTarget{
-		Choice: MMEPagingTargetChoiceTAI,
-		TAI:    &v,
-	}
-}
-
-// MMERelaySupportIndicator represents the ASN.1 ENUMERATED type MMERelaySupportIndicator.
-type MMERelaySupportIndicator int64
-
-const (
-	MMERelaySupportIndicatorTrue MMERelaySupportIndicator = 0
-)
-
-func (v MMERelaySupportIndicator) String() string {
-	switch v {
-	case MMERelaySupportIndicatorTrue:
-		return "true"
-	default:
-		return "unknown"
-	}
-}
-
-// MMEGroupID represents the ASN.1 type MME-Group-ID (OCTET_STRING).
-type MMEGroupID = []byte
-
-// MMECode represents the ASN.1 type MME-Code (OCTET_STRING).
-type MMECode = []byte
-
-// MMEUES1APID represents the ASN.1 type MME-UE-S1AP-ID (INTEGER).
-type MMEUES1APID = int64
-
-// MTMSI represents the ASN.1 type M-TMSI (OCTET_STRING).
-type MTMSI = []byte
-
-// MSClassmark2 represents the ASN.1 type MSClassmark2 (OCTET_STRING).
-type MSClassmark2 = []byte
-
-// MSClassmark3 represents the ASN.1 type MSClassmark3 (OCTET_STRING).
-type MSClassmark3 = []byte
 
 // MutingAvailabilityIndication represents the ASN.1 ENUMERATED type MutingAvailabilityIndication.
 type MutingAvailabilityIndication int64
@@ -3509,17 +3386,14 @@ type MutingPatternInformation struct {
 	ExtData_            [][]byte                   `asn1:"-" json:"-"`
 }
 
-// MDTConfigurationNR represents the ASN.1 type MDT-ConfigurationNR (OCTET_STRING).
-type MDTConfigurationNR = []byte
-
-// NASPDU represents the ASN.1 type NAS-PDU (OCTET_STRING).
-type NASPDU = []byte
-
 // NASSecurityParametersfromEUTRAN represents the ASN.1 type NASSecurityParametersfromE-UTRAN (OCTET_STRING).
 type NASSecurityParametersfromEUTRAN = []byte
 
 // NASSecurityParameterstoEUTRAN represents the ASN.1 type NASSecurityParameterstoE-UTRAN (OCTET_STRING).
 type NASSecurityParameterstoEUTRAN = []byte
+
+// NASPDU represents the ASN.1 type NAS-PDU (OCTET_STRING).
+type NASPDU = []byte
 
 // NBIoTDefaultPagingDRX represents the ASN.1 ENUMERATED type NB-IoT-DefaultPagingDRX.
 type NBIoTDefaultPagingDRX int64
@@ -3572,6 +3446,67 @@ func (v NBIoTPagingDRX) String() string {
 		return "v512"
 	case NBIoTPagingDRXV1024:
 		return "v1024"
+	default:
+		return "unknown"
+	}
+}
+
+// NBIoTPagingTimeWindow represents the ASN.1 ENUMERATED type NB-IoT-PagingTimeWindow.
+type NBIoTPagingTimeWindow int64
+
+const (
+	NBIoTPagingTimeWindowS1  NBIoTPagingTimeWindow = 0
+	NBIoTPagingTimeWindowS2  NBIoTPagingTimeWindow = 1
+	NBIoTPagingTimeWindowS3  NBIoTPagingTimeWindow = 2
+	NBIoTPagingTimeWindowS4  NBIoTPagingTimeWindow = 3
+	NBIoTPagingTimeWindowS5  NBIoTPagingTimeWindow = 4
+	NBIoTPagingTimeWindowS6  NBIoTPagingTimeWindow = 5
+	NBIoTPagingTimeWindowS7  NBIoTPagingTimeWindow = 6
+	NBIoTPagingTimeWindowS8  NBIoTPagingTimeWindow = 7
+	NBIoTPagingTimeWindowS9  NBIoTPagingTimeWindow = 8
+	NBIoTPagingTimeWindowS10 NBIoTPagingTimeWindow = 9
+	NBIoTPagingTimeWindowS11 NBIoTPagingTimeWindow = 10
+	NBIoTPagingTimeWindowS12 NBIoTPagingTimeWindow = 11
+	NBIoTPagingTimeWindowS13 NBIoTPagingTimeWindow = 12
+	NBIoTPagingTimeWindowS14 NBIoTPagingTimeWindow = 13
+	NBIoTPagingTimeWindowS15 NBIoTPagingTimeWindow = 14
+	NBIoTPagingTimeWindowS16 NBIoTPagingTimeWindow = 15
+)
+
+func (v NBIoTPagingTimeWindow) String() string {
+	switch v {
+	case NBIoTPagingTimeWindowS1:
+		return "s1"
+	case NBIoTPagingTimeWindowS2:
+		return "s2"
+	case NBIoTPagingTimeWindowS3:
+		return "s3"
+	case NBIoTPagingTimeWindowS4:
+		return "s4"
+	case NBIoTPagingTimeWindowS5:
+		return "s5"
+	case NBIoTPagingTimeWindowS6:
+		return "s6"
+	case NBIoTPagingTimeWindowS7:
+		return "s7"
+	case NBIoTPagingTimeWindowS8:
+		return "s8"
+	case NBIoTPagingTimeWindowS9:
+		return "s9"
+	case NBIoTPagingTimeWindowS10:
+		return "s10"
+	case NBIoTPagingTimeWindowS11:
+		return "s11"
+	case NBIoTPagingTimeWindowS12:
+		return "s12"
+	case NBIoTPagingTimeWindowS13:
+		return "s13"
+	case NBIoTPagingTimeWindowS14:
+		return "s14"
+	case NBIoTPagingTimeWindowS15:
+		return "s15"
+	case NBIoTPagingTimeWindowS16:
+		return "s16"
 	default:
 		return "unknown"
 	}
@@ -3643,72 +3578,105 @@ func (v NBIoTPagingEDRXCycle) String() string {
 	}
 }
 
-// NBIoTPagingTimeWindow represents the ASN.1 ENUMERATED type NB-IoT-PagingTimeWindow.
-type NBIoTPagingTimeWindow int64
-
-const (
-	NBIoTPagingTimeWindowS1  NBIoTPagingTimeWindow = 0
-	NBIoTPagingTimeWindowS2  NBIoTPagingTimeWindow = 1
-	NBIoTPagingTimeWindowS3  NBIoTPagingTimeWindow = 2
-	NBIoTPagingTimeWindowS4  NBIoTPagingTimeWindow = 3
-	NBIoTPagingTimeWindowS5  NBIoTPagingTimeWindow = 4
-	NBIoTPagingTimeWindowS6  NBIoTPagingTimeWindow = 5
-	NBIoTPagingTimeWindowS7  NBIoTPagingTimeWindow = 6
-	NBIoTPagingTimeWindowS8  NBIoTPagingTimeWindow = 7
-	NBIoTPagingTimeWindowS9  NBIoTPagingTimeWindow = 8
-	NBIoTPagingTimeWindowS10 NBIoTPagingTimeWindow = 9
-	NBIoTPagingTimeWindowS11 NBIoTPagingTimeWindow = 10
-	NBIoTPagingTimeWindowS12 NBIoTPagingTimeWindow = 11
-	NBIoTPagingTimeWindowS13 NBIoTPagingTimeWindow = 12
-	NBIoTPagingTimeWindowS14 NBIoTPagingTimeWindow = 13
-	NBIoTPagingTimeWindowS15 NBIoTPagingTimeWindow = 14
-	NBIoTPagingTimeWindowS16 NBIoTPagingTimeWindow = 15
-)
-
-func (v NBIoTPagingTimeWindow) String() string {
-	switch v {
-	case NBIoTPagingTimeWindowS1:
-		return "s1"
-	case NBIoTPagingTimeWindowS2:
-		return "s2"
-	case NBIoTPagingTimeWindowS3:
-		return "s3"
-	case NBIoTPagingTimeWindowS4:
-		return "s4"
-	case NBIoTPagingTimeWindowS5:
-		return "s5"
-	case NBIoTPagingTimeWindowS6:
-		return "s6"
-	case NBIoTPagingTimeWindowS7:
-		return "s7"
-	case NBIoTPagingTimeWindowS8:
-		return "s8"
-	case NBIoTPagingTimeWindowS9:
-		return "s9"
-	case NBIoTPagingTimeWindowS10:
-		return "s10"
-	case NBIoTPagingTimeWindowS11:
-		return "s11"
-	case NBIoTPagingTimeWindowS12:
-		return "s12"
-	case NBIoTPagingTimeWindowS13:
-		return "s13"
-	case NBIoTPagingTimeWindowS14:
-		return "s14"
-	case NBIoTPagingTimeWindowS15:
-		return "s15"
-	case NBIoTPagingTimeWindowS16:
-		return "s16"
-	default:
-		return "unknown"
-	}
-}
-
 // NBIoTRLFReportContainer represents the ASN.1 type NB-IoT-RLF-Report-Container (OCTET_STRING).
 type NBIoTRLFReportContainer = []byte
 
 // NBIoTUEIdentityIndexValue represents the ASN.1 type NB-IoT-UEIdentityIndexValue (BIT_STRING).
 type NBIoTUEIdentityIndexValue = runtime.BitString
+
+// NGENB represents the ASN.1 type NG-eNB (SEQUENCE).
+type NGENB struct {
+	GlobalNgENBID      GlobalENBID                `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// NRCellIdentity represents the ASN.1 type NRCellIdentity (BIT_STRING).
+type NRCellIdentity = runtime.BitString
+
+// NRUESecurityCapabilities represents the ASN.1 type NRUESecurityCapabilities (SEQUENCE).
+type NRUESecurityCapabilities struct {
+	NRencryptionAlgorithms          NRencryptionAlgorithms          `asn1:"tag:0,context,implicit"`
+	NRintegrityProtectionAlgorithms NRintegrityProtectionAlgorithms `asn1:"tag:1,context,implicit"`
+	IEExtensions                    ProtocolExtensionContainer      `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_              bool                            `asn1:"-" json:"-"`
+	ExtCount_                       int64                           `asn1:"-" json:"-"`
+	ExtPresent_                     []bool                          `asn1:"-" json:"-"`
+	ExtData_                        [][]byte                        `asn1:"-" json:"-"`
+}
+
+// NRUESidelinkAggregateMaximumBitrate represents the ASN.1 type NRUESidelinkAggregateMaximumBitrate (SEQUENCE).
+type NRUESidelinkAggregateMaximumBitrate struct {
+	UEaggregateMaximumBitRate BitRate                    `asn1:"tag:0,context,implicit"`
+	IEExtensions              ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
+	ExtCount_                 int64                      `asn1:"-" json:"-"`
+	ExtPresent_               []bool                     `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+}
+
+// NRV2XServicesAuthorized represents the ASN.1 type NRV2XServicesAuthorized (SEQUENCE).
+type NRV2XServicesAuthorized struct {
+	VehicleUE          *VehicleUE                 `asn1:"tag:0,context,implicit,optional" json:"VehicleUE,omitempty"`
+	PedestrianUE       *PedestrianUE              `asn1:"tag:1,context,implicit,optional" json:"PedestrianUE,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// NRCGI represents the ASN.1 type NR-CGI (SEQUENCE).
+type NRCGI struct {
+	PLMNIdentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
+	NRCellIdentity     NRCellIdentity             `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// NRencryptionAlgorithms represents the ASN.1 type NRencryptionAlgorithms (BIT_STRING).
+type NRencryptionAlgorithms = runtime.BitString
+
+// NRintegrityProtectionAlgorithms represents the ASN.1 type NRintegrityProtectionAlgorithms (BIT_STRING).
+type NRintegrityProtectionAlgorithms = runtime.BitString
+
+// NRrestrictionin5GS represents the ASN.1 ENUMERATED type NRrestrictionin5GS.
+type NRrestrictionin5GS int64
+
+const (
+	NRrestrictionin5GSNRrestrictedin5GS NRrestrictionin5GS = 0
+)
+
+func (v NRrestrictionin5GS) String() string {
+	switch v {
+	case NRrestrictionin5GSNRrestrictedin5GS:
+		return "nRrestrictedin5GS"
+	default:
+		return "unknown"
+	}
+}
+
+// NRrestrictioninEPSasSecondaryRAT represents the ASN.1 ENUMERATED type NRrestrictioninEPSasSecondaryRAT.
+type NRrestrictioninEPSasSecondaryRAT int64
+
+const (
+	NRrestrictioninEPSasSecondaryRATNRrestrictedinEPSasSecondaryRAT NRrestrictioninEPSasSecondaryRAT = 0
+)
+
+func (v NRrestrictioninEPSasSecondaryRAT) String() string {
+	switch v {
+	case NRrestrictioninEPSasSecondaryRATNRrestrictedinEPSasSecondaryRAT:
+		return "nRrestrictedinEPSasSecondaryRAT"
+	default:
+		return "unknown"
+	}
+}
 
 // NextPagingAreaScope represents the ASN.1 ENUMERATED type NextPagingAreaScope.
 type NextPagingAreaScope int64
@@ -3745,95 +3713,11 @@ func (v NotifySourceeNB) String() string {
 	}
 }
 
-// NRCellIdentity represents the ASN.1 type NRCellIdentity (BIT_STRING).
-type NRCellIdentity = runtime.BitString
-
-// NRCGI represents the ASN.1 type NR-CGI (SEQUENCE).
-type NRCGI struct {
-	PLMNIdentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
-	NRCellIdentity     NRCellIdentity             `asn1:"tag:1,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// NRencryptionAlgorithms represents the ASN.1 type NRencryptionAlgorithms (BIT_STRING).
-type NRencryptionAlgorithms = runtime.BitString
-
-// NRintegrityProtectionAlgorithms represents the ASN.1 type NRintegrityProtectionAlgorithms (BIT_STRING).
-type NRintegrityProtectionAlgorithms = runtime.BitString
-
-// NRrestrictioninEPSasSecondaryRAT represents the ASN.1 ENUMERATED type NRrestrictioninEPSasSecondaryRAT.
-type NRrestrictioninEPSasSecondaryRAT int64
-
-const (
-	NRrestrictioninEPSasSecondaryRATNRrestrictedinEPSasSecondaryRAT NRrestrictioninEPSasSecondaryRAT = 0
-)
-
-func (v NRrestrictioninEPSasSecondaryRAT) String() string {
-	switch v {
-	case NRrestrictioninEPSasSecondaryRATNRrestrictedinEPSasSecondaryRAT:
-		return "nRrestrictedinEPSasSecondaryRAT"
-	default:
-		return "unknown"
-	}
-}
-
-// NRrestrictionin5GS represents the ASN.1 ENUMERATED type NRrestrictionin5GS.
-type NRrestrictionin5GS int64
-
-const (
-	NRrestrictionin5GSNRrestrictedin5GS NRrestrictionin5GS = 0
-)
-
-func (v NRrestrictionin5GS) String() string {
-	switch v {
-	case NRrestrictionin5GSNRrestrictedin5GS:
-		return "nRrestrictedin5GS"
-	default:
-		return "unknown"
-	}
-}
-
-// NRUESecurityCapabilities represents the ASN.1 type NRUESecurityCapabilities (SEQUENCE).
-type NRUESecurityCapabilities struct {
-	NRencryptionAlgorithms          NRencryptionAlgorithms          `asn1:"tag:0,context,implicit"`
-	NRintegrityProtectionAlgorithms NRintegrityProtectionAlgorithms `asn1:"tag:1,context,implicit"`
-	IEExtensions                    ProtocolExtensionContainer      `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_              bool                            `asn1:"-" json:"-"`
-	ExtCount_                       int64                           `asn1:"-" json:"-"`
-	ExtPresent_                     []bool                          `asn1:"-" json:"-"`
-	ExtData_                        [][]byte                        `asn1:"-" json:"-"`
-}
-
-// NumberofBroadcastRequest represents the ASN.1 type NumberofBroadcastRequest (INTEGER).
-type NumberofBroadcastRequest = int64
-
 // NumberOfBroadcasts represents the ASN.1 type NumberOfBroadcasts (INTEGER).
 type NumberOfBroadcasts = int64
 
-// NRV2XServicesAuthorized represents the ASN.1 type NRV2XServicesAuthorized (SEQUENCE).
-type NRV2XServicesAuthorized struct {
-	VehicleUE          *VehicleUE                 `asn1:"tag:0,context,implicit,optional" json:"VehicleUE,omitempty"`
-	PedestrianUE       *PedestrianUE              `asn1:"tag:1,context,implicit,optional" json:"PedestrianUE,omitempty"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// NRUESidelinkAggregateMaximumBitrate represents the ASN.1 type NRUESidelinkAggregateMaximumBitrate (SEQUENCE).
-type NRUESidelinkAggregateMaximumBitrate struct {
-	UEaggregateMaximumBitRate BitRate                    `asn1:"tag:0,context,implicit"`
-	IEExtensions              ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
-	ExtCount_                 int64                      `asn1:"-" json:"-"`
-	ExtPresent_               []bool                     `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
-}
+// NumberofBroadcastRequest represents the ASN.1 type NumberofBroadcastRequest (INTEGER).
+type NumberofBroadcastRequest = int64
 
 // OldBSSToNewBSSInformation represents the ASN.1 type OldBSS-ToNewBSS-Information (OCTET_STRING).
 type OldBSSToNewBSSInformation = []byte
@@ -3891,8 +3775,104 @@ func NewOverloadResponseOverloadAction(v OverloadAction) OverloadResponse {
 	}
 }
 
+// PC5FlowBitRates represents the ASN.1 type PC5FlowBitRates (SEQUENCE).
+type PC5FlowBitRates struct {
+	GuaranteedFlowBitRate BitRate                    `asn1:"tag:0,context,implicit"`
+	MaximumFlowBitRate    BitRate                    `asn1:"tag:1,context,implicit"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+}
+
+// PC5QoSFlowItem represents the ASN.1 type PC5QoSFlowItem (SEQUENCE).
+type PC5QoSFlowItem struct {
+	PQI                FiveQI                     `asn1:"tag:0,context,implicit"`
+	Pc5FlowBitRates    *PC5FlowBitRates           `asn1:"tag:1,context,implicit,optional" json:"Pc5FlowBitRates,omitempty"`
+	Range              *Range                     `asn1:"tag:2,context,implicit,optional" json:"Range,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// PC5QoSFlowList represents the ASN.1 type PC5QoSFlowList (SEQUENCE_OF).
+type PC5QoSFlowList = []PC5QoSFlowItem
+
+// PC5QoSParameters represents the ASN.1 type PC5QoSParameters (SEQUENCE).
+type PC5QoSParameters struct {
+	Pc5QoSFlowList            PC5QoSFlowList             `asn1:"tag:0,context,implicit"`
+	Pc5QoSFlowListIndef_      bool                       `asn1:"-" json:"-"`
+	Pc5LinkAggregatedBitRates *BitRate                   `asn1:"tag:1,context,implicit,optional" json:"Pc5LinkAggregatedBitRates,omitempty"`
+	IEExtensions              ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
+	ExtCount_                 int64                      `asn1:"-" json:"-"`
+	ExtPresent_               []bool                     `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+}
+
+// PDCPSN represents the ASN.1 type PDCP-SN (INTEGER).
+type PDCPSN = int64
+
+// PDCPSNExtended represents the ASN.1 type PDCP-SNExtended (INTEGER).
+type PDCPSNExtended = int64
+
+// PDCPSNlength18 represents the ASN.1 type PDCP-SNlength18 (INTEGER).
+type PDCPSNlength18 = int64
+
+// PLMNAreaBasedQMC represents the ASN.1 type PLMNAreaBasedQMC (SEQUENCE).
+type PLMNAreaBasedQMC struct {
+	PlmnListforQMC       PLMNListforQMC             `asn1:"tag:0,context,implicit"`
+	PlmnListforQMCIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions         ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_   bool                       `asn1:"-" json:"-"`
+	ExtCount_            int64                      `asn1:"-" json:"-"`
+	ExtPresent_          []bool                     `asn1:"-" json:"-"`
+	ExtData_             [][]byte                   `asn1:"-" json:"-"`
+}
+
+// PLMNListforQMC represents the ASN.1 type PLMNListforQMC (SEQUENCE_OF).
+type PLMNListforQMC = []PLMNidentity
+
+// PLMNidentity represents the ASN.1 type PLMNidentity (OCTET_STRING).
+type PLMNidentity = TBCDSTRING
+
+// PSCellInformation represents the ASN.1 type PSCellInformation (SEQUENCE).
+type PSCellInformation struct {
+	NCGI               NRCGI                      `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// PSServiceNotAvailable represents the ASN.1 ENUMERATED type PS-ServiceNotAvailable.
+type PSServiceNotAvailable int64
+
+const (
+	PSServiceNotAvailablePsServiceNotAvailable PSServiceNotAvailable = 0
+)
+
+func (v PSServiceNotAvailable) String() string {
+	switch v {
+	case PSServiceNotAvailablePsServiceNotAvailable:
+		return "ps-service-not-available"
+	default:
+		return "unknown"
+	}
+}
+
+// PWSfailedECGIList represents the ASN.1 type PWSfailedECGIList (SEQUENCE_OF).
+type PWSfailedECGIList = []EUTRANCGI
+
 // PacketLossRate represents the ASN.1 type Packet-LossRate (INTEGER).
 type PacketLossRate = int64
+
+// PagingAttemptCount represents the ASN.1 type PagingAttemptCount (INTEGER).
+type PagingAttemptCount = int64
 
 // PagingAttemptInformation represents the ASN.1 type PagingAttemptInformation (SEQUENCE).
 type PagingAttemptInformation struct {
@@ -3906,131 +3886,17 @@ type PagingAttemptInformation struct {
 	ExtData_                       [][]byte                       `asn1:"-" json:"-"`
 }
 
-// PagingAttemptCount represents the ASN.1 type PagingAttemptCount (INTEGER).
-type PagingAttemptCount = int64
-
-// PagingEDRXInformation represents the ASN.1 type Paging-eDRXInformation (SEQUENCE).
-type PagingEDRXInformation struct {
-	PagingEDRXCycle    PagingEDRXCycle            `asn1:"tag:0,context,implicit"`
-	PagingTimeWindow   *PagingTimeWindow          `asn1:"tag:1,context,implicit,optional" json:"PagingTimeWindow,omitempty"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// PagingEDRXCycle represents the ASN.1 ENUMERATED type Paging-eDRX-Cycle.
-type PagingEDRXCycle int64
+// PagingCause represents the ASN.1 ENUMERATED type PagingCause.
+type PagingCause int64
 
 const (
-	PagingEDRXCycleHfhalf PagingEDRXCycle = 0
-	PagingEDRXCycleHf1    PagingEDRXCycle = 1
-	PagingEDRXCycleHf2    PagingEDRXCycle = 2
-	PagingEDRXCycleHf4    PagingEDRXCycle = 3
-	PagingEDRXCycleHf6    PagingEDRXCycle = 4
-	PagingEDRXCycleHf8    PagingEDRXCycle = 5
-	PagingEDRXCycleHf10   PagingEDRXCycle = 6
-	PagingEDRXCycleHf12   PagingEDRXCycle = 7
-	PagingEDRXCycleHf14   PagingEDRXCycle = 8
-	PagingEDRXCycleHf16   PagingEDRXCycle = 9
-	PagingEDRXCycleHf32   PagingEDRXCycle = 10
-	PagingEDRXCycleHf64   PagingEDRXCycle = 11
-	PagingEDRXCycleHf128  PagingEDRXCycle = 12
-	PagingEDRXCycleHf256  PagingEDRXCycle = 13
+	PagingCauseVoice PagingCause = 0
 )
 
-func (v PagingEDRXCycle) String() string {
+func (v PagingCause) String() string {
 	switch v {
-	case PagingEDRXCycleHfhalf:
-		return "hfhalf"
-	case PagingEDRXCycleHf1:
-		return "hf1"
-	case PagingEDRXCycleHf2:
-		return "hf2"
-	case PagingEDRXCycleHf4:
-		return "hf4"
-	case PagingEDRXCycleHf6:
-		return "hf6"
-	case PagingEDRXCycleHf8:
-		return "hf8"
-	case PagingEDRXCycleHf10:
-		return "hf10"
-	case PagingEDRXCycleHf12:
-		return "hf12"
-	case PagingEDRXCycleHf14:
-		return "hf14"
-	case PagingEDRXCycleHf16:
-		return "hf16"
-	case PagingEDRXCycleHf32:
-		return "hf32"
-	case PagingEDRXCycleHf64:
-		return "hf64"
-	case PagingEDRXCycleHf128:
-		return "hf128"
-	case PagingEDRXCycleHf256:
-		return "hf256"
-	default:
-		return "unknown"
-	}
-}
-
-// PagingTimeWindow represents the ASN.1 ENUMERATED type PagingTimeWindow.
-type PagingTimeWindow int64
-
-const (
-	PagingTimeWindowS1  PagingTimeWindow = 0
-	PagingTimeWindowS2  PagingTimeWindow = 1
-	PagingTimeWindowS3  PagingTimeWindow = 2
-	PagingTimeWindowS4  PagingTimeWindow = 3
-	PagingTimeWindowS5  PagingTimeWindow = 4
-	PagingTimeWindowS6  PagingTimeWindow = 5
-	PagingTimeWindowS7  PagingTimeWindow = 6
-	PagingTimeWindowS8  PagingTimeWindow = 7
-	PagingTimeWindowS9  PagingTimeWindow = 8
-	PagingTimeWindowS10 PagingTimeWindow = 9
-	PagingTimeWindowS11 PagingTimeWindow = 10
-	PagingTimeWindowS12 PagingTimeWindow = 11
-	PagingTimeWindowS13 PagingTimeWindow = 12
-	PagingTimeWindowS14 PagingTimeWindow = 13
-	PagingTimeWindowS15 PagingTimeWindow = 14
-	PagingTimeWindowS16 PagingTimeWindow = 15
-)
-
-func (v PagingTimeWindow) String() string {
-	switch v {
-	case PagingTimeWindowS1:
-		return "s1"
-	case PagingTimeWindowS2:
-		return "s2"
-	case PagingTimeWindowS3:
-		return "s3"
-	case PagingTimeWindowS4:
-		return "s4"
-	case PagingTimeWindowS5:
-		return "s5"
-	case PagingTimeWindowS6:
-		return "s6"
-	case PagingTimeWindowS7:
-		return "s7"
-	case PagingTimeWindowS8:
-		return "s8"
-	case PagingTimeWindowS9:
-		return "s9"
-	case PagingTimeWindowS10:
-		return "s10"
-	case PagingTimeWindowS11:
-		return "s11"
-	case PagingTimeWindowS12:
-		return "s12"
-	case PagingTimeWindowS13:
-		return "s13"
-	case PagingTimeWindowS14:
-		return "s14"
-	case PagingTimeWindowS15:
-		return "s15"
-	case PagingTimeWindowS16:
-		return "s16"
+	case PagingCauseVoice:
+		return "voice"
 	default:
 		return "unknown"
 	}
@@ -4174,68 +4040,151 @@ func (v PagingProbabilityInformation) String() string {
 	}
 }
 
-// PagingCause represents the ASN.1 ENUMERATED type PagingCause.
-type PagingCause int64
+// PagingTimeWindow represents the ASN.1 ENUMERATED type PagingTimeWindow.
+type PagingTimeWindow int64
 
 const (
-	PagingCauseVoice PagingCause = 0
+	PagingTimeWindowS1  PagingTimeWindow = 0
+	PagingTimeWindowS2  PagingTimeWindow = 1
+	PagingTimeWindowS3  PagingTimeWindow = 2
+	PagingTimeWindowS4  PagingTimeWindow = 3
+	PagingTimeWindowS5  PagingTimeWindow = 4
+	PagingTimeWindowS6  PagingTimeWindow = 5
+	PagingTimeWindowS7  PagingTimeWindow = 6
+	PagingTimeWindowS8  PagingTimeWindow = 7
+	PagingTimeWindowS9  PagingTimeWindow = 8
+	PagingTimeWindowS10 PagingTimeWindow = 9
+	PagingTimeWindowS11 PagingTimeWindow = 10
+	PagingTimeWindowS12 PagingTimeWindow = 11
+	PagingTimeWindowS13 PagingTimeWindow = 12
+	PagingTimeWindowS14 PagingTimeWindow = 13
+	PagingTimeWindowS15 PagingTimeWindow = 14
+	PagingTimeWindowS16 PagingTimeWindow = 15
 )
 
-func (v PagingCause) String() string {
+func (v PagingTimeWindow) String() string {
 	switch v {
-	case PagingCauseVoice:
-		return "voice"
+	case PagingTimeWindowS1:
+		return "s1"
+	case PagingTimeWindowS2:
+		return "s2"
+	case PagingTimeWindowS3:
+		return "s3"
+	case PagingTimeWindowS4:
+		return "s4"
+	case PagingTimeWindowS5:
+		return "s5"
+	case PagingTimeWindowS6:
+		return "s6"
+	case PagingTimeWindowS7:
+		return "s7"
+	case PagingTimeWindowS8:
+		return "s8"
+	case PagingTimeWindowS9:
+		return "s9"
+	case PagingTimeWindowS10:
+		return "s10"
+	case PagingTimeWindowS11:
+		return "s11"
+	case PagingTimeWindowS12:
+		return "s12"
+	case PagingTimeWindowS13:
+		return "s13"
+	case PagingTimeWindowS14:
+		return "s14"
+	case PagingTimeWindowS15:
+		return "s15"
+	case PagingTimeWindowS16:
+		return "s16"
 	default:
 		return "unknown"
 	}
 }
 
-// PC5QoSParameters represents the ASN.1 type PC5QoSParameters (SEQUENCE).
-type PC5QoSParameters struct {
-	Pc5QoSFlowList            PC5QoSFlowList             `asn1:"tag:0,context,implicit"`
-	Pc5QoSFlowListIndef_      bool                       `asn1:"-" json:"-"`
-	Pc5LinkAggregatedBitRates *BitRate                   `asn1:"tag:1,context,implicit,optional" json:"Pc5LinkAggregatedBitRates,omitempty"`
-	IEExtensions              ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
-	ExtCount_                 int64                      `asn1:"-" json:"-"`
-	ExtPresent_               []bool                     `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
-}
-
-// PC5QoSFlowList represents the ASN.1 type PC5QoSFlowList (SEQUENCE_OF).
-type PC5QoSFlowList = []PC5QoSFlowItem
-
-// PC5QoSFlowItem represents the ASN.1 type PC5QoSFlowItem (SEQUENCE).
-type PC5QoSFlowItem struct {
-	PQI                FiveQI                     `asn1:"tag:0,context,implicit"`
-	Pc5FlowBitRates    *PC5FlowBitRates           `asn1:"tag:1,context,implicit,optional" json:"Pc5FlowBitRates,omitempty"`
-	Range              *Range                     `asn1:"tag:2,context,implicit,optional" json:"Range,omitempty"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+// PagingEDRXInformation represents the ASN.1 type Paging-eDRXInformation (SEQUENCE).
+type PagingEDRXInformation struct {
+	PagingEDRXCycle    PagingEDRXCycle            `asn1:"tag:0,context,implicit"`
+	PagingTimeWindow   *PagingTimeWindow          `asn1:"tag:1,context,implicit,optional" json:"PagingTimeWindow,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// PC5FlowBitRates represents the ASN.1 type PC5FlowBitRates (SEQUENCE).
-type PC5FlowBitRates struct {
-	GuaranteedFlowBitRate BitRate                    `asn1:"tag:0,context,implicit"`
-	MaximumFlowBitRate    BitRate                    `asn1:"tag:1,context,implicit"`
-	IEExtensions          ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
-	ExtCount_             int64                      `asn1:"-" json:"-"`
-	ExtPresent_           []bool                     `asn1:"-" json:"-"`
-	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+// PagingEDRXCycle represents the ASN.1 ENUMERATED type Paging-eDRX-Cycle.
+type PagingEDRXCycle int64
+
+const (
+	PagingEDRXCycleHfhalf PagingEDRXCycle = 0
+	PagingEDRXCycleHf1    PagingEDRXCycle = 1
+	PagingEDRXCycleHf2    PagingEDRXCycle = 2
+	PagingEDRXCycleHf4    PagingEDRXCycle = 3
+	PagingEDRXCycleHf6    PagingEDRXCycle = 4
+	PagingEDRXCycleHf8    PagingEDRXCycle = 5
+	PagingEDRXCycleHf10   PagingEDRXCycle = 6
+	PagingEDRXCycleHf12   PagingEDRXCycle = 7
+	PagingEDRXCycleHf14   PagingEDRXCycle = 8
+	PagingEDRXCycleHf16   PagingEDRXCycle = 9
+	PagingEDRXCycleHf32   PagingEDRXCycle = 10
+	PagingEDRXCycleHf64   PagingEDRXCycle = 11
+	PagingEDRXCycleHf128  PagingEDRXCycle = 12
+	PagingEDRXCycleHf256  PagingEDRXCycle = 13
+)
+
+func (v PagingEDRXCycle) String() string {
+	switch v {
+	case PagingEDRXCycleHfhalf:
+		return "hfhalf"
+	case PagingEDRXCycleHf1:
+		return "hf1"
+	case PagingEDRXCycleHf2:
+		return "hf2"
+	case PagingEDRXCycleHf4:
+		return "hf4"
+	case PagingEDRXCycleHf6:
+		return "hf6"
+	case PagingEDRXCycleHf8:
+		return "hf8"
+	case PagingEDRXCycleHf10:
+		return "hf10"
+	case PagingEDRXCycleHf12:
+		return "hf12"
+	case PagingEDRXCycleHf14:
+		return "hf14"
+	case PagingEDRXCycleHf16:
+		return "hf16"
+	case PagingEDRXCycleHf32:
+		return "hf32"
+	case PagingEDRXCycleHf64:
+		return "hf64"
+	case PagingEDRXCycleHf128:
+		return "hf128"
+	case PagingEDRXCycleHf256:
+		return "hf256"
+	default:
+		return "unknown"
+	}
 }
 
-// PDCPSN represents the ASN.1 type PDCP-SN (INTEGER).
-type PDCPSN = int64
+// PedestrianUE represents the ASN.1 ENUMERATED type PedestrianUE.
+type PedestrianUE int64
 
-// PDCPSNExtended represents the ASN.1 type PDCP-SNExtended (INTEGER).
-type PDCPSNExtended = int64
+const (
+	PedestrianUEAuthorized    PedestrianUE = 0
+	PedestrianUENotAuthorized PedestrianUE = 1
+)
 
-// PDCPSNlength18 represents the ASN.1 type PDCP-SNlength18 (INTEGER).
-type PDCPSNlength18 = int64
+func (v PedestrianUE) String() string {
+	switch v {
+	case PedestrianUEAuthorized:
+		return "authorized"
+	case PedestrianUENotAuthorized:
+		return "not-authorized"
+	default:
+		return "unknown"
+	}
+}
 
 // PendingDataIndication represents the ASN.1 ENUMERATED type PendingDataIndication.
 type PendingDataIndication int64
@@ -4252,34 +4201,6 @@ func (v PendingDataIndication) String() string {
 		return "unknown"
 	}
 }
-
-// M1PeriodicReporting represents the ASN.1 type M1PeriodicReporting (SEQUENCE).
-type M1PeriodicReporting struct {
-	ReportInterval     ReportIntervalMDT          `asn1:"tag:0,context,implicit"`
-	ReportAmount       ReportAmountMDT            `asn1:"tag:1,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// PLMNidentity represents the ASN.1 type PLMNidentity (OCTET_STRING).
-type PLMNidentity = []byte
-
-// PLMNAreaBasedQMC represents the ASN.1 type PLMNAreaBasedQMC (SEQUENCE).
-type PLMNAreaBasedQMC struct {
-	PlmnListforQMC       PLMNListforQMC             `asn1:"tag:0,context,implicit"`
-	PlmnListforQMCIndef_ bool                       `asn1:"-" json:"-"`
-	IEExtensions         ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                       `asn1:"-" json:"-"`
-	ExtCount_            int64                      `asn1:"-" json:"-"`
-	ExtPresent_          []bool                     `asn1:"-" json:"-"`
-	ExtData_             [][]byte                   `asn1:"-" json:"-"`
-}
-
-// PLMNListforQMC represents the ASN.1 type PLMNListforQMC (SEQUENCE_OF).
-type PLMNListforQMC = []PLMNidentity
 
 // PortNumber represents the ASN.1 type Port-Number (OCTET_STRING).
 type PortNumber = []byte
@@ -4332,6 +4253,25 @@ const (
 	PriorityLevelNoPriority PriorityLevel = 15
 )
 
+// PrivacyIndicator represents the ASN.1 ENUMERATED type PrivacyIndicator.
+type PrivacyIndicator int64
+
+const (
+	PrivacyIndicatorImmediateMDT PrivacyIndicator = 0
+	PrivacyIndicatorLoggedMDT    PrivacyIndicator = 1
+)
+
+func (v PrivacyIndicator) String() string {
+	switch v {
+	case PrivacyIndicatorImmediateMDT:
+		return "immediate-MDT"
+	case PrivacyIndicatorLoggedMDT:
+		return "logged-MDT"
+	default:
+		return "unknown"
+	}
+}
+
 // ProSeAuthorized represents the ASN.1 type ProSeAuthorized (SEQUENCE).
 type ProSeAuthorized struct {
 	ProSeDirectDiscovery     *ProSeDirectDiscovery      `asn1:"tag:0,context,implicit,optional" json:"ProSeDirectDiscovery,omitempty"`
@@ -4341,6 +4281,25 @@ type ProSeAuthorized struct {
 	ExtCount_                int64                      `asn1:"-" json:"-"`
 	ExtPresent_              []bool                     `asn1:"-" json:"-"`
 	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
+}
+
+// ProSeDirectCommunication represents the ASN.1 ENUMERATED type ProSeDirectCommunication.
+type ProSeDirectCommunication int64
+
+const (
+	ProSeDirectCommunicationAuthorized    ProSeDirectCommunication = 0
+	ProSeDirectCommunicationNotAuthorized ProSeDirectCommunication = 1
+)
+
+func (v ProSeDirectCommunication) String() string {
+	switch v {
+	case ProSeDirectCommunicationAuthorized:
+		return "authorized"
+	case ProSeDirectCommunicationNotAuthorized:
+		return "not-authorized"
+	default:
+		return "unknown"
+	}
 }
 
 // ProSeDirectDiscovery represents the ASN.1 ENUMERATED type ProSeDirectDiscovery.
@@ -4381,53 +4340,11 @@ func (v ProSeUEtoNetworkRelaying) String() string {
 	}
 }
 
-// ProSeDirectCommunication represents the ASN.1 ENUMERATED type ProSeDirectCommunication.
-type ProSeDirectCommunication int64
-
-const (
-	ProSeDirectCommunicationAuthorized    ProSeDirectCommunication = 0
-	ProSeDirectCommunicationNotAuthorized ProSeDirectCommunication = 1
-)
-
-func (v ProSeDirectCommunication) String() string {
-	switch v {
-	case ProSeDirectCommunicationAuthorized:
-		return "authorized"
-	case ProSeDirectCommunicationNotAuthorized:
-		return "not-authorized"
-	default:
-		return "unknown"
-	}
-}
-
-// PSServiceNotAvailable represents the ASN.1 ENUMERATED type PS-ServiceNotAvailable.
-type PSServiceNotAvailable int64
-
-const (
-	PSServiceNotAvailablePsServiceNotAvailable PSServiceNotAvailable = 0
-)
-
-func (v PSServiceNotAvailable) String() string {
-	switch v {
-	case PSServiceNotAvailablePsServiceNotAvailable:
-		return "ps-service-not-available"
-	default:
-		return "unknown"
-	}
-}
-
-// PSCellInformation represents the ASN.1 type PSCellInformation (SEQUENCE).
-type PSCellInformation struct {
-	NCGI               NRCGI                      `asn1:"tag:0,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
 // QCI represents the ASN.1 type QCI (INTEGER).
 type QCI = int64
+
+// RAC represents the ASN.1 type RAC (OCTET_STRING).
+type RAC = []byte
 
 // RACSIndication represents the ASN.1 ENUMERATED type RACSIndication.
 type RACSIndication int64
@@ -4447,126 +4364,6 @@ func (v RACSIndication) String() string {
 
 // RANUENGAPID represents the ASN.1 type RAN-UE-NGAP-ID (INTEGER).
 type RANUENGAPID = int64
-
-// Range represents the ASN.1 ENUMERATED type Range.
-type Range int64
-
-const (
-	RangeM50   Range = 0
-	RangeM80   Range = 1
-	RangeM180  Range = 2
-	RangeM200  Range = 3
-	RangeM350  Range = 4
-	RangeM400  Range = 5
-	RangeM500  Range = 6
-	RangeM700  Range = 7
-	RangeM1000 Range = 8
-)
-
-func (v Range) String() string {
-	switch v {
-	case RangeM50:
-		return "m50"
-	case RangeM80:
-		return "m80"
-	case RangeM180:
-		return "m180"
-	case RangeM200:
-		return "m200"
-	case RangeM350:
-		return "m350"
-	case RangeM400:
-		return "m400"
-	case RangeM500:
-		return "m500"
-	case RangeM700:
-		return "m700"
-	case RangeM1000:
-		return "m1000"
-	default:
-		return "unknown"
-	}
-}
-
-// ReceiveStatusofULPDCPSDUs represents the ASN.1 type ReceiveStatusofULPDCPSDUs (BIT_STRING).
-type ReceiveStatusofULPDCPSDUs = runtime.BitString
-
-// ReceiveStatusOfULPDCPSDUsExtended represents the ASN.1 type ReceiveStatusOfULPDCPSDUsExtended (BIT_STRING).
-type ReceiveStatusOfULPDCPSDUsExtended = runtime.BitString
-
-// ReceiveStatusOfULPDCPSDUsPDCPSNlength18 represents the ASN.1 type ReceiveStatusOfULPDCPSDUsPDCP-SNlength18 (BIT_STRING).
-type ReceiveStatusOfULPDCPSDUsPDCPSNlength18 = runtime.BitString
-
-// RecommendedCellsForPaging represents the ASN.1 type RecommendedCellsForPaging (SEQUENCE).
-type RecommendedCellsForPaging struct {
-	RecommendedCellList       RecommendedCellList        `asn1:"tag:0,context,implicit"`
-	RecommendedCellListIndef_ bool                       `asn1:"-" json:"-"`
-	IEExtensions              ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
-	ExtCount_                 int64                      `asn1:"-" json:"-"`
-	ExtPresent_               []bool                     `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
-}
-
-// RecommendedCellList represents the ASN.1 type RecommendedCellList (SEQUENCE_OF).
-type RecommendedCellList = []ProtocolIESingleContainer
-
-// RecommendedCellItem represents the ASN.1 type RecommendedCellItem (SEQUENCE).
-type RecommendedCellItem struct {
-	EUTRANCGI          EUTRANCGI                  `asn1:"tag:0,context,implicit"`
-	TimeStayedInCell   *int64                     `asn1:"tag:1,context,implicit,optional" json:"TimeStayedInCell,omitempty"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// RecommendedENBsForPaging represents the ASN.1 type RecommendedENBsForPaging (SEQUENCE).
-type RecommendedENBsForPaging struct {
-	RecommendedENBList       RecommendedENBList         `asn1:"tag:0,context,implicit"`
-	RecommendedENBListIndef_ bool                       `asn1:"-" json:"-"`
-	IEExtensions             ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_       bool                       `asn1:"-" json:"-"`
-	ExtCount_                int64                      `asn1:"-" json:"-"`
-	ExtPresent_              []bool                     `asn1:"-" json:"-"`
-	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
-}
-
-// RecommendedENBList represents the ASN.1 type RecommendedENBList (SEQUENCE_OF).
-type RecommendedENBList = []ProtocolIESingleContainer
-
-// RecommendedENBItem represents the ASN.1 type RecommendedENBItem (SEQUENCE).
-type RecommendedENBItem struct {
-	MMEPagingTarget    MMEPagingTarget            `asn1:"tag:0,context,explicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// RelativeMMECapacity represents the ASN.1 type RelativeMMECapacity (INTEGER).
-type RelativeMMECapacity = int64
-
-// RelayNodeIndicator represents the ASN.1 ENUMERATED type RelayNode-Indicator.
-type RelayNodeIndicator int64
-
-const (
-	RelayNodeIndicatorTrue RelayNodeIndicator = 0
-)
-
-func (v RelayNodeIndicator) String() string {
-	switch v {
-	case RelayNodeIndicatorTrue:
-		return "true"
-	default:
-		return "unknown"
-	}
-}
-
-// RAC represents the ASN.1 type RAC (OCTET_STRING).
-type RAC = []byte
 
 // RATRestrictions represents the ASN.1 type RAT-Restrictions (SEQUENCE_OF).
 type RATRestrictions = []RATRestrictionsItem
@@ -4622,6 +4419,233 @@ func (v RATType) String() string {
 	}
 }
 
+// RIMInformation represents the ASN.1 type RIMInformation (OCTET_STRING).
+type RIMInformation = []byte
+
+// RIMRoutingAddress choice constants.
+const (
+	RIMRoutingAddressChoiceGERANCellID   = 1
+	RIMRoutingAddressChoiceTargetRNCID   = 2
+	RIMRoutingAddressChoiceEHRPDSectorID = 3
+)
+
+// RIMRoutingAddress represents the ASN.1 CHOICE type RIMRoutingAddress.
+type RIMRoutingAddress struct {
+	Choice        int
+	GERANCellID   *GERANCellID `json:"GERANCellID,omitempty"`
+	TargetRNCID   *TargetRNCID `json:"TargetRNCID,omitempty"`
+	EHRPDSectorID []byte       `json:"EHRPDSectorID,omitempty"`
+}
+
+// NewRIMRoutingAddressGERANCellID creates a RIMRoutingAddress with the gERAN-Cell-ID alternative.
+func NewRIMRoutingAddressGERANCellID(v GERANCellID) RIMRoutingAddress {
+	return RIMRoutingAddress{
+		Choice:      RIMRoutingAddressChoiceGERANCellID,
+		GERANCellID: &v,
+	}
+}
+
+// NewRIMRoutingAddressTargetRNCID creates a RIMRoutingAddress with the targetRNC-ID alternative.
+func NewRIMRoutingAddressTargetRNCID(v TargetRNCID) RIMRoutingAddress {
+	return RIMRoutingAddress{
+		Choice:      RIMRoutingAddressChoiceTargetRNCID,
+		TargetRNCID: &v,
+	}
+}
+
+// NewRIMRoutingAddressEHRPDSectorID creates a RIMRoutingAddress with the eHRPD-Sector-ID alternative.
+func NewRIMRoutingAddressEHRPDSectorID(v []byte) RIMRoutingAddress {
+	return RIMRoutingAddress{
+		Choice:        RIMRoutingAddressChoiceEHRPDSectorID,
+		EHRPDSectorID: v,
+	}
+}
+
+// RIMTransfer represents the ASN.1 type RIMTransfer (SEQUENCE).
+type RIMTransfer struct {
+	RIMInformation     RIMInformation             `asn1:"tag:0,context,implicit"`
+	RIMRoutingAddress  *RIMRoutingAddress         `asn1:"tag:1,context,explicit,optional" json:"RIMRoutingAddress,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// RLFReportInformation represents the ASN.1 type RLFReportInformation (SEQUENCE).
+type RLFReportInformation struct {
+	UERLFReportContainer                 UERLFReportContainer                  `asn1:"tag:0,context,implicit"`
+	UERLFReportContainerForExtendedBands *UERLFReportContainerForExtendedBands `asn1:"tag:1,context,implicit,optional" json:"UERLFReportContainerForExtendedBands,omitempty"`
+	IEExtensions                         ProtocolExtensionContainer            `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_                   bool                                  `asn1:"-" json:"-"`
+	ExtCount_                            int64                                 `asn1:"-" json:"-"`
+	ExtPresent_                          []bool                                `asn1:"-" json:"-"`
+	ExtData_                             [][]byte                              `asn1:"-" json:"-"`
+}
+
+// RNCID represents the ASN.1 type RNC-ID (INTEGER).
+type RNCID = int64
+
+// RRCContainer represents the ASN.1 type RRC-Container (OCTET_STRING).
+type RRCContainer = []byte
+
+// RRCEstablishmentCause represents the ASN.1 ENUMERATED type RRC-Establishment-Cause.
+type RRCEstablishmentCause int64
+
+const (
+	RRCEstablishmentCauseEmergency           RRCEstablishmentCause = 0
+	RRCEstablishmentCauseHighPriorityAccess  RRCEstablishmentCause = 1
+	RRCEstablishmentCauseMtAccess            RRCEstablishmentCause = 2
+	RRCEstablishmentCauseMoSignalling        RRCEstablishmentCause = 3
+	RRCEstablishmentCauseMoData              RRCEstablishmentCause = 4
+	RRCEstablishmentCauseDelayTolerantAccess RRCEstablishmentCause = 5
+	RRCEstablishmentCauseMoVoiceCall         RRCEstablishmentCause = 6
+	RRCEstablishmentCauseMoExceptionData     RRCEstablishmentCause = 7
+)
+
+func (v RRCEstablishmentCause) String() string {
+	switch v {
+	case RRCEstablishmentCauseEmergency:
+		return "emergency"
+	case RRCEstablishmentCauseHighPriorityAccess:
+		return "highPriorityAccess"
+	case RRCEstablishmentCauseMtAccess:
+		return "mt-Access"
+	case RRCEstablishmentCauseMoSignalling:
+		return "mo-Signalling"
+	case RRCEstablishmentCauseMoData:
+		return "mo-Data"
+	case RRCEstablishmentCauseDelayTolerantAccess:
+		return "delay-TolerantAccess"
+	case RRCEstablishmentCauseMoVoiceCall:
+		return "mo-VoiceCall"
+	case RRCEstablishmentCauseMoExceptionData:
+		return "mo-ExceptionData"
+	default:
+		return "unknown"
+	}
+}
+
+// Range represents the ASN.1 ENUMERATED type Range.
+type Range int64
+
+const (
+	RangeM50   Range = 0
+	RangeM80   Range = 1
+	RangeM180  Range = 2
+	RangeM200  Range = 3
+	RangeM350  Range = 4
+	RangeM400  Range = 5
+	RangeM500  Range = 6
+	RangeM700  Range = 7
+	RangeM1000 Range = 8
+)
+
+func (v Range) String() string {
+	switch v {
+	case RangeM50:
+		return "m50"
+	case RangeM80:
+		return "m80"
+	case RangeM180:
+		return "m180"
+	case RangeM200:
+		return "m200"
+	case RangeM350:
+		return "m350"
+	case RangeM400:
+		return "m400"
+	case RangeM500:
+		return "m500"
+	case RangeM700:
+		return "m700"
+	case RangeM1000:
+		return "m1000"
+	default:
+		return "unknown"
+	}
+}
+
+// ReceiveStatusOfULPDCPSDUsExtended represents the ASN.1 type ReceiveStatusOfULPDCPSDUsExtended (BIT_STRING).
+type ReceiveStatusOfULPDCPSDUsExtended = runtime.BitString
+
+// ReceiveStatusOfULPDCPSDUsPDCPSNlength18 represents the ASN.1 type ReceiveStatusOfULPDCPSDUsPDCP-SNlength18 (BIT_STRING).
+type ReceiveStatusOfULPDCPSDUsPDCPSNlength18 = runtime.BitString
+
+// ReceiveStatusofULPDCPSDUs represents the ASN.1 type ReceiveStatusofULPDCPSDUs (BIT_STRING).
+type ReceiveStatusofULPDCPSDUs = runtime.BitString
+
+// RecommendedCellItem represents the ASN.1 type RecommendedCellItem (SEQUENCE).
+type RecommendedCellItem struct {
+	EUTRANCGI          EUTRANCGI                  `asn1:"tag:0,context,implicit"`
+	TimeStayedInCell   *int64                     `asn1:"tag:1,context,implicit,optional" json:"TimeStayedInCell,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// RecommendedCellList represents the ASN.1 type RecommendedCellList (SEQUENCE_OF).
+type RecommendedCellList = []ProtocolIESingleContainer
+
+// RecommendedCellsForPaging represents the ASN.1 type RecommendedCellsForPaging (SEQUENCE).
+type RecommendedCellsForPaging struct {
+	RecommendedCellList       RecommendedCellList        `asn1:"tag:0,context,implicit"`
+	RecommendedCellListIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions              ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
+	ExtCount_                 int64                      `asn1:"-" json:"-"`
+	ExtPresent_               []bool                     `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+}
+
+// RecommendedENBItem represents the ASN.1 type RecommendedENBItem (SEQUENCE).
+type RecommendedENBItem struct {
+	MMEPagingTarget    MMEPagingTarget            `asn1:"tag:0,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// RecommendedENBList represents the ASN.1 type RecommendedENBList (SEQUENCE_OF).
+type RecommendedENBList = []ProtocolIESingleContainer
+
+// RecommendedENBsForPaging represents the ASN.1 type RecommendedENBsForPaging (SEQUENCE).
+type RecommendedENBsForPaging struct {
+	RecommendedENBList       RecommendedENBList         `asn1:"tag:0,context,implicit"`
+	RecommendedENBListIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions             ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_       bool                       `asn1:"-" json:"-"`
+	ExtCount_                int64                      `asn1:"-" json:"-"`
+	ExtPresent_              []bool                     `asn1:"-" json:"-"`
+	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
+}
+
+// RelativeMMECapacity represents the ASN.1 type RelativeMMECapacity (INTEGER).
+type RelativeMMECapacity = int64
+
+// RelayNodeIndicator represents the ASN.1 ENUMERATED type RelayNode-Indicator.
+type RelayNodeIndicator int64
+
+const (
+	RelayNodeIndicatorTrue RelayNodeIndicator = 0
+)
+
+func (v RelayNodeIndicator) String() string {
+	switch v {
+	case RelayNodeIndicatorTrue:
+		return "true"
+	default:
+		return "unknown"
+	}
+}
+
+// RepetitionPeriod represents the ASN.1 type RepetitionPeriod (INTEGER).
+type RepetitionPeriod = int64
+
 // ReportAmountMDT represents the ASN.1 ENUMERATED type ReportAmountMDT.
 type ReportAmountMDT int64
 
@@ -4654,6 +4678,22 @@ func (v ReportAmountMDT) String() string {
 		return "r64"
 	case ReportAmountMDTRinfinity:
 		return "rinfinity"
+	default:
+		return "unknown"
+	}
+}
+
+// ReportArea represents the ASN.1 ENUMERATED type ReportArea.
+type ReportArea int64
+
+const (
+	ReportAreaEcgi ReportArea = 0
+)
+
+func (v ReportArea) String() string {
+	switch v {
+	case ReportAreaEcgi:
+		return "ecgi"
 	default:
 		return "unknown"
 	}
@@ -4711,38 +4751,6 @@ func (v ReportIntervalMDT) String() string {
 	}
 }
 
-// M1ReportingTrigger represents the ASN.1 ENUMERATED type M1ReportingTrigger.
-type M1ReportingTrigger int64
-
-const (
-	M1ReportingTriggerPeriodic                 M1ReportingTrigger = 0
-	M1ReportingTriggerA2eventtriggered         M1ReportingTrigger = 1
-	M1ReportingTriggerA2eventtriggeredPeriodic M1ReportingTrigger = 2
-)
-
-func (v M1ReportingTrigger) String() string {
-	switch v {
-	case M1ReportingTriggerPeriodic:
-		return "periodic"
-	case M1ReportingTriggerA2eventtriggered:
-		return "a2eventtriggered"
-	case M1ReportingTriggerA2eventtriggeredPeriodic:
-		return "a2eventtriggered-periodic"
-	default:
-		return "unknown"
-	}
-}
-
-// RequestedTNLInfo represents the ASN.1 type RequestedTNLInfo (SEQUENCE).
-type RequestedTNLInfo struct {
-	PLMNidentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
 // RequestType represents the ASN.1 type RequestType (SEQUENCE).
 type RequestType struct {
 	EventType          EventType                  `asn1:"tag:0,context,implicit"`
@@ -4770,10 +4778,176 @@ func (v RequestTypeAdditionalInfo) String() string {
 	}
 }
 
-// RIMTransfer represents the ASN.1 type RIMTransfer (SEQUENCE).
-type RIMTransfer struct {
-	RIMInformation     RIMInformation             `asn1:"tag:0,context,implicit"`
-	RIMRoutingAddress  *RIMRoutingAddress         `asn1:"tag:1,context,explicit,optional" json:"RIMRoutingAddress,omitempty"`
+// RoutingID represents the ASN.1 type Routing-ID (INTEGER).
+type RoutingID = int64
+
+// SONConfigurationTransfer represents the ASN.1 type SONConfigurationTransfer (SEQUENCE).
+type SONConfigurationTransfer struct {
+	TargeteNBID        TargeteNBID                `asn1:"tag:0,context,implicit"`
+	SourceeNBID        SourceeNBID                `asn1:"tag:1,context,implicit"`
+	SONInformation     SONInformation             `asn1:"tag:2,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// SONInformation choice constants.
+const (
+	SONInformationChoiceSONInformationRequest   = 1
+	SONInformationChoiceSONInformationReply     = 2
+	SONInformationChoiceSONInformationExtension = 3
+)
+
+// SONInformation represents the ASN.1 CHOICE type SONInformation.
+type SONInformation struct {
+	Choice                  int
+	SONInformationRequest   *SONInformationRequest   `json:"SONInformationRequest,omitempty"`
+	SONInformationReply     *SONInformationReply     `json:"SONInformationReply,omitempty"`
+	SONInformationExtension *SONInformationExtension `json:"SONInformationExtension,omitempty"`
+}
+
+// NewSONInformationSONInformationRequest creates a SONInformation with the sONInformationRequest alternative.
+func NewSONInformationSONInformationRequest(v SONInformationRequest) SONInformation {
+	return SONInformation{
+		Choice:                SONInformationChoiceSONInformationRequest,
+		SONInformationRequest: &v,
+	}
+}
+
+// NewSONInformationSONInformationReply creates a SONInformation with the sONInformationReply alternative.
+func NewSONInformationSONInformationReply(v SONInformationReply) SONInformation {
+	return SONInformation{
+		Choice:              SONInformationChoiceSONInformationReply,
+		SONInformationReply: &v,
+	}
+}
+
+// NewSONInformationSONInformationExtension creates a SONInformation with the sONInformation-Extension alternative.
+func NewSONInformationSONInformationExtension(v SONInformationExtension) SONInformation {
+	return SONInformation{
+		Choice:                  SONInformationChoiceSONInformationExtension,
+		SONInformationExtension: &v,
+	}
+}
+
+// SONInformationReply represents the ASN.1 type SONInformationReply (SEQUENCE).
+type SONInformationReply struct {
+	X2TNLConfigurationInfo *X2TNLConfigurationInfo    `asn1:"tag:0,context,implicit,optional" json:"X2TNLConfigurationInfo,omitempty"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+}
+
+// SONInformationReport choice constants.
+const (
+	SONInformationReportChoiceRLFReportInformation = 1
+)
+
+// SONInformationReport represents the ASN.1 CHOICE type SONInformationReport.
+type SONInformationReport struct {
+	Choice               int
+	RLFReportInformation *RLFReportInformation `json:"RLFReportInformation,omitempty"`
+}
+
+// NewSONInformationReportRLFReportInformation creates a SONInformationReport with the rLFReportInformation alternative.
+func NewSONInformationReportRLFReportInformation(v RLFReportInformation) SONInformationReport {
+	return SONInformationReport{
+		Choice:               SONInformationReportChoiceRLFReportInformation,
+		RLFReportInformation: &v,
+	}
+}
+
+// SONInformationRequest represents the ASN.1 ENUMERATED type SONInformationRequest.
+type SONInformationRequest int64
+
+const (
+	SONInformationRequestX2TNLConfigurationInfo  SONInformationRequest = 0
+	SONInformationRequestTimeSynchronisationInfo SONInformationRequest = 1
+	SONInformationRequestActivateMuting          SONInformationRequest = 2
+	SONInformationRequestDeactivateMuting        SONInformationRequest = 3
+)
+
+func (v SONInformationRequest) String() string {
+	switch v {
+	case SONInformationRequestX2TNLConfigurationInfo:
+		return "x2TNL-Configuration-Info"
+	case SONInformationRequestTimeSynchronisationInfo:
+		return "time-Synchronisation-Info"
+	case SONInformationRequestActivateMuting:
+		return "activate-Muting"
+	case SONInformationRequestDeactivateMuting:
+		return "deactivate-Muting"
+	default:
+		return "unknown"
+	}
+}
+
+// SONInformationExtension represents the ASN.1 type SONInformation-Extension (SEQUENCE).
+type SONInformationExtension struct {
+	Id          int64            `asn1:"tag:0,context,implicit"`
+	Criticality int64            `asn1:"tag:1,context,implicit"`
+	Value       runtime.RawValue `asn1:"tag:2,context,explicit"`
+}
+
+// SRVCCHOIndication represents the ASN.1 ENUMERATED type SRVCCHOIndication.
+type SRVCCHOIndication int64
+
+const (
+	SRVCCHOIndicationPSandCS SRVCCHOIndication = 0
+	SRVCCHOIndicationCSonly  SRVCCHOIndication = 1
+)
+
+func (v SRVCCHOIndication) String() string {
+	switch v {
+	case SRVCCHOIndicationPSandCS:
+		return "pSandCS"
+	case SRVCCHOIndicationCSonly:
+		return "cSonly"
+	default:
+		return "unknown"
+	}
+}
+
+// SRVCCOperationNotPossible represents the ASN.1 ENUMERATED type SRVCCOperationNotPossible.
+type SRVCCOperationNotPossible int64
+
+const (
+	SRVCCOperationNotPossibleNotPossible SRVCCOperationNotPossible = 0
+)
+
+func (v SRVCCOperationNotPossible) String() string {
+	switch v {
+	case SRVCCOperationNotPossibleNotPossible:
+		return "notPossible"
+	default:
+		return "unknown"
+	}
+}
+
+// SRVCCOperationPossible represents the ASN.1 ENUMERATED type SRVCCOperationPossible.
+type SRVCCOperationPossible int64
+
+const (
+	SRVCCOperationPossiblePossible SRVCCOperationPossible = 0
+)
+
+func (v SRVCCOperationPossible) String() string {
+	switch v {
+	case SRVCCOperationPossiblePossible:
+		return "possible"
+	default:
+		return "unknown"
+	}
+}
+
+// STMSI represents the ASN.1 type S-TMSI (SEQUENCE).
+type STMSI struct {
+	MMEC               MMECode                    `asn1:"tag:0,context,implicit"`
+	MTMSI              MTMSI                      `asn1:"tag:1,context,implicit"`
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
 	ExtCount_          int64                      `asn1:"-" json:"-"`
@@ -4781,139 +4955,48 @@ type RIMTransfer struct {
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// RIMInformation represents the ASN.1 type RIMInformation (OCTET_STRING).
-type RIMInformation = []byte
-
-// RIMRoutingAddress choice constants.
-const (
-	RIMRoutingAddressChoiceGERANCellID   = 1
-	RIMRoutingAddressChoiceTargetRNCID   = 2
-	RIMRoutingAddressChoiceEHRPDSectorID = 3
-)
-
-// RIMRoutingAddress represents the ASN.1 CHOICE type RIMRoutingAddress.
-type RIMRoutingAddress struct {
-	Choice        int
-	GERANCellID   *GERANCellID `json:"GERANCellID,omitempty"`
-	TargetRNCID   *TargetRNCID `json:"TargetRNCID,omitempty"`
-	EHRPDSectorID []byte       `json:"EHRPDSectorID,omitempty"`
+// ScheduledCommunicationTime represents the ASN.1 type ScheduledCommunicationTime (SEQUENCE).
+type ScheduledCommunicationTime struct {
+	DayofWeek          *runtime.BitString         `asn1:"tag:0,context,implicit,optional" json:"DayofWeek,omitempty"`
+	TimeofDayStart     *int64                     `asn1:"tag:1,context,implicit,optional" json:"TimeofDayStart,omitempty"`
+	TimeofDayEnd       *int64                     `asn1:"tag:2,context,implicit,optional" json:"TimeofDayEnd,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// NewRIMRoutingAddressGERANCellID creates a RIMRoutingAddress with the gERAN-Cell-ID alternative.
-func NewRIMRoutingAddressGERANCellID(v GERANCellID) RIMRoutingAddress {
-	return RIMRoutingAddress{
-		Choice:      RIMRoutingAddressChoiceGERANCellID,
-		GERANCellID: &v,
-	}
+// SecondaryRATDataUsageReportItem represents the ASN.1 type SecondaryRATDataUsageReportItem (SEQUENCE).
+type SecondaryRATDataUsageReportItem struct {
+	ERABID                    ERABID                     `asn1:"tag:0,context,implicit"`
+	SecondaryRATType          SecondaryRATType           `asn1:"tag:1,context,implicit"`
+	ERABUsageReportList       ERABUsageReportList        `asn1:"tag:2,context,implicit"`
+	ERABUsageReportListIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions              ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
+	ExtCount_                 int64                      `asn1:"-" json:"-"`
+	ExtPresent_               []bool                     `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
 }
 
-// NewRIMRoutingAddressTargetRNCID creates a RIMRoutingAddress with the targetRNC-ID alternative.
-func NewRIMRoutingAddressTargetRNCID(v TargetRNCID) RIMRoutingAddress {
-	return RIMRoutingAddress{
-		Choice:      RIMRoutingAddressChoiceTargetRNCID,
-		TargetRNCID: &v,
-	}
-}
+// SecondaryRATDataUsageReportList represents the ASN.1 type SecondaryRATDataUsageReportList (SEQUENCE_OF).
+type SecondaryRATDataUsageReportList = []ProtocolIESingleContainer
 
-// NewRIMRoutingAddressEHRPDSectorID creates a RIMRoutingAddress with the eHRPD-Sector-ID alternative.
-func NewRIMRoutingAddressEHRPDSectorID(v []byte) RIMRoutingAddress {
-	return RIMRoutingAddress{
-		Choice:        RIMRoutingAddressChoiceEHRPDSectorID,
-		EHRPDSectorID: v,
-	}
-}
-
-// ReportArea represents the ASN.1 ENUMERATED type ReportArea.
-type ReportArea int64
+// SecondaryRATDataUsageRequest represents the ASN.1 ENUMERATED type SecondaryRATDataUsageRequest.
+type SecondaryRATDataUsageRequest int64
 
 const (
-	ReportAreaEcgi ReportArea = 0
+	SecondaryRATDataUsageRequestRequested SecondaryRATDataUsageRequest = 0
 )
 
-func (v ReportArea) String() string {
+func (v SecondaryRATDataUsageRequest) String() string {
 	switch v {
-	case ReportAreaEcgi:
-		return "ecgi"
+	case SecondaryRATDataUsageRequestRequested:
+		return "requested"
 	default:
 		return "unknown"
 	}
-}
-
-// RepetitionPeriod represents the ASN.1 type RepetitionPeriod (INTEGER).
-type RepetitionPeriod = int64
-
-// RLFReportInformation represents the ASN.1 type RLFReportInformation (SEQUENCE).
-type RLFReportInformation struct {
-	UERLFReportContainer                 UERLFReportContainer                  `asn1:"tag:0,context,implicit"`
-	UERLFReportContainerForExtendedBands *UERLFReportContainerForExtendedBands `asn1:"tag:1,context,implicit,optional" json:"UERLFReportContainerForExtendedBands,omitempty"`
-	IEExtensions                         ProtocolExtensionContainer            `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_                   bool                                  `asn1:"-" json:"-"`
-	ExtCount_                            int64                                 `asn1:"-" json:"-"`
-	ExtPresent_                          []bool                                `asn1:"-" json:"-"`
-	ExtData_                             [][]byte                              `asn1:"-" json:"-"`
-}
-
-// RNCID represents the ASN.1 type RNC-ID (INTEGER).
-type RNCID = int64
-
-// RRCContainer represents the ASN.1 type RRC-Container (OCTET_STRING).
-type RRCContainer = []byte
-
-// RRCEstablishmentCause represents the ASN.1 ENUMERATED type RRC-Establishment-Cause.
-type RRCEstablishmentCause int64
-
-const (
-	RRCEstablishmentCauseEmergency           RRCEstablishmentCause = 0
-	RRCEstablishmentCauseHighPriorityAccess  RRCEstablishmentCause = 1
-	RRCEstablishmentCauseMtAccess            RRCEstablishmentCause = 2
-	RRCEstablishmentCauseMoSignalling        RRCEstablishmentCause = 3
-	RRCEstablishmentCauseMoData              RRCEstablishmentCause = 4
-	RRCEstablishmentCauseDelayTolerantAccess RRCEstablishmentCause = 5
-	RRCEstablishmentCauseMoVoiceCall         RRCEstablishmentCause = 6
-	RRCEstablishmentCauseMoExceptionData     RRCEstablishmentCause = 7
-)
-
-func (v RRCEstablishmentCause) String() string {
-	switch v {
-	case RRCEstablishmentCauseEmergency:
-		return "emergency"
-	case RRCEstablishmentCauseHighPriorityAccess:
-		return "highPriorityAccess"
-	case RRCEstablishmentCauseMtAccess:
-		return "mt-Access"
-	case RRCEstablishmentCauseMoSignalling:
-		return "mo-Signalling"
-	case RRCEstablishmentCauseMoData:
-		return "mo-Data"
-	case RRCEstablishmentCauseDelayTolerantAccess:
-		return "delay-TolerantAccess"
-	case RRCEstablishmentCauseMoVoiceCall:
-		return "mo-VoiceCall"
-	case RRCEstablishmentCauseMoExceptionData:
-		return "mo-ExceptionData"
-	default:
-		return "unknown"
-	}
-}
-
-// ECGIListForRestart represents the ASN.1 type ECGIListForRestart (SEQUENCE_OF).
-type ECGIListForRestart = []EUTRANCGI
-
-// RoutingID represents the ASN.1 type Routing-ID (INTEGER).
-type RoutingID = int64
-
-// SecurityKey represents the ASN.1 type SecurityKey (BIT_STRING).
-type SecurityKey = runtime.BitString
-
-// SecurityContext represents the ASN.1 type SecurityContext (SEQUENCE).
-type SecurityContext struct {
-	NextHopChainingCount int64                      `asn1:"tag:0,context,implicit"`
-	NextHopParameter     SecurityKey                `asn1:"tag:1,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                       `asn1:"-" json:"-"`
-	ExtCount_            int64                      `asn1:"-" json:"-"`
-	ExtPresent_          []bool                     `asn1:"-" json:"-"`
-	ExtData_             [][]byte                   `asn1:"-" json:"-"`
 }
 
 // SecondaryRATType represents the ASN.1 ENUMERATED type SecondaryRATType.
@@ -4935,36 +5018,15 @@ func (v SecondaryRATType) String() string {
 	}
 }
 
-// SecondaryRATDataUsageRequest represents the ASN.1 ENUMERATED type SecondaryRATDataUsageRequest.
-type SecondaryRATDataUsageRequest int64
-
-const (
-	SecondaryRATDataUsageRequestRequested SecondaryRATDataUsageRequest = 0
-)
-
-func (v SecondaryRATDataUsageRequest) String() string {
-	switch v {
-	case SecondaryRATDataUsageRequestRequested:
-		return "requested"
-	default:
-		return "unknown"
-	}
-}
-
-// SecondaryRATDataUsageReportList represents the ASN.1 type SecondaryRATDataUsageReportList (SEQUENCE_OF).
-type SecondaryRATDataUsageReportList = []ProtocolIESingleContainer
-
-// SecondaryRATDataUsageReportItem represents the ASN.1 type SecondaryRATDataUsageReportItem (SEQUENCE).
-type SecondaryRATDataUsageReportItem struct {
-	ERABID                    ERABID                     `asn1:"tag:0,context,implicit"`
-	SecondaryRATType          SecondaryRATType           `asn1:"tag:1,context,implicit"`
-	ERABUsageReportList       ERABUsageReportList        `asn1:"tag:2,context,implicit"`
-	ERABUsageReportListIndef_ bool                       `asn1:"-" json:"-"`
-	IEExtensions              ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
-	ExtCount_                 int64                      `asn1:"-" json:"-"`
-	ExtPresent_               []bool                     `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+// SecurityContext represents the ASN.1 type SecurityContext (SEQUENCE).
+type SecurityContext struct {
+	NextHopChainingCount int64                      `asn1:"tag:0,context,implicit"`
+	NextHopParameter     SecurityKey                `asn1:"tag:1,context,implicit"`
+	IEExtensions         ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_   bool                       `asn1:"-" json:"-"`
+	ExtCount_            int64                      `asn1:"-" json:"-"`
+	ExtPresent_          []bool                     `asn1:"-" json:"-"`
+	ExtData_             [][]byte                   `asn1:"-" json:"-"`
 }
 
 // SecurityIndication represents the ASN.1 type SecurityIndication (SEQUENCE).
@@ -4976,6 +5038,9 @@ type SecurityIndication struct {
 	ExtPresent_                   []bool                        `asn1:"-" json:"-"`
 	ExtData_                      [][]byte                      `asn1:"-" json:"-"`
 }
+
+// SecurityKey represents the ASN.1 type SecurityKey (BIT_STRING).
+type SecurityKey = runtime.BitString
 
 // SecurityResult represents the ASN.1 type SecurityResult (SEQUENCE).
 type SecurityResult struct {
@@ -5060,6 +5125,47 @@ func NewSensorNameConfigChoiceExtensions(v ProtocolIESingleContainer) SensorName
 // SerialNumber represents the ASN.1 type SerialNumber (BIT_STRING).
 type SerialNumber = runtime.BitString
 
+// ServedDCNs represents the ASN.1 type ServedDCNs (SEQUENCE_OF).
+type ServedDCNs = []ServedDCNsItem
+
+// ServedDCNsItem represents the ASN.1 type ServedDCNsItem (SEQUENCE).
+type ServedDCNsItem struct {
+	DCNID               DCNID                      `asn1:"tag:0,context,implicit"`
+	RelativeDCNCapacity RelativeMMECapacity        `asn1:"tag:1,context,implicit"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+}
+
+// ServedGUMMEIs represents the ASN.1 type ServedGUMMEIs (SEQUENCE_OF).
+type ServedGUMMEIs = []ServedGUMMEIsItem
+
+// ServedGUMMEIsItem represents the ASN.1 type ServedGUMMEIsItem (SEQUENCE).
+type ServedGUMMEIsItem struct {
+	ServedPLMNs          ServedPLMNs                `asn1:"tag:0,context,implicit"`
+	ServedPLMNsIndef_    bool                       `asn1:"-" json:"-"`
+	ServedGroupIDs       ServedGroupIDs             `asn1:"tag:1,context,implicit"`
+	ServedGroupIDsIndef_ bool                       `asn1:"-" json:"-"`
+	ServedMMECs          ServedMMECs                `asn1:"tag:2,context,implicit"`
+	ServedMMECsIndef_    bool                       `asn1:"-" json:"-"`
+	IEExtensions         ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_   bool                       `asn1:"-" json:"-"`
+	ExtCount_            int64                      `asn1:"-" json:"-"`
+	ExtPresent_          []bool                     `asn1:"-" json:"-"`
+	ExtData_             [][]byte                   `asn1:"-" json:"-"`
+}
+
+// ServedGroupIDs represents the ASN.1 type ServedGroupIDs (SEQUENCE_OF).
+type ServedGroupIDs = []MMEGroupID
+
+// ServedMMECs represents the ASN.1 type ServedMMECs (SEQUENCE_OF).
+type ServedMMECs = []MMECode
+
+// ServedPLMNs represents the ASN.1 type ServedPLMNs (SEQUENCE_OF).
+type ServedPLMNs = []PLMNidentity
+
 // ServiceType represents the ASN.1 ENUMERATED type ServiceType.
 type ServiceType int64
 
@@ -5079,195 +5185,22 @@ func (v ServiceType) String() string {
 	}
 }
 
-// SONInformation choice constants.
-const (
-	SONInformationChoiceSONInformationRequest   = 1
-	SONInformationChoiceSONInformationReply     = 2
-	SONInformationChoiceSONInformationExtension = 3
-)
+// SourceBSSToTargetBSSTransparentContainer represents the ASN.1 type SourceBSS-ToTargetBSS-TransparentContainer (OCTET_STRING).
+type SourceBSSToTargetBSSTransparentContainer = []byte
 
-// SONInformation represents the ASN.1 CHOICE type SONInformation.
-type SONInformation struct {
-	Choice                  int
-	SONInformationRequest   *SONInformationRequest   `json:"SONInformationRequest,omitempty"`
-	SONInformationReply     *SONInformationReply     `json:"SONInformationReply,omitempty"`
-	SONInformationExtension *SONInformationExtension `json:"SONInformationExtension,omitempty"`
-}
-
-// NewSONInformationSONInformationRequest creates a SONInformation with the sONInformationRequest alternative.
-func NewSONInformationSONInformationRequest(v SONInformationRequest) SONInformation {
-	return SONInformation{
-		Choice:                SONInformationChoiceSONInformationRequest,
-		SONInformationRequest: &v,
-	}
-}
-
-// NewSONInformationSONInformationReply creates a SONInformation with the sONInformationReply alternative.
-func NewSONInformationSONInformationReply(v SONInformationReply) SONInformation {
-	return SONInformation{
-		Choice:              SONInformationChoiceSONInformationReply,
-		SONInformationReply: &v,
-	}
-}
-
-// NewSONInformationSONInformationExtension creates a SONInformation with the sONInformation-Extension alternative.
-func NewSONInformationSONInformationExtension(v SONInformationExtension) SONInformation {
-	return SONInformation{
-		Choice:                  SONInformationChoiceSONInformationExtension,
-		SONInformationExtension: &v,
-	}
-}
-
-// SONInformationExtension represents the ASN.1 type SONInformation-Extension (SEQUENCE).
-type SONInformationExtension struct {
-	Id          int64            `asn1:"tag:0,context,implicit"`
-	Criticality int64            `asn1:"tag:1,context,implicit"`
-	Value       runtime.RawValue `asn1:"tag:2,context,explicit"`
-}
-
-// SONInformationRequest represents the ASN.1 ENUMERATED type SONInformationRequest.
-type SONInformationRequest int64
-
-const (
-	SONInformationRequestX2TNLConfigurationInfo  SONInformationRequest = 0
-	SONInformationRequestTimeSynchronisationInfo SONInformationRequest = 1
-	SONInformationRequestActivateMuting          SONInformationRequest = 2
-	SONInformationRequestDeactivateMuting        SONInformationRequest = 3
-)
-
-func (v SONInformationRequest) String() string {
-	switch v {
-	case SONInformationRequestX2TNLConfigurationInfo:
-		return "x2TNL-Configuration-Info"
-	case SONInformationRequestTimeSynchronisationInfo:
-		return "time-Synchronisation-Info"
-	case SONInformationRequestActivateMuting:
-		return "activate-Muting"
-	case SONInformationRequestDeactivateMuting:
-		return "deactivate-Muting"
-	default:
-		return "unknown"
-	}
-}
-
-// SONInformationReply represents the ASN.1 type SONInformationReply (SEQUENCE).
-type SONInformationReply struct {
-	X2TNLConfigurationInfo *X2TNLConfigurationInfo    `asn1:"tag:0,context,implicit,optional" json:"X2TNLConfigurationInfo,omitempty"`
-	IEExtensions           ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
-	ExtCount_              int64                      `asn1:"-" json:"-"`
-	ExtPresent_            []bool                     `asn1:"-" json:"-"`
-	ExtData_               [][]byte                   `asn1:"-" json:"-"`
-}
-
-// SONInformationReport choice constants.
-const (
-	SONInformationReportChoiceRLFReportInformation = 1
-)
-
-// SONInformationReport represents the ASN.1 CHOICE type SONInformationReport.
-type SONInformationReport struct {
-	Choice               int
-	RLFReportInformation *RLFReportInformation `json:"RLFReportInformation,omitempty"`
-}
-
-// NewSONInformationReportRLFReportInformation creates a SONInformationReport with the rLFReportInformation alternative.
-func NewSONInformationReportRLFReportInformation(v RLFReportInformation) SONInformationReport {
-	return SONInformationReport{
-		Choice:               SONInformationReportChoiceRLFReportInformation,
-		RLFReportInformation: &v,
-	}
-}
-
-// SONConfigurationTransfer represents the ASN.1 type SONConfigurationTransfer (SEQUENCE).
-type SONConfigurationTransfer struct {
-	TargeteNBID        TargeteNBID                `asn1:"tag:0,context,implicit"`
-	SourceeNBID        SourceeNBID                `asn1:"tag:1,context,implicit"`
-	SONInformation     SONInformation             `asn1:"tag:2,context,explicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+// SourceNgRanNodeID represents the ASN.1 type SourceNgRanNode-ID (SEQUENCE).
+type SourceNgRanNodeID struct {
+	GlobalRANNODEID    GlobalRANNODEID            `asn1:"tag:0,context,explicit"`
+	SelectedTAI        FiveGSTAI                  `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// SynchronisationInformation represents the ASN.1 type SynchronisationInformation (SEQUENCE).
-type SynchronisationInformation struct {
-	SourceStratumLevel       *StratumLevel              `asn1:"tag:0,context,implicit,optional" json:"SourceStratumLevel,omitempty"`
-	ListeningSubframePattern *ListeningSubframePattern  `asn1:"tag:1,context,implicit,optional" json:"ListeningSubframePattern,omitempty"`
-	AggressoreCGIList        IEsECGIList                `asn1:"tag:2,context,implicit,optional" json:"AggressoreCGIList,omitempty"`
-	AggressoreCGIListIndef_  bool                       `asn1:"-" json:"-"`
-	IEExtensions             ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_       bool                       `asn1:"-" json:"-"`
-	ExtCount_                int64                      `asn1:"-" json:"-"`
-	ExtPresent_              []bool                     `asn1:"-" json:"-"`
-	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
-}
-
-// SourceToTargetTransparentContainer represents the ASN.1 type Source-ToTarget-TransparentContainer (OCTET_STRING).
-type SourceToTargetTransparentContainer = []byte
-
-// SourceBSSToTargetBSSTransparentContainer represents the ASN.1 type SourceBSS-ToTargetBSS-TransparentContainer (OCTET_STRING).
-type SourceBSSToTargetBSSTransparentContainer = []byte
-
-// SourceeNBID represents the ASN.1 type SourceeNB-ID (SEQUENCE).
-type SourceeNBID struct {
-	GlobalENBID        GlobalENBID                `asn1:"tag:0,context,implicit"`
-	SelectedTAI        TAI                        `asn1:"tag:1,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-}
-
-// SRVCCOperationNotPossible represents the ASN.1 ENUMERATED type SRVCCOperationNotPossible.
-type SRVCCOperationNotPossible int64
-
-const (
-	SRVCCOperationNotPossibleNotPossible SRVCCOperationNotPossible = 0
-)
-
-func (v SRVCCOperationNotPossible) String() string {
-	switch v {
-	case SRVCCOperationNotPossibleNotPossible:
-		return "notPossible"
-	default:
-		return "unknown"
-	}
-}
-
-// SRVCCOperationPossible represents the ASN.1 ENUMERATED type SRVCCOperationPossible.
-type SRVCCOperationPossible int64
-
-const (
-	SRVCCOperationPossiblePossible SRVCCOperationPossible = 0
-)
-
-func (v SRVCCOperationPossible) String() string {
-	switch v {
-	case SRVCCOperationPossiblePossible:
-		return "possible"
-	default:
-		return "unknown"
-	}
-}
-
-// SRVCCHOIndication represents the ASN.1 ENUMERATED type SRVCCHOIndication.
-type SRVCCHOIndication int64
-
-const (
-	SRVCCHOIndicationPSandCS SRVCCHOIndication = 0
-	SRVCCHOIndicationCSonly  SRVCCHOIndication = 1
-)
-
-func (v SRVCCHOIndication) String() string {
-	switch v {
-	case SRVCCHOIndicationPSandCS:
-		return "pSandCS"
-	case SRVCCHOIndicationCSonly:
-		return "cSonly"
-	default:
-		return "unknown"
-	}
-}
+// SourceNgRanNodeToTargetNgRanNodeTransparentContainer represents the ASN.1 type SourceNgRanNode-ToTargetNgRanNode-TransparentContainer (OCTET_STRING).
+type SourceNgRanNodeToTargetNgRanNodeTransparentContainer = []byte
 
 // SourceNodeID choice constants.
 const (
@@ -5305,6 +5238,39 @@ type SourceNodeIDExtension struct {
 	Value       runtime.RawValue `asn1:"tag:2,context,explicit"`
 }
 
+// SourceOfUEActivityBehaviourInformation represents the ASN.1 ENUMERATED type SourceOfUEActivityBehaviourInformation.
+type SourceOfUEActivityBehaviourInformation int64
+
+const (
+	SourceOfUEActivityBehaviourInformationSubscriptionInformation SourceOfUEActivityBehaviourInformation = 0
+	SourceOfUEActivityBehaviourInformationStatistics              SourceOfUEActivityBehaviourInformation = 1
+)
+
+func (v SourceOfUEActivityBehaviourInformation) String() string {
+	switch v {
+	case SourceOfUEActivityBehaviourInformationSubscriptionInformation:
+		return "subscription-information"
+	case SourceOfUEActivityBehaviourInformationStatistics:
+		return "statistics"
+	default:
+		return "unknown"
+	}
+}
+
+// SourceRNCToTargetRNCTransparentContainer represents the ASN.1 type SourceRNC-ToTargetRNC-TransparentContainer (OCTET_STRING).
+type SourceRNCToTargetRNCTransparentContainer = []byte
+
+// SourceToTargetTransparentContainer represents the ASN.1 type Source-ToTarget-TransparentContainer (OCTET_STRING).
+type SourceToTargetTransparentContainer = []byte
+
+// SourceeNBID represents the ASN.1 type SourceeNB-ID (SEQUENCE).
+type SourceeNBID struct {
+	GlobalENBID        GlobalENBID                `asn1:"tag:0,context,implicit"`
+	SelectedTAI        TAI                        `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+}
+
 // SourceeNBToTargeteNBTransparentContainer represents the ASN.1 type SourceeNB-ToTargeteNB-TransparentContainer (SEQUENCE).
 type SourceeNBToTargeteNBTransparentContainer struct {
 	RRCContainer               RRCContainer               `asn1:"tag:0,context,implicit"`
@@ -5321,49 +5287,8 @@ type SourceeNBToTargeteNBTransparentContainer struct {
 	ExtData_                   [][]byte                   `asn1:"-" json:"-"`
 }
 
-// SourceNgRanNodeID represents the ASN.1 type SourceNgRanNode-ID (SEQUENCE).
-type SourceNgRanNodeID struct {
-	GlobalRANNODEID    GlobalRANNODEID            `asn1:"tag:0,context,explicit"`
-	SelectedTAI        FiveGSTAI                  `asn1:"tag:1,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// SourceRNCToTargetRNCTransparentContainer represents the ASN.1 type SourceRNC-ToTargetRNC-TransparentContainer (OCTET_STRING).
-type SourceRNCToTargetRNCTransparentContainer = []byte
-
-// SourceNgRanNodeToTargetNgRanNodeTransparentContainer represents the ASN.1 type SourceNgRanNode-ToTargetNgRanNode-TransparentContainer (OCTET_STRING).
-type SourceNgRanNodeToTargetNgRanNodeTransparentContainer = []byte
-
-// ServedGUMMEIs represents the ASN.1 type ServedGUMMEIs (SEQUENCE_OF).
-type ServedGUMMEIs = []ServedGUMMEIsItem
-
-// ServedGUMMEIsItem represents the ASN.1 type ServedGUMMEIsItem (SEQUENCE).
-type ServedGUMMEIsItem struct {
-	ServedPLMNs          ServedPLMNs                `asn1:"tag:0,context,implicit"`
-	ServedPLMNsIndef_    bool                       `asn1:"-" json:"-"`
-	ServedGroupIDs       ServedGroupIDs             `asn1:"tag:1,context,implicit"`
-	ServedGroupIDsIndef_ bool                       `asn1:"-" json:"-"`
-	ServedMMECs          ServedMMECs                `asn1:"tag:2,context,implicit"`
-	ServedMMECsIndef_    bool                       `asn1:"-" json:"-"`
-	IEExtensions         ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                       `asn1:"-" json:"-"`
-	ExtCount_            int64                      `asn1:"-" json:"-"`
-	ExtPresent_          []bool                     `asn1:"-" json:"-"`
-	ExtData_             [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ServedGroupIDs represents the ASN.1 type ServedGroupIDs (SEQUENCE_OF).
-type ServedGroupIDs = []MMEGroupID
-
-// ServedMMECs represents the ASN.1 type ServedMMECs (SEQUENCE_OF).
-type ServedMMECs = []MMECode
-
-// ServedPLMNs represents the ASN.1 type ServedPLMNs (SEQUENCE_OF).
-type ServedPLMNs = []PLMNidentity
+// StratumLevel represents the ASN.1 type StratumLevel (INTEGER).
+type StratumLevel = int64
 
 // SubscriberProfileIDforRFP represents the ASN.1 type SubscriberProfileIDforRFP (INTEGER).
 type SubscriberProfileIDforRFP = int64
@@ -5383,18 +5308,6 @@ type SubscriptionBasedUEDifferentiationInfo struct {
 	ExtData_                       [][]byte                    `asn1:"-" json:"-"`
 }
 
-// ScheduledCommunicationTime represents the ASN.1 type ScheduledCommunicationTime (SEQUENCE).
-type ScheduledCommunicationTime struct {
-	DayofWeek          *runtime.BitString         `asn1:"tag:0,context,implicit,optional" json:"DayofWeek,omitempty"`
-	TimeofDayStart     *int64                     `asn1:"tag:1,context,implicit,optional" json:"TimeofDayStart,omitempty"`
-	TimeofDayEnd       *int64                     `asn1:"tag:2,context,implicit,optional" json:"TimeofDayEnd,omitempty"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
 // SupportedTAs represents the ASN.1 type SupportedTAs (SEQUENCE_OF).
 type SupportedTAs = []SupportedTAsItem
 
@@ -5410,8 +5323,18 @@ type SupportedTAsItem struct {
 	ExtData_             [][]byte                   `asn1:"-" json:"-"`
 }
 
-// StratumLevel represents the ASN.1 type StratumLevel (INTEGER).
-type StratumLevel = int64
+// SynchronisationInformation represents the ASN.1 type SynchronisationInformation (SEQUENCE).
+type SynchronisationInformation struct {
+	SourceStratumLevel       *StratumLevel              `asn1:"tag:0,context,implicit,optional" json:"SourceStratumLevel,omitempty"`
+	ListeningSubframePattern *ListeningSubframePattern  `asn1:"tag:1,context,implicit,optional" json:"ListeningSubframePattern,omitempty"`
+	AggressoreCGIList        IEsECGIList                `asn1:"tag:2,context,implicit,optional" json:"AggressoreCGIList,omitempty"`
+	AggressoreCGIListIndef_  bool                       `asn1:"-" json:"-"`
+	IEExtensions             ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_       bool                       `asn1:"-" json:"-"`
+	ExtCount_                int64                      `asn1:"-" json:"-"`
+	ExtPresent_              []bool                     `asn1:"-" json:"-"`
+	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
+}
 
 // SynchronisationStatus represents the ASN.1 ENUMERATED type SynchronisationStatus.
 type SynchronisationStatus int64
@@ -5432,22 +5355,22 @@ func (v SynchronisationStatus) String() string {
 	}
 }
 
-// TimeSynchronisationInfo represents the ASN.1 type TimeSynchronisationInfo (SEQUENCE).
-type TimeSynchronisationInfo struct {
-	StratumLevel          StratumLevel               `asn1:"tag:0,context,implicit"`
-	SynchronisationStatus SynchronisationStatus      `asn1:"tag:1,context,implicit"`
-	IEExtensions          ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
-	ExtCount_             int64                      `asn1:"-" json:"-"`
-	ExtPresent_           []bool                     `asn1:"-" json:"-"`
-	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+// TABasedMDT represents the ASN.1 type TABasedMDT (SEQUENCE).
+type TABasedMDT struct {
+	TAListforMDT       TAListforMDT               `asn1:"tag:0,context,implicit"`
+	TAListforMDTIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// STMSI represents the ASN.1 type S-TMSI (SEQUENCE).
-type STMSI struct {
-	MMEC               MMECode                    `asn1:"tag:0,context,implicit"`
-	MTMSI              MTMSI                      `asn1:"tag:1,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+// TABasedQMC represents the ASN.1 type TABasedQMC (SEQUENCE).
+type TABasedQMC struct {
+	TAListforQMC       TAListforQMC               `asn1:"tag:0,context,implicit"`
+	TAListforQMCIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
@@ -5460,6 +5383,17 @@ type TAC = []byte
 // TACListInLTENTN represents the ASN.1 type TACList-In-LTE-NTN (SEQUENCE_OF).
 type TACListInLTENTN = []TAC
 
+// TAI represents the ASN.1 type TAI (SEQUENCE).
+type TAI struct {
+	PLMNidentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
+	TAC                TAC                        `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
 // TAIBasedMDT represents the ASN.1 type TAIBasedMDT (SEQUENCE).
 type TAIBasedMDT struct {
 	TAIListforMDT       TAIListforMDT              `asn1:"tag:0,context,implicit"`
@@ -5471,22 +5405,28 @@ type TAIBasedMDT struct {
 	ExtData_            [][]byte                   `asn1:"-" json:"-"`
 }
 
+// TAIBasedQMC represents the ASN.1 type TAIBasedQMC (SEQUENCE).
+type TAIBasedQMC struct {
+	TAIListforQMC       TAIListforQMC              `asn1:"tag:0,context,implicit"`
+	TAIListforQMCIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+}
+
+// TAIListForRestart represents the ASN.1 type TAIListForRestart (SEQUENCE_OF).
+type TAIListForRestart = []TAI
+
 // TAIListforMDT represents the ASN.1 type TAIListforMDT (SEQUENCE_OF).
 type TAIListforMDT = []TAI
 
+// TAIListforQMC represents the ASN.1 type TAIListforQMC (SEQUENCE_OF).
+type TAIListforQMC = []TAI
+
 // TAIListforWarning represents the ASN.1 type TAIListforWarning (SEQUENCE_OF).
 type TAIListforWarning = []TAI
-
-// TAI represents the ASN.1 type TAI (SEQUENCE).
-type TAI struct {
-	PLMNidentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
-	TAC                TAC                        `asn1:"tag:1,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
 
 // TAIBroadcast represents the ASN.1 type TAI-Broadcast (SEQUENCE_OF).
 type TAIBroadcast = []TAIBroadcastItem
@@ -5518,63 +5458,17 @@ type TAICancelledItem struct {
 	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
 }
 
-// TABasedMDT represents the ASN.1 type TABasedMDT (SEQUENCE).
-type TABasedMDT struct {
-	TAListforMDT       TAListforMDT               `asn1:"tag:0,context,implicit"`
-	TAListforMDTIndef_ bool                       `asn1:"-" json:"-"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
 // TAListforMDT represents the ASN.1 type TAListforMDT (SEQUENCE_OF).
 type TAListforMDT = []TAC
-
-// TABasedQMC represents the ASN.1 type TABasedQMC (SEQUENCE).
-type TABasedQMC struct {
-	TAListforQMC       TAListforQMC               `asn1:"tag:0,context,implicit"`
-	TAListforQMCIndef_ bool                       `asn1:"-" json:"-"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
 
 // TAListforQMC represents the ASN.1 type TAListforQMC (SEQUENCE_OF).
 type TAListforQMC = []TAC
 
-// TAIBasedQMC represents the ASN.1 type TAIBasedQMC (SEQUENCE).
-type TAIBasedQMC struct {
-	TAIListforQMC       TAIListforQMC              `asn1:"tag:0,context,implicit"`
-	TAIListforQMCIndef_ bool                       `asn1:"-" json:"-"`
-	IEExtensions        ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
-	ExtCount_           int64                      `asn1:"-" json:"-"`
-	ExtPresent_         []bool                     `asn1:"-" json:"-"`
-	ExtData_            [][]byte                   `asn1:"-" json:"-"`
-}
-
-// TAIListforQMC represents the ASN.1 type TAIListforQMC (SEQUENCE_OF).
-type TAIListforQMC = []TAI
-
-// CompletedCellinTAI represents the ASN.1 type CompletedCellinTAI (SEQUENCE_OF).
-type CompletedCellinTAI = []CompletedCellinTAIItem
-
-// CompletedCellinTAIItem represents the ASN.1 type CompletedCellinTAI-Item (SEQUENCE).
-type CompletedCellinTAIItem struct {
-	ECGI               EUTRANCGI                  `asn1:"tag:0,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
 // TBCDSTRING represents the ASN.1 type TBCD-STRING (OCTET_STRING).
 type TBCDSTRING = []byte
+
+// TargetBSSToSourceBSSTransparentContainer represents the ASN.1 type TargetBSS-ToSourceBSS-TransparentContainer (OCTET_STRING).
+type TargetBSSToSourceBSSTransparentContainer = []byte
 
 // TargetID choice constants.
 const (
@@ -5625,16 +5519,19 @@ func NewTargetIDTargetgNgRanNodeID(v TargetNgRanNodeID) TargetID {
 	}
 }
 
-// TargeteNBID represents the ASN.1 type TargeteNB-ID (SEQUENCE).
-type TargeteNBID struct {
-	GlobalENBID        GlobalENBID                `asn1:"tag:0,context,implicit"`
-	SelectedTAI        TAI                        `asn1:"tag:1,context,implicit"`
+// TargetNgRanNodeID represents the ASN.1 type TargetNgRanNode-ID (SEQUENCE).
+type TargetNgRanNodeID struct {
+	GlobalRANNODEID    GlobalRANNODEID            `asn1:"tag:0,context,explicit"`
+	SelectedTAI        FiveGSTAI                  `asn1:"tag:1,context,implicit"`
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
+
+// TargetNgRanNodeToSourceNgRanNodeTransparentContainer represents the ASN.1 type TargetNgRanNode-ToSourceNgRanNode-TransparentContainer (OCTET_STRING).
+type TargetNgRanNodeToSourceNgRanNodeTransparentContainer = []byte
 
 // TargetRNCID represents the ASN.1 type TargetRNC-ID (SEQUENCE).
 type TargetRNCID struct {
@@ -5649,98 +5546,22 @@ type TargetRNCID struct {
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// TargetNgRanNodeID represents the ASN.1 type TargetNgRanNode-ID (SEQUENCE).
-type TargetNgRanNodeID struct {
-	GlobalRANNODEID    GlobalRANNODEID            `asn1:"tag:0,context,explicit"`
-	SelectedTAI        FiveGSTAI                  `asn1:"tag:1,context,implicit"`
+// TargetRNCToSourceRNCTransparentContainer represents the ASN.1 type TargetRNC-ToSourceRNC-TransparentContainer (OCTET_STRING).
+type TargetRNCToSourceRNCTransparentContainer = []byte
+
+// TargetToSourceTransparentContainer represents the ASN.1 type Target-ToSource-TransparentContainer (OCTET_STRING).
+type TargetToSourceTransparentContainer = []byte
+
+// TargeteNBID represents the ASN.1 type TargeteNB-ID (SEQUENCE).
+type TargeteNBID struct {
+	GlobalENBID        GlobalENBID                `asn1:"tag:0,context,implicit"`
+	SelectedTAI        TAI                        `asn1:"tag:1,context,implicit"`
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
-
-// GlobalRANNODEID choice constants.
-const (
-	GlobalRANNODEIDChoiceGNB   = 1
-	GlobalRANNODEIDChoiceNgENB = 2
-)
-
-// GlobalRANNODEID represents the ASN.1 CHOICE type Global-RAN-NODE-ID.
-type GlobalRANNODEID struct {
-	Choice int
-	GNB    *GNB   `json:"GNB,omitempty"`
-	NgENB  *NGENB `json:"NgENB,omitempty"`
-}
-
-// NewGlobalRANNODEIDGNB creates a Global-RAN-NODE-ID with the gNB alternative.
-func NewGlobalRANNODEIDGNB(v GNB) GlobalRANNODEID {
-	return GlobalRANNODEID{
-		Choice: GlobalRANNODEIDChoiceGNB,
-		GNB:    &v,
-	}
-}
-
-// NewGlobalRANNODEIDNgENB creates a Global-RAN-NODE-ID with the ng-eNB alternative.
-func NewGlobalRANNODEIDNgENB(v NGENB) GlobalRANNODEID {
-	return GlobalRANNODEID{
-		Choice: GlobalRANNODEIDChoiceNgENB,
-		NgENB:  &v,
-	}
-}
-
-// GNB represents the ASN.1 type GNB (SEQUENCE).
-type GNB struct {
-	GlobalGNBID        GlobalGNBID                `asn1:"tag:0,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// GlobalGNBID represents the ASN.1 type Global-GNB-ID (SEQUENCE).
-type GlobalGNBID struct {
-	PLMNIdentity       PLMNidentity               `asn1:"tag:0,context,implicit"`
-	GNBID              GNBIdentity                `asn1:"tag:1,context,explicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// GNBIdentity choice constants.
-const (
-	GNBIdentityChoiceGNBID = 1
-)
-
-// GNBIdentity represents the ASN.1 CHOICE type GNB-Identity.
-type GNBIdentity struct {
-	Choice int
-	GNBID  *GNBID `json:"GNBID,omitempty"`
-}
-
-// NewGNBIdentityGNBID creates a GNB-Identity with the gNB-ID alternative.
-func NewGNBIdentityGNBID(v GNBID) GNBIdentity {
-	return GNBIdentity{
-		Choice: GNBIdentityChoiceGNBID,
-		GNBID:  &v,
-	}
-}
-
-// NGENB represents the ASN.1 type NG-eNB (SEQUENCE).
-type NGENB struct {
-	GlobalNgENBID      GlobalENBID                `asn1:"tag:0,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// GNBID represents the ASN.1 type GNB-ID (BIT_STRING).
-type GNBID = runtime.BitString
 
 // TargeteNBToSourceeNBTransparentContainer represents the ASN.1 type TargeteNB-ToSourceeNB-TransparentContainer (SEQUENCE).
 type TargeteNBToSourceeNBTransparentContainer struct {
@@ -5752,50 +5573,25 @@ type TargeteNBToSourceeNBTransparentContainer struct {
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// TargetToSourceTransparentContainer represents the ASN.1 type Target-ToSource-TransparentContainer (OCTET_STRING).
-type TargetToSourceTransparentContainer = []byte
-
-// TargetRNCToSourceRNCTransparentContainer represents the ASN.1 type TargetRNC-ToSourceRNC-TransparentContainer (OCTET_STRING).
-type TargetRNCToSourceRNCTransparentContainer = []byte
-
-// TargetBSSToSourceBSSTransparentContainer represents the ASN.1 type TargetBSS-ToSourceBSS-TransparentContainer (OCTET_STRING).
-type TargetBSSToSourceBSSTransparentContainer = []byte
-
-// TargetNgRanNodeToSourceNgRanNodeTransparentContainer represents the ASN.1 type TargetNgRanNode-ToSourceNgRanNode-TransparentContainer (OCTET_STRING).
-type TargetNgRanNodeToSourceNgRanNodeTransparentContainer = []byte
-
-// M1ThresholdEventA2 represents the ASN.1 type M1ThresholdEventA2 (SEQUENCE).
-type M1ThresholdEventA2 struct {
-	MeasurementThreshold MeasurementThresholdA2     `asn1:"tag:0,context,explicit"`
-	IEExtensions         ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                       `asn1:"-" json:"-"`
-	ExtCount_            int64                      `asn1:"-" json:"-"`
-	ExtPresent_          []bool                     `asn1:"-" json:"-"`
-	ExtData_             [][]byte                   `asn1:"-" json:"-"`
-}
-
 // ThresholdRSRP represents the ASN.1 type Threshold-RSRP (INTEGER).
 type ThresholdRSRP = int64
 
 // ThresholdRSRQ represents the ASN.1 type Threshold-RSRQ (INTEGER).
 type ThresholdRSRQ = int64
 
-// TimeBasedHandoverInformation represents the ASN.1 type TimeBasedHandoverInformation (SEQUENCE).
-type TimeBasedHandoverInformation struct {
-	HOWindowStart      HandoverWindowStart        `asn1:"tag:0,context,implicit"`
-	HOWindowDuration   HandoverWindowDuration     `asn1:"tag:1,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+// TimeSinceSecondaryNodeRelease represents the ASN.1 type TimeSinceSecondaryNodeRelease (OCTET_STRING).
+type TimeSinceSecondaryNodeRelease = []byte
+
+// TimeSynchronisationInfo represents the ASN.1 type TimeSynchronisationInfo (SEQUENCE).
+type TimeSynchronisationInfo struct {
+	StratumLevel          StratumLevel               `asn1:"tag:0,context,implicit"`
+	SynchronisationStatus SynchronisationStatus      `asn1:"tag:1,context,implicit"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
-
-// HandoverWindowStart represents the ASN.1 type HandoverWindowStart (INTEGER).
-type HandoverWindowStart = int64
-
-// HandoverWindowDuration represents the ASN.1 type HandoverWindowDuration (INTEGER).
-type HandoverWindowDuration = int64
 
 // TimeToTrigger represents the ASN.1 ENUMERATED type TimeToTrigger.
 type TimeToTrigger int64
@@ -5895,21 +5691,6 @@ type TimeUEStayedInCell = int64
 // TimeUEStayedInCellEnhancedGranularity represents the ASN.1 type Time-UE-StayedInCell-EnhancedGranularity (INTEGER).
 type TimeUEStayedInCellEnhancedGranularity = int64
 
-// TimeSinceSecondaryNodeRelease represents the ASN.1 type TimeSinceSecondaryNodeRelease (OCTET_STRING).
-type TimeSinceSecondaryNodeRelease = []byte
-
-// TransportInformation represents the ASN.1 type TransportInformation (SEQUENCE).
-type TransportInformation struct {
-	TransportLayerAddress TransportLayerAddress `asn1:"tag:0,context,implicit"`
-	ULGTPTEID             GTPTEID               `asn1:"tag:1,context,implicit"`
-	ExtCount_             int64                 `asn1:"-" json:"-"`
-	ExtPresent_           []bool                `asn1:"-" json:"-"`
-	ExtData_              [][]byte              `asn1:"-" json:"-"`
-}
-
-// TransportLayerAddress represents the ASN.1 type TransportLayerAddress (BIT_STRING).
-type TransportLayerAddress = runtime.BitString
-
 // TraceActivation represents the ASN.1 type TraceActivation (SEQUENCE).
 type TraceActivation struct {
 	EUTRANTraceID                  EUTRANTraceID              `asn1:"tag:0,context,implicit"`
@@ -5954,11 +5735,20 @@ func (v TraceDepth) String() string {
 	}
 }
 
-// EUTRANTraceID represents the ASN.1 type E-UTRAN-Trace-ID (OCTET_STRING).
-type EUTRANTraceID = []byte
-
 // TrafficLoadReductionIndication represents the ASN.1 type TrafficLoadReductionIndication (INTEGER).
 type TrafficLoadReductionIndication = int64
+
+// TransportInformation represents the ASN.1 type TransportInformation (SEQUENCE).
+type TransportInformation struct {
+	TransportLayerAddress TransportLayerAddress `asn1:"tag:0,context,implicit"`
+	ULGTPTEID             GTPTEID               `asn1:"tag:1,context,implicit"`
+	ExtCount_             int64                 `asn1:"-" json:"-"`
+	ExtPresent_           []bool                `asn1:"-" json:"-"`
+	ExtData_              [][]byte              `asn1:"-" json:"-"`
+}
+
+// TransportLayerAddress represents the ASN.1 type TransportLayerAddress (BIT_STRING).
+type TransportLayerAddress = runtime.BitString
 
 // TunnelInformation represents the ASN.1 type TunnelInformation (SEQUENCE).
 type TunnelInformation struct {
@@ -5985,25 +5775,6 @@ func (v TypeOfError) String() string {
 		return "not-understood"
 	case TypeOfErrorMissing:
 		return "missing"
-	default:
-		return "unknown"
-	}
-}
-
-// TAIListForRestart represents the ASN.1 type TAIListForRestart (SEQUENCE_OF).
-type TAIListForRestart = []TAI
-
-// TimeRefDistribution represents the ASN.1 ENUMERATED type TimeRefDistribution.
-type TimeRefDistribution int64
-
-const (
-	TimeRefDistributionTrue TimeRefDistribution = 0
-)
-
-func (v TimeRefDistribution) String() string {
-	switch v {
-	case TimeRefDistributionTrue:
-		return "true"
 	default:
 		return "unknown"
 	}
@@ -6047,81 +5818,8 @@ func (v UECapabilityInfoRequest) String() string {
 	}
 }
 
-// UERetentionInformation represents the ASN.1 ENUMERATED type UE-RetentionInformation.
-type UERetentionInformation int64
-
-const (
-	UERetentionInformationUesRetained UERetentionInformation = 0
-)
-
-func (v UERetentionInformation) String() string {
-	switch v {
-	case UERetentionInformationUesRetained:
-		return "ues-retained"
-	default:
-		return "unknown"
-	}
-}
-
-// UES1APIDs choice constants.
-const (
-	UES1APIDsChoiceUES1APIDPair = 1
-	UES1APIDsChoiceMMEUES1APID  = 2
-)
-
-// UES1APIDs represents the ASN.1 CHOICE type UE-S1AP-IDs.
-type UES1APIDs struct {
-	Choice       int
-	UES1APIDPair *UES1APIDPair `json:"UES1APIDPair,omitempty"`
-	MMEUES1APID  *MMEUES1APID  `json:"MMEUES1APID,omitempty"`
-}
-
-// NewUES1APIDsUES1APIDPair creates a UE-S1AP-IDs with the uE-S1AP-ID-pair alternative.
-func NewUES1APIDsUES1APIDPair(v UES1APIDPair) UES1APIDs {
-	return UES1APIDs{
-		Choice:       UES1APIDsChoiceUES1APIDPair,
-		UES1APIDPair: &v,
-	}
-}
-
-// NewUES1APIDsMMEUES1APID creates a UE-S1AP-IDs with the mME-UE-S1AP-ID alternative.
-func NewUES1APIDsMMEUES1APID(v MMEUES1APID) UES1APIDs {
-	return UES1APIDs{
-		Choice:      UES1APIDsChoiceMMEUES1APID,
-		MMEUES1APID: &v,
-	}
-}
-
-// UES1APIDPair represents the ASN.1 type UE-S1AP-ID-pair (SEQUENCE).
-type UES1APIDPair struct {
-	MMEUES1APID        MMEUES1APID                `asn1:"tag:0,context,implicit"`
-	ENBUES1APID        ENBUES1APID                `asn1:"tag:1,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// UEAssociatedLogicalS1ConnectionItem represents the ASN.1 type UE-associatedLogicalS1-ConnectionItem (SEQUENCE).
-type UEAssociatedLogicalS1ConnectionItem struct {
-	MMEUES1APID        *MMEUES1APID               `asn1:"tag:0,context,implicit,optional" json:"MMEUES1APID,omitempty"`
-	ENBUES1APID        *ENBUES1APID               `asn1:"tag:1,context,implicit,optional" json:"ENBUES1APID,omitempty"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
 // UEIdentityIndexValue represents the ASN.1 type UEIdentityIndexValue (BIT_STRING).
 type UEIdentityIndexValue = runtime.BitString
-
-// UEHistoryInformation represents the ASN.1 type UE-HistoryInformation (SEQUENCE_OF).
-type UEHistoryInformation = []LastVisitedCellItem
-
-// UEHistoryInformationFromTheUE represents the ASN.1 type UE-HistoryInformationFromTheUE (OCTET_STRING).
-type UEHistoryInformationFromTheUE = []byte
 
 // UEPagingID choice constants.
 const (
@@ -6161,12 +5859,6 @@ type UERadioCapabilityForPaging = []byte
 // UERadioCapabilityID represents the ASN.1 type UERadioCapabilityID (OCTET_STRING).
 type UERadioCapabilityID = []byte
 
-// UERLFReportContainer represents the ASN.1 type UE-RLF-Report-Container (OCTET_STRING).
-type UERLFReportContainer = []byte
-
-// UERLFReportContainerForExtendedBands represents the ASN.1 type UE-RLF-Report-Container-for-extended-bands (OCTET_STRING).
-type UERLFReportContainerForExtendedBands = []byte
-
 // UESecurityCapabilities represents the ASN.1 type UESecurityCapabilities (SEQUENCE).
 type UESecurityCapabilities struct {
 	EncryptionAlgorithms          EncryptionAlgorithms          `asn1:"tag:0,context,implicit"`
@@ -6188,56 +5880,6 @@ type UESidelinkAggregateMaximumBitrate struct {
 	ExtData_                          [][]byte                   `asn1:"-" json:"-"`
 }
 
-// UEUsageType represents the ASN.1 type UE-Usage-Type (INTEGER).
-type UEUsageType = int64
-
-// ULCPSecurityInformation represents the ASN.1 type UL-CP-SecurityInformation (SEQUENCE).
-type ULCPSecurityInformation struct {
-	UlNASMAC           ULNASMAC                   `asn1:"tag:0,context,implicit"`
-	UlNASCount         ULNASCount                 `asn1:"tag:1,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ULNASMAC represents the ASN.1 type UL-NAS-MAC (BIT_STRING).
-type ULNASMAC = runtime.BitString
-
-// ULNASCount represents the ASN.1 type UL-NAS-Count (BIT_STRING).
-type ULNASCount = runtime.BitString
-
-// UnlicensedSpectrumRestriction represents the ASN.1 ENUMERATED type UnlicensedSpectrumRestriction.
-type UnlicensedSpectrumRestriction int64
-
-const (
-	UnlicensedSpectrumRestrictionUnlicensedRestricted UnlicensedSpectrumRestriction = 0
-)
-
-func (v UnlicensedSpectrumRestriction) String() string {
-	switch v {
-	case UnlicensedSpectrumRestrictionUnlicensedRestricted:
-		return "unlicensed-restricted"
-	default:
-		return "unknown"
-	}
-}
-
-// URIAddress represents the ASN.1 type URI-Address (VisibleString).
-type URIAddress = string
-
-// UserLocationInformation represents the ASN.1 type UserLocationInformation (SEQUENCE).
-type UserLocationInformation struct {
-	EutranCgi          EUTRANCGI                  `asn1:"tag:0,context,implicit"`
-	Tai                TAI                        `asn1:"tag:1,context,implicit"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
 // UEUserPlaneCIoTSupportIndicator represents the ASN.1 ENUMERATED type UEUserPlaneCIoTSupportIndicator.
 type UEUserPlaneCIoTSupportIndicator int64
 
@@ -6257,23 +5899,133 @@ func (v UEUserPlaneCIoTSupportIndicator) String() string {
 // UEApplicationLayerMeasurementCapability represents the ASN.1 type UE-Application-Layer-Measurement-Capability (BIT_STRING).
 type UEApplicationLayerMeasurementCapability = runtime.BitString
 
-// VoiceSupportMatchIndicator represents the ASN.1 ENUMERATED type VoiceSupportMatchIndicator.
-type VoiceSupportMatchIndicator int64
+// UEHistoryInformation represents the ASN.1 type UE-HistoryInformation (SEQUENCE_OF).
+type UEHistoryInformation = []LastVisitedCellItem
+
+// UEHistoryInformationFromTheUE represents the ASN.1 type UE-HistoryInformationFromTheUE (OCTET_STRING).
+type UEHistoryInformationFromTheUE = []byte
+
+// UERLFReportContainer represents the ASN.1 type UE-RLF-Report-Container (OCTET_STRING).
+type UERLFReportContainer = []byte
+
+// UERLFReportContainerForExtendedBands represents the ASN.1 type UE-RLF-Report-Container-for-extended-bands (OCTET_STRING).
+type UERLFReportContainerForExtendedBands = []byte
+
+// UERetentionInformation represents the ASN.1 ENUMERATED type UE-RetentionInformation.
+type UERetentionInformation int64
 
 const (
-	VoiceSupportMatchIndicatorSupported    VoiceSupportMatchIndicator = 0
-	VoiceSupportMatchIndicatorNotSupported VoiceSupportMatchIndicator = 1
+	UERetentionInformationUesRetained UERetentionInformation = 0
 )
 
-func (v VoiceSupportMatchIndicator) String() string {
+func (v UERetentionInformation) String() string {
 	switch v {
-	case VoiceSupportMatchIndicatorSupported:
-		return "supported"
-	case VoiceSupportMatchIndicatorNotSupported:
-		return "not-supported"
+	case UERetentionInformationUesRetained:
+		return "ues-retained"
 	default:
 		return "unknown"
 	}
+}
+
+// UES1APIDPair represents the ASN.1 type UE-S1AP-ID-pair (SEQUENCE).
+type UES1APIDPair struct {
+	MMEUES1APID        MMEUES1APID                `asn1:"tag:0,context,implicit"`
+	ENBUES1APID        ENBUES1APID                `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// UES1APIDs choice constants.
+const (
+	UES1APIDsChoiceUES1APIDPair = 1
+	UES1APIDsChoiceMMEUES1APID  = 2
+)
+
+// UES1APIDs represents the ASN.1 CHOICE type UE-S1AP-IDs.
+type UES1APIDs struct {
+	Choice       int
+	UES1APIDPair *UES1APIDPair `json:"UES1APIDPair,omitempty"`
+	MMEUES1APID  *MMEUES1APID  `json:"MMEUES1APID,omitempty"`
+}
+
+// NewUES1APIDsUES1APIDPair creates a UE-S1AP-IDs with the uE-S1AP-ID-pair alternative.
+func NewUES1APIDsUES1APIDPair(v UES1APIDPair) UES1APIDs {
+	return UES1APIDs{
+		Choice:       UES1APIDsChoiceUES1APIDPair,
+		UES1APIDPair: &v,
+	}
+}
+
+// NewUES1APIDsMMEUES1APID creates a UE-S1AP-IDs with the mME-UE-S1AP-ID alternative.
+func NewUES1APIDsMMEUES1APID(v MMEUES1APID) UES1APIDs {
+	return UES1APIDs{
+		Choice:      UES1APIDsChoiceMMEUES1APID,
+		MMEUES1APID: &v,
+	}
+}
+
+// UEUsageType represents the ASN.1 type UE-Usage-Type (INTEGER).
+type UEUsageType = int64
+
+// UEAssociatedLogicalS1ConnectionItem represents the ASN.1 type UE-associatedLogicalS1-ConnectionItem (SEQUENCE).
+type UEAssociatedLogicalS1ConnectionItem struct {
+	MMEUES1APID        *MMEUES1APID               `asn1:"tag:0,context,implicit,optional" json:"MMEUES1APID,omitempty"`
+	ENBUES1APID        *ENBUES1APID               `asn1:"tag:1,context,implicit,optional" json:"ENBUES1APID,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// ULCPSecurityInformation represents the ASN.1 type UL-CP-SecurityInformation (SEQUENCE).
+type ULCPSecurityInformation struct {
+	UlNASMAC           ULNASMAC                   `asn1:"tag:0,context,implicit"`
+	UlNASCount         ULNASCount                 `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+}
+
+// ULNASCount represents the ASN.1 type UL-NAS-Count (BIT_STRING).
+type ULNASCount = runtime.BitString
+
+// ULNASMAC represents the ASN.1 type UL-NAS-MAC (BIT_STRING).
+type ULNASMAC = runtime.BitString
+
+// URIAddress represents the ASN.1 type URI-Address (VisibleString).
+type URIAddress = string
+
+// UnlicensedSpectrumRestriction represents the ASN.1 ENUMERATED type UnlicensedSpectrumRestriction.
+type UnlicensedSpectrumRestriction int64
+
+const (
+	UnlicensedSpectrumRestrictionUnlicensedRestricted UnlicensedSpectrumRestriction = 0
+)
+
+func (v UnlicensedSpectrumRestriction) String() string {
+	switch v {
+	case UnlicensedSpectrumRestrictionUnlicensedRestricted:
+		return "unlicensed-restricted"
+	default:
+		return "unknown"
+	}
+}
+
+// UserLocationInformation represents the ASN.1 type UserLocationInformation (SEQUENCE).
+type UserLocationInformation struct {
+	EutranCgi          EUTRANCGI                  `asn1:"tag:0,context,implicit"`
+	Tai                TAI                        `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
 // V2XServicesAuthorized represents the ASN.1 type V2XServicesAuthorized (SEQUENCE).
@@ -6306,23 +6058,69 @@ func (v VehicleUE) String() string {
 	}
 }
 
-// PedestrianUE represents the ASN.1 ENUMERATED type PedestrianUE.
-type PedestrianUE int64
+// VoiceSupportMatchIndicator represents the ASN.1 ENUMERATED type VoiceSupportMatchIndicator.
+type VoiceSupportMatchIndicator int64
 
 const (
-	PedestrianUEAuthorized    PedestrianUE = 0
-	PedestrianUENotAuthorized PedestrianUE = 1
+	VoiceSupportMatchIndicatorSupported    VoiceSupportMatchIndicator = 0
+	VoiceSupportMatchIndicatorNotSupported VoiceSupportMatchIndicator = 1
 )
 
-func (v PedestrianUE) String() string {
+func (v VoiceSupportMatchIndicator) String() string {
 	switch v {
-	case PedestrianUEAuthorized:
-		return "authorized"
-	case PedestrianUENotAuthorized:
-		return "not-authorized"
+	case VoiceSupportMatchIndicatorSupported:
+		return "supported"
+	case VoiceSupportMatchIndicatorNotSupported:
+		return "not-supported"
 	default:
 		return "unknown"
 	}
+}
+
+// WLANMeasConfig represents the ASN.1 ENUMERATED type WLANMeasConfig.
+type WLANMeasConfig int64
+
+const (
+	WLANMeasConfigSetup WLANMeasConfig = 0
+)
+
+func (v WLANMeasConfig) String() string {
+	switch v {
+	case WLANMeasConfigSetup:
+		return "setup"
+	default:
+		return "unknown"
+	}
+}
+
+// WLANMeasConfigNameList represents the ASN.1 type WLANMeasConfigNameList (SEQUENCE_OF).
+type WLANMeasConfigNameList = []WLANName
+
+// WLANMeasurementConfiguration represents the ASN.1 type WLANMeasurementConfiguration (SEQUENCE).
+type WLANMeasurementConfiguration struct {
+	WlanMeasConfig               WLANMeasConfig             `asn1:"tag:0,context,implicit"`
+	WlanMeasConfigNameList       WLANMeasConfigNameList     `asn1:"tag:1,context,implicit,optional" json:"WlanMeasConfigNameList,omitempty"`
+	WlanMeasConfigNameListIndef_ bool                       `asn1:"-" json:"-"`
+	WlanRssi                     *int64                     `asn1:"tag:2,context,implicit,optional" json:"WlanRssi,omitempty"`
+	WlanRtt                      *int64                     `asn1:"tag:3,context,implicit,optional" json:"WlanRtt,omitempty"`
+	IEExtensions                 ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_           bool                       `asn1:"-" json:"-"`
+	ExtCount_                    int64                      `asn1:"-" json:"-"`
+	ExtPresent_                  []bool                     `asn1:"-" json:"-"`
+	ExtData_                     [][]byte                   `asn1:"-" json:"-"`
+}
+
+// WLANName represents the ASN.1 type WLANName (OCTET_STRING).
+type WLANName = []byte
+
+// WUSAssistanceInformation represents the ASN.1 type WUS-Assistance-Information (SEQUENCE).
+type WUSAssistanceInformation struct {
+	PagingProbabilityInformation PagingProbabilityInformation `asn1:"tag:0,context,implicit"`
+	IEExtensions                 ProtocolExtensionContainer   `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_           bool                         `asn1:"-" json:"-"`
+	ExtCount_                    int64                        `asn1:"-" json:"-"`
+	ExtPresent_                  []bool                       `asn1:"-" json:"-"`
+	ExtData_                     [][]byte                     `asn1:"-" json:"-"`
 }
 
 // WarningAreaCoordinates represents the ASN.1 type WarningAreaCoordinates (OCTET_STRING).
@@ -6367,60 +6165,14 @@ func NewWarningAreaListEmergencyAreaIDList(v EmergencyAreaIDList) WarningAreaLis
 	}
 }
 
-// WarningType represents the ASN.1 type WarningType (OCTET_STRING).
-type WarningType = []byte
+// WarningMessageContents represents the ASN.1 type WarningMessageContents (OCTET_STRING).
+type WarningMessageContents = []byte
 
 // WarningSecurityInfo represents the ASN.1 type WarningSecurityInfo (OCTET_STRING).
 type WarningSecurityInfo = []byte
 
-// WarningMessageContents represents the ASN.1 type WarningMessageContents (OCTET_STRING).
-type WarningMessageContents = []byte
-
-// WLANMeasurementConfiguration represents the ASN.1 type WLANMeasurementConfiguration (SEQUENCE).
-type WLANMeasurementConfiguration struct {
-	WlanMeasConfig               WLANMeasConfig             `asn1:"tag:0,context,implicit"`
-	WlanMeasConfigNameList       WLANMeasConfigNameList     `asn1:"tag:1,context,implicit,optional" json:"WlanMeasConfigNameList,omitempty"`
-	WlanMeasConfigNameListIndef_ bool                       `asn1:"-" json:"-"`
-	WlanRssi                     *int64                     `asn1:"tag:2,context,implicit,optional" json:"WlanRssi,omitempty"`
-	WlanRtt                      *int64                     `asn1:"tag:3,context,implicit,optional" json:"WlanRtt,omitempty"`
-	IEExtensions                 ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_           bool                       `asn1:"-" json:"-"`
-	ExtCount_                    int64                      `asn1:"-" json:"-"`
-	ExtPresent_                  []bool                     `asn1:"-" json:"-"`
-	ExtData_                     [][]byte                   `asn1:"-" json:"-"`
-}
-
-// WLANMeasConfigNameList represents the ASN.1 type WLANMeasConfigNameList (SEQUENCE_OF).
-type WLANMeasConfigNameList = []WLANName
-
-// WLANMeasConfig represents the ASN.1 ENUMERATED type WLANMeasConfig.
-type WLANMeasConfig int64
-
-const (
-	WLANMeasConfigSetup WLANMeasConfig = 0
-)
-
-func (v WLANMeasConfig) String() string {
-	switch v {
-	case WLANMeasConfigSetup:
-		return "setup"
-	default:
-		return "unknown"
-	}
-}
-
-// WLANName represents the ASN.1 type WLANName (OCTET_STRING).
-type WLANName = []byte
-
-// WUSAssistanceInformation represents the ASN.1 type WUS-Assistance-Information (SEQUENCE).
-type WUSAssistanceInformation struct {
-	PagingProbabilityInformation PagingProbabilityInformation `asn1:"tag:0,context,implicit"`
-	IEExtensions                 ProtocolExtensionContainer   `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_           bool                         `asn1:"-" json:"-"`
-	ExtCount_                    int64                        `asn1:"-" json:"-"`
-	ExtPresent_                  []bool                       `asn1:"-" json:"-"`
-	ExtData_                     [][]byte                     `asn1:"-" json:"-"`
-}
+// WarningType represents the ASN.1 type WarningType (OCTET_STRING).
+type WarningType = []byte
 
 // X2TNLConfigurationInfo represents the ASN.1 type X2TNLConfigurationInfo (SEQUENCE).
 type X2TNLConfigurationInfo struct {
@@ -6432,27 +6184,6 @@ type X2TNLConfigurationInfo struct {
 	ExtPresent_                        []bool                     `asn1:"-" json:"-"`
 	ExtData_                           [][]byte                   `asn1:"-" json:"-"`
 }
-
-// ENBX2ExtTLAs represents the ASN.1 type ENBX2ExtTLAs (SEQUENCE_OF).
-type ENBX2ExtTLAs = []ENBX2ExtTLA
-
-// ENBX2ExtTLA represents the ASN.1 type ENBX2ExtTLA (SEQUENCE).
-type ENBX2ExtTLA struct {
-	IPsecTLA           *TransportLayerAddress     `asn1:"tag:0,context,implicit,optional" json:"IPsecTLA,omitempty"`
-	GTPTLAa            ENBX2GTPTLAs               `asn1:"tag:1,context,implicit,optional" json:"GTPTLAa,omitempty"`
-	GTPTLAaIndef_      bool                       `asn1:"-" json:"-"`
-	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
-	ExtCount_          int64                      `asn1:"-" json:"-"`
-	ExtPresent_        []bool                     `asn1:"-" json:"-"`
-	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-}
-
-// ENBX2GTPTLAs represents the ASN.1 type ENBX2GTPTLAs (SEQUENCE_OF).
-type ENBX2GTPTLAs = []TransportLayerAddress
-
-// ENBIndirectX2TransportLayerAddresses represents the ASN.1 type ENBIndirectX2TransportLayerAddresses (SEQUENCE_OF).
-type ENBIndirectX2TransportLayerAddresses = []TransportLayerAddress
 
 // MarshalAPER encodes AdditionalGUTI to APER format.
 func (v *AdditionalGUTI) MarshalAPER() ([]byte, error) {
@@ -6573,214 +6304,6 @@ func (v *AdditionalGUTI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes AreaScopeOfMDT to APER format.
-func (v *AreaScopeOfMDT) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *AreaScopeOfMDT) MarshalAPERTo(bb *per.BitBuffer) error {
-	isExtension := v.Choice > 3
-	if err := per.EncodeBoolean(bb, isExtension); err != nil {
-		return err
-	}
-	if isExtension {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, int64(v.Choice-3-1)); err != nil {
-			return err
-		}
-		inner := per.NewBitBuffer()
-		switch v.Choice {
-		case AreaScopeOfMDTChoiceTAIBased:
-			if err := v.TAIBased.MarshalAPERTo(inner); err != nil {
-				return fmt.Errorf("encoding tAIBased: %w", err)
-			}
-		default:
-			return fmt.Errorf("unknown AreaScopeOfMDT extension choice %d", v.Choice)
-		}
-		if err := per.EncodeOpenTypeAligned(bb, inner.Bytes()); err != nil {
-			return err
-		}
-		return nil
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
-		return err
-	}
-	switch v.Choice {
-	case AreaScopeOfMDTChoiceCellBased:
-		if err := v.CellBased.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding cellBased: %w", err)
-		}
-	case AreaScopeOfMDTChoiceTABased:
-		if err := v.TABased.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding tABased: %w", err)
-		}
-	case AreaScopeOfMDTChoicePLMNWide:
-	default:
-		return fmt.Errorf("unknown AreaScopeOfMDT choice %d", v.Choice)
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes AreaScopeOfMDT from APER format.
-func (v *AreaScopeOfMDT) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *AreaScopeOfMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	isExtension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if isExtension {
-		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.Choice = int(extIdx) + 3 + 1
-		openData, err := per.DecodeOpenTypeAligned(bb)
-		if err != nil {
-			return err
-		}
-		inner := per.NewBitBufferFromBytes(openData)
-		_ = inner
-		switch v.Choice {
-		case AreaScopeOfMDTChoiceTAIBased:
-			var dec_taibased TAIBasedMDT
-			if err := dec_taibased.UnmarshalAPERFrom(inner); err != nil {
-				return fmt.Errorf("decoding tAIBased: %w", err)
-			}
-			v.TAIBased = &dec_taibased
-		default:
-			return fmt.Errorf("AreaScopeOfMDT: unsupported extension choice %d", v.Choice)
-		}
-		return nil
-	}
-	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
-	if err != nil {
-		return err
-	}
-	v.Choice = int(idx) + 1
-	switch v.Choice {
-	case AreaScopeOfMDTChoiceCellBased:
-		var dec_cellbased CellBasedMDT
-		if err := dec_cellbased.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding cellBased: %w", err)
-		}
-		v.CellBased = &dec_cellbased
-	case AreaScopeOfMDTChoiceTABased:
-		var dec_tabased TABasedMDT
-		if err := dec_tabased.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding tABased: %w", err)
-		}
-		v.TABased = &dec_tabased
-	case AreaScopeOfMDTChoicePLMNWide:
-	}
-	return nil
-}
-
-// MarshalAPER encodes AreaScopeOfQMC to APER format.
-func (v *AreaScopeOfQMC) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *AreaScopeOfQMC) MarshalAPERTo(bb *per.BitBuffer) error {
-	isExtension := v.Choice > 4
-	if err := per.EncodeBoolean(bb, isExtension); err != nil {
-		return err
-	}
-	if isExtension {
-		return fmt.Errorf("AreaScopeOfQMC: extension choice %d not supported", v.Choice)
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 3); err != nil {
-		return err
-	}
-	switch v.Choice {
-	case AreaScopeOfQMCChoiceCellBased:
-		if err := v.CellBased.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding cellBased: %w", err)
-		}
-	case AreaScopeOfQMCChoiceTABased:
-		if err := v.TABased.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding tABased: %w", err)
-		}
-	case AreaScopeOfQMCChoiceTAIBased:
-		if err := v.TAIBased.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding tAIBased: %w", err)
-		}
-	case AreaScopeOfQMCChoicePLMNAreaBased:
-		if err := v.PLMNAreaBased.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding pLMNAreaBased: %w", err)
-		}
-	default:
-		return fmt.Errorf("unknown AreaScopeOfQMC choice %d", v.Choice)
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes AreaScopeOfQMC from APER format.
-func (v *AreaScopeOfQMC) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *AreaScopeOfQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	isExtension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if isExtension {
-		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.Choice = int(extIdx) + 4 + 1
-		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("AreaScopeOfQMC: extension choice %d not supported", v.Choice)
-	}
-	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 3)
-	if err != nil {
-		return err
-	}
-	v.Choice = int(idx) + 1
-	switch v.Choice {
-	case AreaScopeOfQMCChoiceCellBased:
-		var dec_cellbased CellBasedQMC
-		if err := dec_cellbased.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding cellBased: %w", err)
-		}
-		v.CellBased = &dec_cellbased
-	case AreaScopeOfQMCChoiceTABased:
-		var dec_tabased TABasedQMC
-		if err := dec_tabased.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding tABased: %w", err)
-		}
-		v.TABased = &dec_tabased
-	case AreaScopeOfQMCChoiceTAIBased:
-		var dec_taibased TAIBasedQMC
-		if err := dec_taibased.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding tAIBased: %w", err)
-		}
-		v.TAIBased = &dec_taibased
-	case AreaScopeOfQMCChoicePLMNAreaBased:
-		var dec_plmnareabased PLMNAreaBasedQMC
-		if err := dec_plmnareabased.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding pLMNAreaBased: %w", err)
-		}
-		v.PLMNAreaBased = &dec_plmnareabased
 	}
 	return nil
 }
@@ -6914,6 +6437,210 @@ func (v *AllocationAndRetentionPriority) UnmarshalAPERFrom(bb *per.BitBuffer) er
 				v.ExtData_[i] = data
 			}
 		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes AreaScopeOfMDT to APER format.
+func (v *AreaScopeOfMDT) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *AreaScopeOfMDT) MarshalAPERTo(bb *per.BitBuffer) error {
+	isExtension := v.Choice > 3
+	if err := per.EncodeBoolean(bb, isExtension); err != nil {
+		return err
+	}
+	if isExtension {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, int64(v.Choice-3-1)); err != nil {
+			return err
+		}
+		inner := per.NewBitBuffer()
+		switch v.Choice {
+		case AreaScopeOfMDTChoiceTAIBased:
+			if err := v.TAIBased.MarshalAPERTo(inner); err != nil {
+				return fmt.Errorf("encoding tAIBased: %w", err)
+			}
+		default:
+			return fmt.Errorf("unknown AreaScopeOfMDT extension choice %d", v.Choice)
+		}
+		if err := per.EncodeOpenTypeAligned(bb, inner.Bytes()); err != nil {
+			return err
+		}
+		return nil
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case AreaScopeOfMDTChoiceCellBased:
+		if err := v.CellBased.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding cellBased: %w", err)
+		}
+	case AreaScopeOfMDTChoiceTABased:
+		if err := v.TABased.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding tABased: %w", err)
+		}
+	case AreaScopeOfMDTChoicePLMNWide:
+	default:
+		return fmt.Errorf("unknown AreaScopeOfMDT choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes AreaScopeOfMDT from APER format.
+func (v *AreaScopeOfMDT) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *AreaScopeOfMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	isExtension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if isExtension {
+		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		openData, err := per.DecodeOpenTypeAligned(bb)
+		if err != nil {
+			return err
+		}
+		inner := per.NewBitBufferFromBytes(openData)
+		_ = inner
+		v.Choice = int(extIdx) + 3 + 1
+		switch v.Choice {
+		case AreaScopeOfMDTChoiceTAIBased:
+			var dec_taibased TAIBasedMDT
+			if err := dec_taibased.UnmarshalAPERFrom(inner); err != nil {
+				return fmt.Errorf("decoding tAIBased: %w", err)
+			}
+			v.TAIBased = &dec_taibased
+		default:
+			return fmt.Errorf("AreaScopeOfMDT: unsupported extension choice %d", v.Choice)
+		}
+		return nil
+	}
+	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case AreaScopeOfMDTChoiceCellBased:
+		var dec_cellbased CellBasedMDT
+		if err := dec_cellbased.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding cellBased: %w", err)
+		}
+		v.CellBased = &dec_cellbased
+	case AreaScopeOfMDTChoiceTABased:
+		var dec_tabased TABasedMDT
+		if err := dec_tabased.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding tABased: %w", err)
+		}
+		v.TABased = &dec_tabased
+	case AreaScopeOfMDTChoicePLMNWide:
+	}
+	return nil
+}
+
+// MarshalAPER encodes AreaScopeOfQMC to APER format.
+func (v *AreaScopeOfQMC) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *AreaScopeOfQMC) MarshalAPERTo(bb *per.BitBuffer) error {
+	isExtension := v.Choice > 4
+	if err := per.EncodeBoolean(bb, isExtension); err != nil {
+		return err
+	}
+	if isExtension {
+		return fmt.Errorf("AreaScopeOfQMC: extension choice %d not supported", v.Choice)
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 3); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case AreaScopeOfQMCChoiceCellBased:
+		if err := v.CellBased.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding cellBased: %w", err)
+		}
+	case AreaScopeOfQMCChoiceTABased:
+		if err := v.TABased.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding tABased: %w", err)
+		}
+	case AreaScopeOfQMCChoiceTAIBased:
+		if err := v.TAIBased.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding tAIBased: %w", err)
+		}
+	case AreaScopeOfQMCChoicePLMNAreaBased:
+		if err := v.PLMNAreaBased.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding pLMNAreaBased: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown AreaScopeOfQMC choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes AreaScopeOfQMC from APER format.
+func (v *AreaScopeOfQMC) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *AreaScopeOfQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	isExtension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if isExtension {
+		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		return fmt.Errorf("AreaScopeOfQMC: unsupported extension choice %d", int(extIdx)+4+1)
+	}
+	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 3)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case AreaScopeOfQMCChoiceCellBased:
+		var dec_cellbased CellBasedQMC
+		if err := dec_cellbased.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding cellBased: %w", err)
+		}
+		v.CellBased = &dec_cellbased
+	case AreaScopeOfQMCChoiceTABased:
+		var dec_tabased TABasedQMC
+		if err := dec_tabased.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding tABased: %w", err)
+		}
+		v.TABased = &dec_tabased
+	case AreaScopeOfQMCChoiceTAIBased:
+		var dec_taibased TAIBasedQMC
+		if err := dec_taibased.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding tAIBased: %w", err)
+		}
+		v.TAIBased = &dec_taibased
+	case AreaScopeOfQMCChoicePLMNAreaBased:
+		var dec_plmnareabased PLMNAreaBasedQMC
+		if err := dec_plmnareabased.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding pLMNAreaBased: %w", err)
+		}
+		v.PLMNAreaBased = &dec_plmnareabased
 	}
 	return nil
 }
@@ -7314,6 +7041,129 @@ func (v *AssistanceDataForRecommendedCells) UnmarshalAPERFrom(bb *per.BitBuffer)
 	return nil
 }
 
+// MarshalAPER encodes BearersSubjectToEarlyStatusTransferItem to APER format.
+func (v *BearersSubjectToEarlyStatusTransferItem) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *BearersSubjectToEarlyStatusTransferItem) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
+		return fmt.Errorf("encoding e-RAB-ID: %w", err)
+	}
+	if err := v.DLCOUNTPDCPSNlength.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding dLCOUNT-PDCP-SNlength: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes BearersSubjectToEarlyStatusTransferItem from APER format.
+func (v *BearersSubjectToEarlyStatusTransferItem) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *BearersSubjectToEarlyStatusTransferItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
+	if err != nil {
+		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+	}
+	v.ERABID = val_erabid
+	if err := v.DLCOUNTPDCPSNlength.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding dLCOUNT-PDCP-SNlength: %w", err)
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
 // MarshalAPER encodes BearersSubjectToStatusTransferItem to APER format.
 func (v *BearersSubjectToStatusTransferItem) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -7335,7 +7185,7 @@ func (v *BearersSubjectToStatusTransferItem) MarshalAPERTo(bb *per.BitBuffer) er
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
 		return fmt.Errorf("encoding e-RAB-ID: %w", err)
 	}
 	if err := v.ULCOUNTvalue.MarshalAPERTo(bb); err != nil {
@@ -7402,7 +7252,7 @@ func (v *BearersSubjectToStatusTransferItem) UnmarshalAPERFrom(bb *per.BitBuffer
 	if err != nil {
 		return err
 	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
@@ -7420,252 +7270,6 @@ func (v *BearersSubjectToStatusTransferItem) UnmarshalAPERFrom(bb *per.BitBuffer
 		}
 		tmp_receivestatusofulpdcpsdus := runtime.BitString{Bytes: bsBytes_receivestatusofulpdcpsdus, BitLength: bsBitLen_receivestatusofulpdcpsdus}
 		v.ReceiveStatusofULPDCPSDUs = &tmp_receivestatusofulpdcpsdus
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes BearersSubjectToEarlyStatusTransferItem to APER format.
-func (v *BearersSubjectToEarlyStatusTransferItem) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *BearersSubjectToEarlyStatusTransferItem) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
-		return fmt.Errorf("encoding e-RAB-ID: %w", err)
-	}
-	if err := v.DLCOUNTPDCPSNlength.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding dLCOUNT-PDCP-SNlength: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes BearersSubjectToEarlyStatusTransferItem from APER format.
-func (v *BearersSubjectToEarlyStatusTransferItem) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *BearersSubjectToEarlyStatusTransferItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
-	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
-	}
-	v.ERABID = val_erabid
-	if err := v.DLCOUNTPDCPSNlength.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding dLCOUNT-PDCP-SNlength: %w", err)
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes BearersSubjectToDLDiscardingItem to APER format.
-func (v *BearersSubjectToDLDiscardingItem) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *BearersSubjectToDLDiscardingItem) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
-		return fmt.Errorf("encoding e-RAB-ID: %w", err)
-	}
-	if err := v.DLDiscarding.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding dL-Discarding: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes BearersSubjectToDLDiscardingItem from APER format.
-func (v *BearersSubjectToDLDiscardingItem) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *BearersSubjectToDLDiscardingItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
-	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
-	}
-	v.ERABID = val_erabid
-	if err := v.DLDiscarding.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding dL-Discarding: %w", err)
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -7947,11 +7551,7 @@ func (v *BroadcastCancelledAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 3 + 1
-		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("BroadcastCancelledAreaList: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("BroadcastCancelledAreaList: unsupported extension choice %d", int(extIdx)+3+1)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
 	if err != nil {
@@ -8069,11 +7669,7 @@ func (v *BroadcastCompletedAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 3 + 1
-		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("BroadcastCompletedAreaList: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("BroadcastCompletedAreaList: unsupported extension choice %d", int(extIdx)+3+1)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
 	if err != nil {
@@ -8117,6 +7713,776 @@ func (v *BroadcastCompletedAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			}
 		}
 		v.EmergencyAreaIDBroadcast = tmp_emergencyareaidbroadcast
+	}
+	return nil
+}
+
+// MarshalAPER encodes CGI to APER format.
+func (v *CGI) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *CGI) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.RAC != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNidentity), 3, 3, true); err != nil {
+		return fmt.Errorf("encoding pLMNidentity: %w", err)
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.LAC), 2, 2, true); err != nil {
+		return fmt.Errorf("encoding lAC: %w", err)
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.CI), 2, 2, true); err != nil {
+		return fmt.Errorf("encoding cI: %w", err)
+	}
+	if v.RAC != nil {
+		if err := per.EncodeOctetStringAligned(bb, []byte(*v.RAC), 1, 1, true); err != nil {
+			return fmt.Errorf("encoding rAC: %w", err)
+		}
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes CGI from APER format.
+func (v *CGI) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *CGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_rac, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
+	if err != nil {
+		return fmt.Errorf("decoding pLMNidentity: %w", err)
+	}
+	v.PLMNidentity = PLMNidentity(val_plmnidentity)
+	val_lac, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
+	if err != nil {
+		return fmt.Errorf("decoding lAC: %w", err)
+	}
+	v.LAC = LAC(val_lac)
+	val_ci, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
+	if err != nil {
+		return fmt.Errorf("decoding cI: %w", err)
+	}
+	v.CI = CI(val_ci)
+	if opt_rac {
+		val_rac, err := per.DecodeOctetStringAligned(bb, 1, 1, true)
+		if err != nil {
+			return fmt.Errorf("decoding rAC: %w", err)
+		}
+		tmp_rac := RAC(val_rac)
+		v.RAC = &tmp_rac
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes CNTypeRestrictionsItem to APER format.
+func (v *CNTypeRestrictionsItem) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *CNTypeRestrictionsItem) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNIdentity), 3, 3, true); err != nil {
+		return fmt.Errorf("encoding pLMN-Identity: %w", err)
+	}
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.CNType), 2, true); err != nil {
+		return fmt.Errorf("encoding cNType: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes CNTypeRestrictionsItem from APER format.
+func (v *CNTypeRestrictionsItem) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *CNTypeRestrictionsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
+	if err != nil {
+		return fmt.Errorf("decoding pLMN-Identity: %w", err)
+	}
+	v.PLMNIdentity = PLMNidentity(val_plmnidentity)
+	val_cntype, err := per.DecodeEnumeratedAligned(bb, 2, true)
+	if err != nil {
+		return fmt.Errorf("decoding cNType: %w", err)
+	}
+	v.CNType = CNType(val_cntype)
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes COUNTValueExtended to APER format.
+func (v *COUNTValueExtended) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *COUNTValueExtended) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.PDCPSNExtended), int64Ptr(0), int64Ptr(32767), false); err != nil {
+		return fmt.Errorf("encoding pDCP-SNExtended: %w", err)
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.HFNModified), int64Ptr(0), int64Ptr(131071), false); err != nil {
+		return fmt.Errorf("encoding hFNModified: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes COUNTValueExtended from APER format.
+func (v *COUNTValueExtended) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *COUNTValueExtended) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_pdcpsnextended, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(32767), false)
+	if err != nil {
+		return fmt.Errorf("decoding pDCP-SNExtended: %w", err)
+	}
+	v.PDCPSNExtended = val_pdcpsnextended
+	val_hfnmodified, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(131071), false)
+	if err != nil {
+		return fmt.Errorf("decoding hFNModified: %w", err)
+	}
+	v.HFNModified = val_hfnmodified
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes COUNTvalue to APER format.
+func (v *COUNTvalue) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *COUNTvalue) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.PDCPSN), int64Ptr(0), int64Ptr(4095), false); err != nil {
+		return fmt.Errorf("encoding pDCP-SN: %w", err)
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.HFN), int64Ptr(0), int64Ptr(1048575), false); err != nil {
+		return fmt.Errorf("encoding hFN: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes COUNTvalue from APER format.
+func (v *COUNTvalue) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *COUNTvalue) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_pdcpsn, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+	if err != nil {
+		return fmt.Errorf("decoding pDCP-SN: %w", err)
+	}
+	v.PDCPSN = val_pdcpsn
+	val_hfn, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(1048575), false)
+	if err != nil {
+		return fmt.Errorf("decoding hFN: %w", err)
+	}
+	v.HFN = val_hfn
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes COUNTvaluePDCPSNlength18 to APER format.
+func (v *COUNTvaluePDCPSNlength18) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *COUNTvaluePDCPSNlength18) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.PDCPSNlength18), int64Ptr(0), int64Ptr(262143), false); err != nil {
+		return fmt.Errorf("encoding pDCP-SNlength18: %w", err)
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.HFNforPDCPSNlength18), int64Ptr(0), int64Ptr(16383), false); err != nil {
+		return fmt.Errorf("encoding hFNforPDCP-SNlength18: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes COUNTvaluePDCPSNlength18 from APER format.
+func (v *COUNTvaluePDCPSNlength18) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *COUNTvaluePDCPSNlength18) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_pdcpsnlength18, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(262143), false)
+	if err != nil {
+		return fmt.Errorf("decoding pDCP-SNlength18: %w", err)
+	}
+	v.PDCPSNlength18 = val_pdcpsnlength18
+	val_hfnforpdcpsnlength18, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16383), false)
+	if err != nil {
+		return fmt.Errorf("decoding hFNforPDCP-SNlength18: %w", err)
+	}
+	v.HFNforPDCPSNlength18 = val_hfnforpdcpsnlength18
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes CSGIdListItem to APER format.
+func (v *CSGIdListItem) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *CSGIdListItem) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBitStringAligned(bb, v.CSGId.Bytes, v.CSGId.BitLength, 27, 27, true); err != nil {
+		return fmt.Errorf("encoding cSG-Id: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes CSGIdListItem from APER format.
+func (v *CSGIdListItem) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *CSGIdListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	bsBytes_csgid, bsBitLen_csgid, err := per.DecodeBitStringAligned(bb, 27, 27, true)
+	if err != nil {
+		return fmt.Errorf("decoding cSG-Id: %w", err)
+	}
+	v.CSGId = runtime.BitString{Bytes: bsBytes_csgid, BitLength: bsBitLen_csgid}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
 	}
 	return nil
 }
@@ -8389,7 +8755,7 @@ func (v *Cause) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case CauseChoiceRadioNetwork:
-		if err := per.EncodeEnumeratedAligned(bb, int64(*v.RadioNetwork), 45, true); err != nil {
+		if err := per.EncodeEnumeratedAligned(bb, int64(*v.RadioNetwork), 44, true); err != nil {
 			return fmt.Errorf("encoding radioNetwork: %w", err)
 		}
 	case CauseChoiceTransport:
@@ -8397,7 +8763,7 @@ func (v *Cause) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding transport: %w", err)
 		}
 	case CauseChoiceNas:
-		if err := per.EncodeEnumeratedAligned(bb, int64(*v.Nas), 7, true); err != nil {
+		if err := per.EncodeEnumeratedAligned(bb, int64(*v.Nas), 6, true); err != nil {
 			return fmt.Errorf("encoding nas: %w", err)
 		}
 	case CauseChoiceProtocol:
@@ -8430,11 +8796,7 @@ func (v *Cause) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 5 + 1
-		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("Cause: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("Cause: unsupported extension choice %d", int(extIdx)+5+1)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 4)
 	if err != nil {
@@ -8443,7 +8805,7 @@ func (v *Cause) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case CauseChoiceRadioNetwork:
-		val_radionetwork, err := per.DecodeEnumeratedAligned(bb, 45, true)
+		val_radionetwork, err := per.DecodeEnumeratedAligned(bb, 44, true)
 		if err != nil {
 			return fmt.Errorf("decoding radioNetwork: %w", err)
 		}
@@ -8457,7 +8819,7 @@ func (v *Cause) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		tmp_transport := CauseTransport(val_transport)
 		v.Transport = &tmp_transport
 	case CauseChoiceNas:
-		val_nas, err := per.DecodeEnumeratedAligned(bb, 7, true)
+		val_nas, err := per.DecodeEnumeratedAligned(bb, 6, true)
 		if err != nil {
 			return fmt.Errorf("decoding nas: %w", err)
 		}
@@ -8481,8 +8843,8 @@ func (v *Cause) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes CellIdentifierAndCELevelForCECapableUEs to APER format.
-func (v *CellIdentifierAndCELevelForCECapableUEs) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes Cdma2000OneXSRVCCInfo to APER format.
+func (v *Cdma2000OneXSRVCCInfo) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -8490,7 +8852,7 @@ func (v *CellIdentifierAndCELevelForCECapableUEs) MarshalAPER() ([]byte, error) 
 	return bb.Bytes(), nil
 }
 
-func (v *CellIdentifierAndCELevelForCECapableUEs) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *Cdma2000OneXSRVCCInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -8499,11 +8861,14 @@ func (v *CellIdentifierAndCELevelForCECapableUEs) MarshalAPERTo(bb *per.BitBuffe
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := v.GlobalCellID.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding global-Cell-ID: %w", err)
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.Cdma2000OneXMEID), 0, 0, false); err != nil {
+		return fmt.Errorf("encoding cdma2000OneXMEID: %w", err)
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.CELevel), 0, 0, false); err != nil {
-		return fmt.Errorf("encoding cELevel: %w", err)
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.Cdma2000OneXMSI), 0, 0, false); err != nil {
+		return fmt.Errorf("encoding cdma2000OneXMSI: %w", err)
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.Cdma2000OneXPilot), 0, 0, false); err != nil {
+		return fmt.Errorf("encoding cdma2000OneXPilot: %w", err)
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
@@ -8538,13 +8903,13 @@ func (v *CellIdentifierAndCELevelForCECapableUEs) MarshalAPERTo(bb *per.BitBuffe
 	return nil
 }
 
-// UnmarshalAPER decodes CellIdentifierAndCELevelForCECapableUEs from APER format.
-func (v *CellIdentifierAndCELevelForCECapableUEs) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes Cdma2000OneXSRVCCInfo from APER format.
+func (v *Cdma2000OneXSRVCCInfo) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *CellIdentifierAndCELevelForCECapableUEs) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *Cdma2000OneXSRVCCInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -8554,252 +8919,21 @@ func (v *CellIdentifierAndCELevelForCECapableUEs) UnmarshalAPERFrom(bb *per.BitB
 	if err != nil {
 		return err
 	}
-	if err := v.GlobalCellID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding global-Cell-ID: %w", err)
-	}
-	val_celevel, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+	val_cdma2000onexmeid, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 	if err != nil {
-		return fmt.Errorf("decoding cELevel: %w", err)
+		return fmt.Errorf("decoding cdma2000OneXMEID: %w", err)
 	}
-	v.CELevel = CELevel(val_celevel)
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes CellIDBroadcastItem to APER format.
-func (v *CellIDBroadcastItem) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *CellIDBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := v.ECGI.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding eCGI: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes CellIDBroadcastItem from APER format.
-func (v *CellIDBroadcastItem) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *CellIDBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
+	v.Cdma2000OneXMEID = Cdma2000OneXMEID(val_cdma2000onexmeid)
+	val_cdma2000onexmsi, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 	if err != nil {
-		return err
+		return fmt.Errorf("decoding cdma2000OneXMSI: %w", err)
 	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
+	v.Cdma2000OneXMSI = Cdma2000OneXMSI(val_cdma2000onexmsi)
+	val_cdma2000onexpilot, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 	if err != nil {
-		return err
+		return fmt.Errorf("decoding cdma2000OneXPilot: %w", err)
 	}
-	if err := v.ECGI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding eCGI: %w", err)
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes CellIDCancelledItem to APER format.
-func (v *CellIDCancelledItem) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *CellIDCancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := v.ECGI.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding eCGI: %w", err)
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.NumberOfBroadcasts), int64Ptr(0), int64Ptr(65535), false); err != nil {
-		return fmt.Errorf("encoding numberOfBroadcasts: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes CellIDCancelledItem from APER format.
-func (v *CellIDCancelledItem) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *CellIDCancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if err := v.ECGI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding eCGI: %w", err)
-	}
-	val_numberofbroadcasts, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
-	if err != nil {
-		return fmt.Errorf("decoding numberOfBroadcasts: %w", err)
-	}
-	v.NumberOfBroadcasts = val_numberofbroadcasts
+	v.Cdma2000OneXPilot = Cdma2000OneXPilot(val_cdma2000onexpilot)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -9096,8 +9230,8 @@ func (v *CellBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes Cdma2000OneXSRVCCInfo to APER format.
-func (v *Cdma2000OneXSRVCCInfo) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes CellIDBroadcastItem to APER format.
+func (v *CellIDBroadcastItem) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -9105,7 +9239,7 @@ func (v *Cdma2000OneXSRVCCInfo) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *Cdma2000OneXSRVCCInfo) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *CellIDBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -9114,14 +9248,8 @@ func (v *Cdma2000OneXSRVCCInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.Cdma2000OneXMEID), 0, 0, false); err != nil {
-		return fmt.Errorf("encoding cdma2000OneXMEID: %w", err)
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.Cdma2000OneXMSI), 0, 0, false); err != nil {
-		return fmt.Errorf("encoding cdma2000OneXMSI: %w", err)
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.Cdma2000OneXPilot), 0, 0, false); err != nil {
-		return fmt.Errorf("encoding cdma2000OneXPilot: %w", err)
+	if err := v.ECGI.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding eCGI: %w", err)
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
@@ -9156,13 +9284,13 @@ func (v *Cdma2000OneXSRVCCInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes Cdma2000OneXSRVCCInfo from APER format.
-func (v *Cdma2000OneXSRVCCInfo) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes CellIDBroadcastItem from APER format.
+func (v *CellIDBroadcastItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *Cdma2000OneXSRVCCInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *CellIDBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -9172,21 +9300,255 @@ func (v *Cdma2000OneXSRVCCInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_cdma2000onexmeid, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding cdma2000OneXMEID: %w", err)
+	if err := v.ECGI.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding eCGI: %w", err)
 	}
-	v.Cdma2000OneXMEID = Cdma2000OneXMEID(val_cdma2000onexmeid)
-	val_cdma2000onexmsi, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding cdma2000OneXMSI: %w", err)
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
 	}
-	v.Cdma2000OneXMSI = Cdma2000OneXMSI(val_cdma2000onexmsi)
-	val_cdma2000onexpilot, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding cdma2000OneXPilot: %w", err)
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
 	}
-	v.Cdma2000OneXPilot = Cdma2000OneXPilot(val_cdma2000onexpilot)
+	return nil
+}
+
+// MarshalAPER encodes CellIDCancelledItem to APER format.
+func (v *CellIDCancelledItem) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *CellIDCancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := v.ECGI.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding eCGI: %w", err)
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.NumberOfBroadcasts), int64Ptr(0), int64Ptr(65535), false); err != nil {
+		return fmt.Errorf("encoding numberOfBroadcasts: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes CellIDCancelledItem from APER format.
+func (v *CellIDCancelledItem) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *CellIDCancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if err := v.ECGI.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding eCGI: %w", err)
+	}
+	val_numberofbroadcasts, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
+	if err != nil {
+		return fmt.Errorf("decoding numberOfBroadcasts: %w", err)
+	}
+	v.NumberOfBroadcasts = val_numberofbroadcasts
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes CellIdentifierAndCELevelForCECapableUEs to APER format.
+func (v *CellIdentifierAndCELevelForCECapableUEs) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *CellIdentifierAndCELevelForCECapableUEs) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := v.GlobalCellID.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding global-Cell-ID: %w", err)
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.CELevel), 0, 0, false); err != nil {
+		return fmt.Errorf("encoding cELevel: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes CellIdentifierAndCELevelForCECapableUEs from APER format.
+func (v *CellIdentifierAndCELevelForCECapableUEs) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *CellIdentifierAndCELevelForCECapableUEs) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if err := v.GlobalCellID.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding global-Cell-ID: %w", err)
+	}
+	val_celevel, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+	if err != nil {
+		return fmt.Errorf("decoding cELevel: %w", err)
+	}
+	v.CELevel = CELevel(val_celevel)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -9346,8 +9708,8 @@ func (v *CellType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes CGI to APER format.
-func (v *CGI) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes CompletedCellinEAIItem to APER format.
+func (v *CompletedCellinEAIItem) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -9355,31 +9717,17 @@ func (v *CGI) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *CGI) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *CompletedCellinEAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
 	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.RAC != nil); err != nil {
-		return err
-	}
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNidentity), 0, 0, false); err != nil {
-		return fmt.Errorf("encoding pLMNidentity: %w", err)
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.LAC), 2, 2, true); err != nil {
-		return fmt.Errorf("encoding lAC: %w", err)
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.CI), 2, 2, true); err != nil {
-		return fmt.Errorf("encoding cI: %w", err)
-	}
-	if v.RAC != nil {
-		if err := per.EncodeOctetStringAligned(bb, []byte(*v.RAC), 1, 1, true); err != nil {
-			return fmt.Errorf("encoding rAC: %w", err)
-		}
+	if err := v.ECGI.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding eCGI: %w", err)
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
@@ -9414,48 +9762,24 @@ func (v *CGI) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes CGI from APER format.
-func (v *CGI) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes CompletedCellinEAIItem from APER format.
+func (v *CompletedCellinEAIItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *CGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *CompletedCellinEAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
 	// Read preamble bitmap for optional root fields
-	opt_rac, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
 	opt_ieextensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding pLMNidentity: %w", err)
-	}
-	v.PLMNidentity = PLMNidentity(val_plmnidentity)
-	val_lac, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
-	if err != nil {
-		return fmt.Errorf("decoding lAC: %w", err)
-	}
-	v.LAC = LAC(val_lac)
-	val_ci, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
-	if err != nil {
-		return fmt.Errorf("decoding cI: %w", err)
-	}
-	v.CI = CI(val_ci)
-	if opt_rac {
-		val_rac, err := per.DecodeOctetStringAligned(bb, 1, 1, true)
-		if err != nil {
-			return fmt.Errorf("decoding rAC: %w", err)
-		}
-		tmp_rac := RAC(val_rac)
-		v.RAC = &tmp_rac
+	if err := v.ECGI.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding eCGI: %w", err)
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -9499,8 +9823,8 @@ func (v *CGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes CNTypeRestrictionsItem to APER format.
-func (v *CNTypeRestrictionsItem) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes CompletedCellinTAIItem to APER format.
+func (v *CompletedCellinTAIItem) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -9508,7 +9832,7 @@ func (v *CNTypeRestrictionsItem) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *CNTypeRestrictionsItem) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *CompletedCellinTAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -9517,11 +9841,8 @@ func (v *CNTypeRestrictionsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNIdentity), 0, 0, false); err != nil {
-		return fmt.Errorf("encoding pLMN-Identity: %w", err)
-	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.CNType), 2, true); err != nil {
-		return fmt.Errorf("encoding cNType: %w", err)
+	if err := v.ECGI.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding eCGI: %w", err)
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
@@ -9556,13 +9877,13 @@ func (v *CNTypeRestrictionsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes CNTypeRestrictionsItem from APER format.
-func (v *CNTypeRestrictionsItem) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes CompletedCellinTAIItem from APER format.
+func (v *CompletedCellinTAIItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *CNTypeRestrictionsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *CompletedCellinTAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -9572,16 +9893,9 @@ func (v *CNTypeRestrictionsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding pLMN-Identity: %w", err)
+	if err := v.ECGI.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding eCGI: %w", err)
 	}
-	v.PLMNIdentity = PLMNidentity(val_plmnidentity)
-	val_cntype, err := per.DecodeEnumeratedAligned(bb, 2, true)
-	if err != nil {
-		return fmt.Errorf("decoding cNType: %w", err)
-	}
-	v.CNType = CNType(val_cntype)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -9642,7 +9956,7 @@ func (v *ConnectedengNBItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringAligned(bb, v.EnGNBID.Bytes, v.EnGNBID.BitLength, 22, 32, true); err != nil {
+	if err := per.EncodeBitStringAlignedExt(bb, v.EnGNBID.Bytes, v.EnGNBID.BitLength, 22, 32, true, true); err != nil {
 		return fmt.Errorf("encoding en-gNB-ID: %w", err)
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.SupportedTAs)), 1, 256); err != nil {
@@ -9702,7 +10016,7 @@ func (v *ConnectedengNBItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	bsBytes_engnbid, bsBitLen_engnbid, err := per.DecodeBitStringAligned(bb, 22, 32, true)
+	bsBytes_engnbid, bsBitLen_engnbid, err := per.DecodeBitStringAlignedExt(bb, 22, 32, true, true)
 	if err != nil {
 		return fmt.Errorf("decoding en-gNB-ID: %w", err)
 	}
@@ -9840,498 +10154,6 @@ func (v *ContextatSource) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding rAN-UE-NGAP-ID: %w", err)
 	}
 	v.RANUENGAPID = val_ranuengapid
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes CSGIdListItem to APER format.
-func (v *CSGIdListItem) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *CSGIdListItem) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBitStringAligned(bb, v.CSGId.Bytes, v.CSGId.BitLength, 27, 27, true); err != nil {
-		return fmt.Errorf("encoding cSG-Id: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes CSGIdListItem from APER format.
-func (v *CSGIdListItem) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *CSGIdListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	bsBytes_csgid, bsBitLen_csgid, err := per.DecodeBitStringAligned(bb, 27, 27, true)
-	if err != nil {
-		return fmt.Errorf("decoding cSG-Id: %w", err)
-	}
-	v.CSGId = runtime.BitString{Bytes: bsBytes_csgid, BitLength: bsBitLen_csgid}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes COUNTvalue to APER format.
-func (v *COUNTvalue) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *COUNTvalue) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.PDCPSN), int64Ptr(0), int64Ptr(4095), false); err != nil {
-		return fmt.Errorf("encoding pDCP-SN: %w", err)
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.HFN), int64Ptr(0), int64Ptr(1048575), false); err != nil {
-		return fmt.Errorf("encoding hFN: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes COUNTvalue from APER format.
-func (v *COUNTvalue) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *COUNTvalue) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_pdcpsn, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
-	if err != nil {
-		return fmt.Errorf("decoding pDCP-SN: %w", err)
-	}
-	v.PDCPSN = val_pdcpsn
-	val_hfn, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(1048575), false)
-	if err != nil {
-		return fmt.Errorf("decoding hFN: %w", err)
-	}
-	v.HFN = val_hfn
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes COUNTValueExtended to APER format.
-func (v *COUNTValueExtended) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *COUNTValueExtended) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.PDCPSNExtended), int64Ptr(0), int64Ptr(32767), false); err != nil {
-		return fmt.Errorf("encoding pDCP-SNExtended: %w", err)
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.HFNModified), int64Ptr(0), int64Ptr(131071), false); err != nil {
-		return fmt.Errorf("encoding hFNModified: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes COUNTValueExtended from APER format.
-func (v *COUNTValueExtended) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *COUNTValueExtended) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_pdcpsnextended, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(32767), false)
-	if err != nil {
-		return fmt.Errorf("decoding pDCP-SNExtended: %w", err)
-	}
-	v.PDCPSNExtended = val_pdcpsnextended
-	val_hfnmodified, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(131071), false)
-	if err != nil {
-		return fmt.Errorf("decoding hFNModified: %w", err)
-	}
-	v.HFNModified = val_hfnmodified
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes COUNTvaluePDCPSNlength18 to APER format.
-func (v *COUNTvaluePDCPSNlength18) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *COUNTvaluePDCPSNlength18) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.PDCPSNlength18), int64Ptr(0), int64Ptr(262143), false); err != nil {
-		return fmt.Errorf("encoding pDCP-SNlength18: %w", err)
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.HFNforPDCPSNlength18), int64Ptr(0), int64Ptr(16383), false); err != nil {
-		return fmt.Errorf("encoding hFNforPDCP-SNlength18: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes COUNTvaluePDCPSNlength18 from APER format.
-func (v *COUNTvaluePDCPSNlength18) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *COUNTvaluePDCPSNlength18) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_pdcpsnlength18, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(262143), false)
-	if err != nil {
-		return fmt.Errorf("decoding pDCP-SNlength18: %w", err)
-	}
-	v.PDCPSNlength18 = val_pdcpsnlength18
-	val_hfnforpdcpsnlength18, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16383), false)
-	if err != nil {
-		return fmt.Errorf("decoding hFNforPDCP-SNlength18: %w", err)
-	}
-	v.HFNforPDCPSNlength18 = val_hfnforpdcpsnlength18
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -10822,129 +10644,6 @@ func (v *DAPSRequestInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes DAPSResponseInfoItem to APER format.
-func (v *DAPSResponseInfoItem) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *DAPSResponseInfoItem) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
-		return fmt.Errorf("encoding e-RAB-ID: %w", err)
-	}
-	if err := v.DAPSResponseInfo.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding dAPSResponseInfo: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes DAPSResponseInfoItem from APER format.
-func (v *DAPSResponseInfoItem) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *DAPSResponseInfoItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
-	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
-	}
-	v.ERABID = val_erabid
-	if err := v.DAPSResponseInfo.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding dAPSResponseInfo: %w", err)
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
 // MarshalAPER encodes DAPSResponseInfo to APER format.
 func (v *DAPSResponseInfo) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -11062,8 +10761,8 @@ func (v *DAPSResponseInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes ServedDCNsItem to APER format.
-func (v *ServedDCNsItem) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes DAPSResponseInfoItem to APER format.
+func (v *DAPSResponseInfoItem) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -11071,7 +10770,7 @@ func (v *ServedDCNsItem) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *ServedDCNsItem) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *DAPSResponseInfoItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -11080,11 +10779,11 @@ func (v *ServedDCNsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.DCNID), int64Ptr(0), int64Ptr(65535), false); err != nil {
-		return fmt.Errorf("encoding dCN-ID: %w", err)
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
+		return fmt.Errorf("encoding e-RAB-ID: %w", err)
 	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.RelativeDCNCapacity), int64Ptr(0), int64Ptr(255), false); err != nil {
-		return fmt.Errorf("encoding relativeDCNCapacity: %w", err)
+	if err := v.DAPSResponseInfo.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding dAPSResponseInfo: %w", err)
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
@@ -11119,13 +10818,13 @@ func (v *ServedDCNsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes ServedDCNsItem from APER format.
-func (v *ServedDCNsItem) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes DAPSResponseInfoItem from APER format.
+func (v *DAPSResponseInfoItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *ServedDCNsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *DAPSResponseInfoItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -11135,16 +10834,14 @@ func (v *ServedDCNsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_dcnid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
 	if err != nil {
-		return fmt.Errorf("decoding dCN-ID: %w", err)
+		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.DCNID = val_dcnid
-	val_relativedcncapacity, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
-	if err != nil {
-		return fmt.Errorf("decoding relativeDCNCapacity: %w", err)
+	v.ERABID = val_erabid
+	if err := v.DAPSResponseInfo.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding dAPSResponseInfo: %w", err)
 	}
-	v.RelativeDCNCapacity = val_relativedcncapacity
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -11183,6 +10880,91 @@ func (v *ServedDCNsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes DLCOUNTPDCPSNlength to APER format.
+func (v *DLCOUNTPDCPSNlength) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *DLCOUNTPDCPSNlength) MarshalAPERTo(bb *per.BitBuffer) error {
+	isExtension := v.Choice > 3
+	if err := per.EncodeBoolean(bb, isExtension); err != nil {
+		return err
+	}
+	if isExtension {
+		return fmt.Errorf("DLCOUNTPDCPSNlength: extension choice %d not supported", v.Choice)
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case DLCOUNTPDCPSNlengthChoiceDLCOUNTValuePDCPSNlength12:
+		if err := v.DLCOUNTValuePDCPSNlength12.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding dLCOUNTValuePDCP-SNlength12: %w", err)
+		}
+	case DLCOUNTPDCPSNlengthChoiceDLCOUNTValuePDCPSNlength15:
+		if err := v.DLCOUNTValuePDCPSNlength15.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding dLCOUNTValuePDCP-SNlength15: %w", err)
+		}
+	case DLCOUNTPDCPSNlengthChoiceDLCOUNTValuePDCPSNlength18:
+		if err := v.DLCOUNTValuePDCPSNlength18.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding dLCOUNTValuePDCP-SNlength18: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown DLCOUNTPDCPSNlength choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes DLCOUNTPDCPSNlength from APER format.
+func (v *DLCOUNTPDCPSNlength) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *DLCOUNTPDCPSNlength) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	isExtension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if isExtension {
+		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		return fmt.Errorf("DLCOUNTPDCPSNlength: unsupported extension choice %d", int(extIdx)+3+1)
+	}
+	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case DLCOUNTPDCPSNlengthChoiceDLCOUNTValuePDCPSNlength12:
+		var dec_dlcountvaluepdcpsnlength12 COUNTvalue
+		if err := dec_dlcountvaluepdcpsnlength12.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding dLCOUNTValuePDCP-SNlength12: %w", err)
+		}
+		v.DLCOUNTValuePDCPSNlength12 = &dec_dlcountvaluepdcpsnlength12
+	case DLCOUNTPDCPSNlengthChoiceDLCOUNTValuePDCPSNlength15:
+		var dec_dlcountvaluepdcpsnlength15 COUNTValueExtended
+		if err := dec_dlcountvaluepdcpsnlength15.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding dLCOUNTValuePDCP-SNlength15: %w", err)
+		}
+		v.DLCOUNTValuePDCPSNlength15 = &dec_dlcountvaluepdcpsnlength15
+	case DLCOUNTPDCPSNlengthChoiceDLCOUNTValuePDCPSNlength18:
+		var dec_dlcountvaluepdcpsnlength18 COUNTvaluePDCPSNlength18
+		if err := dec_dlcountvaluepdcpsnlength18.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding dLCOUNTValuePDCP-SNlength18: %w", err)
+		}
+		v.DLCOUNTValuePDCPSNlength18 = &dec_dlcountvaluepdcpsnlength18
 	}
 	return nil
 }
@@ -11304,8 +11086,8 @@ func (v *DLCPSecurityInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes DLCOUNTPDCPSNlength to APER format.
-func (v *DLCOUNTPDCPSNlength) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes ENBX2ExtTLA to APER format.
+func (v *ENBX2ExtTLA) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -11313,203 +11095,32 @@ func (v *DLCOUNTPDCPSNlength) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *DLCOUNTPDCPSNlength) MarshalAPERTo(bb *per.BitBuffer) error {
-	isExtension := v.Choice > 3
-	if err := per.EncodeBoolean(bb, isExtension); err != nil {
-		return err
-	}
-	if isExtension {
-		return fmt.Errorf("DLCOUNTPDCPSNlength: extension choice %d not supported", v.Choice)
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
-		return err
-	}
-	switch v.Choice {
-	case DLCOUNTPDCPSNlengthChoiceDLCOUNTValuePDCPSNlength12:
-		if err := v.DLCOUNTValuePDCPSNlength12.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding dLCOUNTValuePDCP-SNlength12: %w", err)
-		}
-	case DLCOUNTPDCPSNlengthChoiceDLCOUNTValuePDCPSNlength15:
-		if err := v.DLCOUNTValuePDCPSNlength15.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding dLCOUNTValuePDCP-SNlength15: %w", err)
-		}
-	case DLCOUNTPDCPSNlengthChoiceDLCOUNTValuePDCPSNlength18:
-		if err := v.DLCOUNTValuePDCPSNlength18.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding dLCOUNTValuePDCP-SNlength18: %w", err)
-		}
-	default:
-		return fmt.Errorf("unknown DLCOUNTPDCPSNlength choice %d", v.Choice)
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes DLCOUNTPDCPSNlength from APER format.
-func (v *DLCOUNTPDCPSNlength) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *DLCOUNTPDCPSNlength) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	isExtension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if isExtension {
-		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.Choice = int(extIdx) + 3 + 1
-		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("DLCOUNTPDCPSNlength: extension choice %d not supported", v.Choice)
-	}
-	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
-	if err != nil {
-		return err
-	}
-	v.Choice = int(idx) + 1
-	switch v.Choice {
-	case DLCOUNTPDCPSNlengthChoiceDLCOUNTValuePDCPSNlength12:
-		var dec_dlcountvaluepdcpsnlength12 COUNTvalue
-		if err := dec_dlcountvaluepdcpsnlength12.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding dLCOUNTValuePDCP-SNlength12: %w", err)
-		}
-		v.DLCOUNTValuePDCPSNlength12 = &dec_dlcountvaluepdcpsnlength12
-	case DLCOUNTPDCPSNlengthChoiceDLCOUNTValuePDCPSNlength15:
-		var dec_dlcountvaluepdcpsnlength15 COUNTValueExtended
-		if err := dec_dlcountvaluepdcpsnlength15.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding dLCOUNTValuePDCP-SNlength15: %w", err)
-		}
-		v.DLCOUNTValuePDCPSNlength15 = &dec_dlcountvaluepdcpsnlength15
-	case DLCOUNTPDCPSNlengthChoiceDLCOUNTValuePDCPSNlength18:
-		var dec_dlcountvaluepdcpsnlength18 COUNTvaluePDCPSNlength18
-		if err := dec_dlcountvaluepdcpsnlength18.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding dLCOUNTValuePDCP-SNlength18: %w", err)
-		}
-		v.DLCOUNTValuePDCPSNlength18 = &dec_dlcountvaluepdcpsnlength18
-	}
-	return nil
-}
-
-// MarshalAPER encodes DLDiscarding to APER format.
-func (v *DLDiscarding) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *DLDiscarding) MarshalAPERTo(bb *per.BitBuffer) error {
-	isExtension := v.Choice > 3
-	if err := per.EncodeBoolean(bb, isExtension); err != nil {
-		return err
-	}
-	if isExtension {
-		return fmt.Errorf("DLDiscarding: extension choice %d not supported", v.Choice)
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
-		return err
-	}
-	switch v.Choice {
-	case DLDiscardingChoiceDiscardDLCOUNTValuePDCPSNlength12:
-		if err := v.DiscardDLCOUNTValuePDCPSNlength12.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding discardDLCOUNTValuePDCP-SNlength12: %w", err)
-		}
-	case DLDiscardingChoiceDiscardDLCOUNTValuePDCPSNlength15:
-		if err := v.DiscardDLCOUNTValuePDCPSNlength15.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding discardDLCOUNTValuePDCP-SNlength15: %w", err)
-		}
-	case DLDiscardingChoiceDiscardDLCOUNTValuePDCPSNlength18:
-		if err := v.DiscardDLCOUNTValuePDCPSNlength18.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding discardDLCOUNTValuePDCP-SNlength18: %w", err)
-		}
-	default:
-		return fmt.Errorf("unknown DLDiscarding choice %d", v.Choice)
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes DLDiscarding from APER format.
-func (v *DLDiscarding) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *DLDiscarding) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	isExtension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if isExtension {
-		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.Choice = int(extIdx) + 3 + 1
-		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("DLDiscarding: extension choice %d not supported", v.Choice)
-	}
-	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
-	if err != nil {
-		return err
-	}
-	v.Choice = int(idx) + 1
-	switch v.Choice {
-	case DLDiscardingChoiceDiscardDLCOUNTValuePDCPSNlength12:
-		var dec_discarddlcountvaluepdcpsnlength12 COUNTvalue
-		if err := dec_discarddlcountvaluepdcpsnlength12.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding discardDLCOUNTValuePDCP-SNlength12: %w", err)
-		}
-		v.DiscardDLCOUNTValuePDCPSNlength12 = &dec_discarddlcountvaluepdcpsnlength12
-	case DLDiscardingChoiceDiscardDLCOUNTValuePDCPSNlength15:
-		var dec_discarddlcountvaluepdcpsnlength15 COUNTValueExtended
-		if err := dec_discarddlcountvaluepdcpsnlength15.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding discardDLCOUNTValuePDCP-SNlength15: %w", err)
-		}
-		v.DiscardDLCOUNTValuePDCPSNlength15 = &dec_discarddlcountvaluepdcpsnlength15
-	case DLDiscardingChoiceDiscardDLCOUNTValuePDCPSNlength18:
-		var dec_discarddlcountvaluepdcpsnlength18 COUNTvaluePDCPSNlength18
-		if err := dec_discarddlcountvaluepdcpsnlength18.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding discardDLCOUNTValuePDCP-SNlength18: %w", err)
-		}
-		v.DiscardDLCOUNTValuePDCPSNlength18 = &dec_discarddlcountvaluepdcpsnlength18
-	}
-	return nil
-}
-
-// MarshalAPER encodes EmergencyAreaIDBroadcastItem to APER format.
-func (v *EmergencyAreaIDBroadcastItem) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *EmergencyAreaIDBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *ENBX2ExtTLA) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
 	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IPsecTLA != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.GTPTLAa != nil); err != nil {
+		return err
+	}
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.EmergencyAreaID), 3, 3, true); err != nil {
-		return fmt.Errorf("encoding emergencyAreaID: %w", err)
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.CompletedCellinEAI)), 1, 65535); err != nil {
-		return fmt.Errorf("encoding completedCellinEAI length: %w", err)
-	}
-	for _, elem := range v.CompletedCellinEAI {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding completedCellinEAI element: %w", err)
+	if v.IPsecTLA != nil {
+		if err := per.EncodeBitStringAlignedExt(bb, v.IPsecTLA.Bytes, v.IPsecTLA.BitLength, 1, 160, true, true); err != nil {
+			return fmt.Errorf("encoding iPsecTLA: %w", err)
 		}
+	}
+	if v.GTPTLAa != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.GTPTLAa)), 1, 16); err != nil {
+			return fmt.Errorf("encoding gTPTLAa length: %w", err)
+		}
+		// asn1c:unsupported {"encoding":"aper","operation":"encode","construct":"SEQUENCE_OF","reason":"non-integer-primitive-element","field":"gTPTLAa","kind":"BIT_STRING"}
+		_ = v.GTPTLAa // SEQUENCE_OF with non-integer primitive elements (BIT_STRING)
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
@@ -11544,286 +11155,45 @@ func (v *EmergencyAreaIDBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes EmergencyAreaIDBroadcastItem from APER format.
-func (v *EmergencyAreaIDBroadcastItem) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes ENBX2ExtTLA from APER format.
+func (v *ENBX2ExtTLA) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *EmergencyAreaIDBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ENBX2ExtTLA) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
 	// Read preamble bitmap for optional root fields
+	opt_ipsectla, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_gtptlaa, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
 	opt_ieextensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	val_emergencyareaid, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
-	if err != nil {
-		return fmt.Errorf("decoding emergencyAreaID: %w", err)
-	}
-	v.EmergencyAreaID = EmergencyAreaID(val_emergencyareaid)
-	seqLen_completedcellineai, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding completedCellinEAI length: %w", err)
-	}
-	v.CompletedCellinEAI = make(CompletedCellinEAI, seqLen_completedcellineai)
-	for i := int64(0); i < seqLen_completedcellineai; i++ {
-		if err := v.CompletedCellinEAI[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding completedCellinEAI element: %w", err)
-		}
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+	if opt_ipsectla {
+		bsBytes_ipsectla, bsBitLen_ipsectla, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+			return fmt.Errorf("decoding iPsecTLA: %w", err)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
+		tmp_ipsectla := runtime.BitString{Bytes: bsBytes_ipsectla, BitLength: bsBitLen_ipsectla}
+		v.IPsecTLA = &tmp_ipsectla
 	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+	if opt_gtptlaa {
+		seqLen_gtptlaa, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
 		if err != nil {
-			return err
+			return fmt.Errorf("decoding gTPTLAa length: %w", err)
 		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes EmergencyAreaIDCancelledItem to APER format.
-func (v *EmergencyAreaIDCancelledItem) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *EmergencyAreaIDCancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.EmergencyAreaID), 3, 3, true); err != nil {
-		return fmt.Errorf("encoding emergencyAreaID: %w", err)
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.CancelledCellinEAI)), 1, 65535); err != nil {
-		return fmt.Errorf("encoding cancelledCellinEAI length: %w", err)
-	}
-	for _, elem := range v.CancelledCellinEAI {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding cancelledCellinEAI element: %w", err)
-		}
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes EmergencyAreaIDCancelledItem from APER format.
-func (v *EmergencyAreaIDCancelledItem) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *EmergencyAreaIDCancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_emergencyareaid, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
-	if err != nil {
-		return fmt.Errorf("decoding emergencyAreaID: %w", err)
-	}
-	v.EmergencyAreaID = EmergencyAreaID(val_emergencyareaid)
-	seqLen_cancelledcellineai, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding cancelledCellinEAI length: %w", err)
-	}
-	v.CancelledCellinEAI = make(CancelledCellinEAI, seqLen_cancelledcellineai)
-	for i := int64(0); i < seqLen_cancelledcellineai; i++ {
-		if err := v.CancelledCellinEAI[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding cancelledCellinEAI element: %w", err)
-		}
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes CompletedCellinEAIItem to APER format.
-func (v *CompletedCellinEAIItem) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *CompletedCellinEAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := v.ECGI.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding eCGI: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes CompletedCellinEAIItem from APER format.
-func (v *CompletedCellinEAIItem) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *CompletedCellinEAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if err := v.ECGI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding eCGI: %w", err)
+		// asn1c:unsupported {"encoding":"aper","operation":"decode","construct":"SEQUENCE_OF","reason":"non-integer-primitive-element","field":"gTPTLAa","kind":"BIT_STRING"}
+		_ = seqLen_gtptlaa // SEQUENCE_OF with non-integer primitive elements (BIT_STRING)
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -12064,13 +11434,13 @@ func (v *ENBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 2 + 1
 		openData, err := per.DecodeOpenTypeAligned(bb)
 		if err != nil {
 			return err
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
+		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
 		case ENBIDChoiceShortMacroENBID:
 			bsBytes_shortmacroenbid, bsBitLen_shortmacroenbid, err := per.DecodeBitStringAligned(inner, 18, 18, true)
@@ -12111,385 +11481,6 @@ func (v *ENBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		tmp_homeenbid := runtime.BitString{Bytes: bsBytes_homeenbid, BitLength: bsBitLen_homeenbid}
 		v.HomeENBID = &tmp_homeenbid
-	}
-	return nil
-}
-
-// MarshalAPER encodes GERANCellID to APER format.
-func (v *GERANCellID) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *GERANCellID) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := v.LAI.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding lAI: %w", err)
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.RAC), 1, 1, true); err != nil {
-		return fmt.Errorf("encoding rAC: %w", err)
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.CI), 2, 2, true); err != nil {
-		return fmt.Errorf("encoding cI: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes GERANCellID from APER format.
-func (v *GERANCellID) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *GERANCellID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if err := v.LAI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding lAI: %w", err)
-	}
-	val_rac, err := per.DecodeOctetStringAligned(bb, 1, 1, true)
-	if err != nil {
-		return fmt.Errorf("decoding rAC: %w", err)
-	}
-	v.RAC = RAC(val_rac)
-	val_ci, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
-	if err != nil {
-		return fmt.Errorf("decoding cI: %w", err)
-	}
-	v.CI = CI(val_ci)
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes GlobalENBID to APER format.
-func (v *GlobalENBID) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *GlobalENBID) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNidentity), 0, 0, false); err != nil {
-		return fmt.Errorf("encoding pLMNidentity: %w", err)
-	}
-	if err := v.ENBID.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding eNB-ID: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes GlobalENBID from APER format.
-func (v *GlobalENBID) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *GlobalENBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding pLMNidentity: %w", err)
-	}
-	v.PLMNidentity = PLMNidentity(val_plmnidentity)
-	if err := v.ENBID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding eNB-ID: %w", err)
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes GlobalEnGNBID to APER format.
-func (v *GlobalEnGNBID) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *GlobalEnGNBID) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNidentity), 0, 0, false); err != nil {
-		return fmt.Errorf("encoding pLMNidentity: %w", err)
-	}
-	if err := per.EncodeBitStringAligned(bb, v.EnGNBID.Bytes, v.EnGNBID.BitLength, 22, 32, true); err != nil {
-		return fmt.Errorf("encoding en-gNB-ID: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes GlobalEnGNBID from APER format.
-func (v *GlobalEnGNBID) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *GlobalEnGNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding pLMNidentity: %w", err)
-	}
-	v.PLMNidentity = PLMNidentity(val_plmnidentity)
-	bsBytes_engnbid, bsBitLen_engnbid, err := per.DecodeBitStringAligned(bb, 22, 32, true)
-	if err != nil {
-		return fmt.Errorf("decoding en-gNB-ID: %w", err)
-	}
-	v.EnGNBID = runtime.BitString{Bytes: bsBytes_engnbid, BitLength: bsBitLen_engnbid}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
 	}
 	return nil
 }
@@ -12812,11 +11803,7 @@ func (v *ENDCSONTransferType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 2 + 1
-		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("ENDCSONTransferType: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("ENDCSONTransferType: unsupported extension choice %d", int(extIdx)+2+1)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -12836,305 +11823,6 @@ func (v *ENDCSONTransferType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("decoding reply: %w", err)
 		}
 		v.Reply = &dec_reply
-	}
-	return nil
-}
-
-// MarshalAPER encodes ENDCTransferTypeRequest to APER format.
-func (v *ENDCTransferTypeRequest) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ENDCTransferTypeRequest) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.TargeteNB != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.AssociatedTAI != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.Broadcast5GSTAI != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := v.SourceeNB.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding sourceeNB: %w", err)
-	}
-	if err := v.TargetengNB.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding targetengNB: %w", err)
-	}
-	if v.TargeteNB != nil {
-		if err := v.TargeteNB.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding targeteNB: %w", err)
-		}
-	}
-	if v.AssociatedTAI != nil {
-		if err := v.AssociatedTAI.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding associatedTAI: %w", err)
-		}
-	}
-	if v.Broadcast5GSTAI != nil {
-		if err := v.Broadcast5GSTAI.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding broadcast5GSTAI: %w", err)
-		}
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ENDCTransferTypeRequest from APER format.
-func (v *ENDCTransferTypeRequest) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *ENDCTransferTypeRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_targetenb, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_associatedtai, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_broadcast5gstai, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if err := v.SourceeNB.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding sourceeNB: %w", err)
-	}
-	if err := v.TargetengNB.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding targetengNB: %w", err)
-	}
-	if opt_targetenb {
-		var dec_targetenb ENDCSONeNBIdentification
-		if err := dec_targetenb.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding targeteNB: %w", err)
-		}
-		v.TargeteNB = &dec_targetenb
-	}
-	if opt_associatedtai {
-		var dec_associatedtai TAI
-		if err := dec_associatedtai.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding associatedTAI: %w", err)
-		}
-		v.AssociatedTAI = &dec_associatedtai
-	}
-	if opt_broadcast5gstai {
-		var dec_broadcast5gstai FiveGSTAI
-		if err := dec_broadcast5gstai.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding broadcast5GSTAI: %w", err)
-		}
-		v.Broadcast5GSTAI = &dec_broadcast5gstai
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ENDCTransferTypeReply to APER format.
-func (v *ENDCTransferTypeReply) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ENDCTransferTypeReply) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := v.SourceengNB.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding sourceengNB: %w", err)
-	}
-	if err := v.TargeteNB.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding targeteNB: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ENDCTransferTypeReply from APER format.
-func (v *ENDCTransferTypeReply) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *ENDCTransferTypeReply) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if err := v.SourceengNB.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding sourceengNB: %w", err)
-	}
-	if err := v.TargeteNB.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding targeteNB: %w", err)
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
 	}
 	return nil
 }
@@ -13381,6 +12069,430 @@ func (v *ENDCSONengNBIdentification) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	return nil
 }
 
+// MarshalAPER encodes ENDCTransferTypeReply to APER format.
+func (v *ENDCTransferTypeReply) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ENDCTransferTypeReply) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := v.SourceengNB.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding sourceengNB: %w", err)
+	}
+	if err := v.TargeteNB.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding targeteNB: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ENDCTransferTypeReply from APER format.
+func (v *ENDCTransferTypeReply) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ENDCTransferTypeReply) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if err := v.SourceengNB.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding sourceengNB: %w", err)
+	}
+	if err := v.TargeteNB.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding targeteNB: %w", err)
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ENDCTransferTypeRequest to APER format.
+func (v *ENDCTransferTypeRequest) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ENDCTransferTypeRequest) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.TargeteNB != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.AssociatedTAI != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.Broadcast5GSTAI != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := v.SourceeNB.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding sourceeNB: %w", err)
+	}
+	if err := v.TargetengNB.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding targetengNB: %w", err)
+	}
+	if v.TargeteNB != nil {
+		if err := v.TargeteNB.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding targeteNB: %w", err)
+		}
+	}
+	if v.AssociatedTAI != nil {
+		if err := v.AssociatedTAI.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding associatedTAI: %w", err)
+		}
+	}
+	if v.Broadcast5GSTAI != nil {
+		if err := v.Broadcast5GSTAI.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding broadcast5GSTAI: %w", err)
+		}
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ENDCTransferTypeRequest from APER format.
+func (v *ENDCTransferTypeRequest) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ENDCTransferTypeRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_targetenb, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_associatedtai, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_broadcast5gstai, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if err := v.SourceeNB.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding sourceeNB: %w", err)
+	}
+	if err := v.TargetengNB.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding targetengNB: %w", err)
+	}
+	if opt_targetenb {
+		var dec_targetenb ENDCSONeNBIdentification
+		if err := dec_targetenb.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding targeteNB: %w", err)
+		}
+		v.TargeteNB = &dec_targetenb
+	}
+	if opt_associatedtai {
+		var dec_associatedtai TAI
+		if err := dec_associatedtai.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding associatedTAI: %w", err)
+		}
+		v.AssociatedTAI = &dec_associatedtai
+	}
+	if opt_broadcast5gstai {
+		var dec_broadcast5gstai FiveGSTAI
+		if err := dec_broadcast5gstai.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding broadcast5GSTAI: %w", err)
+		}
+		v.Broadcast5GSTAI = &dec_broadcast5gstai
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes EUTRANCGI to APER format.
+func (v *EUTRANCGI) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *EUTRANCGI) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNidentity), 3, 3, true); err != nil {
+		return fmt.Errorf("encoding pLMNidentity: %w", err)
+	}
+	if err := per.EncodeBitStringAligned(bb, v.CellID.Bytes, v.CellID.BitLength, 28, 28, true); err != nil {
+		return fmt.Errorf("encoding cell-ID: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes EUTRANCGI from APER format.
+func (v *EUTRANCGI) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *EUTRANCGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
+	if err != nil {
+		return fmt.Errorf("decoding pLMNidentity: %w", err)
+	}
+	v.PLMNidentity = PLMNidentity(val_plmnidentity)
+	bsBytes_cellid, bsBitLen_cellid, err := per.DecodeBitStringAligned(bb, 28, 28, true)
+	if err != nil {
+		return fmt.Errorf("decoding cell-ID: %w", err)
+	}
+	v.CellID = runtime.BitString{Bytes: bsBytes_cellid, BitLength: bsBitLen_cellid}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
 // MarshalAPER encodes ERABInformationListItem to APER format.
 func (v *ERABInformationListItem) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -13402,7 +12514,7 @@ func (v *ERABInformationListItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
 		return fmt.Errorf("encoding e-RAB-ID: %w", err)
 	}
 	if v.DLForwarding != nil {
@@ -13463,7 +12575,7 @@ func (v *ERABInformationListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
@@ -13536,7 +12648,7 @@ func (v *ERABItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
 		return fmt.Errorf("encoding e-RAB-ID: %w", err)
 	}
 	if err := v.Cause.MarshalAPERTo(bb); err != nil {
@@ -13591,7 +12703,7 @@ func (v *ERABItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
@@ -13801,7 +12913,7 @@ func (v *ERABSecurityResultItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
 		return fmt.Errorf("encoding e-RAB-ID: %w", err)
 	}
 	if err := v.SecurityResult.MarshalAPERTo(bb); err != nil {
@@ -13856,7 +12968,7 @@ func (v *ERABSecurityResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
@@ -14047,8 +13159,8 @@ func (v *ERABUsageReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes EUTRANCGI to APER format.
-func (v *EUTRANCGI) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes EmergencyAreaIDBroadcastItem to APER format.
+func (v *EmergencyAreaIDBroadcastItem) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -14056,7 +13168,7 @@ func (v *EUTRANCGI) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *EUTRANCGI) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *EmergencyAreaIDBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -14065,11 +13177,16 @@ func (v *EUTRANCGI) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNidentity), 0, 0, false); err != nil {
-		return fmt.Errorf("encoding pLMNidentity: %w", err)
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.EmergencyAreaID), 3, 3, true); err != nil {
+		return fmt.Errorf("encoding emergencyAreaID: %w", err)
 	}
-	if err := per.EncodeBitStringAligned(bb, v.CellID.Bytes, v.CellID.BitLength, 28, 28, true); err != nil {
-		return fmt.Errorf("encoding cell-ID: %w", err)
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.CompletedCellinEAI)), 1, 65535); err != nil {
+		return fmt.Errorf("encoding completedCellinEAI length: %w", err)
+	}
+	for _, elem := range v.CompletedCellinEAI {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding completedCellinEAI element: %w", err)
+		}
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
@@ -14104,13 +13221,13 @@ func (v *EUTRANCGI) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes EUTRANCGI from APER format.
-func (v *EUTRANCGI) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes EmergencyAreaIDBroadcastItem from APER format.
+func (v *EmergencyAreaIDBroadcastItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *EUTRANCGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *EmergencyAreaIDBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -14120,16 +13237,156 @@ func (v *EUTRANCGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+	val_emergencyareaid, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding pLMNidentity: %w", err)
+		return fmt.Errorf("decoding emergencyAreaID: %w", err)
 	}
-	v.PLMNidentity = PLMNidentity(val_plmnidentity)
-	bsBytes_cellid, bsBitLen_cellid, err := per.DecodeBitStringAligned(bb, 28, 28, true)
+	v.EmergencyAreaID = EmergencyAreaID(val_emergencyareaid)
+	seqLen_completedcellineai, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 	if err != nil {
-		return fmt.Errorf("decoding cell-ID: %w", err)
+		return fmt.Errorf("decoding completedCellinEAI length: %w", err)
 	}
-	v.CellID = runtime.BitString{Bytes: bsBytes_cellid, BitLength: bsBitLen_cellid}
+	v.CompletedCellinEAI = make(CompletedCellinEAI, seqLen_completedcellineai)
+	for i := int64(0); i < seqLen_completedcellineai; i++ {
+		if err := v.CompletedCellinEAI[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding completedCellinEAI element: %w", err)
+		}
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes EmergencyAreaIDCancelledItem to APER format.
+func (v *EmergencyAreaIDCancelledItem) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *EmergencyAreaIDCancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.EmergencyAreaID), 3, 3, true); err != nil {
+		return fmt.Errorf("encoding emergencyAreaID: %w", err)
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.CancelledCellinEAI)), 1, 65535); err != nil {
+		return fmt.Errorf("encoding cancelledCellinEAI length: %w", err)
+	}
+	for _, elem := range v.CancelledCellinEAI {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding cancelledCellinEAI element: %w", err)
+		}
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes EmergencyAreaIDCancelledItem from APER format.
+func (v *EmergencyAreaIDCancelledItem) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *EmergencyAreaIDCancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_emergencyareaid, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
+	if err != nil {
+		return fmt.Errorf("decoding emergencyAreaID: %w", err)
+	}
+	v.EmergencyAreaID = EmergencyAreaID(val_emergencyareaid)
+	seqLen_cancelledcellineai, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding cancelledCellinEAI length: %w", err)
+	}
+	v.CancelledCellinEAI = make(CancelledCellinEAI, seqLen_cancelledcellineai)
+	for i := int64(0); i < seqLen_cancelledcellineai; i++ {
+		if err := v.CancelledCellinEAI[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding cancelledCellinEAI element: %w", err)
+		}
+	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -14370,6 +13627,173 @@ func (v *EventTrigger) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
+// MarshalAPER encodes ExpectedUEActivityBehaviour to APER format.
+func (v *ExpectedUEActivityBehaviour) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ExpectedUEActivityBehaviour) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.ExpectedActivityPeriod != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.ExpectedIdlePeriod != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.SourceofUEActivityBehaviourInformation != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if v.ExpectedActivityPeriod != nil {
+		if err := per.EncodeIntegerAligned(bb, int64(*v.ExpectedActivityPeriod), int64Ptr(1), int64Ptr(30), true); err != nil {
+			return fmt.Errorf("encoding expectedActivityPeriod: %w", err)
+		}
+	}
+	if v.ExpectedIdlePeriod != nil {
+		if err := per.EncodeIntegerAligned(bb, int64(*v.ExpectedIdlePeriod), int64Ptr(1), int64Ptr(30), true); err != nil {
+			return fmt.Errorf("encoding expectedIdlePeriod: %w", err)
+		}
+	}
+	if v.SourceofUEActivityBehaviourInformation != nil {
+		if err := per.EncodeEnumeratedAligned(bb, int64(*v.SourceofUEActivityBehaviourInformation), 2, true); err != nil {
+			return fmt.Errorf("encoding sourceofUEActivityBehaviourInformation: %w", err)
+		}
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ExpectedUEActivityBehaviour from APER format.
+func (v *ExpectedUEActivityBehaviour) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ExpectedUEActivityBehaviour) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_expectedactivityperiod, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_expectedidleperiod, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_sourceofueactivitybehaviourinformation, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_expectedactivityperiod {
+		val_expectedactivityperiod, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(30), true)
+		if err != nil {
+			return fmt.Errorf("decoding expectedActivityPeriod: %w", err)
+		}
+		v.ExpectedActivityPeriod = &val_expectedactivityperiod
+	}
+	if opt_expectedidleperiod {
+		val_expectedidleperiod, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(30), true)
+		if err != nil {
+			return fmt.Errorf("decoding expectedIdlePeriod: %w", err)
+		}
+		v.ExpectedIdlePeriod = &val_expectedidleperiod
+	}
+	if opt_sourceofueactivitybehaviourinformation {
+		val_sourceofueactivitybehaviourinformation, err := per.DecodeEnumeratedAligned(bb, 2, true)
+		if err != nil {
+			return fmt.Errorf("decoding sourceofUEActivityBehaviourInformation: %w", err)
+		}
+		tmp_sourceofueactivitybehaviourinformation := SourceOfUEActivityBehaviourInformation(val_sourceofueactivitybehaviourinformation)
+		v.SourceofUEActivityBehaviourInformation = &tmp_sourceofueactivitybehaviourinformation
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
 // MarshalAPER encodes ExpectedUEBehaviour to APER format.
 func (v *ExpectedUEBehaviour) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -14518,173 +13942,6 @@ func (v *ExpectedUEBehaviour) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes ExpectedUEActivityBehaviour to APER format.
-func (v *ExpectedUEActivityBehaviour) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ExpectedUEActivityBehaviour) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.ExpectedActivityPeriod != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.ExpectedIdlePeriod != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.SourceofUEActivityBehaviourInformation != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if v.ExpectedActivityPeriod != nil {
-		if err := per.EncodeIntegerAligned(bb, int64(*v.ExpectedActivityPeriod), int64Ptr(1), int64Ptr(30), false); err != nil {
-			return fmt.Errorf("encoding expectedActivityPeriod: %w", err)
-		}
-	}
-	if v.ExpectedIdlePeriod != nil {
-		if err := per.EncodeIntegerAligned(bb, int64(*v.ExpectedIdlePeriod), int64Ptr(1), int64Ptr(30), false); err != nil {
-			return fmt.Errorf("encoding expectedIdlePeriod: %w", err)
-		}
-	}
-	if v.SourceofUEActivityBehaviourInformation != nil {
-		if err := per.EncodeEnumeratedAligned(bb, int64(*v.SourceofUEActivityBehaviourInformation), 2, true); err != nil {
-			return fmt.Errorf("encoding sourceofUEActivityBehaviourInformation: %w", err)
-		}
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ExpectedUEActivityBehaviour from APER format.
-func (v *ExpectedUEActivityBehaviour) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *ExpectedUEActivityBehaviour) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_expectedactivityperiod, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_expectedidleperiod, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_sourceofueactivitybehaviourinformation, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_expectedactivityperiod {
-		val_expectedactivityperiod, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(30), false)
-		if err != nil {
-			return fmt.Errorf("decoding expectedActivityPeriod: %w", err)
-		}
-		v.ExpectedActivityPeriod = &val_expectedactivityperiod
-	}
-	if opt_expectedidleperiod {
-		val_expectedidleperiod, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(30), false)
-		if err != nil {
-			return fmt.Errorf("decoding expectedIdlePeriod: %w", err)
-		}
-		v.ExpectedIdlePeriod = &val_expectedidleperiod
-	}
-	if opt_sourceofueactivitybehaviourinformation {
-		val_sourceofueactivitybehaviourinformation, err := per.DecodeEnumeratedAligned(bb, 2, true)
-		if err != nil {
-			return fmt.Errorf("decoding sourceofUEActivityBehaviourInformation: %w", err)
-		}
-		tmp_sourceofueactivitybehaviourinformation := SourceOfUEActivityBehaviourInformation(val_sourceofueactivitybehaviourinformation)
-		v.SourceofUEActivityBehaviourInformation = &tmp_sourceofueactivitybehaviourinformation
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
 // MarshalAPER encodes FiveGSTAI to APER format.
 func (v *FiveGSTAI) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -14703,7 +13960,7 @@ func (v *FiveGSTAI) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNidentity), 0, 0, false); err != nil {
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNidentity), 3, 3, true); err != nil {
 		return fmt.Errorf("encoding pLMNidentity: %w", err)
 	}
 	if err := per.EncodeOctetStringAligned(bb, []byte(v.FiveGSTAC), 3, 3, true); err != nil {
@@ -14758,7 +14015,7 @@ func (v *FiveGSTAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
 		return fmt.Errorf("decoding pLMNidentity: %w", err)
 	}
@@ -14768,143 +14025,6 @@ func (v *FiveGSTAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding fiveGSTAC: %w", err)
 	}
 	v.FiveGSTAC = FiveGSTAC(val_fivegstac)
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ForbiddenTAsItem to APER format.
-func (v *ForbiddenTAsItem) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ForbiddenTAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNIdentity), 0, 0, false); err != nil {
-		return fmt.Errorf("encoding pLMN-Identity: %w", err)
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ForbiddenTACs)), 1, 4096); err != nil {
-		return fmt.Errorf("encoding forbiddenTACs length: %w", err)
-	}
-	for _, elem := range v.ForbiddenTACs {
-		if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
-			return fmt.Errorf("encoding forbiddenTACs element: %w", err)
-		}
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ForbiddenTAsItem from APER format.
-func (v *ForbiddenTAsItem) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *ForbiddenTAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding pLMN-Identity: %w", err)
-	}
-	v.PLMNIdentity = PLMNidentity(val_plmnidentity)
-	seqLen_forbiddentacs, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 4096)
-	if err != nil {
-		return fmt.Errorf("decoding forbiddenTACs length: %w", err)
-	}
-	v.ForbiddenTACs = make(ForbiddenTACs, seqLen_forbiddentacs)
-	for i := int64(0); i < seqLen_forbiddentacs; i++ {
-		val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
-		if err != nil {
-			return fmt.Errorf("decoding forbiddenTACs element: %w", err)
-		}
-		v.ForbiddenTACs[i] = val
-	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -14965,7 +14085,7 @@ func (v *ForbiddenLAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNIdentity), 0, 0, false); err != nil {
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNIdentity), 3, 3, true); err != nil {
 		return fmt.Errorf("encoding pLMN-Identity: %w", err)
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ForbiddenLACs)), 1, 4096); err != nil {
@@ -15025,7 +14145,7 @@ func (v *ForbiddenLAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
 		return fmt.Errorf("decoding pLMN-Identity: %w", err)
 	}
@@ -15041,6 +14161,143 @@ func (v *ForbiddenLAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("decoding forbiddenLACs element: %w", err)
 		}
 		v.ForbiddenLACs[i] = val
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ForbiddenTAsItem to APER format.
+func (v *ForbiddenTAsItem) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ForbiddenTAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNIdentity), 3, 3, true); err != nil {
+		return fmt.Errorf("encoding pLMN-Identity: %w", err)
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ForbiddenTACs)), 1, 4096); err != nil {
+		return fmt.Errorf("encoding forbiddenTACs length: %w", err)
+	}
+	for _, elem := range v.ForbiddenTACs {
+		if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
+			return fmt.Errorf("encoding forbiddenTACs element: %w", err)
+		}
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ForbiddenTAsItem from APER format.
+func (v *ForbiddenTAsItem) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ForbiddenTAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
+	if err != nil {
+		return fmt.Errorf("decoding pLMN-Identity: %w", err)
+	}
+	v.PLMNIdentity = PLMNidentity(val_plmnidentity)
+	seqLen_forbiddentacs, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 4096)
+	if err != nil {
+		return fmt.Errorf("decoding forbiddenTACs length: %w", err)
+	}
+	v.ForbiddenTACs = make(ForbiddenTACs, seqLen_forbiddentacs)
+	for i := int64(0); i < seqLen_forbiddentacs; i++ {
+		val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
+		if err != nil {
+			return fmt.Errorf("decoding forbiddenTACs element: %w", err)
+		}
+		v.ForbiddenTACs[i] = val
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -15225,6 +14482,311 @@ func (v *GBRQosInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
+// MarshalAPER encodes GERANCellID to APER format.
+func (v *GERANCellID) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *GERANCellID) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := v.LAI.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding lAI: %w", err)
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.RAC), 1, 1, true); err != nil {
+		return fmt.Errorf("encoding rAC: %w", err)
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.CI), 2, 2, true); err != nil {
+		return fmt.Errorf("encoding cI: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes GERANCellID from APER format.
+func (v *GERANCellID) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *GERANCellID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if err := v.LAI.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding lAI: %w", err)
+	}
+	val_rac, err := per.DecodeOctetStringAligned(bb, 1, 1, true)
+	if err != nil {
+		return fmt.Errorf("decoding rAC: %w", err)
+	}
+	v.RAC = RAC(val_rac)
+	val_ci, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
+	if err != nil {
+		return fmt.Errorf("decoding cI: %w", err)
+	}
+	v.CI = CI(val_ci)
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes GNB to APER format.
+func (v *GNB) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *GNB) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := v.GlobalGNBID.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding global-gNB-ID: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes GNB from APER format.
+func (v *GNB) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *GNB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if err := v.GlobalGNBID.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding global-gNB-ID: %w", err)
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes GNBIdentity to APER format.
+func (v *GNBIdentity) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *GNBIdentity) MarshalAPERTo(bb *per.BitBuffer) error {
+	isExtension := v.Choice > 1
+	if err := per.EncodeBoolean(bb, isExtension); err != nil {
+		return err
+	}
+	if isExtension {
+		return fmt.Errorf("GNBIdentity: extension choice %d not supported", v.Choice)
+	}
+	switch v.Choice {
+	case GNBIdentityChoiceGNBID:
+		if err := per.EncodeBitStringAligned(bb, v.GNBID.Bytes, v.GNBID.BitLength, 22, 32, true); err != nil {
+			return fmt.Errorf("encoding gNB-ID: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown GNBIdentity choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes GNBIdentity from APER format.
+func (v *GNBIdentity) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *GNBIdentity) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	isExtension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if isExtension {
+		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		return fmt.Errorf("GNBIdentity: unsupported extension choice %d", int(extIdx)+1+1)
+	}
+	v.Choice = 1
+	switch v.Choice {
+	case GNBIdentityChoiceGNBID:
+		bsBytes_gnbid, bsBitLen_gnbid, err := per.DecodeBitStringAligned(bb, 22, 32, true)
+		if err != nil {
+			return fmt.Errorf("decoding gNB-ID: %w", err)
+		}
+		tmp_gnbid := runtime.BitString{Bytes: bsBytes_gnbid, BitLength: bsBitLen_gnbid}
+		v.GNBID = &tmp_gnbid
+	}
+	return nil
+}
+
 // MarshalAPER encodes GUMMEI to APER format.
 func (v *GUMMEI) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -15243,7 +14805,7 @@ func (v *GUMMEI) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNIdentity), 0, 0, false); err != nil {
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNIdentity), 3, 3, true); err != nil {
 		return fmt.Errorf("encoding pLMN-Identity: %w", err)
 	}
 	if err := per.EncodeOctetStringAligned(bb, []byte(v.MMEGroupID), 2, 2, true); err != nil {
@@ -15301,7 +14863,7 @@ func (v *GUMMEI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
 		return fmt.Errorf("decoding pLMN-Identity: %w", err)
 	}
@@ -15316,6 +14878,452 @@ func (v *GUMMEI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding mME-Code: %w", err)
 	}
 	v.MMECode = MMECode(val_mmecode)
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes GlobalENBID to APER format.
+func (v *GlobalENBID) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *GlobalENBID) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNidentity), 3, 3, true); err != nil {
+		return fmt.Errorf("encoding pLMNidentity: %w", err)
+	}
+	if err := v.ENBID.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding eNB-ID: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes GlobalENBID from APER format.
+func (v *GlobalENBID) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *GlobalENBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
+	if err != nil {
+		return fmt.Errorf("decoding pLMNidentity: %w", err)
+	}
+	v.PLMNidentity = PLMNidentity(val_plmnidentity)
+	if err := v.ENBID.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding eNB-ID: %w", err)
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes GlobalGNBID to APER format.
+func (v *GlobalGNBID) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *GlobalGNBID) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNIdentity), 3, 3, true); err != nil {
+		return fmt.Errorf("encoding pLMN-Identity: %w", err)
+	}
+	if err := v.GNBID.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding gNB-ID: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes GlobalGNBID from APER format.
+func (v *GlobalGNBID) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *GlobalGNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
+	if err != nil {
+		return fmt.Errorf("decoding pLMN-Identity: %w", err)
+	}
+	v.PLMNIdentity = PLMNidentity(val_plmnidentity)
+	if err := v.GNBID.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding gNB-ID: %w", err)
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes GlobalRANNODEID to APER format.
+func (v *GlobalRANNODEID) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *GlobalRANNODEID) MarshalAPERTo(bb *per.BitBuffer) error {
+	isExtension := v.Choice > 2
+	if err := per.EncodeBoolean(bb, isExtension); err != nil {
+		return err
+	}
+	if isExtension {
+		return fmt.Errorf("GlobalRANNODEID: extension choice %d not supported", v.Choice)
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case GlobalRANNODEIDChoiceGNB:
+		if err := v.GNB.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding gNB: %w", err)
+		}
+	case GlobalRANNODEIDChoiceNgENB:
+		if err := v.NgENB.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding ng-eNB: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown GlobalRANNODEID choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes GlobalRANNODEID from APER format.
+func (v *GlobalRANNODEID) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *GlobalRANNODEID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	isExtension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if isExtension {
+		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		return fmt.Errorf("GlobalRANNODEID: unsupported extension choice %d", int(extIdx)+2+1)
+	}
+	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case GlobalRANNODEIDChoiceGNB:
+		var dec_gnb GNB
+		if err := dec_gnb.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding gNB: %w", err)
+		}
+		v.GNB = &dec_gnb
+	case GlobalRANNODEIDChoiceNgENB:
+		var dec_ngenb NGENB
+		if err := dec_ngenb.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding ng-eNB: %w", err)
+		}
+		v.NgENB = &dec_ngenb
+	}
+	return nil
+}
+
+// MarshalAPER encodes GlobalEnGNBID to APER format.
+func (v *GlobalEnGNBID) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *GlobalEnGNBID) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNidentity), 3, 3, true); err != nil {
+		return fmt.Errorf("encoding pLMNidentity: %w", err)
+	}
+	if err := per.EncodeBitStringAlignedExt(bb, v.EnGNBID.Bytes, v.EnGNBID.BitLength, 22, 32, true, true); err != nil {
+		return fmt.Errorf("encoding en-gNB-ID: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes GlobalEnGNBID from APER format.
+func (v *GlobalEnGNBID) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *GlobalEnGNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
+	if err != nil {
+		return fmt.Errorf("decoding pLMNidentity: %w", err)
+	}
+	v.PLMNidentity = PLMNidentity(val_plmnidentity)
+	bsBytes_engnbid, bsBitLen_engnbid, err := per.DecodeBitStringAlignedExt(bb, 22, 32, true, true)
+	if err != nil {
+		return fmt.Errorf("decoding en-gNB-ID: %w", err)
+	}
+	v.EnGNBID = runtime.BitString{Bytes: bsBytes_engnbid, BitLength: bsBitLen_engnbid}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -15388,7 +15396,7 @@ func (v *HandoverRestrictionList) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.ServingPLMN), 0, 0, false); err != nil {
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.ServingPLMN), 3, 3, true); err != nil {
 		return fmt.Errorf("encoding servingPLMN: %w", err)
 	}
 	if v.EquivalentPLMNs != nil {
@@ -15396,7 +15404,7 @@ func (v *HandoverRestrictionList) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding equivalentPLMNs length: %w", err)
 		}
 		for _, elem := range v.EquivalentPLMNs {
-			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 0, 0, false); err != nil {
+			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
 				return fmt.Errorf("encoding equivalentPLMNs element: %w", err)
 			}
 		}
@@ -15491,7 +15499,7 @@ func (v *HandoverRestrictionList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_servingplmn, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+	val_servingplmn, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
 		return fmt.Errorf("decoding servingPLMN: %w", err)
 	}
@@ -15503,7 +15511,7 @@ func (v *HandoverRestrictionList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		tmp_equivalentplmns := make(EPLMNs, seqLen_equivalentplmns)
 		for i := int64(0); i < seqLen_equivalentplmns; i++ {
-			val, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
 				return fmt.Errorf("decoding equivalentPLMNs element: %w", err)
 			}
@@ -15871,6 +15879,371 @@ func (v *InformationOnRecommendedCellsAndENBsForPaging) UnmarshalAPERFrom(bb *pe
 	return nil
 }
 
+// MarshalAPER encodes InterSystemMeasurementItem to APER format.
+func (v *InterSystemMeasurementItem) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *InterSystemMeasurementItem) MarshalAPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.MaxRSIndexCellQual != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.SMTC != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.ThreshRSIndexR15 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.SSBToMeasure != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.SSRSSIMeasurement != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.QuantityConfigNRR15 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.ExcludedCellsToAddModList != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.FreqBandIndicatorNR), int64Ptr(1), int64Ptr(1024), false); err != nil {
+		return fmt.Errorf("encoding freqBandIndicatorNR: %w", err)
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.SSBfrequencies), int64Ptr(0), int64Ptr(3279165), false); err != nil {
+		return fmt.Errorf("encoding sSBfrequencies: %w", err)
+	}
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.SubcarrierSpacingSSB), 5, true); err != nil {
+		return fmt.Errorf("encoding subcarrierSpacingSSB: %w", err)
+	}
+	if v.MaxRSIndexCellQual != nil {
+		if err := per.EncodeIntegerAligned(bb, int64(*v.MaxRSIndexCellQual), int64Ptr(1), int64Ptr(16), false); err != nil {
+			return fmt.Errorf("encoding maxRSIndexCellQual: %w", err)
+		}
+	}
+	if v.SMTC != nil {
+		if err := per.EncodeOctetStringAligned(bb, v.SMTC, 0, 0, false); err != nil {
+			return fmt.Errorf("encoding sMTC: %w", err)
+		}
+	}
+	if v.ThreshRSIndexR15 != nil {
+		if err := per.EncodeOctetStringAligned(bb, v.ThreshRSIndexR15, 0, 0, false); err != nil {
+			return fmt.Errorf("encoding threshRS-Index-r15: %w", err)
+		}
+	}
+	if v.SSBToMeasure != nil {
+		if err := per.EncodeOctetStringAligned(bb, v.SSBToMeasure, 0, 0, false); err != nil {
+			return fmt.Errorf("encoding sSBToMeasure: %w", err)
+		}
+	}
+	if v.SSRSSIMeasurement != nil {
+		if err := per.EncodeOctetStringAligned(bb, v.SSRSSIMeasurement, 0, 0, false); err != nil {
+			return fmt.Errorf("encoding sSRSSIMeasurement: %w", err)
+		}
+	}
+	if v.QuantityConfigNRR15 != nil {
+		if err := per.EncodeOctetStringAligned(bb, v.QuantityConfigNRR15, 0, 0, false); err != nil {
+			return fmt.Errorf("encoding quantityConfigNR-R15: %w", err)
+		}
+	}
+	if v.ExcludedCellsToAddModList != nil {
+		if err := per.EncodeOctetStringAligned(bb, v.ExcludedCellsToAddModList, 0, 0, false); err != nil {
+			return fmt.Errorf("encoding excludedCellsToAddModList: %w", err)
+		}
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes InterSystemMeasurementItem from APER format.
+func (v *InterSystemMeasurementItem) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *InterSystemMeasurementItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_maxrsindexcellqual, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_smtc, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_threshrsindexr15, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ssbtomeasure, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ssrssimeasurement, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_quantityconfignrr15, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_excludedcellstoaddmodlist, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_freqbandindicatornr, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(1024), false)
+	if err != nil {
+		return fmt.Errorf("decoding freqBandIndicatorNR: %w", err)
+	}
+	v.FreqBandIndicatorNR = val_freqbandindicatornr
+	val_ssbfrequencies, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(3279165), false)
+	if err != nil {
+		return fmt.Errorf("decoding sSBfrequencies: %w", err)
+	}
+	v.SSBfrequencies = val_ssbfrequencies
+	val_subcarrierspacingssb, err := per.DecodeEnumeratedAligned(bb, 5, true)
+	if err != nil {
+		return fmt.Errorf("decoding subcarrierSpacingSSB: %w", err)
+	}
+	v.SubcarrierSpacingSSB = val_subcarrierspacingssb
+	if opt_maxrsindexcellqual {
+		val_maxrsindexcellqual, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(16), false)
+		if err != nil {
+			return fmt.Errorf("decoding maxRSIndexCellQual: %w", err)
+		}
+		v.MaxRSIndexCellQual = &val_maxrsindexcellqual
+	}
+	if opt_smtc {
+		val_smtc, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+		if err != nil {
+			return fmt.Errorf("decoding sMTC: %w", err)
+		}
+		tmp_smtc := val_smtc
+		v.SMTC = tmp_smtc
+	}
+	if opt_threshrsindexr15 {
+		val_threshrsindexr15, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+		if err != nil {
+			return fmt.Errorf("decoding threshRS-Index-r15: %w", err)
+		}
+		tmp_threshrsindexr15 := val_threshrsindexr15
+		v.ThreshRSIndexR15 = tmp_threshrsindexr15
+	}
+	if opt_ssbtomeasure {
+		val_ssbtomeasure, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+		if err != nil {
+			return fmt.Errorf("decoding sSBToMeasure: %w", err)
+		}
+		tmp_ssbtomeasure := val_ssbtomeasure
+		v.SSBToMeasure = tmp_ssbtomeasure
+	}
+	if opt_ssrssimeasurement {
+		val_ssrssimeasurement, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+		if err != nil {
+			return fmt.Errorf("decoding sSRSSIMeasurement: %w", err)
+		}
+		tmp_ssrssimeasurement := val_ssrssimeasurement
+		v.SSRSSIMeasurement = tmp_ssrssimeasurement
+	}
+	if opt_quantityconfignrr15 {
+		val_quantityconfignrr15, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+		if err != nil {
+			return fmt.Errorf("decoding quantityConfigNR-R15: %w", err)
+		}
+		tmp_quantityconfignrr15 := val_quantityconfignrr15
+		v.QuantityConfigNRR15 = tmp_quantityconfignrr15
+	}
+	if opt_excludedcellstoaddmodlist {
+		val_excludedcellstoaddmodlist, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+		if err != nil {
+			return fmt.Errorf("decoding excludedCellsToAddModList: %w", err)
+		}
+		tmp_excludedcellstoaddmodlist := val_excludedcellstoaddmodlist
+		v.ExcludedCellsToAddModList = tmp_excludedcellstoaddmodlist
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	return nil
+}
+
+// MarshalAPER encodes InterSystemMeasurementParameters to APER format.
+func (v *InterSystemMeasurementParameters) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *InterSystemMeasurementParameters) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.InterSystemMeasurementList != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.MeasurementDuration), int64Ptr(1), int64Ptr(100), false); err != nil {
+		return fmt.Errorf("encoding measurementDuration: %w", err)
+	}
+	if v.InterSystemMeasurementList != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.InterSystemMeasurementList)), 1, 64); err != nil {
+			return fmt.Errorf("encoding interSystemMeasurementList length: %w", err)
+		}
+		for _, elem := range v.InterSystemMeasurementList {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding interSystemMeasurementList element: %w", err)
+			}
+		}
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes InterSystemMeasurementParameters from APER format.
+func (v *InterSystemMeasurementParameters) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *InterSystemMeasurementParameters) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_intersystemmeasurementlist, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_measurementduration, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(100), false)
+	if err != nil {
+		return fmt.Errorf("decoding measurementDuration: %w", err)
+	}
+	v.MeasurementDuration = val_measurementduration
+	if opt_intersystemmeasurementlist {
+		seqLen_intersystemmeasurementlist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 64)
+		if err != nil {
+			return fmt.Errorf("decoding interSystemMeasurementList length: %w", err)
+		}
+		tmp_intersystemmeasurementlist := make(InterSystemMeasurementList, seqLen_intersystemmeasurementlist)
+		for i := int64(0); i < seqLen_intersystemmeasurementlist; i++ {
+			if err := tmp_intersystemmeasurementlist[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding interSystemMeasurementList element: %w", err)
+			}
+		}
+		v.InterSystemMeasurementList = tmp_intersystemmeasurementlist
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
 // MarshalAPER encodes IntersystemMeasurementConfiguration to APER format.
 func (v *IntersystemMeasurementConfiguration) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -16043,371 +16416,6 @@ func (v *IntersystemMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffe
 	return nil
 }
 
-// MarshalAPER encodes InterSystemMeasurementParameters to APER format.
-func (v *InterSystemMeasurementParameters) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *InterSystemMeasurementParameters) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.InterSystemMeasurementList != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.MeasurementDuration), int64Ptr(1), int64Ptr(100), false); err != nil {
-		return fmt.Errorf("encoding measurementDuration: %w", err)
-	}
-	if v.InterSystemMeasurementList != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.InterSystemMeasurementList)), 1, 64); err != nil {
-			return fmt.Errorf("encoding interSystemMeasurementList length: %w", err)
-		}
-		for _, elem := range v.InterSystemMeasurementList {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding interSystemMeasurementList element: %w", err)
-			}
-		}
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes InterSystemMeasurementParameters from APER format.
-func (v *InterSystemMeasurementParameters) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *InterSystemMeasurementParameters) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_intersystemmeasurementlist, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_measurementduration, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(100), false)
-	if err != nil {
-		return fmt.Errorf("decoding measurementDuration: %w", err)
-	}
-	v.MeasurementDuration = val_measurementduration
-	if opt_intersystemmeasurementlist {
-		seqLen_intersystemmeasurementlist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 64)
-		if err != nil {
-			return fmt.Errorf("decoding interSystemMeasurementList length: %w", err)
-		}
-		tmp_intersystemmeasurementlist := make(InterSystemMeasurementList, seqLen_intersystemmeasurementlist)
-		for i := int64(0); i < seqLen_intersystemmeasurementlist; i++ {
-			if err := tmp_intersystemmeasurementlist[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding interSystemMeasurementList element: %w", err)
-			}
-		}
-		v.InterSystemMeasurementList = tmp_intersystemmeasurementlist
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes InterSystemMeasurementItem to APER format.
-func (v *InterSystemMeasurementItem) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *InterSystemMeasurementItem) MarshalAPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.MaxRSIndexCellQual != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.SMTC != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.ThreshRSIndexR15 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.SSBToMeasure != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.SSRSSIMeasurement != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.QuantityConfigNRR15 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.ExcludedCellsToAddModList != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.FreqBandIndicatorNR), int64Ptr(1), int64Ptr(1024), false); err != nil {
-		return fmt.Errorf("encoding freqBandIndicatorNR: %w", err)
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.SSBfrequencies), int64Ptr(0), int64Ptr(3279165), false); err != nil {
-		return fmt.Errorf("encoding sSBfrequencies: %w", err)
-	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.SubcarrierSpacingSSB), 7, true); err != nil {
-		return fmt.Errorf("encoding subcarrierSpacingSSB: %w", err)
-	}
-	if v.MaxRSIndexCellQual != nil {
-		if err := per.EncodeIntegerAligned(bb, int64(*v.MaxRSIndexCellQual), int64Ptr(1), int64Ptr(16), false); err != nil {
-			return fmt.Errorf("encoding maxRSIndexCellQual: %w", err)
-		}
-	}
-	if v.SMTC != nil {
-		if err := per.EncodeOctetStringAligned(bb, v.SMTC, 0, 0, false); err != nil {
-			return fmt.Errorf("encoding sMTC: %w", err)
-		}
-	}
-	if v.ThreshRSIndexR15 != nil {
-		if err := per.EncodeOctetStringAligned(bb, v.ThreshRSIndexR15, 0, 0, false); err != nil {
-			return fmt.Errorf("encoding threshRS-Index-r15: %w", err)
-		}
-	}
-	if v.SSBToMeasure != nil {
-		if err := per.EncodeOctetStringAligned(bb, v.SSBToMeasure, 0, 0, false); err != nil {
-			return fmt.Errorf("encoding sSBToMeasure: %w", err)
-		}
-	}
-	if v.SSRSSIMeasurement != nil {
-		if err := per.EncodeOctetStringAligned(bb, v.SSRSSIMeasurement, 0, 0, false); err != nil {
-			return fmt.Errorf("encoding sSRSSIMeasurement: %w", err)
-		}
-	}
-	if v.QuantityConfigNRR15 != nil {
-		if err := per.EncodeOctetStringAligned(bb, v.QuantityConfigNRR15, 0, 0, false); err != nil {
-			return fmt.Errorf("encoding quantityConfigNR-R15: %w", err)
-		}
-	}
-	if v.ExcludedCellsToAddModList != nil {
-		if err := per.EncodeOctetStringAligned(bb, v.ExcludedCellsToAddModList, 0, 0, false); err != nil {
-			return fmt.Errorf("encoding excludedCellsToAddModList: %w", err)
-		}
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes InterSystemMeasurementItem from APER format.
-func (v *InterSystemMeasurementItem) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *InterSystemMeasurementItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_maxrsindexcellqual, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_smtc, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_threshrsindexr15, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_ssbtomeasure, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_ssrssimeasurement, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_quantityconfignrr15, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_excludedcellstoaddmodlist, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_freqbandindicatornr, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(1024), false)
-	if err != nil {
-		return fmt.Errorf("decoding freqBandIndicatorNR: %w", err)
-	}
-	v.FreqBandIndicatorNR = val_freqbandindicatornr
-	val_ssbfrequencies, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(3279165), false)
-	if err != nil {
-		return fmt.Errorf("decoding sSBfrequencies: %w", err)
-	}
-	v.SSBfrequencies = val_ssbfrequencies
-	val_subcarrierspacingssb, err := per.DecodeEnumeratedAligned(bb, 7, true)
-	if err != nil {
-		return fmt.Errorf("decoding subcarrierSpacingSSB: %w", err)
-	}
-	v.SubcarrierSpacingSSB = val_subcarrierspacingssb
-	if opt_maxrsindexcellqual {
-		val_maxrsindexcellqual, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(16), false)
-		if err != nil {
-			return fmt.Errorf("decoding maxRSIndexCellQual: %w", err)
-		}
-		v.MaxRSIndexCellQual = &val_maxrsindexcellqual
-	}
-	if opt_smtc {
-		val_smtc, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding sMTC: %w", err)
-		}
-		tmp_smtc := val_smtc
-		v.SMTC = tmp_smtc
-	}
-	if opt_threshrsindexr15 {
-		val_threshrsindexr15, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding threshRS-Index-r15: %w", err)
-		}
-		tmp_threshrsindexr15 := val_threshrsindexr15
-		v.ThreshRSIndexR15 = tmp_threshrsindexr15
-	}
-	if opt_ssbtomeasure {
-		val_ssbtomeasure, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding sSBToMeasure: %w", err)
-		}
-		tmp_ssbtomeasure := val_ssbtomeasure
-		v.SSBToMeasure = tmp_ssbtomeasure
-	}
-	if opt_ssrssimeasurement {
-		val_ssrssimeasurement, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding sSRSSIMeasurement: %w", err)
-		}
-		tmp_ssrssimeasurement := val_ssrssimeasurement
-		v.SSRSSIMeasurement = tmp_ssrssimeasurement
-	}
-	if opt_quantityconfignrr15 {
-		val_quantityconfignrr15, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding quantityConfigNR-R15: %w", err)
-		}
-		tmp_quantityconfignrr15 := val_quantityconfignrr15
-		v.QuantityConfigNRR15 = tmp_quantityconfignrr15
-	}
-	if opt_excludedcellstoaddmodlist {
-		val_excludedcellstoaddmodlist, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding excludedCellsToAddModList: %w", err)
-		}
-		tmp_excludedcellstoaddmodlist := val_excludedcellstoaddmodlist
-		v.ExcludedCellsToAddModList = tmp_excludedcellstoaddmodlist
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	return nil
-}
-
 // MarshalAPER encodes LAI to APER format.
 func (v *LAI) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -16426,7 +16434,7 @@ func (v *LAI) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNidentity), 0, 0, false); err != nil {
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNidentity), 3, 3, true); err != nil {
 		return fmt.Errorf("encoding pLMNidentity: %w", err)
 	}
 	if err := per.EncodeOctetStringAligned(bb, []byte(v.LAC), 2, 2, true); err != nil {
@@ -16481,7 +16489,7 @@ func (v *LAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
 		return fmt.Errorf("decoding pLMNidentity: %w", err)
 	}
@@ -16491,6 +16499,163 @@ func (v *LAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding lAC: %w", err)
 	}
 	v.LAC = LAC(val_lac)
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes LTENTNTAIInformation to APER format.
+func (v *LTENTNTAIInformation) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *LTENTNTAIInformation) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.UELocationDerivedTAC != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.ServingPLMN), 3, 3, true); err != nil {
+		return fmt.Errorf("encoding servingPLMN: %w", err)
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.TACListInLTENTN)), 1, 12); err != nil {
+		return fmt.Errorf("encoding tACList-In-LTE-NTN length: %w", err)
+	}
+	for _, elem := range v.TACListInLTENTN {
+		if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
+			return fmt.Errorf("encoding tACList-In-LTE-NTN element: %w", err)
+		}
+	}
+	if v.UELocationDerivedTAC != nil {
+		if err := per.EncodeOctetStringAligned(bb, []byte(*v.UELocationDerivedTAC), 2, 2, true); err != nil {
+			return fmt.Errorf("encoding uE-Location-Derived-TAC: %w", err)
+		}
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes LTENTNTAIInformation from APER format.
+func (v *LTENTNTAIInformation) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *LTENTNTAIInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_uelocationderivedtac, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_servingplmn, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
+	if err != nil {
+		return fmt.Errorf("decoding servingPLMN: %w", err)
+	}
+	v.ServingPLMN = PLMNidentity(val_servingplmn)
+	seqLen_taclistinltentn, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 12)
+	if err != nil {
+		return fmt.Errorf("decoding tACList-In-LTE-NTN length: %w", err)
+	}
+	v.TACListInLTENTN = make(TACListInLTENTN, seqLen_taclistinltentn)
+	for i := int64(0); i < seqLen_taclistinltentn; i++ {
+		val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
+		if err != nil {
+			return fmt.Errorf("decoding tACList-In-LTE-NTN element: %w", err)
+		}
+		v.TACListInLTENTN[i] = val
+	}
+	if opt_uelocationderivedtac {
+		val_uelocationderivedtac, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
+		if err != nil {
+			return fmt.Errorf("decoding uE-Location-Derived-TAC: %w", err)
+		}
+		tmp_uelocationderivedtac := TAC(val_uelocationderivedtac)
+		v.UELocationDerivedTAC = &tmp_uelocationderivedtac
+	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -16603,13 +16768,13 @@ func (v *LastVisitedCellItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 3 + 1
 		openData, err := per.DecodeOpenTypeAligned(bb)
 		if err != nil {
 			return err
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
+		v.Choice = int(extIdx) + 3 + 1
 		switch v.Choice {
 		case LastVisitedCellItemChoiceNGRANCell:
 			val_ngrancell, err := per.DecodeOctetStringAligned(inner, 0, 0, false)
@@ -16781,6 +16946,56 @@ func (v *LastVisitedEUTRANCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	return nil
 }
 
+// MarshalAPER encodes LastVisitedGERANCellInformation to APER format.
+func (v *LastVisitedGERANCellInformation) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *LastVisitedGERANCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
+	isExtension := v.Choice > 1
+	if err := per.EncodeBoolean(bb, isExtension); err != nil {
+		return err
+	}
+	if isExtension {
+		return fmt.Errorf("LastVisitedGERANCellInformation: extension choice %d not supported", v.Choice)
+	}
+	switch v.Choice {
+	case LastVisitedGERANCellInformationChoiceUndefined:
+	default:
+		return fmt.Errorf("unknown LastVisitedGERANCellInformation choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes LastVisitedGERANCellInformation from APER format.
+func (v *LastVisitedGERANCellInformation) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *LastVisitedGERANCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	isExtension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if isExtension {
+		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		return fmt.Errorf("LastVisitedGERANCellInformation: unsupported extension choice %d", int(extIdx)+1+1)
+	}
+	v.Choice = 1
+	switch v.Choice {
+	case LastVisitedGERANCellInformationChoiceUndefined:
+	}
+	return nil
+}
+
 // MarshalAPER encodes LastVisitedPSCellInformation to APER format.
 func (v *LastVisitedPSCellInformation) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -16917,60 +17132,6 @@ func (v *LastVisitedPSCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	return nil
 }
 
-// MarshalAPER encodes LastVisitedGERANCellInformation to APER format.
-func (v *LastVisitedGERANCellInformation) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *LastVisitedGERANCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
-	isExtension := v.Choice > 1
-	if err := per.EncodeBoolean(bb, isExtension); err != nil {
-		return err
-	}
-	if isExtension {
-		return fmt.Errorf("LastVisitedGERANCellInformation: extension choice %d not supported", v.Choice)
-	}
-	switch v.Choice {
-	case LastVisitedGERANCellInformationChoiceUndefined:
-	default:
-		return fmt.Errorf("unknown LastVisitedGERANCellInformation choice %d", v.Choice)
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes LastVisitedGERANCellInformation from APER format.
-func (v *LastVisitedGERANCellInformation) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *LastVisitedGERANCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	isExtension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if isExtension {
-		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.Choice = int(extIdx) + 1 + 1
-		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("LastVisitedGERANCellInformation: extension choice %d not supported", v.Choice)
-	}
-	v.Choice = 1
-	switch v.Choice {
-	case LastVisitedGERANCellInformationChoiceUndefined:
-	}
-	return nil
-}
-
 // MarshalAPER encodes ListeningSubframePattern to APER format.
 func (v *ListeningSubframePattern) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -16992,7 +17153,7 @@ func (v *ListeningSubframePattern) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeEnumeratedAligned(bb, int64(v.PatternPeriod), 4, true); err != nil {
 		return fmt.Errorf("encoding pattern-period: %w", err)
 	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.PatternOffset), int64Ptr(0), int64Ptr(10239), false); err != nil {
+	if err := per.EncodeIntegerAligned(bb, int64(v.PatternOffset), int64Ptr(0), int64Ptr(10239), true); err != nil {
 		return fmt.Errorf("encoding pattern-offset: %w", err)
 	}
 	if v.IEExtensions != nil {
@@ -17049,136 +17210,11 @@ func (v *ListeningSubframePattern) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding pattern-period: %w", err)
 	}
 	v.PatternPeriod = val_patternperiod
-	val_patternoffset, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10239), false)
+	val_patternoffset, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10239), true)
 	if err != nil {
 		return fmt.Errorf("decoding pattern-offset: %w", err)
 	}
 	v.PatternOffset = val_patternoffset
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes LoggedMDT to APER format.
-func (v *LoggedMDT) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *LoggedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.LoggingInterval), 8, false); err != nil {
-		return fmt.Errorf("encoding loggingInterval: %w", err)
-	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.LoggingDuration), 6, false); err != nil {
-		return fmt.Errorf("encoding loggingDuration: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes LoggedMDT from APER format.
-func (v *LoggedMDT) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *LoggedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_logginginterval, err := per.DecodeEnumeratedAligned(bb, 8, false)
-	if err != nil {
-		return fmt.Errorf("decoding loggingInterval: %w", err)
-	}
-	v.LoggingInterval = LoggingInterval(val_logginginterval)
-	val_loggingduration, err := per.DecodeEnumeratedAligned(bb, 6, false)
-	if err != nil {
-		return fmt.Errorf("decoding loggingDuration: %w", err)
-	}
-	v.LoggingDuration = LoggingDuration(val_loggingduration)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -17376,6 +17412,131 @@ func (v *LoggedMBSFNMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
+// MarshalAPER encodes LoggedMDT to APER format.
+func (v *LoggedMDT) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *LoggedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.LoggingInterval), 8, false); err != nil {
+		return fmt.Errorf("encoding loggingInterval: %w", err)
+	}
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.LoggingDuration), 6, false); err != nil {
+		return fmt.Errorf("encoding loggingDuration: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes LoggedMDT from APER format.
+func (v *LoggedMDT) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *LoggedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_logginginterval, err := per.DecodeEnumeratedAligned(bb, 8, false)
+	if err != nil {
+		return fmt.Errorf("decoding loggingInterval: %w", err)
+	}
+	v.LoggingInterval = LoggingInterval(val_logginginterval)
+	val_loggingduration, err := per.DecodeEnumeratedAligned(bb, 6, false)
+	if err != nil {
+		return fmt.Errorf("decoding loggingDuration: %w", err)
+	}
+	v.LoggingDuration = LoggingDuration(val_loggingduration)
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
 // MarshalAPER encodes LoggedMDTTrigger to APER format.
 func (v *LoggedMDTTrigger) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -17424,11 +17585,7 @@ func (v *LoggedMDTTrigger) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 2 + 1
-		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("LoggedMDTTrigger: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("LoggedMDTTrigger: unsupported extension choice %d", int(extIdx)+2+1)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -17447,8 +17604,8 @@ func (v *LoggedMDTTrigger) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes LTENTNTAIInformation to APER format.
-func (v *LTENTNTAIInformation) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes M1PeriodicReporting to APER format.
+func (v *M1PeriodicReporting) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -17456,33 +17613,20 @@ func (v *LTENTNTAIInformation) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *LTENTNTAIInformation) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *M1PeriodicReporting) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
 	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.UELocationDerivedTAC != nil); err != nil {
-		return err
-	}
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.ServingPLMN), 0, 0, false); err != nil {
-		return fmt.Errorf("encoding servingPLMN: %w", err)
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.ReportInterval), 13, false); err != nil {
+		return fmt.Errorf("encoding reportInterval: %w", err)
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.TACListInLTENTN)), 1, 12); err != nil {
-		return fmt.Errorf("encoding tACList-In-LTE-NTN length: %w", err)
-	}
-	for _, elem := range v.TACListInLTENTN {
-		if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
-			return fmt.Errorf("encoding tACList-In-LTE-NTN element: %w", err)
-		}
-	}
-	if v.UELocationDerivedTAC != nil {
-		if err := per.EncodeOctetStringAligned(bb, []byte(*v.UELocationDerivedTAC), 2, 2, true); err != nil {
-			return fmt.Errorf("encoding uE-Location-Derived-TAC: %w", err)
-		}
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.ReportAmount), 8, false); err != nil {
+		return fmt.Errorf("encoding reportAmount: %w", err)
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
@@ -17517,50 +17661,146 @@ func (v *LTENTNTAIInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes LTENTNTAIInformation from APER format.
-func (v *LTENTNTAIInformation) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes M1PeriodicReporting from APER format.
+func (v *M1PeriodicReporting) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *LTENTNTAIInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *M1PeriodicReporting) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
 	// Read preamble bitmap for optional root fields
-	opt_uelocationderivedtac, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
 	opt_ieextensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	val_servingplmn, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+	val_reportinterval, err := per.DecodeEnumeratedAligned(bb, 13, false)
 	if err != nil {
-		return fmt.Errorf("decoding servingPLMN: %w", err)
+		return fmt.Errorf("decoding reportInterval: %w", err)
 	}
-	v.ServingPLMN = PLMNidentity(val_servingplmn)
-	seqLen_taclistinltentn, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 12)
+	v.ReportInterval = ReportIntervalMDT(val_reportinterval)
+	val_reportamount, err := per.DecodeEnumeratedAligned(bb, 8, false)
 	if err != nil {
-		return fmt.Errorf("decoding tACList-In-LTE-NTN length: %w", err)
+		return fmt.Errorf("decoding reportAmount: %w", err)
 	}
-	v.TACListInLTENTN = make(TACListInLTENTN, seqLen_taclistinltentn)
-	for i := int64(0); i < seqLen_taclistinltentn; i++ {
-		val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
+	v.ReportAmount = ReportAmountMDT(val_reportamount)
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
-			return fmt.Errorf("decoding tACList-In-LTE-NTN element: %w", err)
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
 		}
-		v.TACListInLTENTN[i] = val
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
 	}
-	if opt_uelocationderivedtac {
-		val_uelocationderivedtac, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
 		if err != nil {
-			return fmt.Errorf("decoding uE-Location-Derived-TAC: %w", err)
+			return err
 		}
-		tmp_uelocationderivedtac := TAC(val_uelocationderivedtac)
-		v.UELocationDerivedTAC = &tmp_uelocationderivedtac
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes M1ThresholdEventA2 to APER format.
+func (v *M1ThresholdEventA2) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *M1ThresholdEventA2) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := v.MeasurementThreshold.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding measurementThreshold: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes M1ThresholdEventA2 from APER format.
+func (v *M1ThresholdEventA2) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *M1ThresholdEventA2) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if err := v.MeasurementThreshold.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding measurementThreshold: %w", err)
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -18134,7 +18374,7 @@ func (v *M7Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.M7period), int64Ptr(1), int64Ptr(60), false); err != nil {
+	if err := per.EncodeIntegerAligned(bb, int64(v.M7period), int64Ptr(1), int64Ptr(60), true); err != nil {
 		return fmt.Errorf("encoding m7period: %w", err)
 	}
 	if err := per.EncodeEnumeratedAligned(bb, int64(v.M7LinksToLog), 3, true); err != nil {
@@ -18189,7 +18429,7 @@ func (v *M7Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_m7period, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(60), false)
+	val_m7period, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(60), true)
 	if err != nil {
 		return fmt.Errorf("decoding m7period: %w", err)
 	}
@@ -18238,6 +18478,296 @@ func (v *M7Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	return nil
+}
+
+// MarshalAPER encodes MBSFNResultToLogInfo to APER format.
+func (v *MBSFNResultToLogInfo) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *MBSFNResultToLogInfo) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.MBSFNAreaId != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if v.MBSFNAreaId != nil {
+		if err := per.EncodeIntegerAligned(bb, int64(*v.MBSFNAreaId), int64Ptr(0), int64Ptr(255), false); err != nil {
+			return fmt.Errorf("encoding mBSFN-AreaId: %w", err)
+		}
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.CarrierFreq), int64Ptr(0), int64Ptr(262143), true); err != nil {
+		return fmt.Errorf("encoding carrierFreq: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes MBSFNResultToLogInfo from APER format.
+func (v *MBSFNResultToLogInfo) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *MBSFNResultToLogInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_mbsfnareaid, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_mbsfnareaid {
+		val_mbsfnareaid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+		if err != nil {
+			return fmt.Errorf("decoding mBSFN-AreaId: %w", err)
+		}
+		v.MBSFNAreaId = &val_mbsfnareaid
+	}
+	val_carrierfreq, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(262143), true)
+	if err != nil {
+		return fmt.Errorf("decoding carrierFreq: %w", err)
+	}
+	v.CarrierFreq = val_carrierfreq
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes MDTMode to APER format.
+func (v *MDTMode) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *MDTMode) MarshalAPERTo(bb *per.BitBuffer) error {
+	isExtension := v.Choice > 2
+	if err := per.EncodeBoolean(bb, isExtension); err != nil {
+		return err
+	}
+	if isExtension {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, int64(v.Choice-2-1)); err != nil {
+			return err
+		}
+		inner := per.NewBitBuffer()
+		switch v.Choice {
+		case MDTModeChoiceMDTModeExtension:
+			if err := v.MDTModeExtension.MarshalAPERTo(inner); err != nil {
+				return fmt.Errorf("encoding mDTMode-Extension: %w", err)
+			}
+		default:
+			return fmt.Errorf("unknown MDTMode extension choice %d", v.Choice)
+		}
+		if err := per.EncodeOpenTypeAligned(bb, inner.Bytes()); err != nil {
+			return err
+		}
+		return nil
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case MDTModeChoiceImmediateMDT:
+		if err := v.ImmediateMDT.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding immediateMDT: %w", err)
+		}
+	case MDTModeChoiceLoggedMDT:
+		if err := v.LoggedMDT.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding loggedMDT: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown MDTMode choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes MDTMode from APER format.
+func (v *MDTMode) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *MDTMode) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	isExtension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if isExtension {
+		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		openData, err := per.DecodeOpenTypeAligned(bb)
+		if err != nil {
+			return err
+		}
+		inner := per.NewBitBufferFromBytes(openData)
+		_ = inner
+		v.Choice = int(extIdx) + 2 + 1
+		switch v.Choice {
+		case MDTModeChoiceMDTModeExtension:
+			var dec_mdtmodeextension MDTModeExtension
+			if err := dec_mdtmodeextension.UnmarshalAPERFrom(inner); err != nil {
+				return fmt.Errorf("decoding mDTMode-Extension: %w", err)
+			}
+			v.MDTModeExtension = &dec_mdtmodeextension
+		default:
+			return fmt.Errorf("MDTMode: unsupported extension choice %d", v.Choice)
+		}
+		return nil
+	}
+	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case MDTModeChoiceImmediateMDT:
+		var dec_immediatemdt ImmediateMDT
+		if err := dec_immediatemdt.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding immediateMDT: %w", err)
+		}
+		v.ImmediateMDT = &dec_immediatemdt
+	case MDTModeChoiceLoggedMDT:
+		var dec_loggedmdt LoggedMDT
+		if err := dec_loggedmdt.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding loggedMDT: %w", err)
+		}
+		v.LoggedMDT = &dec_loggedmdt
+	}
+	return nil
+}
+
+// MarshalAPER encodes MDTModeExtension to APER format.
+func (v *MDTModeExtension) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *MDTModeExtension) MarshalAPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeIntegerAligned(bb, int64(v.Id), int64Ptr(0), int64Ptr(65535), false); err != nil {
+		return fmt.Errorf("encoding id: %w", err)
+	}
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+		return fmt.Errorf("encoding criticality: %w", err)
+	}
+	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes MDTModeExtension from APER format.
+func (v *MDTModeExtension) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *MDTModeExtension) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
+	if err != nil {
+		return fmt.Errorf("decoding id: %w", err)
+	}
+	v.Id = val_id
+	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
+	if err != nil {
+		return fmt.Errorf("decoding criticality: %w", err)
+	}
+	v.Criticality = val_criticality
+	openData_value, err := per.DecodeOpenTypeAligned(bb)
+	if err != nil {
+		return fmt.Errorf("decoding value: %w", err)
+	}
+	v.Value = runtime.RawValue{Bytes: openData_value}
 	return nil
 }
 
@@ -18370,8 +18900,8 @@ func (v *MDTConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes MBSFNResultToLogInfo to APER format.
-func (v *MBSFNResultToLogInfo) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes MMEPagingTarget to APER format.
+func (v *MMEPagingTarget) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -18379,190 +18909,39 @@ func (v *MBSFNResultToLogInfo) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *MBSFNResultToLogInfo) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.MBSFNAreaId != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if v.MBSFNAreaId != nil {
-		if err := per.EncodeIntegerAligned(bb, int64(*v.MBSFNAreaId), int64Ptr(0), int64Ptr(255), false); err != nil {
-			return fmt.Errorf("encoding mBSFN-AreaId: %w", err)
-		}
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.CarrierFreq), int64Ptr(0), int64Ptr(262143), false); err != nil {
-		return fmt.Errorf("encoding carrierFreq: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes MBSFNResultToLogInfo from APER format.
-func (v *MBSFNResultToLogInfo) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *MBSFNResultToLogInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_mbsfnareaid, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_mbsfnareaid {
-		val_mbsfnareaid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
-		if err != nil {
-			return fmt.Errorf("decoding mBSFN-AreaId: %w", err)
-		}
-		v.MBSFNAreaId = &val_mbsfnareaid
-	}
-	val_carrierfreq, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(262143), false)
-	if err != nil {
-		return fmt.Errorf("decoding carrierFreq: %w", err)
-	}
-	v.CarrierFreq = val_carrierfreq
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes MDTMode to APER format.
-func (v *MDTMode) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *MDTMode) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *MMEPagingTarget) MarshalAPERTo(bb *per.BitBuffer) error {
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
 	}
 	if isExtension {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, int64(v.Choice-2-1)); err != nil {
-			return err
-		}
-		inner := per.NewBitBuffer()
-		switch v.Choice {
-		case MDTModeChoiceMDTModeExtension:
-			if err := v.MDTModeExtension.MarshalAPERTo(inner); err != nil {
-				return fmt.Errorf("encoding mDTMode-Extension: %w", err)
-			}
-		default:
-			return fmt.Errorf("unknown MDTMode extension choice %d", v.Choice)
-		}
-		if err := per.EncodeOpenTypeAligned(bb, inner.Bytes()); err != nil {
-			return err
-		}
-		return nil
+		return fmt.Errorf("MMEPagingTarget: extension choice %d not supported", v.Choice)
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
 	switch v.Choice {
-	case MDTModeChoiceImmediateMDT:
-		if err := v.ImmediateMDT.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding immediateMDT: %w", err)
+	case MMEPagingTargetChoiceGlobalENBID:
+		if err := v.GlobalENBID.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding global-ENB-ID: %w", err)
 		}
-	case MDTModeChoiceLoggedMDT:
-		if err := v.LoggedMDT.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding loggedMDT: %w", err)
+	case MMEPagingTargetChoiceTAI:
+		if err := v.TAI.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding tAI: %w", err)
 		}
 	default:
-		return fmt.Errorf("unknown MDTMode choice %d", v.Choice)
+		return fmt.Errorf("unknown MMEPagingTarget choice %d", v.Choice)
 	}
 	return nil
 }
 
-// UnmarshalAPER decodes MDTMode from APER format.
-func (v *MDTMode) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes MMEPagingTarget from APER format.
+func (v *MMEPagingTarget) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *MDTMode) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *MMEPagingTarget) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -18572,24 +18951,7 @@ func (v *MDTMode) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 2 + 1
-		openData, err := per.DecodeOpenTypeAligned(bb)
-		if err != nil {
-			return err
-		}
-		inner := per.NewBitBufferFromBytes(openData)
-		_ = inner
-		switch v.Choice {
-		case MDTModeChoiceMDTModeExtension:
-			var dec_mdtmodeextension MDTModeExtension
-			if err := dec_mdtmodeextension.UnmarshalAPERFrom(inner); err != nil {
-				return fmt.Errorf("decoding mDTMode-Extension: %w", err)
-			}
-			v.MDTModeExtension = &dec_mdtmodeextension
-		default:
-			return fmt.Errorf("MDTMode: unsupported extension choice %d", v.Choice)
-		}
-		return nil
+		return fmt.Errorf("MMEPagingTarget: unsupported extension choice %d", int(extIdx)+2+1)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -18597,66 +18959,19 @@ func (v *MDTMode) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
-	case MDTModeChoiceImmediateMDT:
-		var dec_immediatemdt ImmediateMDT
-		if err := dec_immediatemdt.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding immediateMDT: %w", err)
+	case MMEPagingTargetChoiceGlobalENBID:
+		var dec_globalenbid GlobalENBID
+		if err := dec_globalenbid.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding global-ENB-ID: %w", err)
 		}
-		v.ImmediateMDT = &dec_immediatemdt
-	case MDTModeChoiceLoggedMDT:
-		var dec_loggedmdt LoggedMDT
-		if err := dec_loggedmdt.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding loggedMDT: %w", err)
+		v.GlobalENBID = &dec_globalenbid
+	case MMEPagingTargetChoiceTAI:
+		var dec_tai TAI
+		if err := dec_tai.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding tAI: %w", err)
 		}
-		v.LoggedMDT = &dec_loggedmdt
+		v.TAI = &dec_tai
 	}
-	return nil
-}
-
-// MarshalAPER encodes MDTModeExtension to APER format.
-func (v *MDTModeExtension) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *MDTModeExtension) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.Id), nil, nil, false); err != nil {
-		return fmt.Errorf("encoding id: %w", err)
-	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 0, false); err != nil {
-		return fmt.Errorf("encoding criticality: %w", err)
-	}
-	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
-		return fmt.Errorf("encoding value: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes MDTModeExtension from APER format.
-func (v *MDTModeExtension) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *MDTModeExtension) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	val_id, err := per.DecodeIntegerAligned(bb, nil, nil, false)
-	if err != nil {
-		return fmt.Errorf("decoding id: %w", err)
-	}
-	v.Id = val_id
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding criticality: %w", err)
-	}
-	v.Criticality = val_criticality
-	openData_value, err := per.DecodeOpenTypeAligned(bb)
-	if err != nil {
-		return fmt.Errorf("decoding value: %w", err)
-	}
-	v.Value = runtime.RawValue{Bytes: openData_value}
 	return nil
 }
 
@@ -18711,11 +19026,7 @@ func (v *MeasurementThresholdA2) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 2 + 1
-		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("MeasurementThresholdA2: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("MeasurementThresholdA2: unsupported extension choice %d", int(extIdx)+2+1)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -18806,85 +19117,6 @@ func (v *MeasurementThresholdL1LoggedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	return nil
 }
 
-// MarshalAPER encodes MMEPagingTarget to APER format.
-func (v *MMEPagingTarget) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *MMEPagingTarget) MarshalAPERTo(bb *per.BitBuffer) error {
-	isExtension := v.Choice > 2
-	if err := per.EncodeBoolean(bb, isExtension); err != nil {
-		return err
-	}
-	if isExtension {
-		return fmt.Errorf("MMEPagingTarget: extension choice %d not supported", v.Choice)
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
-		return err
-	}
-	switch v.Choice {
-	case MMEPagingTargetChoiceGlobalENBID:
-		if err := v.GlobalENBID.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding global-ENB-ID: %w", err)
-		}
-	case MMEPagingTargetChoiceTAI:
-		if err := v.TAI.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding tAI: %w", err)
-		}
-	default:
-		return fmt.Errorf("unknown MMEPagingTarget choice %d", v.Choice)
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes MMEPagingTarget from APER format.
-func (v *MMEPagingTarget) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *MMEPagingTarget) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	isExtension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if isExtension {
-		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.Choice = int(extIdx) + 2 + 1
-		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("MMEPagingTarget: extension choice %d not supported", v.Choice)
-	}
-	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
-	if err != nil {
-		return err
-	}
-	v.Choice = int(idx) + 1
-	switch v.Choice {
-	case MMEPagingTargetChoiceGlobalENBID:
-		var dec_globalenbid GlobalENBID
-		if err := dec_globalenbid.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding global-ENB-ID: %w", err)
-		}
-		v.GlobalENBID = &dec_globalenbid
-	case MMEPagingTargetChoiceTAI:
-		var dec_tai TAI
-		if err := dec_tai.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding tAI: %w", err)
-		}
-		v.TAI = &dec_tai
-	}
-	return nil
-}
-
 // MarshalAPER encodes MutingPatternInformation to APER format.
 func (v *MutingPatternInformation) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -18910,7 +19142,7 @@ func (v *MutingPatternInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding muting-pattern-period: %w", err)
 	}
 	if v.MutingPatternOffset != nil {
-		if err := per.EncodeIntegerAligned(bb, int64(*v.MutingPatternOffset), int64Ptr(0), int64Ptr(10239), false); err != nil {
+		if err := per.EncodeIntegerAligned(bb, int64(*v.MutingPatternOffset), int64Ptr(0), int64Ptr(10239), true); err != nil {
 			return fmt.Errorf("encoding muting-pattern-offset: %w", err)
 		}
 	}
@@ -18973,7 +19205,7 @@ func (v *MutingPatternInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.MutingPatternPeriod = val_mutingpatternperiod
 	if opt_mutingpatternoffset {
-		val_mutingpatternoffset, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10239), false)
+		val_mutingpatternoffset, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10239), true)
 		if err != nil {
 			return fmt.Errorf("decoding muting-pattern-offset: %w", err)
 		}
@@ -19158,8 +19390,8 @@ func (v *NBIoTPagingEDRXInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	return nil
 }
 
-// MarshalAPER encodes NRCGI to APER format.
-func (v *NRCGI) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes NGENB to APER format.
+func (v *NGENB) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -19167,7 +19399,7 @@ func (v *NRCGI) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *NRCGI) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *NGENB) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -19176,11 +19408,8 @@ func (v *NRCGI) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNIdentity), 0, 0, false); err != nil {
-		return fmt.Errorf("encoding pLMNIdentity: %w", err)
-	}
-	if err := per.EncodeBitStringAligned(bb, v.NRCellIdentity.Bytes, v.NRCellIdentity.BitLength, 36, 36, true); err != nil {
-		return fmt.Errorf("encoding nRCellIdentity: %w", err)
+	if err := v.GlobalNgENBID.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding global-ng-eNB-ID: %w", err)
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
@@ -19215,13 +19444,13 @@ func (v *NRCGI) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes NRCGI from APER format.
-func (v *NRCGI) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes NGENB from APER format.
+func (v *NGENB) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *NRCGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *NGENB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -19231,16 +19460,9 @@ func (v *NRCGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding pLMNIdentity: %w", err)
+	if err := v.GlobalNgENBID.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding global-ng-eNB-ID: %w", err)
 	}
-	v.PLMNIdentity = PLMNidentity(val_plmnidentity)
-	bsBytes_nrcellidentity, bsBitLen_nrcellidentity, err := per.DecodeBitStringAligned(bb, 36, 36, true)
-	if err != nil {
-		return fmt.Errorf("decoding nRCellIdentity: %w", err)
-	}
-	v.NRCellIdentity = runtime.BitString{Bytes: bsBytes_nrcellidentity, BitLength: bsBitLen_nrcellidentity}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -19301,10 +19523,10 @@ func (v *NRUESecurityCapabilities) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringAligned(bb, v.NRencryptionAlgorithms.Bytes, v.NRencryptionAlgorithms.BitLength, 16, 16, true); err != nil {
+	if err := per.EncodeBitStringAlignedExt(bb, v.NRencryptionAlgorithms.Bytes, v.NRencryptionAlgorithms.BitLength, 16, 16, true, true); err != nil {
 		return fmt.Errorf("encoding nRencryptionAlgorithms: %w", err)
 	}
-	if err := per.EncodeBitStringAligned(bb, v.NRintegrityProtectionAlgorithms.Bytes, v.NRintegrityProtectionAlgorithms.BitLength, 16, 16, true); err != nil {
+	if err := per.EncodeBitStringAlignedExt(bb, v.NRintegrityProtectionAlgorithms.Bytes, v.NRintegrityProtectionAlgorithms.BitLength, 16, 16, true, true); err != nil {
 		return fmt.Errorf("encoding nRintegrityProtectionAlgorithms: %w", err)
 	}
 	if v.IEExtensions != nil {
@@ -19356,16 +19578,133 @@ func (v *NRUESecurityCapabilities) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	bsBytes_nrencryptionalgorithms, bsBitLen_nrencryptionalgorithms, err := per.DecodeBitStringAligned(bb, 16, 16, true)
+	bsBytes_nrencryptionalgorithms, bsBitLen_nrencryptionalgorithms, err := per.DecodeBitStringAlignedExt(bb, 16, 16, true, true)
 	if err != nil {
 		return fmt.Errorf("decoding nRencryptionAlgorithms: %w", err)
 	}
 	v.NRencryptionAlgorithms = runtime.BitString{Bytes: bsBytes_nrencryptionalgorithms, BitLength: bsBitLen_nrencryptionalgorithms}
-	bsBytes_nrintegrityprotectionalgorithms, bsBitLen_nrintegrityprotectionalgorithms, err := per.DecodeBitStringAligned(bb, 16, 16, true)
+	bsBytes_nrintegrityprotectionalgorithms, bsBitLen_nrintegrityprotectionalgorithms, err := per.DecodeBitStringAlignedExt(bb, 16, 16, true, true)
 	if err != nil {
 		return fmt.Errorf("decoding nRintegrityProtectionAlgorithms: %w", err)
 	}
 	v.NRintegrityProtectionAlgorithms = runtime.BitString{Bytes: bsBytes_nrintegrityprotectionalgorithms, BitLength: bsBitLen_nrintegrityprotectionalgorithms}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes NRUESidelinkAggregateMaximumBitrate to APER format.
+func (v *NRUESidelinkAggregateMaximumBitrate) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *NRUESidelinkAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.UEaggregateMaximumBitRate), int64Ptr(0), int64Ptr(10000000000), false); err != nil {
+		return fmt.Errorf("encoding uEaggregateMaximumBitRate: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes NRUESidelinkAggregateMaximumBitrate from APER format.
+func (v *NRUESidelinkAggregateMaximumBitrate) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *NRUESidelinkAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_ueaggregatemaximumbitrate, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
+	if err != nil {
+		return fmt.Errorf("decoding uEaggregateMaximumBitRate: %w", err)
+	}
+	v.UEaggregateMaximumBitRate = val_ueaggregatemaximumbitrate
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -19557,8 +19896,8 @@ func (v *NRV2XServicesAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes NRUESidelinkAggregateMaximumBitrate to APER format.
-func (v *NRUESidelinkAggregateMaximumBitrate) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes NRCGI to APER format.
+func (v *NRCGI) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -19566,7 +19905,7 @@ func (v *NRUESidelinkAggregateMaximumBitrate) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *NRUESidelinkAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *NRCGI) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -19575,8 +19914,11 @@ func (v *NRUESidelinkAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) e
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.UEaggregateMaximumBitRate), int64Ptr(0), int64Ptr(10000000000), false); err != nil {
-		return fmt.Errorf("encoding uEaggregateMaximumBitRate: %w", err)
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNIdentity), 3, 3, true); err != nil {
+		return fmt.Errorf("encoding pLMNIdentity: %w", err)
+	}
+	if err := per.EncodeBitStringAligned(bb, v.NRCellIdentity.Bytes, v.NRCellIdentity.BitLength, 36, 36, true); err != nil {
+		return fmt.Errorf("encoding nRCellIdentity: %w", err)
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
@@ -19611,13 +19953,13 @@ func (v *NRUESidelinkAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) e
 	return nil
 }
 
-// UnmarshalAPER decodes NRUESidelinkAggregateMaximumBitrate from APER format.
-func (v *NRUESidelinkAggregateMaximumBitrate) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes NRCGI from APER format.
+func (v *NRCGI) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *NRUESidelinkAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *NRCGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -19627,11 +19969,16 @@ func (v *NRUESidelinkAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffe
 	if err != nil {
 		return err
 	}
-	val_ueaggregatemaximumbitrate, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
+	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding uEaggregateMaximumBitRate: %w", err)
+		return fmt.Errorf("decoding pLMNIdentity: %w", err)
 	}
-	v.UEaggregateMaximumBitRate = val_ueaggregatemaximumbitrate
+	v.PLMNIdentity = PLMNidentity(val_plmnidentity)
+	bsBytes_nrcellidentity, bsBitLen_nrcellidentity, err := per.DecodeBitStringAligned(bb, 36, 36, true)
+	if err != nil {
+		return fmt.Errorf("decoding nRCellIdentity: %w", err)
+	}
+	v.NRCellIdentity = runtime.BitString{Bytes: bsBytes_nrcellidentity, BitLength: bsBitLen_nrcellidentity}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -19718,11 +20065,7 @@ func (v *OverloadResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 1 + 1
-		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("OverloadResponse: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("OverloadResponse: unsupported extension choice %d", int(extIdx)+1+1)
 	}
 	v.Choice = 1
 	switch v.Choice {
@@ -19737,8 +20080,8 @@ func (v *OverloadResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes PagingAttemptInformation to APER format.
-func (v *PagingAttemptInformation) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes PC5FlowBitRates to APER format.
+func (v *PC5FlowBitRates) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -19746,28 +20089,20 @@ func (v *PagingAttemptInformation) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *PagingAttemptInformation) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *PC5FlowBitRates) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
 	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.NextPagingAreaScope != nil); err != nil {
-		return err
-	}
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.PagingAttemptCount), int64Ptr(1), int64Ptr(16), false); err != nil {
-		return fmt.Errorf("encoding pagingAttemptCount: %w", err)
+	if err := per.EncodeIntegerAligned(bb, int64(v.GuaranteedFlowBitRate), int64Ptr(0), int64Ptr(10000000000), false); err != nil {
+		return fmt.Errorf("encoding guaranteedFlowBitRate: %w", err)
 	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.IntendedNumberOfPagingAttempts), int64Ptr(1), int64Ptr(16), false); err != nil {
-		return fmt.Errorf("encoding intendedNumberOfPagingAttempts: %w", err)
-	}
-	if v.NextPagingAreaScope != nil {
-		if err := per.EncodeEnumeratedAligned(bb, int64(*v.NextPagingAreaScope), 2, true); err != nil {
-			return fmt.Errorf("encoding nextPagingAreaScope: %w", err)
-		}
+	if err := per.EncodeIntegerAligned(bb, int64(v.MaximumFlowBitRate), int64Ptr(0), int64Ptr(10000000000), false); err != nil {
+		return fmt.Errorf("encoding maximumFlowBitRate: %w", err)
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
@@ -19802,44 +20137,32 @@ func (v *PagingAttemptInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes PagingAttemptInformation from APER format.
-func (v *PagingAttemptInformation) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes PC5FlowBitRates from APER format.
+func (v *PC5FlowBitRates) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *PagingAttemptInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *PC5FlowBitRates) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
 	// Read preamble bitmap for optional root fields
-	opt_nextpagingareascope, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
 	opt_ieextensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	val_pagingattemptcount, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(16), false)
+	val_guaranteedflowbitrate, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
 	if err != nil {
-		return fmt.Errorf("decoding pagingAttemptCount: %w", err)
+		return fmt.Errorf("decoding guaranteedFlowBitRate: %w", err)
 	}
-	v.PagingAttemptCount = val_pagingattemptcount
-	val_intendednumberofpagingattempts, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(16), false)
+	v.GuaranteedFlowBitRate = val_guaranteedflowbitrate
+	val_maximumflowbitrate, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
 	if err != nil {
-		return fmt.Errorf("decoding intendedNumberOfPagingAttempts: %w", err)
+		return fmt.Errorf("decoding maximumFlowBitRate: %w", err)
 	}
-	v.IntendedNumberOfPagingAttempts = val_intendednumberofpagingattempts
-	if opt_nextpagingareascope {
-		val_nextpagingareascope, err := per.DecodeEnumeratedAligned(bb, 2, true)
-		if err != nil {
-			return fmt.Errorf("decoding nextPagingAreaScope: %w", err)
-		}
-		tmp_nextpagingareascope := NextPagingAreaScope(val_nextpagingareascope)
-		v.NextPagingAreaScope = &tmp_nextpagingareascope
-	}
+	v.MaximumFlowBitRate = val_maximumflowbitrate
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -19882,8 +20205,8 @@ func (v *PagingAttemptInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes PagingEDRXInformation to APER format.
-func (v *PagingEDRXInformation) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes PC5QoSFlowItem to APER format.
+func (v *PC5QoSFlowItem) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -19891,24 +20214,32 @@ func (v *PagingEDRXInformation) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *PagingEDRXInformation) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *PC5QoSFlowItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
 	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.PagingTimeWindow != nil); err != nil {
+	if err := per.EncodeBoolean(bb, v.Pc5FlowBitRates != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.Range != nil); err != nil {
 		return err
 	}
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.PagingEDRXCycle), 14, true); err != nil {
-		return fmt.Errorf("encoding paging-eDRX-Cycle: %w", err)
+	if err := per.EncodeIntegerAligned(bb, int64(v.PQI), int64Ptr(0), int64Ptr(255), true); err != nil {
+		return fmt.Errorf("encoding pQI: %w", err)
 	}
-	if v.PagingTimeWindow != nil {
-		if err := per.EncodeEnumeratedAligned(bb, int64(*v.PagingTimeWindow), 16, true); err != nil {
-			return fmt.Errorf("encoding pagingTimeWindow: %w", err)
+	if v.Pc5FlowBitRates != nil {
+		if err := v.Pc5FlowBitRates.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding pc5FlowBitRates: %w", err)
+		}
+	}
+	if v.Range != nil {
+		if err := per.EncodeEnumeratedAligned(bb, int64(*v.Range), 9, true); err != nil {
+			return fmt.Errorf("encoding range: %w", err)
 		}
 	}
 	if v.IEExtensions != nil {
@@ -19944,19 +20275,23 @@ func (v *PagingEDRXInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes PagingEDRXInformation from APER format.
-func (v *PagingEDRXInformation) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes PC5QoSFlowItem from APER format.
+func (v *PC5QoSFlowItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *PagingEDRXInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *PC5QoSFlowItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
 	// Read preamble bitmap for optional root fields
-	opt_pagingtimewindow, err := per.DecodeBoolean(bb)
+	opt_pc5flowbitrates, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_range, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
@@ -19964,18 +20299,25 @@ func (v *PagingEDRXInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_pagingedrxcycle, err := per.DecodeEnumeratedAligned(bb, 14, true)
+	val_pqi, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 	if err != nil {
-		return fmt.Errorf("decoding paging-eDRX-Cycle: %w", err)
+		return fmt.Errorf("decoding pQI: %w", err)
 	}
-	v.PagingEDRXCycle = PagingEDRXCycle(val_pagingedrxcycle)
-	if opt_pagingtimewindow {
-		val_pagingtimewindow, err := per.DecodeEnumeratedAligned(bb, 16, true)
-		if err != nil {
-			return fmt.Errorf("decoding pagingTimeWindow: %w", err)
+	v.PQI = val_pqi
+	if opt_pc5flowbitrates {
+		var dec_pc5flowbitrates PC5FlowBitRates
+		if err := dec_pc5flowbitrates.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding pc5FlowBitRates: %w", err)
 		}
-		tmp_pagingtimewindow := PagingTimeWindow(val_pagingtimewindow)
-		v.PagingTimeWindow = &tmp_pagingtimewindow
+		v.Pc5FlowBitRates = &dec_pc5flowbitrates
+	}
+	if opt_range {
+		val_range, err := per.DecodeEnumeratedAligned(bb, 9, true)
+		if err != nil {
+			return fmt.Errorf("decoding range: %w", err)
+		}
+		tmp_range := Range(val_range)
+		v.Range = &tmp_range
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -20165,412 +20507,6 @@ func (v *PC5QoSParameters) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes PC5QoSFlowItem to APER format.
-func (v *PC5QoSFlowItem) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *PC5QoSFlowItem) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.Pc5FlowBitRates != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.Range != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.PQI), int64Ptr(0), int64Ptr(255), false); err != nil {
-		return fmt.Errorf("encoding pQI: %w", err)
-	}
-	if v.Pc5FlowBitRates != nil {
-		if err := v.Pc5FlowBitRates.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding pc5FlowBitRates: %w", err)
-		}
-	}
-	if v.Range != nil {
-		if err := per.EncodeEnumeratedAligned(bb, int64(*v.Range), 9, true); err != nil {
-			return fmt.Errorf("encoding range: %w", err)
-		}
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes PC5QoSFlowItem from APER format.
-func (v *PC5QoSFlowItem) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *PC5QoSFlowItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_pc5flowbitrates, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_range, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_pqi, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
-	if err != nil {
-		return fmt.Errorf("decoding pQI: %w", err)
-	}
-	v.PQI = val_pqi
-	if opt_pc5flowbitrates {
-		var dec_pc5flowbitrates PC5FlowBitRates
-		if err := dec_pc5flowbitrates.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding pc5FlowBitRates: %w", err)
-		}
-		v.Pc5FlowBitRates = &dec_pc5flowbitrates
-	}
-	if opt_range {
-		val_range, err := per.DecodeEnumeratedAligned(bb, 9, true)
-		if err != nil {
-			return fmt.Errorf("decoding range: %w", err)
-		}
-		tmp_range := Range(val_range)
-		v.Range = &tmp_range
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes PC5FlowBitRates to APER format.
-func (v *PC5FlowBitRates) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *PC5FlowBitRates) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.GuaranteedFlowBitRate), int64Ptr(0), int64Ptr(10000000000), false); err != nil {
-		return fmt.Errorf("encoding guaranteedFlowBitRate: %w", err)
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.MaximumFlowBitRate), int64Ptr(0), int64Ptr(10000000000), false); err != nil {
-		return fmt.Errorf("encoding maximumFlowBitRate: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes PC5FlowBitRates from APER format.
-func (v *PC5FlowBitRates) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *PC5FlowBitRates) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_guaranteedflowbitrate, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
-	if err != nil {
-		return fmt.Errorf("decoding guaranteedFlowBitRate: %w", err)
-	}
-	v.GuaranteedFlowBitRate = val_guaranteedflowbitrate
-	val_maximumflowbitrate, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
-	if err != nil {
-		return fmt.Errorf("decoding maximumFlowBitRate: %w", err)
-	}
-	v.MaximumFlowBitRate = val_maximumflowbitrate
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes M1PeriodicReporting to APER format.
-func (v *M1PeriodicReporting) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *M1PeriodicReporting) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.ReportInterval), 13, false); err != nil {
-		return fmt.Errorf("encoding reportInterval: %w", err)
-	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.ReportAmount), 8, false); err != nil {
-		return fmt.Errorf("encoding reportAmount: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes M1PeriodicReporting from APER format.
-func (v *M1PeriodicReporting) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *M1PeriodicReporting) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_reportinterval, err := per.DecodeEnumeratedAligned(bb, 13, false)
-	if err != nil {
-		return fmt.Errorf("decoding reportInterval: %w", err)
-	}
-	v.ReportInterval = ReportIntervalMDT(val_reportinterval)
-	val_reportamount, err := per.DecodeEnumeratedAligned(bb, 8, false)
-	if err != nil {
-		return fmt.Errorf("decoding reportAmount: %w", err)
-	}
-	v.ReportAmount = ReportAmountMDT(val_reportamount)
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
 // MarshalAPER encodes PLMNAreaBasedQMC to APER format.
 func (v *PLMNAreaBasedQMC) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -20593,7 +20529,7 @@ func (v *PLMNAreaBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding plmnListforQMC length: %w", err)
 	}
 	for _, elem := range v.PlmnListforQMC {
-		if err := per.EncodeOctetStringAligned(bb, []byte(elem), 0, 0, false); err != nil {
+		if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
 			return fmt.Errorf("encoding plmnListforQMC element: %w", err)
 		}
 	}
@@ -20652,11 +20588,408 @@ func (v *PLMNAreaBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PlmnListforQMC = make(PLMNListforQMC, seqLen_plmnlistforqmc)
 	for i := int64(0); i < seqLen_plmnlistforqmc; i++ {
-		val, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+		val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 		if err != nil {
 			return fmt.Errorf("decoding plmnListforQMC element: %w", err)
 		}
 		v.PlmnListforQMC[i] = val
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes PSCellInformation to APER format.
+func (v *PSCellInformation) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PSCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := v.NCGI.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding nCGI: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes PSCellInformation from APER format.
+func (v *PSCellInformation) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *PSCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if err := v.NCGI.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding nCGI: %w", err)
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes PagingAttemptInformation to APER format.
+func (v *PagingAttemptInformation) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PagingAttemptInformation) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.NextPagingAreaScope != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.PagingAttemptCount), int64Ptr(1), int64Ptr(16), true); err != nil {
+		return fmt.Errorf("encoding pagingAttemptCount: %w", err)
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.IntendedNumberOfPagingAttempts), int64Ptr(1), int64Ptr(16), true); err != nil {
+		return fmt.Errorf("encoding intendedNumberOfPagingAttempts: %w", err)
+	}
+	if v.NextPagingAreaScope != nil {
+		if err := per.EncodeEnumeratedAligned(bb, int64(*v.NextPagingAreaScope), 2, true); err != nil {
+			return fmt.Errorf("encoding nextPagingAreaScope: %w", err)
+		}
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes PagingAttemptInformation from APER format.
+func (v *PagingAttemptInformation) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *PagingAttemptInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_nextpagingareascope, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_pagingattemptcount, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(16), true)
+	if err != nil {
+		return fmt.Errorf("decoding pagingAttemptCount: %w", err)
+	}
+	v.PagingAttemptCount = val_pagingattemptcount
+	val_intendednumberofpagingattempts, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(16), true)
+	if err != nil {
+		return fmt.Errorf("decoding intendedNumberOfPagingAttempts: %w", err)
+	}
+	v.IntendedNumberOfPagingAttempts = val_intendednumberofpagingattempts
+	if opt_nextpagingareascope {
+		val_nextpagingareascope, err := per.DecodeEnumeratedAligned(bb, 2, true)
+		if err != nil {
+			return fmt.Errorf("decoding nextPagingAreaScope: %w", err)
+		}
+		tmp_nextpagingareascope := NextPagingAreaScope(val_nextpagingareascope)
+		v.NextPagingAreaScope = &tmp_nextpagingareascope
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes PagingEDRXInformation to APER format.
+func (v *PagingEDRXInformation) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PagingEDRXInformation) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.PagingTimeWindow != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.PagingEDRXCycle), 14, true); err != nil {
+		return fmt.Errorf("encoding paging-eDRX-Cycle: %w", err)
+	}
+	if v.PagingTimeWindow != nil {
+		if err := per.EncodeEnumeratedAligned(bb, int64(*v.PagingTimeWindow), 16, true); err != nil {
+			return fmt.Errorf("encoding pagingTimeWindow: %w", err)
+		}
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes PagingEDRXInformation from APER format.
+func (v *PagingEDRXInformation) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *PagingEDRXInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_pagingtimewindow, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_pagingedrxcycle, err := per.DecodeEnumeratedAligned(bb, 14, true)
+	if err != nil {
+		return fmt.Errorf("decoding paging-eDRX-Cycle: %w", err)
+	}
+	v.PagingEDRXCycle = PagingEDRXCycle(val_pagingedrxcycle)
+	if opt_pagingtimewindow {
+		val_pagingtimewindow, err := per.DecodeEnumeratedAligned(bb, 16, true)
+		if err != nil {
+			return fmt.Errorf("decoding pagingTimeWindow: %w", err)
+		}
+		tmp_pagingtimewindow := PagingTimeWindow(val_pagingtimewindow)
+		v.PagingTimeWindow = &tmp_pagingtimewindow
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -20849,8 +21182,8 @@ func (v *ProSeAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes PSCellInformation to APER format.
-func (v *PSCellInformation) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes RATRestrictionsItem to APER format.
+func (v *RATRestrictionsItem) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -20858,7 +21191,7 @@ func (v *PSCellInformation) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *PSCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *RATRestrictionsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -20867,8 +21200,11 @@ func (v *PSCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := v.NCGI.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding nCGI: %w", err)
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNidentity), 3, 3, true); err != nil {
+		return fmt.Errorf("encoding pLMNidentity: %w", err)
+	}
+	if err := per.EncodeBitStringAlignedExt(bb, v.RATRestrictionInformation.Bytes, v.RATRestrictionInformation.BitLength, 8, 8, true, true); err != nil {
+		return fmt.Errorf("encoding rAT-RestrictionInformation: %w", err)
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
@@ -20903,13 +21239,13 @@ func (v *PSCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes PSCellInformation from APER format.
-func (v *PSCellInformation) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes RATRestrictionsItem from APER format.
+func (v *RATRestrictionsItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *PSCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *RATRestrictionsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -20919,8 +21255,252 @@ func (v *PSCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	if err := v.NCGI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding nCGI: %w", err)
+	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
+	if err != nil {
+		return fmt.Errorf("decoding pLMNidentity: %w", err)
+	}
+	v.PLMNidentity = PLMNidentity(val_plmnidentity)
+	bsBytes_ratrestrictioninformation, bsBitLen_ratrestrictioninformation, err := per.DecodeBitStringAlignedExt(bb, 8, 8, true, true)
+	if err != nil {
+		return fmt.Errorf("decoding rAT-RestrictionInformation: %w", err)
+	}
+	v.RATRestrictionInformation = runtime.BitString{Bytes: bsBytes_ratrestrictioninformation, BitLength: bsBitLen_ratrestrictioninformation}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes RIMRoutingAddress to APER format.
+func (v *RIMRoutingAddress) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *RIMRoutingAddress) MarshalAPERTo(bb *per.BitBuffer) error {
+	isExtension := v.Choice > 1
+	if err := per.EncodeBoolean(bb, isExtension); err != nil {
+		return err
+	}
+	if isExtension {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, int64(v.Choice-1-1)); err != nil {
+			return err
+		}
+		inner := per.NewBitBuffer()
+		switch v.Choice {
+		case RIMRoutingAddressChoiceTargetRNCID:
+			if err := v.TargetRNCID.MarshalAPERTo(inner); err != nil {
+				return fmt.Errorf("encoding targetRNC-ID: %w", err)
+			}
+		case RIMRoutingAddressChoiceEHRPDSectorID:
+			if err := per.EncodeOctetStringAligned(inner, v.EHRPDSectorID, 16, 16, true); err != nil {
+				return fmt.Errorf("encoding eHRPD-Sector-ID: %w", err)
+			}
+		default:
+			return fmt.Errorf("unknown RIMRoutingAddress extension choice %d", v.Choice)
+		}
+		if err := per.EncodeOpenTypeAligned(bb, inner.Bytes()); err != nil {
+			return err
+		}
+		return nil
+	}
+	switch v.Choice {
+	case RIMRoutingAddressChoiceGERANCellID:
+		if err := v.GERANCellID.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding gERAN-Cell-ID: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown RIMRoutingAddress choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes RIMRoutingAddress from APER format.
+func (v *RIMRoutingAddress) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *RIMRoutingAddress) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	isExtension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if isExtension {
+		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		openData, err := per.DecodeOpenTypeAligned(bb)
+		if err != nil {
+			return err
+		}
+		inner := per.NewBitBufferFromBytes(openData)
+		_ = inner
+		v.Choice = int(extIdx) + 1 + 1
+		switch v.Choice {
+		case RIMRoutingAddressChoiceTargetRNCID:
+			var dec_targetrncid TargetRNCID
+			if err := dec_targetrncid.UnmarshalAPERFrom(inner); err != nil {
+				return fmt.Errorf("decoding targetRNC-ID: %w", err)
+			}
+			v.TargetRNCID = &dec_targetrncid
+		case RIMRoutingAddressChoiceEHRPDSectorID:
+			val_ehrpdsectorid, err := per.DecodeOctetStringAligned(inner, 16, 16, true)
+			if err != nil {
+				return fmt.Errorf("decoding eHRPD-Sector-ID: %w", err)
+			}
+			tmp_ehrpdsectorid := val_ehrpdsectorid
+			v.EHRPDSectorID = tmp_ehrpdsectorid
+		default:
+			return fmt.Errorf("RIMRoutingAddress: unsupported extension choice %d", v.Choice)
+		}
+		return nil
+	}
+	v.Choice = 1
+	switch v.Choice {
+	case RIMRoutingAddressChoiceGERANCellID:
+		var dec_gerancellid GERANCellID
+		if err := dec_gerancellid.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding gERAN-Cell-ID: %w", err)
+		}
+		v.GERANCellID = &dec_gerancellid
+	}
+	return nil
+}
+
+// MarshalAPER encodes RIMTransfer to APER format.
+func (v *RIMTransfer) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *RIMTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.RIMRoutingAddress != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.RIMInformation), 0, 0, false); err != nil {
+		return fmt.Errorf("encoding rIMInformation: %w", err)
+	}
+	if v.RIMRoutingAddress != nil {
+		if err := v.RIMRoutingAddress.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding rIMRoutingAddress: %w", err)
+		}
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes RIMTransfer from APER format.
+func (v *RIMTransfer) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *RIMTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_rimroutingaddress, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_riminformation, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+	if err != nil {
+		return fmt.Errorf("decoding rIMInformation: %w", err)
+	}
+	v.RIMInformation = RIMInformation(val_riminformation)
+	if opt_rimroutingaddress {
+		var dec_rimroutingaddress RIMRoutingAddress
+		if err := dec_rimroutingaddress.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding rIMRoutingAddress: %w", err)
+		}
+		v.RIMRoutingAddress = &dec_rimroutingaddress
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -20964,8 +21544,8 @@ func (v *PSCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes RecommendedCellsForPaging to APER format.
-func (v *RecommendedCellsForPaging) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes RLFReportInformation to APER format.
+func (v *RLFReportInformation) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -20973,21 +21553,24 @@ func (v *RecommendedCellsForPaging) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *RecommendedCellsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *RLFReportInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
 	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.UERLFReportContainerForExtendedBands != nil); err != nil {
+		return err
+	}
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.RecommendedCellList)), 1, 16); err != nil {
-		return fmt.Errorf("encoding recommendedCellList length: %w", err)
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.UERLFReportContainer), 0, 0, false); err != nil {
+		return fmt.Errorf("encoding uE-RLF-Report-Container: %w", err)
 	}
-	for _, elem := range v.RecommendedCellList {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding recommendedCellList element: %w", err)
+	if v.UERLFReportContainerForExtendedBands != nil {
+		if err := per.EncodeOctetStringAligned(bb, []byte(*v.UERLFReportContainerForExtendedBands), 0, 0, false); err != nil {
+			return fmt.Errorf("encoding uE-RLF-Report-Container-for-extended-bands: %w", err)
 		}
 	}
 	if v.IEExtensions != nil {
@@ -21023,31 +21606,38 @@ func (v *RecommendedCellsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes RecommendedCellsForPaging from APER format.
-func (v *RecommendedCellsForPaging) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes RLFReportInformation from APER format.
+func (v *RLFReportInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *RecommendedCellsForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *RLFReportInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
 	// Read preamble bitmap for optional root fields
+	opt_uerlfreportcontainerforextendedbands, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
 	opt_ieextensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	seqLen_recommendedcelllist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
+	val_uerlfreportcontainer, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 	if err != nil {
-		return fmt.Errorf("decoding recommendedCellList length: %w", err)
+		return fmt.Errorf("decoding uE-RLF-Report-Container: %w", err)
 	}
-	v.RecommendedCellList = make(RecommendedCellList, seqLen_recommendedcelllist)
-	for i := int64(0); i < seqLen_recommendedcelllist; i++ {
-		if err := v.RecommendedCellList[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding recommendedCellList element: %w", err)
+	v.UERLFReportContainer = UERLFReportContainer(val_uerlfreportcontainer)
+	if opt_uerlfreportcontainerforextendedbands {
+		val_uerlfreportcontainerforextendedbands, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+		if err != nil {
+			return fmt.Errorf("decoding uE-RLF-Report-Container-for-extended-bands: %w", err)
 		}
+		tmp_uerlfreportcontainerforextendedbands := UERLFReportContainerForExtendedBands(val_uerlfreportcontainerforextendedbands)
+		v.UERLFReportContainerForExtendedBands = &tmp_uerlfreportcontainerforextendedbands
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -21225,8 +21815,8 @@ func (v *RecommendedCellItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes RecommendedENBsForPaging to APER format.
-func (v *RecommendedENBsForPaging) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes RecommendedCellsForPaging to APER format.
+func (v *RecommendedCellsForPaging) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -21234,7 +21824,7 @@ func (v *RecommendedENBsForPaging) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *RecommendedENBsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *RecommendedCellsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -21243,12 +21833,12 @@ func (v *RecommendedENBsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.RecommendedENBList)), 1, 16); err != nil {
-		return fmt.Errorf("encoding recommendedENBList length: %w", err)
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.RecommendedCellList)), 1, 16); err != nil {
+		return fmt.Errorf("encoding recommendedCellList length: %w", err)
 	}
-	for _, elem := range v.RecommendedENBList {
+	for _, elem := range v.RecommendedCellList {
 		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding recommendedENBList element: %w", err)
+			return fmt.Errorf("encoding recommendedCellList element: %w", err)
 		}
 	}
 	if v.IEExtensions != nil {
@@ -21284,13 +21874,13 @@ func (v *RecommendedENBsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes RecommendedENBsForPaging from APER format.
-func (v *RecommendedENBsForPaging) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes RecommendedCellsForPaging from APER format.
+func (v *RecommendedCellsForPaging) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *RecommendedENBsForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *RecommendedCellsForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -21300,14 +21890,14 @@ func (v *RecommendedENBsForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_recommendedenblist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
+	seqLen_recommendedcelllist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
 	if err != nil {
-		return fmt.Errorf("decoding recommendedENBList length: %w", err)
+		return fmt.Errorf("decoding recommendedCellList length: %w", err)
 	}
-	v.RecommendedENBList = make(RecommendedENBList, seqLen_recommendedenblist)
-	for i := int64(0); i < seqLen_recommendedenblist; i++ {
-		if err := v.RecommendedENBList[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding recommendedENBList element: %w", err)
+	v.RecommendedCellList = make(RecommendedCellList, seqLen_recommendedcelllist)
+	for i := int64(0); i < seqLen_recommendedcelllist; i++ {
+		if err := v.RecommendedCellList[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding recommendedCellList element: %w", err)
 		}
 	}
 	if opt_ieextensions {
@@ -21467,8 +22057,8 @@ func (v *RecommendedENBItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes RATRestrictionsItem to APER format.
-func (v *RATRestrictionsItem) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes RecommendedENBsForPaging to APER format.
+func (v *RecommendedENBsForPaging) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -21476,7 +22066,7 @@ func (v *RATRestrictionsItem) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *RATRestrictionsItem) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *RecommendedENBsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -21485,11 +22075,13 @@ func (v *RATRestrictionsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNidentity), 0, 0, false); err != nil {
-		return fmt.Errorf("encoding pLMNidentity: %w", err)
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.RecommendedENBList)), 1, 16); err != nil {
+		return fmt.Errorf("encoding recommendedENBList length: %w", err)
 	}
-	if err := per.EncodeBitStringAligned(bb, v.RATRestrictionInformation.Bytes, v.RATRestrictionInformation.BitLength, 8, 8, true); err != nil {
-		return fmt.Errorf("encoding rAT-RestrictionInformation: %w", err)
+	for _, elem := range v.RecommendedENBList {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding recommendedENBList element: %w", err)
+		}
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
@@ -21524,13 +22116,13 @@ func (v *RATRestrictionsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes RATRestrictionsItem from APER format.
-func (v *RATRestrictionsItem) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes RecommendedENBsForPaging from APER format.
+func (v *RecommendedENBsForPaging) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *RATRestrictionsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *RecommendedENBsForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -21540,133 +22132,16 @@ func (v *RATRestrictionsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+	seqLen_recommendedenblist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
 	if err != nil {
-		return fmt.Errorf("decoding pLMNidentity: %w", err)
+		return fmt.Errorf("decoding recommendedENBList length: %w", err)
 	}
-	v.PLMNidentity = PLMNidentity(val_plmnidentity)
-	bsBytes_ratrestrictioninformation, bsBitLen_ratrestrictioninformation, err := per.DecodeBitStringAligned(bb, 8, 8, true)
-	if err != nil {
-		return fmt.Errorf("decoding rAT-RestrictionInformation: %w", err)
-	}
-	v.RATRestrictionInformation = runtime.BitString{Bytes: bsBytes_ratrestrictioninformation, BitLength: bsBitLen_ratrestrictioninformation}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
+	v.RecommendedENBList = make(RecommendedENBList, seqLen_recommendedenblist)
+	for i := int64(0); i < seqLen_recommendedenblist; i++ {
+		if err := v.RecommendedENBList[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding recommendedENBList element: %w", err)
 		}
 	}
-	return nil
-}
-
-// MarshalAPER encodes RequestedTNLInfo to APER format.
-func (v *RequestedTNLInfo) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *RequestedTNLInfo) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNidentity), 0, 0, false); err != nil {
-		return fmt.Errorf("encoding pLMNidentity: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes RequestedTNLInfo from APER format.
-func (v *RequestedTNLInfo) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *RequestedTNLInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding pLMNidentity: %w", err)
-	}
-	v.PLMNidentity = PLMNidentity(val_plmnidentity)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -21834,8 +22309,8 @@ func (v *RequestType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes RIMTransfer to APER format.
-func (v *RIMTransfer) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes SONConfigurationTransfer to APER format.
+func (v *SONConfigurationTransfer) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -21843,25 +22318,23 @@ func (v *RIMTransfer) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *RIMTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *SONConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
 	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.RIMRoutingAddress != nil); err != nil {
-		return err
-	}
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.RIMInformation), 0, 0, false); err != nil {
-		return fmt.Errorf("encoding rIMInformation: %w", err)
+	if err := v.TargeteNBID.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding targeteNB-ID: %w", err)
 	}
-	if v.RIMRoutingAddress != nil {
-		if err := v.RIMRoutingAddress.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding rIMRoutingAddress: %w", err)
-		}
+	if err := v.SourceeNBID.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding sourceeNB-ID: %w", err)
+	}
+	if err := v.SONInformation.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding sONInformation: %w", err)
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
@@ -21896,37 +22369,30 @@ func (v *RIMTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes RIMTransfer from APER format.
-func (v *RIMTransfer) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes SONConfigurationTransfer from APER format.
+func (v *SONConfigurationTransfer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *RIMTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *SONConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
 	// Read preamble bitmap for optional root fields
-	opt_rimroutingaddress, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
 	opt_ieextensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	val_riminformation, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding rIMInformation: %w", err)
+	if err := v.TargeteNBID.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding targeteNB-ID: %w", err)
 	}
-	v.RIMInformation = RIMInformation(val_riminformation)
-	if opt_rimroutingaddress {
-		var dec_rimroutingaddress RIMRoutingAddress
-		if err := dec_rimroutingaddress.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding rIMRoutingAddress: %w", err)
-		}
-		v.RIMRoutingAddress = &dec_rimroutingaddress
+	if err := v.SourceeNBID.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding sourceeNB-ID: %w", err)
+	}
+	if err := v.SONInformation.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding sONInformation: %w", err)
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -21970,8 +22436,8 @@ func (v *RIMTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes RIMRoutingAddress to APER format.
-func (v *RIMRoutingAddress) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes SONInformation to APER format.
+func (v *SONInformation) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -21979,51 +22445,54 @@ func (v *RIMRoutingAddress) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *RIMRoutingAddress) MarshalAPERTo(bb *per.BitBuffer) error {
-	isExtension := v.Choice > 1
+func (v *SONInformation) MarshalAPERTo(bb *per.BitBuffer) error {
+	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
 	}
 	if isExtension {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, int64(v.Choice-1-1)); err != nil {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, int64(v.Choice-2-1)); err != nil {
 			return err
 		}
 		inner := per.NewBitBuffer()
 		switch v.Choice {
-		case RIMRoutingAddressChoiceTargetRNCID:
-			if err := v.TargetRNCID.MarshalAPERTo(inner); err != nil {
-				return fmt.Errorf("encoding targetRNC-ID: %w", err)
-			}
-		case RIMRoutingAddressChoiceEHRPDSectorID:
-			if err := per.EncodeOctetStringAligned(inner, v.EHRPDSectorID, 16, 16, true); err != nil {
-				return fmt.Errorf("encoding eHRPD-Sector-ID: %w", err)
+		case SONInformationChoiceSONInformationExtension:
+			if err := v.SONInformationExtension.MarshalAPERTo(inner); err != nil {
+				return fmt.Errorf("encoding sONInformation-Extension: %w", err)
 			}
 		default:
-			return fmt.Errorf("unknown RIMRoutingAddress extension choice %d", v.Choice)
+			return fmt.Errorf("unknown SONInformation extension choice %d", v.Choice)
 		}
 		if err := per.EncodeOpenTypeAligned(bb, inner.Bytes()); err != nil {
 			return err
 		}
 		return nil
 	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
 	switch v.Choice {
-	case RIMRoutingAddressChoiceGERANCellID:
-		if err := v.GERANCellID.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding gERAN-Cell-ID: %w", err)
+	case SONInformationChoiceSONInformationRequest:
+		if err := per.EncodeEnumeratedAligned(bb, int64(*v.SONInformationRequest), 4, true); err != nil {
+			return fmt.Errorf("encoding sONInformationRequest: %w", err)
+		}
+	case SONInformationChoiceSONInformationReply:
+		if err := v.SONInformationReply.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding sONInformationReply: %w", err)
 		}
 	default:
-		return fmt.Errorf("unknown RIMRoutingAddress choice %d", v.Choice)
+		return fmt.Errorf("unknown SONInformation choice %d", v.Choice)
 	}
 	return nil
 }
 
-// UnmarshalAPER decodes RIMRoutingAddress from APER format.
-func (v *RIMRoutingAddress) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes SONInformation from APER format.
+func (v *SONInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *RIMRoutingAddress) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *SONInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -22033,46 +22502,50 @@ func (v *RIMRoutingAddress) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 1 + 1
 		openData, err := per.DecodeOpenTypeAligned(bb)
 		if err != nil {
 			return err
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
+		v.Choice = int(extIdx) + 2 + 1
 		switch v.Choice {
-		case RIMRoutingAddressChoiceTargetRNCID:
-			var dec_targetrncid TargetRNCID
-			if err := dec_targetrncid.UnmarshalAPERFrom(inner); err != nil {
-				return fmt.Errorf("decoding targetRNC-ID: %w", err)
+		case SONInformationChoiceSONInformationExtension:
+			var dec_soninformationextension SONInformationExtension
+			if err := dec_soninformationextension.UnmarshalAPERFrom(inner); err != nil {
+				return fmt.Errorf("decoding sONInformation-Extension: %w", err)
 			}
-			v.TargetRNCID = &dec_targetrncid
-		case RIMRoutingAddressChoiceEHRPDSectorID:
-			val_ehrpdsectorid, err := per.DecodeOctetStringAligned(inner, 16, 16, true)
-			if err != nil {
-				return fmt.Errorf("decoding eHRPD-Sector-ID: %w", err)
-			}
-			tmp_ehrpdsectorid := val_ehrpdsectorid
-			v.EHRPDSectorID = tmp_ehrpdsectorid
+			v.SONInformationExtension = &dec_soninformationextension
 		default:
-			return fmt.Errorf("RIMRoutingAddress: unsupported extension choice %d", v.Choice)
+			return fmt.Errorf("SONInformation: unsupported extension choice %d", v.Choice)
 		}
 		return nil
 	}
-	v.Choice = 1
+	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
 	switch v.Choice {
-	case RIMRoutingAddressChoiceGERANCellID:
-		var dec_gerancellid GERANCellID
-		if err := dec_gerancellid.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding gERAN-Cell-ID: %w", err)
+	case SONInformationChoiceSONInformationRequest:
+		val_soninformationrequest, err := per.DecodeEnumeratedAligned(bb, 4, true)
+		if err != nil {
+			return fmt.Errorf("decoding sONInformationRequest: %w", err)
 		}
-		v.GERANCellID = &dec_gerancellid
+		tmp_soninformationrequest := SONInformationRequest(val_soninformationrequest)
+		v.SONInformationRequest = &tmp_soninformationrequest
+	case SONInformationChoiceSONInformationReply:
+		var dec_soninformationreply SONInformationReply
+		if err := dec_soninformationreply.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding sONInformationReply: %w", err)
+		}
+		v.SONInformationReply = &dec_soninformationreply
 	}
 	return nil
 }
 
-// MarshalAPER encodes RLFReportInformation to APER format.
-func (v *RLFReportInformation) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes SONInformationReply to APER format.
+func (v *SONInformationReply) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -22080,24 +22553,21 @@ func (v *RLFReportInformation) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *RLFReportInformation) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *SONInformationReply) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
 	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.UERLFReportContainerForExtendedBands != nil); err != nil {
+	if err := per.EncodeBoolean(bb, v.X2TNLConfigurationInfo != nil); err != nil {
 		return err
 	}
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.UERLFReportContainer), 0, 0, false); err != nil {
-		return fmt.Errorf("encoding uE-RLF-Report-Container: %w", err)
-	}
-	if v.UERLFReportContainerForExtendedBands != nil {
-		if err := per.EncodeOctetStringAligned(bb, []byte(*v.UERLFReportContainerForExtendedBands), 0, 0, false); err != nil {
-			return fmt.Errorf("encoding uE-RLF-Report-Container-for-extended-bands: %w", err)
+	if v.X2TNLConfigurationInfo != nil {
+		if err := v.X2TNLConfigurationInfo.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding x2TNLConfigurationInfo: %w", err)
 		}
 	}
 	if v.IEExtensions != nil {
@@ -22133,19 +22603,19 @@ func (v *RLFReportInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes RLFReportInformation from APER format.
-func (v *RLFReportInformation) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes SONInformationReply from APER format.
+func (v *SONInformationReply) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *RLFReportInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *SONInformationReply) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
 	// Read preamble bitmap for optional root fields
-	opt_uerlfreportcontainerforextendedbands, err := per.DecodeBoolean(bb)
+	opt_x2tnlconfigurationinfo, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
@@ -22153,18 +22623,552 @@ func (v *RLFReportInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_uerlfreportcontainer, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding uE-RLF-Report-Container: %w", err)
-	}
-	v.UERLFReportContainer = UERLFReportContainer(val_uerlfreportcontainer)
-	if opt_uerlfreportcontainerforextendedbands {
-		val_uerlfreportcontainerforextendedbands, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding uE-RLF-Report-Container-for-extended-bands: %w", err)
+	if opt_x2tnlconfigurationinfo {
+		var dec_x2tnlconfigurationinfo X2TNLConfigurationInfo
+		if err := dec_x2tnlconfigurationinfo.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding x2TNLConfigurationInfo: %w", err)
 		}
-		tmp_uerlfreportcontainerforextendedbands := UERLFReportContainerForExtendedBands(val_uerlfreportcontainerforextendedbands)
-		v.UERLFReportContainerForExtendedBands = &tmp_uerlfreportcontainerforextendedbands
+		v.X2TNLConfigurationInfo = &dec_x2tnlconfigurationinfo
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes SONInformationReport to APER format.
+func (v *SONInformationReport) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SONInformationReport) MarshalAPERTo(bb *per.BitBuffer) error {
+	isExtension := v.Choice > 1
+	if err := per.EncodeBoolean(bb, isExtension); err != nil {
+		return err
+	}
+	if isExtension {
+		return fmt.Errorf("SONInformationReport: extension choice %d not supported", v.Choice)
+	}
+	switch v.Choice {
+	case SONInformationReportChoiceRLFReportInformation:
+		if err := v.RLFReportInformation.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding rLFReportInformation: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown SONInformationReport choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes SONInformationReport from APER format.
+func (v *SONInformationReport) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *SONInformationReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	isExtension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if isExtension {
+		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		return fmt.Errorf("SONInformationReport: unsupported extension choice %d", int(extIdx)+1+1)
+	}
+	v.Choice = 1
+	switch v.Choice {
+	case SONInformationReportChoiceRLFReportInformation:
+		var dec_rlfreportinformation RLFReportInformation
+		if err := dec_rlfreportinformation.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding rLFReportInformation: %w", err)
+		}
+		v.RLFReportInformation = &dec_rlfreportinformation
+	}
+	return nil
+}
+
+// MarshalAPER encodes SONInformationExtension to APER format.
+func (v *SONInformationExtension) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SONInformationExtension) MarshalAPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeIntegerAligned(bb, int64(v.Id), int64Ptr(0), int64Ptr(65535), false); err != nil {
+		return fmt.Errorf("encoding id: %w", err)
+	}
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+		return fmt.Errorf("encoding criticality: %w", err)
+	}
+	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes SONInformationExtension from APER format.
+func (v *SONInformationExtension) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *SONInformationExtension) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
+	if err != nil {
+		return fmt.Errorf("decoding id: %w", err)
+	}
+	v.Id = val_id
+	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
+	if err != nil {
+		return fmt.Errorf("decoding criticality: %w", err)
+	}
+	v.Criticality = val_criticality
+	openData_value, err := per.DecodeOpenTypeAligned(bb)
+	if err != nil {
+		return fmt.Errorf("decoding value: %w", err)
+	}
+	v.Value = runtime.RawValue{Bytes: openData_value}
+	return nil
+}
+
+// MarshalAPER encodes STMSI to APER format.
+func (v *STMSI) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *STMSI) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.MMEC), 1, 1, true); err != nil {
+		return fmt.Errorf("encoding mMEC: %w", err)
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.MTMSI), 4, 4, true); err != nil {
+		return fmt.Errorf("encoding m-TMSI: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes STMSI from APER format.
+func (v *STMSI) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *STMSI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_mmec, err := per.DecodeOctetStringAligned(bb, 1, 1, true)
+	if err != nil {
+		return fmt.Errorf("decoding mMEC: %w", err)
+	}
+	v.MMEC = MMECode(val_mmec)
+	val_mtmsi, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+	if err != nil {
+		return fmt.Errorf("decoding m-TMSI: %w", err)
+	}
+	v.MTMSI = MTMSI(val_mtmsi)
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ScheduledCommunicationTime to APER format.
+func (v *ScheduledCommunicationTime) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ScheduledCommunicationTime) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.DayofWeek != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.TimeofDayStart != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.TimeofDayEnd != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if v.DayofWeek != nil {
+		if err := per.EncodeBitStringAligned(bb, v.DayofWeek.Bytes, v.DayofWeek.BitLength, 7, 7, true); err != nil {
+			return fmt.Errorf("encoding dayofWeek: %w", err)
+		}
+	}
+	if v.TimeofDayStart != nil {
+		if err := per.EncodeIntegerAligned(bb, int64(*v.TimeofDayStart), int64Ptr(0), int64Ptr(86399), true); err != nil {
+			return fmt.Errorf("encoding timeofDayStart: %w", err)
+		}
+	}
+	if v.TimeofDayEnd != nil {
+		if err := per.EncodeIntegerAligned(bb, int64(*v.TimeofDayEnd), int64Ptr(0), int64Ptr(86399), true); err != nil {
+			return fmt.Errorf("encoding timeofDayEnd: %w", err)
+		}
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ScheduledCommunicationTime from APER format.
+func (v *ScheduledCommunicationTime) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ScheduledCommunicationTime) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_dayofweek, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_timeofdaystart, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_timeofdayend, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_dayofweek {
+		bsBytes_dayofweek, bsBitLen_dayofweek, err := per.DecodeBitStringAligned(bb, 7, 7, true)
+		if err != nil {
+			return fmt.Errorf("decoding dayofWeek: %w", err)
+		}
+		tmp_dayofweek := runtime.BitString{Bytes: bsBytes_dayofweek, BitLength: bsBitLen_dayofweek}
+		v.DayofWeek = &tmp_dayofweek
+	}
+	if opt_timeofdaystart {
+		val_timeofdaystart, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(86399), true)
+		if err != nil {
+			return fmt.Errorf("decoding timeofDayStart: %w", err)
+		}
+		v.TimeofDayStart = &val_timeofdaystart
+	}
+	if opt_timeofdayend {
+		val_timeofdayend, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(86399), true)
+		if err != nil {
+			return fmt.Errorf("decoding timeofDayEnd: %w", err)
+		}
+		v.TimeofDayEnd = &val_timeofdayend
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes SecondaryRATDataUsageReportItem to APER format.
+func (v *SecondaryRATDataUsageReportItem) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SecondaryRATDataUsageReportItem) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), true); err != nil {
+		return fmt.Errorf("encoding e-RAB-ID: %w", err)
+	}
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.SecondaryRATType), 2, true); err != nil {
+		return fmt.Errorf("encoding secondaryRATType: %w", err)
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ERABUsageReportList)), 1, 2); err != nil {
+		return fmt.Errorf("encoding e-RABUsageReportList length: %w", err)
+	}
+	for _, elem := range v.ERABUsageReportList {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding e-RABUsageReportList element: %w", err)
+		}
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes SecondaryRATDataUsageReportItem from APER format.
+func (v *SecondaryRATDataUsageReportItem) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *SecondaryRATDataUsageReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), true)
+	if err != nil {
+		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+	}
+	v.ERABID = val_erabid
+	val_secondaryrattype, err := per.DecodeEnumeratedAligned(bb, 2, true)
+	if err != nil {
+		return fmt.Errorf("decoding secondaryRATType: %w", err)
+	}
+	v.SecondaryRATType = SecondaryRATType(val_secondaryrattype)
+	seqLen_erabusagereportlist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 2)
+	if err != nil {
+		return fmt.Errorf("decoding e-RABUsageReportList length: %w", err)
+	}
+	v.ERABUsageReportList = make(ERABUsageReportList, seqLen_erabusagereportlist)
+	for i := int64(0); i < seqLen_erabusagereportlist; i++ {
+		if err := v.ERABUsageReportList[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding e-RABUsageReportList element: %w", err)
+		}
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -22291,149 +23295,6 @@ func (v *SecurityContext) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding nextHopParameter: %w", err)
 	}
 	v.NextHopParameter = runtime.BitString{Bytes: bsBytes_nexthopparameter, BitLength: bsBitLen_nexthopparameter}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes SecondaryRATDataUsageReportItem to APER format.
-func (v *SecondaryRATDataUsageReportItem) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SecondaryRATDataUsageReportItem) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.ERABID), int64Ptr(0), int64Ptr(15), false); err != nil {
-		return fmt.Errorf("encoding e-RAB-ID: %w", err)
-	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.SecondaryRATType), 2, true); err != nil {
-		return fmt.Errorf("encoding secondaryRATType: %w", err)
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ERABUsageReportList)), 1, 2); err != nil {
-		return fmt.Errorf("encoding e-RABUsageReportList length: %w", err)
-	}
-	for _, elem := range v.ERABUsageReportList {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding e-RABUsageReportList element: %w", err)
-		}
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes SecondaryRATDataUsageReportItem from APER format.
-func (v *SecondaryRATDataUsageReportItem) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *SecondaryRATDataUsageReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_erabid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
-	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
-	}
-	v.ERABID = val_erabid
-	val_secondaryrattype, err := per.DecodeEnumeratedAligned(bb, 2, true)
-	if err != nil {
-		return fmt.Errorf("decoding secondaryRATType: %w", err)
-	}
-	v.SecondaryRATType = SecondaryRATType(val_secondaryrattype)
-	seqLen_erabusagereportlist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 2)
-	if err != nil {
-		return fmt.Errorf("decoding e-RABUsageReportList length: %w", err)
-	}
-	v.ERABUsageReportList = make(ERABUsageReportList, seqLen_erabusagereportlist)
-	for i := int64(0); i < seqLen_erabusagereportlist; i++ {
-		if err := v.ERABUsageReportList[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding e-RABUsageReportList element: %w", err)
-		}
-	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -23029,8 +23890,8 @@ func (v *SensorNameConfig) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes SONInformation to APER format.
-func (v *SONInformation) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes ServedDCNsItem to APER format.
+func (v *ServedDCNsItem) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -23038,176 +23899,162 @@ func (v *SONInformation) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *SONInformation) MarshalAPERTo(bb *per.BitBuffer) error {
-	isExtension := v.Choice > 2
-	if err := per.EncodeBoolean(bb, isExtension); err != nil {
-		return err
-	}
-	if isExtension {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, int64(v.Choice-2-1)); err != nil {
-			return err
-		}
-		inner := per.NewBitBuffer()
-		switch v.Choice {
-		case SONInformationChoiceSONInformationExtension:
-			if err := v.SONInformationExtension.MarshalAPERTo(inner); err != nil {
-				return fmt.Errorf("encoding sONInformation-Extension: %w", err)
-			}
-		default:
-			return fmt.Errorf("unknown SONInformation extension choice %d", v.Choice)
-		}
-		if err := per.EncodeOpenTypeAligned(bb, inner.Bytes()); err != nil {
-			return err
-		}
-		return nil
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
-		return err
-	}
-	switch v.Choice {
-	case SONInformationChoiceSONInformationRequest:
-		if err := per.EncodeEnumeratedAligned(bb, int64(*v.SONInformationRequest), 4, true); err != nil {
-			return fmt.Errorf("encoding sONInformationRequest: %w", err)
-		}
-	case SONInformationChoiceSONInformationReply:
-		if err := v.SONInformationReply.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding sONInformationReply: %w", err)
-		}
-	default:
-		return fmt.Errorf("unknown SONInformation choice %d", v.Choice)
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes SONInformation from APER format.
-func (v *SONInformation) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *SONInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	isExtension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if isExtension {
-		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.Choice = int(extIdx) + 2 + 1
-		openData, err := per.DecodeOpenTypeAligned(bb)
-		if err != nil {
-			return err
-		}
-		inner := per.NewBitBufferFromBytes(openData)
-		_ = inner
-		switch v.Choice {
-		case SONInformationChoiceSONInformationExtension:
-			var dec_soninformationextension SONInformationExtension
-			if err := dec_soninformationextension.UnmarshalAPERFrom(inner); err != nil {
-				return fmt.Errorf("decoding sONInformation-Extension: %w", err)
-			}
-			v.SONInformationExtension = &dec_soninformationextension
-		default:
-			return fmt.Errorf("SONInformation: unsupported extension choice %d", v.Choice)
-		}
-		return nil
-	}
-	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
-	if err != nil {
-		return err
-	}
-	v.Choice = int(idx) + 1
-	switch v.Choice {
-	case SONInformationChoiceSONInformationRequest:
-		val_soninformationrequest, err := per.DecodeEnumeratedAligned(bb, 4, true)
-		if err != nil {
-			return fmt.Errorf("decoding sONInformationRequest: %w", err)
-		}
-		tmp_soninformationrequest := SONInformationRequest(val_soninformationrequest)
-		v.SONInformationRequest = &tmp_soninformationrequest
-	case SONInformationChoiceSONInformationReply:
-		var dec_soninformationreply SONInformationReply
-		if err := dec_soninformationreply.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding sONInformationReply: %w", err)
-		}
-		v.SONInformationReply = &dec_soninformationreply
-	}
-	return nil
-}
-
-// MarshalAPER encodes SONInformationExtension to APER format.
-func (v *SONInformationExtension) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SONInformationExtension) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.Id), nil, nil, false); err != nil {
-		return fmt.Errorf("encoding id: %w", err)
-	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 0, false); err != nil {
-		return fmt.Errorf("encoding criticality: %w", err)
-	}
-	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
-		return fmt.Errorf("encoding value: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes SONInformationExtension from APER format.
-func (v *SONInformationExtension) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *SONInformationExtension) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	val_id, err := per.DecodeIntegerAligned(bb, nil, nil, false)
-	if err != nil {
-		return fmt.Errorf("decoding id: %w", err)
-	}
-	v.Id = val_id
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding criticality: %w", err)
-	}
-	v.Criticality = val_criticality
-	openData_value, err := per.DecodeOpenTypeAligned(bb)
-	if err != nil {
-		return fmt.Errorf("decoding value: %w", err)
-	}
-	v.Value = runtime.RawValue{Bytes: openData_value}
-	return nil
-}
-
-// MarshalAPER encodes SONInformationReply to APER format.
-func (v *SONInformationReply) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SONInformationReply) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *ServedDCNsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
 	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.X2TNLConfigurationInfo != nil); err != nil {
-		return err
-	}
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if v.X2TNLConfigurationInfo != nil {
-		if err := v.X2TNLConfigurationInfo.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding x2TNLConfigurationInfo: %w", err)
+	if err := per.EncodeIntegerAligned(bb, int64(v.DCNID), int64Ptr(0), int64Ptr(65535), false); err != nil {
+		return fmt.Errorf("encoding dCN-ID: %w", err)
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.RelativeDCNCapacity), int64Ptr(0), int64Ptr(255), false); err != nil {
+		return fmt.Errorf("encoding relativeDCNCapacity: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ServedDCNsItem from APER format.
+func (v *ServedDCNsItem) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ServedDCNsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_dcnid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
+	if err != nil {
+		return fmt.Errorf("decoding dCN-ID: %w", err)
+	}
+	v.DCNID = val_dcnid
+	val_relativedcncapacity, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+	if err != nil {
+		return fmt.Errorf("decoding relativeDCNCapacity: %w", err)
+	}
+	v.RelativeDCNCapacity = val_relativedcncapacity
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes ServedGUMMEIsItem to APER format.
+func (v *ServedGUMMEIsItem) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ServedGUMMEIsItem) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ServedPLMNs)), 1, 32); err != nil {
+		return fmt.Errorf("encoding servedPLMNs length: %w", err)
+	}
+	for _, elem := range v.ServedPLMNs {
+		if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
+			return fmt.Errorf("encoding servedPLMNs element: %w", err)
+		}
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ServedGroupIDs)), 1, 65535); err != nil {
+		return fmt.Errorf("encoding servedGroupIDs length: %w", err)
+	}
+	for _, elem := range v.ServedGroupIDs {
+		if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
+			return fmt.Errorf("encoding servedGroupIDs element: %w", err)
+		}
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ServedMMECs)), 1, 256); err != nil {
+		return fmt.Errorf("encoding servedMMECs length: %w", err)
+	}
+	for _, elem := range v.ServedMMECs {
+		if err := per.EncodeOctetStringAligned(bb, []byte(elem), 1, 1, true); err != nil {
+			return fmt.Errorf("encoding servedMMECs element: %w", err)
 		}
 	}
 	if v.IEExtensions != nil {
@@ -23243,32 +24090,57 @@ func (v *SONInformationReply) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes SONInformationReply from APER format.
-func (v *SONInformationReply) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes ServedGUMMEIsItem from APER format.
+func (v *ServedGUMMEIsItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *SONInformationReply) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ServedGUMMEIsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
 	// Read preamble bitmap for optional root fields
-	opt_x2tnlconfigurationinfo, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
 	opt_ieextensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	if opt_x2tnlconfigurationinfo {
-		var dec_x2tnlconfigurationinfo X2TNLConfigurationInfo
-		if err := dec_x2tnlconfigurationinfo.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding x2TNLConfigurationInfo: %w", err)
+	seqLen_servedplmns, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 32)
+	if err != nil {
+		return fmt.Errorf("decoding servedPLMNs length: %w", err)
+	}
+	v.ServedPLMNs = make(ServedPLMNs, seqLen_servedplmns)
+	for i := int64(0); i < seqLen_servedplmns; i++ {
+		val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
+		if err != nil {
+			return fmt.Errorf("decoding servedPLMNs element: %w", err)
 		}
-		v.X2TNLConfigurationInfo = &dec_x2tnlconfigurationinfo
+		v.ServedPLMNs[i] = val
+	}
+	seqLen_servedgroupids, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding servedGroupIDs length: %w", err)
+	}
+	v.ServedGroupIDs = make(ServedGroupIDs, seqLen_servedgroupids)
+	for i := int64(0); i < seqLen_servedgroupids; i++ {
+		val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
+		if err != nil {
+			return fmt.Errorf("decoding servedGroupIDs element: %w", err)
+		}
+		v.ServedGroupIDs[i] = val
+	}
+	seqLen_servedmmecs, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if err != nil {
+		return fmt.Errorf("decoding servedMMECs length: %w", err)
+	}
+	v.ServedMMECs = make(ServedMMECs, seqLen_servedmmecs)
+	for i := int64(0); i < seqLen_servedmmecs; i++ {
+		val, err := per.DecodeOctetStringAligned(bb, 1, 1, true)
+		if err != nil {
+			return fmt.Errorf("decoding servedMMECs element: %w", err)
+		}
+		v.ServedMMECs[i] = val
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -23312,8 +24184,8 @@ func (v *SONInformationReply) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes SONInformationReport to APER format.
-func (v *SONInformationReport) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes SourceNgRanNodeID to APER format.
+func (v *SourceNgRanNodeID) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -23321,69 +24193,7 @@ func (v *SONInformationReport) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *SONInformationReport) MarshalAPERTo(bb *per.BitBuffer) error {
-	isExtension := v.Choice > 1
-	if err := per.EncodeBoolean(bb, isExtension); err != nil {
-		return err
-	}
-	if isExtension {
-		return fmt.Errorf("SONInformationReport: extension choice %d not supported", v.Choice)
-	}
-	switch v.Choice {
-	case SONInformationReportChoiceRLFReportInformation:
-		if err := v.RLFReportInformation.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding rLFReportInformation: %w", err)
-		}
-	default:
-		return fmt.Errorf("unknown SONInformationReport choice %d", v.Choice)
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes SONInformationReport from APER format.
-func (v *SONInformationReport) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *SONInformationReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	isExtension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if isExtension {
-		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.Choice = int(extIdx) + 1 + 1
-		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("SONInformationReport: extension choice %d not supported", v.Choice)
-	}
-	v.Choice = 1
-	switch v.Choice {
-	case SONInformationReportChoiceRLFReportInformation:
-		var dec_rlfreportinformation RLFReportInformation
-		if err := dec_rlfreportinformation.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding rLFReportInformation: %w", err)
-		}
-		v.RLFReportInformation = &dec_rlfreportinformation
-	}
-	return nil
-}
-
-// MarshalAPER encodes SONConfigurationTransfer to APER format.
-func (v *SONConfigurationTransfer) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SONConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *SourceNgRanNodeID) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -23392,308 +24202,8 @@ func (v *SONConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := v.TargeteNBID.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding targeteNB-ID: %w", err)
-	}
-	if err := v.SourceeNBID.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding sourceeNB-ID: %w", err)
-	}
-	if err := v.SONInformation.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding sONInformation: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes SONConfigurationTransfer from APER format.
-func (v *SONConfigurationTransfer) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *SONConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if err := v.TargeteNBID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding targeteNB-ID: %w", err)
-	}
-	if err := v.SourceeNBID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding sourceeNB-ID: %w", err)
-	}
-	if err := v.SONInformation.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding sONInformation: %w", err)
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes SynchronisationInformation to APER format.
-func (v *SynchronisationInformation) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SynchronisationInformation) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.SourceStratumLevel != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.ListeningSubframePattern != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.AggressoreCGIList != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if v.SourceStratumLevel != nil {
-		if err := per.EncodeIntegerAligned(bb, int64(*v.SourceStratumLevel), int64Ptr(0), int64Ptr(3), false); err != nil {
-			return fmt.Errorf("encoding sourceStratumLevel: %w", err)
-		}
-	}
-	if v.ListeningSubframePattern != nil {
-		if err := v.ListeningSubframePattern.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding listeningSubframePattern: %w", err)
-		}
-	}
-	if v.AggressoreCGIList != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.AggressoreCGIList)), 1, 256); err != nil {
-			return fmt.Errorf("encoding aggressoreCGI-List length: %w", err)
-		}
-		for _, elem := range v.AggressoreCGIList {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding aggressoreCGI-List element: %w", err)
-			}
-		}
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes SynchronisationInformation from APER format.
-func (v *SynchronisationInformation) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *SynchronisationInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_sourcestratumlevel, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_listeningsubframepattern, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_aggressorecgilist, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_sourcestratumlevel {
-		val_sourcestratumlevel, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(3), false)
-		if err != nil {
-			return fmt.Errorf("decoding sourceStratumLevel: %w", err)
-		}
-		v.SourceStratumLevel = &val_sourcestratumlevel
-	}
-	if opt_listeningsubframepattern {
-		var dec_listeningsubframepattern ListeningSubframePattern
-		if err := dec_listeningsubframepattern.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding listeningSubframePattern: %w", err)
-		}
-		v.ListeningSubframePattern = &dec_listeningsubframepattern
-	}
-	if opt_aggressorecgilist {
-		seqLen_aggressorecgilist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-		if err != nil {
-			return fmt.Errorf("decoding aggressoreCGI-List length: %w", err)
-		}
-		tmp_aggressorecgilist := make(IEsECGIList, seqLen_aggressorecgilist)
-		for i := int64(0); i < seqLen_aggressorecgilist; i++ {
-			if err := tmp_aggressorecgilist[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding aggressoreCGI-List element: %w", err)
-			}
-		}
-		v.AggressoreCGIList = tmp_aggressorecgilist
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes SourceeNBID to APER format.
-func (v *SourceeNBID) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SourceeNBID) MarshalAPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := v.GlobalENBID.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding global-ENB-ID: %w", err)
+	if err := v.GlobalRANNODEID.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding global-RAN-NODE-ID: %w", err)
 	}
 	if err := v.SelectedTAI.MarshalAPERTo(bb); err != nil {
 		return fmt.Errorf("encoding selected-TAI: %w", err)
@@ -23708,23 +24218,47 @@ func (v *SourceeNBID) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
 	return nil
 }
 
-// UnmarshalAPER decodes SourceeNBID from APER format.
-func (v *SourceeNBID) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes SourceNgRanNodeID from APER format.
+func (v *SourceNgRanNodeID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *SourceeNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *SourceNgRanNodeID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
 	// Read preamble bitmap for optional root fields
 	opt_ieextensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	if err := v.GlobalENBID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding global-ENB-ID: %w", err)
+	if err := v.GlobalRANNODEID.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding global-RAN-NODE-ID: %w", err)
 	}
 	if err := v.SelectedTAI.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding selected-TAI: %w", err)
@@ -23741,6 +24275,32 @@ func (v *SourceeNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			}
 		}
 		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
 	}
 	return nil
 }
@@ -23812,10 +24372,10 @@ func (v *SourceNodeIDExtension) MarshalAPER() ([]byte, error) {
 }
 
 func (v *SourceNodeIDExtension) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.Id), nil, nil, false); err != nil {
+	if err := per.EncodeIntegerAligned(bb, int64(v.Id), int64Ptr(0), int64Ptr(65535), false); err != nil {
 		return fmt.Errorf("encoding id: %w", err)
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 0, false); err != nil {
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
 		return fmt.Errorf("encoding criticality: %w", err)
 	}
 	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
@@ -23831,12 +24391,12 @@ func (v *SourceNodeIDExtension) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SourceNodeIDExtension) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	val_id, err := per.DecodeIntegerAligned(bb, nil, nil, false)
+	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
 		return fmt.Errorf("decoding id: %w", err)
 	}
 	v.Id = val_id
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 0, false)
+	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return fmt.Errorf("decoding criticality: %w", err)
 	}
@@ -23846,6 +24406,73 @@ func (v *SourceNodeIDExtension) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding value: %w", err)
 	}
 	v.Value = runtime.RawValue{Bytes: openData_value}
+	return nil
+}
+
+// MarshalAPER encodes SourceeNBID to APER format.
+func (v *SourceeNBID) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SourceeNBID) MarshalAPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := v.GlobalENBID.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding global-ENB-ID: %w", err)
+	}
+	if err := v.SelectedTAI.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding selected-TAI: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes SourceeNBID from APER format.
+func (v *SourceeNBID) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *SourceeNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if err := v.GlobalENBID.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding global-ENB-ID: %w", err)
+	}
+	if err := v.SelectedTAI.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding selected-TAI: %w", err)
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
 	return nil
 }
 
@@ -24039,296 +24666,6 @@ func (v *SourceeNBToTargeteNBTransparentContainer) UnmarshalAPERFrom(bb *per.Bit
 	return nil
 }
 
-// MarshalAPER encodes SourceNgRanNodeID to APER format.
-func (v *SourceNgRanNodeID) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SourceNgRanNodeID) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := v.GlobalRANNODEID.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding global-RAN-NODE-ID: %w", err)
-	}
-	if err := v.SelectedTAI.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding selected-TAI: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes SourceNgRanNodeID from APER format.
-func (v *SourceNgRanNodeID) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *SourceNgRanNodeID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if err := v.GlobalRANNODEID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding global-RAN-NODE-ID: %w", err)
-	}
-	if err := v.SelectedTAI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding selected-TAI: %w", err)
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ServedGUMMEIsItem to APER format.
-func (v *ServedGUMMEIsItem) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ServedGUMMEIsItem) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ServedPLMNs)), 1, 32); err != nil {
-		return fmt.Errorf("encoding servedPLMNs length: %w", err)
-	}
-	for _, elem := range v.ServedPLMNs {
-		if err := per.EncodeOctetStringAligned(bb, []byte(elem), 0, 0, false); err != nil {
-			return fmt.Errorf("encoding servedPLMNs element: %w", err)
-		}
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ServedGroupIDs)), 1, 65535); err != nil {
-		return fmt.Errorf("encoding servedGroupIDs length: %w", err)
-	}
-	for _, elem := range v.ServedGroupIDs {
-		if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
-			return fmt.Errorf("encoding servedGroupIDs element: %w", err)
-		}
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ServedMMECs)), 1, 256); err != nil {
-		return fmt.Errorf("encoding servedMMECs length: %w", err)
-	}
-	for _, elem := range v.ServedMMECs {
-		if err := per.EncodeOctetStringAligned(bb, []byte(elem), 1, 1, true); err != nil {
-			return fmt.Errorf("encoding servedMMECs element: %w", err)
-		}
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ServedGUMMEIsItem from APER format.
-func (v *ServedGUMMEIsItem) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *ServedGUMMEIsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_servedplmns, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 32)
-	if err != nil {
-		return fmt.Errorf("decoding servedPLMNs length: %w", err)
-	}
-	v.ServedPLMNs = make(ServedPLMNs, seqLen_servedplmns)
-	for i := int64(0); i < seqLen_servedplmns; i++ {
-		val, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding servedPLMNs element: %w", err)
-		}
-		v.ServedPLMNs[i] = val
-	}
-	seqLen_servedgroupids, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding servedGroupIDs length: %w", err)
-	}
-	v.ServedGroupIDs = make(ServedGroupIDs, seqLen_servedgroupids)
-	for i := int64(0); i < seqLen_servedgroupids; i++ {
-		val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
-		if err != nil {
-			return fmt.Errorf("decoding servedGroupIDs element: %w", err)
-		}
-		v.ServedGroupIDs[i] = val
-	}
-	seqLen_servedmmecs, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding servedMMECs length: %w", err)
-	}
-	v.ServedMMECs = make(ServedMMECs, seqLen_servedmmecs)
-	for i := int64(0); i < seqLen_servedmmecs; i++ {
-		val, err := per.DecodeOctetStringAligned(bb, 1, 1, true)
-		if err != nil {
-			return fmt.Errorf("decoding servedMMECs element: %w", err)
-		}
-		v.ServedMMECs[i] = val
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
 // MarshalAPER encodes SubscriptionBasedUEDifferentiationInfo to APER format.
 func (v *SubscriptionBasedUEDifferentiationInfo) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -24371,7 +24708,7 @@ func (v *SubscriptionBasedUEDifferentiationInfo) MarshalAPERTo(bb *per.BitBuffer
 		}
 	}
 	if v.PeriodicTime != nil {
-		if err := per.EncodeIntegerAligned(bb, int64(*v.PeriodicTime), int64Ptr(1), int64Ptr(3600), false); err != nil {
+		if err := per.EncodeIntegerAligned(bb, int64(*v.PeriodicTime), int64Ptr(1), int64Ptr(3600), true); err != nil {
 			return fmt.Errorf("encoding periodicTime: %w", err)
 		}
 	}
@@ -24476,7 +24813,7 @@ func (v *SubscriptionBasedUEDifferentiationInfo) UnmarshalAPERFrom(bb *per.BitBu
 		v.PeriodicCommunicationIndicator = &val_periodiccommunicationindicator
 	}
 	if opt_periodictime {
-		val_periodictime, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(3600), false)
+		val_periodictime, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(3600), true)
 		if err != nil {
 			return fmt.Errorf("decoding periodicTime: %w", err)
 		}
@@ -24552,173 +24889,6 @@ func (v *SubscriptionBasedUEDifferentiationInfo) UnmarshalAPERFrom(bb *per.BitBu
 	return nil
 }
 
-// MarshalAPER encodes ScheduledCommunicationTime to APER format.
-func (v *ScheduledCommunicationTime) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ScheduledCommunicationTime) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.DayofWeek != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.TimeofDayStart != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.TimeofDayEnd != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if v.DayofWeek != nil {
-		if err := per.EncodeBitStringAligned(bb, v.DayofWeek.Bytes, v.DayofWeek.BitLength, 7, 7, true); err != nil {
-			return fmt.Errorf("encoding dayofWeek: %w", err)
-		}
-	}
-	if v.TimeofDayStart != nil {
-		if err := per.EncodeIntegerAligned(bb, int64(*v.TimeofDayStart), int64Ptr(0), int64Ptr(86399), false); err != nil {
-			return fmt.Errorf("encoding timeofDayStart: %w", err)
-		}
-	}
-	if v.TimeofDayEnd != nil {
-		if err := per.EncodeIntegerAligned(bb, int64(*v.TimeofDayEnd), int64Ptr(0), int64Ptr(86399), false); err != nil {
-			return fmt.Errorf("encoding timeofDayEnd: %w", err)
-		}
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ScheduledCommunicationTime from APER format.
-func (v *ScheduledCommunicationTime) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *ScheduledCommunicationTime) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_dayofweek, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_timeofdaystart, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_timeofdayend, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_dayofweek {
-		bsBytes_dayofweek, bsBitLen_dayofweek, err := per.DecodeBitStringAligned(bb, 7, 7, true)
-		if err != nil {
-			return fmt.Errorf("decoding dayofWeek: %w", err)
-		}
-		tmp_dayofweek := runtime.BitString{Bytes: bsBytes_dayofweek, BitLength: bsBitLen_dayofweek}
-		v.DayofWeek = &tmp_dayofweek
-	}
-	if opt_timeofdaystart {
-		val_timeofdaystart, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(86399), false)
-		if err != nil {
-			return fmt.Errorf("decoding timeofDayStart: %w", err)
-		}
-		v.TimeofDayStart = &val_timeofdaystart
-	}
-	if opt_timeofdayend {
-		val_timeofdayend, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(86399), false)
-		if err != nil {
-			return fmt.Errorf("decoding timeofDayEnd: %w", err)
-		}
-		v.TimeofDayEnd = &val_timeofdayend
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
 // MarshalAPER encodes SupportedTAsItem to APER format.
 func (v *SupportedTAsItem) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -24744,7 +24914,7 @@ func (v *SupportedTAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding broadcastPLMNs length: %w", err)
 	}
 	for _, elem := range v.BroadcastPLMNs {
-		if err := per.EncodeOctetStringAligned(bb, []byte(elem), 0, 0, false); err != nil {
+		if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
 			return fmt.Errorf("encoding broadcastPLMNs element: %w", err)
 		}
 	}
@@ -24808,7 +24978,7 @@ func (v *SupportedTAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.BroadcastPLMNs = make(BPLMNs, seqLen_broadcastplmns)
 	for i := int64(0); i < seqLen_broadcastplmns; i++ {
-		val, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+		val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 		if err != nil {
 			return fmt.Errorf("decoding broadcastPLMNs element: %w", err)
 		}
@@ -24856,8 +25026,8 @@ func (v *SupportedTAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes TimeSynchronisationInfo to APER format.
-func (v *TimeSynchronisationInfo) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes SynchronisationInformation to APER format.
+func (v *SynchronisationInformation) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -24865,20 +25035,43 @@ func (v *TimeSynchronisationInfo) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *TimeSynchronisationInfo) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *SynchronisationInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
 	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.SourceStratumLevel != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.ListeningSubframePattern != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.AggressoreCGIList != nil); err != nil {
+		return err
+	}
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.StratumLevel), int64Ptr(0), int64Ptr(3), false); err != nil {
-		return fmt.Errorf("encoding stratumLevel: %w", err)
+	if v.SourceStratumLevel != nil {
+		if err := per.EncodeIntegerAligned(bb, int64(*v.SourceStratumLevel), int64Ptr(0), int64Ptr(3), true); err != nil {
+			return fmt.Errorf("encoding sourceStratumLevel: %w", err)
+		}
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.SynchronisationStatus), 2, true); err != nil {
-		return fmt.Errorf("encoding synchronisationStatus: %w", err)
+	if v.ListeningSubframePattern != nil {
+		if err := v.ListeningSubframePattern.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding listeningSubframePattern: %w", err)
+		}
+	}
+	if v.AggressoreCGIList != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.AggressoreCGIList)), 1, 256); err != nil {
+			return fmt.Errorf("encoding aggressoreCGI-List length: %w", err)
+		}
+		for _, elem := range v.AggressoreCGIList {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding aggressoreCGI-List element: %w", err)
+			}
+		}
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
@@ -24913,32 +25106,61 @@ func (v *TimeSynchronisationInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes TimeSynchronisationInfo from APER format.
-func (v *TimeSynchronisationInfo) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes SynchronisationInformation from APER format.
+func (v *SynchronisationInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *TimeSynchronisationInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *SynchronisationInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
 	// Read preamble bitmap for optional root fields
+	opt_sourcestratumlevel, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_listeningsubframepattern, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_aggressorecgilist, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
 	opt_ieextensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	val_stratumlevel, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(3), false)
-	if err != nil {
-		return fmt.Errorf("decoding stratumLevel: %w", err)
+	if opt_sourcestratumlevel {
+		val_sourcestratumlevel, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(3), true)
+		if err != nil {
+			return fmt.Errorf("decoding sourceStratumLevel: %w", err)
+		}
+		v.SourceStratumLevel = &val_sourcestratumlevel
 	}
-	v.StratumLevel = val_stratumlevel
-	val_synchronisationstatus, err := per.DecodeEnumeratedAligned(bb, 2, true)
-	if err != nil {
-		return fmt.Errorf("decoding synchronisationStatus: %w", err)
+	if opt_listeningsubframepattern {
+		var dec_listeningsubframepattern ListeningSubframePattern
+		if err := dec_listeningsubframepattern.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding listeningSubframePattern: %w", err)
+		}
+		v.ListeningSubframePattern = &dec_listeningsubframepattern
 	}
-	v.SynchronisationStatus = SynchronisationStatus(val_synchronisationstatus)
+	if opt_aggressorecgilist {
+		seqLen_aggressorecgilist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+		if err != nil {
+			return fmt.Errorf("decoding aggressoreCGI-List length: %w", err)
+		}
+		tmp_aggressorecgilist := make(IEsECGIList, seqLen_aggressorecgilist)
+		for i := int64(0); i < seqLen_aggressorecgilist; i++ {
+			if err := tmp_aggressorecgilist[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding aggressoreCGI-List element: %w", err)
+			}
+		}
+		v.AggressoreCGIList = tmp_aggressorecgilist
+	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -24981,8 +25203,8 @@ func (v *TimeSynchronisationInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes STMSI to APER format.
-func (v *STMSI) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes TABasedMDT to APER format.
+func (v *TABasedMDT) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -24990,7 +25212,7 @@ func (v *STMSI) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *STMSI) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *TABasedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -24999,11 +25221,13 @@ func (v *STMSI) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.MMEC), 1, 1, true); err != nil {
-		return fmt.Errorf("encoding mMEC: %w", err)
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.TAListforMDT)), 1, 8); err != nil {
+		return fmt.Errorf("encoding tAListforMDT length: %w", err)
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.MTMSI), 4, 4, true); err != nil {
-		return fmt.Errorf("encoding m-TMSI: %w", err)
+	for _, elem := range v.TAListforMDT {
+		if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
+			return fmt.Errorf("encoding tAListforMDT element: %w", err)
+		}
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
@@ -25038,13 +25262,13 @@ func (v *STMSI) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes STMSI from APER format.
-func (v *STMSI) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes TABasedMDT from APER format.
+func (v *TABasedMDT) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *STMSI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *TABasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -25054,16 +25278,272 @@ func (v *STMSI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_mmec, err := per.DecodeOctetStringAligned(bb, 1, 1, true)
+	seqLen_talistformdt, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 8)
 	if err != nil {
-		return fmt.Errorf("decoding mMEC: %w", err)
+		return fmt.Errorf("decoding tAListforMDT length: %w", err)
 	}
-	v.MMEC = MMECode(val_mmec)
-	val_mtmsi, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+	v.TAListforMDT = make(TAListforMDT, seqLen_talistformdt)
+	for i := int64(0); i < seqLen_talistformdt; i++ {
+		val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
+		if err != nil {
+			return fmt.Errorf("decoding tAListforMDT element: %w", err)
+		}
+		v.TAListforMDT[i] = val
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes TABasedQMC to APER format.
+func (v *TABasedQMC) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *TABasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.TAListforQMC)), 1, 8); err != nil {
+		return fmt.Errorf("encoding tAListforQMC length: %w", err)
+	}
+	for _, elem := range v.TAListforQMC {
+		if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
+			return fmt.Errorf("encoding tAListforQMC element: %w", err)
+		}
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes TABasedQMC from APER format.
+func (v *TABasedQMC) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *TABasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
-		return fmt.Errorf("decoding m-TMSI: %w", err)
+		return err
 	}
-	v.MTMSI = MTMSI(val_mtmsi)
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_talistforqmc, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 8)
+	if err != nil {
+		return fmt.Errorf("decoding tAListforQMC length: %w", err)
+	}
+	v.TAListforQMC = make(TAListforQMC, seqLen_talistforqmc)
+	for i := int64(0); i < seqLen_talistforqmc; i++ {
+		val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
+		if err != nil {
+			return fmt.Errorf("decoding tAListforQMC element: %w", err)
+		}
+		v.TAListforQMC[i] = val
+	}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes TAI to APER format.
+func (v *TAI) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *TAI) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNidentity), 3, 3, true); err != nil {
+		return fmt.Errorf("encoding pLMNidentity: %w", err)
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.TAC), 2, 2, true); err != nil {
+		return fmt.Errorf("encoding tAC: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes TAI from APER format.
+func (v *TAI) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *TAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
+	if err != nil {
+		return fmt.Errorf("decoding pLMNidentity: %w", err)
+	}
+	v.PLMNidentity = PLMNidentity(val_plmnidentity)
+	val_tac, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
+	if err != nil {
+		return fmt.Errorf("decoding tAC: %w", err)
+	}
+	v.TAC = TAC(val_tac)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -25233,8 +25713,8 @@ func (v *TAIBasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes TAI to APER format.
-func (v *TAI) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes TAIBasedQMC to APER format.
+func (v *TAIBasedQMC) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -25242,7 +25722,7 @@ func (v *TAI) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *TAI) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *TAIBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -25251,11 +25731,13 @@ func (v *TAI) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNidentity), 0, 0, false); err != nil {
-		return fmt.Errorf("encoding pLMNidentity: %w", err)
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.TAIListforQMC)), 1, 8); err != nil {
+		return fmt.Errorf("encoding tAIListforQMC length: %w", err)
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.TAC), 2, 2, true); err != nil {
-		return fmt.Errorf("encoding tAC: %w", err)
+	for _, elem := range v.TAIListforQMC {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding tAIListforQMC element: %w", err)
+		}
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
@@ -25290,13 +25772,13 @@ func (v *TAI) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes TAI from APER format.
-func (v *TAI) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes TAIBasedQMC from APER format.
+func (v *TAIBasedQMC) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *TAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *TAIBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -25306,16 +25788,16 @@ func (v *TAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+	seqLen_tailistforqmc, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 8)
 	if err != nil {
-		return fmt.Errorf("decoding pLMNidentity: %w", err)
+		return fmt.Errorf("decoding tAIListforQMC length: %w", err)
 	}
-	v.PLMNidentity = PLMNidentity(val_plmnidentity)
-	val_tac, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
-	if err != nil {
-		return fmt.Errorf("decoding tAC: %w", err)
+	v.TAIListforQMC = make(TAIListforQMC, seqLen_tailistforqmc)
+	for i := int64(0); i < seqLen_tailistforqmc; i++ {
+		if err := v.TAIListforQMC[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding tAIListforQMC element: %w", err)
+		}
 	}
-	v.TAC = TAC(val_tac)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -25624,506 +26106,6 @@ func (v *TAICancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes TABasedMDT to APER format.
-func (v *TABasedMDT) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *TABasedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.TAListforMDT)), 1, 8); err != nil {
-		return fmt.Errorf("encoding tAListforMDT length: %w", err)
-	}
-	for _, elem := range v.TAListforMDT {
-		if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
-			return fmt.Errorf("encoding tAListforMDT element: %w", err)
-		}
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes TABasedMDT from APER format.
-func (v *TABasedMDT) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *TABasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_talistformdt, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding tAListforMDT length: %w", err)
-	}
-	v.TAListforMDT = make(TAListforMDT, seqLen_talistformdt)
-	for i := int64(0); i < seqLen_talistformdt; i++ {
-		val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
-		if err != nil {
-			return fmt.Errorf("decoding tAListforMDT element: %w", err)
-		}
-		v.TAListforMDT[i] = val
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes TABasedQMC to APER format.
-func (v *TABasedQMC) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *TABasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.TAListforQMC)), 1, 8); err != nil {
-		return fmt.Errorf("encoding tAListforQMC length: %w", err)
-	}
-	for _, elem := range v.TAListforQMC {
-		if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
-			return fmt.Errorf("encoding tAListforQMC element: %w", err)
-		}
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes TABasedQMC from APER format.
-func (v *TABasedQMC) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *TABasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_talistforqmc, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding tAListforQMC length: %w", err)
-	}
-	v.TAListforQMC = make(TAListforQMC, seqLen_talistforqmc)
-	for i := int64(0); i < seqLen_talistforqmc; i++ {
-		val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
-		if err != nil {
-			return fmt.Errorf("decoding tAListforQMC element: %w", err)
-		}
-		v.TAListforQMC[i] = val
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes TAIBasedQMC to APER format.
-func (v *TAIBasedQMC) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *TAIBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.TAIListforQMC)), 1, 8); err != nil {
-		return fmt.Errorf("encoding tAIListforQMC length: %w", err)
-	}
-	for _, elem := range v.TAIListforQMC {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding tAIListforQMC element: %w", err)
-		}
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes TAIBasedQMC from APER format.
-func (v *TAIBasedQMC) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *TAIBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_tailistforqmc, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding tAIListforQMC length: %w", err)
-	}
-	v.TAIListforQMC = make(TAIListforQMC, seqLen_tailistforqmc)
-	for i := int64(0); i < seqLen_tailistforqmc; i++ {
-		if err := v.TAIListforQMC[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding tAIListforQMC element: %w", err)
-		}
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes CompletedCellinTAIItem to APER format.
-func (v *CompletedCellinTAIItem) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *CompletedCellinTAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := v.ECGI.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding eCGI: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes CompletedCellinTAIItem from APER format.
-func (v *CompletedCellinTAIItem) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *CompletedCellinTAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if err := v.ECGI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding eCGI: %w", err)
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
 // MarshalAPER encodes TargetID to APER format.
 func (v *TargetID) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -26194,13 +26176,13 @@ func (v *TargetID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 3 + 1
 		openData, err := per.DecodeOpenTypeAligned(bb)
 		if err != nil {
 			return err
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		_ = inner
+		v.Choice = int(extIdx) + 3 + 1
 		switch v.Choice {
 		case TargetIDChoiceTargetgNgRanNodeID:
 			var dec_targetgngrannodeid TargetNgRanNodeID
@@ -26241,8 +26223,8 @@ func (v *TargetID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes TargeteNBID to APER format.
-func (v *TargeteNBID) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes TargetNgRanNodeID to APER format.
+func (v *TargetNgRanNodeID) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -26250,7 +26232,7 @@ func (v *TargeteNBID) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *TargeteNBID) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *TargetNgRanNodeID) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -26259,8 +26241,8 @@ func (v *TargeteNBID) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := v.GlobalENBID.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding global-ENB-ID: %w", err)
+	if err := v.GlobalRANNODEID.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding global-RAN-NODE-ID: %w", err)
 	}
 	if err := v.SelectedTAI.MarshalAPERTo(bb); err != nil {
 		return fmt.Errorf("encoding selected-TAI: %w", err)
@@ -26298,13 +26280,13 @@ func (v *TargeteNBID) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes TargeteNBID from APER format.
-func (v *TargeteNBID) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes TargetNgRanNodeID from APER format.
+func (v *TargetNgRanNodeID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *TargeteNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *TargetNgRanNodeID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -26314,8 +26296,8 @@ func (v *TargeteNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	if err := v.GlobalENBID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding global-ENB-ID: %w", err)
+	if err := v.GlobalRANNODEID.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding global-RAN-NODE-ID: %w", err)
 	}
 	if err := v.SelectedTAI.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding selected-TAI: %w", err)
@@ -26524,8 +26506,8 @@ func (v *TargetRNCID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes TargetNgRanNodeID to APER format.
-func (v *TargetNgRanNodeID) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes TargeteNBID to APER format.
+func (v *TargeteNBID) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -26533,7 +26515,7 @@ func (v *TargetNgRanNodeID) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *TargetNgRanNodeID) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *TargeteNBID) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -26542,8 +26524,8 @@ func (v *TargetNgRanNodeID) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := v.GlobalRANNODEID.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding global-RAN-NODE-ID: %w", err)
+	if err := v.GlobalENBID.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding global-ENB-ID: %w", err)
 	}
 	if err := v.SelectedTAI.MarshalAPERTo(bb); err != nil {
 		return fmt.Errorf("encoding selected-TAI: %w", err)
@@ -26581,13 +26563,13 @@ func (v *TargetNgRanNodeID) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes TargetNgRanNodeID from APER format.
-func (v *TargetNgRanNodeID) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes TargeteNBID from APER format.
+func (v *TargeteNBID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *TargetNgRanNodeID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *TargeteNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -26597,506 +26579,11 @@ func (v *TargetNgRanNodeID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	if err := v.GlobalRANNODEID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding global-RAN-NODE-ID: %w", err)
+	if err := v.GlobalENBID.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding global-ENB-ID: %w", err)
 	}
 	if err := v.SelectedTAI.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding selected-TAI: %w", err)
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes GlobalRANNODEID to APER format.
-func (v *GlobalRANNODEID) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *GlobalRANNODEID) MarshalAPERTo(bb *per.BitBuffer) error {
-	isExtension := v.Choice > 2
-	if err := per.EncodeBoolean(bb, isExtension); err != nil {
-		return err
-	}
-	if isExtension {
-		return fmt.Errorf("GlobalRANNODEID: extension choice %d not supported", v.Choice)
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
-		return err
-	}
-	switch v.Choice {
-	case GlobalRANNODEIDChoiceGNB:
-		if err := v.GNB.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding gNB: %w", err)
-		}
-	case GlobalRANNODEIDChoiceNgENB:
-		if err := v.NgENB.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding ng-eNB: %w", err)
-		}
-	default:
-		return fmt.Errorf("unknown GlobalRANNODEID choice %d", v.Choice)
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes GlobalRANNODEID from APER format.
-func (v *GlobalRANNODEID) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *GlobalRANNODEID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	isExtension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if isExtension {
-		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.Choice = int(extIdx) + 2 + 1
-		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("GlobalRANNODEID: extension choice %d not supported", v.Choice)
-	}
-	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
-	if err != nil {
-		return err
-	}
-	v.Choice = int(idx) + 1
-	switch v.Choice {
-	case GlobalRANNODEIDChoiceGNB:
-		var dec_gnb GNB
-		if err := dec_gnb.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding gNB: %w", err)
-		}
-		v.GNB = &dec_gnb
-	case GlobalRANNODEIDChoiceNgENB:
-		var dec_ngenb NGENB
-		if err := dec_ngenb.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding ng-eNB: %w", err)
-		}
-		v.NgENB = &dec_ngenb
-	}
-	return nil
-}
-
-// MarshalAPER encodes GNB to APER format.
-func (v *GNB) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *GNB) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := v.GlobalGNBID.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding global-gNB-ID: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes GNB from APER format.
-func (v *GNB) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *GNB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if err := v.GlobalGNBID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding global-gNB-ID: %w", err)
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes GlobalGNBID to APER format.
-func (v *GlobalGNBID) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *GlobalGNBID) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.PLMNIdentity), 0, 0, false); err != nil {
-		return fmt.Errorf("encoding pLMN-Identity: %w", err)
-	}
-	if err := v.GNBID.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding gNB-ID: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes GlobalGNBID from APER format.
-func (v *GlobalGNBID) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *GlobalGNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding pLMN-Identity: %w", err)
-	}
-	v.PLMNIdentity = PLMNidentity(val_plmnidentity)
-	if err := v.GNBID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding gNB-ID: %w", err)
-	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes GNBIdentity to APER format.
-func (v *GNBIdentity) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *GNBIdentity) MarshalAPERTo(bb *per.BitBuffer) error {
-	isExtension := v.Choice > 1
-	if err := per.EncodeBoolean(bb, isExtension); err != nil {
-		return err
-	}
-	if isExtension {
-		return fmt.Errorf("GNBIdentity: extension choice %d not supported", v.Choice)
-	}
-	switch v.Choice {
-	case GNBIdentityChoiceGNBID:
-		if err := per.EncodeBitStringAligned(bb, v.GNBID.Bytes, v.GNBID.BitLength, 22, 32, true); err != nil {
-			return fmt.Errorf("encoding gNB-ID: %w", err)
-		}
-	default:
-		return fmt.Errorf("unknown GNBIdentity choice %d", v.Choice)
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes GNBIdentity from APER format.
-func (v *GNBIdentity) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *GNBIdentity) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	isExtension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if isExtension {
-		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.Choice = int(extIdx) + 1 + 1
-		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("GNBIdentity: extension choice %d not supported", v.Choice)
-	}
-	v.Choice = 1
-	switch v.Choice {
-	case GNBIdentityChoiceGNBID:
-		bsBytes_gnbid, bsBitLen_gnbid, err := per.DecodeBitStringAligned(bb, 22, 32, true)
-		if err != nil {
-			return fmt.Errorf("decoding gNB-ID: %w", err)
-		}
-		tmp_gnbid := runtime.BitString{Bytes: bsBytes_gnbid, BitLength: bsBitLen_gnbid}
-		v.GNBID = &tmp_gnbid
-	}
-	return nil
-}
-
-// MarshalAPER encodes NGENB to APER format.
-func (v *NGENB) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *NGENB) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := v.GlobalNgENBID.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding global-ng-eNB-ID: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes NGENB from APER format.
-func (v *NGENB) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *NGENB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if err := v.GlobalNgENBID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding global-ng-eNB-ID: %w", err)
 	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
@@ -27257,8 +26744,8 @@ func (v *TargeteNBToSourceeNBTransparentContainer) UnmarshalAPERFrom(bb *per.Bit
 	return nil
 }
 
-// MarshalAPER encodes M1ThresholdEventA2 to APER format.
-func (v *M1ThresholdEventA2) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes TimeSynchronisationInfo to APER format.
+func (v *TimeSynchronisationInfo) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -27266,7 +26753,7 @@ func (v *M1ThresholdEventA2) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *M1ThresholdEventA2) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *TimeSynchronisationInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -27275,8 +26762,11 @@ func (v *M1ThresholdEventA2) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := v.MeasurementThreshold.MarshalAPERTo(bb); err != nil {
-		return fmt.Errorf("encoding measurementThreshold: %w", err)
+	if err := per.EncodeIntegerAligned(bb, int64(v.StratumLevel), int64Ptr(0), int64Ptr(3), true); err != nil {
+		return fmt.Errorf("encoding stratumLevel: %w", err)
+	}
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.SynchronisationStatus), 2, true); err != nil {
+		return fmt.Errorf("encoding synchronisationStatus: %w", err)
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
@@ -27311,13 +26801,13 @@ func (v *M1ThresholdEventA2) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes M1ThresholdEventA2 from APER format.
-func (v *M1ThresholdEventA2) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes TimeSynchronisationInfo from APER format.
+func (v *TimeSynchronisationInfo) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *M1ThresholdEventA2) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *TimeSynchronisationInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -27327,9 +26817,16 @@ func (v *M1ThresholdEventA2) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	if err := v.MeasurementThreshold.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding measurementThreshold: %w", err)
+	val_stratumlevel, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(3), true)
+	if err != nil {
+		return fmt.Errorf("decoding stratumLevel: %w", err)
 	}
+	v.StratumLevel = val_stratumlevel
+	val_synchronisationstatus, err := per.DecodeEnumeratedAligned(bb, 2, true)
+	if err != nil {
+		return fmt.Errorf("decoding synchronisationStatus: %w", err)
+	}
+	v.SynchronisationStatus = SynchronisationStatus(val_synchronisationstatus)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -27343,224 +26840,6 @@ func (v *M1ThresholdEventA2) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes TimeBasedHandoverInformation to APER format.
-func (v *TimeBasedHandoverInformation) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *TimeBasedHandoverInformation) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.HOWindowStart), int64Ptr(0), int64Ptr(1048575), false); err != nil {
-		return fmt.Errorf("encoding hOWindowStart: %w", err)
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.HOWindowDuration), int64Ptr(1), int64Ptr(6000), false); err != nil {
-		return fmt.Errorf("encoding hOWindowDuration: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes TimeBasedHandoverInformation from APER format.
-func (v *TimeBasedHandoverInformation) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *TimeBasedHandoverInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_howindowstart, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(1048575), false)
-	if err != nil {
-		return fmt.Errorf("decoding hOWindowStart: %w", err)
-	}
-	v.HOWindowStart = val_howindowstart
-	val_howindowduration, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(6000), false)
-	if err != nil {
-		return fmt.Errorf("decoding hOWindowDuration: %w", err)
-	}
-	v.HOWindowDuration = val_howindowduration
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes TransportInformation to APER format.
-func (v *TransportInformation) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *TransportInformation) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeBitStringAligned(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true); err != nil {
-		return fmt.Errorf("encoding transportLayerAddress: %w", err)
-	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.ULGTPTEID), 4, 4, true); err != nil {
-		return fmt.Errorf("encoding uL-GTP-TEID: %w", err)
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes TransportInformation from APER format.
-func (v *TransportInformation) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *TransportInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAligned(bb, 1, 160, true)
-	if err != nil {
-		return fmt.Errorf("decoding transportLayerAddress: %w", err)
-	}
-	v.TransportLayerAddress = runtime.BitString{Bytes: bsBytes_transportlayeraddress, BitLength: bsBitLen_transportlayeraddress}
-	val_ulgtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
-	if err != nil {
-		return fmt.Errorf("decoding uL-GTP-TEID: %w", err)
-	}
-	v.ULGTPTEID = GTPTEID(val_ulgtpteid)
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
 		if err != nil {
@@ -27617,7 +26896,7 @@ func (v *TraceActivation) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeEnumeratedAligned(bb, int64(v.TraceDepth), 6, true); err != nil {
 		return fmt.Errorf("encoding traceDepth: %w", err)
 	}
-	if err := per.EncodeBitStringAligned(bb, v.TraceCollectionEntityIPAddress.Bytes, v.TraceCollectionEntityIPAddress.BitLength, 1, 160, true); err != nil {
+	if err := per.EncodeBitStringAlignedExt(bb, v.TraceCollectionEntityIPAddress.Bytes, v.TraceCollectionEntityIPAddress.BitLength, 1, 160, true, true); err != nil {
 		return fmt.Errorf("encoding traceCollectionEntityIPAddress: %w", err)
 	}
 	if v.IEExtensions != nil {
@@ -27684,7 +26963,7 @@ func (v *TraceActivation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding traceDepth: %w", err)
 	}
 	v.TraceDepth = TraceDepth(val_tracedepth)
-	bsBytes_tracecollectionentityipaddress, bsBitLen_tracecollectionentityipaddress, err := per.DecodeBitStringAligned(bb, 1, 160, true)
+	bsBytes_tracecollectionentityipaddress, bsBitLen_tracecollectionentityipaddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 	if err != nil {
 		return fmt.Errorf("decoding traceCollectionEntityIPAddress: %w", err)
 	}
@@ -27702,6 +26981,99 @@ func (v *TraceActivation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes TransportInformation to APER format.
+func (v *TransportInformation) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *TransportInformation) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeBitStringAlignedExt(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true, true); err != nil {
+		return fmt.Errorf("encoding transportLayerAddress: %w", err)
+	}
+	if err := per.EncodeOctetStringAligned(bb, []byte(v.ULGTPTEID), 4, 4, true); err != nil {
+		return fmt.Errorf("encoding uL-GTP-TEID: %w", err)
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes TransportInformation from APER format.
+func (v *TransportInformation) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *TransportInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+	if err != nil {
+		return fmt.Errorf("decoding transportLayerAddress: %w", err)
+	}
+	v.TransportLayerAddress = runtime.BitString{Bytes: bsBytes_transportlayeraddress, BitLength: bsBitLen_transportlayeraddress}
+	val_ulgtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+	if err != nil {
+		return fmt.Errorf("decoding uL-GTP-TEID: %w", err)
+	}
+	v.ULGTPTEID = GTPTEID(val_ulgtpteid)
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
 		if err != nil {
@@ -27752,7 +27124,7 @@ func (v *TunnelInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringAligned(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true); err != nil {
+	if err := per.EncodeBitStringAlignedExt(bb, v.TransportLayerAddress.Bytes, v.TransportLayerAddress.BitLength, 1, 160, true, true); err != nil {
 		return fmt.Errorf("encoding transportLayerAddress: %w", err)
 	}
 	if v.UDPPortNumber != nil {
@@ -27813,7 +27185,7 @@ func (v *TunnelInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAligned(bb, 1, 160, true)
+	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 	if err != nil {
 		return fmt.Errorf("decoding transportLayerAddress: %w", err)
 	}
@@ -28116,8 +27488,8 @@ func (v *UEAppLayerMeasConfig) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes UES1APIDs to APER format.
-func (v *UES1APIDs) MarshalAPER() ([]byte, error) {
+// MarshalAPER encodes UEPagingID to APER format.
+func (v *UEPagingID) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -28125,39 +27497,39 @@ func (v *UES1APIDs) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *UES1APIDs) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *UEPagingID) MarshalAPERTo(bb *per.BitBuffer) error {
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
 	}
 	if isExtension {
-		return fmt.Errorf("UES1APIDs: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("UEPagingID: extension choice %d not supported", v.Choice)
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
 	switch v.Choice {
-	case UES1APIDsChoiceUES1APIDPair:
-		if err := v.UES1APIDPair.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding uE-S1AP-ID-pair: %w", err)
+	case UEPagingIDChoiceSTMSI:
+		if err := v.STMSI.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding s-TMSI: %w", err)
 		}
-	case UES1APIDsChoiceMMEUES1APID:
-		if err := per.EncodeIntegerAligned(bb, int64(*v.MMEUES1APID), int64Ptr(0), int64Ptr(4294967295), false); err != nil {
-			return fmt.Errorf("encoding mME-UE-S1AP-ID: %w", err)
+	case UEPagingIDChoiceIMSI:
+		if err := per.EncodeOctetStringAligned(bb, []byte(*v.IMSI), 3, 8, true); err != nil {
+			return fmt.Errorf("encoding iMSI: %w", err)
 		}
 	default:
-		return fmt.Errorf("unknown UES1APIDs choice %d", v.Choice)
+		return fmt.Errorf("unknown UEPagingID choice %d", v.Choice)
 	}
 	return nil
 }
 
-// UnmarshalAPER decodes UES1APIDs from APER format.
-func (v *UES1APIDs) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes UEPagingID from APER format.
+func (v *UEPagingID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *UES1APIDs) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *UEPagingID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -28167,11 +27539,7 @@ func (v *UES1APIDs) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 2 + 1
-		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("UES1APIDs: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("UEPagingID: unsupported extension choice %d", int(extIdx)+2+1)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -28179,18 +27547,261 @@ func (v *UES1APIDs) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
-	case UES1APIDsChoiceUES1APIDPair:
-		var dec_ues1apidpair UES1APIDPair
-		if err := dec_ues1apidpair.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding uE-S1AP-ID-pair: %w", err)
+	case UEPagingIDChoiceSTMSI:
+		var dec_stmsi STMSI
+		if err := dec_stmsi.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding s-TMSI: %w", err)
 		}
-		v.UES1APIDPair = &dec_ues1apidpair
-	case UES1APIDsChoiceMMEUES1APID:
-		val_mmeues1apid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+		v.STMSI = &dec_stmsi
+	case UEPagingIDChoiceIMSI:
+		val_imsi, err := per.DecodeOctetStringAligned(bb, 3, 8, true)
 		if err != nil {
-			return fmt.Errorf("decoding mME-UE-S1AP-ID: %w", err)
+			return fmt.Errorf("decoding iMSI: %w", err)
 		}
-		v.MMEUES1APID = &val_mmeues1apid
+		tmp_imsi := IMSI(val_imsi)
+		v.IMSI = &tmp_imsi
+	}
+	return nil
+}
+
+// MarshalAPER encodes UESecurityCapabilities to APER format.
+func (v *UESecurityCapabilities) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UESecurityCapabilities) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBitStringAlignedExt(bb, v.EncryptionAlgorithms.Bytes, v.EncryptionAlgorithms.BitLength, 16, 16, true, true); err != nil {
+		return fmt.Errorf("encoding encryptionAlgorithms: %w", err)
+	}
+	if err := per.EncodeBitStringAlignedExt(bb, v.IntegrityProtectionAlgorithms.Bytes, v.IntegrityProtectionAlgorithms.BitLength, 16, 16, true, true); err != nil {
+		return fmt.Errorf("encoding integrityProtectionAlgorithms: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes UESecurityCapabilities from APER format.
+func (v *UESecurityCapabilities) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *UESecurityCapabilities) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	bsBytes_encryptionalgorithms, bsBitLen_encryptionalgorithms, err := per.DecodeBitStringAlignedExt(bb, 16, 16, true, true)
+	if err != nil {
+		return fmt.Errorf("decoding encryptionAlgorithms: %w", err)
+	}
+	v.EncryptionAlgorithms = runtime.BitString{Bytes: bsBytes_encryptionalgorithms, BitLength: bsBitLen_encryptionalgorithms}
+	bsBytes_integrityprotectionalgorithms, bsBitLen_integrityprotectionalgorithms, err := per.DecodeBitStringAlignedExt(bb, 16, 16, true, true)
+	if err != nil {
+		return fmt.Errorf("decoding integrityProtectionAlgorithms: %w", err)
+	}
+	v.IntegrityProtectionAlgorithms = runtime.BitString{Bytes: bsBytes_integrityprotectionalgorithms, BitLength: bsBitLen_integrityprotectionalgorithms}
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes UESidelinkAggregateMaximumBitrate to APER format.
+func (v *UESidelinkAggregateMaximumBitrate) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UESidelinkAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeIntegerAligned(bb, int64(v.UESidelinkAggregateMaximumBitRate), int64Ptr(0), int64Ptr(10000000000), false); err != nil {
+		return fmt.Errorf("encoding uESidelinkAggregateMaximumBitRate: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding iE-Extensions length: %w", err)
+		}
+		for _, elem := range v.IEExtensions {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+			}
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes UESidelinkAggregateMaximumBitrate from APER format.
+func (v *UESidelinkAggregateMaximumBitrate) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *UESidelinkAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_uesidelinkaggregatemaximumbitrate, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
+	if err != nil {
+		return fmt.Errorf("decoding uESidelinkAggregateMaximumBitRate: %w", err)
+	}
+	v.UESidelinkAggregateMaximumBitRate = val_uesidelinkaggregatemaximumbitrate
+	if opt_ieextensions {
+		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		}
+		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		for i := int64(0); i < seqLen_ieextensions; i++ {
+			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			}
+		}
+		v.IEExtensions = tmp_ieextensions
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
 	}
 	return nil
 }
@@ -28320,6 +27931,81 @@ func (v *UES1APIDPair) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
+// MarshalAPER encodes UES1APIDs to APER format.
+func (v *UES1APIDs) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UES1APIDs) MarshalAPERTo(bb *per.BitBuffer) error {
+	isExtension := v.Choice > 2
+	if err := per.EncodeBoolean(bb, isExtension); err != nil {
+		return err
+	}
+	if isExtension {
+		return fmt.Errorf("UES1APIDs: extension choice %d not supported", v.Choice)
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case UES1APIDsChoiceUES1APIDPair:
+		if err := v.UES1APIDPair.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding uE-S1AP-ID-pair: %w", err)
+		}
+	case UES1APIDsChoiceMMEUES1APID:
+		if err := per.EncodeIntegerAligned(bb, int64(*v.MMEUES1APID), int64Ptr(0), int64Ptr(4294967295), false); err != nil {
+			return fmt.Errorf("encoding mME-UE-S1AP-ID: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown UES1APIDs choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes UES1APIDs from APER format.
+func (v *UES1APIDs) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *UES1APIDs) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	isExtension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if isExtension {
+		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		return fmt.Errorf("UES1APIDs: unsupported extension choice %d", int(extIdx)+2+1)
+	}
+	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case UES1APIDsChoiceUES1APIDPair:
+		var dec_ues1apidpair UES1APIDPair
+		if err := dec_ues1apidpair.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding uE-S1AP-ID-pair: %w", err)
+		}
+		v.UES1APIDPair = &dec_ues1apidpair
+	case UES1APIDsChoiceMMEUES1APID:
+		val_mmeues1apid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+		if err != nil {
+			return fmt.Errorf("decoding mME-UE-S1AP-ID: %w", err)
+		}
+		v.MMEUES1APID = &val_mmeues1apid
+	}
+	return nil
+}
+
 // MarshalAPER encodes UEAssociatedLogicalS1ConnectionItem to APER format.
 func (v *UEAssociatedLogicalS1ConnectionItem) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -28425,328 +28111,6 @@ func (v *UEAssociatedLogicalS1ConnectionItem) UnmarshalAPERFrom(bb *per.BitBuffe
 		}
 		v.ENBUES1APID = &val_enbues1apid
 	}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes UEPagingID to APER format.
-func (v *UEPagingID) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UEPagingID) MarshalAPERTo(bb *per.BitBuffer) error {
-	isExtension := v.Choice > 2
-	if err := per.EncodeBoolean(bb, isExtension); err != nil {
-		return err
-	}
-	if isExtension {
-		return fmt.Errorf("UEPagingID: extension choice %d not supported", v.Choice)
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
-		return err
-	}
-	switch v.Choice {
-	case UEPagingIDChoiceSTMSI:
-		if err := v.STMSI.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding s-TMSI: %w", err)
-		}
-	case UEPagingIDChoiceIMSI:
-		if err := per.EncodeOctetStringAligned(bb, []byte(*v.IMSI), 3, 8, true); err != nil {
-			return fmt.Errorf("encoding iMSI: %w", err)
-		}
-	default:
-		return fmt.Errorf("unknown UEPagingID choice %d", v.Choice)
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes UEPagingID from APER format.
-func (v *UEPagingID) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *UEPagingID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	isExtension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if isExtension {
-		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.Choice = int(extIdx) + 2 + 1
-		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("UEPagingID: extension choice %d not supported", v.Choice)
-	}
-	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
-	if err != nil {
-		return err
-	}
-	v.Choice = int(idx) + 1
-	switch v.Choice {
-	case UEPagingIDChoiceSTMSI:
-		var dec_stmsi STMSI
-		if err := dec_stmsi.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding s-TMSI: %w", err)
-		}
-		v.STMSI = &dec_stmsi
-	case UEPagingIDChoiceIMSI:
-		val_imsi, err := per.DecodeOctetStringAligned(bb, 3, 8, true)
-		if err != nil {
-			return fmt.Errorf("decoding iMSI: %w", err)
-		}
-		tmp_imsi := IMSI(val_imsi)
-		v.IMSI = &tmp_imsi
-	}
-	return nil
-}
-
-// MarshalAPER encodes UESecurityCapabilities to APER format.
-func (v *UESecurityCapabilities) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UESecurityCapabilities) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBitStringAligned(bb, v.EncryptionAlgorithms.Bytes, v.EncryptionAlgorithms.BitLength, 16, 16, true); err != nil {
-		return fmt.Errorf("encoding encryptionAlgorithms: %w", err)
-	}
-	if err := per.EncodeBitStringAligned(bb, v.IntegrityProtectionAlgorithms.Bytes, v.IntegrityProtectionAlgorithms.BitLength, 16, 16, true); err != nil {
-		return fmt.Errorf("encoding integrityProtectionAlgorithms: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes UESecurityCapabilities from APER format.
-func (v *UESecurityCapabilities) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *UESecurityCapabilities) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	bsBytes_encryptionalgorithms, bsBitLen_encryptionalgorithms, err := per.DecodeBitStringAligned(bb, 16, 16, true)
-	if err != nil {
-		return fmt.Errorf("decoding encryptionAlgorithms: %w", err)
-	}
-	v.EncryptionAlgorithms = runtime.BitString{Bytes: bsBytes_encryptionalgorithms, BitLength: bsBitLen_encryptionalgorithms}
-	bsBytes_integrityprotectionalgorithms, bsBitLen_integrityprotectionalgorithms, err := per.DecodeBitStringAligned(bb, 16, 16, true)
-	if err != nil {
-		return fmt.Errorf("decoding integrityProtectionAlgorithms: %w", err)
-	}
-	v.IntegrityProtectionAlgorithms = runtime.BitString{Bytes: bsBytes_integrityprotectionalgorithms, BitLength: bsBitLen_integrityprotectionalgorithms}
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes UESidelinkAggregateMaximumBitrate to APER format.
-func (v *UESidelinkAggregateMaximumBitrate) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UESidelinkAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeIntegerAligned(bb, int64(v.UESidelinkAggregateMaximumBitRate), int64Ptr(0), int64Ptr(10000000000), false); err != nil {
-		return fmt.Errorf("encoding uESidelinkAggregateMaximumBitRate: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes UESidelinkAggregateMaximumBitrate from APER format.
-func (v *UESidelinkAggregateMaximumBitrate) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *UESidelinkAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_uesidelinkaggregatemaximumbitrate, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
-	if err != nil {
-		return fmt.Errorf("decoding uESidelinkAggregateMaximumBitRate: %w", err)
-	}
-	v.UESidelinkAggregateMaximumBitRate = val_uesidelinkaggregatemaximumbitrate
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -29184,130 +28548,6 @@ func (v *V2XServicesAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalAPER encodes WarningAreaList to APER format.
-func (v *WarningAreaList) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *WarningAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
-	isExtension := v.Choice > 3
-	if err := per.EncodeBoolean(bb, isExtension); err != nil {
-		return err
-	}
-	if isExtension {
-		return fmt.Errorf("WarningAreaList: extension choice %d not supported", v.Choice)
-	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
-		return err
-	}
-	switch v.Choice {
-	case WarningAreaListChoiceCellIDList:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.CellIDList)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding cellIDList length: %w", err)
-		}
-		for _, elem := range v.CellIDList {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding cellIDList element: %w", err)
-			}
-		}
-	case WarningAreaListChoiceTrackingAreaListforWarning:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.TrackingAreaListforWarning)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding trackingAreaListforWarning length: %w", err)
-		}
-		for _, elem := range v.TrackingAreaListforWarning {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding trackingAreaListforWarning element: %w", err)
-			}
-		}
-	case WarningAreaListChoiceEmergencyAreaIDList:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.EmergencyAreaIDList)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding emergencyAreaIDList length: %w", err)
-		}
-		for _, elem := range v.EmergencyAreaIDList {
-			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
-				return fmt.Errorf("encoding emergencyAreaIDList element: %w", err)
-			}
-		}
-	default:
-		return fmt.Errorf("unknown WarningAreaList choice %d", v.Choice)
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes WarningAreaList from APER format.
-func (v *WarningAreaList) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *WarningAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	isExtension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if isExtension {
-		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.Choice = int(extIdx) + 3 + 1
-		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("WarningAreaList: extension choice %d not supported", v.Choice)
-	}
-	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
-	if err != nil {
-		return err
-	}
-	v.Choice = int(idx) + 1
-	switch v.Choice {
-	case WarningAreaListChoiceCellIDList:
-		seqLen_cellidlist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding cellIDList length: %w", err)
-		}
-		tmp_cellidlist := make(ECGIList, seqLen_cellidlist)
-		for i := int64(0); i < seqLen_cellidlist; i++ {
-			if err := tmp_cellidlist[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding cellIDList element: %w", err)
-			}
-		}
-		v.CellIDList = tmp_cellidlist
-	case WarningAreaListChoiceTrackingAreaListforWarning:
-		seqLen_trackingarealistforwarning, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding trackingAreaListforWarning length: %w", err)
-		}
-		tmp_trackingarealistforwarning := make(TAIListforWarning, seqLen_trackingarealistforwarning)
-		for i := int64(0); i < seqLen_trackingarealistforwarning; i++ {
-			if err := tmp_trackingarealistforwarning[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding trackingAreaListforWarning element: %w", err)
-			}
-		}
-		v.TrackingAreaListforWarning = tmp_trackingarealistforwarning
-	case WarningAreaListChoiceEmergencyAreaIDList:
-		seqLen_emergencyareaidlist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding emergencyAreaIDList length: %w", err)
-		}
-		tmp_emergencyareaidlist := make(EmergencyAreaIDList, seqLen_emergencyareaidlist)
-		for i := int64(0); i < seqLen_emergencyareaidlist; i++ {
-			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
-			if err != nil {
-				return fmt.Errorf("decoding emergencyAreaIDList element: %w", err)
-			}
-			tmp_emergencyareaidlist[i] = val
-		}
-		v.EmergencyAreaIDList = tmp_emergencyareaidlist
-	}
-	return nil
-}
-
 // MarshalAPER encodes WLANMeasurementConfiguration to APER format.
 func (v *WLANMeasurementConfiguration) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -29612,6 +28852,126 @@ func (v *WUSAssistanceInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
+// MarshalAPER encodes WarningAreaList to APER format.
+func (v *WarningAreaList) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *WarningAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
+	isExtension := v.Choice > 3
+	if err := per.EncodeBoolean(bb, isExtension); err != nil {
+		return err
+	}
+	if isExtension {
+		return fmt.Errorf("WarningAreaList: extension choice %d not supported", v.Choice)
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case WarningAreaListChoiceCellIDList:
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.CellIDList)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding cellIDList length: %w", err)
+		}
+		for _, elem := range v.CellIDList {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding cellIDList element: %w", err)
+			}
+		}
+	case WarningAreaListChoiceTrackingAreaListforWarning:
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.TrackingAreaListforWarning)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding trackingAreaListforWarning length: %w", err)
+		}
+		for _, elem := range v.TrackingAreaListforWarning {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding trackingAreaListforWarning element: %w", err)
+			}
+		}
+	case WarningAreaListChoiceEmergencyAreaIDList:
+		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.EmergencyAreaIDList)), 1, 65535); err != nil {
+			return fmt.Errorf("encoding emergencyAreaIDList length: %w", err)
+		}
+		for _, elem := range v.EmergencyAreaIDList {
+			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
+				return fmt.Errorf("encoding emergencyAreaIDList element: %w", err)
+			}
+		}
+	default:
+		return fmt.Errorf("unknown WarningAreaList choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes WarningAreaList from APER format.
+func (v *WarningAreaList) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *WarningAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	isExtension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if isExtension {
+		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return err
+		}
+		return fmt.Errorf("WarningAreaList: unsupported extension choice %d", int(extIdx)+3+1)
+	}
+	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case WarningAreaListChoiceCellIDList:
+		seqLen_cellidlist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding cellIDList length: %w", err)
+		}
+		tmp_cellidlist := make(ECGIList, seqLen_cellidlist)
+		for i := int64(0); i < seqLen_cellidlist; i++ {
+			if err := tmp_cellidlist[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding cellIDList element: %w", err)
+			}
+		}
+		v.CellIDList = tmp_cellidlist
+	case WarningAreaListChoiceTrackingAreaListforWarning:
+		seqLen_trackingarealistforwarning, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding trackingAreaListforWarning length: %w", err)
+		}
+		tmp_trackingarealistforwarning := make(TAIListforWarning, seqLen_trackingarealistforwarning)
+		for i := int64(0); i < seqLen_trackingarealistforwarning; i++ {
+			if err := tmp_trackingarealistforwarning[i].UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding trackingAreaListforWarning element: %w", err)
+			}
+		}
+		v.TrackingAreaListforWarning = tmp_trackingarealistforwarning
+	case WarningAreaListChoiceEmergencyAreaIDList:
+		seqLen_emergencyareaidlist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if err != nil {
+			return fmt.Errorf("decoding emergencyAreaIDList length: %w", err)
+		}
+		tmp_emergencyareaidlist := make(EmergencyAreaIDList, seqLen_emergencyareaidlist)
+		for i := int64(0); i < seqLen_emergencyareaidlist; i++ {
+			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
+			if err != nil {
+				return fmt.Errorf("decoding emergencyAreaIDList element: %w", err)
+			}
+			tmp_emergencyareaidlist[i] = val
+		}
+		v.EmergencyAreaIDList = tmp_emergencyareaidlist
+	}
+	return nil
+}
+
 // MarshalAPER encodes X2TNLConfigurationInfo to APER format.
 func (v *X2TNLConfigurationInfo) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -29690,157 +29050,6 @@ func (v *X2TNLConfigurationInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	// asn1c:unsupported {"encoding":"aper","operation":"decode","construct":"SEQUENCE_OF","reason":"non-integer-primitive-element","field":"eNBX2TransportLayerAddresses","kind":"BIT_STRING"}
 	_ = seqLen_enbx2transportlayeraddresses // SEQUENCE_OF with non-integer primitive elements (BIT_STRING)
-	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
-		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
-			}
-		}
-		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenTypeAligned(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalAPER encodes ENBX2ExtTLA to APER format.
-func (v *ENBX2ExtTLA) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ENBX2ExtTLA) MarshalAPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IPsecTLA != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.GTPTLAa != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if v.IPsecTLA != nil {
-		if err := per.EncodeBitStringAligned(bb, v.IPsecTLA.Bytes, v.IPsecTLA.BitLength, 1, 160, true); err != nil {
-			return fmt.Errorf("encoding iPsecTLA: %w", err)
-		}
-	}
-	if v.GTPTLAa != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.GTPTLAa)), 1, 16); err != nil {
-			return fmt.Errorf("encoding gTPTLAa length: %w", err)
-		}
-		// asn1c:unsupported {"encoding":"aper","operation":"encode","construct":"SEQUENCE_OF","reason":"non-integer-primitive-element","field":"gTPTLAa","kind":"BIT_STRING"}
-		_ = v.GTPTLAa // SEQUENCE_OF with non-integer primitive elements (BIT_STRING)
-	}
-	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ENBX2ExtTLA from APER format.
-func (v *ENBX2ExtTLA) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *ENBX2ExtTLA) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ipsectla, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_gtptlaa, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_ieextensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_ipsectla {
-		bsBytes_ipsectla, bsBitLen_ipsectla, err := per.DecodeBitStringAligned(bb, 1, 160, true)
-		if err != nil {
-			return fmt.Errorf("decoding iPsecTLA: %w", err)
-		}
-		tmp_ipsectla := runtime.BitString{Bytes: bsBytes_ipsectla, BitLength: bsBitLen_ipsectla}
-		v.IPsecTLA = &tmp_ipsectla
-	}
-	if opt_gtptlaa {
-		seqLen_gtptlaa, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
-		if err != nil {
-			return fmt.Errorf("decoding gTPTLAa length: %w", err)
-		}
-		// asn1c:unsupported {"encoding":"aper","operation":"decode","construct":"SEQUENCE_OF","reason":"non-integer-primitive-element","field":"gTPTLAa","kind":"BIT_STRING"}
-		_ = seqLen_gtptlaa // SEQUENCE_OF with non-integer primitive elements (BIT_STRING)
-	}
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {

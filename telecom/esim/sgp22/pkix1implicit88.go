@@ -183,7 +183,7 @@ type AuthorityKeyIdentifier struct {
 type KeyIdentifier = []byte
 
 // SubjectKeyIdentifier represents the ASN.1 type SubjectKeyIdentifier (OCTET_STRING).
-type SubjectKeyIdentifier = []byte
+type SubjectKeyIdentifier = KeyIdentifier
 
 // KeyUsage represents the ASN.1 type KeyUsage (BIT_STRING).
 type KeyUsage = runtime.BitString
@@ -285,7 +285,7 @@ func NewDisplayTextUtf8String(v string) DisplayText {
 type PolicyMappings = []PolicyMappingsElem
 
 // SubjectAltName represents the ASN.1 type SubjectAltName (SEQUENCE_OF).
-type SubjectAltName = []interface{}
+type SubjectAltName = GeneralNames
 
 // GeneralNames represents the ASN.1 type GeneralNames (SEQUENCE_OF).
 type GeneralNames = []GeneralName
@@ -402,7 +402,7 @@ type EDIPartyName struct {
 }
 
 // IssuerAltName represents the ASN.1 type IssuerAltName (SEQUENCE_OF).
-type IssuerAltName = []interface{}
+type IssuerAltName = GeneralNames
 
 // SubjectDirectoryAttributes represents the ASN.1 type SubjectDirectoryAttributes (SEQUENCE_OF).
 type SubjectDirectoryAttributes = []Attribute
@@ -494,10 +494,10 @@ type ExtKeyUsageSyntax = []KeyPurposeId
 type KeyPurposeId = runtime.ObjectIdentifier
 
 // InhibitAnyPolicy represents the ASN.1 type InhibitAnyPolicy (INTEGER).
-type InhibitAnyPolicy = *big.Int
+type InhibitAnyPolicy = SkipCerts
 
 // FreshestCRL represents the ASN.1 type FreshestCRL (SEQUENCE_OF).
-type FreshestCRL = []interface{}
+type FreshestCRL = CRLDistributionPoints
 
 // AuthorityInfoAccessSyntax represents the ASN.1 type AuthorityInfoAccessSyntax (SEQUENCE_OF).
 type AuthorityInfoAccessSyntax = []AccessDescription
@@ -529,7 +529,7 @@ type IssuingDistributionPoint struct {
 }
 
 // BaseCRLNumber represents the ASN.1 type BaseCRLNumber (INTEGER).
-type BaseCRLNumber = *big.Int
+type BaseCRLNumber = CRLNumber
 
 // CRLReason represents the ASN.1 ENUMERATED type CRLReason.
 type CRLReason int64
@@ -575,7 +575,7 @@ func (v CRLReason) String() string {
 }
 
 // CertificateIssuer represents the ASN.1 type CertificateIssuer (SEQUENCE_OF).
-type CertificateIssuer = []interface{}
+type CertificateIssuer = GeneralNames
 
 // HoldInstructionCode represents the ASN.1 type HoldInstructionCode (OBJECT_IDENTIFIER).
 type HoldInstructionCode = runtime.ObjectIdentifier
@@ -797,7 +797,7 @@ func MarshalBERCertificatePolicies(list CertificatePolicies) ([]byte, error) {
 
 // UnmarshalBERCertificatePolicies decodes a CertificatePolicies list from BER.
 func UnmarshalBERCertificatePolicies(data []byte) (CertificatePolicies, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding CertificatePolicies: %w", err)
 	}
@@ -1122,43 +1122,44 @@ func (v *DisplayText) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for DisplayText CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for DisplayText: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding DisplayText CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "DisplayText", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 22 {
 		v.Choice = DisplayTextChoiceIa5String
-		decVal, _, strErr := ber.DecodeString(data, 22)
+		decVal, _, strErr := ber.DecodeString(choiceData, 22)
 		if strErr != nil {
 			return fmt.Errorf("decoding ia5String: %w", strErr)
 		}
 		v.Ia5String = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 26 {
 		v.Choice = DisplayTextChoiceVisibleString
-		decVal, _, strErr := ber.DecodeString(data, 26)
+		decVal, _, strErr := ber.DecodeString(choiceData, 26)
 		if strErr != nil {
 			return fmt.Errorf("decoding visibleString: %w", strErr)
 		}
 		v.VisibleString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 30 {
 		v.Choice = DisplayTextChoiceBmpString
-		decVal, _, strErr := ber.DecodeString(data, 30)
+		decVal, _, strErr := ber.DecodeString(choiceData, 30)
 		if strErr != nil {
 			return fmt.Errorf("decoding bmpString: %w", strErr)
 		}
 		v.BmpString = &decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 12 {
 		v.Choice = DisplayTextChoiceUtf8String
-		decVal, _, strErr := ber.DecodeString(data, 12)
+		decVal, _, strErr := ber.DecodeString(choiceData, 12)
 		if strErr != nil {
 			return fmt.Errorf("decoding utf8String: %w", strErr)
 		}
@@ -1184,7 +1185,7 @@ func MarshalBERPolicyMappings(list PolicyMappings) ([]byte, error) {
 
 // UnmarshalBERPolicyMappings decodes a PolicyMappings list from BER.
 func UnmarshalBERPolicyMappings(data []byte) (PolicyMappings, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding PolicyMappings: %w", err)
 	}
@@ -1223,7 +1224,7 @@ func MarshalBERGeneralNames(list GeneralNames) ([]byte, error) {
 
 // UnmarshalBERGeneralNames decodes a GeneralNames list from BER.
 func UnmarshalBERGeneralNames(data []byte) (GeneralNames, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding GeneralNames: %w", err)
 	}
@@ -1292,7 +1293,7 @@ func (v *GeneralName) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding directoryName: %w", err)
 		}
-		enc_4 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_4)
+		enc_4 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 4, enc_4)
 		return enc_4, nil
 	case GeneralNameChoiceEdiPartyName:
 		if v.EdiPartyName == nil {
@@ -1334,22 +1335,23 @@ func (v *GeneralName) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for GeneralName CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for GeneralName: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding GeneralName CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "GeneralName", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
 		v.Choice = GeneralNameChoiceOtherName
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding otherName: %w", tlvErr)
 		}
@@ -1361,7 +1363,7 @@ func (v *GeneralName) UnmarshalBER(data []byte) error {
 		v.OtherName = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
 		v.Choice = GeneralNameChoiceRfc822Name
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding rfc822Name: %w", tlvErr)
 		}
@@ -1369,7 +1371,7 @@ func (v *GeneralName) UnmarshalBER(data []byte) error {
 		v.Rfc822Name = &decVal
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
 		v.Choice = GeneralNameChoiceDNSName
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding dNSName: %w", tlvErr)
 		}
@@ -1377,7 +1379,7 @@ func (v *GeneralName) UnmarshalBER(data []byte) error {
 		v.DNSName = &decVal
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
 		v.Choice = GeneralNameChoiceX400Address
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding x400Address: %w", tlvErr)
 		}
@@ -1389,19 +1391,18 @@ func (v *GeneralName) UnmarshalBER(data []byte) error {
 		v.X400Address = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
 		v.Choice = GeneralNameChoiceDirectoryName
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
+		_, _, innerData, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding directoryName: %w", tlvErr)
 		}
-		reconstructed := rawVal
 		var dec Name
-		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(innerData); unmErr != nil {
 			return fmt.Errorf("decoding directoryName: %w", unmErr)
 		}
 		v.DirectoryName = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
 		v.Choice = GeneralNameChoiceEdiPartyName
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding ediPartyName: %w", tlvErr)
 		}
@@ -1413,7 +1414,7 @@ func (v *GeneralName) UnmarshalBER(data []byte) error {
 		v.EdiPartyName = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
 		v.Choice = GeneralNameChoiceUniformResourceIdentifier
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding uniformResourceIdentifier: %w", tlvErr)
 		}
@@ -1421,14 +1422,14 @@ func (v *GeneralName) UnmarshalBER(data []byte) error {
 		v.UniformResourceIdentifier = &decVal
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
 		v.Choice = GeneralNameChoiceIPAddress
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding iPAddress: %w", tlvErr)
 		}
 		v.IPAddress = rawVal
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
 		v.Choice = GeneralNameChoiceRegisteredID
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding registeredID: %w", tlvErr)
 		}
@@ -1596,7 +1597,7 @@ func MarshalBERSubjectDirectoryAttributes(list SubjectDirectoryAttributes) ([]by
 
 // UnmarshalBERSubjectDirectoryAttributes decodes a SubjectDirectoryAttributes list from BER.
 func UnmarshalBERSubjectDirectoryAttributes(data []byte) (SubjectDirectoryAttributes, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding SubjectDirectoryAttributes: %w", err)
 	}
@@ -1817,7 +1818,7 @@ func MarshalBERGeneralSubtrees(list GeneralSubtrees) ([]byte, error) {
 
 // UnmarshalBERGeneralSubtrees decodes a GeneralSubtrees list from BER.
 func UnmarshalBERGeneralSubtrees(data []byte) (GeneralSubtrees, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding GeneralSubtrees: %w", err)
 	}
@@ -2022,7 +2023,7 @@ func MarshalBERCRLDistributionPoints(list CRLDistributionPoints) ([]byte, error)
 
 // UnmarshalBERCRLDistributionPoints decodes a CRLDistributionPoints list from BER.
 func UnmarshalBERCRLDistributionPoints(data []byte) (CRLDistributionPoints, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding CRLDistributionPoints: %w", err)
 	}
@@ -2205,22 +2206,23 @@ func (v *DistributionPointName) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for DistributionPointName CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for DistributionPointName: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding DistributionPointName CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "DistributionPointName", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
 		v.Choice = DistributionPointNameChoiceFullName
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding fullName: %w", tlvErr)
 		}
@@ -2232,7 +2234,7 @@ func (v *DistributionPointName) UnmarshalBER(data []byte) error {
 		v.FullName = dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
 		v.Choice = DistributionPointNameChoiceNameRelativeToCRLIssuer
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding nameRelativeToCRLIssuer: %w", tlvErr)
 		}
@@ -2259,7 +2261,7 @@ func MarshalBERExtKeyUsageSyntax(list ExtKeyUsageSyntax) ([]byte, error) {
 
 // UnmarshalBERExtKeyUsageSyntax decodes a ExtKeyUsageSyntax list from BER.
 func UnmarshalBERExtKeyUsageSyntax(data []byte) (ExtKeyUsageSyntax, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding ExtKeyUsageSyntax: %w", err)
 	}
@@ -2294,7 +2296,7 @@ func MarshalBERAuthorityInfoAccessSyntax(list AuthorityInfoAccessSyntax) ([]byte
 
 // UnmarshalBERAuthorityInfoAccessSyntax decodes a AuthorityInfoAccessSyntax list from BER.
 func UnmarshalBERAuthorityInfoAccessSyntax(data []byte) (AuthorityInfoAccessSyntax, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding AuthorityInfoAccessSyntax: %w", err)
 	}
@@ -2391,7 +2393,7 @@ func MarshalBERSubjectInfoAccessSyntax(list SubjectInfoAccessSyntax) ([]byte, er
 
 // UnmarshalBERSubjectInfoAccessSyntax decodes a SubjectInfoAccessSyntax list from BER.
 func UnmarshalBERSubjectInfoAccessSyntax(data []byte) (SubjectInfoAccessSyntax, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding SubjectInfoAccessSyntax: %w", err)
 	}
@@ -2633,7 +2635,7 @@ func MarshalBERPolicyInformationPolicyQualifiers(list PolicyInformationPolicyQua
 
 // UnmarshalBERPolicyInformationPolicyQualifiers decodes a PolicyInformationPolicyQualifiers list from BER.
 func UnmarshalBERPolicyInformationPolicyQualifiers(data []byte) (PolicyInformationPolicyQualifiers, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding PolicyInformationPolicyQualifiers: %w", err)
 	}
@@ -2668,7 +2670,7 @@ func MarshalBERNoticeReferenceNoticeNumbers(list NoticeReferenceNoticeNumbers) (
 
 // UnmarshalBERNoticeReferenceNoticeNumbers decodes a NoticeReferenceNoticeNumbers list from BER.
 func UnmarshalBERNoticeReferenceNoticeNumbers(data []byte) (NoticeReferenceNoticeNumbers, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding NoticeReferenceNoticeNumbers: %w", err)
 	}

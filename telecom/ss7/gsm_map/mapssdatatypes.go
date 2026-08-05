@@ -19,87 +19,124 @@ var (
 
 const (
 
-	// MaxEventSpecification is the integer constant for maxEventSpecification.
-	MaxEventSpecification int64 = 2
-
-	// MaxNumOfBasicServiceGroups is the integer constant for maxNumOfBasicServiceGroups.
-	MaxNumOfBasicServiceGroups int64 = 13
-
 	// MaxNumOfCCBSRequests is the integer constant for maxNumOfCCBS-Requests.
 	MaxNumOfCCBSRequests int64 = 5
+
+	// MaxUSSDStringLength is the integer constant for maxUSSD-StringLength.
+	MaxUSSDStringLength int64 = 160
 
 	// MaxNumOfSS is the integer constant for maxNumOfSS.
 	MaxNumOfSS int64 = 30
 
-	// MaxUSSDStringLength is the integer constant for maxUSSD-StringLength.
-	MaxUSSDStringLength int64 = 160
+	// MaxNumOfBasicServiceGroups is the integer constant for maxNumOfBasicServiceGroups.
+	MaxNumOfBasicServiceGroups int64 = 13
+
+	// MaxEventSpecification is the integer constant for maxEventSpecification.
+	MaxEventSpecification int64 = 2
 )
 
-// BasicServiceGroupList represents the ASN.1 type BasicServiceGroupList (SEQUENCE_OF).
-type BasicServiceGroupList = []BasicServiceCode
-
-// CCBSData represents the ASN.1 type CCBS-Data (SEQUENCE).
-type CCBSData struct {
-	CcbsFeature       CCBSFeature        `asn1:"tag:0,context,implicit"`
-	TranslatedBNumber ISDNAddressString  `asn1:"tag:1,context,implicit"`
-	ServiceIndicator  *ServiceIndicator  `asn1:"tag:2,context,implicit,optional" json:"ServiceIndicator,omitempty"`
-	CallInfo          ExternalSignalInfo `asn1:"tag:3,context,implicit"`
-	NetworkSignalInfo ExternalSignalInfo `asn1:"tag:4,context,implicit"`
-	ExtCount_         int64              `asn1:"-" json:"-"`
-	ExtPresent_       []bool             `asn1:"-" json:"-"`
-	ExtData_          [][]byte           `asn1:"-" json:"-"`
-}
-
-// CCBSFeature represents the ASN.1 type CCBS-Feature (SEQUENCE).
-type CCBSFeature struct {
-	CcbsIndex             *CCBSIndex            `asn1:"tag:0,context,implicit,optional" json:"CcbsIndex,omitempty"`
-	BSubscriberNumber     *ISDNAddressString    `asn1:"tag:1,context,implicit,optional" json:"BSubscriberNumber,omitempty"`
-	BSubscriberSubaddress *ISDNSubaddressString `asn1:"tag:2,context,implicit,optional" json:"BSubscriberSubaddress,omitempty"`
-	BasicServiceGroup     *BasicServiceCode     `asn1:"tag:3,context,explicit,optional" json:"BasicServiceGroup,omitempty"`
+// RegisterSSArg represents the ASN.1 type RegisterSS-Arg (SEQUENCE).
+type RegisterSSArg struct {
+	SsCode                SSCode                `asn1:""`
+	BasicService          *BasicServiceCode     `asn1:",optional" json:"BasicService,omitempty"`
+	ForwardedToNumber     *AddressString        `asn1:"tag:4,context,implicit,optional" json:"ForwardedToNumber,omitempty"`
+	ForwardedToSubaddress *ISDNSubaddressString `asn1:"tag:6,context,implicit,optional" json:"ForwardedToSubaddress,omitempty"`
+	NoReplyConditionTime  *NoReplyConditionTime `asn1:"tag:5,context,implicit,optional" json:"NoReplyConditionTime,omitempty"`
+	DefaultPriority       *EMLPPPriority        `asn1:"tag:7,context,implicit,optional" json:"DefaultPriority,omitempty"`
+	NbrUser               *MCBearers            `asn1:"tag:8,context,implicit,optional" json:"NbrUser,omitempty"`
+	LongFTNSupported      *struct{}             `asn1:"tag:9,context,implicit,optional" json:"LongFTNSupported,omitempty"`
 	ExtCount_             int64                 `asn1:"-" json:"-"`
 	ExtPresent_           []bool                `asn1:"-" json:"-"`
 	ExtData_              [][]byte              `asn1:"-" json:"-"`
 }
 
-// CCBSFeatureList represents the ASN.1 type CCBS-FeatureList (SEQUENCE_OF).
-type CCBSFeatureList = []CCBSFeature
+// NoReplyConditionTime represents the ASN.1 type NoReplyConditionTime (INTEGER).
+type NoReplyConditionTime = int64
 
-// CCBSIndex represents the ASN.1 type CCBS-Index (INTEGER).
-type CCBSIndex = int64
-
-// CCBSRequestState represents the ASN.1 ENUMERATED type CCBS-RequestState.
-type CCBSRequestState int64
-
+// SSInfo choice constants.
 const (
-	CCBSRequestStateRequest   CCBSRequestState = 0
-	CCBSRequestStateRecall    CCBSRequestState = 1
-	CCBSRequestStateActive    CCBSRequestState = 2
-	CCBSRequestStateCompleted CCBSRequestState = 3
-	CCBSRequestStateSuspended CCBSRequestState = 4
-	CCBSRequestStateFrozen    CCBSRequestState = 5
-	CCBSRequestStateDeleted   CCBSRequestState = 6
+	SSInfoChoiceForwardingInfo  = 1
+	SSInfoChoiceCallBarringInfo = 2
+	SSInfoChoiceSsData          = 3
 )
 
-func (v CCBSRequestState) String() string {
-	switch v {
-	case CCBSRequestStateRequest:
-		return "request"
-	case CCBSRequestStateRecall:
-		return "recall"
-	case CCBSRequestStateActive:
-		return "active"
-	case CCBSRequestStateCompleted:
-		return "completed"
-	case CCBSRequestStateSuspended:
-		return "suspended"
-	case CCBSRequestStateFrozen:
-		return "frozen"
-	case CCBSRequestStateDeleted:
-		return "deleted"
-	default:
-		return "unknown"
+// SSInfo represents the ASN.1 CHOICE type SS-Info.
+type SSInfo struct {
+	Choice          int
+	ForwardingInfo  *ForwardingInfo  `json:"ForwardingInfo,omitempty"`
+	CallBarringInfo *CallBarringInfo `json:"CallBarringInfo,omitempty"`
+	SsData          *SSData          `json:"SsData,omitempty"`
+}
+
+// NewSSInfoForwardingInfo creates a SS-Info with the forwardingInfo alternative.
+func NewSSInfoForwardingInfo(v ForwardingInfo) SSInfo {
+	return SSInfo{
+		Choice:         SSInfoChoiceForwardingInfo,
+		ForwardingInfo: &v,
 	}
 }
+
+// NewSSInfoCallBarringInfo creates a SS-Info with the callBarringInfo alternative.
+func NewSSInfoCallBarringInfo(v CallBarringInfo) SSInfo {
+	return SSInfo{
+		Choice:          SSInfoChoiceCallBarringInfo,
+		CallBarringInfo: &v,
+	}
+}
+
+// NewSSInfoSsData creates a SS-Info with the ss-Data alternative.
+func NewSSInfoSsData(v SSData) SSInfo {
+	return SSInfo{
+		Choice: SSInfoChoiceSsData,
+		SsData: &v,
+	}
+}
+
+// ForwardingInfo represents the ASN.1 type ForwardingInfo (SEQUENCE).
+type ForwardingInfo struct {
+	SsCode                      *SSCode               `asn1:",optional" json:"SsCode,omitempty"`
+	ForwardingFeatureList       ForwardingFeatureList `asn1:""`
+	ForwardingFeatureListIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_                   int64                 `asn1:"-" json:"-"`
+	ExtPresent_                 []bool                `asn1:"-" json:"-"`
+	ExtData_                    [][]byte              `asn1:"-" json:"-"`
+}
+
+// ForwardingFeatureList represents the ASN.1 type ForwardingFeatureList (SEQUENCE_OF).
+type ForwardingFeatureList = []ForwardingFeature
+
+// ForwardingFeature represents the ASN.1 type ForwardingFeature (SEQUENCE).
+type ForwardingFeature struct {
+	BasicService          *BasicServiceCode     `asn1:",optional" json:"BasicService,omitempty"`
+	SsStatus              *SSStatus             `asn1:"tag:4,context,implicit,optional" json:"SsStatus,omitempty"`
+	ForwardedToNumber     *ISDNAddressString    `asn1:"tag:5,context,implicit,optional" json:"ForwardedToNumber,omitempty"`
+	ForwardedToSubaddress *ISDNSubaddressString `asn1:"tag:8,context,implicit,optional" json:"ForwardedToSubaddress,omitempty"`
+	ForwardingOptions     *ForwardingOptions    `asn1:"tag:6,context,implicit,optional" json:"ForwardingOptions,omitempty"`
+	NoReplyConditionTime  *NoReplyConditionTime `asn1:"tag:7,context,implicit,optional" json:"NoReplyConditionTime,omitempty"`
+	LongForwardedToNumber *FTNAddressString     `asn1:"tag:9,context,implicit,optional" json:"LongForwardedToNumber,omitempty"`
+	ExtCount_             int64                 `asn1:"-" json:"-"`
+	ExtPresent_           []bool                `asn1:"-" json:"-"`
+	ExtData_              [][]byte              `asn1:"-" json:"-"`
+}
+
+// SSStatus represents the ASN.1 type SS-Status (OCTET_STRING).
+type SSStatus = []byte
+
+// ForwardingOptions represents the ASN.1 type ForwardingOptions (OCTET_STRING).
+type ForwardingOptions = []byte
+
+// CallBarringInfo represents the ASN.1 type CallBarringInfo (SEQUENCE).
+type CallBarringInfo struct {
+	SsCode                       *SSCode                `asn1:",optional" json:"SsCode,omitempty"`
+	CallBarringFeatureList       CallBarringFeatureList `asn1:""`
+	CallBarringFeatureListIndef_ bool                   `asn1:"-" json:"-"`
+	ExtCount_                    int64                  `asn1:"-" json:"-"`
+	ExtPresent_                  []bool                 `asn1:"-" json:"-"`
+	ExtData_                     [][]byte               `asn1:"-" json:"-"`
+}
+
+// CallBarringFeatureList represents the ASN.1 type CallBarringFeatureList (SEQUENCE_OF).
+type CallBarringFeatureList = []CallBarringFeature
 
 // CallBarringFeature represents the ASN.1 type CallBarringFeature (SEQUENCE).
 type CallBarringFeature struct {
@@ -110,17 +147,47 @@ type CallBarringFeature struct {
 	ExtData_     [][]byte          `asn1:"-" json:"-"`
 }
 
-// CallBarringFeatureList represents the ASN.1 type CallBarringFeatureList (SEQUENCE_OF).
-type CallBarringFeatureList = []CallBarringFeature
+// SSData represents the ASN.1 type SS-Data (SEQUENCE).
+type SSData struct {
+	SsCode                      *SSCode               `asn1:",optional" json:"SsCode,omitempty"`
+	SsStatus                    *SSStatus             `asn1:"tag:4,context,implicit,optional" json:"SsStatus,omitempty"`
+	SsSubscriptionOption        *SSSubscriptionOption `asn1:",optional" json:"SsSubscriptionOption,omitempty"`
+	BasicServiceGroupList       BasicServiceGroupList `asn1:",optional" json:"BasicServiceGroupList,omitempty"`
+	BasicServiceGroupListIndef_ bool                  `asn1:"-" json:"-"`
+	DefaultPriority             *EMLPPPriority        `asn1:",optional" json:"DefaultPriority,omitempty"`
+	NbrUser                     *MCBearers            `asn1:"tag:5,context,implicit,optional" json:"NbrUser,omitempty"`
+	ExtCount_                   int64                 `asn1:"-" json:"-"`
+	ExtPresent_                 []bool                `asn1:"-" json:"-"`
+	ExtData_                    [][]byte              `asn1:"-" json:"-"`
+}
 
-// CallBarringInfo represents the ASN.1 type CallBarringInfo (SEQUENCE).
-type CallBarringInfo struct {
-	SsCode                       *SSCode                `asn1:",optional" json:"SsCode,omitempty"`
-	CallBarringFeatureList       CallBarringFeatureList `asn1:""`
-	CallBarringFeatureListIndef_ bool                   `asn1:"-" json:"-"`
-	ExtCount_                    int64                  `asn1:"-" json:"-"`
-	ExtPresent_                  []bool                 `asn1:"-" json:"-"`
-	ExtData_                     [][]byte               `asn1:"-" json:"-"`
+// SSSubscriptionOption choice constants.
+const (
+	SSSubscriptionOptionChoiceCliRestrictionOption = 1
+	SSSubscriptionOptionChoiceOverrideCategory     = 2
+)
+
+// SSSubscriptionOption represents the ASN.1 CHOICE type SS-SubscriptionOption.
+type SSSubscriptionOption struct {
+	Choice               int
+	CliRestrictionOption *CliRestrictionOption `json:"CliRestrictionOption,omitempty"`
+	OverrideCategory     *OverrideCategory     `json:"OverrideCategory,omitempty"`
+}
+
+// NewSSSubscriptionOptionCliRestrictionOption creates a SS-SubscriptionOption with the cliRestrictionOption alternative.
+func NewSSSubscriptionOptionCliRestrictionOption(v CliRestrictionOption) SSSubscriptionOption {
+	return SSSubscriptionOption{
+		Choice:               SSSubscriptionOptionChoiceCliRestrictionOption,
+		CliRestrictionOption: &v,
+	}
+}
+
+// NewSSSubscriptionOptionOverrideCategory creates a SS-SubscriptionOption with the overrideCategory alternative.
+func NewSSSubscriptionOptionOverrideCategory(v OverrideCategory) SSSubscriptionOption {
+	return SSSubscriptionOption{
+		Choice:           SSSubscriptionOptionChoiceOverrideCategory,
+		OverrideCategory: &v,
+	}
 }
 
 // CliRestrictionOption represents the ASN.1 ENUMERATED type CliRestrictionOption.
@@ -145,53 +212,34 @@ func (v CliRestrictionOption) String() string {
 	}
 }
 
-// EraseCCEntryArg represents the ASN.1 type EraseCC-EntryArg (SEQUENCE).
-type EraseCCEntryArg struct {
-	SsCode      SSCode     `asn1:"tag:0,context,implicit"`
-	CcbsIndex   *CCBSIndex `asn1:"tag:1,context,implicit,optional" json:"CcbsIndex,omitempty"`
-	ExtCount_   int64      `asn1:"-" json:"-"`
-	ExtPresent_ []bool     `asn1:"-" json:"-"`
-	ExtData_    [][]byte   `asn1:"-" json:"-"`
+// OverrideCategory represents the ASN.1 ENUMERATED type OverrideCategory.
+type OverrideCategory int64
+
+const (
+	OverrideCategoryOverrideEnabled  OverrideCategory = 0
+	OverrideCategoryOverrideDisabled OverrideCategory = 1
+)
+
+func (v OverrideCategory) String() string {
+	switch v {
+	case OverrideCategoryOverrideEnabled:
+		return "overrideEnabled"
+	case OverrideCategoryOverrideDisabled:
+		return "overrideDisabled"
+	default:
+		return "unknown"
+	}
 }
 
-// EraseCCEntryRes represents the ASN.1 type EraseCC-EntryRes (SEQUENCE).
-type EraseCCEntryRes struct {
-	SsCode      SSCode    `asn1:"tag:0,context,implicit"`
-	SsStatus    *SSStatus `asn1:"tag:1,context,implicit,optional" json:"SsStatus,omitempty"`
-	ExtCount_   int64     `asn1:"-" json:"-"`
-	ExtPresent_ []bool    `asn1:"-" json:"-"`
-	ExtData_    [][]byte  `asn1:"-" json:"-"`
+// SSForBSCode represents the ASN.1 type SS-ForBS-Code (SEQUENCE).
+type SSForBSCode struct {
+	SsCode           SSCode            `asn1:""`
+	BasicService     *BasicServiceCode `asn1:",optional" json:"BasicService,omitempty"`
+	LongFTNSupported *struct{}         `asn1:"tag:4,context,implicit,optional" json:"LongFTNSupported,omitempty"`
+	ExtCount_        int64             `asn1:"-" json:"-"`
+	ExtPresent_      []bool            `asn1:"-" json:"-"`
+	ExtData_         [][]byte          `asn1:"-" json:"-"`
 }
-
-// ForwardingFeature represents the ASN.1 type ForwardingFeature (SEQUENCE).
-type ForwardingFeature struct {
-	BasicService          *BasicServiceCode     `asn1:",optional" json:"BasicService,omitempty"`
-	SsStatus              *SSStatus             `asn1:"tag:4,context,implicit,optional" json:"SsStatus,omitempty"`
-	ForwardedToNumber     *ISDNAddressString    `asn1:"tag:5,context,implicit,optional" json:"ForwardedToNumber,omitempty"`
-	ForwardedToSubaddress *ISDNSubaddressString `asn1:"tag:8,context,implicit,optional" json:"ForwardedToSubaddress,omitempty"`
-	ForwardingOptions     *ForwardingOptions    `asn1:"tag:6,context,implicit,optional" json:"ForwardingOptions,omitempty"`
-	NoReplyConditionTime  *NoReplyConditionTime `asn1:"tag:7,context,implicit,optional" json:"NoReplyConditionTime,omitempty"`
-	LongForwardedToNumber *FTNAddressString     `asn1:"tag:9,context,implicit,optional" json:"LongForwardedToNumber,omitempty"`
-	ExtCount_             int64                 `asn1:"-" json:"-"`
-	ExtPresent_           []bool                `asn1:"-" json:"-"`
-	ExtData_              [][]byte              `asn1:"-" json:"-"`
-}
-
-// ForwardingFeatureList represents the ASN.1 type ForwardingFeatureList (SEQUENCE_OF).
-type ForwardingFeatureList = []ForwardingFeature
-
-// ForwardingInfo represents the ASN.1 type ForwardingInfo (SEQUENCE).
-type ForwardingInfo struct {
-	SsCode                      *SSCode               `asn1:",optional" json:"SsCode,omitempty"`
-	ForwardingFeatureList       ForwardingFeatureList `asn1:""`
-	ForwardingFeatureListIndef_ bool                  `asn1:"-" json:"-"`
-	ExtCount_                   int64                 `asn1:"-" json:"-"`
-	ExtPresent_                 []bool                `asn1:"-" json:"-"`
-	ExtData_                    [][]byte              `asn1:"-" json:"-"`
-}
-
-// ForwardingOptions represents the ASN.1 type ForwardingOptions (OCTET_STRING).
-type ForwardingOptions = []byte
 
 // GenericServiceInfo represents the ASN.1 type GenericServiceInfo (SEQUENCE).
 type GenericServiceInfo struct {
@@ -209,27 +257,22 @@ type GenericServiceInfo struct {
 	ExtData_                [][]byte              `asn1:"-" json:"-"`
 }
 
-// GuidanceInfo represents the ASN.1 ENUMERATED type GuidanceInfo.
-type GuidanceInfo int64
+// CCBSFeatureList represents the ASN.1 type CCBS-FeatureList (SEQUENCE_OF).
+type CCBSFeatureList = []CCBSFeature
 
-const (
-	GuidanceInfoEnterPW         GuidanceInfo = 0
-	GuidanceInfoEnterNewPW      GuidanceInfo = 1
-	GuidanceInfoEnterNewPWAgain GuidanceInfo = 2
-)
-
-func (v GuidanceInfo) String() string {
-	switch v {
-	case GuidanceInfoEnterPW:
-		return "enterPW"
-	case GuidanceInfoEnterNewPW:
-		return "enterNewPW"
-	case GuidanceInfoEnterNewPWAgain:
-		return "enterNewPW-Again"
-	default:
-		return "unknown"
-	}
+// CCBSFeature represents the ASN.1 type CCBS-Feature (SEQUENCE).
+type CCBSFeature struct {
+	CcbsIndex             *CCBSIndex            `asn1:"tag:0,context,implicit,optional" json:"CcbsIndex,omitempty"`
+	BSubscriberNumber     *ISDNAddressString    `asn1:"tag:1,context,implicit,optional" json:"BSubscriberNumber,omitempty"`
+	BSubscriberSubaddress *ISDNSubaddressString `asn1:"tag:2,context,implicit,optional" json:"BSubscriberSubaddress,omitempty"`
+	BasicServiceGroup     *BasicServiceCode     `asn1:"tag:3,context,explicit,optional" json:"BasicServiceGroup,omitempty"`
+	ExtCount_             int64                 `asn1:"-" json:"-"`
+	ExtPresent_           []bool                `asn1:"-" json:"-"`
+	ExtData_              [][]byte              `asn1:"-" json:"-"`
 }
+
+// CCBSIndex represents the ASN.1 type CCBS-Index (INTEGER).
+type CCBSIndex = int64
 
 // InterrogateSSRes choice constants.
 const (
@@ -280,131 +323,65 @@ func NewInterrogateSSResGenericServiceInfo(v GenericServiceInfo) InterrogateSSRe
 	}
 }
 
-// NoReplyConditionTime represents the ASN.1 type NoReplyConditionTime (INTEGER).
-type NoReplyConditionTime = int64
+// USSDArg represents the ASN.1 type USSD-Arg (SEQUENCE).
+type USSDArg struct {
+	UssdDataCodingScheme USSDDataCodingScheme `asn1:""`
+	UssdString           USSDString           `asn1:""`
+	AlertingPattern      *AlertingPattern     `asn1:",optional" json:"AlertingPattern,omitempty"`
+	Msisdn               *ISDNAddressString   `asn1:"tag:0,context,implicit,optional" json:"Msisdn,omitempty"`
+	ExtCount_            int64                `asn1:"-" json:"-"`
+	ExtPresent_          []bool               `asn1:"-" json:"-"`
+	ExtData_             [][]byte             `asn1:"-" json:"-"`
+}
 
-// OverrideCategory represents the ASN.1 ENUMERATED type OverrideCategory.
-type OverrideCategory int64
+// USSDRes represents the ASN.1 type USSD-Res (SEQUENCE).
+type USSDRes struct {
+	UssdDataCodingScheme USSDDataCodingScheme `asn1:""`
+	UssdString           USSDString           `asn1:""`
+	ExtCount_            int64                `asn1:"-" json:"-"`
+	ExtPresent_          []bool               `asn1:"-" json:"-"`
+	ExtData_             [][]byte             `asn1:"-" json:"-"`
+}
+
+// USSDDataCodingScheme represents the ASN.1 type USSD-DataCodingScheme (OCTET_STRING).
+type USSDDataCodingScheme = []byte
+
+// USSDString represents the ASN.1 type USSD-String (OCTET_STRING).
+type USSDString = []byte
+
+// Password represents the ASN.1 type Password (NumericString).
+type Password = string
+
+// GuidanceInfo represents the ASN.1 ENUMERATED type GuidanceInfo.
+type GuidanceInfo int64
 
 const (
-	OverrideCategoryOverrideEnabled  OverrideCategory = 0
-	OverrideCategoryOverrideDisabled OverrideCategory = 1
+	GuidanceInfoEnterPW         GuidanceInfo = 0
+	GuidanceInfoEnterNewPW      GuidanceInfo = 1
+	GuidanceInfoEnterNewPWAgain GuidanceInfo = 2
 )
 
-func (v OverrideCategory) String() string {
+func (v GuidanceInfo) String() string {
 	switch v {
-	case OverrideCategoryOverrideEnabled:
-		return "overrideEnabled"
-	case OverrideCategoryOverrideDisabled:
-		return "overrideDisabled"
+	case GuidanceInfoEnterPW:
+		return "enterPW"
+	case GuidanceInfoEnterNewPW:
+		return "enterNewPW"
+	case GuidanceInfoEnterNewPWAgain:
+		return "enterNewPW-Again"
 	default:
 		return "unknown"
 	}
 }
 
-// Password represents the ASN.1 type Password (NumericString).
-type Password = string
-
-// RegisterCCEntryArg represents the ASN.1 type RegisterCC-EntryArg (SEQUENCE).
-type RegisterCCEntryArg struct {
-	SsCode      SSCode    `asn1:"tag:0,context,implicit"`
-	CcbsData    *CCBSData `asn1:"tag:1,context,implicit,optional" json:"CcbsData,omitempty"`
-	ExtCount_   int64     `asn1:"-" json:"-"`
-	ExtPresent_ []bool    `asn1:"-" json:"-"`
-	ExtData_    [][]byte  `asn1:"-" json:"-"`
-}
-
-// RegisterCCEntryRes represents the ASN.1 type RegisterCC-EntryRes (SEQUENCE).
-type RegisterCCEntryRes struct {
-	CcbsFeature *CCBSFeature `asn1:"tag:0,context,implicit,optional" json:"CcbsFeature,omitempty"`
-	ExtCount_   int64        `asn1:"-" json:"-"`
-	ExtPresent_ []bool       `asn1:"-" json:"-"`
-	ExtData_    [][]byte     `asn1:"-" json:"-"`
-}
-
-// RegisterSSArg represents the ASN.1 type RegisterSS-Arg (SEQUENCE).
-type RegisterSSArg struct {
-	SsCode                SSCode                `asn1:""`
-	BasicService          *BasicServiceCode     `asn1:",optional" json:"BasicService,omitempty"`
-	ForwardedToNumber     *AddressString        `asn1:"tag:4,context,implicit,optional" json:"ForwardedToNumber,omitempty"`
-	ForwardedToSubaddress *ISDNSubaddressString `asn1:"tag:6,context,implicit,optional" json:"ForwardedToSubaddress,omitempty"`
-	NoReplyConditionTime  *NoReplyConditionTime `asn1:"tag:5,context,implicit,optional" json:"NoReplyConditionTime,omitempty"`
-	DefaultPriority       *EMLPPPriority        `asn1:"tag:7,context,implicit,optional" json:"DefaultPriority,omitempty"`
-	NbrUser               *MCBearers            `asn1:"tag:8,context,implicit,optional" json:"NbrUser,omitempty"`
-	LongFTNSupported      *struct{}             `asn1:"tag:9,context,implicit,optional" json:"LongFTNSupported,omitempty"`
-	ExtCount_             int64                 `asn1:"-" json:"-"`
-	ExtPresent_           []bool                `asn1:"-" json:"-"`
-	ExtData_              [][]byte              `asn1:"-" json:"-"`
-}
-
-// SSData represents the ASN.1 type SS-Data (SEQUENCE).
-type SSData struct {
-	SsCode                      *SSCode               `asn1:",optional" json:"SsCode,omitempty"`
-	SsStatus                    *SSStatus             `asn1:"tag:4,context,implicit,optional" json:"SsStatus,omitempty"`
-	SsSubscriptionOption        *SSSubscriptionOption `asn1:",optional" json:"SsSubscriptionOption,omitempty"`
-	BasicServiceGroupList       BasicServiceGroupList `asn1:",optional" json:"BasicServiceGroupList,omitempty"`
-	BasicServiceGroupListIndef_ bool                  `asn1:"-" json:"-"`
-	DefaultPriority             *EMLPPPriority        `asn1:",optional" json:"DefaultPriority,omitempty"`
-	NbrUser                     *MCBearers            `asn1:"tag:5,context,implicit,optional" json:"NbrUser,omitempty"`
-	ExtCount_                   int64                 `asn1:"-" json:"-"`
-	ExtPresent_                 []bool                `asn1:"-" json:"-"`
-	ExtData_                    [][]byte              `asn1:"-" json:"-"`
-}
-
-// SSEventSpecification represents the ASN.1 type SS-EventSpecification (SEQUENCE_OF).
-type SSEventSpecification = []AddressString
-
-// SSForBSCode represents the ASN.1 type SS-ForBS-Code (SEQUENCE).
-type SSForBSCode struct {
-	SsCode           SSCode            `asn1:""`
-	BasicService     *BasicServiceCode `asn1:",optional" json:"BasicService,omitempty"`
-	LongFTNSupported *struct{}         `asn1:"tag:4,context,implicit,optional" json:"LongFTNSupported,omitempty"`
-	ExtCount_        int64             `asn1:"-" json:"-"`
-	ExtPresent_      []bool            `asn1:"-" json:"-"`
-	ExtData_         [][]byte          `asn1:"-" json:"-"`
-}
-
-// SSInfo choice constants.
-const (
-	SSInfoChoiceForwardingInfo  = 1
-	SSInfoChoiceCallBarringInfo = 2
-	SSInfoChoiceSsData          = 3
-)
-
-// SSInfo represents the ASN.1 CHOICE type SS-Info.
-type SSInfo struct {
-	Choice          int
-	ForwardingInfo  *ForwardingInfo  `json:"ForwardingInfo,omitempty"`
-	CallBarringInfo *CallBarringInfo `json:"CallBarringInfo,omitempty"`
-	SsData          *SSData          `json:"SsData,omitempty"`
-}
-
-// NewSSInfoForwardingInfo creates a SS-Info with the forwardingInfo alternative.
-func NewSSInfoForwardingInfo(v ForwardingInfo) SSInfo {
-	return SSInfo{
-		Choice:         SSInfoChoiceForwardingInfo,
-		ForwardingInfo: &v,
-	}
-}
-
-// NewSSInfoCallBarringInfo creates a SS-Info with the callBarringInfo alternative.
-func NewSSInfoCallBarringInfo(v CallBarringInfo) SSInfo {
-	return SSInfo{
-		Choice:          SSInfoChoiceCallBarringInfo,
-		CallBarringInfo: &v,
-	}
-}
-
-// NewSSInfoSsData creates a SS-Info with the ss-Data alternative.
-func NewSSInfoSsData(v SSData) SSInfo {
-	return SSInfo{
-		Choice: SSInfoChoiceSsData,
-		SsData: &v,
-	}
-}
+// SSList represents the ASN.1 type SS-List (SEQUENCE_OF).
+type SSList = []SSCode
 
 // SSInfoList represents the ASN.1 type SS-InfoList (SEQUENCE_OF).
 type SSInfoList = []SSInfo
+
+// BasicServiceGroupList represents the ASN.1 type BasicServiceGroupList (SEQUENCE_OF).
+type BasicServiceGroupList = []BasicServiceCode
 
 // SSInvocationNotificationArg represents the ASN.1 type SS-InvocationNotificationArg (SEQUENCE).
 type SSInvocationNotificationArg struct {
@@ -421,6 +398,40 @@ type SSInvocationNotificationArg struct {
 	ExtData_                   [][]byte             `asn1:"-" json:"-"`
 }
 
+// CCBSRequestState represents the ASN.1 ENUMERATED type CCBS-RequestState.
+type CCBSRequestState int64
+
+const (
+	CCBSRequestStateRequest   CCBSRequestState = 0
+	CCBSRequestStateRecall    CCBSRequestState = 1
+	CCBSRequestStateActive    CCBSRequestState = 2
+	CCBSRequestStateCompleted CCBSRequestState = 3
+	CCBSRequestStateSuspended CCBSRequestState = 4
+	CCBSRequestStateFrozen    CCBSRequestState = 5
+	CCBSRequestStateDeleted   CCBSRequestState = 6
+)
+
+func (v CCBSRequestState) String() string {
+	switch v {
+	case CCBSRequestStateRequest:
+		return "request"
+	case CCBSRequestStateRecall:
+		return "recall"
+	case CCBSRequestStateActive:
+		return "active"
+	case CCBSRequestStateCompleted:
+		return "completed"
+	case CCBSRequestStateSuspended:
+		return "suspended"
+	case CCBSRequestStateFrozen:
+		return "frozen"
+	case CCBSRequestStateDeleted:
+		return "deleted"
+	default:
+		return "unknown"
+	}
+}
+
 // SSInvocationNotificationRes represents the ASN.1 type SS-InvocationNotificationRes (SEQUENCE).
 type SSInvocationNotificationRes struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
@@ -429,451 +440,64 @@ type SSInvocationNotificationRes struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// SSList represents the ASN.1 type SS-List (SEQUENCE_OF).
-type SSList = []SSCode
+// SSEventSpecification represents the ASN.1 type SS-EventSpecification (SEQUENCE_OF).
+type SSEventSpecification = []AddressString
 
-// SSStatus represents the ASN.1 type SS-Status (OCTET_STRING).
-type SSStatus = []byte
-
-// SSSubscriptionOption choice constants.
-const (
-	SSSubscriptionOptionChoiceCliRestrictionOption = 1
-	SSSubscriptionOptionChoiceOverrideCategory     = 2
-)
-
-// SSSubscriptionOption represents the ASN.1 CHOICE type SS-SubscriptionOption.
-type SSSubscriptionOption struct {
-	Choice               int
-	CliRestrictionOption *CliRestrictionOption `json:"CliRestrictionOption,omitempty"`
-	OverrideCategory     *OverrideCategory     `json:"OverrideCategory,omitempty"`
+// RegisterCCEntryArg represents the ASN.1 type RegisterCC-EntryArg (SEQUENCE).
+type RegisterCCEntryArg struct {
+	SsCode      SSCode    `asn1:"tag:0,context,implicit"`
+	CcbsData    *CCBSData `asn1:"tag:1,context,implicit,optional" json:"CcbsData,omitempty"`
+	ExtCount_   int64     `asn1:"-" json:"-"`
+	ExtPresent_ []bool    `asn1:"-" json:"-"`
+	ExtData_    [][]byte  `asn1:"-" json:"-"`
 }
 
-// NewSSSubscriptionOptionCliRestrictionOption creates a SS-SubscriptionOption with the cliRestrictionOption alternative.
-func NewSSSubscriptionOptionCliRestrictionOption(v CliRestrictionOption) SSSubscriptionOption {
-	return SSSubscriptionOption{
-		Choice:               SSSubscriptionOptionChoiceCliRestrictionOption,
-		CliRestrictionOption: &v,
-	}
-}
-
-// NewSSSubscriptionOptionOverrideCategory creates a SS-SubscriptionOption with the overrideCategory alternative.
-func NewSSSubscriptionOptionOverrideCategory(v OverrideCategory) SSSubscriptionOption {
-	return SSSubscriptionOption{
-		Choice:           SSSubscriptionOptionChoiceOverrideCategory,
-		OverrideCategory: &v,
-	}
+// CCBSData represents the ASN.1 type CCBS-Data (SEQUENCE).
+type CCBSData struct {
+	CcbsFeature       CCBSFeature        `asn1:"tag:0,context,implicit"`
+	TranslatedBNumber ISDNAddressString  `asn1:"tag:1,context,implicit"`
+	ServiceIndicator  *ServiceIndicator  `asn1:"tag:2,context,implicit,optional" json:"ServiceIndicator,omitempty"`
+	CallInfo          ExternalSignalInfo `asn1:"tag:3,context,implicit"`
+	NetworkSignalInfo ExternalSignalInfo `asn1:"tag:4,context,implicit"`
+	ExtCount_         int64              `asn1:"-" json:"-"`
+	ExtPresent_       []bool             `asn1:"-" json:"-"`
+	ExtData_          [][]byte           `asn1:"-" json:"-"`
 }
 
 // ServiceIndicator represents the ASN.1 type ServiceIndicator (BIT_STRING).
 type ServiceIndicator = runtime.BitString
 
-// USSDArg represents the ASN.1 type USSD-Arg (SEQUENCE).
-type USSDArg struct {
-	UssdDataCodingScheme USSDDataCodingScheme `asn1:""`
-	UssdString           USSDString           `asn1:""`
-	AlertingPattern      *AlertingPattern     `asn1:",optional" json:"AlertingPattern,omitempty"`
-	Msisdn               *ISDNAddressString   `asn1:"tag:0,context,implicit,optional" json:"Msisdn,omitempty"`
-	ExtCount_            int64                `asn1:"-" json:"-"`
-	ExtPresent_          []bool               `asn1:"-" json:"-"`
-	ExtData_             [][]byte             `asn1:"-" json:"-"`
+// RegisterCCEntryRes represents the ASN.1 type RegisterCC-EntryRes (SEQUENCE).
+type RegisterCCEntryRes struct {
+	CcbsFeature *CCBSFeature `asn1:"tag:0,context,implicit,optional" json:"CcbsFeature,omitempty"`
+	ExtCount_   int64        `asn1:"-" json:"-"`
+	ExtPresent_ []bool       `asn1:"-" json:"-"`
+	ExtData_    [][]byte     `asn1:"-" json:"-"`
 }
 
-// USSDDataCodingScheme represents the ASN.1 type USSD-DataCodingScheme (OCTET_STRING).
-type USSDDataCodingScheme = []byte
-
-// USSDRes represents the ASN.1 type USSD-Res (SEQUENCE).
-type USSDRes struct {
-	UssdDataCodingScheme USSDDataCodingScheme `asn1:""`
-	UssdString           USSDString           `asn1:""`
-	ExtCount_            int64                `asn1:"-" json:"-"`
-	ExtPresent_          []bool               `asn1:"-" json:"-"`
-	ExtData_             [][]byte             `asn1:"-" json:"-"`
+// EraseCCEntryArg represents the ASN.1 type EraseCC-EntryArg (SEQUENCE).
+type EraseCCEntryArg struct {
+	SsCode      SSCode     `asn1:"tag:0,context,implicit"`
+	CcbsIndex   *CCBSIndex `asn1:"tag:1,context,implicit,optional" json:"CcbsIndex,omitempty"`
+	ExtCount_   int64      `asn1:"-" json:"-"`
+	ExtPresent_ []bool     `asn1:"-" json:"-"`
+	ExtData_    [][]byte   `asn1:"-" json:"-"`
 }
 
-// USSDString represents the ASN.1 type USSD-String (OCTET_STRING).
-type USSDString = []byte
+// EraseCCEntryRes represents the ASN.1 type EraseCC-EntryRes (SEQUENCE).
+type EraseCCEntryRes struct {
+	SsCode      SSCode    `asn1:"tag:0,context,implicit"`
+	SsStatus    *SSStatus `asn1:"tag:1,context,implicit,optional" json:"SsStatus,omitempty"`
+	ExtCount_   int64     `asn1:"-" json:"-"`
+	ExtPresent_ []bool    `asn1:"-" json:"-"`
+	ExtData_    [][]byte  `asn1:"-" json:"-"`
+}
 
-// MarshalBERBasicServiceGroupList encodes a BasicServiceGroupList list to BER.
-func MarshalBERBasicServiceGroupList(list BasicServiceGroupList) ([]byte, error) {
+// MarshalBER encodes RegisterSSArg to BER format.
+func (v *RegisterSSArg) MarshalBER() ([]byte, error) {
 	var children []byte
-	for _, elem := range list {
-		enc, err := elem.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding element: %w", err)
-		}
-		children = append(children, enc...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// UnmarshalBERBasicServiceGroupList decodes a BasicServiceGroupList list from BER.
-func UnmarshalBERBasicServiceGroupList(data []byte) (BasicServiceGroupList, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
-	if err != nil {
-		return nil, fmt.Errorf("decoding BasicServiceGroupList: %w", err)
-	}
-	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "BasicServiceGroupList", Cause: ber.ErrExtraData}
-	}
-	var result BasicServiceGroupList
-	offset := 0
-	for offset < len(content) {
-		var elem BasicServiceCode
-		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
-		if tlvErr != nil {
-			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
-		}
-		if unmErr := elem.UnmarshalBER(content[offset : offset+n]); unmErr != nil {
-			return nil, fmt.Errorf("decoding element: %w", unmErr)
-		}
-		result = append(result, elem)
-		offset += n
-	}
-	return result, nil
-}
-
-// MarshalBER encodes CCBSData to BER format.
-func (v *CCBSData) MarshalBER() ([]byte, error) {
-	var children []byte
-	enc_ccbsfeature, err := v.CcbsFeature.MarshalBER()
-	if err != nil {
-		return nil, fmt.Errorf("encoding ccbs-Feature: %w", err)
-	}
-	enc_ccbsfeature = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_ccbsfeature)
-	children = append(children, enc_ccbsfeature...)
-	enc_translatedbnumber := ber.EncodeOctetString([]byte(v.TranslatedBNumber))
-	enc_translatedbnumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_translatedbnumber)
-	children = append(children, enc_translatedbnumber...)
-	if v.ServiceIndicator != nil {
-		enc_serviceindicator := ber.EncodeBitString(v.ServiceIndicator.Bytes, (8-(v.ServiceIndicator.BitLength%8))%8)
-		enc_serviceindicator = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_serviceindicator)
-		children = append(children, enc_serviceindicator...)
-	}
-	enc_callinfo, err := v.CallInfo.MarshalBER()
-	if err != nil {
-		return nil, fmt.Errorf("encoding callInfo: %w", err)
-	}
-	enc_callinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_callinfo)
-	children = append(children, enc_callinfo...)
-	enc_networksignalinfo, err := v.NetworkSignalInfo.MarshalBER()
-	if err != nil {
-		return nil, fmt.Errorf("encoding networkSignalInfo: %w", err)
-	}
-	enc_networksignalinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_networksignalinfo)
-	children = append(children, enc_networksignalinfo...)
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes CCBSData to DER format.
-func (v *CCBSData) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes CCBSData from BER/DER format.
-func (v *CCBSData) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding CCBSData SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "CCBSData", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode ccbs-Feature
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field ccbs-Feature")
-	}
-	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
-		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
-			return fmt.Errorf("expected tag [%s %d] for ccbs-Feature, got %s", "CONTEXT", 0, reqTag_)
-		}
-	}
-	_, n_ccbsfeature, rawVal_ccbsfeature, err := ber.DecodeTLV(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding ccbs-Feature: %w", err)
-	}
-	reconstructed_ccbsfeature := ber.EncodeSequence(rawVal_ccbsfeature)
-	if unmErr := v.CcbsFeature.UnmarshalBER(reconstructed_ccbsfeature); unmErr != nil {
-		return fmt.Errorf("decoding ccbs-Feature: %w", unmErr)
-	}
-	offset += n_ccbsfeature
-	// Decode translatedB-Number
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field translatedB-Number")
-	}
-	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
-		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 1 {
-			return fmt.Errorf("expected tag [%s %d] for translatedB-Number, got %s", "CONTEXT", 1, reqTag_)
-		}
-	}
-	_, n_translatedbnumber, rawVal_translatedbnumber, err := ber.DecodeTLV(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding translatedB-Number: %w", err)
-	}
-	v.TranslatedBNumber = ISDNAddressString(rawVal_translatedbnumber)
-	offset += n_translatedbnumber
-	// Decode serviceIndicator
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_serviceindicator, rawVal_serviceindicator, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding serviceIndicator: %w", err)
-				}
-				bsBytes_serviceindicator, bsUnused_serviceindicator, bsErr := ber.DecodeBitStringValue(rawVal_serviceindicator)
-				if bsErr != nil {
-					return fmt.Errorf("decoding serviceIndicator: %w", bsErr)
-				}
-				tmp_serviceindicator := runtime.BitString{Bytes: bsBytes_serviceindicator, BitLength: len(bsBytes_serviceindicator)*8 - bsUnused_serviceindicator}
-				v.ServiceIndicator = &tmp_serviceindicator
-				offset += n_serviceindicator
-			}
-		}
-	}
-	// Decode callInfo
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field callInfo")
-	}
-	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
-		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 3 {
-			return fmt.Errorf("expected tag [%s %d] for callInfo, got %s", "CONTEXT", 3, reqTag_)
-		}
-	}
-	_, n_callinfo, rawVal_callinfo, err := ber.DecodeTLV(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding callInfo: %w", err)
-	}
-	reconstructed_callinfo := ber.EncodeSequence(rawVal_callinfo)
-	if unmErr := v.CallInfo.UnmarshalBER(reconstructed_callinfo); unmErr != nil {
-		return fmt.Errorf("decoding callInfo: %w", unmErr)
-	}
-	offset += n_callinfo
-	// Decode networkSignalInfo
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field networkSignalInfo")
-	}
-	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
-		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 4 {
-			return fmt.Errorf("expected tag [%s %d] for networkSignalInfo, got %s", "CONTEXT", 4, reqTag_)
-		}
-	}
-	_, n_networksignalinfo, rawVal_networksignalinfo, err := ber.DecodeTLV(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding networkSignalInfo: %w", err)
-	}
-	reconstructed_networksignalinfo := ber.EncodeSequence(rawVal_networksignalinfo)
-	if unmErr := v.NetworkSignalInfo.UnmarshalBER(reconstructed_networksignalinfo); unmErr != nil {
-		return fmt.Errorf("decoding networkSignalInfo: %w", unmErr)
-	}
-	offset += n_networksignalinfo
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "CCBSData", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes CCBSFeature to BER format.
-func (v *CCBSFeature) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.CcbsIndex != nil {
-		enc_ccbsindex := ber.EncodeInteger(int64(*v.CcbsIndex))
-		enc_ccbsindex = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_ccbsindex)
-		children = append(children, enc_ccbsindex...)
-	}
-	if v.BSubscriberNumber != nil {
-		enc_bsubscribernumber := ber.EncodeOctetString([]byte(*v.BSubscriberNumber))
-		enc_bsubscribernumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_bsubscribernumber)
-		children = append(children, enc_bsubscribernumber...)
-	}
-	if v.BSubscriberSubaddress != nil {
-		enc_bsubscribersubaddress := ber.EncodeOctetString([]byte(*v.BSubscriberSubaddress))
-		enc_bsubscribersubaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_bsubscribersubaddress)
-		children = append(children, enc_bsubscribersubaddress...)
-	}
-	if v.BasicServiceGroup != nil {
-		enc_basicservicegroup, err := v.BasicServiceGroup.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding basicServiceGroup: %w", err)
-		}
-		enc_basicservicegroup = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 3, enc_basicservicegroup)
-		children = append(children, enc_basicservicegroup...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes CCBSFeature to DER format.
-func (v *CCBSFeature) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes CCBSFeature from BER/DER format.
-func (v *CCBSFeature) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding CCBSFeature SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "CCBSFeature", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode ccbs-Index
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_ccbsindex, rawVal_ccbsindex, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding ccbs-Index: %w", err)
-				}
-				decVal_ccbsindex, intErr := ber.DecodeIntegerValue(rawVal_ccbsindex)
-				if intErr != nil {
-					return fmt.Errorf("decoding ccbs-Index: %w", intErr)
-				}
-				v.CcbsIndex = &decVal_ccbsindex
-				offset += n_ccbsindex
-			}
-		}
-	}
-	// Decode b-subscriberNumber
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_bsubscribernumber, rawVal_bsubscribernumber, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding b-subscriberNumber: %w", err)
-				}
-				tmp_bsubscribernumber := ISDNAddressString(rawVal_bsubscribernumber)
-				v.BSubscriberNumber = &tmp_bsubscribernumber
-				offset += n_bsubscribernumber
-			}
-		}
-	}
-	// Decode b-subscriberSubaddress
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_bsubscribersubaddress, rawVal_bsubscribersubaddress, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding b-subscriberSubaddress: %w", err)
-				}
-				tmp_bsubscribersubaddress := ISDNSubaddressString(rawVal_bsubscribersubaddress)
-				v.BSubscriberSubaddress = &tmp_bsubscribersubaddress
-				offset += n_bsubscribersubaddress
-			}
-		}
-	}
-	// Decode basicServiceGroup
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_basicservicegroup, innerData_basicservicegroup, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding basicServiceGroup: %w", err)
-				}
-				// Decode inner value from explicit tag wrapper
-				var dec_basicservicegroup BasicServiceCode
-				if unmErr := dec_basicservicegroup.UnmarshalBER(innerData_basicservicegroup); unmErr != nil {
-					return fmt.Errorf("decoding basicServiceGroup: %w", unmErr)
-				}
-				v.BasicServiceGroup = &dec_basicservicegroup
-				offset += n_basicservicegroup
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "CCBSFeature", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBERCCBSFeatureList encodes a CCBSFeatureList list to BER.
-func MarshalBERCCBSFeatureList(list CCBSFeatureList) ([]byte, error) {
-	var children []byte
-	for _, elem := range list {
-		enc, err := elem.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding element: %w", err)
-		}
-		children = append(children, enc...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// UnmarshalBERCCBSFeatureList decodes a CCBSFeatureList list from BER.
-func UnmarshalBERCCBSFeatureList(data []byte) (CCBSFeatureList, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
-	if err != nil {
-		return nil, fmt.Errorf("decoding CCBSFeatureList: %w", err)
-	}
-	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "CCBSFeatureList", Cause: ber.ErrExtraData}
-	}
-	var result CCBSFeatureList
-	offset := 0
-	for offset < len(content) {
-		var elem CCBSFeature
-		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
-		if tlvErr != nil {
-			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
-		}
-		if unmErr := elem.UnmarshalBER(content[offset : offset+n]); unmErr != nil {
-			return nil, fmt.Errorf("decoding element: %w", unmErr)
-		}
-		result = append(result, elem)
-		offset += n
-	}
-	return result, nil
-}
-
-// MarshalBER encodes CallBarringFeature to BER format.
-func (v *CallBarringFeature) MarshalBER() ([]byte, error) {
-	var children []byte
+	enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
+	children = append(children, enc_sscode...)
 	if v.BasicService != nil {
 		enc_basicservice, err := v.BasicService.MarshalBER()
 		if err != nil {
@@ -881,10 +505,35 @@ func (v *CallBarringFeature) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, enc_basicservice...)
 	}
-	if v.SsStatus != nil {
-		enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
-		enc_ssstatus = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_ssstatus)
-		children = append(children, enc_ssstatus...)
+	if v.ForwardedToNumber != nil {
+		enc_forwardedtonumber := ber.EncodeOctetString([]byte(*v.ForwardedToNumber))
+		enc_forwardedtonumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_forwardedtonumber)
+		children = append(children, enc_forwardedtonumber...)
+	}
+	if v.ForwardedToSubaddress != nil {
+		enc_forwardedtosubaddress := ber.EncodeOctetString([]byte(*v.ForwardedToSubaddress))
+		enc_forwardedtosubaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, false, enc_forwardedtosubaddress)
+		children = append(children, enc_forwardedtosubaddress...)
+	}
+	if v.NoReplyConditionTime != nil {
+		enc_noreplyconditiontime := ber.EncodeInteger(int64(*v.NoReplyConditionTime))
+		enc_noreplyconditiontime = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, false, enc_noreplyconditiontime)
+		children = append(children, enc_noreplyconditiontime...)
+	}
+	if v.DefaultPriority != nil {
+		enc_defaultpriority := ber.EncodeInteger(int64(*v.DefaultPriority))
+		enc_defaultpriority = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, false, enc_defaultpriority)
+		children = append(children, enc_defaultpriority...)
+	}
+	if v.NbrUser != nil {
+		enc_nbruser := ber.EncodeInteger(int64(*v.NbrUser))
+		enc_nbruser = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, false, enc_nbruser)
+		children = append(children, enc_nbruser...)
+	}
+	if v.LongFTNSupported != nil {
+		enc_longftnsupported := ber.EncodeNull()
+		enc_longftnsupported = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, false, enc_longftnsupported)
+		children = append(children, enc_longftnsupported...)
 	}
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -899,53 +548,150 @@ func (v *CallBarringFeature) MarshalBER() ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes CallBarringFeature to DER format.
-func (v *CallBarringFeature) MarshalDER() ([]byte, error) {
+// MarshalDER encodes RegisterSSArg to DER format.
+func (v *RegisterSSArg) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes CallBarringFeature from BER/DER format.
-func (v *CallBarringFeature) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes RegisterSSArg from BER/DER format.
+func (v *RegisterSSArg) UnmarshalBER(data []byte) error {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding CallBarringFeature SEQUENCE: %w", err)
+		return fmt.Errorf("decoding RegisterSSArg SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "CallBarringFeature", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "RegisterSSArg", Cause: ber.ErrExtraData}
 	}
 	offset := 0
+	// Decode ss-Code
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field ss-Code")
+	}
+	val_sscode, n, err := ber.DecodeOctetString(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding ss-Code: %w", err)
+	}
+	v.SsCode = SSCode(val_sscode)
+	offset += n
 	// Decode basicService
 	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) {
-				// Decode nested CHOICE (BasicServiceCode)
-				_, n_basicservice, _, tlvErr_basicservice := ber.DecodeTLV(content[offset:])
-				if tlvErr_basicservice != nil {
-					return fmt.Errorf("decoding basicService: %w", tlvErr_basicservice)
-				}
-				var dec_basicservice BasicServiceCode
-				if unmErr := dec_basicservice.UnmarshalBER(content[offset : offset+n_basicservice]); unmErr != nil {
-					return fmt.Errorf("decoding basicService: %w", unmErr)
-				}
-				v.BasicService = &dec_basicservice
-				offset += n_basicservice
-			}
+		// Decode nested CHOICE (BasicServiceCode)
+		_, n_basicservice, _, tlvErr_basicservice := ber.DecodeTLV(content[offset:])
+		if tlvErr_basicservice != nil {
+			return fmt.Errorf("decoding basicService: %w", tlvErr_basicservice)
 		}
+		var dec_basicservice BasicServiceCode
+		if unmErr := dec_basicservice.UnmarshalBER(content[offset : offset+n_basicservice]); unmErr != nil {
+			return fmt.Errorf("decoding basicService: %w", unmErr)
+		}
+		v.BasicService = &dec_basicservice
+		offset += n_basicservice
 	}
-	// Decode ss-Status
+	// Decode forwardedToNumber
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_ssstatus, rawVal_ssstatus, err := ber.DecodeTLV(content[offset:])
+				_, n_forwardedtonumber, rawVal_forwardedtonumber, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
-					return fmt.Errorf("decoding ss-Status: %w", err)
+					return fmt.Errorf("decoding forwardedToNumber: %w", err)
 				}
-				tmp_ssstatus := SSStatus(rawVal_ssstatus)
-				v.SsStatus = &tmp_ssstatus
-				offset += n_ssstatus
+				tmp_forwardedtonumber := AddressString(rawVal_forwardedtonumber)
+				v.ForwardedToNumber = &tmp_forwardedtonumber
+				offset += n_forwardedtonumber
+			}
+		}
+	}
+	// Decode forwardedToSubaddress
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
+				_, n_forwardedtosubaddress, rawVal_forwardedtosubaddress, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding forwardedToSubaddress: %w", err)
+				}
+				tmp_forwardedtosubaddress := ISDNSubaddressString(rawVal_forwardedtosubaddress)
+				v.ForwardedToSubaddress = &tmp_forwardedtosubaddress
+				offset += n_forwardedtosubaddress
+			}
+		}
+	}
+	// Decode noReplyConditionTime
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
+				_, n_noreplyconditiontime, rawVal_noreplyconditiontime, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding noReplyConditionTime: %w", err)
+				}
+				decVal_noreplyconditiontime, intErr := ber.DecodeIntegerValue(rawVal_noreplyconditiontime)
+				if intErr != nil {
+					return fmt.Errorf("decoding noReplyConditionTime: %w", intErr)
+				}
+				tmp_noreplyconditiontime := NoReplyConditionTime(decVal_noreplyconditiontime)
+				v.NoReplyConditionTime = &tmp_noreplyconditiontime
+				offset += n_noreplyconditiontime
+			}
+		}
+	}
+	// Decode defaultPriority
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
+				_, n_defaultpriority, rawVal_defaultpriority, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding defaultPriority: %w", err)
+				}
+				decVal_defaultpriority, intErr := ber.DecodeIntegerValue(rawVal_defaultpriority)
+				if intErr != nil {
+					return fmt.Errorf("decoding defaultPriority: %w", intErr)
+				}
+				tmp_defaultpriority := EMLPPPriority(decVal_defaultpriority)
+				v.DefaultPriority = &tmp_defaultpriority
+				offset += n_defaultpriority
+			}
+		}
+	}
+	// Decode nbrUser
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
+				_, n_nbruser, rawVal_nbruser, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding nbrUser: %w", err)
+				}
+				decVal_nbruser, intErr := ber.DecodeIntegerValue(rawVal_nbruser)
+				if intErr != nil {
+					return fmt.Errorf("decoding nbrUser: %w", intErr)
+				}
+				tmp_nbruser := MCBearers(decVal_nbruser)
+				v.NbrUser = &tmp_nbruser
+				offset += n_nbruser
+			}
+		}
+	}
+	// Decode longFTN-Supported
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
+				_, n_longftnsupported, rawVal_longftnsupported, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding longFTN-Supported: %w", err)
+				}
+				_ = rawVal_longftnsupported
+				v.LongFTNSupported = &struct{}{}
+				offset += n_longftnsupported
 			}
 		}
 	}
@@ -955,7 +701,7 @@ func (v *CallBarringFeature) UnmarshalBER(data []byte) error {
 	for offset < len(content) {
 		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "CallBarringFeature", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "RegisterSSArg", Cause: extErr_}
 		}
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
@@ -965,57 +711,122 @@ func (v *CallBarringFeature) UnmarshalBER(data []byte) error {
 	return nil
 }
 
-// MarshalBERCallBarringFeatureList encodes a CallBarringFeatureList list to BER.
-func MarshalBERCallBarringFeatureList(list CallBarringFeatureList) ([]byte, error) {
-	var children []byte
-	for _, elem := range list {
-		enc, err := elem.MarshalBER()
+// MarshalBER encodes SSInfo to BER format.
+func (v *SSInfo) MarshalBER() ([]byte, error) {
+	switch v.Choice {
+	case SSInfoChoiceForwardingInfo:
+		if v.ForwardingInfo == nil {
+			return nil, fmt.Errorf("choice SSInfo: forwardingInfo is nil")
+		}
+		enc_0, err := v.ForwardingInfo.MarshalBER()
 		if err != nil {
-			return nil, fmt.Errorf("encoding element: %w", err)
+			return nil, fmt.Errorf("encoding forwardingInfo: %w", err)
 		}
-		children = append(children, enc...)
+		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_0)
+		return enc_0, nil
+	case SSInfoChoiceCallBarringInfo:
+		if v.CallBarringInfo == nil {
+			return nil, fmt.Errorf("choice SSInfo: callBarringInfo is nil")
+		}
+		enc_1, err := v.CallBarringInfo.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding callBarringInfo: %w", err)
+		}
+		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_1)
+		return enc_1, nil
+	case SSInfoChoiceSsData:
+		if v.SsData == nil {
+			return nil, fmt.Errorf("choice SSInfo: ss-Data is nil")
+		}
+		enc_2, err := v.SsData.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding ss-Data: %w", err)
+		}
+		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_2)
+		return enc_2, nil
+	default:
+		return nil, fmt.Errorf("unknown choice %d for SSInfo", v.Choice)
 	}
-	return ber.EncodeSequence(children), nil
 }
 
-// UnmarshalBERCallBarringFeatureList decodes a CallBarringFeatureList list from BER.
-func UnmarshalBERCallBarringFeatureList(data []byte) (CallBarringFeatureList, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
-	if err != nil {
-		return nil, fmt.Errorf("decoding CallBarringFeatureList: %w", err)
+// MarshalDER encodes SSInfo to DER format.
+func (v *SSInfo) MarshalDER() ([]byte, error) {
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes SSInfo from BER/DER format.
+func (v *SSInfo) UnmarshalBER(data []byte) error {
+	if len(data) == 0 {
+		return fmt.Errorf("empty data for SSInfo CHOICE")
 	}
-	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "CallBarringFeatureList", Cause: ber.ErrExtraData}
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
+	if peekErr != nil {
+		return fmt.Errorf("peeking tag for SSInfo: %w", peekErr)
 	}
-	var result CallBarringFeatureList
-	offset := 0
-	for offset < len(content) {
-		var elem CallBarringFeature
-		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
+
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
+	if tlvErr != nil {
+		return fmt.Errorf("decoding SSInfo CHOICE: %w", tlvErr)
+	}
+	if total != len(choiceData) {
+		return &ber.DecodeError{Offset: total, TypeName: "SSInfo", Cause: ber.ErrExtraData}
+	}
+
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+		v.Choice = SSInfoChoiceForwardingInfo
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
-			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
+			return fmt.Errorf("decoding forwardingInfo: %w", tlvErr)
 		}
-		if unmErr := elem.UnmarshalBER(content[offset : offset+n]); unmErr != nil {
-			return nil, fmt.Errorf("decoding element: %w", unmErr)
+		reconstructed := ber.EncodeSequence(rawVal)
+		var dec ForwardingInfo
+		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
+			return fmt.Errorf("decoding forwardingInfo: %w", unmErr)
 		}
-		result = append(result, elem)
-		offset += n
+		v.ForwardingInfo = &dec
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+		v.Choice = SSInfoChoiceCallBarringInfo
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding callBarringInfo: %w", tlvErr)
+		}
+		reconstructed := ber.EncodeSequence(rawVal)
+		var dec CallBarringInfo
+		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
+			return fmt.Errorf("decoding callBarringInfo: %w", unmErr)
+		}
+		v.CallBarringInfo = &dec
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
+		v.Choice = SSInfoChoiceSsData
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding ss-Data: %w", tlvErr)
+		}
+		reconstructed := ber.EncodeSequence(rawVal)
+		var dec SSData
+		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
+			return fmt.Errorf("decoding ss-Data: %w", unmErr)
+		}
+		v.SsData = &dec
+	} else {
+		return fmt.Errorf("unknown tag %s for SSInfo CHOICE", peekTag)
 	}
-	return result, nil
+	return nil
 }
 
-// MarshalBER encodes CallBarringInfo to BER format.
-func (v *CallBarringInfo) MarshalBER() ([]byte, error) {
+// MarshalBER encodes ForwardingInfo to BER format.
+func (v *ForwardingInfo) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.SsCode != nil {
 		enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
 		children = append(children, enc_sscode...)
 	}
-	enc_callbarringfeaturelist, err := MarshalBERCallBarringFeatureList(v.CallBarringFeatureList)
+	enc_forwardingfeaturelist, err := MarshalBERForwardingFeatureList(v.ForwardingFeatureList)
 	if err != nil {
-		return nil, fmt.Errorf("encoding callBarringFeatureList: %w", err)
+		return nil, fmt.Errorf("encoding forwardingFeatureList: %w", err)
 	}
-	children = append(children, enc_callbarringfeaturelist...)
+	children = append(children, enc_forwardingfeaturelist...)
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
 		if extErr != nil {
@@ -1029,20 +840,25 @@ func (v *CallBarringInfo) MarshalBER() ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes CallBarringInfo to DER format.
-func (v *CallBarringInfo) MarshalDER() ([]byte, error) {
+// MarshalDER encodes ForwardingInfo to DER format.
+func (v *ForwardingInfo) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes CallBarringInfo from BER/DER format.
-func (v *CallBarringInfo) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes ForwardingInfo from BER/DER format.
+func (v *ForwardingInfo) UnmarshalBER(data []byte) error {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding CallBarringInfo SEQUENCE: %w", err)
+		return fmt.Errorf("decoding ForwardingInfo SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "CallBarringInfo", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ForwardingInfo", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode ss-Code
@@ -1060,28 +876,28 @@ func (v *CallBarringInfo) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	// Decode callBarringFeatureList
+	// Decode forwardingFeatureList
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field callBarringFeatureList")
+		return fmt.Errorf("missing required field forwardingFeatureList")
 	}
-	// Decode nested SEQUENCE_OF (CallBarringFeatureList)
-	_, n_callbarringfeaturelist, _, tlvErr_callbarringfeaturelist := ber.DecodeTLV(content[offset:])
-	if tlvErr_callbarringfeaturelist != nil {
-		return fmt.Errorf("decoding callBarringFeatureList: %w", tlvErr_callbarringfeaturelist)
+	// Decode nested SEQUENCE_OF (ForwardingFeatureList)
+	_, n_forwardingfeaturelist, _, tlvErr_forwardingfeaturelist := ber.DecodeTLV(content[offset:])
+	if tlvErr_forwardingfeaturelist != nil {
+		return fmt.Errorf("decoding forwardingFeatureList: %w", tlvErr_forwardingfeaturelist)
 	}
-	dec_callbarringfeaturelist, unmErr := UnmarshalBERCallBarringFeatureList(content[offset : offset+n_callbarringfeaturelist])
+	dec_forwardingfeaturelist, unmErr := UnmarshalBERForwardingFeatureList(content[offset : offset+n_forwardingfeaturelist])
 	if unmErr != nil {
-		return fmt.Errorf("decoding callBarringFeatureList: %w", unmErr)
+		return fmt.Errorf("decoding forwardingFeatureList: %w", unmErr)
 	}
-	v.CallBarringFeatureList = dec_callbarringfeaturelist
-	offset += n_callbarringfeaturelist
+	v.ForwardingFeatureList = dec_forwardingfeaturelist
+	offset += n_forwardingfeaturelist
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
 		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "CallBarringInfo", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "ForwardingInfo", Cause: extErr_}
 		}
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
@@ -1091,179 +907,43 @@ func (v *CallBarringInfo) UnmarshalBER(data []byte) error {
 	return nil
 }
 
-// MarshalBER encodes EraseCCEntryArg to BER format.
-func (v *EraseCCEntryArg) MarshalBER() ([]byte, error) {
+// MarshalBERForwardingFeatureList encodes a ForwardingFeatureList list to BER.
+func MarshalBERForwardingFeatureList(list ForwardingFeatureList) ([]byte, error) {
 	var children []byte
-	enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
-	enc_sscode = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_sscode)
-	children = append(children, enc_sscode...)
-	if v.CcbsIndex != nil {
-		enc_ccbsindex := ber.EncodeInteger(int64(*v.CcbsIndex))
-		enc_ccbsindex = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_ccbsindex)
-		children = append(children, enc_ccbsindex...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+	for _, elem := range list {
+		enc, err := elem.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
 		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
+		children = append(children, enc...)
 	}
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes EraseCCEntryArg to DER format.
-func (v *EraseCCEntryArg) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes EraseCCEntryArg from BER/DER format.
-func (v *EraseCCEntryArg) UnmarshalBER(data []byte) error {
+// UnmarshalBERForwardingFeatureList decodes a ForwardingFeatureList list from BER.
+func UnmarshalBERForwardingFeatureList(data []byte) (ForwardingFeatureList, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding EraseCCEntryArg SEQUENCE: %w", err)
+		return nil, fmt.Errorf("decoding ForwardingFeatureList: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "EraseCCEntryArg", Cause: ber.ErrExtraData}
+		return nil, &ber.DecodeError{Offset: total, TypeName: "ForwardingFeatureList", Cause: ber.ErrExtraData}
 	}
+	var result ForwardingFeatureList
 	offset := 0
-	// Decode ss-Code
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field ss-Code")
-	}
-	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
-		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
-			return fmt.Errorf("expected tag [%s %d] for ss-Code, got %s", "CONTEXT", 0, reqTag_)
-		}
-	}
-	_, n_sscode, rawVal_sscode, err := ber.DecodeTLV(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding ss-Code: %w", err)
-	}
-	v.SsCode = SSCode(rawVal_sscode)
-	offset += n_sscode
-	// Decode ccbs-Index
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_ccbsindex, rawVal_ccbsindex, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding ccbs-Index: %w", err)
-				}
-				decVal_ccbsindex, intErr := ber.DecodeIntegerValue(rawVal_ccbsindex)
-				if intErr != nil {
-					return fmt.Errorf("decoding ccbs-Index: %w", intErr)
-				}
-				v.CcbsIndex = &decVal_ccbsindex
-				offset += n_ccbsindex
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "EraseCCEntryArg", Cause: extErr_}
+		var elem ForwardingFeature
+		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
+		if tlvErr != nil {
+			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
 		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes EraseCCEntryRes to BER format.
-func (v *EraseCCEntryRes) MarshalBER() ([]byte, error) {
-	var children []byte
-	enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
-	enc_sscode = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_sscode)
-	children = append(children, enc_sscode...)
-	if v.SsStatus != nil {
-		enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
-		enc_ssstatus = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_ssstatus)
-		children = append(children, enc_ssstatus...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		if unmErr := elem.UnmarshalBER(content[offset : offset+n]); unmErr != nil {
+			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
+		result = append(result, elem)
+		offset += n
 	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes EraseCCEntryRes to DER format.
-func (v *EraseCCEntryRes) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes EraseCCEntryRes from BER/DER format.
-func (v *EraseCCEntryRes) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding EraseCCEntryRes SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "EraseCCEntryRes", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode ss-Code
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field ss-Code")
-	}
-	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
-		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
-			return fmt.Errorf("expected tag [%s %d] for ss-Code, got %s", "CONTEXT", 0, reqTag_)
-		}
-	}
-	_, n_sscode, rawVal_sscode, err := ber.DecodeTLV(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding ss-Code: %w", err)
-	}
-	v.SsCode = SSCode(rawVal_sscode)
-	offset += n_sscode
-	// Decode ss-Status
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_ssstatus, rawVal_ssstatus, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding ss-Status: %w", err)
-				}
-				tmp_ssstatus := SSStatus(rawVal_ssstatus)
-				v.SsStatus = &tmp_ssstatus
-				offset += n_ssstatus
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "EraseCCEntryRes", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
+	return result, nil
 }
 
 // MarshalBER encodes ForwardingFeature to BER format.
@@ -1321,6 +1001,11 @@ func (v *ForwardingFeature) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ForwardingFeature to DER format.
 func (v *ForwardingFeature) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -1337,22 +1022,17 @@ func (v *ForwardingFeature) UnmarshalBER(data []byte) error {
 	offset := 0
 	// Decode basicService
 	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) {
-				// Decode nested CHOICE (BasicServiceCode)
-				_, n_basicservice, _, tlvErr_basicservice := ber.DecodeTLV(content[offset:])
-				if tlvErr_basicservice != nil {
-					return fmt.Errorf("decoding basicService: %w", tlvErr_basicservice)
-				}
-				var dec_basicservice BasicServiceCode
-				if unmErr := dec_basicservice.UnmarshalBER(content[offset : offset+n_basicservice]); unmErr != nil {
-					return fmt.Errorf("decoding basicService: %w", unmErr)
-				}
-				v.BasicService = &dec_basicservice
-				offset += n_basicservice
-			}
+		// Decode nested CHOICE (BasicServiceCode)
+		_, n_basicservice, _, tlvErr_basicservice := ber.DecodeTLV(content[offset:])
+		if tlvErr_basicservice != nil {
+			return fmt.Errorf("decoding basicService: %w", tlvErr_basicservice)
 		}
+		var dec_basicservice BasicServiceCode
+		if unmErr := dec_basicservice.UnmarshalBER(content[offset : offset+n_basicservice]); unmErr != nil {
+			return fmt.Errorf("decoding basicService: %w", unmErr)
+		}
+		v.BasicService = &dec_basicservice
+		offset += n_basicservice
 	}
 	// Decode ss-Status
 	if offset < len(content) {
@@ -1427,7 +1107,8 @@ func (v *ForwardingFeature) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding noReplyConditionTime: %w", intErr)
 				}
-				v.NoReplyConditionTime = &decVal_noreplyconditiontime
+				tmp_noreplyconditiontime := NoReplyConditionTime(decVal_noreplyconditiontime)
+				v.NoReplyConditionTime = &tmp_noreplyconditiontime
 				offset += n_noreplyconditiontime
 			}
 		}
@@ -1463,57 +1144,18 @@ func (v *ForwardingFeature) UnmarshalBER(data []byte) error {
 	return nil
 }
 
-// MarshalBERForwardingFeatureList encodes a ForwardingFeatureList list to BER.
-func MarshalBERForwardingFeatureList(list ForwardingFeatureList) ([]byte, error) {
-	var children []byte
-	for _, elem := range list {
-		enc, err := elem.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding element: %w", err)
-		}
-		children = append(children, enc...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// UnmarshalBERForwardingFeatureList decodes a ForwardingFeatureList list from BER.
-func UnmarshalBERForwardingFeatureList(data []byte) (ForwardingFeatureList, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
-	if err != nil {
-		return nil, fmt.Errorf("decoding ForwardingFeatureList: %w", err)
-	}
-	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "ForwardingFeatureList", Cause: ber.ErrExtraData}
-	}
-	var result ForwardingFeatureList
-	offset := 0
-	for offset < len(content) {
-		var elem ForwardingFeature
-		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
-		if tlvErr != nil {
-			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
-		}
-		if unmErr := elem.UnmarshalBER(content[offset : offset+n]); unmErr != nil {
-			return nil, fmt.Errorf("decoding element: %w", unmErr)
-		}
-		result = append(result, elem)
-		offset += n
-	}
-	return result, nil
-}
-
-// MarshalBER encodes ForwardingInfo to BER format.
-func (v *ForwardingInfo) MarshalBER() ([]byte, error) {
+// MarshalBER encodes CallBarringInfo to BER format.
+func (v *CallBarringInfo) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.SsCode != nil {
 		enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
 		children = append(children, enc_sscode...)
 	}
-	enc_forwardingfeaturelist, err := MarshalBERForwardingFeatureList(v.ForwardingFeatureList)
+	enc_callbarringfeaturelist, err := MarshalBERCallBarringFeatureList(v.CallBarringFeatureList)
 	if err != nil {
-		return nil, fmt.Errorf("encoding forwardingFeatureList: %w", err)
+		return nil, fmt.Errorf("encoding callBarringFeatureList: %w", err)
 	}
-	children = append(children, enc_forwardingfeaturelist...)
+	children = append(children, enc_callbarringfeaturelist...)
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
 		if extErr != nil {
@@ -1527,20 +1169,25 @@ func (v *ForwardingInfo) MarshalBER() ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes ForwardingInfo to DER format.
-func (v *ForwardingInfo) MarshalDER() ([]byte, error) {
+// MarshalDER encodes CallBarringInfo to DER format.
+func (v *CallBarringInfo) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes ForwardingInfo from BER/DER format.
-func (v *ForwardingInfo) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes CallBarringInfo from BER/DER format.
+func (v *CallBarringInfo) UnmarshalBER(data []byte) error {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding ForwardingInfo SEQUENCE: %w", err)
+		return fmt.Errorf("decoding CallBarringInfo SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ForwardingInfo", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "CallBarringInfo", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode ss-Code
@@ -1558,28 +1205,525 @@ func (v *ForwardingInfo) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	// Decode forwardingFeatureList
+	// Decode callBarringFeatureList
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field forwardingFeatureList")
+		return fmt.Errorf("missing required field callBarringFeatureList")
 	}
-	// Decode nested SEQUENCE_OF (ForwardingFeatureList)
-	_, n_forwardingfeaturelist, _, tlvErr_forwardingfeaturelist := ber.DecodeTLV(content[offset:])
-	if tlvErr_forwardingfeaturelist != nil {
-		return fmt.Errorf("decoding forwardingFeatureList: %w", tlvErr_forwardingfeaturelist)
+	// Decode nested SEQUENCE_OF (CallBarringFeatureList)
+	_, n_callbarringfeaturelist, _, tlvErr_callbarringfeaturelist := ber.DecodeTLV(content[offset:])
+	if tlvErr_callbarringfeaturelist != nil {
+		return fmt.Errorf("decoding callBarringFeatureList: %w", tlvErr_callbarringfeaturelist)
 	}
-	dec_forwardingfeaturelist, unmErr := UnmarshalBERForwardingFeatureList(content[offset : offset+n_forwardingfeaturelist])
+	dec_callbarringfeaturelist, unmErr := UnmarshalBERCallBarringFeatureList(content[offset : offset+n_callbarringfeaturelist])
 	if unmErr != nil {
-		return fmt.Errorf("decoding forwardingFeatureList: %w", unmErr)
+		return fmt.Errorf("decoding callBarringFeatureList: %w", unmErr)
 	}
-	v.ForwardingFeatureList = dec_forwardingfeaturelist
-	offset += n_forwardingfeaturelist
+	v.CallBarringFeatureList = dec_callbarringfeaturelist
+	offset += n_callbarringfeaturelist
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
 		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ForwardingInfo", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "CallBarringInfo", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBERCallBarringFeatureList encodes a CallBarringFeatureList list to BER.
+func MarshalBERCallBarringFeatureList(list CallBarringFeatureList) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		enc, err := elem.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
+		}
+		children = append(children, enc...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// UnmarshalBERCallBarringFeatureList decodes a CallBarringFeatureList list from BER.
+func UnmarshalBERCallBarringFeatureList(data []byte) (CallBarringFeatureList, error) {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return nil, fmt.Errorf("decoding CallBarringFeatureList: %w", err)
+	}
+	if total != len(data) {
+		return nil, &ber.DecodeError{Offset: total, TypeName: "CallBarringFeatureList", Cause: ber.ErrExtraData}
+	}
+	var result CallBarringFeatureList
+	offset := 0
+	for offset < len(content) {
+		var elem CallBarringFeature
+		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
+		if tlvErr != nil {
+			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
+		}
+		if unmErr := elem.UnmarshalBER(content[offset : offset+n]); unmErr != nil {
+			return nil, fmt.Errorf("decoding element: %w", unmErr)
+		}
+		result = append(result, elem)
+		offset += n
+	}
+	return result, nil
+}
+
+// MarshalBER encodes CallBarringFeature to BER format.
+func (v *CallBarringFeature) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.BasicService != nil {
+		enc_basicservice, err := v.BasicService.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding basicService: %w", err)
+		}
+		children = append(children, enc_basicservice...)
+	}
+	if v.SsStatus != nil {
+		enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
+		enc_ssstatus = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_ssstatus)
+		children = append(children, enc_ssstatus...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes CallBarringFeature to DER format.
+func (v *CallBarringFeature) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes CallBarringFeature from BER/DER format.
+func (v *CallBarringFeature) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding CallBarringFeature SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "CallBarringFeature", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode basicService
+	if offset < len(content) {
+		// Decode nested CHOICE (BasicServiceCode)
+		_, n_basicservice, _, tlvErr_basicservice := ber.DecodeTLV(content[offset:])
+		if tlvErr_basicservice != nil {
+			return fmt.Errorf("decoding basicService: %w", tlvErr_basicservice)
+		}
+		var dec_basicservice BasicServiceCode
+		if unmErr := dec_basicservice.UnmarshalBER(content[offset : offset+n_basicservice]); unmErr != nil {
+			return fmt.Errorf("decoding basicService: %w", unmErr)
+		}
+		v.BasicService = &dec_basicservice
+		offset += n_basicservice
+	}
+	// Decode ss-Status
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
+				_, n_ssstatus, rawVal_ssstatus, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding ss-Status: %w", err)
+				}
+				tmp_ssstatus := SSStatus(rawVal_ssstatus)
+				v.SsStatus = &tmp_ssstatus
+				offset += n_ssstatus
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "CallBarringFeature", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes SSData to BER format.
+func (v *SSData) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.SsCode != nil {
+		enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
+		children = append(children, enc_sscode...)
+	}
+	if v.SsStatus != nil {
+		enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
+		enc_ssstatus = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_ssstatus)
+		children = append(children, enc_ssstatus...)
+	}
+	if v.SsSubscriptionOption != nil {
+		enc_sssubscriptionoption, err := v.SsSubscriptionOption.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding ss-SubscriptionOption: %w", err)
+		}
+		children = append(children, enc_sssubscriptionoption...)
+	}
+	if v.BasicServiceGroupList != nil {
+		enc_basicservicegrouplist, err := MarshalBERBasicServiceGroupList(v.BasicServiceGroupList)
+		if err != nil {
+			return nil, fmt.Errorf("encoding basicServiceGroupList: %w", err)
+		}
+		children = append(children, enc_basicservicegrouplist...)
+	}
+	if v.DefaultPriority != nil {
+		enc_defaultpriority := ber.EncodeInteger(int64(*v.DefaultPriority))
+		children = append(children, enc_defaultpriority...)
+	}
+	if v.NbrUser != nil {
+		enc_nbruser := ber.EncodeInteger(int64(*v.NbrUser))
+		enc_nbruser = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, false, enc_nbruser)
+		children = append(children, enc_nbruser...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes SSData to DER format.
+func (v *SSData) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes SSData from BER/DER format.
+func (v *SSData) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding SSData SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "SSData", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode ss-Code
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 4 {
+				val_sscode, n, err := ber.DecodeOctetString(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding ss-Code: %w", err)
+				}
+				tmp_sscode := SSCode(val_sscode)
+				v.SsCode = &tmp_sscode
+				offset += n
+			}
+		}
+	}
+	// Decode ss-Status
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
+				_, n_ssstatus, rawVal_ssstatus, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding ss-Status: %w", err)
+				}
+				tmp_ssstatus := SSStatus(rawVal_ssstatus)
+				v.SsStatus = &tmp_ssstatus
+				offset += n_ssstatus
+			}
+		}
+	}
+	// Decode ss-SubscriptionOption
+	if offset < len(content) {
+		// Decode nested CHOICE (SSSubscriptionOption)
+		_, n_sssubscriptionoption, _, tlvErr_sssubscriptionoption := ber.DecodeTLV(content[offset:])
+		if tlvErr_sssubscriptionoption != nil {
+			return fmt.Errorf("decoding ss-SubscriptionOption: %w", tlvErr_sssubscriptionoption)
+		}
+		var dec_sssubscriptionoption SSSubscriptionOption
+		if unmErr := dec_sssubscriptionoption.UnmarshalBER(content[offset : offset+n_sssubscriptionoption]); unmErr != nil {
+			return fmt.Errorf("decoding ss-SubscriptionOption: %w", unmErr)
+		}
+		v.SsSubscriptionOption = &dec_sssubscriptionoption
+		offset += n_sssubscriptionoption
+	}
+	// Decode basicServiceGroupList
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE_OF (BasicServiceGroupList)
+				_, n_basicservicegrouplist, _, tlvErr_basicservicegrouplist := ber.DecodeTLV(content[offset:])
+				if tlvErr_basicservicegrouplist != nil {
+					return fmt.Errorf("decoding basicServiceGroupList: %w", tlvErr_basicservicegrouplist)
+				}
+				dec_basicservicegrouplist, unmErr := UnmarshalBERBasicServiceGroupList(content[offset : offset+n_basicservicegrouplist])
+				if unmErr != nil {
+					return fmt.Errorf("decoding basicServiceGroupList: %w", unmErr)
+				}
+				v.BasicServiceGroupList = dec_basicservicegrouplist
+				offset += n_basicservicegrouplist
+			}
+		}
+	}
+	// Decode defaultPriority
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 {
+				val_defaultpriority, n, err := ber.DecodeInteger(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding defaultPriority: %w", err)
+				}
+				tmp_defaultpriority := EMLPPPriority(val_defaultpriority)
+				v.DefaultPriority = &tmp_defaultpriority
+				offset += n
+			}
+		}
+	}
+	// Decode nbrUser
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
+				_, n_nbruser, rawVal_nbruser, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding nbrUser: %w", err)
+				}
+				decVal_nbruser, intErr := ber.DecodeIntegerValue(rawVal_nbruser)
+				if intErr != nil {
+					return fmt.Errorf("decoding nbrUser: %w", intErr)
+				}
+				tmp_nbruser := MCBearers(decVal_nbruser)
+				v.NbrUser = &tmp_nbruser
+				offset += n_nbruser
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SSData", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes SSSubscriptionOption to BER format.
+func (v *SSSubscriptionOption) MarshalBER() ([]byte, error) {
+	switch v.Choice {
+	case SSSubscriptionOptionChoiceCliRestrictionOption:
+		if v.CliRestrictionOption == nil {
+			return nil, fmt.Errorf("choice SSSubscriptionOption: cliRestrictionOption is nil")
+		}
+		enc_0 := ber.EncodeEnumerated(int64(*v.CliRestrictionOption))
+		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_0)
+		return enc_0, nil
+	case SSSubscriptionOptionChoiceOverrideCategory:
+		if v.OverrideCategory == nil {
+			return nil, fmt.Errorf("choice SSSubscriptionOption: overrideCategory is nil")
+		}
+		enc_1 := ber.EncodeEnumerated(int64(*v.OverrideCategory))
+		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
+		return enc_1, nil
+	default:
+		return nil, fmt.Errorf("unknown choice %d for SSSubscriptionOption", v.Choice)
+	}
+}
+
+// MarshalDER encodes SSSubscriptionOption to DER format.
+func (v *SSSubscriptionOption) MarshalDER() ([]byte, error) {
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes SSSubscriptionOption from BER/DER format.
+func (v *SSSubscriptionOption) UnmarshalBER(data []byte) error {
+	if len(data) == 0 {
+		return fmt.Errorf("empty data for SSSubscriptionOption CHOICE")
+	}
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
+	if peekErr != nil {
+		return fmt.Errorf("peeking tag for SSSubscriptionOption: %w", peekErr)
+	}
+
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
+	if tlvErr != nil {
+		return fmt.Errorf("decoding SSSubscriptionOption CHOICE: %w", tlvErr)
+	}
+	if total != len(choiceData) {
+		return &ber.DecodeError{Offset: total, TypeName: "SSSubscriptionOption", Cause: ber.ErrExtraData}
+	}
+
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
+		v.Choice = SSSubscriptionOptionChoiceCliRestrictionOption
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding cliRestrictionOption: %w", tlvErr)
+		}
+		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		if intErr != nil {
+			return fmt.Errorf("decoding cliRestrictionOption: %w", intErr)
+		}
+		tmp := CliRestrictionOption(decVal)
+		v.CliRestrictionOption = &tmp
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+		v.Choice = SSSubscriptionOptionChoiceOverrideCategory
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding overrideCategory: %w", tlvErr)
+		}
+		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		if intErr != nil {
+			return fmt.Errorf("decoding overrideCategory: %w", intErr)
+		}
+		tmp := OverrideCategory(decVal)
+		v.OverrideCategory = &tmp
+	} else {
+		return fmt.Errorf("unknown tag %s for SSSubscriptionOption CHOICE", peekTag)
+	}
+	return nil
+}
+
+// MarshalBER encodes SSForBSCode to BER format.
+func (v *SSForBSCode) MarshalBER() ([]byte, error) {
+	var children []byte
+	enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
+	children = append(children, enc_sscode...)
+	if v.BasicService != nil {
+		enc_basicservice, err := v.BasicService.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding basicService: %w", err)
+		}
+		children = append(children, enc_basicservice...)
+	}
+	if v.LongFTNSupported != nil {
+		enc_longftnsupported := ber.EncodeNull()
+		enc_longftnsupported = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_longftnsupported)
+		children = append(children, enc_longftnsupported...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes SSForBSCode to DER format.
+func (v *SSForBSCode) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes SSForBSCode from BER/DER format.
+func (v *SSForBSCode) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding SSForBSCode SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "SSForBSCode", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode ss-Code
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field ss-Code")
+	}
+	val_sscode, n, err := ber.DecodeOctetString(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding ss-Code: %w", err)
+	}
+	v.SsCode = SSCode(val_sscode)
+	offset += n
+	// Decode basicService
+	if offset < len(content) {
+		// Decode nested CHOICE (BasicServiceCode)
+		_, n_basicservice, _, tlvErr_basicservice := ber.DecodeTLV(content[offset:])
+		if tlvErr_basicservice != nil {
+			return fmt.Errorf("decoding basicService: %w", tlvErr_basicservice)
+		}
+		var dec_basicservice BasicServiceCode
+		if unmErr := dec_basicservice.UnmarshalBER(content[offset : offset+n_basicservice]); unmErr != nil {
+			return fmt.Errorf("decoding basicService: %w", unmErr)
+		}
+		v.BasicService = &dec_basicservice
+		offset += n_basicservice
+	}
+	// Decode longFTN-Supported
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
+				_, n_longftnsupported, rawVal_longftnsupported, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding longFTN-Supported: %w", err)
+				}
+				_ = rawVal_longftnsupported
+				v.LongFTNSupported = &struct{}{}
+				offset += n_longftnsupported
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SSForBSCode", Cause: extErr_}
 		}
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
@@ -1655,6 +1799,11 @@ func (v *GenericServiceInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes GenericServiceInfo to DER format.
 func (v *GenericServiceInfo) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -1707,7 +1856,8 @@ func (v *GenericServiceInfo) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding maximumEntitledPriority: %w", intErr)
 				}
-				v.MaximumEntitledPriority = &decVal_maximumentitledpriority
+				tmp_maximumentitledpriority := EMLPPPriority(decVal_maximumentitledpriority)
+				v.MaximumEntitledPriority = &tmp_maximumentitledpriority
 				offset += n_maximumentitledpriority
 			}
 		}
@@ -1725,7 +1875,8 @@ func (v *GenericServiceInfo) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding defaultPriority: %w", intErr)
 				}
-				v.DefaultPriority = &decVal_defaultpriority
+				tmp_defaultpriority := EMLPPPriority(decVal_defaultpriority)
+				v.DefaultPriority = &tmp_defaultpriority
 				offset += n_defaultpriority
 			}
 		}
@@ -1768,7 +1919,8 @@ func (v *GenericServiceInfo) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding nbrSB: %w", intErr)
 				}
-				v.NbrSB = &decVal_nbrsb
+				tmp_nbrsb := MaxMCBearers(decVal_nbrsb)
+				v.NbrSB = &tmp_nbrsb
 				offset += n_nbrsb
 			}
 		}
@@ -1786,7 +1938,8 @@ func (v *GenericServiceInfo) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding nbrUser: %w", intErr)
 				}
-				v.NbrUser = &decVal_nbruser
+				tmp_nbruser := MCBearers(decVal_nbruser)
+				v.NbrUser = &tmp_nbruser
 				offset += n_nbruser
 			}
 		}
@@ -1804,7 +1957,8 @@ func (v *GenericServiceInfo) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding nbrSN: %w", intErr)
 				}
-				v.NbrSN = &decVal_nbrsn
+				tmp_nbrsn := MCBearers(decVal_nbrsn)
+				v.NbrSN = &tmp_nbrsn
 				offset += n_nbrsn
 			}
 		}
@@ -1816,6 +1970,189 @@ func (v *GenericServiceInfo) UnmarshalBER(data []byte) error {
 		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "GenericServiceInfo", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBERCCBSFeatureList encodes a CCBSFeatureList list to BER.
+func MarshalBERCCBSFeatureList(list CCBSFeatureList) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		enc, err := elem.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
+		}
+		children = append(children, enc...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// UnmarshalBERCCBSFeatureList decodes a CCBSFeatureList list from BER.
+func UnmarshalBERCCBSFeatureList(data []byte) (CCBSFeatureList, error) {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return nil, fmt.Errorf("decoding CCBSFeatureList: %w", err)
+	}
+	if total != len(data) {
+		return nil, &ber.DecodeError{Offset: total, TypeName: "CCBSFeatureList", Cause: ber.ErrExtraData}
+	}
+	var result CCBSFeatureList
+	offset := 0
+	for offset < len(content) {
+		var elem CCBSFeature
+		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
+		if tlvErr != nil {
+			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
+		}
+		if unmErr := elem.UnmarshalBER(content[offset : offset+n]); unmErr != nil {
+			return nil, fmt.Errorf("decoding element: %w", unmErr)
+		}
+		result = append(result, elem)
+		offset += n
+	}
+	return result, nil
+}
+
+// MarshalBER encodes CCBSFeature to BER format.
+func (v *CCBSFeature) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.CcbsIndex != nil {
+		enc_ccbsindex := ber.EncodeInteger(int64(*v.CcbsIndex))
+		enc_ccbsindex = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_ccbsindex)
+		children = append(children, enc_ccbsindex...)
+	}
+	if v.BSubscriberNumber != nil {
+		enc_bsubscribernumber := ber.EncodeOctetString([]byte(*v.BSubscriberNumber))
+		enc_bsubscribernumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_bsubscribernumber)
+		children = append(children, enc_bsubscribernumber...)
+	}
+	if v.BSubscriberSubaddress != nil {
+		enc_bsubscribersubaddress := ber.EncodeOctetString([]byte(*v.BSubscriberSubaddress))
+		enc_bsubscribersubaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_bsubscribersubaddress)
+		children = append(children, enc_bsubscribersubaddress...)
+	}
+	if v.BasicServiceGroup != nil {
+		enc_basicservicegroup, err := v.BasicServiceGroup.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding basicServiceGroup: %w", err)
+		}
+		enc_basicservicegroup = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 3, enc_basicservicegroup)
+		children = append(children, enc_basicservicegroup...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes CCBSFeature to DER format.
+func (v *CCBSFeature) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes CCBSFeature from BER/DER format.
+func (v *CCBSFeature) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding CCBSFeature SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "CCBSFeature", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode ccbs-Index
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+				_, n_ccbsindex, rawVal_ccbsindex, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding ccbs-Index: %w", err)
+				}
+				decVal_ccbsindex, intErr := ber.DecodeIntegerValue(rawVal_ccbsindex)
+				if intErr != nil {
+					return fmt.Errorf("decoding ccbs-Index: %w", intErr)
+				}
+				tmp_ccbsindex := CCBSIndex(decVal_ccbsindex)
+				v.CcbsIndex = &tmp_ccbsindex
+				offset += n_ccbsindex
+			}
+		}
+	}
+	// Decode b-subscriberNumber
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+				_, n_bsubscribernumber, rawVal_bsubscribernumber, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding b-subscriberNumber: %w", err)
+				}
+				tmp_bsubscribernumber := ISDNAddressString(rawVal_bsubscribernumber)
+				v.BSubscriberNumber = &tmp_bsubscribernumber
+				offset += n_bsubscribernumber
+			}
+		}
+	}
+	// Decode b-subscriberSubaddress
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
+				_, n_bsubscribersubaddress, rawVal_bsubscribersubaddress, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding b-subscriberSubaddress: %w", err)
+				}
+				tmp_bsubscribersubaddress := ISDNSubaddressString(rawVal_bsubscribersubaddress)
+				v.BSubscriberSubaddress = &tmp_bsubscribersubaddress
+				offset += n_bsubscribersubaddress
+			}
+		}
+	}
+	// Decode basicServiceGroup
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
+				_, n_basicservicegroup, innerData_basicservicegroup, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding basicServiceGroup: %w", err)
+				}
+				// Decode inner value from explicit tag wrapper
+				var dec_basicservicegroup BasicServiceCode
+				if unmErr := dec_basicservicegroup.UnmarshalBER(innerData_basicservicegroup); unmErr != nil {
+					return fmt.Errorf("decoding basicServiceGroup: %w", unmErr)
+				}
+				v.BasicServiceGroup = &dec_basicservicegroup
+				offset += n_basicservicegroup
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "CCBSFeature", Cause: extErr_}
 		}
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
@@ -1877,22 +2214,23 @@ func (v *InterrogateSSRes) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for InterrogateSSRes CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for InterrogateSSRes: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding InterrogateSSRes CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
+	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "InterrogateSSRes", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
 		v.Choice = InterrogateSSResChoiceSsStatus
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding ss-Status: %w", tlvErr)
 		}
@@ -1900,7 +2238,7 @@ func (v *InterrogateSSRes) UnmarshalBER(data []byte) error {
 		v.SsStatus = &tmp
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
 		v.Choice = InterrogateSSResChoiceBasicServiceGroupList
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding basicServiceGroupList: %w", tlvErr)
 		}
@@ -1912,7 +2250,7 @@ func (v *InterrogateSSRes) UnmarshalBER(data []byte) error {
 		v.BasicServiceGroupList = dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
 		v.Choice = InterrogateSSResChoiceForwardingFeatureList
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding forwardingFeatureList: %w", tlvErr)
 		}
@@ -1924,7 +2262,7 @@ func (v *InterrogateSSRes) UnmarshalBER(data []byte) error {
 		v.ForwardingFeatureList = dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
 		v.Choice = InterrogateSSResChoiceGenericServiceInfo
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding genericServiceInfo: %w", tlvErr)
 		}
@@ -1940,19 +2278,21 @@ func (v *InterrogateSSRes) UnmarshalBER(data []byte) error {
 	return nil
 }
 
-// MarshalBER encodes RegisterCCEntryArg to BER format.
-func (v *RegisterCCEntryArg) MarshalBER() ([]byte, error) {
+// MarshalBER encodes USSDArg to BER format.
+func (v *USSDArg) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
-	enc_sscode = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_sscode)
-	children = append(children, enc_sscode...)
-	if v.CcbsData != nil {
-		enc_ccbsdata, err := v.CcbsData.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding ccbs-Data: %w", err)
-		}
-		enc_ccbsdata = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_ccbsdata)
-		children = append(children, enc_ccbsdata...)
+	enc_ussddatacodingscheme := ber.EncodeOctetString([]byte(v.UssdDataCodingScheme))
+	children = append(children, enc_ussddatacodingscheme...)
+	enc_ussdstring := ber.EncodeOctetString([]byte(v.UssdString))
+	children = append(children, enc_ussdstring...)
+	if v.AlertingPattern != nil {
+		enc_alertingpattern := ber.EncodeOctetString([]byte(*v.AlertingPattern))
+		children = append(children, enc_alertingpattern...)
+	}
+	if v.Msisdn != nil {
+		enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
+		enc_msisdn = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_msisdn)
+		children = append(children, enc_msisdn...)
 	}
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -1967,522 +2307,74 @@ func (v *RegisterCCEntryArg) MarshalBER() ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes RegisterCCEntryArg to DER format.
-func (v *RegisterCCEntryArg) MarshalDER() ([]byte, error) {
+// MarshalDER encodes USSDArg to DER format.
+func (v *USSDArg) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes RegisterCCEntryArg from BER/DER format.
-func (v *RegisterCCEntryArg) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes USSDArg from BER/DER format.
+func (v *USSDArg) UnmarshalBER(data []byte) error {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding RegisterCCEntryArg SEQUENCE: %w", err)
+		return fmt.Errorf("decoding USSDArg SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "RegisterCCEntryArg", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "USSDArg", Cause: ber.ErrExtraData}
 	}
 	offset := 0
-	// Decode ss-Code
+	// Decode ussd-DataCodingScheme
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field ss-Code")
+		return fmt.Errorf("missing required field ussd-DataCodingScheme")
 	}
-	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
-		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
-			return fmt.Errorf("expected tag [%s %d] for ss-Code, got %s", "CONTEXT", 0, reqTag_)
-		}
-	}
-	_, n_sscode, rawVal_sscode, err := ber.DecodeTLV(content[offset:])
+	val_ussddatacodingscheme, n, err := ber.DecodeOctetString(content[offset:])
 	if err != nil {
-		return fmt.Errorf("decoding ss-Code: %w", err)
+		return fmt.Errorf("decoding ussd-DataCodingScheme: %w", err)
 	}
-	v.SsCode = SSCode(rawVal_sscode)
-	offset += n_sscode
-	// Decode ccbs-Data
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_ccbsdata, rawVal_ccbsdata, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding ccbs-Data: %w", err)
-				}
-				reconstructed_ccbsdata := ber.EncodeSequence(rawVal_ccbsdata)
-				var dec_ccbsdata CCBSData
-				if unmErr := dec_ccbsdata.UnmarshalBER(reconstructed_ccbsdata); unmErr != nil {
-					return fmt.Errorf("decoding ccbs-Data: %w", unmErr)
-				}
-				v.CcbsData = &dec_ccbsdata
-				offset += n_ccbsdata
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "RegisterCCEntryArg", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes RegisterCCEntryRes to BER format.
-func (v *RegisterCCEntryRes) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.CcbsFeature != nil {
-		enc_ccbsfeature, err := v.CcbsFeature.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding ccbs-Feature: %w", err)
-		}
-		enc_ccbsfeature = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_ccbsfeature)
-		children = append(children, enc_ccbsfeature...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes RegisterCCEntryRes to DER format.
-func (v *RegisterCCEntryRes) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes RegisterCCEntryRes from BER/DER format.
-func (v *RegisterCCEntryRes) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding RegisterCCEntryRes SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "RegisterCCEntryRes", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode ccbs-Feature
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_ccbsfeature, rawVal_ccbsfeature, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding ccbs-Feature: %w", err)
-				}
-				reconstructed_ccbsfeature := ber.EncodeSequence(rawVal_ccbsfeature)
-				var dec_ccbsfeature CCBSFeature
-				if unmErr := dec_ccbsfeature.UnmarshalBER(reconstructed_ccbsfeature); unmErr != nil {
-					return fmt.Errorf("decoding ccbs-Feature: %w", unmErr)
-				}
-				v.CcbsFeature = &dec_ccbsfeature
-				offset += n_ccbsfeature
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "RegisterCCEntryRes", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes RegisterSSArg to BER format.
-func (v *RegisterSSArg) MarshalBER() ([]byte, error) {
-	var children []byte
-	enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
-	children = append(children, enc_sscode...)
-	if v.BasicService != nil {
-		enc_basicservice, err := v.BasicService.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding basicService: %w", err)
-		}
-		children = append(children, enc_basicservice...)
-	}
-	if v.ForwardedToNumber != nil {
-		enc_forwardedtonumber := ber.EncodeOctetString([]byte(*v.ForwardedToNumber))
-		enc_forwardedtonumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_forwardedtonumber)
-		children = append(children, enc_forwardedtonumber...)
-	}
-	if v.ForwardedToSubaddress != nil {
-		enc_forwardedtosubaddress := ber.EncodeOctetString([]byte(*v.ForwardedToSubaddress))
-		enc_forwardedtosubaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, false, enc_forwardedtosubaddress)
-		children = append(children, enc_forwardedtosubaddress...)
-	}
-	if v.NoReplyConditionTime != nil {
-		enc_noreplyconditiontime := ber.EncodeInteger(int64(*v.NoReplyConditionTime))
-		enc_noreplyconditiontime = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, false, enc_noreplyconditiontime)
-		children = append(children, enc_noreplyconditiontime...)
-	}
-	if v.DefaultPriority != nil {
-		enc_defaultpriority := ber.EncodeInteger(int64(*v.DefaultPriority))
-		enc_defaultpriority = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, false, enc_defaultpriority)
-		children = append(children, enc_defaultpriority...)
-	}
-	if v.NbrUser != nil {
-		enc_nbruser := ber.EncodeInteger(int64(*v.NbrUser))
-		enc_nbruser = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, false, enc_nbruser)
-		children = append(children, enc_nbruser...)
-	}
-	if v.LongFTNSupported != nil {
-		enc_longftnsupported := ber.EncodeNull()
-		enc_longftnsupported = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, false, enc_longftnsupported)
-		children = append(children, enc_longftnsupported...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes RegisterSSArg to DER format.
-func (v *RegisterSSArg) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes RegisterSSArg from BER/DER format.
-func (v *RegisterSSArg) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding RegisterSSArg SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "RegisterSSArg", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode ss-Code
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field ss-Code")
-	}
-	val_sscode, n, err := ber.DecodeOctetString(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding ss-Code: %w", err)
-	}
-	v.SsCode = SSCode(val_sscode)
+	v.UssdDataCodingScheme = USSDDataCodingScheme(val_ussddatacodingscheme)
 	offset += n
-	// Decode basicService
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) {
-				// Decode nested CHOICE (BasicServiceCode)
-				_, n_basicservice, _, tlvErr_basicservice := ber.DecodeTLV(content[offset:])
-				if tlvErr_basicservice != nil {
-					return fmt.Errorf("decoding basicService: %w", tlvErr_basicservice)
-				}
-				var dec_basicservice BasicServiceCode
-				if unmErr := dec_basicservice.UnmarshalBER(content[offset : offset+n_basicservice]); unmErr != nil {
-					return fmt.Errorf("decoding basicService: %w", unmErr)
-				}
-				v.BasicService = &dec_basicservice
-				offset += n_basicservice
-			}
-		}
+	// Decode ussd-String
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field ussd-String")
 	}
-	// Decode forwardedToNumber
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_forwardedtonumber, rawVal_forwardedtonumber, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding forwardedToNumber: %w", err)
-				}
-				tmp_forwardedtonumber := AddressString(rawVal_forwardedtonumber)
-				v.ForwardedToNumber = &tmp_forwardedtonumber
-				offset += n_forwardedtonumber
-			}
-		}
-	}
-	// Decode forwardedToSubaddress
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_forwardedtosubaddress, rawVal_forwardedtosubaddress, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding forwardedToSubaddress: %w", err)
-				}
-				tmp_forwardedtosubaddress := ISDNSubaddressString(rawVal_forwardedtosubaddress)
-				v.ForwardedToSubaddress = &tmp_forwardedtosubaddress
-				offset += n_forwardedtosubaddress
-			}
-		}
-	}
-	// Decode noReplyConditionTime
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_noreplyconditiontime, rawVal_noreplyconditiontime, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding noReplyConditionTime: %w", err)
-				}
-				decVal_noreplyconditiontime, intErr := ber.DecodeIntegerValue(rawVal_noreplyconditiontime)
-				if intErr != nil {
-					return fmt.Errorf("decoding noReplyConditionTime: %w", intErr)
-				}
-				v.NoReplyConditionTime = &decVal_noreplyconditiontime
-				offset += n_noreplyconditiontime
-			}
-		}
-	}
-	// Decode defaultPriority
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_defaultpriority, rawVal_defaultpriority, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding defaultPriority: %w", err)
-				}
-				decVal_defaultpriority, intErr := ber.DecodeIntegerValue(rawVal_defaultpriority)
-				if intErr != nil {
-					return fmt.Errorf("decoding defaultPriority: %w", intErr)
-				}
-				v.DefaultPriority = &decVal_defaultpriority
-				offset += n_defaultpriority
-			}
-		}
-	}
-	// Decode nbrUser
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_nbruser, rawVal_nbruser, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding nbrUser: %w", err)
-				}
-				decVal_nbruser, intErr := ber.DecodeIntegerValue(rawVal_nbruser)
-				if intErr != nil {
-					return fmt.Errorf("decoding nbrUser: %w", intErr)
-				}
-				v.NbrUser = &decVal_nbruser
-				offset += n_nbruser
-			}
-		}
-	}
-	// Decode longFTN-Supported
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
-				_, n_longftnsupported, _, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding longFTN-Supported: %w", err)
-				}
-				v.LongFTNSupported = &struct{}{}
-				offset += n_longftnsupported
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "RegisterSSArg", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes SSData to BER format.
-func (v *SSData) MarshalBER() ([]byte, error) {
-	var children []byte
-	if v.SsCode != nil {
-		enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
-		children = append(children, enc_sscode...)
-	}
-	if v.SsStatus != nil {
-		enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
-		enc_ssstatus = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_ssstatus)
-		children = append(children, enc_ssstatus...)
-	}
-	if v.SsSubscriptionOption != nil {
-		enc_sssubscriptionoption, err := v.SsSubscriptionOption.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding ss-SubscriptionOption: %w", err)
-		}
-		children = append(children, enc_sssubscriptionoption...)
-	}
-	if v.BasicServiceGroupList != nil {
-		enc_basicservicegrouplist, err := MarshalBERBasicServiceGroupList(v.BasicServiceGroupList)
-		if err != nil {
-			return nil, fmt.Errorf("encoding basicServiceGroupList: %w", err)
-		}
-		children = append(children, enc_basicservicegrouplist...)
-	}
-	if v.DefaultPriority != nil {
-		enc_defaultpriority := ber.EncodeInteger(int64(*v.DefaultPriority))
-		children = append(children, enc_defaultpriority...)
-	}
-	if v.NbrUser != nil {
-		enc_nbruser := ber.EncodeInteger(int64(*v.NbrUser))
-		enc_nbruser = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, false, enc_nbruser)
-		children = append(children, enc_nbruser...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes SSData to DER format.
-func (v *SSData) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes SSData from BER/DER format.
-func (v *SSData) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
+	val_ussdstring, n, err := ber.DecodeOctetString(content[offset:])
 	if err != nil {
-		return fmt.Errorf("decoding SSData SEQUENCE: %w", err)
+		return fmt.Errorf("decoding ussd-String: %w", err)
 	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SSData", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode ss-Code
+	v.UssdString = USSDString(val_ussdstring)
+	offset += n
+	// Decode alertingPattern
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 4 {
-				val_sscode, n, err := ber.DecodeOctetString(content[offset:])
+				val_alertingpattern, n, err := ber.DecodeOctetString(content[offset:])
 				if err != nil {
-					return fmt.Errorf("decoding ss-Code: %w", err)
+					return fmt.Errorf("decoding alertingPattern: %w", err)
 				}
-				tmp_sscode := SSCode(val_sscode)
-				v.SsCode = &tmp_sscode
+				tmp_alertingpattern := AlertingPattern(val_alertingpattern)
+				v.AlertingPattern = &tmp_alertingpattern
 				offset += n
 			}
 		}
 	}
-	// Decode ss-Status
+	// Decode msisdn
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_ssstatus, rawVal_ssstatus, err := ber.DecodeTLV(content[offset:])
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+				_, n_msisdn, rawVal_msisdn, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
-					return fmt.Errorf("decoding ss-Status: %w", err)
+					return fmt.Errorf("decoding msisdn: %w", err)
 				}
-				tmp_ssstatus := SSStatus(rawVal_ssstatus)
-				v.SsStatus = &tmp_ssstatus
-				offset += n_ssstatus
-			}
-		}
-	}
-	// Decode ss-SubscriptionOption
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
-				// Decode nested CHOICE (SSSubscriptionOption)
-				_, n_sssubscriptionoption, _, tlvErr_sssubscriptionoption := ber.DecodeTLV(content[offset:])
-				if tlvErr_sssubscriptionoption != nil {
-					return fmt.Errorf("decoding ss-SubscriptionOption: %w", tlvErr_sssubscriptionoption)
-				}
-				var dec_sssubscriptionoption SSSubscriptionOption
-				if unmErr := dec_sssubscriptionoption.UnmarshalBER(content[offset : offset+n_sssubscriptionoption]); unmErr != nil {
-					return fmt.Errorf("decoding ss-SubscriptionOption: %w", unmErr)
-				}
-				v.SsSubscriptionOption = &dec_sssubscriptionoption
-				offset += n_sssubscriptionoption
-			}
-		}
-	}
-	// Decode basicServiceGroupList
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE_OF (BasicServiceGroupList)
-				_, n_basicservicegrouplist, _, tlvErr_basicservicegrouplist := ber.DecodeTLV(content[offset:])
-				if tlvErr_basicservicegrouplist != nil {
-					return fmt.Errorf("decoding basicServiceGroupList: %w", tlvErr_basicservicegrouplist)
-				}
-				dec_basicservicegrouplist, unmErr := UnmarshalBERBasicServiceGroupList(content[offset : offset+n_basicservicegrouplist])
-				if unmErr != nil {
-					return fmt.Errorf("decoding basicServiceGroupList: %w", unmErr)
-				}
-				v.BasicServiceGroupList = dec_basicservicegrouplist
-				offset += n_basicservicegrouplist
-			}
-		}
-	}
-	// Decode defaultPriority
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 {
-				val_defaultpriority, n, err := ber.DecodeInteger(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding defaultPriority: %w", err)
-				}
-				v.DefaultPriority = &val_defaultpriority
-				offset += n
-			}
-		}
-	}
-	// Decode nbrUser
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_nbruser, rawVal_nbruser, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding nbrUser: %w", err)
-				}
-				decVal_nbruser, intErr := ber.DecodeIntegerValue(rawVal_nbruser)
-				if intErr != nil {
-					return fmt.Errorf("decoding nbrUser: %w", intErr)
-				}
-				v.NbrUser = &decVal_nbruser
-				offset += n_nbruser
+				tmp_msisdn := ISDNAddressString(rawVal_msisdn)
+				v.Msisdn = &tmp_msisdn
+				offset += n_msisdn
 			}
 		}
 	}
@@ -2492,7 +2384,7 @@ func (v *SSData) UnmarshalBER(data []byte) error {
 	for offset < len(content) {
 		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "SSData", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "USSDArg", Cause: extErr_}
 		}
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
@@ -2502,8 +2394,85 @@ func (v *SSData) UnmarshalBER(data []byte) error {
 	return nil
 }
 
-// MarshalBERSSEventSpecification encodes a SSEventSpecification list to BER.
-func MarshalBERSSEventSpecification(list SSEventSpecification) ([]byte, error) {
+// MarshalBER encodes USSDRes to BER format.
+func (v *USSDRes) MarshalBER() ([]byte, error) {
+	var children []byte
+	enc_ussddatacodingscheme := ber.EncodeOctetString([]byte(v.UssdDataCodingScheme))
+	children = append(children, enc_ussddatacodingscheme...)
+	enc_ussdstring := ber.EncodeOctetString([]byte(v.UssdString))
+	children = append(children, enc_ussdstring...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes USSDRes to DER format.
+func (v *USSDRes) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes USSDRes from BER/DER format.
+func (v *USSDRes) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding USSDRes SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "USSDRes", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode ussd-DataCodingScheme
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field ussd-DataCodingScheme")
+	}
+	val_ussddatacodingscheme, n, err := ber.DecodeOctetString(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding ussd-DataCodingScheme: %w", err)
+	}
+	v.UssdDataCodingScheme = USSDDataCodingScheme(val_ussddatacodingscheme)
+	offset += n
+	// Decode ussd-String
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field ussd-String")
+	}
+	val_ussdstring, n, err := ber.DecodeOctetString(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding ussd-String: %w", err)
+	}
+	v.UssdString = USSDString(val_ussdstring)
+	offset += n
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "USSDRes", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBERSSList encodes a SSList list to BER.
+func MarshalBERSSList(list SSList) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -2511,234 +2480,26 @@ func MarshalBERSSEventSpecification(list SSEventSpecification) ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// UnmarshalBERSSEventSpecification decodes a SSEventSpecification list from BER.
-func UnmarshalBERSSEventSpecification(data []byte) (SSEventSpecification, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+// UnmarshalBERSSList decodes a SSList list from BER.
+func UnmarshalBERSSList(data []byte) (SSList, error) {
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return nil, fmt.Errorf("decoding SSEventSpecification: %w", err)
+		return nil, fmt.Errorf("decoding SSList: %w", err)
 	}
 	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "SSEventSpecification", Cause: ber.ErrExtraData}
+		return nil, &ber.DecodeError{Offset: total, TypeName: "SSList", Cause: ber.ErrExtraData}
 	}
-	var result SSEventSpecification
+	var result SSList
 	offset := 0
 	for offset < len(content) {
 		val, n, osErr := ber.DecodeOctetString(content[offset:])
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
-		result = append(result, AddressString(val))
+		result = append(result, SSCode(val))
 		offset += n
 	}
 	return result, nil
-}
-
-// MarshalBER encodes SSForBSCode to BER format.
-func (v *SSForBSCode) MarshalBER() ([]byte, error) {
-	var children []byte
-	enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
-	children = append(children, enc_sscode...)
-	if v.BasicService != nil {
-		enc_basicservice, err := v.BasicService.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding basicService: %w", err)
-		}
-		children = append(children, enc_basicservice...)
-	}
-	if v.LongFTNSupported != nil {
-		enc_longftnsupported := ber.EncodeNull()
-		enc_longftnsupported = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_longftnsupported)
-		children = append(children, enc_longftnsupported...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes SSForBSCode to DER format.
-func (v *SSForBSCode) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes SSForBSCode from BER/DER format.
-func (v *SSForBSCode) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding SSForBSCode SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SSForBSCode", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode ss-Code
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field ss-Code")
-	}
-	val_sscode, n, err := ber.DecodeOctetString(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding ss-Code: %w", err)
-	}
-	v.SsCode = SSCode(val_sscode)
-	offset += n
-	// Decode basicService
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) {
-				// Decode nested CHOICE (BasicServiceCode)
-				_, n_basicservice, _, tlvErr_basicservice := ber.DecodeTLV(content[offset:])
-				if tlvErr_basicservice != nil {
-					return fmt.Errorf("decoding basicService: %w", tlvErr_basicservice)
-				}
-				var dec_basicservice BasicServiceCode
-				if unmErr := dec_basicservice.UnmarshalBER(content[offset : offset+n_basicservice]); unmErr != nil {
-					return fmt.Errorf("decoding basicService: %w", unmErr)
-				}
-				v.BasicService = &dec_basicservice
-				offset += n_basicservice
-			}
-		}
-	}
-	// Decode longFTN-Supported
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_longftnsupported, _, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding longFTN-Supported: %w", err)
-				}
-				v.LongFTNSupported = &struct{}{}
-				offset += n_longftnsupported
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "SSForBSCode", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes SSInfo to BER format.
-func (v *SSInfo) MarshalBER() ([]byte, error) {
-	switch v.Choice {
-	case SSInfoChoiceForwardingInfo:
-		if v.ForwardingInfo == nil {
-			return nil, fmt.Errorf("choice SSInfo: forwardingInfo is nil")
-		}
-		enc_0, err := v.ForwardingInfo.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding forwardingInfo: %w", err)
-		}
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_0)
-		return enc_0, nil
-	case SSInfoChoiceCallBarringInfo:
-		if v.CallBarringInfo == nil {
-			return nil, fmt.Errorf("choice SSInfo: callBarringInfo is nil")
-		}
-		enc_1, err := v.CallBarringInfo.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding callBarringInfo: %w", err)
-		}
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_1)
-		return enc_1, nil
-	case SSInfoChoiceSsData:
-		if v.SsData == nil {
-			return nil, fmt.Errorf("choice SSInfo: ss-Data is nil")
-		}
-		enc_2, err := v.SsData.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding ss-Data: %w", err)
-		}
-		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_2)
-		return enc_2, nil
-	default:
-		return nil, fmt.Errorf("unknown choice %d for SSInfo", v.Choice)
-	}
-}
-
-// MarshalDER encodes SSInfo to DER format.
-func (v *SSInfo) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes SSInfo from BER/DER format.
-func (v *SSInfo) UnmarshalBER(data []byte) error {
-	if len(data) == 0 {
-		return fmt.Errorf("empty data for SSInfo CHOICE")
-	}
-	peekTag, peekErr := ber.PeekTag(data)
-	if peekErr != nil {
-		return fmt.Errorf("peeking tag for SSInfo: %w", peekErr)
-	}
-
-	_, total, _, tlvErr := ber.DecodeTLV(data)
-	if tlvErr != nil {
-		return fmt.Errorf("decoding SSInfo CHOICE: %w", tlvErr)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SSInfo", Cause: ber.ErrExtraData}
-	}
-
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-		v.Choice = SSInfoChoiceForwardingInfo
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
-		if tlvErr != nil {
-			return fmt.Errorf("decoding forwardingInfo: %w", tlvErr)
-		}
-		reconstructed := ber.EncodeSequence(rawVal)
-		var dec ForwardingInfo
-		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
-			return fmt.Errorf("decoding forwardingInfo: %w", unmErr)
-		}
-		v.ForwardingInfo = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-		v.Choice = SSInfoChoiceCallBarringInfo
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
-		if tlvErr != nil {
-			return fmt.Errorf("decoding callBarringInfo: %w", tlvErr)
-		}
-		reconstructed := ber.EncodeSequence(rawVal)
-		var dec CallBarringInfo
-		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
-			return fmt.Errorf("decoding callBarringInfo: %w", unmErr)
-		}
-		v.CallBarringInfo = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-		v.Choice = SSInfoChoiceSsData
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
-		if tlvErr != nil {
-			return fmt.Errorf("decoding ss-Data: %w", tlvErr)
-		}
-		reconstructed := ber.EncodeSequence(rawVal)
-		var dec SSData
-		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
-			return fmt.Errorf("decoding ss-Data: %w", unmErr)
-		}
-		v.SsData = &dec
-	} else {
-		return fmt.Errorf("unknown tag %s for SSInfo CHOICE", peekTag)
-	}
-	return nil
 }
 
 // MarshalBERSSInfoList encodes a SSInfoList list to BER.
@@ -2756,7 +2517,7 @@ func MarshalBERSSInfoList(list SSInfoList) ([]byte, error) {
 
 // UnmarshalBERSSInfoList decodes a SSInfoList list from BER.
 func UnmarshalBERSSInfoList(data []byte) (SSInfoList, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding SSInfoList: %w", err)
 	}
@@ -2767,6 +2528,45 @@ func UnmarshalBERSSInfoList(data []byte) (SSInfoList, error) {
 	offset := 0
 	for offset < len(content) {
 		var elem SSInfo
+		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
+		if tlvErr != nil {
+			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
+		}
+		if unmErr := elem.UnmarshalBER(content[offset : offset+n]); unmErr != nil {
+			return nil, fmt.Errorf("decoding element: %w", unmErr)
+		}
+		result = append(result, elem)
+		offset += n
+	}
+	return result, nil
+}
+
+// MarshalBERBasicServiceGroupList encodes a BasicServiceGroupList list to BER.
+func MarshalBERBasicServiceGroupList(list BasicServiceGroupList) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		enc, err := elem.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
+		}
+		children = append(children, enc...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// UnmarshalBERBasicServiceGroupList decodes a BasicServiceGroupList list from BER.
+func UnmarshalBERBasicServiceGroupList(data []byte) (BasicServiceGroupList, error) {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return nil, fmt.Errorf("decoding BasicServiceGroupList: %w", err)
+	}
+	if total != len(data) {
+		return nil, &ber.DecodeError{Offset: total, TypeName: "BasicServiceGroupList", Cause: ber.ErrExtraData}
+	}
+	var result BasicServiceGroupList
+	offset := 0
+	for offset < len(content) {
+		var elem BasicServiceCode
 		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
 		if tlvErr != nil {
 			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
@@ -2842,6 +2642,11 @@ func (v *SSInvocationNotificationArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SSInvocationNotificationArg to DER format.
 func (v *SSInvocationNotificationArg) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -3020,6 +2825,11 @@ func (v *SSInvocationNotificationRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SSInvocationNotificationRes to DER format.
 func (v *SSInvocationNotificationRes) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -3069,8 +2879,8 @@ func (v *SSInvocationNotificationRes) UnmarshalBER(data []byte) error {
 	return nil
 }
 
-// MarshalBERSSList encodes a SSList list to BER.
-func MarshalBERSSList(list SSList) ([]byte, error) {
+// MarshalBERSSEventSpecification encodes a SSEventSpecification list to BER.
+func MarshalBERSSEventSpecification(list SSEventSpecification) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -3078,118 +2888,41 @@ func MarshalBERSSList(list SSList) ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// UnmarshalBERSSList decodes a SSList list from BER.
-func UnmarshalBERSSList(data []byte) (SSList, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+// UnmarshalBERSSEventSpecification decodes a SSEventSpecification list from BER.
+func UnmarshalBERSSEventSpecification(data []byte) (SSEventSpecification, error) {
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return nil, fmt.Errorf("decoding SSList: %w", err)
+		return nil, fmt.Errorf("decoding SSEventSpecification: %w", err)
 	}
 	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "SSList", Cause: ber.ErrExtraData}
+		return nil, &ber.DecodeError{Offset: total, TypeName: "SSEventSpecification", Cause: ber.ErrExtraData}
 	}
-	var result SSList
+	var result SSEventSpecification
 	offset := 0
 	for offset < len(content) {
 		val, n, osErr := ber.DecodeOctetString(content[offset:])
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
-		result = append(result, SSCode(val))
+		result = append(result, AddressString(val))
 		offset += n
 	}
 	return result, nil
 }
 
-// MarshalBER encodes SSSubscriptionOption to BER format.
-func (v *SSSubscriptionOption) MarshalBER() ([]byte, error) {
-	switch v.Choice {
-	case SSSubscriptionOptionChoiceCliRestrictionOption:
-		if v.CliRestrictionOption == nil {
-			return nil, fmt.Errorf("choice SSSubscriptionOption: cliRestrictionOption is nil")
-		}
-		enc_0 := ber.EncodeEnumerated(int64(*v.CliRestrictionOption))
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_0)
-		return enc_0, nil
-	case SSSubscriptionOptionChoiceOverrideCategory:
-		if v.OverrideCategory == nil {
-			return nil, fmt.Errorf("choice SSSubscriptionOption: overrideCategory is nil")
-		}
-		enc_1 := ber.EncodeEnumerated(int64(*v.OverrideCategory))
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
-		return enc_1, nil
-	default:
-		return nil, fmt.Errorf("unknown choice %d for SSSubscriptionOption", v.Choice)
-	}
-}
-
-// MarshalDER encodes SSSubscriptionOption to DER format.
-func (v *SSSubscriptionOption) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes SSSubscriptionOption from BER/DER format.
-func (v *SSSubscriptionOption) UnmarshalBER(data []byte) error {
-	if len(data) == 0 {
-		return fmt.Errorf("empty data for SSSubscriptionOption CHOICE")
-	}
-	peekTag, peekErr := ber.PeekTag(data)
-	if peekErr != nil {
-		return fmt.Errorf("peeking tag for SSSubscriptionOption: %w", peekErr)
-	}
-
-	_, total, _, tlvErr := ber.DecodeTLV(data)
-	if tlvErr != nil {
-		return fmt.Errorf("decoding SSSubscriptionOption CHOICE: %w", tlvErr)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SSSubscriptionOption", Cause: ber.ErrExtraData}
-	}
-
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-		v.Choice = SSSubscriptionOptionChoiceCliRestrictionOption
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
-		if tlvErr != nil {
-			return fmt.Errorf("decoding cliRestrictionOption: %w", tlvErr)
-		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
-		if intErr != nil {
-			return fmt.Errorf("decoding cliRestrictionOption: %w", intErr)
-		}
-		tmp := CliRestrictionOption(decVal)
-		v.CliRestrictionOption = &tmp
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-		v.Choice = SSSubscriptionOptionChoiceOverrideCategory
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
-		if tlvErr != nil {
-			return fmt.Errorf("decoding overrideCategory: %w", tlvErr)
-		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
-		if intErr != nil {
-			return fmt.Errorf("decoding overrideCategory: %w", intErr)
-		}
-		tmp := OverrideCategory(decVal)
-		v.OverrideCategory = &tmp
-	} else {
-		return fmt.Errorf("unknown tag %s for SSSubscriptionOption CHOICE", peekTag)
-	}
-	return nil
-}
-
-// MarshalBER encodes USSDArg to BER format.
-func (v *USSDArg) MarshalBER() ([]byte, error) {
+// MarshalBER encodes RegisterCCEntryArg to BER format.
+func (v *RegisterCCEntryArg) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_ussddatacodingscheme := ber.EncodeOctetString([]byte(v.UssdDataCodingScheme))
-	children = append(children, enc_ussddatacodingscheme...)
-	enc_ussdstring := ber.EncodeOctetString([]byte(v.UssdString))
-	children = append(children, enc_ussdstring...)
-	if v.AlertingPattern != nil {
-		enc_alertingpattern := ber.EncodeOctetString([]byte(*v.AlertingPattern))
-		children = append(children, enc_alertingpattern...)
-	}
-	if v.Msisdn != nil {
-		enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
-		enc_msisdn = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_msisdn)
-		children = append(children, enc_msisdn...)
+	enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
+	enc_sscode = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_sscode)
+	children = append(children, enc_sscode...)
+	if v.CcbsData != nil {
+		enc_ccbsdata, err := v.CcbsData.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding ccbs-Data: %w", err)
+		}
+		enc_ccbsdata = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_ccbsdata)
+		children = append(children, enc_ccbsdata...)
 	}
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -3204,69 +2937,58 @@ func (v *USSDArg) MarshalBER() ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes USSDArg to DER format.
-func (v *USSDArg) MarshalDER() ([]byte, error) {
+// MarshalDER encodes RegisterCCEntryArg to DER format.
+func (v *RegisterCCEntryArg) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes USSDArg from BER/DER format.
-func (v *USSDArg) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes RegisterCCEntryArg from BER/DER format.
+func (v *RegisterCCEntryArg) UnmarshalBER(data []byte) error {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding USSDArg SEQUENCE: %w", err)
+		return fmt.Errorf("decoding RegisterCCEntryArg SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "USSDArg", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "RegisterCCEntryArg", Cause: ber.ErrExtraData}
 	}
 	offset := 0
-	// Decode ussd-DataCodingScheme
+	// Decode ss-Code
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field ussd-DataCodingScheme")
+		return fmt.Errorf("missing required field ss-Code")
 	}
-	val_ussddatacodingscheme, n, err := ber.DecodeOctetString(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding ussd-DataCodingScheme: %w", err)
-	}
-	v.UssdDataCodingScheme = USSDDataCodingScheme(val_ussddatacodingscheme)
-	offset += n
-	// Decode ussd-String
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field ussd-String")
-	}
-	val_ussdstring, n, err := ber.DecodeOctetString(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding ussd-String: %w", err)
-	}
-	v.UssdString = USSDString(val_ussdstring)
-	offset += n
-	// Decode alertingPattern
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 4 {
-				val_alertingpattern, n, err := ber.DecodeOctetString(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding alertingPattern: %w", err)
-				}
-				tmp_alertingpattern := AlertingPattern(val_alertingpattern)
-				v.AlertingPattern = &tmp_alertingpattern
-				offset += n
-			}
+	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
+		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
+			return fmt.Errorf("expected tag [%s %d] for ss-Code, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	// Decode msisdn
+	_, n_sscode, rawVal_sscode, err := ber.DecodeTLV(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding ss-Code: %w", err)
+	}
+	v.SsCode = SSCode(rawVal_sscode)
+	offset += n_sscode
+	// Decode ccbs-Data
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_msisdn, rawVal_msisdn, err := ber.DecodeTLV(content[offset:])
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+				_, n_ccbsdata, rawVal_ccbsdata, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
-					return fmt.Errorf("decoding msisdn: %w", err)
+					return fmt.Errorf("decoding ccbs-Data: %w", err)
 				}
-				tmp_msisdn := ISDNAddressString(rawVal_msisdn)
-				v.Msisdn = &tmp_msisdn
-				offset += n_msisdn
+				reconstructed_ccbsdata := ber.EncodeSequence(rawVal_ccbsdata)
+				var dec_ccbsdata CCBSData
+				if unmErr := dec_ccbsdata.UnmarshalBER(reconstructed_ccbsdata); unmErr != nil {
+					return fmt.Errorf("decoding ccbs-Data: %w", unmErr)
+				}
+				v.CcbsData = &dec_ccbsdata
+				offset += n_ccbsdata
 			}
 		}
 	}
@@ -3276,7 +2998,7 @@ func (v *USSDArg) UnmarshalBER(data []byte) error {
 	for offset < len(content) {
 		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "USSDArg", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "RegisterCCEntryArg", Cause: extErr_}
 		}
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
@@ -3286,13 +3008,35 @@ func (v *USSDArg) UnmarshalBER(data []byte) error {
 	return nil
 }
 
-// MarshalBER encodes USSDRes to BER format.
-func (v *USSDRes) MarshalBER() ([]byte, error) {
+// MarshalBER encodes CCBSData to BER format.
+func (v *CCBSData) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_ussddatacodingscheme := ber.EncodeOctetString([]byte(v.UssdDataCodingScheme))
-	children = append(children, enc_ussddatacodingscheme...)
-	enc_ussdstring := ber.EncodeOctetString([]byte(v.UssdString))
-	children = append(children, enc_ussdstring...)
+	enc_ccbsfeature, err := v.CcbsFeature.MarshalBER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding ccbs-Feature: %w", err)
+	}
+	enc_ccbsfeature = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_ccbsfeature)
+	children = append(children, enc_ccbsfeature...)
+	enc_translatedbnumber := ber.EncodeOctetString([]byte(v.TranslatedBNumber))
+	enc_translatedbnumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_translatedbnumber)
+	children = append(children, enc_translatedbnumber...)
+	if v.ServiceIndicator != nil {
+		enc_serviceindicator := ber.EncodeBitString(v.ServiceIndicator.Bytes, (8-(v.ServiceIndicator.BitLength%8))%8)
+		enc_serviceindicator = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_serviceindicator)
+		children = append(children, enc_serviceindicator...)
+	}
+	enc_callinfo, err := v.CallInfo.MarshalBER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding callInfo: %w", err)
+	}
+	enc_callinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_callinfo)
+	children = append(children, enc_callinfo...)
+	enc_networksignalinfo, err := v.NetworkSignalInfo.MarshalBER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding networkSignalInfo: %w", err)
+	}
+	enc_networksignalinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_networksignalinfo)
+	children = append(children, enc_networksignalinfo...)
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
 		if extErr != nil {
@@ -3306,49 +3050,388 @@ func (v *USSDRes) MarshalBER() ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes USSDRes to DER format.
-func (v *USSDRes) MarshalDER() ([]byte, error) {
+// MarshalDER encodes CCBSData to DER format.
+func (v *CCBSData) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes USSDRes from BER/DER format.
-func (v *USSDRes) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes CCBSData from BER/DER format.
+func (v *CCBSData) UnmarshalBER(data []byte) error {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding USSDRes SEQUENCE: %w", err)
+		return fmt.Errorf("decoding CCBSData SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "USSDRes", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "CCBSData", Cause: ber.ErrExtraData}
 	}
 	offset := 0
-	// Decode ussd-DataCodingScheme
+	// Decode ccbs-Feature
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field ussd-DataCodingScheme")
+		return fmt.Errorf("missing required field ccbs-Feature")
 	}
-	val_ussddatacodingscheme, n, err := ber.DecodeOctetString(content[offset:])
+	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
+		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
+			return fmt.Errorf("expected tag [%s %d] for ccbs-Feature, got %s", "CONTEXT", 0, reqTag_)
+		}
+	}
+	_, n_ccbsfeature, rawVal_ccbsfeature, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
-		return fmt.Errorf("decoding ussd-DataCodingScheme: %w", err)
+		return fmt.Errorf("decoding ccbs-Feature: %w", err)
 	}
-	v.UssdDataCodingScheme = USSDDataCodingScheme(val_ussddatacodingscheme)
-	offset += n
-	// Decode ussd-String
+	reconstructed_ccbsfeature := ber.EncodeSequence(rawVal_ccbsfeature)
+	if unmErr := v.CcbsFeature.UnmarshalBER(reconstructed_ccbsfeature); unmErr != nil {
+		return fmt.Errorf("decoding ccbs-Feature: %w", unmErr)
+	}
+	offset += n_ccbsfeature
+	// Decode translatedB-Number
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field ussd-String")
+		return fmt.Errorf("missing required field translatedB-Number")
 	}
-	val_ussdstring, n, err := ber.DecodeOctetString(content[offset:])
+	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
+		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 1 {
+			return fmt.Errorf("expected tag [%s %d] for translatedB-Number, got %s", "CONTEXT", 1, reqTag_)
+		}
+	}
+	_, n_translatedbnumber, rawVal_translatedbnumber, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
-		return fmt.Errorf("decoding ussd-String: %w", err)
+		return fmt.Errorf("decoding translatedB-Number: %w", err)
 	}
-	v.UssdString = USSDString(val_ussdstring)
-	offset += n
+	v.TranslatedBNumber = ISDNAddressString(rawVal_translatedbnumber)
+	offset += n_translatedbnumber
+	// Decode serviceIndicator
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
+				_, n_serviceindicator, rawVal_serviceindicator, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding serviceIndicator: %w", err)
+				}
+				bsBytes_serviceindicator, bsUnused_serviceindicator, bsErr := ber.DecodeBitStringValue(rawVal_serviceindicator)
+				if bsErr != nil {
+					return fmt.Errorf("decoding serviceIndicator: %w", bsErr)
+				}
+				tmp_serviceindicator := runtime.BitString{Bytes: bsBytes_serviceindicator, BitLength: len(bsBytes_serviceindicator)*8 - bsUnused_serviceindicator}
+				v.ServiceIndicator = &tmp_serviceindicator
+				offset += n_serviceindicator
+			}
+		}
+	}
+	// Decode callInfo
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field callInfo")
+	}
+	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
+		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 3 {
+			return fmt.Errorf("expected tag [%s %d] for callInfo, got %s", "CONTEXT", 3, reqTag_)
+		}
+	}
+	_, n_callinfo, rawVal_callinfo, err := ber.DecodeTLV(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding callInfo: %w", err)
+	}
+	reconstructed_callinfo := ber.EncodeSequence(rawVal_callinfo)
+	if unmErr := v.CallInfo.UnmarshalBER(reconstructed_callinfo); unmErr != nil {
+		return fmt.Errorf("decoding callInfo: %w", unmErr)
+	}
+	offset += n_callinfo
+	// Decode networkSignalInfo
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field networkSignalInfo")
+	}
+	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
+		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 4 {
+			return fmt.Errorf("expected tag [%s %d] for networkSignalInfo, got %s", "CONTEXT", 4, reqTag_)
+		}
+	}
+	_, n_networksignalinfo, rawVal_networksignalinfo, err := ber.DecodeTLV(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding networkSignalInfo: %w", err)
+	}
+	reconstructed_networksignalinfo := ber.EncodeSequence(rawVal_networksignalinfo)
+	if unmErr := v.NetworkSignalInfo.UnmarshalBER(reconstructed_networksignalinfo); unmErr != nil {
+		return fmt.Errorf("decoding networkSignalInfo: %w", unmErr)
+	}
+	offset += n_networksignalinfo
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
 		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "USSDRes", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "CCBSData", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes RegisterCCEntryRes to BER format.
+func (v *RegisterCCEntryRes) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.CcbsFeature != nil {
+		enc_ccbsfeature, err := v.CcbsFeature.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding ccbs-Feature: %w", err)
+		}
+		enc_ccbsfeature = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_ccbsfeature)
+		children = append(children, enc_ccbsfeature...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes RegisterCCEntryRes to DER format.
+func (v *RegisterCCEntryRes) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes RegisterCCEntryRes from BER/DER format.
+func (v *RegisterCCEntryRes) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding RegisterCCEntryRes SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "RegisterCCEntryRes", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode ccbs-Feature
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+				_, n_ccbsfeature, rawVal_ccbsfeature, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding ccbs-Feature: %w", err)
+				}
+				reconstructed_ccbsfeature := ber.EncodeSequence(rawVal_ccbsfeature)
+				var dec_ccbsfeature CCBSFeature
+				if unmErr := dec_ccbsfeature.UnmarshalBER(reconstructed_ccbsfeature); unmErr != nil {
+					return fmt.Errorf("decoding ccbs-Feature: %w", unmErr)
+				}
+				v.CcbsFeature = &dec_ccbsfeature
+				offset += n_ccbsfeature
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "RegisterCCEntryRes", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes EraseCCEntryArg to BER format.
+func (v *EraseCCEntryArg) MarshalBER() ([]byte, error) {
+	var children []byte
+	enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
+	enc_sscode = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_sscode)
+	children = append(children, enc_sscode...)
+	if v.CcbsIndex != nil {
+		enc_ccbsindex := ber.EncodeInteger(int64(*v.CcbsIndex))
+		enc_ccbsindex = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_ccbsindex)
+		children = append(children, enc_ccbsindex...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes EraseCCEntryArg to DER format.
+func (v *EraseCCEntryArg) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes EraseCCEntryArg from BER/DER format.
+func (v *EraseCCEntryArg) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding EraseCCEntryArg SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "EraseCCEntryArg", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode ss-Code
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field ss-Code")
+	}
+	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
+		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
+			return fmt.Errorf("expected tag [%s %d] for ss-Code, got %s", "CONTEXT", 0, reqTag_)
+		}
+	}
+	_, n_sscode, rawVal_sscode, err := ber.DecodeTLV(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding ss-Code: %w", err)
+	}
+	v.SsCode = SSCode(rawVal_sscode)
+	offset += n_sscode
+	// Decode ccbs-Index
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+				_, n_ccbsindex, rawVal_ccbsindex, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding ccbs-Index: %w", err)
+				}
+				decVal_ccbsindex, intErr := ber.DecodeIntegerValue(rawVal_ccbsindex)
+				if intErr != nil {
+					return fmt.Errorf("decoding ccbs-Index: %w", intErr)
+				}
+				tmp_ccbsindex := CCBSIndex(decVal_ccbsindex)
+				v.CcbsIndex = &tmp_ccbsindex
+				offset += n_ccbsindex
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "EraseCCEntryArg", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes EraseCCEntryRes to BER format.
+func (v *EraseCCEntryRes) MarshalBER() ([]byte, error) {
+	var children []byte
+	enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
+	enc_sscode = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_sscode)
+	children = append(children, enc_sscode...)
+	if v.SsStatus != nil {
+		enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
+		enc_ssstatus = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_ssstatus)
+		children = append(children, enc_ssstatus...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes EraseCCEntryRes to DER format.
+func (v *EraseCCEntryRes) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes EraseCCEntryRes from BER/DER format.
+func (v *EraseCCEntryRes) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding EraseCCEntryRes SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "EraseCCEntryRes", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode ss-Code
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field ss-Code")
+	}
+	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
+		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
+			return fmt.Errorf("expected tag [%s %d] for ss-Code, got %s", "CONTEXT", 0, reqTag_)
+		}
+	}
+	_, n_sscode, rawVal_sscode, err := ber.DecodeTLV(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding ss-Code: %w", err)
+	}
+	v.SsCode = SSCode(rawVal_sscode)
+	offset += n_sscode
+	// Decode ss-Status
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+				_, n_ssstatus, rawVal_ssstatus, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding ss-Status: %w", err)
+				}
+				tmp_ssstatus := SSStatus(rawVal_ssstatus)
+				v.SsStatus = &tmp_ssstatus
+				offset += n_ssstatus
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "EraseCCEntryRes", Cause: extErr_}
 		}
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)

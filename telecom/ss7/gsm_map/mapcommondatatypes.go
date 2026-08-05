@@ -19,6 +19,33 @@ var (
 
 const (
 
+	// MaxAddressLength is the integer constant for maxAddressLength.
+	MaxAddressLength int64 = 20
+
+	// MaxISDNAddressLength is the integer constant for maxISDN-AddressLength.
+	MaxISDNAddressLength int64 = 9
+
+	// MaxFTNAddressLength is the integer constant for maxFTN-AddressLength.
+	MaxFTNAddressLength int64 = 15
+
+	// MaxISDNSubaddressLength is the integer constant for maxISDN-SubaddressLength.
+	MaxISDNSubaddressLength int64 = 21
+
+	// MaxSignalInfoLength is the integer constant for maxSignalInfoLength.
+	MaxSignalInfoLength int64 = 200
+
+	// MaxLongSignalInfoLength is the integer constant for maxLongSignalInfoLength.
+	MaxLongSignalInfoLength int64 = 2560
+
+	// AlertingLevel0 is the octet string constant for alertingLevel-0.
+	AlertingLevel0 = "\x00"
+
+	// AlertingLevel1 is the octet string constant for alertingLevel-1.
+	AlertingLevel1 = "\x01"
+
+	// AlertingLevel2 is the octet string constant for alertingLevel-2.
+	AlertingLevel2 = "\x02"
+
 	// AlertingCategory1 is the octet string constant for alertingCategory-1.
 	AlertingCategory1 = "\x04"
 
@@ -34,194 +61,71 @@ const (
 	// AlertingCategory5 is the octet string constant for alertingCategory-5.
 	AlertingCategory5 = "\x08"
 
-	// AlertingLevel0 is the octet string constant for alertingLevel-0.
-	AlertingLevel0 = "\x00"
-
-	// AlertingLevel1 is the octet string constant for alertingLevel-1.
-	AlertingLevel1 = "\x01"
-
-	// AlertingLevel2 is the octet string constant for alertingLevel-2.
-	AlertingLevel2 = "\x02"
-
-	// AssetAndServiceFinding is the integer constant for assetAndServiceFinding.
-	AssetAndServiceFinding int64 = 14
-
-	// AssetManagement is the integer constant for assetManagement.
-	AssetManagement int64 = 4
-
-	// Chatting is the integer constant for chatting.
-	Chatting int64 = 18
-
-	// CitySightseeing is the integer constant for citySightseeing.
-	CitySightseeing int64 = 9
-
-	// Dating is the integer constant for dating.
-	Dating int64 = 17
-
-	// EmergencyAlertServices is the integer constant for emergencyAlertServices.
-	EmergencyAlertServices int64 = 1
+	// MaxNumOfHLRId is the integer constant for maxNumOfHLR-Id.
+	MaxNumOfHLRId int64 = 50
 
 	// EmergencyServices is the integer constant for emergencyServices.
 	EmergencyServices int64 = 0
 
-	// FindYourFriend is the integer constant for findYourFriend.
-	FindYourFriend int64 = 16
-
-	// FleetManagement is the integer constant for fleetManagement.
-	FleetManagement int64 = 3
-
-	// Gaming is the integer constant for gaming.
-	Gaming int64 = 15
-
-	// LocalizedAdvertising is the integer constant for localizedAdvertising.
-	LocalizedAdvertising int64 = 10
-
-	// MaxAddressLength is the integer constant for maxAddressLength.
-	MaxAddressLength int64 = 20
-
-	// MaxFTNAddressLength is the integer constant for maxFTN-AddressLength.
-	MaxFTNAddressLength int64 = 15
-
-	// MaxISDNAddressLength is the integer constant for maxISDN-AddressLength.
-	MaxISDNAddressLength int64 = 9
-
-	// MaxISDNSubaddressLength is the integer constant for maxISDN-SubaddressLength.
-	MaxISDNSubaddressLength int64 = 21
-
-	// MaxLongSignalInfoLength is the integer constant for maxLongSignalInfoLength.
-	MaxLongSignalInfoLength int64 = 2560
-
-	// MaxNumOfHLRId is the integer constant for maxNumOfHLR-Id.
-	MaxNumOfHLRId int64 = 50
-
-	// MaxNumOfMCBearers is the integer constant for maxNumOfMC-Bearers.
-	MaxNumOfMCBearers int64 = 7
-
-	// MaxSignalInfoLength is the integer constant for maxSignalInfoLength.
-	MaxSignalInfoLength int64 = 200
-
-	// MobileYellowPages is the integer constant for mobileYellowPages.
-	MobileYellowPages int64 = 11
-
-	// Navigation is the integer constant for navigation.
-	Navigation int64 = 8
+	// EmergencyAlertServices is the integer constant for emergencyAlertServices.
+	EmergencyAlertServices int64 = 1
 
 	// PersonTracking is the integer constant for personTracking.
 	PersonTracking int64 = 2
 
-	// PriorityLevel0 is the integer constant for priorityLevel0.
-	PriorityLevel0 int64 = 0
+	// FleetManagement is the integer constant for fleetManagement.
+	FleetManagement int64 = 3
 
-	// PriorityLevel1 is the integer constant for priorityLevel1.
-	PriorityLevel1 int64 = 1
+	// AssetManagement is the integer constant for assetManagement.
+	AssetManagement int64 = 4
 
-	// PriorityLevel2 is the integer constant for priorityLevel2.
-	PriorityLevel2 int64 = 2
-
-	// PriorityLevel3 is the integer constant for priorityLevel3.
-	PriorityLevel3 int64 = 3
-
-	// PriorityLevel4 is the integer constant for priorityLevel4.
-	PriorityLevel4 int64 = 4
-
-	// PriorityLevelA is the integer constant for priorityLevelA.
-	PriorityLevelA int64 = 6
-
-	// PriorityLevelB is the integer constant for priorityLevelB.
-	PriorityLevelB int64 = 5
+	// TrafficCongestionReporting is the integer constant for trafficCongestionReporting.
+	TrafficCongestionReporting int64 = 5
 
 	// RoadsideAssistance is the integer constant for roadsideAssistance.
 	RoadsideAssistance int64 = 6
 
-	// RouteFinding is the integer constant for routeFinding.
-	RouteFinding int64 = 19
-
 	// RoutingToNearestCommercialEnterprise is the integer constant for routingToNearestCommercialEnterprise.
 	RoutingToNearestCommercialEnterprise int64 = 7
 
-	// Serv100 is the integer constant for serv100.
-	Serv100 int64 = 100
+	// Navigation is the integer constant for navigation.
+	Navigation int64 = 8
 
-	// Serv101 is the integer constant for serv101.
-	Serv101 int64 = 101
+	// CitySightseeing is the integer constant for citySightseeing.
+	CitySightseeing int64 = 9
 
-	// Serv102 is the integer constant for serv102.
-	Serv102 int64 = 102
+	// LocalizedAdvertising is the integer constant for localizedAdvertising.
+	LocalizedAdvertising int64 = 10
 
-	// Serv103 is the integer constant for serv103.
-	Serv103 int64 = 103
+	// MobileYellowPages is the integer constant for mobileYellowPages.
+	MobileYellowPages int64 = 11
 
-	// Serv104 is the integer constant for serv104.
-	Serv104 int64 = 104
+	// TrafficAndPublicTransportationInfo is the integer constant for trafficAndPublicTransportationInfo.
+	TrafficAndPublicTransportationInfo int64 = 12
 
-	// Serv105 is the integer constant for serv105.
-	Serv105 int64 = 105
+	// Weather is the integer constant for weather.
+	Weather int64 = 13
 
-	// Serv106 is the integer constant for serv106.
-	Serv106 int64 = 106
+	// AssetAndServiceFinding is the integer constant for assetAndServiceFinding.
+	AssetAndServiceFinding int64 = 14
 
-	// Serv107 is the integer constant for serv107.
-	Serv107 int64 = 107
+	// Gaming is the integer constant for gaming.
+	Gaming int64 = 15
 
-	// Serv108 is the integer constant for serv108.
-	Serv108 int64 = 108
+	// FindYourFriend is the integer constant for findYourFriend.
+	FindYourFriend int64 = 16
 
-	// Serv109 is the integer constant for serv109.
-	Serv109 int64 = 109
+	// Dating is the integer constant for dating.
+	Dating int64 = 17
 
-	// Serv110 is the integer constant for serv110.
-	Serv110 int64 = 110
+	// Chatting is the integer constant for chatting.
+	Chatting int64 = 18
 
-	// Serv111 is the integer constant for serv111.
-	Serv111 int64 = 111
+	// RouteFinding is the integer constant for routeFinding.
+	RouteFinding int64 = 19
 
-	// Serv112 is the integer constant for serv112.
-	Serv112 int64 = 112
-
-	// Serv113 is the integer constant for serv113.
-	Serv113 int64 = 113
-
-	// Serv114 is the integer constant for serv114.
-	Serv114 int64 = 114
-
-	// Serv115 is the integer constant for serv115.
-	Serv115 int64 = 115
-
-	// Serv116 is the integer constant for serv116.
-	Serv116 int64 = 116
-
-	// Serv117 is the integer constant for serv117.
-	Serv117 int64 = 117
-
-	// Serv118 is the integer constant for serv118.
-	Serv118 int64 = 118
-
-	// Serv119 is the integer constant for serv119.
-	Serv119 int64 = 119
-
-	// Serv120 is the integer constant for serv120.
-	Serv120 int64 = 120
-
-	// Serv121 is the integer constant for serv121.
-	Serv121 int64 = 121
-
-	// Serv122 is the integer constant for serv122.
-	Serv122 int64 = 122
-
-	// Serv123 is the integer constant for serv123.
-	Serv123 int64 = 123
-
-	// Serv124 is the integer constant for serv124.
-	Serv124 int64 = 124
-
-	// Serv125 is the integer constant for serv125.
-	Serv125 int64 = 125
-
-	// Serv126 is the integer constant for serv126.
-	Serv126 int64 = 126
-
-	// Serv127 is the integer constant for serv127.
-	Serv127 int64 = 127
+	// WhereAmI is the integer constant for whereAmI.
+	WhereAmI int64 = 20
 
 	// Serv64 is the integer constant for serv64.
 	Serv64 int64 = 64
@@ -331,21 +235,209 @@ const (
 	// Serv99 is the integer constant for serv99.
 	Serv99 int64 = 99
 
-	// TrafficAndPublicTransportationInfo is the integer constant for trafficAndPublicTransportationInfo.
-	TrafficAndPublicTransportationInfo int64 = 12
+	// Serv100 is the integer constant for serv100.
+	Serv100 int64 = 100
 
-	// TrafficCongestionReporting is the integer constant for trafficCongestionReporting.
-	TrafficCongestionReporting int64 = 5
+	// Serv101 is the integer constant for serv101.
+	Serv101 int64 = 101
 
-	// Weather is the integer constant for weather.
-	Weather int64 = 13
+	// Serv102 is the integer constant for serv102.
+	Serv102 int64 = 102
 
-	// WhereAmI is the integer constant for whereAmI.
-	WhereAmI int64 = 20
+	// Serv103 is the integer constant for serv103.
+	Serv103 int64 = 103
+
+	// Serv104 is the integer constant for serv104.
+	Serv104 int64 = 104
+
+	// Serv105 is the integer constant for serv105.
+	Serv105 int64 = 105
+
+	// Serv106 is the integer constant for serv106.
+	Serv106 int64 = 106
+
+	// Serv107 is the integer constant for serv107.
+	Serv107 int64 = 107
+
+	// Serv108 is the integer constant for serv108.
+	Serv108 int64 = 108
+
+	// Serv109 is the integer constant for serv109.
+	Serv109 int64 = 109
+
+	// Serv110 is the integer constant for serv110.
+	Serv110 int64 = 110
+
+	// Serv111 is the integer constant for serv111.
+	Serv111 int64 = 111
+
+	// Serv112 is the integer constant for serv112.
+	Serv112 int64 = 112
+
+	// Serv113 is the integer constant for serv113.
+	Serv113 int64 = 113
+
+	// Serv114 is the integer constant for serv114.
+	Serv114 int64 = 114
+
+	// Serv115 is the integer constant for serv115.
+	Serv115 int64 = 115
+
+	// Serv116 is the integer constant for serv116.
+	Serv116 int64 = 116
+
+	// Serv117 is the integer constant for serv117.
+	Serv117 int64 = 117
+
+	// Serv118 is the integer constant for serv118.
+	Serv118 int64 = 118
+
+	// Serv119 is the integer constant for serv119.
+	Serv119 int64 = 119
+
+	// Serv120 is the integer constant for serv120.
+	Serv120 int64 = 120
+
+	// Serv121 is the integer constant for serv121.
+	Serv121 int64 = 121
+
+	// Serv122 is the integer constant for serv122.
+	Serv122 int64 = 122
+
+	// Serv123 is the integer constant for serv123.
+	Serv123 int64 = 123
+
+	// Serv124 is the integer constant for serv124.
+	Serv124 int64 = 124
+
+	// Serv125 is the integer constant for serv125.
+	Serv125 int64 = 125
+
+	// Serv126 is the integer constant for serv126.
+	Serv126 int64 = 126
+
+	// Serv127 is the integer constant for serv127.
+	Serv127 int64 = 127
+
+	// PriorityLevelA is the integer constant for priorityLevelA.
+	PriorityLevelA int64 = 6
+
+	// PriorityLevelB is the integer constant for priorityLevelB.
+	PriorityLevelB int64 = 5
+
+	// PriorityLevel0 is the integer constant for priorityLevel0.
+	PriorityLevel0 int64 = 0
+
+	// PriorityLevel1 is the integer constant for priorityLevel1.
+	PriorityLevel1 int64 = 1
+
+	// PriorityLevel2 is the integer constant for priorityLevel2.
+	PriorityLevel2 int64 = 2
+
+	// PriorityLevel3 is the integer constant for priorityLevel3.
+	PriorityLevel3 int64 = 3
+
+	// PriorityLevel4 is the integer constant for priorityLevel4.
+	PriorityLevel4 int64 = 4
+
+	// MaxNumOfMCBearers is the integer constant for maxNumOfMC-Bearers.
+	MaxNumOfMCBearers int64 = 7
 )
 
-// ASCICallReference represents the ASN.1 type ASCI-CallReference (OCTET_STRING).
-type ASCICallReference = []byte
+// TBCDSTRING represents the ASN.1 type TBCD-STRING (OCTET_STRING).
+type TBCDSTRING = []byte
+
+// DiameterIdentity represents the ASN.1 type DiameterIdentity (OCTET_STRING).
+type DiameterIdentity = []byte
+
+// AddressString represents the ASN.1 type AddressString (OCTET_STRING).
+type AddressString = []byte
+
+// ISDNAddressString represents the ASN.1 type ISDN-AddressString (OCTET_STRING).
+type ISDNAddressString = AddressString
+
+// FTNAddressString represents the ASN.1 type FTN-AddressString (OCTET_STRING).
+type FTNAddressString = AddressString
+
+// ISDNSubaddressString represents the ASN.1 type ISDN-SubaddressString (OCTET_STRING).
+type ISDNSubaddressString = []byte
+
+// ExternalSignalInfo represents the ASN.1 type ExternalSignalInfo (SEQUENCE).
+type ExternalSignalInfo struct {
+	ProtocolId         ProtocolId          `asn1:""`
+	SignalInfo         SignalInfo          `asn1:""`
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// SignalInfo represents the ASN.1 type SignalInfo (OCTET_STRING).
+type SignalInfo = []byte
+
+// ProtocolId represents the ASN.1 ENUMERATED type ProtocolId.
+type ProtocolId int64
+
+const (
+	ProtocolIdGsm0408    ProtocolId = 1
+	ProtocolIdGsm0806    ProtocolId = 2
+	ProtocolIdGsmBSSMAP  ProtocolId = 3
+	ProtocolIdEts3001021 ProtocolId = 4
+)
+
+func (v ProtocolId) String() string {
+	switch v {
+	case ProtocolIdGsm0408:
+		return "gsm-0408"
+	case ProtocolIdGsm0806:
+		return "gsm-0806"
+	case ProtocolIdGsmBSSMAP:
+		return "gsm-BSSMAP"
+	case ProtocolIdEts3001021:
+		return "ets-300102-1"
+	default:
+		return "unknown"
+	}
+}
+
+// ExtExternalSignalInfo represents the ASN.1 type Ext-ExternalSignalInfo (SEQUENCE).
+type ExtExternalSignalInfo struct {
+	ExtProtocolId      ExtProtocolId       `asn1:""`
+	SignalInfo         SignalInfo          `asn1:""`
+	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64               `asn1:"-" json:"-"`
+	ExtPresent_        []bool              `asn1:"-" json:"-"`
+	ExtData_           [][]byte            `asn1:"-" json:"-"`
+}
+
+// ExtProtocolId represents the ASN.1 ENUMERATED type Ext-ProtocolId.
+type ExtProtocolId int64
+
+const (
+	ExtProtocolIdEts300356 ExtProtocolId = 1
+)
+
+func (v ExtProtocolId) String() string {
+	switch v {
+	case ExtProtocolIdEts300356:
+		return "ets-300356"
+	default:
+		return "unknown"
+	}
+}
+
+// AccessNetworkSignalInfo represents the ASN.1 type AccessNetworkSignalInfo (SEQUENCE).
+type AccessNetworkSignalInfo struct {
+	AccessNetworkProtocolId AccessNetworkProtocolId `asn1:""`
+	SignalInfo              LongSignalInfo          `asn1:""`
+	ExtensionContainer      *ExtensionContainer     `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_               int64                   `asn1:"-" json:"-"`
+	ExtPresent_             []bool                  `asn1:"-" json:"-"`
+	ExtData_                [][]byte                `asn1:"-" json:"-"`
+}
+
+// LongSignalInfo represents the ASN.1 type LongSignalInfo (OCTET_STRING).
+type LongSignalInfo = []byte
 
 // AccessNetworkProtocolId represents the ASN.1 ENUMERATED type AccessNetworkProtocolId.
 type AccessNetworkProtocolId int64
@@ -366,14 +458,141 @@ func (v AccessNetworkProtocolId) String() string {
 	}
 }
 
-// AccessNetworkSignalInfo represents the ASN.1 type AccessNetworkSignalInfo (SEQUENCE).
-type AccessNetworkSignalInfo struct {
-	AccessNetworkProtocolId AccessNetworkProtocolId `asn1:""`
-	SignalInfo              LongSignalInfo          `asn1:""`
-	ExtensionContainer      *ExtensionContainer     `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_               int64                   `asn1:"-" json:"-"`
-	ExtPresent_             []bool                  `asn1:"-" json:"-"`
-	ExtData_                [][]byte                `asn1:"-" json:"-"`
+// AlertingPattern represents the ASN.1 type AlertingPattern (OCTET_STRING).
+type AlertingPattern = []byte
+
+// GSNAddress represents the ASN.1 type GSN-Address (OCTET_STRING).
+type GSNAddress = []byte
+
+// Time represents the ASN.1 type Time (OCTET_STRING).
+type Time = []byte
+
+// IMSI represents the ASN.1 type IMSI (OCTET_STRING).
+type IMSI = TBCDSTRING
+
+// Identity choice constants.
+const (
+	IdentityChoiceImsi         = 1
+	IdentityChoiceImsiWithLMSI = 2
+)
+
+// Identity represents the ASN.1 CHOICE type Identity.
+type Identity struct {
+	Choice       int
+	Imsi         *IMSI         `json:"Imsi,omitempty"`
+	ImsiWithLMSI *IMSIWithLMSI `json:"ImsiWithLMSI,omitempty"`
+}
+
+// NewIdentityImsi creates a Identity with the imsi alternative.
+func NewIdentityImsi(v IMSI) Identity {
+	return Identity{
+		Choice: IdentityChoiceImsi,
+		Imsi:   &v,
+	}
+}
+
+// NewIdentityImsiWithLMSI creates a Identity with the imsi-WithLMSI alternative.
+func NewIdentityImsiWithLMSI(v IMSIWithLMSI) Identity {
+	return Identity{
+		Choice:       IdentityChoiceImsiWithLMSI,
+		ImsiWithLMSI: &v,
+	}
+}
+
+// IMSIWithLMSI represents the ASN.1 type IMSI-WithLMSI (SEQUENCE).
+type IMSIWithLMSI struct {
+	Imsi        IMSI     `asn1:""`
+	Lmsi        LMSI     `asn1:""`
+	ExtCount_   int64    `asn1:"-" json:"-"`
+	ExtPresent_ []bool   `asn1:"-" json:"-"`
+	ExtData_    [][]byte `asn1:"-" json:"-"`
+}
+
+// ASCICallReference represents the ASN.1 type ASCI-CallReference (OCTET_STRING).
+type ASCICallReference = TBCDSTRING
+
+// TMSI represents the ASN.1 type TMSI (OCTET_STRING).
+type TMSI = []byte
+
+// SubscriberId choice constants.
+const (
+	SubscriberIdChoiceImsi = 1
+	SubscriberIdChoiceTmsi = 2
+)
+
+// SubscriberId represents the ASN.1 CHOICE type SubscriberId.
+type SubscriberId struct {
+	Choice int
+	Imsi   *IMSI `json:"Imsi,omitempty"`
+	Tmsi   *TMSI `json:"Tmsi,omitempty"`
+}
+
+// NewSubscriberIdImsi creates a SubscriberId with the imsi alternative.
+func NewSubscriberIdImsi(v IMSI) SubscriberId {
+	return SubscriberId{
+		Choice: SubscriberIdChoiceImsi,
+		Imsi:   &v,
+	}
+}
+
+// NewSubscriberIdTmsi creates a SubscriberId with the tmsi alternative.
+func NewSubscriberIdTmsi(v TMSI) SubscriberId {
+	return SubscriberId{
+		Choice: SubscriberIdChoiceTmsi,
+		Tmsi:   &v,
+	}
+}
+
+// IMEI represents the ASN.1 type IMEI (OCTET_STRING).
+type IMEI = TBCDSTRING
+
+// HLRId represents the ASN.1 type HLR-Id (OCTET_STRING).
+type HLRId = IMSI
+
+// HLRList represents the ASN.1 type HLR-List (SEQUENCE_OF).
+type HLRList = []HLRId
+
+// LMSI represents the ASN.1 type LMSI (OCTET_STRING).
+type LMSI = []byte
+
+// GlobalCellId represents the ASN.1 type GlobalCellId (OCTET_STRING).
+type GlobalCellId = []byte
+
+// NetworkResource represents the ASN.1 ENUMERATED type NetworkResource.
+type NetworkResource int64
+
+const (
+	NetworkResourcePlmn           NetworkResource = 0
+	NetworkResourceHlr            NetworkResource = 1
+	NetworkResourceVlr            NetworkResource = 2
+	NetworkResourcePvlr           NetworkResource = 3
+	NetworkResourceControllingMSC NetworkResource = 4
+	NetworkResourceVmsc           NetworkResource = 5
+	NetworkResourceEir            NetworkResource = 6
+	NetworkResourceRss            NetworkResource = 7
+)
+
+func (v NetworkResource) String() string {
+	switch v {
+	case NetworkResourcePlmn:
+		return "plmn"
+	case NetworkResourceHlr:
+		return "hlr"
+	case NetworkResourceVlr:
+		return "vlr"
+	case NetworkResourcePvlr:
+		return "pvlr"
+	case NetworkResourceControllingMSC:
+		return "controllingMSC"
+	case NetworkResourceVmsc:
+		return "vmsc"
+	case NetworkResourceEir:
+		return "eir"
+	case NetworkResourceRss:
+		return "rss"
+	default:
+		return "unknown"
+	}
 }
 
 // AdditionalNetworkResource represents the ASN.1 ENUMERATED type AdditionalNetworkResource.
@@ -413,230 +632,46 @@ func (v AdditionalNetworkResource) String() string {
 	}
 }
 
-// AddressString represents the ASN.1 type AddressString (OCTET_STRING).
-type AddressString = []byte
-
-// AgeOfLocationInformation represents the ASN.1 type AgeOfLocationInformation (INTEGER).
-type AgeOfLocationInformation = int64
-
-// AlertingPattern represents the ASN.1 type AlertingPattern (OCTET_STRING).
-type AlertingPattern = []byte
-
-// BasicServiceCode choice constants.
-const (
-	BasicServiceCodeChoiceBearerService = 1
-	BasicServiceCodeChoiceTeleservice   = 2
-)
-
-// BasicServiceCode represents the ASN.1 CHOICE type BasicServiceCode.
-type BasicServiceCode struct {
-	Choice        int
-	BearerService *BearerServiceCode `json:"BearerService,omitempty"`
-	Teleservice   *TeleserviceCode   `json:"Teleservice,omitempty"`
-}
-
-// NewBasicServiceCodeBearerService creates a BasicServiceCode with the bearerService alternative.
-func NewBasicServiceCodeBearerService(v BearerServiceCode) BasicServiceCode {
-	return BasicServiceCode{
-		Choice:        BasicServiceCodeChoiceBearerService,
-		BearerService: &v,
-	}
-}
-
-// NewBasicServiceCodeTeleservice creates a BasicServiceCode with the teleservice alternative.
-func NewBasicServiceCodeTeleservice(v TeleserviceCode) BasicServiceCode {
-	return BasicServiceCode{
-		Choice:      BasicServiceCodeChoiceTeleservice,
-		Teleservice: &v,
-	}
-}
-
-// CellGlobalIdOrServiceAreaIdFixedLength represents the ASN.1 type CellGlobalIdOrServiceAreaIdFixedLength (OCTET_STRING).
-type CellGlobalIdOrServiceAreaIdFixedLength = []byte
-
-// CellGlobalIdOrServiceAreaIdOrLAI choice constants.
-const (
-	CellGlobalIdOrServiceAreaIdOrLAIChoiceCellGlobalIdOrServiceAreaIdFixedLength = 1
-	CellGlobalIdOrServiceAreaIdOrLAIChoiceLaiFixedLength                         = 2
-)
-
-// CellGlobalIdOrServiceAreaIdOrLAI represents the ASN.1 CHOICE type CellGlobalIdOrServiceAreaIdOrLAI.
-type CellGlobalIdOrServiceAreaIdOrLAI struct {
-	Choice                                 int
-	CellGlobalIdOrServiceAreaIdFixedLength *CellGlobalIdOrServiceAreaIdFixedLength `json:"CellGlobalIdOrServiceAreaIdFixedLength,omitempty"`
-	LaiFixedLength                         *LAIFixedLength                         `json:"LaiFixedLength,omitempty"`
-}
-
-// NewCellGlobalIdOrServiceAreaIdOrLAICellGlobalIdOrServiceAreaIdFixedLength creates a CellGlobalIdOrServiceAreaIdOrLAI with the cellGlobalIdOrServiceAreaIdFixedLength alternative.
-func NewCellGlobalIdOrServiceAreaIdOrLAICellGlobalIdOrServiceAreaIdFixedLength(v CellGlobalIdOrServiceAreaIdFixedLength) CellGlobalIdOrServiceAreaIdOrLAI {
-	return CellGlobalIdOrServiceAreaIdOrLAI{
-		Choice:                                 CellGlobalIdOrServiceAreaIdOrLAIChoiceCellGlobalIdOrServiceAreaIdFixedLength,
-		CellGlobalIdOrServiceAreaIdFixedLength: &v,
-	}
-}
-
-// NewCellGlobalIdOrServiceAreaIdOrLAILaiFixedLength creates a CellGlobalIdOrServiceAreaIdOrLAI with the laiFixedLength alternative.
-func NewCellGlobalIdOrServiceAreaIdOrLAILaiFixedLength(v LAIFixedLength) CellGlobalIdOrServiceAreaIdOrLAI {
-	return CellGlobalIdOrServiceAreaIdOrLAI{
-		Choice:         CellGlobalIdOrServiceAreaIdOrLAIChoiceLaiFixedLength,
-		LaiFixedLength: &v,
-	}
-}
-
-// DiameterIdentity represents the ASN.1 type DiameterIdentity (OCTET_STRING).
-type DiameterIdentity = []byte
-
-// EMLPPInfo represents the ASN.1 type EMLPP-Info (SEQUENCE).
-type EMLPPInfo struct {
-	MaximumentitledPriority EMLPPPriority       `asn1:""`
-	DefaultPriority         EMLPPPriority       `asn1:""`
-	ExtensionContainer      *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_               int64               `asn1:"-" json:"-"`
-	ExtPresent_             []bool              `asn1:"-" json:"-"`
-	ExtData_                [][]byte            `asn1:"-" json:"-"`
-}
-
-// EMLPPPriority represents the ASN.1 type EMLPP-Priority (INTEGER).
-type EMLPPPriority = int64
-
-// EUTRANCGI represents the ASN.1 type E-UTRAN-CGI (OCTET_STRING).
-type EUTRANCGI = []byte
-
-// ExtBasicServiceCode choice constants.
-const (
-	ExtBasicServiceCodeChoiceExtBearerService = 1
-	ExtBasicServiceCodeChoiceExtTeleservice   = 2
-)
-
-// ExtBasicServiceCode represents the ASN.1 CHOICE type Ext-BasicServiceCode.
-type ExtBasicServiceCode struct {
-	Choice           int
-	ExtBearerService *ExtBearerServiceCode `json:"ExtBearerService,omitempty"`
-	ExtTeleservice   *ExtTeleserviceCode   `json:"ExtTeleservice,omitempty"`
-}
-
-// NewExtBasicServiceCodeExtBearerService creates a Ext-BasicServiceCode with the ext-BearerService alternative.
-func NewExtBasicServiceCodeExtBearerService(v ExtBearerServiceCode) ExtBasicServiceCode {
-	return ExtBasicServiceCode{
-		Choice:           ExtBasicServiceCodeChoiceExtBearerService,
-		ExtBearerService: &v,
-	}
-}
-
-// NewExtBasicServiceCodeExtTeleservice creates a Ext-BasicServiceCode with the ext-Teleservice alternative.
-func NewExtBasicServiceCodeExtTeleservice(v ExtTeleserviceCode) ExtBasicServiceCode {
-	return ExtBasicServiceCode{
-		Choice:         ExtBasicServiceCodeChoiceExtTeleservice,
-		ExtTeleservice: &v,
-	}
-}
-
-// ExtExternalSignalInfo represents the ASN.1 type Ext-ExternalSignalInfo (SEQUENCE).
-type ExtExternalSignalInfo struct {
-	ExtProtocolId      ExtProtocolId       `asn1:""`
-	SignalInfo         SignalInfo          `asn1:""`
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+// NAEAPreferredCI represents the ASN.1 type NAEA-PreferredCI (SEQUENCE).
+type NAEAPreferredCI struct {
+	NaeaPreferredCIC   NAEACIC             `asn1:"tag:0,context,implicit"`
+	ExtensionContainer *ExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// ExtProtocolId represents the ASN.1 ENUMERATED type Ext-ProtocolId.
-type ExtProtocolId int64
+// NAEACIC represents the ASN.1 type NAEA-CIC (OCTET_STRING).
+type NAEACIC = []byte
 
+// SubscriberIdentity choice constants.
 const (
-	ExtProtocolIdEts300356 ExtProtocolId = 1
+	SubscriberIdentityChoiceImsi   = 1
+	SubscriberIdentityChoiceMsisdn = 2
 )
 
-func (v ExtProtocolId) String() string {
-	switch v {
-	case ExtProtocolIdEts300356:
-		return "ets-300356"
-	default:
-		return "unknown"
-	}
+// SubscriberIdentity represents the ASN.1 CHOICE type SubscriberIdentity.
+type SubscriberIdentity struct {
+	Choice int
+	Imsi   *IMSI              `json:"Imsi,omitempty"`
+	Msisdn *ISDNAddressString `json:"Msisdn,omitempty"`
 }
 
-// ExtSSStatus represents the ASN.1 type Ext-SS-Status (OCTET_STRING).
-type ExtSSStatus = []byte
-
-// ExternalSignalInfo represents the ASN.1 type ExternalSignalInfo (SEQUENCE).
-type ExternalSignalInfo struct {
-	ProtocolId         ProtocolId          `asn1:""`
-	SignalInfo         SignalInfo          `asn1:""`
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
-
-// FTNAddressString represents the ASN.1 type FTN-AddressString (OCTET_STRING).
-type FTNAddressString = []byte
-
-// GSNAddress represents the ASN.1 type GSN-Address (OCTET_STRING).
-type GSNAddress = []byte
-
-// GlobalCellId represents the ASN.1 type GlobalCellId (OCTET_STRING).
-type GlobalCellId = []byte
-
-// HLRId represents the ASN.1 type HLR-Id (OCTET_STRING).
-type HLRId = []byte
-
-// HLRList represents the ASN.1 type HLR-List (SEQUENCE_OF).
-type HLRList = []HLRId
-
-// IMEI represents the ASN.1 type IMEI (OCTET_STRING).
-type IMEI = []byte
-
-// IMSI represents the ASN.1 type IMSI (OCTET_STRING).
-type IMSI = []byte
-
-// IMSIWithLMSI represents the ASN.1 type IMSI-WithLMSI (SEQUENCE).
-type IMSIWithLMSI struct {
-	Imsi        IMSI     `asn1:""`
-	Lmsi        LMSI     `asn1:""`
-	ExtCount_   int64    `asn1:"-" json:"-"`
-	ExtPresent_ []bool   `asn1:"-" json:"-"`
-	ExtData_    [][]byte `asn1:"-" json:"-"`
-}
-
-// ISDNAddressString represents the ASN.1 type ISDN-AddressString (OCTET_STRING).
-type ISDNAddressString = []byte
-
-// ISDNSubaddressString represents the ASN.1 type ISDN-SubaddressString (OCTET_STRING).
-type ISDNSubaddressString = []byte
-
-// Identity choice constants.
-const (
-	IdentityChoiceImsi         = 1
-	IdentityChoiceImsiWithLMSI = 2
-)
-
-// Identity represents the ASN.1 CHOICE type Identity.
-type Identity struct {
-	Choice       int
-	Imsi         *IMSI         `json:"Imsi,omitempty"`
-	ImsiWithLMSI *IMSIWithLMSI `json:"ImsiWithLMSI,omitempty"`
-}
-
-// NewIdentityImsi creates a Identity with the imsi alternative.
-func NewIdentityImsi(v IMSI) Identity {
-	return Identity{
-		Choice: IdentityChoiceImsi,
+// NewSubscriberIdentityImsi creates a SubscriberIdentity with the imsi alternative.
+func NewSubscriberIdentityImsi(v IMSI) SubscriberIdentity {
+	return SubscriberIdentity{
+		Choice: SubscriberIdentityChoiceImsi,
 		Imsi:   &v,
 	}
 }
 
-// NewIdentityImsiWithLMSI creates a Identity with the imsi-WithLMSI alternative.
-func NewIdentityImsiWithLMSI(v IMSIWithLMSI) Identity {
-	return Identity{
-		Choice:       IdentityChoiceImsiWithLMSI,
-		ImsiWithLMSI: &v,
+// NewSubscriberIdentityMsisdn creates a SubscriberIdentity with the msisdn alternative.
+func NewSubscriberIdentityMsisdn(v ISDNAddressString) SubscriberIdentity {
+	return SubscriberIdentity{
+		Choice: SubscriberIdentityChoiceMsisdn,
+		Msisdn: &v,
 	}
 }
-
-// LAIFixedLength represents the ASN.1 type LAIFixedLength (OCTET_STRING).
-type LAIFixedLength = []byte
 
 // LCSClientExternalID represents the ASN.1 type LCSClientExternalID (SEQUENCE).
 type LCSClientExternalID struct {
@@ -678,14 +713,135 @@ func (v LCSClientInternalID) String() string {
 // LCSServiceTypeID represents the ASN.1 type LCSServiceTypeID (INTEGER).
 type LCSServiceTypeID = int64
 
-// LMSI represents the ASN.1 type LMSI (OCTET_STRING).
-type LMSI = []byte
+// PLMNId represents the ASN.1 type PLMN-Id (OCTET_STRING).
+type PLMNId = []byte
 
-// LongSignalInfo represents the ASN.1 type LongSignalInfo (OCTET_STRING).
-type LongSignalInfo = []byte
+// EUTRANCGI represents the ASN.1 type E-UTRAN-CGI (OCTET_STRING).
+type EUTRANCGI = []byte
 
-// MCBearers represents the ASN.1 type MC-Bearers (INTEGER).
-type MCBearers = int64
+// NRCGI represents the ASN.1 type NR-CGI (OCTET_STRING).
+type NRCGI = []byte
+
+// TAId represents the ASN.1 type TA-Id (OCTET_STRING).
+type TAId = []byte
+
+// NRTAId represents the ASN.1 type NR-TA-Id (OCTET_STRING).
+type NRTAId = []byte
+
+// RAIdentity represents the ASN.1 type RAIdentity (OCTET_STRING).
+type RAIdentity = []byte
+
+// NetworkNodeDiameterAddress represents the ASN.1 type NetworkNodeDiameterAddress (SEQUENCE).
+type NetworkNodeDiameterAddress struct {
+	DiameterName  DiameterIdentity `asn1:"tag:0,context,implicit"`
+	DiameterRealm DiameterIdentity `asn1:"tag:1,context,implicit"`
+}
+
+// CellGlobalIdOrServiceAreaIdOrLAI choice constants.
+const (
+	CellGlobalIdOrServiceAreaIdOrLAIChoiceCellGlobalIdOrServiceAreaIdFixedLength = 1
+	CellGlobalIdOrServiceAreaIdOrLAIChoiceLaiFixedLength                         = 2
+)
+
+// CellGlobalIdOrServiceAreaIdOrLAI represents the ASN.1 CHOICE type CellGlobalIdOrServiceAreaIdOrLAI.
+type CellGlobalIdOrServiceAreaIdOrLAI struct {
+	Choice                                 int
+	CellGlobalIdOrServiceAreaIdFixedLength *CellGlobalIdOrServiceAreaIdFixedLength `json:"CellGlobalIdOrServiceAreaIdFixedLength,omitempty"`
+	LaiFixedLength                         *LAIFixedLength                         `json:"LaiFixedLength,omitempty"`
+}
+
+// NewCellGlobalIdOrServiceAreaIdOrLAICellGlobalIdOrServiceAreaIdFixedLength creates a CellGlobalIdOrServiceAreaIdOrLAI with the cellGlobalIdOrServiceAreaIdFixedLength alternative.
+func NewCellGlobalIdOrServiceAreaIdOrLAICellGlobalIdOrServiceAreaIdFixedLength(v CellGlobalIdOrServiceAreaIdFixedLength) CellGlobalIdOrServiceAreaIdOrLAI {
+	return CellGlobalIdOrServiceAreaIdOrLAI{
+		Choice:                                 CellGlobalIdOrServiceAreaIdOrLAIChoiceCellGlobalIdOrServiceAreaIdFixedLength,
+		CellGlobalIdOrServiceAreaIdFixedLength: &v,
+	}
+}
+
+// NewCellGlobalIdOrServiceAreaIdOrLAILaiFixedLength creates a CellGlobalIdOrServiceAreaIdOrLAI with the laiFixedLength alternative.
+func NewCellGlobalIdOrServiceAreaIdOrLAILaiFixedLength(v LAIFixedLength) CellGlobalIdOrServiceAreaIdOrLAI {
+	return CellGlobalIdOrServiceAreaIdOrLAI{
+		Choice:         CellGlobalIdOrServiceAreaIdOrLAIChoiceLaiFixedLength,
+		LaiFixedLength: &v,
+	}
+}
+
+// CellGlobalIdOrServiceAreaIdFixedLength represents the ASN.1 type CellGlobalIdOrServiceAreaIdFixedLength (OCTET_STRING).
+type CellGlobalIdOrServiceAreaIdFixedLength = []byte
+
+// LAIFixedLength represents the ASN.1 type LAIFixedLength (OCTET_STRING).
+type LAIFixedLength = []byte
+
+// BasicServiceCode choice constants.
+const (
+	BasicServiceCodeChoiceBearerService = 1
+	BasicServiceCodeChoiceTeleservice   = 2
+)
+
+// BasicServiceCode represents the ASN.1 CHOICE type BasicServiceCode.
+type BasicServiceCode struct {
+	Choice        int
+	BearerService *BearerServiceCode `json:"BearerService,omitempty"`
+	Teleservice   *TeleserviceCode   `json:"Teleservice,omitempty"`
+}
+
+// NewBasicServiceCodeBearerService creates a BasicServiceCode with the bearerService alternative.
+func NewBasicServiceCodeBearerService(v BearerServiceCode) BasicServiceCode {
+	return BasicServiceCode{
+		Choice:        BasicServiceCodeChoiceBearerService,
+		BearerService: &v,
+	}
+}
+
+// NewBasicServiceCodeTeleservice creates a BasicServiceCode with the teleservice alternative.
+func NewBasicServiceCodeTeleservice(v TeleserviceCode) BasicServiceCode {
+	return BasicServiceCode{
+		Choice:      BasicServiceCodeChoiceTeleservice,
+		Teleservice: &v,
+	}
+}
+
+// ExtBasicServiceCode choice constants.
+const (
+	ExtBasicServiceCodeChoiceExtBearerService = 1
+	ExtBasicServiceCodeChoiceExtTeleservice   = 2
+)
+
+// ExtBasicServiceCode represents the ASN.1 CHOICE type Ext-BasicServiceCode.
+type ExtBasicServiceCode struct {
+	Choice           int
+	ExtBearerService *ExtBearerServiceCode `json:"ExtBearerService,omitempty"`
+	ExtTeleservice   *ExtTeleserviceCode   `json:"ExtTeleservice,omitempty"`
+}
+
+// NewExtBasicServiceCodeExtBearerService creates a Ext-BasicServiceCode with the ext-BearerService alternative.
+func NewExtBasicServiceCodeExtBearerService(v ExtBearerServiceCode) ExtBasicServiceCode {
+	return ExtBasicServiceCode{
+		Choice:           ExtBasicServiceCodeChoiceExtBearerService,
+		ExtBearerService: &v,
+	}
+}
+
+// NewExtBasicServiceCodeExtTeleservice creates a Ext-BasicServiceCode with the ext-Teleservice alternative.
+func NewExtBasicServiceCodeExtTeleservice(v ExtTeleserviceCode) ExtBasicServiceCode {
+	return ExtBasicServiceCode{
+		Choice:         ExtBasicServiceCodeChoiceExtTeleservice,
+		ExtTeleservice: &v,
+	}
+}
+
+// EMLPPInfo represents the ASN.1 type EMLPP-Info (SEQUENCE).
+type EMLPPInfo struct {
+	MaximumentitledPriority EMLPPPriority       `asn1:""`
+	DefaultPriority         EMLPPPriority       `asn1:""`
+	ExtensionContainer      *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_               int64               `asn1:"-" json:"-"`
+	ExtPresent_             []bool              `asn1:"-" json:"-"`
+	ExtData_                [][]byte            `asn1:"-" json:"-"`
+}
+
+// EMLPPPriority represents the ASN.1 type EMLPP-Priority (INTEGER).
+type EMLPPPriority = int64
 
 // MCSSInfo represents the ASN.1 type MC-SS-Info (SEQUENCE).
 type MCSSInfo struct {
@@ -702,647 +858,14 @@ type MCSSInfo struct {
 // MaxMCBearers represents the ASN.1 type MaxMC-Bearers (INTEGER).
 type MaxMCBearers = int64
 
-// NAEACIC represents the ASN.1 type NAEA-CIC (OCTET_STRING).
-type NAEACIC = []byte
+// MCBearers represents the ASN.1 type MC-Bearers (INTEGER).
+type MCBearers = int64
 
-// NAEAPreferredCI represents the ASN.1 type NAEA-PreferredCI (SEQUENCE).
-type NAEAPreferredCI struct {
-	NaeaPreferredCIC   NAEACIC             `asn1:"tag:0,context,implicit"`
-	ExtensionContainer *ExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
-}
+// ExtSSStatus represents the ASN.1 type Ext-SS-Status (OCTET_STRING).
+type ExtSSStatus = []byte
 
-// NRCGI represents the ASN.1 type NR-CGI (OCTET_STRING).
-type NRCGI = []byte
-
-// NRTAId represents the ASN.1 type NR-TA-Id (OCTET_STRING).
-type NRTAId = []byte
-
-// NetworkNodeDiameterAddress represents the ASN.1 type NetworkNodeDiameterAddress (SEQUENCE).
-type NetworkNodeDiameterAddress struct {
-	DiameterName  DiameterIdentity `asn1:"tag:0,context,implicit"`
-	DiameterRealm DiameterIdentity `asn1:"tag:1,context,implicit"`
-}
-
-// NetworkResource represents the ASN.1 ENUMERATED type NetworkResource.
-type NetworkResource int64
-
-const (
-	NetworkResourcePlmn           NetworkResource = 0
-	NetworkResourceHlr            NetworkResource = 1
-	NetworkResourceVlr            NetworkResource = 2
-	NetworkResourcePvlr           NetworkResource = 3
-	NetworkResourceControllingMSC NetworkResource = 4
-	NetworkResourceVmsc           NetworkResource = 5
-	NetworkResourceEir            NetworkResource = 6
-	NetworkResourceRss            NetworkResource = 7
-)
-
-func (v NetworkResource) String() string {
-	switch v {
-	case NetworkResourcePlmn:
-		return "plmn"
-	case NetworkResourceHlr:
-		return "hlr"
-	case NetworkResourceVlr:
-		return "vlr"
-	case NetworkResourcePvlr:
-		return "pvlr"
-	case NetworkResourceControllingMSC:
-		return "controllingMSC"
-	case NetworkResourceVmsc:
-		return "vmsc"
-	case NetworkResourceEir:
-		return "eir"
-	case NetworkResourceRss:
-		return "rss"
-	default:
-		return "unknown"
-	}
-}
-
-// PLMNId represents the ASN.1 type PLMN-Id (OCTET_STRING).
-type PLMNId = []byte
-
-// ProtocolId represents the ASN.1 ENUMERATED type ProtocolId.
-type ProtocolId int64
-
-const (
-	ProtocolIdGsm0408    ProtocolId = 1
-	ProtocolIdGsm0806    ProtocolId = 2
-	ProtocolIdGsmBSSMAP  ProtocolId = 3
-	ProtocolIdEts3001021 ProtocolId = 4
-)
-
-func (v ProtocolId) String() string {
-	switch v {
-	case ProtocolIdGsm0408:
-		return "gsm-0408"
-	case ProtocolIdGsm0806:
-		return "gsm-0806"
-	case ProtocolIdGsmBSSMAP:
-		return "gsm-BSSMAP"
-	case ProtocolIdEts3001021:
-		return "ets-300102-1"
-	default:
-		return "unknown"
-	}
-}
-
-// RAIdentity represents the ASN.1 type RAIdentity (OCTET_STRING).
-type RAIdentity = []byte
-
-// SignalInfo represents the ASN.1 type SignalInfo (OCTET_STRING).
-type SignalInfo = []byte
-
-// SubscriberId choice constants.
-const (
-	SubscriberIdChoiceImsi = 1
-	SubscriberIdChoiceTmsi = 2
-)
-
-// SubscriberId represents the ASN.1 CHOICE type SubscriberId.
-type SubscriberId struct {
-	Choice int
-	Imsi   *IMSI `json:"Imsi,omitempty"`
-	Tmsi   *TMSI `json:"Tmsi,omitempty"`
-}
-
-// NewSubscriberIdImsi creates a SubscriberId with the imsi alternative.
-func NewSubscriberIdImsi(v IMSI) SubscriberId {
-	return SubscriberId{
-		Choice: SubscriberIdChoiceImsi,
-		Imsi:   &v,
-	}
-}
-
-// NewSubscriberIdTmsi creates a SubscriberId with the tmsi alternative.
-func NewSubscriberIdTmsi(v TMSI) SubscriberId {
-	return SubscriberId{
-		Choice: SubscriberIdChoiceTmsi,
-		Tmsi:   &v,
-	}
-}
-
-// SubscriberIdentity choice constants.
-const (
-	SubscriberIdentityChoiceImsi   = 1
-	SubscriberIdentityChoiceMsisdn = 2
-)
-
-// SubscriberIdentity represents the ASN.1 CHOICE type SubscriberIdentity.
-type SubscriberIdentity struct {
-	Choice int
-	Imsi   *IMSI              `json:"Imsi,omitempty"`
-	Msisdn *ISDNAddressString `json:"Msisdn,omitempty"`
-}
-
-// NewSubscriberIdentityImsi creates a SubscriberIdentity with the imsi alternative.
-func NewSubscriberIdentityImsi(v IMSI) SubscriberIdentity {
-	return SubscriberIdentity{
-		Choice: SubscriberIdentityChoiceImsi,
-		Imsi:   &v,
-	}
-}
-
-// NewSubscriberIdentityMsisdn creates a SubscriberIdentity with the msisdn alternative.
-func NewSubscriberIdentityMsisdn(v ISDNAddressString) SubscriberIdentity {
-	return SubscriberIdentity{
-		Choice: SubscriberIdentityChoiceMsisdn,
-		Msisdn: &v,
-	}
-}
-
-// TAId represents the ASN.1 type TA-Id (OCTET_STRING).
-type TAId = []byte
-
-// TBCDSTRING represents the ASN.1 type TBCD-STRING (OCTET_STRING).
-type TBCDSTRING = []byte
-
-// TMSI represents the ASN.1 type TMSI (OCTET_STRING).
-type TMSI = []byte
-
-// Time represents the ASN.1 type Time (OCTET_STRING).
-type Time = []byte
-
-// MarshalBER encodes AccessNetworkSignalInfo to BER format.
-func (v *AccessNetworkSignalInfo) MarshalBER() ([]byte, error) {
-	var children []byte
-	enc_accessnetworkprotocolid := ber.EncodeEnumerated(int64(v.AccessNetworkProtocolId))
-	children = append(children, enc_accessnetworkprotocolid...)
-	enc_signalinfo := ber.EncodeOctetString([]byte(v.SignalInfo))
-	children = append(children, enc_signalinfo...)
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes AccessNetworkSignalInfo to DER format.
-func (v *AccessNetworkSignalInfo) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes AccessNetworkSignalInfo from BER/DER format.
-func (v *AccessNetworkSignalInfo) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding AccessNetworkSignalInfo SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "AccessNetworkSignalInfo", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode accessNetworkProtocolId
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field accessNetworkProtocolId")
-	}
-	val_accessnetworkprotocolid, n, err := ber.DecodeInteger(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding accessNetworkProtocolId: %w", err)
-	}
-	v.AccessNetworkProtocolId = AccessNetworkProtocolId(val_accessnetworkprotocolid)
-	offset += n
-	// Decode signalInfo
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field signalInfo")
-	}
-	val_signalinfo, n, err := ber.DecodeOctetString(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding signalInfo: %w", err)
-	}
-	v.SignalInfo = LongSignalInfo(val_signalinfo)
-	offset += n
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "AccessNetworkSignalInfo", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes BasicServiceCode to BER format.
-func (v *BasicServiceCode) MarshalBER() ([]byte, error) {
-	switch v.Choice {
-	case BasicServiceCodeChoiceBearerService:
-		enc_0 := ber.EncodeOctetString([]byte(*v.BearerService))
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_0)
-		return enc_0, nil
-	case BasicServiceCodeChoiceTeleservice:
-		enc_1 := ber.EncodeOctetString([]byte(*v.Teleservice))
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_1)
-		return enc_1, nil
-	default:
-		return nil, fmt.Errorf("unknown choice %d for BasicServiceCode", v.Choice)
-	}
-}
-
-// MarshalDER encodes BasicServiceCode to DER format.
-func (v *BasicServiceCode) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes BasicServiceCode from BER/DER format.
-func (v *BasicServiceCode) UnmarshalBER(data []byte) error {
-	if len(data) == 0 {
-		return fmt.Errorf("empty data for BasicServiceCode CHOICE")
-	}
-	peekTag, peekErr := ber.PeekTag(data)
-	if peekErr != nil {
-		return fmt.Errorf("peeking tag for BasicServiceCode: %w", peekErr)
-	}
-
-	_, total, _, tlvErr := ber.DecodeTLV(data)
-	if tlvErr != nil {
-		return fmt.Errorf("decoding BasicServiceCode CHOICE: %w", tlvErr)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "BasicServiceCode", Cause: ber.ErrExtraData}
-	}
-
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-		v.Choice = BasicServiceCodeChoiceBearerService
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
-		if tlvErr != nil {
-			return fmt.Errorf("decoding bearerService: %w", tlvErr)
-		}
-		tmp := BearerServiceCode(rawVal)
-		v.BearerService = &tmp
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-		v.Choice = BasicServiceCodeChoiceTeleservice
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
-		if tlvErr != nil {
-			return fmt.Errorf("decoding teleservice: %w", tlvErr)
-		}
-		tmp := TeleserviceCode(rawVal)
-		v.Teleservice = &tmp
-	} else {
-		return fmt.Errorf("unknown tag %s for BasicServiceCode CHOICE", peekTag)
-	}
-	return nil
-}
-
-// MarshalBER encodes CellGlobalIdOrServiceAreaIdOrLAI to BER format.
-func (v *CellGlobalIdOrServiceAreaIdOrLAI) MarshalBER() ([]byte, error) {
-	switch v.Choice {
-	case CellGlobalIdOrServiceAreaIdOrLAIChoiceCellGlobalIdOrServiceAreaIdFixedLength:
-		enc_0 := ber.EncodeOctetString([]byte(*v.CellGlobalIdOrServiceAreaIdFixedLength))
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
-		return enc_0, nil
-	case CellGlobalIdOrServiceAreaIdOrLAIChoiceLaiFixedLength:
-		enc_1 := ber.EncodeOctetString([]byte(*v.LaiFixedLength))
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
-		return enc_1, nil
-	default:
-		return nil, fmt.Errorf("unknown choice %d for CellGlobalIdOrServiceAreaIdOrLAI", v.Choice)
-	}
-}
-
-// MarshalDER encodes CellGlobalIdOrServiceAreaIdOrLAI to DER format.
-func (v *CellGlobalIdOrServiceAreaIdOrLAI) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes CellGlobalIdOrServiceAreaIdOrLAI from BER/DER format.
-func (v *CellGlobalIdOrServiceAreaIdOrLAI) UnmarshalBER(data []byte) error {
-	if len(data) == 0 {
-		return fmt.Errorf("empty data for CellGlobalIdOrServiceAreaIdOrLAI CHOICE")
-	}
-	peekTag, peekErr := ber.PeekTag(data)
-	if peekErr != nil {
-		return fmt.Errorf("peeking tag for CellGlobalIdOrServiceAreaIdOrLAI: %w", peekErr)
-	}
-
-	_, total, _, tlvErr := ber.DecodeTLV(data)
-	if tlvErr != nil {
-		return fmt.Errorf("decoding CellGlobalIdOrServiceAreaIdOrLAI CHOICE: %w", tlvErr)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "CellGlobalIdOrServiceAreaIdOrLAI", Cause: ber.ErrExtraData}
-	}
-
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-		v.Choice = CellGlobalIdOrServiceAreaIdOrLAIChoiceCellGlobalIdOrServiceAreaIdFixedLength
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
-		if tlvErr != nil {
-			return fmt.Errorf("decoding cellGlobalIdOrServiceAreaIdFixedLength: %w", tlvErr)
-		}
-		tmp := CellGlobalIdOrServiceAreaIdFixedLength(rawVal)
-		v.CellGlobalIdOrServiceAreaIdFixedLength = &tmp
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-		v.Choice = CellGlobalIdOrServiceAreaIdOrLAIChoiceLaiFixedLength
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
-		if tlvErr != nil {
-			return fmt.Errorf("decoding laiFixedLength: %w", tlvErr)
-		}
-		tmp := LAIFixedLength(rawVal)
-		v.LaiFixedLength = &tmp
-	} else {
-		return fmt.Errorf("unknown tag %s for CellGlobalIdOrServiceAreaIdOrLAI CHOICE", peekTag)
-	}
-	return nil
-}
-
-// MarshalBER encodes EMLPPInfo to BER format.
-func (v *EMLPPInfo) MarshalBER() ([]byte, error) {
-	var children []byte
-	enc_maximumentitledpriority := ber.EncodeInteger(int64(v.MaximumentitledPriority))
-	children = append(children, enc_maximumentitledpriority...)
-	enc_defaultpriority := ber.EncodeInteger(int64(v.DefaultPriority))
-	children = append(children, enc_defaultpriority...)
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes EMLPPInfo to DER format.
-func (v *EMLPPInfo) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes EMLPPInfo from BER/DER format.
-func (v *EMLPPInfo) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding EMLPPInfo SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "EMLPPInfo", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode maximumentitledPriority
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field maximumentitledPriority")
-	}
-	val_maximumentitledpriority, n, err := ber.DecodeInteger(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding maximumentitledPriority: %w", err)
-	}
-	v.MaximumentitledPriority = val_maximumentitledpriority
-	offset += n
-	// Decode defaultPriority
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field defaultPriority")
-	}
-	val_defaultpriority, n, err := ber.DecodeInteger(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding defaultPriority: %w", err)
-	}
-	v.DefaultPriority = val_defaultpriority
-	offset += n
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "EMLPPInfo", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes ExtBasicServiceCode to BER format.
-func (v *ExtBasicServiceCode) MarshalBER() ([]byte, error) {
-	switch v.Choice {
-	case ExtBasicServiceCodeChoiceExtBearerService:
-		enc_0 := ber.EncodeOctetString([]byte(*v.ExtBearerService))
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_0)
-		return enc_0, nil
-	case ExtBasicServiceCodeChoiceExtTeleservice:
-		enc_1 := ber.EncodeOctetString([]byte(*v.ExtTeleservice))
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_1)
-		return enc_1, nil
-	default:
-		return nil, fmt.Errorf("unknown choice %d for ExtBasicServiceCode", v.Choice)
-	}
-}
-
-// MarshalDER encodes ExtBasicServiceCode to DER format.
-func (v *ExtBasicServiceCode) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes ExtBasicServiceCode from BER/DER format.
-func (v *ExtBasicServiceCode) UnmarshalBER(data []byte) error {
-	if len(data) == 0 {
-		return fmt.Errorf("empty data for ExtBasicServiceCode CHOICE")
-	}
-	peekTag, peekErr := ber.PeekTag(data)
-	if peekErr != nil {
-		return fmt.Errorf("peeking tag for ExtBasicServiceCode: %w", peekErr)
-	}
-
-	_, total, _, tlvErr := ber.DecodeTLV(data)
-	if tlvErr != nil {
-		return fmt.Errorf("decoding ExtBasicServiceCode CHOICE: %w", tlvErr)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ExtBasicServiceCode", Cause: ber.ErrExtraData}
-	}
-
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-		v.Choice = ExtBasicServiceCodeChoiceExtBearerService
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
-		if tlvErr != nil {
-			return fmt.Errorf("decoding ext-BearerService: %w", tlvErr)
-		}
-		tmp := ExtBearerServiceCode(rawVal)
-		v.ExtBearerService = &tmp
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-		v.Choice = ExtBasicServiceCodeChoiceExtTeleservice
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
-		if tlvErr != nil {
-			return fmt.Errorf("decoding ext-Teleservice: %w", tlvErr)
-		}
-		tmp := ExtTeleserviceCode(rawVal)
-		v.ExtTeleservice = &tmp
-	} else {
-		return fmt.Errorf("unknown tag %s for ExtBasicServiceCode CHOICE", peekTag)
-	}
-	return nil
-}
-
-// MarshalBER encodes ExtExternalSignalInfo to BER format.
-func (v *ExtExternalSignalInfo) MarshalBER() ([]byte, error) {
-	var children []byte
-	enc_extprotocolid := ber.EncodeEnumerated(int64(v.ExtProtocolId))
-	children = append(children, enc_extprotocolid...)
-	enc_signalinfo := ber.EncodeOctetString([]byte(v.SignalInfo))
-	children = append(children, enc_signalinfo...)
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes ExtExternalSignalInfo to DER format.
-func (v *ExtExternalSignalInfo) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes ExtExternalSignalInfo from BER/DER format.
-func (v *ExtExternalSignalInfo) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding ExtExternalSignalInfo SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ExtExternalSignalInfo", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode ext-ProtocolId
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field ext-ProtocolId")
-	}
-	val_extprotocolid, n, err := ber.DecodeInteger(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding ext-ProtocolId: %w", err)
-	}
-	v.ExtProtocolId = ExtProtocolId(val_extprotocolid)
-	offset += n
-	// Decode signalInfo
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field signalInfo")
-	}
-	val_signalinfo, n, err := ber.DecodeOctetString(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding signalInfo: %w", err)
-	}
-	v.SignalInfo = SignalInfo(val_signalinfo)
-	offset += n
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
-				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
-				if tlvErr_extensioncontainer != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
-				}
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ExtExternalSignalInfo", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
+// AgeOfLocationInformation represents the ASN.1 type AgeOfLocationInformation (INTEGER).
+type AgeOfLocationInformation = int64
 
 // MarshalBER encodes ExternalSignalInfo to BER format.
 func (v *ExternalSignalInfo) MarshalBER() ([]byte, error) {
@@ -1373,6 +896,11 @@ func (v *ExternalSignalInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ExternalSignalInfo to DER format.
 func (v *ExternalSignalInfo) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -1442,35 +970,275 @@ func (v *ExternalSignalInfo) UnmarshalBER(data []byte) error {
 	return nil
 }
 
-// MarshalBERHLRList encodes a HLRList list to BER.
-func MarshalBERHLRList(list HLRList) ([]byte, error) {
+// MarshalBER encodes ExtExternalSignalInfo to BER format.
+func (v *ExtExternalSignalInfo) MarshalBER() ([]byte, error) {
 	var children []byte
-	for _, elem := range list {
-		children = append(children, ber.EncodeOctetString([]byte(elem))...)
+	enc_extprotocolid := ber.EncodeEnumerated(int64(v.ExtProtocolId))
+	children = append(children, enc_extprotocolid...)
+	enc_signalinfo := ber.EncodeOctetString([]byte(v.SignalInfo))
+	children = append(children, enc_signalinfo...)
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
 	}
 	return ber.EncodeSequence(children), nil
 }
 
-// UnmarshalBERHLRList decodes a HLRList list from BER.
-func UnmarshalBERHLRList(data []byte) (HLRList, error) {
-	_, content, total, err := ber.DecodeConstructedContent(data)
+// MarshalDER encodes ExtExternalSignalInfo to DER format.
+func (v *ExtExternalSignalInfo) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ExtExternalSignalInfo from BER/DER format.
+func (v *ExtExternalSignalInfo) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return nil, fmt.Errorf("decoding HLRList: %w", err)
+		return fmt.Errorf("decoding ExtExternalSignalInfo SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "HLRList", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ExtExternalSignalInfo", Cause: ber.ErrExtraData}
 	}
-	var result HLRList
 	offset := 0
-	for offset < len(content) {
-		val, n, osErr := ber.DecodeOctetString(content[offset:])
-		if osErr != nil {
-			return nil, fmt.Errorf("decoding element: %w", osErr)
-		}
-		result = append(result, HLRId(val))
-		offset += n
+	// Decode ext-ProtocolId
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field ext-ProtocolId")
 	}
-	return result, nil
+	val_extprotocolid, n, err := ber.DecodeInteger(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding ext-ProtocolId: %w", err)
+	}
+	v.ExtProtocolId = ExtProtocolId(val_extprotocolid)
+	offset += n
+	// Decode signalInfo
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field signalInfo")
+	}
+	val_signalinfo, n, err := ber.DecodeOctetString(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding signalInfo: %w", err)
+	}
+	v.SignalInfo = SignalInfo(val_signalinfo)
+	offset += n
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ExtExternalSignalInfo", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes AccessNetworkSignalInfo to BER format.
+func (v *AccessNetworkSignalInfo) MarshalBER() ([]byte, error) {
+	var children []byte
+	enc_accessnetworkprotocolid := ber.EncodeEnumerated(int64(v.AccessNetworkProtocolId))
+	children = append(children, enc_accessnetworkprotocolid...)
+	enc_signalinfo := ber.EncodeOctetString([]byte(v.SignalInfo))
+	children = append(children, enc_signalinfo...)
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes AccessNetworkSignalInfo to DER format.
+func (v *AccessNetworkSignalInfo) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes AccessNetworkSignalInfo from BER/DER format.
+func (v *AccessNetworkSignalInfo) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding AccessNetworkSignalInfo SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "AccessNetworkSignalInfo", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode accessNetworkProtocolId
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field accessNetworkProtocolId")
+	}
+	val_accessnetworkprotocolid, n, err := ber.DecodeInteger(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding accessNetworkProtocolId: %w", err)
+	}
+	v.AccessNetworkProtocolId = AccessNetworkProtocolId(val_accessnetworkprotocolid)
+	offset += n
+	// Decode signalInfo
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field signalInfo")
+	}
+	val_signalinfo, n, err := ber.DecodeOctetString(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding signalInfo: %w", err)
+	}
+	v.SignalInfo = LongSignalInfo(val_signalinfo)
+	offset += n
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "AccessNetworkSignalInfo", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes Identity to BER format.
+func (v *Identity) MarshalBER() ([]byte, error) {
+	switch v.Choice {
+	case IdentityChoiceImsi:
+		enc_0 := ber.EncodeOctetString([]byte(*v.Imsi))
+		return enc_0, nil
+	case IdentityChoiceImsiWithLMSI:
+		if v.ImsiWithLMSI == nil {
+			return nil, fmt.Errorf("choice Identity: imsi-WithLMSI is nil")
+		}
+		enc_1, err := v.ImsiWithLMSI.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding imsi-WithLMSI: %w", err)
+		}
+		return enc_1, nil
+	default:
+		return nil, fmt.Errorf("unknown choice %d for Identity", v.Choice)
+	}
+}
+
+// MarshalDER encodes Identity to DER format.
+func (v *Identity) MarshalDER() ([]byte, error) {
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes Identity from BER/DER format.
+func (v *Identity) UnmarshalBER(data []byte) error {
+	if len(data) == 0 {
+		return fmt.Errorf("empty data for Identity CHOICE")
+	}
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
+	if peekErr != nil {
+		return fmt.Errorf("peeking tag for Identity: %w", peekErr)
+	}
+
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
+	if tlvErr != nil {
+		return fmt.Errorf("decoding Identity CHOICE: %w", tlvErr)
+	}
+	if total != len(choiceData) {
+		return &ber.DecodeError{Offset: total, TypeName: "Identity", Cause: ber.ErrExtraData}
+	}
+
+	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 4 {
+		v.Choice = IdentityChoiceImsi
+		decVal, _, osErr := ber.DecodeOctetString(choiceData)
+		if osErr != nil {
+			return fmt.Errorf("decoding imsi: %w", osErr)
+		}
+		tmp := IMSI(decVal)
+		v.Imsi = &tmp
+	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+		v.Choice = IdentityChoiceImsiWithLMSI
+		var dec IMSIWithLMSI
+		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
+			return fmt.Errorf("decoding imsi-WithLMSI: %w", unmErr)
+		}
+		v.ImsiWithLMSI = &dec
+	} else {
+		return fmt.Errorf("unknown tag %s for Identity CHOICE", peekTag)
+	}
+	return nil
 }
 
 // MarshalBER encodes IMSIWithLMSI to BER format.
@@ -1495,6 +1263,11 @@ func (v *IMSIWithLMSI) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes IMSIWithLMSI to DER format.
 func (v *IMSIWithLMSI) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -1545,318 +1318,97 @@ func (v *IMSIWithLMSI) UnmarshalBER(data []byte) error {
 	return nil
 }
 
-// MarshalBER encodes Identity to BER format.
-func (v *Identity) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SubscriberId to BER format.
+func (v *SubscriberId) MarshalBER() ([]byte, error) {
 	switch v.Choice {
-	case IdentityChoiceImsi:
+	case SubscriberIdChoiceImsi:
 		enc_0 := ber.EncodeOctetString([]byte(*v.Imsi))
+		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
 		return enc_0, nil
-	case IdentityChoiceImsiWithLMSI:
-		if v.ImsiWithLMSI == nil {
-			return nil, fmt.Errorf("choice Identity: imsi-WithLMSI is nil")
-		}
-		enc_1, err := v.ImsiWithLMSI.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding imsi-WithLMSI: %w", err)
-		}
+	case SubscriberIdChoiceTmsi:
+		enc_1 := ber.EncodeOctetString([]byte(*v.Tmsi))
+		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		return enc_1, nil
 	default:
-		return nil, fmt.Errorf("unknown choice %d for Identity", v.Choice)
+		return nil, fmt.Errorf("unknown choice %d for SubscriberId", v.Choice)
 	}
 }
 
-// MarshalDER encodes Identity to DER format.
-func (v *Identity) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SubscriberId to DER format.
+func (v *SubscriberId) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes Identity from BER/DER format.
-func (v *Identity) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SubscriberId from BER/DER format.
+func (v *SubscriberId) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for Identity CHOICE")
+		return fmt.Errorf("empty data for SubscriberId CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for Identity: %w", peekErr)
+		return fmt.Errorf("peeking tag for SubscriberId: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
-		return fmt.Errorf("decoding Identity CHOICE: %w", tlvErr)
+		return fmt.Errorf("decoding SubscriberId CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "Identity", Cause: ber.ErrExtraData}
+	if total != len(choiceData) {
+		return &ber.DecodeError{Offset: total, TypeName: "SubscriberId", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 4 {
-		v.Choice = IdentityChoiceImsi
-		decVal, _, osErr := ber.DecodeOctetString(data)
-		if osErr != nil {
-			return fmt.Errorf("decoding imsi: %w", osErr)
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+		v.Choice = SubscriberIdChoiceImsi
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding imsi: %w", tlvErr)
 		}
-		tmp := IMSI(decVal)
+		tmp := IMSI(rawVal)
 		v.Imsi = &tmp
-	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-		v.Choice = IdentityChoiceImsiWithLMSI
-		var dec IMSIWithLMSI
-		if unmErr := dec.UnmarshalBER(data); unmErr != nil {
-			return fmt.Errorf("decoding imsi-WithLMSI: %w", unmErr)
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+		v.Choice = SubscriberIdChoiceTmsi
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding tmsi: %w", tlvErr)
 		}
-		v.ImsiWithLMSI = &dec
+		tmp := TMSI(rawVal)
+		v.Tmsi = &tmp
 	} else {
-		return fmt.Errorf("unknown tag %s for Identity CHOICE", peekTag)
+		return fmt.Errorf("unknown tag %s for SubscriberId CHOICE", peekTag)
 	}
 	return nil
 }
 
-// MarshalBER encodes LCSClientExternalID to BER format.
-func (v *LCSClientExternalID) MarshalBER() ([]byte, error) {
+// MarshalBERHLRList encodes a HLRList list to BER.
+func MarshalBERHLRList(list HLRList) ([]byte, error) {
 	var children []byte
-	if v.ExternalAddress != nil {
-		enc_externaladdress := ber.EncodeOctetString([]byte(*v.ExternalAddress))
-		enc_externaladdress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_externaladdress)
-		children = append(children, enc_externaladdress...)
-	}
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		enc_extensioncontainer = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_extensioncontainer)
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
+	for _, elem := range list {
+		children = append(children, ber.EncodeOctetString([]byte(elem))...)
 	}
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes LCSClientExternalID to DER format.
-func (v *LCSClientExternalID) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes LCSClientExternalID from BER/DER format.
-func (v *LCSClientExternalID) UnmarshalBER(data []byte) error {
+// UnmarshalBERHLRList decodes a HLRList list from BER.
+func UnmarshalBERHLRList(data []byte) (HLRList, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding LCSClientExternalID SEQUENCE: %w", err)
+		return nil, fmt.Errorf("decoding HLRList: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "LCSClientExternalID", Cause: ber.ErrExtraData}
+		return nil, &ber.DecodeError{Offset: total, TypeName: "HLRList", Cause: ber.ErrExtraData}
 	}
+	var result HLRList
 	offset := 0
-	// Decode externalAddress
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_externaladdress, rawVal_externaladdress, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding externalAddress: %w", err)
-				}
-				tmp_externaladdress := ISDNAddressString(rawVal_externaladdress)
-				v.ExternalAddress = &tmp_externaladdress
-				offset += n_externaladdress
-			}
-		}
-	}
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", err)
-				}
-				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "LCSClientExternalID", Cause: extErr_}
+		val, n, osErr := ber.DecodeOctetString(content[offset:])
+		if osErr != nil {
+			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
+		result = append(result, HLRId(val))
+		offset += n
 	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
-}
-
-// MarshalBER encodes MCSSInfo to BER format.
-func (v *MCSSInfo) MarshalBER() ([]byte, error) {
-	var children []byte
-	enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
-	enc_sscode = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_sscode)
-	children = append(children, enc_sscode...)
-	enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
-	enc_ssstatus = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_ssstatus)
-	children = append(children, enc_ssstatus...)
-	enc_nbrsb := ber.EncodeInteger(int64(v.NbrSB))
-	enc_nbrsb = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_nbrsb)
-	children = append(children, enc_nbrsb...)
-	enc_nbruser := ber.EncodeInteger(int64(v.NbrUser))
-	enc_nbruser = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_nbruser)
-	children = append(children, enc_nbruser...)
-	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
-		}
-		enc_extensioncontainer = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_extensioncontainer)
-		children = append(children, enc_extensioncontainer...)
-	}
-	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
-		if extErr != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
-		}
-		if n != len(ext) {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
-		}
-		children = append(children, ext...)
-	}
-	return ber.EncodeSequence(children), nil
-}
-
-// MarshalDER encodes MCSSInfo to DER format.
-func (v *MCSSInfo) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes MCSSInfo from BER/DER format.
-func (v *MCSSInfo) UnmarshalBER(data []byte) error {
-	content, total, err := ber.DecodeSequenceContent(data)
-	if err != nil {
-		return fmt.Errorf("decoding MCSSInfo SEQUENCE: %w", err)
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "MCSSInfo", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode ss-Code
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field ss-Code")
-	}
-	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
-		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
-			return fmt.Errorf("expected tag [%s %d] for ss-Code, got %s", "CONTEXT", 0, reqTag_)
-		}
-	}
-	_, n_sscode, rawVal_sscode, err := ber.DecodeTLV(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding ss-Code: %w", err)
-	}
-	v.SsCode = SSCode(rawVal_sscode)
-	offset += n_sscode
-	// Decode ss-Status
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field ss-Status")
-	}
-	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
-		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 1 {
-			return fmt.Errorf("expected tag [%s %d] for ss-Status, got %s", "CONTEXT", 1, reqTag_)
-		}
-	}
-	_, n_ssstatus, rawVal_ssstatus, err := ber.DecodeTLV(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding ss-Status: %w", err)
-	}
-	v.SsStatus = ExtSSStatus(rawVal_ssstatus)
-	offset += n_ssstatus
-	// Decode nbrSB
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field nbrSB")
-	}
-	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
-		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 2 {
-			return fmt.Errorf("expected tag [%s %d] for nbrSB, got %s", "CONTEXT", 2, reqTag_)
-		}
-	}
-	_, n_nbrsb, rawVal_nbrsb, err := ber.DecodeTLV(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding nbrSB: %w", err)
-	}
-	decVal_nbrsb, intErr := ber.DecodeIntegerValue(rawVal_nbrsb)
-	if intErr != nil {
-		return fmt.Errorf("decoding nbrSB: %w", intErr)
-	}
-	v.NbrSB = decVal_nbrsb
-	offset += n_nbrsb
-	// Decode nbrUser
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field nbrUser")
-	}
-	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
-		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 3 {
-			return fmt.Errorf("expected tag [%s %d] for nbrUser, got %s", "CONTEXT", 3, reqTag_)
-		}
-	}
-	_, n_nbruser, rawVal_nbruser, err := ber.DecodeTLV(content[offset:])
-	if err != nil {
-		return fmt.Errorf("decoding nbrUser: %w", err)
-	}
-	decVal_nbruser, intErr := ber.DecodeIntegerValue(rawVal_nbruser)
-	if intErr != nil {
-		return fmt.Errorf("decoding nbrUser: %w", intErr)
-	}
-	v.NbrUser = decVal_nbruser
-	offset += n_nbruser
-	// Decode extensionContainer
-	if offset < len(content) {
-		peekTag, peekErr := ber.PeekTag(content[offset:])
-		if peekErr == nil {
-			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
-				if err != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", err)
-				}
-				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
-				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer); unmErr != nil {
-					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
-				}
-				v.ExtensionContainer = &dec_extensioncontainer
-				offset += n_extensioncontainer
-			}
-		}
-	}
-	v.ExtCount_ = 0
-	v.ExtPresent_ = v.ExtPresent_[:0]
-	v.ExtData_ = v.ExtData_[:0]
-	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
-		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "MCSSInfo", Cause: extErr_}
-		}
-		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
-		v.ExtPresent_ = append(v.ExtPresent_, true)
-		offset += nExt_
-	}
-	v.ExtCount_ = int64(len(v.ExtData_))
-	return nil
+	return result, nil
 }
 
 // MarshalBER encodes NAEAPreferredCI to BER format.
@@ -1888,6 +1440,11 @@ func (v *NAEAPreferredCI) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes NAEAPreferredCI to DER format.
 func (v *NAEAPreferredCI) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -1943,6 +1500,168 @@ func (v *NAEAPreferredCI) UnmarshalBER(data []byte) error {
 		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "NAEAPreferredCI", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes SubscriberIdentity to BER format.
+func (v *SubscriberIdentity) MarshalBER() ([]byte, error) {
+	switch v.Choice {
+	case SubscriberIdentityChoiceImsi:
+		enc_0 := ber.EncodeOctetString([]byte(*v.Imsi))
+		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
+		return enc_0, nil
+	case SubscriberIdentityChoiceMsisdn:
+		enc_1 := ber.EncodeOctetString([]byte(*v.Msisdn))
+		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
+		return enc_1, nil
+	default:
+		return nil, fmt.Errorf("unknown choice %d for SubscriberIdentity", v.Choice)
+	}
+}
+
+// MarshalDER encodes SubscriberIdentity to DER format.
+func (v *SubscriberIdentity) MarshalDER() ([]byte, error) {
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes SubscriberIdentity from BER/DER format.
+func (v *SubscriberIdentity) UnmarshalBER(data []byte) error {
+	if len(data) == 0 {
+		return fmt.Errorf("empty data for SubscriberIdentity CHOICE")
+	}
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
+	if peekErr != nil {
+		return fmt.Errorf("peeking tag for SubscriberIdentity: %w", peekErr)
+	}
+
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
+	if tlvErr != nil {
+		return fmt.Errorf("decoding SubscriberIdentity CHOICE: %w", tlvErr)
+	}
+	if total != len(choiceData) {
+		return &ber.DecodeError{Offset: total, TypeName: "SubscriberIdentity", Cause: ber.ErrExtraData}
+	}
+
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+		v.Choice = SubscriberIdentityChoiceImsi
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding imsi: %w", tlvErr)
+		}
+		tmp := IMSI(rawVal)
+		v.Imsi = &tmp
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+		v.Choice = SubscriberIdentityChoiceMsisdn
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding msisdn: %w", tlvErr)
+		}
+		tmp := ISDNAddressString(rawVal)
+		v.Msisdn = &tmp
+	} else {
+		return fmt.Errorf("unknown tag %s for SubscriberIdentity CHOICE", peekTag)
+	}
+	return nil
+}
+
+// MarshalBER encodes LCSClientExternalID to BER format.
+func (v *LCSClientExternalID) MarshalBER() ([]byte, error) {
+	var children []byte
+	if v.ExternalAddress != nil {
+		enc_externaladdress := ber.EncodeOctetString([]byte(*v.ExternalAddress))
+		enc_externaladdress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_externaladdress)
+		children = append(children, enc_externaladdress...)
+	}
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		enc_extensioncontainer = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_extensioncontainer)
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes LCSClientExternalID to DER format.
+func (v *LCSClientExternalID) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes LCSClientExternalID from BER/DER format.
+func (v *LCSClientExternalID) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding LCSClientExternalID SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "LCSClientExternalID", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode externalAddress
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+				_, n_externaladdress, rawVal_externaladdress, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding externalAddress: %w", err)
+				}
+				tmp_externaladdress := ISDNAddressString(rawVal_externaladdress)
+				v.ExternalAddress = &tmp_externaladdress
+				offset += n_externaladdress
+			}
+		}
+	}
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+				_, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", err)
+				}
+				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "LCSClientExternalID", Cause: extErr_}
 		}
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
@@ -2016,124 +1735,451 @@ func (v *NetworkNodeDiameterAddress) UnmarshalBER(data []byte) error {
 	return nil
 }
 
-// MarshalBER encodes SubscriberId to BER format.
-func (v *SubscriberId) MarshalBER() ([]byte, error) {
+// MarshalBER encodes CellGlobalIdOrServiceAreaIdOrLAI to BER format.
+func (v *CellGlobalIdOrServiceAreaIdOrLAI) MarshalBER() ([]byte, error) {
 	switch v.Choice {
-	case SubscriberIdChoiceImsi:
-		enc_0 := ber.EncodeOctetString([]byte(*v.Imsi))
+	case CellGlobalIdOrServiceAreaIdOrLAIChoiceCellGlobalIdOrServiceAreaIdFixedLength:
+		enc_0 := ber.EncodeOctetString([]byte(*v.CellGlobalIdOrServiceAreaIdFixedLength))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
 		return enc_0, nil
-	case SubscriberIdChoiceTmsi:
-		enc_1 := ber.EncodeOctetString([]byte(*v.Tmsi))
+	case CellGlobalIdOrServiceAreaIdOrLAIChoiceLaiFixedLength:
+		enc_1 := ber.EncodeOctetString([]byte(*v.LaiFixedLength))
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		return enc_1, nil
 	default:
-		return nil, fmt.Errorf("unknown choice %d for SubscriberId", v.Choice)
+		return nil, fmt.Errorf("unknown choice %d for CellGlobalIdOrServiceAreaIdOrLAI", v.Choice)
 	}
 }
 
-// MarshalDER encodes SubscriberId to DER format.
-func (v *SubscriberId) MarshalDER() ([]byte, error) {
+// MarshalDER encodes CellGlobalIdOrServiceAreaIdOrLAI to DER format.
+func (v *CellGlobalIdOrServiceAreaIdOrLAI) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes SubscriberId from BER/DER format.
-func (v *SubscriberId) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes CellGlobalIdOrServiceAreaIdOrLAI from BER/DER format.
+func (v *CellGlobalIdOrServiceAreaIdOrLAI) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for SubscriberId CHOICE")
+		return fmt.Errorf("empty data for CellGlobalIdOrServiceAreaIdOrLAI CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for SubscriberId: %w", peekErr)
+		return fmt.Errorf("peeking tag for CellGlobalIdOrServiceAreaIdOrLAI: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
-		return fmt.Errorf("decoding SubscriberId CHOICE: %w", tlvErr)
+		return fmt.Errorf("decoding CellGlobalIdOrServiceAreaIdOrLAI CHOICE: %w", tlvErr)
 	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SubscriberId", Cause: ber.ErrExtraData}
+	if total != len(choiceData) {
+		return &ber.DecodeError{Offset: total, TypeName: "CellGlobalIdOrServiceAreaIdOrLAI", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-		v.Choice = SubscriberIdChoiceImsi
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
+		v.Choice = CellGlobalIdOrServiceAreaIdOrLAIChoiceCellGlobalIdOrServiceAreaIdFixedLength
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
-			return fmt.Errorf("decoding imsi: %w", tlvErr)
+			return fmt.Errorf("decoding cellGlobalIdOrServiceAreaIdFixedLength: %w", tlvErr)
 		}
-		tmp := IMSI(rawVal)
-		v.Imsi = &tmp
+		tmp := CellGlobalIdOrServiceAreaIdFixedLength(rawVal)
+		v.CellGlobalIdOrServiceAreaIdFixedLength = &tmp
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-		v.Choice = SubscriberIdChoiceTmsi
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
+		v.Choice = CellGlobalIdOrServiceAreaIdOrLAIChoiceLaiFixedLength
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
-			return fmt.Errorf("decoding tmsi: %w", tlvErr)
+			return fmt.Errorf("decoding laiFixedLength: %w", tlvErr)
 		}
-		tmp := TMSI(rawVal)
-		v.Tmsi = &tmp
+		tmp := LAIFixedLength(rawVal)
+		v.LaiFixedLength = &tmp
 	} else {
-		return fmt.Errorf("unknown tag %s for SubscriberId CHOICE", peekTag)
+		return fmt.Errorf("unknown tag %s for CellGlobalIdOrServiceAreaIdOrLAI CHOICE", peekTag)
 	}
 	return nil
 }
 
-// MarshalBER encodes SubscriberIdentity to BER format.
-func (v *SubscriberIdentity) MarshalBER() ([]byte, error) {
+// MarshalBER encodes BasicServiceCode to BER format.
+func (v *BasicServiceCode) MarshalBER() ([]byte, error) {
 	switch v.Choice {
-	case SubscriberIdentityChoiceImsi:
-		enc_0 := ber.EncodeOctetString([]byte(*v.Imsi))
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
+	case BasicServiceCodeChoiceBearerService:
+		enc_0 := ber.EncodeOctetString([]byte(*v.BearerService))
+		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_0)
 		return enc_0, nil
-	case SubscriberIdentityChoiceMsisdn:
-		enc_1 := ber.EncodeOctetString([]byte(*v.Msisdn))
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
+	case BasicServiceCodeChoiceTeleservice:
+		enc_1 := ber.EncodeOctetString([]byte(*v.Teleservice))
+		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_1)
 		return enc_1, nil
 	default:
-		return nil, fmt.Errorf("unknown choice %d for SubscriberIdentity", v.Choice)
+		return nil, fmt.Errorf("unknown choice %d for BasicServiceCode", v.Choice)
 	}
 }
 
-// MarshalDER encodes SubscriberIdentity to DER format.
-func (v *SubscriberIdentity) MarshalDER() ([]byte, error) {
+// MarshalDER encodes BasicServiceCode to DER format.
+func (v *BasicServiceCode) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes SubscriberIdentity from BER/DER format.
-func (v *SubscriberIdentity) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes BasicServiceCode from BER/DER format.
+func (v *BasicServiceCode) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for SubscriberIdentity CHOICE")
+		return fmt.Errorf("empty data for BasicServiceCode CHOICE")
 	}
-	peekTag, peekErr := ber.PeekTag(data)
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for SubscriberIdentity: %w", peekErr)
+		return fmt.Errorf("peeking tag for BasicServiceCode: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(data)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
-		return fmt.Errorf("decoding SubscriberIdentity CHOICE: %w", tlvErr)
+		return fmt.Errorf("decoding BasicServiceCode CHOICE: %w", tlvErr)
+	}
+	if total != len(choiceData) {
+		return &ber.DecodeError{Offset: total, TypeName: "BasicServiceCode", Cause: ber.ErrExtraData}
+	}
+
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
+		v.Choice = BasicServiceCodeChoiceBearerService
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding bearerService: %w", tlvErr)
+		}
+		tmp := BearerServiceCode(rawVal)
+		v.BearerService = &tmp
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
+		v.Choice = BasicServiceCodeChoiceTeleservice
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding teleservice: %w", tlvErr)
+		}
+		tmp := TeleserviceCode(rawVal)
+		v.Teleservice = &tmp
+	} else {
+		return fmt.Errorf("unknown tag %s for BasicServiceCode CHOICE", peekTag)
+	}
+	return nil
+}
+
+// MarshalBER encodes ExtBasicServiceCode to BER format.
+func (v *ExtBasicServiceCode) MarshalBER() ([]byte, error) {
+	switch v.Choice {
+	case ExtBasicServiceCodeChoiceExtBearerService:
+		enc_0 := ber.EncodeOctetString([]byte(*v.ExtBearerService))
+		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_0)
+		return enc_0, nil
+	case ExtBasicServiceCodeChoiceExtTeleservice:
+		enc_1 := ber.EncodeOctetString([]byte(*v.ExtTeleservice))
+		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_1)
+		return enc_1, nil
+	default:
+		return nil, fmt.Errorf("unknown choice %d for ExtBasicServiceCode", v.Choice)
+	}
+}
+
+// MarshalDER encodes ExtBasicServiceCode to DER format.
+func (v *ExtBasicServiceCode) MarshalDER() ([]byte, error) {
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ExtBasicServiceCode from BER/DER format.
+func (v *ExtBasicServiceCode) UnmarshalBER(data []byte) error {
+	if len(data) == 0 {
+		return fmt.Errorf("empty data for ExtBasicServiceCode CHOICE")
+	}
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
+	if peekErr != nil {
+		return fmt.Errorf("peeking tag for ExtBasicServiceCode: %w", peekErr)
+	}
+
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
+	if tlvErr != nil {
+		return fmt.Errorf("decoding ExtBasicServiceCode CHOICE: %w", tlvErr)
+	}
+	if total != len(choiceData) {
+		return &ber.DecodeError{Offset: total, TypeName: "ExtBasicServiceCode", Cause: ber.ErrExtraData}
+	}
+
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
+		v.Choice = ExtBasicServiceCodeChoiceExtBearerService
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding ext-BearerService: %w", tlvErr)
+		}
+		tmp := ExtBearerServiceCode(rawVal)
+		v.ExtBearerService = &tmp
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
+		v.Choice = ExtBasicServiceCodeChoiceExtTeleservice
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding ext-Teleservice: %w", tlvErr)
+		}
+		tmp := ExtTeleserviceCode(rawVal)
+		v.ExtTeleservice = &tmp
+	} else {
+		return fmt.Errorf("unknown tag %s for ExtBasicServiceCode CHOICE", peekTag)
+	}
+	return nil
+}
+
+// MarshalBER encodes EMLPPInfo to BER format.
+func (v *EMLPPInfo) MarshalBER() ([]byte, error) {
+	var children []byte
+	enc_maximumentitledpriority := ber.EncodeInteger(int64(v.MaximumentitledPriority))
+	children = append(children, enc_maximumentitledpriority...)
+	enc_defaultpriority := ber.EncodeInteger(int64(v.DefaultPriority))
+	children = append(children, enc_defaultpriority...)
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes EMLPPInfo to DER format.
+func (v *EMLPPInfo) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes EMLPPInfo from BER/DER format.
+func (v *EMLPPInfo) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding EMLPPInfo SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SubscriberIdentity", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "EMLPPInfo", Cause: ber.ErrExtraData}
 	}
+	offset := 0
+	// Decode maximumentitledPriority
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field maximumentitledPriority")
+	}
+	val_maximumentitledpriority, n, err := ber.DecodeInteger(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding maximumentitledPriority: %w", err)
+	}
+	v.MaximumentitledPriority = EMLPPPriority(val_maximumentitledpriority)
+	offset += n
+	// Decode defaultPriority
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field defaultPriority")
+	}
+	val_defaultpriority, n, err := ber.DecodeInteger(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding defaultPriority: %w", err)
+	}
+	v.DefaultPriority = EMLPPPriority(val_defaultpriority)
+	offset += n
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+				// Decode nested SEQUENCE (ExtensionContainer)
+				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
+				if tlvErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
+				}
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "EMLPPInfo", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-		v.Choice = SubscriberIdentityChoiceImsi
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
-		if tlvErr != nil {
-			return fmt.Errorf("decoding imsi: %w", tlvErr)
+// MarshalBER encodes MCSSInfo to BER format.
+func (v *MCSSInfo) MarshalBER() ([]byte, error) {
+	var children []byte
+	enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
+	enc_sscode = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_sscode)
+	children = append(children, enc_sscode...)
+	enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
+	enc_ssstatus = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_ssstatus)
+	children = append(children, enc_ssstatus...)
+	enc_nbrsb := ber.EncodeInteger(int64(v.NbrSB))
+	enc_nbrsb = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_nbrsb)
+	children = append(children, enc_nbrsb...)
+	enc_nbruser := ber.EncodeInteger(int64(v.NbrUser))
+	enc_nbruser = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_nbruser)
+	children = append(children, enc_nbruser...)
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
-		tmp := IMSI(rawVal)
-		v.Imsi = &tmp
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-		v.Choice = SubscriberIdentityChoiceMsisdn
-		_, _, rawVal, tlvErr := ber.DecodeTLV(data)
-		if tlvErr != nil {
-			return fmt.Errorf("decoding msisdn: %w", tlvErr)
-		}
-		tmp := ISDNAddressString(rawVal)
-		v.Msisdn = &tmp
-	} else {
-		return fmt.Errorf("unknown tag %s for SubscriberIdentity CHOICE", peekTag)
+		enc_extensioncontainer = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_extensioncontainer)
+		children = append(children, enc_extensioncontainer...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes MCSSInfo to DER format.
+func (v *MCSSInfo) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes MCSSInfo from BER/DER format.
+func (v *MCSSInfo) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding MCSSInfo SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "MCSSInfo", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode ss-Code
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field ss-Code")
+	}
+	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
+		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
+			return fmt.Errorf("expected tag [%s %d] for ss-Code, got %s", "CONTEXT", 0, reqTag_)
+		}
+	}
+	_, n_sscode, rawVal_sscode, err := ber.DecodeTLV(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding ss-Code: %w", err)
+	}
+	v.SsCode = SSCode(rawVal_sscode)
+	offset += n_sscode
+	// Decode ss-Status
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field ss-Status")
+	}
+	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
+		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 1 {
+			return fmt.Errorf("expected tag [%s %d] for ss-Status, got %s", "CONTEXT", 1, reqTag_)
+		}
+	}
+	_, n_ssstatus, rawVal_ssstatus, err := ber.DecodeTLV(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding ss-Status: %w", err)
+	}
+	v.SsStatus = ExtSSStatus(rawVal_ssstatus)
+	offset += n_ssstatus
+	// Decode nbrSB
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field nbrSB")
+	}
+	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
+		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 2 {
+			return fmt.Errorf("expected tag [%s %d] for nbrSB, got %s", "CONTEXT", 2, reqTag_)
+		}
+	}
+	_, n_nbrsb, rawVal_nbrsb, err := ber.DecodeTLV(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding nbrSB: %w", err)
+	}
+	decVal_nbrsb, intErr := ber.DecodeIntegerValue(rawVal_nbrsb)
+	if intErr != nil {
+		return fmt.Errorf("decoding nbrSB: %w", intErr)
+	}
+	v.NbrSB = MaxMCBearers(decVal_nbrsb)
+	offset += n_nbrsb
+	// Decode nbrUser
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field nbrUser")
+	}
+	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
+		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 3 {
+			return fmt.Errorf("expected tag [%s %d] for nbrUser, got %s", "CONTEXT", 3, reqTag_)
+		}
+	}
+	_, n_nbruser, rawVal_nbruser, err := ber.DecodeTLV(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding nbrUser: %w", err)
+	}
+	decVal_nbruser, intErr := ber.DecodeIntegerValue(rawVal_nbruser)
+	if intErr != nil {
+		return fmt.Errorf("decoding nbrUser: %w", intErr)
+	}
+	v.NbrUser = MCBearers(decVal_nbruser)
+	offset += n_nbruser
+	// Decode extensionContainer
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
+				_, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", err)
+				}
+				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
+				var dec_extensioncontainer ExtensionContainer
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer); unmErr != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
+				}
+				v.ExtensionContainer = &dec_extensioncontainer
+				offset += n_extensioncontainer
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "MCSSInfo", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }

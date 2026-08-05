@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "Remote-Operations-Information-Objects". DO NOT EDIT.
 
-package gsm_map
+package tcap
 
 import (
 	"fmt"

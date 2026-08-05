@@ -15,6 +15,13 @@ var (
 	_ = per.NewBitBuffer
 )
 
+// InitiatingMessage represents the ASN.1 type InitiatingMessage (SEQUENCE).
+type InitiatingMessage struct {
+	ProcedureCode int64            `asn1:"tag:0,context,implicit"`
+	Criticality   int64            `asn1:"tag:1,context,implicit"`
+	Value         runtime.RawValue `asn1:"tag:2,context,explicit"`
+}
+
 // S1APPDU choice constants.
 const (
 	S1APPDUChoiceInitiatingMessage   = 1
@@ -54,13 +61,6 @@ func NewS1APPDUUnsuccessfulOutcome(v UnsuccessfulOutcome) S1APPDU {
 	}
 }
 
-// InitiatingMessage represents the ASN.1 type InitiatingMessage (SEQUENCE).
-type InitiatingMessage struct {
-	ProcedureCode int64            `asn1:"tag:0,context,implicit"`
-	Criticality   int64            `asn1:"tag:1,context,implicit"`
-	Value         runtime.RawValue `asn1:"tag:2,context,explicit"`
-}
-
 // SuccessfulOutcome represents the ASN.1 type SuccessfulOutcome (SEQUENCE).
 type SuccessfulOutcome struct {
 	ProcedureCode int64            `asn1:"tag:0,context,implicit"`
@@ -73,6 +73,53 @@ type UnsuccessfulOutcome struct {
 	ProcedureCode int64            `asn1:"tag:0,context,implicit"`
 	Criticality   int64            `asn1:"tag:1,context,implicit"`
 	Value         runtime.RawValue `asn1:"tag:2,context,explicit"`
+}
+
+// MarshalAPER encodes InitiatingMessage to APER format.
+func (v *InitiatingMessage) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *InitiatingMessage) MarshalAPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeIntegerAligned(bb, int64(v.ProcedureCode), int64Ptr(0), int64Ptr(255), false); err != nil {
+		return fmt.Errorf("encoding procedureCode: %w", err)
+	}
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+		return fmt.Errorf("encoding criticality: %w", err)
+	}
+	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes InitiatingMessage from APER format.
+func (v *InitiatingMessage) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *InitiatingMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+	if err != nil {
+		return fmt.Errorf("decoding procedureCode: %w", err)
+	}
+	v.ProcedureCode = val_procedurecode
+	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
+	if err != nil {
+		return fmt.Errorf("decoding criticality: %w", err)
+	}
+	v.Criticality = val_criticality
+	openData_value, err := per.DecodeOpenTypeAligned(bb)
+	if err != nil {
+		return fmt.Errorf("decoding value: %w", err)
+	}
+	v.Value = runtime.RawValue{Bytes: openData_value}
+	return nil
 }
 
 // MarshalAPER encodes S1APPDU to APER format.
@@ -130,11 +177,7 @@ func (v *S1APPDU) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		v.Choice = int(extIdx) + 3 + 1
-		if _, err := per.DecodeOpenTypeAligned(bb); err != nil {
-			return err
-		}
-		return fmt.Errorf("S1APPDU: extension choice %d not supported", v.Choice)
+		return fmt.Errorf("S1APPDU: unsupported extension choice %d", int(extIdx)+3+1)
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
 	if err != nil {
@@ -161,53 +204,6 @@ func (v *S1APPDU) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		v.UnsuccessfulOutcome = &dec_unsuccessfuloutcome
 	}
-	return nil
-}
-
-// MarshalAPER encodes InitiatingMessage to APER format.
-func (v *InitiatingMessage) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *InitiatingMessage) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.ProcedureCode), int64Ptr(0), int64Ptr(255), false); err != nil {
-		return fmt.Errorf("encoding procedureCode: %w", err)
-	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
-		return fmt.Errorf("encoding criticality: %w", err)
-	}
-	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
-		return fmt.Errorf("encoding value: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes InitiatingMessage from APER format.
-func (v *InitiatingMessage) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *InitiatingMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
-	if err != nil {
-		return fmt.Errorf("decoding procedureCode: %w", err)
-	}
-	v.ProcedureCode = val_procedurecode
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
-	if err != nil {
-		return fmt.Errorf("decoding criticality: %w", err)
-	}
-	v.Criticality = val_criticality
-	openData_value, err := per.DecodeOpenTypeAligned(bb)
-	if err != nil {
-		return fmt.Errorf("decoding value: %w", err)
-	}
-	v.Value = runtime.RawValue{Bytes: openData_value}
 	return nil
 }
 

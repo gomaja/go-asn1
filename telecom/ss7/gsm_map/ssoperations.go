@@ -1,4 +1,4 @@
-// Code generated from ASN.1 module "MAP-Frame". DO NOT EDIT.
+// Code generated from ASN.1 module "SS-Operations". DO NOT EDIT.
 
 package gsm_map
 
@@ -14,6 +14,3 @@ var (
 	_ = ber.EncodeTLV
 	_ = tag.ClassUniversal
 )
-
-// ZZZZDummy represents the ASN.1 type ZZZZ-Dummy (NULL).
-type ZZZZDummy = struct{}

@@ -135,6 +135,50 @@ func DecodeTLV(data []byte) (tag.Tag, int, []byte, error) {
 	return t, end, data[headerLen:end], nil
 }
 
+// ValidateDERElement verifies that data contains exactly one DER TLV.
+func ValidateDERElement(data []byte) error {
+	n, err := ValidateDERTLV(data)
+	if err != nil {
+		return err
+	}
+	if n != len(data) {
+		return ErrExtraData
+	}
+	return nil
+}
+
+// ValidateDERTLV verifies one definite-length DER TLV and returns its size.
+func ValidateDERTLV(data []byte) (int, error) {
+	t, tagLen, err := DecodeTag(data)
+	if err != nil {
+		return 0, err
+	}
+	length, indefinite, lenLen, err := DecodeLength(data[tagLen:])
+	if err != nil {
+		return 0, err
+	}
+	if indefinite {
+		return 0, ErrIndefiniteLength
+	}
+
+	headerLen := tagLen + lenLen
+	end := headerLen + length
+	if end > len(data) {
+		return 0, ErrTruncated
+	}
+	if t.Constructed {
+		offset := headerLen
+		for offset < end {
+			n, err := ValidateDERTLV(data[offset:end])
+			if err != nil {
+				return 0, err
+			}
+			offset += n
+		}
+	}
+	return end, nil
+}
+
 // DecodeSequenceChildren splits the value bytes of a constructed TLV into child TLVs.
 // Returns a slice of raw child TLV byte slices.
 func DecodeSequenceChildren(data []byte) ([][]byte, error) {

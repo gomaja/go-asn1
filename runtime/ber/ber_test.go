@@ -107,6 +107,20 @@ func TestIndefiniteLength(t *testing.T) {
 	}
 }
 
+func TestValidateDERElement(t *testing.T) {
+	if err := ValidateDERElement([]byte{0x30, 0x03, 0x80, 0x01, 0x00}); err != nil {
+		t.Fatalf("ValidateDERElement definite constructed: %v", err)
+	}
+
+	if err := ValidateDERElement([]byte{0x30, 0x80, 0x05, 0x00, 0x00, 0x00}); !errors.Is(err, ErrIndefiniteLength) {
+		t.Fatalf("ValidateDERElement indefinite error = %v, want %v", err, ErrIndefiniteLength)
+	}
+
+	if err := ValidateDERElement([]byte{0x05, 0x00, 0x05, 0x00}); !errors.Is(err, ErrExtraData) {
+		t.Fatalf("ValidateDERElement trailing error = %v, want %v", err, ErrExtraData)
+	}
+}
+
 func TestEncodeDecodeBoolean(t *testing.T) {
 	for _, val := range []bool{true, false} {
 		encoded := EncodeBoolean(val)
