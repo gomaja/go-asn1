@@ -5,8 +5,8 @@ package per
 import "errors"
 
 var (
-	ErrBufferOverflow     = errors.New("per: buffer overflow")
-	ErrInvalidValue       = errors.New("per: value out of range")
+	ErrBufferOverflow      = errors.New("per: buffer overflow")
+	ErrInvalidValue        = errors.New("per: value out of range")
 	ErrConstraintViolation = errors.New("per: constraint violation")
-	ErrTruncated          = errors.New("per: data truncated")
+	ErrTruncated           = errors.New("per: data truncated")
 )

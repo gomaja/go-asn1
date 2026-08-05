@@ -489,12 +489,48 @@ func DecodeString(data []byte, expectedTag int) (string, int, error) {
 	return string(value), total, nil
 }
 
-// DecodeUTCTime decodes a UTCTime value.
+// DecodeUTCTime decodes a UTCTime value from raw TLV bytes.
 func DecodeUTCTime(data []byte) (time.Time, int, error) {
 	s, total, err := DecodeString(data, tag.TagUTCTime)
 	if err != nil {
 		return time.Time{}, 0, err
 	}
+	t, err := parseUTCTime(s)
+	if err != nil {
+		return time.Time{}, 0, err
+	}
+	return t, total, nil
+}
+
+// DecodeGeneralizedTime decodes a GeneralizedTime value from raw TLV bytes.
+func DecodeGeneralizedTime(data []byte) (time.Time, int, error) {
+	s, total, err := DecodeString(data, tag.TagGeneralizedTime)
+	if err != nil {
+		return time.Time{}, 0, err
+	}
+	t, err := parseGeneralizedTime(s)
+	if err != nil {
+		return time.Time{}, 0, err
+	}
+	return t, total, nil
+}
+
+// DecodeUTCTimeValue decodes a UTCTime from raw value bytes (tag/length
+// already consumed by the caller - e.g. an implicitly tagged field, where
+// the wrapping tag replaced the UNIVERSAL UTCTime tag, or a CHOICE
+// alternative whose tag has already been matched).
+func DecodeUTCTimeValue(value []byte) (time.Time, error) {
+	return parseUTCTime(string(value))
+}
+
+// DecodeGeneralizedTimeValue decodes a GeneralizedTime from raw value bytes
+// (tag/length already consumed by the caller - see DecodeUTCTimeValue).
+func DecodeGeneralizedTimeValue(value []byte) (time.Time, error) {
+	return parseGeneralizedTime(string(value))
+}
+
+// parseUTCTime parses the character content of an ASN.1 UTCTime.
+func parseUTCTime(s string) (time.Time, error) {
 	// Try common formats.
 	for _, layout := range []string{
 		"060102150405Z",
@@ -504,24 +540,20 @@ func DecodeUTCTime(data []byte) (time.Time, int, error) {
 	} {
 		t, err := time.Parse(layout, s)
 		if err == nil {
-			// ASN.1 UTCTime: YY >= 50 → 19YY, YY < 50 → 20YY.
+			// ASN.1 UTCTime: YY >= 50 -> 19YY, YY < 50 -> 20YY.
 			// Go's time.Parse uses cutoff 69, so years 50-68 are wrong.
 			year := t.Year()
 			if year >= 2050 && year <= 2068 {
 				t = t.AddDate(-100, 0, 0)
 			}
-			return t, total, nil
+			return t, nil
 		}
 	}
-	return time.Time{}, 0, fmt.Errorf("%w: cannot parse UTCTime %q", ErrInvalidValue, s)
+	return time.Time{}, fmt.Errorf("%w: cannot parse UTCTime %q", ErrInvalidValue, s)
 }
 
-// DecodeGeneralizedTime decodes a GeneralizedTime value.
-func DecodeGeneralizedTime(data []byte) (time.Time, int, error) {
-	s, total, err := DecodeString(data, tag.TagGeneralizedTime)
-	if err != nil {
-		return time.Time{}, 0, err
-	}
+// parseGeneralizedTime parses the character content of an ASN.1 GeneralizedTime.
+func parseGeneralizedTime(s string) (time.Time, error) {
 	for _, layout := range []string{
 		"20060102150405Z",
 		"20060102150405",
@@ -531,10 +563,10 @@ func DecodeGeneralizedTime(data []byte) (time.Time, int, error) {
 	} {
 		t, err := time.Parse(layout, s)
 		if err == nil {
-			return t, total, nil
+			return t, nil
 		}
 	}
-	return time.Time{}, 0, fmt.Errorf("%w: cannot parse GeneralizedTime %q", ErrInvalidValue, s)
+	return time.Time{}, fmt.Errorf("%w: cannot parse GeneralizedTime %q", ErrInvalidValue, s)
 }
 
 // DecodeRawValue reads one complete TLV without interpreting the value.
@@ -711,4 +743,29 @@ func DecodeConstructedContent(data []byte) (tag.Tag, []byte, int, error) {
 		return tag.Tag{}, nil, 0, err
 	}
 	return t, value, total, nil
+}
+
+// DecodeBigIntValue interprets contents octets as an arbitrary-width INTEGER.
+//
+// It is the counterpart to DecodeIntegerValue, which caps at 8 octets because
+// its result is an int64. An ASN.1 INTEGER is unbounded, and unconstrained
+// ones legitimately exceed 64 bits: RFC 5280 Section 4.1.2.2 requires certificate
+// users to handle a serialNumber of up to 20 octets.
+func DecodeBigIntValue(value []byte) (*big.Int, error) {
+	if len(value) == 0 {
+		return nil, fmt.Errorf("%w: empty integer", ErrInvalidValue)
+	}
+	v := new(big.Int)
+	if value[0]&0x80 != 0 {
+		notBytes := make([]byte, len(value))
+		for i, b := range value {
+			notBytes[i] = ^b
+		}
+		v.SetBytes(notBytes)
+		v.Add(v, big.NewInt(1))
+		v.Neg(v)
+		return v, nil
+	}
+	v.SetBytes(value)
+	return v, nil
 }

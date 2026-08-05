@@ -405,6 +405,81 @@ func TestEncodeDecodeGeneralizedTime(t *testing.T) {
 	}
 }
 
+func TestEncodeDecodeUTCTimeValue(t *testing.T) {
+	now := time.Date(2024, 3, 15, 10, 30, 45, 0, time.UTC)
+	encoded := EncodeUTCTime(now)
+	_, _, value, err := DecodeTLV(encoded)
+	if err != nil {
+		t.Fatalf("DecodeTLV error: %v", err)
+	}
+	decoded, err := DecodeUTCTimeValue(value)
+	if err != nil {
+		t.Fatalf("decode error: %v", err)
+	}
+	if !decoded.Equal(now) {
+		t.Errorf("got %v, want %v", decoded, now)
+	}
+}
+
+func TestEncodeDecodeGeneralizedTimeValue(t *testing.T) {
+	now := time.Date(2024, 3, 15, 10, 30, 45, 0, time.UTC)
+	encoded := EncodeGeneralizedTime(now)
+	_, _, value, err := DecodeTLV(encoded)
+	if err != nil {
+		t.Fatalf("DecodeTLV error: %v", err)
+	}
+	decoded, err := DecodeGeneralizedTimeValue(value)
+	if err != nil {
+		t.Fatalf("decode error: %v", err)
+	}
+	if !decoded.Equal(now) {
+		t.Errorf("got %v, want %v", decoded, now)
+	}
+}
+
+func TestDecodeUTCTimeValueInvalid(t *testing.T) {
+	if _, err := DecodeUTCTimeValue([]byte("not-a-time")); err == nil {
+		t.Fatal("expected error for malformed UTCTime value")
+	}
+}
+
+func TestDecodeGeneralizedTimeValueInvalid(t *testing.T) {
+	if _, err := DecodeGeneralizedTimeValue([]byte("not-a-time")); err == nil {
+		t.Fatal("expected error for malformed GeneralizedTime value")
+	}
+}
+
+func TestEncodeStringTag(t *testing.T) {
+	cases := []struct {
+		name   string
+		tagNum int
+	}{
+		{"UTF8String", tag.TagUTF8String},
+		{"PrintableString", tag.TagPrintableString},
+		{"IA5String", tag.TagIA5String},
+		{"T61String", tag.TagT61String},
+		{"VisibleString", tag.TagVisibleString},
+		{"NumericString", tag.TagNumericString},
+		{"BMPString", tag.TagBMPString},
+		{"UniversalString", tag.TagUniversalString},
+	}
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			encoded := EncodeStringTag(c.tagNum, "hello")
+			decoded, n, err := DecodeString(encoded, c.tagNum)
+			if err != nil {
+				t.Fatalf("decode error: %v", err)
+			}
+			if n != len(encoded) {
+				t.Errorf("consumed: got %d, want %d", n, len(encoded))
+			}
+			if decoded != "hello" {
+				t.Errorf("got %q, want %q", decoded, "hello")
+			}
+		})
+	}
+}
+
 func TestEncodeDecodeSequence(t *testing.T) {
 	// Build a SEQUENCE { INTEGER 42, BOOLEAN true }
 	children := append(EncodeInteger(42), EncodeBoolean(true)...)

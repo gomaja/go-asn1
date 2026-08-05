@@ -195,7 +195,6 @@ func EncodeReal(v float64) []byte {
 
 	if v == 0 {
 		if math.Signbit(v) {
-			// Negative zero: X.690 §8.5.3 — encode as 0x43.
 			return EncodeTLV(t, []byte{0x43})
 		}
 		return EncodeTLV(t, nil)
@@ -217,10 +216,8 @@ func EncodeReal(v float64) []byte {
 	mantissa := bits & 0x000FFFFFFFFFFFFF
 	var exp int64
 	if rawExp == 0 {
-		// Subnormal: exponent is 1 - bias - 52 = -1074, no implicit bit.
 		exp = 1 - 1023 - 52
 	} else {
-		// Normal: restore implicit 1 bit.
 		exp = int64(rawExp) - 1023 - 52
 		mantissa |= 0x0010000000000000
 	}
@@ -286,6 +283,21 @@ func EncodeIA5String(v string) []byte {
 // EncodePrintableString encodes a PrintableString.
 func EncodePrintableString(v string) []byte {
 	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagPrintableString}, []byte(v))
+}
+
+// EncodeStringTag encodes a character string value under an arbitrary
+// UNIVERSAL tag number. This is the single encoder generated code uses for
+// every ASN.1 character string kind (UTF8String, PrintableString, IA5String,
+// T61String, VisibleString, NumericString, BMPString, UniversalString,
+// GraphicString, GeneralString, VideotexString, ...): the wire content is
+// identical byte-for-byte across all of them (this codec does not transcode
+// content, matching how the decoder already treats string content as opaque
+// bytes) and only the tag number distinguishes the kind. A single
+// tag-parameterised function keeps every string kind's tag correct by
+// construction, rather than requiring one hand-written Encode<Kind>String
+// function per kind kept in sync with tag.go by hand.
+func EncodeStringTag(tagNum int, v string) []byte {
+	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tagNum}, []byte(v))
 }
 
 // EncodeUTCTime encodes a UTCTime per X.690 section 11.8.
@@ -434,4 +446,22 @@ func EncodeOIDValue(oid []uint64) []byte {
 // EncodeStringValue returns the raw value bytes for a string.
 func EncodeStringValue(s string) []byte {
 	return []byte(s)
+}
+
+// EncodeBigIntValue returns only the X.690 Section 8.3 contents octets for an
+// arbitrary-width INTEGER, without the tag and length. Components inside a
+// SEQUENCE are assembled from value-level encoders, so this is the
+// arbitrary-precision counterpart to EncodeIntegerValue.
+func EncodeBigIntValue(v *big.Int) []byte {
+	full := EncodeBigInt(v)
+	// EncodeBigInt emits tag + length + contents; the contents start after
+	// the 1-octet universal INTEGER tag and its length field.
+	_, _, value, err := DecodeTLV(full)
+	if err != nil {
+		// EncodeBigInt always produces a well-formed TLV, so this is
+		// unreachable; return the whole thing rather than silently dropping
+		// the value if that ever stops being true.
+		return full
+	}
+	return value
 }

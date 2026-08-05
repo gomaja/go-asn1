@@ -207,7 +207,7 @@ func TestBitString_RoundTrip(t *testing.T) {
 			if gotBitLen != tc.bitLen {
 				t.Fatalf("bitLen: got %d, want %d", gotBitLen, tc.bitLen)
 			}
-			// Compare all significant bits, including the partial last byte.
+			// Compare only the significant bits.
 			fullBytes := tc.bitLen / 8
 			for i := 0; i < fullBytes; i++ {
 				if gotData[i] != tc.data[i] {
@@ -247,10 +247,10 @@ func TestOpenType_RoundTrip(t *testing.T) {
 
 func TestChoiceIndex_RoundTrip(t *testing.T) {
 	tests := []struct {
-		index    int64
-		numAlts  int
-		ext      bool
-		wantExt  bool
+		index   int64
+		numAlts int
+		ext     bool
+		wantExt bool
 	}{
 		{0, 4, false, false},
 		{3, 4, false, false},
