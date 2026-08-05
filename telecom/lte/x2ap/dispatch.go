@@ -714,6 +714,20 @@ func decodeProtocolIEFieldListConstrained(bb *per.BitBuffer, lb, ub int64) ([]Pr
 	return result, nil
 }
 
+func decodeRaReportIndicationList(bb *per.BitBuffer) (RaReportIndicationList, error) {
+	n, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, MaxnoofUEsforRAReportIndications)
+	if err != nil {
+		return nil, fmt.Errorf("decoding list length: %w", err)
+	}
+	result := make(RaReportIndicationList, n)
+	for i := int64(0); i < n; i++ {
+		if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+			return nil, fmt.Errorf("decoding item %d: %w", i, err)
+		}
+	}
+	return result, nil
+}
+
 // DecodeIEFieldValue decodes a ProtocolIE-Field Value based on message type and IE ID.
 // Returns the decoded typed value, or nil if the combination is unknown.
 func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{}, error) {
@@ -5614,6 +5628,15 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			var v CriticalityDiagnostics
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
+			}
+			return &v, nil
+		}
+	case "RachIndication":
+		switch ieId {
+		case 447: // id-RaReportIndicationList -> RaReportIndicationList
+			v, err := decodeRaReportIndicationList(bb)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE RaReportIndicationList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
