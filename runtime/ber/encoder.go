@@ -4,6 +4,7 @@ import (
 	"math"
 	"math/big"
 	"time"
+	"unicode/utf16"
 
 	"github.com/gomaja/go-asn1/runtime/tag"
 )
@@ -90,6 +91,14 @@ func EncodeBigInt(v *big.Int) []byte {
 	if v == nil {
 		return EncodeInteger(0)
 	}
+	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagInteger}, encodeBigIntBytes(v))
+}
+
+func encodeBigIntBytes(v *big.Int) []byte {
+	if v == nil {
+		return encodeIntBytes(0)
+	}
+
 	b := v.Bytes() // absolute value, big-endian
 	if v.Sign() >= 0 {
 		// Add leading zero if high bit is set.
@@ -123,7 +132,7 @@ func EncodeBigInt(v *big.Int) []byte {
 		}
 		b = tc
 	}
-	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagInteger}, b)
+	return b
 }
 
 // EncodeBitString encodes a bit string per X.690 section 8.6.
@@ -195,7 +204,6 @@ func EncodeReal(v float64) []byte {
 
 	if v == 0 {
 		if math.Signbit(v) {
-			// Negative zero: X.690 §8.5.3 — encode as 0x43.
 			return EncodeTLV(t, []byte{0x43})
 		}
 		return EncodeTLV(t, nil)
@@ -217,10 +225,8 @@ func EncodeReal(v float64) []byte {
 	mantissa := bits & 0x000FFFFFFFFFFFFF
 	var exp int64
 	if rawExp == 0 {
-		// Subnormal: exponent is 1 - bias - 52 = -1074, no implicit bit.
 		exp = 1 - 1023 - 52
 	} else {
-		// Normal: restore implicit 1 bit.
 		exp = int64(rawExp) - 1023 - 52
 		mantissa |= 0x0010000000000000
 	}
@@ -286,6 +292,43 @@ func EncodeIA5String(v string) []byte {
 // EncodePrintableString encodes a PrintableString.
 func EncodePrintableString(v string) []byte {
 	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagPrintableString}, []byte(v))
+}
+
+// EncodeStringTag encodes a character string value under an arbitrary
+// UNIVERSAL tag number. BMPString and UniversalString have fixed-width
+// contents octets, while legacy 8-bit string kinds are kept as supplied bytes
+// because this runtime does not validate or transcode their character sets.
+func EncodeStringTag(tagNum int, v string) []byte {
+	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tagNum}, encodeStringTagValue(tagNum, v))
+}
+
+func encodeStringTagValue(tagNum int, v string) []byte {
+	switch tagNum {
+	case tag.TagBMPString:
+		return encodeBMPStringValue(v)
+	case tag.TagUniversalString:
+		return encodeUniversalStringValue(v)
+	default:
+		return []byte(v)
+	}
+}
+
+func encodeBMPStringValue(v string) []byte {
+	units := utf16.Encode([]rune(v))
+	out := make([]byte, 0, len(units)*2)
+	for _, u := range units {
+		out = append(out, byte(u>>8), byte(u))
+	}
+	return out
+}
+
+func encodeUniversalStringValue(v string) []byte {
+	out := make([]byte, 0, len(v)*4)
+	for _, r := range v {
+		cp := uint32(r)
+		out = append(out, byte(cp>>24), byte(cp>>16), byte(cp>>8), byte(cp))
+	}
+	return out
 }
 
 // EncodeUTCTime encodes a UTCTime per X.690 section 11.8.
@@ -434,4 +477,12 @@ func EncodeOIDValue(oid []uint64) []byte {
 // EncodeStringValue returns the raw value bytes for a string.
 func EncodeStringValue(s string) []byte {
 	return []byte(s)
+}
+
+// EncodeBigIntValue returns only the X.690 Section 8.3 contents octets for an
+// arbitrary-width INTEGER, without the tag and length. Components inside a
+// SEQUENCE are assembled from value-level encoders, so this is the
+// arbitrary-precision counterpart to EncodeIntegerValue.
+func EncodeBigIntValue(v *big.Int) []byte {
+	return encodeBigIntBytes(v)
 }

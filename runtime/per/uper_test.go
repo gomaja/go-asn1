@@ -207,7 +207,7 @@ func TestBitString_RoundTrip(t *testing.T) {
 			if gotBitLen != tc.bitLen {
 				t.Fatalf("bitLen: got %d, want %d", gotBitLen, tc.bitLen)
 			}
-			// Compare all significant bits, including the partial last byte.
+			// Compare only the significant bits.
 			fullBytes := tc.bitLen / 8
 			for i := 0; i < fullBytes; i++ {
 				if gotData[i] != tc.data[i] {
@@ -247,10 +247,10 @@ func TestOpenType_RoundTrip(t *testing.T) {
 
 func TestChoiceIndex_RoundTrip(t *testing.T) {
 	tests := []struct {
-		index    int64
-		numAlts  int
-		ext      bool
-		wantExt  bool
+		index   int64
+		numAlts int
+		ext     bool
+		wantExt bool
 	}{
 		{0, 4, false, false},
 		{3, 4, false, false},
@@ -274,4 +274,83 @@ func TestChoiceIndex_RoundTrip(t *testing.T) {
 			t.Fatalf("ext: got %v, want %v", gotExt, tc.wantExt)
 		}
 	}
+}
+
+func TestObjectIdentifierRoundTrip(t *testing.T) {
+	oid := []uint64{2, 999, 3, 5, 7}
+
+	bb := NewBitBuffer()
+	if err := EncodeObjectIdentifier(bb, oid); err != nil {
+		t.Fatalf("encode: %v", err)
+	}
+	got, err := DecodeObjectIdentifier(NewBitBufferFromBytes(bb.Bytes()))
+	if err != nil {
+		t.Fatalf("decode: %v", err)
+	}
+	if !equalUint64Slices(got, oid) {
+		t.Fatalf("got %v, want %v", got, oid)
+	}
+}
+
+func TestObjectIdentifierAlignedRoundTripAfterUnalignedPrefix(t *testing.T) {
+	oid := []uint64{1, 39, 840, 113549}
+
+	bb := NewBitBuffer()
+	if err := bb.WriteBit(1); err != nil {
+		t.Fatalf("prefix: %v", err)
+	}
+	if err := EncodeObjectIdentifierAligned(bb, oid); err != nil {
+		t.Fatalf("encode: %v", err)
+	}
+
+	rbb := NewBitBufferFromBytes(bb.Bytes())
+	prefix, err := rbb.ReadBit()
+	if err != nil {
+		t.Fatalf("prefix read: %v", err)
+	}
+	if prefix != 1 {
+		t.Fatalf("prefix: got %d, want 1", prefix)
+	}
+	got, err := DecodeObjectIdentifierAligned(rbb)
+	if err != nil {
+		t.Fatalf("decode: %v", err)
+	}
+	if !equalUint64Slices(got, oid) {
+		t.Fatalf("got %v, want %v", got, oid)
+	}
+}
+
+func TestObjectIdentifierRejectsInvalidArcs(t *testing.T) {
+	tests := []struct {
+		name string
+		oid  []uint64
+	}{
+		{"too short", []uint64{1}},
+		{"first arc too large", []uint64{3, 0}},
+		{"second arc too large for first zero", []uint64{0, 40}},
+		{"second arc too large for first one", []uint64{1, 40}},
+		{"first subidentifier overflow", []uint64{2, ^uint64(0) - 79}},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			if err := EncodeObjectIdentifier(NewBitBuffer(), tc.oid); err == nil {
+				t.Fatal("EncodeObjectIdentifier accepted invalid OID")
+			}
+			if err := EncodeObjectIdentifierAligned(NewBitBuffer(), tc.oid); err == nil {
+				t.Fatal("EncodeObjectIdentifierAligned accepted invalid OID")
+			}
+		})
+	}
+}
+
+func equalUint64Slices(a, b []uint64) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i := range a {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
 }
