@@ -275,6 +275,58 @@ func (v *TCMessage) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes TCMessage to DER format.
 func (v *TCMessage) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case TCMessageChoiceUnidirectional:
+		if v.Unidirectional == nil {
+			return nil, fmt.Errorf("choice TCMessage: unidirectional is nil")
+		}
+		enc_der_0, err := v.Unidirectional.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding unidirectional: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 1, true, enc_der_0)
+		return enc_der_0, nil
+	case TCMessageChoiceBegin:
+		if v.Begin == nil {
+			return nil, fmt.Errorf("choice TCMessage: begin is nil")
+		}
+		enc_der_1, err := v.Begin.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding begin: %w", err)
+		}
+		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 2, true, enc_der_1)
+		return enc_der_1, nil
+	case TCMessageChoiceEnd:
+		if v.End == nil {
+			return nil, fmt.Errorf("choice TCMessage: end is nil")
+		}
+		enc_der_2, err := v.End.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding end: %w", err)
+		}
+		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 4, true, enc_der_2)
+		return enc_der_2, nil
+	case TCMessageChoiceContinue:
+		if v.Continue == nil {
+			return nil, fmt.Errorf("choice TCMessage: continue is nil")
+		}
+		enc_der_3, err := v.Continue.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding continue: %w", err)
+		}
+		enc_der_3 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 5, true, enc_der_3)
+		return enc_der_3, nil
+	case TCMessageChoiceAbort:
+		if v.Abort == nil {
+			return nil, fmt.Errorf("choice TCMessage: abort is nil")
+		}
+		enc_der_4, err := v.Abort.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding abort: %w", err)
+		}
+		enc_der_4 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 7, true, enc_der_4)
+		return enc_der_4, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -388,7 +440,10 @@ func (v *Unidirectional) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Unidirectional to DER format.
 func (v *Unidirectional) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.ComponentsIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -482,7 +537,10 @@ func (v *Begin) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Begin to DER format.
 func (v *Begin) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.ComponentsIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -590,7 +648,10 @@ func (v *End) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes End to DER format.
 func (v *End) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.ComponentsIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -701,7 +762,10 @@ func (v *Continue) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Continue to DER format.
 func (v *Continue) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.ComponentsIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -937,6 +1001,27 @@ func (v *Component) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Component to DER format.
 func (v *Component) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case ComponentChoiceBasicROS:
+		if v.BasicROS == nil {
+			return nil, fmt.Errorf("choice Component: basicROS is nil")
+		}
+		enc_der_0, err := v.BasicROS.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding basicROS: %w", err)
+		}
+		return enc_der_0, nil
+	case ComponentChoiceReturnResultNotLast:
+		if v.ReturnResultNotLast == nil {
+			return nil, fmt.Errorf("choice Component: returnResultNotLast is nil")
+		}
+		enc_der_1, err := v.ReturnResultNotLast.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding returnResultNotLast: %w", err)
+		}
+		enc_der_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 7, enc_der_1)
+		return enc_der_1, nil
+	}
 	return v.MarshalBER()
 }
 

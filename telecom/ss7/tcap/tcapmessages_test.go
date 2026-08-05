@@ -203,6 +203,8 @@ func TestEndWithReturnResultLastFixtureRoundTrips(t *testing.T) {
 func TestBeginWithIndefiniteComponentPortionRoundTrips(t *testing.T) {
 	input := mustDecodeHex(t, "620f4801016c80a10602010002012d0000")
 	definite := mustDecodeHex(t, "620d4801016c08a10602010002012d")
+	beginIndef := mustDecodeHex(t, "300f4801016c80a10602010002012d0000")
+	beginDER := mustDecodeHex(t, "300d4801016c08a10602010002012d")
 
 	var msg TCMessage
 	if err := msg.UnmarshalBER(input); err != nil {
@@ -221,6 +223,41 @@ func TestBeginWithIndefiniteComponentPortionRoundTrips(t *testing.T) {
 	}
 	if !bytes.Equal(got, input) {
 		t.Fatalf("TCMessage round-trip = % x, want % x", got, input)
+	}
+	got, err = msg.Begin.MarshalDER()
+	if err != nil {
+		t.Fatalf("Begin.MarshalDER: %v", err)
+	}
+	if !bytes.Equal(got, beginDER) {
+		t.Fatalf("Begin MarshalDER = % x, want % x", got, beginDER)
+	}
+	got, err = msg.MarshalDER()
+	if err != nil {
+		t.Fatalf("TCMessage.MarshalDER: %v", err)
+	}
+	if !bytes.Equal(got, definite) {
+		t.Fatalf("TCMessage MarshalDER = % x, want % x", got, definite)
+	}
+
+	var begin Begin
+	if err := begin.UnmarshalBER(beginIndef); err != nil {
+		t.Fatalf("Begin.UnmarshalBER indefinite reuse source: %v", err)
+	}
+	if !begin.ComponentsIndef_ {
+		t.Fatalf("Begin.ComponentsIndef_ after indefinite source = false, want true")
+	}
+	if err := begin.UnmarshalBER(beginDER); err != nil {
+		t.Fatalf("Begin.UnmarshalBER definite reuse: %v", err)
+	}
+	if begin.ComponentsIndef_ {
+		t.Fatalf("Begin.ComponentsIndef_ after definite reuse = true, want false")
+	}
+	got, err = begin.MarshalBER()
+	if err != nil {
+		t.Fatalf("Begin.MarshalBER definite reuse: %v", err)
+	}
+	if !bytes.Equal(got, beginDER) {
+		t.Fatalf("Begin definite reuse round-trip = % x, want % x", got, beginDER)
 	}
 
 	if err := msg.UnmarshalBER(definite); err != nil {

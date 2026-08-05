@@ -264,6 +264,38 @@ func (v *DialoguePDU) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes DialoguePDU to DER format.
 func (v *DialoguePDU) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case DialoguePDUChoiceDialogueRequest:
+		if v.DialogueRequest == nil {
+			return nil, fmt.Errorf("choice DialoguePDU: dialogueRequest is nil")
+		}
+		enc_der_0, err := v.DialogueRequest.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding dialogueRequest: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 0, true, enc_der_0)
+		return enc_der_0, nil
+	case DialoguePDUChoiceDialogueResponse:
+		if v.DialogueResponse == nil {
+			return nil, fmt.Errorf("choice DialoguePDU: dialogueResponse is nil")
+		}
+		enc_der_1, err := v.DialogueResponse.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding dialogueResponse: %w", err)
+		}
+		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 1, true, enc_der_1)
+		return enc_der_1, nil
+	case DialoguePDUChoiceDialogueAbort:
+		if v.DialogueAbort == nil {
+			return nil, fmt.Errorf("choice DialoguePDU: dialogueAbort is nil")
+		}
+		enc_der_2, err := v.DialogueAbort.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding dialogueAbort: %w", err)
+		}
+		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 4, true, enc_der_2)
+		return enc_der_2, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -361,7 +393,10 @@ func (v *AARQApdu) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AARQApdu to DER format.
 func (v *AARQApdu) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.UserInformationIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -491,7 +526,10 @@ func (v *AAREApdu) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AAREApdu to DER format.
 func (v *AAREApdu) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.UserInformationIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -647,7 +685,10 @@ func (v *RLRQApdu) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RLRQApdu to DER format.
 func (v *RLRQApdu) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.UserInformationIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -745,7 +786,10 @@ func (v *RLREApdu) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RLREApdu to DER format.
 func (v *RLREApdu) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.UserInformationIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 
@@ -841,7 +885,10 @@ func (v *ABRTApdu) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ABRTApdu to DER format.
 func (v *ABRTApdu) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.UserInformationIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 

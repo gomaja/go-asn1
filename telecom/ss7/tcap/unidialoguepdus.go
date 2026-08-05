@@ -72,6 +72,18 @@ func (v *UniDialoguePDU) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes UniDialoguePDU to DER format.
 func (v *UniDialoguePDU) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case UniDialoguePDUChoiceUnidialoguePDU:
+		if v.UnidialoguePDU == nil {
+			return nil, fmt.Errorf("choice UniDialoguePDU: unidialoguePDU is nil")
+		}
+		enc_der_0, err := v.UnidialoguePDU.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding unidialoguePDU: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 0, true, enc_der_0)
+		return enc_der_0, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -145,7 +157,10 @@ func (v *AUDTApdu) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AUDTApdu to DER format.
 func (v *AUDTApdu) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
+	derValue := *v
+	derValue.UserInformationIndef_ = false
+	v = &derValue
 	return v.MarshalBER()
 }
 

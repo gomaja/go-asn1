@@ -514,6 +514,48 @@ func (v *ROS) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ROS to DER format.
 func (v *ROS) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case ROSChoiceInvoke:
+		if v.Invoke == nil {
+			return nil, fmt.Errorf("choice ROS: invoke is nil")
+		}
+		enc_der_0, err := v.Invoke.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding invoke: %w", err)
+		}
+		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_0)
+		return enc_der_0, nil
+	case ROSChoiceReturnResult:
+		if v.ReturnResult == nil {
+			return nil, fmt.Errorf("choice ROS: returnResult is nil")
+		}
+		enc_der_1, err := v.ReturnResult.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding returnResult: %w", err)
+		}
+		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_der_1)
+		return enc_der_1, nil
+	case ROSChoiceReturnError:
+		if v.ReturnError == nil {
+			return nil, fmt.Errorf("choice ROS: returnError is nil")
+		}
+		enc_der_2, err := v.ReturnError.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding returnError: %w", err)
+		}
+		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_der_2)
+		return enc_der_2, nil
+	case ROSChoiceReject:
+		if v.Reject == nil {
+			return nil, fmt.Errorf("choice ROS: reject is nil")
+		}
+		enc_der_3, err := v.Reject.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding reject: %w", err)
+		}
+		enc_der_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_der_3)
+		return enc_der_3, nil
+	}
 	return v.MarshalBER()
 }
 
@@ -1122,6 +1164,18 @@ func (v *InvokeLinkedId) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes InvokeLinkedId to DER format.
 func (v *InvokeLinkedId) MarshalDER() ([]byte, error) {
+	switch v.Choice {
+	case InvokeLinkedIdChoicePresent:
+		if v.Present == nil {
+			return nil, fmt.Errorf("choice InvokeLinkedId: present is nil")
+		}
+		enc_der_0, err := v.Present.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding present: %w", err)
+		}
+		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 0, enc_der_0)
+		return enc_der_0, nil
+	}
 	return v.MarshalBER()
 }
 
