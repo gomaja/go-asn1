@@ -338,13 +338,13 @@ type SLPreconfigurationR12PreconfigDiscR13 struct {
 // MarshalUPER encodes SLCBRPreconfigTxConfigListR14 to UPER format.
 func (v *SLCBRPreconfigTxConfigListR14) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalUPERTo(bb); err != nil {
+	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *SLCBRPreconfigTxConfigListR14) marshalUPERTo(bb *per.BitBuffer) error {
+func (v *SLCBRPreconfigTxConfigListR14) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.CbrRangeCommonConfigListR14)), 1, 8); err != nil {
 		return fmt.Errorf("encoding cbr-RangeCommonConfigList-r14 length: %w", err)
 	}
@@ -362,7 +362,7 @@ func (v *SLCBRPreconfigTxConfigListR14) marshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding sl-CBR-PSSCH-TxConfigList-r14 length: %w", err)
 	}
 	for _, elem := range v.SlCBRPSSCHTxConfigListR14 {
-		if err := elem.marshalUPERTo(bb); err != nil {
+		if err := elem.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sl-CBR-PSSCH-TxConfigList-r14 element: %w", err)
 		}
 	}
@@ -372,10 +372,10 @@ func (v *SLCBRPreconfigTxConfigListR14) marshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLCBRPreconfigTxConfigListR14 from UPER format.
 func (v *SLCBRPreconfigTxConfigListR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalUPERFrom(bb)
+	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *SLCBRPreconfigTxConfigListR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *SLCBRPreconfigTxConfigListR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	seqLen_cbrrangecommonconfiglistr14, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
 	if err != nil {
 		return fmt.Errorf("decoding cbr-RangeCommonConfigList-r14 length: %w", err)
@@ -402,7 +402,7 @@ func (v *SLCBRPreconfigTxConfigListR14) unmarshalUPERFrom(bb *per.BitBuffer) err
 	}
 	v.SlCBRPSSCHTxConfigListR14 = make(SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14, seqLen_slcbrpsschtxconfiglistr14)
 	for i := int64(0); i < seqLen_slcbrpsschtxconfiglistr14; i++ {
-		if err := v.SlCBRPSSCHTxConfigListR14[i].unmarshalUPERFrom(bb); err != nil {
+		if err := v.SlCBRPSSCHTxConfigListR14[i].UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding sl-CBR-PSSCH-TxConfigList-r14 element: %w", err)
 		}
 	}
@@ -412,13 +412,13 @@ func (v *SLCBRPreconfigTxConfigListR14) unmarshalUPERFrom(bb *per.BitBuffer) err
 // MarshalUPER encodes SLPPPPTxPreconfigIndexR14 to UPER format.
 func (v *SLPPPPTxPreconfigIndexR14) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalUPERTo(bb); err != nil {
+	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *SLPPPPTxPreconfigIndexR14) marshalUPERTo(bb *per.BitBuffer) error {
+func (v *SLPPPPTxPreconfigIndexR14) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeInteger(bb, int64(v.PriorityThresholdR14), int64Ptr(1), int64Ptr(8), false); err != nil {
 		return fmt.Errorf("encoding priorityThreshold-r14: %w", err)
 	}
@@ -442,10 +442,10 @@ func (v *SLPPPPTxPreconfigIndexR14) marshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLPPPPTxPreconfigIndexR14 from UPER format.
 func (v *SLPPPPTxPreconfigIndexR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalUPERFrom(bb)
+	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *SLPPPPTxPreconfigIndexR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *SLPPPPTxPreconfigIndexR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	val_prioritythresholdr14, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(8), false)
 	if err != nil {
 		return fmt.Errorf("decoding priorityThreshold-r14: %w", err)
@@ -479,13 +479,13 @@ func (v *SLPPPPTxPreconfigIndexR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 // MarshalUPER encodes SLPPPPTxPreconfigIndexV1530 to UPER format.
 func (v *SLPPPPTxPreconfigIndexV1530) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalUPERTo(bb); err != nil {
+	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *SLPPPPTxPreconfigIndexV1530) marshalUPERTo(bb *per.BitBuffer) error {
+func (v *SLPPPPTxPreconfigIndexV1530) MarshalUPERTo(bb *per.BitBuffer) error {
 	// Preamble bitmap for optional root fields
 	if err := per.EncodeBoolean(bb, v.McsPSSCHRangeR15 != nil); err != nil {
 		return err
@@ -495,7 +495,7 @@ func (v *SLPPPPTxPreconfigIndexV1530) marshalUPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding mcs-PSSCH-Range-r15 length: %w", err)
 		}
 		for _, elem := range v.McsPSSCHRangeR15 {
-			if err := elem.marshalUPERTo(bb); err != nil {
+			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding mcs-PSSCH-Range-r15 element: %w", err)
 			}
 		}
@@ -506,10 +506,10 @@ func (v *SLPPPPTxPreconfigIndexV1530) marshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLPPPPTxPreconfigIndexV1530 from UPER format.
 func (v *SLPPPPTxPreconfigIndexV1530) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalUPERFrom(bb)
+	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *SLPPPPTxPreconfigIndexV1530) unmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *SLPPPPTxPreconfigIndexV1530) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	// Read preamble bitmap for optional root fields
 	opt_mcspsschranger15, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -522,7 +522,7 @@ func (v *SLPPPPTxPreconfigIndexV1530) unmarshalUPERFrom(bb *per.BitBuffer) error
 		}
 		tmp_mcspsschranger15 := make(SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15, seqLen_mcspsschranger15)
 		for i := int64(0); i < seqLen_mcspsschranger15; i++ {
-			if err := tmp_mcspsschranger15[i].unmarshalUPERFrom(bb); err != nil {
+			if err := tmp_mcspsschranger15[i].UnmarshalUPERFrom(bb); err != nil {
 				return fmt.Errorf("decoding mcs-PSSCH-Range-r15 element: %w", err)
 			}
 		}
@@ -534,13 +534,13 @@ func (v *SLPPPPTxPreconfigIndexV1530) unmarshalUPERFrom(bb *per.BitBuffer) error
 // MarshalUPER encodes SLPreconfigCommPoolR12 to UPER format.
 func (v *SLPreconfigCommPoolR12) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalUPERTo(bb); err != nil {
+	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *SLPreconfigCommPoolR12) marshalUPERTo(bb *per.BitBuffer) error {
+func (v *SLPreconfigCommPoolR12) MarshalUPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0 || v.PriorityListR13 != nil
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -551,7 +551,7 @@ func (v *SLPreconfigCommPoolR12) marshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeEnumerated(bb, int64(v.ScPeriodR12), 16, false); err != nil {
 		return fmt.Errorf("encoding sc-Period-r12: %w", err)
 	}
-	if err := v.ScTFResourceConfigR12.marshalUPERTo(bb); err != nil {
+	if err := v.ScTFResourceConfigR12.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding sc-TF-ResourceConfig-r12: %w", err)
 	}
 	if err := per.EncodeInteger(bb, int64(v.ScTxParametersR12), int64Ptr(-126), int64Ptr(31), false); err != nil {
@@ -560,10 +560,10 @@ func (v *SLPreconfigCommPoolR12) marshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeEnumerated(bb, int64(v.DataCPLenR12), 2, false); err != nil {
 		return fmt.Errorf("encoding data-CP-Len-r12: %w", err)
 	}
-	if err := v.DataTFResourceConfigR12.marshalUPERTo(bb); err != nil {
+	if err := v.DataTFResourceConfigR12.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding data-TF-ResourceConfig-r12: %w", err)
 	}
-	if err := v.DataHoppingConfigR12.marshalUPERTo(bb); err != nil {
+	if err := v.DataHoppingConfigR12.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding dataHoppingConfig-r12: %w", err)
 	}
 	if err := per.EncodeInteger(bb, int64(v.DataTxParametersR12), int64Ptr(-126), int64Ptr(31), false); err != nil {
@@ -631,10 +631,10 @@ func (v *SLPreconfigCommPoolR12) marshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLPreconfigCommPoolR12 from UPER format.
 func (v *SLPreconfigCommPoolR12) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalUPERFrom(bb)
+	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *SLPreconfigCommPoolR12) unmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *SLPreconfigCommPoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -649,7 +649,7 @@ func (v *SLPreconfigCommPoolR12) unmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding sc-Period-r12: %w", err)
 	}
 	v.ScPeriodR12 = SLPeriodCommR12(val_scperiodr12)
-	if err := v.ScTFResourceConfigR12.unmarshalUPERFrom(bb); err != nil {
+	if err := v.ScTFResourceConfigR12.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding sc-TF-ResourceConfig-r12: %w", err)
 	}
 	val_sctxparametersr12, err := per.DecodeInteger(bb, int64Ptr(-126), int64Ptr(31), false)
@@ -662,10 +662,10 @@ func (v *SLPreconfigCommPoolR12) unmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding data-CP-Len-r12: %w", err)
 	}
 	v.DataCPLenR12 = SLCPLenR12(val_datacplenr12)
-	if err := v.DataTFResourceConfigR12.unmarshalUPERFrom(bb); err != nil {
+	if err := v.DataTFResourceConfigR12.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding data-TF-ResourceConfig-r12: %w", err)
 	}
-	if err := v.DataHoppingConfigR12.unmarshalUPERFrom(bb); err != nil {
+	if err := v.DataHoppingConfigR12.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding dataHoppingConfig-r12: %w", err)
 	}
 	val_datatxparametersr12, err := per.DecodeInteger(bb, int64Ptr(-126), int64Ptr(31), false)
@@ -738,13 +738,13 @@ func (v *SLPreconfigCommPoolR12) unmarshalUPERFrom(bb *per.BitBuffer) error {
 // MarshalUPER encodes SLPreconfigDiscPoolR13 to UPER format.
 func (v *SLPreconfigDiscPoolR13) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalUPERTo(bb); err != nil {
+	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *SLPreconfigDiscPoolR13) marshalUPERTo(bb *per.BitBuffer) error {
+func (v *SLPreconfigDiscPoolR13) MarshalUPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -765,11 +765,11 @@ func (v *SLPreconfigDiscPoolR13) marshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeInteger(bb, int64(v.NumRepetitionR13), int64Ptr(1), int64Ptr(50), false); err != nil {
 		return fmt.Errorf("encoding numRepetition-r13: %w", err)
 	}
-	if err := v.TfResourceConfigR13.marshalUPERTo(bb); err != nil {
+	if err := v.TfResourceConfigR13.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding tf-ResourceConfig-r13: %w", err)
 	}
 	if v.TxParametersR13 != nil {
-		if err := v.TxParametersR13.marshalUPERTo(bb); err != nil {
+		if err := v.TxParametersR13.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding txParameters-r13: %w", err)
 		}
 	}
@@ -799,10 +799,10 @@ func (v *SLPreconfigDiscPoolR13) marshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLPreconfigDiscPoolR13 from UPER format.
 func (v *SLPreconfigDiscPoolR13) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalUPERFrom(bb)
+	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *SLPreconfigDiscPoolR13) unmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *SLPreconfigDiscPoolR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -832,12 +832,12 @@ func (v *SLPreconfigDiscPoolR13) unmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding numRepetition-r13: %w", err)
 	}
 	v.NumRepetitionR13 = val_numrepetitionr13
-	if err := v.TfResourceConfigR13.unmarshalUPERFrom(bb); err != nil {
+	if err := v.TfResourceConfigR13.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding tf-ResourceConfig-r13: %w", err)
 	}
 	if opt_txparametersr13 {
 		var dec_txparametersr13 SLPreconfigDiscPoolR13TxParametersR13
-		if err := dec_txparametersr13.unmarshalUPERFrom(bb); err != nil {
+		if err := dec_txparametersr13.UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding txParameters-r13: %w", err)
 		}
 		v.TxParametersR13 = &dec_txparametersr13
@@ -874,18 +874,18 @@ func (v *SLPreconfigDiscPoolR13) unmarshalUPERFrom(bb *per.BitBuffer) error {
 // MarshalUPER encodes SLPreconfigGeneralR12 to UPER format.
 func (v *SLPreconfigGeneralR12) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalUPERTo(bb); err != nil {
+	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *SLPreconfigGeneralR12) marshalUPERTo(bb *per.BitBuffer) error {
+func (v *SLPreconfigGeneralR12) MarshalUPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0 || v.AdditionalSpectrumEmissionV1440 != nil
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := v.RohcProfilesR12.marshalUPERTo(bb); err != nil {
+	if err := v.RohcProfilesR12.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding rohc-Profiles-r12: %w", err)
 	}
 	if err := per.EncodeInteger(bb, int64(v.CarrierFreqR12), int64Ptr(0), int64Ptr(262143), false); err != nil {
@@ -900,7 +900,7 @@ func (v *SLPreconfigGeneralR12) marshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeEnumerated(bb, int64(v.SlBandwidthR12), 6, false); err != nil {
 		return fmt.Errorf("encoding sl-bandwidth-r12: %w", err)
 	}
-	if err := v.TddConfigSLR12.marshalUPERTo(bb); err != nil {
+	if err := v.TddConfigSLR12.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding tdd-ConfigSL-r12: %w", err)
 	}
 	if err := per.EncodeBitString(bb, v.ReservedR12.Bytes, v.ReservedR12.BitLength, 19, 19, true); err != nil {
@@ -960,15 +960,15 @@ func (v *SLPreconfigGeneralR12) marshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLPreconfigGeneralR12 from UPER format.
 func (v *SLPreconfigGeneralR12) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalUPERFrom(bb)
+	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *SLPreconfigGeneralR12) unmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *SLPreconfigGeneralR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	if err := v.RohcProfilesR12.unmarshalUPERFrom(bb); err != nil {
+	if err := v.RohcProfilesR12.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding rohc-Profiles-r12: %w", err)
 	}
 	val_carrierfreqr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(262143), false)
@@ -991,7 +991,7 @@ func (v *SLPreconfigGeneralR12) unmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding sl-bandwidth-r12: %w", err)
 	}
 	v.SlBandwidthR12 = val_slbandwidthr12
-	if err := v.TddConfigSLR12.unmarshalUPERFrom(bb); err != nil {
+	if err := v.TddConfigSLR12.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding tdd-ConfigSL-r12: %w", err)
 	}
 	bsBytes_reservedr12, bsBitLen_reservedr12, err := per.DecodeBitString(bb, 19, 19, true)
@@ -1051,14 +1051,14 @@ func (v *SLPreconfigGeneralR12) unmarshalUPERFrom(bb *per.BitBuffer) error {
 // MarshalUPER encodes SLPreconfigRelayR13 to UPER format.
 func (v *SLPreconfigRelayR13) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalUPERTo(bb); err != nil {
+	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *SLPreconfigRelayR13) marshalUPERTo(bb *per.BitBuffer) error {
-	if err := v.ReselectionInfoOoCR13.marshalUPERTo(bb); err != nil {
+func (v *SLPreconfigRelayR13) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := v.ReselectionInfoOoCR13.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding reselectionInfoOoC-r13: %w", err)
 	}
 	return nil
@@ -1067,11 +1067,11 @@ func (v *SLPreconfigRelayR13) marshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLPreconfigRelayR13 from UPER format.
 func (v *SLPreconfigRelayR13) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalUPERFrom(bb)
+	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *SLPreconfigRelayR13) unmarshalUPERFrom(bb *per.BitBuffer) error {
-	if err := v.ReselectionInfoOoCR13.unmarshalUPERFrom(bb); err != nil {
+func (v *SLPreconfigRelayR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := v.ReselectionInfoOoCR13.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding reselectionInfoOoC-r13: %w", err)
 	}
 	return nil
@@ -1080,13 +1080,13 @@ func (v *SLPreconfigRelayR13) unmarshalUPERFrom(bb *per.BitBuffer) error {
 // MarshalUPER encodes SLPreconfigSyncR12 to UPER format.
 func (v *SLPreconfigSyncR12) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalUPERTo(bb); err != nil {
+	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *SLPreconfigSyncR12) marshalUPERTo(bb *per.BitBuffer) error {
+func (v *SLPreconfigSyncR12) MarshalUPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0 || v.SyncTxPeriodicR13 != nil
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -1169,10 +1169,10 @@ func (v *SLPreconfigSyncR12) marshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLPreconfigSyncR12 from UPER format.
 func (v *SLPreconfigSyncR12) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalUPERFrom(bb)
+	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *SLPreconfigSyncR12) unmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *SLPreconfigSyncR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1269,18 +1269,18 @@ func (v *SLPreconfigSyncR12) unmarshalUPERFrom(bb *per.BitBuffer) error {
 // MarshalUPER encodes SLPreconfigV2XSyncR14 to UPER format.
 func (v *SLPreconfigV2XSyncR14) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalUPERTo(bb); err != nil {
+	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *SLPreconfigV2XSyncR14) marshalUPERTo(bb *per.BitBuffer) error {
+func (v *SLPreconfigV2XSyncR14) MarshalUPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0 || v.SlssTxDisabledR15 != nil
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := v.SyncOffsetIndicatorsR14.marshalUPERTo(bb); err != nil {
+	if err := v.SyncOffsetIndicatorsR14.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding syncOffsetIndicators-r14: %w", err)
 	}
 	if err := per.EncodeInteger(bb, int64(v.SyncTxParametersR14), int64Ptr(-126), int64Ptr(31), false); err != nil {
@@ -1352,15 +1352,15 @@ func (v *SLPreconfigV2XSyncR14) marshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLPreconfigV2XSyncR14 from UPER format.
 func (v *SLPreconfigV2XSyncR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalUPERFrom(bb)
+	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *SLPreconfigV2XSyncR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *SLPreconfigV2XSyncR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	if err := v.SyncOffsetIndicatorsR14.unmarshalUPERFrom(bb); err != nil {
+	if err := v.SyncOffsetIndicatorsR14.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding syncOffsetIndicators-r14: %w", err)
 	}
 	val_synctxparametersr14, err := per.DecodeInteger(bb, int64Ptr(-126), int64Ptr(31), false)
@@ -1440,28 +1440,28 @@ func (v *SLPreconfigV2XSyncR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 // MarshalUPER encodes SLPreconfigurationR12 to UPER format.
 func (v *SLPreconfigurationR12) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalUPERTo(bb); err != nil {
+	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *SLPreconfigurationR12) marshalUPERTo(bb *per.BitBuffer) error {
+func (v *SLPreconfigurationR12) MarshalUPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0 || v.PreconfigCommV1310 != nil || v.PreconfigDiscR13 != nil || v.PreconfigRelayR13 != nil
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := v.PreconfigGeneralR12.marshalUPERTo(bb); err != nil {
+	if err := v.PreconfigGeneralR12.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding preconfigGeneral-r12: %w", err)
 	}
-	if err := v.PreconfigSyncR12.marshalUPERTo(bb); err != nil {
+	if err := v.PreconfigSyncR12.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding preconfigSync-r12: %w", err)
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.PreconfigCommR12)), 1, 4); err != nil {
 		return fmt.Errorf("encoding preconfigComm-r12 length: %w", err)
 	}
 	for _, elem := range v.PreconfigCommR12 {
-		if err := elem.marshalUPERTo(bb); err != nil {
+		if err := elem.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding preconfigComm-r12 element: %w", err)
 		}
 	}
@@ -1501,17 +1501,17 @@ func (v *SLPreconfigurationR12) marshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.PreconfigCommV1310 != nil {
-				if err := v.PreconfigCommV1310.marshalUPERTo(extBuf); err != nil {
+				if err := v.PreconfigCommV1310.MarshalUPERTo(extBuf); err != nil {
 					return fmt.Errorf("encoding preconfigComm-v1310: %w", err)
 				}
 			}
 			if v.PreconfigDiscR13 != nil {
-				if err := v.PreconfigDiscR13.marshalUPERTo(extBuf); err != nil {
+				if err := v.PreconfigDiscR13.MarshalUPERTo(extBuf); err != nil {
 					return fmt.Errorf("encoding preconfigDisc-r13: %w", err)
 				}
 			}
 			if v.PreconfigRelayR13 != nil {
-				if err := v.PreconfigRelayR13.marshalUPERTo(extBuf); err != nil {
+				if err := v.PreconfigRelayR13.MarshalUPERTo(extBuf); err != nil {
 					return fmt.Errorf("encoding preconfigRelay-r13: %w", err)
 				}
 			}
@@ -1535,18 +1535,18 @@ func (v *SLPreconfigurationR12) marshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLPreconfigurationR12 from UPER format.
 func (v *SLPreconfigurationR12) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalUPERFrom(bb)
+	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *SLPreconfigurationR12) unmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *SLPreconfigurationR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	if err := v.PreconfigGeneralR12.unmarshalUPERFrom(bb); err != nil {
+	if err := v.PreconfigGeneralR12.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding preconfigGeneral-r12: %w", err)
 	}
-	if err := v.PreconfigSyncR12.unmarshalUPERFrom(bb); err != nil {
+	if err := v.PreconfigSyncR12.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding preconfigSync-r12: %w", err)
 	}
 	seqLen_preconfigcommr12, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
@@ -1555,7 +1555,7 @@ func (v *SLPreconfigurationR12) unmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PreconfigCommR12 = make(SLPreconfigCommPoolList4R12, seqLen_preconfigcommr12)
 	for i := int64(0); i < seqLen_preconfigcommr12; i++ {
-		if err := v.PreconfigCommR12[i].unmarshalUPERFrom(bb); err != nil {
+		if err := v.PreconfigCommR12[i].UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding preconfigComm-r12 element: %w", err)
 		}
 	}
@@ -1596,21 +1596,21 @@ func (v *SLPreconfigurationR12) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			if ext_opt_preconfigcommv1310 {
 				var dec_preconfigcommv1310 SLPreconfigurationR12PreconfigCommV1310
-				if err := dec_preconfigcommv1310.unmarshalUPERFrom(extBB); err != nil {
+				if err := dec_preconfigcommv1310.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding preconfigComm-v1310: %w", err)
 				}
 				v.PreconfigCommV1310 = &dec_preconfigcommv1310
 			}
 			if ext_opt_preconfigdiscr13 {
 				var dec_preconfigdiscr13 SLPreconfigurationR12PreconfigDiscR13
-				if err := dec_preconfigdiscr13.unmarshalUPERFrom(extBB); err != nil {
+				if err := dec_preconfigdiscr13.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding preconfigDisc-r13: %w", err)
 				}
 				v.PreconfigDiscR13 = &dec_preconfigdiscr13
 			}
 			if ext_opt_preconfigrelayr13 {
 				var dec_preconfigrelayr13 SLPreconfigRelayR13
-				if err := dec_preconfigrelayr13.unmarshalUPERFrom(extBB); err != nil {
+				if err := dec_preconfigrelayr13.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding preconfigRelay-r13: %w", err)
 				}
 				v.PreconfigRelayR13 = &dec_preconfigrelayr13
@@ -1633,13 +1633,13 @@ func (v *SLPreconfigurationR12) unmarshalUPERFrom(bb *per.BitBuffer) error {
 // MarshalUPER encodes SLV2XPreconfigCommPoolR14 to UPER format.
 func (v *SLV2XPreconfigCommPoolR14) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalUPERTo(bb); err != nil {
+	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *SLV2XPreconfigCommPoolR14) marshalUPERTo(bb *per.BitBuffer) error {
+func (v *SLV2XPreconfigCommPoolR14) MarshalUPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0 || v.SlMinT2ValueListR15 != nil || v.CbrPsschTxConfigListV1530 != nil
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -1670,11 +1670,11 @@ func (v *SLV2XPreconfigCommPoolR14) marshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.SlOffsetIndicatorR14 != nil {
-		if err := v.SlOffsetIndicatorR14.marshalUPERTo(bb); err != nil {
+		if err := v.SlOffsetIndicatorR14.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sl-OffsetIndicator-r14: %w", err)
 		}
 	}
-	if err := v.SlSubframeR14.marshalUPERTo(bb); err != nil {
+	if err := v.SlSubframeR14.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding sl-Subframe-r14: %w", err)
 	}
 	if err := per.EncodeBoolean(bb, v.AdjacencyPSCCHPSSCHR14); err != nil {
@@ -1712,18 +1712,18 @@ func (v *SLV2XPreconfigCommPoolR14) marshalUPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding cbr-pssch-TxConfigList-r14 length: %w", err)
 		}
 		for _, elem := range v.CbrPsschTxConfigListR14 {
-			if err := elem.marshalUPERTo(bb); err != nil {
+			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cbr-pssch-TxConfigList-r14 element: %w", err)
 			}
 		}
 	}
 	if v.ResourceSelectionConfigP2XR14 != nil {
-		if err := v.ResourceSelectionConfigP2XR14.marshalUPERTo(bb); err != nil {
+		if err := v.ResourceSelectionConfigP2XR14.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding resourceSelectionConfigP2X-r14: %w", err)
 		}
 	}
 	if v.SyncAllowedR14 != nil {
-		if err := v.SyncAllowedR14.marshalUPERTo(bb); err != nil {
+		if err := v.SyncAllowedR14.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding syncAllowed-r14: %w", err)
 		}
 	}
@@ -1774,7 +1774,7 @@ func (v *SLV2XPreconfigCommPoolR14) marshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding sl-MinT2ValueList-r15 length: %w", err)
 				}
 				for _, elem := range v.SlMinT2ValueListR15 {
-					if err := elem.marshalUPERTo(extBuf); err != nil {
+					if err := elem.MarshalUPERTo(extBuf); err != nil {
 						return fmt.Errorf("encoding sl-MinT2ValueList-r15 element: %w", err)
 					}
 				}
@@ -1784,7 +1784,7 @@ func (v *SLV2XPreconfigCommPoolR14) marshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding cbr-pssch-TxConfigList-v1530 length: %w", err)
 				}
 				for _, elem := range v.CbrPsschTxConfigListV1530 {
-					if err := elem.marshalUPERTo(extBuf); err != nil {
+					if err := elem.MarshalUPERTo(extBuf); err != nil {
 						return fmt.Errorf("encoding cbr-pssch-TxConfigList-v1530 element: %w", err)
 					}
 				}
@@ -1809,10 +1809,10 @@ func (v *SLV2XPreconfigCommPoolR14) marshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLV2XPreconfigCommPoolR14 from UPER format.
 func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalUPERFrom(bb)
+	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *SLV2XPreconfigCommPoolR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1852,12 +1852,12 @@ func (v *SLV2XPreconfigCommPoolR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	if opt_sloffsetindicatorr14 {
 		var dec_sloffsetindicatorr14 SLOffsetIndicatorR12
-		if err := dec_sloffsetindicatorr14.unmarshalUPERFrom(bb); err != nil {
+		if err := dec_sloffsetindicatorr14.UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding sl-OffsetIndicator-r14: %w", err)
 		}
 		v.SlOffsetIndicatorR14 = &dec_sloffsetindicatorr14
 	}
-	if err := v.SlSubframeR14.unmarshalUPERFrom(bb); err != nil {
+	if err := v.SlSubframeR14.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding sl-Subframe-r14: %w", err)
 	}
 	val_adjacencypscchpsschr14, err := per.DecodeBoolean(bb)
@@ -1913,7 +1913,7 @@ func (v *SLV2XPreconfigCommPoolR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		tmp_cbrpsschtxconfiglistr14 := make(SLCBRPPPPTxPreconfigListR14, seqLen_cbrpsschtxconfiglistr14)
 		for i := int64(0); i < seqLen_cbrpsschtxconfiglistr14; i++ {
-			if err := tmp_cbrpsschtxconfiglistr14[i].unmarshalUPERFrom(bb); err != nil {
+			if err := tmp_cbrpsschtxconfiglistr14[i].UnmarshalUPERFrom(bb); err != nil {
 				return fmt.Errorf("decoding cbr-pssch-TxConfigList-r14 element: %w", err)
 			}
 		}
@@ -1921,14 +1921,14 @@ func (v *SLV2XPreconfigCommPoolR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	if opt_resourceselectionconfigp2xr14 {
 		var dec_resourceselectionconfigp2xr14 SLP2XResourceSelectionConfigR14
-		if err := dec_resourceselectionconfigp2xr14.unmarshalUPERFrom(bb); err != nil {
+		if err := dec_resourceselectionconfigp2xr14.UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding resourceSelectionConfigP2X-r14: %w", err)
 		}
 		v.ResourceSelectionConfigP2XR14 = &dec_resourceselectionconfigp2xr14
 	}
 	if opt_syncallowedr14 {
 		var dec_syncallowedr14 SLSyncAllowedR14
-		if err := dec_syncallowedr14.unmarshalUPERFrom(bb); err != nil {
+		if err := dec_syncallowedr14.UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding syncAllowed-r14: %w", err)
 		}
 		v.SyncAllowedR14 = &dec_syncallowedr14
@@ -1986,7 +1986,7 @@ func (v *SLV2XPreconfigCommPoolR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				tmp_slmint2valuelistr15 := make(SLMinT2ValueListR15, seqLen_slmint2valuelistr15)
 				for i := int64(0); i < seqLen_slmint2valuelistr15; i++ {
-					if err := tmp_slmint2valuelistr15[i].unmarshalUPERFrom(extBB); err != nil {
+					if err := tmp_slmint2valuelistr15[i].UnmarshalUPERFrom(extBB); err != nil {
 						return fmt.Errorf("decoding sl-MinT2ValueList-r15 element: %w", err)
 					}
 				}
@@ -1999,7 +1999,7 @@ func (v *SLV2XPreconfigCommPoolR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				tmp_cbrpsschtxconfiglistv1530 := make(SLCBRPPPPTxPreconfigListV1530, seqLen_cbrpsschtxconfiglistv1530)
 				for i := int64(0); i < seqLen_cbrpsschtxconfiglistv1530; i++ {
-					if err := tmp_cbrpsschtxconfiglistv1530[i].unmarshalUPERFrom(extBB); err != nil {
+					if err := tmp_cbrpsschtxconfiglistv1530[i].UnmarshalUPERFrom(extBB); err != nil {
 						return fmt.Errorf("decoding cbr-pssch-TxConfigList-v1530 element: %w", err)
 					}
 				}
@@ -2023,13 +2023,13 @@ func (v *SLV2XPreconfigCommPoolR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 // MarshalUPER encodes SLV2XPreconfigFreqInfoR14 to UPER format.
 func (v *SLV2XPreconfigFreqInfoR14) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalUPERTo(bb); err != nil {
+	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *SLV2XPreconfigFreqInfoR14) marshalUPERTo(bb *per.BitBuffer) error {
+func (v *SLV2XPreconfigFreqInfoR14) MarshalUPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0 || v.V2xFreqSelectionConfigListR15 != nil
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -2050,11 +2050,11 @@ func (v *SLV2XPreconfigFreqInfoR14) marshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.OffsetDFNR14 != nil); err != nil {
 		return err
 	}
-	if err := v.V2xCommPreconfigGeneralR14.marshalUPERTo(bb); err != nil {
+	if err := v.V2xCommPreconfigGeneralR14.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding v2x-CommPreconfigGeneral-r14: %w", err)
 	}
 	if v.V2xCommPreconfigSyncR14 != nil {
-		if err := v.V2xCommPreconfigSyncR14.marshalUPERTo(bb); err != nil {
+		if err := v.V2xCommPreconfigSyncR14.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding v2x-CommPreconfigSync-r14: %w", err)
 		}
 	}
@@ -2062,7 +2062,7 @@ func (v *SLV2XPreconfigFreqInfoR14) marshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding v2x-CommRxPoolList-r14 length: %w", err)
 	}
 	for _, elem := range v.V2xCommRxPoolListR14 {
-		if err := elem.marshalUPERTo(bb); err != nil {
+		if err := elem.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding v2x-CommRxPoolList-r14 element: %w", err)
 		}
 	}
@@ -2070,7 +2070,7 @@ func (v *SLV2XPreconfigFreqInfoR14) marshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding v2x-CommTxPoolList-r14 length: %w", err)
 	}
 	for _, elem := range v.V2xCommTxPoolListR14 {
-		if err := elem.marshalUPERTo(bb); err != nil {
+		if err := elem.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding v2x-CommTxPoolList-r14 element: %w", err)
 		}
 	}
@@ -2078,17 +2078,17 @@ func (v *SLV2XPreconfigFreqInfoR14) marshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding p2x-CommTxPoolList-r14 length: %w", err)
 	}
 	for _, elem := range v.P2xCommTxPoolListR14 {
-		if err := elem.marshalUPERTo(bb); err != nil {
+		if err := elem.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding p2x-CommTxPoolList-r14 element: %w", err)
 		}
 	}
 	if v.V2xResourceSelectionConfigR14 != nil {
-		if err := v.V2xResourceSelectionConfigR14.marshalUPERTo(bb); err != nil {
+		if err := v.V2xResourceSelectionConfigR14.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding v2x-ResourceSelectionConfig-r14: %w", err)
 		}
 	}
 	if v.ZoneConfigR14 != nil {
-		if err := v.ZoneConfigR14.marshalUPERTo(bb); err != nil {
+		if err := v.ZoneConfigR14.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding zoneConfig-r14: %w", err)
 		}
 	}
@@ -2139,7 +2139,7 @@ func (v *SLV2XPreconfigFreqInfoR14) marshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding v2x-FreqSelectionConfigList-r15 length: %w", err)
 				}
 				for _, elem := range v.V2xFreqSelectionConfigListR15 {
-					if err := elem.marshalUPERTo(extBuf); err != nil {
+					if err := elem.MarshalUPERTo(extBuf); err != nil {
 						return fmt.Errorf("encoding v2x-FreqSelectionConfigList-r15 element: %w", err)
 					}
 				}
@@ -2164,10 +2164,10 @@ func (v *SLV2XPreconfigFreqInfoR14) marshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLV2XPreconfigFreqInfoR14 from UPER format.
 func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalUPERFrom(bb)
+	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *SLV2XPreconfigFreqInfoR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -2193,12 +2193,12 @@ func (v *SLV2XPreconfigFreqInfoR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	if err := v.V2xCommPreconfigGeneralR14.unmarshalUPERFrom(bb); err != nil {
+	if err := v.V2xCommPreconfigGeneralR14.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding v2x-CommPreconfigGeneral-r14: %w", err)
 	}
 	if opt_v2xcommpreconfigsyncr14 {
 		var dec_v2xcommpreconfigsyncr14 SLPreconfigV2XSyncR14
-		if err := dec_v2xcommpreconfigsyncr14.unmarshalUPERFrom(bb); err != nil {
+		if err := dec_v2xcommpreconfigsyncr14.UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding v2x-CommPreconfigSync-r14: %w", err)
 		}
 		v.V2xCommPreconfigSyncR14 = &dec_v2xcommpreconfigsyncr14
@@ -2209,7 +2209,7 @@ func (v *SLV2XPreconfigFreqInfoR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.V2xCommRxPoolListR14 = make(SLPreconfigV2XRxPoolListR14, seqLen_v2xcommrxpoollistr14)
 	for i := int64(0); i < seqLen_v2xcommrxpoollistr14; i++ {
-		if err := v.V2xCommRxPoolListR14[i].unmarshalUPERFrom(bb); err != nil {
+		if err := v.V2xCommRxPoolListR14[i].UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding v2x-CommRxPoolList-r14 element: %w", err)
 		}
 	}
@@ -2219,7 +2219,7 @@ func (v *SLV2XPreconfigFreqInfoR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.V2xCommTxPoolListR14 = make(SLPreconfigV2XTxPoolListR14, seqLen_v2xcommtxpoollistr14)
 	for i := int64(0); i < seqLen_v2xcommtxpoollistr14; i++ {
-		if err := v.V2xCommTxPoolListR14[i].unmarshalUPERFrom(bb); err != nil {
+		if err := v.V2xCommTxPoolListR14[i].UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding v2x-CommTxPoolList-r14 element: %w", err)
 		}
 	}
@@ -2229,20 +2229,20 @@ func (v *SLV2XPreconfigFreqInfoR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.P2xCommTxPoolListR14 = make(SLPreconfigV2XTxPoolListR14, seqLen_p2xcommtxpoollistr14)
 	for i := int64(0); i < seqLen_p2xcommtxpoollistr14; i++ {
-		if err := v.P2xCommTxPoolListR14[i].unmarshalUPERFrom(bb); err != nil {
+		if err := v.P2xCommTxPoolListR14[i].UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding p2x-CommTxPoolList-r14 element: %w", err)
 		}
 	}
 	if opt_v2xresourceselectionconfigr14 {
 		var dec_v2xresourceselectionconfigr14 SLCommTxPoolSensingConfigR14
-		if err := dec_v2xresourceselectionconfigr14.unmarshalUPERFrom(bb); err != nil {
+		if err := dec_v2xresourceselectionconfigr14.UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding v2x-ResourceSelectionConfig-r14: %w", err)
 		}
 		v.V2xResourceSelectionConfigR14 = &dec_v2xresourceselectionconfigr14
 	}
 	if opt_zoneconfigr14 {
 		var dec_zoneconfigr14 SLZoneConfigR14
-		if err := dec_zoneconfigr14.unmarshalUPERFrom(bb); err != nil {
+		if err := dec_zoneconfigr14.UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding zoneConfig-r14: %w", err)
 		}
 		v.ZoneConfigR14 = &dec_zoneconfigr14
@@ -2300,7 +2300,7 @@ func (v *SLV2XPreconfigFreqInfoR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				tmp_v2xfreqselectionconfiglistr15 := make(SLV2XFreqSelectionConfigListR15, seqLen_v2xfreqselectionconfiglistr15)
 				for i := int64(0); i < seqLen_v2xfreqselectionconfiglistr15; i++ {
-					if err := tmp_v2xfreqselectionconfiglistr15[i].unmarshalUPERFrom(extBB); err != nil {
+					if err := tmp_v2xfreqselectionconfiglistr15[i].UnmarshalUPERFrom(extBB); err != nil {
 						return fmt.Errorf("decoding v2x-FreqSelectionConfigList-r15 element: %w", err)
 					}
 				}
@@ -2324,13 +2324,13 @@ func (v *SLV2XPreconfigFreqInfoR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 // MarshalUPER encodes SLV2XPreconfigurationR14 to UPER format.
 func (v *SLV2XPreconfigurationR14) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalUPERTo(bb); err != nil {
+	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *SLV2XPreconfigurationR14) marshalUPERTo(bb *per.BitBuffer) error {
+func (v *SLV2XPreconfigurationR14) MarshalUPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0 || v.V2xPacketDuplicationConfigR15 != nil || v.SyncFreqListR15 != nil || v.SlssTxMultiFreqR15 != nil || v.V2xTxProfileListR15 != nil || v.AnchorCarrierFreqListNRR16 != nil
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
@@ -2346,7 +2346,7 @@ func (v *SLV2XPreconfigurationR14) marshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding v2x-PreconfigFreqList-r14 length: %w", err)
 	}
 	for _, elem := range v.V2xPreconfigFreqListR14 {
-		if err := elem.marshalUPERTo(bb); err != nil {
+		if err := elem.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding v2x-PreconfigFreqList-r14 element: %w", err)
 		}
 	}
@@ -2361,7 +2361,7 @@ func (v *SLV2XPreconfigurationR14) marshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.CbrPreconfigListR14 != nil {
-		if err := v.CbrPreconfigListR14.marshalUPERTo(bb); err != nil {
+		if err := v.CbrPreconfigListR14.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding cbr-PreconfigList-r14: %w", err)
 		}
 	}
@@ -2413,7 +2413,7 @@ func (v *SLV2XPreconfigurationR14) marshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.V2xPacketDuplicationConfigR15 != nil {
-				if err := v.V2xPacketDuplicationConfigR15.marshalUPERTo(extBuf); err != nil {
+				if err := v.V2xPacketDuplicationConfigR15.MarshalUPERTo(extBuf); err != nil {
 					return fmt.Errorf("encoding v2x-PacketDuplicationConfig-r15: %w", err)
 				}
 			}
@@ -2481,10 +2481,10 @@ func (v *SLV2XPreconfigurationR14) marshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLV2XPreconfigurationR14 from UPER format.
 func (v *SLV2XPreconfigurationR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalUPERFrom(bb)
+	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *SLV2XPreconfigurationR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -2504,7 +2504,7 @@ func (v *SLV2XPreconfigurationR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.V2xPreconfigFreqListR14 = make(SLV2XPreconfigFreqListR14, seqLen_v2xpreconfigfreqlistr14)
 	for i := int64(0); i < seqLen_v2xpreconfigfreqlistr14; i++ {
-		if err := v.V2xPreconfigFreqListR14[i].unmarshalUPERFrom(bb); err != nil {
+		if err := v.V2xPreconfigFreqListR14[i].UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding v2x-PreconfigFreqList-r14 element: %w", err)
 		}
 	}
@@ -2525,7 +2525,7 @@ func (v *SLV2XPreconfigurationR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	if opt_cbrpreconfiglistr14 {
 		var dec_cbrpreconfiglistr14 SLCBRPreconfigTxConfigListR14
-		if err := dec_cbrpreconfiglistr14.unmarshalUPERFrom(bb); err != nil {
+		if err := dec_cbrpreconfiglistr14.UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding cbr-PreconfigList-r14: %w", err)
 		}
 		v.CbrPreconfigListR14 = &dec_cbrpreconfiglistr14
@@ -2571,7 +2571,7 @@ func (v *SLV2XPreconfigurationR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			if ext_opt_v2xpacketduplicationconfigr15 {
 				var dec_v2xpacketduplicationconfigr15 SLV2XPacketDuplicationConfigR15
-				if err := dec_v2xpacketduplicationconfigr15.unmarshalUPERFrom(extBB); err != nil {
+				if err := dec_v2xpacketduplicationconfigr15.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding v2x-PacketDuplicationConfig-r15: %w", err)
 				}
 				v.V2xPacketDuplicationConfigR15 = &dec_v2xpacketduplicationconfigr15
@@ -2658,13 +2658,13 @@ func (v *SLV2XPreconfigurationR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
 // MarshalUPER encodes SLV2XSyncOffsetIndicatorsR14 to UPER format.
 func (v *SLV2XSyncOffsetIndicatorsR14) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalUPERTo(bb); err != nil {
+	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *SLV2XSyncOffsetIndicatorsR14) marshalUPERTo(bb *per.BitBuffer) error {
+func (v *SLV2XSyncOffsetIndicatorsR14) MarshalUPERTo(bb *per.BitBuffer) error {
 	// Preamble bitmap for optional root fields
 	if err := per.EncodeBoolean(bb, v.SyncOffsetIndicator3R14 != nil); err != nil {
 		return err
@@ -2686,10 +2686,10 @@ func (v *SLV2XSyncOffsetIndicatorsR14) marshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLV2XSyncOffsetIndicatorsR14 from UPER format.
 func (v *SLV2XSyncOffsetIndicatorsR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalUPERFrom(bb)
+	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *SLV2XSyncOffsetIndicatorsR14) unmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *SLV2XSyncOffsetIndicatorsR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	// Read preamble bitmap for optional root fields
 	opt_syncoffsetindicator3r14, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -2718,13 +2718,13 @@ func (v *SLV2XSyncOffsetIndicatorsR14) unmarshalUPERFrom(bb *per.BitBuffer) erro
 // MarshalUPER encodes SLPreconfigDiscPoolR13TxParametersR13 to UPER format.
 func (v *SLPreconfigDiscPoolR13TxParametersR13) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalUPERTo(bb); err != nil {
+	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *SLPreconfigDiscPoolR13TxParametersR13) marshalUPERTo(bb *per.BitBuffer) error {
+func (v *SLPreconfigDiscPoolR13TxParametersR13) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeInteger(bb, int64(v.TxParametersGeneralR13), int64Ptr(-126), int64Ptr(31), false); err != nil {
 		return fmt.Errorf("encoding txParametersGeneral-r13: %w", err)
 	}
@@ -2737,10 +2737,10 @@ func (v *SLPreconfigDiscPoolR13TxParametersR13) marshalUPERTo(bb *per.BitBuffer)
 // UnmarshalUPER decodes SLPreconfigDiscPoolR13TxParametersR13 from UPER format.
 func (v *SLPreconfigDiscPoolR13TxParametersR13) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalUPERFrom(bb)
+	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *SLPreconfigDiscPoolR13TxParametersR13) unmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *SLPreconfigDiscPoolR13TxParametersR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	val_txparametersgeneralr13, err := per.DecodeInteger(bb, int64Ptr(-126), int64Ptr(31), false)
 	if err != nil {
 		return fmt.Errorf("decoding txParametersGeneral-r13: %w", err)
@@ -2757,13 +2757,13 @@ func (v *SLPreconfigDiscPoolR13TxParametersR13) unmarshalUPERFrom(bb *per.BitBuf
 // MarshalUPER encodes SLPreconfigGeneralR12RohcProfilesR12 to UPER format.
 func (v *SLPreconfigGeneralR12RohcProfilesR12) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalUPERTo(bb); err != nil {
+	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *SLPreconfigGeneralR12RohcProfilesR12) marshalUPERTo(bb *per.BitBuffer) error {
+func (v *SLPreconfigGeneralR12RohcProfilesR12) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.Profile0x0001R12); err != nil {
 		return fmt.Errorf("encoding profile0x0001-r12: %w", err)
 	}
@@ -2791,10 +2791,10 @@ func (v *SLPreconfigGeneralR12RohcProfilesR12) marshalUPERTo(bb *per.BitBuffer) 
 // UnmarshalUPER decodes SLPreconfigGeneralR12RohcProfilesR12 from UPER format.
 func (v *SLPreconfigGeneralR12RohcProfilesR12) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalUPERFrom(bb)
+	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *SLPreconfigGeneralR12RohcProfilesR12) unmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *SLPreconfigGeneralR12RohcProfilesR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	val_profile0x0001r12, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return fmt.Errorf("decoding profile0x0001-r12: %w", err)
@@ -2836,13 +2836,13 @@ func (v *SLPreconfigGeneralR12RohcProfilesR12) unmarshalUPERFrom(bb *per.BitBuff
 // MarshalUPER encodes SLPreconfigurationR12PreconfigCommV1310 to UPER format.
 func (v *SLPreconfigurationR12PreconfigCommV1310) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalUPERTo(bb); err != nil {
+	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *SLPreconfigurationR12PreconfigCommV1310) marshalUPERTo(bb *per.BitBuffer) error {
+func (v *SLPreconfigurationR12PreconfigCommV1310) MarshalUPERTo(bb *per.BitBuffer) error {
 	// Preamble bitmap for optional root fields
 	if err := per.EncodeBoolean(bb, v.CommTxPoolListR13 != nil); err != nil {
 		return err
@@ -2851,7 +2851,7 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) marshalUPERTo(bb *per.BitBuffe
 		return fmt.Errorf("encoding commRxPoolList-r13 length: %w", err)
 	}
 	for _, elem := range v.CommRxPoolListR13 {
-		if err := elem.marshalUPERTo(bb); err != nil {
+		if err := elem.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding commRxPoolList-r13 element: %w", err)
 		}
 	}
@@ -2860,7 +2860,7 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) marshalUPERTo(bb *per.BitBuffe
 			return fmt.Errorf("encoding commTxPoolList-r13 length: %w", err)
 		}
 		for _, elem := range v.CommTxPoolListR13 {
-			if err := elem.marshalUPERTo(bb); err != nil {
+			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding commTxPoolList-r13 element: %w", err)
 			}
 		}
@@ -2871,10 +2871,10 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) marshalUPERTo(bb *per.BitBuffe
 // UnmarshalUPER decodes SLPreconfigurationR12PreconfigCommV1310 from UPER format.
 func (v *SLPreconfigurationR12PreconfigCommV1310) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalUPERFrom(bb)
+	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *SLPreconfigurationR12PreconfigCommV1310) unmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *SLPreconfigurationR12PreconfigCommV1310) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	// Read preamble bitmap for optional root fields
 	opt_commtxpoollistr13, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -2886,7 +2886,7 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) unmarshalUPERFrom(bb *per.BitB
 	}
 	v.CommRxPoolListR13 = make(SLPreconfigCommRxPoolListR13, seqLen_commrxpoollistr13)
 	for i := int64(0); i < seqLen_commrxpoollistr13; i++ {
-		if err := v.CommRxPoolListR13[i].unmarshalUPERFrom(bb); err != nil {
+		if err := v.CommRxPoolListR13[i].UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding commRxPoolList-r13 element: %w", err)
 		}
 	}
@@ -2897,7 +2897,7 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) unmarshalUPERFrom(bb *per.BitB
 		}
 		tmp_commtxpoollistr13 := make(SLPreconfigCommTxPoolListR13, seqLen_commtxpoollistr13)
 		for i := int64(0); i < seqLen_commtxpoollistr13; i++ {
-			if err := tmp_commtxpoollistr13[i].unmarshalUPERFrom(bb); err != nil {
+			if err := tmp_commtxpoollistr13[i].UnmarshalUPERFrom(bb); err != nil {
 				return fmt.Errorf("decoding commTxPoolList-r13 element: %w", err)
 			}
 		}
@@ -2909,13 +2909,13 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) unmarshalUPERFrom(bb *per.BitB
 // MarshalUPER encodes SLPreconfigurationR12PreconfigDiscR13 to UPER format.
 func (v *SLPreconfigurationR12PreconfigDiscR13) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.marshalUPERTo(bb); err != nil {
+	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *SLPreconfigurationR12PreconfigDiscR13) marshalUPERTo(bb *per.BitBuffer) error {
+func (v *SLPreconfigurationR12PreconfigDiscR13) MarshalUPERTo(bb *per.BitBuffer) error {
 	// Preamble bitmap for optional root fields
 	if err := per.EncodeBoolean(bb, v.DiscTxPoolListR13 != nil); err != nil {
 		return err
@@ -2924,7 +2924,7 @@ func (v *SLPreconfigurationR12PreconfigDiscR13) marshalUPERTo(bb *per.BitBuffer)
 		return fmt.Errorf("encoding discRxPoolList-r13 length: %w", err)
 	}
 	for _, elem := range v.DiscRxPoolListR13 {
-		if err := elem.marshalUPERTo(bb); err != nil {
+		if err := elem.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding discRxPoolList-r13 element: %w", err)
 		}
 	}
@@ -2933,7 +2933,7 @@ func (v *SLPreconfigurationR12PreconfigDiscR13) marshalUPERTo(bb *per.BitBuffer)
 			return fmt.Errorf("encoding discTxPoolList-r13 length: %w", err)
 		}
 		for _, elem := range v.DiscTxPoolListR13 {
-			if err := elem.marshalUPERTo(bb); err != nil {
+			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding discTxPoolList-r13 element: %w", err)
 			}
 		}
@@ -2944,10 +2944,10 @@ func (v *SLPreconfigurationR12PreconfigDiscR13) marshalUPERTo(bb *per.BitBuffer)
 // UnmarshalUPER decodes SLPreconfigurationR12PreconfigDiscR13 from UPER format.
 func (v *SLPreconfigurationR12PreconfigDiscR13) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.unmarshalUPERFrom(bb)
+	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *SLPreconfigurationR12PreconfigDiscR13) unmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *SLPreconfigurationR12PreconfigDiscR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	// Read preamble bitmap for optional root fields
 	opt_disctxpoollistr13, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -2959,7 +2959,7 @@ func (v *SLPreconfigurationR12PreconfigDiscR13) unmarshalUPERFrom(bb *per.BitBuf
 	}
 	v.DiscRxPoolListR13 = make(SLPreconfigDiscRxPoolListR13, seqLen_discrxpoollistr13)
 	for i := int64(0); i < seqLen_discrxpoollistr13; i++ {
-		if err := v.DiscRxPoolListR13[i].unmarshalUPERFrom(bb); err != nil {
+		if err := v.DiscRxPoolListR13[i].UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding discRxPoolList-r13 element: %w", err)
 		}
 	}
@@ -2970,7 +2970,7 @@ func (v *SLPreconfigurationR12PreconfigDiscR13) unmarshalUPERFrom(bb *per.BitBuf
 		}
 		tmp_disctxpoollistr13 := make(SLPreconfigDiscTxPoolListR13, seqLen_disctxpoollistr13)
 		for i := int64(0); i < seqLen_disctxpoollistr13; i++ {
-			if err := tmp_disctxpoollistr13[i].unmarshalUPERFrom(bb); err != nil {
+			if err := tmp_disctxpoollistr13[i].UnmarshalUPERFrom(bb); err != nil {
 				return fmt.Errorf("decoding discTxPoolList-r13 element: %w", err)
 			}
 		}
