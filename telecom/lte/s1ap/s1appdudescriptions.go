@@ -174,10 +174,10 @@ func (v *InitiatingMessage) MarshalAPER() ([]byte, error) {
 }
 
 func (v *InitiatingMessage) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.ProcedureCode), nil, nil, false); err != nil {
+	if err := per.EncodeIntegerAligned(bb, int64(v.ProcedureCode), int64Ptr(0), int64Ptr(255), false); err != nil {
 		return fmt.Errorf("encoding procedureCode: %w", err)
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 0, false); err != nil {
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
 		return fmt.Errorf("encoding criticality: %w", err)
 	}
 	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
@@ -193,12 +193,12 @@ func (v *InitiatingMessage) UnmarshalAPER(data []byte) error {
 }
 
 func (v *InitiatingMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	val_procedurecode, err := per.DecodeIntegerAligned(bb, nil, nil, false)
+	val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 	if err != nil {
 		return fmt.Errorf("decoding procedureCode: %w", err)
 	}
 	v.ProcedureCode = val_procedurecode
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 0, false)
+	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return fmt.Errorf("decoding criticality: %w", err)
 	}
@@ -221,10 +221,10 @@ func (v *SuccessfulOutcome) MarshalAPER() ([]byte, error) {
 }
 
 func (v *SuccessfulOutcome) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.ProcedureCode), nil, nil, false); err != nil {
+	if err := per.EncodeIntegerAligned(bb, int64(v.ProcedureCode), int64Ptr(0), int64Ptr(255), false); err != nil {
 		return fmt.Errorf("encoding procedureCode: %w", err)
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 0, false); err != nil {
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
 		return fmt.Errorf("encoding criticality: %w", err)
 	}
 	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
@@ -240,12 +240,12 @@ func (v *SuccessfulOutcome) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SuccessfulOutcome) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	val_procedurecode, err := per.DecodeIntegerAligned(bb, nil, nil, false)
+	val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 	if err != nil {
 		return fmt.Errorf("decoding procedureCode: %w", err)
 	}
 	v.ProcedureCode = val_procedurecode
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 0, false)
+	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return fmt.Errorf("decoding criticality: %w", err)
 	}
@@ -268,10 +268,10 @@ func (v *UnsuccessfulOutcome) MarshalAPER() ([]byte, error) {
 }
 
 func (v *UnsuccessfulOutcome) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.ProcedureCode), nil, nil, false); err != nil {
+	if err := per.EncodeIntegerAligned(bb, int64(v.ProcedureCode), int64Ptr(0), int64Ptr(255), false); err != nil {
 		return fmt.Errorf("encoding procedureCode: %w", err)
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 0, false); err != nil {
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
 		return fmt.Errorf("encoding criticality: %w", err)
 	}
 	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
@@ -287,12 +287,12 @@ func (v *UnsuccessfulOutcome) UnmarshalAPER(data []byte) error {
 }
 
 func (v *UnsuccessfulOutcome) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	val_procedurecode, err := per.DecodeIntegerAligned(bb, nil, nil, false)
+	val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 	if err != nil {
 		return fmt.Errorf("decoding procedureCode: %w", err)
 	}
 	v.ProcedureCode = val_procedurecode
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 0, false)
+	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return fmt.Errorf("decoding criticality: %w", err)
 	}

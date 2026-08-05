@@ -80,10 +80,10 @@ func (v *ProtocolIESingleContainer) MarshalAPER() ([]byte, error) {
 }
 
 func (v *ProtocolIESingleContainer) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.Id), nil, nil, false); err != nil {
+	if err := per.EncodeIntegerAligned(bb, int64(v.Id), int64Ptr(0), int64Ptr(65535), false); err != nil {
 		return fmt.Errorf("encoding id: %w", err)
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 0, false); err != nil {
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
 		return fmt.Errorf("encoding criticality: %w", err)
 	}
 	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
@@ -99,12 +99,12 @@ func (v *ProtocolIESingleContainer) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ProtocolIESingleContainer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	val_id, err := per.DecodeIntegerAligned(bb, nil, nil, false)
+	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
 		return fmt.Errorf("decoding id: %w", err)
 	}
 	v.Id = val_id
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 0, false)
+	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return fmt.Errorf("decoding criticality: %w", err)
 	}
@@ -127,10 +127,10 @@ func (v *ProtocolIEField) MarshalAPER() ([]byte, error) {
 }
 
 func (v *ProtocolIEField) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.Id), nil, nil, false); err != nil {
+	if err := per.EncodeIntegerAligned(bb, int64(v.Id), int64Ptr(0), int64Ptr(65535), false); err != nil {
 		return fmt.Errorf("encoding id: %w", err)
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 0, false); err != nil {
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
 		return fmt.Errorf("encoding criticality: %w", err)
 	}
 	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
@@ -146,12 +146,12 @@ func (v *ProtocolIEField) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ProtocolIEField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	val_id, err := per.DecodeIntegerAligned(bb, nil, nil, false)
+	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
 		return fmt.Errorf("decoding id: %w", err)
 	}
 	v.Id = val_id
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 0, false)
+	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return fmt.Errorf("decoding criticality: %w", err)
 	}
@@ -174,16 +174,16 @@ func (v *ProtocolIEFieldPair) MarshalAPER() ([]byte, error) {
 }
 
 func (v *ProtocolIEFieldPair) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.Id), nil, nil, false); err != nil {
+	if err := per.EncodeIntegerAligned(bb, int64(v.Id), int64Ptr(0), int64Ptr(65535), false); err != nil {
 		return fmt.Errorf("encoding id: %w", err)
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.FirstCriticality), 0, false); err != nil {
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.FirstCriticality), 3, false); err != nil {
 		return fmt.Errorf("encoding firstCriticality: %w", err)
 	}
 	if err := per.EncodeOpenTypeAligned(bb, v.FirstValue.Bytes); err != nil {
 		return fmt.Errorf("encoding firstValue: %w", err)
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.SecondCriticality), 0, false); err != nil {
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.SecondCriticality), 3, false); err != nil {
 		return fmt.Errorf("encoding secondCriticality: %w", err)
 	}
 	if err := per.EncodeOpenTypeAligned(bb, v.SecondValue.Bytes); err != nil {
@@ -199,12 +199,12 @@ func (v *ProtocolIEFieldPair) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ProtocolIEFieldPair) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	val_id, err := per.DecodeIntegerAligned(bb, nil, nil, false)
+	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
 		return fmt.Errorf("decoding id: %w", err)
 	}
 	v.Id = val_id
-	val_firstcriticality, err := per.DecodeEnumeratedAligned(bb, 0, false)
+	val_firstcriticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return fmt.Errorf("decoding firstCriticality: %w", err)
 	}
@@ -214,7 +214,7 @@ func (v *ProtocolIEFieldPair) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding firstValue: %w", err)
 	}
 	v.FirstValue = runtime.RawValue{Bytes: openData_firstvalue}
-	val_secondcriticality, err := per.DecodeEnumeratedAligned(bb, 0, false)
+	val_secondcriticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return fmt.Errorf("decoding secondCriticality: %w", err)
 	}
@@ -237,10 +237,10 @@ func (v *ProtocolExtensionField) MarshalAPER() ([]byte, error) {
 }
 
 func (v *ProtocolExtensionField) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.Id), nil, nil, false); err != nil {
+	if err := per.EncodeIntegerAligned(bb, int64(v.Id), int64Ptr(0), int64Ptr(65535), false); err != nil {
 		return fmt.Errorf("encoding id: %w", err)
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 0, false); err != nil {
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
 		return fmt.Errorf("encoding criticality: %w", err)
 	}
 	if err := per.EncodeOpenTypeAligned(bb, v.ExtensionValue.Bytes); err != nil {
@@ -256,12 +256,12 @@ func (v *ProtocolExtensionField) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ProtocolExtensionField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	val_id, err := per.DecodeIntegerAligned(bb, nil, nil, false)
+	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
 		return fmt.Errorf("decoding id: %w", err)
 	}
 	v.Id = val_id
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 0, false)
+	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return fmt.Errorf("decoding criticality: %w", err)
 	}
@@ -288,7 +288,7 @@ func (v *PrivateIEField) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeOpenTypeAligned(bb, v.Id.Bytes); err != nil {
 		return fmt.Errorf("encoding id: %w", err)
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 0, false); err != nil {
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
 		return fmt.Errorf("encoding criticality: %w", err)
 	}
 	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
@@ -310,7 +310,7 @@ func (v *PrivateIEField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding id: %w", err)
 	}
 	v.Id = runtime.RawValue{Bytes: openData_id}
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 0, false)
+	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return fmt.Errorf("decoding criticality: %w", err)
 	}
