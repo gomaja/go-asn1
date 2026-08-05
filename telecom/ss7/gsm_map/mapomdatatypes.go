@@ -739,6 +739,16 @@ func (v *ActivateTraceModeArg) MarshalBER() ([]byte, error) {
 		enc_mdtconfiguration = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, true, enc_mdtconfiguration)
 		children = append(children, enc_mdtconfiguration...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
@@ -750,9 +760,12 @@ func (v *ActivateTraceModeArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ActivateTraceModeArg from BER/DER format.
 func (v *ActivateTraceModeArg) UnmarshalBER(data []byte) error {
-	content, _, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ActivateTraceModeArg SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "ActivateTraceModeArg", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -963,6 +976,19 @@ func (v *ActivateTraceModeArg) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ActivateTraceModeArg", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -982,6 +1008,16 @@ func (v *ActivateTraceModeRes) MarshalBER() ([]byte, error) {
 		enc_tracesupportindicator = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_tracesupportindicator)
 		children = append(children, enc_tracesupportindicator...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
@@ -993,9 +1029,12 @@ func (v *ActivateTraceModeRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ActivateTraceModeRes from BER/DER format.
 func (v *ActivateTraceModeRes) UnmarshalBER(data []byte) error {
-	content, _, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ActivateTraceModeRes SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "ActivateTraceModeRes", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode extensionContainer
@@ -1031,6 +1070,19 @@ func (v *ActivateTraceModeRes) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ActivateTraceModeRes", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -1038,7 +1090,7 @@ func (v *ActivateTraceModeRes) UnmarshalBER(data []byte) error {
 func (v *AreaScope) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.CgiList != nil {
-		enc_cgilist, err := marshalBERCGIList(v.CgiList)
+		enc_cgilist, err := MarshalBERCGIList(v.CgiList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding cgi-List: %w", err)
 		}
@@ -1055,7 +1107,7 @@ func (v *AreaScope) MarshalBER() ([]byte, error) {
 		children = append(children, enc_cgilist...)
 	}
 	if v.EUtranCgiList != nil {
-		enc_eutrancgilist, err := marshalBEREUTRANCGIList(v.EUtranCgiList)
+		enc_eutrancgilist, err := MarshalBEREUTRANCGIList(v.EUtranCgiList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding e-utran-cgi-List: %w", err)
 		}
@@ -1072,7 +1124,7 @@ func (v *AreaScope) MarshalBER() ([]byte, error) {
 		children = append(children, enc_eutrancgilist...)
 	}
 	if v.RoutingAreaIdList != nil {
-		enc_routingareaidlist, err := marshalBERRoutingAreaIdList(v.RoutingAreaIdList)
+		enc_routingareaidlist, err := MarshalBERRoutingAreaIdList(v.RoutingAreaIdList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding routingAreaId-List: %w", err)
 		}
@@ -1089,7 +1141,7 @@ func (v *AreaScope) MarshalBER() ([]byte, error) {
 		children = append(children, enc_routingareaidlist...)
 	}
 	if v.LocationAreaIdList != nil {
-		enc_locationareaidlist, err := marshalBERLocationAreaIdList(v.LocationAreaIdList)
+		enc_locationareaidlist, err := MarshalBERLocationAreaIdList(v.LocationAreaIdList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding locationAreaId-List: %w", err)
 		}
@@ -1106,7 +1158,7 @@ func (v *AreaScope) MarshalBER() ([]byte, error) {
 		children = append(children, enc_locationareaidlist...)
 	}
 	if v.TrackingAreaIdList != nil {
-		enc_trackingareaidlist, err := marshalBERTrackingAreaIdList(v.TrackingAreaIdList)
+		enc_trackingareaidlist, err := MarshalBERTrackingAreaIdList(v.TrackingAreaIdList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding trackingAreaId-List: %w", err)
 		}
@@ -1130,6 +1182,16 @@ func (v *AreaScope) MarshalBER() ([]byte, error) {
 		enc_extensioncontainer = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, true, enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
@@ -1141,9 +1203,12 @@ func (v *AreaScope) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AreaScope from BER/DER format.
 func (v *AreaScope) UnmarshalBER(data []byte) error {
-	content, _, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AreaScope SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "AreaScope", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode cgi-List
@@ -1156,7 +1221,7 @@ func (v *AreaScope) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding cgi-List: %w", err)
 				}
 				reconstructed_cgilist := ber.EncodeSequence(rawVal_cgilist)
-				dec_cgilist, unmErr := unmarshalBERCGIList(reconstructed_cgilist)
+				dec_cgilist, unmErr := UnmarshalBERCGIList(reconstructed_cgilist)
 				if unmErr != nil {
 					return fmt.Errorf("decoding cgi-List: %w", unmErr)
 				}
@@ -1181,7 +1246,7 @@ func (v *AreaScope) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding e-utran-cgi-List: %w", err)
 				}
 				reconstructed_eutrancgilist := ber.EncodeSequence(rawVal_eutrancgilist)
-				dec_eutrancgilist, unmErr := unmarshalBEREUTRANCGIList(reconstructed_eutrancgilist)
+				dec_eutrancgilist, unmErr := UnmarshalBEREUTRANCGIList(reconstructed_eutrancgilist)
 				if unmErr != nil {
 					return fmt.Errorf("decoding e-utran-cgi-List: %w", unmErr)
 				}
@@ -1206,7 +1271,7 @@ func (v *AreaScope) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding routingAreaId-List: %w", err)
 				}
 				reconstructed_routingareaidlist := ber.EncodeSequence(rawVal_routingareaidlist)
-				dec_routingareaidlist, unmErr := unmarshalBERRoutingAreaIdList(reconstructed_routingareaidlist)
+				dec_routingareaidlist, unmErr := UnmarshalBERRoutingAreaIdList(reconstructed_routingareaidlist)
 				if unmErr != nil {
 					return fmt.Errorf("decoding routingAreaId-List: %w", unmErr)
 				}
@@ -1231,7 +1296,7 @@ func (v *AreaScope) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding locationAreaId-List: %w", err)
 				}
 				reconstructed_locationareaidlist := ber.EncodeSequence(rawVal_locationareaidlist)
-				dec_locationareaidlist, unmErr := unmarshalBERLocationAreaIdList(reconstructed_locationareaidlist)
+				dec_locationareaidlist, unmErr := UnmarshalBERLocationAreaIdList(reconstructed_locationareaidlist)
 				if unmErr != nil {
 					return fmt.Errorf("decoding locationAreaId-List: %w", unmErr)
 				}
@@ -1256,7 +1321,7 @@ func (v *AreaScope) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding trackingAreaId-List: %w", err)
 				}
 				reconstructed_trackingareaidlist := ber.EncodeSequence(rawVal_trackingareaidlist)
-				dec_trackingareaidlist, unmErr := unmarshalBERTrackingAreaIdList(reconstructed_trackingareaidlist)
+				dec_trackingareaidlist, unmErr := UnmarshalBERTrackingAreaIdList(reconstructed_trackingareaidlist)
 				if unmErr != nil {
 					return fmt.Errorf("decoding trackingAreaId-List: %w", unmErr)
 				}
@@ -1290,11 +1355,24 @@ func (v *AreaScope) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "AreaScope", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// marshalBERCGIList encodes a CGIList list to BER.
-func marshalBERCGIList(list CGIList) ([]byte, error) {
+// MarshalBERCGIList encodes a CGIList list to BER.
+func MarshalBERCGIList(list CGIList) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -1302,11 +1380,14 @@ func marshalBERCGIList(list CGIList) ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// unmarshalBERCGIList decodes a CGIList list from BER.
-func unmarshalBERCGIList(data []byte) (CGIList, error) {
-	_, content, _, err := ber.DecodeConstructedContent(data)
+// UnmarshalBERCGIList decodes a CGIList list from BER.
+func UnmarshalBERCGIList(data []byte) (CGIList, error) {
+	_, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding CGIList: %w", err)
+	}
+	if total != len(data) {
+		return nil, &ber.DecodeError{Offset: total, TypeName: "CGIList", Cause: ber.ErrExtraData}
 	}
 	var result CGIList
 	offset := 0
@@ -1345,6 +1426,16 @@ func (v *DeactivateTraceModeArg) MarshalBER() ([]byte, error) {
 		enc_tracereference2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_tracereference2)
 		children = append(children, enc_tracereference2...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
@@ -1356,9 +1447,12 @@ func (v *DeactivateTraceModeArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DeactivateTraceModeArg from BER/DER format.
 func (v *DeactivateTraceModeArg) UnmarshalBER(data []byte) error {
-	content, _, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DeactivateTraceModeArg SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "DeactivateTraceModeArg", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -1425,6 +1519,19 @@ func (v *DeactivateTraceModeArg) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "DeactivateTraceModeArg", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -1439,6 +1546,16 @@ func (v *DeactivateTraceModeRes) MarshalBER() ([]byte, error) {
 		enc_extensioncontainer = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
@@ -1450,9 +1567,12 @@ func (v *DeactivateTraceModeRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DeactivateTraceModeRes from BER/DER format.
 func (v *DeactivateTraceModeRes) UnmarshalBER(data []byte) error {
-	content, _, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DeactivateTraceModeRes SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "DeactivateTraceModeRes", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode extensionContainer
@@ -1474,11 +1594,24 @@ func (v *DeactivateTraceModeRes) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "DeactivateTraceModeRes", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// marshalBEREUTRANCGIList encodes a EUTRANCGIList list to BER.
-func marshalBEREUTRANCGIList(list EUTRANCGIList) ([]byte, error) {
+// MarshalBEREUTRANCGIList encodes a EUTRANCGIList list to BER.
+func MarshalBEREUTRANCGIList(list EUTRANCGIList) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -1486,11 +1619,14 @@ func marshalBEREUTRANCGIList(list EUTRANCGIList) ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// unmarshalBEREUTRANCGIList decodes a EUTRANCGIList list from BER.
-func unmarshalBEREUTRANCGIList(data []byte) (EUTRANCGIList, error) {
-	_, content, _, err := ber.DecodeConstructedContent(data)
+// UnmarshalBEREUTRANCGIList decodes a EUTRANCGIList list from BER.
+func UnmarshalBEREUTRANCGIList(data []byte) (EUTRANCGIList, error) {
+	_, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding EUTRANCGIList: %w", err)
+	}
+	if total != len(data) {
+		return nil, &ber.DecodeError{Offset: total, TypeName: "EUTRANCGIList", Cause: ber.ErrExtraData}
 	}
 	var result EUTRANCGIList
 	offset := 0
@@ -1505,8 +1641,8 @@ func unmarshalBEREUTRANCGIList(data []byte) (EUTRANCGIList, error) {
 	return result, nil
 }
 
-// marshalBERLocationAreaIdList encodes a LocationAreaIdList list to BER.
-func marshalBERLocationAreaIdList(list LocationAreaIdList) ([]byte, error) {
+// MarshalBERLocationAreaIdList encodes a LocationAreaIdList list to BER.
+func MarshalBERLocationAreaIdList(list LocationAreaIdList) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -1514,11 +1650,14 @@ func marshalBERLocationAreaIdList(list LocationAreaIdList) ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// unmarshalBERLocationAreaIdList decodes a LocationAreaIdList list from BER.
-func unmarshalBERLocationAreaIdList(data []byte) (LocationAreaIdList, error) {
-	_, content, _, err := ber.DecodeConstructedContent(data)
+// UnmarshalBERLocationAreaIdList decodes a LocationAreaIdList list from BER.
+func UnmarshalBERLocationAreaIdList(data []byte) (LocationAreaIdList, error) {
+	_, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding LocationAreaIdList: %w", err)
+	}
+	if total != len(data) {
+		return nil, &ber.DecodeError{Offset: total, TypeName: "LocationAreaIdList", Cause: ber.ErrExtraData}
 	}
 	var result LocationAreaIdList
 	offset := 0
@@ -1533,8 +1672,8 @@ func unmarshalBERLocationAreaIdList(data []byte) (LocationAreaIdList, error) {
 	return result, nil
 }
 
-// marshalBERMDTAllowedPLMNIdList encodes a MDTAllowedPLMNIdList list to BER.
-func marshalBERMDTAllowedPLMNIdList(list MDTAllowedPLMNIdList) ([]byte, error) {
+// MarshalBERMDTAllowedPLMNIdList encodes a MDTAllowedPLMNIdList list to BER.
+func MarshalBERMDTAllowedPLMNIdList(list MDTAllowedPLMNIdList) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -1542,11 +1681,14 @@ func marshalBERMDTAllowedPLMNIdList(list MDTAllowedPLMNIdList) ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// unmarshalBERMDTAllowedPLMNIdList decodes a MDTAllowedPLMNIdList list from BER.
-func unmarshalBERMDTAllowedPLMNIdList(data []byte) (MDTAllowedPLMNIdList, error) {
-	_, content, _, err := ber.DecodeConstructedContent(data)
+// UnmarshalBERMDTAllowedPLMNIdList decodes a MDTAllowedPLMNIdList list from BER.
+func UnmarshalBERMDTAllowedPLMNIdList(data []byte) (MDTAllowedPLMNIdList, error) {
+	_, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding MDTAllowedPLMNIdList: %w", err)
+	}
+	if total != len(data) {
+		return nil, &ber.DecodeError{Offset: total, TypeName: "MDTAllowedPLMNIdList", Cause: ber.ErrExtraData}
 	}
 	var result MDTAllowedPLMNIdList
 	offset := 0
@@ -1659,7 +1801,7 @@ func (v *MDTConfiguration) MarshalBER() ([]byte, error) {
 		children = append(children, enc_eventthreshold1i...)
 	}
 	if v.MdtAllowedPLMNList != nil {
-		enc_mdtallowedplmnlist, err := marshalBERMDTAllowedPLMNIdList(v.MdtAllowedPLMNList)
+		enc_mdtallowedplmnlist, err := MarshalBERMDTAllowedPLMNIdList(v.MdtAllowedPLMNList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding mdt-Allowed-PLMN-List: %w", err)
 		}
@@ -1675,6 +1817,16 @@ func (v *MDTConfiguration) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, enc_mdtallowedplmnlist...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
@@ -1686,9 +1838,12 @@ func (v *MDTConfiguration) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MDTConfiguration from BER/DER format.
 func (v *MDTConfiguration) UnmarshalBER(data []byte) error {
-	content, _, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MDTConfiguration SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "MDTConfiguration", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode jobType
@@ -2025,7 +2180,7 @@ func (v *MDTConfiguration) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding mdt-Allowed-PLMN-List: %w", err)
 				}
 				reconstructed_mdtallowedplmnlist := ber.EncodeSequence(rawVal_mdtallowedplmnlist)
-				dec_mdtallowedplmnlist, unmErr := unmarshalBERMDTAllowedPLMNIdList(reconstructed_mdtallowedplmnlist)
+				dec_mdtallowedplmnlist, unmErr := UnmarshalBERMDTAllowedPLMNIdList(reconstructed_mdtallowedplmnlist)
 				if unmErr != nil {
 					return fmt.Errorf("decoding mdt-Allowed-PLMN-List: %w", unmErr)
 				}
@@ -2040,11 +2195,24 @@ func (v *MDTConfiguration) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "MDTConfiguration", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// marshalBERRoutingAreaIdList encodes a RoutingAreaIdList list to BER.
-func marshalBERRoutingAreaIdList(list RoutingAreaIdList) ([]byte, error) {
+// MarshalBERRoutingAreaIdList encodes a RoutingAreaIdList list to BER.
+func MarshalBERRoutingAreaIdList(list RoutingAreaIdList) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -2052,11 +2220,14 @@ func marshalBERRoutingAreaIdList(list RoutingAreaIdList) ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// unmarshalBERRoutingAreaIdList decodes a RoutingAreaIdList list from BER.
-func unmarshalBERRoutingAreaIdList(data []byte) (RoutingAreaIdList, error) {
-	_, content, _, err := ber.DecodeConstructedContent(data)
+// UnmarshalBERRoutingAreaIdList decodes a RoutingAreaIdList list from BER.
+func UnmarshalBERRoutingAreaIdList(data []byte) (RoutingAreaIdList, error) {
+	_, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding RoutingAreaIdList: %w", err)
+	}
+	if total != len(data) {
+		return nil, &ber.DecodeError{Offset: total, TypeName: "RoutingAreaIdList", Cause: ber.ErrExtraData}
 	}
 	var result RoutingAreaIdList
 	offset := 0
@@ -2174,6 +2345,16 @@ func (v *TraceDepthList) MarshalBER() ([]byte, error) {
 		enc_enbtracedepthextension = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, false, enc_enbtracedepthextension)
 		children = append(children, enc_enbtracedepthextension...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
@@ -2185,9 +2366,12 @@ func (v *TraceDepthList) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes TraceDepthList from BER/DER format.
 func (v *TraceDepthList) UnmarshalBER(data []byte) error {
-	content, _, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding TraceDepthList SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "TraceDepthList", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode msc-s-TraceDepth
@@ -2570,6 +2754,19 @@ func (v *TraceDepthList) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "TraceDepthList", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -2616,6 +2813,16 @@ func (v *TraceEventList) MarshalBER() ([]byte, error) {
 		enc_pgwlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, false, enc_pgwlist)
 		children = append(children, enc_pgwlist...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
@@ -2627,9 +2834,12 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes TraceEventList from BER/DER format.
 func (v *TraceEventList) UnmarshalBER(data []byte) error {
-	content, _, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding TraceEventList SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "TraceEventList", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode msc-s-List
@@ -2784,6 +2994,19 @@ func (v *TraceEventList) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "TraceEventList", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -2840,6 +3063,16 @@ func (v *TraceInterfaceList) MarshalBER() ([]byte, error) {
 		enc_enblist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, false, enc_enblist)
 		children = append(children, enc_enblist...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
@@ -2851,9 +3084,12 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes TraceInterfaceList from BER/DER format.
 func (v *TraceInterfaceList) UnmarshalBER(data []byte) error {
-	content, _, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding TraceInterfaceList SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "TraceInterfaceList", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode msc-s-List
@@ -3046,6 +3282,19 @@ func (v *TraceInterfaceList) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "TraceInterfaceList", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -3127,6 +3376,16 @@ func (v *TracePropagationList) MarshalBER() ([]byte, error) {
 		enc_mgwtracedepthextension = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, false, enc_mgwtracedepthextension)
 		children = append(children, enc_mgwtracedepthextension...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
@@ -3138,9 +3397,12 @@ func (v *TracePropagationList) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes TracePropagationList from BER/DER format.
 func (v *TracePropagationList) UnmarshalBER(data []byte) error {
-	content, _, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding TracePropagationList SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "TracePropagationList", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode traceReference
@@ -3415,11 +3677,24 @@ func (v *TracePropagationList) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "TracePropagationList", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// marshalBERTrackingAreaIdList encodes a TrackingAreaIdList list to BER.
-func marshalBERTrackingAreaIdList(list TrackingAreaIdList) ([]byte, error) {
+// MarshalBERTrackingAreaIdList encodes a TrackingAreaIdList list to BER.
+func MarshalBERTrackingAreaIdList(list TrackingAreaIdList) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -3427,11 +3702,14 @@ func marshalBERTrackingAreaIdList(list TrackingAreaIdList) ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// unmarshalBERTrackingAreaIdList decodes a TrackingAreaIdList list from BER.
-func unmarshalBERTrackingAreaIdList(data []byte) (TrackingAreaIdList, error) {
-	_, content, _, err := ber.DecodeConstructedContent(data)
+// UnmarshalBERTrackingAreaIdList decodes a TrackingAreaIdList list from BER.
+func UnmarshalBERTrackingAreaIdList(data []byte) (TrackingAreaIdList, error) {
+	_, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding TrackingAreaIdList: %w", err)
+	}
+	if total != len(data) {
+		return nil, &ber.DecodeError{Offset: total, TypeName: "TrackingAreaIdList", Cause: ber.ErrExtraData}
 	}
 	var result TrackingAreaIdList
 	offset := 0
