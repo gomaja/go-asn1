@@ -130,7 +130,7 @@ type SendGroupCallEndSignalRes struct {
 
 // SendGroupCallInfoArg represents the ASN.1 type SendGroupCallInfoArg (SEQUENCE).
 type SendGroupCallInfoArg struct {
-	RequestedInfo      int64               `asn1:""`
+	RequestedInfo      RequestedInfo       `asn1:""`
 	GroupId            LongGroupId         `asn1:""`
 	Teleservice        ExtTeleserviceCode  `asn1:""`
 	CellId             *GlobalCellId       `asn1:"tag:0,context,implicit,optional" json:"CellId,omitempty"`
@@ -270,6 +270,16 @@ func (v *ForwardGroupCallSignallingArg) MarshalBER() ([]byte, error) {
 		enc_anapdu = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, true, enc_anapdu)
 		children = append(children, enc_anapdu...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
@@ -281,9 +291,12 @@ func (v *ForwardGroupCallSignallingArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ForwardGroupCallSignallingArg from BER/DER format.
 func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte) error {
-	content, _, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ForwardGroupCallSignallingArg SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "ForwardGroupCallSignallingArg", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -306,10 +319,11 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_uplinkrequestack, _, err := ber.DecodeTLV(content[offset:])
+				_, n_uplinkrequestack, rawVal_uplinkrequestack, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uplinkRequestAck: %w", err)
 				}
+				_ = rawVal_uplinkrequestack
 				v.UplinkRequestAck = &struct{}{}
 				offset += n_uplinkrequestack
 			}
@@ -320,10 +334,11 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_uplinkreleaseindication, _, err := ber.DecodeTLV(content[offset:])
+				_, n_uplinkreleaseindication, rawVal_uplinkreleaseindication, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uplinkReleaseIndication: %w", err)
 				}
+				_ = rawVal_uplinkreleaseindication
 				v.UplinkReleaseIndication = &struct{}{}
 				offset += n_uplinkreleaseindication
 			}
@@ -334,10 +349,11 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_uplinkrejectcommand, _, err := ber.DecodeTLV(content[offset:])
+				_, n_uplinkrejectcommand, rawVal_uplinkrejectcommand, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uplinkRejectCommand: %w", err)
 				}
+				_ = rawVal_uplinkrejectcommand
 				v.UplinkRejectCommand = &struct{}{}
 				offset += n_uplinkrejectcommand
 			}
@@ -348,10 +364,11 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_uplinkseizedcommand, _, err := ber.DecodeTLV(content[offset:])
+				_, n_uplinkseizedcommand, rawVal_uplinkseizedcommand, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uplinkSeizedCommand: %w", err)
 				}
+				_ = rawVal_uplinkseizedcommand
 				v.UplinkSeizedCommand = &struct{}{}
 				offset += n_uplinkseizedcommand
 			}
@@ -362,10 +379,11 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_uplinkreleasecommand, _, err := ber.DecodeTLV(content[offset:])
+				_, n_uplinkreleasecommand, rawVal_uplinkreleasecommand, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uplinkReleaseCommand: %w", err)
 				}
+				_ = rawVal_uplinkreleasecommand
 				v.UplinkReleaseCommand = &struct{}{}
 				offset += n_uplinkreleasecommand
 			}
@@ -452,10 +470,11 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_emergencymoderesetcommandflag, _, err := ber.DecodeTLV(content[offset:])
+				_, n_emergencymoderesetcommandflag, rawVal_emergencymoderesetcommandflag, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding emergencyModeResetCommandFlag: %w", err)
 				}
+				_ = rawVal_emergencymoderesetcommandflag
 				v.EmergencyModeResetCommandFlag = &struct{}{}
 				offset += n_emergencymoderesetcommandflag
 			}
@@ -495,6 +514,19 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ForwardGroupCallSignallingArg", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -557,6 +589,16 @@ func (v *PrepareGroupCallArg) MarshalBER() ([]byte, error) {
 		enc_uplinkreplyindicator = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, false, enc_uplinkreplyindicator)
 		children = append(children, enc_uplinkreplyindicator...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
@@ -568,9 +610,12 @@ func (v *PrepareGroupCallArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PrepareGroupCallArg from BER/DER format.
 func (v *PrepareGroupCallArg) UnmarshalBER(data []byte) error {
-	content, _, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PrepareGroupCallArg SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "PrepareGroupCallArg", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode teleservice
@@ -669,10 +714,11 @@ func (v *PrepareGroupCallArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_uplinkfree, _, err := ber.DecodeTLV(content[offset:])
+				_, n_uplinkfree, rawVal_uplinkfree, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uplinkFree: %w", err)
 				}
+				_ = rawVal_uplinkfree
 				v.UplinkFree = &struct{}{}
 				offset += n_uplinkfree
 			}
@@ -732,10 +778,11 @@ func (v *PrepareGroupCallArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_talkerchannelparameter, _, err := ber.DecodeTLV(content[offset:])
+				_, n_talkerchannelparameter, rawVal_talkerchannelparameter, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding talkerChannelParameter: %w", err)
 				}
+				_ = rawVal_talkerchannelparameter
 				v.TalkerChannelParameter = &struct{}{}
 				offset += n_talkerchannelparameter
 			}
@@ -746,15 +793,29 @@ func (v *PrepareGroupCallArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_uplinkreplyindicator, _, err := ber.DecodeTLV(content[offset:])
+				_, n_uplinkreplyindicator, rawVal_uplinkreplyindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uplinkReplyIndicator: %w", err)
 				}
+				_ = rawVal_uplinkreplyindicator
 				v.UplinkReplyIndicator = &struct{}{}
 				offset += n_uplinkreplyindicator
 			}
 		}
 	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "PrepareGroupCallArg", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -770,6 +831,16 @@ func (v *PrepareGroupCallRes) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, enc_extensioncontainer...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
@@ -781,9 +852,12 @@ func (v *PrepareGroupCallRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PrepareGroupCallRes from BER/DER format.
 func (v *PrepareGroupCallRes) UnmarshalBER(data []byte) error {
-	content, _, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PrepareGroupCallRes SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "PrepareGroupCallRes", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode groupCallNumber
@@ -815,6 +889,19 @@ func (v *PrepareGroupCallRes) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "PrepareGroupCallRes", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -866,6 +953,16 @@ func (v *ProcessGroupCallSignallingArg) MarshalBER() ([]byte, error) {
 		enc_anapdu = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, true, enc_anapdu)
 		children = append(children, enc_anapdu...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
@@ -877,9 +974,12 @@ func (v *ProcessGroupCallSignallingArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ProcessGroupCallSignallingArg from BER/DER format.
 func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte) error {
-	content, _, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ProcessGroupCallSignallingArg SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "ProcessGroupCallSignallingArg", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode uplinkRequest
@@ -887,10 +987,11 @@ func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_uplinkrequest, _, err := ber.DecodeTLV(content[offset:])
+				_, n_uplinkrequest, rawVal_uplinkrequest, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uplinkRequest: %w", err)
 				}
+				_ = rawVal_uplinkrequest
 				v.UplinkRequest = &struct{}{}
 				offset += n_uplinkrequest
 			}
@@ -901,10 +1002,11 @@ func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_uplinkreleaseindication, _, err := ber.DecodeTLV(content[offset:])
+				_, n_uplinkreleaseindication, rawVal_uplinkreleaseindication, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uplinkReleaseIndication: %w", err)
 				}
+				_ = rawVal_uplinkreleaseindication
 				v.UplinkReleaseIndication = &struct{}{}
 				offset += n_uplinkreleaseindication
 			}
@@ -915,10 +1017,11 @@ func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_releasegroupcall, _, err := ber.DecodeTLV(content[offset:])
+				_, n_releasegroupcall, rawVal_releasegroupcall, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding releaseGroupCall: %w", err)
 				}
+				_ = rawVal_releasegroupcall
 				v.ReleaseGroupCall = &struct{}{}
 				offset += n_releasegroupcall
 			}
@@ -986,10 +1089,11 @@ func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_emergencymoderesetcommandflag, _, err := ber.DecodeTLV(content[offset:])
+				_, n_emergencymoderesetcommandflag, rawVal_emergencymoderesetcommandflag, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding emergencyModeResetCommandFlag: %w", err)
 				}
+				_ = rawVal_emergencymoderesetcommandflag
 				v.EmergencyModeResetCommandFlag = &struct{}{}
 				offset += n_emergencymoderesetcommandflag
 			}
@@ -1014,6 +1118,19 @@ func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ProcessGroupCallSignallingArg", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -1041,6 +1158,16 @@ func (v *SendGroupCallEndSignalArg) MarshalBER() ([]byte, error) {
 		enc_additionalinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_additionalinfo)
 		children = append(children, enc_additionalinfo...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
@@ -1052,9 +1179,12 @@ func (v *SendGroupCallEndSignalArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SendGroupCallEndSignalArg from BER/DER format.
 func (v *SendGroupCallEndSignalArg) UnmarshalBER(data []byte) error {
-	content, _, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SendGroupCallEndSignalArg SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "SendGroupCallEndSignalArg", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -1129,6 +1259,19 @@ func (v *SendGroupCallEndSignalArg) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SendGroupCallEndSignalArg", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -1142,6 +1285,16 @@ func (v *SendGroupCallEndSignalRes) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, enc_extensioncontainer...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
@@ -1153,9 +1306,12 @@ func (v *SendGroupCallEndSignalRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SendGroupCallEndSignalRes from BER/DER format.
 func (v *SendGroupCallEndSignalRes) UnmarshalBER(data []byte) error {
-	content, _, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SendGroupCallEndSignalRes SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "SendGroupCallEndSignalRes", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode extensionContainer
@@ -1177,6 +1333,19 @@ func (v *SendGroupCallEndSignalRes) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SendGroupCallEndSignalRes", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -1227,6 +1396,16 @@ func (v *SendGroupCallInfoArg) MarshalBER() ([]byte, error) {
 		enc_extensioncontainer = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, true, enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
@@ -1238,9 +1417,12 @@ func (v *SendGroupCallInfoArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SendGroupCallInfoArg from BER/DER format.
 func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte) error {
-	content, _, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SendGroupCallInfoArg SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "SendGroupCallInfoArg", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode requestedInfo
@@ -1251,7 +1433,7 @@ func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding requestedInfo: %w", err)
 	}
-	v.RequestedInfo = val_requestedinfo
+	v.RequestedInfo = RequestedInfo(val_requestedinfo)
 	offset += n
 	// Decode groupId
 	if offset >= len(content) {
@@ -1390,6 +1572,19 @@ func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SendGroupCallInfoArg", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -1434,6 +1629,16 @@ func (v *SendGroupCallInfoRes) MarshalBER() ([]byte, error) {
 		enc_extensioncontainer = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, true, enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
@@ -1445,9 +1650,12 @@ func (v *SendGroupCallInfoRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SendGroupCallInfoRes from BER/DER format.
 func (v *SendGroupCallInfoRes) UnmarshalBER(data []byte) error {
-	content, _, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SendGroupCallInfoRes SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "SendGroupCallInfoRes", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode anchorMSC-Address
@@ -1567,6 +1775,19 @@ func (v *SendGroupCallInfoRes) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SendGroupCallInfoRes", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -1604,9 +1825,12 @@ func (v *StateAttributes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes StateAttributes from BER/DER format.
 func (v *StateAttributes) UnmarshalBER(data []byte) error {
-	content, _, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding StateAttributes SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "StateAttributes", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode downlinkAttached
@@ -1614,10 +1838,11 @@ func (v *StateAttributes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_downlinkattached, _, err := ber.DecodeTLV(content[offset:])
+				_, n_downlinkattached, rawVal_downlinkattached, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding downlinkAttached: %w", err)
 				}
+				_ = rawVal_downlinkattached
 				v.DownlinkAttached = &struct{}{}
 				offset += n_downlinkattached
 			}
@@ -1628,10 +1853,11 @@ func (v *StateAttributes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_uplinkattached, _, err := ber.DecodeTLV(content[offset:])
+				_, n_uplinkattached, rawVal_uplinkattached, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uplinkAttached: %w", err)
 				}
+				_ = rawVal_uplinkattached
 				v.UplinkAttached = &struct{}{}
 				offset += n_uplinkattached
 			}
@@ -1642,10 +1868,11 @@ func (v *StateAttributes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_dualcommunication, _, err := ber.DecodeTLV(content[offset:])
+				_, n_dualcommunication, rawVal_dualcommunication, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding dualCommunication: %w", err)
 				}
+				_ = rawVal_dualcommunication
 				v.DualCommunication = &struct{}{}
 				offset += n_dualcommunication
 			}
@@ -1656,14 +1883,18 @@ func (v *StateAttributes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_calloriginator, _, err := ber.DecodeTLV(content[offset:])
+				_, n_calloriginator, rawVal_calloriginator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding callOriginator: %w", err)
 				}
+				_ = rawVal_calloriginator
 				v.CallOriginator = &struct{}{}
 				offset += n_calloriginator
 			}
 		}
+	}
+	if offset != len(content) {
+		return &ber.DecodeError{Offset: offset, TypeName: "StateAttributes", Cause: ber.ErrExtraData}
 	}
 	return nil
 }

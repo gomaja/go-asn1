@@ -4,6 +4,7 @@ package gsm_map
 
 import (
 	"fmt"
+	"math/big"
 
 	"github.com/gomaja/go-asn1/runtime"
 	"github.com/gomaja/go-asn1/runtime/ber"
@@ -26,15 +27,15 @@ const (
 // Code represents the ASN.1 CHOICE type Code.
 type Code struct {
 	Choice int
-	Local  *int64                   `json:"Local,omitempty"`
+	Local  *big.Int                 `json:"Local,omitempty"`
 	Global runtime.ObjectIdentifier `json:"Global,omitempty"`
 }
 
 // NewCodeLocal creates a Code with the local alternative.
-func NewCodeLocal(v int64) Code {
+func NewCodeLocal(v *big.Int) Code {
 	return Code{
 		Choice: CodeChoiceLocal,
-		Local:  &v,
+		Local:  v,
 	}
 }
 
@@ -47,7 +48,7 @@ func NewCodeGlobal(v runtime.ObjectIdentifier) Code {
 }
 
 // Priority represents the ASN.1 type Priority (INTEGER).
-type Priority = int64
+type Priority = *big.Int
 
 // MarshalBER encodes Code to BER format.
 func (v *Code) MarshalBER() ([]byte, error) {
@@ -56,7 +57,7 @@ func (v *Code) MarshalBER() ([]byte, error) {
 		if v.Local == nil {
 			return nil, fmt.Errorf("choice Code: local is nil")
 		}
-		enc_0 := ber.EncodeInteger(int64(*v.Local))
+		enc_0 := ber.EncodeBigInt(v.Local)
 		return enc_0, nil
 	case CodeChoiceGlobal:
 		enc_1 := ber.EncodeObjectIdentifier([]uint64(v.Global))
@@ -81,13 +82,21 @@ func (v *Code) UnmarshalBER(data []byte) error {
 		return fmt.Errorf("peeking tag for Code: %w", peekErr)
 	}
 
+	_, total, _, tlvErr := ber.DecodeTLV(data)
+	if tlvErr != nil {
+		return fmt.Errorf("decoding Code CHOICE: %w", tlvErr)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "Code", Cause: ber.ErrExtraData}
+	}
+
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 {
 		v.Choice = CodeChoiceLocal
-		decVal, _, intErr := ber.DecodeInteger(data)
+		decVal, _, intErr := ber.DecodeBigInt(data)
 		if intErr != nil {
 			return fmt.Errorf("decoding local: %w", intErr)
 		}
-		v.Local = &decVal
+		v.Local = decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 6 {
 		v.Choice = CodeChoiceGlobal
 		decVal, _, oidErr := ber.DecodeObjectIdentifier(data)
