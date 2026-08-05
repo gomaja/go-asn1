@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "NBIOT-InterNodeDefinitions". DO NOT EDIT.
 
-package lte_rrc
+package rrc
 
 import (
 	"fmt"
