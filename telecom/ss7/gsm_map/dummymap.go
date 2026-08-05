@@ -161,8 +161,22 @@ func NewMAPOPERATIONGlobalValue(v runtime.ObjectIdentifier) MAPOPERATION {
 	}
 }
 
+// NewMAPOPERATIONLocalValueInt64 creates a MAPOPERATION localValue alternative from a local int64 code.
+func NewMAPOPERATIONLocalValueInt64(v OperationLocalvalue) MAPOPERATION {
+	return NewMAPOPERATIONLocalValue(v)
+}
+
+// LocalCode returns the localValue code when this MAPOPERATION carries a localValue alternative.
+func (v MAPOPERATION) LocalCode() (OperationLocalvalue, bool) {
+	if v.Choice != MAPOPERATIONChoiceLocalValue || v.LocalValue == nil {
+		var zero OperationLocalvalue
+		return zero, false
+	}
+	return *v.LocalValue, true
+}
+
 // GSMMAPOperationLocalvalue represents the ASN.1 INTEGER type GSMMAPOperationLocalvalue with named numbers.
-type GSMMAPOperationLocalvalue = int64
+type GSMMAPOperationLocalvalue int64
 
 const (
 	GSMMAPOperationLocalvalueUpdateLocation                   GSMMAPOperationLocalvalue = 2
@@ -292,6 +306,263 @@ const (
 	GSMMAPOperationLocalvalueExplicitCT                       GSMMAPOperationLocalvalue = 126
 )
 
+func (v GSMMAPOperationLocalvalue) String() string {
+	switch v {
+	case GSMMAPOperationLocalvalueUpdateLocation:
+		return "updateLocation"
+	case GSMMAPOperationLocalvalueCancelLocation:
+		return "cancelLocation"
+	case GSMMAPOperationLocalvalueProvideRoamingNumber:
+		return "provideRoamingNumber"
+	case GSMMAPOperationLocalvalueNoteSubscriberDataModified:
+		return "noteSubscriberDataModified"
+	case GSMMAPOperationLocalvalueResumeCallHandling:
+		return "resumeCallHandling"
+	case GSMMAPOperationLocalvalueInsertSubscriberData:
+		return "insertSubscriberData"
+	case GSMMAPOperationLocalvalueDeleteSubscriberData:
+		return "deleteSubscriberData"
+	case GSMMAPOperationLocalvalueSendParameters:
+		return "sendParameters"
+	case GSMMAPOperationLocalvalueRegisterSS:
+		return "registerSS"
+	case GSMMAPOperationLocalvalueEraseSS:
+		return "eraseSS"
+	case GSMMAPOperationLocalvalueActivateSS:
+		return "activateSS"
+	case GSMMAPOperationLocalvalueDeactivateSS:
+		return "deactivateSS"
+	case GSMMAPOperationLocalvalueInterrogateSS:
+		return "interrogateSS"
+	case GSMMAPOperationLocalvalueAuthenticationFailureReport:
+		return "authenticationFailureReport"
+	case GSMMAPOperationLocalvalueNotifySS:
+		return "notifySS"
+	case GSMMAPOperationLocalvalueRegisterPassword:
+		return "registerPassword"
+	case GSMMAPOperationLocalvalueGetPassword:
+		return "getPassword"
+	case GSMMAPOperationLocalvalueProcessUnstructuredSSData:
+		return "processUnstructuredSS-Data"
+	case GSMMAPOperationLocalvalueReleaseResources:
+		return "releaseResources"
+	case GSMMAPOperationLocalvalueMtForwardSMVGCS:
+		return "mt-ForwardSM-VGCS"
+	case GSMMAPOperationLocalvalueSendRoutingInfo:
+		return "sendRoutingInfo"
+	case GSMMAPOperationLocalvalueUpdateGprsLocation:
+		return "updateGprsLocation"
+	case GSMMAPOperationLocalvalueSendRoutingInfoForGprs:
+		return "sendRoutingInfoForGprs"
+	case GSMMAPOperationLocalvalueFailureReport:
+		return "failureReport"
+	case GSMMAPOperationLocalvalueNoteMsPresentForGprs:
+		return "noteMsPresentForGprs"
+	case GSMMAPOperationLocalvalueUnAllocated:
+		return "unAllocated"
+	case GSMMAPOperationLocalvaluePerformHandover:
+		return "performHandover"
+	case GSMMAPOperationLocalvalueSendEndSignal:
+		return "sendEndSignal"
+	case GSMMAPOperationLocalvaluePerformSubsequentHandover:
+		return "performSubsequentHandover"
+	case GSMMAPOperationLocalvalueProvideSIWFSNumber:
+		return "provideSIWFSNumber"
+	case GSMMAPOperationLocalvalueSIWFSSignallingModify:
+		return "sIWFSSignallingModify"
+	case GSMMAPOperationLocalvalueProcessAccessSignalling:
+		return "processAccessSignalling"
+	case GSMMAPOperationLocalvalueForwardAccessSignalling:
+		return "forwardAccessSignalling"
+	case GSMMAPOperationLocalvalueNoteInternalHandover:
+		return "noteInternalHandover"
+	case GSMMAPOperationLocalvalueCancelVcsgLocation:
+		return "cancelVcsgLocation"
+	case GSMMAPOperationLocalvalueReset:
+		return "reset"
+	case GSMMAPOperationLocalvalueForwardCheckSS:
+		return "forwardCheckSS"
+	case GSMMAPOperationLocalvaluePrepareGroupCall:
+		return "prepareGroupCall"
+	case GSMMAPOperationLocalvalueSendGroupCallEndSignal:
+		return "sendGroupCallEndSignal"
+	case GSMMAPOperationLocalvalueProcessGroupCallSignalling:
+		return "processGroupCallSignalling"
+	case GSMMAPOperationLocalvalueForwardGroupCallSignalling:
+		return "forwardGroupCallSignalling"
+	case GSMMAPOperationLocalvalueCheckIMEI:
+		return "checkIMEI"
+	case GSMMAPOperationLocalvalueMtForwardSM:
+		return "mt-forwardSM"
+	case GSMMAPOperationLocalvalueSendRoutingInfoForSM:
+		return "sendRoutingInfoForSM"
+	case GSMMAPOperationLocalvalueMoForwardSM:
+		return "mo-forwardSM"
+	case GSMMAPOperationLocalvalueReportSMDeliveryStatus:
+		return "reportSM-DeliveryStatus"
+	case GSMMAPOperationLocalvalueNoteSubscriberPresent:
+		return "noteSubscriberPresent"
+	case GSMMAPOperationLocalvalueAlertServiceCentreWithoutResult:
+		return "alertServiceCentreWithoutResult"
+	case GSMMAPOperationLocalvalueActivateTraceMode:
+		return "activateTraceMode"
+	case GSMMAPOperationLocalvalueDeactivateTraceMode:
+		return "deactivateTraceMode"
+	case GSMMAPOperationLocalvalueTraceSubscriberActivity:
+		return "traceSubscriberActivity"
+	case GSMMAPOperationLocalvalueUpdateVcsgLocation:
+		return "updateVcsgLocation"
+	case GSMMAPOperationLocalvalueBeginSubscriberActivity:
+		return "beginSubscriberActivity"
+	case GSMMAPOperationLocalvalueSendIdentification:
+		return "sendIdentification"
+	case GSMMAPOperationLocalvalueSendAuthenticationInfo:
+		return "sendAuthenticationInfo"
+	case GSMMAPOperationLocalvalueRestoreData:
+		return "restoreData"
+	case GSMMAPOperationLocalvalueSendIMSI:
+		return "sendIMSI"
+	case GSMMAPOperationLocalvalueProcessUnstructuredSSRequest:
+		return "processUnstructuredSS-Request"
+	case GSMMAPOperationLocalvalueUnstructuredSSRequest:
+		return "unstructuredSS-Request"
+	case GSMMAPOperationLocalvalueUnstructuredSSNotify:
+		return "unstructuredSS-Notify"
+	case GSMMAPOperationLocalvalueAnyTimeSubscriptionInterrogation:
+		return "anyTimeSubscriptionInterrogation"
+	case GSMMAPOperationLocalvalueInformServiceCentre:
+		return "informServiceCentre"
+	case GSMMAPOperationLocalvalueAlertServiceCentre:
+		return "alertServiceCentre"
+	case GSMMAPOperationLocalvalueAnyTimeModification:
+		return "anyTimeModification"
+	case GSMMAPOperationLocalvalueReadyForSM:
+		return "readyForSM"
+	case GSMMAPOperationLocalvaluePurgeMS:
+		return "purgeMS"
+	case GSMMAPOperationLocalvaluePrepareHandover:
+		return "prepareHandover"
+	case GSMMAPOperationLocalvaluePrepareSubsequentHandover:
+		return "prepareSubsequentHandover"
+	case GSMMAPOperationLocalvalueProvideSubscriberInfo:
+		return "provideSubscriberInfo"
+	case GSMMAPOperationLocalvalueAnyTimeInterrogation:
+		return "anyTimeInterrogation"
+	case GSMMAPOperationLocalvalueSsInvocationNotification:
+		return "ss-InvocationNotification"
+	case GSMMAPOperationLocalvalueSetReportingState:
+		return "setReportingState"
+	case GSMMAPOperationLocalvalueStatusReport:
+		return "statusReport"
+	case GSMMAPOperationLocalvalueRemoteUserFree:
+		return "remoteUserFree"
+	case GSMMAPOperationLocalvalueRegisterCCEntry:
+		return "registerCC-Entry"
+	case GSMMAPOperationLocalvalueEraseCCEntry:
+		return "eraseCC-Entry"
+	case GSMMAPOperationLocalvalueSecureTransportClass1:
+		return "secureTransportClass1"
+	case GSMMAPOperationLocalvalueSecureTransportClass2:
+		return "secureTransportClass2"
+	case GSMMAPOperationLocalvalueSecureTransportClass3:
+		return "secureTransportClass3"
+	case GSMMAPOperationLocalvalueSecureTransportClass4:
+		return "secureTransportClass4"
+	case GSMMAPOperationLocalvalueUnAllocated82:
+		return "unAllocated-82"
+	case GSMMAPOperationLocalvalueProvideSubscriberLocation:
+		return "provideSubscriberLocation"
+	case GSMMAPOperationLocalvalueSendGroupCallInfo:
+		return "sendGroupCallInfo"
+	case GSMMAPOperationLocalvalueSendRoutingInfoForLCS:
+		return "sendRoutingInfoForLCS"
+	case GSMMAPOperationLocalvalueSubscriberLocationReport:
+		return "subscriberLocationReport"
+	case GSMMAPOperationLocalvalueIstAlert:
+		return "ist-Alert"
+	case GSMMAPOperationLocalvalueIstCommand:
+		return "ist-Command"
+	case GSMMAPOperationLocalvalueNoteMMEvent:
+		return "noteMM-Event"
+	case GSMMAPOperationLocalvalueUnAllocated90:
+		return "unAllocated-90"
+	case GSMMAPOperationLocalvalueUnAllocated91:
+		return "unAllocated-91"
+	case GSMMAPOperationLocalvalueUnAllocated92:
+		return "unAllocated-92"
+	case GSMMAPOperationLocalvalueUnAllocated93:
+		return "unAllocated-93"
+	case GSMMAPOperationLocalvalueUnAllocated94:
+		return "unAllocated-94"
+	case GSMMAPOperationLocalvalueUnAllocated95:
+		return "unAllocated-95"
+	case GSMMAPOperationLocalvalueUnAllocated96:
+		return "unAllocated-96"
+	case GSMMAPOperationLocalvalueUnAllocated97:
+		return "unAllocated-97"
+	case GSMMAPOperationLocalvalueUnAllocated98:
+		return "unAllocated-98"
+	case GSMMAPOperationLocalvalueUnAllocated99:
+		return "unAllocated-99"
+	case GSMMAPOperationLocalvalueUnAllocated100:
+		return "unAllocated-100"
+	case GSMMAPOperationLocalvalueUnAllocated101:
+		return "unAllocated-101"
+	case GSMMAPOperationLocalvalueUnAllocated102:
+		return "unAllocated-102"
+	case GSMMAPOperationLocalvalueUnAllocated103:
+		return "unAllocated-103"
+	case GSMMAPOperationLocalvalueUnAllocated104:
+		return "unAllocated-104"
+	case GSMMAPOperationLocalvalueUnAllocated105:
+		return "unAllocated-105"
+	case GSMMAPOperationLocalvalueUnAllocated106:
+		return "unAllocated-106"
+	case GSMMAPOperationLocalvalueUnAllocated107:
+		return "unAllocated-107"
+	case GSMMAPOperationLocalvalueUnAllocated108:
+		return "unAllocated-108"
+	case GSMMAPOperationLocalvalueLcsPeriodicLocationCancellation:
+		return "lcs-PeriodicLocationCancellation"
+	case GSMMAPOperationLocalvalueLcsLocationUpdate:
+		return "lcs-LocationUpdate"
+	case GSMMAPOperationLocalvalueLcsPeriodicLocationRequest:
+		return "lcs-PeriodicLocationRequest"
+	case GSMMAPOperationLocalvalueLcsAreaEventCancellation:
+		return "lcs-AreaEventCancellation"
+	case GSMMAPOperationLocalvalueLcsAreaEventReport:
+		return "lcs-AreaEventReport"
+	case GSMMAPOperationLocalvalueLcsAreaEventRequest:
+		return "lcs-AreaEventRequest"
+	case GSMMAPOperationLocalvalueLcsMOLR:
+		return "lcs-MOLR"
+	case GSMMAPOperationLocalvalueLcsLocationNotification:
+		return "lcs-LocationNotification"
+	case GSMMAPOperationLocalvalueCallDeflection:
+		return "callDeflection"
+	case GSMMAPOperationLocalvalueUserUserService:
+		return "userUserService"
+	case GSMMAPOperationLocalvalueAccessRegisterCCEntry:
+		return "accessRegisterCCEntry"
+	case GSMMAPOperationLocalvalueForwardCUGInfo:
+		return "forwardCUG-Info"
+	case GSMMAPOperationLocalvalueSplitMPTY:
+		return "splitMPTY"
+	case GSMMAPOperationLocalvalueRetrieveMPTY:
+		return "retrieveMPTY"
+	case GSMMAPOperationLocalvalueHoldMPTY:
+		return "holdMPTY"
+	case GSMMAPOperationLocalvalueBuildMPTY:
+		return "buildMPTY"
+	case GSMMAPOperationLocalvalueForwardChargeAdvice:
+		return "forwardChargeAdvice"
+	case GSMMAPOperationLocalvalueExplicitCT:
+		return "explicitCT"
+	default:
+		return "unknown"
+	}
+}
+
 // OperationLocalvalue represents the ASN.1 type OperationLocalvalue (INTEGER).
 type OperationLocalvalue = GSMMAPOperationLocalvalue
 
@@ -324,8 +595,22 @@ func NewMAPERRORGlobalValue(v runtime.ObjectIdentifier) MAPERROR {
 	}
 }
 
+// NewMAPERRORLocalValueInt64 creates a MAPERROR localValue alternative from a local int64 code.
+func NewMAPERRORLocalValueInt64(v LocalErrorcode) MAPERROR {
+	return NewMAPERRORLocalValue(v)
+}
+
+// LocalCode returns the localValue code when this MAPERROR carries a localValue alternative.
+func (v MAPERROR) LocalCode() (LocalErrorcode, bool) {
+	if v.Choice != MAPERRORChoiceLocalValue || v.LocalValue == nil {
+		var zero LocalErrorcode
+		return zero, false
+	}
+	return *v.LocalValue, true
+}
+
 // GSMMAPLocalErrorcode represents the ASN.1 INTEGER type GSMMAPLocalErrorcode with named numbers.
-type GSMMAPLocalErrorcode = int64
+type GSMMAPLocalErrorcode int64
 
 const (
 	GSMMAPLocalErrorcodeUnknownSubscriber              GSMMAPLocalErrorcode = 1
@@ -390,11 +675,138 @@ const (
 	GSMMAPLocalErrorcodeUssdBusy                       GSMMAPLocalErrorcode = 72
 )
 
+func (v GSMMAPLocalErrorcode) String() string {
+	switch v {
+	case GSMMAPLocalErrorcodeUnknownSubscriber:
+		return "unknownSubscriber"
+	case GSMMAPLocalErrorcodeUnknownBaseStation:
+		return "unknownBaseStation"
+	case GSMMAPLocalErrorcodeUnknownMSC:
+		return "unknownMSC"
+	case GSMMAPLocalErrorcodeSecureTransportError:
+		return "secureTransportError"
+	case GSMMAPLocalErrorcodeUnidentifiedSubscriber:
+		return "unidentifiedSubscriber"
+	case GSMMAPLocalErrorcodeAbsentSubscriberSM:
+		return "absentSubscriberSM"
+	case GSMMAPLocalErrorcodeUnknownEquipment:
+		return "unknownEquipment"
+	case GSMMAPLocalErrorcodeRoamingNotAllowed:
+		return "roamingNotAllowed"
+	case GSMMAPLocalErrorcodeIllegalSubscriber:
+		return "illegalSubscriber"
+	case GSMMAPLocalErrorcodeBearerServiceNotProvisioned:
+		return "bearerServiceNotProvisioned"
+	case GSMMAPLocalErrorcodeTeleserviceNotProvisioned:
+		return "teleserviceNotProvisioned"
+	case GSMMAPLocalErrorcodeIllegalEquipment:
+		return "illegalEquipment"
+	case GSMMAPLocalErrorcodeCallBarred:
+		return "callBarred"
+	case GSMMAPLocalErrorcodeForwardingViolation:
+		return "forwardingViolation"
+	case GSMMAPLocalErrorcodeCugReject:
+		return "cug-Reject"
+	case GSMMAPLocalErrorcodeIllegalSSOperation:
+		return "illegalSS-Operation"
+	case GSMMAPLocalErrorcodeSsErrorStatus:
+		return "ss-ErrorStatus"
+	case GSMMAPLocalErrorcodeSsNotAvailable:
+		return "ss-NotAvailable"
+	case GSMMAPLocalErrorcodeSsSubscriptionViolation:
+		return "ss-SubscriptionViolation"
+	case GSMMAPLocalErrorcodeSsIncompatibility:
+		return "ss-Incompatibility"
+	case GSMMAPLocalErrorcodeFacilityNotSupported:
+		return "facilityNotSupported"
+	case GSMMAPLocalErrorcodeOngoingGroupCall:
+		return "ongoingGroupCall"
+	case GSMMAPLocalErrorcodeInvalidTargetBaseStation:
+		return "invalidTargetBaseStation"
+	case GSMMAPLocalErrorcodeNoRadioResourceAvailable:
+		return "noRadioResourceAvailable"
+	case GSMMAPLocalErrorcodeNoHandoverNumberAvailable:
+		return "noHandoverNumberAvailable"
+	case GSMMAPLocalErrorcodeSubsequentHandoverFailure:
+		return "subsequentHandoverFailure"
+	case GSMMAPLocalErrorcodeAbsentSubscriber:
+		return "absentSubscriber"
+	case GSMMAPLocalErrorcodeIncompatibleTerminal:
+		return "incompatibleTerminal"
+	case GSMMAPLocalErrorcodeShortTermDenial:
+		return "shortTermDenial"
+	case GSMMAPLocalErrorcodeLongTermDenial:
+		return "longTermDenial"
+	case GSMMAPLocalErrorcodeSubscriberBusyForMTSMS:
+		return "subscriberBusyForMT-SMS"
+	case GSMMAPLocalErrorcodeSmDeliveryFailure:
+		return "sm-DeliveryFailure"
+	case GSMMAPLocalErrorcodeMessageWaitingListFull:
+		return "messageWaitingListFull"
+	case GSMMAPLocalErrorcodeSystemFailure:
+		return "systemFailure"
+	case GSMMAPLocalErrorcodeDataMissing:
+		return "dataMissing"
+	case GSMMAPLocalErrorcodeUnexpectedDataValue:
+		return "unexpectedDataValue"
+	case GSMMAPLocalErrorcodePwRegistrationFailure:
+		return "pw-RegistrationFailure"
+	case GSMMAPLocalErrorcodeNegativePWCheck:
+		return "negativePW-Check"
+	case GSMMAPLocalErrorcodeNoRoamingNumberAvailable:
+		return "noRoamingNumberAvailable"
+	case GSMMAPLocalErrorcodeTracingBufferFull:
+		return "tracingBufferFull"
+	case GSMMAPLocalErrorcodeTargetCellOutsideGroupCallArea:
+		return "targetCellOutsideGroupCallArea"
+	case GSMMAPLocalErrorcodeNumberOfPWAttemptsViolation:
+		return "numberOfPW-AttemptsViolation"
+	case GSMMAPLocalErrorcodeNumberChanged:
+		return "numberChanged"
+	case GSMMAPLocalErrorcodeBusySubscriber:
+		return "busySubscriber"
+	case GSMMAPLocalErrorcodeNoSubscriberReply:
+		return "noSubscriberReply"
+	case GSMMAPLocalErrorcodeForwardingFailed:
+		return "forwardingFailed"
+	case GSMMAPLocalErrorcodeOrNotAllowed:
+		return "or-NotAllowed"
+	case GSMMAPLocalErrorcodeAtiNotAllowed:
+		return "ati-NotAllowed"
+	case GSMMAPLocalErrorcodeNoGroupCallNumberAvailable:
+		return "noGroupCallNumberAvailable"
+	case GSMMAPLocalErrorcodeResourceLimitation:
+		return "resourceLimitation"
+	case GSMMAPLocalErrorcodeUnauthorizedRequestingNetwork:
+		return "unauthorizedRequestingNetwork"
+	case GSMMAPLocalErrorcodeUnauthorizedLCSClient:
+		return "unauthorizedLCSClient"
+	case GSMMAPLocalErrorcodePositionMethodFailure:
+		return "positionMethodFailure"
+	case GSMMAPLocalErrorcodeUnknownOrUnreachableLCSClient:
+		return "unknownOrUnreachableLCSClient"
+	case GSMMAPLocalErrorcodeMmEventNotSupported:
+		return "mm-EventNotSupported"
+	case GSMMAPLocalErrorcodeAtsiNotAllowed:
+		return "atsi-NotAllowed"
+	case GSMMAPLocalErrorcodeAtmNotAllowed:
+		return "atm-NotAllowed"
+	case GSMMAPLocalErrorcodeInformationNotAvailable:
+		return "informationNotAvailable"
+	case GSMMAPLocalErrorcodeUnknownAlphabet:
+		return "unknownAlphabet"
+	case GSMMAPLocalErrorcodeUssdBusy:
+		return "ussd-Busy"
+	default:
+		return "unknown"
+	}
+}
+
 // LocalErrorcode represents the ASN.1 type LocalErrorcode (INTEGER).
 type LocalErrorcode = GSMMAPLocalErrorcode
 
 // DumGeneralProblem represents the ASN.1 INTEGER type DumGeneralProblem with named numbers.
-type DumGeneralProblem = int64
+type DumGeneralProblem int64
 
 const (
 	DumGeneralProblemUnrecognizedComponent    DumGeneralProblem = 0
@@ -402,8 +814,21 @@ const (
 	DumGeneralProblemBadlyStructuredComponent DumGeneralProblem = 2
 )
 
+func (v DumGeneralProblem) String() string {
+	switch v {
+	case DumGeneralProblemUnrecognizedComponent:
+		return "unrecognizedComponent"
+	case DumGeneralProblemMistypedComponent:
+		return "mistypedComponent"
+	case DumGeneralProblemBadlyStructuredComponent:
+		return "badlyStructuredComponent"
+	default:
+		return "unknown"
+	}
+}
+
 // DumInvokeProblem represents the ASN.1 INTEGER type DumInvokeProblem with named numbers.
-type DumInvokeProblem = int64
+type DumInvokeProblem int64
 
 const (
 	DumInvokeProblemDuplicateInvokeID         DumInvokeProblem = 0
@@ -416,8 +841,31 @@ const (
 	DumInvokeProblemUnexpectedLinkedOperation DumInvokeProblem = 7
 )
 
+func (v DumInvokeProblem) String() string {
+	switch v {
+	case DumInvokeProblemDuplicateInvokeID:
+		return "duplicateInvokeID"
+	case DumInvokeProblemUnrecognizedOperation:
+		return "unrecognizedOperation"
+	case DumInvokeProblemMistypedParameter:
+		return "mistypedParameter"
+	case DumInvokeProblemResourceLimitation:
+		return "resourceLimitation"
+	case DumInvokeProblemInitiatingRelease:
+		return "initiatingRelease"
+	case DumInvokeProblemUnrecognizedLinkedID:
+		return "unrecognizedLinkedID"
+	case DumInvokeProblemLinkedResponseUnexpected:
+		return "linkedResponseUnexpected"
+	case DumInvokeProblemUnexpectedLinkedOperation:
+		return "unexpectedLinkedOperation"
+	default:
+		return "unknown"
+	}
+}
+
 // DumReturnResultProblem represents the ASN.1 INTEGER type DumReturnResultProblem with named numbers.
-type DumReturnResultProblem = int64
+type DumReturnResultProblem int64
 
 const (
 	DumReturnResultProblemUnrecognizedInvokeID   DumReturnResultProblem = 0
@@ -425,8 +873,21 @@ const (
 	DumReturnResultProblemMistypedParameter      DumReturnResultProblem = 2
 )
 
+func (v DumReturnResultProblem) String() string {
+	switch v {
+	case DumReturnResultProblemUnrecognizedInvokeID:
+		return "unrecognizedInvokeID"
+	case DumReturnResultProblemReturnResultUnexpected:
+		return "returnResultUnexpected"
+	case DumReturnResultProblemMistypedParameter:
+		return "mistypedParameter"
+	default:
+		return "unknown"
+	}
+}
+
 // DumReturnErrorProblem represents the ASN.1 INTEGER type DumReturnErrorProblem with named numbers.
-type DumReturnErrorProblem = int64
+type DumReturnErrorProblem int64
 
 const (
 	DumReturnErrorProblemUnrecognizedInvokeID  DumReturnErrorProblem = 0
@@ -435,6 +896,23 @@ const (
 	DumReturnErrorProblemUnexpectedError       DumReturnErrorProblem = 3
 	DumReturnErrorProblemMistypedParameter     DumReturnErrorProblem = 4
 )
+
+func (v DumReturnErrorProblem) String() string {
+	switch v {
+	case DumReturnErrorProblemUnrecognizedInvokeID:
+		return "unrecognizedInvokeID"
+	case DumReturnErrorProblemReturnErrorUnexpected:
+		return "returnErrorUnexpected"
+	case DumReturnErrorProblemUnrecognizedError:
+		return "unrecognizedError"
+	case DumReturnErrorProblemUnexpectedError:
+		return "unexpectedError"
+	case DumReturnErrorProblemMistypedParameter:
+		return "mistypedParameter"
+	default:
+		return "unknown"
+	}
+}
 
 // BssAPDU represents the ASN.1 type Bss-APDU (SEQUENCE).
 type BssAPDU struct {
@@ -504,14 +982,14 @@ type PrepareHOResOld struct {
 // SendAuthenticationInfoResOld represents the ASN.1 type SendAuthenticationInfoResOld (SEQUENCE_OF).
 type SendAuthenticationInfoResOld = []SendAuthenticationInfoResOldElem
 
-// DumRAND represents the ASN.1 type DumRAND (OCTET_STRING).
-type DumRAND = []byte
+// RAND represents the ASN.1 type RAND (OCTET_STRING).
+type RAND = []byte
 
-// DumSRES represents the ASN.1 type DumSRES (OCTET_STRING).
-type DumSRES = []byte
+// SRES represents the ASN.1 type SRES (OCTET_STRING).
+type SRES = []byte
 
-// DumKc represents the ASN.1 type DumKc (OCTET_STRING).
-type DumKc = []byte
+// Kc represents the ASN.1 type Kc (OCTET_STRING).
+type Kc = []byte
 
 // SendIdentificationResV2 represents the ASN.1 type SendIdentificationResV2 (SEQUENCE).
 type SendIdentificationResV2 struct {
@@ -528,9 +1006,9 @@ type TripletListold = []AuthenticationTripletV2
 
 // AuthenticationTripletV2 represents the ASN.1 type AuthenticationTriplet-v2 (SEQUENCE).
 type AuthenticationTripletV2 struct {
-	Rand        DumRAND  `asn1:""`
-	Sres        DumSRES  `asn1:""`
-	Kc          DumKc    `asn1:""`
+	Rand        RAND     `asn1:""`
+	Sres        SRES     `asn1:""`
+	Kc          Kc       `asn1:""`
 	ExtCount_   int64    `asn1:"-" json:"-"`
 	ExtPresent_ []bool   `asn1:"-" json:"-"`
 	ExtData_    [][]byte `asn1:"-" json:"-"`
@@ -688,6 +1166,19 @@ func NewOperationCodeGlobalValue(v runtime.ObjectIdentifier) OperationCode {
 	}
 }
 
+// NewOperationCodeLocalValueInt64 creates a OperationCode localValue alternative from an int64 code.
+func NewOperationCodeLocalValueInt64(v int64) OperationCode {
+	return NewOperationCodeLocalValue(big.NewInt(v))
+}
+
+// LocalCode returns the localValue code when this OperationCode carries a localValue alternative.
+func (v OperationCode) LocalCode() (int64, bool) {
+	if v.Choice != OperationCodeChoiceLocalValue || v.LocalValue == nil || !v.LocalValue.IsInt64() {
+		return 0, false
+	}
+	return v.LocalValue.Int64(), true
+}
+
 // ErrorCode choice constants.
 const (
 	ErrorCodeChoiceLocalValue  = 1
@@ -717,10 +1208,23 @@ func NewErrorCodeGlobalValue(v runtime.ObjectIdentifier) ErrorCode {
 	}
 }
 
+// NewErrorCodeLocalValueInt64 creates a ErrorCode localValue alternative from an int64 code.
+func NewErrorCodeLocalValueInt64(v int64) ErrorCode {
+	return NewErrorCodeLocalValue(big.NewInt(v))
+}
+
+// LocalCode returns the localValue code when this ErrorCode carries a localValue alternative.
+func (v ErrorCode) LocalCode() (int64, bool) {
+	if v.Choice != ErrorCodeChoiceLocalValue || v.LocalValue == nil || !v.LocalValue.IsInt64() {
+		return 0, false
+	}
+	return v.LocalValue.Int64(), true
+}
+
 // PlmnContainer represents the ASN.1 type PlmnContainer (SEQUENCE).
 type PlmnContainer struct {
 	Msisdn               *ISDNAddressString          `asn1:"tag:0,context,implicit,optional" json:"Msisdn,omitempty"`
-	Category             *DumCategory                `asn1:"tag:1,context,implicit,optional" json:"Category,omitempty"`
+	Category             *Category                   `asn1:"tag:1,context,implicit,optional" json:"Category,omitempty"`
 	BasicService         *BasicServiceCode           `asn1:",optional" json:"BasicService,omitempty"`
 	OperatorSSCode       PlmnContainerOperatorSSCode `asn1:"tag:4,context,implicit,optional" json:"OperatorSSCode,omitempty"`
 	OperatorSSCodeIndef_ bool                        `asn1:"-" json:"-"`
@@ -729,8 +1233,8 @@ type PlmnContainer struct {
 	ExtData_             [][]byte                    `asn1:"-" json:"-"`
 }
 
-// DumCategory represents the ASN.1 type DumCategory (OCTET_STRING).
-type DumCategory = []byte
+// Category represents the ASN.1 type Category (OCTET_STRING).
+type Category = []byte
 
 // ForwardSMArg represents the ASN.1 type ForwardSM-Arg (SEQUENCE).
 type ForwardSMArg struct {
@@ -1141,9 +1645,9 @@ func NewDumRejectProblemReturnErrorProblem(v DumReturnErrorProblem) DumRejectPro
 
 // SendAuthenticationInfoResOldElem represents the ASN.1 type SendAuthenticationInfoResOld-Elem (SEQUENCE).
 type SendAuthenticationInfoResOldElem struct {
-	Rand        DumRAND  `asn1:""`
-	Sres        DumSRES  `asn1:""`
-	Kc          DumKc    `asn1:""`
+	Rand        RAND     `asn1:""`
+	Sres        SRES     `asn1:""`
+	Kc          Kc       `asn1:""`
 	ExtCount_   int64    `asn1:"-" json:"-"`
 	ExtPresent_ []bool   `asn1:"-" json:"-"`
 	ExtData_    [][]byte `asn1:"-" json:"-"`
@@ -2692,7 +3196,7 @@ func (v *AuthenticationTripletV2) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding rand: %w", err)
 	}
-	v.Rand = DumRAND(val_rand)
+	v.Rand = RAND(val_rand)
 	offset += n
 	// Decode sres
 	if offset >= len(content) {
@@ -2702,7 +3206,7 @@ func (v *AuthenticationTripletV2) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding sres: %w", err)
 	}
-	v.Sres = DumSRES(val_sres)
+	v.Sres = SRES(val_sres)
 	offset += n
 	// Decode kc
 	if offset >= len(content) {
@@ -2712,7 +3216,7 @@ func (v *AuthenticationTripletV2) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding kc: %w", err)
 	}
-	v.Kc = DumKc(val_kc)
+	v.Kc = Kc(val_kc)
 	offset += n
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
@@ -3582,7 +4086,7 @@ func (v *PlmnContainer) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding category: %w", err)
 				}
-				tmp_category := DumCategory(rawVal_category)
+				tmp_category := Category(rawVal_category)
 				v.Category = &tmp_category
 				offset += n_category
 			}
@@ -5452,7 +5956,7 @@ func (v *SendAuthenticationInfoResOldElem) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding rand: %w", err)
 	}
-	v.Rand = DumRAND(val_rand)
+	v.Rand = RAND(val_rand)
 	offset += n
 	// Decode sres
 	if offset >= len(content) {
@@ -5462,7 +5966,7 @@ func (v *SendAuthenticationInfoResOldElem) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding sres: %w", err)
 	}
-	v.Sres = DumSRES(val_sres)
+	v.Sres = SRES(val_sres)
 	offset += n
 	// Decode kc
 	if offset >= len(content) {
@@ -5472,7 +5976,7 @@ func (v *SendAuthenticationInfoResOldElem) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding kc: %w", err)
 	}
-	v.Kc = DumKc(val_kc)
+	v.Kc = Kc(val_kc)
 	offset += n
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]

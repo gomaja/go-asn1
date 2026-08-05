@@ -1624,12 +1624,12 @@ func (v *EHRPDCompositeAvailableCapacity) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	if err != nil {
 		return fmt.Errorf("decoding eHRPDSectorCapacityClassValue: %w", err)
 	}
-	v.EHRPDSectorCapacityClassValue = val_ehrpdsectorcapacityclassvalue
+	v.EHRPDSectorCapacityClassValue = EHRPDSectorCapacityClassValue(val_ehrpdsectorcapacityclassvalue)
 	val_ehrpdcapacityvalue, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(100), false)
 	if err != nil {
 		return fmt.Errorf("decoding eHRPDCapacityValue: %w", err)
 	}
-	v.EHRPDCapacityValue = val_ehrpdcapacityvalue
+	v.EHRPDCapacityValue = EHRPDCapacityValue(val_ehrpdcapacityvalue)
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
 		if err != nil {

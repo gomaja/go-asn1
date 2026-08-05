@@ -2,9 +2,19 @@ package tcap
 
 import (
 	"bytes"
+	"encoding/hex"
 	"strings"
 	"testing"
 )
+
+func mustDecodeHex(t *testing.T, s string) []byte {
+	t.Helper()
+	b, err := hex.DecodeString(s)
+	if err != nil {
+		t.Fatalf("DecodeString(%q): %v", s, err)
+	}
+	return b
+}
 
 func testDialoguePortion() DialoguePortion {
 	return DialoguePortion{Bytes: testDialoguePortionBytes()}
@@ -144,5 +154,48 @@ func TestComponentPortionUsesApplicationTag(t *testing.T) {
 	}
 	if decoded, err := UnmarshalBERComponentPortion([]byte{0x30, 0x00}); err == nil {
 		t.Fatalf("UnmarshalBERComponentPortion universal sequence = %+v, nil error", decoded)
+	}
+}
+
+func TestComponentPortionDecodesReturnResultLastFixture(t *testing.T) {
+	input := mustDecodeHex(t, "6c0fa20d02017f300802012d0403deadbe")
+
+	components, err := UnmarshalBERComponentPortion(input)
+	if err != nil {
+		t.Fatalf("UnmarshalBERComponentPortion: %v", err)
+	}
+	if len(components) != 1 {
+		t.Fatalf("ComponentPortion length = %d, want 1", len(components))
+	}
+
+	got, err := MarshalBERComponentPortion(components)
+	if err != nil {
+		t.Fatalf("MarshalBERComponentPortion: %v", err)
+	}
+	if !bytes.Equal(got, input) {
+		t.Fatalf("ComponentPortion round-trip = % x, want % x", got, input)
+	}
+}
+
+func TestEndWithReturnResultLastFixtureRoundTrips(t *testing.T) {
+	input := mustDecodeHex(t, "64144901016c0fa20d02017f300802012d0403deadbe")
+
+	var msg TCMessage
+	if err := msg.UnmarshalBER(input); err != nil {
+		t.Fatalf("TCMessage.UnmarshalBER: %v", err)
+	}
+	if msg.Choice != TCMessageChoiceEnd || msg.End == nil {
+		t.Fatalf("TCMessage choice = %d, End = %+v", msg.Choice, msg.End)
+	}
+	if len(msg.End.Components) != 1 {
+		t.Fatalf("End.Components length = %d, want 1", len(msg.End.Components))
+	}
+
+	got, err := msg.MarshalBER()
+	if err != nil {
+		t.Fatalf("TCMessage.MarshalBER: %v", err)
+	}
+	if !bytes.Equal(got, input) {
+		t.Fatalf("TCMessage round-trip = % x, want % x", got, input)
 	}
 }

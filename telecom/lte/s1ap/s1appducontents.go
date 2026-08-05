@@ -3006,7 +3006,7 @@ func (v *ERABAdmittedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 	if err != nil {
 		return fmt.Errorf("decoding transportLayerAddress: %w", err)
@@ -3213,7 +3213,7 @@ func (v *ERABDataForwardingItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if opt_dltransportlayeraddress {
 		bsBytes_dltransportlayeraddress, bsBitLen_dltransportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 		if err != nil {
@@ -3365,7 +3365,7 @@ func (v *ERABFailedToResumeItemResumeReq) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.Cause.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding cause: %w", err)
 	}
@@ -3488,7 +3488,7 @@ func (v *ERABFailedToResumeItemResumeRes) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.Cause.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding cause: %w", err)
 	}
@@ -3611,7 +3611,7 @@ func (v *ERABFailedToSetupItemHOReqAck) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.Cause.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding cause: %w", err)
 	}
@@ -3921,7 +3921,7 @@ func (v *ERABModifyItemBearerModConf) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -4038,7 +4038,7 @@ func (v *ERABModifyItemBearerModRes) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -4351,7 +4351,7 @@ func (v *ERABNotToBeModifiedItemBearerModInd) UnmarshalAPERFrom(bb *per.BitBuffe
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 	if err != nil {
 		return fmt.Errorf("decoding transportLayerAddress: %w", err)
@@ -4668,7 +4668,7 @@ func (v *ERABReleaseItemBearerRelComp) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if opt_ieextensions {
 		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
 		if err != nil {
@@ -4886,7 +4886,7 @@ func (v *ERABSetupItemBearerSURes) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 	if err != nil {
 		return fmt.Errorf("decoding transportLayerAddress: %w", err)
@@ -5019,7 +5019,7 @@ func (v *ERABSetupItemCtxtSURes) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 	if err != nil {
 		return fmt.Errorf("decoding transportLayerAddress: %w", err)
@@ -5342,7 +5342,7 @@ func (v *ERABToBeModifiedItemBearerModInd) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 	if err != nil {
 		return fmt.Errorf("decoding transportLayerAddress: %w", err)
@@ -5475,7 +5475,7 @@ func (v *ERABToBeModifiedItemBearerModReq) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.ERABLevelQoSParameters.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding e-RABLevelQoSParameters: %w", err)
 	}
@@ -5612,7 +5612,7 @@ func (v *ERABToBeSetupItemBearerSUReq) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.ERABlevelQoSParameters.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding e-RABlevelQoSParameters: %w", err)
 	}
@@ -5768,7 +5768,7 @@ func (v *ERABToBeSetupItemCtxtSUReq) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if err := v.ERABlevelQoSParameters.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding e-RABlevelQoSParameters: %w", err)
 	}
@@ -5915,7 +5915,7 @@ func (v *ERABToBeSetupItemHOReq) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 	if err != nil {
 		return fmt.Errorf("decoding transportLayerAddress: %w", err)
@@ -6051,7 +6051,7 @@ func (v *ERABToBeSwitchedDLItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 	if err != nil {
 		return fmt.Errorf("decoding transportLayerAddress: %w", err)
@@ -6184,7 +6184,7 @@ func (v *ERABToBeSwitchedULItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 	if err != nil {
 		return fmt.Errorf("decoding transportLayerAddress: %w", err)
@@ -6323,7 +6323,7 @@ func (v *ERABToBeUpdatedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding e-RAB-ID: %w", err)
 	}
-	v.ERABID = val_erabid
+	v.ERABID = ERABID(val_erabid)
 	if opt_securityindication {
 		var dec_securityindication SecurityIndication
 		if err := dec_securityindication.UnmarshalAPERFrom(bb); err != nil {

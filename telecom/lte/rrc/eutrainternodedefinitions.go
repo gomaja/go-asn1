@@ -21,6 +21,207 @@ const (
 	MaxReestabInfo int64 = 32
 )
 
+// ASConfig represents the ASN.1 type AS-Config (SEQUENCE).
+type ASConfig struct {
+	SourceMeasConfig                     MeasConfig                   `asn1:"tag:0,context,implicit"`
+	SourceRadioResourceConfig            RadioResourceConfigDedicated `asn1:"tag:1,context,implicit"`
+	SourceSecurityAlgorithmConfig        SecurityAlgorithmConfig      `asn1:"tag:2,context,implicit"`
+	SourceUEIdentity                     CRNTI                        `asn1:"tag:3,context,implicit"`
+	SourceMasterInformationBlock         MasterInformationBlock       `asn1:"tag:4,context,implicit"`
+	SourceSystemInformationBlockType1    SystemInformationBlockType1  `asn1:"tag:5,context,implicit"`
+	SourceSystemInformationBlockType2    SystemInformationBlockType2  `asn1:"tag:6,context,implicit"`
+	AntennaInfoCommon                    AntennaInfoCommon            `asn1:"tag:7,context,implicit"`
+	SourceDlCarrierFreq                  ARFCNValueEUTRA              `asn1:"tag:8,context,implicit"`
+	SourceSystemInformationBlockType1Ext []byte                       `asn1:"tag:9,context,implicit,optional" json:"SourceSystemInformationBlockType1Ext,omitempty"`
+	SourceOtherConfigR9                  *OtherConfigR9               `asn1:"tag:10,context,implicit" json:"SourceOtherConfigR9,omitempty"`
+	SourceSCellConfigListR10             SCellToAddModListR10         `asn1:"tag:11,context,implicit,optional" json:"SourceSCellConfigListR10,omitempty"`
+	SourceSCellConfigListR10Indef_       bool                         `asn1:"-" json:"-"`
+	SourceConfigSCGR12                   *SCGConfigR12                `asn1:"tag:12,context,implicit,optional" json:"SourceConfigSCGR12,omitempty"`
+	AsConfigNRR15                        *ASConfigNRR15               `asn1:"tag:13,context,implicit,optional" json:"AsConfigNRR15,omitempty"`
+	AsConfigV1550                        *ASConfigV1550               `asn1:"tag:14,context,implicit,optional" json:"AsConfigV1550,omitempty"`
+	AsConfigNRV1570                      *ASConfigNRV1570             `asn1:"tag:15,context,implicit,optional" json:"AsConfigNRV1570,omitempty"`
+	AsConfigNRV1620                      *ASConfigNRV1620             `asn1:"tag:16,context,implicit,optional" json:"AsConfigNRV1620,omitempty"`
+	ExtCount_                            int64                        `asn1:"-" json:"-"`
+	ExtPresent_                          []bool                       `asn1:"-" json:"-"`
+	ExtData_                             [][]byte                     `asn1:"-" json:"-"`
+}
+
+// ASConfigNRR15 represents the ASN.1 type AS-ConfigNR-r15 (SEQUENCE).
+type ASConfigNRR15 struct {
+	SourceRBConfigNRR15      []byte `asn1:"tag:0,context,implicit,optional" json:"SourceRBConfigNRR15,omitempty"`
+	SourceRBConfigSNNRR15    []byte `asn1:"tag:1,context,implicit,optional" json:"SourceRBConfigSNNRR15,omitempty"`
+	SourceOtherConfigSNNRR15 []byte `asn1:"tag:2,context,implicit,optional" json:"SourceOtherConfigSNNRR15,omitempty"`
+}
+
+// ASConfigNRV1570 represents the ASN.1 type AS-ConfigNR-v1570 (SEQUENCE).
+type ASConfigNRV1570 struct {
+	SourceSCGConfiguredNRR15 int64 `asn1:"tag:0,context,implicit"`
+}
+
+// ASConfigNRV1620 represents the ASN.1 type AS-ConfigNR-v1620 (SEQUENCE).
+type ASConfigNRV1620 struct {
+	TdmPatternConfig2R16 TDMPatternConfigR15 `asn1:"tag:0,context,explicit"`
+}
+
+// ASConfigV10j0 represents the ASN.1 type AS-Config-v10j0 (SEQUENCE).
+type ASConfigV10j0 struct {
+	AntennaInfoDedicatedPCellV10i0 *AntennaInfoDedicatedV10i0 `asn1:"tag:0,context,implicit,optional" json:"AntennaInfoDedicatedPCellV10i0,omitempty"`
+}
+
+// ASConfigV1250 represents the ASN.1 type AS-Config-v1250 (SEQUENCE).
+type ASConfigV1250 struct {
+	SourceWlanOffloadConfigR12 *WLANOffloadConfigR12 `asn1:"tag:0,context,implicit,optional" json:"SourceWlanOffloadConfigR12,omitempty"`
+	SourceSLCommConfigR12      *SLCommConfigR12      `asn1:"tag:1,context,implicit,optional" json:"SourceSLCommConfigR12,omitempty"`
+	SourceSLDiscConfigR12      *SLDiscConfigR12      `asn1:"tag:2,context,implicit,optional" json:"SourceSLDiscConfigR12,omitempty"`
+}
+
+// ASConfigV1320 represents the ASN.1 type AS-Config-v1320 (SEQUENCE).
+type ASConfigV1320 struct {
+	SourceSCellConfigListR13       SCellToAddModListExtR13 `asn1:"tag:0,context,implicit,optional" json:"SourceSCellConfigListR13,omitempty"`
+	SourceSCellConfigListR13Indef_ bool                    `asn1:"-" json:"-"`
+	SourceRCLWIConfigurationR13    *RCLWIConfigurationR13  `asn1:"tag:1,context,explicit,optional" json:"SourceRCLWIConfigurationR13,omitempty"`
+}
+
+// ASConfigV13c0 represents the ASN.1 type AS-Config-v13c0 (SEQUENCE).
+type ASConfigV13c0 struct {
+	RadioResourceConfigDedicatedV13c01 *RadioResourceConfigDedicatedV1370 `asn1:"tag:0,context,implicit,optional" json:"RadioResourceConfigDedicatedV13c01,omitempty"`
+	RadioResourceConfigDedicatedV13c02 *RadioResourceConfigDedicatedV13c0 `asn1:"tag:1,context,implicit,optional" json:"RadioResourceConfigDedicatedV13c02,omitempty"`
+	SCellToAddModListV13c0             SCellToAddModListV13c0             `asn1:"tag:2,context,implicit,optional" json:"SCellToAddModListV13c0,omitempty"`
+	SCellToAddModListV13c0Indef_       bool                               `asn1:"-" json:"-"`
+	SCellToAddModListExtV13c0          SCellToAddModListExtV13c0          `asn1:"tag:3,context,implicit,optional" json:"SCellToAddModListExtV13c0,omitempty"`
+	SCellToAddModListExtV13c0Indef_    bool                               `asn1:"-" json:"-"`
+}
+
+// ASConfigV1430 represents the ASN.1 type AS-Config-v1430 (SEQUENCE).
+type ASConfigV1430 struct {
+	SourceSLV2XCommConfigR14      *SLV2XConfigDedicatedR14 `asn1:"tag:0,context,implicit,optional" json:"SourceSLV2XCommConfigR14,omitempty"`
+	SourceLWAConfigR14            *LWAConfigR13            `asn1:"tag:1,context,implicit,optional" json:"SourceLWAConfigR14,omitempty"`
+	SourceWLANMeasResultR14       MeasResultListWLANR13    `asn1:"tag:2,context,implicit,optional" json:"SourceWLANMeasResultR14,omitempty"`
+	SourceWLANMeasResultR14Indef_ bool                     `asn1:"-" json:"-"`
+}
+
+// ASConfigV1550 represents the ASN.1 type AS-Config-v1550 (SEQUENCE).
+type ASConfigV1550 struct {
+	TdmPatternConfigR15 *ASConfigV1550TdmPatternConfigR15 `asn1:"tag:0,context,implicit,optional" json:"TdmPatternConfigR15,omitempty"`
+	PMaxEUTRAR15        *PMax                             `asn1:"tag:1,context,implicit,optional" json:"PMaxEUTRAR15,omitempty"`
+}
+
+// ASConfigV1700 represents the ASN.1 type AS-Config-v1700 (SEQUENCE).
+type ASConfigV1700 struct {
+	ScgStateR17 *int64 `asn1:"tag:0,context,implicit,optional" json:"ScgStateR17,omitempty"`
+}
+
+// ASConfigV9e0 represents the ASN.1 type AS-Config-v9e0 (SEQUENCE).
+type ASConfigV9e0 struct {
+	SourceDlCarrierFreqV9e0 ARFCNValueEUTRAV9e0 `asn1:"tag:0,context,implicit"`
+}
+
+// ASContext represents the ASN.1 type AS-Context (SEQUENCE).
+type ASContext struct {
+	ReestablishmentInfo *ReestablishmentInfo `asn1:"tag:0,context,implicit,optional" json:"ReestablishmentInfo,omitempty"`
+}
+
+// ASContextV1130 represents the ASN.1 type AS-Context-v1130 (SEQUENCE).
+type ASContextV1130 struct {
+	IdcIndicationR11                     []byte   `asn1:"tag:0,context,implicit,optional" json:"IdcIndicationR11,omitempty"`
+	MbmsInterestIndicationR11            []byte   `asn1:"tag:1,context,implicit,optional" json:"MbmsInterestIndicationR11,omitempty"`
+	UeAssistanceInformationR11           []byte   `asn1:"tag:2,context,implicit,optional" json:"UeAssistanceInformationR11,omitempty"`
+	SidelinkUEInformationR12             []byte   `asn1:"tag:3,context,implicit,optional" json:"SidelinkUEInformationR12,omitempty"`
+	SourceContextENDCR15                 []byte   `asn1:"tag:4,context,implicit,optional" json:"SourceContextENDCR15,omitempty"`
+	SelectedbandCombinationInfoENDCV1540 []byte   `asn1:"tag:5,context,implicit,optional" json:"SelectedbandCombinationInfoENDCV1540,omitempty"`
+	ExtCount_                            int64    `asn1:"-" json:"-"`
+	ExtPresent_                          []bool   `asn1:"-" json:"-"`
+	ExtData_                             [][]byte `asn1:"-" json:"-"`
+}
+
+// ASContextV1320 represents the ASN.1 type AS-Context-v1320 (SEQUENCE).
+type ASContextV1320 struct {
+	WlanConnectionStatusReportR13 []byte `asn1:"tag:0,context,implicit,optional" json:"WlanConnectionStatusReportR13,omitempty"`
+}
+
+// ASContextV1610 represents the ASN.1 type AS-Context-v1610 (SEQUENCE).
+type ASContextV1610 struct {
+	SidelinkUEInformationNRR16   []byte                     `asn1:"tag:0,context,implicit,optional" json:"SidelinkUEInformationNRR16,omitempty"`
+	UeAssistanceInformationNRR16 []byte                     `asn1:"tag:1,context,implicit,optional" json:"UeAssistanceInformationNRR16,omitempty"`
+	ConfigRestrictInfoDAPSR16    *ConfigRestrictInfoDAPSR16 `asn1:"tag:2,context,implicit,optional" json:"ConfigRestrictInfoDAPSR16,omitempty"`
+}
+
+// ASContextV1620 represents the ASN.1 type AS-Context-v1620 (SEQUENCE).
+type ASContextV1620 struct {
+	UeAssistanceInformationNRSCGR16 []byte `asn1:"tag:0,context,implicit,optional" json:"UeAssistanceInformationNRSCGR16,omitempty"`
+}
+
+// ASContextV1630 represents the ASN.1 type AS-Context-v1630 (SEQUENCE).
+type ASContextV1630 struct {
+	ConfigRestrictInfoDAPSV1630 *ConfigRestrictInfoDAPSV1630 `asn1:"tag:0,context,implicit,optional" json:"ConfigRestrictInfoDAPSV1630,omitempty"`
+}
+
+// AdditionalReestabInfo represents the ASN.1 type AdditionalReestabInfo (SEQUENCE).
+type AdditionalReestabInfo struct {
+	CellIdentity  CellIdentity  `asn1:"tag:0,context,implicit"`
+	KeyENodeBStar KeyENodeBStar `asn1:"tag:1,context,implicit"`
+	ShortMACI     ShortMACI     `asn1:"tag:2,context,implicit"`
+}
+
+// AdditionalReestabInfoList represents the ASN.1 type AdditionalReestabInfoList (SEQUENCE_OF).
+type AdditionalReestabInfoList = []AdditionalReestabInfo
+
+// CandidateCellInfoListR10 represents the ASN.1 type CandidateCellInfoList-r10 (SEQUENCE_OF).
+type CandidateCellInfoListR10 = []CandidateCellInfoR10
+
+// CandidateCellInfoR10 represents the ASN.1 type CandidateCellInfo-r10 (SEQUENCE).
+type CandidateCellInfoR10 struct {
+	PhysCellIdR10      PhysCellId           `asn1:"tag:0,context,implicit"`
+	DlCarrierFreqR10   ARFCNValueEUTRA      `asn1:"tag:1,context,implicit"`
+	RsrpResultR10      *RSRPRange           `asn1:"tag:2,context,implicit,optional" json:"RsrpResultR10,omitempty"`
+	RsrqResultR10      *RSRQRange           `asn1:"tag:3,context,implicit,optional" json:"RsrqResultR10,omitempty"`
+	DlCarrierFreqV1090 *ARFCNValueEUTRAV9e0 `asn1:"tag:4,context,implicit,optional" json:"DlCarrierFreqV1090,omitempty"`
+	RsrqResultV1250    *RSRQRangeV1250      `asn1:"tag:5,context,implicit,optional" json:"RsrqResultV1250,omitempty"`
+	RsSinrResultR13    *RSSINRRangeR13      `asn1:"tag:6,context,implicit,optional" json:"RsSinrResultR13,omitempty"`
+	ExtCount_          int64                `asn1:"-" json:"-"`
+	ExtPresent_        []bool               `asn1:"-" json:"-"`
+	ExtData_           [][]byte             `asn1:"-" json:"-"`
+}
+
+// CellToAddModR12 represents the ASN.1 type Cell-ToAddMod-r12 (SEQUENCE).
+type CellToAddModR12 struct {
+	SCellIndexR12            SCellIndexR10                            `asn1:"tag:0,context,implicit"`
+	CellIdentificationR12    *CellToAddModR12CellIdentificationR12    `asn1:"tag:1,context,implicit,optional" json:"CellIdentificationR12,omitempty"`
+	MeasResultCellToAddR12   *CellToAddModR12MeasResultCellToAddR12   `asn1:"tag:2,context,implicit,optional" json:"MeasResultCellToAddR12,omitempty"`
+	SCellIndexR13            *SCellIndexR13                           `asn1:"tag:3,context,implicit,optional" json:"SCellIndexR13,omitempty"`
+	MeasResultCellToAddV1310 *CellToAddModR12MeasResultCellToAddV1310 `asn1:"tag:4,context,implicit,optional" json:"MeasResultCellToAddV1310,omitempty"`
+	ExtCount_                int64                                    `asn1:"-" json:"-"`
+	ExtPresent_              []bool                                   `asn1:"-" json:"-"`
+	ExtData_                 [][]byte                                 `asn1:"-" json:"-"`
+}
+
+// ConfigRestrictInfoDAPSR16 represents the ASN.1 type ConfigRestrictInfoDAPS-r16 (SEQUENCE).
+type ConfigRestrictInfoDAPSR16 struct {
+	MaxSCHTBBitsDLR16 *int64 `asn1:"tag:0,context,implicit,optional" json:"MaxSCHTBBitsDLR16,omitempty"`
+	MaxSCHTBBitsULR16 *int64 `asn1:"tag:1,context,implicit,optional" json:"MaxSCHTBBitsULR16,omitempty"`
+}
+
+// ConfigRestrictInfoDAPSV1630 represents the ASN.1 type ConfigRestrictInfoDAPS-v1630 (SEQUENCE).
+type ConfigRestrictInfoDAPSV1630 struct {
+	DapsPowerCoordinationInfoR16 *DAPSPowerCoordinationInfoR16 `asn1:"tag:0,context,implicit,optional" json:"DapsPowerCoordinationInfoR16,omitempty"`
+}
+
+// DRBInfoListSCGR12 represents the ASN.1 type DRB-InfoListSCG-r12 (SEQUENCE_OF).
+type DRBInfoListSCGR12 = []DRBInfoSCGR12
+
+// DRBInfoListSCGR15 represents the ASN.1 type DRB-InfoListSCG-r15 (SEQUENCE_OF).
+type DRBInfoListSCGR15 = []DRBInfoSCGR12
+
+// DRBInfoSCGR12 represents the ASN.1 type DRB-InfoSCG-r12 (SEQUENCE).
+type DRBInfoSCGR12 struct {
+	EpsBearerIdentityR12 *int64      `asn1:"tag:0,context,implicit,optional" json:"EpsBearerIdentityR12,omitempty"`
+	DrbIdentityR12       DRBIdentity `asn1:"tag:1,context,implicit"`
+	DrbTypeR12           *int64      `asn1:"tag:2,context,implicit,optional" json:"DrbTypeR12,omitempty"`
+	ExtCount_            int64       `asn1:"-" json:"-"`
+	ExtPresent_          []bool      `asn1:"-" json:"-"`
+	ExtData_             [][]byte    `asn1:"-" json:"-"`
+}
+
 // HandoverCommand represents the ASN.1 type HandoverCommand (SEQUENCE).
 type HandoverCommand struct {
 	CriticalExtensions HandoverCommandCriticalExtensions `asn1:"tag:0,context,explicit"`
@@ -47,24 +248,6 @@ type HandoverPreparationInformationR8IEs struct {
 	NonCriticalExtension              *HandoverPreparationInformationV920IEs `asn1:"tag:4,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
-// HandoverPreparationInformationV920IEs represents the ASN.1 type HandoverPreparationInformation-v920-IEs (SEQUENCE).
-type HandoverPreparationInformationV920IEs struct {
-	UeConfigReleaseR9    *int64                                 `asn1:"tag:0,context,implicit,optional" json:"UeConfigReleaseR9,omitempty"`
-	NonCriticalExtension *HandoverPreparationInformationV9d0IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
-}
-
-// HandoverPreparationInformationV9d0IEs represents the ASN.1 type HandoverPreparationInformation-v9d0-IEs (SEQUENCE).
-type HandoverPreparationInformationV9d0IEs struct {
-	LateNonCriticalExtension []byte                                 `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
-	NonCriticalExtension     *HandoverPreparationInformationV9e0IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
-}
-
-// HandoverPreparationInformationV9j0IEs represents the ASN.1 type HandoverPreparationInformation-v9j0-IEs (SEQUENCE).
-type HandoverPreparationInformationV9j0IEs struct {
-	LateNonCriticalExtension []byte                                  `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
-	NonCriticalExtension     *HandoverPreparationInformationV10j0IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
-}
-
 // HandoverPreparationInformationV10j0IEs represents the ASN.1 type HandoverPreparationInformation-v10j0-IEs (SEQUENCE).
 type HandoverPreparationInformationV10j0IEs struct {
 	AsConfigV10j0        *ASConfigV10j0                          `asn1:"tag:0,context,implicit,optional" json:"AsConfigV10j0,omitempty"`
@@ -75,18 +258,6 @@ type HandoverPreparationInformationV10j0IEs struct {
 type HandoverPreparationInformationV10x0IEs struct {
 	LateNonCriticalExtension []byte                                  `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
 	NonCriticalExtension     *HandoverPreparationInformationV13c0IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
-}
-
-// HandoverPreparationInformationV13c0IEs represents the ASN.1 type HandoverPreparationInformation-v13c0-IEs (SEQUENCE).
-type HandoverPreparationInformationV13c0IEs struct {
-	AsConfigV13c0        *ASConfigV13c0                                              `asn1:"tag:0,context,implicit,optional" json:"AsConfigV13c0,omitempty"`
-	NonCriticalExtension *HandoverPreparationInformationV13c0IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
-}
-
-// HandoverPreparationInformationV9e0IEs represents the ASN.1 type HandoverPreparationInformation-v9e0-IEs (SEQUENCE).
-type HandoverPreparationInformationV9e0IEs struct {
-	AsConfigV9e0         *ASConfigV9e0                           `asn1:"tag:0,context,implicit,optional" json:"AsConfigV9e0,omitempty"`
-	NonCriticalExtension *HandoverPreparationInformationV1130IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // HandoverPreparationInformationV1130IEs represents the ASN.1 type HandoverPreparationInformation-v1130-IEs (SEQUENCE).
@@ -107,6 +278,12 @@ type HandoverPreparationInformationV1320IEs struct {
 	AsConfigV1320        *ASConfigV1320                          `asn1:"tag:0,context,implicit,optional" json:"AsConfigV1320,omitempty"`
 	AsContextV1320       *ASContextV1320                         `asn1:"tag:1,context,implicit,optional" json:"AsContextV1320,omitempty"`
 	NonCriticalExtension *HandoverPreparationInformationV1430IEs `asn1:"tag:2,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+}
+
+// HandoverPreparationInformationV13c0IEs represents the ASN.1 type HandoverPreparationInformation-v13c0-IEs (SEQUENCE).
+type HandoverPreparationInformationV13c0IEs struct {
+	AsConfigV13c0        *ASConfigV13c0                                              `asn1:"tag:0,context,implicit,optional" json:"AsConfigV13c0,omitempty"`
+	NonCriticalExtension *HandoverPreparationInformationV13c0IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // HandoverPreparationInformationV1430IEs represents the ASN.1 type HandoverPreparationInformation-v1430-IEs (SEQUENCE).
@@ -152,33 +329,80 @@ type HandoverPreparationInformationV1700IEs struct {
 	NonCriticalExtension *HandoverPreparationInformationV1700IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
-// SCGConfigR12 represents the ASN.1 type SCG-Config-r12 (SEQUENCE).
-type SCGConfigR12 struct {
-	CriticalExtensions SCGConfigR12CriticalExtensions `asn1:"tag:0,context,explicit"`
+// HandoverPreparationInformationV920IEs represents the ASN.1 type HandoverPreparationInformation-v920-IEs (SEQUENCE).
+type HandoverPreparationInformationV920IEs struct {
+	UeConfigReleaseR9    *int64                                 `asn1:"tag:0,context,implicit,optional" json:"UeConfigReleaseR9,omitempty"`
+	NonCriticalExtension *HandoverPreparationInformationV9d0IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
-// SCGConfigR12IEs represents the ASN.1 type SCG-Config-r12-IEs (SEQUENCE).
-type SCGConfigR12IEs struct {
-	ScgRadioConfigR12    *SCGConfigPartSCGR12 `asn1:"tag:0,context,implicit,optional" json:"ScgRadioConfigR12,omitempty"`
-	NonCriticalExtension *SCGConfigV12i0aIEs  `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+// HandoverPreparationInformationV9d0IEs represents the ASN.1 type HandoverPreparationInformation-v9d0-IEs (SEQUENCE).
+type HandoverPreparationInformationV9d0IEs struct {
+	LateNonCriticalExtension []byte                                 `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	NonCriticalExtension     *HandoverPreparationInformationV9e0IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
-// SCGConfigV12i0aIEs represents the ASN.1 type SCG-Config-v12i0a-IEs (SEQUENCE).
-type SCGConfigV12i0aIEs struct {
-	LateNonCriticalExtension []byte             `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
-	NonCriticalExtension     *SCGConfigV13c0IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+// HandoverPreparationInformationV9e0IEs represents the ASN.1 type HandoverPreparationInformation-v9e0-IEs (SEQUENCE).
+type HandoverPreparationInformationV9e0IEs struct {
+	AsConfigV9e0         *ASConfigV9e0                           `asn1:"tag:0,context,implicit,optional" json:"AsConfigV9e0,omitempty"`
+	NonCriticalExtension *HandoverPreparationInformationV1130IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
-// SCGConfigV12i0bIEs represents the ASN.1 type SCG-Config-v12i0b-IEs (SEQUENCE).
-type SCGConfigV12i0bIEs struct {
-	ScgRadioConfigV12i0  *SCGConfigPartSCGV12f0                  `asn1:"tag:0,context,implicit,optional" json:"ScgRadioConfigV12i0,omitempty"`
-	NonCriticalExtension *SCGConfigV12i0bIEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+// HandoverPreparationInformationV9j0IEs represents the ASN.1 type HandoverPreparationInformation-v9j0-IEs (SEQUENCE).
+type HandoverPreparationInformationV9j0IEs struct {
+	LateNonCriticalExtension []byte                                  `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	NonCriticalExtension     *HandoverPreparationInformationV10j0IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
-// SCGConfigV13c0IEs represents the ASN.1 type SCG-Config-v13c0-IEs (SEQUENCE).
-type SCGConfigV13c0IEs struct {
-	ScgRadioConfigV13c0  *SCGConfigPartSCGV13c0                 `asn1:"tag:0,context,implicit,optional" json:"ScgRadioConfigV13c0,omitempty"`
-	NonCriticalExtension *SCGConfigV13c0IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+// KeyENodeBStar represents the ASN.1 type Key-eNodeB-Star (BIT_STRING).
+type KeyENodeBStar = runtime.BitString
+
+// MeasResultListRSSISCGR13 represents the ASN.1 type MeasResultListRSSI-SCG-r13 (SEQUENCE_OF).
+type MeasResultListRSSISCGR13 = []MeasResultRSSISCGR13
+
+// MeasResultRSSISCGR13 represents the ASN.1 type MeasResultRSSI-SCG-r13 (SEQUENCE).
+type MeasResultRSSISCGR13 struct {
+	ServCellIdR13        ServCellIndexR13     `asn1:"tag:0,context,implicit"`
+	MeasResultForRSSIR13 MeasResultForRSSIR13 `asn1:"tag:1,context,implicit"`
+}
+
+// MeasResultServCellListSCGExtR13 represents the ASN.1 type MeasResultServCellListSCG-Ext-r13 (SEQUENCE_OF).
+type MeasResultServCellListSCGExtR13 = []MeasResultServCellSCGR12
+
+// MeasResultServCellListSCGR12 represents the ASN.1 type MeasResultServCellListSCG-r12 (SEQUENCE_OF).
+type MeasResultServCellListSCGR12 = []MeasResultServCellSCGR12
+
+// MeasResultServCellSCGR12 represents the ASN.1 type MeasResultServCellSCG-r12 (SEQUENCE).
+type MeasResultServCellSCGR12 struct {
+	ServCellIdR12        ServCellIndexR10                              `asn1:"tag:0,context,implicit"`
+	MeasResultSCellR12   MeasResultServCellSCGR12MeasResultSCellR12    `asn1:"tag:1,context,implicit"`
+	ServCellIdR13        *ServCellIndexR13                             `asn1:"tag:2,context,implicit,optional" json:"ServCellIdR13,omitempty"`
+	MeasResultSCellV1310 *MeasResultServCellSCGR12MeasResultSCellV1310 `asn1:"tag:3,context,implicit,optional" json:"MeasResultSCellV1310,omitempty"`
+	ExtCount_            int64                                         `asn1:"-" json:"-"`
+	ExtPresent_          []bool                                        `asn1:"-" json:"-"`
+	ExtData_             [][]byte                                      `asn1:"-" json:"-"`
+}
+
+// RRMConfig represents the ASN.1 type RRM-Config (SEQUENCE).
+type RRMConfig struct {
+	UeInactiveTime                   *int64                      `asn1:"tag:0,context,implicit,optional" json:"UeInactiveTime,omitempty"`
+	CandidateCellInfoListR10         CandidateCellInfoListR10    `asn1:"tag:1,context,implicit,optional" json:"CandidateCellInfoListR10,omitempty"`
+	CandidateCellInfoListR10Indef_   bool                        `asn1:"-" json:"-"`
+	CandidateCellInfoListNRR15       MeasResultServFreqListNRR15 `asn1:"tag:2,context,implicit,optional" json:"CandidateCellInfoListNRR15,omitempty"`
+	CandidateCellInfoListNRR15Indef_ bool                        `asn1:"-" json:"-"`
+	ExtCount_                        int64                       `asn1:"-" json:"-"`
+	ExtPresent_                      []bool                      `asn1:"-" json:"-"`
+	ExtData_                         [][]byte                    `asn1:"-" json:"-"`
+}
+
+// ReestablishmentInfo represents the ASN.1 type ReestablishmentInfo (SEQUENCE).
+type ReestablishmentInfo struct {
+	SourcePhysCellId                PhysCellId                `asn1:"tag:0,context,implicit"`
+	TargetCellShortMACI             ShortMACI                 `asn1:"tag:1,context,implicit"`
+	AdditionalReestabInfoList       AdditionalReestabInfoList `asn1:"tag:2,context,implicit,optional" json:"AdditionalReestabInfoList,omitempty"`
+	AdditionalReestabInfoListIndef_ bool                      `asn1:"-" json:"-"`
+	ExtCount_                       int64                     `asn1:"-" json:"-"`
+	ExtPresent_                     []bool                    `asn1:"-" json:"-"`
+	ExtData_                        [][]byte                  `asn1:"-" json:"-"`
 }
 
 // SCGConfigInfoR12 represents the ASN.1 type SCG-ConfigInfo-r12 (SEQUENCE).
@@ -248,71 +472,46 @@ type SCGConfigInfoV1530IEs struct {
 	NonCriticalExtension         *SCGConfigInfoV1530IEsNonCriticalExtension `asn1:"tag:2,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
-// DRBInfoListSCGR12 represents the ASN.1 type DRB-InfoListSCG-r12 (SEQUENCE_OF).
-type DRBInfoListSCGR12 = []DRBInfoSCGR12
-
-// DRBInfoListSCGR15 represents the ASN.1 type DRB-InfoListSCG-r15 (SEQUENCE_OF).
-type DRBInfoListSCGR15 = []DRBInfoSCGR12
-
-// DRBInfoSCGR12 represents the ASN.1 type DRB-InfoSCG-r12 (SEQUENCE).
-type DRBInfoSCGR12 struct {
-	EpsBearerIdentityR12 *int64      `asn1:"tag:0,context,implicit,optional" json:"EpsBearerIdentityR12,omitempty"`
-	DrbIdentityR12       DRBIdentity `asn1:"tag:1,context,implicit"`
-	DrbTypeR12           *int64      `asn1:"tag:2,context,implicit,optional" json:"DrbTypeR12,omitempty"`
-	ExtCount_            int64       `asn1:"-" json:"-"`
-	ExtPresent_          []bool      `asn1:"-" json:"-"`
-	ExtData_             [][]byte    `asn1:"-" json:"-"`
-}
-
-// SCellToAddModListSCGR12 represents the ASN.1 type SCellToAddModListSCG-r12 (SEQUENCE_OF).
-type SCellToAddModListSCGR12 = []CellToAddModR12
-
-// SCellToAddModListSCGExtR13 represents the ASN.1 type SCellToAddModListSCG-Ext-r13 (SEQUENCE_OF).
-type SCellToAddModListSCGExtR13 = []CellToAddModR12
-
-// CellToAddModR12 represents the ASN.1 type Cell-ToAddMod-r12 (SEQUENCE).
-type CellToAddModR12 struct {
-	SCellIndexR12            SCellIndexR10                            `asn1:"tag:0,context,implicit"`
-	CellIdentificationR12    *CellToAddModR12CellIdentificationR12    `asn1:"tag:1,context,implicit,optional" json:"CellIdentificationR12,omitempty"`
-	MeasResultCellToAddR12   *CellToAddModR12MeasResultCellToAddR12   `asn1:"tag:2,context,implicit,optional" json:"MeasResultCellToAddR12,omitempty"`
-	SCellIndexR13            *SCellIndexR13                           `asn1:"tag:3,context,implicit,optional" json:"SCellIndexR13,omitempty"`
-	MeasResultCellToAddV1310 *CellToAddModR12MeasResultCellToAddV1310 `asn1:"tag:4,context,implicit,optional" json:"MeasResultCellToAddV1310,omitempty"`
-	ExtCount_                int64                                    `asn1:"-" json:"-"`
-	ExtPresent_              []bool                                   `asn1:"-" json:"-"`
-	ExtData_                 [][]byte                                 `asn1:"-" json:"-"`
-}
-
-// MeasResultServCellListSCGR12 represents the ASN.1 type MeasResultServCellListSCG-r12 (SEQUENCE_OF).
-type MeasResultServCellListSCGR12 = []MeasResultServCellSCGR12
-
-// MeasResultServCellListSCGExtR13 represents the ASN.1 type MeasResultServCellListSCG-Ext-r13 (SEQUENCE_OF).
-type MeasResultServCellListSCGExtR13 = []MeasResultServCellSCGR12
-
-// MeasResultServCellSCGR12 represents the ASN.1 type MeasResultServCellSCG-r12 (SEQUENCE).
-type MeasResultServCellSCGR12 struct {
-	ServCellIdR12        ServCellIndexR10                              `asn1:"tag:0,context,implicit"`
-	MeasResultSCellR12   MeasResultServCellSCGR12MeasResultSCellR12    `asn1:"tag:1,context,implicit"`
-	ServCellIdR13        *ServCellIndexR13                             `asn1:"tag:2,context,implicit,optional" json:"ServCellIdR13,omitempty"`
-	MeasResultSCellV1310 *MeasResultServCellSCGR12MeasResultSCellV1310 `asn1:"tag:3,context,implicit,optional" json:"MeasResultSCellV1310,omitempty"`
-	ExtCount_            int64                                         `asn1:"-" json:"-"`
-	ExtPresent_          []bool                                        `asn1:"-" json:"-"`
-	ExtData_             [][]byte                                      `asn1:"-" json:"-"`
-}
-
-// MeasResultListRSSISCGR13 represents the ASN.1 type MeasResultListRSSI-SCG-r13 (SEQUENCE_OF).
-type MeasResultListRSSISCGR13 = []MeasResultRSSISCGR13
-
-// MeasResultRSSISCGR13 represents the ASN.1 type MeasResultRSSI-SCG-r13 (SEQUENCE).
-type MeasResultRSSISCGR13 struct {
-	ServCellIdR13        ServCellIndexR13     `asn1:"tag:0,context,implicit"`
-	MeasResultForRSSIR13 MeasResultForRSSIR13 `asn1:"tag:1,context,implicit"`
-}
-
 // SCGConfigRestrictInfoR12 represents the ASN.1 type SCG-ConfigRestrictInfo-r12 (SEQUENCE).
 type SCGConfigRestrictInfoR12 struct {
 	MaxSCHTBBitsDLR12 int64 `asn1:"tag:0,context,implicit"`
 	MaxSCHTBBitsULR12 int64 `asn1:"tag:1,context,implicit"`
 }
+
+// SCGConfigR12 represents the ASN.1 type SCG-Config-r12 (SEQUENCE).
+type SCGConfigR12 struct {
+	CriticalExtensions SCGConfigR12CriticalExtensions `asn1:"tag:0,context,explicit"`
+}
+
+// SCGConfigR12IEs represents the ASN.1 type SCG-Config-r12-IEs (SEQUENCE).
+type SCGConfigR12IEs struct {
+	ScgRadioConfigR12    *SCGConfigPartSCGR12 `asn1:"tag:0,context,implicit,optional" json:"ScgRadioConfigR12,omitempty"`
+	NonCriticalExtension *SCGConfigV12i0aIEs  `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+}
+
+// SCGConfigV12i0aIEs represents the ASN.1 type SCG-Config-v12i0a-IEs (SEQUENCE).
+type SCGConfigV12i0aIEs struct {
+	LateNonCriticalExtension []byte             `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	NonCriticalExtension     *SCGConfigV13c0IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+}
+
+// SCGConfigV12i0bIEs represents the ASN.1 type SCG-Config-v12i0b-IEs (SEQUENCE).
+type SCGConfigV12i0bIEs struct {
+	ScgRadioConfigV12i0  *SCGConfigPartSCGV12f0                  `asn1:"tag:0,context,implicit,optional" json:"ScgRadioConfigV12i0,omitempty"`
+	NonCriticalExtension *SCGConfigV12i0bIEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+}
+
+// SCGConfigV13c0IEs represents the ASN.1 type SCG-Config-v13c0-IEs (SEQUENCE).
+type SCGConfigV13c0IEs struct {
+	ScgRadioConfigV13c0  *SCGConfigPartSCGV13c0                 `asn1:"tag:0,context,implicit,optional" json:"ScgRadioConfigV13c0,omitempty"`
+	NonCriticalExtension *SCGConfigV13c0IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+}
+
+// SCellToAddModListSCGExtR13 represents the ASN.1 type SCellToAddModListSCG-Ext-r13 (SEQUENCE_OF).
+type SCellToAddModListSCGExtR13 = []CellToAddModR12
+
+// SCellToAddModListSCGR12 represents the ASN.1 type SCellToAddModListSCG-r12 (SEQUENCE_OF).
+type SCellToAddModListSCGR12 = []CellToAddModR12
 
 // UEPagingCoverageInformation represents the ASN.1 type UEPagingCoverageInformation (SEQUENCE).
 type UEPagingCoverageInformation struct {
@@ -360,203 +559,27 @@ type UERadioPagingInformationV1610IEs struct {
 	NonCriticalExtension    *UERadioPagingInformationV1610IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
-// ASConfig represents the ASN.1 type AS-Config (SEQUENCE).
-type ASConfig struct {
-	SourceMeasConfig                     MeasConfig                   `asn1:"tag:0,context,implicit"`
-	SourceRadioResourceConfig            RadioResourceConfigDedicated `asn1:"tag:1,context,implicit"`
-	SourceSecurityAlgorithmConfig        SecurityAlgorithmConfig      `asn1:"tag:2,context,implicit"`
-	SourceUEIdentity                     CRNTI                        `asn1:"tag:3,context,implicit"`
-	SourceMasterInformationBlock         MasterInformationBlock       `asn1:"tag:4,context,implicit"`
-	SourceSystemInformationBlockType1    SystemInformationBlockType1  `asn1:"tag:5,context,implicit"`
-	SourceSystemInformationBlockType2    SystemInformationBlockType2  `asn1:"tag:6,context,implicit"`
-	AntennaInfoCommon                    AntennaInfoCommon            `asn1:"tag:7,context,implicit"`
-	SourceDlCarrierFreq                  ARFCNValueEUTRA              `asn1:"tag:8,context,implicit"`
-	SourceSystemInformationBlockType1Ext []byte                       `asn1:"tag:9,context,implicit,optional" json:"SourceSystemInformationBlockType1Ext,omitempty"`
-	SourceOtherConfigR9                  *OtherConfigR9               `asn1:"tag:10,context,implicit" json:"SourceOtherConfigR9,omitempty"`
-	SourceSCellConfigListR10             SCellToAddModListR10         `asn1:"tag:11,context,implicit,optional" json:"SourceSCellConfigListR10,omitempty"`
-	SourceSCellConfigListR10Indef_       bool                         `asn1:"-" json:"-"`
-	SourceConfigSCGR12                   *SCGConfigR12                `asn1:"tag:12,context,implicit,optional" json:"SourceConfigSCGR12,omitempty"`
-	AsConfigNRR15                        *ASConfigNRR15               `asn1:"tag:13,context,implicit,optional" json:"AsConfigNRR15,omitempty"`
-	AsConfigV1550                        *ASConfigV1550               `asn1:"tag:14,context,implicit,optional" json:"AsConfigV1550,omitempty"`
-	AsConfigNRV1570                      *ASConfigNRV1570             `asn1:"tag:15,context,implicit,optional" json:"AsConfigNRV1570,omitempty"`
-	AsConfigNRV1620                      *ASConfigNRV1620             `asn1:"tag:16,context,implicit,optional" json:"AsConfigNRV1620,omitempty"`
-	ExtCount_                            int64                        `asn1:"-" json:"-"`
-	ExtPresent_                          []bool                       `asn1:"-" json:"-"`
-	ExtData_                             [][]byte                     `asn1:"-" json:"-"`
+// ASConfigV1550TdmPatternConfigR15 represents the ASN.1 type AS-Config-v1550-tdm-PatternConfig-r15 (SEQUENCE).
+type ASConfigV1550TdmPatternConfigR15 struct {
+	SubframeAssignmentR15 SubframeAssignmentR15 `asn1:"tag:0,context,implicit"`
+	HarqOffsetR15         int64                 `asn1:"tag:1,context,implicit"`
 }
 
-// ASConfigV9e0 represents the ASN.1 type AS-Config-v9e0 (SEQUENCE).
-type ASConfigV9e0 struct {
-	SourceDlCarrierFreqV9e0 ARFCNValueEUTRAV9e0 `asn1:"tag:0,context,implicit"`
+// CellToAddModR12CellIdentificationR12 represents the ASN.1 type Cell-ToAddMod-r12-cellIdentification-r12 (SEQUENCE).
+type CellToAddModR12CellIdentificationR12 struct {
+	PhysCellIdR12    PhysCellId        `asn1:"tag:0,context,implicit"`
+	DlCarrierFreqR12 ARFCNValueEUTRAR9 `asn1:"tag:1,context,implicit"`
 }
 
-// ASConfigV10j0 represents the ASN.1 type AS-Config-v10j0 (SEQUENCE).
-type ASConfigV10j0 struct {
-	AntennaInfoDedicatedPCellV10i0 *AntennaInfoDedicatedV10i0 `asn1:"tag:0,context,implicit,optional" json:"AntennaInfoDedicatedPCellV10i0,omitempty"`
+// CellToAddModR12MeasResultCellToAddR12 represents the ASN.1 type Cell-ToAddMod-r12-measResultCellToAdd-r12 (SEQUENCE).
+type CellToAddModR12MeasResultCellToAddR12 struct {
+	RsrpResultR12 RSRPRange `asn1:"tag:0,context,implicit"`
+	RsrqResultR12 RSRQRange `asn1:"tag:1,context,implicit"`
 }
 
-// ASConfigV1250 represents the ASN.1 type AS-Config-v1250 (SEQUENCE).
-type ASConfigV1250 struct {
-	SourceWlanOffloadConfigR12 *WLANOffloadConfigR12 `asn1:"tag:0,context,implicit,optional" json:"SourceWlanOffloadConfigR12,omitempty"`
-	SourceSLCommConfigR12      *SLCommConfigR12      `asn1:"tag:1,context,implicit,optional" json:"SourceSLCommConfigR12,omitempty"`
-	SourceSLDiscConfigR12      *SLDiscConfigR12      `asn1:"tag:2,context,implicit,optional" json:"SourceSLDiscConfigR12,omitempty"`
-}
-
-// ASConfigV1320 represents the ASN.1 type AS-Config-v1320 (SEQUENCE).
-type ASConfigV1320 struct {
-	SourceSCellConfigListR13       SCellToAddModListExtR13 `asn1:"tag:0,context,implicit,optional" json:"SourceSCellConfigListR13,omitempty"`
-	SourceSCellConfigListR13Indef_ bool                    `asn1:"-" json:"-"`
-	SourceRCLWIConfigurationR13    *RCLWIConfigurationR13  `asn1:"tag:1,context,explicit,optional" json:"SourceRCLWIConfigurationR13,omitempty"`
-}
-
-// ASConfigV13c0 represents the ASN.1 type AS-Config-v13c0 (SEQUENCE).
-type ASConfigV13c0 struct {
-	RadioResourceConfigDedicatedV13c01 *RadioResourceConfigDedicatedV1370 `asn1:"tag:0,context,implicit,optional" json:"RadioResourceConfigDedicatedV13c01,omitempty"`
-	RadioResourceConfigDedicatedV13c02 *RadioResourceConfigDedicatedV13c0 `asn1:"tag:1,context,implicit,optional" json:"RadioResourceConfigDedicatedV13c02,omitempty"`
-	SCellToAddModListV13c0             SCellToAddModListV13c0             `asn1:"tag:2,context,implicit,optional" json:"SCellToAddModListV13c0,omitempty"`
-	SCellToAddModListV13c0Indef_       bool                               `asn1:"-" json:"-"`
-	SCellToAddModListExtV13c0          SCellToAddModListExtV13c0          `asn1:"tag:3,context,implicit,optional" json:"SCellToAddModListExtV13c0,omitempty"`
-	SCellToAddModListExtV13c0Indef_    bool                               `asn1:"-" json:"-"`
-}
-
-// ASConfigV1430 represents the ASN.1 type AS-Config-v1430 (SEQUENCE).
-type ASConfigV1430 struct {
-	SourceSLV2XCommConfigR14      *SLV2XConfigDedicatedR14 `asn1:"tag:0,context,implicit,optional" json:"SourceSLV2XCommConfigR14,omitempty"`
-	SourceLWAConfigR14            *LWAConfigR13            `asn1:"tag:1,context,implicit,optional" json:"SourceLWAConfigR14,omitempty"`
-	SourceWLANMeasResultR14       MeasResultListWLANR13    `asn1:"tag:2,context,implicit,optional" json:"SourceWLANMeasResultR14,omitempty"`
-	SourceWLANMeasResultR14Indef_ bool                     `asn1:"-" json:"-"`
-}
-
-// ASConfigNRR15 represents the ASN.1 type AS-ConfigNR-r15 (SEQUENCE).
-type ASConfigNRR15 struct {
-	SourceRBConfigNRR15      []byte `asn1:"tag:0,context,implicit,optional" json:"SourceRBConfigNRR15,omitempty"`
-	SourceRBConfigSNNRR15    []byte `asn1:"tag:1,context,implicit,optional" json:"SourceRBConfigSNNRR15,omitempty"`
-	SourceOtherConfigSNNRR15 []byte `asn1:"tag:2,context,implicit,optional" json:"SourceOtherConfigSNNRR15,omitempty"`
-}
-
-// ASConfigNRV1570 represents the ASN.1 type AS-ConfigNR-v1570 (SEQUENCE).
-type ASConfigNRV1570 struct {
-	SourceSCGConfiguredNRR15 int64 `asn1:"tag:0,context,implicit"`
-}
-
-// ASConfigV1550 represents the ASN.1 type AS-Config-v1550 (SEQUENCE).
-type ASConfigV1550 struct {
-	TdmPatternConfigR15 *ASConfigV1550TdmPatternConfigR15 `asn1:"tag:0,context,implicit,optional" json:"TdmPatternConfigR15,omitempty"`
-	PMaxEUTRAR15        *PMax                             `asn1:"tag:1,context,implicit,optional" json:"PMaxEUTRAR15,omitempty"`
-}
-
-// ASConfigNRV1620 represents the ASN.1 type AS-ConfigNR-v1620 (SEQUENCE).
-type ASConfigNRV1620 struct {
-	TdmPatternConfig2R16 TDMPatternConfigR15 `asn1:"tag:0,context,explicit"`
-}
-
-// ASConfigV1700 represents the ASN.1 type AS-Config-v1700 (SEQUENCE).
-type ASConfigV1700 struct {
-	ScgStateR17 *int64 `asn1:"tag:0,context,implicit,optional" json:"ScgStateR17,omitempty"`
-}
-
-// ASContext represents the ASN.1 type AS-Context (SEQUENCE).
-type ASContext struct {
-	ReestablishmentInfo *ReestablishmentInfo `asn1:"tag:0,context,implicit,optional" json:"ReestablishmentInfo,omitempty"`
-}
-
-// ASContextV1130 represents the ASN.1 type AS-Context-v1130 (SEQUENCE).
-type ASContextV1130 struct {
-	IdcIndicationR11                     []byte   `asn1:"tag:0,context,implicit,optional" json:"IdcIndicationR11,omitempty"`
-	MbmsInterestIndicationR11            []byte   `asn1:"tag:1,context,implicit,optional" json:"MbmsInterestIndicationR11,omitempty"`
-	UeAssistanceInformationR11           []byte   `asn1:"tag:2,context,implicit,optional" json:"UeAssistanceInformationR11,omitempty"`
-	SidelinkUEInformationR12             []byte   `asn1:"tag:3,context,implicit,optional" json:"SidelinkUEInformationR12,omitempty"`
-	SourceContextENDCR15                 []byte   `asn1:"tag:4,context,implicit,optional" json:"SourceContextENDCR15,omitempty"`
-	SelectedbandCombinationInfoENDCV1540 []byte   `asn1:"tag:5,context,implicit,optional" json:"SelectedbandCombinationInfoENDCV1540,omitempty"`
-	ExtCount_                            int64    `asn1:"-" json:"-"`
-	ExtPresent_                          []bool   `asn1:"-" json:"-"`
-	ExtData_                             [][]byte `asn1:"-" json:"-"`
-}
-
-// ASContextV1320 represents the ASN.1 type AS-Context-v1320 (SEQUENCE).
-type ASContextV1320 struct {
-	WlanConnectionStatusReportR13 []byte `asn1:"tag:0,context,implicit,optional" json:"WlanConnectionStatusReportR13,omitempty"`
-}
-
-// ASContextV1610 represents the ASN.1 type AS-Context-v1610 (SEQUENCE).
-type ASContextV1610 struct {
-	SidelinkUEInformationNRR16   []byte                     `asn1:"tag:0,context,implicit,optional" json:"SidelinkUEInformationNRR16,omitempty"`
-	UeAssistanceInformationNRR16 []byte                     `asn1:"tag:1,context,implicit,optional" json:"UeAssistanceInformationNRR16,omitempty"`
-	ConfigRestrictInfoDAPSR16    *ConfigRestrictInfoDAPSR16 `asn1:"tag:2,context,implicit,optional" json:"ConfigRestrictInfoDAPSR16,omitempty"`
-}
-
-// ASContextV1620 represents the ASN.1 type AS-Context-v1620 (SEQUENCE).
-type ASContextV1620 struct {
-	UeAssistanceInformationNRSCGR16 []byte `asn1:"tag:0,context,implicit,optional" json:"UeAssistanceInformationNRSCGR16,omitempty"`
-}
-
-// ASContextV1630 represents the ASN.1 type AS-Context-v1630 (SEQUENCE).
-type ASContextV1630 struct {
-	ConfigRestrictInfoDAPSV1630 *ConfigRestrictInfoDAPSV1630 `asn1:"tag:0,context,implicit,optional" json:"ConfigRestrictInfoDAPSV1630,omitempty"`
-}
-
-// ConfigRestrictInfoDAPSR16 represents the ASN.1 type ConfigRestrictInfoDAPS-r16 (SEQUENCE).
-type ConfigRestrictInfoDAPSR16 struct {
-	MaxSCHTBBitsDLR16 *int64 `asn1:"tag:0,context,implicit,optional" json:"MaxSCHTBBitsDLR16,omitempty"`
-	MaxSCHTBBitsULR16 *int64 `asn1:"tag:1,context,implicit,optional" json:"MaxSCHTBBitsULR16,omitempty"`
-}
-
-// ConfigRestrictInfoDAPSV1630 represents the ASN.1 type ConfigRestrictInfoDAPS-v1630 (SEQUENCE).
-type ConfigRestrictInfoDAPSV1630 struct {
-	DapsPowerCoordinationInfoR16 *DAPSPowerCoordinationInfoR16 `asn1:"tag:0,context,implicit,optional" json:"DapsPowerCoordinationInfoR16,omitempty"`
-}
-
-// ReestablishmentInfo represents the ASN.1 type ReestablishmentInfo (SEQUENCE).
-type ReestablishmentInfo struct {
-	SourcePhysCellId                PhysCellId                `asn1:"tag:0,context,implicit"`
-	TargetCellShortMACI             ShortMACI                 `asn1:"tag:1,context,implicit"`
-	AdditionalReestabInfoList       AdditionalReestabInfoList `asn1:"tag:2,context,implicit,optional" json:"AdditionalReestabInfoList,omitempty"`
-	AdditionalReestabInfoListIndef_ bool                      `asn1:"-" json:"-"`
-	ExtCount_                       int64                     `asn1:"-" json:"-"`
-	ExtPresent_                     []bool                    `asn1:"-" json:"-"`
-	ExtData_                        [][]byte                  `asn1:"-" json:"-"`
-}
-
-// AdditionalReestabInfoList represents the ASN.1 type AdditionalReestabInfoList (SEQUENCE_OF).
-type AdditionalReestabInfoList = []AdditionalReestabInfo
-
-// AdditionalReestabInfo represents the ASN.1 type AdditionalReestabInfo (SEQUENCE).
-type AdditionalReestabInfo struct {
-	CellIdentity  CellIdentity  `asn1:"tag:0,context,implicit"`
-	KeyENodeBStar KeyENodeBStar `asn1:"tag:1,context,implicit"`
-	ShortMACI     ShortMACI     `asn1:"tag:2,context,implicit"`
-}
-
-// KeyENodeBStar represents the ASN.1 type Key-eNodeB-Star (BIT_STRING).
-type KeyENodeBStar = runtime.BitString
-
-// RRMConfig represents the ASN.1 type RRM-Config (SEQUENCE).
-type RRMConfig struct {
-	UeInactiveTime                   *int64                      `asn1:"tag:0,context,implicit,optional" json:"UeInactiveTime,omitempty"`
-	CandidateCellInfoListR10         CandidateCellInfoListR10    `asn1:"tag:1,context,implicit,optional" json:"CandidateCellInfoListR10,omitempty"`
-	CandidateCellInfoListR10Indef_   bool                        `asn1:"-" json:"-"`
-	CandidateCellInfoListNRR15       MeasResultServFreqListNRR15 `asn1:"tag:2,context,implicit,optional" json:"CandidateCellInfoListNRR15,omitempty"`
-	CandidateCellInfoListNRR15Indef_ bool                        `asn1:"-" json:"-"`
-	ExtCount_                        int64                       `asn1:"-" json:"-"`
-	ExtPresent_                      []bool                      `asn1:"-" json:"-"`
-	ExtData_                         [][]byte                    `asn1:"-" json:"-"`
-}
-
-// CandidateCellInfoListR10 represents the ASN.1 type CandidateCellInfoList-r10 (SEQUENCE_OF).
-type CandidateCellInfoListR10 = []CandidateCellInfoR10
-
-// CandidateCellInfoR10 represents the ASN.1 type CandidateCellInfo-r10 (SEQUENCE).
-type CandidateCellInfoR10 struct {
-	PhysCellIdR10      PhysCellId           `asn1:"tag:0,context,implicit"`
-	DlCarrierFreqR10   ARFCNValueEUTRA      `asn1:"tag:1,context,implicit"`
-	RsrpResultR10      *RSRPRange           `asn1:"tag:2,context,implicit,optional" json:"RsrpResultR10,omitempty"`
-	RsrqResultR10      *RSRQRange           `asn1:"tag:3,context,implicit,optional" json:"RsrqResultR10,omitempty"`
-	DlCarrierFreqV1090 *ARFCNValueEUTRAV9e0 `asn1:"tag:4,context,implicit,optional" json:"DlCarrierFreqV1090,omitempty"`
-	RsrqResultV1250    *RSRQRangeV1250      `asn1:"tag:5,context,implicit,optional" json:"RsrqResultV1250,omitempty"`
-	RsSinrResultR13    *RSSINRRangeR13      `asn1:"tag:6,context,implicit,optional" json:"RsSinrResultR13,omitempty"`
-	ExtCount_          int64                `asn1:"-" json:"-"`
-	ExtPresent_        []bool               `asn1:"-" json:"-"`
-	ExtData_           [][]byte             `asn1:"-" json:"-"`
+// CellToAddModR12MeasResultCellToAddV1310 represents the ASN.1 type Cell-ToAddMod-r12-measResultCellToAdd-v1310 (SEQUENCE).
+type CellToAddModR12MeasResultCellToAddV1310 struct {
+	RsSinrResultR13 RSSINRRangeR13 `asn1:"tag:0,context,implicit"`
 }
 
 // HandoverCommandCriticalExtensions choice constants.
@@ -815,134 +838,15 @@ type HandoverPreparationInformationV13c0IEsNonCriticalExtension struct {
 type HandoverPreparationInformationV1700IEsNonCriticalExtension struct {
 }
 
-// SCGConfigR12CriticalExtensions choice constants.
-const (
-	SCGConfigR12CriticalExtensionsChoiceC1                       = 1
-	SCGConfigR12CriticalExtensionsChoiceCriticalExtensionsFuture = 2
-)
-
-// SCGConfigR12CriticalExtensions represents the ASN.1 CHOICE type SCG-Config-r12-criticalExtensions.
-type SCGConfigR12CriticalExtensions struct {
-	Choice                   int
-	C1                       *SCGConfigR12CriticalExtensionsC1                       `json:"C1,omitempty"`
-	CriticalExtensionsFuture *SCGConfigR12CriticalExtensionsCriticalExtensionsFuture `json:"CriticalExtensionsFuture,omitempty"`
+// MeasResultServCellSCGR12MeasResultSCellR12 represents the ASN.1 type MeasResultServCellSCG-r12-measResultSCell-r12 (SEQUENCE).
+type MeasResultServCellSCGR12MeasResultSCellR12 struct {
+	RsrpResultSCellR12 RSRPRange `asn1:"tag:0,context,implicit"`
+	RsrqResultSCellR12 RSRQRange `asn1:"tag:1,context,implicit"`
 }
 
-// NewSCGConfigR12CriticalExtensionsC1 creates a SCG-Config-r12-criticalExtensions with the c1 alternative.
-func NewSCGConfigR12CriticalExtensionsC1(v SCGConfigR12CriticalExtensionsC1) SCGConfigR12CriticalExtensions {
-	return SCGConfigR12CriticalExtensions{
-		Choice: SCGConfigR12CriticalExtensionsChoiceC1,
-		C1:     &v,
-	}
-}
-
-// NewSCGConfigR12CriticalExtensionsCriticalExtensionsFuture creates a SCG-Config-r12-criticalExtensions with the criticalExtensionsFuture alternative.
-func NewSCGConfigR12CriticalExtensionsCriticalExtensionsFuture(v SCGConfigR12CriticalExtensionsCriticalExtensionsFuture) SCGConfigR12CriticalExtensions {
-	return SCGConfigR12CriticalExtensions{
-		Choice:                   SCGConfigR12CriticalExtensionsChoiceCriticalExtensionsFuture,
-		CriticalExtensionsFuture: &v,
-	}
-}
-
-// SCGConfigR12CriticalExtensionsC1 choice constants.
-const (
-	SCGConfigR12CriticalExtensionsC1ChoiceScgConfigR12 = 1
-	SCGConfigR12CriticalExtensionsC1ChoiceSpare7       = 2
-	SCGConfigR12CriticalExtensionsC1ChoiceSpare6       = 3
-	SCGConfigR12CriticalExtensionsC1ChoiceSpare5       = 4
-	SCGConfigR12CriticalExtensionsC1ChoiceSpare4       = 5
-	SCGConfigR12CriticalExtensionsC1ChoiceSpare3       = 6
-	SCGConfigR12CriticalExtensionsC1ChoiceSpare2       = 7
-	SCGConfigR12CriticalExtensionsC1ChoiceSpare1       = 8
-)
-
-// SCGConfigR12CriticalExtensionsC1 represents the ASN.1 CHOICE type SCG-Config-r12-criticalExtensions-c1.
-type SCGConfigR12CriticalExtensionsC1 struct {
-	Choice       int
-	ScgConfigR12 *SCGConfigR12IEs `json:"ScgConfigR12,omitempty"`
-	Spare7       *struct{}        `json:"Spare7,omitempty"`
-	Spare6       *struct{}        `json:"Spare6,omitempty"`
-	Spare5       *struct{}        `json:"Spare5,omitempty"`
-	Spare4       *struct{}        `json:"Spare4,omitempty"`
-	Spare3       *struct{}        `json:"Spare3,omitempty"`
-	Spare2       *struct{}        `json:"Spare2,omitempty"`
-	Spare1       *struct{}        `json:"Spare1,omitempty"`
-}
-
-// NewSCGConfigR12CriticalExtensionsC1ScgConfigR12 creates a SCG-Config-r12-criticalExtensions-c1 with the scg-Config-r12 alternative.
-func NewSCGConfigR12CriticalExtensionsC1ScgConfigR12(v SCGConfigR12IEs) SCGConfigR12CriticalExtensionsC1 {
-	return SCGConfigR12CriticalExtensionsC1{
-		Choice:       SCGConfigR12CriticalExtensionsC1ChoiceScgConfigR12,
-		ScgConfigR12: &v,
-	}
-}
-
-// NewSCGConfigR12CriticalExtensionsC1Spare7 creates a SCG-Config-r12-criticalExtensions-c1 with the spare7 alternative.
-func NewSCGConfigR12CriticalExtensionsC1Spare7(v struct{}) SCGConfigR12CriticalExtensionsC1 {
-	return SCGConfigR12CriticalExtensionsC1{
-		Choice: SCGConfigR12CriticalExtensionsC1ChoiceSpare7,
-		Spare7: &v,
-	}
-}
-
-// NewSCGConfigR12CriticalExtensionsC1Spare6 creates a SCG-Config-r12-criticalExtensions-c1 with the spare6 alternative.
-func NewSCGConfigR12CriticalExtensionsC1Spare6(v struct{}) SCGConfigR12CriticalExtensionsC1 {
-	return SCGConfigR12CriticalExtensionsC1{
-		Choice: SCGConfigR12CriticalExtensionsC1ChoiceSpare6,
-		Spare6: &v,
-	}
-}
-
-// NewSCGConfigR12CriticalExtensionsC1Spare5 creates a SCG-Config-r12-criticalExtensions-c1 with the spare5 alternative.
-func NewSCGConfigR12CriticalExtensionsC1Spare5(v struct{}) SCGConfigR12CriticalExtensionsC1 {
-	return SCGConfigR12CriticalExtensionsC1{
-		Choice: SCGConfigR12CriticalExtensionsC1ChoiceSpare5,
-		Spare5: &v,
-	}
-}
-
-// NewSCGConfigR12CriticalExtensionsC1Spare4 creates a SCG-Config-r12-criticalExtensions-c1 with the spare4 alternative.
-func NewSCGConfigR12CriticalExtensionsC1Spare4(v struct{}) SCGConfigR12CriticalExtensionsC1 {
-	return SCGConfigR12CriticalExtensionsC1{
-		Choice: SCGConfigR12CriticalExtensionsC1ChoiceSpare4,
-		Spare4: &v,
-	}
-}
-
-// NewSCGConfigR12CriticalExtensionsC1Spare3 creates a SCG-Config-r12-criticalExtensions-c1 with the spare3 alternative.
-func NewSCGConfigR12CriticalExtensionsC1Spare3(v struct{}) SCGConfigR12CriticalExtensionsC1 {
-	return SCGConfigR12CriticalExtensionsC1{
-		Choice: SCGConfigR12CriticalExtensionsC1ChoiceSpare3,
-		Spare3: &v,
-	}
-}
-
-// NewSCGConfigR12CriticalExtensionsC1Spare2 creates a SCG-Config-r12-criticalExtensions-c1 with the spare2 alternative.
-func NewSCGConfigR12CriticalExtensionsC1Spare2(v struct{}) SCGConfigR12CriticalExtensionsC1 {
-	return SCGConfigR12CriticalExtensionsC1{
-		Choice: SCGConfigR12CriticalExtensionsC1ChoiceSpare2,
-		Spare2: &v,
-	}
-}
-
-// NewSCGConfigR12CriticalExtensionsC1Spare1 creates a SCG-Config-r12-criticalExtensions-c1 with the spare1 alternative.
-func NewSCGConfigR12CriticalExtensionsC1Spare1(v struct{}) SCGConfigR12CriticalExtensionsC1 {
-	return SCGConfigR12CriticalExtensionsC1{
-		Choice: SCGConfigR12CriticalExtensionsC1ChoiceSpare1,
-		Spare1: &v,
-	}
-}
-
-// SCGConfigR12CriticalExtensionsCriticalExtensionsFuture represents the ASN.1 type SCG-Config-r12-criticalExtensions-criticalExtensionsFuture (SEQUENCE).
-type SCGConfigR12CriticalExtensionsCriticalExtensionsFuture struct {
-}
-
-// SCGConfigV12i0bIEsNonCriticalExtension represents the ASN.1 type SCG-Config-v12i0b-IEs-nonCriticalExtension (SEQUENCE).
-type SCGConfigV12i0bIEsNonCriticalExtension struct {
-}
-
-// SCGConfigV13c0IEsNonCriticalExtension represents the ASN.1 type SCG-Config-v13c0-IEs-nonCriticalExtension (SEQUENCE).
-type SCGConfigV13c0IEsNonCriticalExtension struct {
+// MeasResultServCellSCGR12MeasResultSCellV1310 represents the ASN.1 type MeasResultServCellSCG-r12-measResultSCell-v1310 (SEQUENCE).
+type MeasResultServCellSCGR12MeasResultSCellV1310 struct {
+	RsSinrResultSCellR13 RSSINRRangeR13 `asn1:"tag:0,context,implicit"`
 }
 
 // SCGConfigInfoR12CriticalExtensions choice constants.
@@ -1071,32 +975,134 @@ type SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture struct {
 type SCGConfigInfoV1530IEsNonCriticalExtension struct {
 }
 
-// CellToAddModR12CellIdentificationR12 represents the ASN.1 type Cell-ToAddMod-r12-cellIdentification-r12 (SEQUENCE).
-type CellToAddModR12CellIdentificationR12 struct {
-	PhysCellIdR12    PhysCellId        `asn1:"tag:0,context,implicit"`
-	DlCarrierFreqR12 ARFCNValueEUTRAR9 `asn1:"tag:1,context,implicit"`
+// SCGConfigR12CriticalExtensions choice constants.
+const (
+	SCGConfigR12CriticalExtensionsChoiceC1                       = 1
+	SCGConfigR12CriticalExtensionsChoiceCriticalExtensionsFuture = 2
+)
+
+// SCGConfigR12CriticalExtensions represents the ASN.1 CHOICE type SCG-Config-r12-criticalExtensions.
+type SCGConfigR12CriticalExtensions struct {
+	Choice                   int
+	C1                       *SCGConfigR12CriticalExtensionsC1                       `json:"C1,omitempty"`
+	CriticalExtensionsFuture *SCGConfigR12CriticalExtensionsCriticalExtensionsFuture `json:"CriticalExtensionsFuture,omitempty"`
 }
 
-// CellToAddModR12MeasResultCellToAddR12 represents the ASN.1 type Cell-ToAddMod-r12-measResultCellToAdd-r12 (SEQUENCE).
-type CellToAddModR12MeasResultCellToAddR12 struct {
-	RsrpResultR12 RSRPRange `asn1:"tag:0,context,implicit"`
-	RsrqResultR12 RSRQRange `asn1:"tag:1,context,implicit"`
+// NewSCGConfigR12CriticalExtensionsC1 creates a SCG-Config-r12-criticalExtensions with the c1 alternative.
+func NewSCGConfigR12CriticalExtensionsC1(v SCGConfigR12CriticalExtensionsC1) SCGConfigR12CriticalExtensions {
+	return SCGConfigR12CriticalExtensions{
+		Choice: SCGConfigR12CriticalExtensionsChoiceC1,
+		C1:     &v,
+	}
 }
 
-// CellToAddModR12MeasResultCellToAddV1310 represents the ASN.1 type Cell-ToAddMod-r12-measResultCellToAdd-v1310 (SEQUENCE).
-type CellToAddModR12MeasResultCellToAddV1310 struct {
-	RsSinrResultR13 RSSINRRangeR13 `asn1:"tag:0,context,implicit"`
+// NewSCGConfigR12CriticalExtensionsCriticalExtensionsFuture creates a SCG-Config-r12-criticalExtensions with the criticalExtensionsFuture alternative.
+func NewSCGConfigR12CriticalExtensionsCriticalExtensionsFuture(v SCGConfigR12CriticalExtensionsCriticalExtensionsFuture) SCGConfigR12CriticalExtensions {
+	return SCGConfigR12CriticalExtensions{
+		Choice:                   SCGConfigR12CriticalExtensionsChoiceCriticalExtensionsFuture,
+		CriticalExtensionsFuture: &v,
+	}
 }
 
-// MeasResultServCellSCGR12MeasResultSCellR12 represents the ASN.1 type MeasResultServCellSCG-r12-measResultSCell-r12 (SEQUENCE).
-type MeasResultServCellSCGR12MeasResultSCellR12 struct {
-	RsrpResultSCellR12 RSRPRange `asn1:"tag:0,context,implicit"`
-	RsrqResultSCellR12 RSRQRange `asn1:"tag:1,context,implicit"`
+// SCGConfigR12CriticalExtensionsC1 choice constants.
+const (
+	SCGConfigR12CriticalExtensionsC1ChoiceScgConfigR12 = 1
+	SCGConfigR12CriticalExtensionsC1ChoiceSpare7       = 2
+	SCGConfigR12CriticalExtensionsC1ChoiceSpare6       = 3
+	SCGConfigR12CriticalExtensionsC1ChoiceSpare5       = 4
+	SCGConfigR12CriticalExtensionsC1ChoiceSpare4       = 5
+	SCGConfigR12CriticalExtensionsC1ChoiceSpare3       = 6
+	SCGConfigR12CriticalExtensionsC1ChoiceSpare2       = 7
+	SCGConfigR12CriticalExtensionsC1ChoiceSpare1       = 8
+)
+
+// SCGConfigR12CriticalExtensionsC1 represents the ASN.1 CHOICE type SCG-Config-r12-criticalExtensions-c1.
+type SCGConfigR12CriticalExtensionsC1 struct {
+	Choice       int
+	ScgConfigR12 *SCGConfigR12IEs `json:"ScgConfigR12,omitempty"`
+	Spare7       *struct{}        `json:"Spare7,omitempty"`
+	Spare6       *struct{}        `json:"Spare6,omitempty"`
+	Spare5       *struct{}        `json:"Spare5,omitempty"`
+	Spare4       *struct{}        `json:"Spare4,omitempty"`
+	Spare3       *struct{}        `json:"Spare3,omitempty"`
+	Spare2       *struct{}        `json:"Spare2,omitempty"`
+	Spare1       *struct{}        `json:"Spare1,omitempty"`
 }
 
-// MeasResultServCellSCGR12MeasResultSCellV1310 represents the ASN.1 type MeasResultServCellSCG-r12-measResultSCell-v1310 (SEQUENCE).
-type MeasResultServCellSCGR12MeasResultSCellV1310 struct {
-	RsSinrResultSCellR13 RSSINRRangeR13 `asn1:"tag:0,context,implicit"`
+// NewSCGConfigR12CriticalExtensionsC1ScgConfigR12 creates a SCG-Config-r12-criticalExtensions-c1 with the scg-Config-r12 alternative.
+func NewSCGConfigR12CriticalExtensionsC1ScgConfigR12(v SCGConfigR12IEs) SCGConfigR12CriticalExtensionsC1 {
+	return SCGConfigR12CriticalExtensionsC1{
+		Choice:       SCGConfigR12CriticalExtensionsC1ChoiceScgConfigR12,
+		ScgConfigR12: &v,
+	}
+}
+
+// NewSCGConfigR12CriticalExtensionsC1Spare7 creates a SCG-Config-r12-criticalExtensions-c1 with the spare7 alternative.
+func NewSCGConfigR12CriticalExtensionsC1Spare7(v struct{}) SCGConfigR12CriticalExtensionsC1 {
+	return SCGConfigR12CriticalExtensionsC1{
+		Choice: SCGConfigR12CriticalExtensionsC1ChoiceSpare7,
+		Spare7: &v,
+	}
+}
+
+// NewSCGConfigR12CriticalExtensionsC1Spare6 creates a SCG-Config-r12-criticalExtensions-c1 with the spare6 alternative.
+func NewSCGConfigR12CriticalExtensionsC1Spare6(v struct{}) SCGConfigR12CriticalExtensionsC1 {
+	return SCGConfigR12CriticalExtensionsC1{
+		Choice: SCGConfigR12CriticalExtensionsC1ChoiceSpare6,
+		Spare6: &v,
+	}
+}
+
+// NewSCGConfigR12CriticalExtensionsC1Spare5 creates a SCG-Config-r12-criticalExtensions-c1 with the spare5 alternative.
+func NewSCGConfigR12CriticalExtensionsC1Spare5(v struct{}) SCGConfigR12CriticalExtensionsC1 {
+	return SCGConfigR12CriticalExtensionsC1{
+		Choice: SCGConfigR12CriticalExtensionsC1ChoiceSpare5,
+		Spare5: &v,
+	}
+}
+
+// NewSCGConfigR12CriticalExtensionsC1Spare4 creates a SCG-Config-r12-criticalExtensions-c1 with the spare4 alternative.
+func NewSCGConfigR12CriticalExtensionsC1Spare4(v struct{}) SCGConfigR12CriticalExtensionsC1 {
+	return SCGConfigR12CriticalExtensionsC1{
+		Choice: SCGConfigR12CriticalExtensionsC1ChoiceSpare4,
+		Spare4: &v,
+	}
+}
+
+// NewSCGConfigR12CriticalExtensionsC1Spare3 creates a SCG-Config-r12-criticalExtensions-c1 with the spare3 alternative.
+func NewSCGConfigR12CriticalExtensionsC1Spare3(v struct{}) SCGConfigR12CriticalExtensionsC1 {
+	return SCGConfigR12CriticalExtensionsC1{
+		Choice: SCGConfigR12CriticalExtensionsC1ChoiceSpare3,
+		Spare3: &v,
+	}
+}
+
+// NewSCGConfigR12CriticalExtensionsC1Spare2 creates a SCG-Config-r12-criticalExtensions-c1 with the spare2 alternative.
+func NewSCGConfigR12CriticalExtensionsC1Spare2(v struct{}) SCGConfigR12CriticalExtensionsC1 {
+	return SCGConfigR12CriticalExtensionsC1{
+		Choice: SCGConfigR12CriticalExtensionsC1ChoiceSpare2,
+		Spare2: &v,
+	}
+}
+
+// NewSCGConfigR12CriticalExtensionsC1Spare1 creates a SCG-Config-r12-criticalExtensions-c1 with the spare1 alternative.
+func NewSCGConfigR12CriticalExtensionsC1Spare1(v struct{}) SCGConfigR12CriticalExtensionsC1 {
+	return SCGConfigR12CriticalExtensionsC1{
+		Choice: SCGConfigR12CriticalExtensionsC1ChoiceSpare1,
+		Spare1: &v,
+	}
+}
+
+// SCGConfigR12CriticalExtensionsCriticalExtensionsFuture represents the ASN.1 type SCG-Config-r12-criticalExtensions-criticalExtensionsFuture (SEQUENCE).
+type SCGConfigR12CriticalExtensionsCriticalExtensionsFuture struct {
+}
+
+// SCGConfigV12i0bIEsNonCriticalExtension represents the ASN.1 type SCG-Config-v12i0b-IEs-nonCriticalExtension (SEQUENCE).
+type SCGConfigV12i0bIEsNonCriticalExtension struct {
+}
+
+// SCGConfigV13c0IEsNonCriticalExtension represents the ASN.1 type SCG-Config-v13c0-IEs-nonCriticalExtension (SEQUENCE).
+type SCGConfigV13c0IEsNonCriticalExtension struct {
 }
 
 // UEPagingCoverageInformationCriticalExtensions choice constants.
@@ -1480,3457 +1486,6 @@ type UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13 = []Freq
 type UERadioPagingInformationV1610IEsNonCriticalExtension struct {
 }
 
-// ASConfigV1550TdmPatternConfigR15 represents the ASN.1 type AS-Config-v1550-tdm-PatternConfig-r15 (SEQUENCE).
-type ASConfigV1550TdmPatternConfigR15 struct {
-	SubframeAssignmentR15 SubframeAssignmentR15 `asn1:"tag:0,context,implicit"`
-	HarqOffsetR15         int64                 `asn1:"tag:1,context,implicit"`
-}
-
-// MarshalUPER encodes HandoverCommand to UPER format.
-func (v *HandoverCommand) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverCommand) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
-		return fmt.Errorf("encoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverCommand from UPER format.
-func (v *HandoverCommand) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverCommand) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverCommandR8IEs to UPER format.
-func (v *HandoverCommandR8IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverCommandR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeOctetString(bb, v.HandoverCommandMessage, 0, 0, false); err != nil {
-		return fmt.Errorf("encoding handoverCommandMessage: %w", err)
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverCommandR8IEs from UPER format.
-func (v *HandoverCommandR8IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverCommandR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_handovercommandmessage, err := per.DecodeOctetString(bb, 0, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding handoverCommandMessage: %w", err)
-	}
-	v.HandoverCommandMessage = val_handovercommandmessage
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverCommandR8IEsNonCriticalExtension
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformation to UPER format.
-func (v *HandoverPreparationInformation) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformation) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
-		return fmt.Errorf("encoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformation from UPER format.
-func (v *HandoverPreparationInformation) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformation) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationR8IEs to UPER format.
-func (v *HandoverPreparationInformationR8IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.AsConfig != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.RrmConfig != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.AsContext != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.UeRadioAccessCapabilityInfo)), 0, 8); err != nil {
-		return fmt.Errorf("encoding ue-RadioAccessCapabilityInfo length: %w", err)
-	}
-	for _, elem := range v.UeRadioAccessCapabilityInfo {
-		if err := elem.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding ue-RadioAccessCapabilityInfo element: %w", err)
-		}
-	}
-	if v.AsConfig != nil {
-		if err := v.AsConfig.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding as-Config: %w", err)
-		}
-	}
-	if v.RrmConfig != nil {
-		if err := v.RrmConfig.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding rrm-Config: %w", err)
-		}
-	}
-	if v.AsContext != nil {
-		if err := v.AsContext.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding as-Context: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationR8IEs from UPER format.
-func (v *HandoverPreparationInformationR8IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_asconfig, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_rrmconfig, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_ascontext, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	seqLen_ueradioaccesscapabilityinfo, err := per.DecodeConstrainedWholeNumber(bb, 0, 8)
-	if err != nil {
-		return fmt.Errorf("decoding ue-RadioAccessCapabilityInfo length: %w", err)
-	}
-	v.UeRadioAccessCapabilityInfo = make(UECapabilityRATContainerList, seqLen_ueradioaccesscapabilityinfo)
-	for i := int64(0); i < seqLen_ueradioaccesscapabilityinfo; i++ {
-		if err := v.UeRadioAccessCapabilityInfo[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding ue-RadioAccessCapabilityInfo element: %w", err)
-		}
-	}
-	if opt_asconfig {
-		var dec_asconfig ASConfig
-		if err := dec_asconfig.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding as-Config: %w", err)
-		}
-		v.AsConfig = &dec_asconfig
-	}
-	if opt_rrmconfig {
-		var dec_rrmconfig RRMConfig
-		if err := dec_rrmconfig.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding rrm-Config: %w", err)
-		}
-		v.RrmConfig = &dec_rrmconfig
-	}
-	if opt_ascontext {
-		var dec_ascontext ASContext
-		if err := dec_ascontext.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding as-Context: %w", err)
-		}
-		v.AsContext = &dec_ascontext
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationV920IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationV920IEs to UPER format.
-func (v *HandoverPreparationInformationV920IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationV920IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.UeConfigReleaseR9 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.UeConfigReleaseR9 != nil {
-		if err := per.EncodeEnumerated(bb, int64(*v.UeConfigReleaseR9), 14, true); err != nil {
-			return fmt.Errorf("encoding ue-ConfigRelease-r9: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationV920IEs from UPER format.
-func (v *HandoverPreparationInformationV920IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationV920IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_ueconfigreleaser9, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_ueconfigreleaser9 {
-		val_ueconfigreleaser9, err := per.DecodeEnumerated(bb, 14, true)
-		if err != nil {
-			return fmt.Errorf("decoding ue-ConfigRelease-r9: %w", err)
-		}
-		v.UeConfigReleaseR9 = &val_ueconfigreleaser9
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationV9d0IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationV9d0IEs to UPER format.
-func (v *HandoverPreparationInformationV9d0IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationV9d0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.LateNonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.LateNonCriticalExtension != nil {
-		if err := per.EncodeOctetString(bb, v.LateNonCriticalExtension, 0, 0, false); err != nil {
-			return fmt.Errorf("encoding lateNonCriticalExtension: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationV9d0IEs from UPER format.
-func (v *HandoverPreparationInformationV9d0IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationV9d0IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_latenoncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_latenoncriticalextension {
-		val_latenoncriticalextension, err := per.DecodeOctetString(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding lateNonCriticalExtension: %w", err)
-		}
-		tmp_latenoncriticalextension := val_latenoncriticalextension
-		v.LateNonCriticalExtension = tmp_latenoncriticalextension
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationV9e0IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationV9j0IEs to UPER format.
-func (v *HandoverPreparationInformationV9j0IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationV9j0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.LateNonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.LateNonCriticalExtension != nil {
-		if err := per.EncodeOctetString(bb, v.LateNonCriticalExtension, 0, 0, false); err != nil {
-			return fmt.Errorf("encoding lateNonCriticalExtension: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationV9j0IEs from UPER format.
-func (v *HandoverPreparationInformationV9j0IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationV9j0IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_latenoncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_latenoncriticalextension {
-		val_latenoncriticalextension, err := per.DecodeOctetString(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding lateNonCriticalExtension: %w", err)
-		}
-		tmp_latenoncriticalextension := val_latenoncriticalextension
-		v.LateNonCriticalExtension = tmp_latenoncriticalextension
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationV10j0IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationV10j0IEs to UPER format.
-func (v *HandoverPreparationInformationV10j0IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationV10j0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.AsConfigV10j0 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.AsConfigV10j0 != nil {
-		if err := v.AsConfigV10j0.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding as-Config-v10j0: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationV10j0IEs from UPER format.
-func (v *HandoverPreparationInformationV10j0IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationV10j0IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_asconfigv10j0, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_asconfigv10j0 {
-		var dec_asconfigv10j0 ASConfigV10j0
-		if err := dec_asconfigv10j0.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding as-Config-v10j0: %w", err)
-		}
-		v.AsConfigV10j0 = &dec_asconfigv10j0
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationV10x0IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationV10x0IEs to UPER format.
-func (v *HandoverPreparationInformationV10x0IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationV10x0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.LateNonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.LateNonCriticalExtension != nil {
-		if err := per.EncodeOctetString(bb, v.LateNonCriticalExtension, 0, 0, false); err != nil {
-			return fmt.Errorf("encoding lateNonCriticalExtension: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationV10x0IEs from UPER format.
-func (v *HandoverPreparationInformationV10x0IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationV10x0IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_latenoncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_latenoncriticalextension {
-		val_latenoncriticalextension, err := per.DecodeOctetString(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding lateNonCriticalExtension: %w", err)
-		}
-		tmp_latenoncriticalextension := val_latenoncriticalextension
-		v.LateNonCriticalExtension = tmp_latenoncriticalextension
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationV13c0IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationV13c0IEs to UPER format.
-func (v *HandoverPreparationInformationV13c0IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationV13c0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.AsConfigV13c0 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.AsConfigV13c0 != nil {
-		if err := v.AsConfigV13c0.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding as-Config-v13c0: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationV13c0IEs from UPER format.
-func (v *HandoverPreparationInformationV13c0IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationV13c0IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_asconfigv13c0, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_asconfigv13c0 {
-		var dec_asconfigv13c0 ASConfigV13c0
-		if err := dec_asconfigv13c0.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding as-Config-v13c0: %w", err)
-		}
-		v.AsConfigV13c0 = &dec_asconfigv13c0
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationV13c0IEsNonCriticalExtension
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationV9e0IEs to UPER format.
-func (v *HandoverPreparationInformationV9e0IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationV9e0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.AsConfigV9e0 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.AsConfigV9e0 != nil {
-		if err := v.AsConfigV9e0.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding as-Config-v9e0: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationV9e0IEs from UPER format.
-func (v *HandoverPreparationInformationV9e0IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationV9e0IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_asconfigv9e0, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_asconfigv9e0 {
-		var dec_asconfigv9e0 ASConfigV9e0
-		if err := dec_asconfigv9e0.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding as-Config-v9e0: %w", err)
-		}
-		v.AsConfigV9e0 = &dec_asconfigv9e0
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationV1130IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationV1130IEs to UPER format.
-func (v *HandoverPreparationInformationV1130IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationV1130IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.AsContextV1130 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.AsContextV1130 != nil {
-		if err := v.AsContextV1130.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding as-Context-v1130: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationV1130IEs from UPER format.
-func (v *HandoverPreparationInformationV1130IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationV1130IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_ascontextv1130, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_ascontextv1130 {
-		var dec_ascontextv1130 ASContextV1130
-		if err := dec_ascontextv1130.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding as-Context-v1130: %w", err)
-		}
-		v.AsContextV1130 = &dec_ascontextv1130
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationV1250IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationV1250IEs to UPER format.
-func (v *HandoverPreparationInformationV1250IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationV1250IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.UeSupportedEARFCNR12 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.AsConfigV1250 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.UeSupportedEARFCNR12 != nil {
-		if err := per.EncodeInteger(bb, int64(*v.UeSupportedEARFCNR12), int64Ptr(0), int64Ptr(262143), false); err != nil {
-			return fmt.Errorf("encoding ue-SupportedEARFCN-r12: %w", err)
-		}
-	}
-	if v.AsConfigV1250 != nil {
-		if err := v.AsConfigV1250.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding as-Config-v1250: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationV1250IEs from UPER format.
-func (v *HandoverPreparationInformationV1250IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationV1250IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_uesupportedearfcnr12, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_asconfigv1250, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_uesupportedearfcnr12 {
-		val_uesupportedearfcnr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(262143), false)
-		if err != nil {
-			return fmt.Errorf("decoding ue-SupportedEARFCN-r12: %w", err)
-		}
-		v.UeSupportedEARFCNR12 = &val_uesupportedearfcnr12
-	}
-	if opt_asconfigv1250 {
-		var dec_asconfigv1250 ASConfigV1250
-		if err := dec_asconfigv1250.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding as-Config-v1250: %w", err)
-		}
-		v.AsConfigV1250 = &dec_asconfigv1250
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationV1320IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationV1320IEs to UPER format.
-func (v *HandoverPreparationInformationV1320IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationV1320IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.AsConfigV1320 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.AsContextV1320 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.AsConfigV1320 != nil {
-		if err := v.AsConfigV1320.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding as-Config-v1320: %w", err)
-		}
-	}
-	if v.AsContextV1320 != nil {
-		if err := v.AsContextV1320.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding as-Context-v1320: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationV1320IEs from UPER format.
-func (v *HandoverPreparationInformationV1320IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationV1320IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_asconfigv1320, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_ascontextv1320, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_asconfigv1320 {
-		var dec_asconfigv1320 ASConfigV1320
-		if err := dec_asconfigv1320.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding as-Config-v1320: %w", err)
-		}
-		v.AsConfigV1320 = &dec_asconfigv1320
-	}
-	if opt_ascontextv1320 {
-		var dec_ascontextv1320 ASContextV1320
-		if err := dec_ascontextv1320.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding as-Context-v1320: %w", err)
-		}
-		v.AsContextV1320 = &dec_ascontextv1320
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationV1430IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationV1430IEs to UPER format.
-func (v *HandoverPreparationInformationV1430IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationV1430IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.AsConfigV1430 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.MakeBeforeBreakReqR14 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.AsConfigV1430 != nil {
-		if err := v.AsConfigV1430.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding as-Config-v1430: %w", err)
-		}
-	}
-	if v.MakeBeforeBreakReqR14 != nil {
-		if err := per.EncodeEnumerated(bb, int64(*v.MakeBeforeBreakReqR14), 1, false); err != nil {
-			return fmt.Errorf("encoding makeBeforeBreakReq-r14: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationV1430IEs from UPER format.
-func (v *HandoverPreparationInformationV1430IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationV1430IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_asconfigv1430, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_makebeforebreakreqr14, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_asconfigv1430 {
-		var dec_asconfigv1430 ASConfigV1430
-		if err := dec_asconfigv1430.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding as-Config-v1430: %w", err)
-		}
-		v.AsConfigV1430 = &dec_asconfigv1430
-	}
-	if opt_makebeforebreakreqr14 {
-		val_makebeforebreakreqr14, err := per.DecodeEnumerated(bb, 1, false)
-		if err != nil {
-			return fmt.Errorf("decoding makeBeforeBreakReq-r14: %w", err)
-		}
-		v.MakeBeforeBreakReqR14 = &val_makebeforebreakreqr14
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationV1530IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationV1530IEs to UPER format.
-func (v *HandoverPreparationInformationV1530IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationV1530IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.RanNotificationAreaInfoR15 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.RanNotificationAreaInfoR15 != nil {
-		if err := v.RanNotificationAreaInfoR15.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding ran-NotificationAreaInfo-r15: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationV1530IEs from UPER format.
-func (v *HandoverPreparationInformationV1530IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationV1530IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_rannotificationareainfor15, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_rannotificationareainfor15 {
-		var dec_rannotificationareainfor15 RANNotificationAreaInfoR15
-		if err := dec_rannotificationareainfor15.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding ran-NotificationAreaInfo-r15: %w", err)
-		}
-		v.RanNotificationAreaInfoR15 = &dec_rannotificationareainfor15
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationV1540IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationV1540IEs to UPER format.
-func (v *HandoverPreparationInformationV1540IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationV1540IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.SourceRBConfigIntra5GCR15 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.SourceRBConfigIntra5GCR15 != nil {
-		if err := per.EncodeOctetString(bb, v.SourceRBConfigIntra5GCR15, 0, 0, false); err != nil {
-			return fmt.Errorf("encoding sourceRB-ConfigIntra5GC-r15: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationV1540IEs from UPER format.
-func (v *HandoverPreparationInformationV1540IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationV1540IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_sourcerbconfigintra5gcr15, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_sourcerbconfigintra5gcr15 {
-		val_sourcerbconfigintra5gcr15, err := per.DecodeOctetString(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding sourceRB-ConfigIntra5GC-r15: %w", err)
-		}
-		tmp_sourcerbconfigintra5gcr15 := val_sourcerbconfigintra5gcr15
-		v.SourceRBConfigIntra5GCR15 = tmp_sourcerbconfigintra5gcr15
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationV1610IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationV1610IEs to UPER format.
-func (v *HandoverPreparationInformationV1610IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationV1610IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.AsContextV1610 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.AsContextV1610 != nil {
-		if err := v.AsContextV1610.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding as-Context-v1610: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationV1610IEs from UPER format.
-func (v *HandoverPreparationInformationV1610IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationV1610IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_ascontextv1610, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_ascontextv1610 {
-		var dec_ascontextv1610 ASContextV1610
-		if err := dec_ascontextv1610.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding as-Context-v1610: %w", err)
-		}
-		v.AsContextV1610 = &dec_ascontextv1610
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationV1620IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationV1620IEs to UPER format.
-func (v *HandoverPreparationInformationV1620IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationV1620IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.AsContextV1620 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.AsContextV1620 != nil {
-		if err := v.AsContextV1620.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding as-Context-v1620: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationV1620IEs from UPER format.
-func (v *HandoverPreparationInformationV1620IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationV1620IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_ascontextv1620, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_ascontextv1620 {
-		var dec_ascontextv1620 ASContextV1620
-		if err := dec_ascontextv1620.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding as-Context-v1620: %w", err)
-		}
-		v.AsContextV1620 = &dec_ascontextv1620
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationV1630IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationV1630IEs to UPER format.
-func (v *HandoverPreparationInformationV1630IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationV1630IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.AsContextV1630 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.AsContextV1630 != nil {
-		if err := v.AsContextV1630.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding as-Context-v1630: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationV1630IEs from UPER format.
-func (v *HandoverPreparationInformationV1630IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationV1630IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_ascontextv1630, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_ascontextv1630 {
-		var dec_ascontextv1630 ASContextV1630
-		if err := dec_ascontextv1630.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding as-Context-v1630: %w", err)
-		}
-		v.AsContextV1630 = &dec_ascontextv1630
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationV1700IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationV1700IEs to UPER format.
-func (v *HandoverPreparationInformationV1700IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationV1700IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.AsConfigV1700 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.AsConfigV1700 != nil {
-		if err := v.AsConfigV1700.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding as-Config-v1700: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationV1700IEs from UPER format.
-func (v *HandoverPreparationInformationV1700IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationV1700IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_asconfigv1700, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_asconfigv1700 {
-		var dec_asconfigv1700 ASConfigV1700
-		if err := dec_asconfigv1700.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding as-Config-v1700: %w", err)
-		}
-		v.AsConfigV1700 = &dec_asconfigv1700
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationV1700IEsNonCriticalExtension
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes SCGConfigR12 to UPER format.
-func (v *SCGConfigR12) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SCGConfigR12) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
-		return fmt.Errorf("encoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes SCGConfigR12 from UPER format.
-func (v *SCGConfigR12) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *SCGConfigR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// MarshalUPER encodes SCGConfigR12IEs to UPER format.
-func (v *SCGConfigR12IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SCGConfigR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.ScgRadioConfigR12 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.ScgRadioConfigR12 != nil {
-		if err := v.ScgRadioConfigR12.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding scg-RadioConfig-r12: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes SCGConfigR12IEs from UPER format.
-func (v *SCGConfigR12IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *SCGConfigR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_scgradioconfigr12, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_scgradioconfigr12 {
-		var dec_scgradioconfigr12 SCGConfigPartSCGR12
-		if err := dec_scgradioconfigr12.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding scg-RadioConfig-r12: %w", err)
-		}
-		v.ScgRadioConfigR12 = &dec_scgradioconfigr12
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension SCGConfigV12i0aIEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes SCGConfigV12i0aIEs to UPER format.
-func (v *SCGConfigV12i0aIEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SCGConfigV12i0aIEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.LateNonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.LateNonCriticalExtension != nil {
-		if err := per.EncodeOctetString(bb, v.LateNonCriticalExtension, 0, 0, false); err != nil {
-			return fmt.Errorf("encoding lateNonCriticalExtension: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes SCGConfigV12i0aIEs from UPER format.
-func (v *SCGConfigV12i0aIEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *SCGConfigV12i0aIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_latenoncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_latenoncriticalextension {
-		val_latenoncriticalextension, err := per.DecodeOctetString(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding lateNonCriticalExtension: %w", err)
-		}
-		tmp_latenoncriticalextension := val_latenoncriticalextension
-		v.LateNonCriticalExtension = tmp_latenoncriticalextension
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension SCGConfigV13c0IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes SCGConfigV12i0bIEs to UPER format.
-func (v *SCGConfigV12i0bIEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SCGConfigV12i0bIEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.ScgRadioConfigV12i0 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.ScgRadioConfigV12i0 != nil {
-		if err := v.ScgRadioConfigV12i0.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding scg-RadioConfig-v12i0: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes SCGConfigV12i0bIEs from UPER format.
-func (v *SCGConfigV12i0bIEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *SCGConfigV12i0bIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_scgradioconfigv12i0, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_scgradioconfigv12i0 {
-		var dec_scgradioconfigv12i0 SCGConfigPartSCGV12f0
-		if err := dec_scgradioconfigv12i0.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding scg-RadioConfig-v12i0: %w", err)
-		}
-		v.ScgRadioConfigV12i0 = &dec_scgradioconfigv12i0
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension SCGConfigV12i0bIEsNonCriticalExtension
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes SCGConfigV13c0IEs to UPER format.
-func (v *SCGConfigV13c0IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SCGConfigV13c0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.ScgRadioConfigV13c0 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.ScgRadioConfigV13c0 != nil {
-		if err := v.ScgRadioConfigV13c0.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding scg-RadioConfig-v13c0: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes SCGConfigV13c0IEs from UPER format.
-func (v *SCGConfigV13c0IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *SCGConfigV13c0IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_scgradioconfigv13c0, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_scgradioconfigv13c0 {
-		var dec_scgradioconfigv13c0 SCGConfigPartSCGV13c0
-		if err := dec_scgradioconfigv13c0.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding scg-RadioConfig-v13c0: %w", err)
-		}
-		v.ScgRadioConfigV13c0 = &dec_scgradioconfigv13c0
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension SCGConfigV13c0IEsNonCriticalExtension
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes SCGConfigInfoR12 to UPER format.
-func (v *SCGConfigInfoR12) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SCGConfigInfoR12) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
-		return fmt.Errorf("encoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes SCGConfigInfoR12 from UPER format.
-func (v *SCGConfigInfoR12) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *SCGConfigInfoR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// MarshalUPER encodes SCGConfigInfoR12IEs to UPER format.
-func (v *SCGConfigInfoR12IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SCGConfigInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.RadioResourceConfigDedMCGR12 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.SCellToAddModListMCGR12 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.MeasGapConfigR12 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.PowerCoordinationInfoR12 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.ScgRadioConfigR12 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.EutraCapabilityInfoR12 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.ScgConfigRestrictInfoR12 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.MbmsInterestIndicationR12 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.MeasResultServCellListSCGR12 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.DrbToAddModListSCGR12 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.DrbToReleaseListSCGR12 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.SCellToAddModListSCGR12 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.SCellToReleaseListSCGR12 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.PMaxR12 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.RadioResourceConfigDedMCGR12 != nil {
-		if err := v.RadioResourceConfigDedMCGR12.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding radioResourceConfigDedMCG-r12: %w", err)
-		}
-	}
-	if v.SCellToAddModListMCGR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SCellToAddModListMCGR12)), 1, 4); err != nil {
-			return fmt.Errorf("encoding sCellToAddModListMCG-r12 length: %w", err)
-		}
-		for _, elem := range v.SCellToAddModListMCGR12 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding sCellToAddModListMCG-r12 element: %w", err)
-			}
-		}
-	}
-	if v.MeasGapConfigR12 != nil {
-		if err := v.MeasGapConfigR12.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding measGapConfig-r12: %w", err)
-		}
-	}
-	if v.PowerCoordinationInfoR12 != nil {
-		if err := v.PowerCoordinationInfoR12.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding powerCoordinationInfo-r12: %w", err)
-		}
-	}
-	if v.ScgRadioConfigR12 != nil {
-		if err := v.ScgRadioConfigR12.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding scg-RadioConfig-r12: %w", err)
-		}
-	}
-	if v.EutraCapabilityInfoR12 != nil {
-		if err := per.EncodeOctetString(bb, v.EutraCapabilityInfoR12, 0, 0, false); err != nil {
-			return fmt.Errorf("encoding eutra-CapabilityInfo-r12: %w", err)
-		}
-	}
-	if v.ScgConfigRestrictInfoR12 != nil {
-		if err := v.ScgConfigRestrictInfoR12.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding scg-ConfigRestrictInfo-r12: %w", err)
-		}
-	}
-	if v.MbmsInterestIndicationR12 != nil {
-		if err := per.EncodeOctetString(bb, v.MbmsInterestIndicationR12, 0, 0, false); err != nil {
-			return fmt.Errorf("encoding mbmsInterestIndication-r12: %w", err)
-		}
-	}
-	if v.MeasResultServCellListSCGR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasResultServCellListSCGR12)), 1, 5); err != nil {
-			return fmt.Errorf("encoding measResultServCellListSCG-r12 length: %w", err)
-		}
-		for _, elem := range v.MeasResultServCellListSCGR12 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding measResultServCellListSCG-r12 element: %w", err)
-			}
-		}
-	}
-	if v.DrbToAddModListSCGR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.DrbToAddModListSCGR12)), 1, 11); err != nil {
-			return fmt.Errorf("encoding drb-ToAddModListSCG-r12 length: %w", err)
-		}
-		for _, elem := range v.DrbToAddModListSCGR12 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding drb-ToAddModListSCG-r12 element: %w", err)
-			}
-		}
-	}
-	if v.DrbToReleaseListSCGR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.DrbToReleaseListSCGR12)), 1, 11); err != nil {
-			return fmt.Errorf("encoding drb-ToReleaseListSCG-r12 length: %w", err)
-		}
-		for _, elem := range v.DrbToReleaseListSCGR12 {
-			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(32), false); err != nil {
-				return fmt.Errorf("encoding drb-ToReleaseListSCG-r12 element: %w", err)
-			}
-		}
-	}
-	if v.SCellToAddModListSCGR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SCellToAddModListSCGR12)), 1, 4); err != nil {
-			return fmt.Errorf("encoding sCellToAddModListSCG-r12 length: %w", err)
-		}
-		for _, elem := range v.SCellToAddModListSCGR12 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding sCellToAddModListSCG-r12 element: %w", err)
-			}
-		}
-	}
-	if v.SCellToReleaseListSCGR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SCellToReleaseListSCGR12)), 1, 4); err != nil {
-			return fmt.Errorf("encoding sCellToReleaseListSCG-r12 length: %w", err)
-		}
-		for _, elem := range v.SCellToReleaseListSCGR12 {
-			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(7), false); err != nil {
-				return fmt.Errorf("encoding sCellToReleaseListSCG-r12 element: %w", err)
-			}
-		}
-	}
-	if v.PMaxR12 != nil {
-		if err := per.EncodeInteger(bb, int64(*v.PMaxR12), int64Ptr(-30), int64Ptr(33), false); err != nil {
-			return fmt.Errorf("encoding p-Max-r12: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes SCGConfigInfoR12IEs from UPER format.
-func (v *SCGConfigInfoR12IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *SCGConfigInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_radioresourceconfigdedmcgr12, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_scelltoaddmodlistmcgr12, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_measgapconfigr12, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_powercoordinationinfor12, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_scgradioconfigr12, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_eutracapabilityinfor12, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_scgconfigrestrictinfor12, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_mbmsinterestindicationr12, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_measresultservcelllistscgr12, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_drbtoaddmodlistscgr12, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_drbtoreleaselistscgr12, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_scelltoaddmodlistscgr12, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_scelltoreleaselistscgr12, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_pmaxr12, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_radioresourceconfigdedmcgr12 {
-		var dec_radioresourceconfigdedmcgr12 RadioResourceConfigDedicated
-		if err := dec_radioresourceconfigdedmcgr12.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding radioResourceConfigDedMCG-r12: %w", err)
-		}
-		v.RadioResourceConfigDedMCGR12 = &dec_radioresourceconfigdedmcgr12
-	}
-	if opt_scelltoaddmodlistmcgr12 {
-		seqLen_scelltoaddmodlistmcgr12, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
-		if err != nil {
-			return fmt.Errorf("decoding sCellToAddModListMCG-r12 length: %w", err)
-		}
-		tmp_scelltoaddmodlistmcgr12 := make(SCellToAddModListR10, seqLen_scelltoaddmodlistmcgr12)
-		for i := int64(0); i < seqLen_scelltoaddmodlistmcgr12; i++ {
-			if err := tmp_scelltoaddmodlistmcgr12[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding sCellToAddModListMCG-r12 element: %w", err)
-			}
-		}
-		v.SCellToAddModListMCGR12 = tmp_scelltoaddmodlistmcgr12
-	}
-	if opt_measgapconfigr12 {
-		var dec_measgapconfigr12 MeasGapConfig
-		if err := dec_measgapconfigr12.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding measGapConfig-r12: %w", err)
-		}
-		v.MeasGapConfigR12 = &dec_measgapconfigr12
-	}
-	if opt_powercoordinationinfor12 {
-		var dec_powercoordinationinfor12 PowerCoordinationInfoR12
-		if err := dec_powercoordinationinfor12.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding powerCoordinationInfo-r12: %w", err)
-		}
-		v.PowerCoordinationInfoR12 = &dec_powercoordinationinfor12
-	}
-	if opt_scgradioconfigr12 {
-		var dec_scgradioconfigr12 SCGConfigPartSCGR12
-		if err := dec_scgradioconfigr12.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding scg-RadioConfig-r12: %w", err)
-		}
-		v.ScgRadioConfigR12 = &dec_scgradioconfigr12
-	}
-	if opt_eutracapabilityinfor12 {
-		val_eutracapabilityinfor12, err := per.DecodeOctetString(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding eutra-CapabilityInfo-r12: %w", err)
-		}
-		tmp_eutracapabilityinfor12 := val_eutracapabilityinfor12
-		v.EutraCapabilityInfoR12 = tmp_eutracapabilityinfor12
-	}
-	if opt_scgconfigrestrictinfor12 {
-		var dec_scgconfigrestrictinfor12 SCGConfigRestrictInfoR12
-		if err := dec_scgconfigrestrictinfor12.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding scg-ConfigRestrictInfo-r12: %w", err)
-		}
-		v.ScgConfigRestrictInfoR12 = &dec_scgconfigrestrictinfor12
-	}
-	if opt_mbmsinterestindicationr12 {
-		val_mbmsinterestindicationr12, err := per.DecodeOctetString(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding mbmsInterestIndication-r12: %w", err)
-		}
-		tmp_mbmsinterestindicationr12 := val_mbmsinterestindicationr12
-		v.MbmsInterestIndicationR12 = tmp_mbmsinterestindicationr12
-	}
-	if opt_measresultservcelllistscgr12 {
-		seqLen_measresultservcelllistscgr12, err := per.DecodeConstrainedWholeNumber(bb, 1, 5)
-		if err != nil {
-			return fmt.Errorf("decoding measResultServCellListSCG-r12 length: %w", err)
-		}
-		tmp_measresultservcelllistscgr12 := make(MeasResultServCellListSCGR12, seqLen_measresultservcelllistscgr12)
-		for i := int64(0); i < seqLen_measresultservcelllistscgr12; i++ {
-			if err := tmp_measresultservcelllistscgr12[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measResultServCellListSCG-r12 element: %w", err)
-			}
-		}
-		v.MeasResultServCellListSCGR12 = tmp_measresultservcelllistscgr12
-	}
-	if opt_drbtoaddmodlistscgr12 {
-		seqLen_drbtoaddmodlistscgr12, err := per.DecodeConstrainedWholeNumber(bb, 1, 11)
-		if err != nil {
-			return fmt.Errorf("decoding drb-ToAddModListSCG-r12 length: %w", err)
-		}
-		tmp_drbtoaddmodlistscgr12 := make(DRBInfoListSCGR12, seqLen_drbtoaddmodlistscgr12)
-		for i := int64(0); i < seqLen_drbtoaddmodlistscgr12; i++ {
-			if err := tmp_drbtoaddmodlistscgr12[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding drb-ToAddModListSCG-r12 element: %w", err)
-			}
-		}
-		v.DrbToAddModListSCGR12 = tmp_drbtoaddmodlistscgr12
-	}
-	if opt_drbtoreleaselistscgr12 {
-		seqLen_drbtoreleaselistscgr12, err := per.DecodeConstrainedWholeNumber(bb, 1, 11)
-		if err != nil {
-			return fmt.Errorf("decoding drb-ToReleaseListSCG-r12 length: %w", err)
-		}
-		tmp_drbtoreleaselistscgr12 := make(DRBToReleaseList, seqLen_drbtoreleaselistscgr12)
-		for i := int64(0); i < seqLen_drbtoreleaselistscgr12; i++ {
-			val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(32), false)
-			if err != nil {
-				return fmt.Errorf("decoding drb-ToReleaseListSCG-r12 element: %w", err)
-			}
-			tmp_drbtoreleaselistscgr12[i] = DRBIdentity(val)
-		}
-		v.DrbToReleaseListSCGR12 = tmp_drbtoreleaselistscgr12
-	}
-	if opt_scelltoaddmodlistscgr12 {
-		seqLen_scelltoaddmodlistscgr12, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
-		if err != nil {
-			return fmt.Errorf("decoding sCellToAddModListSCG-r12 length: %w", err)
-		}
-		tmp_scelltoaddmodlistscgr12 := make(SCellToAddModListSCGR12, seqLen_scelltoaddmodlistscgr12)
-		for i := int64(0); i < seqLen_scelltoaddmodlistscgr12; i++ {
-			if err := tmp_scelltoaddmodlistscgr12[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding sCellToAddModListSCG-r12 element: %w", err)
-			}
-		}
-		v.SCellToAddModListSCGR12 = tmp_scelltoaddmodlistscgr12
-	}
-	if opt_scelltoreleaselistscgr12 {
-		seqLen_scelltoreleaselistscgr12, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
-		if err != nil {
-			return fmt.Errorf("decoding sCellToReleaseListSCG-r12 length: %w", err)
-		}
-		tmp_scelltoreleaselistscgr12 := make(SCellToReleaseListR10, seqLen_scelltoreleaselistscgr12)
-		for i := int64(0); i < seqLen_scelltoreleaselistscgr12; i++ {
-			val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(7), false)
-			if err != nil {
-				return fmt.Errorf("decoding sCellToReleaseListSCG-r12 element: %w", err)
-			}
-			tmp_scelltoreleaselistscgr12[i] = SCellIndexR10(val)
-		}
-		v.SCellToReleaseListSCGR12 = tmp_scelltoreleaselistscgr12
-	}
-	if opt_pmaxr12 {
-		val_pmaxr12, err := per.DecodeInteger(bb, int64Ptr(-30), int64Ptr(33), false)
-		if err != nil {
-			return fmt.Errorf("decoding p-Max-r12: %w", err)
-		}
-		v.PMaxR12 = &val_pmaxr12
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension SCGConfigInfoV1310IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes SCGConfigInfoV1310IEs to UPER format.
-func (v *SCGConfigInfoV1310IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SCGConfigInfoV1310IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.MeasResultSSTDR13 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.SCellToAddModListMCGExtR13 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.MeasResultServCellListSCGExtR13 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.SCellToAddModListSCGExtR13 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.SCellToReleaseListSCGExtR13 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.MeasResultSSTDR13 != nil {
-		if err := v.MeasResultSSTDR13.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding measResultSSTD-r13: %w", err)
-		}
-	}
-	if v.SCellToAddModListMCGExtR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SCellToAddModListMCGExtR13)), 1, 31); err != nil {
-			return fmt.Errorf("encoding sCellToAddModListMCG-Ext-r13 length: %w", err)
-		}
-		for _, elem := range v.SCellToAddModListMCGExtR13 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding sCellToAddModListMCG-Ext-r13 element: %w", err)
-			}
-		}
-	}
-	if v.MeasResultServCellListSCGExtR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasResultServCellListSCGExtR13)), 1, 32); err != nil {
-			return fmt.Errorf("encoding measResultServCellListSCG-Ext-r13 length: %w", err)
-		}
-		for _, elem := range v.MeasResultServCellListSCGExtR13 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding measResultServCellListSCG-Ext-r13 element: %w", err)
-			}
-		}
-	}
-	if v.SCellToAddModListSCGExtR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SCellToAddModListSCGExtR13)), 1, 31); err != nil {
-			return fmt.Errorf("encoding sCellToAddModListSCG-Ext-r13 length: %w", err)
-		}
-		for _, elem := range v.SCellToAddModListSCGExtR13 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding sCellToAddModListSCG-Ext-r13 element: %w", err)
-			}
-		}
-	}
-	if v.SCellToReleaseListSCGExtR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SCellToReleaseListSCGExtR13)), 1, 31); err != nil {
-			return fmt.Errorf("encoding sCellToReleaseListSCG-Ext-r13 length: %w", err)
-		}
-		for _, elem := range v.SCellToReleaseListSCGExtR13 {
-			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(31), false); err != nil {
-				return fmt.Errorf("encoding sCellToReleaseListSCG-Ext-r13 element: %w", err)
-			}
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes SCGConfigInfoV1310IEs from UPER format.
-func (v *SCGConfigInfoV1310IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *SCGConfigInfoV1310IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_measresultsstdr13, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_scelltoaddmodlistmcgextr13, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_measresultservcelllistscgextr13, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_scelltoaddmodlistscgextr13, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_scelltoreleaselistscgextr13, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_measresultsstdr13 {
-		var dec_measresultsstdr13 MeasResultSSTDR13
-		if err := dec_measresultsstdr13.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding measResultSSTD-r13: %w", err)
-		}
-		v.MeasResultSSTDR13 = &dec_measresultsstdr13
-	}
-	if opt_scelltoaddmodlistmcgextr13 {
-		seqLen_scelltoaddmodlistmcgextr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 31)
-		if err != nil {
-			return fmt.Errorf("decoding sCellToAddModListMCG-Ext-r13 length: %w", err)
-		}
-		tmp_scelltoaddmodlistmcgextr13 := make(SCellToAddModListExtR13, seqLen_scelltoaddmodlistmcgextr13)
-		for i := int64(0); i < seqLen_scelltoaddmodlistmcgextr13; i++ {
-			if err := tmp_scelltoaddmodlistmcgextr13[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding sCellToAddModListMCG-Ext-r13 element: %w", err)
-			}
-		}
-		v.SCellToAddModListMCGExtR13 = tmp_scelltoaddmodlistmcgextr13
-	}
-	if opt_measresultservcelllistscgextr13 {
-		seqLen_measresultservcelllistscgextr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
-		if err != nil {
-			return fmt.Errorf("decoding measResultServCellListSCG-Ext-r13 length: %w", err)
-		}
-		tmp_measresultservcelllistscgextr13 := make(MeasResultServCellListSCGExtR13, seqLen_measresultservcelllistscgextr13)
-		for i := int64(0); i < seqLen_measresultservcelllistscgextr13; i++ {
-			if err := tmp_measresultservcelllistscgextr13[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measResultServCellListSCG-Ext-r13 element: %w", err)
-			}
-		}
-		v.MeasResultServCellListSCGExtR13 = tmp_measresultservcelllistscgextr13
-	}
-	if opt_scelltoaddmodlistscgextr13 {
-		seqLen_scelltoaddmodlistscgextr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 31)
-		if err != nil {
-			return fmt.Errorf("decoding sCellToAddModListSCG-Ext-r13 length: %w", err)
-		}
-		tmp_scelltoaddmodlistscgextr13 := make(SCellToAddModListSCGExtR13, seqLen_scelltoaddmodlistscgextr13)
-		for i := int64(0); i < seqLen_scelltoaddmodlistscgextr13; i++ {
-			if err := tmp_scelltoaddmodlistscgextr13[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding sCellToAddModListSCG-Ext-r13 element: %w", err)
-			}
-		}
-		v.SCellToAddModListSCGExtR13 = tmp_scelltoaddmodlistscgextr13
-	}
-	if opt_scelltoreleaselistscgextr13 {
-		seqLen_scelltoreleaselistscgextr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 31)
-		if err != nil {
-			return fmt.Errorf("decoding sCellToReleaseListSCG-Ext-r13 length: %w", err)
-		}
-		tmp_scelltoreleaselistscgextr13 := make(SCellToReleaseListExtR13, seqLen_scelltoreleaselistscgextr13)
-		for i := int64(0); i < seqLen_scelltoreleaselistscgextr13; i++ {
-			val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(31), false)
-			if err != nil {
-				return fmt.Errorf("decoding sCellToReleaseListSCG-Ext-r13 element: %w", err)
-			}
-			tmp_scelltoreleaselistscgextr13[i] = SCellIndexR13(val)
-		}
-		v.SCellToReleaseListSCGExtR13 = tmp_scelltoreleaselistscgextr13
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension SCGConfigInfoV1330IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes SCGConfigInfoV1330IEs to UPER format.
-func (v *SCGConfigInfoV1330IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SCGConfigInfoV1330IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.MeasResultListRSSISCGR13 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.MeasResultListRSSISCGR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasResultListRSSISCGR13)), 1, 32); err != nil {
-			return fmt.Errorf("encoding measResultListRSSI-SCG-r13 length: %w", err)
-		}
-		for _, elem := range v.MeasResultListRSSISCGR13 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding measResultListRSSI-SCG-r13 element: %w", err)
-			}
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes SCGConfigInfoV1330IEs from UPER format.
-func (v *SCGConfigInfoV1330IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *SCGConfigInfoV1330IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_measresultlistrssiscgr13, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_measresultlistrssiscgr13 {
-		seqLen_measresultlistrssiscgr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
-		if err != nil {
-			return fmt.Errorf("decoding measResultListRSSI-SCG-r13 length: %w", err)
-		}
-		tmp_measresultlistrssiscgr13 := make(MeasResultListRSSISCGR13, seqLen_measresultlistrssiscgr13)
-		for i := int64(0); i < seqLen_measresultlistrssiscgr13; i++ {
-			if err := tmp_measresultlistrssiscgr13[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measResultListRSSI-SCG-r13 element: %w", err)
-			}
-		}
-		v.MeasResultListRSSISCGR13 = tmp_measresultlistrssiscgr13
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension SCGConfigInfoV1430IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes SCGConfigInfoV1430IEs to UPER format.
-func (v *SCGConfigInfoV1430IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SCGConfigInfoV1430IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.MakeBeforeBreakSCGReqR14 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.MeasGapConfigPerCCList != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.MakeBeforeBreakSCGReqR14 != nil {
-		if err := per.EncodeEnumerated(bb, int64(*v.MakeBeforeBreakSCGReqR14), 1, false); err != nil {
-			return fmt.Errorf("encoding makeBeforeBreakSCG-Req-r14: %w", err)
-		}
-	}
-	if v.MeasGapConfigPerCCList != nil {
-		if err := v.MeasGapConfigPerCCList.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding measGapConfigPerCC-List: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes SCGConfigInfoV1430IEs from UPER format.
-func (v *SCGConfigInfoV1430IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *SCGConfigInfoV1430IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_makebeforebreakscgreqr14, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_measgapconfigpercclist, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_makebeforebreakscgreqr14 {
-		val_makebeforebreakscgreqr14, err := per.DecodeEnumerated(bb, 1, false)
-		if err != nil {
-			return fmt.Errorf("decoding makeBeforeBreakSCG-Req-r14: %w", err)
-		}
-		v.MakeBeforeBreakSCGReqR14 = &val_makebeforebreakscgreqr14
-	}
-	if opt_measgapconfigpercclist {
-		var dec_measgapconfigpercclist MeasGapConfigPerCCListR14
-		if err := dec_measgapconfigpercclist.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding measGapConfigPerCC-List: %w", err)
-		}
-		v.MeasGapConfigPerCCList = &dec_measgapconfigpercclist
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension SCGConfigInfoV1530IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes SCGConfigInfoV1530IEs to UPER format.
-func (v *SCGConfigInfoV1530IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SCGConfigInfoV1530IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.DrbToAddModListSCGR15 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.DrbToReleaseListSCGR15 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.DrbToAddModListSCGR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.DrbToAddModListSCGR15)), 1, 15); err != nil {
-			return fmt.Errorf("encoding drb-ToAddModListSCG-r15 length: %w", err)
-		}
-		for _, elem := range v.DrbToAddModListSCGR15 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding drb-ToAddModListSCG-r15 element: %w", err)
-			}
-		}
-	}
-	if v.DrbToReleaseListSCGR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.DrbToReleaseListSCGR15)), 1, 15); err != nil {
-			return fmt.Errorf("encoding drb-ToReleaseListSCG-r15 length: %w", err)
-		}
-		for _, elem := range v.DrbToReleaseListSCGR15 {
-			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(32), false); err != nil {
-				return fmt.Errorf("encoding drb-ToReleaseListSCG-r15 element: %w", err)
-			}
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes SCGConfigInfoV1530IEs from UPER format.
-func (v *SCGConfigInfoV1530IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *SCGConfigInfoV1530IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_drbtoaddmodlistscgr15, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_drbtoreleaselistscgr15, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_drbtoaddmodlistscgr15 {
-		seqLen_drbtoaddmodlistscgr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 15)
-		if err != nil {
-			return fmt.Errorf("decoding drb-ToAddModListSCG-r15 length: %w", err)
-		}
-		tmp_drbtoaddmodlistscgr15 := make(DRBInfoListSCGR15, seqLen_drbtoaddmodlistscgr15)
-		for i := int64(0); i < seqLen_drbtoaddmodlistscgr15; i++ {
-			if err := tmp_drbtoaddmodlistscgr15[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding drb-ToAddModListSCG-r15 element: %w", err)
-			}
-		}
-		v.DrbToAddModListSCGR15 = tmp_drbtoaddmodlistscgr15
-	}
-	if opt_drbtoreleaselistscgr15 {
-		seqLen_drbtoreleaselistscgr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 15)
-		if err != nil {
-			return fmt.Errorf("decoding drb-ToReleaseListSCG-r15 length: %w", err)
-		}
-		tmp_drbtoreleaselistscgr15 := make(DRBToReleaseListR15, seqLen_drbtoreleaselistscgr15)
-		for i := int64(0); i < seqLen_drbtoreleaselistscgr15; i++ {
-			val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(32), false)
-			if err != nil {
-				return fmt.Errorf("decoding drb-ToReleaseListSCG-r15 element: %w", err)
-			}
-			tmp_drbtoreleaselistscgr15[i] = DRBIdentity(val)
-		}
-		v.DrbToReleaseListSCGR15 = tmp_drbtoreleaselistscgr15
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension SCGConfigInfoV1530IEsNonCriticalExtension
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes DRBInfoSCGR12 to UPER format.
-func (v *DRBInfoSCGR12) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *DRBInfoSCGR12) MarshalUPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.EpsBearerIdentityR12 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.DrbTypeR12 != nil); err != nil {
-		return err
-	}
-	if v.EpsBearerIdentityR12 != nil {
-		if err := per.EncodeInteger(bb, int64(*v.EpsBearerIdentityR12), int64Ptr(0), int64Ptr(15), false); err != nil {
-			return fmt.Errorf("encoding eps-BearerIdentity-r12: %w", err)
-		}
-	}
-	if err := per.EncodeInteger(bb, int64(v.DrbIdentityR12), int64Ptr(1), int64Ptr(32), false); err != nil {
-		return fmt.Errorf("encoding drb-Identity-r12: %w", err)
-	}
-	if v.DrbTypeR12 != nil {
-		if err := per.EncodeEnumerated(bb, int64(*v.DrbTypeR12), 2, false); err != nil {
-			return fmt.Errorf("encoding drb-Type-r12: %w", err)
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegative(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenType(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes DRBInfoSCGR12 from UPER format.
-func (v *DRBInfoSCGR12) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *DRBInfoSCGR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_epsbeareridentityr12, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_drbtyper12, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_epsbeareridentityr12 {
-		val_epsbeareridentityr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(15), false)
-		if err != nil {
-			return fmt.Errorf("decoding eps-BearerIdentity-r12: %w", err)
-		}
-		v.EpsBearerIdentityR12 = &val_epsbeareridentityr12
-	}
-	val_drbidentityr12, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(32), false)
-	if err != nil {
-		return fmt.Errorf("decoding drb-Identity-r12: %w", err)
-	}
-	v.DrbIdentityR12 = val_drbidentityr12
-	if opt_drbtyper12 {
-		val_drbtyper12, err := per.DecodeEnumerated(bb, 2, false)
-		if err != nil {
-			return fmt.Errorf("decoding drb-Type-r12: %w", err)
-		}
-		v.DrbTypeR12 = &val_drbtyper12
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenType(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalUPER encodes CellToAddModR12 to UPER format.
-func (v *CellToAddModR12) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *CellToAddModR12) MarshalUPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0 || v.SCellIndexR13 != nil || v.MeasResultCellToAddV1310 != nil
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.CellIdentificationR12 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.MeasResultCellToAddR12 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeInteger(bb, int64(v.SCellIndexR12), int64Ptr(1), int64Ptr(7), false); err != nil {
-		return fmt.Errorf("encoding sCellIndex-r12: %w", err)
-	}
-	if v.CellIdentificationR12 != nil {
-		if err := v.CellIdentificationR12.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding cellIdentification-r12: %w", err)
-		}
-	}
-	if v.MeasResultCellToAddR12 != nil {
-		if err := v.MeasResultCellToAddR12.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding measResultCellToAdd-r12: %w", err)
-		}
-	}
-	if hasExtensions {
-		extHighest := int64(0)
-		if v.SCellIndexR13 != nil || v.MeasResultCellToAddV1310 != nil {
-			extHighest = 0
-		}
-		if v.ExtCount_ > extHighest {
-			extHighest = v.ExtCount_
-		}
-		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
-			return err
-		}
-		// Extension presence bitmap
-		if int64(0) <= extHighest {
-			present0 := (int64(0) < int64(len(v.ExtPresent_)) && v.ExtPresent_[0]) || v.SCellIndexR13 != nil || v.MeasResultCellToAddV1310 != nil
-			if err := per.EncodeBoolean(bb, present0); err != nil {
-				return err
-			}
-		}
-		for i := int64(1); i <= extHighest; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		if (int64(0) < int64(len(v.ExtPresent_)) && v.ExtPresent_[0]) || v.SCellIndexR13 != nil || v.MeasResultCellToAddV1310 != nil {
-			extBuf := per.NewBitBuffer()
-			if err := per.EncodeBoolean(extBuf, v.SCellIndexR13 != nil); err != nil {
-				return err
-			}
-			if err := per.EncodeBoolean(extBuf, v.MeasResultCellToAddV1310 != nil); err != nil {
-				return err
-			}
-			if v.SCellIndexR13 != nil {
-				if err := per.EncodeInteger(extBuf, int64(*v.SCellIndexR13), int64Ptr(1), int64Ptr(31), false); err != nil {
-					return fmt.Errorf("encoding sCellIndex-r13: %w", err)
-				}
-			}
-			if v.MeasResultCellToAddV1310 != nil {
-				if err := v.MeasResultCellToAddV1310.MarshalUPERTo(extBuf); err != nil {
-					return fmt.Errorf("encoding measResultCellToAdd-v1310: %w", err)
-				}
-			}
-			if err := per.EncodeOpenType(bb, extBuf.Bytes()); err != nil {
-				return err
-			}
-		}
-		for i := int64(1); i <= extHighest; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenType(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes CellToAddModR12 from UPER format.
-func (v *CellToAddModR12) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *CellToAddModR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_cellidentificationr12, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_measresultcelltoaddr12, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_scellindexr12, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(7), false)
-	if err != nil {
-		return fmt.Errorf("decoding sCellIndex-r12: %w", err)
-	}
-	v.SCellIndexR12 = val_scellindexr12
-	if opt_cellidentificationr12 {
-		var dec_cellidentificationr12 CellToAddModR12CellIdentificationR12
-		if err := dec_cellidentificationr12.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding cellIdentification-r12: %w", err)
-		}
-		v.CellIdentificationR12 = &dec_cellidentificationr12
-	}
-	if opt_measresultcelltoaddr12 {
-		var dec_measresultcelltoaddr12 CellToAddModR12MeasResultCellToAddR12
-		if err := dec_measresultcelltoaddr12.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding measResultCellToAdd-r12: %w", err)
-		}
-		v.MeasResultCellToAddR12 = &dec_measresultcelltoaddr12
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		if int64(0) <= extCount && extPresent[0] {
-			extData, err := per.DecodeOpenType(bb)
-			if err != nil {
-				return err
-			}
-			extBB := per.NewBitBufferFromBytes(extData)
-			_ = extBB
-			ext_opt_scellindexr13, err := per.DecodeBoolean(extBB)
-			if err != nil {
-				return err
-			}
-			ext_opt_measresultcelltoaddv1310, err := per.DecodeBoolean(extBB)
-			if err != nil {
-				return err
-			}
-			if ext_opt_scellindexr13 {
-				val_scellindexr13, err := per.DecodeInteger(extBB, int64Ptr(1), int64Ptr(31), false)
-				if err != nil {
-					return fmt.Errorf("decoding sCellIndex-r13: %w", err)
-				}
-				v.SCellIndexR13 = &val_scellindexr13
-			}
-			if ext_opt_measresultcelltoaddv1310 {
-				var dec_measresultcelltoaddv1310 CellToAddModR12MeasResultCellToAddV1310
-				if err := dec_measresultcelltoaddv1310.UnmarshalUPERFrom(extBB); err != nil {
-					return fmt.Errorf("decoding measResultCellToAdd-v1310: %w", err)
-				}
-				v.MeasResultCellToAddV1310 = &dec_measresultcelltoaddv1310
-			}
-		}
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(1); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenType(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalUPER encodes MeasResultServCellSCGR12 to UPER format.
-func (v *MeasResultServCellSCGR12) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *MeasResultServCellSCGR12) MarshalUPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0 || v.ServCellIdR13 != nil || v.MeasResultSCellV1310 != nil
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	if err := per.EncodeInteger(bb, int64(v.ServCellIdR12), int64Ptr(0), int64Ptr(7), false); err != nil {
-		return fmt.Errorf("encoding servCellId-r12: %w", err)
-	}
-	if err := v.MeasResultSCellR12.MarshalUPERTo(bb); err != nil {
-		return fmt.Errorf("encoding measResultSCell-r12: %w", err)
-	}
-	if hasExtensions {
-		extHighest := int64(0)
-		if v.ServCellIdR13 != nil || v.MeasResultSCellV1310 != nil {
-			extHighest = 0
-		}
-		if v.ExtCount_ > extHighest {
-			extHighest = v.ExtCount_
-		}
-		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
-			return err
-		}
-		// Extension presence bitmap
-		if int64(0) <= extHighest {
-			present0 := (int64(0) < int64(len(v.ExtPresent_)) && v.ExtPresent_[0]) || v.ServCellIdR13 != nil || v.MeasResultSCellV1310 != nil
-			if err := per.EncodeBoolean(bb, present0); err != nil {
-				return err
-			}
-		}
-		for i := int64(1); i <= extHighest; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		if (int64(0) < int64(len(v.ExtPresent_)) && v.ExtPresent_[0]) || v.ServCellIdR13 != nil || v.MeasResultSCellV1310 != nil {
-			extBuf := per.NewBitBuffer()
-			if err := per.EncodeBoolean(extBuf, v.ServCellIdR13 != nil); err != nil {
-				return err
-			}
-			if err := per.EncodeBoolean(extBuf, v.MeasResultSCellV1310 != nil); err != nil {
-				return err
-			}
-			if v.ServCellIdR13 != nil {
-				if err := per.EncodeInteger(extBuf, int64(*v.ServCellIdR13), int64Ptr(0), int64Ptr(31), false); err != nil {
-					return fmt.Errorf("encoding servCellId-r13: %w", err)
-				}
-			}
-			if v.MeasResultSCellV1310 != nil {
-				if err := v.MeasResultSCellV1310.MarshalUPERTo(extBuf); err != nil {
-					return fmt.Errorf("encoding measResultSCell-v1310: %w", err)
-				}
-			}
-			if err := per.EncodeOpenType(bb, extBuf.Bytes()); err != nil {
-				return err
-			}
-		}
-		for i := int64(1); i <= extHighest; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenType(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes MeasResultServCellSCGR12 from UPER format.
-func (v *MeasResultServCellSCGR12) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *MeasResultServCellSCGR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_servcellidr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(7), false)
-	if err != nil {
-		return fmt.Errorf("decoding servCellId-r12: %w", err)
-	}
-	v.ServCellIdR12 = val_servcellidr12
-	if err := v.MeasResultSCellR12.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding measResultSCell-r12: %w", err)
-	}
-	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
-		v.ExtPresent_ = extPresent
-		if int64(0) <= extCount && extPresent[0] {
-			extData, err := per.DecodeOpenType(bb)
-			if err != nil {
-				return err
-			}
-			extBB := per.NewBitBufferFromBytes(extData)
-			_ = extBB
-			ext_opt_servcellidr13, err := per.DecodeBoolean(extBB)
-			if err != nil {
-				return err
-			}
-			ext_opt_measresultscellv1310, err := per.DecodeBoolean(extBB)
-			if err != nil {
-				return err
-			}
-			if ext_opt_servcellidr13 {
-				val_servcellidr13, err := per.DecodeInteger(extBB, int64Ptr(0), int64Ptr(31), false)
-				if err != nil {
-					return fmt.Errorf("decoding servCellId-r13: %w", err)
-				}
-				v.ServCellIdR13 = &val_servcellidr13
-			}
-			if ext_opt_measresultscellv1310 {
-				var dec_measresultscellv1310 MeasResultServCellSCGR12MeasResultSCellV1310
-				if err := dec_measresultscellv1310.UnmarshalUPERFrom(extBB); err != nil {
-					return fmt.Errorf("decoding measResultSCell-v1310: %w", err)
-				}
-				v.MeasResultSCellV1310 = &dec_measresultscellv1310
-			}
-		}
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(1); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenType(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalUPER encodes MeasResultRSSISCGR13 to UPER format.
-func (v *MeasResultRSSISCGR13) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *MeasResultRSSISCGR13) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeInteger(bb, int64(v.ServCellIdR13), int64Ptr(0), int64Ptr(31), false); err != nil {
-		return fmt.Errorf("encoding servCellId-r13: %w", err)
-	}
-	if err := v.MeasResultForRSSIR13.MarshalUPERTo(bb); err != nil {
-		return fmt.Errorf("encoding measResultForRSSI-r13: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes MeasResultRSSISCGR13 from UPER format.
-func (v *MeasResultRSSISCGR13) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *MeasResultRSSISCGR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	val_servcellidr13, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(31), false)
-	if err != nil {
-		return fmt.Errorf("decoding servCellId-r13: %w", err)
-	}
-	v.ServCellIdR13 = val_servcellidr13
-	if err := v.MeasResultForRSSIR13.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding measResultForRSSI-r13: %w", err)
-	}
-	return nil
-}
-
-// MarshalUPER encodes SCGConfigRestrictInfoR12 to UPER format.
-func (v *SCGConfigRestrictInfoR12) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SCGConfigRestrictInfoR12) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeInteger(bb, int64(v.MaxSCHTBBitsDLR12), int64Ptr(1), int64Ptr(100), false); err != nil {
-		return fmt.Errorf("encoding maxSCH-TB-BitsDL-r12: %w", err)
-	}
-	if err := per.EncodeInteger(bb, int64(v.MaxSCHTBBitsULR12), int64Ptr(1), int64Ptr(100), false); err != nil {
-		return fmt.Errorf("encoding maxSCH-TB-BitsUL-r12: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes SCGConfigRestrictInfoR12 from UPER format.
-func (v *SCGConfigRestrictInfoR12) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *SCGConfigRestrictInfoR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	val_maxschtbbitsdlr12, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(100), false)
-	if err != nil {
-		return fmt.Errorf("decoding maxSCH-TB-BitsDL-r12: %w", err)
-	}
-	v.MaxSCHTBBitsDLR12 = val_maxschtbbitsdlr12
-	val_maxschtbbitsulr12, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(100), false)
-	if err != nil {
-		return fmt.Errorf("decoding maxSCH-TB-BitsUL-r12: %w", err)
-	}
-	v.MaxSCHTBBitsULR12 = val_maxschtbbitsulr12
-	return nil
-}
-
-// MarshalUPER encodes UEPagingCoverageInformation to UPER format.
-func (v *UEPagingCoverageInformation) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UEPagingCoverageInformation) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
-		return fmt.Errorf("encoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes UEPagingCoverageInformation from UPER format.
-func (v *UEPagingCoverageInformation) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *UEPagingCoverageInformation) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// MarshalUPER encodes UEPagingCoverageInformationR13IEs to UPER format.
-func (v *UEPagingCoverageInformationR13IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UEPagingCoverageInformationR13IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.MpdcchNumRepetitionR13 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.MpdcchNumRepetitionR13 != nil {
-		if err := per.EncodeInteger(bb, int64(*v.MpdcchNumRepetitionR13), int64Ptr(1), int64Ptr(256), false); err != nil {
-			return fmt.Errorf("encoding mpdcch-NumRepetition-r13: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes UEPagingCoverageInformationR13IEs from UPER format.
-func (v *UEPagingCoverageInformationR13IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *UEPagingCoverageInformationR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_mpdcchnumrepetitionr13, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_mpdcchnumrepetitionr13 {
-		val_mpdcchnumrepetitionr13, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(256), false)
-		if err != nil {
-			return fmt.Errorf("decoding mpdcch-NumRepetition-r13: %w", err)
-		}
-		v.MpdcchNumRepetitionR13 = &val_mpdcchnumrepetitionr13
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension UEPagingCoverageInformationR13IEsNonCriticalExtension
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes UERadioAccessCapabilityInformation to UPER format.
-func (v *UERadioAccessCapabilityInformation) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UERadioAccessCapabilityInformation) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
-		return fmt.Errorf("encoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes UERadioAccessCapabilityInformation from UPER format.
-func (v *UERadioAccessCapabilityInformation) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *UERadioAccessCapabilityInformation) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// MarshalUPER encodes UERadioAccessCapabilityInformationR8IEs to UPER format.
-func (v *UERadioAccessCapabilityInformationR8IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UERadioAccessCapabilityInformationR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeOctetString(bb, v.UeRadioAccessCapabilityInfo, 0, 0, false); err != nil {
-		return fmt.Errorf("encoding ue-RadioAccessCapabilityInfo: %w", err)
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes UERadioAccessCapabilityInformationR8IEs from UPER format.
-func (v *UERadioAccessCapabilityInformationR8IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *UERadioAccessCapabilityInformationR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_ueradioaccesscapabilityinfo, err := per.DecodeOctetString(bb, 0, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding ue-RadioAccessCapabilityInfo: %w", err)
-	}
-	v.UeRadioAccessCapabilityInfo = val_ueradioaccesscapabilityinfo
-	if opt_noncriticalextension {
-		var dec_noncriticalextension UERadioAccessCapabilityInformationR8IEsNonCriticalExtension
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes UERadioPagingInformation to UPER format.
-func (v *UERadioPagingInformation) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UERadioPagingInformation) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
-		return fmt.Errorf("encoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes UERadioPagingInformation from UPER format.
-func (v *UERadioPagingInformation) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *UERadioPagingInformation) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// MarshalUPER encodes UERadioPagingInformationR12IEs to UPER format.
-func (v *UERadioPagingInformationR12IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UERadioPagingInformationR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeOctetString(bb, v.UeRadioPagingInfoR12, 0, 0, false); err != nil {
-		return fmt.Errorf("encoding ue-RadioPagingInfo-r12: %w", err)
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes UERadioPagingInformationR12IEs from UPER format.
-func (v *UERadioPagingInformationR12IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *UERadioPagingInformationR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_ueradiopaginginfor12, err := per.DecodeOctetString(bb, 0, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding ue-RadioPagingInfo-r12: %w", err)
-	}
-	v.UeRadioPagingInfoR12 = val_ueradiopaginginfor12
-	if opt_noncriticalextension {
-		var dec_noncriticalextension UERadioPagingInformationV1310IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes UERadioPagingInformationV1310IEs to UPER format.
-func (v *UERadioPagingInformationV1310IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UERadioPagingInformationV1310IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.SupportedBandListEUTRAForPagingR13 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.SupportedBandListEUTRAForPagingR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SupportedBandListEUTRAForPagingR13)), 1, 64); err != nil {
-			return fmt.Errorf("encoding supportedBandListEUTRAForPaging-r13 length: %w", err)
-		}
-		for _, elem := range v.SupportedBandListEUTRAForPagingR13 {
-			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(256), false); err != nil {
-				return fmt.Errorf("encoding supportedBandListEUTRAForPaging-r13 element: %w", err)
-			}
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes UERadioPagingInformationV1310IEs from UPER format.
-func (v *UERadioPagingInformationV1310IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *UERadioPagingInformationV1310IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_supportedbandlisteutraforpagingr13, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_supportedbandlisteutraforpagingr13 {
-		seqLen_supportedbandlisteutraforpagingr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 64)
-		if err != nil {
-			return fmt.Errorf("decoding supportedBandListEUTRAForPaging-r13 length: %w", err)
-		}
-		tmp_supportedbandlisteutraforpagingr13 := make(UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13, seqLen_supportedbandlisteutraforpagingr13)
-		for i := int64(0); i < seqLen_supportedbandlisteutraforpagingr13; i++ {
-			val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(256), false)
-			if err != nil {
-				return fmt.Errorf("decoding supportedBandListEUTRAForPaging-r13 element: %w", err)
-			}
-			tmp_supportedbandlisteutraforpagingr13[i] = FreqBandIndicatorR11(val)
-		}
-		v.SupportedBandListEUTRAForPagingR13 = tmp_supportedbandlisteutraforpagingr13
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension UERadioPagingInformationV1610IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes UERadioPagingInformationV1610IEs to UPER format.
-func (v *UERadioPagingInformationV1610IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UERadioPagingInformationV1610IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.AccessStratumReleaseR16 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.AccessStratumReleaseR16 != nil {
-		if err := per.EncodeEnumerated(bb, int64(*v.AccessStratumReleaseR16), 1, false); err != nil {
-			return fmt.Errorf("encoding accessStratumRelease-r16: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes UERadioPagingInformationV1610IEs from UPER format.
-func (v *UERadioPagingInformationV1610IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *UERadioPagingInformationV1610IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_accessstratumreleaser16, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_accessstratumreleaser16 {
-		val_accessstratumreleaser16, err := per.DecodeEnumerated(bb, 1, false)
-		if err != nil {
-			return fmt.Errorf("decoding accessStratumRelease-r16: %w", err)
-		}
-		v.AccessStratumReleaseR16 = &val_accessstratumreleaser16
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension UERadioPagingInformationV1610IEsNonCriticalExtension
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
 // MarshalUPER encodes ASConfig to UPER format.
 func (v *ASConfig) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -5210,7 +1765,7 @@ func (v *ASConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding sourceDl-CarrierFreq: %w", err)
 	}
-	v.SourceDlCarrierFreq = val_sourcedlcarrierfreq
+	v.SourceDlCarrierFreq = ARFCNValueEUTRA(val_sourcedlcarrierfreq)
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegative(bb)
 		if err != nil {
@@ -5386,8 +1941,8 @@ func (v *ASConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalUPER encodes ASConfigV9e0 to UPER format.
-func (v *ASConfigV9e0) MarshalUPER() ([]byte, error) {
+// MarshalUPER encodes ASConfigNRR15 to UPER format.
+func (v *ASConfigNRR15) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
@@ -5395,25 +1950,139 @@ func (v *ASConfigV9e0) MarshalUPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *ASConfigV9e0) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeInteger(bb, int64(v.SourceDlCarrierFreqV9e0), int64Ptr(65536), int64Ptr(262143), false); err != nil {
-		return fmt.Errorf("encoding sourceDl-CarrierFreq-v9e0: %w", err)
+func (v *ASConfigNRR15) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.SourceRBConfigNRR15 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.SourceRBConfigSNNRR15 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.SourceOtherConfigSNNRR15 != nil); err != nil {
+		return err
+	}
+	if v.SourceRBConfigNRR15 != nil {
+		if err := per.EncodeOctetString(bb, v.SourceRBConfigNRR15, 0, 0, false); err != nil {
+			return fmt.Errorf("encoding sourceRB-ConfigNR-r15: %w", err)
+		}
+	}
+	if v.SourceRBConfigSNNRR15 != nil {
+		if err := per.EncodeOctetString(bb, v.SourceRBConfigSNNRR15, 0, 0, false); err != nil {
+			return fmt.Errorf("encoding sourceRB-ConfigSN-NR-r15: %w", err)
+		}
+	}
+	if v.SourceOtherConfigSNNRR15 != nil {
+		if err := per.EncodeOctetString(bb, v.SourceOtherConfigSNNRR15, 0, 0, false); err != nil {
+			return fmt.Errorf("encoding sourceOtherConfigSN-NR-r15: %w", err)
+		}
 	}
 	return nil
 }
 
-// UnmarshalUPER decodes ASConfigV9e0 from UPER format.
-func (v *ASConfigV9e0) UnmarshalUPER(data []byte) error {
+// UnmarshalUPER decodes ASConfigNRR15 from UPER format.
+func (v *ASConfigNRR15) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *ASConfigV9e0) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	val_sourcedlcarrierfreqv9e0, err := per.DecodeInteger(bb, int64Ptr(65536), int64Ptr(262143), false)
+func (v *ASConfigNRR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_sourcerbconfignrr15, err := per.DecodeBoolean(bb)
 	if err != nil {
-		return fmt.Errorf("decoding sourceDl-CarrierFreq-v9e0: %w", err)
+		return err
 	}
-	v.SourceDlCarrierFreqV9e0 = val_sourcedlcarrierfreqv9e0
+	opt_sourcerbconfigsnnrr15, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_sourceotherconfigsnnrr15, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_sourcerbconfignrr15 {
+		val_sourcerbconfignrr15, err := per.DecodeOctetString(bb, 0, 0, false)
+		if err != nil {
+			return fmt.Errorf("decoding sourceRB-ConfigNR-r15: %w", err)
+		}
+		tmp_sourcerbconfignrr15 := val_sourcerbconfignrr15
+		v.SourceRBConfigNRR15 = tmp_sourcerbconfignrr15
+	}
+	if opt_sourcerbconfigsnnrr15 {
+		val_sourcerbconfigsnnrr15, err := per.DecodeOctetString(bb, 0, 0, false)
+		if err != nil {
+			return fmt.Errorf("decoding sourceRB-ConfigSN-NR-r15: %w", err)
+		}
+		tmp_sourcerbconfigsnnrr15 := val_sourcerbconfigsnnrr15
+		v.SourceRBConfigSNNRR15 = tmp_sourcerbconfigsnnrr15
+	}
+	if opt_sourceotherconfigsnnrr15 {
+		val_sourceotherconfigsnnrr15, err := per.DecodeOctetString(bb, 0, 0, false)
+		if err != nil {
+			return fmt.Errorf("decoding sourceOtherConfigSN-NR-r15: %w", err)
+		}
+		tmp_sourceotherconfigsnnrr15 := val_sourceotherconfigsnnrr15
+		v.SourceOtherConfigSNNRR15 = tmp_sourceotherconfigsnnrr15
+	}
+	return nil
+}
+
+// MarshalUPER encodes ASConfigNRV1570 to UPER format.
+func (v *ASConfigNRV1570) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ASConfigNRV1570) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeEnumerated(bb, int64(v.SourceSCGConfiguredNRR15), 1, false); err != nil {
+		return fmt.Errorf("encoding sourceSCG-ConfiguredNR-r15: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes ASConfigNRV1570 from UPER format.
+func (v *ASConfigNRV1570) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *ASConfigNRV1570) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	val_sourcescgconfigurednrr15, err := per.DecodeEnumerated(bb, 1, false)
+	if err != nil {
+		return fmt.Errorf("decoding sourceSCG-ConfiguredNR-r15: %w", err)
+	}
+	v.SourceSCGConfiguredNRR15 = val_sourcescgconfigurednrr15
+	return nil
+}
+
+// MarshalUPER encodes ASConfigNRV1620 to UPER format.
+func (v *ASConfigNRV1620) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ASConfigNRV1620) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := v.TdmPatternConfig2R16.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding tdm-PatternConfig2-r16: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes ASConfigNRV1620 from UPER format.
+func (v *ASConfigNRV1620) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *ASConfigNRV1620) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := v.TdmPatternConfig2R16.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding tdm-PatternConfig2-r16: %w", err)
+	}
 	return nil
 }
 
@@ -5833,122 +2502,6 @@ func (v *ASConfigV1430) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalUPER encodes ASConfigNRR15 to UPER format.
-func (v *ASConfigNRR15) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ASConfigNRR15) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.SourceRBConfigNRR15 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.SourceRBConfigSNNRR15 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.SourceOtherConfigSNNRR15 != nil); err != nil {
-		return err
-	}
-	if v.SourceRBConfigNRR15 != nil {
-		if err := per.EncodeOctetString(bb, v.SourceRBConfigNRR15, 0, 0, false); err != nil {
-			return fmt.Errorf("encoding sourceRB-ConfigNR-r15: %w", err)
-		}
-	}
-	if v.SourceRBConfigSNNRR15 != nil {
-		if err := per.EncodeOctetString(bb, v.SourceRBConfigSNNRR15, 0, 0, false); err != nil {
-			return fmt.Errorf("encoding sourceRB-ConfigSN-NR-r15: %w", err)
-		}
-	}
-	if v.SourceOtherConfigSNNRR15 != nil {
-		if err := per.EncodeOctetString(bb, v.SourceOtherConfigSNNRR15, 0, 0, false); err != nil {
-			return fmt.Errorf("encoding sourceOtherConfigSN-NR-r15: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes ASConfigNRR15 from UPER format.
-func (v *ASConfigNRR15) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *ASConfigNRR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_sourcerbconfignrr15, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_sourcerbconfigsnnrr15, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_sourceotherconfigsnnrr15, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_sourcerbconfignrr15 {
-		val_sourcerbconfignrr15, err := per.DecodeOctetString(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding sourceRB-ConfigNR-r15: %w", err)
-		}
-		tmp_sourcerbconfignrr15 := val_sourcerbconfignrr15
-		v.SourceRBConfigNRR15 = tmp_sourcerbconfignrr15
-	}
-	if opt_sourcerbconfigsnnrr15 {
-		val_sourcerbconfigsnnrr15, err := per.DecodeOctetString(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding sourceRB-ConfigSN-NR-r15: %w", err)
-		}
-		tmp_sourcerbconfigsnnrr15 := val_sourcerbconfigsnnrr15
-		v.SourceRBConfigSNNRR15 = tmp_sourcerbconfigsnnrr15
-	}
-	if opt_sourceotherconfigsnnrr15 {
-		val_sourceotherconfigsnnrr15, err := per.DecodeOctetString(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding sourceOtherConfigSN-NR-r15: %w", err)
-		}
-		tmp_sourceotherconfigsnnrr15 := val_sourceotherconfigsnnrr15
-		v.SourceOtherConfigSNNRR15 = tmp_sourceotherconfigsnnrr15
-	}
-	return nil
-}
-
-// MarshalUPER encodes ASConfigNRV1570 to UPER format.
-func (v *ASConfigNRV1570) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ASConfigNRV1570) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeEnumerated(bb, int64(v.SourceSCGConfiguredNRR15), 1, false); err != nil {
-		return fmt.Errorf("encoding sourceSCG-ConfiguredNR-r15: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes ASConfigNRV1570 from UPER format.
-func (v *ASConfigNRV1570) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *ASConfigNRV1570) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	val_sourcescgconfigurednrr15, err := per.DecodeEnumerated(bb, 1, false)
-	if err != nil {
-		return fmt.Errorf("decoding sourceSCG-ConfiguredNR-r15: %w", err)
-	}
-	v.SourceSCGConfiguredNRR15 = val_sourcescgconfigurednrr15
-	return nil
-}
-
 // MarshalUPER encodes ASConfigV1550 to UPER format.
 func (v *ASConfigV1550) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -6007,36 +2560,8 @@ func (v *ASConfigV1550) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return fmt.Errorf("decoding p-MaxEUTRA-r15: %w", err)
 		}
-		v.PMaxEUTRAR15 = &val_pmaxeutrar15
-	}
-	return nil
-}
-
-// MarshalUPER encodes ASConfigNRV1620 to UPER format.
-func (v *ASConfigNRV1620) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ASConfigNRV1620) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := v.TdmPatternConfig2R16.MarshalUPERTo(bb); err != nil {
-		return fmt.Errorf("encoding tdm-PatternConfig2-r16: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes ASConfigNRV1620 from UPER format.
-func (v *ASConfigNRV1620) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *ASConfigNRV1620) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	if err := v.TdmPatternConfig2R16.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding tdm-PatternConfig2-r16: %w", err)
+		tmp_pmaxeutrar15 := PMax(val_pmaxeutrar15)
+		v.PMaxEUTRAR15 = &tmp_pmaxeutrar15
 	}
 	return nil
 }
@@ -6082,6 +2607,37 @@ func (v *ASConfigV1700) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ScgStateR17 = &val_scgstater17
 	}
+	return nil
+}
+
+// MarshalUPER encodes ASConfigV9e0 to UPER format.
+func (v *ASConfigV9e0) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ASConfigV9e0) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeInteger(bb, int64(v.SourceDlCarrierFreqV9e0), int64Ptr(65536), int64Ptr(262143), false); err != nil {
+		return fmt.Errorf("encoding sourceDl-CarrierFreq-v9e0: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes ASConfigV9e0 from UPER format.
+func (v *ASConfigV9e0) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *ASConfigV9e0) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	val_sourcedlcarrierfreqv9e0, err := per.DecodeInteger(bb, int64Ptr(65536), int64Ptr(262143), false)
+	if err != nil {
+		return fmt.Errorf("decoding sourceDl-CarrierFreq-v9e0: %w", err)
+	}
+	v.SourceDlCarrierFreqV9e0 = ARFCNValueEUTRAV9e0(val_sourcedlcarrierfreqv9e0)
 	return nil
 }
 
@@ -6621,6 +3177,516 @@ func (v *ASContextV1630) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
+// MarshalUPER encodes AdditionalReestabInfo to UPER format.
+func (v *AdditionalReestabInfo) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *AdditionalReestabInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeBitString(bb, v.CellIdentity.Bytes, v.CellIdentity.BitLength, 28, 28, true); err != nil {
+		return fmt.Errorf("encoding cellIdentity: %w", err)
+	}
+	if err := per.EncodeBitString(bb, v.KeyENodeBStar.Bytes, v.KeyENodeBStar.BitLength, 256, 256, true); err != nil {
+		return fmt.Errorf("encoding key-eNodeB-Star: %w", err)
+	}
+	if err := per.EncodeBitString(bb, v.ShortMACI.Bytes, v.ShortMACI.BitLength, 16, 16, true); err != nil {
+		return fmt.Errorf("encoding shortMAC-I: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes AdditionalReestabInfo from UPER format.
+func (v *AdditionalReestabInfo) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *AdditionalReestabInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	bsBytes_cellidentity, bsBitLen_cellidentity, err := per.DecodeBitString(bb, 28, 28, true)
+	if err != nil {
+		return fmt.Errorf("decoding cellIdentity: %w", err)
+	}
+	v.CellIdentity = runtime.BitString{Bytes: bsBytes_cellidentity, BitLength: bsBitLen_cellidentity}
+	bsBytes_keyenodebstar, bsBitLen_keyenodebstar, err := per.DecodeBitString(bb, 256, 256, true)
+	if err != nil {
+		return fmt.Errorf("decoding key-eNodeB-Star: %w", err)
+	}
+	v.KeyENodeBStar = runtime.BitString{Bytes: bsBytes_keyenodebstar, BitLength: bsBitLen_keyenodebstar}
+	bsBytes_shortmaci, bsBitLen_shortmaci, err := per.DecodeBitString(bb, 16, 16, true)
+	if err != nil {
+		return fmt.Errorf("decoding shortMAC-I: %w", err)
+	}
+	v.ShortMACI = runtime.BitString{Bytes: bsBytes_shortmaci, BitLength: bsBitLen_shortmaci}
+	return nil
+}
+
+// MarshalUPER encodes CandidateCellInfoR10 to UPER format.
+func (v *CandidateCellInfoR10) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *CandidateCellInfoR10) MarshalUPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0 || v.DlCarrierFreqV1090 != nil || v.RsrqResultV1250 != nil || v.RsSinrResultR13 != nil
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.RsrpResultR10 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.RsrqResultR10 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeInteger(bb, int64(v.PhysCellIdR10), int64Ptr(0), int64Ptr(503), false); err != nil {
+		return fmt.Errorf("encoding physCellId-r10: %w", err)
+	}
+	if err := per.EncodeInteger(bb, int64(v.DlCarrierFreqR10), int64Ptr(0), int64Ptr(65535), false); err != nil {
+		return fmt.Errorf("encoding dl-CarrierFreq-r10: %w", err)
+	}
+	if v.RsrpResultR10 != nil {
+		if err := per.EncodeInteger(bb, int64(*v.RsrpResultR10), int64Ptr(0), int64Ptr(97), false); err != nil {
+			return fmt.Errorf("encoding rsrpResult-r10: %w", err)
+		}
+	}
+	if v.RsrqResultR10 != nil {
+		if err := per.EncodeInteger(bb, int64(*v.RsrqResultR10), int64Ptr(0), int64Ptr(34), false); err != nil {
+			return fmt.Errorf("encoding rsrqResult-r10: %w", err)
+		}
+	}
+	if hasExtensions {
+		extHighest := int64(0)
+		if v.DlCarrierFreqV1090 != nil {
+			extHighest = 0
+		}
+		if v.RsrqResultV1250 != nil {
+			extHighest = 1
+		}
+		if v.RsSinrResultR13 != nil {
+			extHighest = 2
+		}
+		if v.ExtCount_ > extHighest {
+			extHighest = v.ExtCount_
+		}
+		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
+			return err
+		}
+		// Extension presence bitmap
+		if int64(0) <= extHighest {
+			present0 := (int64(0) < int64(len(v.ExtPresent_)) && v.ExtPresent_[0]) || v.DlCarrierFreqV1090 != nil
+			if err := per.EncodeBoolean(bb, present0); err != nil {
+				return err
+			}
+		}
+		if int64(1) <= extHighest {
+			present1 := (int64(1) < int64(len(v.ExtPresent_)) && v.ExtPresent_[1]) || v.RsrqResultV1250 != nil
+			if err := per.EncodeBoolean(bb, present1); err != nil {
+				return err
+			}
+		}
+		if int64(2) <= extHighest {
+			present2 := (int64(2) < int64(len(v.ExtPresent_)) && v.ExtPresent_[2]) || v.RsSinrResultR13 != nil
+			if err := per.EncodeBoolean(bb, present2); err != nil {
+				return err
+			}
+		}
+		for i := int64(3); i <= extHighest; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		if (int64(0) < int64(len(v.ExtPresent_)) && v.ExtPresent_[0]) || v.DlCarrierFreqV1090 != nil {
+			extBuf := per.NewBitBuffer()
+			if err := per.EncodeBoolean(extBuf, v.DlCarrierFreqV1090 != nil); err != nil {
+				return err
+			}
+			if v.DlCarrierFreqV1090 != nil {
+				if err := per.EncodeInteger(extBuf, int64(*v.DlCarrierFreqV1090), int64Ptr(65536), int64Ptr(262143), false); err != nil {
+					return fmt.Errorf("encoding dl-CarrierFreq-v1090: %w", err)
+				}
+			}
+			if err := per.EncodeOpenType(bb, extBuf.Bytes()); err != nil {
+				return err
+			}
+		}
+		if (int64(1) < int64(len(v.ExtPresent_)) && v.ExtPresent_[1]) || v.RsrqResultV1250 != nil {
+			extBuf := per.NewBitBuffer()
+			if err := per.EncodeBoolean(extBuf, v.RsrqResultV1250 != nil); err != nil {
+				return err
+			}
+			if v.RsrqResultV1250 != nil {
+				if err := per.EncodeInteger(extBuf, int64(*v.RsrqResultV1250), int64Ptr(-30), int64Ptr(46), false); err != nil {
+					return fmt.Errorf("encoding rsrqResult-v1250: %w", err)
+				}
+			}
+			if err := per.EncodeOpenType(bb, extBuf.Bytes()); err != nil {
+				return err
+			}
+		}
+		if (int64(2) < int64(len(v.ExtPresent_)) && v.ExtPresent_[2]) || v.RsSinrResultR13 != nil {
+			extBuf := per.NewBitBuffer()
+			if err := per.EncodeBoolean(extBuf, v.RsSinrResultR13 != nil); err != nil {
+				return err
+			}
+			if v.RsSinrResultR13 != nil {
+				if err := per.EncodeInteger(extBuf, int64(*v.RsSinrResultR13), int64Ptr(0), int64Ptr(127), false); err != nil {
+					return fmt.Errorf("encoding rs-sinr-Result-r13: %w", err)
+				}
+			}
+			if err := per.EncodeOpenType(bb, extBuf.Bytes()); err != nil {
+				return err
+			}
+		}
+		for i := int64(3); i <= extHighest; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenType(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes CandidateCellInfoR10 from UPER format.
+func (v *CandidateCellInfoR10) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *CandidateCellInfoR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_rsrpresultr10, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_rsrqresultr10, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_physcellidr10, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(503), false)
+	if err != nil {
+		return fmt.Errorf("decoding physCellId-r10: %w", err)
+	}
+	v.PhysCellIdR10 = PhysCellId(val_physcellidr10)
+	val_dlcarrierfreqr10, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(65535), false)
+	if err != nil {
+		return fmt.Errorf("decoding dl-CarrierFreq-r10: %w", err)
+	}
+	v.DlCarrierFreqR10 = ARFCNValueEUTRA(val_dlcarrierfreqr10)
+	if opt_rsrpresultr10 {
+		val_rsrpresultr10, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(97), false)
+		if err != nil {
+			return fmt.Errorf("decoding rsrpResult-r10: %w", err)
+		}
+		tmp_rsrpresultr10 := RSRPRange(val_rsrpresultr10)
+		v.RsrpResultR10 = &tmp_rsrpresultr10
+	}
+	if opt_rsrqresultr10 {
+		val_rsrqresultr10, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(34), false)
+		if err != nil {
+			return fmt.Errorf("decoding rsrqResult-r10: %w", err)
+		}
+		tmp_rsrqresultr10 := RSRQRange(val_rsrqresultr10)
+		v.RsrqResultR10 = &tmp_rsrqresultr10
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		// Read extension presence bitmap
+		extPresent := make([]bool, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		if int64(0) <= extCount && extPresent[0] {
+			extData, err := per.DecodeOpenType(bb)
+			if err != nil {
+				return err
+			}
+			extBB := per.NewBitBufferFromBytes(extData)
+			_ = extBB
+			ext_opt_dlcarrierfreqv1090, err := per.DecodeBoolean(extBB)
+			if err != nil {
+				return err
+			}
+			if ext_opt_dlcarrierfreqv1090 {
+				val_dlcarrierfreqv1090, err := per.DecodeInteger(extBB, int64Ptr(65536), int64Ptr(262143), false)
+				if err != nil {
+					return fmt.Errorf("decoding dl-CarrierFreq-v1090: %w", err)
+				}
+				tmp_dlcarrierfreqv1090 := ARFCNValueEUTRAV9e0(val_dlcarrierfreqv1090)
+				v.DlCarrierFreqV1090 = &tmp_dlcarrierfreqv1090
+			}
+		}
+		if int64(1) <= extCount && extPresent[1] {
+			extData, err := per.DecodeOpenType(bb)
+			if err != nil {
+				return err
+			}
+			extBB := per.NewBitBufferFromBytes(extData)
+			_ = extBB
+			ext_opt_rsrqresultv1250, err := per.DecodeBoolean(extBB)
+			if err != nil {
+				return err
+			}
+			if ext_opt_rsrqresultv1250 {
+				val_rsrqresultv1250, err := per.DecodeInteger(extBB, int64Ptr(-30), int64Ptr(46), false)
+				if err != nil {
+					return fmt.Errorf("decoding rsrqResult-v1250: %w", err)
+				}
+				tmp_rsrqresultv1250 := RSRQRangeV1250(val_rsrqresultv1250)
+				v.RsrqResultV1250 = &tmp_rsrqresultv1250
+			}
+		}
+		if int64(2) <= extCount && extPresent[2] {
+			extData, err := per.DecodeOpenType(bb)
+			if err != nil {
+				return err
+			}
+			extBB := per.NewBitBufferFromBytes(extData)
+			_ = extBB
+			ext_opt_rssinrresultr13, err := per.DecodeBoolean(extBB)
+			if err != nil {
+				return err
+			}
+			if ext_opt_rssinrresultr13 {
+				val_rssinrresultr13, err := per.DecodeInteger(extBB, int64Ptr(0), int64Ptr(127), false)
+				if err != nil {
+					return fmt.Errorf("decoding rs-sinr-Result-r13: %w", err)
+				}
+				tmp_rssinrresultr13 := RSSINRRangeR13(val_rssinrresultr13)
+				v.RsSinrResultR13 = &tmp_rssinrresultr13
+			}
+		}
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(3); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenType(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalUPER encodes CellToAddModR12 to UPER format.
+func (v *CellToAddModR12) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *CellToAddModR12) MarshalUPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0 || v.SCellIndexR13 != nil || v.MeasResultCellToAddV1310 != nil
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.CellIdentificationR12 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.MeasResultCellToAddR12 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeInteger(bb, int64(v.SCellIndexR12), int64Ptr(1), int64Ptr(7), false); err != nil {
+		return fmt.Errorf("encoding sCellIndex-r12: %w", err)
+	}
+	if v.CellIdentificationR12 != nil {
+		if err := v.CellIdentificationR12.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding cellIdentification-r12: %w", err)
+		}
+	}
+	if v.MeasResultCellToAddR12 != nil {
+		if err := v.MeasResultCellToAddR12.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding measResultCellToAdd-r12: %w", err)
+		}
+	}
+	if hasExtensions {
+		extHighest := int64(0)
+		if v.SCellIndexR13 != nil || v.MeasResultCellToAddV1310 != nil {
+			extHighest = 0
+		}
+		if v.ExtCount_ > extHighest {
+			extHighest = v.ExtCount_
+		}
+		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
+			return err
+		}
+		// Extension presence bitmap
+		if int64(0) <= extHighest {
+			present0 := (int64(0) < int64(len(v.ExtPresent_)) && v.ExtPresent_[0]) || v.SCellIndexR13 != nil || v.MeasResultCellToAddV1310 != nil
+			if err := per.EncodeBoolean(bb, present0); err != nil {
+				return err
+			}
+		}
+		for i := int64(1); i <= extHighest; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		if (int64(0) < int64(len(v.ExtPresent_)) && v.ExtPresent_[0]) || v.SCellIndexR13 != nil || v.MeasResultCellToAddV1310 != nil {
+			extBuf := per.NewBitBuffer()
+			if err := per.EncodeBoolean(extBuf, v.SCellIndexR13 != nil); err != nil {
+				return err
+			}
+			if err := per.EncodeBoolean(extBuf, v.MeasResultCellToAddV1310 != nil); err != nil {
+				return err
+			}
+			if v.SCellIndexR13 != nil {
+				if err := per.EncodeInteger(extBuf, int64(*v.SCellIndexR13), int64Ptr(1), int64Ptr(31), false); err != nil {
+					return fmt.Errorf("encoding sCellIndex-r13: %w", err)
+				}
+			}
+			if v.MeasResultCellToAddV1310 != nil {
+				if err := v.MeasResultCellToAddV1310.MarshalUPERTo(extBuf); err != nil {
+					return fmt.Errorf("encoding measResultCellToAdd-v1310: %w", err)
+				}
+			}
+			if err := per.EncodeOpenType(bb, extBuf.Bytes()); err != nil {
+				return err
+			}
+		}
+		for i := int64(1); i <= extHighest; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenType(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes CellToAddModR12 from UPER format.
+func (v *CellToAddModR12) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *CellToAddModR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_cellidentificationr12, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_measresultcelltoaddr12, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_scellindexr12, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(7), false)
+	if err != nil {
+		return fmt.Errorf("decoding sCellIndex-r12: %w", err)
+	}
+	v.SCellIndexR12 = SCellIndexR10(val_scellindexr12)
+	if opt_cellidentificationr12 {
+		var dec_cellidentificationr12 CellToAddModR12CellIdentificationR12
+		if err := dec_cellidentificationr12.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding cellIdentification-r12: %w", err)
+		}
+		v.CellIdentificationR12 = &dec_cellidentificationr12
+	}
+	if opt_measresultcelltoaddr12 {
+		var dec_measresultcelltoaddr12 CellToAddModR12MeasResultCellToAddR12
+		if err := dec_measresultcelltoaddr12.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding measResultCellToAdd-r12: %w", err)
+		}
+		v.MeasResultCellToAddR12 = &dec_measresultcelltoaddr12
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		// Read extension presence bitmap
+		extPresent := make([]bool, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		if int64(0) <= extCount && extPresent[0] {
+			extData, err := per.DecodeOpenType(bb)
+			if err != nil {
+				return err
+			}
+			extBB := per.NewBitBufferFromBytes(extData)
+			_ = extBB
+			ext_opt_scellindexr13, err := per.DecodeBoolean(extBB)
+			if err != nil {
+				return err
+			}
+			ext_opt_measresultcelltoaddv1310, err := per.DecodeBoolean(extBB)
+			if err != nil {
+				return err
+			}
+			if ext_opt_scellindexr13 {
+				val_scellindexr13, err := per.DecodeInteger(extBB, int64Ptr(1), int64Ptr(31), false)
+				if err != nil {
+					return fmt.Errorf("decoding sCellIndex-r13: %w", err)
+				}
+				tmp_scellindexr13 := SCellIndexR13(val_scellindexr13)
+				v.SCellIndexR13 = &tmp_scellindexr13
+			}
+			if ext_opt_measresultcelltoaddv1310 {
+				var dec_measresultcelltoaddv1310 CellToAddModR12MeasResultCellToAddV1310
+				if err := dec_measresultcelltoaddv1310.UnmarshalUPERFrom(extBB); err != nil {
+					return fmt.Errorf("decoding measResultCellToAdd-v1310: %w", err)
+				}
+				v.MeasResultCellToAddV1310 = &dec_measresultcelltoaddv1310
+			}
+		}
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(1); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenType(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
 // MarshalUPER encodes ConfigRestrictInfoDAPSR16 to UPER format.
 func (v *ConfigRestrictInfoDAPSR16) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -6728,8 +3794,8 @@ func (v *ConfigRestrictInfoDAPSV1630) UnmarshalUPERFrom(bb *per.BitBuffer) error
 	return nil
 }
 
-// MarshalUPER encodes ReestablishmentInfo to UPER format.
-func (v *ReestablishmentInfo) MarshalUPER() ([]byte, error) {
+// MarshalUPER encodes DRBInfoSCGR12 to UPER format.
+func (v *DRBInfoSCGR12) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
@@ -6737,29 +3803,29 @@ func (v *ReestablishmentInfo) MarshalUPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *ReestablishmentInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *DRBInfoSCGR12) MarshalUPERTo(bb *per.BitBuffer) error {
 	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
 	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.AdditionalReestabInfoList != nil); err != nil {
+	if err := per.EncodeBoolean(bb, v.EpsBearerIdentityR12 != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeInteger(bb, int64(v.SourcePhysCellId), int64Ptr(0), int64Ptr(503), false); err != nil {
-		return fmt.Errorf("encoding sourcePhysCellId: %w", err)
+	if err := per.EncodeBoolean(bb, v.DrbTypeR12 != nil); err != nil {
+		return err
 	}
-	if err := per.EncodeBitString(bb, v.TargetCellShortMACI.Bytes, v.TargetCellShortMACI.BitLength, 16, 16, true); err != nil {
-		return fmt.Errorf("encoding targetCellShortMAC-I: %w", err)
-	}
-	if v.AdditionalReestabInfoList != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.AdditionalReestabInfoList)), 1, 32); err != nil {
-			return fmt.Errorf("encoding additionalReestabInfoList length: %w", err)
+	if v.EpsBearerIdentityR12 != nil {
+		if err := per.EncodeInteger(bb, int64(*v.EpsBearerIdentityR12), int64Ptr(0), int64Ptr(15), false); err != nil {
+			return fmt.Errorf("encoding eps-BearerIdentity-r12: %w", err)
 		}
-		for _, elem := range v.AdditionalReestabInfoList {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding additionalReestabInfoList element: %w", err)
-			}
+	}
+	if err := per.EncodeInteger(bb, int64(v.DrbIdentityR12), int64Ptr(1), int64Ptr(32), false); err != nil {
+		return fmt.Errorf("encoding drb-Identity-r12: %w", err)
+	}
+	if v.DrbTypeR12 != nil {
+		if err := per.EncodeEnumerated(bb, int64(*v.DrbTypeR12), 2, false); err != nil {
+			return fmt.Errorf("encoding drb-Type-r12: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -6785,44 +3851,44 @@ func (v *ReestablishmentInfo) MarshalUPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalUPER decodes ReestablishmentInfo from UPER format.
-func (v *ReestablishmentInfo) UnmarshalUPER(data []byte) error {
+// UnmarshalUPER decodes DRBInfoSCGR12 from UPER format.
+func (v *DRBInfoSCGR12) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *ReestablishmentInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *DRBInfoSCGR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
 	// Read preamble bitmap for optional root fields
-	opt_additionalreestabinfolist, err := per.DecodeBoolean(bb)
+	opt_epsbeareridentityr12, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	val_sourcephyscellid, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(503), false)
+	opt_drbtyper12, err := per.DecodeBoolean(bb)
 	if err != nil {
-		return fmt.Errorf("decoding sourcePhysCellId: %w", err)
+		return err
 	}
-	v.SourcePhysCellId = val_sourcephyscellid
-	bsBytes_targetcellshortmaci, bsBitLen_targetcellshortmaci, err := per.DecodeBitString(bb, 16, 16, true)
-	if err != nil {
-		return fmt.Errorf("decoding targetCellShortMAC-I: %w", err)
-	}
-	v.TargetCellShortMACI = runtime.BitString{Bytes: bsBytes_targetcellshortmaci, BitLength: bsBitLen_targetcellshortmaci}
-	if opt_additionalreestabinfolist {
-		seqLen_additionalreestabinfolist, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
+	if opt_epsbeareridentityr12 {
+		val_epsbeareridentityr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(15), false)
 		if err != nil {
-			return fmt.Errorf("decoding additionalReestabInfoList length: %w", err)
+			return fmt.Errorf("decoding eps-BearerIdentity-r12: %w", err)
 		}
-		tmp_additionalreestabinfolist := make(AdditionalReestabInfoList, seqLen_additionalreestabinfolist)
-		for i := int64(0); i < seqLen_additionalreestabinfolist; i++ {
-			if err := tmp_additionalreestabinfolist[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding additionalReestabInfoList element: %w", err)
-			}
+		v.EpsBearerIdentityR12 = &val_epsbeareridentityr12
+	}
+	val_drbidentityr12, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(32), false)
+	if err != nil {
+		return fmt.Errorf("decoding drb-Identity-r12: %w", err)
+	}
+	v.DrbIdentityR12 = DRBIdentity(val_drbidentityr12)
+	if opt_drbtyper12 {
+		val_drbtyper12, err := per.DecodeEnumerated(bb, 2, false)
+		if err != nil {
+			return fmt.Errorf("decoding drb-Type-r12: %w", err)
 		}
-		v.AdditionalReestabInfoList = tmp_additionalreestabinfolist
+		v.DrbTypeR12 = &val_drbtyper12
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegative(bb)
@@ -6853,8 +3919,8 @@ func (v *ReestablishmentInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalUPER encodes AdditionalReestabInfo to UPER format.
-func (v *AdditionalReestabInfo) MarshalUPER() ([]byte, error) {
+// MarshalUPER encodes HandoverCommand to UPER format.
+func (v *HandoverCommand) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
@@ -6862,41 +3928,1552 @@ func (v *AdditionalReestabInfo) MarshalUPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *AdditionalReestabInfo) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeBitString(bb, v.CellIdentity.Bytes, v.CellIdentity.BitLength, 28, 28, true); err != nil {
-		return fmt.Errorf("encoding cellIdentity: %w", err)
-	}
-	if err := per.EncodeBitString(bb, v.KeyENodeBStar.Bytes, v.KeyENodeBStar.BitLength, 256, 256, true); err != nil {
-		return fmt.Errorf("encoding key-eNodeB-Star: %w", err)
-	}
-	if err := per.EncodeBitString(bb, v.ShortMACI.Bytes, v.ShortMACI.BitLength, 16, 16, true); err != nil {
-		return fmt.Errorf("encoding shortMAC-I: %w", err)
+func (v *HandoverCommand) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding criticalExtensions: %w", err)
 	}
 	return nil
 }
 
-// UnmarshalUPER decodes AdditionalReestabInfo from UPER format.
-func (v *AdditionalReestabInfo) UnmarshalUPER(data []byte) error {
+// UnmarshalUPER decodes HandoverCommand from UPER format.
+func (v *HandoverCommand) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *AdditionalReestabInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	bsBytes_cellidentity, bsBitLen_cellidentity, err := per.DecodeBitString(bb, 28, 28, true)
-	if err != nil {
-		return fmt.Errorf("decoding cellIdentity: %w", err)
+func (v *HandoverCommand) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding criticalExtensions: %w", err)
 	}
-	v.CellIdentity = runtime.BitString{Bytes: bsBytes_cellidentity, BitLength: bsBitLen_cellidentity}
-	bsBytes_keyenodebstar, bsBitLen_keyenodebstar, err := per.DecodeBitString(bb, 256, 256, true)
-	if err != nil {
-		return fmt.Errorf("decoding key-eNodeB-Star: %w", err)
+	return nil
+}
+
+// MarshalUPER encodes HandoverCommandR8IEs to UPER format.
+func (v *HandoverCommandR8IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
 	}
-	v.KeyENodeBStar = runtime.BitString{Bytes: bsBytes_keyenodebstar, BitLength: bsBitLen_keyenodebstar}
-	bsBytes_shortmaci, bsBitLen_shortmaci, err := per.DecodeBitString(bb, 16, 16, true)
-	if err != nil {
-		return fmt.Errorf("decoding shortMAC-I: %w", err)
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverCommandR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
 	}
-	v.ShortMACI = runtime.BitString{Bytes: bsBytes_shortmaci, BitLength: bsBitLen_shortmaci}
+	if err := per.EncodeOctetString(bb, v.HandoverCommandMessage, 0, 0, false); err != nil {
+		return fmt.Errorf("encoding handoverCommandMessage: %w", err)
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverCommandR8IEs from UPER format.
+func (v *HandoverCommandR8IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverCommandR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_handovercommandmessage, err := per.DecodeOctetString(bb, 0, 0, false)
+	if err != nil {
+		return fmt.Errorf("decoding handoverCommandMessage: %w", err)
+	}
+	v.HandoverCommandMessage = val_handovercommandmessage
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverCommandR8IEsNonCriticalExtension
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformation to UPER format.
+func (v *HandoverPreparationInformation) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformation) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding criticalExtensions: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformation from UPER format.
+func (v *HandoverPreparationInformation) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformation) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding criticalExtensions: %w", err)
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationR8IEs to UPER format.
+func (v *HandoverPreparationInformationR8IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.AsConfig != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.RrmConfig != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.AsContext != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.UeRadioAccessCapabilityInfo)), 0, 8); err != nil {
+		return fmt.Errorf("encoding ue-RadioAccessCapabilityInfo length: %w", err)
+	}
+	for _, elem := range v.UeRadioAccessCapabilityInfo {
+		if err := elem.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding ue-RadioAccessCapabilityInfo element: %w", err)
+		}
+	}
+	if v.AsConfig != nil {
+		if err := v.AsConfig.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding as-Config: %w", err)
+		}
+	}
+	if v.RrmConfig != nil {
+		if err := v.RrmConfig.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding rrm-Config: %w", err)
+		}
+	}
+	if v.AsContext != nil {
+		if err := v.AsContext.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding as-Context: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationR8IEs from UPER format.
+func (v *HandoverPreparationInformationR8IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_asconfig, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_rrmconfig, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ascontext, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_ueradioaccesscapabilityinfo, err := per.DecodeConstrainedWholeNumber(bb, 0, 8)
+	if err != nil {
+		return fmt.Errorf("decoding ue-RadioAccessCapabilityInfo length: %w", err)
+	}
+	v.UeRadioAccessCapabilityInfo = make(UECapabilityRATContainerList, seqLen_ueradioaccesscapabilityinfo)
+	for i := int64(0); i < seqLen_ueradioaccesscapabilityinfo; i++ {
+		if err := v.UeRadioAccessCapabilityInfo[i].UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding ue-RadioAccessCapabilityInfo element: %w", err)
+		}
+	}
+	if opt_asconfig {
+		var dec_asconfig ASConfig
+		if err := dec_asconfig.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding as-Config: %w", err)
+		}
+		v.AsConfig = &dec_asconfig
+	}
+	if opt_rrmconfig {
+		var dec_rrmconfig RRMConfig
+		if err := dec_rrmconfig.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding rrm-Config: %w", err)
+		}
+		v.RrmConfig = &dec_rrmconfig
+	}
+	if opt_ascontext {
+		var dec_ascontext ASContext
+		if err := dec_ascontext.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding as-Context: %w", err)
+		}
+		v.AsContext = &dec_ascontext
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationV920IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationV10j0IEs to UPER format.
+func (v *HandoverPreparationInformationV10j0IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationV10j0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.AsConfigV10j0 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.AsConfigV10j0 != nil {
+		if err := v.AsConfigV10j0.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding as-Config-v10j0: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationV10j0IEs from UPER format.
+func (v *HandoverPreparationInformationV10j0IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationV10j0IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_asconfigv10j0, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_asconfigv10j0 {
+		var dec_asconfigv10j0 ASConfigV10j0
+		if err := dec_asconfigv10j0.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding as-Config-v10j0: %w", err)
+		}
+		v.AsConfigV10j0 = &dec_asconfigv10j0
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationV10x0IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationV10x0IEs to UPER format.
+func (v *HandoverPreparationInformationV10x0IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationV10x0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.LateNonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.LateNonCriticalExtension != nil {
+		if err := per.EncodeOctetString(bb, v.LateNonCriticalExtension, 0, 0, false); err != nil {
+			return fmt.Errorf("encoding lateNonCriticalExtension: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationV10x0IEs from UPER format.
+func (v *HandoverPreparationInformationV10x0IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationV10x0IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_latenoncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_latenoncriticalextension {
+		val_latenoncriticalextension, err := per.DecodeOctetString(bb, 0, 0, false)
+		if err != nil {
+			return fmt.Errorf("decoding lateNonCriticalExtension: %w", err)
+		}
+		tmp_latenoncriticalextension := val_latenoncriticalextension
+		v.LateNonCriticalExtension = tmp_latenoncriticalextension
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationV13c0IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationV1130IEs to UPER format.
+func (v *HandoverPreparationInformationV1130IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationV1130IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.AsContextV1130 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.AsContextV1130 != nil {
+		if err := v.AsContextV1130.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding as-Context-v1130: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationV1130IEs from UPER format.
+func (v *HandoverPreparationInformationV1130IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationV1130IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_ascontextv1130, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_ascontextv1130 {
+		var dec_ascontextv1130 ASContextV1130
+		if err := dec_ascontextv1130.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding as-Context-v1130: %w", err)
+		}
+		v.AsContextV1130 = &dec_ascontextv1130
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationV1250IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationV1250IEs to UPER format.
+func (v *HandoverPreparationInformationV1250IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationV1250IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.UeSupportedEARFCNR12 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.AsConfigV1250 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.UeSupportedEARFCNR12 != nil {
+		if err := per.EncodeInteger(bb, int64(*v.UeSupportedEARFCNR12), int64Ptr(0), int64Ptr(262143), false); err != nil {
+			return fmt.Errorf("encoding ue-SupportedEARFCN-r12: %w", err)
+		}
+	}
+	if v.AsConfigV1250 != nil {
+		if err := v.AsConfigV1250.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding as-Config-v1250: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationV1250IEs from UPER format.
+func (v *HandoverPreparationInformationV1250IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationV1250IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_uesupportedearfcnr12, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_asconfigv1250, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_uesupportedearfcnr12 {
+		val_uesupportedearfcnr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(262143), false)
+		if err != nil {
+			return fmt.Errorf("decoding ue-SupportedEARFCN-r12: %w", err)
+		}
+		tmp_uesupportedearfcnr12 := ARFCNValueEUTRAR9(val_uesupportedearfcnr12)
+		v.UeSupportedEARFCNR12 = &tmp_uesupportedearfcnr12
+	}
+	if opt_asconfigv1250 {
+		var dec_asconfigv1250 ASConfigV1250
+		if err := dec_asconfigv1250.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding as-Config-v1250: %w", err)
+		}
+		v.AsConfigV1250 = &dec_asconfigv1250
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationV1320IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationV1320IEs to UPER format.
+func (v *HandoverPreparationInformationV1320IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationV1320IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.AsConfigV1320 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.AsContextV1320 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.AsConfigV1320 != nil {
+		if err := v.AsConfigV1320.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding as-Config-v1320: %w", err)
+		}
+	}
+	if v.AsContextV1320 != nil {
+		if err := v.AsContextV1320.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding as-Context-v1320: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationV1320IEs from UPER format.
+func (v *HandoverPreparationInformationV1320IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationV1320IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_asconfigv1320, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ascontextv1320, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_asconfigv1320 {
+		var dec_asconfigv1320 ASConfigV1320
+		if err := dec_asconfigv1320.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding as-Config-v1320: %w", err)
+		}
+		v.AsConfigV1320 = &dec_asconfigv1320
+	}
+	if opt_ascontextv1320 {
+		var dec_ascontextv1320 ASContextV1320
+		if err := dec_ascontextv1320.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding as-Context-v1320: %w", err)
+		}
+		v.AsContextV1320 = &dec_ascontextv1320
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationV1430IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationV13c0IEs to UPER format.
+func (v *HandoverPreparationInformationV13c0IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationV13c0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.AsConfigV13c0 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.AsConfigV13c0 != nil {
+		if err := v.AsConfigV13c0.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding as-Config-v13c0: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationV13c0IEs from UPER format.
+func (v *HandoverPreparationInformationV13c0IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationV13c0IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_asconfigv13c0, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_asconfigv13c0 {
+		var dec_asconfigv13c0 ASConfigV13c0
+		if err := dec_asconfigv13c0.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding as-Config-v13c0: %w", err)
+		}
+		v.AsConfigV13c0 = &dec_asconfigv13c0
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationV13c0IEsNonCriticalExtension
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationV1430IEs to UPER format.
+func (v *HandoverPreparationInformationV1430IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationV1430IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.AsConfigV1430 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.MakeBeforeBreakReqR14 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.AsConfigV1430 != nil {
+		if err := v.AsConfigV1430.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding as-Config-v1430: %w", err)
+		}
+	}
+	if v.MakeBeforeBreakReqR14 != nil {
+		if err := per.EncodeEnumerated(bb, int64(*v.MakeBeforeBreakReqR14), 1, false); err != nil {
+			return fmt.Errorf("encoding makeBeforeBreakReq-r14: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationV1430IEs from UPER format.
+func (v *HandoverPreparationInformationV1430IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationV1430IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_asconfigv1430, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_makebeforebreakreqr14, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_asconfigv1430 {
+		var dec_asconfigv1430 ASConfigV1430
+		if err := dec_asconfigv1430.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding as-Config-v1430: %w", err)
+		}
+		v.AsConfigV1430 = &dec_asconfigv1430
+	}
+	if opt_makebeforebreakreqr14 {
+		val_makebeforebreakreqr14, err := per.DecodeEnumerated(bb, 1, false)
+		if err != nil {
+			return fmt.Errorf("decoding makeBeforeBreakReq-r14: %w", err)
+		}
+		v.MakeBeforeBreakReqR14 = &val_makebeforebreakreqr14
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationV1530IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationV1530IEs to UPER format.
+func (v *HandoverPreparationInformationV1530IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationV1530IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.RanNotificationAreaInfoR15 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.RanNotificationAreaInfoR15 != nil {
+		if err := v.RanNotificationAreaInfoR15.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding ran-NotificationAreaInfo-r15: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationV1530IEs from UPER format.
+func (v *HandoverPreparationInformationV1530IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationV1530IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_rannotificationareainfor15, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_rannotificationareainfor15 {
+		var dec_rannotificationareainfor15 RANNotificationAreaInfoR15
+		if err := dec_rannotificationareainfor15.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding ran-NotificationAreaInfo-r15: %w", err)
+		}
+		v.RanNotificationAreaInfoR15 = &dec_rannotificationareainfor15
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationV1540IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationV1540IEs to UPER format.
+func (v *HandoverPreparationInformationV1540IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationV1540IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.SourceRBConfigIntra5GCR15 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.SourceRBConfigIntra5GCR15 != nil {
+		if err := per.EncodeOctetString(bb, v.SourceRBConfigIntra5GCR15, 0, 0, false); err != nil {
+			return fmt.Errorf("encoding sourceRB-ConfigIntra5GC-r15: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationV1540IEs from UPER format.
+func (v *HandoverPreparationInformationV1540IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationV1540IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_sourcerbconfigintra5gcr15, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_sourcerbconfigintra5gcr15 {
+		val_sourcerbconfigintra5gcr15, err := per.DecodeOctetString(bb, 0, 0, false)
+		if err != nil {
+			return fmt.Errorf("decoding sourceRB-ConfigIntra5GC-r15: %w", err)
+		}
+		tmp_sourcerbconfigintra5gcr15 := val_sourcerbconfigintra5gcr15
+		v.SourceRBConfigIntra5GCR15 = tmp_sourcerbconfigintra5gcr15
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationV1610IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationV1610IEs to UPER format.
+func (v *HandoverPreparationInformationV1610IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationV1610IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.AsContextV1610 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.AsContextV1610 != nil {
+		if err := v.AsContextV1610.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding as-Context-v1610: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationV1610IEs from UPER format.
+func (v *HandoverPreparationInformationV1610IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationV1610IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_ascontextv1610, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_ascontextv1610 {
+		var dec_ascontextv1610 ASContextV1610
+		if err := dec_ascontextv1610.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding as-Context-v1610: %w", err)
+		}
+		v.AsContextV1610 = &dec_ascontextv1610
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationV1620IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationV1620IEs to UPER format.
+func (v *HandoverPreparationInformationV1620IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationV1620IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.AsContextV1620 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.AsContextV1620 != nil {
+		if err := v.AsContextV1620.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding as-Context-v1620: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationV1620IEs from UPER format.
+func (v *HandoverPreparationInformationV1620IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationV1620IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_ascontextv1620, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_ascontextv1620 {
+		var dec_ascontextv1620 ASContextV1620
+		if err := dec_ascontextv1620.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding as-Context-v1620: %w", err)
+		}
+		v.AsContextV1620 = &dec_ascontextv1620
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationV1630IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationV1630IEs to UPER format.
+func (v *HandoverPreparationInformationV1630IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationV1630IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.AsContextV1630 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.AsContextV1630 != nil {
+		if err := v.AsContextV1630.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding as-Context-v1630: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationV1630IEs from UPER format.
+func (v *HandoverPreparationInformationV1630IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationV1630IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_ascontextv1630, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_ascontextv1630 {
+		var dec_ascontextv1630 ASContextV1630
+		if err := dec_ascontextv1630.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding as-Context-v1630: %w", err)
+		}
+		v.AsContextV1630 = &dec_ascontextv1630
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationV1700IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationV1700IEs to UPER format.
+func (v *HandoverPreparationInformationV1700IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationV1700IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.AsConfigV1700 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.AsConfigV1700 != nil {
+		if err := v.AsConfigV1700.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding as-Config-v1700: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationV1700IEs from UPER format.
+func (v *HandoverPreparationInformationV1700IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationV1700IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_asconfigv1700, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_asconfigv1700 {
+		var dec_asconfigv1700 ASConfigV1700
+		if err := dec_asconfigv1700.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding as-Config-v1700: %w", err)
+		}
+		v.AsConfigV1700 = &dec_asconfigv1700
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationV1700IEsNonCriticalExtension
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationV920IEs to UPER format.
+func (v *HandoverPreparationInformationV920IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationV920IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.UeConfigReleaseR9 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.UeConfigReleaseR9 != nil {
+		if err := per.EncodeEnumerated(bb, int64(*v.UeConfigReleaseR9), 12, true); err != nil {
+			return fmt.Errorf("encoding ue-ConfigRelease-r9: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationV920IEs from UPER format.
+func (v *HandoverPreparationInformationV920IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationV920IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_ueconfigreleaser9, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_ueconfigreleaser9 {
+		val_ueconfigreleaser9, err := per.DecodeEnumerated(bb, 12, true)
+		if err != nil {
+			return fmt.Errorf("decoding ue-ConfigRelease-r9: %w", err)
+		}
+		v.UeConfigReleaseR9 = &val_ueconfigreleaser9
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationV9d0IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationV9d0IEs to UPER format.
+func (v *HandoverPreparationInformationV9d0IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationV9d0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.LateNonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.LateNonCriticalExtension != nil {
+		if err := per.EncodeOctetString(bb, v.LateNonCriticalExtension, 0, 0, false); err != nil {
+			return fmt.Errorf("encoding lateNonCriticalExtension: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationV9d0IEs from UPER format.
+func (v *HandoverPreparationInformationV9d0IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationV9d0IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_latenoncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_latenoncriticalextension {
+		val_latenoncriticalextension, err := per.DecodeOctetString(bb, 0, 0, false)
+		if err != nil {
+			return fmt.Errorf("decoding lateNonCriticalExtension: %w", err)
+		}
+		tmp_latenoncriticalextension := val_latenoncriticalextension
+		v.LateNonCriticalExtension = tmp_latenoncriticalextension
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationV9e0IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationV9e0IEs to UPER format.
+func (v *HandoverPreparationInformationV9e0IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationV9e0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.AsConfigV9e0 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.AsConfigV9e0 != nil {
+		if err := v.AsConfigV9e0.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding as-Config-v9e0: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationV9e0IEs from UPER format.
+func (v *HandoverPreparationInformationV9e0IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationV9e0IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_asconfigv9e0, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_asconfigv9e0 {
+		var dec_asconfigv9e0 ASConfigV9e0
+		if err := dec_asconfigv9e0.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding as-Config-v9e0: %w", err)
+		}
+		v.AsConfigV9e0 = &dec_asconfigv9e0
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationV1130IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationV9j0IEs to UPER format.
+func (v *HandoverPreparationInformationV9j0IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationV9j0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.LateNonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.LateNonCriticalExtension != nil {
+		if err := per.EncodeOctetString(bb, v.LateNonCriticalExtension, 0, 0, false); err != nil {
+			return fmt.Errorf("encoding lateNonCriticalExtension: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationV9j0IEs from UPER format.
+func (v *HandoverPreparationInformationV9j0IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationV9j0IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_latenoncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_latenoncriticalextension {
+		val_latenoncriticalextension, err := per.DecodeOctetString(bb, 0, 0, false)
+		if err != nil {
+			return fmt.Errorf("decoding lateNonCriticalExtension: %w", err)
+		}
+		tmp_latenoncriticalextension := val_latenoncriticalextension
+		v.LateNonCriticalExtension = tmp_latenoncriticalextension
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationV10j0IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes MeasResultRSSISCGR13 to UPER format.
+func (v *MeasResultRSSISCGR13) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *MeasResultRSSISCGR13) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeInteger(bb, int64(v.ServCellIdR13), int64Ptr(0), int64Ptr(31), false); err != nil {
+		return fmt.Errorf("encoding servCellId-r13: %w", err)
+	}
+	if err := v.MeasResultForRSSIR13.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding measResultForRSSI-r13: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes MeasResultRSSISCGR13 from UPER format.
+func (v *MeasResultRSSISCGR13) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *MeasResultRSSISCGR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	val_servcellidr13, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(31), false)
+	if err != nil {
+		return fmt.Errorf("decoding servCellId-r13: %w", err)
+	}
+	v.ServCellIdR13 = ServCellIndexR13(val_servcellidr13)
+	if err := v.MeasResultForRSSIR13.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding measResultForRSSI-r13: %w", err)
+	}
+	return nil
+}
+
+// MarshalUPER encodes MeasResultServCellSCGR12 to UPER format.
+func (v *MeasResultServCellSCGR12) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *MeasResultServCellSCGR12) MarshalUPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0 || v.ServCellIdR13 != nil || v.MeasResultSCellV1310 != nil
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeInteger(bb, int64(v.ServCellIdR12), int64Ptr(0), int64Ptr(7), false); err != nil {
+		return fmt.Errorf("encoding servCellId-r12: %w", err)
+	}
+	if err := v.MeasResultSCellR12.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding measResultSCell-r12: %w", err)
+	}
+	if hasExtensions {
+		extHighest := int64(0)
+		if v.ServCellIdR13 != nil || v.MeasResultSCellV1310 != nil {
+			extHighest = 0
+		}
+		if v.ExtCount_ > extHighest {
+			extHighest = v.ExtCount_
+		}
+		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
+			return err
+		}
+		// Extension presence bitmap
+		if int64(0) <= extHighest {
+			present0 := (int64(0) < int64(len(v.ExtPresent_)) && v.ExtPresent_[0]) || v.ServCellIdR13 != nil || v.MeasResultSCellV1310 != nil
+			if err := per.EncodeBoolean(bb, present0); err != nil {
+				return err
+			}
+		}
+		for i := int64(1); i <= extHighest; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		if (int64(0) < int64(len(v.ExtPresent_)) && v.ExtPresent_[0]) || v.ServCellIdR13 != nil || v.MeasResultSCellV1310 != nil {
+			extBuf := per.NewBitBuffer()
+			if err := per.EncodeBoolean(extBuf, v.ServCellIdR13 != nil); err != nil {
+				return err
+			}
+			if err := per.EncodeBoolean(extBuf, v.MeasResultSCellV1310 != nil); err != nil {
+				return err
+			}
+			if v.ServCellIdR13 != nil {
+				if err := per.EncodeInteger(extBuf, int64(*v.ServCellIdR13), int64Ptr(0), int64Ptr(31), false); err != nil {
+					return fmt.Errorf("encoding servCellId-r13: %w", err)
+				}
+			}
+			if v.MeasResultSCellV1310 != nil {
+				if err := v.MeasResultSCellV1310.MarshalUPERTo(extBuf); err != nil {
+					return fmt.Errorf("encoding measResultSCell-v1310: %w", err)
+				}
+			}
+			if err := per.EncodeOpenType(bb, extBuf.Bytes()); err != nil {
+				return err
+			}
+		}
+		for i := int64(1); i <= extHighest; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenType(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes MeasResultServCellSCGR12 from UPER format.
+func (v *MeasResultServCellSCGR12) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *MeasResultServCellSCGR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_servcellidr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(7), false)
+	if err != nil {
+		return fmt.Errorf("decoding servCellId-r12: %w", err)
+	}
+	v.ServCellIdR12 = ServCellIndexR10(val_servcellidr12)
+	if err := v.MeasResultSCellR12.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding measResultSCell-r12: %w", err)
+	}
+	if hasExtensions {
+		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		// Read extension presence bitmap
+		extPresent := make([]bool, extCount+1)
+		for i := int64(0); i <= extCount; i++ {
+			p, err := per.DecodeBoolean(bb)
+			if err != nil {
+				return err
+			}
+			extPresent[i] = p
+		}
+		v.ExtPresent_ = extPresent
+		if int64(0) <= extCount && extPresent[0] {
+			extData, err := per.DecodeOpenType(bb)
+			if err != nil {
+				return err
+			}
+			extBB := per.NewBitBufferFromBytes(extData)
+			_ = extBB
+			ext_opt_servcellidr13, err := per.DecodeBoolean(extBB)
+			if err != nil {
+				return err
+			}
+			ext_opt_measresultscellv1310, err := per.DecodeBoolean(extBB)
+			if err != nil {
+				return err
+			}
+			if ext_opt_servcellidr13 {
+				val_servcellidr13, err := per.DecodeInteger(extBB, int64Ptr(0), int64Ptr(31), false)
+				if err != nil {
+					return fmt.Errorf("decoding servCellId-r13: %w", err)
+				}
+				tmp_servcellidr13 := ServCellIndexR13(val_servcellidr13)
+				v.ServCellIdR13 = &tmp_servcellidr13
+			}
+			if ext_opt_measresultscellv1310 {
+				var dec_measresultscellv1310 MeasResultServCellSCGR12MeasResultSCellV1310
+				if err := dec_measresultscellv1310.UnmarshalUPERFrom(extBB); err != nil {
+					return fmt.Errorf("decoding measResultSCell-v1310: %w", err)
+				}
+				v.MeasResultSCellV1310 = &dec_measresultscellv1310
+			}
+		}
+		v.ExtData_ = make([][]byte, extCount+1)
+		for i := int64(1); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenType(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
 	return nil
 }
 
@@ -7110,8 +5687,8 @@ func (v *RRMConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalUPER encodes CandidateCellInfoR10 to UPER format.
-func (v *CandidateCellInfoR10) MarshalUPER() ([]byte, error) {
+// MarshalUPER encodes ReestablishmentInfo to UPER format.
+func (v *ReestablishmentInfo) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
@@ -7119,119 +5696,42 @@ func (v *CandidateCellInfoR10) MarshalUPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *CandidateCellInfoR10) MarshalUPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0 || v.DlCarrierFreqV1090 != nil || v.RsrqResultV1250 != nil || v.RsSinrResultR13 != nil
+func (v *ReestablishmentInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
 	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.RsrpResultR10 != nil); err != nil {
+	if err := per.EncodeBoolean(bb, v.AdditionalReestabInfoList != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeBoolean(bb, v.RsrqResultR10 != nil); err != nil {
-		return err
+	if err := per.EncodeInteger(bb, int64(v.SourcePhysCellId), int64Ptr(0), int64Ptr(503), false); err != nil {
+		return fmt.Errorf("encoding sourcePhysCellId: %w", err)
 	}
-	if err := per.EncodeInteger(bb, int64(v.PhysCellIdR10), int64Ptr(0), int64Ptr(503), false); err != nil {
-		return fmt.Errorf("encoding physCellId-r10: %w", err)
+	if err := per.EncodeBitString(bb, v.TargetCellShortMACI.Bytes, v.TargetCellShortMACI.BitLength, 16, 16, true); err != nil {
+		return fmt.Errorf("encoding targetCellShortMAC-I: %w", err)
 	}
-	if err := per.EncodeInteger(bb, int64(v.DlCarrierFreqR10), int64Ptr(0), int64Ptr(65535), false); err != nil {
-		return fmt.Errorf("encoding dl-CarrierFreq-r10: %w", err)
-	}
-	if v.RsrpResultR10 != nil {
-		if err := per.EncodeInteger(bb, int64(*v.RsrpResultR10), int64Ptr(0), int64Ptr(97), false); err != nil {
-			return fmt.Errorf("encoding rsrpResult-r10: %w", err)
+	if v.AdditionalReestabInfoList != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.AdditionalReestabInfoList)), 1, 32); err != nil {
+			return fmt.Errorf("encoding additionalReestabInfoList length: %w", err)
 		}
-	}
-	if v.RsrqResultR10 != nil {
-		if err := per.EncodeInteger(bb, int64(*v.RsrqResultR10), int64Ptr(0), int64Ptr(34), false); err != nil {
-			return fmt.Errorf("encoding rsrqResult-r10: %w", err)
+		for _, elem := range v.AdditionalReestabInfoList {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding additionalReestabInfoList element: %w", err)
+			}
 		}
 	}
 	if hasExtensions {
-		extHighest := int64(0)
-		if v.DlCarrierFreqV1090 != nil {
-			extHighest = 0
-		}
-		if v.RsrqResultV1250 != nil {
-			extHighest = 1
-		}
-		if v.RsSinrResultR13 != nil {
-			extHighest = 2
-		}
-		if v.ExtCount_ > extHighest {
-			extHighest = v.ExtCount_
-		}
-		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
+		if err := per.EncodeNormallySmallNonNegative(bb, v.ExtCount_); err != nil {
 			return err
 		}
-		// Extension presence bitmap
-		if int64(0) <= extHighest {
-			present0 := (int64(0) < int64(len(v.ExtPresent_)) && v.ExtPresent_[0]) || v.DlCarrierFreqV1090 != nil
-			if err := per.EncodeBoolean(bb, present0); err != nil {
-				return err
-			}
-		}
-		if int64(1) <= extHighest {
-			present1 := (int64(1) < int64(len(v.ExtPresent_)) && v.ExtPresent_[1]) || v.RsrqResultV1250 != nil
-			if err := per.EncodeBoolean(bb, present1); err != nil {
-				return err
-			}
-		}
-		if int64(2) <= extHighest {
-			present2 := (int64(2) < int64(len(v.ExtPresent_)) && v.ExtPresent_[2]) || v.RsSinrResultR13 != nil
-			if err := per.EncodeBoolean(bb, present2); err != nil {
-				return err
-			}
-		}
-		for i := int64(3); i <= extHighest; i++ {
+		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		if (int64(0) < int64(len(v.ExtPresent_)) && v.ExtPresent_[0]) || v.DlCarrierFreqV1090 != nil {
-			extBuf := per.NewBitBuffer()
-			if err := per.EncodeBoolean(extBuf, v.DlCarrierFreqV1090 != nil); err != nil {
-				return err
-			}
-			if v.DlCarrierFreqV1090 != nil {
-				if err := per.EncodeInteger(extBuf, int64(*v.DlCarrierFreqV1090), int64Ptr(65536), int64Ptr(262143), false); err != nil {
-					return fmt.Errorf("encoding dl-CarrierFreq-v1090: %w", err)
-				}
-			}
-			if err := per.EncodeOpenType(bb, extBuf.Bytes()); err != nil {
-				return err
-			}
-		}
-		if (int64(1) < int64(len(v.ExtPresent_)) && v.ExtPresent_[1]) || v.RsrqResultV1250 != nil {
-			extBuf := per.NewBitBuffer()
-			if err := per.EncodeBoolean(extBuf, v.RsrqResultV1250 != nil); err != nil {
-				return err
-			}
-			if v.RsrqResultV1250 != nil {
-				if err := per.EncodeInteger(extBuf, int64(*v.RsrqResultV1250), int64Ptr(-30), int64Ptr(46), false); err != nil {
-					return fmt.Errorf("encoding rsrqResult-v1250: %w", err)
-				}
-			}
-			if err := per.EncodeOpenType(bb, extBuf.Bytes()); err != nil {
-				return err
-			}
-		}
-		if (int64(2) < int64(len(v.ExtPresent_)) && v.ExtPresent_[2]) || v.RsSinrResultR13 != nil {
-			extBuf := per.NewBitBuffer()
-			if err := per.EncodeBoolean(extBuf, v.RsSinrResultR13 != nil); err != nil {
-				return err
-			}
-			if v.RsSinrResultR13 != nil {
-				if err := per.EncodeInteger(extBuf, int64(*v.RsSinrResultR13), int64Ptr(0), int64Ptr(127), false); err != nil {
-					return fmt.Errorf("encoding rs-sinr-Result-r13: %w", err)
-				}
-			}
-			if err := per.EncodeOpenType(bb, extBuf.Bytes()); err != nil {
-				return err
-			}
-		}
-		for i := int64(3); i <= extHighest; i++ {
+		for i := int64(0); i <= v.ExtCount_; i++ {
 			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
 				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
 					if err := per.EncodeOpenType(bb, v.ExtData_[i]); err != nil {
@@ -7244,49 +5744,44 @@ func (v *CandidateCellInfoR10) MarshalUPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalUPER decodes CandidateCellInfoR10 from UPER format.
-func (v *CandidateCellInfoR10) UnmarshalUPER(data []byte) error {
+// UnmarshalUPER decodes ReestablishmentInfo from UPER format.
+func (v *ReestablishmentInfo) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *CandidateCellInfoR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *ReestablishmentInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
 	// Read preamble bitmap for optional root fields
-	opt_rsrpresultr10, err := per.DecodeBoolean(bb)
+	opt_additionalreestabinfolist, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	opt_rsrqresultr10, err := per.DecodeBoolean(bb)
+	val_sourcephyscellid, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(503), false)
 	if err != nil {
-		return err
+		return fmt.Errorf("decoding sourcePhysCellId: %w", err)
 	}
-	val_physcellidr10, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(503), false)
+	v.SourcePhysCellId = PhysCellId(val_sourcephyscellid)
+	bsBytes_targetcellshortmaci, bsBitLen_targetcellshortmaci, err := per.DecodeBitString(bb, 16, 16, true)
 	if err != nil {
-		return fmt.Errorf("decoding physCellId-r10: %w", err)
+		return fmt.Errorf("decoding targetCellShortMAC-I: %w", err)
 	}
-	v.PhysCellIdR10 = val_physcellidr10
-	val_dlcarrierfreqr10, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(65535), false)
-	if err != nil {
-		return fmt.Errorf("decoding dl-CarrierFreq-r10: %w", err)
-	}
-	v.DlCarrierFreqR10 = val_dlcarrierfreqr10
-	if opt_rsrpresultr10 {
-		val_rsrpresultr10, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(97), false)
+	v.TargetCellShortMACI = runtime.BitString{Bytes: bsBytes_targetcellshortmaci, BitLength: bsBitLen_targetcellshortmaci}
+	if opt_additionalreestabinfolist {
+		seqLen_additionalreestabinfolist, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
 		if err != nil {
-			return fmt.Errorf("decoding rsrpResult-r10: %w", err)
+			return fmt.Errorf("decoding additionalReestabInfoList length: %w", err)
 		}
-		v.RsrpResultR10 = &val_rsrpresultr10
-	}
-	if opt_rsrqresultr10 {
-		val_rsrqresultr10, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(34), false)
-		if err != nil {
-			return fmt.Errorf("decoding rsrqResult-r10: %w", err)
+		tmp_additionalreestabinfolist := make(AdditionalReestabInfoList, seqLen_additionalreestabinfolist)
+		for i := int64(0); i < seqLen_additionalreestabinfolist; i++ {
+			if err := tmp_additionalreestabinfolist[i].UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding additionalReestabInfoList element: %w", err)
+			}
 		}
-		v.RsrqResultR10 = &val_rsrqresultr10
+		v.AdditionalReestabInfoList = tmp_additionalreestabinfolist
 	}
 	if hasExtensions {
 		extCount, err := per.DecodeNormallySmallNonNegative(bb)
@@ -7294,8 +5789,8 @@ func (v *CandidateCellInfoR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
 		extPresent := make([]bool, extCount+1)
+		v.ExtData_ = make([][]byte, extCount+1)
 		for i := int64(0); i <= extCount; i++ {
 			p, err := per.DecodeBoolean(bb)
 			if err != nil {
@@ -7304,65 +5799,7 @@ func (v *CandidateCellInfoR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			extPresent[i] = p
 		}
 		v.ExtPresent_ = extPresent
-		if int64(0) <= extCount && extPresent[0] {
-			extData, err := per.DecodeOpenType(bb)
-			if err != nil {
-				return err
-			}
-			extBB := per.NewBitBufferFromBytes(extData)
-			_ = extBB
-			ext_opt_dlcarrierfreqv1090, err := per.DecodeBoolean(extBB)
-			if err != nil {
-				return err
-			}
-			if ext_opt_dlcarrierfreqv1090 {
-				val_dlcarrierfreqv1090, err := per.DecodeInteger(extBB, int64Ptr(65536), int64Ptr(262143), false)
-				if err != nil {
-					return fmt.Errorf("decoding dl-CarrierFreq-v1090: %w", err)
-				}
-				v.DlCarrierFreqV1090 = &val_dlcarrierfreqv1090
-			}
-		}
-		if int64(1) <= extCount && extPresent[1] {
-			extData, err := per.DecodeOpenType(bb)
-			if err != nil {
-				return err
-			}
-			extBB := per.NewBitBufferFromBytes(extData)
-			_ = extBB
-			ext_opt_rsrqresultv1250, err := per.DecodeBoolean(extBB)
-			if err != nil {
-				return err
-			}
-			if ext_opt_rsrqresultv1250 {
-				val_rsrqresultv1250, err := per.DecodeInteger(extBB, int64Ptr(-30), int64Ptr(46), false)
-				if err != nil {
-					return fmt.Errorf("decoding rsrqResult-v1250: %w", err)
-				}
-				v.RsrqResultV1250 = &val_rsrqresultv1250
-			}
-		}
-		if int64(2) <= extCount && extPresent[2] {
-			extData, err := per.DecodeOpenType(bb)
-			if err != nil {
-				return err
-			}
-			extBB := per.NewBitBufferFromBytes(extData)
-			_ = extBB
-			ext_opt_rssinrresultr13, err := per.DecodeBoolean(extBB)
-			if err != nil {
-				return err
-			}
-			if ext_opt_rssinrresultr13 {
-				val_rssinrresultr13, err := per.DecodeInteger(extBB, int64Ptr(0), int64Ptr(127), false)
-				if err != nil {
-					return fmt.Errorf("decoding rs-sinr-Result-r13: %w", err)
-				}
-				v.RsSinrResultR13 = &val_rssinrresultr13
-			}
-		}
-		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(3); i <= extCount; i++ {
+		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenType(bb)
 				if err != nil {
@@ -7372,6 +5809,1727 @@ func (v *CandidateCellInfoR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	return nil
+}
+
+// MarshalUPER encodes SCGConfigInfoR12 to UPER format.
+func (v *SCGConfigInfoR12) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SCGConfigInfoR12) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding criticalExtensions: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes SCGConfigInfoR12 from UPER format.
+func (v *SCGConfigInfoR12) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *SCGConfigInfoR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding criticalExtensions: %w", err)
+	}
+	return nil
+}
+
+// MarshalUPER encodes SCGConfigInfoR12IEs to UPER format.
+func (v *SCGConfigInfoR12IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SCGConfigInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.RadioResourceConfigDedMCGR12 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.SCellToAddModListMCGR12 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.MeasGapConfigR12 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.PowerCoordinationInfoR12 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.ScgRadioConfigR12 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.EutraCapabilityInfoR12 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.ScgConfigRestrictInfoR12 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.MbmsInterestIndicationR12 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.MeasResultServCellListSCGR12 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.DrbToAddModListSCGR12 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.DrbToReleaseListSCGR12 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.SCellToAddModListSCGR12 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.SCellToReleaseListSCGR12 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.PMaxR12 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.RadioResourceConfigDedMCGR12 != nil {
+		if err := v.RadioResourceConfigDedMCGR12.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding radioResourceConfigDedMCG-r12: %w", err)
+		}
+	}
+	if v.SCellToAddModListMCGR12 != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SCellToAddModListMCGR12)), 1, 4); err != nil {
+			return fmt.Errorf("encoding sCellToAddModListMCG-r12 length: %w", err)
+		}
+		for _, elem := range v.SCellToAddModListMCGR12 {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding sCellToAddModListMCG-r12 element: %w", err)
+			}
+		}
+	}
+	if v.MeasGapConfigR12 != nil {
+		if err := v.MeasGapConfigR12.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding measGapConfig-r12: %w", err)
+		}
+	}
+	if v.PowerCoordinationInfoR12 != nil {
+		if err := v.PowerCoordinationInfoR12.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding powerCoordinationInfo-r12: %w", err)
+		}
+	}
+	if v.ScgRadioConfigR12 != nil {
+		if err := v.ScgRadioConfigR12.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding scg-RadioConfig-r12: %w", err)
+		}
+	}
+	if v.EutraCapabilityInfoR12 != nil {
+		if err := per.EncodeOctetString(bb, v.EutraCapabilityInfoR12, 0, 0, false); err != nil {
+			return fmt.Errorf("encoding eutra-CapabilityInfo-r12: %w", err)
+		}
+	}
+	if v.ScgConfigRestrictInfoR12 != nil {
+		if err := v.ScgConfigRestrictInfoR12.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding scg-ConfigRestrictInfo-r12: %w", err)
+		}
+	}
+	if v.MbmsInterestIndicationR12 != nil {
+		if err := per.EncodeOctetString(bb, v.MbmsInterestIndicationR12, 0, 0, false); err != nil {
+			return fmt.Errorf("encoding mbmsInterestIndication-r12: %w", err)
+		}
+	}
+	if v.MeasResultServCellListSCGR12 != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasResultServCellListSCGR12)), 1, 5); err != nil {
+			return fmt.Errorf("encoding measResultServCellListSCG-r12 length: %w", err)
+		}
+		for _, elem := range v.MeasResultServCellListSCGR12 {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding measResultServCellListSCG-r12 element: %w", err)
+			}
+		}
+	}
+	if v.DrbToAddModListSCGR12 != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.DrbToAddModListSCGR12)), 1, 11); err != nil {
+			return fmt.Errorf("encoding drb-ToAddModListSCG-r12 length: %w", err)
+		}
+		for _, elem := range v.DrbToAddModListSCGR12 {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding drb-ToAddModListSCG-r12 element: %w", err)
+			}
+		}
+	}
+	if v.DrbToReleaseListSCGR12 != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.DrbToReleaseListSCGR12)), 1, 11); err != nil {
+			return fmt.Errorf("encoding drb-ToReleaseListSCG-r12 length: %w", err)
+		}
+		for _, elem := range v.DrbToReleaseListSCGR12 {
+			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(32), false); err != nil {
+				return fmt.Errorf("encoding drb-ToReleaseListSCG-r12 element: %w", err)
+			}
+		}
+	}
+	if v.SCellToAddModListSCGR12 != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SCellToAddModListSCGR12)), 1, 4); err != nil {
+			return fmt.Errorf("encoding sCellToAddModListSCG-r12 length: %w", err)
+		}
+		for _, elem := range v.SCellToAddModListSCGR12 {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding sCellToAddModListSCG-r12 element: %w", err)
+			}
+		}
+	}
+	if v.SCellToReleaseListSCGR12 != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SCellToReleaseListSCGR12)), 1, 4); err != nil {
+			return fmt.Errorf("encoding sCellToReleaseListSCG-r12 length: %w", err)
+		}
+		for _, elem := range v.SCellToReleaseListSCGR12 {
+			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(7), false); err != nil {
+				return fmt.Errorf("encoding sCellToReleaseListSCG-r12 element: %w", err)
+			}
+		}
+	}
+	if v.PMaxR12 != nil {
+		if err := per.EncodeInteger(bb, int64(*v.PMaxR12), int64Ptr(-30), int64Ptr(33), false); err != nil {
+			return fmt.Errorf("encoding p-Max-r12: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes SCGConfigInfoR12IEs from UPER format.
+func (v *SCGConfigInfoR12IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *SCGConfigInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_radioresourceconfigdedmcgr12, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_scelltoaddmodlistmcgr12, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_measgapconfigr12, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_powercoordinationinfor12, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_scgradioconfigr12, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_eutracapabilityinfor12, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_scgconfigrestrictinfor12, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_mbmsinterestindicationr12, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_measresultservcelllistscgr12, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_drbtoaddmodlistscgr12, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_drbtoreleaselistscgr12, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_scelltoaddmodlistscgr12, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_scelltoreleaselistscgr12, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_pmaxr12, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_radioresourceconfigdedmcgr12 {
+		var dec_radioresourceconfigdedmcgr12 RadioResourceConfigDedicated
+		if err := dec_radioresourceconfigdedmcgr12.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding radioResourceConfigDedMCG-r12: %w", err)
+		}
+		v.RadioResourceConfigDedMCGR12 = &dec_radioresourceconfigdedmcgr12
+	}
+	if opt_scelltoaddmodlistmcgr12 {
+		seqLen_scelltoaddmodlistmcgr12, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
+		if err != nil {
+			return fmt.Errorf("decoding sCellToAddModListMCG-r12 length: %w", err)
+		}
+		tmp_scelltoaddmodlistmcgr12 := make(SCellToAddModListR10, seqLen_scelltoaddmodlistmcgr12)
+		for i := int64(0); i < seqLen_scelltoaddmodlistmcgr12; i++ {
+			if err := tmp_scelltoaddmodlistmcgr12[i].UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding sCellToAddModListMCG-r12 element: %w", err)
+			}
+		}
+		v.SCellToAddModListMCGR12 = tmp_scelltoaddmodlistmcgr12
+	}
+	if opt_measgapconfigr12 {
+		var dec_measgapconfigr12 MeasGapConfig
+		if err := dec_measgapconfigr12.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding measGapConfig-r12: %w", err)
+		}
+		v.MeasGapConfigR12 = &dec_measgapconfigr12
+	}
+	if opt_powercoordinationinfor12 {
+		var dec_powercoordinationinfor12 PowerCoordinationInfoR12
+		if err := dec_powercoordinationinfor12.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding powerCoordinationInfo-r12: %w", err)
+		}
+		v.PowerCoordinationInfoR12 = &dec_powercoordinationinfor12
+	}
+	if opt_scgradioconfigr12 {
+		var dec_scgradioconfigr12 SCGConfigPartSCGR12
+		if err := dec_scgradioconfigr12.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding scg-RadioConfig-r12: %w", err)
+		}
+		v.ScgRadioConfigR12 = &dec_scgradioconfigr12
+	}
+	if opt_eutracapabilityinfor12 {
+		val_eutracapabilityinfor12, err := per.DecodeOctetString(bb, 0, 0, false)
+		if err != nil {
+			return fmt.Errorf("decoding eutra-CapabilityInfo-r12: %w", err)
+		}
+		tmp_eutracapabilityinfor12 := val_eutracapabilityinfor12
+		v.EutraCapabilityInfoR12 = tmp_eutracapabilityinfor12
+	}
+	if opt_scgconfigrestrictinfor12 {
+		var dec_scgconfigrestrictinfor12 SCGConfigRestrictInfoR12
+		if err := dec_scgconfigrestrictinfor12.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding scg-ConfigRestrictInfo-r12: %w", err)
+		}
+		v.ScgConfigRestrictInfoR12 = &dec_scgconfigrestrictinfor12
+	}
+	if opt_mbmsinterestindicationr12 {
+		val_mbmsinterestindicationr12, err := per.DecodeOctetString(bb, 0, 0, false)
+		if err != nil {
+			return fmt.Errorf("decoding mbmsInterestIndication-r12: %w", err)
+		}
+		tmp_mbmsinterestindicationr12 := val_mbmsinterestindicationr12
+		v.MbmsInterestIndicationR12 = tmp_mbmsinterestindicationr12
+	}
+	if opt_measresultservcelllistscgr12 {
+		seqLen_measresultservcelllistscgr12, err := per.DecodeConstrainedWholeNumber(bb, 1, 5)
+		if err != nil {
+			return fmt.Errorf("decoding measResultServCellListSCG-r12 length: %w", err)
+		}
+		tmp_measresultservcelllistscgr12 := make(MeasResultServCellListSCGR12, seqLen_measresultservcelllistscgr12)
+		for i := int64(0); i < seqLen_measresultservcelllistscgr12; i++ {
+			if err := tmp_measresultservcelllistscgr12[i].UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding measResultServCellListSCG-r12 element: %w", err)
+			}
+		}
+		v.MeasResultServCellListSCGR12 = tmp_measresultservcelllistscgr12
+	}
+	if opt_drbtoaddmodlistscgr12 {
+		seqLen_drbtoaddmodlistscgr12, err := per.DecodeConstrainedWholeNumber(bb, 1, 11)
+		if err != nil {
+			return fmt.Errorf("decoding drb-ToAddModListSCG-r12 length: %w", err)
+		}
+		tmp_drbtoaddmodlistscgr12 := make(DRBInfoListSCGR12, seqLen_drbtoaddmodlistscgr12)
+		for i := int64(0); i < seqLen_drbtoaddmodlistscgr12; i++ {
+			if err := tmp_drbtoaddmodlistscgr12[i].UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding drb-ToAddModListSCG-r12 element: %w", err)
+			}
+		}
+		v.DrbToAddModListSCGR12 = tmp_drbtoaddmodlistscgr12
+	}
+	if opt_drbtoreleaselistscgr12 {
+		seqLen_drbtoreleaselistscgr12, err := per.DecodeConstrainedWholeNumber(bb, 1, 11)
+		if err != nil {
+			return fmt.Errorf("decoding drb-ToReleaseListSCG-r12 length: %w", err)
+		}
+		tmp_drbtoreleaselistscgr12 := make(DRBToReleaseList, seqLen_drbtoreleaselistscgr12)
+		for i := int64(0); i < seqLen_drbtoreleaselistscgr12; i++ {
+			val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(32), false)
+			if err != nil {
+				return fmt.Errorf("decoding drb-ToReleaseListSCG-r12 element: %w", err)
+			}
+			tmp_drbtoreleaselistscgr12[i] = DRBIdentity(val)
+		}
+		v.DrbToReleaseListSCGR12 = tmp_drbtoreleaselistscgr12
+	}
+	if opt_scelltoaddmodlistscgr12 {
+		seqLen_scelltoaddmodlistscgr12, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
+		if err != nil {
+			return fmt.Errorf("decoding sCellToAddModListSCG-r12 length: %w", err)
+		}
+		tmp_scelltoaddmodlistscgr12 := make(SCellToAddModListSCGR12, seqLen_scelltoaddmodlistscgr12)
+		for i := int64(0); i < seqLen_scelltoaddmodlistscgr12; i++ {
+			if err := tmp_scelltoaddmodlistscgr12[i].UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding sCellToAddModListSCG-r12 element: %w", err)
+			}
+		}
+		v.SCellToAddModListSCGR12 = tmp_scelltoaddmodlistscgr12
+	}
+	if opt_scelltoreleaselistscgr12 {
+		seqLen_scelltoreleaselistscgr12, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
+		if err != nil {
+			return fmt.Errorf("decoding sCellToReleaseListSCG-r12 length: %w", err)
+		}
+		tmp_scelltoreleaselistscgr12 := make(SCellToReleaseListR10, seqLen_scelltoreleaselistscgr12)
+		for i := int64(0); i < seqLen_scelltoreleaselistscgr12; i++ {
+			val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(7), false)
+			if err != nil {
+				return fmt.Errorf("decoding sCellToReleaseListSCG-r12 element: %w", err)
+			}
+			tmp_scelltoreleaselistscgr12[i] = SCellIndexR10(val)
+		}
+		v.SCellToReleaseListSCGR12 = tmp_scelltoreleaselistscgr12
+	}
+	if opt_pmaxr12 {
+		val_pmaxr12, err := per.DecodeInteger(bb, int64Ptr(-30), int64Ptr(33), false)
+		if err != nil {
+			return fmt.Errorf("decoding p-Max-r12: %w", err)
+		}
+		tmp_pmaxr12 := PMax(val_pmaxr12)
+		v.PMaxR12 = &tmp_pmaxr12
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension SCGConfigInfoV1310IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes SCGConfigInfoV1310IEs to UPER format.
+func (v *SCGConfigInfoV1310IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SCGConfigInfoV1310IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.MeasResultSSTDR13 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.SCellToAddModListMCGExtR13 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.MeasResultServCellListSCGExtR13 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.SCellToAddModListSCGExtR13 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.SCellToReleaseListSCGExtR13 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.MeasResultSSTDR13 != nil {
+		if err := v.MeasResultSSTDR13.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding measResultSSTD-r13: %w", err)
+		}
+	}
+	if v.SCellToAddModListMCGExtR13 != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SCellToAddModListMCGExtR13)), 1, 31); err != nil {
+			return fmt.Errorf("encoding sCellToAddModListMCG-Ext-r13 length: %w", err)
+		}
+		for _, elem := range v.SCellToAddModListMCGExtR13 {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding sCellToAddModListMCG-Ext-r13 element: %w", err)
+			}
+		}
+	}
+	if v.MeasResultServCellListSCGExtR13 != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasResultServCellListSCGExtR13)), 1, 32); err != nil {
+			return fmt.Errorf("encoding measResultServCellListSCG-Ext-r13 length: %w", err)
+		}
+		for _, elem := range v.MeasResultServCellListSCGExtR13 {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding measResultServCellListSCG-Ext-r13 element: %w", err)
+			}
+		}
+	}
+	if v.SCellToAddModListSCGExtR13 != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SCellToAddModListSCGExtR13)), 1, 31); err != nil {
+			return fmt.Errorf("encoding sCellToAddModListSCG-Ext-r13 length: %w", err)
+		}
+		for _, elem := range v.SCellToAddModListSCGExtR13 {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding sCellToAddModListSCG-Ext-r13 element: %w", err)
+			}
+		}
+	}
+	if v.SCellToReleaseListSCGExtR13 != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SCellToReleaseListSCGExtR13)), 1, 31); err != nil {
+			return fmt.Errorf("encoding sCellToReleaseListSCG-Ext-r13 length: %w", err)
+		}
+		for _, elem := range v.SCellToReleaseListSCGExtR13 {
+			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(31), false); err != nil {
+				return fmt.Errorf("encoding sCellToReleaseListSCG-Ext-r13 element: %w", err)
+			}
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes SCGConfigInfoV1310IEs from UPER format.
+func (v *SCGConfigInfoV1310IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *SCGConfigInfoV1310IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_measresultsstdr13, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_scelltoaddmodlistmcgextr13, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_measresultservcelllistscgextr13, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_scelltoaddmodlistscgextr13, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_scelltoreleaselistscgextr13, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_measresultsstdr13 {
+		var dec_measresultsstdr13 MeasResultSSTDR13
+		if err := dec_measresultsstdr13.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding measResultSSTD-r13: %w", err)
+		}
+		v.MeasResultSSTDR13 = &dec_measresultsstdr13
+	}
+	if opt_scelltoaddmodlistmcgextr13 {
+		seqLen_scelltoaddmodlistmcgextr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 31)
+		if err != nil {
+			return fmt.Errorf("decoding sCellToAddModListMCG-Ext-r13 length: %w", err)
+		}
+		tmp_scelltoaddmodlistmcgextr13 := make(SCellToAddModListExtR13, seqLen_scelltoaddmodlistmcgextr13)
+		for i := int64(0); i < seqLen_scelltoaddmodlistmcgextr13; i++ {
+			if err := tmp_scelltoaddmodlistmcgextr13[i].UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding sCellToAddModListMCG-Ext-r13 element: %w", err)
+			}
+		}
+		v.SCellToAddModListMCGExtR13 = tmp_scelltoaddmodlistmcgextr13
+	}
+	if opt_measresultservcelllistscgextr13 {
+		seqLen_measresultservcelllistscgextr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
+		if err != nil {
+			return fmt.Errorf("decoding measResultServCellListSCG-Ext-r13 length: %w", err)
+		}
+		tmp_measresultservcelllistscgextr13 := make(MeasResultServCellListSCGExtR13, seqLen_measresultservcelllistscgextr13)
+		for i := int64(0); i < seqLen_measresultservcelllistscgextr13; i++ {
+			if err := tmp_measresultservcelllistscgextr13[i].UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding measResultServCellListSCG-Ext-r13 element: %w", err)
+			}
+		}
+		v.MeasResultServCellListSCGExtR13 = tmp_measresultservcelllistscgextr13
+	}
+	if opt_scelltoaddmodlistscgextr13 {
+		seqLen_scelltoaddmodlistscgextr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 31)
+		if err != nil {
+			return fmt.Errorf("decoding sCellToAddModListSCG-Ext-r13 length: %w", err)
+		}
+		tmp_scelltoaddmodlistscgextr13 := make(SCellToAddModListSCGExtR13, seqLen_scelltoaddmodlistscgextr13)
+		for i := int64(0); i < seqLen_scelltoaddmodlistscgextr13; i++ {
+			if err := tmp_scelltoaddmodlistscgextr13[i].UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding sCellToAddModListSCG-Ext-r13 element: %w", err)
+			}
+		}
+		v.SCellToAddModListSCGExtR13 = tmp_scelltoaddmodlistscgextr13
+	}
+	if opt_scelltoreleaselistscgextr13 {
+		seqLen_scelltoreleaselistscgextr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 31)
+		if err != nil {
+			return fmt.Errorf("decoding sCellToReleaseListSCG-Ext-r13 length: %w", err)
+		}
+		tmp_scelltoreleaselistscgextr13 := make(SCellToReleaseListExtR13, seqLen_scelltoreleaselistscgextr13)
+		for i := int64(0); i < seqLen_scelltoreleaselistscgextr13; i++ {
+			val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(31), false)
+			if err != nil {
+				return fmt.Errorf("decoding sCellToReleaseListSCG-Ext-r13 element: %w", err)
+			}
+			tmp_scelltoreleaselistscgextr13[i] = SCellIndexR13(val)
+		}
+		v.SCellToReleaseListSCGExtR13 = tmp_scelltoreleaselistscgextr13
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension SCGConfigInfoV1330IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes SCGConfigInfoV1330IEs to UPER format.
+func (v *SCGConfigInfoV1330IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SCGConfigInfoV1330IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.MeasResultListRSSISCGR13 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.MeasResultListRSSISCGR13 != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasResultListRSSISCGR13)), 1, 32); err != nil {
+			return fmt.Errorf("encoding measResultListRSSI-SCG-r13 length: %w", err)
+		}
+		for _, elem := range v.MeasResultListRSSISCGR13 {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding measResultListRSSI-SCG-r13 element: %w", err)
+			}
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes SCGConfigInfoV1330IEs from UPER format.
+func (v *SCGConfigInfoV1330IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *SCGConfigInfoV1330IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_measresultlistrssiscgr13, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_measresultlistrssiscgr13 {
+		seqLen_measresultlistrssiscgr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
+		if err != nil {
+			return fmt.Errorf("decoding measResultListRSSI-SCG-r13 length: %w", err)
+		}
+		tmp_measresultlistrssiscgr13 := make(MeasResultListRSSISCGR13, seqLen_measresultlistrssiscgr13)
+		for i := int64(0); i < seqLen_measresultlistrssiscgr13; i++ {
+			if err := tmp_measresultlistrssiscgr13[i].UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding measResultListRSSI-SCG-r13 element: %w", err)
+			}
+		}
+		v.MeasResultListRSSISCGR13 = tmp_measresultlistrssiscgr13
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension SCGConfigInfoV1430IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes SCGConfigInfoV1430IEs to UPER format.
+func (v *SCGConfigInfoV1430IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SCGConfigInfoV1430IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.MakeBeforeBreakSCGReqR14 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.MeasGapConfigPerCCList != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.MakeBeforeBreakSCGReqR14 != nil {
+		if err := per.EncodeEnumerated(bb, int64(*v.MakeBeforeBreakSCGReqR14), 1, false); err != nil {
+			return fmt.Errorf("encoding makeBeforeBreakSCG-Req-r14: %w", err)
+		}
+	}
+	if v.MeasGapConfigPerCCList != nil {
+		if err := v.MeasGapConfigPerCCList.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding measGapConfigPerCC-List: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes SCGConfigInfoV1430IEs from UPER format.
+func (v *SCGConfigInfoV1430IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *SCGConfigInfoV1430IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_makebeforebreakscgreqr14, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_measgapconfigpercclist, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_makebeforebreakscgreqr14 {
+		val_makebeforebreakscgreqr14, err := per.DecodeEnumerated(bb, 1, false)
+		if err != nil {
+			return fmt.Errorf("decoding makeBeforeBreakSCG-Req-r14: %w", err)
+		}
+		v.MakeBeforeBreakSCGReqR14 = &val_makebeforebreakscgreqr14
+	}
+	if opt_measgapconfigpercclist {
+		var dec_measgapconfigpercclist MeasGapConfigPerCCListR14
+		if err := dec_measgapconfigpercclist.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding measGapConfigPerCC-List: %w", err)
+		}
+		v.MeasGapConfigPerCCList = &dec_measgapconfigpercclist
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension SCGConfigInfoV1530IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes SCGConfigInfoV1530IEs to UPER format.
+func (v *SCGConfigInfoV1530IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SCGConfigInfoV1530IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.DrbToAddModListSCGR15 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.DrbToReleaseListSCGR15 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.DrbToAddModListSCGR15 != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.DrbToAddModListSCGR15)), 1, 15); err != nil {
+			return fmt.Errorf("encoding drb-ToAddModListSCG-r15 length: %w", err)
+		}
+		for _, elem := range v.DrbToAddModListSCGR15 {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding drb-ToAddModListSCG-r15 element: %w", err)
+			}
+		}
+	}
+	if v.DrbToReleaseListSCGR15 != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.DrbToReleaseListSCGR15)), 1, 15); err != nil {
+			return fmt.Errorf("encoding drb-ToReleaseListSCG-r15 length: %w", err)
+		}
+		for _, elem := range v.DrbToReleaseListSCGR15 {
+			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(32), false); err != nil {
+				return fmt.Errorf("encoding drb-ToReleaseListSCG-r15 element: %w", err)
+			}
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes SCGConfigInfoV1530IEs from UPER format.
+func (v *SCGConfigInfoV1530IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *SCGConfigInfoV1530IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_drbtoaddmodlistscgr15, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_drbtoreleaselistscgr15, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_drbtoaddmodlistscgr15 {
+		seqLen_drbtoaddmodlistscgr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 15)
+		if err != nil {
+			return fmt.Errorf("decoding drb-ToAddModListSCG-r15 length: %w", err)
+		}
+		tmp_drbtoaddmodlistscgr15 := make(DRBInfoListSCGR15, seqLen_drbtoaddmodlistscgr15)
+		for i := int64(0); i < seqLen_drbtoaddmodlistscgr15; i++ {
+			if err := tmp_drbtoaddmodlistscgr15[i].UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding drb-ToAddModListSCG-r15 element: %w", err)
+			}
+		}
+		v.DrbToAddModListSCGR15 = tmp_drbtoaddmodlistscgr15
+	}
+	if opt_drbtoreleaselistscgr15 {
+		seqLen_drbtoreleaselistscgr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 15)
+		if err != nil {
+			return fmt.Errorf("decoding drb-ToReleaseListSCG-r15 length: %w", err)
+		}
+		tmp_drbtoreleaselistscgr15 := make(DRBToReleaseListR15, seqLen_drbtoreleaselistscgr15)
+		for i := int64(0); i < seqLen_drbtoreleaselistscgr15; i++ {
+			val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(32), false)
+			if err != nil {
+				return fmt.Errorf("decoding drb-ToReleaseListSCG-r15 element: %w", err)
+			}
+			tmp_drbtoreleaselistscgr15[i] = DRBIdentity(val)
+		}
+		v.DrbToReleaseListSCGR15 = tmp_drbtoreleaselistscgr15
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension SCGConfigInfoV1530IEsNonCriticalExtension
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes SCGConfigRestrictInfoR12 to UPER format.
+func (v *SCGConfigRestrictInfoR12) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SCGConfigRestrictInfoR12) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeInteger(bb, int64(v.MaxSCHTBBitsDLR12), int64Ptr(1), int64Ptr(100), false); err != nil {
+		return fmt.Errorf("encoding maxSCH-TB-BitsDL-r12: %w", err)
+	}
+	if err := per.EncodeInteger(bb, int64(v.MaxSCHTBBitsULR12), int64Ptr(1), int64Ptr(100), false); err != nil {
+		return fmt.Errorf("encoding maxSCH-TB-BitsUL-r12: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes SCGConfigRestrictInfoR12 from UPER format.
+func (v *SCGConfigRestrictInfoR12) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *SCGConfigRestrictInfoR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	val_maxschtbbitsdlr12, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(100), false)
+	if err != nil {
+		return fmt.Errorf("decoding maxSCH-TB-BitsDL-r12: %w", err)
+	}
+	v.MaxSCHTBBitsDLR12 = val_maxschtbbitsdlr12
+	val_maxschtbbitsulr12, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(100), false)
+	if err != nil {
+		return fmt.Errorf("decoding maxSCH-TB-BitsUL-r12: %w", err)
+	}
+	v.MaxSCHTBBitsULR12 = val_maxschtbbitsulr12
+	return nil
+}
+
+// MarshalUPER encodes SCGConfigR12 to UPER format.
+func (v *SCGConfigR12) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SCGConfigR12) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding criticalExtensions: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes SCGConfigR12 from UPER format.
+func (v *SCGConfigR12) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *SCGConfigR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding criticalExtensions: %w", err)
+	}
+	return nil
+}
+
+// MarshalUPER encodes SCGConfigR12IEs to UPER format.
+func (v *SCGConfigR12IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SCGConfigR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.ScgRadioConfigR12 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.ScgRadioConfigR12 != nil {
+		if err := v.ScgRadioConfigR12.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding scg-RadioConfig-r12: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes SCGConfigR12IEs from UPER format.
+func (v *SCGConfigR12IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *SCGConfigR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_scgradioconfigr12, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_scgradioconfigr12 {
+		var dec_scgradioconfigr12 SCGConfigPartSCGR12
+		if err := dec_scgradioconfigr12.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding scg-RadioConfig-r12: %w", err)
+		}
+		v.ScgRadioConfigR12 = &dec_scgradioconfigr12
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension SCGConfigV12i0aIEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes SCGConfigV12i0aIEs to UPER format.
+func (v *SCGConfigV12i0aIEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SCGConfigV12i0aIEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.LateNonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.LateNonCriticalExtension != nil {
+		if err := per.EncodeOctetString(bb, v.LateNonCriticalExtension, 0, 0, false); err != nil {
+			return fmt.Errorf("encoding lateNonCriticalExtension: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes SCGConfigV12i0aIEs from UPER format.
+func (v *SCGConfigV12i0aIEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *SCGConfigV12i0aIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_latenoncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_latenoncriticalextension {
+		val_latenoncriticalextension, err := per.DecodeOctetString(bb, 0, 0, false)
+		if err != nil {
+			return fmt.Errorf("decoding lateNonCriticalExtension: %w", err)
+		}
+		tmp_latenoncriticalextension := val_latenoncriticalextension
+		v.LateNonCriticalExtension = tmp_latenoncriticalextension
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension SCGConfigV13c0IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes SCGConfigV12i0bIEs to UPER format.
+func (v *SCGConfigV12i0bIEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SCGConfigV12i0bIEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.ScgRadioConfigV12i0 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.ScgRadioConfigV12i0 != nil {
+		if err := v.ScgRadioConfigV12i0.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding scg-RadioConfig-v12i0: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes SCGConfigV12i0bIEs from UPER format.
+func (v *SCGConfigV12i0bIEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *SCGConfigV12i0bIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_scgradioconfigv12i0, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_scgradioconfigv12i0 {
+		var dec_scgradioconfigv12i0 SCGConfigPartSCGV12f0
+		if err := dec_scgradioconfigv12i0.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding scg-RadioConfig-v12i0: %w", err)
+		}
+		v.ScgRadioConfigV12i0 = &dec_scgradioconfigv12i0
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension SCGConfigV12i0bIEsNonCriticalExtension
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes SCGConfigV13c0IEs to UPER format.
+func (v *SCGConfigV13c0IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SCGConfigV13c0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.ScgRadioConfigV13c0 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.ScgRadioConfigV13c0 != nil {
+		if err := v.ScgRadioConfigV13c0.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding scg-RadioConfig-v13c0: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes SCGConfigV13c0IEs from UPER format.
+func (v *SCGConfigV13c0IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *SCGConfigV13c0IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_scgradioconfigv13c0, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_scgradioconfigv13c0 {
+		var dec_scgradioconfigv13c0 SCGConfigPartSCGV13c0
+		if err := dec_scgradioconfigv13c0.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding scg-RadioConfig-v13c0: %w", err)
+		}
+		v.ScgRadioConfigV13c0 = &dec_scgradioconfigv13c0
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension SCGConfigV13c0IEsNonCriticalExtension
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes UEPagingCoverageInformation to UPER format.
+func (v *UEPagingCoverageInformation) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UEPagingCoverageInformation) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding criticalExtensions: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes UEPagingCoverageInformation from UPER format.
+func (v *UEPagingCoverageInformation) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *UEPagingCoverageInformation) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding criticalExtensions: %w", err)
+	}
+	return nil
+}
+
+// MarshalUPER encodes UEPagingCoverageInformationR13IEs to UPER format.
+func (v *UEPagingCoverageInformationR13IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UEPagingCoverageInformationR13IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.MpdcchNumRepetitionR13 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.MpdcchNumRepetitionR13 != nil {
+		if err := per.EncodeInteger(bb, int64(*v.MpdcchNumRepetitionR13), int64Ptr(1), int64Ptr(256), false); err != nil {
+			return fmt.Errorf("encoding mpdcch-NumRepetition-r13: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes UEPagingCoverageInformationR13IEs from UPER format.
+func (v *UEPagingCoverageInformationR13IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *UEPagingCoverageInformationR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_mpdcchnumrepetitionr13, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_mpdcchnumrepetitionr13 {
+		val_mpdcchnumrepetitionr13, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(256), false)
+		if err != nil {
+			return fmt.Errorf("decoding mpdcch-NumRepetition-r13: %w", err)
+		}
+		v.MpdcchNumRepetitionR13 = &val_mpdcchnumrepetitionr13
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension UEPagingCoverageInformationR13IEsNonCriticalExtension
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes UERadioAccessCapabilityInformation to UPER format.
+func (v *UERadioAccessCapabilityInformation) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UERadioAccessCapabilityInformation) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding criticalExtensions: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes UERadioAccessCapabilityInformation from UPER format.
+func (v *UERadioAccessCapabilityInformation) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *UERadioAccessCapabilityInformation) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding criticalExtensions: %w", err)
+	}
+	return nil
+}
+
+// MarshalUPER encodes UERadioAccessCapabilityInformationR8IEs to UPER format.
+func (v *UERadioAccessCapabilityInformationR8IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UERadioAccessCapabilityInformationR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeOctetString(bb, v.UeRadioAccessCapabilityInfo, 0, 0, false); err != nil {
+		return fmt.Errorf("encoding ue-RadioAccessCapabilityInfo: %w", err)
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes UERadioAccessCapabilityInformationR8IEs from UPER format.
+func (v *UERadioAccessCapabilityInformationR8IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *UERadioAccessCapabilityInformationR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_ueradioaccesscapabilityinfo, err := per.DecodeOctetString(bb, 0, 0, false)
+	if err != nil {
+		return fmt.Errorf("decoding ue-RadioAccessCapabilityInfo: %w", err)
+	}
+	v.UeRadioAccessCapabilityInfo = val_ueradioaccesscapabilityinfo
+	if opt_noncriticalextension {
+		var dec_noncriticalextension UERadioAccessCapabilityInformationR8IEsNonCriticalExtension
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes UERadioPagingInformation to UPER format.
+func (v *UERadioPagingInformation) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UERadioPagingInformation) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding criticalExtensions: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes UERadioPagingInformation from UPER format.
+func (v *UERadioPagingInformation) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *UERadioPagingInformation) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding criticalExtensions: %w", err)
+	}
+	return nil
+}
+
+// MarshalUPER encodes UERadioPagingInformationR12IEs to UPER format.
+func (v *UERadioPagingInformationR12IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UERadioPagingInformationR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeOctetString(bb, v.UeRadioPagingInfoR12, 0, 0, false); err != nil {
+		return fmt.Errorf("encoding ue-RadioPagingInfo-r12: %w", err)
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes UERadioPagingInformationR12IEs from UPER format.
+func (v *UERadioPagingInformationR12IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *UERadioPagingInformationR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_ueradiopaginginfor12, err := per.DecodeOctetString(bb, 0, 0, false)
+	if err != nil {
+		return fmt.Errorf("decoding ue-RadioPagingInfo-r12: %w", err)
+	}
+	v.UeRadioPagingInfoR12 = val_ueradiopaginginfor12
+	if opt_noncriticalextension {
+		var dec_noncriticalextension UERadioPagingInformationV1310IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes UERadioPagingInformationV1310IEs to UPER format.
+func (v *UERadioPagingInformationV1310IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UERadioPagingInformationV1310IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.SupportedBandListEUTRAForPagingR13 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.SupportedBandListEUTRAForPagingR13 != nil {
+		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.SupportedBandListEUTRAForPagingR13)), 1, 64); err != nil {
+			return fmt.Errorf("encoding supportedBandListEUTRAForPaging-r13 length: %w", err)
+		}
+		for _, elem := range v.SupportedBandListEUTRAForPagingR13 {
+			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(256), false); err != nil {
+				return fmt.Errorf("encoding supportedBandListEUTRAForPaging-r13 element: %w", err)
+			}
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes UERadioPagingInformationV1310IEs from UPER format.
+func (v *UERadioPagingInformationV1310IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *UERadioPagingInformationV1310IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_supportedbandlisteutraforpagingr13, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_supportedbandlisteutraforpagingr13 {
+		seqLen_supportedbandlisteutraforpagingr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 64)
+		if err != nil {
+			return fmt.Errorf("decoding supportedBandListEUTRAForPaging-r13 length: %w", err)
+		}
+		tmp_supportedbandlisteutraforpagingr13 := make(UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13, seqLen_supportedbandlisteutraforpagingr13)
+		for i := int64(0); i < seqLen_supportedbandlisteutraforpagingr13; i++ {
+			val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(256), false)
+			if err != nil {
+				return fmt.Errorf("decoding supportedBandListEUTRAForPaging-r13 element: %w", err)
+			}
+			tmp_supportedbandlisteutraforpagingr13[i] = FreqBandIndicatorR11(val)
+		}
+		v.SupportedBandListEUTRAForPagingR13 = tmp_supportedbandlisteutraforpagingr13
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension UERadioPagingInformationV1610IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes UERadioPagingInformationV1610IEs to UPER format.
+func (v *UERadioPagingInformationV1610IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UERadioPagingInformationV1610IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.AccessStratumReleaseR16 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.AccessStratumReleaseR16 != nil {
+		if err := per.EncodeEnumerated(bb, int64(*v.AccessStratumReleaseR16), 1, false); err != nil {
+			return fmt.Errorf("encoding accessStratumRelease-r16: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes UERadioPagingInformationV1610IEs from UPER format.
+func (v *UERadioPagingInformationV1610IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *UERadioPagingInformationV1610IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	// Read preamble bitmap for optional root fields
+	opt_accessstratumreleaser16, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_accessstratumreleaser16 {
+		val_accessstratumreleaser16, err := per.DecodeEnumerated(bb, 1, false)
+		if err != nil {
+			return fmt.Errorf("decoding accessStratumRelease-r16: %w", err)
+		}
+		v.AccessStratumReleaseR16 = &val_accessstratumreleaser16
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension UERadioPagingInformationV1610IEsNonCriticalExtension
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes ASConfigV1550TdmPatternConfigR15 to UPER format.
+func (v *ASConfigV1550TdmPatternConfigR15) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ASConfigV1550TdmPatternConfigR15) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeEnumerated(bb, int64(v.SubframeAssignmentR15), 7, false); err != nil {
+		return fmt.Errorf("encoding subframeAssignment-r15: %w", err)
+	}
+	if err := per.EncodeInteger(bb, int64(v.HarqOffsetR15), int64Ptr(0), int64Ptr(9), false); err != nil {
+		return fmt.Errorf("encoding harq-Offset-r15: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes ASConfigV1550TdmPatternConfigR15 from UPER format.
+func (v *ASConfigV1550TdmPatternConfigR15) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *ASConfigV1550TdmPatternConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	val_subframeassignmentr15, err := per.DecodeEnumerated(bb, 7, false)
+	if err != nil {
+		return fmt.Errorf("decoding subframeAssignment-r15: %w", err)
+	}
+	v.SubframeAssignmentR15 = SubframeAssignmentR15(val_subframeassignmentr15)
+	val_harqoffsetr15, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(9), false)
+	if err != nil {
+		return fmt.Errorf("decoding harq-Offset-r15: %w", err)
+	}
+	v.HarqOffsetR15 = val_harqoffsetr15
+	return nil
+}
+
+// MarshalUPER encodes CellToAddModR12CellIdentificationR12 to UPER format.
+func (v *CellToAddModR12CellIdentificationR12) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *CellToAddModR12CellIdentificationR12) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeInteger(bb, int64(v.PhysCellIdR12), int64Ptr(0), int64Ptr(503), false); err != nil {
+		return fmt.Errorf("encoding physCellId-r12: %w", err)
+	}
+	if err := per.EncodeInteger(bb, int64(v.DlCarrierFreqR12), int64Ptr(0), int64Ptr(262143), false); err != nil {
+		return fmt.Errorf("encoding dl-CarrierFreq-r12: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes CellToAddModR12CellIdentificationR12 from UPER format.
+func (v *CellToAddModR12CellIdentificationR12) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *CellToAddModR12CellIdentificationR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	val_physcellidr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(503), false)
+	if err != nil {
+		return fmt.Errorf("decoding physCellId-r12: %w", err)
+	}
+	v.PhysCellIdR12 = PhysCellId(val_physcellidr12)
+	val_dlcarrierfreqr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(262143), false)
+	if err != nil {
+		return fmt.Errorf("decoding dl-CarrierFreq-r12: %w", err)
+	}
+	v.DlCarrierFreqR12 = ARFCNValueEUTRAR9(val_dlcarrierfreqr12)
+	return nil
+}
+
+// MarshalUPER encodes CellToAddModR12MeasResultCellToAddR12 to UPER format.
+func (v *CellToAddModR12MeasResultCellToAddR12) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *CellToAddModR12MeasResultCellToAddR12) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeInteger(bb, int64(v.RsrpResultR12), int64Ptr(0), int64Ptr(97), false); err != nil {
+		return fmt.Errorf("encoding rsrpResult-r12: %w", err)
+	}
+	if err := per.EncodeInteger(bb, int64(v.RsrqResultR12), int64Ptr(0), int64Ptr(34), false); err != nil {
+		return fmt.Errorf("encoding rsrqResult-r12: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes CellToAddModR12MeasResultCellToAddR12 from UPER format.
+func (v *CellToAddModR12MeasResultCellToAddR12) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *CellToAddModR12MeasResultCellToAddR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	val_rsrpresultr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(97), false)
+	if err != nil {
+		return fmt.Errorf("decoding rsrpResult-r12: %w", err)
+	}
+	v.RsrpResultR12 = RSRPRange(val_rsrpresultr12)
+	val_rsrqresultr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(34), false)
+	if err != nil {
+		return fmt.Errorf("decoding rsrqResult-r12: %w", err)
+	}
+	v.RsrqResultR12 = RSRQRange(val_rsrqresultr12)
+	return nil
+}
+
+// MarshalUPER encodes CellToAddModR12MeasResultCellToAddV1310 to UPER format.
+func (v *CellToAddModR12MeasResultCellToAddV1310) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *CellToAddModR12MeasResultCellToAddV1310) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeInteger(bb, int64(v.RsSinrResultR13), int64Ptr(0), int64Ptr(127), false); err != nil {
+		return fmt.Errorf("encoding rs-sinr-Result-r13: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes CellToAddModR12MeasResultCellToAddV1310 from UPER format.
+func (v *CellToAddModR12MeasResultCellToAddV1310) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *CellToAddModR12MeasResultCellToAddV1310) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	val_rssinrresultr13, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(127), false)
+	if err != nil {
+		return fmt.Errorf("decoding rs-sinr-Result-r13: %w", err)
+	}
+	v.RsSinrResultR13 = RSSINRRangeR13(val_rssinrresultr13)
 	return nil
 }
 
@@ -7726,6 +7884,240 @@ func (v *HandoverPreparationInformationV1700IEsNonCriticalExtension) UnmarshalUP
 	return nil
 }
 
+// MarshalUPER encodes MeasResultServCellSCGR12MeasResultSCellR12 to UPER format.
+func (v *MeasResultServCellSCGR12MeasResultSCellR12) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *MeasResultServCellSCGR12MeasResultSCellR12) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeInteger(bb, int64(v.RsrpResultSCellR12), int64Ptr(0), int64Ptr(97), false); err != nil {
+		return fmt.Errorf("encoding rsrpResultSCell-r12: %w", err)
+	}
+	if err := per.EncodeInteger(bb, int64(v.RsrqResultSCellR12), int64Ptr(0), int64Ptr(34), false); err != nil {
+		return fmt.Errorf("encoding rsrqResultSCell-r12: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes MeasResultServCellSCGR12MeasResultSCellR12 from UPER format.
+func (v *MeasResultServCellSCGR12MeasResultSCellR12) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *MeasResultServCellSCGR12MeasResultSCellR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	val_rsrpresultscellr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(97), false)
+	if err != nil {
+		return fmt.Errorf("decoding rsrpResultSCell-r12: %w", err)
+	}
+	v.RsrpResultSCellR12 = RSRPRange(val_rsrpresultscellr12)
+	val_rsrqresultscellr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(34), false)
+	if err != nil {
+		return fmt.Errorf("decoding rsrqResultSCell-r12: %w", err)
+	}
+	v.RsrqResultSCellR12 = RSRQRange(val_rsrqresultscellr12)
+	return nil
+}
+
+// MarshalUPER encodes MeasResultServCellSCGR12MeasResultSCellV1310 to UPER format.
+func (v *MeasResultServCellSCGR12MeasResultSCellV1310) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *MeasResultServCellSCGR12MeasResultSCellV1310) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeInteger(bb, int64(v.RsSinrResultSCellR13), int64Ptr(0), int64Ptr(127), false); err != nil {
+		return fmt.Errorf("encoding rs-sinr-ResultSCell-r13: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes MeasResultServCellSCGR12MeasResultSCellV1310 from UPER format.
+func (v *MeasResultServCellSCGR12MeasResultSCellV1310) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *MeasResultServCellSCGR12MeasResultSCellV1310) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	val_rssinrresultscellr13, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(127), false)
+	if err != nil {
+		return fmt.Errorf("decoding rs-sinr-ResultSCell-r13: %w", err)
+	}
+	v.RsSinrResultSCellR13 = RSSINRRangeR13(val_rssinrresultscellr13)
+	return nil
+}
+
+// MarshalUPER encodes SCGConfigInfoR12CriticalExtensions to UPER format.
+func (v *SCGConfigInfoR12CriticalExtensions) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SCGConfigInfoR12CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case SCGConfigInfoR12CriticalExtensionsChoiceC1:
+		if err := v.C1.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding c1: %w", err)
+		}
+	case SCGConfigInfoR12CriticalExtensionsChoiceCriticalExtensionsFuture:
+		if err := v.CriticalExtensionsFuture.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding criticalExtensionsFuture: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown SCGConfigInfoR12CriticalExtensions choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes SCGConfigInfoR12CriticalExtensions from UPER format.
+func (v *SCGConfigInfoR12CriticalExtensions) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *SCGConfigInfoR12CriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case SCGConfigInfoR12CriticalExtensionsChoiceC1:
+		var dec_c1 SCGConfigInfoR12CriticalExtensionsC1
+		if err := dec_c1.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding c1: %w", err)
+		}
+		v.C1 = &dec_c1
+	case SCGConfigInfoR12CriticalExtensionsChoiceCriticalExtensionsFuture:
+		var dec_criticalextensionsfuture SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture
+		if err := dec_criticalextensionsfuture.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding criticalExtensionsFuture: %w", err)
+		}
+		v.CriticalExtensionsFuture = &dec_criticalextensionsfuture
+	}
+	return nil
+}
+
+// MarshalUPER encodes SCGConfigInfoR12CriticalExtensionsC1 to UPER format.
+func (v *SCGConfigInfoR12CriticalExtensionsC1) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SCGConfigInfoR12CriticalExtensionsC1) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 7); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case SCGConfigInfoR12CriticalExtensionsC1ChoiceScgConfigInfoR12:
+		if err := v.ScgConfigInfoR12.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding scg-ConfigInfo-r12: %w", err)
+		}
+	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare7:
+	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare6:
+	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare5:
+	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare4:
+	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare3:
+	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare2:
+	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare1:
+	default:
+		return fmt.Errorf("unknown SCGConfigInfoR12CriticalExtensionsC1 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes SCGConfigInfoR12CriticalExtensionsC1 from UPER format.
+func (v *SCGConfigInfoR12CriticalExtensionsC1) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *SCGConfigInfoR12CriticalExtensionsC1) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 7)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case SCGConfigInfoR12CriticalExtensionsC1ChoiceScgConfigInfoR12:
+		var dec_scgconfiginfor12 SCGConfigInfoR12IEs
+		if err := dec_scgconfiginfor12.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding scg-ConfigInfo-r12: %w", err)
+		}
+		v.ScgConfigInfoR12 = &dec_scgconfiginfor12
+	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare7:
+	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare6:
+	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare5:
+	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare4:
+	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare3:
+	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare2:
+	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare1:
+	}
+	return nil
+}
+
+// MarshalUPER encodes SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture to UPER format.
+func (v *SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture) MarshalUPERTo(bb *per.BitBuffer) error {
+	return nil
+}
+
+// UnmarshalUPER decodes SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture from UPER format.
+func (v *SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	return nil
+}
+
+// MarshalUPER encodes SCGConfigInfoV1530IEsNonCriticalExtension to UPER format.
+func (v *SCGConfigInfoV1530IEsNonCriticalExtension) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SCGConfigInfoV1530IEsNonCriticalExtension) MarshalUPERTo(bb *per.BitBuffer) error {
+	return nil
+}
+
+// UnmarshalUPER decodes SCGConfigInfoV1530IEsNonCriticalExtension from UPER format.
+func (v *SCGConfigInfoV1530IEsNonCriticalExtension) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *SCGConfigInfoV1530IEsNonCriticalExtension) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	return nil
+}
+
 // MarshalUPER encodes SCGConfigR12CriticalExtensions to UPER format.
 func (v *SCGConfigR12CriticalExtensions) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -7910,349 +8302,6 @@ func (v *SCGConfigV13c0IEsNonCriticalExtension) UnmarshalUPER(data []byte) error
 }
 
 func (v *SCGConfigV13c0IEsNonCriticalExtension) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	return nil
-}
-
-// MarshalUPER encodes SCGConfigInfoR12CriticalExtensions to UPER format.
-func (v *SCGConfigInfoR12CriticalExtensions) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SCGConfigInfoR12CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
-		return err
-	}
-	switch v.Choice {
-	case SCGConfigInfoR12CriticalExtensionsChoiceC1:
-		if err := v.C1.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding c1: %w", err)
-		}
-	case SCGConfigInfoR12CriticalExtensionsChoiceCriticalExtensionsFuture:
-		if err := v.CriticalExtensionsFuture.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding criticalExtensionsFuture: %w", err)
-		}
-	default:
-		return fmt.Errorf("unknown SCGConfigInfoR12CriticalExtensions choice %d", v.Choice)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes SCGConfigInfoR12CriticalExtensions from UPER format.
-func (v *SCGConfigInfoR12CriticalExtensions) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *SCGConfigInfoR12CriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
-	if err != nil {
-		return err
-	}
-	v.Choice = int(idx) + 1
-	switch v.Choice {
-	case SCGConfigInfoR12CriticalExtensionsChoiceC1:
-		var dec_c1 SCGConfigInfoR12CriticalExtensionsC1
-		if err := dec_c1.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding c1: %w", err)
-		}
-		v.C1 = &dec_c1
-	case SCGConfigInfoR12CriticalExtensionsChoiceCriticalExtensionsFuture:
-		var dec_criticalextensionsfuture SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture
-		if err := dec_criticalextensionsfuture.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding criticalExtensionsFuture: %w", err)
-		}
-		v.CriticalExtensionsFuture = &dec_criticalextensionsfuture
-	}
-	return nil
-}
-
-// MarshalUPER encodes SCGConfigInfoR12CriticalExtensionsC1 to UPER format.
-func (v *SCGConfigInfoR12CriticalExtensionsC1) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SCGConfigInfoR12CriticalExtensionsC1) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 7); err != nil {
-		return err
-	}
-	switch v.Choice {
-	case SCGConfigInfoR12CriticalExtensionsC1ChoiceScgConfigInfoR12:
-		if err := v.ScgConfigInfoR12.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding scg-ConfigInfo-r12: %w", err)
-		}
-	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare7:
-	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare6:
-	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare5:
-	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare4:
-	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare3:
-	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare2:
-	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare1:
-	default:
-		return fmt.Errorf("unknown SCGConfigInfoR12CriticalExtensionsC1 choice %d", v.Choice)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes SCGConfigInfoR12CriticalExtensionsC1 from UPER format.
-func (v *SCGConfigInfoR12CriticalExtensionsC1) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *SCGConfigInfoR12CriticalExtensionsC1) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 7)
-	if err != nil {
-		return err
-	}
-	v.Choice = int(idx) + 1
-	switch v.Choice {
-	case SCGConfigInfoR12CriticalExtensionsC1ChoiceScgConfigInfoR12:
-		var dec_scgconfiginfor12 SCGConfigInfoR12IEs
-		if err := dec_scgconfiginfor12.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding scg-ConfigInfo-r12: %w", err)
-		}
-		v.ScgConfigInfoR12 = &dec_scgconfiginfor12
-	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare7:
-	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare6:
-	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare5:
-	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare4:
-	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare3:
-	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare2:
-	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare1:
-	}
-	return nil
-}
-
-// MarshalUPER encodes SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture to UPER format.
-func (v *SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture) MarshalUPERTo(bb *per.BitBuffer) error {
-	return nil
-}
-
-// UnmarshalUPER decodes SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture from UPER format.
-func (v *SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	return nil
-}
-
-// MarshalUPER encodes SCGConfigInfoV1530IEsNonCriticalExtension to UPER format.
-func (v *SCGConfigInfoV1530IEsNonCriticalExtension) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SCGConfigInfoV1530IEsNonCriticalExtension) MarshalUPERTo(bb *per.BitBuffer) error {
-	return nil
-}
-
-// UnmarshalUPER decodes SCGConfigInfoV1530IEsNonCriticalExtension from UPER format.
-func (v *SCGConfigInfoV1530IEsNonCriticalExtension) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *SCGConfigInfoV1530IEsNonCriticalExtension) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	return nil
-}
-
-// MarshalUPER encodes CellToAddModR12CellIdentificationR12 to UPER format.
-func (v *CellToAddModR12CellIdentificationR12) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *CellToAddModR12CellIdentificationR12) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeInteger(bb, int64(v.PhysCellIdR12), int64Ptr(0), int64Ptr(503), false); err != nil {
-		return fmt.Errorf("encoding physCellId-r12: %w", err)
-	}
-	if err := per.EncodeInteger(bb, int64(v.DlCarrierFreqR12), int64Ptr(0), int64Ptr(262143), false); err != nil {
-		return fmt.Errorf("encoding dl-CarrierFreq-r12: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes CellToAddModR12CellIdentificationR12 from UPER format.
-func (v *CellToAddModR12CellIdentificationR12) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *CellToAddModR12CellIdentificationR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	val_physcellidr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(503), false)
-	if err != nil {
-		return fmt.Errorf("decoding physCellId-r12: %w", err)
-	}
-	v.PhysCellIdR12 = val_physcellidr12
-	val_dlcarrierfreqr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(262143), false)
-	if err != nil {
-		return fmt.Errorf("decoding dl-CarrierFreq-r12: %w", err)
-	}
-	v.DlCarrierFreqR12 = val_dlcarrierfreqr12
-	return nil
-}
-
-// MarshalUPER encodes CellToAddModR12MeasResultCellToAddR12 to UPER format.
-func (v *CellToAddModR12MeasResultCellToAddR12) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *CellToAddModR12MeasResultCellToAddR12) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeInteger(bb, int64(v.RsrpResultR12), int64Ptr(0), int64Ptr(97), false); err != nil {
-		return fmt.Errorf("encoding rsrpResult-r12: %w", err)
-	}
-	if err := per.EncodeInteger(bb, int64(v.RsrqResultR12), int64Ptr(0), int64Ptr(34), false); err != nil {
-		return fmt.Errorf("encoding rsrqResult-r12: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes CellToAddModR12MeasResultCellToAddR12 from UPER format.
-func (v *CellToAddModR12MeasResultCellToAddR12) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *CellToAddModR12MeasResultCellToAddR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	val_rsrpresultr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(97), false)
-	if err != nil {
-		return fmt.Errorf("decoding rsrpResult-r12: %w", err)
-	}
-	v.RsrpResultR12 = val_rsrpresultr12
-	val_rsrqresultr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(34), false)
-	if err != nil {
-		return fmt.Errorf("decoding rsrqResult-r12: %w", err)
-	}
-	v.RsrqResultR12 = val_rsrqresultr12
-	return nil
-}
-
-// MarshalUPER encodes CellToAddModR12MeasResultCellToAddV1310 to UPER format.
-func (v *CellToAddModR12MeasResultCellToAddV1310) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *CellToAddModR12MeasResultCellToAddV1310) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeInteger(bb, int64(v.RsSinrResultR13), int64Ptr(0), int64Ptr(127), false); err != nil {
-		return fmt.Errorf("encoding rs-sinr-Result-r13: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes CellToAddModR12MeasResultCellToAddV1310 from UPER format.
-func (v *CellToAddModR12MeasResultCellToAddV1310) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *CellToAddModR12MeasResultCellToAddV1310) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	val_rssinrresultr13, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(127), false)
-	if err != nil {
-		return fmt.Errorf("decoding rs-sinr-Result-r13: %w", err)
-	}
-	v.RsSinrResultR13 = val_rssinrresultr13
-	return nil
-}
-
-// MarshalUPER encodes MeasResultServCellSCGR12MeasResultSCellR12 to UPER format.
-func (v *MeasResultServCellSCGR12MeasResultSCellR12) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *MeasResultServCellSCGR12MeasResultSCellR12) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeInteger(bb, int64(v.RsrpResultSCellR12), int64Ptr(0), int64Ptr(97), false); err != nil {
-		return fmt.Errorf("encoding rsrpResultSCell-r12: %w", err)
-	}
-	if err := per.EncodeInteger(bb, int64(v.RsrqResultSCellR12), int64Ptr(0), int64Ptr(34), false); err != nil {
-		return fmt.Errorf("encoding rsrqResultSCell-r12: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes MeasResultServCellSCGR12MeasResultSCellR12 from UPER format.
-func (v *MeasResultServCellSCGR12MeasResultSCellR12) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *MeasResultServCellSCGR12MeasResultSCellR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	val_rsrpresultscellr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(97), false)
-	if err != nil {
-		return fmt.Errorf("decoding rsrpResultSCell-r12: %w", err)
-	}
-	v.RsrpResultSCellR12 = val_rsrpresultscellr12
-	val_rsrqresultscellr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(34), false)
-	if err != nil {
-		return fmt.Errorf("decoding rsrqResultSCell-r12: %w", err)
-	}
-	v.RsrqResultSCellR12 = val_rsrqresultscellr12
-	return nil
-}
-
-// MarshalUPER encodes MeasResultServCellSCGR12MeasResultSCellV1310 to UPER format.
-func (v *MeasResultServCellSCGR12MeasResultSCellV1310) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *MeasResultServCellSCGR12MeasResultSCellV1310) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeInteger(bb, int64(v.RsSinrResultSCellR13), int64Ptr(0), int64Ptr(127), false); err != nil {
-		return fmt.Errorf("encoding rs-sinr-ResultSCell-r13: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes MeasResultServCellSCGR12MeasResultSCellV1310 from UPER format.
-func (v *MeasResultServCellSCGR12MeasResultSCellV1310) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *MeasResultServCellSCGR12MeasResultSCellV1310) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	val_rssinrresultscellr13, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(127), false)
-	if err != nil {
-		return fmt.Errorf("decoding rs-sinr-ResultSCell-r13: %w", err)
-	}
-	v.RsSinrResultSCellR13 = val_rssinrresultscellr13
 	return nil
 }
 
@@ -8745,44 +8794,5 @@ func (v *UERadioPagingInformationV1610IEsNonCriticalExtension) UnmarshalUPER(dat
 }
 
 func (v *UERadioPagingInformationV1610IEsNonCriticalExtension) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	return nil
-}
-
-// MarshalUPER encodes ASConfigV1550TdmPatternConfigR15 to UPER format.
-func (v *ASConfigV1550TdmPatternConfigR15) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ASConfigV1550TdmPatternConfigR15) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeEnumerated(bb, int64(v.SubframeAssignmentR15), 7, false); err != nil {
-		return fmt.Errorf("encoding subframeAssignment-r15: %w", err)
-	}
-	if err := per.EncodeInteger(bb, int64(v.HarqOffsetR15), int64Ptr(0), int64Ptr(9), false); err != nil {
-		return fmt.Errorf("encoding harq-Offset-r15: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes ASConfigV1550TdmPatternConfigR15 from UPER format.
-func (v *ASConfigV1550TdmPatternConfigR15) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *ASConfigV1550TdmPatternConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	val_subframeassignmentr15, err := per.DecodeEnumerated(bb, 7, false)
-	if err != nil {
-		return fmt.Errorf("decoding subframeAssignment-r15: %w", err)
-	}
-	v.SubframeAssignmentR15 = SubframeAssignmentR15(val_subframeassignmentr15)
-	val_harqoffsetr15, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(9), false)
-	if err != nil {
-		return fmt.Errorf("decoding harq-Offset-r15: %w", err)
-	}
-	v.HarqOffsetR15 = val_harqoffsetr15
 	return nil
 }

@@ -124,7 +124,7 @@ type OrigTransactionID = []byte
 type DestTransactionID = []byte
 
 // PAbortCause represents the ASN.1 INTEGER type P-AbortCause with named numbers.
-type PAbortCause = int64
+type PAbortCause int64
 
 const (
 	PAbortCauseUnrecognizedMessageType          PAbortCause = 0
@@ -133,6 +133,23 @@ const (
 	PAbortCauseIncorrectTransactionPortion      PAbortCause = 3
 	PAbortCauseResourceLimitation               PAbortCause = 4
 )
+
+func (v PAbortCause) String() string {
+	switch v {
+	case PAbortCauseUnrecognizedMessageType:
+		return "unrecognizedMessageType"
+	case PAbortCauseUnrecognizedTransactionID:
+		return "unrecognizedTransactionID"
+	case PAbortCauseBadlyFormattedTransactionPortion:
+		return "badlyFormattedTransactionPortion"
+	case PAbortCauseIncorrectTransactionPortion:
+		return "incorrectTransactionPortion"
+	case PAbortCauseResourceLimitation:
+		return "resourceLimitation"
+	default:
+		return "unknown"
+	}
+}
 
 // ComponentPortion represents the ASN.1 type ComponentPortion (SEQUENCE_OF).
 type ComponentPortion = []Component

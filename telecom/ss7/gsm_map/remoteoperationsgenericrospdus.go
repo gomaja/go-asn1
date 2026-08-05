@@ -95,7 +95,7 @@ type Reject struct {
 }
 
 // GeneralProblem represents the ASN.1 INTEGER type GeneralProblem with named numbers.
-type GeneralProblem = int64
+type GeneralProblem int64
 
 const (
 	GeneralProblemUnrecognizedPDU    GeneralProblem = 0
@@ -103,8 +103,21 @@ const (
 	GeneralProblemBadlyStructuredPDU GeneralProblem = 2
 )
 
+func (v GeneralProblem) String() string {
+	switch v {
+	case GeneralProblemUnrecognizedPDU:
+		return "unrecognizedPDU"
+	case GeneralProblemMistypedPDU:
+		return "mistypedPDU"
+	case GeneralProblemBadlyStructuredPDU:
+		return "badlyStructuredPDU"
+	default:
+		return "unknown"
+	}
+}
+
 // InvokeProblem represents the ASN.1 INTEGER type InvokeProblem with named numbers.
-type InvokeProblem = int64
+type InvokeProblem int64
 
 const (
 	InvokeProblemDuplicateInvocation       InvokeProblem = 0
@@ -117,8 +130,31 @@ const (
 	InvokeProblemUnexpectedLinkedOperation InvokeProblem = 7
 )
 
+func (v InvokeProblem) String() string {
+	switch v {
+	case InvokeProblemDuplicateInvocation:
+		return "duplicateInvocation"
+	case InvokeProblemUnrecognizedOperation:
+		return "unrecognizedOperation"
+	case InvokeProblemMistypedArgument:
+		return "mistypedArgument"
+	case InvokeProblemResourceLimitation:
+		return "resourceLimitation"
+	case InvokeProblemReleaseInProgress:
+		return "releaseInProgress"
+	case InvokeProblemUnrecognizedLinkedId:
+		return "unrecognizedLinkedId"
+	case InvokeProblemLinkedResponseUnexpected:
+		return "linkedResponseUnexpected"
+	case InvokeProblemUnexpectedLinkedOperation:
+		return "unexpectedLinkedOperation"
+	default:
+		return "unknown"
+	}
+}
+
 // ReturnResultProblem represents the ASN.1 INTEGER type ReturnResultProblem with named numbers.
-type ReturnResultProblem = int64
+type ReturnResultProblem int64
 
 const (
 	ReturnResultProblemUnrecognizedInvocation   ReturnResultProblem = 0
@@ -126,8 +162,21 @@ const (
 	ReturnResultProblemMistypedResult           ReturnResultProblem = 2
 )
 
+func (v ReturnResultProblem) String() string {
+	switch v {
+	case ReturnResultProblemUnrecognizedInvocation:
+		return "unrecognizedInvocation"
+	case ReturnResultProblemResultResponseUnexpected:
+		return "resultResponseUnexpected"
+	case ReturnResultProblemMistypedResult:
+		return "mistypedResult"
+	default:
+		return "unknown"
+	}
+}
+
 // ReturnErrorProblem represents the ASN.1 INTEGER type ReturnErrorProblem with named numbers.
-type ReturnErrorProblem = int64
+type ReturnErrorProblem int64
 
 const (
 	ReturnErrorProblemUnrecognizedInvocation  ReturnErrorProblem = 0
@@ -137,8 +186,25 @@ const (
 	ReturnErrorProblemMistypedParameter       ReturnErrorProblem = 4
 )
 
+func (v ReturnErrorProblem) String() string {
+	switch v {
+	case ReturnErrorProblemUnrecognizedInvocation:
+		return "unrecognizedInvocation"
+	case ReturnErrorProblemErrorResponseUnexpected:
+		return "errorResponseUnexpected"
+	case ReturnErrorProblemUnrecognizedError:
+		return "unrecognizedError"
+	case ReturnErrorProblemUnexpectedError:
+		return "unexpectedError"
+	case ReturnErrorProblemMistypedParameter:
+		return "mistypedParameter"
+	default:
+		return "unknown"
+	}
+}
+
 // RejectProblem represents the ASN.1 INTEGER type RejectProblem with named numbers.
-type RejectProblem = int64
+type RejectProblem int64
 
 const (
 	RejectProblemGeneralUnrecognizedPDU               RejectProblem = 0
@@ -161,6 +227,51 @@ const (
 	RejectProblemReturnErrorUnexpectedError           RejectProblem = 33
 	RejectProblemReturnErrorMistypedParameter         RejectProblem = 34
 )
+
+func (v RejectProblem) String() string {
+	switch v {
+	case RejectProblemGeneralUnrecognizedPDU:
+		return "general-unrecognizedPDU"
+	case RejectProblemGeneralMistypedPDU:
+		return "general-mistypedPDU"
+	case RejectProblemGeneralBadlyStructuredPDU:
+		return "general-badlyStructuredPDU"
+	case RejectProblemInvokeDuplicateInvocation:
+		return "invoke-duplicateInvocation"
+	case RejectProblemInvokeUnrecognizedOperation:
+		return "invoke-unrecognizedOperation"
+	case RejectProblemInvokeMistypedArgument:
+		return "invoke-mistypedArgument"
+	case RejectProblemInvokeResourceLimitation:
+		return "invoke-resourceLimitation"
+	case RejectProblemInvokeReleaseInProgress:
+		return "invoke-releaseInProgress"
+	case RejectProblemInvokeUnrecognizedLinkedId:
+		return "invoke-unrecognizedLinkedId"
+	case RejectProblemInvokeLinkedResponseUnexpected:
+		return "invoke-linkedResponseUnexpected"
+	case RejectProblemInvokeUnexpectedLinkedOperation:
+		return "invoke-unexpectedLinkedOperation"
+	case RejectProblemReturnResultUnrecognizedInvocation:
+		return "returnResult-unrecognizedInvocation"
+	case RejectProblemReturnResultResultResponseUnexpected:
+		return "returnResult-resultResponseUnexpected"
+	case RejectProblemReturnResultMistypedResult:
+		return "returnResult-mistypedResult"
+	case RejectProblemReturnErrorUnrecognizedInvocation:
+		return "returnError-unrecognizedInvocation"
+	case RejectProblemReturnErrorErrorResponseUnexpected:
+		return "returnError-errorResponseUnexpected"
+	case RejectProblemReturnErrorUnrecognizedError:
+		return "returnError-unrecognizedError"
+	case RejectProblemReturnErrorUnexpectedError:
+		return "returnError-unexpectedError"
+	case RejectProblemReturnErrorMistypedParameter:
+		return "returnError-mistypedParameter"
+	default:
+		return "unknown"
+	}
+}
 
 // InvokeId choice constants.
 const (

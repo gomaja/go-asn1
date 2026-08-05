@@ -99,7 +99,7 @@ func (v *PrivateIEField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding id: %w", err)
 	}
-	v.Id = val_id
+	v.Id = ProtocolIEID(val_id)
 	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return fmt.Errorf("decoding criticality: %w", err)
@@ -146,7 +146,7 @@ func (v *ProtocolExtensionField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding id: %w", err)
 	}
-	v.Id = val_id
+	v.Id = ProtocolIEID(val_id)
 	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return fmt.Errorf("decoding criticality: %w", err)
@@ -193,7 +193,7 @@ func (v *ProtocolIEField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding id: %w", err)
 	}
-	v.Id = val_id
+	v.Id = ProtocolIEID(val_id)
 	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return fmt.Errorf("decoding criticality: %w", err)
@@ -246,7 +246,7 @@ func (v *ProtocolIEFieldPair) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding id: %w", err)
 	}
-	v.Id = val_id
+	v.Id = ProtocolIEID(val_id)
 	val_firstcriticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return fmt.Errorf("decoding firstCriticality: %w", err)

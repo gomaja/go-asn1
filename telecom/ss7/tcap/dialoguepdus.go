@@ -99,20 +99,42 @@ type ABRTApdu struct {
 }
 
 // ABRTSource represents the ASN.1 INTEGER type ABRT-source with named numbers.
-type ABRTSource = int64
+type ABRTSource int64
 
 const (
 	ABRTSourceDialogueServiceUser     ABRTSource = 0
 	ABRTSourceDialogueServiceProvider ABRTSource = 1
 )
 
+func (v ABRTSource) String() string {
+	switch v {
+	case ABRTSourceDialogueServiceUser:
+		return "dialogue-service-user"
+	case ABRTSourceDialogueServiceProvider:
+		return "dialogue-service-provider"
+	default:
+		return "unknown"
+	}
+}
+
 // AssociateResult represents the ASN.1 INTEGER type Associate-result with named numbers.
-type AssociateResult = int64
+type AssociateResult int64
 
 const (
 	AssociateResultAccepted        AssociateResult = 0
 	AssociateResultRejectPermanent AssociateResult = 1
 )
+
+func (v AssociateResult) String() string {
+	switch v {
+	case AssociateResultAccepted:
+		return "accepted"
+	case AssociateResultRejectPermanent:
+		return "reject-permanent"
+	default:
+		return "unknown"
+	}
+}
 
 // AssociateSourceDiagnostic choice constants.
 const (
@@ -144,7 +166,7 @@ func NewAssociateSourceDiagnosticDialogueServiceProvider(v int64) AssociateSourc
 }
 
 // ReleaseRequestReason represents the ASN.1 INTEGER type Release-request-reason with named numbers.
-type ReleaseRequestReason = int64
+type ReleaseRequestReason int64
 
 const (
 	ReleaseRequestReasonNormal      ReleaseRequestReason = 0
@@ -152,14 +174,40 @@ const (
 	ReleaseRequestReasonUserDefined ReleaseRequestReason = 30
 )
 
+func (v ReleaseRequestReason) String() string {
+	switch v {
+	case ReleaseRequestReasonNormal:
+		return "normal"
+	case ReleaseRequestReasonUrgent:
+		return "urgent"
+	case ReleaseRequestReasonUserDefined:
+		return "user-defined"
+	default:
+		return "unknown"
+	}
+}
+
 // ReleaseResponseReason represents the ASN.1 INTEGER type Release-response-reason with named numbers.
-type ReleaseResponseReason = int64
+type ReleaseResponseReason int64
 
 const (
 	ReleaseResponseReasonNormal      ReleaseResponseReason = 0
 	ReleaseResponseReasonNotFinished ReleaseResponseReason = 1
 	ReleaseResponseReasonUserDefined ReleaseResponseReason = 30
 )
+
+func (v ReleaseResponseReason) String() string {
+	switch v {
+	case ReleaseResponseReasonNormal:
+		return "normal"
+	case ReleaseResponseReasonNotFinished:
+		return "not-finished"
+	case ReleaseResponseReasonUserDefined:
+		return "user-defined"
+	default:
+		return "unknown"
+	}
+}
 
 // AARQApduUserInformation represents the ASN.1 type AARQ-apdu-user-information (SEQUENCE_OF).
 type AARQApduUserInformation = []runtime.RawValue

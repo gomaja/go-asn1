@@ -21,6 +21,18 @@ const (
 	MaxLogMeasR10 int64 = 4060
 )
 
+// CSIRSTriggeredListR12 represents the ASN.1 type CSI-RS-TriggeredList-r12 (SEQUENCE_OF).
+type CSIRSTriggeredListR12 = []MeasCSIRSIdR12
+
+// CellsTriggeredList represents the ASN.1 type CellsTriggeredList (SEQUENCE_OF).
+type CellsTriggeredList = []CellsTriggeredListElem
+
+// LogMeasInfoList2R10 represents the ASN.1 type LogMeasInfoList2-r10 (SEQUENCE_OF).
+type LogMeasInfoList2R10 = []LogMeasInfoR10
+
+// SSBIndexListR15 represents the ASN.1 type SSB-IndexList-r15 (SEQUENCE_OF).
+type SSBIndexListR15 = []RSIndexNRR15
+
 // VarConditionalReconfiguration represents the ASN.1 type VarConditionalReconfiguration (SEQUENCE).
 type VarConditionalReconfiguration struct {
 	CondReconfigurationListR16       CondReconfigurationToAddModListR16 `asn1:"tag:0,context,implicit,optional" json:"CondReconfigurationListR16,omitempty"`
@@ -109,11 +121,7 @@ type VarLogMeasReportR11 struct {
 	AbsoluteTimeInfoR10         AbsoluteTimeInfoR10  `asn1:"tag:4,context,implicit"`
 	LogMeasInfoListR10          LogMeasInfoList2R10  `asn1:"tag:5,context,implicit"`
 	LogMeasInfoListR10Indef_    bool                 `asn1:"-" json:"-"`
-	SigLoggedMeasTypeR18        int64                `asn1:"tag:6,context,implicit"`
 }
-
-// LogMeasInfoList2R10 represents the ASN.1 type LogMeasInfoList2-r10 (SEQUENCE_OF).
-type LogMeasInfoList2R10 = []LogMeasInfoR10
 
 // VarMeasConfig represents the ASN.1 type VarMeasConfig (SEQUENCE).
 type VarMeasConfig struct {
@@ -170,12 +178,6 @@ type VarMeasIdleReportR16 struct {
 	MeasReportIdleNRR16Indef_ bool                     `asn1:"-" json:"-"`
 }
 
-// VarMeasReportList represents the ASN.1 type VarMeasReportList (SEQUENCE_OF).
-type VarMeasReportList = []VarMeasReport
-
-// VarMeasReportListR12 represents the ASN.1 type VarMeasReportList-r12 (SEQUENCE_OF).
-type VarMeasReportListR12 = []VarMeasReport
-
 // VarMeasReport represents the ASN.1 type VarMeasReport (SEQUENCE).
 type VarMeasReport struct {
 	MeasId                      MeasId                    `asn1:"tag:0,context,implicit"`
@@ -189,17 +191,14 @@ type VarMeasReport struct {
 	NumberOfReportsSent         int64                     `asn1:"tag:5,context,implicit"`
 }
 
-// CellsTriggeredList represents the ASN.1 type CellsTriggeredList (SEQUENCE_OF).
-type CellsTriggeredList = []CellsTriggeredListElem
+// VarMeasReportList represents the ASN.1 type VarMeasReportList (SEQUENCE_OF).
+type VarMeasReportList = []VarMeasReport
 
-// CSIRSTriggeredListR12 represents the ASN.1 type CSI-RS-TriggeredList-r12 (SEQUENCE_OF).
-type CSIRSTriggeredListR12 = []MeasCSIRSIdR12
-
-// SSBIndexListR15 represents the ASN.1 type SSB-IndexList-r15 (SEQUENCE_OF).
-type SSBIndexListR15 = []RSIndexNRR15
+// VarMeasReportListR12 represents the ASN.1 type VarMeasReportList-r12 (SEQUENCE_OF).
+type VarMeasReportListR12 = []VarMeasReport
 
 // VarMobilityHistoryReportR12 represents the ASN.1 type VarMobilityHistoryReport-r12 (SEQUENCE_OF).
-type VarMobilityHistoryReportR12 = VisitedCellInfoListR12
+type VarMobilityHistoryReportR12 = []VisitedCellInfoR12
 
 // VarPendingRnaUpdateR15 represents the ASN.1 type VarPendingRnaUpdate-r15 (SEQUENCE).
 type VarPendingRnaUpdateR15 struct {
@@ -254,41 +253,6 @@ type VarWLANMobilityConfig struct {
 type VarWLANStatusR13 struct {
 	StatusR13 WLANStatusR13    `asn1:"tag:0,context,implicit"`
 	StatusR14 *WLANStatusV1430 `asn1:"tag:1,context,implicit,optional" json:"StatusR14,omitempty"`
-}
-
-// VarMeasConfigSpeedStatePars choice constants.
-const (
-	VarMeasConfigSpeedStateParsChoiceRelease = 1
-	VarMeasConfigSpeedStateParsChoiceSetup   = 2
-)
-
-// VarMeasConfigSpeedStatePars represents the ASN.1 CHOICE type VarMeasConfig-speedStatePars.
-type VarMeasConfigSpeedStatePars struct {
-	Choice  int
-	Release *struct{}                         `json:"Release,omitempty"`
-	Setup   *VarMeasConfigSpeedStateParsSetup `json:"Setup,omitempty"`
-}
-
-// NewVarMeasConfigSpeedStateParsRelease creates a VarMeasConfig-speedStatePars with the release alternative.
-func NewVarMeasConfigSpeedStateParsRelease(v struct{}) VarMeasConfigSpeedStatePars {
-	return VarMeasConfigSpeedStatePars{
-		Choice:  VarMeasConfigSpeedStateParsChoiceRelease,
-		Release: &v,
-	}
-}
-
-// NewVarMeasConfigSpeedStateParsSetup creates a VarMeasConfig-speedStatePars with the setup alternative.
-func NewVarMeasConfigSpeedStateParsSetup(v VarMeasConfigSpeedStateParsSetup) VarMeasConfigSpeedStatePars {
-	return VarMeasConfigSpeedStatePars{
-		Choice: VarMeasConfigSpeedStateParsChoiceSetup,
-		Setup:  &v,
-	}
-}
-
-// VarMeasConfigSpeedStateParsSetup represents the ASN.1 type VarMeasConfig-speedStatePars-setup (SEQUENCE).
-type VarMeasConfigSpeedStateParsSetup struct {
-	MobilityStateParameters MobilityStateParameters `asn1:"tag:0,context,implicit"`
-	TimeToTriggerSF         SpeedStateScaleFactors  `asn1:"tag:1,context,implicit"`
 }
 
 // CellsTriggeredListElem choice constants.
@@ -401,6 +365,41 @@ type CellsTriggeredListElemPhysCellIdNRR15 struct {
 	PhysCellId           PhysCellIdNRR15 `asn1:"tag:1,context,implicit"`
 	RsIndexListR15       SSBIndexListR15 `asn1:"tag:2,context,implicit,optional" json:"RsIndexListR15,omitempty"`
 	RsIndexListR15Indef_ bool            `asn1:"-" json:"-"`
+}
+
+// VarMeasConfigSpeedStatePars choice constants.
+const (
+	VarMeasConfigSpeedStateParsChoiceRelease = 1
+	VarMeasConfigSpeedStateParsChoiceSetup   = 2
+)
+
+// VarMeasConfigSpeedStatePars represents the ASN.1 CHOICE type VarMeasConfig-speedStatePars.
+type VarMeasConfigSpeedStatePars struct {
+	Choice  int
+	Release *struct{}                         `json:"Release,omitempty"`
+	Setup   *VarMeasConfigSpeedStateParsSetup `json:"Setup,omitempty"`
+}
+
+// NewVarMeasConfigSpeedStateParsRelease creates a VarMeasConfig-speedStatePars with the release alternative.
+func NewVarMeasConfigSpeedStateParsRelease(v struct{}) VarMeasConfigSpeedStatePars {
+	return VarMeasConfigSpeedStatePars{
+		Choice:  VarMeasConfigSpeedStateParsChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewVarMeasConfigSpeedStateParsSetup creates a VarMeasConfig-speedStatePars with the setup alternative.
+func NewVarMeasConfigSpeedStateParsSetup(v VarMeasConfigSpeedStateParsSetup) VarMeasConfigSpeedStatePars {
+	return VarMeasConfigSpeedStatePars{
+		Choice: VarMeasConfigSpeedStateParsChoiceSetup,
+		Setup:  &v,
+	}
+}
+
+// VarMeasConfigSpeedStateParsSetup represents the ASN.1 type VarMeasConfig-speedStatePars-setup (SEQUENCE).
+type VarMeasConfigSpeedStateParsSetup struct {
+	MobilityStateParameters MobilityStateParameters `asn1:"tag:0,context,implicit"`
+	TimeToTriggerSF         SpeedStateScaleFactors  `asn1:"tag:1,context,implicit"`
 }
 
 // MarshalUPER encodes VarConditionalReconfiguration to UPER format.
@@ -1240,9 +1239,6 @@ func (v *VarLogMeasReportR11) MarshalUPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding logMeasInfoList-r10 element: %w", err)
 		}
 	}
-	if err := per.EncodeEnumerated(bb, int64(v.SigLoggedMeasTypeR18), 1, false); err != nil {
-		return fmt.Errorf("encoding sigLoggedMeasType-r18: %w", err)
-	}
 	return nil
 }
 
@@ -1291,11 +1287,6 @@ func (v *VarLogMeasReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("decoding logMeasInfoList-r10 element: %w", err)
 		}
 	}
-	val_sigloggedmeastyper18, err := per.DecodeEnumerated(bb, 1, false)
-	if err != nil {
-		return fmt.Errorf("decoding sigLoggedMeasType-r18: %w", err)
-	}
-	v.SigLoggedMeasTypeR18 = val_sigloggedmeastyper18
 	return nil
 }
 
@@ -2034,13 +2025,14 @@ func (v *VarMeasReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding measId: %w", err)
 	}
-	v.MeasId = val_measid
+	v.MeasId = MeasId(val_measid)
 	if opt_measidv1250 {
 		val_measidv1250, err := per.DecodeInteger(bb, int64Ptr(33), int64Ptr(64), false)
 		if err != nil {
 			return fmt.Errorf("decoding measId-v1250: %w", err)
 		}
-		v.MeasIdV1250 = &val_measidv1250
+		tmp_measidv1250 := MeasIdV1250(val_measidv1250)
+		v.MeasIdV1250 = &tmp_measidv1250
 	}
 	if opt_cellstriggeredlist {
 		seqLen_cellstriggeredlist, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
@@ -2257,7 +2249,7 @@ func (v *VarShortINACTIVEMACInputR15) UnmarshalUPERFrom(bb *per.BitBuffer) error
 	if err != nil {
 		return fmt.Errorf("decoding physCellId-r15: %w", err)
 	}
-	v.PhysCellIdR15 = val_physcellidr15
+	v.PhysCellIdR15 = PhysCellId(val_physcellidr15)
 	bsBytes_crntir15, bsBitLen_crntir15, err := per.DecodeBitString(bb, 16, 16, true)
 	if err != nil {
 		return fmt.Errorf("decoding c-RNTI-r15: %w", err)
@@ -2304,7 +2296,7 @@ func (v *VarShortMACInput) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding physCellId: %w", err)
 	}
-	v.PhysCellId = val_physcellid
+	v.PhysCellId = PhysCellId(val_physcellid)
 	bsBytes_crnti, bsBitLen_crnti, err := per.DecodeBitString(bb, 16, 16, true)
 	if err != nil {
 		return fmt.Errorf("decoding c-RNTI: %w", err)
@@ -2354,7 +2346,7 @@ func (v *VarShortResumeMACInputR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return fmt.Errorf("decoding physCellId-r13: %w", err)
 	}
-	v.PhysCellIdR13 = val_physcellidr13
+	v.PhysCellIdR13 = PhysCellId(val_physcellidr13)
 	bsBytes_crntir13, bsBitLen_crntir13, err := per.DecodeBitString(bb, 16, 16, true)
 	if err != nil {
 		return fmt.Errorf("decoding c-RNTI-r13: %w", err)
@@ -2514,90 +2506,6 @@ func (v *VarWLANStatusR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalUPER encodes VarMeasConfigSpeedStatePars to UPER format.
-func (v *VarMeasConfigSpeedStatePars) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *VarMeasConfigSpeedStatePars) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
-		return err
-	}
-	switch v.Choice {
-	case VarMeasConfigSpeedStateParsChoiceRelease:
-	case VarMeasConfigSpeedStateParsChoiceSetup:
-		if err := v.Setup.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding setup: %w", err)
-		}
-	default:
-		return fmt.Errorf("unknown VarMeasConfigSpeedStatePars choice %d", v.Choice)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes VarMeasConfigSpeedStatePars from UPER format.
-func (v *VarMeasConfigSpeedStatePars) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *VarMeasConfigSpeedStatePars) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
-	if err != nil {
-		return err
-	}
-	v.Choice = int(idx) + 1
-	switch v.Choice {
-	case VarMeasConfigSpeedStateParsChoiceRelease:
-	case VarMeasConfigSpeedStateParsChoiceSetup:
-		var dec_setup VarMeasConfigSpeedStateParsSetup
-		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding setup: %w", err)
-		}
-		v.Setup = &dec_setup
-	}
-	return nil
-}
-
-// MarshalUPER encodes VarMeasConfigSpeedStateParsSetup to UPER format.
-func (v *VarMeasConfigSpeedStateParsSetup) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *VarMeasConfigSpeedStateParsSetup) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := v.MobilityStateParameters.MarshalUPERTo(bb); err != nil {
-		return fmt.Errorf("encoding mobilityStateParameters: %w", err)
-	}
-	if err := v.TimeToTriggerSF.MarshalUPERTo(bb); err != nil {
-		return fmt.Errorf("encoding timeToTrigger-SF: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes VarMeasConfigSpeedStateParsSetup from UPER format.
-func (v *VarMeasConfigSpeedStateParsSetup) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *VarMeasConfigSpeedStateParsSetup) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	if err := v.MobilityStateParameters.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding mobilityStateParameters: %w", err)
-	}
-	if err := v.TimeToTriggerSF.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding timeToTrigger-SF: %w", err)
-	}
-	return nil
-}
-
 // MarshalUPER encodes CellsTriggeredListElem to UPER format.
 func (v *CellsTriggeredListElem) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -2660,7 +2568,8 @@ func (v *CellsTriggeredListElem) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return fmt.Errorf("decoding physCellIdEUTRA: %w", err)
 		}
-		v.PhysCellIdEUTRA = &val_physcellideutra
+		tmp_physcellideutra := PhysCellId(val_physcellideutra)
+		v.PhysCellIdEUTRA = &tmp_physcellideutra
 	case CellsTriggeredListElemChoicePhysCellIdUTRA:
 		var dec_physcellidutra CellsTriggeredListElemPhysCellIdUTRA
 		if err := dec_physcellidutra.UnmarshalUPERFrom(bb); err != nil {
@@ -2678,7 +2587,8 @@ func (v *CellsTriggeredListElem) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return fmt.Errorf("decoding physCellIdCDMA2000: %w", err)
 		}
-		v.PhysCellIdCDMA2000 = &val_physcellidcdma2000
+		tmp_physcellidcdma2000 := PhysCellIdCDMA2000(val_physcellidcdma2000)
+		v.PhysCellIdCDMA2000 = &tmp_physcellidcdma2000
 	case CellsTriggeredListElemChoiceWlanIdentifiersR13:
 		var dec_wlanidentifiersr13 WLANIdentifiersR12
 		if err := dec_wlanidentifiersr13.UnmarshalUPERFrom(bb); err != nil {
@@ -2741,13 +2651,15 @@ func (v *CellsTriggeredListElemPhysCellIdUTRA) UnmarshalUPERFrom(bb *per.BitBuff
 		if err != nil {
 			return fmt.Errorf("decoding fdd: %w", err)
 		}
-		v.Fdd = &val_fdd
+		tmp_fdd := PhysCellIdUTRAFDD(val_fdd)
+		v.Fdd = &tmp_fdd
 	case CellsTriggeredListElemPhysCellIdUTRAChoiceTdd:
 		val_tdd, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(127), false)
 		if err != nil {
 			return fmt.Errorf("decoding tdd: %w", err)
 		}
-		v.Tdd = &val_tdd
+		tmp_tdd := PhysCellIdUTRATDD(val_tdd)
+		v.Tdd = &tmp_tdd
 	}
 	return nil
 }
@@ -2836,12 +2748,12 @@ func (v *CellsTriggeredListElemPhysCellIdNRR15) UnmarshalUPERFrom(bb *per.BitBuf
 	if err != nil {
 		return fmt.Errorf("decoding carrierFreq: %w", err)
 	}
-	v.CarrierFreq = val_carrierfreq
+	v.CarrierFreq = ARFCNValueNRR15(val_carrierfreq)
 	val_physcellid, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(1007), false)
 	if err != nil {
 		return fmt.Errorf("decoding physCellId: %w", err)
 	}
-	v.PhysCellId = val_physcellid
+	v.PhysCellId = PhysCellIdNRR15(val_physcellid)
 	if opt_rsindexlistr15 {
 		seqLen_rsindexlistr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 64)
 		if err != nil {
@@ -2856,6 +2768,90 @@ func (v *CellsTriggeredListElemPhysCellIdNRR15) UnmarshalUPERFrom(bb *per.BitBuf
 			tmp_rsindexlistr15[i] = RSIndexNRR15(val)
 		}
 		v.RsIndexListR15 = tmp_rsindexlistr15
+	}
+	return nil
+}
+
+// MarshalUPER encodes VarMeasConfigSpeedStatePars to UPER format.
+func (v *VarMeasConfigSpeedStatePars) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *VarMeasConfigSpeedStatePars) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case VarMeasConfigSpeedStateParsChoiceRelease:
+	case VarMeasConfigSpeedStateParsChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown VarMeasConfigSpeedStatePars choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes VarMeasConfigSpeedStatePars from UPER format.
+func (v *VarMeasConfigSpeedStatePars) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *VarMeasConfigSpeedStatePars) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case VarMeasConfigSpeedStateParsChoiceRelease:
+	case VarMeasConfigSpeedStateParsChoiceSetup:
+		var dec_setup VarMeasConfigSpeedStateParsSetup
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
+	return nil
+}
+
+// MarshalUPER encodes VarMeasConfigSpeedStateParsSetup to UPER format.
+func (v *VarMeasConfigSpeedStateParsSetup) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *VarMeasConfigSpeedStateParsSetup) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := v.MobilityStateParameters.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding mobilityStateParameters: %w", err)
+	}
+	if err := v.TimeToTriggerSF.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding timeToTrigger-SF: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes VarMeasConfigSpeedStateParsSetup from UPER format.
+func (v *VarMeasConfigSpeedStateParsSetup) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *VarMeasConfigSpeedStateParsSetup) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := v.MobilityStateParameters.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding mobilityStateParameters: %w", err)
+	}
+	if err := v.TimeToTriggerSF.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding timeToTrigger-SF: %w", err)
 	}
 	return nil
 }
