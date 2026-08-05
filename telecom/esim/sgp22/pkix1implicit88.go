@@ -996,17 +996,22 @@ func (v *UserNotice) UnmarshalBER(data []byte) error {
 	}
 	// Decode explicitText
 	if offset < len(content) {
-		// Decode nested CHOICE (DisplayText)
-		_, n_explicittext, _, tlvErr_explicittext := ber.DecodeTLV(content[offset:])
-		if tlvErr_explicittext != nil {
-			return fmt.Errorf("decoding explicitText: %w", tlvErr_explicittext)
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 22) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 26) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 30) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 12) {
+				// Decode nested CHOICE (DisplayText)
+				_, n_explicittext, _, tlvErr_explicittext := ber.DecodeTLV(content[offset:])
+				if tlvErr_explicittext != nil {
+					return fmt.Errorf("decoding explicitText: %w", tlvErr_explicittext)
+				}
+				var dec_explicittext DisplayText
+				if unmErr := dec_explicittext.UnmarshalBER(content[offset : offset+n_explicittext]); unmErr != nil {
+					return fmt.Errorf("decoding explicitText: %w", unmErr)
+				}
+				v.ExplicitText = &dec_explicittext
+				offset += n_explicittext
+			}
 		}
-		var dec_explicittext DisplayText
-		if unmErr := dec_explicittext.UnmarshalBER(content[offset : offset+n_explicittext]); unmErr != nil {
-			return fmt.Errorf("decoding explicitText: %w", unmErr)
-		}
-		v.ExplicitText = &dec_explicittext
-		offset += n_explicittext
 	}
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "UserNotice", Cause: ber.ErrExtraData}

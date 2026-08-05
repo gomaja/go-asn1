@@ -91,3 +91,50 @@ func TestAlertServiceCentreArgMarshalDERRejectsIndefiniteRawExtension(t *testing
 		t.Fatalf("MarshalDER error = %v, want %v", err, ber.ErrIndefiniteLength)
 	}
 }
+
+func TestSendAuthenticationInfoResAcceptsEPSOnlyAuthenticationSetList(t *testing.T) {
+	want := SendAuthenticationInfoRes{
+		EpsAuthenticationSetList: EPSAuthenticationSetList{
+			{
+				Rand:  []byte{0x01},
+				Xres:  []byte{0x02},
+				Autn:  []byte{0x03},
+				Kasme: []byte{0x04},
+			},
+		},
+	}
+
+	input, err := want.MarshalBER()
+	if err != nil {
+		t.Fatalf("MarshalBER: %v", err)
+	}
+	if !bytes.Contains(input, []byte{0xa2}) {
+		t.Fatalf("MarshalBER = % x, want eps-AuthenticationSetList [2]", input)
+	}
+
+	var got SendAuthenticationInfoRes
+	if err := got.UnmarshalBER(input); err != nil {
+		t.Fatalf("UnmarshalBER EPS-only SendAuthenticationInfoRes: %v", err)
+	}
+	if got.AuthenticationSetList != nil {
+		t.Fatalf("AuthenticationSetList = %+v, want nil", got.AuthenticationSetList)
+	}
+	if len(got.EpsAuthenticationSetList) != 1 {
+		t.Fatalf("EpsAuthenticationSetList length = %d, want 1", len(got.EpsAuthenticationSetList))
+	}
+	elem := got.EpsAuthenticationSetList[0]
+	if !bytes.Equal(elem.Rand, []byte{0x01}) ||
+		!bytes.Equal(elem.Xres, []byte{0x02}) ||
+		!bytes.Equal(elem.Autn, []byte{0x03}) ||
+		!bytes.Equal(elem.Kasme, []byte{0x04}) {
+		t.Fatalf("decoded EPC-AV = %+v", elem)
+	}
+
+	roundTrip, err := got.MarshalBER()
+	if err != nil {
+		t.Fatalf("MarshalBER round-trip: %v", err)
+	}
+	if !bytes.Equal(roundTrip, input) {
+		t.Fatalf("MarshalBER round-trip = % x, want % x", roundTrip, input)
+	}
+}

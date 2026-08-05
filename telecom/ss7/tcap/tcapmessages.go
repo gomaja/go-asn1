@@ -799,14 +799,17 @@ func MarshalBERComponentPortion(list ComponentPortion) ([]byte, error) {
 		}
 		children = append(children, enc...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassApplication, Number: 12, Constructed: true}, children), nil
 }
 
 // UnmarshalBERComponentPortion decodes a ComponentPortion list from BER.
 func UnmarshalBERComponentPortion(data []byte) (ComponentPortion, error) {
-	content, total, err := ber.DecodeSequenceContent(data)
+	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding ComponentPortion: %w", err)
+	}
+	if decodedTag.Class != tag.ClassApplication || decodedTag.Number != 12 || !decodedTag.Constructed {
+		return nil, fmt.Errorf("decoding ComponentPortion: %w: expected tag [APPLICATION 12], got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "ComponentPortion", Cause: ber.ErrExtraData}

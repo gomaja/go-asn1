@@ -3362,17 +3362,22 @@ func (v *TBSCertList) UnmarshalBER(data []byte) error {
 	offset += n_thisupdate
 	// Decode nextUpdate
 	if offset < len(content) {
-		// Decode nested CHOICE (Time)
-		_, n_nextupdate, _, tlvErr_nextupdate := ber.DecodeTLV(content[offset:])
-		if tlvErr_nextupdate != nil {
-			return fmt.Errorf("decoding nextUpdate: %w", tlvErr_nextupdate)
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 23) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 24) {
+				// Decode nested CHOICE (Time)
+				_, n_nextupdate, _, tlvErr_nextupdate := ber.DecodeTLV(content[offset:])
+				if tlvErr_nextupdate != nil {
+					return fmt.Errorf("decoding nextUpdate: %w", tlvErr_nextupdate)
+				}
+				var dec_nextupdate Time
+				if unmErr := dec_nextupdate.UnmarshalBER(content[offset : offset+n_nextupdate]); unmErr != nil {
+					return fmt.Errorf("decoding nextUpdate: %w", unmErr)
+				}
+				v.NextUpdate = &dec_nextupdate
+				offset += n_nextupdate
+			}
 		}
-		var dec_nextupdate Time
-		if unmErr := dec_nextupdate.UnmarshalBER(content[offset : offset+n_nextupdate]); unmErr != nil {
-			return fmt.Errorf("decoding nextUpdate: %w", unmErr)
-		}
-		v.NextUpdate = &dec_nextupdate
-		offset += n_nextupdate
 	}
 	// Decode revokedCertificates
 	if offset < len(content) {
@@ -3661,31 +3666,41 @@ func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte) error {
 	offset := 0
 	// Decode country-name
 	if offset < len(content) {
-		// Decode nested CHOICE (CountryName)
-		_, n_countryname, _, tlvErr_countryname := ber.DecodeTLV(content[offset:])
-		if tlvErr_countryname != nil {
-			return fmt.Errorf("decoding country-name: %w", tlvErr_countryname)
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 18) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 19) {
+				// Decode nested CHOICE (CountryName)
+				_, n_countryname, _, tlvErr_countryname := ber.DecodeTLV(content[offset:])
+				if tlvErr_countryname != nil {
+					return fmt.Errorf("decoding country-name: %w", tlvErr_countryname)
+				}
+				var dec_countryname CountryName
+				if unmErr := dec_countryname.UnmarshalBER(content[offset : offset+n_countryname]); unmErr != nil {
+					return fmt.Errorf("decoding country-name: %w", unmErr)
+				}
+				v.CountryName = &dec_countryname
+				offset += n_countryname
+			}
 		}
-		var dec_countryname CountryName
-		if unmErr := dec_countryname.UnmarshalBER(content[offset : offset+n_countryname]); unmErr != nil {
-			return fmt.Errorf("decoding country-name: %w", unmErr)
-		}
-		v.CountryName = &dec_countryname
-		offset += n_countryname
 	}
 	// Decode administration-domain-name
 	if offset < len(content) {
-		// Decode nested CHOICE (AdministrationDomainName)
-		_, n_administrationdomainname, _, tlvErr_administrationdomainname := ber.DecodeTLV(content[offset:])
-		if tlvErr_administrationdomainname != nil {
-			return fmt.Errorf("decoding administration-domain-name: %w", tlvErr_administrationdomainname)
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 18) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 19) {
+				// Decode nested CHOICE (AdministrationDomainName)
+				_, n_administrationdomainname, _, tlvErr_administrationdomainname := ber.DecodeTLV(content[offset:])
+				if tlvErr_administrationdomainname != nil {
+					return fmt.Errorf("decoding administration-domain-name: %w", tlvErr_administrationdomainname)
+				}
+				var dec_administrationdomainname AdministrationDomainName
+				if unmErr := dec_administrationdomainname.UnmarshalBER(content[offset : offset+n_administrationdomainname]); unmErr != nil {
+					return fmt.Errorf("decoding administration-domain-name: %w", unmErr)
+				}
+				v.AdministrationDomainName = &dec_administrationdomainname
+				offset += n_administrationdomainname
+			}
 		}
-		var dec_administrationdomainname AdministrationDomainName
-		if unmErr := dec_administrationdomainname.UnmarshalBER(content[offset : offset+n_administrationdomainname]); unmErr != nil {
-			return fmt.Errorf("decoding administration-domain-name: %w", unmErr)
-		}
-		v.AdministrationDomainName = &dec_administrationdomainname
-		offset += n_administrationdomainname
 	}
 	// Decode network-address
 	if offset < len(content) {

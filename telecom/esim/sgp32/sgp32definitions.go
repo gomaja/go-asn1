@@ -3920,14 +3920,17 @@ func MarshalBEREimAcknowledgements(list EimAcknowledgements) ([]byte, error) {
 	for _, elem := range list {
 		children = append(children, ber.EncodeBigInt(elem)...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 83, Constructed: true}, children), nil
 }
 
 // UnmarshalBEREimAcknowledgements decodes a EimAcknowledgements list from BER.
 func UnmarshalBEREimAcknowledgements(data []byte) (EimAcknowledgements, error) {
-	content, total, err := ber.DecodeSequenceContent(data)
+	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding EimAcknowledgements: %w", err)
+	}
+	if decodedTag.Class != tag.ClassContextSpecific || decodedTag.Number != 83 || !decodedTag.Constructed {
+		return nil, fmt.Errorf("decoding EimAcknowledgements: %w: expected tag [CONTEXT 83], got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "EimAcknowledgements", Cause: ber.ErrExtraData}
