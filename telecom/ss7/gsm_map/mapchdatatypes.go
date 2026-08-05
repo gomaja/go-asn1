@@ -724,11 +724,10 @@ func (v *CCBSIndicators) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_ccbspossible, rawVal_ccbspossible, err := ber.DecodeTLV(content[offset:])
+				_, n_ccbspossible, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ccbs-Possible: %w", err)
 				}
-				_ = rawVal_ccbspossible
 				v.CcbsPossible = &struct{}{}
 				offset += n_ccbspossible
 			}
@@ -739,11 +738,10 @@ func (v *CCBSIndicators) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_keepccbscallindicator, rawVal_keepccbscallindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_keepccbscallindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding keepCCBS-CallIndicator: %w", err)
 				}
-				_ = rawVal_keepccbscallindicator
 				v.KeepCCBSCallIndicator = &struct{}{}
 				offset += n_keepccbscallindicator
 			}
@@ -2002,11 +2000,10 @@ func (v *ISTAlertRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_istinformationwithdraw, rawVal_istinformationwithdraw, err := ber.DecodeTLV(content[offset:])
+				_, n_istinformationwithdraw, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding istInformationWithdraw: %w", err)
 				}
-				_ = rawVal_istinformationwithdraw
 				v.IstInformationWithdraw = &struct{}{}
 				offset += n_istinformationwithdraw
 			}
@@ -2518,11 +2515,10 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_suppressionofannouncement, rawVal_suppressionofannouncement, err := ber.DecodeTLV(content[offset:])
+				_, n_suppressionofannouncement, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding suppressionOfAnnouncement: %w", err)
 				}
-				_ = rawVal_suppressionofannouncement
 				v.SuppressionOfAnnouncement = &struct{}{}
 				offset += n_suppressionofannouncement
 			}
@@ -2563,11 +2559,10 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
-				_, n_orinterrogation, rawVal_orinterrogation, err := ber.DecodeTLV(content[offset:])
+				_, n_orinterrogation, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding or-Interrogation: %w", err)
 				}
-				_ = rawVal_orinterrogation
 				v.OrInterrogation = &struct{}{}
 				offset += n_orinterrogation
 			}
@@ -2612,11 +2607,10 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13 {
-				_, n_ccbscall, rawVal_ccbscall, err := ber.DecodeTLV(content[offset:])
+				_, n_ccbscall, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ccbs-Call: %w", err)
 				}
-				_ = rawVal_ccbscall
 				v.CcbsCall = &struct{}{}
 				offset += n_ccbscall
 			}
@@ -2665,11 +2659,10 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 {
-				_, n_ornotsupportedingmsc, rawVal_ornotsupportedingmsc, err := ber.DecodeTLV(content[offset:])
+				_, n_ornotsupportedingmsc, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding orNotSupportedInGMSC: %w", err)
 				}
-				_ = rawVal_ornotsupportedingmsc
 				v.OrNotSupportedInGMSC = &struct{}{}
 				offset += n_ornotsupportedingmsc
 			}
@@ -2680,11 +2673,10 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17 {
-				_, n_prepagingsupported, rawVal_prepagingsupported, err := ber.DecodeTLV(content[offset:])
+				_, n_prepagingsupported, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding pre-pagingSupported: %w", err)
 				}
-				_ = rawVal_prepagingsupported
 				v.PrePagingSupported = &struct{}{}
 				offset += n_prepagingsupported
 			}
@@ -2695,11 +2687,10 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18 {
-				_, n_longftnsupported, rawVal_longftnsupported, err := ber.DecodeTLV(content[offset:])
+				_, n_longftnsupported, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding longFTN-Supported: %w", err)
 				}
-				_ = rawVal_longftnsupported
 				v.LongFTNSupported = &struct{}{}
 				offset += n_longftnsupported
 			}
@@ -2710,11 +2701,10 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19 {
-				_, n_suppressvtcsi, rawVal_suppressvtcsi, err := ber.DecodeTLV(content[offset:])
+				_, n_suppressvtcsi, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding suppress-VT-CSI: %w", err)
 				}
-				_ = rawVal_suppressvtcsi
 				v.SuppressVTCSI = &struct{}{}
 				offset += n_suppressvtcsi
 			}
@@ -2744,11 +2734,10 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21 {
-				_, n_mtroamingretrysupported, rawVal_mtroamingretrysupported, err := ber.DecodeTLV(content[offset:])
+				_, n_mtroamingretrysupported, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mtRoamingRetrySupported: %w", err)
 				}
-				_ = rawVal_mtroamingretrysupported
 				v.MtRoamingRetrySupported = &struct{}{}
 				offset += n_mtroamingretrysupported
 			}
@@ -2802,11 +2791,10 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 24 {
-				_, n_mtrfindicator, rawVal_mtrfindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_mtrfindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mtrf-Indicator: %w", err)
 				}
-				_ = rawVal_mtrfindicator
 				v.MtrfIndicator = &struct{}{}
 				offset += n_mtrfindicator
 			}
@@ -3280,11 +3268,10 @@ func (v *RemoteUserFreeArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_replacebnumber, rawVal_replacebnumber, err := ber.DecodeTLV(content[offset:])
+				_, n_replacebnumber, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding replaceB-Number: %w", err)
 				}
-				_ = rawVal_replacebnumber
 				v.ReplaceBNumber = &struct{}{}
 				offset += n_replacebnumber
 			}
@@ -3710,11 +3697,10 @@ func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_ccbspossible, rawVal_ccbspossible, err := ber.DecodeTLV(content[offset:])
+				_, n_ccbspossible, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ccbs-Possible: %w", err)
 				}
-				_ = rawVal_ccbspossible
 				v.CcbsPossible = &struct{}{}
 				offset += n_ccbspossible
 			}
@@ -3759,11 +3745,10 @@ func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
-				_, n_allinformationsent, rawVal_allinformationsent, err := ber.DecodeTLV(content[offset:])
+				_, n_allinformationsent, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding allInformationSent: %w", err)
 				}
-				_ = rawVal_allinformationsent
 				v.AllInformationSent = &struct{}{}
 				offset += n_allinformationsent
 			}
@@ -3837,11 +3822,10 @@ func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15 {
-				_, n_mtroamingretry, rawVal_mtroamingretry, err := ber.DecodeTLV(content[offset:])
+				_, n_mtroamingretry, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mtRoamingRetry: %w", err)
 				}
-				_ = rawVal_mtroamingretry
 				v.MtRoamingRetry = &struct{}{}
 				offset += n_mtroamingretry
 			}
@@ -4277,11 +4261,10 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_orinterrogation, rawVal_orinterrogation, err := ber.DecodeTLV(content[offset:])
+				_, n_orinterrogation, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding or-Interrogation: %w", err)
 				}
-				_ = rawVal_orinterrogation
 				v.OrInterrogation = &struct{}{}
 				offset += n_orinterrogation
 			}
@@ -4416,11 +4399,10 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12 {
-				_, n_suppressionofannouncement, rawVal_suppressionofannouncement, err := ber.DecodeTLV(content[offset:])
+				_, n_suppressionofannouncement, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding suppressionOfAnnouncement: %w", err)
 				}
-				_ = rawVal_suppressionofannouncement
 				v.SuppressionOfAnnouncement = &struct{}{}
 				offset += n_suppressionofannouncement
 			}
@@ -4465,11 +4447,10 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15 {
-				_, n_ccbscall, rawVal_ccbscall, err := ber.DecodeTLV(content[offset:])
+				_, n_ccbscall, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ccbs-Call: %w", err)
 				}
-				_ = rawVal_ccbscall
 				v.CcbsCall = &struct{}{}
 				offset += n_ccbscall
 			}
@@ -4536,11 +4517,10 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19 {
-				_, n_prepagingsupported, rawVal_prepagingsupported, err := ber.DecodeTLV(content[offset:])
+				_, n_prepagingsupported, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding pre-pagingSupported: %w", err)
 				}
-				_ = rawVal_prepagingsupported
 				v.PrePagingSupported = &struct{}{}
 				offset += n_prepagingsupported
 			}
@@ -4566,11 +4546,10 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21 {
-				_, n_longftnsupported, rawVal_longftnsupported, err := ber.DecodeTLV(content[offset:])
+				_, n_longftnsupported, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding longFTN-Supported: %w", err)
 				}
-				_ = rawVal_longftnsupported
 				v.LongFTNSupported = &struct{}{}
 				offset += n_longftnsupported
 			}
@@ -4581,11 +4560,10 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22 {
-				_, n_suppressvtcsi, rawVal_suppressvtcsi, err := ber.DecodeTLV(content[offset:])
+				_, n_suppressvtcsi, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding suppress-VT-CSI: %w", err)
 				}
-				_ = rawVal_suppressvtcsi
 				v.SuppressVTCSI = &struct{}{}
 				offset += n_suppressvtcsi
 			}
@@ -4596,11 +4574,10 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 23 {
-				_, n_suppressincomingcallbarring, rawVal_suppressincomingcallbarring, err := ber.DecodeTLV(content[offset:])
+				_, n_suppressincomingcallbarring, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding suppressIncomingCallBarring: %w", err)
 				}
-				_ = rawVal_suppressincomingcallbarring
 				v.SuppressIncomingCallBarring = &struct{}{}
 				offset += n_suppressincomingcallbarring
 			}
@@ -4611,11 +4588,10 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 24 {
-				_, n_gsmscfinitiatedcall, rawVal_gsmscfinitiatedcall, err := ber.DecodeTLV(content[offset:])
+				_, n_gsmscfinitiatedcall, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding gsmSCF-InitiatedCall: %w", err)
 				}
-				_ = rawVal_gsmscfinitiatedcall
 				v.GsmSCFInitiatedCall = &struct{}{}
 				offset += n_gsmscfinitiatedcall
 			}
@@ -4683,11 +4659,10 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 28 {
-				_, n_mtroamingretrysupported, rawVal_mtroamingretrysupported, err := ber.DecodeTLV(content[offset:])
+				_, n_mtroamingretrysupported, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mtRoamingRetrySupported: %w", err)
 				}
-				_ = rawVal_mtroamingretrysupported
 				v.MtRoamingRetrySupported = &struct{}{}
 				offset += n_mtroamingretrysupported
 			}
@@ -4993,11 +4968,10 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_cugsubscriptionflag, rawVal_cugsubscriptionflag, err := ber.DecodeTLV(content[offset:])
+				_, n_cugsubscriptionflag, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding cugSubscriptionFlag: %w", err)
 				}
-				_ = rawVal_cugsubscriptionflag
 				v.CugSubscriptionFlag = &struct{}{}
 				offset += n_cugsubscriptionflag
 			}
@@ -5071,11 +5045,10 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_forwardinginterrogationrequired, rawVal_forwardinginterrogationrequired, err := ber.DecodeTLV(content[offset:])
+				_, n_forwardinginterrogationrequired, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding forwardingInterrogationRequired: %w", err)
 				}
-				_ = rawVal_forwardinginterrogationrequired
 				v.ForwardingInterrogationRequired = &struct{}{}
 				offset += n_forwardinginterrogationrequired
 			}
@@ -5349,11 +5322,10 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22 {
-				_, n_releaseresourcessupported, rawVal_releaseresourcessupported, err := ber.DecodeTLV(content[offset:])
+				_, n_releaseresourcessupported, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding releaseResourcesSupported: %w", err)
 				}
-				_ = rawVal_releaseresourcessupported
 				v.ReleaseResourcesSupported = &struct{}{}
 				offset += n_releaseresourcessupported
 			}
@@ -5944,11 +5916,10 @@ func (v *UUData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_uuscfinteraction, rawVal_uuscfinteraction, err := ber.DecodeTLV(content[offset:])
+				_, n_uuscfinteraction, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uusCFInteraction: %w", err)
 				}
-				_ = rawVal_uuscfinteraction
 				v.UusCFInteraction = &struct{}{}
 				offset += n_uuscfinteraction
 			}

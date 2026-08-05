@@ -4455,11 +4455,10 @@ func (v *ADDInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_skipsubscriberdataupdate, rawVal_skipsubscriberdataupdate, err := ber.DecodeTLV(content[offset:])
+				_, n_skipsubscriberdataupdate, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding skipSubscriberDataUpdate: %w", err)
 				}
-				_ = rawVal_skipsubscriberdataupdate
 				v.SkipSubscriberDataUpdate = &struct{}{}
 				offset += n_skipsubscriberdataupdate
 			}
@@ -4937,11 +4936,10 @@ func (v *APNConfiguration) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_vplmnaddressallowed, rawVal_vplmnaddressallowed, err := ber.DecodeTLV(content[offset:])
+				_, n_vplmnaddressallowed, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding vplmnAddressAllowed: %w", err)
 				}
-				_ = rawVal_vplmnaddressallowed
 				v.VplmnAddressAllowed = &struct{}{}
 				offset += n_vplmnaddressallowed
 			}
@@ -5151,11 +5149,10 @@ func (v *APNConfiguration) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19 {
-				_, n_nonippdntypeindicator, rawVal_nonippdntypeindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_nonippdntypeindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding non-IP-PDN-Type-Indicator: %w", err)
 				}
-				_ = rawVal_nonippdntypeindicator
 				v.NonIPPDNTypeIndicator = &struct{}{}
 				offset += n_nonippdntypeindicator
 			}
@@ -6349,11 +6346,10 @@ func (v *AnyTimeModificationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_longftnsupported, rawVal_longftnsupported, err := ber.DecodeTLV(content[offset:])
+				_, n_longftnsupported, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding longFTN-Supported: %w", err)
 				}
-				_ = rawVal_longftnsupported
 				v.LongFTNSupported = &struct{}{}
 				offset += n_longftnsupported
 			}
@@ -6992,11 +6988,10 @@ func (v *AnyTimeSubscriptionInterrogationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_longftnsupported, rawVal_longftnsupported, err := ber.DecodeTLV(content[offset:])
+				_, n_longftnsupported, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding longFTN-Supported: %w", err)
 				}
-				_ = rawVal_longftnsupported
 				v.LongFTNSupported = &struct{}{}
 				offset += n_longftnsupported
 			}
@@ -8933,11 +8928,10 @@ func (v *CAMELSubscriptionInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_tifcsi, rawVal_tifcsi, err := ber.DecodeTLV(content[offset:])
+				_, n_tifcsi, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding tif-CSI: %w", err)
 				}
-				_ = rawVal_tifcsi
 				v.TifCSI = &struct{}{}
 				offset += n_tifcsi
 			}
@@ -8948,11 +8942,10 @@ func (v *CAMELSubscriptionInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_tifcsinotificationtocse, rawVal_tifcsinotificationtocse, err := ber.DecodeTLV(content[offset:])
+				_, n_tifcsinotificationtocse, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding tif-CSI-NotificationToCSE: %w", err)
 				}
-				_ = rawVal_tifcsinotificationtocse
 				v.TifCSINotificationToCSE = &struct{}{}
 				offset += n_tifcsinotificationtocse
 			}
@@ -10251,11 +10244,10 @@ func (v *CallHoldData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_notificationtocse, rawVal_notificationtocse, err := ber.DecodeTLV(content[offset:])
+				_, n_notificationtocse, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding notificationToCSE: %w", err)
 				}
-				_ = rawVal_notificationtocse
 				v.NotificationToCSE = &struct{}{}
 				offset += n_notificationtocse
 			}
@@ -10360,11 +10352,10 @@ func (v *CallWaitingData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_notificationtocse, rawVal_notificationtocse, err := ber.DecodeTLV(content[offset:])
+				_, n_notificationtocse, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding notificationToCSE: %w", err)
 				}
-				_ = rawVal_notificationtocse
 				v.NotificationToCSE = &struct{}{}
 				offset += n_notificationtocse
 			}
@@ -10543,11 +10534,10 @@ func (v *CancelLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_mtrfsupportedandauthorized, rawVal_mtrfsupportedandauthorized, err := ber.DecodeTLV(content[offset:])
+				_, n_mtrfsupportedandauthorized, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mtrf-SupportedAndAuthorized: %w", err)
 				}
-				_ = rawVal_mtrfsupportedandauthorized
 				v.MtrfSupportedAndAuthorized = &struct{}{}
 				offset += n_mtrfsupportedandauthorized
 			}
@@ -10558,11 +10548,10 @@ func (v *CancelLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_mtrfsupportedandnotauthorized, rawVal_mtrfsupportedandnotauthorized, err := ber.DecodeTLV(content[offset:])
+				_, n_mtrfsupportedandnotauthorized, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mtrf-SupportedAndNotAuthorized: %w", err)
 				}
-				_ = rawVal_mtrfsupportedandnotauthorized
 				v.MtrfSupportedAndNotAuthorized = &struct{}{}
 				offset += n_mtrfsupportedandnotauthorized
 			}
@@ -10618,11 +10607,10 @@ func (v *CancelLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_reattachrequired, rawVal_reattachrequired, err := ber.DecodeTLV(content[offset:])
+				_, n_reattachrequired, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding reattach-Required: %w", err)
 				}
-				_ = rawVal_reattachrequired
 				v.ReattachRequired = &struct{}{}
 				offset += n_reattachrequired
 			}
@@ -11272,11 +11260,10 @@ func (v *ClipData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_notificationtocse, rawVal_notificationtocse, err := ber.DecodeTLV(content[offset:])
+				_, n_notificationtocse, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding notificationToCSE: %w", err)
 				}
-				_ = rawVal_notificationtocse
 				v.NotificationToCSE = &struct{}{}
 				offset += n_notificationtocse
 			}
@@ -11382,11 +11369,10 @@ func (v *ClirData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_notificationtocse, rawVal_notificationtocse, err := ber.DecodeTLV(content[offset:])
+				_, n_notificationtocse, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding notificationToCSE: %w", err)
 				}
-				_ = rawVal_notificationtocse
 				v.NotificationToCSE = &struct{}{}
 				offset += n_notificationtocse
 			}
@@ -12053,11 +12039,10 @@ func (v *DCSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_notificationtocse, rawVal_notificationtocse, err := ber.DecodeTLV(content[offset:])
+				_, n_notificationtocse, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding notificationToCSE: %w", err)
 				}
-				_ = rawVal_notificationtocse
 				v.NotificationToCSE = &struct{}{}
 				offset += n_notificationtocse
 			}
@@ -12068,11 +12053,10 @@ func (v *DCSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_csiactive, rawVal_csiactive, err := ber.DecodeTLV(content[offset:])
+				_, n_csiactive, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding csi-Active: %w", err)
 				}
-				_ = rawVal_csiactive
 				v.CsiActive = &struct{}{}
 				offset += n_csiactive
 			}
@@ -12390,11 +12374,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_roamingrestrictionduetounsupportedfeature, rawVal_roamingrestrictionduetounsupportedfeature, err := ber.DecodeTLV(content[offset:])
+				_, n_roamingrestrictionduetounsupportedfeature, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding roamingRestrictionDueToUnsupportedFeature: %w", err)
 				}
-				_ = rawVal_roamingrestrictionduetounsupportedfeature
 				v.RoamingRestrictionDueToUnsupportedFeature = &struct{}{}
 				offset += n_roamingrestrictionduetounsupportedfeature
 			}
@@ -12420,11 +12403,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_vbsgroupindication, rawVal_vbsgroupindication, err := ber.DecodeTLV(content[offset:])
+				_, n_vbsgroupindication, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding vbsGroupIndication: %w", err)
 				}
-				_ = rawVal_vbsgroupindication
 				v.VbsGroupIndication = &struct{}{}
 				offset += n_vbsgroupindication
 			}
@@ -12435,11 +12417,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_vgcsgroupindication, rawVal_vgcsgroupindication, err := ber.DecodeTLV(content[offset:])
+				_, n_vgcsgroupindication, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding vgcsGroupIndication: %w", err)
 				}
-				_ = rawVal_vgcsgroupindication
 				v.VgcsGroupIndication = &struct{}{}
 				offset += n_vgcsgroupindication
 			}
@@ -12450,11 +12431,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
-				_, n_camelsubscriptioninfowithdraw, rawVal_camelsubscriptioninfowithdraw, err := ber.DecodeTLV(content[offset:])
+				_, n_camelsubscriptioninfowithdraw, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding camelSubscriptionInfoWithdraw: %w", err)
 				}
-				_ = rawVal_camelsubscriptioninfowithdraw
 				v.CamelSubscriptionInfoWithdraw = &struct{}{}
 				offset += n_camelsubscriptioninfowithdraw
 			}
@@ -12503,11 +12483,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
-				_, n_roamingrestrictedinsgsnduetounsuppportedfeature, rawVal_roamingrestrictedinsgsnduetounsuppportedfeature, err := ber.DecodeTLV(content[offset:])
+				_, n_roamingrestrictedinsgsnduetounsuppportedfeature, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding roamingRestrictedInSgsnDueToUnsuppportedFeature: %w", err)
 				}
-				_ = rawVal_roamingrestrictedinsgsnduetounsuppportedfeature
 				v.RoamingRestrictedInSgsnDueToUnsuppportedFeature = &struct{}{}
 				offset += n_roamingrestrictedinsgsnduetounsuppportedfeature
 			}
@@ -12537,11 +12516,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13 {
-				_, n_gmlclistwithdraw, rawVal_gmlclistwithdraw, err := ber.DecodeTLV(content[offset:])
+				_, n_gmlclistwithdraw, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding gmlc-ListWithdraw: %w", err)
 				}
-				_ = rawVal_gmlclistwithdraw
 				v.GmlcListWithdraw = &struct{}{}
 				offset += n_gmlclistwithdraw
 			}
@@ -12552,11 +12530,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14 {
-				_, n_istinformationwithdraw, rawVal_istinformationwithdraw, err := ber.DecodeTLV(content[offset:])
+				_, n_istinformationwithdraw, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding istInformationWithdraw: %w", err)
 				}
-				_ = rawVal_istinformationwithdraw
 				v.IstInformationWithdraw = &struct{}{}
 				offset += n_istinformationwithdraw
 			}
@@ -12586,11 +12563,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 {
-				_, n_chargingcharacteristicswithdraw, rawVal_chargingcharacteristicswithdraw, err := ber.DecodeTLV(content[offset:])
+				_, n_chargingcharacteristicswithdraw, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding chargingCharacteristicsWithdraw: %w", err)
 				}
-				_ = rawVal_chargingcharacteristicswithdraw
 				v.ChargingCharacteristicsWithdraw = &struct{}{}
 				offset += n_chargingcharacteristicswithdraw
 			}
@@ -12601,11 +12577,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17 {
-				_, n_stnsrwithdraw, rawVal_stnsrwithdraw, err := ber.DecodeTLV(content[offset:])
+				_, n_stnsrwithdraw, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding stn-srWithdraw: %w", err)
 				}
-				_ = rawVal_stnsrwithdraw
 				v.StnSrWithdraw = &struct{}{}
 				offset += n_stnsrwithdraw
 			}
@@ -12635,11 +12610,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19 {
-				_, n_apnoireplacementwithdraw, rawVal_apnoireplacementwithdraw, err := ber.DecodeTLV(content[offset:])
+				_, n_apnoireplacementwithdraw, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding apn-oi-replacementWithdraw: %w", err)
 				}
-				_ = rawVal_apnoireplacementwithdraw
 				v.ApnOiReplacementWithdraw = &struct{}{}
 				offset += n_apnoireplacementwithdraw
 			}
@@ -12650,11 +12624,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20 {
-				_, n_csgsubscriptiondeleted, rawVal_csgsubscriptiondeleted, err := ber.DecodeTLV(content[offset:])
+				_, n_csgsubscriptiondeleted, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding csg-SubscriptionDeleted: %w", err)
 				}
-				_ = rawVal_csgsubscriptiondeleted
 				v.CsgSubscriptionDeleted = &struct{}{}
 				offset += n_csgsubscriptiondeleted
 			}
@@ -12665,11 +12638,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22 {
-				_, n_subscribedperiodictaurautimerwithdraw, rawVal_subscribedperiodictaurautimerwithdraw, err := ber.DecodeTLV(content[offset:])
+				_, n_subscribedperiodictaurautimerwithdraw, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding subscribedPeriodicTAU-RAU-TimerWithdraw: %w", err)
 				}
-				_ = rawVal_subscribedperiodictaurautimerwithdraw
 				v.SubscribedPeriodicTAURAUTimerWithdraw = &struct{}{}
 				offset += n_subscribedperiodictaurautimerwithdraw
 			}
@@ -12680,11 +12652,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 23 {
-				_, n_subscribedperiodiclautimerwithdraw, rawVal_subscribedperiodiclautimerwithdraw, err := ber.DecodeTLV(content[offset:])
+				_, n_subscribedperiodiclautimerwithdraw, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding subscribedPeriodicLAU-TimerWithdraw: %w", err)
 				}
-				_ = rawVal_subscribedperiodiclautimerwithdraw
 				v.SubscribedPeriodicLAUTimerWithdraw = &struct{}{}
 				offset += n_subscribedperiodiclautimerwithdraw
 			}
@@ -12695,11 +12666,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21 {
-				_, n_subscribedvsrvccwithdraw, rawVal_subscribedvsrvccwithdraw, err := ber.DecodeTLV(content[offset:])
+				_, n_subscribedvsrvccwithdraw, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding subscribed-vsrvccWithdraw: %w", err)
 				}
-				_ = rawVal_subscribedvsrvccwithdraw
 				v.SubscribedVsrvccWithdraw = &struct{}{}
 				offset += n_subscribedvsrvccwithdraw
 			}
@@ -12710,11 +12680,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 24 {
-				_, n_vplmncsgsubscriptiondeleted, rawVal_vplmncsgsubscriptiondeleted, err := ber.DecodeTLV(content[offset:])
+				_, n_vplmncsgsubscriptiondeleted, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding vplmn-Csg-SubscriptionDeleted: %w", err)
 				}
-				_ = rawVal_vplmncsgsubscriptiondeleted
 				v.VplmnCsgSubscriptionDeleted = &struct{}{}
 				offset += n_vplmncsgsubscriptiondeleted
 			}
@@ -12725,11 +12694,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 25 {
-				_, n_additionalmsisdnwithdraw, rawVal_additionalmsisdnwithdraw, err := ber.DecodeTLV(content[offset:])
+				_, n_additionalmsisdnwithdraw, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding additionalMSISDN-Withdraw: %w", err)
 				}
-				_ = rawVal_additionalmsisdnwithdraw
 				v.AdditionalMSISDNWithdraw = &struct{}{}
 				offset += n_additionalmsisdnwithdraw
 			}
@@ -12740,11 +12708,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 26 {
-				_, n_cstopssrvccwithdraw, rawVal_cstopssrvccwithdraw, err := ber.DecodeTLV(content[offset:])
+				_, n_cstopssrvccwithdraw, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding cs-to-ps-SRVCC-Withdraw: %w", err)
 				}
-				_ = rawVal_cstopssrvccwithdraw
 				v.CsToPsSRVCCWithdraw = &struct{}{}
 				offset += n_cstopssrvccwithdraw
 			}
@@ -12755,11 +12722,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 27 {
-				_, n_imsigroupidlistwithdraw, rawVal_imsigroupidlistwithdraw, err := ber.DecodeTLV(content[offset:])
+				_, n_imsigroupidlistwithdraw, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding imsiGroupIdList-Withdraw: %w", err)
 				}
-				_ = rawVal_imsigroupidlistwithdraw
 				v.ImsiGroupIdListWithdraw = &struct{}{}
 				offset += n_imsigroupidlistwithdraw
 			}
@@ -12770,11 +12736,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 28 {
-				_, n_userplaneintegrityprotectionwithdraw, rawVal_userplaneintegrityprotectionwithdraw, err := ber.DecodeTLV(content[offset:])
+				_, n_userplaneintegrityprotectionwithdraw, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding userPlaneIntegrityProtectionWithdraw: %w", err)
 				}
-				_ = rawVal_userplaneintegrityprotectionwithdraw
 				v.UserPlaneIntegrityProtectionWithdraw = &struct{}{}
 				offset += n_userplaneintegrityprotectionwithdraw
 			}
@@ -12785,11 +12750,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 29 {
-				_, n_dlbufferingsuggestedpacketcountwithdraw, rawVal_dlbufferingsuggestedpacketcountwithdraw, err := ber.DecodeTLV(content[offset:])
+				_, n_dlbufferingsuggestedpacketcountwithdraw, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding dl-Buffering-Suggested-Packet-Count-Withdraw: %w", err)
 				}
-				_ = rawVal_dlbufferingsuggestedpacketcountwithdraw
 				v.DlBufferingSuggestedPacketCountWithdraw = &struct{}{}
 				offset += n_dlbufferingsuggestedpacketcountwithdraw
 			}
@@ -12800,11 +12764,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 30 {
-				_, n_ueusagetypewithdraw, rawVal_ueusagetypewithdraw, err := ber.DecodeTLV(content[offset:])
+				_, n_ueusagetypewithdraw, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ue-UsageTypeWithdraw: %w", err)
 				}
-				_ = rawVal_ueusagetypewithdraw
 				v.UeUsageTypeWithdraw = &struct{}{}
 				offset += n_ueusagetypewithdraw
 			}
@@ -12815,11 +12778,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 31 {
-				_, n_resetidswithdraw, rawVal_resetidswithdraw, err := ber.DecodeTLV(content[offset:])
+				_, n_resetidswithdraw, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding reset-idsWithdraw: %w", err)
 				}
-				_ = rawVal_resetidswithdraw
 				v.ResetIdsWithdraw = &struct{}{}
 				offset += n_resetidswithdraw
 			}
@@ -12830,11 +12792,10 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 32 {
-				_, n_iaboperationwithdraw, rawVal_iaboperationwithdraw, err := ber.DecodeTLV(content[offset:])
+				_, n_iaboperationwithdraw, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding iab-OperationWithdraw: %w", err)
 				}
-				_ = rawVal_iaboperationwithdraw
 				v.IabOperationWithdraw = &struct{}{}
 				offset += n_iaboperationwithdraw
 			}
@@ -13920,11 +13881,10 @@ func (v *EPSSubscriptionData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_mpscspriority, rawVal_mpscspriority, err := ber.DecodeTLV(content[offset:])
+				_, n_mpscspriority, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mps-CSPriority: %w", err)
 				}
-				_ = rawVal_mpscspriority
 				v.MpsCSPriority = &struct{}{}
 				offset += n_mpscspriority
 			}
@@ -13935,11 +13895,10 @@ func (v *EPSSubscriptionData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_mpsepspriority, rawVal_mpsepspriority, err := ber.DecodeTLV(content[offset:])
+				_, n_mpsepspriority, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mps-EPSPriority: %w", err)
 				}
-				_ = rawVal_mpsepspriority
 				v.MpsEPSPriority = &struct{}{}
 				offset += n_mpsepspriority
 			}
@@ -13950,11 +13909,10 @@ func (v *EPSSubscriptionData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
-				_, n_subscribedvsrvcc, rawVal_subscribedvsrvcc, err := ber.DecodeTLV(content[offset:])
+				_, n_subscribedvsrvcc, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding subscribed-vsrvcc: %w", err)
 				}
-				_ = rawVal_subscribedvsrvcc
 				v.SubscribedVsrvcc = &struct{}{}
 				offset += n_subscribedvsrvcc
 			}
@@ -14098,11 +14056,10 @@ func (v *EctData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_notificationtocse, rawVal_notificationtocse, err := ber.DecodeTLV(content[offset:])
+				_, n_notificationtocse, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding notificationToCSE: %w", err)
 				}
-				_ = rawVal_notificationtocse
 				v.NotificationToCSE = &struct{}{}
 				offset += n_notificationtocse
 			}
@@ -14578,11 +14535,10 @@ func (v *ExtCallBarringInfoForCSE) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_notificationtocse, rawVal_notificationtocse, err := ber.DecodeTLV(content[offset:])
+				_, n_notificationtocse, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding notificationToCSE: %w", err)
 				}
-				_ = rawVal_notificationtocse
 				v.NotificationToCSE = &struct{}{}
 				offset += n_notificationtocse
 			}
@@ -15268,11 +15224,10 @@ func (v *ExtForwardingInfoForCSE) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_notificationtocse, rawVal_notificationtocse, err := ber.DecodeTLV(content[offset:])
+				_, n_notificationtocse, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding notificationToCSE: %w", err)
 				}
-				_ = rawVal_notificationtocse
 				v.NotificationToCSE = &struct{}{}
 				offset += n_notificationtocse
 			}
@@ -16579,11 +16534,10 @@ func (v *ForwardAccessSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13 {
-				_, n_rabconfigurationindicator, rawVal_rabconfigurationindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_rabconfigurationindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding rab-ConfigurationIndicator: %w", err)
 				}
-				_ = rawVal_rabconfigurationindicator
 				v.RabConfigurationIndicator = &struct{}{}
 				offset += n_rabconfigurationindicator
 			}
@@ -17213,11 +17167,10 @@ func (v *GPRSCSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_notificationtocse, rawVal_notificationtocse, err := ber.DecodeTLV(content[offset:])
+				_, n_notificationtocse, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding notificationToCSE: %w", err)
 				}
-				_ = rawVal_notificationtocse
 				v.NotificationToCSE = &struct{}{}
 				offset += n_notificationtocse
 			}
@@ -17228,11 +17181,10 @@ func (v *GPRSCSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_csiactive, rawVal_csiactive, err := ber.DecodeTLV(content[offset:])
+				_, n_csiactive, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding csi-Active: %w", err)
 				}
-				_ = rawVal_csiactive
 				v.CsiActive = &struct{}{}
 				offset += n_csiactive
 			}
@@ -18313,11 +18265,10 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
-				_, n_roamingrestrictionduetounsupportedfeature, rawVal_roamingrestrictionduetounsupportedfeature, err := ber.DecodeTLV(content[offset:])
+				_, n_roamingrestrictionduetounsupportedfeature, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding roamingRestrictionDueToUnsupportedFeature: %w", err)
 				}
-				_ = rawVal_roamingrestrictionduetounsupportedfeature
 				v.RoamingRestrictionDueToUnsupportedFeature = &struct{}{}
 				offset += n_roamingrestrictionduetounsupportedfeature
 			}
@@ -18479,11 +18430,10 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 23 {
-				_, n_roamingrestrictedinsgsnduetounsupportedfeature, rawVal_roamingrestrictedinsgsnduetounsupportedfeature, err := ber.DecodeTLV(content[offset:])
+				_, n_roamingrestrictedinsgsnduetounsupportedfeature, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding roamingRestrictedInSgsnDueToUnsupportedFeature: %w", err)
 				}
-				_ = rawVal_roamingrestrictedinsgsnduetounsupportedfeature
 				v.RoamingRestrictedInSgsnDueToUnsupportedFeature = &struct{}{}
 				offset += n_roamingrestrictedinsgsnduetounsupportedfeature
 			}
@@ -18532,11 +18482,10 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21 {
-				_, n_lmuindicator, rawVal_lmuindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_lmuindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding lmu-Indicator: %w", err)
 				}
-				_ = rawVal_lmuindicator
 				v.LmuIndicator = &struct{}{}
 				offset += n_lmuindicator
 			}
@@ -18751,11 +18700,10 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 33 {
-				_, n_uereachabilityrequestindicator, rawVal_uereachabilityrequestindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_uereachabilityrequestindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ue-ReachabilityRequestIndicator: %w", err)
 				}
-				_ = rawVal_uereachabilityrequestindicator
 				v.UeReachabilityRequestIndicator = &struct{}{}
 				offset += n_uereachabilityrequestindicator
 			}
@@ -18814,11 +18762,10 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 37 {
-				_, n_vplmnlipaallowed, rawVal_vplmnlipaallowed, err := ber.DecodeTLV(content[offset:])
+				_, n_vplmnlipaallowed, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding vplmnLIPAAllowed: %w", err)
 				}
-				_ = rawVal_vplmnlipaallowed
 				v.VplmnLIPAAllowed = &struct{}{}
 				offset += n_vplmnlipaallowed
 			}
@@ -18908,11 +18855,10 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 42 {
-				_, n_psandsmsonlyserviceprovision, rawVal_psandsmsonlyserviceprovision, err := ber.DecodeTLV(content[offset:])
+				_, n_psandsmsonlyserviceprovision, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding psAndSMS-OnlyServiceProvision: %w", err)
 				}
-				_ = rawVal_psandsmsonlyserviceprovision
 				v.PsAndSMSOnlyServiceProvision = &struct{}{}
 				offset += n_psandsmsonlyserviceprovision
 			}
@@ -18923,11 +18869,10 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 43 {
-				_, n_smsinsgsnallowed, rawVal_smsinsgsnallowed, err := ber.DecodeTLV(content[offset:])
+				_, n_smsinsgsnallowed, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsInSGSNAllowed: %w", err)
 				}
-				_ = rawVal_smsinsgsnallowed
 				v.SmsInSGSNAllowed = &struct{}{}
 				offset += n_smsinsgsnallowed
 			}
@@ -18938,11 +18883,10 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 44 {
-				_, n_cstopssrvccallowedindicator, rawVal_cstopssrvccallowedindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_cstopssrvccallowedindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding cs-to-ps-SRVCC-Allowed-Indicator: %w", err)
 				}
-				_ = rawVal_cstopssrvccallowedindicator
 				v.CsToPsSRVCCAllowedIndicator = &struct{}{}
 				offset += n_cstopssrvccallowedindicator
 			}
@@ -18953,11 +18897,10 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 45 {
-				_, n_pcscfrestorationrequest, rawVal_pcscfrestorationrequest, err := ber.DecodeTLV(content[offset:])
+				_, n_pcscfrestorationrequest, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding pcscf-Restoration-Request: %w", err)
 				}
-				_ = rawVal_pcscfrestorationrequest
 				v.PcscfRestorationRequest = &struct{}{}
 				offset += n_pcscfrestorationrequest
 			}
@@ -19033,11 +18976,10 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 49 {
-				_, n_userplaneintegrityprotectionindicator, rawVal_userplaneintegrityprotectionindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_userplaneintegrityprotectionindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding userPlaneIntegrityProtectionIndicator: %w", err)
 				}
-				_ = rawVal_userplaneintegrityprotectionindicator
 				v.UserPlaneIntegrityProtectionIndicator = &struct{}{}
 				offset += n_userplaneintegrityprotectionindicator
 			}
@@ -19135,11 +19077,10 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 54 {
-				_, n_iaboperationallowedindicator, rawVal_iaboperationallowedindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_iaboperationallowedindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding iab-Operation-Allowed-Indicator: %w", err)
 				}
-				_ = rawVal_iaboperationallowedindicator
 				v.IabOperationAllowedIndicator = &struct{}{}
 				offset += n_iaboperationallowedindicator
 			}
@@ -20169,11 +20110,10 @@ func (v *LSAData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_lsaactivemodeindicator, rawVal_lsaactivemodeindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_lsaactivemodeindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding lsaActiveModeIndicator: %w", err)
 				}
-				_ = rawVal_lsaactivemodeindicator
 				v.LsaActiveModeIndicator = &struct{}{}
 				offset += n_lsaactivemodeindicator
 			}
@@ -20821,11 +20761,10 @@ func (v *LocationInformation) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_currentlocationretrieved, rawVal_currentlocationretrieved, err := ber.DecodeTLV(content[offset:])
+				_, n_currentlocationretrieved, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding currentLocationRetrieved: %w", err)
 				}
-				_ = rawVal_currentlocationretrieved
 				v.CurrentLocationRetrieved = &struct{}{}
 				offset += n_currentlocationretrieved
 			}
@@ -20836,11 +20775,10 @@ func (v *LocationInformation) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
-				_, n_saipresent, rawVal_saipresent, err := ber.DecodeTLV(content[offset:])
+				_, n_saipresent, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding sai-Present: %w", err)
 				}
-				_ = rawVal_saipresent
 				v.SaiPresent = &struct{}{}
 				offset += n_saipresent
 			}
@@ -21095,11 +21033,10 @@ func (v *LocationInformation5GS) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_currentlocationretrieved, rawVal_currentlocationretrieved, err := ber.DecodeTLV(content[offset:])
+				_, n_currentlocationretrieved, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding currentLocationRetrieved: %w", err)
 				}
-				_ = rawVal_currentlocationretrieved
 				v.CurrentLocationRetrieved = &struct{}{}
 				offset += n_currentlocationretrieved
 			}
@@ -21381,11 +21318,10 @@ func (v *LocationInformationEPS) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_currentlocationretrieved, rawVal_currentlocationretrieved, err := ber.DecodeTLV(content[offset:])
+				_, n_currentlocationretrieved, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding currentLocationRetrieved: %w", err)
 				}
-				_ = rawVal_currentlocationretrieved
 				v.CurrentLocationRetrieved = &struct{}{}
 				offset += n_currentlocationretrieved
 			}
@@ -21639,11 +21575,10 @@ func (v *LocationInformationGPRS) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_saipresent, rawVal_saipresent, err := ber.DecodeTLV(content[offset:])
+				_, n_saipresent, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding sai-Present: %w", err)
 				}
-				_ = rawVal_saipresent
 				v.SaiPresent = &struct{}{}
 				offset += n_saipresent
 			}
@@ -21669,11 +21604,10 @@ func (v *LocationInformationGPRS) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_currentlocationretrieved, rawVal_currentlocationretrieved, err := ber.DecodeTLV(content[offset:])
+				_, n_currentlocationretrieved, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding currentLocationRetrieved: %w", err)
 				}
-				_ = rawVal_currentlocationretrieved
 				v.CurrentLocationRetrieved = &struct{}{}
 				offset += n_currentlocationretrieved
 			}
@@ -21856,11 +21790,10 @@ func (v *MGCSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_notificationtocse, rawVal_notificationtocse, err := ber.DecodeTLV(content[offset:])
+				_, n_notificationtocse, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding notificationToCSE: %w", err)
 				}
-				_ = rawVal_notificationtocse
 				v.NotificationToCSE = &struct{}{}
 				offset += n_notificationtocse
 			}
@@ -21871,11 +21804,10 @@ func (v *MGCSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_csiactive, rawVal_csiactive, err := ber.DecodeTLV(content[offset:])
+				_, n_csiactive, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding csi-Active: %w", err)
 				}
-				_ = rawVal_csiactive
 				v.CsiActive = &struct{}{}
 				offset += n_csiactive
 			}
@@ -22627,11 +22559,10 @@ func (v *MCSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_notificationtocse, rawVal_notificationtocse, err := ber.DecodeTLV(content[offset:])
+				_, n_notificationtocse, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding notificationToCSE: %w", err)
 				}
-				_ = rawVal_notificationtocse
 				v.NotificationToCSE = &struct{}{}
 				offset += n_notificationtocse
 			}
@@ -22642,11 +22573,10 @@ func (v *MCSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_csiactive, rawVal_csiactive, err := ber.DecodeTLV(content[offset:])
+				_, n_csiactive, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding csi-Active: %w", err)
 				}
-				_ = rawVal_csiactive
 				v.CsiActive = &struct{}{}
 				offset += n_csiactive
 			}
@@ -25089,11 +25019,10 @@ func (v *NoteSubscriberDataModifiedArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_allinformationsent, rawVal_allinformationsent, err := ber.DecodeTLV(content[offset:])
+				_, n_allinformationsent, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding allInformationSent: %w", err)
 				}
-				_ = rawVal_allinformationsent
 				v.AllInformationSent = &struct{}{}
 				offset += n_allinformationsent
 			}
@@ -26117,11 +26046,10 @@ func (v *OCSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_notificationtocse, rawVal_notificationtocse, err := ber.DecodeTLV(content[offset:])
+				_, n_notificationtocse, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding notificationToCSE: %w", err)
 				}
-				_ = rawVal_notificationtocse
 				v.NotificationToCSE = &struct{}{}
 				offset += n_notificationtocse
 			}
@@ -26132,11 +26060,10 @@ func (v *OCSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_csiactive, rawVal_csiactive, err := ber.DecodeTLV(content[offset:])
+				_, n_csiactive, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding csiActive: %w", err)
 				}
-				_ = rawVal_csiactive
 				v.CsiActive = &struct{}{}
 				offset += n_csiactive
 			}
@@ -26668,11 +26595,10 @@ func (v *PDPContext) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19 {
-				_, n_vplmnaddressallowed, rawVal_vplmnaddressallowed, err := ber.DecodeTLV(content[offset:])
+				_, n_vplmnaddressallowed, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding vplmnAddressAllowed: %w", err)
 				}
-				_ = rawVal_vplmnaddressallowed
 				v.VplmnAddressAllowed = &struct{}{}
 				offset += n_vplmnaddressallowed
 			}
@@ -27173,11 +27099,10 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_pdpcontextactive, rawVal_pdpcontextactive, err := ber.DecodeTLV(content[offset:])
+				_, n_pdpcontextactive, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding pdp-ContextActive: %w", err)
 				}
-				_ = rawVal_pdpcontextactive
 				v.PdpContextActive = &struct{}{}
 				offset += n_pdpcontextactive
 			}
@@ -28194,11 +28119,10 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_multiplebearerrequested, rawVal_multiplebearerrequested, err := ber.DecodeTLV(content[offset:])
+				_, n_multiplebearerrequested, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding multipleBearerRequested: %w", err)
 				}
-				_ = rawVal_multiplebearerrequested
 				v.MultipleBearerRequested = &struct{}{}
 				offset += n_multiplebearerrequested
 			}
@@ -28484,11 +28408,10 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19 {
-				_, n_rabconfigurationindicator, rawVal_rabconfigurationindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_rabconfigurationindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding rab-ConfigurationIndicator: %w", err)
 				}
-				_ = rawVal_rabconfigurationindicator
 				v.RabConfigurationIndicator = &struct{}{}
 				offset += n_rabconfigurationindicator
 			}
@@ -29256,11 +29179,10 @@ func (v *PrepareSubsequentHOArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_rabconfigurationindicator, rawVal_rabconfigurationindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_rabconfigurationindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding rab-ConfigurationIndicator: %w", err)
 				}
-				_ = rawVal_rabconfigurationindicator
 				v.RabConfigurationIndicator = &struct{}{}
 				offset += n_rabconfigurationindicator
 			}
@@ -30186,11 +30108,10 @@ func (v *PurgeMSRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_freezetmsi, rawVal_freezetmsi, err := ber.DecodeTLV(content[offset:])
+				_, n_freezetmsi, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding freezeTMSI: %w", err)
 				}
-				_ = rawVal_freezetmsi
 				v.FreezeTMSI = &struct{}{}
 				offset += n_freezetmsi
 			}
@@ -30201,11 +30122,10 @@ func (v *PurgeMSRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_freezeptmsi, rawVal_freezeptmsi, err := ber.DecodeTLV(content[offset:])
+				_, n_freezeptmsi, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding freezeP-TMSI: %w", err)
 				}
-				_ = rawVal_freezeptmsi
 				v.FreezePTMSI = &struct{}{}
 				offset += n_freezeptmsi
 			}
@@ -30235,11 +30155,10 @@ func (v *PurgeMSRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_freezemtmsi, rawVal_freezemtmsi, err := ber.DecodeTLV(content[offset:])
+				_, n_freezemtmsi, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding freezeM-TMSI: %w", err)
 				}
-				_ = rawVal_freezemtmsi
 				v.FreezeMTMSI = &struct{}{}
 				offset += n_freezemtmsi
 			}
@@ -30699,11 +30618,10 @@ func (v *MSRequestedInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_locationinformation, rawVal_locationinformation, err := ber.DecodeTLV(content[offset:])
+				_, n_locationinformation, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding locationInformation: %w", err)
 				}
-				_ = rawVal_locationinformation
 				v.LocationInformation = &struct{}{}
 				offset += n_locationinformation
 			}
@@ -30714,11 +30632,10 @@ func (v *MSRequestedInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_subscriberstate, rawVal_subscriberstate, err := ber.DecodeTLV(content[offset:])
+				_, n_subscriberstate, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding subscriberState: %w", err)
 				}
-				_ = rawVal_subscriberstate
 				v.SubscriberState = &struct{}{}
 				offset += n_subscriberstate
 			}
@@ -30748,11 +30665,10 @@ func (v *MSRequestedInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_currentlocation, rawVal_currentlocation, err := ber.DecodeTLV(content[offset:])
+				_, n_currentlocation, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding currentLocation: %w", err)
 				}
-				_ = rawVal_currentlocation
 				v.CurrentLocation = &struct{}{}
 				offset += n_currentlocation
 			}
@@ -30782,11 +30698,10 @@ func (v *MSRequestedInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_imei, rawVal_imei, err := ber.DecodeTLV(content[offset:])
+				_, n_imei, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding imei: %w", err)
 				}
-				_ = rawVal_imei
 				v.Imei = &struct{}{}
 				offset += n_imei
 			}
@@ -30797,11 +30712,10 @@ func (v *MSRequestedInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_msclassmark, rawVal_msclassmark, err := ber.DecodeTLV(content[offset:])
+				_, n_msclassmark, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ms-classmark: %w", err)
 				}
-				_ = rawVal_msclassmark
 				v.MsClassmark = &struct{}{}
 				offset += n_msclassmark
 			}
@@ -30812,11 +30726,10 @@ func (v *MSRequestedInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_mnprequestedinfo, rawVal_mnprequestedinfo, err := ber.DecodeTLV(content[offset:])
+				_, n_mnprequestedinfo, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mnpRequestedInfo: %w", err)
 				}
-				_ = rawVal_mnprequestedinfo
 				v.MnpRequestedInfo = &struct{}{}
 				offset += n_mnprequestedinfo
 			}
@@ -30827,11 +30740,10 @@ func (v *MSRequestedInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
-				_, n_locationinformationepssupported, rawVal_locationinformationepssupported, err := ber.DecodeTLV(content[offset:])
+				_, n_locationinformationepssupported, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding locationInformationEPS-Supported: %w", err)
 				}
-				_ = rawVal_locationinformationepssupported
 				v.LocationInformationEPSSupported = &struct{}{}
 				offset += n_locationinformationepssupported
 			}
@@ -30842,11 +30754,10 @@ func (v *MSRequestedInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_tadsdata, rawVal_tadsdata, err := ber.DecodeTLV(content[offset:])
+				_, n_tadsdata, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding t-adsData: %w", err)
 				}
-				_ = rawVal_tadsdata
 				v.TAdsData = &struct{}{}
 				offset += n_tadsdata
 			}
@@ -30876,11 +30787,10 @@ func (v *MSRequestedInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
-				_, n_servingnodeindication, rawVal_servingnodeindication, err := ber.DecodeTLV(content[offset:])
+				_, n_servingnodeindication, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding servingNodeIndication: %w", err)
 				}
-				_ = rawVal_servingnodeindication
 				v.ServingNodeIndication = &struct{}{}
 				offset += n_servingnodeindication
 			}
@@ -30891,11 +30801,10 @@ func (v *MSRequestedInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12 {
-				_, n_localtimezonerequest, rawVal_localtimezonerequest, err := ber.DecodeTLV(content[offset:])
+				_, n_localtimezonerequest, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding localTimeZoneRequest: %w", err)
 				}
-				_ = rawVal_localtimezonerequest
 				v.LocalTimeZoneRequest = &struct{}{}
 				offset += n_localtimezonerequest
 			}
@@ -31049,11 +30958,10 @@ func (v *RequestedSubscriptionInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_odb, rawVal_odb, err := ber.DecodeTLV(content[offset:])
+				_, n_odb, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding odb: %w", err)
 				}
-				_ = rawVal_odb
 				v.Odb = &struct{}{}
 				offset += n_odb
 			}
@@ -31083,11 +30991,10 @@ func (v *RequestedSubscriptionInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_supportedvlrcamelphases, rawVal_supportedvlrcamelphases, err := ber.DecodeTLV(content[offset:])
+				_, n_supportedvlrcamelphases, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding supportedVLR-CAMEL-Phases: %w", err)
 				}
-				_ = rawVal_supportedvlrcamelphases
 				v.SupportedVLRCAMELPhases = &struct{}{}
 				offset += n_supportedvlrcamelphases
 			}
@@ -31098,11 +31005,10 @@ func (v *RequestedSubscriptionInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_supportedsgsncamelphases, rawVal_supportedsgsncamelphases, err := ber.DecodeTLV(content[offset:])
+				_, n_supportedsgsncamelphases, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding supportedSGSN-CAMEL-Phases: %w", err)
 				}
-				_ = rawVal_supportedsgsncamelphases
 				v.SupportedSGSNCAMELPhases = &struct{}{}
 				offset += n_supportedsgsncamelphases
 			}
@@ -31151,11 +31057,10 @@ func (v *RequestedSubscriptionInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_msisdnbslist, rawVal_msisdnbslist, err := ber.DecodeTLV(content[offset:])
+				_, n_msisdnbslist, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding msisdn-BS-List: %w", err)
 				}
-				_ = rawVal_msisdnbslist
 				v.MsisdnBSList = &struct{}{}
 				offset += n_msisdnbslist
 			}
@@ -31166,11 +31071,10 @@ func (v *RequestedSubscriptionInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
-				_, n_csgsubscriptiondatarequested, rawVal_csgsubscriptiondatarequested, err := ber.DecodeTLV(content[offset:])
+				_, n_csgsubscriptiondatarequested, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding csg-SubscriptionDataRequested: %w", err)
 				}
-				_ = rawVal_csgsubscriptiondatarequested
 				v.CsgSubscriptionDataRequested = &struct{}{}
 				offset += n_csgsubscriptiondatarequested
 			}
@@ -31181,11 +31085,10 @@ func (v *RequestedSubscriptionInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
-				_, n_cwinfo, rawVal_cwinfo, err := ber.DecodeTLV(content[offset:])
+				_, n_cwinfo, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding cw-Info: %w", err)
 				}
-				_ = rawVal_cwinfo
 				v.CwInfo = &struct{}{}
 				offset += n_cwinfo
 			}
@@ -31196,11 +31099,10 @@ func (v *RequestedSubscriptionInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
-				_, n_clipinfo, rawVal_clipinfo, err := ber.DecodeTLV(content[offset:])
+				_, n_clipinfo, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding clip-Info: %w", err)
 				}
-				_ = rawVal_clipinfo
 				v.ClipInfo = &struct{}{}
 				offset += n_clipinfo
 			}
@@ -31211,11 +31113,10 @@ func (v *RequestedSubscriptionInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12 {
-				_, n_clirinfo, rawVal_clirinfo, err := ber.DecodeTLV(content[offset:])
+				_, n_clirinfo, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding clir-Info: %w", err)
 				}
-				_ = rawVal_clirinfo
 				v.ClirInfo = &struct{}{}
 				offset += n_clirinfo
 			}
@@ -31226,11 +31127,10 @@ func (v *RequestedSubscriptionInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13 {
-				_, n_holdinfo, rawVal_holdinfo, err := ber.DecodeTLV(content[offset:])
+				_, n_holdinfo, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding hold-Info: %w", err)
 				}
-				_ = rawVal_holdinfo
 				v.HoldInfo = &struct{}{}
 				offset += n_holdinfo
 			}
@@ -31241,11 +31141,10 @@ func (v *RequestedSubscriptionInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14 {
-				_, n_ectinfo, rawVal_ectinfo, err := ber.DecodeTLV(content[offset:])
+				_, n_ectinfo, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ect-Info: %w", err)
 				}
-				_ = rawVal_ectinfo
 				v.EctInfo = &struct{}{}
 				offset += n_ectinfo
 			}
@@ -31639,11 +31538,10 @@ func (v *RestoreDataArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_restorationindicator, rawVal_restorationindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_restorationindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding restorationIndicator: %w", err)
 				}
-				_ = rawVal_restorationindicator
 				v.RestorationIndicator = &struct{}{}
 				offset += n_restorationindicator
 			}
@@ -32178,11 +32076,10 @@ func (v *SGSNCapability) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_gprsenhancementssupportindicator, rawVal_gprsenhancementssupportindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_gprsenhancementssupportindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding gprsEnhancementsSupportIndicator: %w", err)
 				}
-				_ = rawVal_gprsenhancementssupportindicator
 				v.GprsEnhancementsSupportIndicator = &struct{}{}
 				offset += n_gprsenhancementssupportindicator
 			}
@@ -32250,11 +32147,10 @@ func (v *SGSNCapability) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_smscallbarringsupportindicator, rawVal_smscallbarringsupportindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_smscallbarringsupportindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsCallBarringSupportIndicator: %w", err)
 				}
-				_ = rawVal_smscallbarringsupportindicator
 				v.SmsCallBarringSupportIndicator = &struct{}{}
 				offset += n_smscallbarringsupportindicator
 			}
@@ -32303,11 +32199,10 @@ func (v *SGSNCapability) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
-				_, n_tadsdataretrieval, rawVal_tadsdataretrieval, err := ber.DecodeTLV(content[offset:])
+				_, n_tadsdataretrieval, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding t-adsDataRetrieval: %w", err)
 				}
-				_ = rawVal_tadsdataretrieval
 				v.TAdsDataRetrieval = &struct{}{}
 				offset += n_tadsdataretrieval
 			}
@@ -32339,11 +32234,10 @@ func (v *SGSNCapability) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12 {
-				_, n_cancellationtypeinitialattach, rawVal_cancellationtypeinitialattach, err := ber.DecodeTLV(content[offset:])
+				_, n_cancellationtypeinitialattach, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding cancellationTypeInitialAttach: %w", err)
 				}
-				_ = rawVal_cancellationtypeinitialattach
 				v.CancellationTypeInitialAttach = &struct{}{}
 				offset += n_cancellationtypeinitialattach
 			}
@@ -32354,11 +32248,10 @@ func (v *SGSNCapability) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14 {
-				_, n_msisdnlessoperationsupported, rawVal_msisdnlessoperationsupported, err := ber.DecodeTLV(content[offset:])
+				_, n_msisdnlessoperationsupported, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding msisdn-lessOperation-Supported: %w", err)
 				}
-				_ = rawVal_msisdnlessoperationsupported
 				v.MsisdnLessOperationSupported = &struct{}{}
 				offset += n_msisdnlessoperationsupported
 			}
@@ -32369,11 +32262,10 @@ func (v *SGSNCapability) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15 {
-				_, n_updateofhomogeneoussupportofimsvoiceoverpssessions, rawVal_updateofhomogeneoussupportofimsvoiceoverpssessions, err := ber.DecodeTLV(content[offset:])
+				_, n_updateofhomogeneoussupportofimsvoiceoverpssessions, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding updateofHomogeneousSupportOfIMSVoiceOverPSSessions: %w", err)
 				}
-				_ = rawVal_updateofhomogeneoussupportofimsvoiceoverpssessions
 				v.UpdateofHomogeneousSupportOfIMSVoiceOverPSSessions = &struct{}{}
 				offset += n_updateofhomogeneoussupportofimsvoiceoverpssessions
 			}
@@ -32384,11 +32276,10 @@ func (v *SGSNCapability) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 {
-				_, n_resetidssupported, rawVal_resetidssupported, err := ber.DecodeTLV(content[offset:])
+				_, n_resetidssupported, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding reset-ids-Supported: %w", err)
 				}
-				_ = rawVal_resetidssupported
 				v.ResetIdsSupported = &struct{}{}
 				offset += n_resetidssupported
 			}
@@ -32766,11 +32657,10 @@ func (v *SMSCSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_notificationtocse, rawVal_notificationtocse, err := ber.DecodeTLV(content[offset:])
+				_, n_notificationtocse, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding notificationToCSE: %w", err)
 				}
-				_ = rawVal_notificationtocse
 				v.NotificationToCSE = &struct{}{}
 				offset += n_notificationtocse
 			}
@@ -32781,11 +32671,10 @@ func (v *SMSCSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_csiactive, rawVal_csiactive, err := ber.DecodeTLV(content[offset:])
+				_, n_csiactive, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding csi-Active: %w", err)
 				}
-				_ = rawVal_csiactive
 				v.CsiActive = &struct{}{}
 				offset += n_csiactive
 			}
@@ -32898,11 +32787,10 @@ func (v *SSCSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_notificationtocse, rawVal_notificationtocse, err := ber.DecodeTLV(content[offset:])
+				_, n_notificationtocse, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding notificationToCSE: %w", err)
 				}
-				_ = rawVal_notificationtocse
 				v.NotificationToCSE = &struct{}{}
 				offset += n_notificationtocse
 			}
@@ -32913,11 +32801,10 @@ func (v *SSCSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_csiactive, rawVal_csiactive, err := ber.DecodeTLV(content[offset:])
+				_, n_csiactive, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding csi-Active: %w", err)
 				}
-				_ = rawVal_csiactive
 				v.CsiActive = &struct{}{}
 				offset += n_csiactive
 			}
@@ -33322,11 +33209,10 @@ func (v *SendAuthenticationInfoArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_immediateresponsepreferred, rawVal_immediateresponsepreferred, err := ber.DecodeTLV(content[offset:])
+				_, n_immediateresponsepreferred, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding immediateResponsePreferred: %w", err)
 				}
-				_ = rawVal_immediateresponsepreferred
 				v.ImmediateResponsePreferred = &struct{}{}
 				offset += n_immediateresponsepreferred
 			}
@@ -33427,11 +33313,10 @@ func (v *SendAuthenticationInfoArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_additionalvectorsareforeps, rawVal_additionalvectorsareforeps, err := ber.DecodeTLV(content[offset:])
+				_, n_additionalvectorsareforeps, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding additionalVectorsAreForEPS: %w", err)
 				}
-				_ = rawVal_additionalvectorsareforeps
 				v.AdditionalVectorsAreForEPS = &struct{}{}
 				offset += n_additionalvectorsareforeps
 			}
@@ -33442,11 +33327,10 @@ func (v *SendAuthenticationInfoArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_ueusagetyperequestindication, rawVal_ueusagetyperequestindication, err := ber.DecodeTLV(content[offset:])
+				_, n_ueusagetyperequestindication, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ueUsageTypeRequestIndication: %w", err)
 				}
-				_ = rawVal_ueusagetyperequestindication
 				v.UeUsageTypeRequestIndication = &struct{}{}
 				offset += n_ueusagetyperequestindication
 			}
@@ -33992,11 +33876,10 @@ func (v *SendIdentificationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_mtroamingforwardingsupported, rawVal_mtroamingforwardingsupported, err := ber.DecodeTLV(content[offset:])
+				_, n_mtroamingforwardingsupported, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mtRoamingForwardingSupported: %w", err)
 				}
-				_ = rawVal_mtroamingforwardingsupported
 				v.MtRoamingForwardingSupported = &struct{}{}
 				offset += n_mtroamingforwardingsupported
 			}
@@ -34212,11 +34095,10 @@ func (v *SendIdentificationRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_mtcallpendingflag, rawVal_mtcallpendingflag, err := ber.DecodeTLV(content[offset:])
+				_, n_mtcallpendingflag, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mtCallPendingFlag: %w", err)
 				}
-				_ = rawVal_mtcallpendingflag
 				v.MtCallPendingFlag = &struct{}{}
 				offset += n_mtcallpendingflag
 			}
@@ -35203,11 +35085,10 @@ func (v *SubscriberData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
-				_, n_roamingrestrictionduetounsupportedfeature, rawVal_roamingrestrictionduetounsupportedfeature, err := ber.DecodeTLV(content[offset:])
+				_, n_roamingrestrictionduetounsupportedfeature, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding roamingRestrictionDueToUnsupportedFeature: %w", err)
 				}
-				_ = rawVal_roamingrestrictionduetounsupportedfeature
 				v.RoamingRestrictionDueToUnsupportedFeature = &struct{}{}
 				offset += n_roamingrestrictionduetounsupportedfeature
 			}
@@ -36568,11 +36449,10 @@ func (v *TCSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_notificationtocse, rawVal_notificationtocse, err := ber.DecodeTLV(content[offset:])
+				_, n_notificationtocse, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding notificationToCSE: %w", err)
 				}
-				_ = rawVal_notificationtocse
 				v.NotificationToCSE = &struct{}{}
 				offset += n_notificationtocse
 			}
@@ -36583,11 +36463,10 @@ func (v *TCSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_csiactive, rawVal_csiactive, err := ber.DecodeTLV(content[offset:])
+				_, n_csiactive, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding csi-Active: %w", err)
 				}
-				_ = rawVal_csiactive
 				v.CsiActive = &struct{}{}
 				offset += n_csiactive
 			}
@@ -37161,11 +37040,10 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_informpreviousnetworkentity, rawVal_informpreviousnetworkentity, err := ber.DecodeTLV(content[offset:])
+				_, n_informpreviousnetworkentity, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding informPreviousNetworkEntity: %w", err)
 				}
-				_ = rawVal_informpreviousnetworkentity
 				v.InformPreviousNetworkEntity = &struct{}{}
 				offset += n_informpreviousnetworkentity
 			}
@@ -37176,11 +37054,10 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_pslcsnotsupportedbyue, rawVal_pslcsnotsupportedbyue, err := ber.DecodeTLV(content[offset:])
+				_, n_pslcsnotsupportedbyue, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ps-LCS-NotSupportedByUE: %w", err)
 				}
-				_ = rawVal_pslcsnotsupportedbyue
 				v.PsLCSNotSupportedByUE = &struct{}{}
 				offset += n_pslcsnotsupportedbyue
 			}
@@ -37244,11 +37121,10 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_servingnodetypeindicator, rawVal_servingnodetypeindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_servingnodetypeindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding servingNodeTypeIndicator: %w", err)
 				}
-				_ = rawVal_servingnodetypeindicator
 				v.ServingNodeTypeIndicator = &struct{}{}
 				offset += n_servingnodetypeindicator
 			}
@@ -37259,11 +37135,10 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_skipsubscriberdataupdate, rawVal_skipsubscriberdataupdate, err := ber.DecodeTLV(content[offset:])
+				_, n_skipsubscriberdataupdate, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding skipSubscriberDataUpdate: %w", err)
 				}
-				_ = rawVal_skipsubscriberdataupdate
 				v.SkipSubscriberDataUpdate = &struct{}{}
 				offset += n_skipsubscriberdataupdate
 			}
@@ -37293,11 +37168,10 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
-				_, n_gprssubscriptiondatanotneeded, rawVal_gprssubscriptiondatanotneeded, err := ber.DecodeTLV(content[offset:])
+				_, n_gprssubscriptiondatanotneeded, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding gprsSubscriptionDataNotNeeded: %w", err)
 				}
-				_ = rawVal_gprssubscriptiondatanotneeded
 				v.GprsSubscriptionDataNotNeeded = &struct{}{}
 				offset += n_gprssubscriptiondatanotneeded
 			}
@@ -37308,11 +37182,10 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
-				_, n_nodetypeindicator, rawVal_nodetypeindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_nodetypeindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding nodeTypeIndicator: %w", err)
 				}
-				_ = rawVal_nodetypeindicator
 				v.NodeTypeIndicator = &struct{}{}
 				offset += n_nodetypeindicator
 			}
@@ -37323,11 +37196,10 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
-				_, n_arearestricted, rawVal_arearestricted, err := ber.DecodeTLV(content[offset:])
+				_, n_arearestricted, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding areaRestricted: %w", err)
 				}
-				_ = rawVal_arearestricted
 				v.AreaRestricted = &struct{}{}
 				offset += n_arearestricted
 			}
@@ -37338,11 +37210,10 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12 {
-				_, n_uereachableindicator, rawVal_uereachableindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_uereachableindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ue-reachableIndicator: %w", err)
 				}
-				_ = rawVal_uereachableindicator
 				v.UeReachableIndicator = &struct{}{}
 				offset += n_uereachableindicator
 			}
@@ -37353,11 +37224,10 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13 {
-				_, n_epssubscriptiondatanotneeded, rawVal_epssubscriptiondatanotneeded, err := ber.DecodeTLV(content[offset:])
+				_, n_epssubscriptiondatanotneeded, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding epsSubscriptionDataNotNeeded: %w", err)
 				}
-				_ = rawVal_epssubscriptiondatanotneeded
 				v.EpsSubscriptionDataNotNeeded = &struct{}{}
 				offset += n_epssubscriptiondatanotneeded
 			}
@@ -37446,11 +37316,10 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18 {
-				_, n_smsonly, rawVal_smsonly, err := ber.DecodeTLV(content[offset:])
+				_, n_smsonly, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding sms-Only: %w", err)
 				}
-				_ = rawVal_smsonly
 				v.SmsOnly = &struct{}{}
 				offset += n_smsonly
 			}
@@ -37461,11 +37330,10 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22 {
-				_, n_removalofmmeregistrationforsms, rawVal_removalofmmeregistrationforsms, err := ber.DecodeTLV(content[offset:])
+				_, n_removalofmmeregistrationforsms, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding removalofMMERegistrationforSMS: %w", err)
 				}
-				_ = rawVal_removalofmmeregistrationforsms
 				v.RemovalofMMERegistrationforSMS = &struct{}{}
 				offset += n_removalofmmeregistrationforsms
 			}
@@ -37506,11 +37374,10 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21 {
-				_, n_lgdsupportindicator, rawVal_lgdsupportindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_lgdsupportindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding lgd-supportIndicator: %w", err)
 				}
-				_ = rawVal_lgdsupportindicator
 				v.LgdSupportIndicator = &struct{}{}
 				offset += n_lgdsupportindicator
 			}
@@ -37660,11 +37527,10 @@ func (v *UpdateGprsLocationRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_sgsnmmeseparationsupported, rawVal_sgsnmmeseparationsupported, err := ber.DecodeTLV(content[offset:])
+				_, n_sgsnmmeseparationsupported, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding sgsn-mmeSeparationSupported: %w", err)
 				}
-				_ = rawVal_sgsnmmeseparationsupported
 				v.SgsnMmeSeparationSupported = &struct{}{}
 				offset += n_sgsnmmeseparationsupported
 			}
@@ -37675,11 +37541,10 @@ func (v *UpdateGprsLocationRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_mmeregisteredforsms, rawVal_mmeregisteredforsms, err := ber.DecodeTLV(content[offset:])
+				_, n_mmeregisteredforsms, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mmeRegisteredforSMS: %w", err)
 				}
-				_ = rawVal_mmeregisteredforsms
 				v.MmeRegisteredforSMS = &struct{}{}
 				offset += n_mmeregisteredforsms
 			}
@@ -37928,11 +37793,10 @@ func (v *UpdateLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
-				_, n_informpreviousnetworkentity, rawVal_informpreviousnetworkentity, err := ber.DecodeTLV(content[offset:])
+				_, n_informpreviousnetworkentity, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding informPreviousNetworkEntity: %w", err)
 				}
-				_ = rawVal_informpreviousnetworkentity
 				v.InformPreviousNetworkEntity = &struct{}{}
 				offset += n_informpreviousnetworkentity
 			}
@@ -37943,11 +37807,10 @@ func (v *UpdateLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12 {
-				_, n_cslcsnotsupportedbyue, rawVal_cslcsnotsupportedbyue, err := ber.DecodeTLV(content[offset:])
+				_, n_cslcsnotsupportedbyue, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding cs-LCS-NotSupportedByUE: %w", err)
 				}
-				_ = rawVal_cslcsnotsupportedbyue
 				v.CsLCSNotSupportedByUE = &struct{}{}
 				offset += n_cslcsnotsupportedbyue
 			}
@@ -38017,11 +37880,10 @@ func (v *UpdateLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15 {
-				_, n_skipsubscriberdataupdate, rawVal_skipsubscriberdataupdate, err := ber.DecodeTLV(content[offset:])
+				_, n_skipsubscriberdataupdate, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding skipSubscriberDataUpdate: %w", err)
 				}
-				_ = rawVal_skipsubscriberdataupdate
 				v.SkipSubscriberDataUpdate = &struct{}{}
 				offset += n_skipsubscriberdataupdate
 			}
@@ -38032,11 +37894,10 @@ func (v *UpdateLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 {
-				_, n_restorationindicator, rawVal_restorationindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_restorationindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding restorationIndicator: %w", err)
 				}
-				_ = rawVal_restorationindicator
 				v.RestorationIndicator = &struct{}{}
 				offset += n_restorationindicator
 			}
@@ -38200,11 +38061,10 @@ func (v *UpdateLocationRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_pagingareacapability, rawVal_pagingareacapability, err := ber.DecodeTLV(content[offset:])
+				_, n_pagingareacapability, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding pagingArea-Capability: %w", err)
 				}
-				_ = rawVal_pagingareacapability
 				v.PagingAreaCapability = &struct{}{}
 				offset += n_pagingareacapability
 			}
@@ -38824,11 +38684,10 @@ func (v *VLRCapability) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_solsasupportindicator, rawVal_solsasupportindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_solsasupportindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding solsaSupportIndicator: %w", err)
 				}
-				_ = rawVal_solsasupportindicator
 				v.SolsaSupportIndicator = &struct{}{}
 				offset += n_solsasupportindicator
 			}
@@ -38877,11 +38736,10 @@ func (v *VLRCapability) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_longftnsupported, rawVal_longftnsupported, err := ber.DecodeTLV(content[offset:])
+				_, n_longftnsupported, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding longFTN-Supported: %w", err)
 				}
-				_ = rawVal_longftnsupported
 				v.LongFTNSupported = &struct{}{}
 				offset += n_longftnsupported
 			}
@@ -38949,11 +38807,10 @@ func (v *VLRCapability) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_longgroupidsupported, rawVal_longgroupidsupported, err := ber.DecodeTLV(content[offset:])
+				_, n_longgroupidsupported, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding longGroupID-Supported: %w", err)
 				}
-				_ = rawVal_longgroupidsupported
 				v.LongGroupIDSupported = &struct{}{}
 				offset += n_longgroupidsupported
 			}
@@ -38964,11 +38821,10 @@ func (v *VLRCapability) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
-				_, n_mtroamingforwardingsupported, rawVal_mtroamingforwardingsupported, err := ber.DecodeTLV(content[offset:])
+				_, n_mtroamingforwardingsupported, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mtRoamingForwardingSupported: %w", err)
 				}
-				_ = rawVal_mtroamingforwardingsupported
 				v.MtRoamingForwardingSupported = &struct{}{}
 				offset += n_mtroamingforwardingsupported
 			}
@@ -38979,11 +38835,10 @@ func (v *VLRCapability) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
-				_, n_msisdnlessoperationsupported, rawVal_msisdnlessoperationsupported, err := ber.DecodeTLV(content[offset:])
+				_, n_msisdnlessoperationsupported, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding msisdn-lessOperation-Supported: %w", err)
 				}
-				_ = rawVal_msisdnlessoperationsupported
 				v.MsisdnLessOperationSupported = &struct{}{}
 				offset += n_msisdnlessoperationsupported
 			}
@@ -38994,11 +38849,10 @@ func (v *VLRCapability) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
-				_, n_resetidssupported, rawVal_resetidssupported, err := ber.DecodeTLV(content[offset:])
+				_, n_resetidssupported, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding reset-ids-Supported: %w", err)
 				}
-				_ = rawVal_resetidssupported
 				v.ResetIdsSupported = &struct{}{}
 				offset += n_resetidssupported
 			}
@@ -39298,11 +39152,10 @@ func (v *VlrCamelSubscriptionInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_tifcsi, rawVal_tifcsi, err := ber.DecodeTLV(content[offset:])
+				_, n_tifcsi, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding tif-CSI: %w", err)
 				}
-				_ = rawVal_tifcsi
 				v.TifCSI = &struct{}{}
 				offset += n_tifcsi
 			}

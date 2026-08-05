@@ -1061,11 +1061,10 @@ func (v *ActivateTraceModeRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_tracesupportindicator, rawVal_tracesupportindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_tracesupportindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding traceSupportIndicator: %w", err)
 				}
-				_ = rawVal_tracesupportindicator
 				v.TraceSupportIndicator = &struct{}{}
 				offset += n_tracesupportindicator
 			}

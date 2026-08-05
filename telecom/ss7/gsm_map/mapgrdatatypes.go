@@ -319,11 +319,10 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_uplinkrequestack, rawVal_uplinkrequestack, err := ber.DecodeTLV(content[offset:])
+				_, n_uplinkrequestack, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uplinkRequestAck: %w", err)
 				}
-				_ = rawVal_uplinkrequestack
 				v.UplinkRequestAck = &struct{}{}
 				offset += n_uplinkrequestack
 			}
@@ -334,11 +333,10 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_uplinkreleaseindication, rawVal_uplinkreleaseindication, err := ber.DecodeTLV(content[offset:])
+				_, n_uplinkreleaseindication, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uplinkReleaseIndication: %w", err)
 				}
-				_ = rawVal_uplinkreleaseindication
 				v.UplinkReleaseIndication = &struct{}{}
 				offset += n_uplinkreleaseindication
 			}
@@ -349,11 +347,10 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_uplinkrejectcommand, rawVal_uplinkrejectcommand, err := ber.DecodeTLV(content[offset:])
+				_, n_uplinkrejectcommand, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uplinkRejectCommand: %w", err)
 				}
-				_ = rawVal_uplinkrejectcommand
 				v.UplinkRejectCommand = &struct{}{}
 				offset += n_uplinkrejectcommand
 			}
@@ -364,11 +361,10 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_uplinkseizedcommand, rawVal_uplinkseizedcommand, err := ber.DecodeTLV(content[offset:])
+				_, n_uplinkseizedcommand, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uplinkSeizedCommand: %w", err)
 				}
-				_ = rawVal_uplinkseizedcommand
 				v.UplinkSeizedCommand = &struct{}{}
 				offset += n_uplinkseizedcommand
 			}
@@ -379,11 +375,10 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_uplinkreleasecommand, rawVal_uplinkreleasecommand, err := ber.DecodeTLV(content[offset:])
+				_, n_uplinkreleasecommand, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uplinkReleaseCommand: %w", err)
 				}
-				_ = rawVal_uplinkreleasecommand
 				v.UplinkReleaseCommand = &struct{}{}
 				offset += n_uplinkreleasecommand
 			}
@@ -470,11 +465,10 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_emergencymoderesetcommandflag, rawVal_emergencymoderesetcommandflag, err := ber.DecodeTLV(content[offset:])
+				_, n_emergencymoderesetcommandflag, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding emergencyModeResetCommandFlag: %w", err)
 				}
-				_ = rawVal_emergencymoderesetcommandflag
 				v.EmergencyModeResetCommandFlag = &struct{}{}
 				offset += n_emergencymoderesetcommandflag
 			}
@@ -714,11 +708,10 @@ func (v *PrepareGroupCallArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_uplinkfree, rawVal_uplinkfree, err := ber.DecodeTLV(content[offset:])
+				_, n_uplinkfree, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uplinkFree: %w", err)
 				}
-				_ = rawVal_uplinkfree
 				v.UplinkFree = &struct{}{}
 				offset += n_uplinkfree
 			}
@@ -778,11 +771,10 @@ func (v *PrepareGroupCallArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_talkerchannelparameter, rawVal_talkerchannelparameter, err := ber.DecodeTLV(content[offset:])
+				_, n_talkerchannelparameter, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding talkerChannelParameter: %w", err)
 				}
-				_ = rawVal_talkerchannelparameter
 				v.TalkerChannelParameter = &struct{}{}
 				offset += n_talkerchannelparameter
 			}
@@ -793,11 +785,10 @@ func (v *PrepareGroupCallArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_uplinkreplyindicator, rawVal_uplinkreplyindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_uplinkreplyindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uplinkReplyIndicator: %w", err)
 				}
-				_ = rawVal_uplinkreplyindicator
 				v.UplinkReplyIndicator = &struct{}{}
 				offset += n_uplinkreplyindicator
 			}
@@ -987,11 +978,10 @@ func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_uplinkrequest, rawVal_uplinkrequest, err := ber.DecodeTLV(content[offset:])
+				_, n_uplinkrequest, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uplinkRequest: %w", err)
 				}
-				_ = rawVal_uplinkrequest
 				v.UplinkRequest = &struct{}{}
 				offset += n_uplinkrequest
 			}
@@ -1002,11 +992,10 @@ func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_uplinkreleaseindication, rawVal_uplinkreleaseindication, err := ber.DecodeTLV(content[offset:])
+				_, n_uplinkreleaseindication, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uplinkReleaseIndication: %w", err)
 				}
-				_ = rawVal_uplinkreleaseindication
 				v.UplinkReleaseIndication = &struct{}{}
 				offset += n_uplinkreleaseindication
 			}
@@ -1017,11 +1006,10 @@ func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_releasegroupcall, rawVal_releasegroupcall, err := ber.DecodeTLV(content[offset:])
+				_, n_releasegroupcall, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding releaseGroupCall: %w", err)
 				}
-				_ = rawVal_releasegroupcall
 				v.ReleaseGroupCall = &struct{}{}
 				offset += n_releasegroupcall
 			}
@@ -1089,11 +1077,10 @@ func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_emergencymoderesetcommandflag, rawVal_emergencymoderesetcommandflag, err := ber.DecodeTLV(content[offset:])
+				_, n_emergencymoderesetcommandflag, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding emergencyModeResetCommandFlag: %w", err)
 				}
-				_ = rawVal_emergencymoderesetcommandflag
 				v.EmergencyModeResetCommandFlag = &struct{}{}
 				offset += n_emergencymoderesetcommandflag
 			}
@@ -1838,11 +1825,10 @@ func (v *StateAttributes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_downlinkattached, rawVal_downlinkattached, err := ber.DecodeTLV(content[offset:])
+				_, n_downlinkattached, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding downlinkAttached: %w", err)
 				}
-				_ = rawVal_downlinkattached
 				v.DownlinkAttached = &struct{}{}
 				offset += n_downlinkattached
 			}
@@ -1853,11 +1839,10 @@ func (v *StateAttributes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_uplinkattached, rawVal_uplinkattached, err := ber.DecodeTLV(content[offset:])
+				_, n_uplinkattached, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding uplinkAttached: %w", err)
 				}
-				_ = rawVal_uplinkattached
 				v.UplinkAttached = &struct{}{}
 				offset += n_uplinkattached
 			}
@@ -1868,11 +1853,10 @@ func (v *StateAttributes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_dualcommunication, rawVal_dualcommunication, err := ber.DecodeTLV(content[offset:])
+				_, n_dualcommunication, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding dualCommunication: %w", err)
 				}
-				_ = rawVal_dualcommunication
 				v.DualCommunication = &struct{}{}
 				offset += n_dualcommunication
 			}
@@ -1883,11 +1867,10 @@ func (v *StateAttributes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_calloriginator, rawVal_calloriginator, err := ber.DecodeTLV(content[offset:])
+				_, n_calloriginator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding callOriginator: %w", err)
 				}
-				_ = rawVal_calloriginator
 				v.CallOriginator = &struct{}{}
 				offset += n_calloriginator
 			}

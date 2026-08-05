@@ -1546,11 +1546,10 @@ func (v *LCSLocationInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_gprsnodeindicator, rawVal_gprsnodeindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_gprsnodeindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding gprsNodeIndicator: %w", err)
 				}
-				_ = rawVal_gprsnodeindicator
 				v.GprsNodeIndicator = &struct{}{}
 				offset += n_gprsnodeindicator
 			}
@@ -2194,11 +2193,10 @@ func (v *LCSQoS) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_verticalcoordinaterequest, rawVal_verticalcoordinaterequest, err := ber.DecodeTLV(content[offset:])
+				_, n_verticalcoordinaterequest, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding verticalCoordinateRequest: %w", err)
 				}
-				_ = rawVal_verticalcoordinaterequest
 				v.VerticalCoordinateRequest = &struct{}{}
 				offset += n_verticalcoordinaterequest
 			}
@@ -2262,11 +2260,10 @@ func (v *LCSQoS) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_velocityrequest, rawVal_velocityrequest, err := ber.DecodeTLV(content[offset:])
+				_, n_velocityrequest, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding velocityRequest: %w", err)
 				}
-				_ = rawVal_velocityrequest
 				v.VelocityRequest = &struct{}{}
 				offset += n_velocityrequest
 			}
@@ -2698,11 +2695,10 @@ func (v *ProvideSubscriberLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_privacyoverride, rawVal_privacyoverride, err := ber.DecodeTLV(content[offset:])
+				_, n_privacyoverride, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding privacyOverride: %w", err)
 				}
-				_ = rawVal_privacyoverride
 				v.PrivacyOverride = &struct{}{}
 				offset += n_privacyoverride
 			}
@@ -2950,11 +2946,10 @@ func (v *ProvideSubscriberLocationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 {
-				_, n_molrshortcircuitindicator, rawVal_molrshortcircuitindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_molrshortcircuitindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mo-lrShortCircuitIndicator: %w", err)
 				}
-				_ = rawVal_molrshortcircuitindicator
 				v.MoLrShortCircuitIndicator = &struct{}{}
 				offset += n_molrshortcircuitindicator
 			}
@@ -3209,11 +3204,10 @@ func (v *ProvideSubscriberLocationRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_deferredmtlrresponseindicator, rawVal_deferredmtlrresponseindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_deferredmtlrresponseindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding deferredmt-lrResponseIndicator: %w", err)
 				}
-				_ = rawVal_deferredmtlrresponseindicator
 				v.DeferredmtLrResponseIndicator = &struct{}{}
 				offset += n_deferredmtlrresponseindicator
 			}
@@ -3273,11 +3267,10 @@ func (v *ProvideSubscriberLocationRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_saipresent, rawVal_saipresent, err := ber.DecodeTLV(content[offset:])
+				_, n_saipresent, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding sai-Present: %w", err)
 				}
-				_ = rawVal_saipresent
 				v.SaiPresent = &struct{}{}
 				offset += n_saipresent
 			}
@@ -3322,11 +3315,10 @@ func (v *ProvideSubscriberLocationRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
-				_, n_molrshortcircuitindicator, rawVal_molrshortcircuitindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_molrshortcircuitindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mo-lrShortCircuitIndicator: %w", err)
 				}
-				_ = rawVal_molrshortcircuitindicator
 				v.MoLrShortCircuitIndicator = &struct{}{}
 				offset += n_molrshortcircuitindicator
 			}
@@ -3529,11 +3521,10 @@ func (v *ReportingPLMN) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_ranperiodiclocationsupport, rawVal_ranperiodiclocationsupport, err := ber.DecodeTLV(content[offset:])
+				_, n_ranperiodiclocationsupport, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ran-PeriodicLocationSupport: %w", err)
 				}
-				_ = rawVal_ranperiodiclocationsupport
 				v.RanPeriodicLocationSupport = &struct{}{}
 				offset += n_ranperiodiclocationsupport
 			}
@@ -3612,11 +3603,10 @@ func (v *ReportingPLMNList) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_plmnlistprioritized, rawVal_plmnlistprioritized, err := ber.DecodeTLV(content[offset:])
+				_, n_plmnlistprioritized, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding plmn-ListPrioritized: %w", err)
 				}
-				_ = rawVal_plmnlistprioritized
 				v.PlmnListPrioritized = &struct{}{}
 				offset += n_plmnlistprioritized
 			}
@@ -4620,11 +4610,10 @@ func (v *SubscriberLocationReportArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17 {
-				_, n_saipresent, rawVal_saipresent, err := ber.DecodeTLV(content[offset:])
+				_, n_saipresent, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding sai-Present: %w", err)
 				}
-				_ = rawVal_saipresent
 				v.SaiPresent = &struct{}{}
 				offset += n_saipresent
 			}
@@ -4635,11 +4624,10 @@ func (v *SubscriberLocationReportArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18 {
-				_, n_pseudonymindicator, rawVal_pseudonymindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_pseudonymindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding pseudonymIndicator: %w", err)
 				}
-				_ = rawVal_pseudonymindicator
 				v.PseudonymIndicator = &struct{}{}
 				offset += n_pseudonymindicator
 			}
@@ -4721,11 +4709,10 @@ func (v *SubscriberLocationReportArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 23 {
-				_, n_molrshortcircuitindicator, rawVal_molrshortcircuitindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_molrshortcircuitindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mo-lrShortCircuitIndicator: %w", err)
 				}
-				_ = rawVal_molrshortcircuitindicator
 				v.MoLrShortCircuitIndicator = &struct{}{}
 				offset += n_molrshortcircuitindicator
 			}
@@ -4985,11 +4972,10 @@ func (v *SubscriberLocationReportRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_molrshortcircuitindicator, rawVal_molrshortcircuitindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_molrshortcircuitindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mo-lrShortCircuitIndicator: %w", err)
 				}
-				_ = rawVal_molrshortcircuitindicator
 				v.MoLrShortCircuitIndicator = &struct{}{}
 				offset += n_molrshortcircuitindicator
 			}

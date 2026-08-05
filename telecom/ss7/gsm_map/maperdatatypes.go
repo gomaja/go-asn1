@@ -1395,11 +1395,10 @@ func (v *BusySubscriberParam) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_ccbspossible, rawVal_ccbspossible, err := ber.DecodeTLV(content[offset:])
+				_, n_ccbspossible, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ccbs-Possible: %w", err)
 				}
-				_ = rawVal_ccbspossible
 				v.CcbsPossible = &struct{}{}
 				offset += n_ccbspossible
 			}
@@ -1410,11 +1409,10 @@ func (v *BusySubscriberParam) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_ccbsbusy, rawVal_ccbsbusy, err := ber.DecodeTLV(content[offset:])
+				_, n_ccbsbusy, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ccbs-Busy: %w", err)
 				}
-				_ = rawVal_ccbsbusy
 				v.CcbsBusy = &struct{}{}
 				offset += n_ccbsbusy
 			}
@@ -1762,11 +1760,10 @@ func (v *ExtensibleCallBarredParam) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_unauthorisedmessageoriginator, rawVal_unauthorisedmessageoriginator, err := ber.DecodeTLV(content[offset:])
+				_, n_unauthorisedmessageoriginator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding unauthorisedMessageOriginator: %w", err)
 				}
-				_ = rawVal_unauthorisedmessageoriginator
 				v.UnauthorisedMessageOriginator = &struct{}{}
 				offset += n_unauthorisedmessageoriginator
 			}
@@ -1777,11 +1774,10 @@ func (v *ExtensibleCallBarredParam) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_anonymouscallrejection, rawVal_anonymouscallrejection, err := ber.DecodeTLV(content[offset:])
+				_, n_anonymouscallrejection, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding anonymousCallRejection: %w", err)
 				}
-				_ = rawVal_anonymouscallrejection
 				v.AnonymousCallRejection = &struct{}{}
 				offset += n_anonymouscallrejection
 			}
@@ -2017,11 +2013,10 @@ func (v *FacilityNotSupParam) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_shapeoflocationestimatenotsupported, rawVal_shapeoflocationestimatenotsupported, err := ber.DecodeTLV(content[offset:])
+				_, n_shapeoflocationestimatenotsupported, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding shapeOfLocationEstimateNotSupported: %w", err)
 				}
-				_ = rawVal_shapeoflocationestimatenotsupported
 				v.ShapeOfLocationEstimateNotSupported = &struct{}{}
 				offset += n_shapeoflocationestimatenotsupported
 			}
@@ -2032,11 +2027,10 @@ func (v *FacilityNotSupParam) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_neededlcscapabilitynotsupportedinservingnode, rawVal_neededlcscapabilitynotsupportedinservingnode, err := ber.DecodeTLV(content[offset:])
+				_, n_neededlcscapabilitynotsupportedinservingnode, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding neededLcsCapabilityNotSupportedInServingNode: %w", err)
 				}
-				_ = rawVal_neededlcscapabilitynotsupportedinservingnode
 				v.NeededLcsCapabilityNotSupportedInServingNode = &struct{}{}
 				offset += n_neededlcscapabilitynotsupportedinservingnode
 			}
@@ -2600,12 +2594,17 @@ func (v *LongTermDenialParam) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes LongTermDenialParam from BER/DER format.
 func (v *LongTermDenialParam) UnmarshalBER(data []byte) error {
-	_, total, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LongTermDenialParam SEQUENCE: %w", err)
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "LongTermDenialParam", Cause: ber.ErrExtraData}
+	}
+	var captureErr error
+	v.ExtData_, v.ExtPresent_, v.ExtCount_, captureErr = captureRawExtensions(content, 0, "LongTermDenialParam")
+	if captureErr != nil {
+		return captureErr
 	}
 	return nil
 }
@@ -3876,12 +3875,17 @@ func (v *ShortTermDenialParam) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ShortTermDenialParam from BER/DER format.
 func (v *ShortTermDenialParam) UnmarshalBER(data []byte) error {
-	_, total, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ShortTermDenialParam SEQUENCE: %w", err)
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "ShortTermDenialParam", Cause: ber.ErrExtraData}
+	}
+	var captureErr error
+	v.ExtData_, v.ExtPresent_, v.ExtCount_, captureErr = captureRawExtensions(content, 0, "ShortTermDenialParam")
+	if captureErr != nil {
+		return captureErr
 	}
 	return nil
 }
@@ -4508,11 +4512,10 @@ func (v *UnexpectedDataParam) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_unexpectedsubscriber, rawVal_unexpectedsubscriber, err := ber.DecodeTLV(content[offset:])
+				_, n_unexpectedsubscriber, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding unexpectedSubscriber: %w", err)
 				}
-				_ = rawVal_unexpectedsubscriber
 				v.UnexpectedSubscriber = &struct{}{}
 				offset += n_unexpectedsubscriber
 			}

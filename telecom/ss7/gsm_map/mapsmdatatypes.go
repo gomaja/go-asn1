@@ -657,7 +657,9 @@ func (v *AlertServiceCentreArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AlertServiceCentreArg to DER format.
 func (v *AlertServiceCentreArg) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	if err := validateDERRawExtensions(v.ExtData_); err != nil {
+		return nil, err
+	}
 	return v.MarshalBER()
 }
 
@@ -1477,11 +1479,10 @@ func (v *LocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_gprsnodeindicator, rawVal_gprsnodeindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_gprsnodeindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding gprsNodeIndicator: %w", err)
 				}
-				_ = rawVal_gprsnodeindicator
 				v.GprsNodeIndicator = &struct{}{}
 				offset += n_gprsnodeindicator
 			}
@@ -1587,11 +1588,10 @@ func (v *LocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
-				_, n_imsnodeindicator, rawVal_imsnodeindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_imsnodeindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding imsNodeIndicator: %w", err)
 				}
-				_ = rawVal_imsnodeindicator
 				v.ImsNodeIndicator = &struct{}{}
 				offset += n_imsnodeindicator
 			}
@@ -1670,11 +1670,10 @@ func (v *LocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 {
-				_, n_smsf3gppaddressindicator, rawVal_smsf3gppaddressindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_smsf3gppaddressindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsf-3gpp-address-indicator: %w", err)
 				}
-				_ = rawVal_smsf3gppaddressindicator
 				v.Smsf3gppAddressIndicator = &struct{}{}
 				offset += n_smsf3gppaddressindicator
 			}
@@ -1685,11 +1684,10 @@ func (v *LocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17 {
-				_, n_smsfnon3gppaddressindicator, rawVal_smsfnon3gppaddressindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_smsfnon3gppaddressindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsf-non-3gpp-address-indicator: %w", err)
 				}
-				_ = rawVal_smsfnon3gppaddressindicator
 				v.SmsfNon3gppAddressIndicator = &struct{}{}
 				offset += n_smsfnon3gppaddressindicator
 			}
@@ -2193,11 +2191,10 @@ func (v *MTForwardSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_smsoveriponlyindicator, rawVal_smsoveriponlyindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_smsoveriponlyindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsOverIP-OnlyIndicator: %w", err)
 				}
-				_ = rawVal_smsoveriponlyindicator
 				v.SmsOverIPOnlyIndicator = &struct{}{}
 				offset += n_smsoveriponlyindicator
 			}
@@ -2813,11 +2810,10 @@ func (v *ReadyForSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_additionalalertreasonindicator, rawVal_additionalalertreasonindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_additionalalertreasonindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding additionalAlertReasonIndicator: %w", err)
 				}
-				_ = rawVal_additionalalertreasonindicator
 				v.AdditionalAlertReasonIndicator = &struct{}{}
 				offset += n_additionalalertreasonindicator
 			}
@@ -3134,11 +3130,10 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_gprssupportindicator, rawVal_gprssupportindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_gprssupportindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding gprsSupportIndicator: %w", err)
 				}
-				_ = rawVal_gprssupportindicator
 				v.GprsSupportIndicator = &struct{}{}
 				offset += n_gprssupportindicator
 			}
@@ -3149,11 +3144,10 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_deliveryoutcomeindicator, rawVal_deliveryoutcomeindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_deliveryoutcomeindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding deliveryOutcomeIndicator: %w", err)
 				}
-				_ = rawVal_deliveryoutcomeindicator
 				v.DeliveryOutcomeIndicator = &struct{}{}
 				offset += n_deliveryoutcomeindicator
 			}
@@ -3201,11 +3195,10 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_ipsmgwindicator, rawVal_ipsmgwindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_ipsmgwindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ip-sm-gw-Indicator: %w", err)
 				}
-				_ = rawVal_ipsmgwindicator
 				v.IpSmGwIndicator = &struct{}{}
 				offset += n_ipsmgwindicator
 			}
@@ -3268,11 +3261,10 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
-				_, n_singleattemptdelivery, rawVal_singleattemptdelivery, err := ber.DecodeTLV(content[offset:])
+				_, n_singleattemptdelivery, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding singleAttemptDelivery: %w", err)
 				}
-				_ = rawVal_singleattemptdelivery
 				v.SingleAttemptDelivery = &struct{}{}
 				offset += n_singleattemptdelivery
 			}
@@ -3302,11 +3294,10 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12 {
-				_, n_smsf3gppdeliveryoutcomeindicator, rawVal_smsf3gppdeliveryoutcomeindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_smsf3gppdeliveryoutcomeindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsf-3gpp-deliveryOutcomeIndicator: %w", err)
 				}
-				_ = rawVal_smsf3gppdeliveryoutcomeindicator
 				v.Smsf3gppDeliveryOutcomeIndicator = &struct{}{}
 				offset += n_smsf3gppdeliveryoutcomeindicator
 			}
@@ -3354,11 +3345,10 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15 {
-				_, n_smsfnon3gppdeliveryoutcomeindicator, rawVal_smsfnon3gppdeliveryoutcomeindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_smsfnon3gppdeliveryoutcomeindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsf-non-3gpp-deliveryOutcomeIndicator: %w", err)
 				}
-				_ = rawVal_smsfnon3gppdeliveryoutcomeindicator
 				v.SmsfNon3gppDeliveryOutcomeIndicator = &struct{}{}
 				offset += n_smsfnon3gppdeliveryoutcomeindicator
 			}
@@ -3693,11 +3683,10 @@ func (v *RoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_gprssupportindicator, rawVal_gprssupportindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_gprssupportindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding gprsSupportIndicator: %w", err)
 				}
-				_ = rawVal_gprssupportindicator
 				v.GprsSupportIndicator = &struct{}{}
 				offset += n_gprssupportindicator
 			}
@@ -3760,11 +3749,10 @@ func (v *RoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
-				_, n_ipsmgwguidanceindicator, rawVal_ipsmgwguidanceindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_ipsmgwguidanceindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ip-sm-gwGuidanceIndicator: %w", err)
 				}
-				_ = rawVal_ipsmgwguidanceindicator
 				v.IpSmGwGuidanceIndicator = &struct{}{}
 				offset += n_ipsmgwguidanceindicator
 			}
@@ -3790,11 +3778,10 @@ func (v *RoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14 {
-				_, n_t4triggerindicator, rawVal_t4triggerindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_t4triggerindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding t4-Trigger-Indicator: %w", err)
 				}
-				_ = rawVal_t4triggerindicator
 				v.T4TriggerIndicator = &struct{}{}
 				offset += n_t4triggerindicator
 			}
@@ -3805,11 +3792,10 @@ func (v *RoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13 {
-				_, n_singleattemptdelivery, rawVal_singleattemptdelivery, err := ber.DecodeTLV(content[offset:])
+				_, n_singleattemptdelivery, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding singleAttemptDelivery: %w", err)
 				}
-				_ = rawVal_singleattemptdelivery
 				v.SingleAttemptDelivery = &struct{}{}
 				offset += n_singleattemptdelivery
 			}
@@ -3839,11 +3825,10 @@ func (v *RoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 {
-				_, n_smsfsupportindicator, rawVal_smsfsupportindicator, err := ber.DecodeTLV(content[offset:])
+				_, n_smsfsupportindicator, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsf-supportIndicator: %w", err)
 				}
-				_ = rawVal_smsfsupportindicator
 				v.SmsfSupportIndicator = &struct{}{}
 				offset += n_smsfsupportindicator
 			}

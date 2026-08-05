@@ -208,12 +208,17 @@ func (v *PCSExtensions) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PCSExtensions from BER/DER format.
 func (v *PCSExtensions) UnmarshalBER(data []byte) error {
-	_, total, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PCSExtensions SEQUENCE: %w", err)
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "PCSExtensions", Cause: ber.ErrExtraData}
+	}
+	var captureErr error
+	v.ExtData_, v.ExtPresent_, v.ExtCount_, captureErr = captureRawExtensions(content, 0, "PCSExtensions")
+	if captureErr != nil {
+		return captureErr
 	}
 	return nil
 }
@@ -470,11 +475,10 @@ func (v *SLRArgPCSExtensions) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_naesrkrequest, rawVal_naesrkrequest, err := ber.DecodeTLV(content[offset:])
+				_, n_naesrkrequest, _, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding na-ESRK-Request: %w", err)
 				}
-				_ = rawVal_naesrkrequest
 				v.NaESRKRequest = &struct{}{}
 				offset += n_naesrkrequest
 			}
