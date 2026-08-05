@@ -22,14 +22,6 @@ func UniDialogueAsId() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{0, 0, 17, 773, 1, 2, 1}
 }
 
-// AUDTApdu represents the ASN.1 type AUDT-apdu (SEQUENCE).
-type AUDTApdu struct {
-	ProtocolVersion        *runtime.BitString       `asn1:"tag:0,context,implicit,optional" json:"ProtocolVersion,omitempty"`
-	ApplicationContextName runtime.ObjectIdentifier `asn1:"tag:1,context,explicit"`
-	UserInformation        AUDTApduUserInformation  `asn1:"tag:30,context,implicit,optional" json:"UserInformation,omitempty"`
-	UserInformationIndef_  bool                     `asn1:"-" json:"-"`
-}
-
 // UniDialoguePDU choice constants.
 const (
 	UniDialoguePDUChoiceUnidialoguePDU = 1
@@ -49,8 +41,69 @@ func NewUniDialoguePDUUnidialoguePDU(v AUDTApdu) UniDialoguePDU {
 	}
 }
 
+// AUDTApdu represents the ASN.1 type AUDT-apdu (SEQUENCE).
+type AUDTApdu struct {
+	ProtocolVersion        *runtime.BitString       `asn1:"tag:0,context,implicit,optional" json:"ProtocolVersion,omitempty"`
+	ApplicationContextName runtime.ObjectIdentifier `asn1:"tag:1,context,explicit"`
+	UserInformation        AUDTApduUserInformation  `asn1:"tag:30,context,implicit,optional" json:"UserInformation,omitempty"`
+	UserInformationIndef_  bool                     `asn1:"-" json:"-"`
+}
+
 // AUDTApduUserInformation represents the ASN.1 type AUDT-apdu-user-information (SEQUENCE_OF).
 type AUDTApduUserInformation = []runtime.RawValue
+
+// MarshalBER encodes UniDialoguePDU to BER format.
+func (v *UniDialoguePDU) MarshalBER() ([]byte, error) {
+	switch v.Choice {
+	case UniDialoguePDUChoiceUnidialoguePDU:
+		if v.UnidialoguePDU == nil {
+			return nil, fmt.Errorf("choice UniDialoguePDU: unidialoguePDU is nil")
+		}
+		enc_0, err := v.UnidialoguePDU.MarshalBER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding unidialoguePDU: %w", err)
+		}
+		return enc_0, nil
+	default:
+		return nil, fmt.Errorf("unknown choice %d for UniDialoguePDU", v.Choice)
+	}
+}
+
+// MarshalDER encodes UniDialoguePDU to DER format.
+func (v *UniDialoguePDU) MarshalDER() ([]byte, error) {
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes UniDialoguePDU from BER/DER format.
+func (v *UniDialoguePDU) UnmarshalBER(data []byte) error {
+	if len(data) == 0 {
+		return fmt.Errorf("empty data for UniDialoguePDU CHOICE")
+	}
+	peekTag, peekErr := ber.PeekTag(data)
+	if peekErr != nil {
+		return fmt.Errorf("peeking tag for UniDialoguePDU: %w", peekErr)
+	}
+
+	_, total, _, tlvErr := ber.DecodeTLV(data)
+	if tlvErr != nil {
+		return fmt.Errorf("decoding UniDialoguePDU CHOICE: %w", tlvErr)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "UniDialoguePDU", Cause: ber.ErrExtraData}
+	}
+
+	if peekTag.Class == tag.ClassApplication && peekTag.Number == 0 {
+		v.Choice = UniDialoguePDUChoiceUnidialoguePDU
+		var dec AUDTApdu
+		if unmErr := dec.UnmarshalBER(data); unmErr != nil {
+			return fmt.Errorf("decoding unidialoguePDU: %w", unmErr)
+		}
+		v.UnidialoguePDU = &dec
+	} else {
+		return fmt.Errorf("unknown tag %s for UniDialoguePDU CHOICE", peekTag)
+	}
+	return nil
+}
 
 // MarshalBER encodes AUDTApdu to BER format.
 func (v *AUDTApdu) MarshalBER() ([]byte, error) {
@@ -64,7 +117,7 @@ func (v *AUDTApdu) MarshalBER() ([]byte, error) {
 	enc_applicationcontextname = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 1, enc_applicationcontextname)
 	children = append(children, enc_applicationcontextname...)
 	if v.UserInformation != nil {
-		enc_userinformation, err := marshalBERAUDTApduUserInformation(v.UserInformation)
+		enc_userinformation, err := MarshalBERAUDTApduUserInformation(v.UserInformation)
 		if err != nil {
 			return nil, fmt.Errorf("encoding user-information: %w", err)
 		}
@@ -91,9 +144,15 @@ func (v *AUDTApdu) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AUDTApdu from BER/DER format.
 func (v *AUDTApdu) UnmarshalBER(data []byte) error {
-	_, content, _, err := ber.DecodeConstructedContent(data)
+	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AUDTApdu: %w", err)
+	}
+	if decodedTag.Class != tag.ClassApplication || decodedTag.Number != 0 || !decodedTag.Constructed {
+		return fmt.Errorf("decoding AUDTApdu: %w: expected tag [APPLICATION 0], got %s", ber.ErrInvalidTag, decodedTag)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "AUDTApdu", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode protocol-version
@@ -145,7 +204,7 @@ func (v *AUDTApdu) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding user-information: %w", err)
 				}
 				reconstructed_userinformation := ber.EncodeSequence(rawVal_userinformation)
-				dec_userinformation, unmErr := unmarshalBERAUDTApduUserInformation(reconstructed_userinformation)
+				dec_userinformation, unmErr := UnmarshalBERAUDTApduUserInformation(reconstructed_userinformation)
 				if unmErr != nil {
 					return fmt.Errorf("decoding user-information: %w", unmErr)
 				}
@@ -160,56 +219,14 @@ func (v *AUDTApdu) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	return nil
-}
-
-// MarshalBER encodes UniDialoguePDU to BER format.
-func (v *UniDialoguePDU) MarshalBER() ([]byte, error) {
-	switch v.Choice {
-	case UniDialoguePDUChoiceUnidialoguePDU:
-		if v.UnidialoguePDU == nil {
-			return nil, fmt.Errorf("choice UniDialoguePDU: unidialoguePDU is nil")
-		}
-		enc_0, err := v.UnidialoguePDU.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding unidialoguePDU: %w", err)
-		}
-		return enc_0, nil
-	default:
-		return nil, fmt.Errorf("unknown choice %d for UniDialoguePDU", v.Choice)
-	}
-}
-
-// MarshalDER encodes UniDialoguePDU to DER format.
-func (v *UniDialoguePDU) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
-}
-
-// UnmarshalBER decodes UniDialoguePDU from BER/DER format.
-func (v *UniDialoguePDU) UnmarshalBER(data []byte) error {
-	if len(data) == 0 {
-		return fmt.Errorf("empty data for UniDialoguePDU CHOICE")
-	}
-	peekTag, peekErr := ber.PeekTag(data)
-	if peekErr != nil {
-		return fmt.Errorf("peeking tag for UniDialoguePDU: %w", peekErr)
-	}
-
-	if peekTag.Class == tag.ClassApplication && peekTag.Number == 0 {
-		v.Choice = UniDialoguePDUChoiceUnidialoguePDU
-		var dec AUDTApdu
-		if unmErr := dec.UnmarshalBER(data); unmErr != nil {
-			return fmt.Errorf("decoding unidialoguePDU: %w", unmErr)
-		}
-		v.UnidialoguePDU = &dec
-	} else {
-		return fmt.Errorf("unknown tag %s for UniDialoguePDU CHOICE", peekTag)
+	if offset != len(content) {
+		return &ber.DecodeError{Offset: offset, TypeName: "AUDTApdu", Cause: ber.ErrExtraData}
 	}
 	return nil
 }
 
-// marshalBERAUDTApduUserInformation encodes a AUDTApduUserInformation list to BER.
-func marshalBERAUDTApduUserInformation(list AUDTApduUserInformation) ([]byte, error) {
+// MarshalBERAUDTApduUserInformation encodes a AUDTApduUserInformation list to BER.
+func MarshalBERAUDTApduUserInformation(list AUDTApduUserInformation) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
 		children = append(children, elem.Bytes...)
@@ -217,11 +234,14 @@ func marshalBERAUDTApduUserInformation(list AUDTApduUserInformation) ([]byte, er
 	return ber.EncodeSequence(children), nil
 }
 
-// unmarshalBERAUDTApduUserInformation decodes a AUDTApduUserInformation list from BER.
-func unmarshalBERAUDTApduUserInformation(data []byte) (AUDTApduUserInformation, error) {
-	_, content, _, err := ber.DecodeConstructedContent(data)
+// UnmarshalBERAUDTApduUserInformation decodes a AUDTApduUserInformation list from BER.
+func UnmarshalBERAUDTApduUserInformation(data []byte) (AUDTApduUserInformation, error) {
+	_, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return nil, fmt.Errorf("decoding AUDTApduUserInformation: %w", err)
+	}
+	if total != len(data) {
+		return nil, &ber.DecodeError{Offset: total, TypeName: "AUDTApduUserInformation", Cause: ber.ErrExtraData}
 	}
 	var result AUDTApduUserInformation
 	offset := 0
