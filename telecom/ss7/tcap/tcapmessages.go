@@ -375,6 +375,13 @@ func (v *Unidirectional) MarshalBER() ([]byte, error) {
 	if err != nil {
 		return nil, fmt.Errorf("encoding components: %w", err)
 	}
+	if v.ComponentsIndef_ {
+		indefTag_, _, indefContent_, tlvErr_ := ber.DecodeTLV(enc_components)
+		if tlvErr_ != nil {
+			return nil, tlvErr_
+		}
+		enc_components = ber.EncodeConstructedIndefinite(indefTag_, indefContent_)
+	}
 	children = append(children, enc_components...)
 	return ber.EncodeSequence(children), nil
 }
@@ -425,7 +432,14 @@ func (v *Unidirectional) UnmarshalBER(data []byte) error {
 	if tlvErr_components != nil {
 		return fmt.Errorf("decoding components: %w", tlvErr_components)
 	}
-	dec_components, unmErr := UnmarshalBERComponentPortion(content[offset : offset+n_components])
+	tlv_components := content[offset : offset+n_components]
+	{
+		_, tagSz_, _ := ber.DecodeTag(tlv_components)
+		if tagSz_ < len(tlv_components) && tlv_components[tagSz_] == 0x80 {
+			v.ComponentsIndef_ = true
+		}
+	}
+	dec_components, unmErr := UnmarshalBERComponentPortion(tlv_components)
 	if unmErr != nil {
 		return fmt.Errorf("decoding components: %w", unmErr)
 	}
@@ -452,6 +466,13 @@ func (v *Begin) MarshalBER() ([]byte, error) {
 		enc_components, err := MarshalBERComponentPortion(v.Components)
 		if err != nil {
 			return nil, fmt.Errorf("encoding components: %w", err)
+		}
+		if v.ComponentsIndef_ {
+			indefTag_, _, indefContent_, tlvErr_ := ber.DecodeTLV(enc_components)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
+			enc_components = ber.EncodeConstructedIndefinite(indefTag_, indefContent_)
 		}
 		children = append(children, enc_components...)
 	}
@@ -515,7 +536,14 @@ func (v *Begin) UnmarshalBER(data []byte) error {
 				if tlvErr_components != nil {
 					return fmt.Errorf("decoding components: %w", tlvErr_components)
 				}
-				dec_components, unmErr := UnmarshalBERComponentPortion(content[offset : offset+n_components])
+				tlv_components := content[offset : offset+n_components]
+				{
+					_, tagSz_, _ := ber.DecodeTag(tlv_components)
+					if tagSz_ < len(tlv_components) && tlv_components[tagSz_] == 0x80 {
+						v.ComponentsIndef_ = true
+					}
+				}
+				dec_components, unmErr := UnmarshalBERComponentPortion(tlv_components)
 				if unmErr != nil {
 					return fmt.Errorf("decoding components: %w", unmErr)
 				}
@@ -545,6 +573,13 @@ func (v *End) MarshalBER() ([]byte, error) {
 		enc_components, err := MarshalBERComponentPortion(v.Components)
 		if err != nil {
 			return nil, fmt.Errorf("encoding components: %w", err)
+		}
+		if v.ComponentsIndef_ {
+			indefTag_, _, indefContent_, tlvErr_ := ber.DecodeTLV(enc_components)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
+			enc_components = ber.EncodeConstructedIndefinite(indefTag_, indefContent_)
 		}
 		children = append(children, enc_components...)
 	}
@@ -608,7 +643,14 @@ func (v *End) UnmarshalBER(data []byte) error {
 				if tlvErr_components != nil {
 					return fmt.Errorf("decoding components: %w", tlvErr_components)
 				}
-				dec_components, unmErr := UnmarshalBERComponentPortion(content[offset : offset+n_components])
+				tlv_components := content[offset : offset+n_components]
+				{
+					_, tagSz_, _ := ber.DecodeTag(tlv_components)
+					if tagSz_ < len(tlv_components) && tlv_components[tagSz_] == 0x80 {
+						v.ComponentsIndef_ = true
+					}
+				}
+				dec_components, unmErr := UnmarshalBERComponentPortion(tlv_components)
 				if unmErr != nil {
 					return fmt.Errorf("decoding components: %w", unmErr)
 				}
@@ -641,6 +683,13 @@ func (v *Continue) MarshalBER() ([]byte, error) {
 		enc_components, err := MarshalBERComponentPortion(v.Components)
 		if err != nil {
 			return nil, fmt.Errorf("encoding components: %w", err)
+		}
+		if v.ComponentsIndef_ {
+			indefTag_, _, indefContent_, tlvErr_ := ber.DecodeTLV(enc_components)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
+			enc_components = ber.EncodeConstructedIndefinite(indefTag_, indefContent_)
 		}
 		children = append(children, enc_components...)
 	}
@@ -719,7 +768,14 @@ func (v *Continue) UnmarshalBER(data []byte) error {
 				if tlvErr_components != nil {
 					return fmt.Errorf("decoding components: %w", tlvErr_components)
 				}
-				dec_components, unmErr := UnmarshalBERComponentPortion(content[offset : offset+n_components])
+				tlv_components := content[offset : offset+n_components]
+				{
+					_, tagSz_, _ := ber.DecodeTag(tlv_components)
+					if tagSz_ < len(tlv_components) && tlv_components[tagSz_] == 0x80 {
+						v.ComponentsIndef_ = true
+					}
+				}
+				dec_components, unmErr := UnmarshalBERComponentPortion(tlv_components)
 				if unmErr != nil {
 					return fmt.Errorf("decoding components: %w", unmErr)
 				}

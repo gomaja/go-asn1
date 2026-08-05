@@ -199,3 +199,26 @@ func TestEndWithReturnResultLastFixtureRoundTrips(t *testing.T) {
 		t.Fatalf("TCMessage round-trip = % x, want % x", got, input)
 	}
 }
+
+func TestBeginWithIndefiniteComponentPortionRoundTrips(t *testing.T) {
+	input := mustDecodeHex(t, "620f4801016c80a10602010002012d0000")
+
+	var msg TCMessage
+	if err := msg.UnmarshalBER(input); err != nil {
+		t.Fatalf("TCMessage.UnmarshalBER: %v", err)
+	}
+	if msg.Choice != TCMessageChoiceBegin || msg.Begin == nil {
+		t.Fatalf("TCMessage choice = %d, Begin = %+v", msg.Choice, msg.Begin)
+	}
+	if !msg.Begin.ComponentsIndef_ {
+		t.Fatalf("Begin.ComponentsIndef_ = false, want true")
+	}
+
+	got, err := msg.MarshalBER()
+	if err != nil {
+		t.Fatalf("TCMessage.MarshalBER: %v", err)
+	}
+	if !bytes.Equal(got, input) {
+		t.Fatalf("TCMessage round-trip = % x, want % x", got, input)
+	}
+}
