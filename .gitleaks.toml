@@ -1,0 +1,17 @@
+title = "go-asn1 gitleaks config"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Generated ASN.1 field assignments can match the generic API key heuristic."
+targetRules = ["generic-api-key"]
+condition = "AND"
+regexTarget = "line"
+paths = [
+  '''^telecom/lte/s1ap/s1apies\.go$''',
+  '''^telecom/lte/x2ap/(x2appducontents|x2apies)\.go$''',
+]
+regexes = [
+  '''^\s+v\.[A-Za-z0-9]+ = ''',
+]
