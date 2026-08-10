@@ -8,8 +8,8 @@ import (
 
 // BitString represents an ASN.1 BIT STRING value.
 type BitString struct {
-	Bytes      []byte
-	BitLength  int
+	Bytes     []byte
+	BitLength int
 }
 
 // Has returns true if the bit at the given position is set.
