@@ -4958,7 +4958,6 @@ func (v *PrepareDownloadResponse) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for PrepareDownloadResponse CHOICE")
 	}
-	choiceData := data
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PrepareDownloadResponse CHOICE: %w", err)
@@ -4972,7 +4971,7 @@ func (v *PrepareDownloadResponse) UnmarshalBER(data []byte) error {
 	if len(content) == 0 {
 		return fmt.Errorf("empty content for PrepareDownloadResponse CHOICE")
 	}
-	choiceData = content
+	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for PrepareDownloadResponse: %w", peekErr)
@@ -6281,7 +6280,6 @@ func (v *ListNotificationResponse) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ListNotificationResponse CHOICE")
 	}
-	choiceData := data
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ListNotificationResponse CHOICE: %w", err)
@@ -6295,7 +6293,7 @@ func (v *ListNotificationResponse) UnmarshalBER(data []byte) error {
 	if len(content) == 0 {
 		return fmt.Errorf("empty content for ListNotificationResponse CHOICE")
 	}
-	choiceData = content
+	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for ListNotificationResponse: %w", peekErr)
@@ -6543,7 +6541,6 @@ func (v *RetrieveNotificationsListResponse) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for RetrieveNotificationsListResponse CHOICE")
 	}
-	choiceData := data
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RetrieveNotificationsListResponse CHOICE: %w", err)
@@ -6557,7 +6554,7 @@ func (v *RetrieveNotificationsListResponse) UnmarshalBER(data []byte) error {
 	if len(content) == 0 {
 		return fmt.Errorf("empty content for RetrieveNotificationsListResponse CHOICE")
 	}
-	choiceData = content
+	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for RetrieveNotificationsListResponse: %w", peekErr)
@@ -7004,7 +7001,6 @@ func (v *LoadCRLResponse) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for LoadCRLResponse CHOICE")
 	}
-	choiceData := data
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LoadCRLResponse CHOICE: %w", err)
@@ -7018,7 +7014,7 @@ func (v *LoadCRLResponse) UnmarshalBER(data []byte) error {
 	if len(content) == 0 {
 		return fmt.Errorf("empty content for LoadCRLResponse CHOICE")
 	}
-	choiceData = content
+	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for LoadCRLResponse: %w", peekErr)
@@ -7560,7 +7556,6 @@ func (v *AuthenticateServerResponse) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for AuthenticateServerResponse CHOICE")
 	}
-	choiceData := data
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AuthenticateServerResponse CHOICE: %w", err)
@@ -7574,7 +7569,7 @@ func (v *AuthenticateServerResponse) UnmarshalBER(data []byte) error {
 	if len(content) == 0 {
 		return fmt.Errorf("empty content for AuthenticateServerResponse CHOICE")
 	}
-	choiceData = content
+	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for AuthenticateServerResponse: %w", peekErr)
@@ -8021,7 +8016,6 @@ func (v *CancelSessionResponse) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CancelSessionResponse CHOICE")
 	}
-	choiceData := data
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CancelSessionResponse CHOICE: %w", err)
@@ -8035,7 +8029,7 @@ func (v *CancelSessionResponse) UnmarshalBER(data []byte) error {
 	if len(content) == 0 {
 		return fmt.Errorf("empty content for CancelSessionResponse CHOICE")
 	}
-	choiceData = content
+	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for CancelSessionResponse: %w", peekErr)
@@ -8367,7 +8361,6 @@ func (v *ProfileInfoListResponse) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ProfileInfoListResponse CHOICE")
 	}
-	choiceData := data
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ProfileInfoListResponse CHOICE: %w", err)
@@ -8381,7 +8374,7 @@ func (v *ProfileInfoListResponse) UnmarshalBER(data []byte) error {
 	if len(content) == 0 {
 		return fmt.Errorf("empty content for ProfileInfoListResponse CHOICE")
 	}
-	choiceData = content
+	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for ProfileInfoListResponse: %w", peekErr)
@@ -9240,7 +9233,6 @@ func (v *DeleteProfileRequest) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for DeleteProfileRequest CHOICE")
 	}
-	choiceData := data
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DeleteProfileRequest CHOICE: %w", err)
@@ -9254,7 +9246,7 @@ func (v *DeleteProfileRequest) UnmarshalBER(data []byte) error {
 	if len(content) == 0 {
 		return fmt.Errorf("empty content for DeleteProfileRequest CHOICE")
 	}
-	choiceData = content
+	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for DeleteProfileRequest: %w", peekErr)
@@ -10046,7 +10038,6 @@ func (v *RemoteProfileProvisioningRequest) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for RemoteProfileProvisioningRequest CHOICE")
 	}
-	choiceData := data
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RemoteProfileProvisioningRequest CHOICE: %w", err)
@@ -10060,7 +10051,7 @@ func (v *RemoteProfileProvisioningRequest) UnmarshalBER(data []byte) error {
 	if len(content) == 0 {
 		return fmt.Errorf("empty content for RemoteProfileProvisioningRequest CHOICE")
 	}
-	choiceData = content
+	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for RemoteProfileProvisioningRequest: %w", peekErr)
@@ -10235,7 +10226,6 @@ func (v *RemoteProfileProvisioningResponse) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for RemoteProfileProvisioningResponse CHOICE")
 	}
-	choiceData := data
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RemoteProfileProvisioningResponse CHOICE: %w", err)
@@ -10249,7 +10239,7 @@ func (v *RemoteProfileProvisioningResponse) UnmarshalBER(data []byte) error {
 	if len(content) == 0 {
 		return fmt.Errorf("empty content for RemoteProfileProvisioningResponse CHOICE")
 	}
-	choiceData = content
+	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for RemoteProfileProvisioningResponse: %w", peekErr)
@@ -10440,7 +10430,6 @@ func (v *InitiateAuthenticationResponse) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for InitiateAuthenticationResponse CHOICE")
 	}
-	choiceData := data
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding InitiateAuthenticationResponse CHOICE: %w", err)
@@ -10454,7 +10443,7 @@ func (v *InitiateAuthenticationResponse) UnmarshalBER(data []byte) error {
 	if len(content) == 0 {
 		return fmt.Errorf("empty content for InitiateAuthenticationResponse CHOICE")
 	}
-	choiceData = content
+	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for InitiateAuthenticationResponse: %w", peekErr)
@@ -10771,7 +10760,6 @@ func (v *AuthenticateClientResponseEs9) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for AuthenticateClientResponseEs9 CHOICE")
 	}
-	choiceData := data
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AuthenticateClientResponseEs9 CHOICE: %w", err)
@@ -10785,7 +10773,7 @@ func (v *AuthenticateClientResponseEs9) UnmarshalBER(data []byte) error {
 	if len(content) == 0 {
 		return fmt.Errorf("empty content for AuthenticateClientResponseEs9 CHOICE")
 	}
-	choiceData = content
+	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for AuthenticateClientResponseEs9: %w", peekErr)
@@ -11154,7 +11142,6 @@ func (v *GetBoundProfilePackageResponse) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for GetBoundProfilePackageResponse CHOICE")
 	}
-	choiceData := data
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding GetBoundProfilePackageResponse CHOICE: %w", err)
@@ -11168,7 +11155,7 @@ func (v *GetBoundProfilePackageResponse) UnmarshalBER(data []byte) error {
 	if len(content) == 0 {
 		return fmt.Errorf("empty content for GetBoundProfilePackageResponse CHOICE")
 	}
-	choiceData = content
+	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for GetBoundProfilePackageResponse: %w", peekErr)
@@ -11458,7 +11445,6 @@ func (v *CancelSessionResponseEs9) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CancelSessionResponseEs9 CHOICE")
 	}
-	choiceData := data
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CancelSessionResponseEs9 CHOICE: %w", err)
@@ -11472,7 +11458,7 @@ func (v *CancelSessionResponseEs9) UnmarshalBER(data []byte) error {
 	if len(content) == 0 {
 		return fmt.Errorf("empty content for CancelSessionResponseEs9 CHOICE")
 	}
-	choiceData = content
+	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for CancelSessionResponseEs9: %w", peekErr)
@@ -11588,7 +11574,6 @@ func (v *AuthenticateClientResponseEs11) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for AuthenticateClientResponseEs11 CHOICE")
 	}
-	choiceData := data
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AuthenticateClientResponseEs11 CHOICE: %w", err)
@@ -11602,7 +11587,7 @@ func (v *AuthenticateClientResponseEs11) UnmarshalBER(data []byte) error {
 	if len(content) == 0 {
 		return fmt.Errorf("empty content for AuthenticateClientResponseEs11 CHOICE")
 	}
-	choiceData = content
+	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for AuthenticateClientResponseEs11: %w", peekErr)
