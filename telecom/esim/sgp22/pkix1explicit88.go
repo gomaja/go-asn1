@@ -3950,7 +3950,6 @@ func (v *CountryName) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CountryName CHOICE")
 	}
-	choiceData := data
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CountryName CHOICE: %w", err)
@@ -3964,7 +3963,7 @@ func (v *CountryName) UnmarshalBER(data []byte) error {
 	if len(content) == 0 {
 		return fmt.Errorf("empty content for CountryName CHOICE")
 	}
-	choiceData = content
+	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for CountryName: %w", peekErr)
@@ -4030,7 +4029,6 @@ func (v *AdministrationDomainName) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for AdministrationDomainName CHOICE")
 	}
-	choiceData := data
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AdministrationDomainName CHOICE: %w", err)
@@ -4044,7 +4042,7 @@ func (v *AdministrationDomainName) UnmarshalBER(data []byte) error {
 	if len(content) == 0 {
 		return fmt.Errorf("empty content for AdministrationDomainName CHOICE")
 	}
-	choiceData = content
+	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
 		return fmt.Errorf("peeking tag for AdministrationDomainName: %w", peekErr)
