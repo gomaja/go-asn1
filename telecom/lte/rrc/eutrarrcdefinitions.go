@@ -720,6 +720,8 @@ const (
 	AccessStratumReleaseRel15 AccessStratumRelease = 7
 	AccessStratumReleaseRel16 AccessStratumRelease = 8
 	AccessStratumReleaseRel17 AccessStratumRelease = 9
+	AccessStratumReleaseRel18 AccessStratumRelease = 10
+	AccessStratumReleaseRel19 AccessStratumRelease = 11
 )
 
 func (v AccessStratumRelease) String() string {
@@ -744,6 +746,10 @@ func (v AccessStratumRelease) String() string {
 		return "rel16"
 	case AccessStratumReleaseRel17:
 		return "rel17"
+	case AccessStratumReleaseRel18:
+		return "rel18"
+	case AccessStratumReleaseRel19:
+		return "rel19"
 	default:
 		return "unknown"
 	}
@@ -6534,8 +6540,8 @@ type MACMainConfig struct {
 	MpdcchULHARQACKFeedbackConfigR15Raw_ byte                                        `asn1:"-" json:"-"`
 	DormantStateTimersR15                *MACMainConfigDormantStateTimersR15         `asn1:"tag:21,context,explicit,optional" json:"DormantStateTimersR15,omitempty"`
 	CeETWSCMASRxInConnR16                *int64                                      `asn1:"tag:22,context,implicit,optional" json:"CeETWSCMASRxInConnR16,omitempty"`
-	OffsetThresholdTAR17                 *SetupRelease                               `asn1:"tag:23,context,explicit,optional" json:"OffsetThresholdTAR17,omitempty"`
-	SrProhibitTimerOffsetR17             *SetupRelease                               `asn1:"tag:24,context,explicit,optional" json:"SrProhibitTimerOffsetR17,omitempty"`
+	OffsetThresholdTAR17                 *MACMainConfigOffsetThresholdTAR17          `asn1:"tag:23,context,explicit,optional" json:"OffsetThresholdTAR17,omitempty"`
+	SrProhibitTimerOffsetR17             *MACMainConfigSrProhibitTimerOffsetR17      `asn1:"tag:24,context,explicit,optional" json:"SrProhibitTimerOffsetR17,omitempty"`
 	ExtCount_                            int64                                       `asn1:"-" json:"-"`
 	ExtPresent_                          []bool                                      `asn1:"-" json:"-"`
 	ExtData_                             [][]byte                                    `asn1:"-" json:"-"`
@@ -7634,50 +7640,50 @@ type MeasObjectCDMA2000 struct {
 
 // MeasObjectEUTRA represents the ASN.1 type MeasObjectEUTRA (SEQUENCE).
 type MeasObjectEUTRA struct {
-	CarrierFreq                         ARFCNValueEUTRA                    `asn1:"tag:0,context,implicit"`
-	AllowedMeasBandwidth                AllowedMeasBandwidth               `asn1:"tag:1,context,implicit"`
-	PresenceAntennaPort1                PresenceAntennaPort1               `asn1:"tag:2,context,implicit"`
-	PresenceAntennaPort1Raw_            byte                               `asn1:"-" json:"-"`
-	NeighCellConfig                     NeighCellConfig                    `asn1:"tag:3,context,implicit"`
-	OffsetFreq                          *QOffsetRange                      `asn1:"tag:4,context,implicit,optional" json:"OffsetFreq,omitempty"`
-	CellsToRemoveList                   CellIndexList                      `asn1:"tag:5,context,implicit,optional" json:"CellsToRemoveList,omitempty"`
-	CellsToRemoveListIndef_             bool                               `asn1:"-" json:"-"`
-	CellsToAddModList                   CellsToAddModList                  `asn1:"tag:6,context,implicit,optional" json:"CellsToAddModList,omitempty"`
-	CellsToAddModListIndef_             bool                               `asn1:"-" json:"-"`
-	ExcludedCellsToRemoveList           CellIndexList                      `asn1:"tag:7,context,implicit,optional" json:"ExcludedCellsToRemoveList,omitempty"`
-	ExcludedCellsToRemoveListIndef_     bool                               `asn1:"-" json:"-"`
-	ExcludedCellsToAddModList           ExcludedCellsToAddModList          `asn1:"tag:8,context,implicit,optional" json:"ExcludedCellsToAddModList,omitempty"`
-	ExcludedCellsToAddModListIndef_     bool                               `asn1:"-" json:"-"`
-	CellForWhichToReportCGI             *PhysCellId                        `asn1:"tag:9,context,implicit,optional" json:"CellForWhichToReportCGI,omitempty"`
-	MeasCycleSCellR10                   *MeasCycleSCellR10                 `asn1:"tag:10,context,implicit,optional" json:"MeasCycleSCellR10,omitempty"`
-	MeasSubframePatternConfigNeighR10   *MeasSubframePatternConfigNeighR10 `asn1:"tag:11,context,explicit,optional" json:"MeasSubframePatternConfigNeighR10,omitempty"`
-	WidebandRSRQMeasR11                 *bool                              `asn1:"tag:12,context,implicit,optional" json:"WidebandRSRQMeasR11,omitempty"`
-	WidebandRSRQMeasR11Raw_             byte                               `asn1:"-" json:"-"`
-	AltTTTCellsToRemoveListR12          CellIndexList                      `asn1:"tag:13,context,implicit,optional" json:"AltTTTCellsToRemoveListR12,omitempty"`
-	AltTTTCellsToRemoveListR12Indef_    bool                               `asn1:"-" json:"-"`
-	AltTTTCellsToAddModListR12          AltTTTCellsToAddModListR12         `asn1:"tag:14,context,implicit,optional" json:"AltTTTCellsToAddModListR12,omitempty"`
-	AltTTTCellsToAddModListR12Indef_    bool                               `asn1:"-" json:"-"`
-	T312R12                             *MeasObjectEUTRAT312R12            `asn1:"tag:15,context,explicit,optional" json:"T312R12,omitempty"`
-	ReducedMeasPerformanceR12           *bool                              `asn1:"tag:16,context,implicit,optional" json:"ReducedMeasPerformanceR12,omitempty"`
-	ReducedMeasPerformanceR12Raw_       byte                               `asn1:"-" json:"-"`
-	MeasDSConfigR12                     *MeasDSConfigR12                   `asn1:"tag:17,context,explicit,optional" json:"MeasDSConfigR12,omitempty"`
-	AllowedCellsToRemoveListR13         CellIndexList                      `asn1:"tag:18,context,implicit,optional" json:"AllowedCellsToRemoveListR13,omitempty"`
-	AllowedCellsToRemoveListR13Indef_   bool                               `asn1:"-" json:"-"`
-	AllowedCellsToAddModListR13         AllowedCellsToAddModListR13        `asn1:"tag:19,context,implicit,optional" json:"AllowedCellsToAddModListR13,omitempty"`
-	AllowedCellsToAddModListR13Indef_   bool                               `asn1:"-" json:"-"`
-	RmtcConfigR13                       *RMTCConfigR13                     `asn1:"tag:20,context,explicit,optional" json:"RmtcConfigR13,omitempty"`
-	CarrierFreqR13                      *ARFCNValueEUTRAV9e0               `asn1:"tag:21,context,implicit,optional" json:"CarrierFreqR13,omitempty"`
-	TxResourcePoolToRemoveListR14       TxResourcePoolMeasListR14          `asn1:"tag:22,context,implicit,optional" json:"TxResourcePoolToRemoveListR14,omitempty"`
-	TxResourcePoolToRemoveListR14Indef_ bool                               `asn1:"-" json:"-"`
-	TxResourcePoolToAddListR14          TxResourcePoolMeasListR14          `asn1:"tag:23,context,implicit,optional" json:"TxResourcePoolToAddListR14,omitempty"`
-	TxResourcePoolToAddListR14Indef_    bool                               `asn1:"-" json:"-"`
-	FembmsMixedCarrierR14               *bool                              `asn1:"tag:24,context,implicit,optional" json:"FembmsMixedCarrierR14,omitempty"`
-	FembmsMixedCarrierR14Raw_           byte                               `asn1:"-" json:"-"`
-	MeasSensingConfigR15                *MeasSensingConfigR15              `asn1:"tag:25,context,implicit,optional" json:"MeasSensingConfigR15,omitempty"`
-	MeasRSSDedicatedConfigR16           *SetupRelease                      `asn1:"tag:26,context,explicit,optional" json:"MeasRSSDedicatedConfigR16,omitempty"`
-	ExtCount_                           int64                              `asn1:"-" json:"-"`
-	ExtPresent_                         []bool                             `asn1:"-" json:"-"`
-	ExtData_                            [][]byte                           `asn1:"-" json:"-"`
+	CarrierFreq                         ARFCNValueEUTRA                           `asn1:"tag:0,context,implicit"`
+	AllowedMeasBandwidth                AllowedMeasBandwidth                      `asn1:"tag:1,context,implicit"`
+	PresenceAntennaPort1                PresenceAntennaPort1                      `asn1:"tag:2,context,implicit"`
+	PresenceAntennaPort1Raw_            byte                                      `asn1:"-" json:"-"`
+	NeighCellConfig                     NeighCellConfig                           `asn1:"tag:3,context,implicit"`
+	OffsetFreq                          *QOffsetRange                             `asn1:"tag:4,context,implicit,optional" json:"OffsetFreq,omitempty"`
+	CellsToRemoveList                   CellIndexList                             `asn1:"tag:5,context,implicit,optional" json:"CellsToRemoveList,omitempty"`
+	CellsToRemoveListIndef_             bool                                      `asn1:"-" json:"-"`
+	CellsToAddModList                   CellsToAddModList                         `asn1:"tag:6,context,implicit,optional" json:"CellsToAddModList,omitempty"`
+	CellsToAddModListIndef_             bool                                      `asn1:"-" json:"-"`
+	ExcludedCellsToRemoveList           CellIndexList                             `asn1:"tag:7,context,implicit,optional" json:"ExcludedCellsToRemoveList,omitempty"`
+	ExcludedCellsToRemoveListIndef_     bool                                      `asn1:"-" json:"-"`
+	ExcludedCellsToAddModList           ExcludedCellsToAddModList                 `asn1:"tag:8,context,implicit,optional" json:"ExcludedCellsToAddModList,omitempty"`
+	ExcludedCellsToAddModListIndef_     bool                                      `asn1:"-" json:"-"`
+	CellForWhichToReportCGI             *PhysCellId                               `asn1:"tag:9,context,implicit,optional" json:"CellForWhichToReportCGI,omitempty"`
+	MeasCycleSCellR10                   *MeasCycleSCellR10                        `asn1:"tag:10,context,implicit,optional" json:"MeasCycleSCellR10,omitempty"`
+	MeasSubframePatternConfigNeighR10   *MeasSubframePatternConfigNeighR10        `asn1:"tag:11,context,explicit,optional" json:"MeasSubframePatternConfigNeighR10,omitempty"`
+	WidebandRSRQMeasR11                 *bool                                     `asn1:"tag:12,context,implicit,optional" json:"WidebandRSRQMeasR11,omitempty"`
+	WidebandRSRQMeasR11Raw_             byte                                      `asn1:"-" json:"-"`
+	AltTTTCellsToRemoveListR12          CellIndexList                             `asn1:"tag:13,context,implicit,optional" json:"AltTTTCellsToRemoveListR12,omitempty"`
+	AltTTTCellsToRemoveListR12Indef_    bool                                      `asn1:"-" json:"-"`
+	AltTTTCellsToAddModListR12          AltTTTCellsToAddModListR12                `asn1:"tag:14,context,implicit,optional" json:"AltTTTCellsToAddModListR12,omitempty"`
+	AltTTTCellsToAddModListR12Indef_    bool                                      `asn1:"-" json:"-"`
+	T312R12                             *MeasObjectEUTRAT312R12                   `asn1:"tag:15,context,explicit,optional" json:"T312R12,omitempty"`
+	ReducedMeasPerformanceR12           *bool                                     `asn1:"tag:16,context,implicit,optional" json:"ReducedMeasPerformanceR12,omitempty"`
+	ReducedMeasPerformanceR12Raw_       byte                                      `asn1:"-" json:"-"`
+	MeasDSConfigR12                     *MeasDSConfigR12                          `asn1:"tag:17,context,explicit,optional" json:"MeasDSConfigR12,omitempty"`
+	AllowedCellsToRemoveListR13         CellIndexList                             `asn1:"tag:18,context,implicit,optional" json:"AllowedCellsToRemoveListR13,omitempty"`
+	AllowedCellsToRemoveListR13Indef_   bool                                      `asn1:"-" json:"-"`
+	AllowedCellsToAddModListR13         AllowedCellsToAddModListR13               `asn1:"tag:19,context,implicit,optional" json:"AllowedCellsToAddModListR13,omitempty"`
+	AllowedCellsToAddModListR13Indef_   bool                                      `asn1:"-" json:"-"`
+	RmtcConfigR13                       *RMTCConfigR13                            `asn1:"tag:20,context,explicit,optional" json:"RmtcConfigR13,omitempty"`
+	CarrierFreqR13                      *ARFCNValueEUTRAV9e0                      `asn1:"tag:21,context,implicit,optional" json:"CarrierFreqR13,omitempty"`
+	TxResourcePoolToRemoveListR14       TxResourcePoolMeasListR14                 `asn1:"tag:22,context,implicit,optional" json:"TxResourcePoolToRemoveListR14,omitempty"`
+	TxResourcePoolToRemoveListR14Indef_ bool                                      `asn1:"-" json:"-"`
+	TxResourcePoolToAddListR14          TxResourcePoolMeasListR14                 `asn1:"tag:23,context,implicit,optional" json:"TxResourcePoolToAddListR14,omitempty"`
+	TxResourcePoolToAddListR14Indef_    bool                                      `asn1:"-" json:"-"`
+	FembmsMixedCarrierR14               *bool                                     `asn1:"tag:24,context,implicit,optional" json:"FembmsMixedCarrierR14,omitempty"`
+	FembmsMixedCarrierR14Raw_           byte                                      `asn1:"-" json:"-"`
+	MeasSensingConfigR15                *MeasSensingConfigR15                     `asn1:"tag:25,context,implicit,optional" json:"MeasSensingConfigR15,omitempty"`
+	MeasRSSDedicatedConfigR16           *MeasObjectEUTRAMeasRSSDedicatedConfigR16 `asn1:"tag:26,context,explicit,optional" json:"MeasRSSDedicatedConfigR16,omitempty"`
+	ExtCount_                           int64                                     `asn1:"-" json:"-"`
+	ExtPresent_                         []bool                                    `asn1:"-" json:"-"`
+	ExtData_                            [][]byte                                  `asn1:"-" json:"-"`
 }
 
 // MeasObjectEUTRAV9e0 represents the ASN.1 type MeasObjectEUTRA-v9e0 (SEQUENCE).
@@ -7724,7 +7730,7 @@ type MeasObjectNRR15 struct {
 	DeriveSSBIndexFromCellR15Raw_      byte                                        `asn1:"-" json:"-"`
 	SsRSSIMeasurementR15               *SSRSSIMeasurementR15                       `asn1:"tag:11,context,implicit,optional" json:"SsRSSIMeasurementR15,omitempty"`
 	BandNRR15                          *MeasObjectNRR15BandNRR15                   `asn1:"tag:12,context,explicit,optional" json:"BandNRR15,omitempty"`
-	RmtcConfigNRR16                    *SetupRelease                               `asn1:"tag:13,context,explicit,optional" json:"RmtcConfigNRR16,omitempty"`
+	RmtcConfigNRR16                    *MeasObjectNRR15RmtcConfigNRR16             `asn1:"tag:13,context,explicit,optional" json:"RmtcConfigNRR16,omitempty"`
 	CellsToRemoveListR16               CellIndexList                               `asn1:"tag:14,context,implicit,optional" json:"CellsToRemoveListR16,omitempty"`
 	CellsToRemoveListR16Indef_         bool                                        `asn1:"-" json:"-"`
 	CellsToAddModListR16               CellsToAddModListNRR16                      `asn1:"tag:15,context,implicit,optional" json:"CellsToAddModListR16,omitempty"`
@@ -9096,29 +9102,29 @@ func (v OffsetThresholdTAR17) String() string {
 
 // OtherConfigR9 represents the ASN.1 type OtherConfig-r9 (SEQUENCE).
 type OtherConfigR9 struct {
-	ReportProximityConfigR9                  *ReportProximityConfigR9                     `asn1:"tag:0,context,implicit,optional" json:"ReportProximityConfigR9,omitempty"`
-	IdcConfigR11                             *IDCConfigR11                                `asn1:"tag:1,context,implicit,optional" json:"IdcConfigR11,omitempty"`
-	PowerPrefIndicationConfigR11             *PowerPrefIndicationConfigR11                `asn1:"tag:2,context,explicit,optional" json:"PowerPrefIndicationConfigR11,omitempty"`
-	ObtainLocationConfigR11                  *ObtainLocationConfigR11                     `asn1:"tag:3,context,implicit,optional" json:"ObtainLocationConfigR11,omitempty"`
-	BwPreferenceIndicationTimerR14           *int64                                       `asn1:"tag:4,context,implicit,optional" json:"BwPreferenceIndicationTimerR14,omitempty"`
-	SpsAssistanceInfoReportR14               *bool                                        `asn1:"tag:5,context,implicit,optional" json:"SpsAssistanceInfoReportR14,omitempty"`
-	SpsAssistanceInfoReportR14Raw_           byte                                         `asn1:"-" json:"-"`
-	DelayBudgetReportingConfigR14            *OtherConfigR9DelayBudgetReportingConfigR14  `asn1:"tag:6,context,explicit,optional" json:"DelayBudgetReportingConfigR14,omitempty"`
-	RlmReportConfigR14                       *OtherConfigR9RlmReportConfigR14             `asn1:"tag:7,context,explicit,optional" json:"RlmReportConfigR14,omitempty"`
-	OverheatingAssistanceConfigR14           *OtherConfigR9OverheatingAssistanceConfigR14 `asn1:"tag:8,context,explicit,optional" json:"OverheatingAssistanceConfigR14,omitempty"`
-	MeasConfigAppLayerR15                    *OtherConfigR9MeasConfigAppLayerR15          `asn1:"tag:9,context,explicit,optional" json:"MeasConfigAppLayerR15,omitempty"`
-	AilcBitConfigR15                         *bool                                        `asn1:"tag:10,context,implicit,optional" json:"AilcBitConfigR15,omitempty"`
-	AilcBitConfigR15Raw_                     byte                                         `asn1:"-" json:"-"`
-	BtNameListConfigR15                      *BTNameListConfigR15                         `asn1:"tag:11,context,explicit,optional" json:"BtNameListConfigR15,omitempty"`
-	WlanNameListConfigR15                    *WLANNameListConfigR15                       `asn1:"tag:12,context,explicit,optional" json:"WlanNameListConfigR15,omitempty"`
-	OverheatingAssistanceConfigForSCGR16     *bool                                        `asn1:"tag:13,context,implicit,optional" json:"OverheatingAssistanceConfigForSCGR16,omitempty"`
-	OverheatingAssistanceConfigForSCGR16Raw_ byte                                         `asn1:"-" json:"-"`
-	MeasUncomBarPreR17                       *bool                                        `asn1:"tag:14,context,implicit,optional" json:"MeasUncomBarPreR17,omitempty"`
-	MeasUncomBarPreR17Raw_                   byte                                         `asn1:"-" json:"-"`
-	ScgDeactivationPreferenceConfigR17       *SetupRelease                                `asn1:"tag:15,context,explicit,optional" json:"ScgDeactivationPreferenceConfigR17,omitempty"`
-	ExtCount_                                int64                                        `asn1:"-" json:"-"`
-	ExtPresent_                              []bool                                       `asn1:"-" json:"-"`
-	ExtData_                                 [][]byte                                     `asn1:"-" json:"-"`
+	ReportProximityConfigR9                  *ReportProximityConfigR9                         `asn1:"tag:0,context,implicit,optional" json:"ReportProximityConfigR9,omitempty"`
+	IdcConfigR11                             *IDCConfigR11                                    `asn1:"tag:1,context,implicit,optional" json:"IdcConfigR11,omitempty"`
+	PowerPrefIndicationConfigR11             *PowerPrefIndicationConfigR11                    `asn1:"tag:2,context,explicit,optional" json:"PowerPrefIndicationConfigR11,omitempty"`
+	ObtainLocationConfigR11                  *ObtainLocationConfigR11                         `asn1:"tag:3,context,implicit,optional" json:"ObtainLocationConfigR11,omitempty"`
+	BwPreferenceIndicationTimerR14           *int64                                           `asn1:"tag:4,context,implicit,optional" json:"BwPreferenceIndicationTimerR14,omitempty"`
+	SpsAssistanceInfoReportR14               *bool                                            `asn1:"tag:5,context,implicit,optional" json:"SpsAssistanceInfoReportR14,omitempty"`
+	SpsAssistanceInfoReportR14Raw_           byte                                             `asn1:"-" json:"-"`
+	DelayBudgetReportingConfigR14            *OtherConfigR9DelayBudgetReportingConfigR14      `asn1:"tag:6,context,explicit,optional" json:"DelayBudgetReportingConfigR14,omitempty"`
+	RlmReportConfigR14                       *OtherConfigR9RlmReportConfigR14                 `asn1:"tag:7,context,explicit,optional" json:"RlmReportConfigR14,omitempty"`
+	OverheatingAssistanceConfigR14           *OtherConfigR9OverheatingAssistanceConfigR14     `asn1:"tag:8,context,explicit,optional" json:"OverheatingAssistanceConfigR14,omitempty"`
+	MeasConfigAppLayerR15                    *OtherConfigR9MeasConfigAppLayerR15              `asn1:"tag:9,context,explicit,optional" json:"MeasConfigAppLayerR15,omitempty"`
+	AilcBitConfigR15                         *bool                                            `asn1:"tag:10,context,implicit,optional" json:"AilcBitConfigR15,omitempty"`
+	AilcBitConfigR15Raw_                     byte                                             `asn1:"-" json:"-"`
+	BtNameListConfigR15                      *BTNameListConfigR15                             `asn1:"tag:11,context,explicit,optional" json:"BtNameListConfigR15,omitempty"`
+	WlanNameListConfigR15                    *WLANNameListConfigR15                           `asn1:"tag:12,context,explicit,optional" json:"WlanNameListConfigR15,omitempty"`
+	OverheatingAssistanceConfigForSCGR16     *bool                                            `asn1:"tag:13,context,implicit,optional" json:"OverheatingAssistanceConfigForSCGR16,omitempty"`
+	OverheatingAssistanceConfigForSCGR16Raw_ byte                                             `asn1:"-" json:"-"`
+	MeasUncomBarPreR17                       *bool                                            `asn1:"tag:14,context,implicit,optional" json:"MeasUncomBarPreR17,omitempty"`
+	MeasUncomBarPreR17Raw_                   byte                                             `asn1:"-" json:"-"`
+	ScgDeactivationPreferenceConfigR17       *OtherConfigR9ScgDeactivationPreferenceConfigR17 `asn1:"tag:15,context,explicit,optional" json:"ScgDeactivationPreferenceConfigR17,omitempty"`
+	ExtCount_                                int64                                            `asn1:"-" json:"-"`
+	ExtPresent_                              []bool                                           `asn1:"-" json:"-"`
+	ExtData_                                 [][]byte                                         `asn1:"-" json:"-"`
 }
 
 // OtherParametersV1450 represents the ASN.1 type OtherParameters-v1450 (SEQUENCE).
@@ -9406,8 +9412,8 @@ type PDCPConfig struct {
 	UplinkOnlyHeaderCompressionR14 *PDCPConfigUplinkOnlyHeaderCompressionR14 `asn1:"tag:12,context,explicit,optional" json:"UplinkOnlyHeaderCompressionR14,omitempty"`
 	UplinkDataCompressionR15       *PDCPConfigUplinkDataCompressionR15       `asn1:"tag:13,context,implicit,optional" json:"UplinkDataCompressionR15,omitempty"`
 	PdcpDuplicationConfigR15       *PDCPConfigPdcpDuplicationConfigR15       `asn1:"tag:14,context,explicit,optional" json:"PdcpDuplicationConfigR15,omitempty"`
-	EthernetHeaderCompressionR16   *SetupRelease                             `asn1:"tag:15,context,explicit,optional" json:"EthernetHeaderCompressionR16,omitempty"`
-	DiscardTimerExtR17             *SetupRelease                             `asn1:"tag:16,context,explicit,optional" json:"DiscardTimerExtR17,omitempty"`
+	EthernetHeaderCompressionR16   *PDCPConfigEthernetHeaderCompressionR16   `asn1:"tag:15,context,explicit,optional" json:"EthernetHeaderCompressionR16,omitempty"`
+	DiscardTimerExtR17             *PDCPConfigDiscardTimerExtR17             `asn1:"tag:16,context,explicit,optional" json:"DiscardTimerExtR17,omitempty"`
 	ExtCount_                      int64                                     `asn1:"-" json:"-"`
 	ExtPresent_                    []bool                                    `asn1:"-" json:"-"`
 	ExtData_                       [][]byte                                  `asn1:"-" json:"-"`
@@ -9534,13 +9540,13 @@ type PDSCHConfigDedicatedV1530 struct {
 
 // PDSCHConfigDedicatedV1610 represents the ASN.1 type PDSCH-ConfigDedicated-v1610 (SEQUENCE).
 type PDSCHConfigDedicatedV1610 struct {
-	CePDSCHMultiTBConfigR16 SetupRelease `asn1:"tag:0,context,explicit"`
+	CePDSCHMultiTBConfigR16 PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16 `asn1:"tag:0,context,explicit"`
 }
 
 // PDSCHConfigDedicatedV1700 represents the ASN.1 type PDSCH-ConfigDedicated-v1700 (SEQUENCE).
 type PDSCHConfigDedicatedV1700 struct {
-	CePDSCH14HARQConfigR17 *SetupRelease `asn1:"tag:0,context,explicit,optional" json:"CePDSCH14HARQConfigR17,omitempty"`
-	CePDSCHMaxTBSR17       *int64        `asn1:"tag:1,context,implicit,optional" json:"CePDSCHMaxTBSR17,omitempty"`
+	CePDSCH14HARQConfigR17 *PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17 `asn1:"tag:0,context,explicit,optional" json:"CePDSCH14HARQConfigR17,omitempty"`
+	CePDSCHMaxTBSR17       *int64                                           `asn1:"tag:1,context,implicit,optional" json:"CePDSCHMaxTBSR17,omitempty"`
 }
 
 // PDSCHREMappingQCLConfigIdR11 represents the ASN.1 type PDSCH-RE-MappingQCL-ConfigId-r11 (INTEGER).
@@ -9998,7 +10004,7 @@ type PURConfigR16 struct {
 	PurNumOccasionsR16         int64                                  `asn1:"tag:3,context,implicit"`
 	PurRNTIR16                 *CRNTI                                 `asn1:"tag:4,context,implicit,optional" json:"PurRNTIR16,omitempty"`
 	PurTimeAlignmentTimerR16   *int64                                 `asn1:"tag:5,context,implicit,optional" json:"PurTimeAlignmentTimerR16,omitempty"`
-	PurRSRPChangeThresholdR16  *SetupRelease                          `asn1:"tag:6,context,explicit,optional" json:"PurRSRPChangeThresholdR16,omitempty"`
+	PurRSRPChangeThresholdR16  *PURConfigR16PurRSRPChangeThresholdR16 `asn1:"tag:6,context,explicit,optional" json:"PurRSRPChangeThresholdR16,omitempty"`
 	PurResponseWindowTimerR16  *int64                                 `asn1:"tag:7,context,implicit,optional" json:"PurResponseWindowTimerR16,omitempty"`
 	PurMPDCCHConfigR16         *PURMPDCCHConfigR16                    `asn1:"tag:8,context,implicit,optional" json:"PurMPDCCHConfigR16,omitempty"`
 	PurPDSCHFreqHoppingR16     bool                                   `asn1:"tag:9,context,implicit"`
@@ -10275,7 +10281,7 @@ type PUSCHConfigDedicatedV1530 struct {
 
 // PUSCHConfigDedicatedV1610 represents the ASN.1 type PUSCH-ConfigDedicated-v1610 (SEQUENCE).
 type PUSCHConfigDedicatedV1610 struct {
-	CePUSCHMultiTBConfigR16 SetupRelease `asn1:"tag:0,context,explicit"`
+	CePUSCHMultiTBConfigR16 PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16 `asn1:"tag:0,context,explicit"`
 }
 
 // PUSCHEnhancementsConfigR14 choice constants.
@@ -11036,12 +11042,12 @@ type PhysicalConfigDedicated struct {
 	PdschConfigDedicatedV1610                                *PDSCHConfigDedicatedV1610                                                `asn1:"tag:84,context,implicit,optional" json:"PdschConfigDedicatedV1610,omitempty"`
 	PuschConfigDedicatedV1610                                *PUSCHConfigDedicatedV1610                                                `asn1:"tag:85,context,implicit,optional" json:"PuschConfigDedicatedV1610,omitempty"`
 	CeCSIRSFeedbackR16                                       *int64                                                                    `asn1:"tag:86,context,implicit,optional" json:"CeCSIRSFeedbackR16,omitempty"`
-	ResourceReservationConfigDedicatedDLR16                  *SetupRelease                                                             `asn1:"tag:87,context,explicit,optional" json:"ResourceReservationConfigDedicatedDLR16,omitempty"`
-	ResourceReservationConfigDedicatedULR16                  *SetupRelease                                                             `asn1:"tag:88,context,explicit,optional" json:"ResourceReservationConfigDedicatedULR16,omitempty"`
-	SoundingRSULConfigDedicatedAddR16                        *SetupRelease                                                             `asn1:"tag:89,context,explicit,optional" json:"SoundingRSULConfigDedicatedAddR16,omitempty"`
-	UplinkPowerControlAddSRSR16                              *SetupRelease                                                             `asn1:"tag:90,context,explicit,optional" json:"UplinkPowerControlAddSRSR16,omitempty"`
-	SoundingRSVirtualCellIDR16                               *SetupRelease                                                             `asn1:"tag:91,context,explicit,optional" json:"SoundingRSVirtualCellIDR16,omitempty"`
-	WidebandPRGR16                                           *SetupRelease                                                             `asn1:"tag:92,context,explicit,optional" json:"WidebandPRGR16,omitempty"`
+	ResourceReservationConfigDedicatedDLR16                  *PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16           `asn1:"tag:87,context,explicit,optional" json:"ResourceReservationConfigDedicatedDLR16,omitempty"`
+	ResourceReservationConfigDedicatedULR16                  *PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16           `asn1:"tag:88,context,explicit,optional" json:"ResourceReservationConfigDedicatedULR16,omitempty"`
+	SoundingRSULConfigDedicatedAddR16                        *PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16                 `asn1:"tag:89,context,explicit,optional" json:"SoundingRSULConfigDedicatedAddR16,omitempty"`
+	UplinkPowerControlAddSRSR16                              *PhysicalConfigDedicatedUplinkPowerControlAddSRSR16                       `asn1:"tag:90,context,explicit,optional" json:"UplinkPowerControlAddSRSR16,omitempty"`
+	SoundingRSVirtualCellIDR16                               *PhysicalConfigDedicatedSoundingRSVirtualCellIDR16                        `asn1:"tag:91,context,explicit,optional" json:"SoundingRSVirtualCellIDR16,omitempty"`
+	WidebandPRGR16                                           *PhysicalConfigDedicatedWidebandPRGR16                                    `asn1:"tag:92,context,explicit,optional" json:"WidebandPRGR16,omitempty"`
 	PdschConfigDedicatedV1700                                *PDSCHConfigDedicatedV1700                                                `asn1:"tag:93,context,implicit,optional" json:"PdschConfigDedicatedV1700,omitempty"`
 	NtnConfigDedicatedR17                                    *PhysicalConfigDedicatedNtnConfigDedicatedR17                             `asn1:"tag:94,context,implicit,optional" json:"NtnConfigDedicatedR17,omitempty"`
 	UplinkSegmentedPrecompensationGapR17                     *int64                                                                    `asn1:"tag:95,context,implicit,optional" json:"UplinkSegmentedPrecompensationGapR17,omitempty"`
@@ -11122,10 +11128,10 @@ type PhysicalConfigDedicatedSCellR10 struct {
 	SemiStaticCFIConfigR15                                   *PhysicalConfigDedicatedSCellR10SemiStaticCFIConfigR15                            `asn1:"tag:56,context,explicit,optional" json:"SemiStaticCFIConfigR15,omitempty"`
 	BlindPDSCHRepetitionConfigR15                            *PhysicalConfigDedicatedSCellR10BlindPDSCHRepetitionConfigR15                     `asn1:"tag:57,context,explicit,optional" json:"BlindPDSCHRepetitionConfigR15,omitempty"`
 	SpucchConfigV1550                                        *SPUCCHConfigV1550                                                                `asn1:"tag:58,context,explicit,optional" json:"SpucchConfigV1550,omitempty"`
-	SoundingRSULConfigDedicatedAddR16                        *SetupRelease                                                                     `asn1:"tag:59,context,explicit,optional" json:"SoundingRSULConfigDedicatedAddR16,omitempty"`
-	UplinkPowerControlAddSRSR16                              *SetupRelease                                                                     `asn1:"tag:60,context,explicit,optional" json:"UplinkPowerControlAddSRSR16,omitempty"`
-	SoundingRSVirtualCellIDR16                               *SetupRelease                                                                     `asn1:"tag:61,context,explicit,optional" json:"SoundingRSVirtualCellIDR16,omitempty"`
-	WidebandPRGR16                                           *SetupRelease                                                                     `asn1:"tag:62,context,explicit,optional" json:"WidebandPRGR16,omitempty"`
+	SoundingRSULConfigDedicatedAddR16                        *PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16                 `asn1:"tag:59,context,explicit,optional" json:"SoundingRSULConfigDedicatedAddR16,omitempty"`
+	UplinkPowerControlAddSRSR16                              *PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16                       `asn1:"tag:60,context,explicit,optional" json:"UplinkPowerControlAddSRSR16,omitempty"`
+	SoundingRSVirtualCellIDR16                               *PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16                        `asn1:"tag:61,context,explicit,optional" json:"SoundingRSVirtualCellIDR16,omitempty"`
+	WidebandPRGR16                                           *PhysicalConfigDedicatedSCellR10WidebandPRGR16                                    `asn1:"tag:62,context,explicit,optional" json:"WidebandPRGR16,omitempty"`
 	ExtCount_                                                int64                                                                             `asn1:"-" json:"-"`
 	ExtPresent_                                              []bool                                                                            `asn1:"-" json:"-"`
 	ExtData_                                                 [][]byte                                                                          `asn1:"-" json:"-"`
@@ -11143,7 +11149,7 @@ type PhysicalConfigDedicatedSCellV13c0 struct {
 
 // PhysicalConfigDedicatedSCellV1730 represents the ASN.1 type PhysicalConfigDedicatedSCell-v1730 (SEQUENCE).
 type PhysicalConfigDedicatedSCellV1730 struct {
-	CqiReportPeriodicSCellV1730 SetupRelease `asn1:"tag:0,context,explicit"`
+	CqiReportPeriodicSCellV1730 PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730 `asn1:"tag:0,context,explicit"`
 }
 
 // PhysicalConfigDedicatedSTTIR15 choice constants.
@@ -12435,7 +12441,7 @@ func NewRLCConfigV1530Setup(v RLCConfigV1530Setup) RLCConfigV1530 {
 
 // RLCConfigV1700 represents the ASN.1 type RLC-Config-v1700 (SEQUENCE).
 type RLCConfigV1700 struct {
-	TReorderingExtR17 SetupRelease `asn1:"tag:0,context,explicit"`
+	TReorderingExtR17 RLCConfigV1700TReorderingExtR17 `asn1:"tag:0,context,explicit"`
 }
 
 // RLCParametersR12 represents the ASN.1 type RLC-Parameters-r12 (SEQUENCE).
@@ -13154,14 +13160,14 @@ type RRCConnectionReleaseV15b0IEs struct {
 
 // RRCConnectionReleaseV1610IEs represents the ASN.1 type RRCConnectionRelease-v1610-IEs (SEQUENCE).
 type RRCConnectionReleaseV1610IEs struct {
-	FullIRNTIR16             *IRNTIR15                     `asn1:"tag:0,context,implicit,optional" json:"FullIRNTIR16,omitempty"`
-	ShortIRNTIR16            *ShortIRNTIR15                `asn1:"tag:1,context,implicit,optional" json:"ShortIRNTIR16,omitempty"`
-	PurConfigR16             *SetupRelease                 `asn1:"tag:2,context,explicit,optional" json:"PurConfigR16,omitempty"`
-	RrcInactiveConfigV1610   *RRCInactiveConfigV1610       `asn1:"tag:3,context,implicit,optional" json:"RrcInactiveConfigV1610,omitempty"`
-	ReleaseIdleMeasConfigR16 *int64                        `asn1:"tag:4,context,implicit,optional" json:"ReleaseIdleMeasConfigR16,omitempty"`
-	AltFreqPrioritiesR16     *int64                        `asn1:"tag:5,context,implicit,optional" json:"AltFreqPrioritiesR16,omitempty"`
-	T323R16                  *int64                        `asn1:"tag:6,context,implicit,optional" json:"T323R16,omitempty"`
-	NonCriticalExtension     *RRCConnectionReleaseV1650IEs `asn1:"tag:7,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	FullIRNTIR16             *IRNTIR15                                 `asn1:"tag:0,context,implicit,optional" json:"FullIRNTIR16,omitempty"`
+	ShortIRNTIR16            *ShortIRNTIR15                            `asn1:"tag:1,context,implicit,optional" json:"ShortIRNTIR16,omitempty"`
+	PurConfigR16             *RRCConnectionReleaseV1610IEsPurConfigR16 `asn1:"tag:2,context,explicit,optional" json:"PurConfigR16,omitempty"`
+	RrcInactiveConfigV1610   *RRCInactiveConfigV1610                   `asn1:"tag:3,context,implicit,optional" json:"RrcInactiveConfigV1610,omitempty"`
+	ReleaseIdleMeasConfigR16 *int64                                    `asn1:"tag:4,context,implicit,optional" json:"ReleaseIdleMeasConfigR16,omitempty"`
+	AltFreqPrioritiesR16     *int64                                    `asn1:"tag:5,context,implicit,optional" json:"AltFreqPrioritiesR16,omitempty"`
+	T323R16                  *int64                                    `asn1:"tag:6,context,implicit,optional" json:"T323R16,omitempty"`
+	NonCriticalExtension     *RRCConnectionReleaseV1650IEs             `asn1:"tag:7,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // RRCConnectionReleaseV1650IEs represents the ASN.1 type RRCConnectionRelease-v1650-IEs (SEQUENCE).
@@ -13930,41 +13936,41 @@ type RadioResourceConfigCommonSIB struct {
 
 // RadioResourceConfigDedicated represents the ASN.1 type RadioResourceConfigDedicated (SEQUENCE).
 type RadioResourceConfigDedicated struct {
-	SrbToAddModList                    SRBToAddModList                                    `asn1:"tag:0,context,implicit,optional" json:"SrbToAddModList,omitempty"`
-	SrbToAddModListIndef_              bool                                               `asn1:"-" json:"-"`
-	DrbToAddModList                    DRBToAddModList                                    `asn1:"tag:1,context,implicit,optional" json:"DrbToAddModList,omitempty"`
-	DrbToAddModListIndef_              bool                                               `asn1:"-" json:"-"`
-	DrbToReleaseList                   DRBToReleaseList                                   `asn1:"tag:2,context,implicit,optional" json:"DrbToReleaseList,omitempty"`
-	DrbToReleaseListIndef_             bool                                               `asn1:"-" json:"-"`
-	MacMainConfig                      *RadioResourceConfigDedicatedMacMainConfig         `asn1:"tag:3,context,explicit,optional" json:"MacMainConfig,omitempty"`
-	SpsConfig                          *SPSConfig                                         `asn1:"tag:4,context,implicit,optional" json:"SpsConfig,omitempty"`
-	PhysicalConfigDedicated            *PhysicalConfigDedicated                           `asn1:"tag:5,context,implicit,optional" json:"PhysicalConfigDedicated,omitempty"`
-	RlfTimersAndConstantsR9            *RLFTimersAndConstantsR9                           `asn1:"tag:6,context,explicit,optional" json:"RlfTimersAndConstantsR9,omitempty"`
-	MeasSubframePatternPCellR10        *MeasSubframePatternPCellR10                       `asn1:"tag:7,context,explicit,optional" json:"MeasSubframePatternPCellR10,omitempty"`
-	NeighCellsCRSInfoR11               *NeighCellsCRSInfoR11                              `asn1:"tag:8,context,explicit,optional" json:"NeighCellsCRSInfoR11,omitempty"`
-	NaicsInfoR12                       *NAICSAssistanceInfoR12                            `asn1:"tag:9,context,explicit,optional" json:"NaicsInfoR12,omitempty"`
-	NeighCellsCRSInfoR13               *NeighCellsCRSInfoR13                              `asn1:"tag:10,context,explicit,optional" json:"NeighCellsCRSInfoR13,omitempty"`
-	RlfTimersAndConstantsR13           *RLFTimersAndConstantsR13                          `asn1:"tag:11,context,explicit,optional" json:"RlfTimersAndConstantsR13,omitempty"`
-	SpsConfigV1430                     *SPSConfigV1430                                    `asn1:"tag:12,context,implicit,optional" json:"SpsConfigV1430,omitempty"`
-	SrbToAddModListExtR15              SRBToAddModListExtR15                              `asn1:"tag:13,context,implicit,optional" json:"SrbToAddModListExtR15,omitempty"`
-	SrbToAddModListExtR15Indef_        bool                                               `asn1:"-" json:"-"`
-	SrbToReleaseListExtR15             *int64                                             `asn1:"tag:14,context,implicit,optional" json:"SrbToReleaseListExtR15,omitempty"`
-	SpsConfigV1530                     *SPSConfigV1530                                    `asn1:"tag:15,context,implicit,optional" json:"SpsConfigV1530,omitempty"`
-	CrsIntfMitigConfigR15              *RadioResourceConfigDedicatedCrsIntfMitigConfigR15 `asn1:"tag:16,context,explicit,optional" json:"CrsIntfMitigConfigR15,omitempty"`
-	NeighCellsCRSInfoR15               *NeighCellsCRSInfoR15                              `asn1:"tag:17,context,explicit,optional" json:"NeighCellsCRSInfoR15,omitempty"`
-	DrbToAddModListR15                 DRBToAddModListR15                                 `asn1:"tag:18,context,implicit,optional" json:"DrbToAddModListR15,omitempty"`
-	DrbToAddModListR15Indef_           bool                                               `asn1:"-" json:"-"`
-	DrbToReleaseListR15                DRBToReleaseListR15                                `asn1:"tag:19,context,implicit,optional" json:"DrbToReleaseListR15,omitempty"`
-	DrbToReleaseListR15Indef_          bool                                               `asn1:"-" json:"-"`
-	Dummy                              RadioResourceConfigDedicatedDummy                  `asn1:"tag:20,context,implicit,optional" json:"Dummy,omitempty"`
-	DummyIndef_                        bool                                               `asn1:"-" json:"-"`
-	SpsConfigV1540                     *SPSConfigV1540                                    `asn1:"tag:21,context,implicit,optional" json:"SpsConfigV1540,omitempty"`
-	RlfTimersAndConstantsMCGFailureR16 *RLFTimersAndConstantsMCGFailureR16                `asn1:"tag:22,context,explicit,optional" json:"RlfTimersAndConstantsMCGFailureR16,omitempty"`
-	CrsChEstMPDCCHConfigDedicatedR16   *SetupRelease                                      `asn1:"tag:23,context,explicit,optional" json:"CrsChEstMPDCCHConfigDedicatedR16,omitempty"`
-	NewUEIdentityR16                   *CRNTI                                             `asn1:"tag:24,context,implicit,optional" json:"NewUEIdentityR16,omitempty"`
-	ExtCount_                          int64                                              `asn1:"-" json:"-"`
-	ExtPresent_                        []bool                                             `asn1:"-" json:"-"`
-	ExtData_                           [][]byte                                           `asn1:"-" json:"-"`
+	SrbToAddModList                    SRBToAddModList                                               `asn1:"tag:0,context,implicit,optional" json:"SrbToAddModList,omitempty"`
+	SrbToAddModListIndef_              bool                                                          `asn1:"-" json:"-"`
+	DrbToAddModList                    DRBToAddModList                                               `asn1:"tag:1,context,implicit,optional" json:"DrbToAddModList,omitempty"`
+	DrbToAddModListIndef_              bool                                                          `asn1:"-" json:"-"`
+	DrbToReleaseList                   DRBToReleaseList                                              `asn1:"tag:2,context,implicit,optional" json:"DrbToReleaseList,omitempty"`
+	DrbToReleaseListIndef_             bool                                                          `asn1:"-" json:"-"`
+	MacMainConfig                      *RadioResourceConfigDedicatedMacMainConfig                    `asn1:"tag:3,context,explicit,optional" json:"MacMainConfig,omitempty"`
+	SpsConfig                          *SPSConfig                                                    `asn1:"tag:4,context,implicit,optional" json:"SpsConfig,omitempty"`
+	PhysicalConfigDedicated            *PhysicalConfigDedicated                                      `asn1:"tag:5,context,implicit,optional" json:"PhysicalConfigDedicated,omitempty"`
+	RlfTimersAndConstantsR9            *RLFTimersAndConstantsR9                                      `asn1:"tag:6,context,explicit,optional" json:"RlfTimersAndConstantsR9,omitempty"`
+	MeasSubframePatternPCellR10        *MeasSubframePatternPCellR10                                  `asn1:"tag:7,context,explicit,optional" json:"MeasSubframePatternPCellR10,omitempty"`
+	NeighCellsCRSInfoR11               *NeighCellsCRSInfoR11                                         `asn1:"tag:8,context,explicit,optional" json:"NeighCellsCRSInfoR11,omitempty"`
+	NaicsInfoR12                       *NAICSAssistanceInfoR12                                       `asn1:"tag:9,context,explicit,optional" json:"NaicsInfoR12,omitempty"`
+	NeighCellsCRSInfoR13               *NeighCellsCRSInfoR13                                         `asn1:"tag:10,context,explicit,optional" json:"NeighCellsCRSInfoR13,omitempty"`
+	RlfTimersAndConstantsR13           *RLFTimersAndConstantsR13                                     `asn1:"tag:11,context,explicit,optional" json:"RlfTimersAndConstantsR13,omitempty"`
+	SpsConfigV1430                     *SPSConfigV1430                                               `asn1:"tag:12,context,implicit,optional" json:"SpsConfigV1430,omitempty"`
+	SrbToAddModListExtR15              SRBToAddModListExtR15                                         `asn1:"tag:13,context,implicit,optional" json:"SrbToAddModListExtR15,omitempty"`
+	SrbToAddModListExtR15Indef_        bool                                                          `asn1:"-" json:"-"`
+	SrbToReleaseListExtR15             *int64                                                        `asn1:"tag:14,context,implicit,optional" json:"SrbToReleaseListExtR15,omitempty"`
+	SpsConfigV1530                     *SPSConfigV1530                                               `asn1:"tag:15,context,implicit,optional" json:"SpsConfigV1530,omitempty"`
+	CrsIntfMitigConfigR15              *RadioResourceConfigDedicatedCrsIntfMitigConfigR15            `asn1:"tag:16,context,explicit,optional" json:"CrsIntfMitigConfigR15,omitempty"`
+	NeighCellsCRSInfoR15               *NeighCellsCRSInfoR15                                         `asn1:"tag:17,context,explicit,optional" json:"NeighCellsCRSInfoR15,omitempty"`
+	DrbToAddModListR15                 DRBToAddModListR15                                            `asn1:"tag:18,context,implicit,optional" json:"DrbToAddModListR15,omitempty"`
+	DrbToAddModListR15Indef_           bool                                                          `asn1:"-" json:"-"`
+	DrbToReleaseListR15                DRBToReleaseListR15                                           `asn1:"tag:19,context,implicit,optional" json:"DrbToReleaseListR15,omitempty"`
+	DrbToReleaseListR15Indef_          bool                                                          `asn1:"-" json:"-"`
+	Dummy                              RadioResourceConfigDedicatedDummy                             `asn1:"tag:20,context,implicit,optional" json:"Dummy,omitempty"`
+	DummyIndef_                        bool                                                          `asn1:"-" json:"-"`
+	SpsConfigV1540                     *SPSConfigV1540                                               `asn1:"tag:21,context,implicit,optional" json:"SpsConfigV1540,omitempty"`
+	RlfTimersAndConstantsMCGFailureR16 *RLFTimersAndConstantsMCGFailureR16                           `asn1:"tag:22,context,explicit,optional" json:"RlfTimersAndConstantsMCGFailureR16,omitempty"`
+	CrsChEstMPDCCHConfigDedicatedR16   *RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16 `asn1:"tag:23,context,explicit,optional" json:"CrsChEstMPDCCHConfigDedicatedR16,omitempty"`
+	NewUEIdentityR16                   *CRNTI                                                        `asn1:"tag:24,context,implicit,optional" json:"NewUEIdentityR16,omitempty"`
+	ExtCount_                          int64                                                         `asn1:"-" json:"-"`
+	ExtPresent_                        []bool                                                        `asn1:"-" json:"-"`
+	ExtData_                           [][]byte                                                      `asn1:"-" json:"-"`
 }
 
 // RadioResourceConfigDedicatedPSCellR12 represents the ASN.1 type RadioResourceConfigDedicatedPSCell-r12 (SEQUENCE).
@@ -15294,7 +15300,7 @@ const (
 	SIBTypeV12j0SibType30V1700  SIBTypeV12j0 = 10
 	SIBTypeV12j0SibType31V1700  SIBTypeV12j0 = 11
 	SIBTypeV12j0SibType32V1700  SIBTypeV12j0 = 12
-	SIBTypeV12j0Spare3          SIBTypeV12j0 = 13
+	SIBTypeV12j0SibType33V1800  SIBTypeV12j0 = 13
 	SIBTypeV12j0Spare2          SIBTypeV12j0 = 14
 	SIBTypeV12j0Spare1          SIBTypeV12j0 = 15
 )
@@ -15327,8 +15333,8 @@ func (v SIBTypeV12j0) String() string {
 		return "sibType31-v1700"
 	case SIBTypeV12j0SibType32V1700:
 		return "sibType32-v1700"
-	case SIBTypeV12j0Spare3:
-		return "spare3"
+	case SIBTypeV12j0SibType33V1800:
+		return "sibType33-v1800"
 	case SIBTypeV12j0Spare2:
 		return "spare2"
 	case SIBTypeV12j0Spare1:
@@ -17634,11 +17640,6 @@ type ServingSatelliteInfoR17 struct {
 	ExtCount_                 int64                                        `asn1:"-" json:"-"`
 	ExtPresent_               []bool                                       `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                                     `asn1:"-" json:"-"`
-}
-
-// SetupRelease represents the ASN.1 CHOICE type SetupRelease.
-type SetupRelease struct {
-	Choice int
 }
 
 // SharedSpectrumMeasNRR17 represents the ASN.1 type SharedSpectrumMeasNR-r17 (SEQUENCE).
@@ -27629,6 +27630,64 @@ type MACMainConfigDormantStateTimersR15Setup struct {
 	DormantSCellDeactivationTimerR15 *int64 `asn1:"tag:1,context,implicit,optional" json:"DormantSCellDeactivationTimerR15,omitempty"`
 }
 
+// MACMainConfigOffsetThresholdTAR17 choice constants.
+const (
+	MACMainConfigOffsetThresholdTAR17ChoiceRelease = 1
+	MACMainConfigOffsetThresholdTAR17ChoiceSetup   = 2
+)
+
+// MACMainConfigOffsetThresholdTAR17 represents the ASN.1 CHOICE type MAC-MainConfig-offsetThresholdTA-r17.
+type MACMainConfigOffsetThresholdTAR17 struct {
+	Choice  int
+	Release *struct{}             `json:"Release,omitempty"`
+	Setup   *OffsetThresholdTAR17 `json:"Setup,omitempty"`
+}
+
+// NewMACMainConfigOffsetThresholdTAR17Release creates a MAC-MainConfig-offsetThresholdTA-r17 with the release alternative.
+func NewMACMainConfigOffsetThresholdTAR17Release(v struct{}) MACMainConfigOffsetThresholdTAR17 {
+	return MACMainConfigOffsetThresholdTAR17{
+		Choice:  MACMainConfigOffsetThresholdTAR17ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewMACMainConfigOffsetThresholdTAR17Setup creates a MAC-MainConfig-offsetThresholdTA-r17 with the setup alternative.
+func NewMACMainConfigOffsetThresholdTAR17Setup(v OffsetThresholdTAR17) MACMainConfigOffsetThresholdTAR17 {
+	return MACMainConfigOffsetThresholdTAR17{
+		Choice: MACMainConfigOffsetThresholdTAR17ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
+// MACMainConfigSrProhibitTimerOffsetR17 choice constants.
+const (
+	MACMainConfigSrProhibitTimerOffsetR17ChoiceRelease = 1
+	MACMainConfigSrProhibitTimerOffsetR17ChoiceSetup   = 2
+)
+
+// MACMainConfigSrProhibitTimerOffsetR17 represents the ASN.1 CHOICE type MAC-MainConfig-sr-ProhibitTimerOffset-r17.
+type MACMainConfigSrProhibitTimerOffsetR17 struct {
+	Choice  int
+	Release *struct{}                 `json:"Release,omitempty"`
+	Setup   *SRProhibitTimerOffsetR17 `json:"Setup,omitempty"`
+}
+
+// NewMACMainConfigSrProhibitTimerOffsetR17Release creates a MAC-MainConfig-sr-ProhibitTimerOffset-r17 with the release alternative.
+func NewMACMainConfigSrProhibitTimerOffsetR17Release(v struct{}) MACMainConfigSrProhibitTimerOffsetR17 {
+	return MACMainConfigSrProhibitTimerOffsetR17{
+		Choice:  MACMainConfigSrProhibitTimerOffsetR17ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewMACMainConfigSrProhibitTimerOffsetR17Setup creates a MAC-MainConfig-sr-ProhibitTimerOffset-r17 with the setup alternative.
+func NewMACMainConfigSrProhibitTimerOffsetR17Setup(v SRProhibitTimerOffsetR17) MACMainConfigSrProhibitTimerOffsetR17 {
+	return MACMainConfigSrProhibitTimerOffsetR17{
+		Choice: MACMainConfigSrProhibitTimerOffsetR17ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
 // MACParametersV1530MinProcTimelineSubslotR15 represents the ASN.1 type MAC-Parameters-v1530-min-Proc-TimelineSubslot-r15 (SEQUENCE_OF).
 type MACParametersV1530MinProcTimelineSubslotR15 = []ProcessingTimelineSetR15
 
@@ -28873,6 +28932,35 @@ func NewMeasObjectEUTRAT312R12Setup(v int64) MeasObjectEUTRAT312R12 {
 	}
 }
 
+// MeasObjectEUTRAMeasRSSDedicatedConfigR16 choice constants.
+const (
+	MeasObjectEUTRAMeasRSSDedicatedConfigR16ChoiceRelease = 1
+	MeasObjectEUTRAMeasRSSDedicatedConfigR16ChoiceSetup   = 2
+)
+
+// MeasObjectEUTRAMeasRSSDedicatedConfigR16 represents the ASN.1 CHOICE type MeasObjectEUTRA-measRSS-DedicatedConfig-r16.
+type MeasObjectEUTRAMeasRSSDedicatedConfigR16 struct {
+	Choice  int
+	Release *struct{}                  `json:"Release,omitempty"`
+	Setup   *MeasRSSDedicatedConfigR16 `json:"Setup,omitempty"`
+}
+
+// NewMeasObjectEUTRAMeasRSSDedicatedConfigR16Release creates a MeasObjectEUTRA-measRSS-DedicatedConfig-r16 with the release alternative.
+func NewMeasObjectEUTRAMeasRSSDedicatedConfigR16Release(v struct{}) MeasObjectEUTRAMeasRSSDedicatedConfigR16 {
+	return MeasObjectEUTRAMeasRSSDedicatedConfigR16{
+		Choice:  MeasObjectEUTRAMeasRSSDedicatedConfigR16ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewMeasObjectEUTRAMeasRSSDedicatedConfigR16Setup creates a MeasObjectEUTRA-measRSS-DedicatedConfig-r16 with the setup alternative.
+func NewMeasObjectEUTRAMeasRSSDedicatedConfigR16Setup(v MeasRSSDedicatedConfigR16) MeasObjectEUTRAMeasRSSDedicatedConfigR16 {
+	return MeasObjectEUTRAMeasRSSDedicatedConfigR16{
+		Choice: MeasObjectEUTRAMeasRSSDedicatedConfigR16ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
 // MeasObjectNRR15CellsForWhichToReportSFTDR15 represents the ASN.1 type MeasObjectNR-r15-cellsForWhichToReportSFTD-r15 (SEQUENCE_OF).
 type MeasObjectNRR15CellsForWhichToReportSFTDR15 = []PhysCellIdNRR15
 
@@ -28901,6 +28989,35 @@ func NewMeasObjectNRR15BandNRR15Release(v struct{}) MeasObjectNRR15BandNRR15 {
 func NewMeasObjectNRR15BandNRR15Setup(v FreqBandIndicatorNRR15) MeasObjectNRR15BandNRR15 {
 	return MeasObjectNRR15BandNRR15{
 		Choice: MeasObjectNRR15BandNRR15ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
+// MeasObjectNRR15RmtcConfigNRR16 choice constants.
+const (
+	MeasObjectNRR15RmtcConfigNRR16ChoiceRelease = 1
+	MeasObjectNRR15RmtcConfigNRR16ChoiceSetup   = 2
+)
+
+// MeasObjectNRR15RmtcConfigNRR16 represents the ASN.1 CHOICE type MeasObjectNR-r15-rmtc-ConfigNR-r16.
+type MeasObjectNRR15RmtcConfigNRR16 struct {
+	Choice  int
+	Release *struct{}        `json:"Release,omitempty"`
+	Setup   *RMTCConfigNRR16 `json:"Setup,omitempty"`
+}
+
+// NewMeasObjectNRR15RmtcConfigNRR16Release creates a MeasObjectNR-r15-rmtc-ConfigNR-r16 with the release alternative.
+func NewMeasObjectNRR15RmtcConfigNRR16Release(v struct{}) MeasObjectNRR15RmtcConfigNRR16 {
+	return MeasObjectNRR15RmtcConfigNRR16{
+		Choice:  MeasObjectNRR15RmtcConfigNRR16ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewMeasObjectNRR15RmtcConfigNRR16Setup creates a MeasObjectNR-r15-rmtc-ConfigNR-r16 with the setup alternative.
+func NewMeasObjectNRR15RmtcConfigNRR16Setup(v RMTCConfigNRR16) MeasObjectNRR15RmtcConfigNRR16 {
+	return MeasObjectNRR15RmtcConfigNRR16{
+		Choice: MeasObjectNRR15RmtcConfigNRR16ChoiceSetup,
 		Setup:  &v,
 	}
 }
@@ -29940,6 +30057,35 @@ type OtherConfigR9MeasConfigAppLayerR15Setup struct {
 	ServiceTypeR15                 int64  `asn1:"tag:1,context,implicit"`
 }
 
+// OtherConfigR9ScgDeactivationPreferenceConfigR17 choice constants.
+const (
+	OtherConfigR9ScgDeactivationPreferenceConfigR17ChoiceRelease = 1
+	OtherConfigR9ScgDeactivationPreferenceConfigR17ChoiceSetup   = 2
+)
+
+// OtherConfigR9ScgDeactivationPreferenceConfigR17 represents the ASN.1 CHOICE type OtherConfig-r9-scg-DeactivationPreferenceConfig-r17.
+type OtherConfigR9ScgDeactivationPreferenceConfigR17 struct {
+	Choice  int
+	Release *struct{}                           `json:"Release,omitempty"`
+	Setup   *SCGDeactivationPreferenceConfigR17 `json:"Setup,omitempty"`
+}
+
+// NewOtherConfigR9ScgDeactivationPreferenceConfigR17Release creates a OtherConfig-r9-scg-DeactivationPreferenceConfig-r17 with the release alternative.
+func NewOtherConfigR9ScgDeactivationPreferenceConfigR17Release(v struct{}) OtherConfigR9ScgDeactivationPreferenceConfigR17 {
+	return OtherConfigR9ScgDeactivationPreferenceConfigR17{
+		Choice:  OtherConfigR9ScgDeactivationPreferenceConfigR17ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewOtherConfigR9ScgDeactivationPreferenceConfigR17Setup creates a OtherConfig-r9-scg-DeactivationPreferenceConfig-r17 with the setup alternative.
+func NewOtherConfigR9ScgDeactivationPreferenceConfigR17Setup(v SCGDeactivationPreferenceConfigR17) OtherConfigR9ScgDeactivationPreferenceConfigR17 {
+	return OtherConfigR9ScgDeactivationPreferenceConfigR17{
+		Choice: OtherConfigR9ScgDeactivationPreferenceConfigR17ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
 // OverheatingAssistanceR14ReducedUECategory represents the ASN.1 type OverheatingAssistance-r14-reducedUE-Category (SEQUENCE).
 type OverheatingAssistanceR14ReducedUECategory struct {
 	ReducedUECategoryDL int64 `asn1:"tag:0,context,implicit"`
@@ -30253,6 +30399,64 @@ type PDCPConfigPdcpDuplicationConfigR15Setup struct {
 	PdcpDuplicationR15 int64 `asn1:"tag:0,context,implicit"`
 }
 
+// PDCPConfigEthernetHeaderCompressionR16 choice constants.
+const (
+	PDCPConfigEthernetHeaderCompressionR16ChoiceRelease = 1
+	PDCPConfigEthernetHeaderCompressionR16ChoiceSetup   = 2
+)
+
+// PDCPConfigEthernetHeaderCompressionR16 represents the ASN.1 CHOICE type PDCP-Config-ethernetHeaderCompression-r16.
+type PDCPConfigEthernetHeaderCompressionR16 struct {
+	Choice  int
+	Release *struct{}                     `json:"Release,omitempty"`
+	Setup   *EthernetHeaderCompressionR16 `json:"Setup,omitempty"`
+}
+
+// NewPDCPConfigEthernetHeaderCompressionR16Release creates a PDCP-Config-ethernetHeaderCompression-r16 with the release alternative.
+func NewPDCPConfigEthernetHeaderCompressionR16Release(v struct{}) PDCPConfigEthernetHeaderCompressionR16 {
+	return PDCPConfigEthernetHeaderCompressionR16{
+		Choice:  PDCPConfigEthernetHeaderCompressionR16ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewPDCPConfigEthernetHeaderCompressionR16Setup creates a PDCP-Config-ethernetHeaderCompression-r16 with the setup alternative.
+func NewPDCPConfigEthernetHeaderCompressionR16Setup(v EthernetHeaderCompressionR16) PDCPConfigEthernetHeaderCompressionR16 {
+	return PDCPConfigEthernetHeaderCompressionR16{
+		Choice: PDCPConfigEthernetHeaderCompressionR16ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
+// PDCPConfigDiscardTimerExtR17 choice constants.
+const (
+	PDCPConfigDiscardTimerExtR17ChoiceRelease = 1
+	PDCPConfigDiscardTimerExtR17ChoiceSetup   = 2
+)
+
+// PDCPConfigDiscardTimerExtR17 represents the ASN.1 CHOICE type PDCP-Config-discardTimerExt-r17.
+type PDCPConfigDiscardTimerExtR17 struct {
+	Choice  int
+	Release *struct{}           `json:"Release,omitempty"`
+	Setup   *DiscardTimerExtR17 `json:"Setup,omitempty"`
+}
+
+// NewPDCPConfigDiscardTimerExtR17Release creates a PDCP-Config-discardTimerExt-r17 with the release alternative.
+func NewPDCPConfigDiscardTimerExtR17Release(v struct{}) PDCPConfigDiscardTimerExtR17 {
+	return PDCPConfigDiscardTimerExtR17{
+		Choice:  PDCPConfigDiscardTimerExtR17ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewPDCPConfigDiscardTimerExtR17Setup creates a PDCP-Config-discardTimerExt-r17 with the setup alternative.
+func NewPDCPConfigDiscardTimerExtR17Setup(v DiscardTimerExtR17) PDCPConfigDiscardTimerExtR17 {
+	return PDCPConfigDiscardTimerExtR17{
+		Choice: PDCPConfigDiscardTimerExtR17ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
 // PDCPParametersNRR15RohcProfilesULOnlyR15 represents the ASN.1 type PDCP-ParametersNR-r15-rohc-ProfilesUL-Only-r15 (SEQUENCE).
 type PDCPParametersNRR15RohcProfilesULOnlyR15 struct {
 	Profile0x0006R15     bool `asn1:"tag:0,context,implicit"`
@@ -30263,6 +30467,64 @@ type PDCPParametersNRR15RohcProfilesULOnlyR15 struct {
 type PDCPParametersV1430SupportedUplinkOnlyROHCProfilesR14 struct {
 	Profile0x0006R14     bool `asn1:"tag:0,context,implicit"`
 	Profile0x0006R14Raw_ byte `asn1:"-" json:"-"`
+}
+
+// PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16 choice constants.
+const (
+	PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16ChoiceRelease = 1
+	PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16ChoiceSetup   = 2
+)
+
+// PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16 represents the ASN.1 CHOICE type PDSCH-ConfigDedicated-v1610-ce-PDSCH-MultiTB-Config-r16.
+type PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16 struct {
+	Choice  int
+	Release *struct{}                `json:"Release,omitempty"`
+	Setup   *CEPDSCHMultiTBConfigR16 `json:"Setup,omitempty"`
+}
+
+// NewPDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16Release creates a PDSCH-ConfigDedicated-v1610-ce-PDSCH-MultiTB-Config-r16 with the release alternative.
+func NewPDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16Release(v struct{}) PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16 {
+	return PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16{
+		Choice:  PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewPDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16Setup creates a PDSCH-ConfigDedicated-v1610-ce-PDSCH-MultiTB-Config-r16 with the setup alternative.
+func NewPDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16Setup(v CEPDSCHMultiTBConfigR16) PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16 {
+	return PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16{
+		Choice: PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
+// PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17 choice constants.
+const (
+	PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17ChoiceRelease = 1
+	PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17ChoiceSetup   = 2
+)
+
+// PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17 represents the ASN.1 CHOICE type PDSCH-ConfigDedicated-v1700-ce-PDSCH-14HARQ-Config-r17.
+type PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17 struct {
+	Choice  int
+	Release *struct{}               `json:"Release,omitempty"`
+	Setup   *CEPDSCH14HARQConfigR17 `json:"Setup,omitempty"`
+}
+
+// NewPDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17Release creates a PDSCH-ConfigDedicated-v1700-ce-PDSCH-14HARQ-Config-r17 with the release alternative.
+func NewPDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17Release(v struct{}) PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17 {
+	return PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17{
+		Choice:  PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewPDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17Setup creates a PDSCH-ConfigDedicated-v1700-ce-PDSCH-14HARQ-Config-r17 with the setup alternative.
+func NewPDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17Setup(v CEPDSCH14HARQConfigR17) PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17 {
+	return PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17{
+		Choice: PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17ChoiceSetup,
+		Setup:  &v,
+	}
 }
 
 // PDSCHREMappingQCLConfigR11OptionalSetOfFieldsR11 represents the ASN.1 type PDSCH-RE-MappingQCL-Config-r11-optionalSetOfFields-r11 (SEQUENCE).
@@ -31271,6 +31533,35 @@ type PURConfigR16PurStartTimeParametersR16 struct {
 	HsfnLSBInfoR16          runtime.BitString          `asn1:"tag:3,context,implicit"`
 }
 
+// PURConfigR16PurRSRPChangeThresholdR16 choice constants.
+const (
+	PURConfigR16PurRSRPChangeThresholdR16ChoiceRelease = 1
+	PURConfigR16PurRSRPChangeThresholdR16ChoiceSetup   = 2
+)
+
+// PURConfigR16PurRSRPChangeThresholdR16 represents the ASN.1 CHOICE type PUR-Config-r16-pur-RSRP-ChangeThreshold-r16.
+type PURConfigR16PurRSRPChangeThresholdR16 struct {
+	Choice  int
+	Release *struct{}                  `json:"Release,omitempty"`
+	Setup   *PURRSRPChangeThresholdR16 `json:"Setup,omitempty"`
+}
+
+// NewPURConfigR16PurRSRPChangeThresholdR16Release creates a PUR-Config-r16-pur-RSRP-ChangeThreshold-r16 with the release alternative.
+func NewPURConfigR16PurRSRPChangeThresholdR16Release(v struct{}) PURConfigR16PurRSRPChangeThresholdR16 {
+	return PURConfigR16PurRSRPChangeThresholdR16{
+		Choice:  PURConfigR16PurRSRPChangeThresholdR16ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewPURConfigR16PurRSRPChangeThresholdR16Setup creates a PUR-Config-r16-pur-RSRP-ChangeThreshold-r16 with the setup alternative.
+func NewPURConfigR16PurRSRPChangeThresholdR16Setup(v PURRSRPChangeThresholdR16) PURConfigR16PurRSRPChangeThresholdR16 {
+	return PURConfigR16PurRSRPChangeThresholdR16{
+		Choice: PURConfigR16PurRSRPChangeThresholdR16ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
 // PURMPDCCHConfigR16MpdcchPRBPairsConfigR16 represents the ASN.1 type PUR-MPDCCH-Config-r16-mpdcch-PRB-PairsConfig-r16 (SEQUENCE).
 type PURMPDCCHConfigR16MpdcchPRBPairsConfigR16 struct {
 	NumberPRBPairsR16          int64             `asn1:"tag:0,context,implicit"`
@@ -31640,6 +31931,35 @@ type PUSCHConfigDedicatedV1530CePUSCHSubPRBConfigR15Setup struct {
 	LocationCEModeBR15      *int64 `asn1:"tag:0,context,implicit,optional" json:"LocationCEModeBR15,omitempty"`
 	SixToneCyclicShiftR15   int64  `asn1:"tag:1,context,implicit"`
 	ThreeToneCyclicShiftR15 int64  `asn1:"tag:2,context,implicit"`
+}
+
+// PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16 choice constants.
+const (
+	PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16ChoiceRelease = 1
+	PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16ChoiceSetup   = 2
+)
+
+// PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16 represents the ASN.1 CHOICE type PUSCH-ConfigDedicated-v1610-ce-PUSCH-MultiTB-Config-r16.
+type PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16 struct {
+	Choice  int
+	Release *struct{}                `json:"Release,omitempty"`
+	Setup   *CEPUSCHMultiTBConfigR16 `json:"Setup,omitempty"`
+}
+
+// NewPUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16Release creates a PUSCH-ConfigDedicated-v1610-ce-PUSCH-MultiTB-Config-r16 with the release alternative.
+func NewPUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16Release(v struct{}) PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16 {
+	return PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16{
+		Choice:  PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewPUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16Setup creates a PUSCH-ConfigDedicated-v1610-ce-PUSCH-MultiTB-Config-r16 with the setup alternative.
+func NewPUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16Setup(v CEPUSCHMultiTBConfigR16) PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16 {
+	return PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16{
+		Choice: PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16ChoiceSetup,
+		Setup:  &v,
+	}
 }
 
 // PUSCHEnhancementsConfigR14Setup represents the ASN.1 type PUSCH-EnhancementsConfig-r14-setup (SEQUENCE).
@@ -32205,10 +32525,242 @@ type PhysicalConfigDedicatedBlindPDSCHRepetitionConfigR15Setup struct {
 	McsRestrictionSlotSubslotPDSCHRepetitionsR15    *int64 `asn1:"tag:9,context,implicit,optional" json:"McsRestrictionSlotSubslotPDSCHRepetitionsR15,omitempty"`
 }
 
+// PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16 choice constants.
+const (
+	PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16ChoiceRelease = 1
+	PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16ChoiceSetup   = 2
+)
+
+// PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16 represents the ASN.1 CHOICE type PhysicalConfigDedicated-resourceReservationConfigDedicatedDL-r16.
+type PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16 struct {
+	Choice  int
+	Release *struct{}                                `json:"Release,omitempty"`
+	Setup   *ResourceReservationConfigDedicatedDLR16 `json:"Setup,omitempty"`
+}
+
+// NewPhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16Release creates a PhysicalConfigDedicated-resourceReservationConfigDedicatedDL-r16 with the release alternative.
+func NewPhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16Release(v struct{}) PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16 {
+	return PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16{
+		Choice:  PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewPhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16Setup creates a PhysicalConfigDedicated-resourceReservationConfigDedicatedDL-r16 with the setup alternative.
+func NewPhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16Setup(v ResourceReservationConfigDedicatedDLR16) PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16 {
+	return PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16{
+		Choice: PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
+// PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16 choice constants.
+const (
+	PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16ChoiceRelease = 1
+	PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16ChoiceSetup   = 2
+)
+
+// PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16 represents the ASN.1 CHOICE type PhysicalConfigDedicated-resourceReservationConfigDedicatedUL-r16.
+type PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16 struct {
+	Choice  int
+	Release *struct{}                                `json:"Release,omitempty"`
+	Setup   *ResourceReservationConfigDedicatedULR16 `json:"Setup,omitempty"`
+}
+
+// NewPhysicalConfigDedicatedResourceReservationConfigDedicatedULR16Release creates a PhysicalConfigDedicated-resourceReservationConfigDedicatedUL-r16 with the release alternative.
+func NewPhysicalConfigDedicatedResourceReservationConfigDedicatedULR16Release(v struct{}) PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16 {
+	return PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16{
+		Choice:  PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewPhysicalConfigDedicatedResourceReservationConfigDedicatedULR16Setup creates a PhysicalConfigDedicated-resourceReservationConfigDedicatedUL-r16 with the setup alternative.
+func NewPhysicalConfigDedicatedResourceReservationConfigDedicatedULR16Setup(v ResourceReservationConfigDedicatedULR16) PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16 {
+	return PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16{
+		Choice: PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
+// PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16 choice constants.
+const (
+	PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16ChoiceRelease = 1
+	PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16ChoiceSetup   = 2
+)
+
+// PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16 represents the ASN.1 CHOICE type PhysicalConfigDedicated-soundingRS-UL-ConfigDedicatedAdd-r16.
+type PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16 struct {
+	Choice  int
+	Release *struct{}                          `json:"Release,omitempty"`
+	Setup   *SoundingRSULConfigDedicatedAddR16 `json:"Setup,omitempty"`
+}
+
+// NewPhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16Release creates a PhysicalConfigDedicated-soundingRS-UL-ConfigDedicatedAdd-r16 with the release alternative.
+func NewPhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16Release(v struct{}) PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16 {
+	return PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16{
+		Choice:  PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewPhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16Setup creates a PhysicalConfigDedicated-soundingRS-UL-ConfigDedicatedAdd-r16 with the setup alternative.
+func NewPhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16Setup(v SoundingRSULConfigDedicatedAddR16) PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16 {
+	return PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16{
+		Choice: PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
+// PhysicalConfigDedicatedUplinkPowerControlAddSRSR16 choice constants.
+const (
+	PhysicalConfigDedicatedUplinkPowerControlAddSRSR16ChoiceRelease = 1
+	PhysicalConfigDedicatedUplinkPowerControlAddSRSR16ChoiceSetup   = 2
+)
+
+// PhysicalConfigDedicatedUplinkPowerControlAddSRSR16 represents the ASN.1 CHOICE type PhysicalConfigDedicated-uplinkPowerControlAddSRS-r16.
+type PhysicalConfigDedicatedUplinkPowerControlAddSRSR16 struct {
+	Choice  int
+	Release *struct{}                    `json:"Release,omitempty"`
+	Setup   *UplinkPowerControlAddSRSR16 `json:"Setup,omitempty"`
+}
+
+// NewPhysicalConfigDedicatedUplinkPowerControlAddSRSR16Release creates a PhysicalConfigDedicated-uplinkPowerControlAddSRS-r16 with the release alternative.
+func NewPhysicalConfigDedicatedUplinkPowerControlAddSRSR16Release(v struct{}) PhysicalConfigDedicatedUplinkPowerControlAddSRSR16 {
+	return PhysicalConfigDedicatedUplinkPowerControlAddSRSR16{
+		Choice:  PhysicalConfigDedicatedUplinkPowerControlAddSRSR16ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewPhysicalConfigDedicatedUplinkPowerControlAddSRSR16Setup creates a PhysicalConfigDedicated-uplinkPowerControlAddSRS-r16 with the setup alternative.
+func NewPhysicalConfigDedicatedUplinkPowerControlAddSRSR16Setup(v UplinkPowerControlAddSRSR16) PhysicalConfigDedicatedUplinkPowerControlAddSRSR16 {
+	return PhysicalConfigDedicatedUplinkPowerControlAddSRSR16{
+		Choice: PhysicalConfigDedicatedUplinkPowerControlAddSRSR16ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
+// PhysicalConfigDedicatedSoundingRSVirtualCellIDR16 choice constants.
+const (
+	PhysicalConfigDedicatedSoundingRSVirtualCellIDR16ChoiceRelease = 1
+	PhysicalConfigDedicatedSoundingRSVirtualCellIDR16ChoiceSetup   = 2
+)
+
+// PhysicalConfigDedicatedSoundingRSVirtualCellIDR16 represents the ASN.1 CHOICE type PhysicalConfigDedicated-soundingRS-VirtualCellID-r16.
+type PhysicalConfigDedicatedSoundingRSVirtualCellIDR16 struct {
+	Choice  int
+	Release *struct{}                   `json:"Release,omitempty"`
+	Setup   *SoundingRSVirtualCellIDR16 `json:"Setup,omitempty"`
+}
+
+// NewPhysicalConfigDedicatedSoundingRSVirtualCellIDR16Release creates a PhysicalConfigDedicated-soundingRS-VirtualCellID-r16 with the release alternative.
+func NewPhysicalConfigDedicatedSoundingRSVirtualCellIDR16Release(v struct{}) PhysicalConfigDedicatedSoundingRSVirtualCellIDR16 {
+	return PhysicalConfigDedicatedSoundingRSVirtualCellIDR16{
+		Choice:  PhysicalConfigDedicatedSoundingRSVirtualCellIDR16ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewPhysicalConfigDedicatedSoundingRSVirtualCellIDR16Setup creates a PhysicalConfigDedicated-soundingRS-VirtualCellID-r16 with the setup alternative.
+func NewPhysicalConfigDedicatedSoundingRSVirtualCellIDR16Setup(v SoundingRSVirtualCellIDR16) PhysicalConfigDedicatedSoundingRSVirtualCellIDR16 {
+	return PhysicalConfigDedicatedSoundingRSVirtualCellIDR16{
+		Choice: PhysicalConfigDedicatedSoundingRSVirtualCellIDR16ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
+// PhysicalConfigDedicatedWidebandPRGR16 choice constants.
+const (
+	PhysicalConfigDedicatedWidebandPRGR16ChoiceRelease = 1
+	PhysicalConfigDedicatedWidebandPRGR16ChoiceSetup   = 2
+)
+
+// PhysicalConfigDedicatedWidebandPRGR16 represents the ASN.1 CHOICE type PhysicalConfigDedicated-widebandPRG-r16.
+type PhysicalConfigDedicatedWidebandPRGR16 struct {
+	Choice  int
+	Release *struct{}       `json:"Release,omitempty"`
+	Setup   *WidebandPRGR16 `json:"Setup,omitempty"`
+}
+
+// NewPhysicalConfigDedicatedWidebandPRGR16Release creates a PhysicalConfigDedicated-widebandPRG-r16 with the release alternative.
+func NewPhysicalConfigDedicatedWidebandPRGR16Release(v struct{}) PhysicalConfigDedicatedWidebandPRGR16 {
+	return PhysicalConfigDedicatedWidebandPRGR16{
+		Choice:  PhysicalConfigDedicatedWidebandPRGR16ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewPhysicalConfigDedicatedWidebandPRGR16Setup creates a PhysicalConfigDedicated-widebandPRG-r16 with the setup alternative.
+func NewPhysicalConfigDedicatedWidebandPRGR16Setup(v WidebandPRGR16) PhysicalConfigDedicatedWidebandPRGR16 {
+	return PhysicalConfigDedicatedWidebandPRGR16{
+		Choice: PhysicalConfigDedicatedWidebandPRGR16ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
 // PhysicalConfigDedicatedNtnConfigDedicatedR17 represents the ASN.1 type PhysicalConfigDedicated-ntn-ConfigDedicated-r17 (SEQUENCE).
 type PhysicalConfigDedicatedNtnConfigDedicatedR17 struct {
-	PucchTxDurationR17 *SetupRelease `asn1:"tag:0,context,explicit,optional" json:"PucchTxDurationR17,omitempty"`
-	PuschTxDurationR17 *SetupRelease `asn1:"tag:1,context,explicit,optional" json:"PuschTxDurationR17,omitempty"`
+	PucchTxDurationR17 *PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17 `asn1:"tag:0,context,explicit,optional" json:"PucchTxDurationR17,omitempty"`
+	PuschTxDurationR17 *PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17 `asn1:"tag:1,context,explicit,optional" json:"PuschTxDurationR17,omitempty"`
+}
+
+// PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17 choice constants.
+const (
+	PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17ChoiceRelease = 1
+	PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17ChoiceSetup   = 2
+)
+
+// PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17 represents the ASN.1 CHOICE type PhysicalConfigDedicated-ntn-ConfigDedicated-r17-pucch-TxDuration-r17.
+type PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17 struct {
+	Choice  int
+	Release *struct{}           `json:"Release,omitempty"`
+	Setup   *PUCCHTxDurationR17 `json:"Setup,omitempty"`
+}
+
+// NewPhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17Release creates a PhysicalConfigDedicated-ntn-ConfigDedicated-r17-pucch-TxDuration-r17 with the release alternative.
+func NewPhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17Release(v struct{}) PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17 {
+	return PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17{
+		Choice:  PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewPhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17Setup creates a PhysicalConfigDedicated-ntn-ConfigDedicated-r17-pucch-TxDuration-r17 with the setup alternative.
+func NewPhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17Setup(v PUCCHTxDurationR17) PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17 {
+	return PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17{
+		Choice: PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
+// PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17 choice constants.
+const (
+	PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17ChoiceRelease = 1
+	PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17ChoiceSetup   = 2
+)
+
+// PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17 represents the ASN.1 CHOICE type PhysicalConfigDedicated-ntn-ConfigDedicated-r17-pusch-TxDuration-r17.
+type PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17 struct {
+	Choice  int
+	Release *struct{}           `json:"Release,omitempty"`
+	Setup   *PUSCHTxDurationR17 `json:"Setup,omitempty"`
+}
+
+// NewPhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17Release creates a PhysicalConfigDedicated-ntn-ConfigDedicated-r17-pusch-TxDuration-r17 with the release alternative.
+func NewPhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17Release(v struct{}) PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17 {
+	return PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17{
+		Choice:  PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewPhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17Setup creates a PhysicalConfigDedicated-ntn-ConfigDedicated-r17-pusch-TxDuration-r17 with the setup alternative.
+func NewPhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17Setup(v PUSCHTxDurationR17) PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17 {
+	return PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17{
+		Choice: PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17ChoiceSetup,
+		Setup:  &v,
+	}
 }
 
 // PhysicalConfigDedicatedSCellR10NonULConfigurationR10 represents the ASN.1 type PhysicalConfigDedicatedSCell-r10-nonUL-Configuration-r10 (SEQUENCE).
@@ -32418,6 +32970,122 @@ type PhysicalConfigDedicatedSCellR10BlindPDSCHRepetitionConfigR15Setup struct {
 	McsRestrictionSlotSubslotPDSCHRepetitionsR15    *int64 `asn1:"tag:9,context,implicit,optional" json:"McsRestrictionSlotSubslotPDSCHRepetitionsR15,omitempty"`
 }
 
+// PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16 choice constants.
+const (
+	PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16ChoiceRelease = 1
+	PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16ChoiceSetup   = 2
+)
+
+// PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16 represents the ASN.1 CHOICE type PhysicalConfigDedicatedSCell-r10-soundingRS-UL-ConfigDedicatedAdd-r16.
+type PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16 struct {
+	Choice  int
+	Release *struct{}                          `json:"Release,omitempty"`
+	Setup   *SoundingRSULConfigDedicatedAddR16 `json:"Setup,omitempty"`
+}
+
+// NewPhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16Release creates a PhysicalConfigDedicatedSCell-r10-soundingRS-UL-ConfigDedicatedAdd-r16 with the release alternative.
+func NewPhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16Release(v struct{}) PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16 {
+	return PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16{
+		Choice:  PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewPhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16Setup creates a PhysicalConfigDedicatedSCell-r10-soundingRS-UL-ConfigDedicatedAdd-r16 with the setup alternative.
+func NewPhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16Setup(v SoundingRSULConfigDedicatedAddR16) PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16 {
+	return PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16{
+		Choice: PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
+// PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16 choice constants.
+const (
+	PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16ChoiceRelease = 1
+	PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16ChoiceSetup   = 2
+)
+
+// PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16 represents the ASN.1 CHOICE type PhysicalConfigDedicatedSCell-r10-uplinkPowerControlAddSRS-r16.
+type PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16 struct {
+	Choice  int
+	Release *struct{}                    `json:"Release,omitempty"`
+	Setup   *UplinkPowerControlAddSRSR16 `json:"Setup,omitempty"`
+}
+
+// NewPhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16Release creates a PhysicalConfigDedicatedSCell-r10-uplinkPowerControlAddSRS-r16 with the release alternative.
+func NewPhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16Release(v struct{}) PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16 {
+	return PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16{
+		Choice:  PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewPhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16Setup creates a PhysicalConfigDedicatedSCell-r10-uplinkPowerControlAddSRS-r16 with the setup alternative.
+func NewPhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16Setup(v UplinkPowerControlAddSRSR16) PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16 {
+	return PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16{
+		Choice: PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
+// PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16 choice constants.
+const (
+	PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16ChoiceRelease = 1
+	PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16ChoiceSetup   = 2
+)
+
+// PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16 represents the ASN.1 CHOICE type PhysicalConfigDedicatedSCell-r10-soundingRS-VirtualCellID-r16.
+type PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16 struct {
+	Choice  int
+	Release *struct{}                   `json:"Release,omitempty"`
+	Setup   *SoundingRSVirtualCellIDR16 `json:"Setup,omitempty"`
+}
+
+// NewPhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16Release creates a PhysicalConfigDedicatedSCell-r10-soundingRS-VirtualCellID-r16 with the release alternative.
+func NewPhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16Release(v struct{}) PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16 {
+	return PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16{
+		Choice:  PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewPhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16Setup creates a PhysicalConfigDedicatedSCell-r10-soundingRS-VirtualCellID-r16 with the setup alternative.
+func NewPhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16Setup(v SoundingRSVirtualCellIDR16) PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16 {
+	return PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16{
+		Choice: PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
+// PhysicalConfigDedicatedSCellR10WidebandPRGR16 choice constants.
+const (
+	PhysicalConfigDedicatedSCellR10WidebandPRGR16ChoiceRelease = 1
+	PhysicalConfigDedicatedSCellR10WidebandPRGR16ChoiceSetup   = 2
+)
+
+// PhysicalConfigDedicatedSCellR10WidebandPRGR16 represents the ASN.1 CHOICE type PhysicalConfigDedicatedSCell-r10-widebandPRG-r16.
+type PhysicalConfigDedicatedSCellR10WidebandPRGR16 struct {
+	Choice  int
+	Release *struct{}       `json:"Release,omitempty"`
+	Setup   *WidebandPRGR16 `json:"Setup,omitempty"`
+}
+
+// NewPhysicalConfigDedicatedSCellR10WidebandPRGR16Release creates a PhysicalConfigDedicatedSCell-r10-widebandPRG-r16 with the release alternative.
+func NewPhysicalConfigDedicatedSCellR10WidebandPRGR16Release(v struct{}) PhysicalConfigDedicatedSCellR10WidebandPRGR16 {
+	return PhysicalConfigDedicatedSCellR10WidebandPRGR16{
+		Choice:  PhysicalConfigDedicatedSCellR10WidebandPRGR16ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewPhysicalConfigDedicatedSCellR10WidebandPRGR16Setup creates a PhysicalConfigDedicatedSCell-r10-widebandPRG-r16 with the setup alternative.
+func NewPhysicalConfigDedicatedSCellR10WidebandPRGR16Setup(v WidebandPRGR16) PhysicalConfigDedicatedSCellR10WidebandPRGR16 {
+	return PhysicalConfigDedicatedSCellR10WidebandPRGR16{
+		Choice: PhysicalConfigDedicatedSCellR10WidebandPRGR16ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
 // PhysicalConfigDedicatedSCellV1370PucchSCellV1370 choice constants.
 const (
 	PhysicalConfigDedicatedSCellV1370PucchSCellV1370ChoiceRelease = 1
@@ -32484,6 +33152,35 @@ func NewPhysicalConfigDedicatedSCellV13c0PucchSCellV13c0Setup(v PhysicalConfigDe
 // PhysicalConfigDedicatedSCellV13c0PucchSCellV13c0Setup represents the ASN.1 type PhysicalConfigDedicatedSCell-v13c0-pucch-SCell-v13c0-setup (SEQUENCE).
 type PhysicalConfigDedicatedSCellV13c0PucchSCellV13c0Setup struct {
 	PucchConfigDedicatedV13c0 PUCCHConfigDedicatedV13c0 `asn1:"tag:0,context,implicit"`
+}
+
+// PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730 choice constants.
+const (
+	PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730ChoiceRelease = 1
+	PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730ChoiceSetup   = 2
+)
+
+// PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730 represents the ASN.1 CHOICE type PhysicalConfigDedicatedSCell-v1730-cqi-ReportPeriodicSCell-v1730.
+type PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730 struct {
+	Choice  int
+	Release *struct{}                    `json:"Release,omitempty"`
+	Setup   *CQIReportPeriodicSCellV1730 `json:"Setup,omitempty"`
+}
+
+// NewPhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730Release creates a PhysicalConfigDedicatedSCell-v1730-cqi-ReportPeriodicSCell-v1730 with the release alternative.
+func NewPhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730Release(v struct{}) PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730 {
+	return PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730{
+		Choice:  PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewPhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730Setup creates a PhysicalConfigDedicatedSCell-v1730-cqi-ReportPeriodicSCell-v1730 with the setup alternative.
+func NewPhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730Setup(v CQIReportPeriodicSCellV1730) PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730 {
+	return PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730{
+		Choice: PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730ChoiceSetup,
+		Setup:  &v,
+	}
 }
 
 // PhysicalConfigDedicatedSTTIR15Setup represents the ASN.1 type PhysicalConfigDedicatedSTTI-r15-setup (SEQUENCE).
@@ -33359,6 +34056,35 @@ type RLCConfigV1430Setup struct {
 // RLCConfigV1530Setup represents the ASN.1 type RLC-Config-v1530-setup (SEQUENCE).
 type RLCConfigV1530Setup struct {
 	RlcOutOfOrderDeliveryR15 int64 `asn1:"tag:0,context,implicit"`
+}
+
+// RLCConfigV1700TReorderingExtR17 choice constants.
+const (
+	RLCConfigV1700TReorderingExtR17ChoiceRelease = 1
+	RLCConfigV1700TReorderingExtR17ChoiceSetup   = 2
+)
+
+// RLCConfigV1700TReorderingExtR17 represents the ASN.1 CHOICE type RLC-Config-v1700-t-ReorderingExt-r17.
+type RLCConfigV1700TReorderingExtR17 struct {
+	Choice  int
+	Release *struct{}          `json:"Release,omitempty"`
+	Setup   *TReorderingExtR17 `json:"Setup,omitempty"`
+}
+
+// NewRLCConfigV1700TReorderingExtR17Release creates a RLC-Config-v1700-t-ReorderingExt-r17 with the release alternative.
+func NewRLCConfigV1700TReorderingExtR17Release(v struct{}) RLCConfigV1700TReorderingExtR17 {
+	return RLCConfigV1700TReorderingExtR17{
+		Choice:  RLCConfigV1700TReorderingExtR17ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewRLCConfigV1700TReorderingExtR17Setup creates a RLC-Config-v1700-t-ReorderingExt-r17 with the setup alternative.
+func NewRLCConfigV1700TReorderingExtR17Setup(v TReorderingExtR17) RLCConfigV1700TReorderingExtR17 {
+	return RLCConfigV1700TReorderingExtR17{
+		Choice: RLCConfigV1700TReorderingExtR17ChoiceSetup,
+		Setup:  &v,
+	}
 }
 
 // RLFReportR9MeasResultLastServCellR9 represents the ASN.1 type RLF-Report-r9-measResultLastServCell-r9 (SEQUENCE).
@@ -34767,6 +35493,35 @@ func NewRRCConnectionReleaseCriticalExtensionsC1Spare1(v struct{}) RRCConnection
 type RRCConnectionReleaseCriticalExtensionsCriticalExtensionsFuture struct {
 }
 
+// RRCConnectionReleaseV1610IEsPurConfigR16 choice constants.
+const (
+	RRCConnectionReleaseV1610IEsPurConfigR16ChoiceRelease = 1
+	RRCConnectionReleaseV1610IEsPurConfigR16ChoiceSetup   = 2
+)
+
+// RRCConnectionReleaseV1610IEsPurConfigR16 represents the ASN.1 CHOICE type RRCConnectionRelease-v1610-IEs-pur-Config-r16.
+type RRCConnectionReleaseV1610IEsPurConfigR16 struct {
+	Choice  int
+	Release *struct{}     `json:"Release,omitempty"`
+	Setup   *PURConfigR16 `json:"Setup,omitempty"`
+}
+
+// NewRRCConnectionReleaseV1610IEsPurConfigR16Release creates a RRCConnectionRelease-v1610-IEs-pur-Config-r16 with the release alternative.
+func NewRRCConnectionReleaseV1610IEsPurConfigR16Release(v struct{}) RRCConnectionReleaseV1610IEsPurConfigR16 {
+	return RRCConnectionReleaseV1610IEsPurConfigR16{
+		Choice:  RRCConnectionReleaseV1610IEsPurConfigR16ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewRRCConnectionReleaseV1610IEsPurConfigR16Setup creates a RRCConnectionRelease-v1610-IEs-pur-Config-r16 with the setup alternative.
+func NewRRCConnectionReleaseV1610IEsPurConfigR16Setup(v PURConfigR16) RRCConnectionReleaseV1610IEsPurConfigR16 {
+	return RRCConnectionReleaseV1610IEsPurConfigR16{
+		Choice: RRCConnectionReleaseV1610IEsPurConfigR16ChoiceSetup,
+		Setup:  &v,
+	}
+}
+
 // RRCConnectionReleaseV1650IEsNonCriticalExtension represents the ASN.1 type RRCConnectionRelease-v1650-IEs-nonCriticalExtension (SEQUENCE).
 type RRCConnectionReleaseV1650IEsNonCriticalExtension struct {
 }
@@ -35840,6 +36595,35 @@ func NewRadioResourceConfigDedicatedCrsIntfMitigConfigR15SetupCrsIntfMitigNumPRB
 
 // RadioResourceConfigDedicatedDummy represents the ASN.1 type RadioResourceConfigDedicated-dummy (SEQUENCE_OF).
 type RadioResourceConfigDedicatedDummy = []int64
+
+// RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16 choice constants.
+const (
+	RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16ChoiceRelease = 1
+	RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16ChoiceSetup   = 2
+)
+
+// RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16 represents the ASN.1 CHOICE type RadioResourceConfigDedicated-crs-ChEstMPDCCH-ConfigDedicated-r16.
+type RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16 struct {
+	Choice  int
+	Release *struct{}                         `json:"Release,omitempty"`
+	Setup   *CRSChEstMPDCCHConfigDedicatedR16 `json:"Setup,omitempty"`
+}
+
+// NewRadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16Release creates a RadioResourceConfigDedicated-crs-ChEstMPDCCH-ConfigDedicated-r16 with the release alternative.
+func NewRadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16Release(v struct{}) RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16 {
+	return RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16{
+		Choice:  RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16ChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewRadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16Setup creates a RadioResourceConfigDedicated-crs-ChEstMPDCCH-ConfigDedicated-r16 with the setup alternative.
+func NewRadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16Setup(v CRSChEstMPDCCHConfigDedicatedR16) RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16 {
+	return RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16{
+		Choice: RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16ChoiceSetup,
+		Setup:  &v,
+	}
+}
 
 // ReportConfigEUTRATriggerType choice constants.
 const (
@@ -44699,20 +45483,12 @@ func (v *BandClassInfoCDMA2000) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ThreshXLow = val_threshxlow
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -44983,20 +45759,12 @@ func (v *BandCombinationParametersR11) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 		return fmt.Errorf("decoding bandInfoEUTRA-r11: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -45370,20 +46138,12 @@ func (v *BandCombinationParametersV1130) UnmarshalUPERFrom(bb *per.BitBuffer) er
 		v.BandParameterListR11 = tmp_bandparameterlistr11
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -45508,20 +46268,12 @@ func (v *BandCombinationParametersV1250) UnmarshalUPERFrom(bb *per.BitBuffer) er
 		v.CommSupportedBandsPerBCR12 = &tmp_commsupportedbandsperbcr12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -46619,7 +47371,7 @@ func (v *BandParametersRxSLR14) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding v2x-BandwidthClassRxSL-r14 length: %w", err)
 	}
 	for _, elem := range v.V2xBandwidthClassRxSLR14 {
-		if err := per.EncodeEnumerated(bb, int64(elem), 7, true); err != nil {
+		if err := per.EncodeEnumerated(bb, int64(elem), 6, true); err != nil {
 			return fmt.Errorf("encoding v2x-BandwidthClassRxSL-r14 element: %w", err)
 		}
 	}
@@ -46649,7 +47401,7 @@ func (v *BandParametersRxSLR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.V2xBandwidthClassRxSLR14 = make(V2XBandwidthClassSLR14, seqLen_v2xbandwidthclassrxslr14)
 	for i := int64(0); i < seqLen_v2xbandwidthclassrxslr14; i++ {
-		val, err := per.DecodeEnumerated(bb, 7, true)
+		val, err := per.DecodeEnumerated(bb, 6, true)
 		if err != nil {
 			return fmt.Errorf("decoding v2x-BandwidthClassRxSL-r14 element: %w", err)
 		}
@@ -46686,7 +47438,7 @@ func (v *BandParametersTxSLR14) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding v2x-BandwidthClassTxSL-r14 length: %w", err)
 	}
 	for _, elem := range v.V2xBandwidthClassTxSLR14 {
-		if err := per.EncodeEnumerated(bb, int64(elem), 7, true); err != nil {
+		if err := per.EncodeEnumerated(bb, int64(elem), 6, true); err != nil {
 			return fmt.Errorf("encoding v2x-BandwidthClassTxSL-r14 element: %w", err)
 		}
 	}
@@ -46725,7 +47477,7 @@ func (v *BandParametersTxSLR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.V2xBandwidthClassTxSLR14 = make(V2XBandwidthClassSLR14, seqLen_v2xbandwidthclasstxslr14)
 	for i := int64(0); i < seqLen_v2xbandwidthclasstxslr14; i++ {
-		val, err := per.DecodeEnumerated(bb, 7, true)
+		val, err := per.DecodeEnumerated(bb, 6, true)
 		if err != nil {
 			return fmt.Errorf("decoding v2x-BandwidthClassTxSL-r14 element: %w", err)
 		}
@@ -47167,20 +47919,12 @@ func (v *BandParametersV1090) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.BandEUTRAV1090 = &tmp_bandeutrav1090
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -49768,20 +50512,11 @@ func (v *CGIInfoNRR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.NoSIB1R15 = &dec_nosib1r15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -51601,20 +52336,11 @@ func (v *CQIReportPeriodicProcExtR11) UnmarshalUPERFrom(bb *per.BitBuffer) error
 		v.CsiConfigIndexR11 = &dec_csiconfigindexr11
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -52245,20 +52971,11 @@ func (v *CRSAssistanceInfoR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -52429,20 +53146,11 @@ func (v *CRSAssistanceInfoR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MbsfnSubframeConfigListR13 = tmp_mbsfnsubframeconfiglistr13
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -53331,20 +54039,11 @@ func (v *CSIIMConfigExtR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SubframeConfigR12 = val_subframeconfigr12
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -53492,20 +54191,11 @@ func (v *CSIIMConfigR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SubframeConfigR11 = val_subframeconfigr11
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -53866,20 +54556,11 @@ func (v *CSIProcessR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.CqiReportAperiodicProcR11 = &dec_cqireportaperiodicprocr11
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -55252,20 +55933,11 @@ func (v *CSIRSConfigNZPR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.QclCRSInfoR11 = &dec_qclcrsinfor11
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -55862,20 +56534,12 @@ func (v *CSIRSConfigZPR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SubframeConfigR11 = val_subframeconfigr11
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -57153,20 +57817,11 @@ func (v *CarrierFreqNRR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.ThreshRSIndexR15 = &dec_threshrsindexr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -57622,20 +58277,11 @@ func (v *CarrierFreqUTRAFDD) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.QQualMin = val_qqualmin
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -57859,20 +58505,12 @@ func (v *CarrierFreqUTRAFDDExtR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.ReducedMeasPerformanceR12 = &val_reducedmeasperformancer12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -57998,20 +58636,12 @@ func (v *CarrierFreqUTRATDD) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PMaxUTRA = val_pmaxutra
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -58156,20 +58786,12 @@ func (v *CarrierFreqUTRATDDR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.ReducedMeasPerformanceR12 = &val_reducedmeasperformancer12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -58290,20 +58912,12 @@ func (v *CarrierFreqsInfoGERAN) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding commonInfo: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -60237,20 +60851,11 @@ func (v *CondReconfigurationAddModR16) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 		v.CondReconfigurationToApplyR16 = tmp_condreconfigurationtoapplyr16
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -60476,20 +61081,12 @@ func (v *ConditionalReconfigurationR16) UnmarshalUPERFrom(bb *per.BitBuffer) err
 		v.AttemptCondReconfR16 = &val_attemptcondreconfr16
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -60844,20 +61441,11 @@ func (v *ConnEstFailReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MeasResultListEUTRAV1130 = tmp_measresultlisteutrav1130
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -61573,20 +62161,12 @@ func (v *CountingRequestInfoR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding tmgi-r10: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -61658,20 +62238,12 @@ func (v *CountingResponseInfoR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.CountingResponseServiceR10 = val_countingresponseservicer10
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -61853,20 +62425,12 @@ func (v *DAPSConfigR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.DapsPowerCoordinationInfoR16 = &dec_dapspowercoordinationinfor16
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -63438,20 +64002,11 @@ func (v *DRBToAddMod) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.LogicalChannelConfig = &dec_logicalchannelconfig
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -63932,20 +64487,11 @@ func (v *DRBToAddModSCGR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.LogicalChannelConfigSCGR12 = &dec_logicalchannelconfigscgr12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -64647,20 +65193,12 @@ func (v *DeltaTxDOffsetListPUCCHR10) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	}
 	v.DeltaTxDOffsetPUCCHFormat3R10 = val_deltatxdoffsetpucchformat3r10
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -64787,20 +65325,12 @@ func (v *DeltaTxDOffsetListSPUCCHR15) UnmarshalUPERFrom(bb *per.BitBuffer) error
 	}
 	v.DeltaTxDOffsetSPUCCHFormat3R15 = val_deltatxdoffsetspucchformat3r15
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -65237,20 +65767,11 @@ func (v *EPDCCHSetConfigR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.ReMappingQCLConfigIdR11 = &tmp_remappingqclconfigidr11
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -65925,20 +66446,12 @@ func (v *EthernetHeaderCompressionR16) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 		v.EhcUplinkR16 = &dec_ehcuplinkr16
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -66535,20 +67048,12 @@ func (v *FailureReportMCGR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MeasResultSCGR16 = tmp_measresultscgr16
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -66734,20 +67239,11 @@ func (v *FailureReportSCGNRR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MeasResultSCGR15 = tmp_measresultscgr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -67002,20 +67498,11 @@ func (v *FailureReportSCGR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MeasResultNeighCellsR12 = tmp_measresultneighcellsr12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -67695,20 +68182,11 @@ func (v *FeatureSetsEUTRAR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.FeatureSetsULPerCCR15 = tmp_featuresetsulperccr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -68450,7 +68928,7 @@ func (v *GNSSIDR15) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeEnumerated(bb, int64(v.GnssIdR15), 7, true); err != nil {
+	if err := per.EncodeEnumerated(bb, int64(v.GnssIdR15), 6, true); err != nil {
 		return fmt.Errorf("encoding gnss-id-r15: %w", err)
 	}
 	if hasExtensions {
@@ -68487,26 +68965,18 @@ func (v *GNSSIDR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_gnssidr15, err := per.DecodeEnumerated(bb, 7, true)
+	val_gnssidr15, err := per.DecodeEnumerated(bb, 6, true)
 	if err != nil {
 		return fmt.Errorf("decoding gnss-id-r15: %w", err)
 	}
 	v.GnssIdR15 = val_gnssidr15
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -68957,20 +69427,12 @@ func (v *GWUSTimeParametersR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.PowerBoostR16 = &val_powerboostr16
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -69950,20 +70412,11 @@ func (v *IDCConfigR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.AutonomousDenialParametersR11 = &dec_autonomousdenialparametersr11
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -71348,7 +71801,7 @@ func (v *IRATParametersUTRAFDD) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding supportedBandListUTRA-FDD length: %w", err)
 	}
 	for _, elem := range v.SupportedBandListUTRAFDD {
-		if err := per.EncodeEnumerated(bb, int64(elem), 32, true); err != nil {
+		if err := per.EncodeEnumerated(bb, int64(elem), 16, true); err != nil {
 			return fmt.Errorf("encoding supportedBandListUTRA-FDD element: %w", err)
 		}
 	}
@@ -71368,7 +71821,7 @@ func (v *IRATParametersUTRAFDD) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SupportedBandListUTRAFDD = make(SupportedBandListUTRAFDD, seqLen_supportedbandlistutrafdd)
 	for i := int64(0); i < seqLen_supportedbandlistutrafdd; i++ {
-		val, err := per.DecodeEnumerated(bb, 32, true)
+		val, err := per.DecodeEnumerated(bb, 16, true)
 		if err != nil {
 			return fmt.Errorf("decoding supportedBandListUTRA-FDD element: %w", err)
 		}
@@ -72147,20 +72600,11 @@ func (v *IdleModeMobilityControlInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error
 		v.T320 = &val_t320
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -73283,20 +73727,11 @@ func (v *InterFreqCarrierFreqInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.InterFreqExcludedCellList = tmp_interfreqexcludedcelllist
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -73747,20 +74182,12 @@ func (v *InterFreqCarrierFreqInfoR12) UnmarshalUPERFrom(bb *per.BitBuffer) error
 		v.QQualMinRSRQOnAllSymbolsR12 = &tmp_qqualminrsrqonallsymbolsr12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -74917,20 +75344,12 @@ func (v *IntraFreqNeighCellInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.QOffsetCell = QOffsetRange(val_qoffsetcell)
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -75770,20 +76189,11 @@ func (v *LWAConfigR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.LwaWTCounterR13 = &val_lwawtcounterr13
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -76223,20 +76633,12 @@ func (v *LWIPConfigR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.TunnelConfigLWIPR13 = &dec_tunnelconfiglwipr13
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -76532,20 +76934,11 @@ func (v *LocationInfoR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.GnssTODMsecR10 = tmp_gnsstodmsecr10
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -76976,20 +77369,11 @@ func (v *LogMeasInfoR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MeasResultNeighCellsR10 = &dec_measresultneighcellsr10
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -77430,20 +77814,11 @@ func (v *LogMeasReportR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.LogMeasAvailableR10 = &val_logmeasavailabler10
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -77567,20 +77942,12 @@ func (v *LogMeasResultBTR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.RssiBTR15 = &val_rssibtr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -77691,20 +78058,12 @@ func (v *LogMeasResultWLANR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.RttWLANR15 = &dec_rttwlanr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -78529,20 +78888,11 @@ func (v *LogicalChannelConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.UlSpecificParameters = &dec_ulspecificparameters
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -79162,20 +79512,11 @@ func (v *MACMainConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.PhrConfig = &dec_phrconfig
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -79496,14 +79837,14 @@ func (v *MACMainConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				return err
 			}
 			if ext_opt_offsetthresholdtar17 {
-				var dec_offsetthresholdtar17 SetupRelease
+				var dec_offsetthresholdtar17 MACMainConfigOffsetThresholdTAR17
 				if err := dec_offsetthresholdtar17.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding offsetThresholdTA-r17: %w", err)
 				}
 				v.OffsetThresholdTAR17 = &dec_offsetthresholdtar17
 			}
 			if ext_opt_srprohibittimeroffsetr17 {
-				var dec_srprohibittimeroffsetr17 SetupRelease
+				var dec_srprohibittimeroffsetr17 MACMainConfigSrProhibitTimerOffsetR17
 				if err := dec_srprohibittimeroffsetr17.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding sr-ProhibitTimerOffset-r17: %w", err)
 				}
@@ -79595,20 +79936,12 @@ func (v *MACMainConfigSCellR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.StagIdR11 = &tmp_stagidr11
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -81864,20 +82197,12 @@ func (v *MBMSSessionInfoR9) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.LogicalChannelIdentityR9 = val_logicalchannelidentityr9
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -82499,20 +82824,12 @@ func (v *MBSFNAreaInfoR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.TimeSeparationR16 = &val_timeseparationr16
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -82590,20 +82907,12 @@ func (v *MBSFNAreaInfoR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PmchBandwidthR17 = val_pmchbandwidthr17
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -82733,20 +83042,11 @@ func (v *MBSFNAreaInfoR9) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding mcch-Config-r9: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -84868,20 +85168,11 @@ func (v *MRDCAssistanceInfoR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -85379,20 +85670,12 @@ func (v *MeasCSIRSConfigR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.CsiRSIndividualOffsetR12 = QOffsetRange(val_csirsindividualoffsetr12)
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -86013,20 +86296,11 @@ func (v *MeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.SpeedStatePars = &dec_speedstatepars
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -86980,20 +87254,12 @@ func (v *MeasIdleCarrierEUTRAR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.QualityThresholdR15 = &dec_qualitythresholdr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -87230,20 +87496,11 @@ func (v *MeasIdleCarrierNRR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.BeamMeasConfigIdleR16 = &dec_beammeasconfigidler16
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -87413,20 +87670,11 @@ func (v *MeasIdleConfigDedicatedR15) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	}
 	v.MeasIdleDurationR15 = val_measidledurationr15
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -87551,20 +87799,12 @@ func (v *MeasIdleConfigSIBNRR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -87646,20 +87886,12 @@ func (v *MeasIdleConfigSIBR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -87860,20 +88092,12 @@ func (v *MeasObjectCDMA2000) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.CellForWhichToReportCGI = &tmp_cellforwhichtoreportcgi
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -88411,20 +88635,11 @@ func (v *MeasObjectEUTRA) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.CellForWhichToReportCGI = &tmp_cellforwhichtoreportcgi
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -88708,7 +88923,7 @@ func (v *MeasObjectEUTRA) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				return err
 			}
 			if ext_opt_measrssdedicatedconfigr16 {
-				var dec_measrssdedicatedconfigr16 SetupRelease
+				var dec_measrssdedicatedconfigr16 MeasObjectEUTRAMeasRSSDedicatedConfigR16
 				if err := dec_measrssdedicatedconfigr16.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding measRSS-DedicatedConfig-r16: %w", err)
 				}
@@ -88876,20 +89091,12 @@ func (v *MeasObjectGERAN) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.CellForWhichToReportCGI = &dec_cellforwhichtoreportcgi
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -89246,20 +89453,11 @@ func (v *MeasObjectNRR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.CellsForWhichToReportSFTDR15 = tmp_cellsforwhichtoreportsftdr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -89326,7 +89524,7 @@ func (v *MeasObjectNRR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				return err
 			}
 			if ext_opt_rmtcconfignrr16 {
-				var dec_rmtcconfignrr16 SetupRelease
+				var dec_rmtcconfignrr16 MeasObjectNRR15RmtcConfigNRR16
 				if err := dec_rmtcconfignrr16.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding rmtc-ConfigNR-r16: %w", err)
 				}
@@ -89709,20 +89907,11 @@ func (v *MeasObjectUTRA) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.CellForWhichToReportCGI = &dec_cellforwhichtoreportcgi
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -89906,20 +90095,12 @@ func (v *MeasObjectWLANR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.WlanToRemoveListR13 = tmp_wlantoremovelistr13
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -91824,20 +92005,12 @@ func (v *MeasResult3EUTRAR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MeasResultNeighCellListR15 = tmp_measresultneighcelllistr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -92036,20 +92209,12 @@ func (v *MeasResultCSIRSR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.CsiRSRPResultR12 = CSIRSRPRangeR12(val_csirsrpresultr12)
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -92187,20 +92352,11 @@ func (v *MeasResultCellNRR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MeasResultRSIndexListR15 = tmp_measresultrsindexlistr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -92466,20 +92622,12 @@ func (v *MeasResultForRSSINRR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ChannelOccupancyNRR16 = val_channeloccupancynrr16
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -92559,20 +92707,12 @@ func (v *MeasResultForRSSIR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ChannelOccupancyR13 = val_channeloccupancyr13
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -92676,20 +92816,12 @@ func (v *MeasResultFreqFailNRR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MeasResultCellListR15 = tmp_measresultcelllistr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -92837,20 +92969,12 @@ func (v *MeasResultIdleEUTRAR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding measResult-r15: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -92940,20 +93064,12 @@ func (v *MeasResultIdleNRR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -93044,20 +93160,12 @@ func (v *MeasResultIdleR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MeasResultNeighCellsR15 = &dec_measresultneighcellsr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -93194,20 +93302,12 @@ func (v *MeasResultMBSFNR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.DataBLERMCHResultListR12 = tmp_datablermchresultlistr12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -93333,20 +93433,12 @@ func (v *MeasResultNRR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.RsSinrResultR15 = &tmp_rssinrresultr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -93482,20 +93574,11 @@ func (v *MeasResultSCGFailureMRDCR15) UnmarshalUPERFrom(bb *per.BitBuffer) error
 		}
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -93642,20 +93725,12 @@ func (v *MeasResultSSBIndexR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MeasResultSSBIndexR15 = &dec_measresultssbindexr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -93863,20 +93938,12 @@ func (v *MeasResultServFreqNRR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MeasResultBestNeighCellR15 = &dec_measresultbestneighcellr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -94055,20 +94122,11 @@ func (v *MeasResultServFreqR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MeasResultBestNeighCellR10 = &dec_measresultbestneighcellr10
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -94271,20 +94329,11 @@ func (v *MeasResultServFreqR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MeasResultBestNeighCellR13 = &dec_measresultbestneighcellr13
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -94595,20 +94644,12 @@ func (v *MeasResultWLANR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.ConnectedWLANR13 = &val_connectedwlanr13
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -95122,20 +95163,11 @@ func (v *MeasResults) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MeasResultNeighCells = &dec_measresultneighcells
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -95695,20 +95727,12 @@ func (v *MeasResultsPerCellIdleNRR16) UnmarshalUPERFrom(bb *per.BitBuffer) error
 		return fmt.Errorf("decoding measIdleResultNR-r16: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -96413,20 +96437,11 @@ func (v *MobilityControlInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.RachConfigDedicated = &dec_rachconfigdedicated
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -96746,20 +96761,11 @@ func (v *MobilityControlInfoSCGR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.CipheringAlgorithmSCGR12 = &tmp_cipheringalgorithmscgr12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -97862,20 +97868,12 @@ func (v *NAICSCapabilityEntryR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.NumberOfAggregatedPRBR12 = val_numberofaggregatedprbr12
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -98298,20 +98296,11 @@ func (v *NZPResourceConfigR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ResourceConfigR13 = ResourceConfigR13(val_resourceconfigr13)
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -99254,20 +99243,12 @@ func (v *NeighCellsInfoR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ResAllocGranularityR12 = val_resallocgranularityr12
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -99899,20 +99880,11 @@ func (v *OtherConfigR9) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.ReportProximityConfigR9 = &dec_reportproximityconfigr9
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -100120,7 +100092,7 @@ func (v *OtherConfigR9) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				v.MeasUncomBarPreR17 = &val_measuncombarprer17
 			}
 			if ext_opt_scgdeactivationpreferenceconfigr17 {
-				var dec_scgdeactivationpreferenceconfigr17 SetupRelease
+				var dec_scgdeactivationpreferenceconfigr17 OtherConfigR9ScgDeactivationPreferenceConfigR17
 				if err := dec_scgdeactivationpreferenceconfigr17.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding scg-DeactivationPreferenceConfig-r17: %w", err)
 				}
@@ -101871,20 +101843,11 @@ func (v *PDCPConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding headerCompression: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -102067,7 +102030,7 @@ func (v *PDCPConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				return err
 			}
 			if ext_opt_ethernetheadercompressionr16 {
-				var dec_ethernetheadercompressionr16 SetupRelease
+				var dec_ethernetheadercompressionr16 PDCPConfigEthernetHeaderCompressionR16
 				if err := dec_ethernetheadercompressionr16.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding ethernetHeaderCompression-r16: %w", err)
 				}
@@ -102086,7 +102049,7 @@ func (v *PDCPConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				return err
 			}
 			if ext_opt_discardtimerextr17 {
-				var dec_discardtimerextr17 SetupRelease
+				var dec_discardtimerextr17 PDCPConfigDiscardTimerExtR17
 				if err := dec_discardtimerextr17.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding discardTimerExt-r17: %w", err)
 				}
@@ -102183,20 +102146,12 @@ func (v *PDCPParameters) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MaxNumberROHCContextSessions = &val_maxnumberrohccontextsessions
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -103471,7 +103426,7 @@ func (v *PDSCHConfigDedicatedV1700) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_cepdsch14harqconfigr17 {
-		var dec_cepdsch14harqconfigr17 SetupRelease
+		var dec_cepdsch14harqconfigr17 PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17
 		if err := dec_cepdsch14harqconfigr17.UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding ce-PDSCH-14HARQ-Config-r17: %w", err)
 		}
@@ -103644,20 +103599,11 @@ func (v *PDSCHREMappingQCLConfigR11) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 		v.QclCSIRSConfigNZPIdR11 = &tmp_qclcsirsconfignzpidr11
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -104566,20 +104512,11 @@ func (v *PMCHConfigR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.MchSchedulingPeriodR12 = val_mchschedulingperiodr12
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -104687,20 +104624,12 @@ func (v *PMCHConfigR9) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.MchSchedulingPeriodR9 = val_mchschedulingperiodr9
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -104788,20 +104717,12 @@ func (v *PMCHInfoExtR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -104889,20 +104810,12 @@ func (v *PMCHInfoR9) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -105800,20 +105713,11 @@ func (v *PSCellToAddModR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.RadioResourceConfigDedicatedPSCellR12 = &dec_radioresourceconfigdedicatedpscellr12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -107345,7 +107249,7 @@ func (v *PURConfigR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.PurTimeAlignmentTimerR16 = &val_purtimealignmenttimerr16
 	}
 	if opt_purrsrpchangethresholdr16 {
-		var dec_purrsrpchangethresholdr16 SetupRelease
+		var dec_purrsrpchangethresholdr16 PURConfigR16PurRSRPChangeThresholdR16
 		if err := dec_purrsrpchangethresholdr16.UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding pur-RSRP-ChangeThreshold-r16: %w", err)
 		}
@@ -107385,20 +107289,11 @@ func (v *PURConfigR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.PurPUSCHConfigR16 = &dec_purpuschconfigr16
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -109227,20 +109122,12 @@ func (v *PCAndCBSRR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding cbsr-Selection-r13: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -109469,20 +109356,12 @@ func (v *PagingRecord) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.CnDomain = val_cndomain
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -110354,20 +110233,12 @@ func (v *ParametersCDMA2000R11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.Parameters1XRTTR11 = &dec_parameters1xrttr11
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -114233,20 +114104,11 @@ func (v *PhysicalConfigDedicated) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.SchedulingRequestConfig = &dec_schedulingrequestconfig
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -115289,42 +115151,42 @@ func (v *PhysicalConfigDedicated) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				v.CeCSIRSFeedbackR16 = &val_cecsirsfeedbackr16
 			}
 			if ext_opt_resourcereservationconfigdedicateddlr16 {
-				var dec_resourcereservationconfigdedicateddlr16 SetupRelease
+				var dec_resourcereservationconfigdedicateddlr16 PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16
 				if err := dec_resourcereservationconfigdedicateddlr16.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding resourceReservationConfigDedicatedDL-r16: %w", err)
 				}
 				v.ResourceReservationConfigDedicatedDLR16 = &dec_resourcereservationconfigdedicateddlr16
 			}
 			if ext_opt_resourcereservationconfigdedicatedulr16 {
-				var dec_resourcereservationconfigdedicatedulr16 SetupRelease
+				var dec_resourcereservationconfigdedicatedulr16 PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16
 				if err := dec_resourcereservationconfigdedicatedulr16.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding resourceReservationConfigDedicatedUL-r16: %w", err)
 				}
 				v.ResourceReservationConfigDedicatedULR16 = &dec_resourcereservationconfigdedicatedulr16
 			}
 			if ext_opt_soundingrsulconfigdedicatedaddr16 {
-				var dec_soundingrsulconfigdedicatedaddr16 SetupRelease
+				var dec_soundingrsulconfigdedicatedaddr16 PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16
 				if err := dec_soundingrsulconfigdedicatedaddr16.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding soundingRS-UL-ConfigDedicatedAdd-r16: %w", err)
 				}
 				v.SoundingRSULConfigDedicatedAddR16 = &dec_soundingrsulconfigdedicatedaddr16
 			}
 			if ext_opt_uplinkpowercontroladdsrsr16 {
-				var dec_uplinkpowercontroladdsrsr16 SetupRelease
+				var dec_uplinkpowercontroladdsrsr16 PhysicalConfigDedicatedUplinkPowerControlAddSRSR16
 				if err := dec_uplinkpowercontroladdsrsr16.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding uplinkPowerControlAddSRS-r16: %w", err)
 				}
 				v.UplinkPowerControlAddSRSR16 = &dec_uplinkpowercontroladdsrsr16
 			}
 			if ext_opt_soundingrsvirtualcellidr16 {
-				var dec_soundingrsvirtualcellidr16 SetupRelease
+				var dec_soundingrsvirtualcellidr16 PhysicalConfigDedicatedSoundingRSVirtualCellIDR16
 				if err := dec_soundingrsvirtualcellidr16.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding soundingRS-VirtualCellID-r16: %w", err)
 				}
 				v.SoundingRSVirtualCellIDR16 = &dec_soundingrsvirtualcellidr16
 			}
 			if ext_opt_widebandprgr16 {
-				var dec_widebandprgr16 SetupRelease
+				var dec_widebandprgr16 PhysicalConfigDedicatedWidebandPRGR16
 				if err := dec_widebandprgr16.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding widebandPRG-r16: %w", err)
 				}
@@ -116176,20 +116038,11 @@ func (v *PhysicalConfigDedicatedSCellR10) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.UlConfigurationR10 = &dec_ulconfigurationr10
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -116980,28 +116833,28 @@ func (v *PhysicalConfigDedicatedSCellR10) UnmarshalUPERFrom(bb *per.BitBuffer) e
 				return err
 			}
 			if ext_opt_soundingrsulconfigdedicatedaddr16 {
-				var dec_soundingrsulconfigdedicatedaddr16 SetupRelease
+				var dec_soundingrsulconfigdedicatedaddr16 PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16
 				if err := dec_soundingrsulconfigdedicatedaddr16.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding soundingRS-UL-ConfigDedicatedAdd-r16: %w", err)
 				}
 				v.SoundingRSULConfigDedicatedAddR16 = &dec_soundingrsulconfigdedicatedaddr16
 			}
 			if ext_opt_uplinkpowercontroladdsrsr16 {
-				var dec_uplinkpowercontroladdsrsr16 SetupRelease
+				var dec_uplinkpowercontroladdsrsr16 PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16
 				if err := dec_uplinkpowercontroladdsrsr16.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding uplinkPowerControlAddSRS-r16: %w", err)
 				}
 				v.UplinkPowerControlAddSRSR16 = &dec_uplinkpowercontroladdsrsr16
 			}
 			if ext_opt_soundingrsvirtualcellidr16 {
-				var dec_soundingrsvirtualcellidr16 SetupRelease
+				var dec_soundingrsvirtualcellidr16 PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16
 				if err := dec_soundingrsvirtualcellidr16.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding soundingRS-VirtualCellID-r16: %w", err)
 				}
 				v.SoundingRSVirtualCellIDR16 = &dec_soundingrsvirtualcellidr16
 			}
 			if ext_opt_widebandprgr16 {
-				var dec_widebandprgr16 SetupRelease
+				var dec_widebandprgr16 PhysicalConfigDedicatedSCellR10WidebandPRGR16
 				if err := dec_widebandprgr16.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding widebandPRG-r16: %w", err)
 				}
@@ -117270,7 +117123,7 @@ func (v *PosSIBTypeR15) MarshalUPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding sbas-id-r15: %w", err)
 		}
 	}
-	if err := per.EncodeEnumerated(bb, int64(v.PosSibTypeR15), 38, true); err != nil {
+	if err := per.EncodeEnumerated(bb, int64(v.PosSibTypeR15), 27, true); err != nil {
 		return fmt.Errorf("encoding posSibType-r15: %w", err)
 	}
 	if hasExtensions {
@@ -117341,26 +117194,18 @@ func (v *PosSIBTypeR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.SbasIdR15 = &dec_sbasidr15
 	}
-	val_possibtyper15, err := per.DecodeEnumerated(bb, 38, true)
+	val_possibtyper15, err := per.DecodeEnumerated(bb, 27, true)
 	if err != nil {
 		return fmt.Errorf("decoding posSibType-r15: %w", err)
 	}
 	v.PosSibTypeR15 = val_possibtyper15
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -118114,20 +117959,11 @@ func (v *QuantityConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.QuantityConfigCDMA2000 = &dec_quantityconfigcdma2000
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -118876,20 +118712,11 @@ func (v *RACHCELevelInfoR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.RarHoppingConfigR13 = val_rarhoppingconfigr13
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -119063,20 +118890,11 @@ func (v *RACHConfigCommon) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.MaxHARQMsg3Tx = val_maxharqmsg3tx
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -119209,20 +119027,12 @@ func (v *RACHConfigCommonSCellR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding ra-SupervisionInfo-r11: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -119632,20 +119442,12 @@ func (v *RCLWIConfigR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding command: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -122270,20 +122072,12 @@ func (v *RLCConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.RlcOutOfOrderDeliveryR15 = &val_rlcoutoforderdeliveryr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -123198,20 +122992,11 @@ func (v *RLFReportR9) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MeasResultNeighCellsR9 = &dec_measresultneighcellsr9
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -123990,20 +123775,11 @@ func (v *RMTCConfigNRR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.RefSCSCPNRR16 = val_refscscpnrr16
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -124438,20 +124214,12 @@ func (v *RNSubframeConfigR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.RpdcchConfigR10 = &dec_rpdcchconfigr10
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -124556,20 +124324,12 @@ func (v *RNSystemInfoR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.SystemInformationBlockType2R10 = &dec_systeminformationblocktype2r10
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -129415,7 +129175,7 @@ func (v *RRCConnectionReleaseV1610IEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 		v.ShortIRNTIR16 = &tmp_shortirntir16
 	}
 	if opt_purconfigr16 {
-		var dec_purconfigr16 SetupRelease
+		var dec_purconfigr16 RRCConnectionReleaseV1610IEsPurConfigR16
 		if err := dec_purconfigr16.UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding pur-Config-r16: %w", err)
 		}
@@ -133908,20 +133668,11 @@ func (v *RSTDInterFreqInfoR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.MeasPRSOffsetR10 = val_measprsoffsetr10
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -134173,20 +133924,11 @@ func (v *RSConfigSSBNRR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SubcarrierSpacingSSBR15 = val_subcarrierspacingssbr15
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -134887,20 +134629,11 @@ func (v *RadioResourceConfigCommon) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.UlCyclicPrefixLength = ULCyclicPrefixLength(val_ulcyclicprefixlength)
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -135332,20 +135065,11 @@ func (v *RadioResourceConfigCommonPSCellR12) UnmarshalUPERFrom(bb *per.BitBuffer
 		return fmt.Errorf("decoding uplinkPowerControlCommonPSCell-r12: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -135791,20 +135515,11 @@ func (v *RadioResourceConfigCommonSCellR10) UnmarshalUPERFrom(bb *per.BitBuffer)
 		v.UlConfigurationR10 = &dec_ulconfigurationr10
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -136631,20 +136346,11 @@ func (v *RadioResourceConfigCommonSIB) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	}
 	v.UlCyclicPrefixLength = ULCyclicPrefixLength(val_ulcyclicprefixlength)
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -137583,20 +137289,11 @@ func (v *RadioResourceConfigDedicated) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 		v.PhysicalConfigDedicated = &dec_physicalconfigdedicated
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -137893,7 +137590,7 @@ func (v *RadioResourceConfigDedicated) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 				v.RlfTimersAndConstantsMCGFailureR16 = &dec_rlftimersandconstantsmcgfailurer16
 			}
 			if ext_opt_crschestmpdcchconfigdedicatedr16 {
-				var dec_crschestmpdcchconfigdedicatedr16 SetupRelease
+				var dec_crschestmpdcchconfigdedicatedr16 RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16
 				if err := dec_crschestmpdcchconfigdedicatedr16.UnmarshalUPERFrom(extBB); err != nil {
 					return fmt.Errorf("decoding crs-ChEstMPDCCH-ConfigDedicated-r16: %w", err)
 				}
@@ -138143,20 +137840,11 @@ func (v *RadioResourceConfigDedicatedPSCellR12) UnmarshalUPERFrom(bb *per.BitBuf
 		v.NaicsInfoR12 = &dec_naicsinfor12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -138564,20 +138252,11 @@ func (v *RadioResourceConfigDedicatedSCGR12) UnmarshalUPERFrom(bb *per.BitBuffer
 		v.RlfTimersAndConstantsSCGR12 = &dec_rlftimersandconstantsscgr12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -138918,20 +138597,11 @@ func (v *RadioResourceConfigDedicatedSCellR10) UnmarshalUPERFrom(bb *per.BitBuff
 		v.PhysicalConfigDedicatedSCellR10 = &dec_physicalconfigdedicatedscellr10
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -140408,20 +140078,11 @@ func (v *ReportConfigEUTRA) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ReportAmount = val_reportamount
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -141178,20 +140839,11 @@ func (v *ReportConfigInterRAT) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ReportAmount = val_reportamount
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -141764,20 +141416,12 @@ func (v *ReportQuantityWLANR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.StationCountRequestWLANR13 = &val_stationcountrequestwlanr13
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -141974,20 +141618,12 @@ func (v *ResourceReservationConfigDLR16) UnmarshalUPERFrom(bb *per.BitBuffer) er
 		v.SymbolBitmap2R16 = &tmp_symbolbitmap2r16
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -142206,20 +141842,12 @@ func (v *ResourceReservationConfigULR16) UnmarshalUPERFrom(bb *per.BitBuffer) er
 		v.SymbolBitmap2R16 = &tmp_symbolbitmap2r16
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -142343,20 +141971,12 @@ func (v *SBASIDR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SbasIdR15 = val_sbasidr15
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -143108,20 +142728,11 @@ func (v *SCGConfigPartSCGR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MobilityControlInfoSCGR12 = &dec_mobilitycontrolinfoscgr12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -144301,20 +143912,12 @@ func (v *SCMCCHSchedulingInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding schedulingPeriodStartOffsetSCPTM-r14: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -144514,20 +144117,12 @@ func (v *SCMTCHInfoBRR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.PAR14 = &val_par14
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -144674,20 +144269,11 @@ func (v *SCMTCHInfoR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.ScMtchNeighbourCellR13 = &tmp_scmtchneighbourcellr13
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -144793,20 +144379,12 @@ func (v *SCMTCHSchedulingInfoBRR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding schedulingPeriodStartOffsetSCPTM-r14: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -144892,20 +144470,12 @@ func (v *SCMTCHSchedulingInfoR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding schedulingPeriodStartOffsetSCPTM-r13: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -145367,20 +144937,11 @@ func (v *SCellToAddModExtV1430) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.SrsSwitchFromServCellIndexR14 = &val_srsswitchfromservcellindexr14
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -145628,20 +145189,11 @@ func (v *SCellToAddModR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.RadioResourceConfigDedicatedSCellR10 = &dec_radioresourceconfigdedicatedscellr10
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -145907,20 +145459,12 @@ func (v *SCellToAddModR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.SCellStateR16 = &val_scellstater16
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -146488,20 +146032,12 @@ func (v *SLCarrierFreqInfoV1310) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.DiscConfigOtherR13 = &dec_discconfigotherr13
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -146622,20 +146158,11 @@ func (v *SLCommConfigR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.CommTxResourcesR12 = &dec_commtxresourcesr12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -147050,20 +146577,11 @@ func (v *SLCommResourcePoolV2XR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.RestrictResourceReservationPeriodR14 = tmp_restrictresourcereservationperiodr14
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -147298,20 +146816,11 @@ func (v *SLCommResourcePoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.TxParametersR12 = &dec_txparametersr12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -148082,20 +147591,11 @@ func (v *SLDiscConfigR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.DiscTxResourcesR12 = &dec_disctxresourcesr12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -148398,20 +147898,11 @@ func (v *SLDiscResourcePoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.RxParametersR12 = &dec_rxparametersr12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -148860,20 +148351,11 @@ func (v *SLDiscSysInfoReportR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.ReferenceSignalPowerR13 = &val_referencesignalpowerr13
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -149027,20 +148509,12 @@ func (v *SLDiscTxConfigScheduledR13) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 		v.DiscHoppingConfigR13 = &dec_dischoppingconfigr13
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -149168,20 +148642,12 @@ func (v *SLDiscTxInfoInterFreqListAddR13) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.DiscTxFreqToReleaseListR13 = tmp_disctxfreqtoreleaselistr13
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -149377,20 +148843,12 @@ func (v *SLDiscTxPowerInfoR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.DiscMaxTxPowerR12 = PMax(val_discmaxtxpowerr12)
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -149590,20 +149048,12 @@ func (v *SLDiscTxResourceInfoPerFreqR13) UnmarshalUPERFrom(bb *per.BitBuffer) er
 		v.DiscCellSelectionInfoR13 = &dec_disccellselectioninfor13
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -149958,20 +149408,12 @@ func (v *SLGapPatternR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.GapSubframeBitmapR13 = runtime.BitString{Bytes: bsBytes_gapsubframebitmapr13, BitLength: bsBitLen_gapsubframebitmapr13}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -150313,20 +149755,11 @@ func (v *SLInterFreqInfoV2XR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.V2xUEConfigListR14 = tmp_v2xueconfiglistr14
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -150957,20 +150390,11 @@ func (v *SLPSSCHTxConfigR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding parametersBelowThres-r14: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -152454,20 +151878,11 @@ func (v *SLSyncConfigNFreqR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.RxParametersR13 = &dec_rxparametersr13
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -152791,20 +152206,11 @@ func (v *SLSyncConfigR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.RxParamsNCellR12 = &dec_rxparamsncellr12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -153942,20 +153348,11 @@ func (v *SLV2XConfigDedicatedR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.CbrDedicatedTxConfigListR14 = &dec_cbrdedicatedtxconfiglistr14
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -154434,20 +153831,12 @@ func (v *SLV2XInterFreqUEConfigR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.OffsetDFNR14 = &val_offsetdfnr14
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -154551,20 +153940,12 @@ func (v *SLV2XPacketDuplicationConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.AllowedCarrierFreqConfigR15 = tmp_allowedcarrierfreqconfigr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -155921,20 +155302,11 @@ func (v *SRBToAddMod) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.LogicalChannelConfig = &dec_logicalchannelconfig
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -156875,20 +156247,12 @@ func (v *STAGToAddModR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.TimeAlignmentTimerSTAGR11 = TimeAlignmentTimer(val_timealignmenttimerstagr11)
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -157188,20 +156552,12 @@ func (v *STTISPTBandParametersR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.Ul256QAMSubslotR15 = &val_ul256qamsubslotr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -157546,7 +156902,7 @@ func (v *SchedulingInfo) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding sib-MappingInfo length: %w", err)
 	}
 	for _, elem := range v.SibMappingInfo {
-		if err := per.EncodeEnumerated(bb, int64(elem), 26, true); err != nil {
+		if err := per.EncodeEnumerated(bb, int64(elem), 16, true); err != nil {
 			return fmt.Errorf("encoding sib-MappingInfo element: %w", err)
 		}
 	}
@@ -157571,7 +156927,7 @@ func (v *SchedulingInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SibMappingInfo = make(SIBMappingInfo, seqLen_sibmappinginfo)
 	for i := int64(0); i < seqLen_sibmappinginfo; i++ {
-		val, err := per.DecodeEnumerated(bb, 26, true)
+		val, err := per.DecodeEnumerated(bb, 16, true)
 		if err != nil {
 			return fmt.Errorf("decoding sib-MappingInfo element: %w", err)
 		}
@@ -158063,20 +157419,12 @@ func (v *SecurityConfigHO) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding handoverType: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -158146,20 +157494,12 @@ func (v *SecurityConfigHOV1530) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding handoverType-v1530: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -158229,20 +157569,12 @@ func (v *SecurityConfigSMC) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding securityAlgorithmConfig: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -158846,20 +158178,12 @@ func (v *ServingSatelliteInfoR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.KMacR17 = &val_kmacr17
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -158870,34 +158194,6 @@ func (v *ServingSatelliteInfoR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
-	}
-	return nil
-}
-
-// MarshalUPER encodes SetupRelease to UPER format.
-func (v *SetupRelease) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SetupRelease) MarshalUPERTo(bb *per.BitBuffer) error {
-	switch v.Choice {
-	default:
-		return fmt.Errorf("unknown SetupRelease choice %d", v.Choice)
-	}
-}
-
-// UnmarshalUPER decodes SetupRelease from UPER format.
-func (v *SetupRelease) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *SetupRelease) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	switch v.Choice {
 	}
 	return nil
 }
@@ -161259,20 +160555,12 @@ func (v *SystemInformationBlockPosR15) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -161547,20 +160835,11 @@ func (v *SystemInformationBlockType10) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 		v.Dummy = tmp_dummy
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -161735,20 +161014,11 @@ func (v *SystemInformationBlockType11) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 		v.DataCodingScheme = tmp_datacodingscheme
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -161943,20 +161213,11 @@ func (v *SystemInformationBlockType12R9) UnmarshalUPERFrom(bb *per.BitBuffer) er
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -162171,20 +161432,11 @@ func (v *SystemInformationBlockType13R9) UnmarshalUPERFrom(bb *per.BitBuffer) er
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -162387,20 +161639,11 @@ func (v *SystemInformationBlockType14R11) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -162637,20 +161880,11 @@ func (v *SystemInformationBlockType15R11) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -162845,20 +162079,11 @@ func (v *SystemInformationBlockType16R11) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -162994,20 +162219,12 @@ func (v *SystemInformationBlockType17R12) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -163161,20 +162378,11 @@ func (v *SystemInformationBlockType18R12) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -163401,20 +162609,11 @@ func (v *SystemInformationBlockType19R12) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -166345,20 +165544,11 @@ func (v *SystemInformationBlockType2) UnmarshalUPERFrom(bb *per.BitBuffer) error
 	}
 	v.TimeAlignmentTimerCommon = TimeAlignmentTimer(val_timealignmenttimercommon)
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -167105,20 +166295,11 @@ func (v *SystemInformationBlockType20R13) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -167339,20 +166520,11 @@ func (v *SystemInformationBlockType21R14) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -167612,20 +166784,11 @@ func (v *SystemInformationBlockType24R15) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -167968,20 +167131,11 @@ func (v *SystemInformationBlockType25R15) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -168326,20 +167480,11 @@ func (v *SystemInformationBlockType26R15) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.ThreshSRSSICBRR15 = &val_threshsrssicbrr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -168484,20 +167629,12 @@ func (v *SystemInformationBlockType26aR16) UnmarshalUPERFrom(bb *per.BitBuffer) 
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -168613,20 +167750,12 @@ func (v *SystemInformationBlockType27R16) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -168736,20 +167865,12 @@ func (v *SystemInformationBlockType28R16) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -168873,20 +167994,12 @@ func (v *SystemInformationBlockType29R16) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -169716,20 +168829,11 @@ func (v *SystemInformationBlockType3) UnmarshalUPERFrom(bb *per.BitBuffer) error
 		return fmt.Errorf("decoding intraFreqCellReselectionInfo: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -170180,20 +169284,12 @@ func (v *SystemInformationBlockType30R17) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -170285,20 +169381,12 @@ func (v *SystemInformationBlockType31R17) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -170414,20 +169502,12 @@ func (v *SystemInformationBlockType32R17) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -170882,20 +169962,11 @@ func (v *SystemInformationBlockType4) UnmarshalUPERFrom(bb *per.BitBuffer) error
 		v.CsgPhysCellIdRange = &dec_csgphyscellidrange
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -171387,20 +170458,11 @@ func (v *SystemInformationBlockType5) UnmarshalUPERFrom(bb *per.BitBuffer) error
 		}
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -172360,20 +171422,11 @@ func (v *SystemInformationBlockType6) UnmarshalUPERFrom(bb *per.BitBuffer) error
 		v.TReselectionUTRASF = &dec_treselectionutrasf
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -172695,20 +171748,11 @@ func (v *SystemInformationBlockType7) UnmarshalUPERFrom(bb *per.BitBuffer) error
 		v.CarrierFreqsInfoList = tmp_carrierfreqsinfolist
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -173005,20 +172049,11 @@ func (v *SystemInformationBlockType8) UnmarshalUPERFrom(bb *per.BitBuffer) error
 		v.Parameters1XRTT = &dec_parameters1xrtt
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -173260,20 +172295,11 @@ func (v *SystemInformationBlockType9) UnmarshalUPERFrom(bb *per.BitBuffer) error
 		v.HnbName = tmp_hnbname
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -174243,20 +173269,12 @@ func (v *TargetMBSFNAreaR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.CarrierFreqR12 = ARFCNValueEUTRAR9(val_carrierfreqr12)
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -174950,20 +173968,11 @@ func (v *TunnelConfigLWIPR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding ike-Identity-r13: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -178651,7 +177660,7 @@ func (v *UEEUTRACapability) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeEnumerated(bb, int64(v.AccessStratumRelease), 10, true); err != nil {
+	if err := per.EncodeEnumerated(bb, int64(v.AccessStratumRelease), 8, true); err != nil {
 		return fmt.Errorf("encoding accessStratumRelease: %w", err)
 	}
 	if err := per.EncodeInteger(bb, int64(v.UeCategory), int64Ptr(1), int64Ptr(5), false); err != nil {
@@ -178701,7 +177710,7 @@ func (v *UEEUTRACapability) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	val_accessstratumrelease, err := per.DecodeEnumerated(bb, 10, true)
+	val_accessstratumrelease, err := per.DecodeEnumerated(bb, 8, true)
 	if err != nil {
 		return fmt.Errorf("decoding accessStratumRelease: %w", err)
 	}
@@ -178930,20 +177939,12 @@ func (v *UEEUTRACapabilityAddXDDModeR9) UnmarshalUPERFrom(bb *per.BitBuffer) err
 		v.NeighCellSIAcquisitionParametersR9 = &dec_neighcellsiacquisitionparametersr9
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -179114,20 +178115,11 @@ func (v *UEEUTRACapabilityAddXDDModeV1060) UnmarshalUPERFrom(bb *per.BitBuffer) 
 		v.InterRATParametersUTRATDDV1060 = &dec_interratparametersutratddv1060
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -179270,20 +178262,12 @@ func (v *UEEUTRACapabilityAddXDDModeV1130) UnmarshalUPERFrom(bb *per.BitBuffer) 
 		v.OtherParametersR11 = &dec_otherparametersr11
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -187070,20 +186054,11 @@ func (v *UERadioPagingInfoR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.UeCategoryV1250 = &val_uecategoryv1250
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -187453,20 +186428,11 @@ func (v *UETimersAndConstants) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.N311 = val_n311
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -188789,20 +187755,12 @@ func (v *ULPDCPDelayResultR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ExcessDelayR13 = val_excessdelayr13
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -188882,20 +187840,12 @@ func (v *ULPDCPDelayValueResultR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.AverageDelayR16 = val_averagedelayr16
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -190916,20 +189866,12 @@ func (v *VisitedCellInfoR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.TimeSpentR12 = val_timespentr12
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -191218,20 +190160,12 @@ func (v *WLANCarrierInfoR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.ChannelNumbersR13 = tmp_channelnumbersr13
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -191464,20 +190398,12 @@ func (v *WLANIdentifiersR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.HessidR12 = tmp_hessidr12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -191669,20 +190595,11 @@ func (v *WLANMobilityConfigR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.SuccessReportRequestedR13 = &val_successreportrequestedr13
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -192022,20 +190939,12 @@ func (v *WLANOffloadConfigR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.TSteeringWLANR12 = &tmp_tsteeringwlanr12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -192150,20 +191059,12 @@ func (v *WLANOffloadInfoPerPLMNR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.WlanIdListR12 = tmp_wlanidlistr12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -192264,20 +191165,12 @@ func (v *WLANRTTR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.RttAccuracyR15 = &val_rttaccuracyr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -201215,20 +200108,12 @@ func (v *DeltaFListSPUCCHR15Setup) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.DeltaFSubslotSPUCCHTBCCFormat4R15 = &val_deltafsubslotspucchtbccformat4r15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -205756,6 +204641,106 @@ func (v *MACMainConfigDormantStateTimersR15Setup) UnmarshalUPERFrom(bb *per.BitB
 	return nil
 }
 
+// MarshalUPER encodes MACMainConfigOffsetThresholdTAR17 to UPER format.
+func (v *MACMainConfigOffsetThresholdTAR17) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *MACMainConfigOffsetThresholdTAR17) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case MACMainConfigOffsetThresholdTAR17ChoiceRelease:
+	case MACMainConfigOffsetThresholdTAR17ChoiceSetup:
+		if err := per.EncodeEnumerated(bb, int64(*v.Setup), 16, false); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown MACMainConfigOffsetThresholdTAR17 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes MACMainConfigOffsetThresholdTAR17 from UPER format.
+func (v *MACMainConfigOffsetThresholdTAR17) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *MACMainConfigOffsetThresholdTAR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case MACMainConfigOffsetThresholdTAR17ChoiceRelease:
+	case MACMainConfigOffsetThresholdTAR17ChoiceSetup:
+		val_setup, err := per.DecodeEnumerated(bb, 16, false)
+		if err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		tmp_setup := OffsetThresholdTAR17(val_setup)
+		v.Setup = &tmp_setup
+	}
+	return nil
+}
+
+// MarshalUPER encodes MACMainConfigSrProhibitTimerOffsetR17 to UPER format.
+func (v *MACMainConfigSrProhibitTimerOffsetR17) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *MACMainConfigSrProhibitTimerOffsetR17) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case MACMainConfigSrProhibitTimerOffsetR17ChoiceRelease:
+	case MACMainConfigSrProhibitTimerOffsetR17ChoiceSetup:
+		if err := per.EncodeEnumerated(bb, int64(*v.Setup), 8, false); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown MACMainConfigSrProhibitTimerOffsetR17 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes MACMainConfigSrProhibitTimerOffsetR17 from UPER format.
+func (v *MACMainConfigSrProhibitTimerOffsetR17) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *MACMainConfigSrProhibitTimerOffsetR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case MACMainConfigSrProhibitTimerOffsetR17ChoiceRelease:
+	case MACMainConfigSrProhibitTimerOffsetR17ChoiceSetup:
+		val_setup, err := per.DecodeEnumerated(bb, 8, false)
+		if err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		tmp_setup := SRProhibitTimerOffsetR17(val_setup)
+		v.Setup = &tmp_setup
+	}
+	return nil
+}
+
 // MarshalUPER encodes MBMSCountingRequestR10NonCriticalExtension to UPER format.
 func (v *MBMSCountingRequestR10NonCriticalExtension) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -207389,20 +206374,12 @@ func (v *MeasDSConfigR12Setup) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MeasCSIRSToAddModListR12 = tmp_meascsirstoaddmodlistr12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -208585,6 +207562,55 @@ func (v *MeasObjectEUTRAT312R12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
+// MarshalUPER encodes MeasObjectEUTRAMeasRSSDedicatedConfigR16 to UPER format.
+func (v *MeasObjectEUTRAMeasRSSDedicatedConfigR16) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *MeasObjectEUTRAMeasRSSDedicatedConfigR16) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case MeasObjectEUTRAMeasRSSDedicatedConfigR16ChoiceRelease:
+	case MeasObjectEUTRAMeasRSSDedicatedConfigR16ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown MeasObjectEUTRAMeasRSSDedicatedConfigR16 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes MeasObjectEUTRAMeasRSSDedicatedConfigR16 from UPER format.
+func (v *MeasObjectEUTRAMeasRSSDedicatedConfigR16) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *MeasObjectEUTRAMeasRSSDedicatedConfigR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case MeasObjectEUTRAMeasRSSDedicatedConfigR16ChoiceRelease:
+	case MeasObjectEUTRAMeasRSSDedicatedConfigR16ChoiceSetup:
+		var dec_setup MeasRSSDedicatedConfigR16
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
+	return nil
+}
+
 // MarshalUPER encodes MeasObjectNRR15BandNRR15 to UPER format.
 func (v *MeasObjectNRR15BandNRR15) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -208631,6 +207657,55 @@ func (v *MeasObjectNRR15BandNRR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		tmp_setup := FreqBandIndicatorNRR15(val_setup)
 		v.Setup = &tmp_setup
+	}
+	return nil
+}
+
+// MarshalUPER encodes MeasObjectNRR15RmtcConfigNRR16 to UPER format.
+func (v *MeasObjectNRR15RmtcConfigNRR16) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *MeasObjectNRR15RmtcConfigNRR16) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case MeasObjectNRR15RmtcConfigNRR16ChoiceRelease:
+	case MeasObjectNRR15RmtcConfigNRR16ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown MeasObjectNRR15RmtcConfigNRR16 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes MeasObjectNRR15RmtcConfigNRR16 from UPER format.
+func (v *MeasObjectNRR15RmtcConfigNRR16) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *MeasObjectNRR15RmtcConfigNRR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case MeasObjectNRR15RmtcConfigNRR16ChoiceRelease:
+	case MeasObjectNRR15RmtcConfigNRR16ChoiceSetup:
+		var dec_setup RMTCConfigNRR16
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
 	}
 	return nil
 }
@@ -209309,20 +208384,12 @@ func (v *MeasResultCDMA2000MeasResult) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	}
 	v.PilotStrength = val_pilotstrength
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -209638,20 +208705,11 @@ func (v *MeasResultEUTRAMeasResult) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.RsrqResult = &tmp_rsrqresult
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -209997,20 +209055,12 @@ func (v *MeasResultGERANMeasResult) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.Rssi = val_rssi
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -210820,20 +209870,11 @@ func (v *MeasResultUTRAMeasResult) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.UtraEcN0 = &val_utraecn0
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -212321,6 +211362,55 @@ func (v *OtherConfigR9MeasConfigAppLayerR15Setup) UnmarshalUPERFrom(bb *per.BitB
 	return nil
 }
 
+// MarshalUPER encodes OtherConfigR9ScgDeactivationPreferenceConfigR17 to UPER format.
+func (v *OtherConfigR9ScgDeactivationPreferenceConfigR17) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *OtherConfigR9ScgDeactivationPreferenceConfigR17) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case OtherConfigR9ScgDeactivationPreferenceConfigR17ChoiceRelease:
+	case OtherConfigR9ScgDeactivationPreferenceConfigR17ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown OtherConfigR9ScgDeactivationPreferenceConfigR17 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes OtherConfigR9ScgDeactivationPreferenceConfigR17 from UPER format.
+func (v *OtherConfigR9ScgDeactivationPreferenceConfigR17) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *OtherConfigR9ScgDeactivationPreferenceConfigR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case OtherConfigR9ScgDeactivationPreferenceConfigR17ChoiceRelease:
+	case OtherConfigR9ScgDeactivationPreferenceConfigR17ChoiceSetup:
+		var dec_setup SCGDeactivationPreferenceConfigR17
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
+	return nil
+}
+
 // MarshalUPER encodes OverheatingAssistanceR14ReducedUECategory to UPER format.
 func (v *OverheatingAssistanceR14ReducedUECategory) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -212775,20 +211865,12 @@ func (v *PDCPConfigHeaderCompressionRohc) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		return fmt.Errorf("decoding profiles: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -213323,20 +212405,12 @@ func (v *PDCPConfigUplinkOnlyHeaderCompressionR14RohcR14) UnmarshalUPERFrom(bb *
 		return fmt.Errorf("decoding profiles-r14: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -213460,20 +212534,12 @@ func (v *PDCPConfigUplinkDataCompressionR15) UnmarshalUPERFrom(bb *per.BitBuffer
 		v.DictionaryR15 = &val_dictionaryr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -213568,6 +212634,105 @@ func (v *PDCPConfigPdcpDuplicationConfigR15Setup) UnmarshalUPERFrom(bb *per.BitB
 	return nil
 }
 
+// MarshalUPER encodes PDCPConfigEthernetHeaderCompressionR16 to UPER format.
+func (v *PDCPConfigEthernetHeaderCompressionR16) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PDCPConfigEthernetHeaderCompressionR16) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case PDCPConfigEthernetHeaderCompressionR16ChoiceRelease:
+	case PDCPConfigEthernetHeaderCompressionR16ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown PDCPConfigEthernetHeaderCompressionR16 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes PDCPConfigEthernetHeaderCompressionR16 from UPER format.
+func (v *PDCPConfigEthernetHeaderCompressionR16) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *PDCPConfigEthernetHeaderCompressionR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case PDCPConfigEthernetHeaderCompressionR16ChoiceRelease:
+	case PDCPConfigEthernetHeaderCompressionR16ChoiceSetup:
+		var dec_setup EthernetHeaderCompressionR16
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
+	return nil
+}
+
+// MarshalUPER encodes PDCPConfigDiscardTimerExtR17 to UPER format.
+func (v *PDCPConfigDiscardTimerExtR17) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PDCPConfigDiscardTimerExtR17) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case PDCPConfigDiscardTimerExtR17ChoiceRelease:
+	case PDCPConfigDiscardTimerExtR17ChoiceSetup:
+		if err := per.EncodeEnumerated(bb, int64(*v.Setup), 2, false); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown PDCPConfigDiscardTimerExtR17 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes PDCPConfigDiscardTimerExtR17 from UPER format.
+func (v *PDCPConfigDiscardTimerExtR17) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *PDCPConfigDiscardTimerExtR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case PDCPConfigDiscardTimerExtR17ChoiceRelease:
+	case PDCPConfigDiscardTimerExtR17ChoiceSetup:
+		val_setup, err := per.DecodeEnumerated(bb, 2, false)
+		if err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		tmp_setup := DiscardTimerExtR17(val_setup)
+		v.Setup = &tmp_setup
+	}
+	return nil
+}
+
 // MarshalUPER encodes PDCPParametersNRR15RohcProfilesULOnlyR15 to UPER format.
 func (v *PDCPParametersNRR15RohcProfilesULOnlyR15) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -213627,6 +212792,104 @@ func (v *PDCPParametersV1430SupportedUplinkOnlyROHCProfilesR14) UnmarshalUPERFro
 		return fmt.Errorf("decoding profile0x0006-r14: %w", err)
 	}
 	v.Profile0x0006R14 = val_profile0x0006r14
+	return nil
+}
+
+// MarshalUPER encodes PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16 to UPER format.
+func (v *PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16ChoiceRelease:
+	case PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16 from UPER format.
+func (v *PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16ChoiceRelease:
+	case PDSCHConfigDedicatedV1610CePDSCHMultiTBConfigR16ChoiceSetup:
+		var dec_setup CEPDSCHMultiTBConfigR16
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
+	return nil
+}
+
+// MarshalUPER encodes PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17 to UPER format.
+func (v *PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17ChoiceRelease:
+	case PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17 from UPER format.
+func (v *PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17ChoiceRelease:
+	case PDSCHConfigDedicatedV1700CePDSCH14HARQConfigR17ChoiceSetup:
+		var dec_setup CEPDSCH14HARQConfigR17
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
 	return nil
 }
 
@@ -216420,6 +215683,55 @@ func (v *PURConfigR16PurStartTimeParametersR16) UnmarshalUPERFrom(bb *per.BitBuf
 	return nil
 }
 
+// MarshalUPER encodes PURConfigR16PurRSRPChangeThresholdR16 to UPER format.
+func (v *PURConfigR16PurRSRPChangeThresholdR16) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PURConfigR16PurRSRPChangeThresholdR16) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case PURConfigR16PurRSRPChangeThresholdR16ChoiceRelease:
+	case PURConfigR16PurRSRPChangeThresholdR16ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown PURConfigR16PurRSRPChangeThresholdR16 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes PURConfigR16PurRSRPChangeThresholdR16 from UPER format.
+func (v *PURConfigR16PurRSRPChangeThresholdR16) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *PURConfigR16PurRSRPChangeThresholdR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case PURConfigR16PurRSRPChangeThresholdR16ChoiceRelease:
+	case PURConfigR16PurRSRPChangeThresholdR16ChoiceSetup:
+		var dec_setup PURRSRPChangeThresholdR16
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
+	return nil
+}
+
 // MarshalUPER encodes PURMPDCCHConfigR16MpdcchPRBPairsConfigR16 to UPER format.
 func (v *PURMPDCCHConfigR16MpdcchPRBPairsConfigR16) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -217684,6 +216996,55 @@ func (v *PUSCHConfigDedicatedV1530CePUSCHSubPRBConfigR15Setup) UnmarshalUPERFrom
 		return fmt.Errorf("decoding threeToneCyclicShift-r15: %w", err)
 	}
 	v.ThreeToneCyclicShiftR15 = val_threetonecyclicshiftr15
+	return nil
+}
+
+// MarshalUPER encodes PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16 to UPER format.
+func (v *PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16ChoiceRelease:
+	case PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16 from UPER format.
+func (v *PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16ChoiceRelease:
+	case PUSCHConfigDedicatedV1610CePUSCHMultiTBConfigR16ChoiceSetup:
+		var dec_setup CEPUSCHMultiTBConfigR16
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
 	return nil
 }
 
@@ -220832,6 +220193,300 @@ func (v *PhysicalConfigDedicatedBlindPDSCHRepetitionConfigR15Setup) UnmarshalUPE
 	return nil
 }
 
+// MarshalUPER encodes PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16 to UPER format.
+func (v *PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16ChoiceRelease:
+	case PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16 from UPER format.
+func (v *PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16ChoiceRelease:
+	case PhysicalConfigDedicatedResourceReservationConfigDedicatedDLR16ChoiceSetup:
+		var dec_setup ResourceReservationConfigDedicatedDLR16
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
+	return nil
+}
+
+// MarshalUPER encodes PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16 to UPER format.
+func (v *PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16ChoiceRelease:
+	case PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16 from UPER format.
+func (v *PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16ChoiceRelease:
+	case PhysicalConfigDedicatedResourceReservationConfigDedicatedULR16ChoiceSetup:
+		var dec_setup ResourceReservationConfigDedicatedULR16
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
+	return nil
+}
+
+// MarshalUPER encodes PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16 to UPER format.
+func (v *PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16ChoiceRelease:
+	case PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16 from UPER format.
+func (v *PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16ChoiceRelease:
+	case PhysicalConfigDedicatedSoundingRSULConfigDedicatedAddR16ChoiceSetup:
+		var dec_setup SoundingRSULConfigDedicatedAddR16
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
+	return nil
+}
+
+// MarshalUPER encodes PhysicalConfigDedicatedUplinkPowerControlAddSRSR16 to UPER format.
+func (v *PhysicalConfigDedicatedUplinkPowerControlAddSRSR16) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PhysicalConfigDedicatedUplinkPowerControlAddSRSR16) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case PhysicalConfigDedicatedUplinkPowerControlAddSRSR16ChoiceRelease:
+	case PhysicalConfigDedicatedUplinkPowerControlAddSRSR16ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown PhysicalConfigDedicatedUplinkPowerControlAddSRSR16 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes PhysicalConfigDedicatedUplinkPowerControlAddSRSR16 from UPER format.
+func (v *PhysicalConfigDedicatedUplinkPowerControlAddSRSR16) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *PhysicalConfigDedicatedUplinkPowerControlAddSRSR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case PhysicalConfigDedicatedUplinkPowerControlAddSRSR16ChoiceRelease:
+	case PhysicalConfigDedicatedUplinkPowerControlAddSRSR16ChoiceSetup:
+		var dec_setup UplinkPowerControlAddSRSR16
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
+	return nil
+}
+
+// MarshalUPER encodes PhysicalConfigDedicatedSoundingRSVirtualCellIDR16 to UPER format.
+func (v *PhysicalConfigDedicatedSoundingRSVirtualCellIDR16) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PhysicalConfigDedicatedSoundingRSVirtualCellIDR16) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case PhysicalConfigDedicatedSoundingRSVirtualCellIDR16ChoiceRelease:
+	case PhysicalConfigDedicatedSoundingRSVirtualCellIDR16ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown PhysicalConfigDedicatedSoundingRSVirtualCellIDR16 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes PhysicalConfigDedicatedSoundingRSVirtualCellIDR16 from UPER format.
+func (v *PhysicalConfigDedicatedSoundingRSVirtualCellIDR16) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *PhysicalConfigDedicatedSoundingRSVirtualCellIDR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case PhysicalConfigDedicatedSoundingRSVirtualCellIDR16ChoiceRelease:
+	case PhysicalConfigDedicatedSoundingRSVirtualCellIDR16ChoiceSetup:
+		var dec_setup SoundingRSVirtualCellIDR16
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
+	return nil
+}
+
+// MarshalUPER encodes PhysicalConfigDedicatedWidebandPRGR16 to UPER format.
+func (v *PhysicalConfigDedicatedWidebandPRGR16) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PhysicalConfigDedicatedWidebandPRGR16) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case PhysicalConfigDedicatedWidebandPRGR16ChoiceRelease:
+	case PhysicalConfigDedicatedWidebandPRGR16ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown PhysicalConfigDedicatedWidebandPRGR16 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes PhysicalConfigDedicatedWidebandPRGR16 from UPER format.
+func (v *PhysicalConfigDedicatedWidebandPRGR16) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *PhysicalConfigDedicatedWidebandPRGR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case PhysicalConfigDedicatedWidebandPRGR16ChoiceRelease:
+	case PhysicalConfigDedicatedWidebandPRGR16ChoiceSetup:
+		var dec_setup WidebandPRGR16
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
+	return nil
+}
+
 // MarshalUPER encodes PhysicalConfigDedicatedNtnConfigDedicatedR17 to UPER format.
 func (v *PhysicalConfigDedicatedNtnConfigDedicatedR17) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -220879,18 +220534,116 @@ func (v *PhysicalConfigDedicatedNtnConfigDedicatedR17) UnmarshalUPERFrom(bb *per
 		return err
 	}
 	if opt_pucchtxdurationr17 {
-		var dec_pucchtxdurationr17 SetupRelease
+		var dec_pucchtxdurationr17 PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17
 		if err := dec_pucchtxdurationr17.UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding pucch-TxDuration-r17: %w", err)
 		}
 		v.PucchTxDurationR17 = &dec_pucchtxdurationr17
 	}
 	if opt_puschtxdurationr17 {
-		var dec_puschtxdurationr17 SetupRelease
+		var dec_puschtxdurationr17 PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17
 		if err := dec_puschtxdurationr17.UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding pusch-TxDuration-r17: %w", err)
 		}
 		v.PuschTxDurationR17 = &dec_puschtxdurationr17
+	}
+	return nil
+}
+
+// MarshalUPER encodes PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17 to UPER format.
+func (v *PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17ChoiceRelease:
+	case PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17 from UPER format.
+func (v *PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17ChoiceRelease:
+	case PhysicalConfigDedicatedNtnConfigDedicatedR17PucchTxDurationR17ChoiceSetup:
+		var dec_setup PUCCHTxDurationR17
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
+	return nil
+}
+
+// MarshalUPER encodes PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17 to UPER format.
+func (v *PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17ChoiceRelease:
+	case PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17 from UPER format.
+func (v *PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17ChoiceRelease:
+	case PhysicalConfigDedicatedNtnConfigDedicatedR17PuschTxDurationR17ChoiceSetup:
+		var dec_setup PUSCHTxDurationR17
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
 	}
 	return nil
 }
@@ -221772,6 +221525,202 @@ func (v *PhysicalConfigDedicatedSCellR10BlindPDSCHRepetitionConfigR15Setup) Unma
 	return nil
 }
 
+// MarshalUPER encodes PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16 to UPER format.
+func (v *PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16ChoiceRelease:
+	case PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16 from UPER format.
+func (v *PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16ChoiceRelease:
+	case PhysicalConfigDedicatedSCellR10SoundingRSULConfigDedicatedAddR16ChoiceSetup:
+		var dec_setup SoundingRSULConfigDedicatedAddR16
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
+	return nil
+}
+
+// MarshalUPER encodes PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16 to UPER format.
+func (v *PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16ChoiceRelease:
+	case PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16 from UPER format.
+func (v *PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16ChoiceRelease:
+	case PhysicalConfigDedicatedSCellR10UplinkPowerControlAddSRSR16ChoiceSetup:
+		var dec_setup UplinkPowerControlAddSRSR16
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
+	return nil
+}
+
+// MarshalUPER encodes PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16 to UPER format.
+func (v *PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16ChoiceRelease:
+	case PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16 from UPER format.
+func (v *PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16ChoiceRelease:
+	case PhysicalConfigDedicatedSCellR10SoundingRSVirtualCellIDR16ChoiceSetup:
+		var dec_setup SoundingRSVirtualCellIDR16
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
+	return nil
+}
+
+// MarshalUPER encodes PhysicalConfigDedicatedSCellR10WidebandPRGR16 to UPER format.
+func (v *PhysicalConfigDedicatedSCellR10WidebandPRGR16) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PhysicalConfigDedicatedSCellR10WidebandPRGR16) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case PhysicalConfigDedicatedSCellR10WidebandPRGR16ChoiceRelease:
+	case PhysicalConfigDedicatedSCellR10WidebandPRGR16ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown PhysicalConfigDedicatedSCellR10WidebandPRGR16 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes PhysicalConfigDedicatedSCellR10WidebandPRGR16 from UPER format.
+func (v *PhysicalConfigDedicatedSCellR10WidebandPRGR16) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *PhysicalConfigDedicatedSCellR10WidebandPRGR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case PhysicalConfigDedicatedSCellR10WidebandPRGR16ChoiceRelease:
+	case PhysicalConfigDedicatedSCellR10WidebandPRGR16ChoiceSetup:
+		var dec_setup WidebandPRGR16
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
+	return nil
+}
+
 // MarshalUPER encodes PhysicalConfigDedicatedSCellV1370PucchSCellV1370 to UPER format.
 func (v *PhysicalConfigDedicatedSCellV1370PucchSCellV1370) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -221939,6 +221888,55 @@ func (v *PhysicalConfigDedicatedSCellV13c0PucchSCellV13c0Setup) UnmarshalUPER(da
 func (v *PhysicalConfigDedicatedSCellV13c0PucchSCellV13c0Setup) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err := v.PucchConfigDedicatedV13c0.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding pucch-ConfigDedicated-v13c0: %w", err)
+	}
+	return nil
+}
+
+// MarshalUPER encodes PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730 to UPER format.
+func (v *PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730ChoiceRelease:
+	case PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730 from UPER format.
+func (v *PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730ChoiceRelease:
+	case PhysicalConfigDedicatedSCellV1730CqiReportPeriodicSCellV1730ChoiceSetup:
+		var dec_setup CQIReportPeriodicSCellV1730
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
 	}
 	return nil
 }
@@ -223410,20 +223408,12 @@ func (v *RACHConfigCommonPreambleInfoPreamblesGroupAConfig) UnmarshalUPERFrom(bb
 	}
 	v.MessagePowerOffsetGroupB = val_messagepoweroffsetgroupb
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -224483,6 +224473,56 @@ func (v *RLCConfigV1530Setup) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
+// MarshalUPER encodes RLCConfigV1700TReorderingExtR17 to UPER format.
+func (v *RLCConfigV1700TReorderingExtR17) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *RLCConfigV1700TReorderingExtR17) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case RLCConfigV1700TReorderingExtR17ChoiceRelease:
+	case RLCConfigV1700TReorderingExtR17ChoiceSetup:
+		if err := per.EncodeEnumerated(bb, int64(*v.Setup), 2, false); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown RLCConfigV1700TReorderingExtR17 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes RLCConfigV1700TReorderingExtR17 from UPER format.
+func (v *RLCConfigV1700TReorderingExtR17) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *RLCConfigV1700TReorderingExtR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case RLCConfigV1700TReorderingExtR17ChoiceRelease:
+	case RLCConfigV1700TReorderingExtR17ChoiceSetup:
+		val_setup, err := per.DecodeEnumerated(bb, 2, false)
+		if err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		tmp_setup := TReorderingExtR17(val_setup)
+		v.Setup = &tmp_setup
+	}
+	return nil
+}
+
 // MarshalUPER encodes RLFReportR9MeasResultLastServCellR9 to UPER format.
 func (v *RLFReportR9MeasResultLastServCellR9) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -225411,20 +225451,12 @@ func (v *RLFTimersAndConstantsMCGFailureR16Setup) UnmarshalUPERFrom(bb *per.BitB
 	}
 	v.T316R16 = val_t316r16
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -225512,20 +225544,12 @@ func (v *RLFTimersAndConstantsSCGR12Setup) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	}
 	v.N314R12 = val_n314r12
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -225625,20 +225649,11 @@ func (v *RLFTimersAndConstantsR13Setup) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	}
 	v.T301V1310 = val_t301v1310
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -225762,20 +225777,12 @@ func (v *RLFTimersAndConstantsR9Setup) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	}
 	v.N311R9 = val_n311r9
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -225876,20 +225883,12 @@ func (v *RMTCConfigR13Setup) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.MeasDurationR13 = val_measdurationr13
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -226357,20 +226356,12 @@ func (v *RNSubframeConfigR10RpdcchConfigR10) UnmarshalUPERFrom(bb *per.BitBuffer
 		return fmt.Errorf("decoding pucch-Config-r10: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -228270,6 +228261,55 @@ func (v *RRCConnectionReleaseCriticalExtensionsCriticalExtensionsFuture) Unmarsh
 }
 
 func (v *RRCConnectionReleaseCriticalExtensionsCriticalExtensionsFuture) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	return nil
+}
+
+// MarshalUPER encodes RRCConnectionReleaseV1610IEsPurConfigR16 to UPER format.
+func (v *RRCConnectionReleaseV1610IEsPurConfigR16) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *RRCConnectionReleaseV1610IEsPurConfigR16) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case RRCConnectionReleaseV1610IEsPurConfigR16ChoiceRelease:
+	case RRCConnectionReleaseV1610IEsPurConfigR16ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown RRCConnectionReleaseV1610IEsPurConfigR16 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes RRCConnectionReleaseV1610IEsPurConfigR16 from UPER format.
+func (v *RRCConnectionReleaseV1610IEsPurConfigR16) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *RRCConnectionReleaseV1610IEsPurConfigR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case RRCConnectionReleaseV1610IEsPurConfigR16ChoiceRelease:
+	case RRCConnectionReleaseV1610IEsPurConfigR16ChoiceSetup:
+		var dec_setup PURConfigR16
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
 	return nil
 }
 
@@ -230854,6 +230894,55 @@ func (v *RadioResourceConfigDedicatedCrsIntfMitigConfigR15Setup) UnmarshalUPERFr
 	return nil
 }
 
+// MarshalUPER encodes RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16 to UPER format.
+func (v *RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16ChoiceRelease:
+	case RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16ChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16 choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16 from UPER format.
+func (v *RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16ChoiceRelease:
+	case RadioResourceConfigDedicatedCrsChEstMPDCCHConfigDedicatedR16ChoiceSetup:
+		var dec_setup CRSChEstMPDCCHConfigDedicatedR16
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
+	return nil
+}
+
 // MarshalUPER encodes ReportConfigEUTRATriggerType to UPER format.
 func (v *ReportConfigEUTRATriggerType) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -233344,20 +233433,12 @@ func (v *SCGConfigurationR12SetupScgConfigPartMCGR12) UnmarshalUPERFrom(bb *per.
 		v.PowerCoordinationInfoR12 = &dec_powercoordinationinfor12
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -238423,20 +238504,12 @@ func (v *SPDCCHElementsR15Setup) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.RateMatchingModeR15 = &val_ratematchingmoder15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -238603,20 +238676,11 @@ func (v *SPSConfigDLSetup) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.N1PUCCHANPersistentList[i] = int64(val)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -238856,20 +238920,12 @@ func (v *SPSConfigDLSTTIR15Setup) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.TpcPDCCHConfigPUCCHSPSR15 = &dec_tpcpdcchconfigpucchspsr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -239234,20 +239290,11 @@ func (v *SPSConfigULSetup) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.TwoIntervalsConfig = &val_twointervalsconfig
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -239849,20 +239896,12 @@ func (v *SPSConfigULSTTIR15Setup) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.TotalNumberPUSCHSPSSTTIULRepetitionsR15 = &val_totalnumberpuschspssttiulrepetitionsr15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -242563,20 +242602,12 @@ func (v *SlotOrSubslotPDSCHConfigR15Setup) UnmarshalUPERFrom(bb *per.BitBuffer) 
 		v.TbsIndexAlt3STTIR15 = &val_tbsindexalt3sttir15
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -242879,20 +242910,12 @@ func (v *SlotOrSubslotPUSCHConfigR15Setup) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	}
 	v.UlDMRSIFDMASlotOrSubslotR15 = val_uldmrsifdmaslotorsubslotr15
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -243504,20 +243527,12 @@ func (v *SoundingRSULConfigDedicatedAperiodicR10SetupSrsActivateApR10Setup) Unma
 		return fmt.Errorf("decoding srs-ConfigApDCI-Format1a2b2c-r10: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {

@@ -2,11 +2,46 @@ package x2ap
 
 import (
 	"bytes"
+	"encoding/hex"
 	"testing"
 
 	"github.com/gomaja/go-asn1/runtime"
 	"github.com/gomaja/go-asn1/runtime/per"
 )
+
+func TestHandoverRequestUEHistoryInformationWireValue(t *testing.T) {
+	// TS 36.423 V19.1.0 sections 9.1.1.1 and 9.2.38: HandoverRequest
+	// IE 15, captured with nine visited E-UTRAN cells and independently decoded
+	// by TShark 4.6.8.
+	raw, err := hex.DecodeString("800006f730010840b10000050006f730010220c10000020006f730010840b10000010006f730010220c10000120006f730010840b10000070006f730010220c100000d0006f730010840b100001a0006f730010220c10000030006f730010840b1000062")
+	if err != nil {
+		t.Fatalf("decode fixture: %v", err)
+	}
+
+	decoded, err := DecodeIEFieldValue("HandoverRequest", IdUEHistoryInformation, raw)
+	if err != nil {
+		t.Fatalf("DecodeIEFieldValue: %v", err)
+	}
+	history, ok := decoded.(*UEHistoryInformation)
+	if !ok {
+		t.Fatalf("decoded type: got %T, want *UEHistoryInformation", decoded)
+	}
+	wantTimes := []int64{5, 2, 1, 18, 7, 13, 26, 3, 98}
+	if len(*history) != len(wantTimes) {
+		t.Fatalf("decoded history length: got %d, want %d", len(*history), len(wantTimes))
+	}
+	for i, item := range *history {
+		if item.Choice != LastVisitedCellItemChoiceEUTRANCell || item.EUTRANCell == nil {
+			t.Fatalf("item %d choice: got %+v, want E-UTRAN cell", i, item)
+		}
+		if got := item.EUTRANCell.CellType.CellSize; got != CellSizeMedium {
+			t.Errorf("item %d cell size: got %d (%s), want %d (%s)", i, got, got, CellSizeMedium, CellSizeMedium)
+		}
+		if got := item.EUTRANCell.TimeUEStayedInCell; got != wantTimes[i] {
+			t.Errorf("item %d time stayed: got %d, want %d", i, got, wantTimes[i])
+		}
+	}
+}
 
 func TestProtocolIEFieldAPERHeaderUsesConstrainedLayout(t *testing.T) {
 	field := ProtocolIEField{

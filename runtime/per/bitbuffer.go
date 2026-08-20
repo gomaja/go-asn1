@@ -99,6 +99,9 @@ func (bb *BitBuffer) ReadBytes(n int) ([]byte, error) {
 	if n < 0 {
 		return nil, fmt.Errorf("%w: ReadBytes called with negative n=%d", ErrInvalidValue, n)
 	}
+	if n > bb.BitsRemaining()/8 {
+		return nil, fmt.Errorf("%w: requested %d bytes with %d bits remaining", ErrTruncated, n, bb.BitsRemaining())
+	}
 	result := make([]byte, n)
 	for i := 0; i < n; i++ {
 		val, err := bb.ReadBits(8)
@@ -169,6 +172,12 @@ func (bb *BitBuffer) AlignToOctetRead() {
 
 // ReadBitsToBytes reads bitLen bits and returns them packed into bytes (MSB first).
 func (bb *BitBuffer) ReadBitsToBytes(bitLen int) ([]byte, error) {
+	if bitLen < 0 {
+		return nil, fmt.Errorf("%w: ReadBitsToBytes called with negative bitLen=%d", ErrInvalidValue, bitLen)
+	}
+	if bitLen > bb.BitsRemaining() {
+		return nil, fmt.Errorf("%w: requested %d bits with %d bits remaining", ErrTruncated, bitLen, bb.BitsRemaining())
+	}
 	numBytes := (bitLen + 7) / 8
 	result := make([]byte, numBytes)
 	for i := 0; i < bitLen; i++ {

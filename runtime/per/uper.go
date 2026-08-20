@@ -2,6 +2,7 @@ package per
 
 import (
 	"fmt"
+	"math"
 	"math/bits"
 )
 
@@ -102,6 +103,35 @@ func DecodeNormallySmallNonNegative(bb *BitBuffer) (int64, error) {
 	return DecodeSemiConstrainedWholeNumber(bb, 0)
 }
 
+// DecodeExtensionBitmap decodes the highest extension index and presence bits.
+func DecodeExtensionBitmap(bb *BitBuffer) (int64, []bool, error) {
+	count, err := DecodeNormallySmallNonNegative(bb)
+	if err != nil {
+		return 0, nil, err
+	}
+	return decodeExtensionBitmapBits(bb, count)
+}
+
+func decodeExtensionBitmapBits(bb *BitBuffer, count int64) (int64, []bool, error) {
+	remaining := bb.BitsRemaining()
+	if count < 0 {
+		return 0, nil, fmt.Errorf("%w: negative extension bitmap index %d", ErrInvalidValue, count)
+	}
+	// count is the highest index, so the bitmap contains count+1 bits.
+	if count >= int64(remaining) {
+		return 0, nil, fmt.Errorf("%w: extension bitmap index %d exceeds %d remaining bits", ErrTruncated, count, remaining)
+	}
+	present := make([]bool, int(count)+1)
+	for i := range present {
+		value, err := DecodeBoolean(bb)
+		if err != nil {
+			return 0, nil, err
+		}
+		present[i] = value
+	}
+	return count, present, nil
+}
+
 // EncodeSemiConstrainedWholeNumber encodes v with known lower bound but no upper bound.
 // X.691 Section 12.2.3.
 func EncodeSemiConstrainedWholeNumber(bb *BitBuffer, v, lb int64) error {
@@ -118,7 +148,7 @@ func DecodeSemiConstrainedWholeNumber(bb *BitBuffer, lb int64) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
-	return lb + int64(offset), nil
+	return addNonNegativeOffset(lb, offset)
 }
 
 // EncodeUnconstrainedWholeNumber encodes a signed integer with no bounds.
@@ -305,7 +335,7 @@ func DecodeEnumerated(bb *BitBuffer, rootCount int, extensible bool) (int64, err
 // Otherwise: unconstrained length + bits.
 func EncodeBitString(bb *BitBuffer, data []byte, bitLen int, lb, ub int64, constrained bool) error {
 	if constrained && lb == ub {
-		// Fixed size - write exactly lb bits.
+		// Fixed size — write exactly lb bits.
 		if int64(bitLen) != lb {
 			return fmt.Errorf("%w: BIT STRING length %d does not match fixed SIZE(%d)", ErrConstraintViolation, bitLen, lb)
 		}
@@ -351,7 +381,7 @@ func DecodeBitString(bb *BitBuffer, lb, ub int64, constrained bool) ([]byte, int
 func EncodeOctetString(bb *BitBuffer, data []byte, lb, ub int64, constrained bool) error {
 	length := int64(len(data))
 	if constrained && lb == ub {
-		// Fixed size - write exactly lb octets.
+		// Fixed size — write exactly lb octets.
 		if int64(len(data)) != lb {
 			return fmt.Errorf("%w: OCTET STRING length %d does not match fixed SIZE(%d)", ErrConstraintViolation, len(data), lb)
 		}
@@ -403,7 +433,7 @@ func DecodeNull(_ *BitBuffer) error {
 func EncodeKnownMultiplierString(bb *BitBuffer, s string, bitsPerChar int, lb, ub int64, constrained bool) error {
 	length := int64(len(s))
 	if constrained && lb == ub {
-		// Fixed size - write exactly lb characters.
+		// Fixed size — write exactly lb characters.
 		if length != lb {
 			return fmt.Errorf("%w: string length %d does not match fixed SIZE(%d)", ErrConstraintViolation, length, lb)
 		}
@@ -553,6 +583,9 @@ func decodeNonNegativeBinaryIntegerWithLength(bb *BitBuffer) (uint64, error) {
 	if length == 0 {
 		return 0, nil
 	}
+	if length > 8 {
+		return 0, fmt.Errorf("%w: non-negative integer uses %d octets, maximum is 8", ErrInvalidValue, length)
+	}
 	data, err := bb.ReadBytes(int(length))
 	if err != nil {
 		return 0, err
@@ -562,6 +595,23 @@ func decodeNonNegativeBinaryIntegerWithLength(bb *BitBuffer) (uint64, error) {
 		val = (val << 8) | uint64(b)
 	}
 	return val, nil
+}
+
+func addNonNegativeOffset(lb int64, offset uint64) (int64, error) {
+	maxOffset := uint64(math.MaxInt64)
+	if lb < 0 {
+		maxOffset += uint64(-(lb + 1)) + 1
+	} else {
+		maxOffset -= uint64(lb)
+	}
+	if offset > maxOffset {
+		return 0, fmt.Errorf("%w: non-negative offset %d overflows int64 lower bound %d", ErrInvalidValue, offset, lb)
+	}
+	if offset <= math.MaxInt64 {
+		return lb + int64(offset), nil
+	}
+	absLowerBound := uint64(-(lb + 1)) + 1
+	return int64(offset - absLowerBound), nil
 }
 
 func minimalUnsignedBytes(v uint64) []byte {

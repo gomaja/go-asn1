@@ -161,6 +161,9 @@ func DecodeSemiConstrainedWholeNumberAligned(bb *BitBuffer, lb int64) (int64, er
 	if length == 0 {
 		return lb, nil
 	}
+	if length > 8 {
+		return 0, fmt.Errorf("%w: non-negative integer uses %d octets, maximum is 8", ErrInvalidValue, length)
+	}
 	data, err := bb.ReadBytes(int(length))
 	if err != nil {
 		return 0, err
@@ -169,7 +172,7 @@ func DecodeSemiConstrainedWholeNumberAligned(bb *BitBuffer, lb int64) (int64, er
 	for _, b := range data {
 		val = (val << 8) | uint64(b)
 	}
-	return lb + int64(val), nil
+	return addNonNegativeOffset(lb, val)
 }
 
 // EncodeUnconstrainedWholeNumberAligned encodes a signed integer with no bounds (APER).
@@ -240,6 +243,15 @@ func DecodeNormallySmallNonNegativeAligned(bb *BitBuffer) (int64, error) {
 		return int64(val), nil
 	}
 	return DecodeSemiConstrainedWholeNumberAligned(bb, 0)
+}
+
+// DecodeExtensionBitmapAligned decodes an aligned extension presence bitmap.
+func DecodeExtensionBitmapAligned(bb *BitBuffer) (int64, []bool, error) {
+	count, err := DecodeNormallySmallNonNegativeAligned(bb)
+	if err != nil {
+		return 0, nil, err
+	}
+	return decodeExtensionBitmapBits(bb, count)
 }
 
 // EncodeIntegerAligned encodes an integer using APER rules.
