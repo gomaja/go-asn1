@@ -761,6 +761,18 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE UE-ContextInformation (%d): %w", ieId, err)
 			}
 			return &v, nil
+		case 15: // id-UE-HistoryInformation -> UE-HistoryInformation (SEQUENCE OF LastVisitedCellItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE UE-HistoryInformation length: %w", err)
+			}
+			result := make(UEHistoryInformation, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE UE-HistoryInformation item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 13: // id-TraceActivation -> TraceActivation
 			var v TraceActivation
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
@@ -1035,7 +1047,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 	case "HandoverReport":
 		switch ieId {
 		case 54: // id-HandoverReportType -> HandoverReportType (ENUMERATED)
-			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE HandoverReportType (%d): %w", ieId, err)
 			}
@@ -1286,6 +1298,18 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := UEX2APIDExtension(v)
 			return &result, nil
+		case 365: // id-CandidateCellsToBeCancelledList -> CandidateCellsToBeCancelledList (SEQUENCE OF ECGI)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 8)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE CandidateCellsToBeCancelledList length: %w", err)
+			}
+			result := make(CandidateCellsToBeCancelledList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE CandidateCellsToBeCancelledList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		}
 	case "HandoverSuccess":
 		switch ieId {
@@ -1359,6 +1383,18 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE UE-X2AP-ID-Extension (%d): %w", ieId, err)
 			}
 			result := UEX2APIDExtension(v)
+			return &result, nil
+		case 365: // id-CandidateCellsToBeCancelledList -> CandidateCellsToBeCancelledList (SEQUENCE OF ECGI)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 8)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE CandidateCellsToBeCancelledList length: %w", err)
+			}
+			result := make(CandidateCellsToBeCancelledList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE CandidateCellsToBeCancelledList item %d: %w", i, err)
+				}
+			}
 			return &result, nil
 		}
 	case "ErrorIndication":
@@ -1458,6 +1494,30 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE GlobalENB-ID (%d): %w", ieId, err)
 			}
 			return &v, nil
+		case 20: // id-ServedCells -> ServedCells (SEQUENCE OF ServedCellsElem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedCells length: %w", err)
+			}
+			result := make(ServedCells, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedCells item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 24: // id-GUGroupIDList -> GUGroupIDList (SEQUENCE OF GUGroupID)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE GUGroupIDList length: %w", err)
+			}
+			result := make(GUGroupIDList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE GUGroupIDList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 159: // id-LHN-ID -> LHN-ID (OCTET_STRING)
 			v, err := per.DecodeOctetStringAligned(bb, 32, 256, true)
 			if err != nil {
@@ -1474,6 +1534,30 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE GlobalENB-ID (%d): %w", ieId, err)
 			}
 			return &v, nil
+		case 20: // id-ServedCells -> ServedCells (SEQUENCE OF ServedCellsElem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedCells length: %w", err)
+			}
+			result := make(ServedCells, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedCells item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 24: // id-GUGroupIDList -> GUGroupIDList (SEQUENCE OF GUGroupID)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE GUGroupIDList length: %w", err)
+			}
+			result := make(GUGroupIDList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE GUGroupIDList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
@@ -1528,6 +1612,81 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
+	case "ENBConfigurationUpdate":
+		switch ieId {
+		case 25: // id-ServedCellsToAdd -> ServedCells (SEQUENCE OF ServedCellsElem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedCells length: %w", err)
+			}
+			result := make(ServedCells, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedCells item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 26: // id-ServedCellsToModify -> ServedCellsToModify (SEQUENCE OF ServedCellsToModifyItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedCellsToModify length: %w", err)
+			}
+			result := make(ServedCellsToModify, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedCellsToModify item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 27: // id-ServedCellsToDelete -> Old-ECGIs (SEQUENCE OF ECGI)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE Old-ECGIs length: %w", err)
+			}
+			result := make(OldECGIs, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE Old-ECGIs item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 34: // id-GUGroupIDToAddList -> GUGroupIDList (SEQUENCE OF GUGroupID)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE GUGroupIDList length: %w", err)
+			}
+			result := make(GUGroupIDList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE GUGroupIDList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 35: // id-GUGroupIDToDeleteList -> GUGroupIDList (SEQUENCE OF GUGroupID)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE GUGroupIDList length: %w", err)
+			}
+			result := make(GUGroupIDList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE GUGroupIDList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 143: // id-CoverageModificationList -> CoverageModificationList (SEQUENCE OF CoverageModificationItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE CoverageModificationList length: %w", err)
+			}
+			result := make(CoverageModificationList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE CoverageModificationList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		}
 	case "ENBConfigurationUpdateAcknowledge":
 		switch ieId {
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
@@ -1576,7 +1735,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := MeasurementID(v)
 			return &result, nil
 		case 28: // id-Registration-Request -> Registration-Request (ENUMERATED)
-			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Registration-Request (%d): %w", ieId, err)
 			}
@@ -1908,8 +2067,35 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := NBIoTRLFReportContainer(v)
 			return &result, nil
 		}
+	case "CellActivationRequest":
+		switch ieId {
+		case 57: // id-ServedCellsToActivate -> ServedCellsToActivate (SEQUENCE OF ServedCellsToActivateItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedCellsToActivate length: %w", err)
+			}
+			result := make(ServedCellsToActivate, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedCellsToActivate item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		}
 	case "CellActivationResponse":
 		switch ieId {
+		case 58: // id-ActivatedCellList -> ActivatedCellList (SEQUENCE OF ActivatedCellListItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ActivatedCellList length: %w", err)
+			}
+			result := make(ActivatedCellList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ActivatedCellList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
@@ -3240,6 +3426,18 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE Global-RAN-NODE-ID (%d): %w", ieId, err)
 			}
 			return &v, nil
+		case 15: // id-UE-HistoryInformation -> UE-HistoryInformation (SEQUENCE OF LastVisitedCellItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE UE-HistoryInformation length: %w", err)
+			}
+			result := make(UEHistoryInformation, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE UE-HistoryInformation item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 105: // id-UE-HistoryInformationFromTheUE -> UE-HistoryInformationFromTheUE (OCTET_STRING)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
@@ -3929,7 +4127,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 438: // id-SCGreconfigNotification -> SCGreconfigNotification (ENUMERATED)
-			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SCGreconfigNotification (%d): %w", ieId, err)
 			}
@@ -4558,6 +4756,18 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE GlobalENB-ID (%d): %w", ieId, err)
 			}
 			return &v, nil
+		case 250: // id-ServedEUTRAcellsENDCX2ManagementList -> ServedEUTRAcellsENDCX2ManagementList (SEQUENCE OF ServedEUTRAcellsENDCX2ManagementListElem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedEUTRAcellsENDCX2ManagementList length: %w", err)
+			}
+			result := make(ServedEUTRAcellsENDCX2ManagementList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedEUTRAcellsENDCX2ManagementList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
@@ -4580,6 +4790,18 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE GlobalGNB-ID (%d): %w", ieId, err)
 			}
 			return &v, nil
+		case 253: // id-ServedNRcellsENDCX2ManagementList -> ServedNRcellsENDCX2ManagementList (SEQUENCE OF ServedNRcellsENDCX2ManagementListElem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedNRcellsENDCX2ManagementList length: %w", err)
+			}
+			result := make(ServedNRcellsENDCX2ManagementList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedNRcellsENDCX2ManagementList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 348: // id-PartialListIndicator -> PartialListIndicator (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
@@ -4618,6 +4840,18 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE GlobalENB-ID (%d): %w", ieId, err)
 			}
 			return &v, nil
+		case 250: // id-ServedEUTRAcellsENDCX2ManagementList -> ServedEUTRAcellsENDCX2ManagementList (SEQUENCE OF ServedEUTRAcellsENDCX2ManagementListElem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedEUTRAcellsENDCX2ManagementList length: %w", err)
+			}
+			result := make(ServedEUTRAcellsENDCX2ManagementList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedEUTRAcellsENDCX2ManagementList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
@@ -4640,6 +4874,18 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE GlobalGNB-ID (%d): %w", ieId, err)
 			}
 			return &v, nil
+		case 253: // id-ServedNRcellsENDCX2ManagementList -> ServedNRcellsENDCX2ManagementList (SEQUENCE OF ServedNRcellsENDCX2ManagementListElem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedNRcellsENDCX2ManagementList length: %w", err)
+			}
+			result := make(ServedNRcellsENDCX2ManagementList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedNRcellsENDCX2ManagementList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 348: // id-PartialListIndicator -> PartialListIndicator (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
@@ -4704,6 +4950,42 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE TNLConfigurationInfo (%d): %w", ieId, err)
 			}
 			return &v, nil
+		case 353: // id-TNLA-To-Add-List -> TNLA-To-Add-List (SEQUENCE OF TNLAToAddItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 32)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE TNLA-To-Add-List length: %w", err)
+			}
+			result := make(TNLAToAddList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE TNLA-To-Add-List item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 354: // id-TNLA-To-Update-List -> TNLA-To-Update-List (SEQUENCE OF TNLAToUpdateItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 32)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE TNLA-To-Update-List length: %w", err)
+			}
+			result := make(TNLAToUpdateList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE TNLA-To-Update-List item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 355: // id-TNLA-To-Remove-List -> TNLA-To-Remove-List (SEQUENCE OF TNLAToRemoveItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 32)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE TNLA-To-Remove-List length: %w", err)
+			}
+			result := make(TNLAToRemoveList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE TNLA-To-Remove-List item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		}
 	case "ENBENDCConfigUpdate":
 		switch ieId {
@@ -4713,6 +4995,81 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE CellAssistanceInformation (%d): %w", ieId, err)
 			}
 			return &v, nil
+		case 250: // id-ServedEUTRAcellsENDCX2ManagementList -> ServedEUTRAcellsENDCX2ManagementList (SEQUENCE OF ServedEUTRAcellsENDCX2ManagementListElem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedEUTRAcellsENDCX2ManagementList length: %w", err)
+			}
+			result := make(ServedEUTRAcellsENDCX2ManagementList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedEUTRAcellsENDCX2ManagementList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 259: // id-ServedEUTRAcellsToModifyListENDCConfUpd -> ServedEUTRAcellsToModifyListENDCConfUpd (SEQUENCE OF ServedEUTRAcellsToModifyListENDCConfUpdElem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedEUTRAcellsToModifyListENDCConfUpd length: %w", err)
+			}
+			result := make(ServedEUTRAcellsToModifyListENDCConfUpd, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedEUTRAcellsToModifyListENDCConfUpd item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 260: // id-ServedEUTRAcellsToDeleteListENDCConfUpd -> ServedEUTRAcellsToDeleteListENDCConfUpd (SEQUENCE OF ECGI)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedEUTRAcellsToDeleteListENDCConfUpd length: %w", err)
+			}
+			result := make(ServedEUTRAcellsToDeleteListENDCConfUpd, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedEUTRAcellsToDeleteListENDCConfUpd item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		}
+	case "EnGNBENDCConfigUpdate":
+		switch ieId {
+		case 253: // id-ServedNRcellsENDCX2ManagementList -> ServedNRcellsENDCX2ManagementList (SEQUENCE OF ServedNRcellsENDCX2ManagementListElem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedNRcellsENDCX2ManagementList length: %w", err)
+			}
+			result := make(ServedNRcellsENDCX2ManagementList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedNRcellsENDCX2ManagementList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 261: // id-ServedNRcellsToModifyListENDCConfUpd -> ServedNRcellsToModifyENDCConfUpdList (SEQUENCE OF ServedNRCellsToModifyItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedNRcellsToModifyENDCConfUpdList length: %w", err)
+			}
+			result := make(ServedNRcellsToModifyENDCConfUpdList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedNRcellsToModifyENDCConfUpdList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 262: // id-ServedNRcellsToDeleteListENDCConfUpd -> ServedNRcellsToDeleteENDCConfUpdList (SEQUENCE OF NRCGI)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedNRcellsToDeleteENDCConfUpdList length: %w", err)
+			}
+			result := make(ServedNRcellsToDeleteENDCConfUpdList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedNRcellsToDeleteENDCConfUpdList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		}
 	case "ENDCConfigurationUpdateAcknowledge":
 		switch ieId {
@@ -4741,6 +5098,45 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE TNLConfigurationInfo (%d): %w", ieId, err)
 			}
 			return &v, nil
+		case 356: // id-TNLA-Setup-List -> TNLA-Setup-List (SEQUENCE OF TNLASetupItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 32)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE TNLA-Setup-List length: %w", err)
+			}
+			result := make(TNLASetupList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE TNLA-Setup-List item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 357: // id-TNLA-Failed-To-Setup-List -> TNLA-Failed-To-Setup-List (SEQUENCE OF TNLAFailedToSetupItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 32)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE TNLA-Failed-To-Setup-List length: %w", err)
+			}
+			result := make(TNLAFailedToSetupList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE TNLA-Failed-To-Setup-List item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		}
+	case "EnGNBENDCConfigUpdateAck":
+		switch ieId {
+		case 253: // id-ServedNRcellsENDCX2ManagementList -> ServedNRcellsENDCX2ManagementList (SEQUENCE OF ServedNRcellsENDCX2ManagementListElem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedNRcellsENDCX2ManagementList length: %w", err)
+			}
+			result := make(ServedNRcellsENDCX2ManagementList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedNRcellsENDCX2ManagementList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		}
 	case "ENDCConfigurationUpdateFailure":
 		switch ieId {
@@ -4773,6 +5169,18 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 		}
 	case "ENDCCellActivationRequest":
 		switch ieId {
+		case 267: // id-ServedNRCellsToActivate -> ServedNRCellsToActivate (SEQUENCE OF ServedNRCellsToActivateItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedNRCellsToActivate length: %w", err)
+			}
+			result := make(ServedNRCellsToActivate, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedNRCellsToActivate item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 256: // id-ActivationID -> ActivationID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 			if err != nil {
@@ -4790,6 +5198,18 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 		}
 	case "ENDCCellActivationResponse":
 		switch ieId {
+		case 268: // id-ActivatedNRCellList -> ActivatedNRCellList (SEQUENCE OF ActivatedNRCellListItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ActivatedNRCellList length: %w", err)
+			}
+			result := make(ActivatedNRCellList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ActivatedNRCellList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 256: // id-ActivationID -> ActivationID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 			if err != nil {
@@ -5088,6 +5508,18 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := UserPlaneTrafficActivityReport(v)
 			return &result, nil
+		case 297: // id-ERABActivityNotifyItemList -> ERABActivityNotifyItemList (SEQUENCE OF ERABActivityNotifyItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ERABActivityNotifyItemList length: %w", err)
+			}
+			result := make(ERABActivityNotifyItemList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ERABActivityNotifyItemList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UE-X2AP-ID-Extension (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), true)
 			if err != nil {
@@ -5098,6 +5530,18 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 		}
 	case "ENDCPartialResetRequired":
 		switch ieId {
+		case 270: // id-UEs-ToBeReset -> UEsToBeResetList (SEQUENCE OF UEsToBeResetListItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 8192)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE UEsToBeResetList length: %w", err)
+			}
+			result := make(UEsToBeResetList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE UEsToBeResetList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
@@ -5114,6 +5558,18 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 		}
 	case "ENDCPartialResetConfirm":
 		switch ieId {
+		case 271: // id-UEs-Admitted-ToBeReset -> UEsToBeResetList (SEQUENCE OF UEsToBeResetListItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 8192)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE UEsToBeResetList length: %w", err)
+			}
+			result := make(UEsToBeResetList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE UEsToBeResetList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), true)
 			if err != nil {
@@ -5153,6 +5609,18 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := SpectrumSharingGroupID(v)
 			return &result, nil
+		case 289: // id-ListofEUTRACellsinEUTRACoordinationReq -> ListofEUTRACellsinEUTRACoordinationReq (SEQUENCE OF ECGI)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ListofEUTRACellsinEUTRACoordinationReq length: %w", err)
+			}
+			result := make(ListofEUTRACellsinEUTRACoordinationReq, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ListofEUTRACellsinEUTRACoordinationReq item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		}
 	case "EnGNBEUTRANRCellResourceCoordinationReq":
 		switch ieId {
@@ -5162,12 +5630,36 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE DataTrafficResourceIndication (%d): %w", ieId, err)
 			}
 			return &v, nil
+		case 291: // id-ListofEUTRACellsinNRCoordinationReq -> ListofEUTRACellsinNRCoordinationReq (SEQUENCE OF ECGI)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ListofEUTRACellsinNRCoordinationReq length: %w", err)
+			}
+			result := make(ListofEUTRACellsinNRCoordinationReq, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ListofEUTRACellsinNRCoordinationReq item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 288: // id-SpectrumSharingGroupID -> SpectrumSharingGroupID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(256), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SpectrumSharingGroupID (%d): %w", ieId, err)
 			}
 			result := SpectrumSharingGroupID(v)
+			return &result, nil
+		case 292: // id-ListofNRCellsinNRCoordinationReq -> ListofNRCellsinNRCoordinationReq (SEQUENCE OF NRCGI)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 64)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ListofNRCellsinNRCoordinationReq length: %w", err)
+			}
+			result := make(ListofNRCellsinNRCoordinationReq, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ListofNRCellsinNRCoordinationReq item %d: %w", i, err)
+				}
+			}
 			return &result, nil
 		}
 	case "EUTRANRCellResourceCoordinationResponse":
@@ -5201,6 +5693,18 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := SpectrumSharingGroupID(v)
 			return &result, nil
+		case 290: // id-ListofEUTRACellsinEUTRACoordinationResp -> ListofEUTRACellsinEUTRACoordinationResp (SEQUENCE OF ECGI)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ListofEUTRACellsinEUTRACoordinationResp length: %w", err)
+			}
+			result := make(ListofEUTRACellsinEUTRACoordinationResp, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ListofEUTRACellsinEUTRACoordinationResp item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		}
 	case "EnGNBEUTRANRCellResourceCoordinationReqAck":
 		switch ieId {
@@ -5216,6 +5720,18 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE SpectrumSharingGroupID (%d): %w", ieId, err)
 			}
 			result := SpectrumSharingGroupID(v)
+			return &result, nil
+		case 293: // id-ListofNRCellsinNRCoordinationResp -> ListofNRCellsinNRCoordinationResp (SEQUENCE OF NRCGI)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 64)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ListofNRCellsinNRCoordinationResp length: %w", err)
+			}
+			result := make(ListofNRCellsinNRCoordinationResp, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ListofNRCellsinNRCoordinationResp item %d: %w", i, err)
+				}
+			}
 			return &result, nil
 		}
 	case "ENDCX2RemovalRequest":
@@ -5345,7 +5861,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 368: // id-CHO-DC-Indicator -> CHO-DC-Indicator (ENUMERATED)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CHO-DC-Indicator (%d): %w", ieId, err)
 			}

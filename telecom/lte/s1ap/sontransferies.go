@@ -935,20 +935,12 @@ func (v *ActivatedCellsListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.CellID = val_cellid
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -1028,20 +1020,12 @@ func (v *CandidatePCI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.EARFCN = val_earfcn
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -1144,20 +1128,12 @@ func (v *CellActivationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.MinimumActivationTime = &val_minimumactivationtime
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -1239,20 +1215,12 @@ func (v *CellActivationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -1453,20 +1421,12 @@ func (v *CellStateIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -1538,20 +1498,12 @@ func (v *CellsToActivateListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.CellID = val_cellid
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -1631,20 +1583,12 @@ func (v *EHRPDCompositeAvailableCapacity) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	}
 	v.EHRPDCapacityValue = EHRPDCapacityValue(val_ehrpdcapacityvalue)
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -1722,20 +1666,12 @@ func (v *EHRPDMultiSectorLoadReportingResponseItem) UnmarshalAPERFrom(bb *per.Bi
 		return fmt.Errorf("decoding eHRPDSectorLoadReportingResponse: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -1811,20 +1747,12 @@ func (v *EHRPDSectorLoadReportingResponse) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		return fmt.Errorf("decoding uL-EHRPD-CompositeAvailableCapacity: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -1902,20 +1830,12 @@ func (v *EUTRANResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding eUTRANcellLoadReportingResponse: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -1987,20 +1907,12 @@ func (v *EUTRANcellLoadReportingResponse) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	}
 	v.CompositeAvailableCapacityGroup = CompositeAvailableCapacityGroup(val_compositeavailablecapacitygroup)
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -2072,20 +1984,12 @@ func (v *EventTriggeredCellLoadReportingRequest) UnmarshalAPERFrom(bb *per.BitBu
 	}
 	v.NumberOfMeasurementReportingLevels = NumberOfMeasurementReportingLevels(val_numberofmeasurementreportinglevels)
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -2177,20 +2081,12 @@ func (v *EventTriggeredCellLoadReportingResponse) UnmarshalAPERFrom(bb *per.BitB
 		v.OverloadFlag = &tmp_overloadflag
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -2280,7 +2176,7 @@ func (v *HOReport) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeEnumeratedAligned(bb, int64(v.HoType), 2, true); err != nil {
 		return fmt.Errorf("encoding hoType: %w", err)
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.HoReportType), 2, true); err != nil {
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.HoReportType), 1, true); err != nil {
 		return fmt.Errorf("encoding hoReportType: %w", err)
 	}
 	if err := v.HosourceID.MarshalAPERTo(bb); err != nil {
@@ -2369,7 +2265,7 @@ func (v *HOReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding hoType: %w", err)
 	}
 	v.HoType = HoType(val_hotype)
-	val_horeporttype, err := per.DecodeEnumeratedAligned(bb, 2, true)
+	val_horeporttype, err := per.DecodeEnumeratedAligned(bb, 1, true)
 	if err != nil {
 		return fmt.Errorf("decoding hoReportType: %w", err)
 	}
@@ -2391,20 +2287,11 @@ func (v *HOReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenTypeAligned(bb)
@@ -2633,20 +2520,12 @@ func (v *MultiCellLoadReportingRequest) UnmarshalAPERFrom(bb *per.BitBuffer) err
 		}
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -2845,20 +2724,12 @@ func (v *NotificationCellListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.NotifyFlag = NotifyFlag(val_notifyflag)
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -2928,20 +2799,12 @@ func (v *ReportingCellListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding cell-ID: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -3441,20 +3304,12 @@ func (v *TooEarlyInterRATHOReportReportFromEUTRAN) UnmarshalAPERFrom(bb *per.Bit
 		v.MobilityInformation = &tmp_mobilityinformation
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {

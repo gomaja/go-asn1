@@ -754,7 +754,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := ENBUES1APID(v)
 			return &result, nil
 		case 1: // id-HandoverType -> HandoverType (ENUMERATED)
-			v, err := per.DecodeEnumeratedAligned(bb, 7, true)
+			v, err := per.DecodeEnumeratedAligned(bb, 5, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE HandoverType (%d): %w", ieId, err)
 			}
@@ -853,7 +853,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := ENBUES1APID(v)
 			return &result, nil
 		case 1: // id-HandoverType -> HandoverType (ENUMERATED)
-			v, err := per.DecodeEnumeratedAligned(bb, 7, true)
+			v, err := per.DecodeEnumeratedAligned(bb, 5, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE HandoverType (%d): %w", ieId, err)
 			}
@@ -947,7 +947,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := MMEUES1APID(v)
 			return &result, nil
 		case 1: // id-HandoverType -> HandoverType (ENUMERATED)
-			v, err := per.DecodeEnumeratedAligned(bb, 7, true)
+			v, err := per.DecodeEnumeratedAligned(bb, 5, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE HandoverType (%d): %w", ieId, err)
 			}
@@ -1428,7 +1428,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := LHNID(v)
 			return &result, nil
 		case 245: // id-RRC-Resume-Cause -> RRC-Establishment-Cause (ENUMERATED)
-			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
+			v, err := per.DecodeEnumeratedAligned(bb, 5, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RRC-Establishment-Cause (%d): %w", ieId, err)
 			}
@@ -2178,7 +2178,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := SubscriberProfileIDforRFP(v)
 			return &result, nil
 		case 108: // id-CSFallbackIndicator -> CSFallbackIndicator (ENUMERATED)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSFallbackIndicator (%d): %w", ieId, err)
 			}
@@ -2466,6 +2466,18 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE TAIList (%d): %w", ieId, err)
 			}
 			return &v, nil
+		case 128: // id-CSG-IdList -> CSG-IdList (SEQUENCE OF CSGIdListItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE CSG-IdList length: %w", err)
+			}
+			result := make(CSGIdList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE CSG-IdList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 151: // id-PagingPriority -> PagingPriority (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
 			if err != nil {
@@ -2705,7 +2717,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 108: // id-CSFallbackIndicator -> CSFallbackIndicator (ENUMERATED)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSFallbackIndicator (%d): %w", ieId, err)
 			}
@@ -3090,7 +3102,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 134: // id-RRC-Establishment-Cause -> RRC-Establishment-Cause (ENUMERATED)
-			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
+			v, err := per.DecodeEnumeratedAligned(bb, 5, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RRC-Establishment-Cause (%d): %w", ieId, err)
 			}
@@ -3137,7 +3149,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := RelayNodeIndicator(v)
 			return &result, nil
 		case 170: // id-GUMMEIType -> GUMMEIType (ENUMERATED)
-			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE GUMMEIType (%d): %w", ieId, err)
 			}
@@ -3452,12 +3464,36 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE Global-ENB-ID (%d): %w", ieId, err)
 			}
 			return &v, nil
+		case 64: // id-SupportedTAs -> SupportedTAs (SEQUENCE OF SupportedTAsItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE SupportedTAs length: %w", err)
+			}
+			result := make(SupportedTAs, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE SupportedTAs item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 137: // id-DefaultPagingDRX -> PagingDRX (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PagingDRX (%d): %w", ieId, err)
 			}
 			result := PagingDRX(v)
+			return &result, nil
+		case 128: // id-CSG-IdList -> CSG-IdList (SEQUENCE OF CSGIdListItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE CSG-IdList length: %w", err)
+			}
+			result := make(CSGIdList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE CSG-IdList item %d: %w", i, err)
+				}
+			}
 			return &result, nil
 		case 228: // id-UE-RetentionInformation -> UE-RetentionInformation (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
@@ -3473,9 +3509,33 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := NBIoTDefaultPagingDRX(v)
 			return &result, nil
+		case 291: // id-ConnectedengNBList -> ConnectedengNBList (SEQUENCE OF ConnectedengNBItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ConnectedengNBList length: %w", err)
+			}
+			result := make(ConnectedengNBList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ConnectedengNBList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		}
 	case "S1SetupResponse":
 		switch ieId {
+		case 105: // id-ServedGUMMEIs -> ServedGUMMEIs (SEQUENCE OF ServedGUMMEIsItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 8)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedGUMMEIs length: %w", err)
+			}
+			result := make(ServedGUMMEIs, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedGUMMEIs item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 87: // id-RelativeMMECapacity -> RelativeMMECapacity (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 			if err != nil {
@@ -3502,6 +3562,18 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE UE-RetentionInformation (%d): %w", ieId, err)
 			}
 			result := UERetentionInformation(v)
+			return &result, nil
+		case 247: // id-ServedDCNs -> ServedDCNs (SEQUENCE OF ServedDCNsItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 32)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedDCNs length: %w", err)
+			}
+			result := make(ServedDCNs, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedDCNs item %d: %w", i, err)
+				}
+			}
 			return &result, nil
 		case 303: // id-IAB-Supported -> IAB-Supported (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
@@ -3535,6 +3607,30 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 		}
 	case "ENBConfigurationUpdate":
 		switch ieId {
+		case 64: // id-SupportedTAs -> SupportedTAs (SEQUENCE OF SupportedTAsItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE SupportedTAs length: %w", err)
+			}
+			result := make(SupportedTAs, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE SupportedTAs item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 128: // id-CSG-IdList -> CSG-IdList (SEQUENCE OF CSGIdListItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE CSG-IdList length: %w", err)
+			}
+			result := make(CSGIdList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE CSG-IdList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 137: // id-DefaultPagingDRX -> PagingDRX (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
 			if err != nil {
@@ -3548,6 +3644,30 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE NB-IoT-DefaultPagingDRX (%d): %w", ieId, err)
 			}
 			result := NBIoTDefaultPagingDRX(v)
+			return &result, nil
+		case 292: // id-ConnectedengNBToAddList -> ConnectedengNBList (SEQUENCE OF ConnectedengNBItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ConnectedengNBList length: %w", err)
+			}
+			result := make(ConnectedengNBList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ConnectedengNBList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 293: // id-ConnectedengNBToRemoveList -> ConnectedengNBList (SEQUENCE OF ConnectedengNBItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ConnectedengNBList length: %w", err)
+			}
+			result := make(ConnectedengNBList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ConnectedengNBList item %d: %w", i, err)
+				}
+			}
 			return &result, nil
 		}
 	case "ENBConfigurationUpdateAcknowledge":
@@ -3583,12 +3703,36 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 		}
 	case "MMEConfigurationUpdate":
 		switch ieId {
+		case 105: // id-ServedGUMMEIs -> ServedGUMMEIs (SEQUENCE OF ServedGUMMEIsItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 8)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedGUMMEIs length: %w", err)
+			}
+			result := make(ServedGUMMEIs, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedGUMMEIs item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 87: // id-RelativeMMECapacity -> RelativeMMECapacity (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RelativeMMECapacity (%d): %w", ieId, err)
 			}
 			result := RelativeMMECapacity(v)
+			return &result, nil
+		case 247: // id-ServedDCNs -> ServedDCNs (SEQUENCE OF ServedDCNsItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 32)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ServedDCNs length: %w", err)
+			}
+			result := make(ServedDCNs, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ServedDCNs item %d: %w", i, err)
+				}
+			}
 			return &result, nil
 		}
 	case "MMEConfigurationUpdateAcknowledge":
@@ -4058,12 +4202,39 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE OverloadResponse (%d): %w", ieId, err)
 			}
 			return &v, nil
+		case 154: // id-GUMMEIList -> GUMMEIList (SEQUENCE OF GUMMEI)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE GUMMEIList length: %w", err)
+			}
+			result := make(GUMMEIList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE GUMMEIList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 161: // id-TrafficLoadReductionIndication -> TrafficLoadReductionIndication (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(99), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TrafficLoadReductionIndication (%d): %w", ieId, err)
 			}
 			result := TrafficLoadReductionIndication(v)
+			return &result, nil
+		}
+	case "OverloadStop":
+		switch ieId {
+		case 154: // id-GUMMEIList -> GUMMEIList (SEQUENCE OF GUMMEI)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE GUMMEIList length: %w", err)
+			}
+			result := make(GUMMEIList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE GUMMEIList item %d: %w", i, err)
+				}
+			}
 			return &result, nil
 		}
 	case "WriteReplaceWarningRequest":
@@ -4304,15 +4475,51 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 		}
 	case "PWSRestartIndication":
 		switch ieId {
+		case 182: // id-ECGIListForRestart -> ECGIListForRestart (SEQUENCE OF EUTRANCGI)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ECGIListForRestart length: %w", err)
+			}
+			result := make(ECGIListForRestart, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE ECGIListForRestart item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 59: // id-Global-ENB-ID -> Global-ENB-ID
 			var v GlobalENBID
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
 				return nil, fmt.Errorf("decoding IE Global-ENB-ID (%d): %w", ieId, err)
 			}
 			return &v, nil
+		case 188: // id-TAIListForRestart -> TAIListForRestart (SEQUENCE OF TAI)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 2048)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE TAIListForRestart length: %w", err)
+			}
+			result := make(TAIListForRestart, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE TAIListForRestart item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		}
 	case "PWSFailureIndication":
 		switch ieId {
+		case 222: // id-PWSfailedECGIList -> PWSfailedECGIList (SEQUENCE OF EUTRANCGI)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE PWSfailedECGIList length: %w", err)
+			}
+			result := make(PWSfailedECGIList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding IE PWSfailedECGIList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
 		case 59: // id-Global-ENB-ID -> Global-ENB-ID
 			var v GlobalENBID
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
@@ -4697,7 +4904,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 245: // id-RRC-Resume-Cause -> RRC-Establishment-Cause (ENUMERATED)
-			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
+			v, err := per.DecodeEnumeratedAligned(bb, 5, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RRC-Establishment-Cause (%d): %w", ieId, err)
 			}

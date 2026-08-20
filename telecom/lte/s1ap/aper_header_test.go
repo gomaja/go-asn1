@@ -2,10 +2,39 @@ package s1ap
 
 import (
 	"bytes"
+	"encoding/hex"
 	"testing"
 
 	"github.com/gomaja/go-asn1/runtime"
 )
+
+func TestCauseNasRootBoundaryWireValue(t *testing.T) {
+	// TS 36.413 V19.2.0 section 9.2.1.3: CauseNas has four root values.
+	// The final bits encode the root value unspecified (3), not an extension value.
+	raw, err := hex.DecodeString("26")
+	if err != nil {
+		t.Fatalf("decode fixture: %v", err)
+	}
+
+	var cause Cause
+	if err := cause.UnmarshalAPER(raw); err != nil {
+		t.Fatalf("UnmarshalAPER: %v", err)
+	}
+	if cause.Choice != CauseChoiceNas || cause.Nas == nil {
+		t.Fatalf("decoded choice: got %+v, want NAS", cause)
+	}
+	if got := *cause.Nas; got != CauseNasUnspecified {
+		t.Fatalf("decoded CauseNas: got %d (%s), want %d (%s)", got, got, CauseNasUnspecified, CauseNasUnspecified)
+	}
+
+	encoded, err := cause.MarshalAPER()
+	if err != nil {
+		t.Fatalf("MarshalAPER: %v", err)
+	}
+	if !bytes.Equal(encoded, raw) {
+		t.Fatalf("re-encoded bytes: got %x, want %x", encoded, raw)
+	}
+}
 
 func TestProtocolIEFieldAPERHeaderUsesConstrainedLayout(t *testing.T) {
 	field := ProtocolIEField{

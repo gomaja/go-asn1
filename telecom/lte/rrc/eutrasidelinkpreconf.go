@@ -679,20 +679,11 @@ func (v *SLPreconfigCommPoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.TrptSubsetR12 = runtime.BitString{Bytes: bsBytes_trptsubsetr12, BitLength: bsBitLen_trptsubsetr12}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -843,20 +834,12 @@ func (v *SLPreconfigDiscPoolR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.TxParametersR13 = &dec_txparametersr13
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -1000,20 +983,11 @@ func (v *SLPreconfigGeneralR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ReservedR12 = runtime.BitString{Bytes: bsBytes_reservedr12, BitLength: bsBitLen_reservedr12}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -1219,20 +1193,11 @@ func (v *SLPreconfigSyncR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SyncRefDiffHystR12 = val_syncrefdiffhystr12
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -1390,20 +1355,11 @@ func (v *SLPreconfigV2XSyncR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SyncRefDiffHystR14 = val_syncrefdiffhystr14
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -1561,20 +1517,11 @@ func (v *SLPreconfigurationR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -1950,20 +1897,11 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.RestrictResourceReservationPeriodR14 = tmp_restrictresourcereservationperiodr14
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -2269,20 +2207,11 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.OffsetDFNR14 = &val_offsetdfnr14
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -2533,20 +2462,11 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.CbrPreconfigListR14 = &dec_cbrpreconfiglistr14
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)

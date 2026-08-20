@@ -578,20 +578,11 @@ func (v *ASConfigNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding sourceDl-CarrierFreq-r13: %w", err)
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		// Read extension presence bitmap
-		extPresent := make([]bool, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
@@ -696,20 +687,12 @@ func (v *ASContextNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.ReestablishmentInfoR13 = &dec_reestablishmentinfor13
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -1045,20 +1028,12 @@ func (v *RRMConfigNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.UeInactiveTime = &val_ueinactivetime
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
@@ -1170,20 +1145,12 @@ func (v *ReestablishmentInfoNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.AdditionalReestabInfoListR13 = tmp_additionalreestabinfolistr13
 	}
 	if hasExtensions {
-		extCount, err := per.DecodeNormallySmallNonNegative(bb)
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
 			return err
 		}
 		v.ExtCount_ = extCount
-		extPresent := make([]bool, extCount+1)
 		v.ExtData_ = make([][]byte, extCount+1)
-		for i := int64(0); i <= extCount; i++ {
-			p, err := per.DecodeBoolean(bb)
-			if err != nil {
-				return err
-			}
-			extPresent[i] = p
-		}
 		v.ExtPresent_ = extPresent
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
