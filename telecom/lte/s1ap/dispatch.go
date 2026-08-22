@@ -4,6 +4,7 @@ package s1ap
 
 import (
 	"fmt"
+	"reflect"
 
 	"github.com/gomaja/go-asn1/runtime/per"
 )
@@ -647,7 +648,7 @@ func decodeProtocolIEFieldListConstrained(bb *per.BitBuffer, lb, ub int64) ([]Pr
 func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{}, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	switch messageType {
-	case "BearersSubjectToStatusTransferItem":
+	case "BearersSubjectToStatusTransferItem", "Bearers-SubjectToStatusTransfer-ItemIEs":
 		switch ieId {
 		case 89: // id-Bearers-SubjectToStatusTransfer-Item -> Bearers-SubjectToStatusTransfer-Item
 			var v BearersSubjectToStatusTransferItem
@@ -656,7 +657,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "BearersSubjectToEarlyStatusTransferItem":
+	case "BearersSubjectToEarlyStatusTransferItem", "Bearers-SubjectToEarlyStatusTransfer-ItemIEs":
 		switch ieId {
 		case 322: // id-Bearers-SubjectToEarlyStatusTransfer-Item -> Bearers-SubjectToEarlyStatusTransfer-Item
 			var v BearersSubjectToEarlyStatusTransferItem
@@ -665,7 +666,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "DAPSResponseInfoList":
+	case "DAPSResponseInfoList", "DAPSResponseInfoListIEs":
 		switch ieId {
 		case 319: // id-DAPSResponseInfoItem -> DAPSResponseInfoItem
 			var v DAPSResponseInfoItem
@@ -674,7 +675,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABInformationList":
+	case "ERABInformationList", "E-RABInformationListIEs":
 		switch ieId {
 		case 78: // id-E-RABInformationListItem -> E-RABInformationListItem
 			var v ERABInformationListItem
@@ -683,7 +684,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABItem":
+	case "ERABItem", "E-RABItemIEs":
 		switch ieId {
 		case 35: // id-E-RABItem -> E-RABItem
 			var v ERABItem
@@ -692,7 +693,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABSecurityResultList":
+	case "ERABSecurityResultList", "E-RABSecurityResultListIEs":
 		switch ieId {
 		case 334: // id-E-RABSecurityResultItem -> E-RABSecurityResultItem
 			var v ERABSecurityResultItem
@@ -701,7 +702,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABUsageReportItem":
+	case "ERABUsageReportItem", "E-RABUsageReportItemIEs":
 		switch ieId {
 		case 267: // id-E-RABUsageReportItem -> E-RABUsageReportItem
 			var v ERABUsageReportItem
@@ -710,7 +711,16 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "RecommendedCellItem":
+	case "MDTModeExtensionIE", "MDTMode-ExtensionIE":
+		switch ieId {
+		case 197: // id-LoggedMBSFNMDT -> LoggedMBSFNMDT
+			var v LoggedMBSFNMDT
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding IE LoggedMBSFNMDT (%d): %w", ieId, err)
+			}
+			return &v, nil
+		}
+	case "RecommendedCellItem", "RecommendedCellItemIEs":
 		switch ieId {
 		case 214: // id-RecommendedCellItem -> RecommendedCellItem
 			var v RecommendedCellItem
@@ -719,7 +729,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "RecommendedENBItem":
+	case "RecommendedENBItem", "RecommendedENBItemIEs":
 		switch ieId {
 		case 215: // id-RecommendedENBItem -> RecommendedENBItem
 			var v RecommendedENBItem
@@ -728,7 +738,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SecondaryRATDataUsageReportItem":
+	case "SecondaryRATDataUsageReportItem", "SecondaryRATDataUsageReportItemIEs":
 		switch ieId {
 		case 265: // id-SecondaryRATDataUsageReportItem -> SecondaryRATDataUsageReportItem
 			var v SecondaryRATDataUsageReportItem
@@ -737,7 +747,16 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "HandoverRequired":
+	case "SONInformationExtensionIE", "SONInformation-ExtensionIE":
+		switch ieId {
+		case 206: // id-SON-Information-Report -> SONInformationReport
+			var v SONInformationReport
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding IE SONInformationReport (%d): %w", ieId, err)
+			}
+			return &v, nil
+		}
+	case "HandoverRequired", "HandoverRequiredIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -836,7 +855,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := PSServiceNotAvailable(v)
 			return &result, nil
 		}
-	case "HandoverCommand":
+	case "HandoverCommand", "HandoverCommandIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -866,10 +885,10 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := NASSecurityParametersfromEUTRAN(v)
 			return &result, nil
-		case 12: // id-E-RABSubjecttoDataForwardingList -> E-RABSubjecttoDataForwardingList (SEQUENCE OF ProtocolIE-Field)
+		case 12: // id-E-RABSubjecttoDataForwardingList -> ERABSubjecttoDataForwardingList (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABSubjecttoDataForwardingList (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABSubjecttoDataForwardingList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 13: // id-E-RABtoReleaseListHOCmd -> E-RABList (SEQUENCE OF ProtocolIE-Field)
@@ -899,16 +918,16 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABDataForwardingItem":
+	case "ERABDataForwardingItem", "E-RABDataForwardingItemIEs":
 		switch ieId {
-		case 14: // id-E-RABDataForwardingItem -> E-RABDataForwardingItem
+		case 14: // id-E-RABDataForwardingItem -> ERABDataForwardingItem
 			var v ERABDataForwardingItem
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABDataForwardingItem (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABDataForwardingItem (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "HandoverPreparationFailure":
+	case "HandoverPreparationFailure", "HandoverPreparationFailureIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -937,7 +956,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "HandoverRequest":
+	case "HandoverRequest", "HandoverRequestIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -965,10 +984,10 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE UEAggregateMaximumBitrate (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 53: // id-E-RABToBeSetupListHOReq -> E-RABToBeSetupListHOReq (SEQUENCE OF ProtocolIE-Field)
+		case 53: // id-E-RABToBeSetupListHOReq -> ERABToBeSetupListHOReq (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABToBeSetupListHOReq (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABToBeSetupListHOReq (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 104: // id-Source-ToTarget-TransparentContainer -> Source-ToTarget-TransparentContainer (OCTET_STRING)
@@ -1174,16 +1193,16 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UERadioCapabilityID(v)
 			return &result, nil
 		}
-	case "ERABToBeSetupItemHOReq":
+	case "ERABToBeSetupItemHOReq", "E-RABToBeSetupItemHOReqIEs":
 		switch ieId {
-		case 27: // id-E-RABToBeSetupItemHOReq -> E-RABToBeSetupItemHOReq
+		case 27: // id-E-RABToBeSetupItemHOReq -> ERABToBeSetupItemHOReq
 			var v ERABToBeSetupItemHOReq
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABToBeSetupItemHOReq (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABToBeSetupItemHOReq (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "HandoverRequestAcknowledge":
+	case "HandoverRequestAcknowledge", "HandoverRequestAcknowledgeIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -1199,16 +1218,16 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := ENBUES1APID(v)
 			return &result, nil
-		case 18: // id-E-RABAdmittedList -> E-RABAdmittedList (SEQUENCE OF ProtocolIE-Field)
+		case 18: // id-E-RABAdmittedList -> ERABAdmittedList (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABAdmittedList (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABAdmittedList (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 19: // id-E-RABFailedToSetupListHOReqAck -> E-RABFailedtoSetupListHOReqAck (SEQUENCE OF ProtocolIE-Field)
+		case 19: // id-E-RABFailedToSetupListHOReqAck -> ERABFailedtoSetupListHOReqAck (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABFailedtoSetupListHOReqAck (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABFailedtoSetupListHOReqAck (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 123: // id-Target-ToSource-TransparentContainer -> Target-ToSource-TransparentContainer (OCTET_STRING)
@@ -1246,25 +1265,25 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := CEModeBSupportIndicator(v)
 			return &result, nil
 		}
-	case "ERABAdmittedItem":
+	case "ERABAdmittedItem", "E-RABAdmittedItemIEs":
 		switch ieId {
-		case 20: // id-E-RABAdmittedItem -> E-RABAdmittedItem
+		case 20: // id-E-RABAdmittedItem -> ERABAdmittedItem
 			var v ERABAdmittedItem
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABAdmittedItem (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABAdmittedItem (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "ERABFailedtoSetupItemHOReqAck":
+	case "ERABFailedtoSetupItemHOReqAck", "E-RABFailedtoSetupItemHOReqAckIEs":
 		switch ieId {
-		case 21: // id-E-RABFailedtoSetupItemHOReqAck -> E-RABFailedToSetupItemHOReqAck
+		case 21: // id-E-RABFailedtoSetupItemHOReqAck -> ERABFailedToSetupItemHOReqAck
 			var v ERABFailedToSetupItemHOReqAck
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABFailedToSetupItemHOReqAck (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABFailedToSetupItemHOReqAck (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "HandoverFailure":
+	case "HandoverFailure", "HandoverFailureIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -1286,7 +1305,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "HandoverNotify":
+	case "HandoverNotify", "HandoverNotifyIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -1347,7 +1366,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "PathSwitchRequest":
+	case "PathSwitchRequest", "PathSwitchRequestIEs":
 		switch ieId {
 		case 8: // id-eNB-UE-S1AP-ID -> ENB-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
@@ -1356,10 +1375,10 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := ENBUES1APID(v)
 			return &result, nil
-		case 22: // id-E-RABToBeSwitchedDLList -> E-RABToBeSwitchedDLList (SEQUENCE OF ProtocolIE-Field)
+		case 22: // id-E-RABToBeSwitchedDLList -> ERABToBeSwitchedDLList (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABToBeSwitchedDLList (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABToBeSwitchedDLList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 88: // id-SourceMME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
@@ -1453,16 +1472,16 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABToBeSwitchedDLItem":
+	case "ERABToBeSwitchedDLItem", "E-RABToBeSwitchedDLItemIEs":
 		switch ieId {
-		case 23: // id-E-RABToBeSwitchedDLItem -> E-RABToBeSwitchedDLItem
+		case 23: // id-E-RABToBeSwitchedDLItem -> ERABToBeSwitchedDLItem
 			var v ERABToBeSwitchedDLItem
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABToBeSwitchedDLItem (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABToBeSwitchedDLItem (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "PathSwitchRequestAcknowledge":
+	case "PathSwitchRequestAcknowledge", "PathSwitchRequestAcknowledgeIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -1484,10 +1503,10 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE UEAggregateMaximumBitrate (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 95: // id-E-RABToBeSwitchedULList -> E-RABToBeSwitchedULList (SEQUENCE OF ProtocolIE-Field)
+		case 95: // id-E-RABToBeSwitchedULList -> ERABToBeSwitchedULList (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABToBeSwitchedULList (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABToBeSwitchedULList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 33: // id-E-RABToBeReleasedList -> E-RABList (SEQUENCE OF ProtocolIE-Field)
@@ -1631,32 +1650,32 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE UESecurityCapabilities (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 341: // id-E-RABToBeUpdatedList -> E-RABToBeUpdatedList (SEQUENCE OF ProtocolIE-Field)
+		case 341: // id-E-RABToBeUpdatedList -> ERABToBeUpdatedList (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABToBeUpdatedList (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABToBeUpdatedList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "ERABToBeSwitchedULItem":
+	case "ERABToBeSwitchedULItem", "E-RABToBeSwitchedULItemIEs":
 		switch ieId {
-		case 94: // id-E-RABToBeSwitchedULItem -> E-RABToBeSwitchedULItem
+		case 94: // id-E-RABToBeSwitchedULItem -> ERABToBeSwitchedULItem
 			var v ERABToBeSwitchedULItem
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABToBeSwitchedULItem (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABToBeSwitchedULItem (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "ERABToBeUpdatedItem":
+	case "ERABToBeUpdatedItem", "E-RABToBeUpdatedItemIEs":
 		switch ieId {
-		case 342: // id-E-RABToBeUpdatedItem -> E-RABToBeUpdatedItem
+		case 342: // id-E-RABToBeUpdatedItem -> ERABToBeUpdatedItem
 			var v ERABToBeUpdatedItem
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABToBeUpdatedItem (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABToBeUpdatedItem (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "PathSwitchRequestFailure":
+	case "PathSwitchRequestFailure", "PathSwitchRequestFailureIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -1685,7 +1704,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "HandoverCancel":
+	case "HandoverCancel", "HandoverCancelIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -1708,7 +1727,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "HandoverCancelAcknowledge":
+	case "HandoverCancelAcknowledge", "HandoverCancelAcknowledgeIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -1731,7 +1750,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "HandoverSuccess":
+	case "HandoverSuccess", "HandoverSuccessIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -1748,30 +1767,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := ENBUES1APID(v)
 			return &result, nil
 		}
-	case "ENBEarlyStatusTransfer":
-		switch ieId {
-		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE MME-UE-S1AP-ID (%d): %w", ieId, err)
-			}
-			result := MMEUES1APID(v)
-			return &result, nil
-		case 8: // id-eNB-UE-S1AP-ID -> ENB-UE-S1AP-ID (INTEGER)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE ENB-UE-S1AP-ID (%d): %w", ieId, err)
-			}
-			result := ENBUES1APID(v)
-			return &result, nil
-		case 321: // id-eNB-EarlyStatusTransfer-TransparentContainer -> ENB-EarlyStatusTransfer-TransparentContainer
-			var v ENBEarlyStatusTransferTransparentContainer
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE ENB-EarlyStatusTransfer-TransparentContainer (%d): %w", ieId, err)
-			}
-			return &v, nil
-		}
-	case "MMEEarlyStatusTransfer":
+	case "ENBEarlyStatusTransfer", "ENBEarlyStatusTransferIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -1794,7 +1790,30 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABSetupRequest":
+	case "MMEEarlyStatusTransfer", "MMEEarlyStatusTransferIEs":
+		switch ieId {
+		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE MME-UE-S1AP-ID (%d): %w", ieId, err)
+			}
+			result := MMEUES1APID(v)
+			return &result, nil
+		case 8: // id-eNB-UE-S1AP-ID -> ENB-UE-S1AP-ID (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			if err != nil {
+				return nil, fmt.Errorf("decoding IE ENB-UE-S1AP-ID (%d): %w", ieId, err)
+			}
+			result := ENBUES1APID(v)
+			return &result, nil
+		case 321: // id-eNB-EarlyStatusTransfer-TransparentContainer -> ENB-EarlyStatusTransfer-TransparentContainer
+			var v ENBEarlyStatusTransferTransparentContainer
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding IE ENB-EarlyStatusTransfer-TransparentContainer (%d): %w", ieId, err)
+			}
+			return &v, nil
+		}
+	case "ERABSetupRequest", "E-RABSetupRequestIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -1816,23 +1835,23 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE UEAggregateMaximumBitrate (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 16: // id-E-RABToBeSetupListBearerSUReq -> E-RABToBeSetupListBearerSUReq (SEQUENCE OF ProtocolIE-Field)
+		case 16: // id-E-RABToBeSetupListBearerSUReq -> ERABToBeSetupListBearerSUReq (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABToBeSetupListBearerSUReq (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABToBeSetupListBearerSUReq (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "ERABToBeSetupItemBearerSUReq":
+	case "ERABToBeSetupItemBearerSUReq", "E-RABToBeSetupItemBearerSUReqIEs":
 		switch ieId {
-		case 17: // id-E-RABToBeSetupItemBearerSUReq -> E-RABToBeSetupItemBearerSUReq
+		case 17: // id-E-RABToBeSetupItemBearerSUReq -> ERABToBeSetupItemBearerSUReq
 			var v ERABToBeSetupItemBearerSUReq
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABToBeSetupItemBearerSUReq (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABToBeSetupItemBearerSUReq (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "ERABSetupResponse":
+	case "ERABSetupResponse", "E-RABSetupResponseIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -1848,10 +1867,10 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := ENBUES1APID(v)
 			return &result, nil
-		case 28: // id-E-RABSetupListBearerSURes -> E-RABSetupListBearerSURes (SEQUENCE OF ProtocolIE-Field)
+		case 28: // id-E-RABSetupListBearerSURes -> ERABSetupListBearerSURes (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABSetupListBearerSURes (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABSetupListBearerSURes (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 29: // id-E-RABFailedToSetupListBearerSURes -> E-RABList (SEQUENCE OF ProtocolIE-Field)
@@ -1873,16 +1892,16 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABSetupItemBearerSURes":
+	case "ERABSetupItemBearerSURes", "E-RABSetupItemBearerSUResIEs":
 		switch ieId {
-		case 39: // id-E-RABSetupItemBearerSURes -> E-RABSetupItemBearerSURes
+		case 39: // id-E-RABSetupItemBearerSURes -> ERABSetupItemBearerSURes
 			var v ERABSetupItemBearerSURes
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABSetupItemBearerSURes (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABSetupItemBearerSURes (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "ERABModifyRequest":
+	case "ERABModifyRequest", "E-RABModifyRequestIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -1904,10 +1923,10 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE UEAggregateMaximumBitrate (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 30: // id-E-RABToBeModifiedListBearerModReq -> E-RABToBeModifiedListBearerModReq (SEQUENCE OF ProtocolIE-Field)
+		case 30: // id-E-RABToBeModifiedListBearerModReq -> ERABToBeModifiedListBearerModReq (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABToBeModifiedListBearerModReq (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABToBeModifiedListBearerModReq (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 268: // id-SecondaryRATDataUsageRequest -> SecondaryRATDataUsageRequest (ENUMERATED)
@@ -1918,16 +1937,16 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := SecondaryRATDataUsageRequest(v)
 			return &result, nil
 		}
-	case "ERABToBeModifiedItemBearerModReq":
+	case "ERABToBeModifiedItemBearerModReq", "E-RABToBeModifiedItemBearerModReqIEs":
 		switch ieId {
-		case 36: // id-E-RABToBeModifiedItemBearerModReq -> E-RABToBeModifiedItemBearerModReq
+		case 36: // id-E-RABToBeModifiedItemBearerModReq -> ERABToBeModifiedItemBearerModReq
 			var v ERABToBeModifiedItemBearerModReq
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABToBeModifiedItemBearerModReq (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABToBeModifiedItemBearerModReq (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "ERABModifyResponse":
+	case "ERABModifyResponse", "E-RABModifyResponseIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -1943,10 +1962,10 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := ENBUES1APID(v)
 			return &result, nil
-		case 31: // id-E-RABModifyListBearerModRes -> E-RABModifyListBearerModRes (SEQUENCE OF ProtocolIE-Field)
+		case 31: // id-E-RABModifyListBearerModRes -> ERABModifyListBearerModRes (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABModifyListBearerModRes (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABModifyListBearerModRes (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 32: // id-E-RABFailedToModifyList -> E-RABList (SEQUENCE OF ProtocolIE-Field)
@@ -1974,16 +1993,16 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABModifyItemBearerModRes":
+	case "ERABModifyItemBearerModRes", "E-RABModifyItemBearerModResIEs":
 		switch ieId {
-		case 37: // id-E-RABModifyItemBearerModRes -> E-RABModifyItemBearerModRes
+		case 37: // id-E-RABModifyItemBearerModRes -> ERABModifyItemBearerModRes
 			var v ERABModifyItemBearerModRes
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABModifyItemBearerModRes (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABModifyItemBearerModRes (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "ERABReleaseCommand":
+	case "ERABReleaseCommand", "E-RABReleaseCommandIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -2019,7 +2038,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := NASPDU(v)
 			return &result, nil
 		}
-	case "ERABReleaseResponse":
+	case "ERABReleaseResponse", "E-RABReleaseResponseIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -2035,10 +2054,10 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := ENBUES1APID(v)
 			return &result, nil
-		case 69: // id-E-RABReleaseListBearerRelComp -> E-RABReleaseListBearerRelComp (SEQUENCE OF ProtocolIE-Field)
+		case 69: // id-E-RABReleaseListBearerRelComp -> ERABReleaseListBearerRelComp (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABReleaseListBearerRelComp (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABReleaseListBearerRelComp (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 34: // id-E-RABFailedToReleaseList -> E-RABList (SEQUENCE OF ProtocolIE-Field)
@@ -2066,16 +2085,16 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABReleaseItemBearerRelComp":
+	case "ERABReleaseItemBearerRelComp", "E-RABReleaseItemBearerRelCompIEs":
 		switch ieId {
-		case 15: // id-E-RABReleaseItemBearerRelComp -> E-RABReleaseItemBearerRelComp
+		case 15: // id-E-RABReleaseItemBearerRelComp -> ERABReleaseItemBearerRelComp
 			var v ERABReleaseItemBearerRelComp
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABReleaseItemBearerRelComp (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABReleaseItemBearerRelComp (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "ERABReleaseIndication":
+	case "ERABReleaseIndication", "E-RABReleaseIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -2110,7 +2129,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "InitialContextSetupRequest":
+	case "InitialContextSetupRequest", "InitialContextSetupRequestIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -2132,10 +2151,10 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 				return nil, fmt.Errorf("decoding IE UEAggregateMaximumBitrate (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 24: // id-E-RABToBeSetupListCtxtSUReq -> E-RABToBeSetupListCtxtSUReq (SEQUENCE OF ProtocolIE-Field)
+		case 24: // id-E-RABToBeSetupListCtxtSUReq -> ERABToBeSetupListCtxtSUReq (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABToBeSetupListCtxtSUReq (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABToBeSetupListCtxtSUReq (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 107: // id-UESecurityCapabilities -> UESecurityCapabilities
@@ -2349,16 +2368,16 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UERadioCapabilityID(v)
 			return &result, nil
 		}
-	case "ERABToBeSetupItemCtxtSUReq":
+	case "ERABToBeSetupItemCtxtSUReq", "E-RABToBeSetupItemCtxtSUReqIEs":
 		switch ieId {
-		case 52: // id-E-RABToBeSetupItemCtxtSUReq -> E-RABToBeSetupItemCtxtSUReq
+		case 52: // id-E-RABToBeSetupItemCtxtSUReq -> ERABToBeSetupItemCtxtSUReq
 			var v ERABToBeSetupItemCtxtSUReq
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABToBeSetupItemCtxtSUReq (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABToBeSetupItemCtxtSUReq (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "InitialContextSetupResponse":
+	case "InitialContextSetupResponse", "InitialContextSetupResponseIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -2374,10 +2393,10 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := ENBUES1APID(v)
 			return &result, nil
-		case 51: // id-E-RABSetupListCtxtSURes -> E-RABSetupListCtxtSURes (SEQUENCE OF ProtocolIE-Field)
+		case 51: // id-E-RABSetupListCtxtSURes -> ERABSetupListCtxtSURes (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABSetupListCtxtSURes (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABSetupListCtxtSURes (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 48: // id-E-RABFailedToSetupListCtxtSURes -> E-RABList (SEQUENCE OF ProtocolIE-Field)
@@ -2393,16 +2412,16 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABSetupItemCtxtSURes":
+	case "ERABSetupItemCtxtSURes", "E-RABSetupItemCtxtSUResIEs":
 		switch ieId {
-		case 50: // id-E-RABSetupItemCtxtSURes -> E-RABSetupItemCtxtSURes
+		case 50: // id-E-RABSetupItemCtxtSURes -> ERABSetupItemCtxtSURes
 			var v ERABSetupItemCtxtSURes
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABSetupItemCtxtSURes (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABSetupItemCtxtSURes (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "InitialContextSetupFailure":
+	case "InitialContextSetupFailure", "InitialContextSetupFailureIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -2431,7 +2450,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "Paging":
+	case "Paging", "PagingIEs":
 		switch ieId {
 		case 80: // id-UEIdentityIndexValue -> UEIdentityIndexValue (BIT_STRING)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 10, 10, true)
@@ -2566,7 +2585,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := PagingCause(v)
 			return &result, nil
 		}
-	case "TAIItem":
+	case "TAIItem", "TAIItemIEs":
 		switch ieId {
 		case 47: // id-TAIItem -> TAIItem
 			var v TAIItem
@@ -2575,7 +2594,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "UEContextReleaseRequest":
+	case "UEContextReleaseRequest", "UEContextReleaseRequest-IEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -2611,7 +2630,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "UEContextReleaseCommand":
+	case "UEContextReleaseCommand", "UEContextReleaseCommand-IEs":
 		switch ieId {
 		case 99: // id-UE-S1AP-IDs -> UE-S1AP-IDs
 			var v UES1APIDs
@@ -2626,7 +2645,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "UEContextReleaseComplete":
+	case "UEContextReleaseComplete", "UEContextReleaseComplete-IEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -2680,7 +2699,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := TimeSinceSecondaryNodeRelease(v)
 			return &result, nil
 		}
-	case "UEContextModificationRequest":
+	case "UEContextModificationRequest", "UEContextModificationRequestIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -2834,7 +2853,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UERadioCapabilityID(v)
 			return &result, nil
 		}
-	case "UEContextModificationResponse":
+	case "UEContextModificationResponse", "UEContextModificationResponseIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -2857,7 +2876,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "UEContextModificationFailure":
+	case "UEContextModificationFailure", "UEContextModificationFailureIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -2886,7 +2905,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "UERadioCapabilityMatchRequest":
+	case "UERadioCapabilityMatchRequest", "UERadioCapabilityMatchRequestIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -2917,7 +2936,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UERadioCapabilityID(v)
 			return &result, nil
 		}
-	case "UERadioCapabilityMatchResponse":
+	case "UERadioCapabilityMatchResponse", "UERadioCapabilityMatchResponseIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -2947,7 +2966,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "DownlinkNASTransport":
+	case "DownlinkNASTransport", "DownlinkNASTransport-IEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -3073,7 +3092,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := MaskedIMEISV{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		}
-	case "InitialUEMessage":
+	case "InitialUEMessage", "InitialUEMessage-IEs":
 		switch ieId {
 		case 8: // id-eNB-UE-S1AP-ID -> ENB-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
@@ -3238,7 +3257,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "UplinkNASTransport":
+	case "UplinkNASTransport", "UplinkNASTransport-IEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -3307,7 +3326,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "NASNonDeliveryIndication":
+	case "NASNonDeliveryIndication", "NASNonDeliveryIndication-IEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -3337,7 +3356,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "RerouteNASRequest":
+	case "RerouteNASRequest", "RerouteNASRequest-IEs":
 		switch ieId {
 		case 8: // id-eNB-UE-S1AP-ID -> ENB-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
@@ -3374,7 +3393,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEUsageType(v)
 			return &result, nil
 		}
-	case "NASDeliveryIndication":
+	case "NASDeliveryIndication", "NASDeliveryIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -3391,7 +3410,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := ENBUES1APID(v)
 			return &result, nil
 		}
-	case "Reset":
+	case "Reset", "ResetIEs":
 		switch ieId {
 		case 2: // id-Cause -> Cause
 			var v Cause
@@ -3406,12 +3425,21 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ResetAcknowledge":
+	case "UEAssociatedLogicalS1ConnectionItemRes", "UE-associatedLogicalS1-ConnectionItemRes":
 		switch ieId {
-		case 93: // id-UE-associatedLogicalS1-ConnectionListResAck -> UE-associatedLogicalS1-ConnectionListResAck (SEQUENCE OF ProtocolIE-Field)
+		case 91: // id-UE-associatedLogicalS1-ConnectionItem -> UE-associatedLogicalS1-ConnectionItem
+			var v UEAssociatedLogicalS1ConnectionItem
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding IE UE-associatedLogicalS1-ConnectionItem (%d): %w", ieId, err)
+			}
+			return &v, nil
+		}
+	case "ResetAcknowledge", "ResetAcknowledgeIEs":
+		switch ieId {
+		case 93: // id-UE-associatedLogicalS1-ConnectionListResAck -> UEAssociatedLogicalS1ConnectionListResAck (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE UE-associatedLogicalS1-ConnectionListResAck (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE UEAssociatedLogicalS1ConnectionListResAck (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 58: // id-CriticalityDiagnostics -> CriticalityDiagnostics
@@ -3421,7 +3449,16 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ErrorIndication":
+	case "UEAssociatedLogicalS1ConnectionItemResAck", "UE-associatedLogicalS1-ConnectionItemResAck":
+		switch ieId {
+		case 91: // id-UE-associatedLogicalS1-ConnectionItem -> UE-associatedLogicalS1-ConnectionItem
+			var v UEAssociatedLogicalS1ConnectionItem
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding IE UE-associatedLogicalS1-ConnectionItem (%d): %w", ieId, err)
+			}
+			return &v, nil
+		}
+	case "ErrorIndication", "ErrorIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -3456,7 +3493,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "S1SetupRequest":
+	case "S1SetupRequest", "S1SetupRequestIEs":
 		switch ieId {
 		case 59: // id-Global-ENB-ID -> Global-ENB-ID
 			var v GlobalENBID
@@ -3522,7 +3559,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &result, nil
 		}
-	case "S1SetupResponse":
+	case "S1SetupResponse", "S1SetupResponseIEs":
 		switch ieId {
 		case 105: // id-ServedGUMMEIs -> ServedGUMMEIs (SEQUENCE OF ServedGUMMEIsItem)
 			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 8)
@@ -3583,7 +3620,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := IABSupported(v)
 			return &result, nil
 		}
-	case "S1SetupFailure":
+	case "S1SetupFailure", "S1SetupFailureIEs":
 		switch ieId {
 		case 2: // id-Cause -> Cause
 			var v Cause
@@ -3605,7 +3642,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ENBConfigurationUpdate":
+	case "ENBConfigurationUpdate", "ENBConfigurationUpdateIEs":
 		switch ieId {
 		case 64: // id-SupportedTAs -> SupportedTAs (SEQUENCE OF SupportedTAsItem)
 			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
@@ -3670,7 +3707,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &result, nil
 		}
-	case "ENBConfigurationUpdateAcknowledge":
+	case "ENBConfigurationUpdateAcknowledge", "ENBConfigurationUpdateAcknowledgeIEs":
 		switch ieId {
 		case 58: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
@@ -3679,7 +3716,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ENBConfigurationUpdateFailure":
+	case "ENBConfigurationUpdateFailure", "ENBConfigurationUpdateFailureIEs":
 		switch ieId {
 		case 2: // id-Cause -> Cause
 			var v Cause
@@ -3701,7 +3738,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "MMEConfigurationUpdate":
+	case "MMEConfigurationUpdate", "MMEConfigurationUpdateIEs":
 		switch ieId {
 		case 105: // id-ServedGUMMEIs -> ServedGUMMEIs (SEQUENCE OF ServedGUMMEIsItem)
 			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 8)
@@ -3735,7 +3772,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &result, nil
 		}
-	case "MMEConfigurationUpdateAcknowledge":
+	case "MMEConfigurationUpdateAcknowledge", "MMEConfigurationUpdateAcknowledgeIEs":
 		switch ieId {
 		case 58: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
@@ -3744,7 +3781,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "MMEConfigurationUpdateFailure":
+	case "MMEConfigurationUpdateFailure", "MMEConfigurationUpdateFailureIEs":
 		switch ieId {
 		case 2: // id-Cause -> Cause
 			var v Cause
@@ -3766,7 +3803,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "DownlinkS1cdma2000tunnelling":
+	case "DownlinkS1cdma2000tunnelling", "DownlinkS1cdma2000tunnellingIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -3782,10 +3819,10 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := ENBUES1APID(v)
 			return &result, nil
-		case 12: // id-E-RABSubjecttoDataForwardingList -> E-RABSubjecttoDataForwardingList (SEQUENCE OF ProtocolIE-Field)
+		case 12: // id-E-RABSubjecttoDataForwardingList -> ERABSubjecttoDataForwardingList (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABSubjecttoDataForwardingList (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABSubjecttoDataForwardingList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 83: // id-cdma2000HOStatus -> Cdma2000HOStatus (ENUMERATED)
@@ -3810,7 +3847,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := Cdma2000PDU(v)
 			return &result, nil
 		}
-	case "UplinkS1cdma2000tunnelling":
+	case "UplinkS1cdma2000tunnelling", "UplinkS1cdma2000tunnellingIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -3875,7 +3912,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := EUTRANRoundTripDelayEstimationInfo(v)
 			return &result, nil
 		}
-	case "UECapabilityInfoIndication":
+	case "UECapabilityInfoIndication", "UECapabilityInfoIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -3934,7 +3971,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UERadioCapabilityForPaging(v)
 			return &result, nil
 		}
-	case "ENBStatusTransfer":
+	case "ENBStatusTransfer", "ENBStatusTransferIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -3957,7 +3994,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "MMEStatusTransfer":
+	case "MMEStatusTransfer", "MMEStatusTransferIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -3980,7 +4017,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "TraceStart":
+	case "TraceStart", "TraceStartIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -4003,7 +4040,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "TraceFailureIndication":
+	case "TraceFailureIndication", "TraceFailureIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -4033,7 +4070,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "DeactivateTrace":
+	case "DeactivateTrace", "DeactivateTraceIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -4057,7 +4094,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := EUTRANTraceID(v)
 			return &result, nil
 		}
-	case "CellTrafficTrace":
+	case "CellTrafficTrace", "CellTrafficTraceIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -4101,7 +4138,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := PrivacyIndicator(v)
 			return &result, nil
 		}
-	case "LocationReportingControl":
+	case "LocationReportingControl", "LocationReportingControlIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -4124,7 +4161,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "LocationReportingFailureIndication":
+	case "LocationReportingFailureIndication", "LocationReportingFailureIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -4147,7 +4184,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "LocationReport":
+	case "LocationReport", "LocationReportIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -4194,7 +4231,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "OverloadStart":
+	case "OverloadStart", "OverloadStartIEs":
 		switch ieId {
 		case 101: // id-OverloadResponse -> OverloadResponse
 			var v OverloadResponse
@@ -4222,7 +4259,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := TrafficLoadReductionIndication(v)
 			return &result, nil
 		}
-	case "OverloadStop":
+	case "OverloadStop", "OverloadStopIEs":
 		switch ieId {
 		case 154: // id-GUMMEIList -> GUMMEIList (SEQUENCE OF GUMMEI)
 			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
@@ -4237,7 +4274,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &result, nil
 		}
-	case "WriteReplaceWarningRequest":
+	case "WriteReplaceWarningRequest", "WriteReplaceWarningRequestIEs":
 		switch ieId {
 		case 111: // id-MessageIdentifier -> MessageIdentifier (BIT_STRING)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 16, 16, true)
@@ -4323,7 +4360,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := WarningAreaCoordinates(v)
 			return &result, nil
 		}
-	case "WriteReplaceWarningResponse":
+	case "WriteReplaceWarningResponse", "WriteReplaceWarningResponseIEs":
 		switch ieId {
 		case 111: // id-MessageIdentifier -> MessageIdentifier (BIT_STRING)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 16, 16, true)
@@ -4352,25 +4389,25 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ENBDirectInformationTransfer":
+	case "ENBDirectInformationTransfer", "ENBDirectInformationTransferIEs":
 		switch ieId {
-		case 121: // id-Inter-SystemInformationTransferTypeEDT -> Inter-SystemInformationTransferType
+		case 121: // id-Inter-SystemInformationTransferTypeEDT -> InterSystemInformationTransferType
 			var v InterSystemInformationTransferType
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE Inter-SystemInformationTransferType (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE InterSystemInformationTransferType (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "MMEDirectInformationTransfer":
+	case "MMEDirectInformationTransfer", "MMEDirectInformationTransferIEs":
 		switch ieId {
-		case 122: // id-Inter-SystemInformationTransferTypeMDT -> Inter-SystemInformationTransferType
+		case 122: // id-Inter-SystemInformationTransferTypeMDT -> InterSystemInformationTransferType
 			var v InterSystemInformationTransferType
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE Inter-SystemInformationTransferType (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE InterSystemInformationTransferType (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "ENBConfigurationTransfer":
+	case "ENBConfigurationTransfer", "ENBConfigurationTransferIEs":
 		switch ieId {
 		case 129: // id-SONConfigurationTransferECT -> SONConfigurationTransfer
 			var v SONConfigurationTransfer
@@ -4392,7 +4429,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := IntersystemSONConfigurationTransfer(v)
 			return &result, nil
 		}
-	case "MMEConfigurationTransfer":
+	case "MMEConfigurationTransfer", "MMEConfigurationTransferIEs":
 		switch ieId {
 		case 130: // id-SONConfigurationTransferMCT -> SONConfigurationTransfer
 			var v SONConfigurationTransfer
@@ -4414,7 +4451,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := IntersystemSONConfigurationTransfer(v)
 			return &result, nil
 		}
-	case "KillRequest":
+	case "KillRequest", "KillRequestIEs":
 		switch ieId {
 		case 111: // id-MessageIdentifier -> MessageIdentifier (BIT_STRING)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 16, 16, true)
@@ -4444,7 +4481,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := KillAllWarningMessages(v)
 			return &result, nil
 		}
-	case "KillResponse":
+	case "KillResponse", "KillResponseIEs":
 		switch ieId {
 		case 111: // id-MessageIdentifier -> MessageIdentifier (BIT_STRING)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 16, 16, true)
@@ -4473,7 +4510,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "PWSRestartIndication":
+	case "PWSRestartIndication", "PWSRestartIndicationIEs":
 		switch ieId {
 		case 182: // id-ECGIListForRestart -> ECGIListForRestart (SEQUENCE OF EUTRANCGI)
 			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
@@ -4506,7 +4543,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &result, nil
 		}
-	case "PWSFailureIndication":
+	case "PWSFailureIndication", "PWSFailureIndicationIEs":
 		switch ieId {
 		case 222: // id-PWSfailedECGIList -> PWSfailedECGIList (SEQUENCE OF EUTRANCGI)
 			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
@@ -4527,7 +4564,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "DownlinkUEAssociatedLPPaTransport":
+	case "DownlinkUEAssociatedLPPaTransport", "DownlinkUEAssociatedLPPaTransport-IEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -4558,7 +4595,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := LPPaPDU(v)
 			return &result, nil
 		}
-	case "UplinkUEAssociatedLPPaTransport":
+	case "UplinkUEAssociatedLPPaTransport", "UplinkUEAssociatedLPPaTransport-IEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -4589,7 +4626,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := LPPaPDU(v)
 			return &result, nil
 		}
-	case "DownlinkNonUEAssociatedLPPaTransport":
+	case "DownlinkNonUEAssociatedLPPaTransport", "DownlinkNonUEAssociatedLPPaTransport-IEs":
 		switch ieId {
 		case 148: // id-Routing-ID -> Routing-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
@@ -4606,7 +4643,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := LPPaPDU(v)
 			return &result, nil
 		}
-	case "UplinkNonUEAssociatedLPPaTransport":
+	case "UplinkNonUEAssociatedLPPaTransport", "UplinkNonUEAssociatedLPPaTransport-IEs":
 		switch ieId {
 		case 148: // id-Routing-ID -> Routing-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
@@ -4623,7 +4660,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := LPPaPDU(v)
 			return &result, nil
 		}
-	case "ERABModificationIndication":
+	case "ERABModificationIndication", "E-RABModificationIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -4639,16 +4676,16 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := ENBUES1APID(v)
 			return &result, nil
-		case 199: // id-E-RABToBeModifiedListBearerModInd -> E-RABToBeModifiedListBearerModInd (SEQUENCE OF ProtocolIE-Field)
+		case 199: // id-E-RABToBeModifiedListBearerModInd -> ERABToBeModifiedListBearerModInd (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABToBeModifiedListBearerModInd (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABToBeModifiedListBearerModInd (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 201: // id-E-RABNotToBeModifiedListBearerModInd -> E-RABNotToBeModifiedListBearerModInd (SEQUENCE OF ProtocolIE-Field)
+		case 201: // id-E-RABNotToBeModifiedListBearerModInd -> ERABNotToBeModifiedListBearerModInd (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABNotToBeModifiedListBearerModInd (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABNotToBeModifiedListBearerModInd (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 226: // id-CSGMembershipInfo -> CSGMembershipInfo
@@ -4676,25 +4713,25 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABToBeModifiedItemBearerModInd":
+	case "ERABToBeModifiedItemBearerModInd", "E-RABToBeModifiedItemBearerModIndIEs":
 		switch ieId {
-		case 200: // id-E-RABToBeModifiedItemBearerModInd -> E-RABToBeModifiedItemBearerModInd
+		case 200: // id-E-RABToBeModifiedItemBearerModInd -> ERABToBeModifiedItemBearerModInd
 			var v ERABToBeModifiedItemBearerModInd
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABToBeModifiedItemBearerModInd (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABToBeModifiedItemBearerModInd (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "ERABNotToBeModifiedItemBearerModInd":
+	case "ERABNotToBeModifiedItemBearerModInd", "E-RABNotToBeModifiedItemBearerModIndIEs":
 		switch ieId {
-		case 202: // id-E-RABNotToBeModifiedItemBearerModInd -> E-RABNotToBeModifiedItemBearerModInd
+		case 202: // id-E-RABNotToBeModifiedItemBearerModInd -> ERABNotToBeModifiedItemBearerModInd
 			var v ERABNotToBeModifiedItemBearerModInd
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABNotToBeModifiedItemBearerModInd (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABNotToBeModifiedItemBearerModInd (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "ERABModificationConfirm":
+	case "ERABModificationConfirm", "E-RABModificationConfirmIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -4710,10 +4747,10 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := ENBUES1APID(v)
 			return &result, nil
-		case 203: // id-E-RABModifyListBearerModConf -> E-RABModifyListBearerModConf (SEQUENCE OF ProtocolIE-Field)
+		case 203: // id-E-RABModifyListBearerModConf -> ERABModifyListBearerModConf (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABModifyListBearerModConf (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABModifyListBearerModConf (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 205: // id-E-RABFailedToModifyListBearerModConf -> E-RABList (SEQUENCE OF ProtocolIE-Field)
@@ -4742,16 +4779,16 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := CSGMembershipStatus(v)
 			return &result, nil
 		}
-	case "ERABModifyItemBearerModConf":
+	case "ERABModifyItemBearerModConf", "E-RABModifyItemBearerModConfIEs":
 		switch ieId {
-		case 204: // id-E-RABModifyItemBearerModConf -> E-RABModifyItemBearerModConf
+		case 204: // id-E-RABModifyItemBearerModConf -> ERABModifyItemBearerModConf
 			var v ERABModifyItemBearerModConf
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABModifyItemBearerModConf (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABModifyItemBearerModConf (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "UEContextModificationIndication":
+	case "UEContextModificationIndication", "UEContextModificationIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -4774,7 +4811,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "UEContextModificationConfirm":
+	case "UEContextModificationConfirm", "UEContextModificationConfirmIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -4804,7 +4841,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "UEContextSuspendRequest":
+	case "UEContextSuspendRequest", "UEContextSuspendRequestIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -4852,7 +4889,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := TimeSinceSecondaryNodeRelease(v)
 			return &result, nil
 		}
-	case "UEContextSuspendResponse":
+	case "UEContextSuspendResponse", "UEContextSuspendResponseIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -4881,7 +4918,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "UEContextResumeRequest":
+	case "UEContextResumeRequest", "UEContextResumeRequestIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -4897,10 +4934,10 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := ENBUES1APID(v)
 			return &result, nil
-		case 235: // id-E-RABFailedToResumeListResumeReq -> E-RABFailedToResumeListResumeReq (SEQUENCE OF ProtocolIE-Field)
+		case 235: // id-E-RABFailedToResumeListResumeReq -> ERABFailedToResumeListResumeReq (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABFailedToResumeListResumeReq (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABFailedToResumeListResumeReq (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 245: // id-RRC-Resume-Cause -> RRC-Establishment-Cause (ENUMERATED)
@@ -4911,16 +4948,16 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := RRCEstablishmentCause(v)
 			return &result, nil
 		}
-	case "ERABFailedToResumeItemResumeReq":
+	case "ERABFailedToResumeItemResumeReq", "E-RABFailedToResumeItemResumeReqIEs":
 		switch ieId {
-		case 236: // id-E-RABFailedToResumeItemResumeReq -> E-RABFailedToResumeItemResumeReq
+		case 236: // id-E-RABFailedToResumeItemResumeReq -> ERABFailedToResumeItemResumeReq
 			var v ERABFailedToResumeItemResumeReq
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABFailedToResumeItemResumeReq (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABFailedToResumeItemResumeReq (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "UEContextResumeResponse":
+	case "UEContextResumeResponse", "UEContextResumeResponseIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -4936,10 +4973,10 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			result := ENBUES1APID(v)
 			return &result, nil
-		case 237: // id-E-RABFailedToResumeListResumeRes -> E-RABFailedToResumeListResumeRes (SEQUENCE OF ProtocolIE-Field)
+		case 237: // id-E-RABFailedToResumeListResumeRes -> ERABFailedToResumeListResumeRes (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABFailedToResumeListResumeRes (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABFailedToResumeListResumeRes (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 58: // id-CriticalityDiagnostics -> CriticalityDiagnostics
@@ -4962,16 +4999,16 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := PendingDataIndication(v)
 			return &result, nil
 		}
-	case "ERABFailedToResumeItemResumeRes":
+	case "ERABFailedToResumeItemResumeRes", "E-RABFailedToResumeItemResumeResIEs":
 		switch ieId {
-		case 238: // id-E-RABFailedToResumeItemResumeRes -> E-RABFailedToResumeItemResumeRes
+		case 238: // id-E-RABFailedToResumeItemResumeRes -> ERABFailedToResumeItemResumeRes
 			var v ERABFailedToResumeItemResumeRes
 			if err := v.UnmarshalAPERFrom(bb); err != nil {
-				return nil, fmt.Errorf("decoding IE E-RABFailedToResumeItemResumeRes (%d): %w", ieId, err)
+				return nil, fmt.Errorf("decoding IE ERABFailedToResumeItemResumeRes (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
-	case "UEContextResumeFailure":
+	case "UEContextResumeFailure", "UEContextResumeFailureIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -5000,7 +5037,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ConnectionEstablishmentIndication":
+	case "ConnectionEstablishmentIndication", "ConnectionEstablishmentIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -5077,7 +5114,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := MaskedIMEISV{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		}
-	case "RetrieveUEInformation":
+	case "RetrieveUEInformation", "RetrieveUEInformationIEs":
 		switch ieId {
 		case 96: // id-S-TMSI -> S-TMSI
 			var v STMSI
@@ -5086,7 +5123,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "UEInformationTransfer":
+	case "UEInformationTransfer", "UEInformationTransferIEs":
 		switch ieId {
 		case 96: // id-S-TMSI -> S-TMSI
 			var v STMSI
@@ -5128,7 +5165,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := MaskedIMEISV{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		}
-	case "ENBCPRelocationIndication":
+	case "ENBCPRelocationIndication", "ENBCPRelocationIndicationIEs":
 		switch ieId {
 		case 8: // id-eNB-UE-S1AP-ID -> ENB-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
@@ -5168,7 +5205,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "MMECPRelocationIndication":
+	case "MMECPRelocationIndication", "MMECPRelocationIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -5185,7 +5222,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := ENBUES1APID(v)
 			return &result, nil
 		}
-	case "SecondaryRATDataUsageReport":
+	case "SecondaryRATDataUsageReport", "SecondaryRATDataUsageReportIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MME-UE-S1AP-ID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
@@ -5228,7 +5265,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := TimeSinceSecondaryNodeRelease(v)
 			return &result, nil
 		}
-	case "UERadioCapabilityIDMappingRequest":
+	case "UERadioCapabilityIDMappingRequest", "UERadioCapabilityIDMappingRequestIEs":
 		switch ieId {
 		case 314: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
@@ -5238,7 +5275,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UERadioCapabilityID(v)
 			return &result, nil
 		}
-	case "UERadioCapabilityIDMappingResponse":
+	case "UERadioCapabilityIDMappingResponse", "UERadioCapabilityIDMappingResponseIEs":
 		switch ieId {
 		case 314: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
@@ -5261,7 +5298,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "S1RemovalRequest":
+	case "S1RemovalRequest", "S1RemovalRequestIEs":
 		switch ieId {
 		case 59: // id-Global-ENB-ID -> Global-ENB-ID
 			var v GlobalENBID
@@ -5270,7 +5307,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "S1RemovalResponse":
+	case "S1RemovalResponse", "S1RemovalResponseIEs":
 		switch ieId {
 		case 58: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
@@ -5279,7 +5316,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "S1RemovalFailure":
+	case "S1RemovalFailure", "S1RemovalFailureIEs":
 		switch ieId {
 		case 2: // id-Cause -> Cause
 			var v Cause
@@ -5296,6 +5333,1081 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 		}
 	}
 	return nil, nil
+}
+
+// DecodedProtocolIEField contains one decoded protocol IE and any nested protocol IEs.
+// Field always retains the original open-type bytes, including for unknown/private IDs.
+type DecodedProtocolIEField struct {
+	Path      string
+	ObjectSet string
+	Field     ProtocolIEField
+	Value     interface{}
+	Children  []DecodedProtocolIEField
+}
+
+// DecodedProtocolValue contains a decoded procedure value and all recursively decoded protocol IEs.
+type DecodedProtocolValue struct {
+	Value       interface{}
+	ProtocolIEs []DecodedProtocolIEField
+}
+
+var protocolIEFieldObjectSets = map[string]string{
+	"CellTrafficTrace.ProtocolIEs":                                                       "CellTrafficTraceIEs",
+	"ConnectionEstablishmentIndication.ProtocolIEs":                                      "ConnectionEstablishmentIndicationIEs",
+	"DeactivateTrace.ProtocolIEs":                                                        "DeactivateTraceIEs",
+	"DownlinkNASTransport.ProtocolIEs":                                                   "DownlinkNASTransport-IEs",
+	"DownlinkNonUEAssociatedLPPaTransport.ProtocolIEs":                                   "DownlinkNonUEAssociatedLPPaTransport-IEs",
+	"DownlinkS1cdma2000tunnelling.ProtocolIEs":                                           "DownlinkS1cdma2000tunnellingIEs",
+	"DownlinkUEAssociatedLPPaTransport.ProtocolIEs":                                      "DownlinkUEAssociatedLPPaTransport-IEs",
+	"ENBCPRelocationIndication.ProtocolIEs":                                              "ENBCPRelocationIndicationIEs",
+	"ENBConfigurationTransfer.ProtocolIEs":                                               "ENBConfigurationTransferIEs",
+	"ENBConfigurationUpdate.ProtocolIEs":                                                 "ENBConfigurationUpdateIEs",
+	"ENBConfigurationUpdateAcknowledge.ProtocolIEs":                                      "ENBConfigurationUpdateAcknowledgeIEs",
+	"ENBConfigurationUpdateFailure.ProtocolIEs":                                          "ENBConfigurationUpdateFailureIEs",
+	"ENBDirectInformationTransfer.ProtocolIEs":                                           "ENBDirectInformationTransferIEs",
+	"ENBEarlyStatusTransfer.ProtocolIEs":                                                 "ENBEarlyStatusTransferIEs",
+	"ENBEarlyStatusTransferTransparentContainer.BearersSubjectToEarlyStatusTransferList": "Bearers-SubjectToEarlyStatusTransfer-ItemIEs",
+	"ENBStatusTransfer.ProtocolIEs":                                                      "ENBStatusTransferIEs",
+	"ENBStatusTransferTransparentContainer.BearersSubjectToStatusTransferList":           "Bearers-SubjectToStatusTransfer-ItemIEs",
+	"ERABModificationConfirm.ProtocolIEs":                                                "E-RABModificationConfirmIEs",
+	"ERABModificationIndication.ProtocolIEs":                                             "E-RABModificationIndicationIEs",
+	"ERABModifyRequest.ProtocolIEs":                                                      "E-RABModifyRequestIEs",
+	"ERABModifyResponse.ProtocolIEs":                                                     "E-RABModifyResponseIEs",
+	"ERABReleaseCommand.ProtocolIEs":                                                     "E-RABReleaseCommandIEs",
+	"ERABReleaseIndication.ProtocolIEs":                                                  "E-RABReleaseIndicationIEs",
+	"ERABReleaseResponse.ProtocolIEs":                                                    "E-RABReleaseResponseIEs",
+	"ERABSetupRequest.ProtocolIEs":                                                       "E-RABSetupRequestIEs",
+	"ERABSetupResponse.ProtocolIEs":                                                      "E-RABSetupResponseIEs",
+	"ErrorIndication.ProtocolIEs":                                                        "ErrorIndicationIEs",
+	"HandoverCancel.ProtocolIEs":                                                         "HandoverCancelIEs",
+	"HandoverCancelAcknowledge.ProtocolIEs":                                              "HandoverCancelAcknowledgeIEs",
+	"HandoverCommand.ProtocolIEs":                                                        "HandoverCommandIEs",
+	"HandoverFailure.ProtocolIEs":                                                        "HandoverFailureIEs",
+	"HandoverNotify.ProtocolIEs":                                                         "HandoverNotifyIEs",
+	"HandoverPreparationFailure.ProtocolIEs":                                             "HandoverPreparationFailureIEs",
+	"HandoverRequest.ProtocolIEs":                                                        "HandoverRequestIEs",
+	"HandoverRequestAcknowledge.ProtocolIEs":                                             "HandoverRequestAcknowledgeIEs",
+	"HandoverRequired.ProtocolIEs":                                                       "HandoverRequiredIEs",
+	"HandoverSuccess.ProtocolIEs":                                                        "HandoverSuccessIEs",
+	"InitialContextSetupFailure.ProtocolIEs":                                             "InitialContextSetupFailureIEs",
+	"InitialContextSetupRequest.ProtocolIEs":                                             "InitialContextSetupRequestIEs",
+	"InitialContextSetupResponse.ProtocolIEs":                                            "InitialContextSetupResponseIEs",
+	"InitialUEMessage.ProtocolIEs":                                                       "InitialUEMessage-IEs",
+	"KillRequest.ProtocolIEs":                                                            "KillRequestIEs",
+	"KillResponse.ProtocolIEs":                                                           "KillResponseIEs",
+	"LocationReport.ProtocolIEs":                                                         "LocationReportIEs",
+	"LocationReportingControl.ProtocolIEs":                                               "LocationReportingControlIEs",
+	"LocationReportingFailureIndication.ProtocolIEs":                                     "LocationReportingFailureIndicationIEs",
+	"MMECPRelocationIndication.ProtocolIEs":                                              "MMECPRelocationIndicationIEs",
+	"MMEConfigurationTransfer.ProtocolIEs":                                               "MMEConfigurationTransferIEs",
+	"MMEConfigurationUpdate.ProtocolIEs":                                                 "MMEConfigurationUpdateIEs",
+	"MMEConfigurationUpdateAcknowledge.ProtocolIEs":                                      "MMEConfigurationUpdateAcknowledgeIEs",
+	"MMEConfigurationUpdateFailure.ProtocolIEs":                                          "MMEConfigurationUpdateFailureIEs",
+	"MMEDirectInformationTransfer.ProtocolIEs":                                           "MMEDirectInformationTransferIEs",
+	"MMEEarlyStatusTransfer.ProtocolIEs":                                                 "MMEEarlyStatusTransferIEs",
+	"MMEStatusTransfer.ProtocolIEs":                                                      "MMEStatusTransferIEs",
+	"NASDeliveryIndication.ProtocolIEs":                                                  "NASDeliveryIndicationIEs",
+	"NASNonDeliveryIndication.ProtocolIEs":                                               "NASNonDeliveryIndication-IEs",
+	"OverloadStart.ProtocolIEs":                                                          "OverloadStartIEs",
+	"OverloadStop.ProtocolIEs":                                                           "OverloadStopIEs",
+	"PWSFailureIndication.ProtocolIEs":                                                   "PWSFailureIndicationIEs",
+	"PWSRestartIndication.ProtocolIEs":                                                   "PWSRestartIndicationIEs",
+	"Paging.ProtocolIEs":                                                                 "PagingIEs",
+	"PathSwitchRequest.ProtocolIEs":                                                      "PathSwitchRequestIEs",
+	"PathSwitchRequestAcknowledge.ProtocolIEs":                                           "PathSwitchRequestAcknowledgeIEs",
+	"PathSwitchRequestFailure.ProtocolIEs":                                               "PathSwitchRequestFailureIEs",
+	"RecommendedCellsForPaging.RecommendedCellList":                                      "RecommendedCellItemIEs",
+	"RecommendedENBsForPaging.RecommendedENBList":                                        "RecommendedENBItemIEs",
+	"RerouteNASRequest.ProtocolIEs":                                                      "RerouteNASRequest-IEs",
+	"Reset.ProtocolIEs":                                                                  "ResetIEs",
+	"ResetAcknowledge.ProtocolIEs":                                                       "ResetAcknowledgeIEs",
+	"RetrieveUEInformation.ProtocolIEs":                                                  "RetrieveUEInformationIEs",
+	"S1SetupFailure.ProtocolIEs":                                                         "S1SetupFailureIEs",
+	"S1SetupRequest.ProtocolIEs":                                                         "S1SetupRequestIEs",
+	"S1SetupResponse.ProtocolIEs":                                                        "S1SetupResponseIEs",
+	"SecondaryRATDataUsageReport.ProtocolIEs":                                            "SecondaryRATDataUsageReportIEs",
+	"SecondaryRATDataUsageReportItem.ERABUsageReportList":                                "E-RABUsageReportItemIEs",
+	"SourceeNBToTargeteNBTransparentContainer.ERABInformationList":                       "E-RABInformationListIEs",
+	"TraceFailureIndication.ProtocolIEs":                                                 "TraceFailureIndicationIEs",
+	"TraceStart.ProtocolIEs":                                                             "TraceStartIEs",
+	"UECapabilityInfoIndication.ProtocolIEs":                                             "UECapabilityInfoIndicationIEs",
+	"UEContextModificationConfirm.ProtocolIEs":                                           "UEContextModificationConfirmIEs",
+	"UEContextModificationFailure.ProtocolIEs":                                           "UEContextModificationFailureIEs",
+	"UEContextModificationIndication.ProtocolIEs":                                        "UEContextModificationIndicationIEs",
+	"UEContextModificationRequest.ProtocolIEs":                                           "UEContextModificationRequestIEs",
+	"UEContextModificationResponse.ProtocolIEs":                                          "UEContextModificationResponseIEs",
+	"UEContextReleaseCommand.ProtocolIEs":                                                "UEContextReleaseCommand-IEs",
+	"UEContextReleaseComplete.ProtocolIEs":                                               "UEContextReleaseComplete-IEs",
+	"UEContextReleaseRequest.ProtocolIEs":                                                "UEContextReleaseRequest-IEs",
+	"UEContextResumeFailure.ProtocolIEs":                                                 "UEContextResumeFailureIEs",
+	"UEContextResumeRequest.ProtocolIEs":                                                 "UEContextResumeRequestIEs",
+	"UEContextResumeResponse.ProtocolIEs":                                                "UEContextResumeResponseIEs",
+	"UEContextSuspendRequest.ProtocolIEs":                                                "UEContextSuspendRequestIEs",
+	"UEContextSuspendResponse.ProtocolIEs":                                               "UEContextSuspendResponseIEs",
+	"UEInformationTransfer.ProtocolIEs":                                                  "UEInformationTransferIEs",
+	"UERadioCapabilityIDMappingRequest.ProtocolIEs":                                      "UERadioCapabilityIDMappingRequestIEs",
+	"UERadioCapabilityIDMappingResponse.ProtocolIEs":                                     "UERadioCapabilityIDMappingResponseIEs",
+	"UERadioCapabilityMatchRequest.ProtocolIEs":                                          "UERadioCapabilityMatchRequestIEs",
+	"UERadioCapabilityMatchResponse.ProtocolIEs":                                         "UERadioCapabilityMatchResponseIEs",
+	"UplinkNASTransport.ProtocolIEs":                                                     "UplinkNASTransport-IEs",
+	"UplinkNonUEAssociatedLPPaTransport.ProtocolIEs":                                     "UplinkNonUEAssociatedLPPaTransport-IEs",
+	"UplinkS1cdma2000tunnelling.ProtocolIEs":                                             "UplinkS1cdma2000tunnellingIEs",
+	"UplinkUEAssociatedLPPaTransport.ProtocolIEs":                                        "UplinkUEAssociatedLPPaTransport-IEs",
+	"WriteReplaceWarningRequest.ProtocolIEs":                                             "WriteReplaceWarningRequestIEs",
+	"WriteReplaceWarningResponse.ProtocolIEs":                                            "WriteReplaceWarningResponseIEs",
+}
+
+var protocolIETypeObjectSets = map[string]string{
+	"BearersSubjectToEarlyStatusTransferList":   "Bearers-SubjectToEarlyStatusTransfer-ItemIEs",
+	"BearersSubjectToStatusTransferList":        "Bearers-SubjectToStatusTransfer-ItemIEs",
+	"DAPSResponseInfoList":                      "DAPSResponseInfoListIEs",
+	"ERABAdmittedList":                          "E-RABAdmittedItemIEs",
+	"ERABFailedToResumeListResumeReq":           "E-RABFailedToResumeItemResumeReqIEs",
+	"ERABFailedToResumeListResumeRes":           "E-RABFailedToResumeItemResumeResIEs",
+	"ERABFailedtoSetupListHOReqAck":             "E-RABFailedtoSetupItemHOReqAckIEs",
+	"ERABInformationList":                       "E-RABInformationListIEs",
+	"ERABList":                                  "E-RABItemIEs",
+	"ERABModifyListBearerModConf":               "E-RABModifyItemBearerModConfIEs",
+	"ERABModifyListBearerModRes":                "E-RABModifyItemBearerModResIEs",
+	"ERABNotToBeModifiedListBearerModInd":       "E-RABNotToBeModifiedItemBearerModIndIEs",
+	"ERABReleaseListBearerRelComp":              "E-RABReleaseItemBearerRelCompIEs",
+	"ERABSecurityResultList":                    "E-RABSecurityResultListIEs",
+	"ERABSetupListBearerSURes":                  "E-RABSetupItemBearerSUResIEs",
+	"ERABSetupListCtxtSURes":                    "E-RABSetupItemCtxtSUResIEs",
+	"ERABSubjecttoDataForwardingList":           "E-RABDataForwardingItemIEs",
+	"ERABToBeModifiedListBearerModInd":          "E-RABToBeModifiedItemBearerModIndIEs",
+	"ERABToBeModifiedListBearerModReq":          "E-RABToBeModifiedItemBearerModReqIEs",
+	"ERABToBeSetupListBearerSUReq":              "E-RABToBeSetupItemBearerSUReqIEs",
+	"ERABToBeSetupListCtxtSUReq":                "E-RABToBeSetupItemCtxtSUReqIEs",
+	"ERABToBeSetupListHOReq":                    "E-RABToBeSetupItemHOReqIEs",
+	"ERABToBeSwitchedDLList":                    "E-RABToBeSwitchedDLItemIEs",
+	"ERABToBeSwitchedULList":                    "E-RABToBeSwitchedULItemIEs",
+	"ERABToBeUpdatedList":                       "E-RABToBeUpdatedItemIEs",
+	"ERABUsageReportList":                       "E-RABUsageReportItemIEs",
+	"MDTModeExtension":                          "MDTMode-ExtensionIE",
+	"RecommendedCellList":                       "RecommendedCellItemIEs",
+	"RecommendedENBList":                        "RecommendedENBItemIEs",
+	"SONInformationExtension":                   "SONInformation-ExtensionIE",
+	"SecondaryRATDataUsageReportList":           "SecondaryRATDataUsageReportItemIEs",
+	"TAIList":                                   "TAIItemIEs",
+	"UEAssociatedLogicalS1ConnectionListRes":    "UE-associatedLogicalS1-ConnectionItemRes",
+	"UEAssociatedLogicalS1ConnectionListResAck": "UE-associatedLogicalS1-ConnectionItemResAck",
+}
+
+func protocolIEObjectSet(context string) string {
+	switch context {
+	case "Bearers-SubjectToDLDiscarding-ItemIEs":
+		return "Bearers-SubjectToDLDiscarding-ItemIEs"
+	case "Bearers-SubjectToEarlyStatusTransfer-ItemIEs":
+		return "Bearers-SubjectToEarlyStatusTransfer-ItemIEs"
+	case "Bearers-SubjectToStatusTransfer-ItemIEs":
+		return "Bearers-SubjectToStatusTransfer-ItemIEs"
+	case "BearersSubjectToDLDiscardingItem":
+		return "Bearers-SubjectToDLDiscarding-ItemIEs"
+	case "BearersSubjectToEarlyStatusTransferItem":
+		return "Bearers-SubjectToEarlyStatusTransfer-ItemIEs"
+	case "BearersSubjectToStatusTransferItem":
+		return "Bearers-SubjectToStatusTransfer-ItemIEs"
+	case "CellTrafficTrace":
+		return "CellTrafficTraceIEs"
+	case "CellTrafficTraceIEs":
+		return "CellTrafficTraceIEs"
+	case "ConnectionEstablishmentIndication":
+		return "ConnectionEstablishmentIndicationIEs"
+	case "ConnectionEstablishmentIndicationIEs":
+		return "ConnectionEstablishmentIndicationIEs"
+	case "DAPSResponseInfoList":
+		return "DAPSResponseInfoListIEs"
+	case "DAPSResponseInfoListIEs":
+		return "DAPSResponseInfoListIEs"
+	case "DeactivateTrace":
+		return "DeactivateTraceIEs"
+	case "DeactivateTraceIEs":
+		return "DeactivateTraceIEs"
+	case "DownlinkNASTransport":
+		return "DownlinkNASTransport-IEs"
+	case "DownlinkNASTransport-IEs":
+		return "DownlinkNASTransport-IEs"
+	case "DownlinkNonUEAssociatedLPPaTransport":
+		return "DownlinkNonUEAssociatedLPPaTransport-IEs"
+	case "DownlinkNonUEAssociatedLPPaTransport-IEs":
+		return "DownlinkNonUEAssociatedLPPaTransport-IEs"
+	case "DownlinkS1cdma2000tunnelling":
+		return "DownlinkS1cdma2000tunnellingIEs"
+	case "DownlinkS1cdma2000tunnellingIEs":
+		return "DownlinkS1cdma2000tunnellingIEs"
+	case "DownlinkUEAssociatedLPPaTransport":
+		return "DownlinkUEAssociatedLPPaTransport-IEs"
+	case "DownlinkUEAssociatedLPPaTransport-IEs":
+		return "DownlinkUEAssociatedLPPaTransport-IEs"
+	case "E-RABAdmittedItemIEs":
+		return "E-RABAdmittedItemIEs"
+	case "E-RABDataForwardingItemIEs":
+		return "E-RABDataForwardingItemIEs"
+	case "E-RABFailedToResumeItemResumeReqIEs":
+		return "E-RABFailedToResumeItemResumeReqIEs"
+	case "E-RABFailedToResumeItemResumeResIEs":
+		return "E-RABFailedToResumeItemResumeResIEs"
+	case "E-RABFailedtoSetupItemHOReqAckIEs":
+		return "E-RABFailedtoSetupItemHOReqAckIEs"
+	case "E-RABInformationListIEs":
+		return "E-RABInformationListIEs"
+	case "E-RABItemIEs":
+		return "E-RABItemIEs"
+	case "E-RABModificationConfirmIEs":
+		return "E-RABModificationConfirmIEs"
+	case "E-RABModificationIndicationIEs":
+		return "E-RABModificationIndicationIEs"
+	case "E-RABModifyItemBearerModConfIEs":
+		return "E-RABModifyItemBearerModConfIEs"
+	case "E-RABModifyItemBearerModResIEs":
+		return "E-RABModifyItemBearerModResIEs"
+	case "E-RABModifyRequestIEs":
+		return "E-RABModifyRequestIEs"
+	case "E-RABModifyResponseIEs":
+		return "E-RABModifyResponseIEs"
+	case "E-RABNotToBeModifiedItemBearerModIndIEs":
+		return "E-RABNotToBeModifiedItemBearerModIndIEs"
+	case "E-RABReleaseCommandIEs":
+		return "E-RABReleaseCommandIEs"
+	case "E-RABReleaseIndicationIEs":
+		return "E-RABReleaseIndicationIEs"
+	case "E-RABReleaseItemBearerRelCompIEs":
+		return "E-RABReleaseItemBearerRelCompIEs"
+	case "E-RABReleaseResponseIEs":
+		return "E-RABReleaseResponseIEs"
+	case "E-RABSecurityResultListIEs":
+		return "E-RABSecurityResultListIEs"
+	case "E-RABSetupItemBearerSUResIEs":
+		return "E-RABSetupItemBearerSUResIEs"
+	case "E-RABSetupItemCtxtSUResIEs":
+		return "E-RABSetupItemCtxtSUResIEs"
+	case "E-RABSetupRequestIEs":
+		return "E-RABSetupRequestIEs"
+	case "E-RABSetupResponseIEs":
+		return "E-RABSetupResponseIEs"
+	case "E-RABToBeModifiedItemBearerModIndIEs":
+		return "E-RABToBeModifiedItemBearerModIndIEs"
+	case "E-RABToBeModifiedItemBearerModReqIEs":
+		return "E-RABToBeModifiedItemBearerModReqIEs"
+	case "E-RABToBeSetupItemBearerSUReqIEs":
+		return "E-RABToBeSetupItemBearerSUReqIEs"
+	case "E-RABToBeSetupItemCtxtSUReqIEs":
+		return "E-RABToBeSetupItemCtxtSUReqIEs"
+	case "E-RABToBeSetupItemHOReqIEs":
+		return "E-RABToBeSetupItemHOReqIEs"
+	case "E-RABToBeSwitchedDLItemIEs":
+		return "E-RABToBeSwitchedDLItemIEs"
+	case "E-RABToBeSwitchedULItemIEs":
+		return "E-RABToBeSwitchedULItemIEs"
+	case "E-RABToBeUpdatedItemIEs":
+		return "E-RABToBeUpdatedItemIEs"
+	case "E-RABUsageReportItemIEs":
+		return "E-RABUsageReportItemIEs"
+	case "ENBCPRelocationIndication":
+		return "ENBCPRelocationIndicationIEs"
+	case "ENBCPRelocationIndicationIEs":
+		return "ENBCPRelocationIndicationIEs"
+	case "ENBConfigurationTransfer":
+		return "ENBConfigurationTransferIEs"
+	case "ENBConfigurationTransferIEs":
+		return "ENBConfigurationTransferIEs"
+	case "ENBConfigurationUpdate":
+		return "ENBConfigurationUpdateIEs"
+	case "ENBConfigurationUpdateAcknowledge":
+		return "ENBConfigurationUpdateAcknowledgeIEs"
+	case "ENBConfigurationUpdateAcknowledgeIEs":
+		return "ENBConfigurationUpdateAcknowledgeIEs"
+	case "ENBConfigurationUpdateFailure":
+		return "ENBConfigurationUpdateFailureIEs"
+	case "ENBConfigurationUpdateFailureIEs":
+		return "ENBConfigurationUpdateFailureIEs"
+	case "ENBConfigurationUpdateIEs":
+		return "ENBConfigurationUpdateIEs"
+	case "ENBDirectInformationTransfer":
+		return "ENBDirectInformationTransferIEs"
+	case "ENBDirectInformationTransferIEs":
+		return "ENBDirectInformationTransferIEs"
+	case "ENBEarlyStatusTransfer":
+		return "ENBEarlyStatusTransferIEs"
+	case "ENBEarlyStatusTransferIEs":
+		return "ENBEarlyStatusTransferIEs"
+	case "ENBStatusTransfer":
+		return "ENBStatusTransferIEs"
+	case "ENBStatusTransferIEs":
+		return "ENBStatusTransferIEs"
+	case "ERABAdmittedItem":
+		return "E-RABAdmittedItemIEs"
+	case "ERABDataForwardingItem":
+		return "E-RABDataForwardingItemIEs"
+	case "ERABFailedToResumeItemResumeReq":
+		return "E-RABFailedToResumeItemResumeReqIEs"
+	case "ERABFailedToResumeItemResumeRes":
+		return "E-RABFailedToResumeItemResumeResIEs"
+	case "ERABFailedtoSetupItemHOReqAck":
+		return "E-RABFailedtoSetupItemHOReqAckIEs"
+	case "ERABInformationList":
+		return "E-RABInformationListIEs"
+	case "ERABItem":
+		return "E-RABItemIEs"
+	case "ERABModificationConfirm":
+		return "E-RABModificationConfirmIEs"
+	case "ERABModificationIndication":
+		return "E-RABModificationIndicationIEs"
+	case "ERABModifyItemBearerModConf":
+		return "E-RABModifyItemBearerModConfIEs"
+	case "ERABModifyItemBearerModRes":
+		return "E-RABModifyItemBearerModResIEs"
+	case "ERABModifyRequest":
+		return "E-RABModifyRequestIEs"
+	case "ERABModifyResponse":
+		return "E-RABModifyResponseIEs"
+	case "ERABNotToBeModifiedItemBearerModInd":
+		return "E-RABNotToBeModifiedItemBearerModIndIEs"
+	case "ERABReleaseCommand":
+		return "E-RABReleaseCommandIEs"
+	case "ERABReleaseIndication":
+		return "E-RABReleaseIndicationIEs"
+	case "ERABReleaseItemBearerRelComp":
+		return "E-RABReleaseItemBearerRelCompIEs"
+	case "ERABReleaseResponse":
+		return "E-RABReleaseResponseIEs"
+	case "ERABSecurityResultList":
+		return "E-RABSecurityResultListIEs"
+	case "ERABSetupItemBearerSURes":
+		return "E-RABSetupItemBearerSUResIEs"
+	case "ERABSetupItemCtxtSURes":
+		return "E-RABSetupItemCtxtSUResIEs"
+	case "ERABSetupRequest":
+		return "E-RABSetupRequestIEs"
+	case "ERABSetupResponse":
+		return "E-RABSetupResponseIEs"
+	case "ERABToBeModifiedItemBearerModInd":
+		return "E-RABToBeModifiedItemBearerModIndIEs"
+	case "ERABToBeModifiedItemBearerModReq":
+		return "E-RABToBeModifiedItemBearerModReqIEs"
+	case "ERABToBeSetupItemBearerSUReq":
+		return "E-RABToBeSetupItemBearerSUReqIEs"
+	case "ERABToBeSetupItemCtxtSUReq":
+		return "E-RABToBeSetupItemCtxtSUReqIEs"
+	case "ERABToBeSetupItemHOReq":
+		return "E-RABToBeSetupItemHOReqIEs"
+	case "ERABToBeSwitchedDLItem":
+		return "E-RABToBeSwitchedDLItemIEs"
+	case "ERABToBeSwitchedULItem":
+		return "E-RABToBeSwitchedULItemIEs"
+	case "ERABToBeUpdatedItem":
+		return "E-RABToBeUpdatedItemIEs"
+	case "ERABUsageReportItem":
+		return "E-RABUsageReportItemIEs"
+	case "ErrorIndication":
+		return "ErrorIndicationIEs"
+	case "ErrorIndicationIEs":
+		return "ErrorIndicationIEs"
+	case "HandoverCancel":
+		return "HandoverCancelIEs"
+	case "HandoverCancelAcknowledge":
+		return "HandoverCancelAcknowledgeIEs"
+	case "HandoverCancelAcknowledgeIEs":
+		return "HandoverCancelAcknowledgeIEs"
+	case "HandoverCancelIEs":
+		return "HandoverCancelIEs"
+	case "HandoverCommand":
+		return "HandoverCommandIEs"
+	case "HandoverCommandIEs":
+		return "HandoverCommandIEs"
+	case "HandoverFailure":
+		return "HandoverFailureIEs"
+	case "HandoverFailureIEs":
+		return "HandoverFailureIEs"
+	case "HandoverNotify":
+		return "HandoverNotifyIEs"
+	case "HandoverNotifyIEs":
+		return "HandoverNotifyIEs"
+	case "HandoverPreparationFailure":
+		return "HandoverPreparationFailureIEs"
+	case "HandoverPreparationFailureIEs":
+		return "HandoverPreparationFailureIEs"
+	case "HandoverRequest":
+		return "HandoverRequestIEs"
+	case "HandoverRequestAcknowledge":
+		return "HandoverRequestAcknowledgeIEs"
+	case "HandoverRequestAcknowledgeIEs":
+		return "HandoverRequestAcknowledgeIEs"
+	case "HandoverRequestIEs":
+		return "HandoverRequestIEs"
+	case "HandoverRequired":
+		return "HandoverRequiredIEs"
+	case "HandoverRequiredIEs":
+		return "HandoverRequiredIEs"
+	case "HandoverSuccess":
+		return "HandoverSuccessIEs"
+	case "HandoverSuccessIEs":
+		return "HandoverSuccessIEs"
+	case "InitialContextSetupFailure":
+		return "InitialContextSetupFailureIEs"
+	case "InitialContextSetupFailureIEs":
+		return "InitialContextSetupFailureIEs"
+	case "InitialContextSetupRequest":
+		return "InitialContextSetupRequestIEs"
+	case "InitialContextSetupRequestIEs":
+		return "InitialContextSetupRequestIEs"
+	case "InitialContextSetupResponse":
+		return "InitialContextSetupResponseIEs"
+	case "InitialContextSetupResponseIEs":
+		return "InitialContextSetupResponseIEs"
+	case "InitialUEMessage":
+		return "InitialUEMessage-IEs"
+	case "InitialUEMessage-IEs":
+		return "InitialUEMessage-IEs"
+	case "KillRequest":
+		return "KillRequestIEs"
+	case "KillRequestIEs":
+		return "KillRequestIEs"
+	case "KillResponse":
+		return "KillResponseIEs"
+	case "KillResponseIEs":
+		return "KillResponseIEs"
+	case "LocationReport":
+		return "LocationReportIEs"
+	case "LocationReportIEs":
+		return "LocationReportIEs"
+	case "LocationReportingControl":
+		return "LocationReportingControlIEs"
+	case "LocationReportingControlIEs":
+		return "LocationReportingControlIEs"
+	case "LocationReportingFailureIndication":
+		return "LocationReportingFailureIndicationIEs"
+	case "LocationReportingFailureIndicationIEs":
+		return "LocationReportingFailureIndicationIEs"
+	case "MDTMode-ExtensionIE":
+		return "MDTMode-ExtensionIE"
+	case "MDTModeExtensionIE":
+		return "MDTMode-ExtensionIE"
+	case "MMECPRelocationIndication":
+		return "MMECPRelocationIndicationIEs"
+	case "MMECPRelocationIndicationIEs":
+		return "MMECPRelocationIndicationIEs"
+	case "MMEConfigurationTransfer":
+		return "MMEConfigurationTransferIEs"
+	case "MMEConfigurationTransferIEs":
+		return "MMEConfigurationTransferIEs"
+	case "MMEConfigurationUpdate":
+		return "MMEConfigurationUpdateIEs"
+	case "MMEConfigurationUpdateAcknowledge":
+		return "MMEConfigurationUpdateAcknowledgeIEs"
+	case "MMEConfigurationUpdateAcknowledgeIEs":
+		return "MMEConfigurationUpdateAcknowledgeIEs"
+	case "MMEConfigurationUpdateFailure":
+		return "MMEConfigurationUpdateFailureIEs"
+	case "MMEConfigurationUpdateFailureIEs":
+		return "MMEConfigurationUpdateFailureIEs"
+	case "MMEConfigurationUpdateIEs":
+		return "MMEConfigurationUpdateIEs"
+	case "MMEDirectInformationTransfer":
+		return "MMEDirectInformationTransferIEs"
+	case "MMEDirectInformationTransferIEs":
+		return "MMEDirectInformationTransferIEs"
+	case "MMEEarlyStatusTransfer":
+		return "MMEEarlyStatusTransferIEs"
+	case "MMEEarlyStatusTransferIEs":
+		return "MMEEarlyStatusTransferIEs"
+	case "MMEStatusTransfer":
+		return "MMEStatusTransferIEs"
+	case "MMEStatusTransferIEs":
+		return "MMEStatusTransferIEs"
+	case "NASDeliveryIndication":
+		return "NASDeliveryIndicationIEs"
+	case "NASDeliveryIndicationIEs":
+		return "NASDeliveryIndicationIEs"
+	case "NASNonDeliveryIndication":
+		return "NASNonDeliveryIndication-IEs"
+	case "NASNonDeliveryIndication-IEs":
+		return "NASNonDeliveryIndication-IEs"
+	case "OverloadStart":
+		return "OverloadStartIEs"
+	case "OverloadStartIEs":
+		return "OverloadStartIEs"
+	case "OverloadStop":
+		return "OverloadStopIEs"
+	case "OverloadStopIEs":
+		return "OverloadStopIEs"
+	case "PWSFailureIndication":
+		return "PWSFailureIndicationIEs"
+	case "PWSFailureIndicationIEs":
+		return "PWSFailureIndicationIEs"
+	case "PWSRestartIndication":
+		return "PWSRestartIndicationIEs"
+	case "PWSRestartIndicationIEs":
+		return "PWSRestartIndicationIEs"
+	case "Paging":
+		return "PagingIEs"
+	case "PagingIEs":
+		return "PagingIEs"
+	case "PathSwitchRequest":
+		return "PathSwitchRequestIEs"
+	case "PathSwitchRequestAcknowledge":
+		return "PathSwitchRequestAcknowledgeIEs"
+	case "PathSwitchRequestAcknowledgeIEs":
+		return "PathSwitchRequestAcknowledgeIEs"
+	case "PathSwitchRequestFailure":
+		return "PathSwitchRequestFailureIEs"
+	case "PathSwitchRequestFailureIEs":
+		return "PathSwitchRequestFailureIEs"
+	case "PathSwitchRequestIEs":
+		return "PathSwitchRequestIEs"
+	case "RecommendedCellItem":
+		return "RecommendedCellItemIEs"
+	case "RecommendedCellItemIEs":
+		return "RecommendedCellItemIEs"
+	case "RecommendedENBItem":
+		return "RecommendedENBItemIEs"
+	case "RecommendedENBItemIEs":
+		return "RecommendedENBItemIEs"
+	case "RerouteNASRequest":
+		return "RerouteNASRequest-IEs"
+	case "RerouteNASRequest-IEs":
+		return "RerouteNASRequest-IEs"
+	case "Reset":
+		return "ResetIEs"
+	case "ResetAcknowledge":
+		return "ResetAcknowledgeIEs"
+	case "ResetAcknowledgeIEs":
+		return "ResetAcknowledgeIEs"
+	case "ResetIEs":
+		return "ResetIEs"
+	case "RetrieveUEInformation":
+		return "RetrieveUEInformationIEs"
+	case "RetrieveUEInformationIEs":
+		return "RetrieveUEInformationIEs"
+	case "S1RemovalFailure":
+		return "S1RemovalFailureIEs"
+	case "S1RemovalFailureIEs":
+		return "S1RemovalFailureIEs"
+	case "S1RemovalRequest":
+		return "S1RemovalRequestIEs"
+	case "S1RemovalRequestIEs":
+		return "S1RemovalRequestIEs"
+	case "S1RemovalResponse":
+		return "S1RemovalResponseIEs"
+	case "S1RemovalResponseIEs":
+		return "S1RemovalResponseIEs"
+	case "S1SetupFailure":
+		return "S1SetupFailureIEs"
+	case "S1SetupFailureIEs":
+		return "S1SetupFailureIEs"
+	case "S1SetupRequest":
+		return "S1SetupRequestIEs"
+	case "S1SetupRequestIEs":
+		return "S1SetupRequestIEs"
+	case "S1SetupResponse":
+		return "S1SetupResponseIEs"
+	case "S1SetupResponseIEs":
+		return "S1SetupResponseIEs"
+	case "SONInformation-ExtensionIE":
+		return "SONInformation-ExtensionIE"
+	case "SONInformationExtensionIE":
+		return "SONInformation-ExtensionIE"
+	case "SecondaryRATDataUsageReport":
+		return "SecondaryRATDataUsageReportIEs"
+	case "SecondaryRATDataUsageReportIEs":
+		return "SecondaryRATDataUsageReportIEs"
+	case "SecondaryRATDataUsageReportItem":
+		return "SecondaryRATDataUsageReportItemIEs"
+	case "SecondaryRATDataUsageReportItemIEs":
+		return "SecondaryRATDataUsageReportItemIEs"
+	case "TAIItem":
+		return "TAIItemIEs"
+	case "TAIItemIEs":
+		return "TAIItemIEs"
+	case "TraceFailureIndication":
+		return "TraceFailureIndicationIEs"
+	case "TraceFailureIndicationIEs":
+		return "TraceFailureIndicationIEs"
+	case "TraceStart":
+		return "TraceStartIEs"
+	case "TraceStartIEs":
+		return "TraceStartIEs"
+	case "UE-associatedLogicalS1-ConnectionItemRes":
+		return "UE-associatedLogicalS1-ConnectionItemRes"
+	case "UE-associatedLogicalS1-ConnectionItemResAck":
+		return "UE-associatedLogicalS1-ConnectionItemResAck"
+	case "UEAssociatedLogicalS1ConnectionItemRes":
+		return "UE-associatedLogicalS1-ConnectionItemRes"
+	case "UEAssociatedLogicalS1ConnectionItemResAck":
+		return "UE-associatedLogicalS1-ConnectionItemResAck"
+	case "UECapabilityInfoIndication":
+		return "UECapabilityInfoIndicationIEs"
+	case "UECapabilityInfoIndicationIEs":
+		return "UECapabilityInfoIndicationIEs"
+	case "UEContextModificationConfirm":
+		return "UEContextModificationConfirmIEs"
+	case "UEContextModificationConfirmIEs":
+		return "UEContextModificationConfirmIEs"
+	case "UEContextModificationFailure":
+		return "UEContextModificationFailureIEs"
+	case "UEContextModificationFailureIEs":
+		return "UEContextModificationFailureIEs"
+	case "UEContextModificationIndication":
+		return "UEContextModificationIndicationIEs"
+	case "UEContextModificationIndicationIEs":
+		return "UEContextModificationIndicationIEs"
+	case "UEContextModificationRequest":
+		return "UEContextModificationRequestIEs"
+	case "UEContextModificationRequestIEs":
+		return "UEContextModificationRequestIEs"
+	case "UEContextModificationResponse":
+		return "UEContextModificationResponseIEs"
+	case "UEContextModificationResponseIEs":
+		return "UEContextModificationResponseIEs"
+	case "UEContextReleaseCommand":
+		return "UEContextReleaseCommand-IEs"
+	case "UEContextReleaseCommand-IEs":
+		return "UEContextReleaseCommand-IEs"
+	case "UEContextReleaseComplete":
+		return "UEContextReleaseComplete-IEs"
+	case "UEContextReleaseComplete-IEs":
+		return "UEContextReleaseComplete-IEs"
+	case "UEContextReleaseRequest":
+		return "UEContextReleaseRequest-IEs"
+	case "UEContextReleaseRequest-IEs":
+		return "UEContextReleaseRequest-IEs"
+	case "UEContextResumeFailure":
+		return "UEContextResumeFailureIEs"
+	case "UEContextResumeFailureIEs":
+		return "UEContextResumeFailureIEs"
+	case "UEContextResumeRequest":
+		return "UEContextResumeRequestIEs"
+	case "UEContextResumeRequestIEs":
+		return "UEContextResumeRequestIEs"
+	case "UEContextResumeResponse":
+		return "UEContextResumeResponseIEs"
+	case "UEContextResumeResponseIEs":
+		return "UEContextResumeResponseIEs"
+	case "UEContextSuspendRequest":
+		return "UEContextSuspendRequestIEs"
+	case "UEContextSuspendRequestIEs":
+		return "UEContextSuspendRequestIEs"
+	case "UEContextSuspendResponse":
+		return "UEContextSuspendResponseIEs"
+	case "UEContextSuspendResponseIEs":
+		return "UEContextSuspendResponseIEs"
+	case "UEInformationTransfer":
+		return "UEInformationTransferIEs"
+	case "UEInformationTransferIEs":
+		return "UEInformationTransferIEs"
+	case "UERadioCapabilityIDMappingRequest":
+		return "UERadioCapabilityIDMappingRequestIEs"
+	case "UERadioCapabilityIDMappingRequestIEs":
+		return "UERadioCapabilityIDMappingRequestIEs"
+	case "UERadioCapabilityIDMappingResponse":
+		return "UERadioCapabilityIDMappingResponseIEs"
+	case "UERadioCapabilityIDMappingResponseIEs":
+		return "UERadioCapabilityIDMappingResponseIEs"
+	case "UERadioCapabilityMatchRequest":
+		return "UERadioCapabilityMatchRequestIEs"
+	case "UERadioCapabilityMatchRequestIEs":
+		return "UERadioCapabilityMatchRequestIEs"
+	case "UERadioCapabilityMatchResponse":
+		return "UERadioCapabilityMatchResponseIEs"
+	case "UERadioCapabilityMatchResponseIEs":
+		return "UERadioCapabilityMatchResponseIEs"
+	case "UplinkNASTransport":
+		return "UplinkNASTransport-IEs"
+	case "UplinkNASTransport-IEs":
+		return "UplinkNASTransport-IEs"
+	case "UplinkNonUEAssociatedLPPaTransport":
+		return "UplinkNonUEAssociatedLPPaTransport-IEs"
+	case "UplinkNonUEAssociatedLPPaTransport-IEs":
+		return "UplinkNonUEAssociatedLPPaTransport-IEs"
+	case "UplinkS1cdma2000tunnelling":
+		return "UplinkS1cdma2000tunnellingIEs"
+	case "UplinkS1cdma2000tunnellingIEs":
+		return "UplinkS1cdma2000tunnellingIEs"
+	case "UplinkUEAssociatedLPPaTransport":
+		return "UplinkUEAssociatedLPPaTransport-IEs"
+	case "UplinkUEAssociatedLPPaTransport-IEs":
+		return "UplinkUEAssociatedLPPaTransport-IEs"
+	case "WriteReplaceWarningRequest":
+		return "WriteReplaceWarningRequestIEs"
+	case "WriteReplaceWarningRequestIEs":
+		return "WriteReplaceWarningRequestIEs"
+	case "WriteReplaceWarningResponse":
+		return "WriteReplaceWarningResponseIEs"
+	case "WriteReplaceWarningResponseIEs":
+		return "WriteReplaceWarningResponseIEs"
+	default:
+		return context
+	}
+}
+
+func protocolIEValueTypeHint(objectSet string, id int64) string {
+	switch objectSet {
+	case "DownlinkS1cdma2000tunnellingIEs":
+		switch id {
+		case 12:
+			return "ERABSubjecttoDataForwardingList"
+		}
+	case "E-RABModificationConfirmIEs":
+		switch id {
+		case 203:
+			return "ERABModifyListBearerModConf"
+		case 205:
+			return "ERABList"
+		case 210:
+			return "ERABList"
+		}
+	case "E-RABModificationIndicationIEs":
+		switch id {
+		case 199:
+			return "ERABToBeModifiedListBearerModInd"
+		case 201:
+			return "ERABNotToBeModifiedListBearerModInd"
+		case 264:
+			return "SecondaryRATDataUsageReportList"
+		}
+	case "E-RABModifyRequestIEs":
+		switch id {
+		case 30:
+			return "ERABToBeModifiedListBearerModReq"
+		}
+	case "E-RABModifyResponseIEs":
+		switch id {
+		case 31:
+			return "ERABModifyListBearerModRes"
+		case 32:
+			return "ERABList"
+		case 264:
+			return "SecondaryRATDataUsageReportList"
+		}
+	case "E-RABReleaseCommandIEs":
+		switch id {
+		case 33:
+			return "ERABList"
+		}
+	case "E-RABReleaseIndicationIEs":
+		switch id {
+		case 110:
+			return "ERABList"
+		case 264:
+			return "SecondaryRATDataUsageReportList"
+		}
+	case "E-RABReleaseResponseIEs":
+		switch id {
+		case 34:
+			return "ERABList"
+		case 69:
+			return "ERABReleaseListBearerRelComp"
+		case 264:
+			return "SecondaryRATDataUsageReportList"
+		}
+	case "E-RABSetupRequestIEs":
+		switch id {
+		case 16:
+			return "ERABToBeSetupListBearerSUReq"
+		}
+	case "E-RABSetupResponseIEs":
+		switch id {
+		case 28:
+			return "ERABSetupListBearerSURes"
+		case 29:
+			return "ERABList"
+		}
+	case "HandoverCommandIEs":
+		switch id {
+		case 12:
+			return "ERABSubjecttoDataForwardingList"
+		case 13:
+			return "ERABList"
+		}
+	case "HandoverRequestAcknowledgeIEs":
+		switch id {
+		case 18:
+			return "ERABAdmittedList"
+		case 19:
+			return "ERABFailedtoSetupListHOReqAck"
+		}
+	case "HandoverRequestIEs":
+		switch id {
+		case 53:
+			return "ERABToBeSetupListHOReq"
+		}
+	case "InitialContextSetupRequestIEs":
+		switch id {
+		case 24:
+			return "ERABToBeSetupListCtxtSUReq"
+		}
+	case "InitialContextSetupResponseIEs":
+		switch id {
+		case 48:
+			return "ERABList"
+		case 51:
+			return "ERABSetupListCtxtSURes"
+		}
+	case "PagingIEs":
+		switch id {
+		case 46:
+			return "TAIList"
+		}
+	case "PathSwitchRequestAcknowledgeIEs":
+		switch id {
+		case 33:
+			return "ERABList"
+		case 95:
+			return "ERABToBeSwitchedULList"
+		case 341:
+			return "ERABToBeUpdatedList"
+		}
+	case "PathSwitchRequestIEs":
+		switch id {
+		case 22:
+			return "ERABToBeSwitchedDLList"
+		}
+	case "ResetAcknowledgeIEs":
+		switch id {
+		case 93:
+			return "UEAssociatedLogicalS1ConnectionListResAck"
+		}
+	case "SecondaryRATDataUsageReportIEs":
+		switch id {
+		case 264:
+			return "SecondaryRATDataUsageReportList"
+		}
+	case "UEContextReleaseComplete-IEs":
+		switch id {
+		case 264:
+			return "SecondaryRATDataUsageReportList"
+		}
+	case "UEContextReleaseRequest-IEs":
+		switch id {
+		case 264:
+			return "SecondaryRATDataUsageReportList"
+		}
+	case "UEContextResumeRequestIEs":
+		switch id {
+		case 235:
+			return "ERABFailedToResumeListResumeReq"
+		}
+	case "UEContextResumeResponseIEs":
+		switch id {
+		case 237:
+			return "ERABFailedToResumeListResumeRes"
+		}
+	case "UEContextSuspendRequestIEs":
+		switch id {
+		case 264:
+			return "SecondaryRATDataUsageReportList"
+		}
+	}
+	return ""
+}
+
+// DecodeProtocolIEFieldsRecursive decodes fields using an ASN.1 object-set or legacy message-type context.
+func DecodeProtocolIEFieldsRecursive(context string, fields []ProtocolIEField) ([]DecodedProtocolIEField, error) {
+	objectSet := protocolIEObjectSet(context)
+	return decodeProtocolIEFieldsAt(objectSet, fields, objectSet, map[protocolIEVisit]bool{})
+}
+
+// DecodeProtocolIEsRecursive discovers and decodes every context-bound ProtocolIE-Field list in value.
+func DecodeProtocolIEsRecursive(value interface{}) ([]DecodedProtocolIEField, error) {
+	if value == nil {
+		return nil, nil
+	}
+	rv := reflect.ValueOf(value)
+	root := indirectProtocolIEValue(rv)
+	if !root.IsValid() {
+		return nil, nil
+	}
+	path := root.Type().Name()
+	if path == "" {
+		return nil, fmt.Errorf("recursive protocol IE decode requires a named root value; use DecodeProtocolIEFieldsRecursive for a standalone list")
+	}
+	return decodeProtocolIEsInValue(rv, "", path, map[protocolIEVisit]bool{})
+}
+
+type protocolIEVisit struct {
+	typ reflect.Type
+	ptr uintptr
+}
+
+func indirectProtocolIEValue(value reflect.Value) reflect.Value {
+	for value.IsValid() && (value.Kind() == reflect.Interface || value.Kind() == reflect.Pointer) {
+		if value.IsNil() {
+			return reflect.Value{}
+		}
+		value = value.Elem()
+	}
+	return value
+}
+
+func decodeProtocolIEsInValue(value reflect.Value, typeHint, path string, seen map[protocolIEVisit]bool) ([]DecodedProtocolIEField, error) {
+	for value.IsValid() && value.Kind() == reflect.Interface {
+		if value.IsNil() {
+			return nil, nil
+		}
+		value = value.Elem()
+	}
+	if !value.IsValid() {
+		return nil, nil
+	}
+	if value.Kind() == reflect.Pointer {
+		if value.IsNil() {
+			return nil, nil
+		}
+		visit := protocolIEVisit{typ: value.Type(), ptr: value.Pointer()}
+		if seen[visit] {
+			return nil, nil
+		}
+		seen[visit] = true
+		defer delete(seen, visit)
+		return decodeProtocolIEsInValue(value.Elem(), typeHint, path, seen)
+	}
+
+	resolvedType := typeHint
+	if resolvedType == "" {
+		resolvedType = value.Type().Name()
+	}
+	if objectSet := protocolIETypeObjectSets[resolvedType]; objectSet != "" {
+		fields, ok := protocolIEFieldsFromValue(value)
+		if !ok {
+			return nil, fmt.Errorf("%s: generated binding %s expects ProtocolIE-Field data, got %s", path, resolvedType, value.Type())
+		}
+		return decodeProtocolIEFieldsAt(objectSet, fields, path, seen)
+	}
+
+	switch value.Kind() {
+	case reflect.Struct:
+		owner := value.Type().Name()
+		var result []DecodedProtocolIEField
+		for i := 0; i < value.NumField(); i++ {
+			fieldInfo := value.Type().Field(i)
+			if fieldInfo.PkgPath != "" || fieldInfo.Tag.Get("asn1") == "-" {
+				continue
+			}
+			fieldPath := path + "." + fieldInfo.Name
+			fieldValue := value.Field(i)
+			if objectSet := protocolIEFieldObjectSets[owner+"."+fieldInfo.Name]; objectSet != "" {
+				fields, ok := protocolIEFieldsFromValue(fieldValue)
+				if !ok {
+					return nil, fmt.Errorf("%s: generated binding expects ProtocolIE-Field data, got %s", fieldPath, fieldValue.Type())
+				}
+				decoded, err := decodeProtocolIEFieldsAt(objectSet, fields, fieldPath, seen)
+				if err != nil {
+					return nil, err
+				}
+				result = append(result, decoded...)
+				continue
+			}
+			decoded, err := decodeProtocolIEsInValue(fieldValue, "", fieldPath, seen)
+			if err != nil {
+				return nil, err
+			}
+			result = append(result, decoded...)
+		}
+		return result, nil
+	case reflect.Slice, reflect.Array:
+		if value.Type().Elem().Kind() != reflect.Struct && value.Type().Elem().Kind() != reflect.Pointer && value.Type().Elem().Kind() != reflect.Interface {
+			return nil, nil
+		}
+		var result []DecodedProtocolIEField
+		for i := 0; i < value.Len(); i++ {
+			decoded, err := decodeProtocolIEsInValue(value.Index(i), "", fmt.Sprintf("%s[%d]", path, i), seen)
+			if err != nil {
+				return nil, err
+			}
+			result = append(result, decoded...)
+		}
+		return result, nil
+	default:
+		return nil, nil
+	}
+}
+
+func protocolIEFieldsFromValue(value reflect.Value) ([]ProtocolIEField, bool) {
+	value = indirectProtocolIEValue(value)
+	if !value.IsValid() {
+		return nil, true
+	}
+	fieldType := reflect.TypeOf(ProtocolIEField{})
+	if value.Type() == fieldType || value.Type().ConvertibleTo(fieldType) {
+		return []ProtocolIEField{value.Convert(fieldType).Interface().(ProtocolIEField)}, true
+	}
+	if value.Kind() != reflect.Slice && value.Kind() != reflect.Array {
+		return nil, false
+	}
+	result := make([]ProtocolIEField, value.Len())
+	for i := 0; i < value.Len(); i++ {
+		item := indirectProtocolIEValue(value.Index(i))
+		if !item.IsValid() || (!item.Type().AssignableTo(fieldType) && !item.Type().ConvertibleTo(fieldType)) {
+			return nil, false
+		}
+		result[i] = item.Convert(fieldType).Interface().(ProtocolIEField)
+	}
+	return result, true
+}
+
+func decodeProtocolIEFieldsAt(objectSet string, fields []ProtocolIEField, path string, seen map[protocolIEVisit]bool) ([]DecodedProtocolIEField, error) {
+	result := make([]DecodedProtocolIEField, len(fields))
+	for i := range fields {
+		fieldPath := fmt.Sprintf("%s[%d]", path, i)
+		result[i] = DecodedProtocolIEField{
+			Path: fieldPath, ObjectSet: objectSet, Field: fields[i],
+		}
+		value, err := DecodeIEFieldValue(objectSet, int64(fields[i].Id), fields[i].Value.Bytes)
+		if err != nil {
+			return nil, fmt.Errorf("%s: decoding object set %s IE %d: %w", fieldPath, objectSet, fields[i].Id, err)
+		}
+		result[i].Value = value
+		if value == nil {
+			continue
+		}
+		hint := protocolIEValueTypeHint(objectSet, int64(fields[i].Id))
+		children, err := decodeProtocolIEsInValue(reflect.ValueOf(value), hint, fieldPath, seen)
+		if err != nil {
+			return nil, err
+		}
+		result[i].Children = children
+	}
+	return result, nil
+}
+
+// DecodeValueRecursive decodes InitiatingMessage and every nested protocol IE with its ASN.1 object-set context.
+func (v *InitiatingMessage) DecodeValueRecursive() (*DecodedProtocolValue, error) {
+	value, err := v.DecodeValue()
+	if err != nil {
+		return nil, err
+	}
+	fields, err := DecodeProtocolIEsRecursive(value)
+	if err != nil {
+		return nil, err
+	}
+	return &DecodedProtocolValue{Value: value, ProtocolIEs: fields}, nil
+}
+
+// DecodeValueRecursive decodes SuccessfulOutcome and every nested protocol IE with its ASN.1 object-set context.
+func (v *SuccessfulOutcome) DecodeValueRecursive() (*DecodedProtocolValue, error) {
+	value, err := v.DecodeValue()
+	if err != nil {
+		return nil, err
+	}
+	fields, err := DecodeProtocolIEsRecursive(value)
+	if err != nil {
+		return nil, err
+	}
+	return &DecodedProtocolValue{Value: value, ProtocolIEs: fields}, nil
+}
+
+// DecodeValueRecursive decodes UnsuccessfulOutcome and every nested protocol IE with its ASN.1 object-set context.
+func (v *UnsuccessfulOutcome) DecodeValueRecursive() (*DecodedProtocolValue, error) {
+	value, err := v.DecodeValue()
+	if err != nil {
+		return nil, err
+	}
+	fields, err := DecodeProtocolIEsRecursive(value)
+	if err != nil {
+		return nil, err
+	}
+	return &DecodedProtocolValue{Value: value, ProtocolIEs: fields}, nil
 }
 
 // DecodeValue decodes the Value field of InitiatingMessage based on ProcedureCode.

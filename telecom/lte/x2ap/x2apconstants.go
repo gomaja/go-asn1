@@ -1688,4 +1688,91 @@ const (
 
 	// NewmaxEARFCN is the integer constant for newmaxEARFCN.
 	NewmaxEARFCN int64 = 262143
+
+	// IdRachIndication is the integer constant for id-rachIndication.
+	IdRachIndication int64 = 60
+
+	// IdScgFailureInformationReport is the integer constant for id-scgFailureInformationReport.
+	IdScgFailureInformationReport int64 = 61
+
+	// IdScgFailureTransfer is the integer constant for id-scgFailureTransfer.
+	IdScgFailureTransfer int64 = 62
+
+	// MaxnoofRAReports is the integer constant for maxnoofRAReports.
+	MaxnoofRAReports int64 = 64
+
+	// MaxnoofUEsforRAReportIndications is the integer constant for maxnoofUEsforRAReportIndications.
+	MaxnoofUEsforRAReportIndications int64 = 64
+
+	// IdUnknown8 is the integer constant for id-Unknown-8.
+	IdUnknown8 int64 = 8
+
+	// IdUnknown73 is the integer constant for id-Unknown-73.
+	IdUnknown73 int64 = 73
+
+	// IdUnknown144 is the integer constant for id-Unknown-144.
+	IdUnknown144 int64 = 144
+
+	// IdUnknown186 is the integer constant for id-Unknown-186.
+	IdUnknown186 int64 = 186
+
+	// IdUnknown187 is the integer constant for id-Unknown-187.
+	IdUnknown187 int64 = 187
+
+	// IdUnknown188 is the integer constant for id-Unknown-188.
+	IdUnknown188 int64 = 188
+
+	// IdUnknown189 is the integer constant for id-Unknown-189.
+	IdUnknown189 int64 = 189
+
+	// IdUnknown190 is the integer constant for id-Unknown-190.
+	IdUnknown190 int64 = 190
+
+	// IdUnknown191 is the integer constant for id-Unknown-191.
+	IdUnknown191 int64 = 191
+
+	// IdUnknown192 is the integer constant for id-Unknown-192.
+	IdUnknown192 int64 = 192
+
+	// IdUnknown398 is the integer constant for id-Unknown-398.
+	IdUnknown398 int64 = 398
+
+	// IdNRRAReport is the integer constant for id-NRRAReport.
+	IdNRRAReport int64 = 414
+
+	// IdM4ReportAmount is the integer constant for id-M4ReportAmount.
+	IdM4ReportAmount int64 = 442
+
+	// IdM5ReportAmount is the integer constant for id-M5ReportAmount.
+	IdM5ReportAmount int64 = 443
+
+	// IdM6ReportAmount is the integer constant for id-M6ReportAmount.
+	IdM6ReportAmount int64 = 444
+
+	// IdM7ReportAmount is the integer constant for id-M7ReportAmount.
+	IdM7ReportAmount int64 = 445
+
+	// IdCHOTimeBasedInformation is the integer constant for id-CHOTimeBasedInformation.
+	IdCHOTimeBasedInformation int64 = 446
+
+	// IdRaReportIndicationList is the integer constant for id-RaReportIndicationList.
+	IdRaReportIndicationList int64 = 447
+
+	// IdPSCellListContainer is the integer constant for id-PSCellListContainer.
+	IdPSCellListContainer int64 = 448
+
+	// IdIABAuthorized is the integer constant for id-IABAuthorized.
+	IdIABAuthorized int64 = 449
+
+	// IdSourcePSCellCGI is the integer constant for id-SourcePSCellCGI.
+	IdSourcePSCellCGI int64 = 450
+
+	// IdFailedPSCellCGI is the integer constant for id-FailedPSCellCGI.
+	IdFailedPSCellCGI int64 = 451
+
+	// IdSCGFailureReportContainer is the integer constant for id-SCG-FailureReportContainer.
+	IdSCGFailureReportContainer int64 = 452
+
+	// IdTimeSCGFailure is the integer constant for id-TimeSCG-Failure.
+	IdTimeSCGFailure int64 = 453
 )

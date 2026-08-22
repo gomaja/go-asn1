@@ -950,7 +950,7 @@ type AreaEventReporting struct {
 }
 
 // DataTypesAreaList represents the ASN.1 type DataTypesAreaList (SEQUENCE_OF).
-type DataTypesAreaList = []Area
+type DataTypesAreaList = []DataTypesArea
 
 // DataTypesArea represents the ASN.1 type DataTypesArea (SEQUENCE).
 type DataTypesArea struct {
@@ -8354,7 +8354,7 @@ func UnmarshalBERDataTypesAreaList(data []byte) (DataTypesAreaList, error) {
 	var result DataTypesAreaList
 	offset := 0
 	for offset < len(content) {
-		var elem Area
+		var elem DataTypesArea
 		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
 		if tlvErr != nil {
 			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
