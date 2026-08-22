@@ -136,6 +136,64 @@ func TestDecodeProtocolExtensionFieldsRecursivePreservesUnknownExtension(t *test
 	}
 }
 
+func TestDecodeProtocolExtensionsRecursiveInlineListOwners(t *testing.T) {
+	raw := []byte{0xde, 0xad, 0xbe, 0xef}
+	tests := []struct {
+		name      string
+		value     any
+		path      string
+		objectSet string
+	}{
+		{
+			name: "neighbour information",
+			value: &NeighbourInformationElem{IEExtensions: ProtocolExtensionContainer{{
+				Id: 65532, ExtensionValue: runtime.RawValue{Bytes: raw},
+			}}},
+			path: "NeighbourInformationElem.IEExtensions[0]", objectSet: "Neighbour-Information-ExtIEs",
+		},
+		{
+			name: "NR neighbour information",
+			value: &NRNeighbourInformationElem{IEExtensions: ProtocolExtensionContainer{{
+				Id: 65532, ExtensionValue: runtime.RawValue{Bytes: raw},
+			}}},
+			path: "NRNeighbourInformationElem.IEExtensions[0]", objectSet: "NRNeighbour-Information-ExtIEs",
+		},
+		{
+			name: "RSRP measurement report",
+			value: &RSRPMRListElem{IEExtensions: ProtocolExtensionContainer{{
+				Id: 65532, ExtensionValue: runtime.RawValue{Bytes: raw},
+			}}},
+			path: "RSRPMRListElem.IEExtensions[0]", objectSet: "RSRPMRList-ExtIEs",
+		},
+		{
+			name: "served cell",
+			value: &ServedCellsElem{IEExtensions: ProtocolExtensionContainer{{
+				Id: 65532, ExtensionValue: runtime.RawValue{Bytes: raw},
+			}}},
+			path: "ServedCellsElem.IEExtensions[0]", objectSet: "ServedCell-ExtIEs",
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			decoded, err := DecodeProtocolExtensionsRecursive(test.value)
+			if err != nil {
+				t.Fatalf("recursive extension decode: %v", err)
+			}
+			if len(decoded) != 1 {
+				t.Fatalf("decoded extensions = %#v, want one", decoded)
+			}
+			extension := decoded[0]
+			if extension.Path != test.path || extension.ObjectSet != test.objectSet || extension.Value != nil {
+				t.Errorf("extension = (%q, %q, %T), want (%q, %q, nil)",
+					extension.Path, extension.ObjectSet, extension.Value, test.path, test.objectSet)
+			}
+			if !bytes.Equal(extension.Field.ExtensionValue.Bytes, raw) {
+				t.Errorf("extension bytes = %x, want %x", extension.Field.ExtensionValue.Bytes, raw)
+			}
+		})
+	}
+}
+
 func TestDecodeProtocolExtensionsRecursiveReportsDAPSPath(t *testing.T) {
 	item := &ERABsAdmittedItem{
 		IEExtensions: ProtocolExtensionContainer{{Id: IdDAPSResponseInfo}},

@@ -9,13 +9,18 @@ import (
 	"github.com/gomaja/go-asn1/runtime/per"
 )
 
-func dapsResponseInfoListWire(t *testing.T, erabID ERABID, indicator int64) []byte {
+func dapsResponseInfoListWire(t *testing.T, erabID ERABID, indicator int64) ([]byte, []byte) {
 	t.Helper()
+	unknownExtension := []byte{0xde, 0xad, 0xbe, 0xef}
 	itemWire, err := (&DAPSResponseInfoItem{
 		ERABID: erabID,
 		DAPSResponseInfo: DAPSResponseInfo{
 			Dapsresponseindicator: indicator,
 		},
+		IEExtensions: ProtocolExtensionContainer{{
+			Id: 65532, Criticality: CriticalityIgnore,
+			ExtensionValue: runtime.RawValue{Bytes: unknownExtension},
+		}},
 	}).MarshalAPER()
 	if err != nil {
 		t.Fatalf("encoding DAPS response item: %v", err)
@@ -31,14 +36,14 @@ func dapsResponseInfoListWire(t *testing.T, erabID ERABID, indicator int64) []by
 	}).MarshalAPERTo(list); err != nil {
 		t.Fatalf("encoding DAPS response list item: %v", err)
 	}
-	return list.Bytes()
+	return list.Bytes(), unknownExtension
 }
 
 func TestDecodeProtocolExtensionsRecursiveTargetTransparentContainerDAPS(t *testing.T) {
 	// 3GPP TS 36.413 V19.2.0, S1AP-IEs: the typed
 	// TargeteNB-ToSourceeNB-TransparentContainer extension set maps ID 318 to
 	// DAPSResponseInfoList, whose items use DAPSResponseInfoListIEs.
-	raw := dapsResponseInfoListWire(t, 5, 0)
+	raw, unknownExtension := dapsResponseInfoListWire(t, 5, 0)
 	container := &TargeteNBToSourceeNBTransparentContainer{
 		RRCContainer: RRCContainer{0x01},
 		IEExtensions: ProtocolExtensionContainer{{
@@ -75,6 +80,18 @@ func TestDecodeProtocolExtensionsRecursiveTargetTransparentContainerDAPS(t *test
 	}
 	if item.ERABID != 5 || item.DAPSResponseInfo.Dapsresponseindicator != 0 {
 		t.Errorf("decoded DAPS item = %#v, want E-RAB 5 accepted", item)
+	}
+	if len(itemNode.Extensions) != 1 {
+		t.Fatalf("DAPS item extensions = %#v, want one", itemNode.Extensions)
+	}
+	itemExtension := itemNode.Extensions[0]
+	if itemExtension.Path != "TargeteNBToSourceeNBTransparentContainer.IEExtensions[0][0].IEExtensions[0]" ||
+		itemExtension.ObjectSet != "DAPSResponseInfoItem-ExtIEs" || itemExtension.Value != nil {
+		t.Errorf("DAPS item extension = (%q, %q, %T), want preserved unknown extension",
+			itemExtension.Path, itemExtension.ObjectSet, itemExtension.Value)
+	}
+	if !bytes.Equal(itemExtension.Field.ExtensionValue.Bytes, unknownExtension) {
+		t.Errorf("DAPS item extension bytes = %x, want %x", itemExtension.Field.ExtensionValue.Bytes, unknownExtension)
 	}
 }
 

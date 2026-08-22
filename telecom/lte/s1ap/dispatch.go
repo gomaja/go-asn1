@@ -6099,6 +6099,7 @@ var protocolIEFieldObjectSets = map[string]string{
 	"ERABSetupRequest.ProtocolIEs":                                                       "E-RABSetupRequestIEs",
 	"ERABSetupResponse.ProtocolIEs":                                                      "E-RABSetupResponseIEs",
 	"ErrorIndication.ProtocolIEs":                                                        "ErrorIndicationIEs",
+	"EventTrigger.ChoiceExtensions":                                                      "EventTrigger-ExtIEs",
 	"HandoverCancel.ProtocolIEs":                                                         "HandoverCancelIEs",
 	"HandoverCancelAcknowledge.ProtocolIEs":                                              "HandoverCancelAcknowledgeIEs",
 	"HandoverCommand.ProtocolIEs":                                                        "HandoverCommandIEs",
@@ -6126,6 +6127,7 @@ var protocolIEFieldObjectSets = map[string]string{
 	"MMEDirectInformationTransfer.ProtocolIEs":                                           "MMEDirectInformationTransferIEs",
 	"MMEEarlyStatusTransfer.ProtocolIEs":                                                 "MMEEarlyStatusTransferIEs",
 	"MMEStatusTransfer.ProtocolIEs":                                                      "MMEStatusTransferIEs",
+	"MeasurementThresholdL1LoggedMDT.ChoiceExtensions":                                   "MeasurementThresholdL1LoggedMDT-ExtIEs",
 	"NASDeliveryIndication.ProtocolIEs":                                                  "NASDeliveryIndicationIEs",
 	"NASNonDeliveryIndication.ProtocolIEs":                                               "NASNonDeliveryIndication-IEs",
 	"OverloadStart.ProtocolIEs":                                                          "OverloadStartIEs",
@@ -6147,6 +6149,7 @@ var protocolIEFieldObjectSets = map[string]string{
 	"S1SetupResponse.ProtocolIEs":                                                        "S1SetupResponseIEs",
 	"SecondaryRATDataUsageReport.ProtocolIEs":                                            "SecondaryRATDataUsageReportIEs",
 	"SecondaryRATDataUsageReportItem.ERABUsageReportList":                                "E-RABUsageReportItemIEs",
+	"SensorNameConfig.ChoiceExtensions":                                                  "SensorNameConfig-ExtIEs",
 	"SourceeNBToTargeteNBTransparentContainer.ERABInformationList":                       "E-RABInformationListIEs",
 	"TraceFailureIndication.ProtocolIEs":                                                 "TraceFailureIndicationIEs",
 	"TraceStart.ProtocolIEs":                                                             "TraceStartIEs",
@@ -6209,46 +6212,185 @@ var protocolIETypeObjectSets = map[string]string{
 	"RecommendedENBList":                        "RecommendedENBItemIEs",
 	"SONInformationExtension":                   "SONInformation-ExtensionIE",
 	"SecondaryRATDataUsageReportList":           "SecondaryRATDataUsageReportItemIEs",
+	"SourceNodeIDExtension":                     "SourceNodeID-ExtensionIE",
 	"TAIList":                                   "TAIItemIEs",
 	"UEAssociatedLogicalS1ConnectionListRes":    "UE-associatedLogicalS1-ConnectionItemRes",
 	"UEAssociatedLogicalS1ConnectionListResAck": "UE-associatedLogicalS1-ConnectionItemResAck",
 }
 
 var protocolExtensionFieldObjectSets = map[string]string{
-	"BearersSubjectToStatusTransferItem.IEExtensions":         "Bearers-SubjectToStatusTransfer-ItemExtIEs",
-	"ENBEarlyStatusTransferTransparentContainer.IEExtensions": "ENB-EarlyStatusTransfer-TransparentContainer-ExtIEs",
-	"ERABInformationListItem.IEExtensions":                    "E-RABInformationListItem-ExtIEs",
-	"ERABLevelQoSParameters.IEExtensions":                     "E-RABQoSParameters-ExtIEs",
-	"ERABToBeModifiedItemBearerModReq.IEExtensions":           "E-RABToBeModifyItemBearerModReqExtIEs",
-	"ERABToBeSetupItemBearerSUReq.IEExtensions":               "E-RABToBeSetupItemBearerSUReqExtIEs",
-	"ERABToBeSetupItemCtxtSUReq.IEExtensions":                 "E-RABToBeSetupItemCtxtSUReqExtIEs",
-	"ERABToBeSetupItemHOReq.IEExtensions":                     "E-RABToBeSetupItemHOReq-ExtIEs",
-	"ERABToBeSwitchedDLItem.IEExtensions":                     "E-RABToBeSwitchedDLItem-ExtIEs",
-	"GBRQosInformation.IEExtensions":                          "GBR-QosInformation-ExtIEs",
-	"HandoverRestrictionList.IEExtensions":                    "HandoverRestrictionList-ExtIEs",
-	"ImmediateMDT.IEExtensions":                               "ImmediateMDT-ExtIEs",
-	"LastVisitedEUTRANCellInformation.IEExtensions":           "LastVisitedEUTRANCellInformation-ExtIEs",
-	"LoggedMDT.IEExtensions":                                  "LoggedMDT-ExtIEs",
-	"M4Configuration.IEExtensions":                            "M4Configuration-ExtIEs",
-	"M5Configuration.IEExtensions":                            "M5Configuration-ExtIEs",
-	"M6Configuration.IEExtensions":                            "M6Configuration-ExtIEs",
-	"M7Configuration.IEExtensions":                            "M7Configuration-ExtIEs",
-	"MDTConfiguration.IEExtensions":                           "MDT-Configuration-ExtIEs",
-	"ProSeAuthorized.IEExtensions":                            "ProSeAuthorized-ExtIEs",
-	"RLFReportInformation.IEExtensions":                       "RLFReportInformation-ExtIEs",
-	"RequestType.IEExtensions":                                "RequestType-ExtIEs",
-	"SONConfigurationTransfer.IEExtensions":                   "SONConfigurationTransfer-ExtIEs",
-	"SONInformationReply.IEExtensions":                        "SONInformationReply-ExtIEs",
-	"ServedGUMMEIsItem.IEExtensions":                          "ServedGUMMEIsItem-ExtIEs",
-	"SourceeNBToTargeteNBTransparentContainer.IEExtensions":   "SourceeNB-ToTargeteNB-TransparentContainer-ExtIEs",
-	"SupportedTAsItem.IEExtensions":                           "SupportedTAs-Item-ExtIEs",
-	"TargeteNBToSourceeNBTransparentContainer.IEExtensions":   "TargeteNB-ToSourceeNB-TransparentContainer-ExtIEs",
-	"TimeSynchronisationInfo.IEExtensions":                    "TimeSynchronisationInfo-ExtIEs",
-	"TraceActivation.IEExtensions":                            "TraceActivation-ExtIEs",
-	"UEAggregateMaximumBitrate.IEExtensions":                  "UEAggregate-MaximumBitrates-ExtIEs",
-	"UEAppLayerMeasConfig.IEExtensions":                       "UEAppLayerMeasConfig-ExtIEs",
-	"UserLocationInformation.IEExtensions":                    "UserLocationInformation-ExtIEs",
-	"X2TNLConfigurationInfo.IEExtensions":                     "X2TNLConfigurationInfo-ExtIEs",
+	"AdditionalGUTI.IEExtensions":                                "Additional-GUTI-ExtIEs",
+	"AllocationAndRetentionPriority.IEExtensions":                "AllocationAndRetentionPriority-ExtIEs",
+	"AssistanceDataForCECapableUEs.IEExtensions":                 "InformationForCECapableUEs-ExtIEs",
+	"AssistanceDataForPaging.IEExtensions":                       "AssistanceDataForPaging-ExtIEs",
+	"AssistanceDataForRecommendedCells.IEExtensions":             "AssistanceDataForRecommendedCells-ExtIEs",
+	"BearersSubjectToEarlyStatusTransferItem.IEExtensions":       "Bearers-SubjectToEarlyStatusTransfer-ItemExtIEs",
+	"BearersSubjectToStatusTransferItem.IEExtensions":            "Bearers-SubjectToStatusTransfer-ItemExtIEs",
+	"BluetoothMeasurementConfiguration.IEExtensions":             "BluetoothMeasurementConfiguration-ExtIEs",
+	"CGI.IEExtensions":                                           "CGI-ExtIEs",
+	"CNTypeRestrictionsItem.IEExtensions":                        "CNTypeRestrictions-Item-ExtIEs",
+	"COUNTValueExtended.IEExtensions":                            "COUNTValueExtended-ExtIEs",
+	"COUNTvalue.IEExtensions":                                    "COUNTvalue-ExtIEs",
+	"COUNTvaluePDCPSNlength18.IEExtensions":                      "COUNTvaluePDCP-SNlength18-ExtIEs",
+	"CSGIdListItem.IEExtensions":                                 "CSG-IdList-Item-ExtIEs",
+	"CSGMembershipInfo.IEExtensions":                             "CSGMembershipInfo-ExtIEs",
+	"CancelledCellinEAIItem.IEExtensions":                        "CancelledCellinEAI-Item-ExtIEs",
+	"CancelledCellinTAIItem.IEExtensions":                        "CancelledCellinTAI-Item-ExtIEs",
+	"Cdma2000OneXSRVCCInfo.IEExtensions":                         "Cdma2000OneXSRVCCInfo-ExtIEs",
+	"CellBasedMDT.IEExtensions":                                  "CellBasedMDT-ExtIEs",
+	"CellBasedQMC.IEExtensions":                                  "CellBasedQMC-ExtIEs",
+	"CellIDBroadcastItem.IEExtensions":                           "CellID-Broadcast-Item-ExtIEs",
+	"CellIDCancelledItem.IEExtensions":                           "CellID-Cancelled-Item-ExtIEs",
+	"CellIdentifierAndCELevelForCECapableUEs.IEExtensions":       "CellIdentifierAndCELevelForCECapableUEs-ExtIEs",
+	"CellType.IEExtensions":                                      "CellType-ExtIEs",
+	"CompletedCellinEAIItem.IEExtensions":                        "CompletedCellinEAI-Item-ExtIEs",
+	"CompletedCellinTAIItem.IEExtensions":                        "CompletedCellinTAI-Item-ExtIEs",
+	"ConnectedengNBItem.IEExtensions":                            "ConnectedengNBItem-ExtIEs",
+	"ContextatSource.IEExtensions":                               "ContextatSource-ExtIEs",
+	"CriticalityDiagnostics.IEExtensions":                        "CriticalityDiagnostics-ExtIEs",
+	"CriticalityDiagnosticsIEItem.IEExtensions":                  "CriticalityDiagnostics-IE-Item-ExtIEs",
+	"DAPSRequestInfo.IEExtensions":                               "DAPSRequestInfo-ExtIEs",
+	"DAPSResponseInfo.IEExtensions":                              "DAPSResponseInfo-ExtIEs",
+	"DAPSResponseInfoItem.IEExtensions":                          "DAPSResponseInfoItem-ExtIEs",
+	"DLCPSecurityInformation.IEExtensions":                       "DL-CP-SecurityInformation-ExtIEs",
+	"ENBEarlyStatusTransferTransparentContainer.IEExtensions":    "ENB-EarlyStatusTransfer-TransparentContainer-ExtIEs",
+	"ENBStatusTransferTransparentContainer.IEExtensions":         "ENB-StatusTransfer-TransparentContainer-ExtIEs",
+	"ENBX2ExtTLA.IEExtensions":                                   "ENBX2ExtTLA-ExtIEs",
+	"ENDCSONConfigurationTransfer.IEExtensions":                  "EN-DCSONConfigurationTransfer-ExtIEs",
+	"ENDCSONeNBIdentification.IEExtensions":                      "EN-DCSONeNBIdentification-ExtIEs",
+	"ENDCSONengNBIdentification.IEExtensions":                    "EN-DCSONengNBIdentification-ExtIEs",
+	"ENDCTransferTypeReply.IEExtensions":                         "EN-DCTransferTypeReply-ExtIEs",
+	"ENDCTransferTypeRequest.IEExtensions":                       "EN-DCTransferTypeRequest-ExtIEs",
+	"ERABAdmittedItem.IEExtensions":                              "E-RABAdmittedItem-ExtIEs",
+	"ERABDataForwardingItem.IEExtensions":                        "E-RABDataForwardingItem-ExtIEs",
+	"ERABFailedToResumeItemResumeReq.IEExtensions":               "E-RABFailedToResumeItemResumeReq-ExtIEs",
+	"ERABFailedToResumeItemResumeRes.IEExtensions":               "E-RABFailedToResumeItemResumeRes-ExtIEs",
+	"ERABFailedToSetupItemHOReqAck.IEExtensions":                 "E-RABFailedToSetupItemHOReqAckExtIEs",
+	"ERABInformationListItem.IEExtensions":                       "E-RABInformationListItem-ExtIEs",
+	"ERABItem.IEExtensions":                                      "E-RABItem-ExtIEs",
+	"ERABLevelQoSParameters.IEExtensions":                        "E-RABQoSParameters-ExtIEs",
+	"ERABModifyItemBearerModConf.IEExtensions":                   "E-RABModifyItemBearerModConfExtIEs",
+	"ERABModifyItemBearerModRes.IEExtensions":                    "E-RABModifyItemBearerModResExtIEs",
+	"ERABNotToBeModifiedItemBearerModInd.IEExtensions":           "E-RABNotToBeModifiedItemBearerModInd-ExtIEs",
+	"ERABReleaseItemBearerRelComp.IEExtensions":                  "E-RABReleaseItemBearerRelCompExtIEs",
+	"ERABSecurityResultItem.IEExtensions":                        "E-RABSecurityResultItem-ExtIEs",
+	"ERABSetupItemBearerSURes.IEExtensions":                      "E-RABSetupItemBearerSUResExtIEs",
+	"ERABSetupItemCtxtSURes.IEExtensions":                        "E-RABSetupItemCtxtSUResExtIEs",
+	"ERABToBeModifiedItemBearerModInd.IEExtensions":              "E-RABToBeModifiedItemBearerModInd-ExtIEs",
+	"ERABToBeModifiedItemBearerModReq.IEExtensions":              "E-RABToBeModifyItemBearerModReqExtIEs",
+	"ERABToBeSetupItemBearerSUReq.IEExtensions":                  "E-RABToBeSetupItemBearerSUReqExtIEs",
+	"ERABToBeSetupItemCtxtSUReq.IEExtensions":                    "E-RABToBeSetupItemCtxtSUReqExtIEs",
+	"ERABToBeSetupItemHOReq.IEExtensions":                        "E-RABToBeSetupItemHOReq-ExtIEs",
+	"ERABToBeSwitchedDLItem.IEExtensions":                        "E-RABToBeSwitchedDLItem-ExtIEs",
+	"ERABToBeSwitchedULItem.IEExtensions":                        "E-RABToBeSwitchedULItem-ExtIEs",
+	"ERABToBeUpdatedItem.IEExtensions":                           "E-RABToBeUpdatedItem-ExtIEs",
+	"ERABUsageReportItem.IEExtensions":                           "E-RABUsageReportItem-ExtIEs",
+	"EUTRANCGI.IEExtensions":                                     "EUTRAN-CGI-ExtIEs",
+	"EmergencyAreaIDBroadcastItem.IEExtensions":                  "EmergencyAreaID-Broadcast-Item-ExtIEs",
+	"EmergencyAreaIDCancelledItem.IEExtensions":                  "EmergencyAreaID-Cancelled-Item-ExtIEs",
+	"EventL1LoggedMDTConfig.IEExtensions":                        "EventL1LoggedMDTConfig-ExtIEs",
+	"ExpectedUEActivityBehaviour.IEExtensions":                   "ExpectedUEActivityBehaviour-ExtIEs",
+	"ExpectedUEBehaviour.IEExtensions":                           "ExpectedUEBehaviour-ExtIEs",
+	"FiveGSTAI.IEExtensions":                                     "FiveGSTAI-ExtIEs",
+	"ForbiddenLAsItem.IEExtensions":                              "ForbiddenLAs-Item-ExtIEs",
+	"ForbiddenTAsItem.IEExtensions":                              "ForbiddenTAs-Item-ExtIEs",
+	"GBRQosInformation.IEExtensions":                             "GBR-QosInformation-ExtIEs",
+	"GERANCellID.IEExtensions":                                   "GERAN-Cell-ID-ExtIEs",
+	"GNB.IEExtensions":                                           "GNB-ExtIEs",
+	"GUMMEI.IEExtensions":                                        "GUMMEI-ExtIEs",
+	"GlobalENBID.IEExtensions":                                   "GlobalENB-ID-ExtIEs",
+	"GlobalEnGNBID.IEExtensions":                                 "Global-en-gNB-ID-ExtIEs",
+	"GlobalGNBID.IEExtensions":                                   "Global-GNB-ID-ExtIEs",
+	"HandoverRestrictionList.IEExtensions":                       "HandoverRestrictionList-ExtIEs",
+	"ImmediateMDT.IEExtensions":                                  "ImmediateMDT-ExtIEs",
+	"InformationOnRecommendedCellsAndENBsForPaging.IEExtensions": "InformationOnRecommendedCellsAndENBsForPaging-ExtIEs",
+	"InterSystemMeasurementItem.IEExtensions":                    "InterSystemMeasurementItem-ExtIEs",
+	"InterSystemMeasurementParameters.IEExtensions":              "InterSystemMeasurementParameters-ExtIEs",
+	"IntersystemMeasurementConfiguration.IEExtensions":           "IntersystemMeasurementConfiguration-ExtIEs",
+	"LAI.IEExtensions":                                           "LAI-ExtIEs",
+	"LTENTNTAIInformation.IEExtensions":                          "LTE-NTN-TAI-Information-ExtIEs",
+	"LastVisitedEUTRANCellInformation.IEExtensions":              "LastVisitedEUTRANCellInformation-ExtIEs",
+	"LastVisitedPSCellInformation.IEExtensions":                  "LastVisitedPSCellInformation-ExtIEs",
+	"ListeningSubframePattern.IEExtensions":                      "ListeningSubframePattern-ExtIEs",
+	"LoggedMBSFNMDT.IEExtensions":                                "LoggedMBSFNMDT-ExtIEs",
+	"LoggedMDT.IEExtensions":                                     "LoggedMDT-ExtIEs",
+	"M1PeriodicReporting.IEExtensions":                           "M1PeriodicReporting-ExtIEs",
+	"M1ThresholdEventA2.IEExtensions":                            "M1ThresholdEventA2-ExtIEs",
+	"M3Configuration.IEExtensions":                               "M3Configuration-ExtIEs",
+	"M4Configuration.IEExtensions":                               "M4Configuration-ExtIEs",
+	"M5Configuration.IEExtensions":                               "M5Configuration-ExtIEs",
+	"M6Configuration.IEExtensions":                               "M6Configuration-ExtIEs",
+	"M7Configuration.IEExtensions":                               "M7Configuration-ExtIEs",
+	"MBSFNResultToLogInfo.IEExtensions":                          "MBSFN-ResultToLogInfo-ExtIEs",
+	"MDTConfiguration.IEExtensions":                              "MDT-Configuration-ExtIEs",
+	"MutingPatternInformation.IEExtensions":                      "MutingPatternInformation-ExtIEs",
+	"NBIoTPagingEDRXInformation.IEExtensions":                    "NB-IoT-Paging-eDRXInformation-ExtIEs",
+	"NGENB.IEExtensions":                                         "NG-eNB-ExtIEs",
+	"NRCGI.IEExtensions":                                         "NR-CGI-ExtIEs",
+	"NRUESecurityCapabilities.IEExtensions":                      "NRUESecurityCapabilities-ExtIEs",
+	"NRUESidelinkAggregateMaximumBitrate.IEExtensions":           "NRUESidelinkAggregateMaximumBitrate-ExtIEs",
+	"NRV2XServicesAuthorized.IEExtensions":                       "NRV2XServicesAuthorized-ExtIEs",
+	"PC5FlowBitRates.IEExtensions":                               "PC5FlowBitRates-ExtIEs",
+	"PC5QoSFlowItem.IEExtensions":                                "PC5QoSFlowItem-ExtIEs",
+	"PC5QoSParameters.IEExtensions":                              "PC5QoSParameters-ExtIEs",
+	"PLMNAreaBasedQMC.IEExtensions":                              "PLMNAreaBasedQMC-ExtIEs",
+	"PSCellInformation.IEExtensions":                             "PSCellInformation-ExtIEs",
+	"PagingAttemptInformation.IEExtensions":                      "PagingAttemptInformation-ExtIEs",
+	"PagingEDRXInformation.IEExtensions":                         "Paging-eDRXInformation-ExtIEs",
+	"ProSeAuthorized.IEExtensions":                               "ProSeAuthorized-ExtIEs",
+	"RATRestrictionsItem.IEExtensions":                           "RAT-RestrictionsItem-ExtIEs",
+	"RIMTransfer.IEExtensions":                                   "RIMTransfer-ExtIEs",
+	"RLFReportInformation.IEExtensions":                          "RLFReportInformation-ExtIEs",
+	"RecommendedCellItem.IEExtensions":                           "RecommendedCellsForPagingItem-ExtIEs",
+	"RecommendedCellsForPaging.IEExtensions":                     "RecommendedCellsForPaging-ExtIEs",
+	"RecommendedENBItem.IEExtensions":                            "RecommendedENBItem-ExtIEs",
+	"RecommendedENBsForPaging.IEExtensions":                      "RecommendedENBsForPaging-ExtIEs",
+	"RequestType.IEExtensions":                                   "RequestType-ExtIEs",
+	"SONConfigurationTransfer.IEExtensions":                      "SONConfigurationTransfer-ExtIEs",
+	"SONInformationReply.IEExtensions":                           "SONInformationReply-ExtIEs",
+	"STMSI.IEExtensions":                                         "S-TMSI-ExtIEs",
+	"ScheduledCommunicationTime.IEExtensions":                    "ScheduledCommunicationTime-ExtIEs",
+	"SecondaryRATDataUsageReportItem.IEExtensions":               "SecondaryRATDataUsageReportItem-ExtIEs",
+	"SecurityContext.IEExtensions":                               "SecurityContext-ExtIEs",
+	"SecurityIndication.IEExtensions":                            "SecurityIndication-ExtIEs",
+	"SecurityResult.IEExtensions":                                "SecurityResult-ExtIEs",
+	"SensorMeasConfigNameItem.IEExtensions":                      "SensorMeasConfigNameItem-ExtIEs",
+	"SensorMeasurementConfiguration.IEExtensions":                "SensorMeasurementConfiguration-ExtIEs",
+	"ServedDCNsItem.IEExtensions":                                "ServedDCNsItem-ExtIEs",
+	"ServedGUMMEIsItem.IEExtensions":                             "ServedGUMMEIsItem-ExtIEs",
+	"SourceNgRanNodeID.IEExtensions":                             "SourceNgRanNode-ID-ExtIEs",
+	"SourceeNBID.IEExtensions":                                   "SourceeNB-ID-ExtIEs",
+	"SourceeNBToTargeteNBTransparentContainer.IEExtensions":      "SourceeNB-ToTargeteNB-TransparentContainer-ExtIEs",
+	"SubscriptionBasedUEDifferentiationInfo.IEExtensions":        "Subscription-Based-UE-DifferentiationInfo-ExtIEs",
+	"SupportedTAsItem.IEExtensions":                              "SupportedTAs-Item-ExtIEs",
+	"SynchronisationInformation.IEExtensions":                    "SynchronisationInformation-ExtIEs",
+	"TABasedMDT.IEExtensions":                                    "TABasedMDT-ExtIEs",
+	"TABasedQMC.IEExtensions":                                    "TABasedQMC-ExtIEs",
+	"TAI.IEExtensions":                                           "TAI-ExtIEs",
+	"TAIBasedMDT.IEExtensions":                                   "TAIBasedMDT-ExtIEs",
+	"TAIBasedQMC.IEExtensions":                                   "TAIBasedQMC-ExtIEs",
+	"TAIBroadcastItem.IEExtensions":                              "TAI-Broadcast-Item-ExtIEs",
+	"TAICancelledItem.IEExtensions":                              "TAI-Cancelled-Item-ExtIEs",
+	"TAIItem.IEExtensions":                                       "TAIItemExtIEs",
+	"TargetNgRanNodeID.IEExtensions":                             "TargetNgRanNode-ID-ExtIEs",
+	"TargetRNCID.IEExtensions":                                   "TargetRNC-ID-ExtIEs",
+	"TargeteNBID.IEExtensions":                                   "TargeteNB-ID-ExtIEs",
+	"TargeteNBToSourceeNBTransparentContainer.IEExtensions":      "TargeteNB-ToSourceeNB-TransparentContainer-ExtIEs",
+	"TimeSynchronisationInfo.IEExtensions":                       "TimeSynchronisationInfo-ExtIEs",
+	"TraceActivation.IEExtensions":                               "TraceActivation-ExtIEs",
+	"TunnelInformation.IEExtensions":                             "Tunnel-Information-ExtIEs",
+	"UEAggregateMaximumBitrate.IEExtensions":                     "UEAggregate-MaximumBitrates-ExtIEs",
+	"UEAppLayerMeasConfig.IEExtensions":                          "UEAppLayerMeasConfig-ExtIEs",
+	"UEAssociatedLogicalS1ConnectionItem.IEExtensions":           "UE-associatedLogicalS1-ConnectionItemExtIEs",
+	"UES1APIDPair.IEExtensions":                                  "UE-S1AP-ID-pair-ExtIEs",
+	"UESecurityCapabilities.IEExtensions":                        "UESecurityCapabilities-ExtIEs",
+	"UESidelinkAggregateMaximumBitrate.IEExtensions":             "UE-Sidelink-Aggregate-MaximumBitrates-ExtIEs",
+	"ULCPSecurityInformation.IEExtensions":                       "UL-CP-SecurityInformation-ExtIEs",
+	"UserLocationInformation.IEExtensions":                       "UserLocationInformation-ExtIEs",
+	"V2XServicesAuthorized.IEExtensions":                         "V2XServicesAuthorized-ExtIEs",
+	"WLANMeasurementConfiguration.IEExtensions":                  "WLANMeasurementConfiguration-ExtIEs",
+	"WUSAssistanceInformation.IEExtensions":                      "WUS-Assistance-Information-ExtIEs",
+	"X2TNLConfigurationInfo.IEExtensions":                        "X2TNLConfigurationInfo-ExtIEs",
 }
 
 var protocolExtensionTypeObjectSets = map[string]string{}
@@ -6463,6 +6605,10 @@ func protocolIEObjectSet(context string) string {
 		return "ErrorIndicationIEs"
 	case "ErrorIndicationIEs":
 		return "ErrorIndicationIEs"
+	case "EventTrigger-ExtIEs":
+		return "EventTrigger-ExtIEs"
+	case "EventTriggerExt":
+		return "EventTrigger-ExtIEs"
 	case "HandoverCancel":
 		return "HandoverCancelIEs"
 	case "HandoverCancelAcknowledge":
@@ -6575,6 +6721,10 @@ func protocolIEObjectSet(context string) string {
 		return "MMEStatusTransferIEs"
 	case "MMEStatusTransferIEs":
 		return "MMEStatusTransferIEs"
+	case "MeasurementThresholdL1LoggedMDT-ExtIEs":
+		return "MeasurementThresholdL1LoggedMDT-ExtIEs"
+	case "MeasurementThresholdL1LoggedMDTExt":
+		return "MeasurementThresholdL1LoggedMDT-ExtIEs"
 	case "NASDeliveryIndication":
 		return "NASDeliveryIndicationIEs"
 	case "NASDeliveryIndicationIEs":
@@ -6675,6 +6825,14 @@ func protocolIEObjectSet(context string) string {
 		return "SecondaryRATDataUsageReportItemIEs"
 	case "SecondaryRATDataUsageReportItemIEs":
 		return "SecondaryRATDataUsageReportItemIEs"
+	case "SensorNameConfig-ExtIEs":
+		return "SensorNameConfig-ExtIEs"
+	case "SensorNameConfigExt":
+		return "SensorNameConfig-ExtIEs"
+	case "SourceNodeID-ExtensionIE":
+		return "SourceNodeID-ExtensionIE"
+	case "SourceNodeIDExtensionIE":
+		return "SourceNodeID-ExtensionIE"
 	case "TAIItem":
 		return "TAIItemIEs"
 	case "TAIItemIEs":
@@ -6802,14 +6960,174 @@ func protocolIEObjectSet(context string) string {
 
 func protocolExtensionObjectSet(context string) string {
 	switch context {
+	case "Additional-GUTI-ExtIEs":
+		return "Additional-GUTI-ExtIEs"
+	case "AdditionalGUTIExtIEs":
+		return "Additional-GUTI-ExtIEs"
+	case "AllocationAndRetentionPriority-ExtIEs":
+		return "AllocationAndRetentionPriority-ExtIEs"
+	case "AllocationAndRetentionPriorityExtIEs":
+		return "AllocationAndRetentionPriority-ExtIEs"
+	case "AssistanceDataForPaging-ExtIEs":
+		return "AssistanceDataForPaging-ExtIEs"
+	case "AssistanceDataForPagingExtIEs":
+		return "AssistanceDataForPaging-ExtIEs"
+	case "AssistanceDataForRecommendedCells-ExtIEs":
+		return "AssistanceDataForRecommendedCells-ExtIEs"
+	case "AssistanceDataForRecommendedCellsExtIEs":
+		return "AssistanceDataForRecommendedCells-ExtIEs"
+	case "Bearers-SubjectToDLDiscarding-ItemExtIEs":
+		return "Bearers-SubjectToDLDiscarding-ItemExtIEs"
+	case "Bearers-SubjectToEarlyStatusTransfer-ItemExtIEs":
+		return "Bearers-SubjectToEarlyStatusTransfer-ItemExtIEs"
 	case "Bearers-SubjectToStatusTransfer-ItemExtIEs":
 		return "Bearers-SubjectToStatusTransfer-ItemExtIEs"
+	case "BearersSubjectToDLDiscardingItemExtIEs":
+		return "Bearers-SubjectToDLDiscarding-ItemExtIEs"
+	case "BearersSubjectToEarlyStatusTransferItemExtIEs":
+		return "Bearers-SubjectToEarlyStatusTransfer-ItemExtIEs"
 	case "BearersSubjectToStatusTransferItemExtIEs":
 		return "Bearers-SubjectToStatusTransfer-ItemExtIEs"
+	case "BluetoothMeasurementConfiguration-ExtIEs":
+		return "BluetoothMeasurementConfiguration-ExtIEs"
+	case "BluetoothMeasurementConfigurationExtIEs":
+		return "BluetoothMeasurementConfiguration-ExtIEs"
+	case "CGI-ExtIEs":
+		return "CGI-ExtIEs"
+	case "CGIExtIEs":
+		return "CGI-ExtIEs"
+	case "CNTypeRestrictions-Item-ExtIEs":
+		return "CNTypeRestrictions-Item-ExtIEs"
+	case "CNTypeRestrictionsItemExtIEs":
+		return "CNTypeRestrictions-Item-ExtIEs"
+	case "COUNTValueExtended-ExtIEs":
+		return "COUNTValueExtended-ExtIEs"
+	case "COUNTValueExtendedExtIEs":
+		return "COUNTValueExtended-ExtIEs"
+	case "COUNTvalue-ExtIEs":
+		return "COUNTvalue-ExtIEs"
+	case "COUNTvalueExtIEs":
+		return "COUNTvalue-ExtIEs"
+	case "COUNTvaluePDCP-SNlength18-ExtIEs":
+		return "COUNTvaluePDCP-SNlength18-ExtIEs"
+	case "COUNTvaluePDCPSNlength18ExtIEs":
+		return "COUNTvaluePDCP-SNlength18-ExtIEs"
+	case "CSG-IdList-Item-ExtIEs":
+		return "CSG-IdList-Item-ExtIEs"
+	case "CSGIdListItemExtIEs":
+		return "CSG-IdList-Item-ExtIEs"
+	case "CSGMembershipInfo-ExtIEs":
+		return "CSGMembershipInfo-ExtIEs"
+	case "CSGMembershipInfoExtIEs":
+		return "CSGMembershipInfo-ExtIEs"
+	case "CancelledCellinEAI-Item-ExtIEs":
+		return "CancelledCellinEAI-Item-ExtIEs"
+	case "CancelledCellinEAIItemExtIEs":
+		return "CancelledCellinEAI-Item-ExtIEs"
+	case "CancelledCellinTAI-Item-ExtIEs":
+		return "CancelledCellinTAI-Item-ExtIEs"
+	case "CancelledCellinTAIItemExtIEs":
+		return "CancelledCellinTAI-Item-ExtIEs"
+	case "Cdma2000OneXSRVCCInfo-ExtIEs":
+		return "Cdma2000OneXSRVCCInfo-ExtIEs"
+	case "Cdma2000OneXSRVCCInfoExtIEs":
+		return "Cdma2000OneXSRVCCInfo-ExtIEs"
+	case "CellBasedMDT-ExtIEs":
+		return "CellBasedMDT-ExtIEs"
+	case "CellBasedMDTExtIEs":
+		return "CellBasedMDT-ExtIEs"
+	case "CellBasedQMC-ExtIEs":
+		return "CellBasedQMC-ExtIEs"
+	case "CellBasedQMCExtIEs":
+		return "CellBasedQMC-ExtIEs"
+	case "CellID-Broadcast-Item-ExtIEs":
+		return "CellID-Broadcast-Item-ExtIEs"
+	case "CellID-Cancelled-Item-ExtIEs":
+		return "CellID-Cancelled-Item-ExtIEs"
+	case "CellIDBroadcastItemExtIEs":
+		return "CellID-Broadcast-Item-ExtIEs"
+	case "CellIDCancelledItemExtIEs":
+		return "CellID-Cancelled-Item-ExtIEs"
+	case "CellIdentifierAndCELevelForCECapableUEs-ExtIEs":
+		return "CellIdentifierAndCELevelForCECapableUEs-ExtIEs"
+	case "CellIdentifierAndCELevelForCECapableUEsExtIEs":
+		return "CellIdentifierAndCELevelForCECapableUEs-ExtIEs"
+	case "CellType-ExtIEs":
+		return "CellType-ExtIEs"
+	case "CellTypeExtIEs":
+		return "CellType-ExtIEs"
+	case "CompletedCellinEAI-Item-ExtIEs":
+		return "CompletedCellinEAI-Item-ExtIEs"
+	case "CompletedCellinEAIItemExtIEs":
+		return "CompletedCellinEAI-Item-ExtIEs"
+	case "CompletedCellinTAI-Item-ExtIEs":
+		return "CompletedCellinTAI-Item-ExtIEs"
+	case "CompletedCellinTAIItemExtIEs":
+		return "CompletedCellinTAI-Item-ExtIEs"
+	case "ConnectedengNBItem-ExtIEs":
+		return "ConnectedengNBItem-ExtIEs"
+	case "ConnectedengNBItemExtIEs":
+		return "ConnectedengNBItem-ExtIEs"
+	case "ContextatSource-ExtIEs":
+		return "ContextatSource-ExtIEs"
+	case "ContextatSourceExtIEs":
+		return "ContextatSource-ExtIEs"
+	case "CriticalityDiagnostics-ExtIEs":
+		return "CriticalityDiagnostics-ExtIEs"
+	case "CriticalityDiagnostics-IE-Item-ExtIEs":
+		return "CriticalityDiagnostics-IE-Item-ExtIEs"
+	case "CriticalityDiagnosticsExtIEs":
+		return "CriticalityDiagnostics-ExtIEs"
+	case "CriticalityDiagnosticsIEItemExtIEs":
+		return "CriticalityDiagnostics-IE-Item-ExtIEs"
+	case "DAPSRequestInfo-ExtIEs":
+		return "DAPSRequestInfo-ExtIEs"
+	case "DAPSRequestInfoExtIEs":
+		return "DAPSRequestInfo-ExtIEs"
+	case "DAPSResponseInfo-ExtIEs":
+		return "DAPSResponseInfo-ExtIEs"
+	case "DAPSResponseInfoExtIEs":
+		return "DAPSResponseInfo-ExtIEs"
+	case "DAPSResponseInfoItem-ExtIEs":
+		return "DAPSResponseInfoItem-ExtIEs"
+	case "DAPSResponseInfoItemExtIEs":
+		return "DAPSResponseInfoItem-ExtIEs"
+	case "DL-CP-SecurityInformation-ExtIEs":
+		return "DL-CP-SecurityInformation-ExtIEs"
+	case "DLCPSecurityInformationExtIEs":
+		return "DL-CP-SecurityInformation-ExtIEs"
+	case "E-RABAdmittedItem-ExtIEs":
+		return "E-RABAdmittedItem-ExtIEs"
+	case "E-RABDataForwardingItem-ExtIEs":
+		return "E-RABDataForwardingItem-ExtIEs"
+	case "E-RABFailedToResumeItemResumeReq-ExtIEs":
+		return "E-RABFailedToResumeItemResumeReq-ExtIEs"
+	case "E-RABFailedToResumeItemResumeRes-ExtIEs":
+		return "E-RABFailedToResumeItemResumeRes-ExtIEs"
+	case "E-RABFailedToSetupItemHOReqAckExtIEs":
+		return "E-RABFailedToSetupItemHOReqAckExtIEs"
 	case "E-RABInformationListItem-ExtIEs":
 		return "E-RABInformationListItem-ExtIEs"
+	case "E-RABItem-ExtIEs":
+		return "E-RABItem-ExtIEs"
+	case "E-RABModifyItemBearerModConfExtIEs":
+		return "E-RABModifyItemBearerModConfExtIEs"
+	case "E-RABModifyItemBearerModResExtIEs":
+		return "E-RABModifyItemBearerModResExtIEs"
+	case "E-RABNotToBeModifiedItemBearerModInd-ExtIEs":
+		return "E-RABNotToBeModifiedItemBearerModInd-ExtIEs"
 	case "E-RABQoSParameters-ExtIEs":
 		return "E-RABQoSParameters-ExtIEs"
+	case "E-RABReleaseItemBearerRelCompExtIEs":
+		return "E-RABReleaseItemBearerRelCompExtIEs"
+	case "E-RABSecurityResultItem-ExtIEs":
+		return "E-RABSecurityResultItem-ExtIEs"
+	case "E-RABSetupItemBearerSUResExtIEs":
+		return "E-RABSetupItemBearerSUResExtIEs"
+	case "E-RABSetupItemCtxtSUResExtIEs":
+		return "E-RABSetupItemCtxtSUResExtIEs"
+	case "E-RABToBeModifiedItemBearerModInd-ExtIEs":
+		return "E-RABToBeModifiedItemBearerModInd-ExtIEs"
 	case "E-RABToBeModifyItemBearerModReqExtIEs":
 		return "E-RABToBeModifyItemBearerModReqExtIEs"
 	case "E-RABToBeSetupItemBearerSUReqExtIEs":
@@ -6820,14 +7138,76 @@ func protocolExtensionObjectSet(context string) string {
 		return "E-RABToBeSetupItemHOReq-ExtIEs"
 	case "E-RABToBeSwitchedDLItem-ExtIEs":
 		return "E-RABToBeSwitchedDLItem-ExtIEs"
+	case "E-RABToBeSwitchedULItem-ExtIEs":
+		return "E-RABToBeSwitchedULItem-ExtIEs"
+	case "E-RABToBeUpdatedItem-ExtIEs":
+		return "E-RABToBeUpdatedItem-ExtIEs"
+	case "E-RABUsageReportItem-ExtIEs":
+		return "E-RABUsageReportItem-ExtIEs"
+	case "EN-DCSONConfigurationTransfer-ExtIEs":
+		return "EN-DCSONConfigurationTransfer-ExtIEs"
+	case "EN-DCSONeNBIdentification-ExtIEs":
+		return "EN-DCSONeNBIdentification-ExtIEs"
+	case "EN-DCSONengNBIdentification-ExtIEs":
+		return "EN-DCSONengNBIdentification-ExtIEs"
+	case "EN-DCTransferTypeReply-ExtIEs":
+		return "EN-DCTransferTypeReply-ExtIEs"
+	case "EN-DCTransferTypeRequest-ExtIEs":
+		return "EN-DCTransferTypeRequest-ExtIEs"
 	case "ENB-EarlyStatusTransfer-TransparentContainer-ExtIEs":
 		return "ENB-EarlyStatusTransfer-TransparentContainer-ExtIEs"
+	case "ENB-StatusTransfer-TransparentContainer-ExtIEs":
+		return "ENB-StatusTransfer-TransparentContainer-ExtIEs"
 	case "ENBEarlyStatusTransferTransparentContainerExtIEs":
 		return "ENB-EarlyStatusTransfer-TransparentContainer-ExtIEs"
+	case "ENBStatusTransferTransparentContainerExtIEs":
+		return "ENB-StatusTransfer-TransparentContainer-ExtIEs"
+	case "ENBX2ExtTLA-ExtIEs":
+		return "ENBX2ExtTLA-ExtIEs"
+	case "ENBX2ExtTLAExtIEs":
+		return "ENBX2ExtTLA-ExtIEs"
+	case "ENDCSONConfigurationTransferExtIEs":
+		return "EN-DCSONConfigurationTransfer-ExtIEs"
+	case "ENDCSONeNBIdentificationExtIEs":
+		return "EN-DCSONeNBIdentification-ExtIEs"
+	case "ENDCSONengNBIdentificationExtIEs":
+		return "EN-DCSONengNBIdentification-ExtIEs"
+	case "ENDCTransferTypeReplyExtIEs":
+		return "EN-DCTransferTypeReply-ExtIEs"
+	case "ENDCTransferTypeRequestExtIEs":
+		return "EN-DCTransferTypeRequest-ExtIEs"
+	case "ERABAdmittedItemExtIEs":
+		return "E-RABAdmittedItem-ExtIEs"
+	case "ERABDataForwardingItemExtIEs":
+		return "E-RABDataForwardingItem-ExtIEs"
+	case "ERABFailedToResumeItemResumeReqExtIEs":
+		return "E-RABFailedToResumeItemResumeReq-ExtIEs"
+	case "ERABFailedToResumeItemResumeResExtIEs":
+		return "E-RABFailedToResumeItemResumeRes-ExtIEs"
+	case "ERABFailedToSetupItemHOReqAckExtIEs":
+		return "E-RABFailedToSetupItemHOReqAckExtIEs"
 	case "ERABInformationListItemExtIEs":
 		return "E-RABInformationListItem-ExtIEs"
+	case "ERABItemExtIEs":
+		return "E-RABItem-ExtIEs"
+	case "ERABModifyItemBearerModConfExtIEs":
+		return "E-RABModifyItemBearerModConfExtIEs"
+	case "ERABModifyItemBearerModResExtIEs":
+		return "E-RABModifyItemBearerModResExtIEs"
+	case "ERABNotToBeModifiedItemBearerModIndExtIEs":
+		return "E-RABNotToBeModifiedItemBearerModInd-ExtIEs"
 	case "ERABQoSParametersExtIEs":
 		return "E-RABQoSParameters-ExtIEs"
+	case "ERABReleaseItemBearerRelCompExtIEs":
+		return "E-RABReleaseItemBearerRelCompExtIEs"
+	case "ERABSecurityResultItemExtIEs":
+		return "E-RABSecurityResultItem-ExtIEs"
+	case "ERABSetupItemBearerSUResExtIEs":
+		return "E-RABSetupItemBearerSUResExtIEs"
+	case "ERABSetupItemCtxtSUResExtIEs":
+		return "E-RABSetupItemCtxtSUResExtIEs"
+	case "ERABToBeModifiedItemBearerModIndExtIEs":
+		return "E-RABToBeModifiedItemBearerModInd-ExtIEs"
 	case "ERABToBeModifyItemBearerModReqExtIEs":
 		return "E-RABToBeModifyItemBearerModReqExtIEs"
 	case "ERABToBeSetupItemBearerSUReqExtIEs":
@@ -6838,10 +7218,76 @@ func protocolExtensionObjectSet(context string) string {
 		return "E-RABToBeSetupItemHOReq-ExtIEs"
 	case "ERABToBeSwitchedDLItemExtIEs":
 		return "E-RABToBeSwitchedDLItem-ExtIEs"
+	case "ERABToBeSwitchedULItemExtIEs":
+		return "E-RABToBeSwitchedULItem-ExtIEs"
+	case "ERABToBeUpdatedItemExtIEs":
+		return "E-RABToBeUpdatedItem-ExtIEs"
+	case "ERABUsageReportItemExtIEs":
+		return "E-RABUsageReportItem-ExtIEs"
+	case "EUTRAN-CGI-ExtIEs":
+		return "EUTRAN-CGI-ExtIEs"
+	case "EUTRANCGIExtIEs":
+		return "EUTRAN-CGI-ExtIEs"
+	case "EmergencyAreaID-Broadcast-Item-ExtIEs":
+		return "EmergencyAreaID-Broadcast-Item-ExtIEs"
+	case "EmergencyAreaID-Cancelled-Item-ExtIEs":
+		return "EmergencyAreaID-Cancelled-Item-ExtIEs"
+	case "EmergencyAreaIDBroadcastItemExtIEs":
+		return "EmergencyAreaID-Broadcast-Item-ExtIEs"
+	case "EmergencyAreaIDCancelledItemExtIEs":
+		return "EmergencyAreaID-Cancelled-Item-ExtIEs"
+	case "EventL1LoggedMDTConfig-ExtIEs":
+		return "EventL1LoggedMDTConfig-ExtIEs"
+	case "EventL1LoggedMDTConfigExtIEs":
+		return "EventL1LoggedMDTConfig-ExtIEs"
+	case "ExpectedUEActivityBehaviour-ExtIEs":
+		return "ExpectedUEActivityBehaviour-ExtIEs"
+	case "ExpectedUEActivityBehaviourExtIEs":
+		return "ExpectedUEActivityBehaviour-ExtIEs"
+	case "ExpectedUEBehaviour-ExtIEs":
+		return "ExpectedUEBehaviour-ExtIEs"
+	case "ExpectedUEBehaviourExtIEs":
+		return "ExpectedUEBehaviour-ExtIEs"
+	case "FiveGSTAI-ExtIEs":
+		return "FiveGSTAI-ExtIEs"
+	case "FiveGSTAIExtIEs":
+		return "FiveGSTAI-ExtIEs"
+	case "ForbiddenLAs-Item-ExtIEs":
+		return "ForbiddenLAs-Item-ExtIEs"
+	case "ForbiddenLAsItemExtIEs":
+		return "ForbiddenLAs-Item-ExtIEs"
+	case "ForbiddenTAs-Item-ExtIEs":
+		return "ForbiddenTAs-Item-ExtIEs"
+	case "ForbiddenTAsItemExtIEs":
+		return "ForbiddenTAs-Item-ExtIEs"
 	case "GBR-QosInformation-ExtIEs":
 		return "GBR-QosInformation-ExtIEs"
 	case "GBRQosInformationExtIEs":
 		return "GBR-QosInformation-ExtIEs"
+	case "GERAN-Cell-ID-ExtIEs":
+		return "GERAN-Cell-ID-ExtIEs"
+	case "GERANCellIDExtIEs":
+		return "GERAN-Cell-ID-ExtIEs"
+	case "GNB-ExtIEs":
+		return "GNB-ExtIEs"
+	case "GNBExtIEs":
+		return "GNB-ExtIEs"
+	case "GUMMEI-ExtIEs":
+		return "GUMMEI-ExtIEs"
+	case "GUMMEIExtIEs":
+		return "GUMMEI-ExtIEs"
+	case "Global-GNB-ID-ExtIEs":
+		return "Global-GNB-ID-ExtIEs"
+	case "Global-en-gNB-ID-ExtIEs":
+		return "Global-en-gNB-ID-ExtIEs"
+	case "GlobalENB-ID-ExtIEs":
+		return "GlobalENB-ID-ExtIEs"
+	case "GlobalENBIDExtIEs":
+		return "GlobalENB-ID-ExtIEs"
+	case "GlobalEnGNBIDExtIEs":
+		return "Global-en-gNB-ID-ExtIEs"
+	case "GlobalGNBIDExtIEs":
+		return "Global-GNB-ID-ExtIEs"
 	case "HandoverRestrictionList-ExtIEs":
 		return "HandoverRestrictionList-ExtIEs"
 	case "HandoverRestrictionListExtIEs":
@@ -6850,14 +7296,66 @@ func protocolExtensionObjectSet(context string) string {
 		return "ImmediateMDT-ExtIEs"
 	case "ImmediateMDTExtIEs":
 		return "ImmediateMDT-ExtIEs"
+	case "InformationForCECapableUEs-ExtIEs":
+		return "InformationForCECapableUEs-ExtIEs"
+	case "InformationForCECapableUEsExtIEs":
+		return "InformationForCECapableUEs-ExtIEs"
+	case "InformationOnRecommendedCellsAndENBsForPaging-ExtIEs":
+		return "InformationOnRecommendedCellsAndENBsForPaging-ExtIEs"
+	case "InformationOnRecommendedCellsAndENBsForPagingExtIEs":
+		return "InformationOnRecommendedCellsAndENBsForPaging-ExtIEs"
+	case "InterSystemMeasurementItem-ExtIEs":
+		return "InterSystemMeasurementItem-ExtIEs"
+	case "InterSystemMeasurementItemExtIEs":
+		return "InterSystemMeasurementItem-ExtIEs"
+	case "InterSystemMeasurementParameters-ExtIEs":
+		return "InterSystemMeasurementParameters-ExtIEs"
+	case "InterSystemMeasurementParametersExtIEs":
+		return "InterSystemMeasurementParameters-ExtIEs"
+	case "IntersystemMeasurementConfiguration-ExtIEs":
+		return "IntersystemMeasurementConfiguration-ExtIEs"
+	case "IntersystemMeasurementConfigurationExtIEs":
+		return "IntersystemMeasurementConfiguration-ExtIEs"
+	case "LAI-ExtIEs":
+		return "LAI-ExtIEs"
+	case "LAIExtIEs":
+		return "LAI-ExtIEs"
+	case "LTE-NTN-TAI-Information-ExtIEs":
+		return "LTE-NTN-TAI-Information-ExtIEs"
+	case "LTENTNTAIInformationExtIEs":
+		return "LTE-NTN-TAI-Information-ExtIEs"
 	case "LastVisitedEUTRANCellInformation-ExtIEs":
 		return "LastVisitedEUTRANCellInformation-ExtIEs"
 	case "LastVisitedEUTRANCellInformationExtIEs":
 		return "LastVisitedEUTRANCellInformation-ExtIEs"
+	case "LastVisitedPSCellInformation-ExtIEs":
+		return "LastVisitedPSCellInformation-ExtIEs"
+	case "LastVisitedPSCellInformationExtIEs":
+		return "LastVisitedPSCellInformation-ExtIEs"
+	case "ListeningSubframePattern-ExtIEs":
+		return "ListeningSubframePattern-ExtIEs"
+	case "ListeningSubframePatternExtIEs":
+		return "ListeningSubframePattern-ExtIEs"
+	case "LoggedMBSFNMDT-ExtIEs":
+		return "LoggedMBSFNMDT-ExtIEs"
+	case "LoggedMBSFNMDTExtIEs":
+		return "LoggedMBSFNMDT-ExtIEs"
 	case "LoggedMDT-ExtIEs":
 		return "LoggedMDT-ExtIEs"
 	case "LoggedMDTExtIEs":
 		return "LoggedMDT-ExtIEs"
+	case "M1PeriodicReporting-ExtIEs":
+		return "M1PeriodicReporting-ExtIEs"
+	case "M1PeriodicReportingExtIEs":
+		return "M1PeriodicReporting-ExtIEs"
+	case "M1ThresholdEventA2-ExtIEs":
+		return "M1ThresholdEventA2-ExtIEs"
+	case "M1ThresholdEventA2ExtIEs":
+		return "M1ThresholdEventA2-ExtIEs"
+	case "M3Configuration-ExtIEs":
+		return "M3Configuration-ExtIEs"
+	case "M3ConfigurationExtIEs":
+		return "M3Configuration-ExtIEs"
 	case "M4Configuration-ExtIEs":
 		return "M4Configuration-ExtIEs"
 	case "M4ConfigurationExtIEs":
@@ -6874,22 +7372,112 @@ func protocolExtensionObjectSet(context string) string {
 		return "M7Configuration-ExtIEs"
 	case "M7ConfigurationExtIEs":
 		return "M7Configuration-ExtIEs"
+	case "MBSFN-ResultToLogInfo-ExtIEs":
+		return "MBSFN-ResultToLogInfo-ExtIEs"
+	case "MBSFNResultToLogInfoExtIEs":
+		return "MBSFN-ResultToLogInfo-ExtIEs"
 	case "MDT-Configuration-ExtIEs":
 		return "MDT-Configuration-ExtIEs"
 	case "MDTConfigurationExtIEs":
 		return "MDT-Configuration-ExtIEs"
+	case "MutingPatternInformation-ExtIEs":
+		return "MutingPatternInformation-ExtIEs"
+	case "MutingPatternInformationExtIEs":
+		return "MutingPatternInformation-ExtIEs"
+	case "NB-IoT-Paging-eDRXInformation-ExtIEs":
+		return "NB-IoT-Paging-eDRXInformation-ExtIEs"
+	case "NBIoTPagingEDRXInformationExtIEs":
+		return "NB-IoT-Paging-eDRXInformation-ExtIEs"
+	case "NG-eNB-ExtIEs":
+		return "NG-eNB-ExtIEs"
+	case "NGENBExtIEs":
+		return "NG-eNB-ExtIEs"
+	case "NR-CGI-ExtIEs":
+		return "NR-CGI-ExtIEs"
+	case "NRCGIExtIEs":
+		return "NR-CGI-ExtIEs"
+	case "NRUESecurityCapabilities-ExtIEs":
+		return "NRUESecurityCapabilities-ExtIEs"
+	case "NRUESecurityCapabilitiesExtIEs":
+		return "NRUESecurityCapabilities-ExtIEs"
+	case "NRUESidelinkAggregateMaximumBitrate-ExtIEs":
+		return "NRUESidelinkAggregateMaximumBitrate-ExtIEs"
+	case "NRUESidelinkAggregateMaximumBitrateExtIEs":
+		return "NRUESidelinkAggregateMaximumBitrate-ExtIEs"
+	case "NRV2XServicesAuthorized-ExtIEs":
+		return "NRV2XServicesAuthorized-ExtIEs"
+	case "NRV2XServicesAuthorizedExtIEs":
+		return "NRV2XServicesAuthorized-ExtIEs"
+	case "PC5FlowBitRates-ExtIEs":
+		return "PC5FlowBitRates-ExtIEs"
+	case "PC5FlowBitRatesExtIEs":
+		return "PC5FlowBitRates-ExtIEs"
+	case "PC5QoSFlowItem-ExtIEs":
+		return "PC5QoSFlowItem-ExtIEs"
+	case "PC5QoSFlowItemExtIEs":
+		return "PC5QoSFlowItem-ExtIEs"
+	case "PC5QoSParameters-ExtIEs":
+		return "PC5QoSParameters-ExtIEs"
+	case "PC5QoSParametersExtIEs":
+		return "PC5QoSParameters-ExtIEs"
+	case "PLMNAreaBasedQMC-ExtIEs":
+		return "PLMNAreaBasedQMC-ExtIEs"
+	case "PLMNAreaBasedQMCExtIEs":
+		return "PLMNAreaBasedQMC-ExtIEs"
+	case "PSCellInformation-ExtIEs":
+		return "PSCellInformation-ExtIEs"
+	case "PSCellInformationExtIEs":
+		return "PSCellInformation-ExtIEs"
+	case "Paging-eDRXInformation-ExtIEs":
+		return "Paging-eDRXInformation-ExtIEs"
+	case "PagingAttemptInformation-ExtIEs":
+		return "PagingAttemptInformation-ExtIEs"
+	case "PagingAttemptInformationExtIEs":
+		return "PagingAttemptInformation-ExtIEs"
+	case "PagingEDRXInformationExtIEs":
+		return "Paging-eDRXInformation-ExtIEs"
 	case "ProSeAuthorized-ExtIEs":
 		return "ProSeAuthorized-ExtIEs"
 	case "ProSeAuthorizedExtIEs":
 		return "ProSeAuthorized-ExtIEs"
+	case "RAT-RestrictionsItem-ExtIEs":
+		return "RAT-RestrictionsItem-ExtIEs"
+	case "RATRestrictionsItemExtIEs":
+		return "RAT-RestrictionsItem-ExtIEs"
+	case "RIMTransfer-ExtIEs":
+		return "RIMTransfer-ExtIEs"
+	case "RIMTransferExtIEs":
+		return "RIMTransfer-ExtIEs"
 	case "RLFReportInformation-ExtIEs":
 		return "RLFReportInformation-ExtIEs"
 	case "RLFReportInformationExtIEs":
 		return "RLFReportInformation-ExtIEs"
+	case "RecommendedCellsForPaging-ExtIEs":
+		return "RecommendedCellsForPaging-ExtIEs"
+	case "RecommendedCellsForPagingExtIEs":
+		return "RecommendedCellsForPaging-ExtIEs"
+	case "RecommendedCellsForPagingItem-ExtIEs":
+		return "RecommendedCellsForPagingItem-ExtIEs"
+	case "RecommendedCellsForPagingItemExtIEs":
+		return "RecommendedCellsForPagingItem-ExtIEs"
+	case "RecommendedENBItem-ExtIEs":
+		return "RecommendedENBItem-ExtIEs"
+	case "RecommendedENBItemExtIEs":
+		return "RecommendedENBItem-ExtIEs"
+	case "RecommendedENBsForPaging-ExtIEs":
+		return "RecommendedENBsForPaging-ExtIEs"
+	case "RecommendedENBsForPagingExtIEs":
+		return "RecommendedENBsForPaging-ExtIEs"
 	case "RequestType-ExtIEs":
 		return "RequestType-ExtIEs"
 	case "RequestTypeExtIEs":
 		return "RequestType-ExtIEs"
+	case "RequestedTNLInfo-ExtIEs":
+		return "RequestedTNLInfo-ExtIEs"
+	case "RequestedTNLInfoExtIEs":
+		return "RequestedTNLInfo-ExtIEs"
+	case "S-TMSI-ExtIEs":
+		return "S-TMSI-ExtIEs"
 	case "SONConfigurationTransfer-ExtIEs":
 		return "SONConfigurationTransfer-ExtIEs"
 	case "SONConfigurationTransferExtIEs":
@@ -6898,22 +7486,118 @@ func protocolExtensionObjectSet(context string) string {
 		return "SONInformationReply-ExtIEs"
 	case "SONInformationReplyExtIEs":
 		return "SONInformationReply-ExtIEs"
+	case "STMSIExtIEs":
+		return "S-TMSI-ExtIEs"
+	case "ScheduledCommunicationTime-ExtIEs":
+		return "ScheduledCommunicationTime-ExtIEs"
+	case "ScheduledCommunicationTimeExtIEs":
+		return "ScheduledCommunicationTime-ExtIEs"
+	case "SecondaryRATDataUsageReportItem-ExtIEs":
+		return "SecondaryRATDataUsageReportItem-ExtIEs"
+	case "SecondaryRATDataUsageReportItemExtIEs":
+		return "SecondaryRATDataUsageReportItem-ExtIEs"
+	case "SecurityContext-ExtIEs":
+		return "SecurityContext-ExtIEs"
+	case "SecurityContextExtIEs":
+		return "SecurityContext-ExtIEs"
+	case "SecurityIndication-ExtIEs":
+		return "SecurityIndication-ExtIEs"
+	case "SecurityIndicationExtIEs":
+		return "SecurityIndication-ExtIEs"
+	case "SecurityResult-ExtIEs":
+		return "SecurityResult-ExtIEs"
+	case "SecurityResultExtIEs":
+		return "SecurityResult-ExtIEs"
+	case "SensorMeasConfigNameItem-ExtIEs":
+		return "SensorMeasConfigNameItem-ExtIEs"
+	case "SensorMeasConfigNameItemExtIEs":
+		return "SensorMeasConfigNameItem-ExtIEs"
+	case "SensorMeasurementConfiguration-ExtIEs":
+		return "SensorMeasurementConfiguration-ExtIEs"
+	case "SensorMeasurementConfigurationExtIEs":
+		return "SensorMeasurementConfiguration-ExtIEs"
+	case "ServedDCNsItem-ExtIEs":
+		return "ServedDCNsItem-ExtIEs"
+	case "ServedDCNsItemExtIEs":
+		return "ServedDCNsItem-ExtIEs"
 	case "ServedGUMMEIsItem-ExtIEs":
 		return "ServedGUMMEIsItem-ExtIEs"
 	case "ServedGUMMEIsItemExtIEs":
 		return "ServedGUMMEIsItem-ExtIEs"
+	case "SourceNgRanNode-ID-ExtIEs":
+		return "SourceNgRanNode-ID-ExtIEs"
+	case "SourceNgRanNodeIDExtIEs":
+		return "SourceNgRanNode-ID-ExtIEs"
+	case "SourceeNB-ID-ExtIEs":
+		return "SourceeNB-ID-ExtIEs"
 	case "SourceeNB-ToTargeteNB-TransparentContainer-ExtIEs":
 		return "SourceeNB-ToTargeteNB-TransparentContainer-ExtIEs"
+	case "SourceeNBIDExtIEs":
+		return "SourceeNB-ID-ExtIEs"
 	case "SourceeNBToTargeteNBTransparentContainerExtIEs":
 		return "SourceeNB-ToTargeteNB-TransparentContainer-ExtIEs"
+	case "Subscription-Based-UE-DifferentiationInfo-ExtIEs":
+		return "Subscription-Based-UE-DifferentiationInfo-ExtIEs"
+	case "SubscriptionBasedUEDifferentiationInfoExtIEs":
+		return "Subscription-Based-UE-DifferentiationInfo-ExtIEs"
 	case "SupportedTAs-Item-ExtIEs":
 		return "SupportedTAs-Item-ExtIEs"
 	case "SupportedTAsItemExtIEs":
 		return "SupportedTAs-Item-ExtIEs"
+	case "SynchronisationInformation-ExtIEs":
+		return "SynchronisationInformation-ExtIEs"
+	case "SynchronisationInformationExtIEs":
+		return "SynchronisationInformation-ExtIEs"
+	case "TABasedMDT-ExtIEs":
+		return "TABasedMDT-ExtIEs"
+	case "TABasedMDTExtIEs":
+		return "TABasedMDT-ExtIEs"
+	case "TABasedQMC-ExtIEs":
+		return "TABasedQMC-ExtIEs"
+	case "TABasedQMCExtIEs":
+		return "TABasedQMC-ExtIEs"
+	case "TAI-Broadcast-Item-ExtIEs":
+		return "TAI-Broadcast-Item-ExtIEs"
+	case "TAI-Cancelled-Item-ExtIEs":
+		return "TAI-Cancelled-Item-ExtIEs"
+	case "TAI-ExtIEs":
+		return "TAI-ExtIEs"
+	case "TAIBasedMDT-ExtIEs":
+		return "TAIBasedMDT-ExtIEs"
+	case "TAIBasedMDTExtIEs":
+		return "TAIBasedMDT-ExtIEs"
+	case "TAIBasedQMC-ExtIEs":
+		return "TAIBasedQMC-ExtIEs"
+	case "TAIBasedQMCExtIEs":
+		return "TAIBasedQMC-ExtIEs"
+	case "TAIBroadcastItemExtIEs":
+		return "TAI-Broadcast-Item-ExtIEs"
+	case "TAICancelledItemExtIEs":
+		return "TAI-Cancelled-Item-ExtIEs"
+	case "TAIExtIEs":
+		return "TAI-ExtIEs"
+	case "TAIItemExtIEs":
+		return "TAIItemExtIEs"
+	case "TargetNgRanNode-ID-ExtIEs":
+		return "TargetNgRanNode-ID-ExtIEs"
+	case "TargetNgRanNodeIDExtIEs":
+		return "TargetNgRanNode-ID-ExtIEs"
+	case "TargetRNC-ID-ExtIEs":
+		return "TargetRNC-ID-ExtIEs"
+	case "TargetRNCIDExtIEs":
+		return "TargetRNC-ID-ExtIEs"
+	case "TargeteNB-ID-ExtIEs":
+		return "TargeteNB-ID-ExtIEs"
 	case "TargeteNB-ToSourceeNB-TransparentContainer-ExtIEs":
 		return "TargeteNB-ToSourceeNB-TransparentContainer-ExtIEs"
+	case "TargeteNBIDExtIEs":
+		return "TargeteNB-ID-ExtIEs"
 	case "TargeteNBToSourceeNBTransparentContainerExtIEs":
 		return "TargeteNB-ToSourceeNB-TransparentContainer-ExtIEs"
+	case "TimeBasedHandoverInformation-ExtIEs":
+		return "TimeBasedHandoverInformation-ExtIEs"
+	case "TimeBasedHandoverInformationExtIEs":
+		return "TimeBasedHandoverInformation-ExtIEs"
 	case "TimeSynchronisationInfo-ExtIEs":
 		return "TimeSynchronisationInfo-ExtIEs"
 	case "TimeSynchronisationInfoExtIEs":
@@ -6922,6 +7606,16 @@ func protocolExtensionObjectSet(context string) string {
 		return "TraceActivation-ExtIEs"
 	case "TraceActivationExtIEs":
 		return "TraceActivation-ExtIEs"
+	case "Tunnel-Information-ExtIEs":
+		return "Tunnel-Information-ExtIEs"
+	case "TunnelInformationExtIEs":
+		return "Tunnel-Information-ExtIEs"
+	case "UE-S1AP-ID-pair-ExtIEs":
+		return "UE-S1AP-ID-pair-ExtIEs"
+	case "UE-Sidelink-Aggregate-MaximumBitrates-ExtIEs":
+		return "UE-Sidelink-Aggregate-MaximumBitrates-ExtIEs"
+	case "UE-associatedLogicalS1-ConnectionItemExtIEs":
+		return "UE-associatedLogicalS1-ConnectionItemExtIEs"
 	case "UEAggregate-MaximumBitrates-ExtIEs":
 		return "UEAggregate-MaximumBitrates-ExtIEs"
 	case "UEAggregateMaximumBitratesExtIEs":
@@ -6930,10 +7624,36 @@ func protocolExtensionObjectSet(context string) string {
 		return "UEAppLayerMeasConfig-ExtIEs"
 	case "UEAppLayerMeasConfigExtIEs":
 		return "UEAppLayerMeasConfig-ExtIEs"
+	case "UEAssociatedLogicalS1ConnectionItemExtIEs":
+		return "UE-associatedLogicalS1-ConnectionItemExtIEs"
+	case "UES1APIDPairExtIEs":
+		return "UE-S1AP-ID-pair-ExtIEs"
+	case "UESecurityCapabilities-ExtIEs":
+		return "UESecurityCapabilities-ExtIEs"
+	case "UESecurityCapabilitiesExtIEs":
+		return "UESecurityCapabilities-ExtIEs"
+	case "UESidelinkAggregateMaximumBitratesExtIEs":
+		return "UE-Sidelink-Aggregate-MaximumBitrates-ExtIEs"
+	case "UL-CP-SecurityInformation-ExtIEs":
+		return "UL-CP-SecurityInformation-ExtIEs"
+	case "ULCPSecurityInformationExtIEs":
+		return "UL-CP-SecurityInformation-ExtIEs"
 	case "UserLocationInformation-ExtIEs":
 		return "UserLocationInformation-ExtIEs"
 	case "UserLocationInformationExtIEs":
 		return "UserLocationInformation-ExtIEs"
+	case "V2XServicesAuthorized-ExtIEs":
+		return "V2XServicesAuthorized-ExtIEs"
+	case "V2XServicesAuthorizedExtIEs":
+		return "V2XServicesAuthorized-ExtIEs"
+	case "WLANMeasurementConfiguration-ExtIEs":
+		return "WLANMeasurementConfiguration-ExtIEs"
+	case "WLANMeasurementConfigurationExtIEs":
+		return "WLANMeasurementConfiguration-ExtIEs"
+	case "WUS-Assistance-Information-ExtIEs":
+		return "WUS-Assistance-Information-ExtIEs"
+	case "WUSAssistanceInformationExtIEs":
+		return "WUS-Assistance-Information-ExtIEs"
 	case "X2TNLConfigurationInfo-ExtIEs":
 		return "X2TNLConfigurationInfo-ExtIEs"
 	case "X2TNLConfigurationInfoExtIEs":
@@ -7295,6 +8015,11 @@ func decodeProtocolFieldsInValue(value reflect.Value, hint protocolOpenTypeHint,
 		}
 		return result, nil
 	case reflect.Slice, reflect.Array:
+		elemKind := value.Type().Elem().Kind()
+		if elemKind != reflect.Struct && elemKind != reflect.Pointer && elemKind != reflect.Interface &&
+			elemKind != reflect.Slice && elemKind != reflect.Array {
+			return decodedProtocolFields{}, nil
+		}
 		var result decodedProtocolFields
 		for i := 0; i < value.Len(); i++ {
 			decoded, err := decodeProtocolFieldsInValue(value.Index(i), protocolOpenTypeHint{}, fmt.Sprintf("%s[%d]", path, i), seen)
