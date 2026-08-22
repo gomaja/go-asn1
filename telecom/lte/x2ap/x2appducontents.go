@@ -3149,6 +3149,33 @@ type X2SetupResponse struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
+// RachIndication represents the ASN.1 type RachIndication (SEQUENCE).
+type RachIndication struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// SCGFailureInformationReport represents the ASN.1 type SCGFailureInformationReport (SEQUENCE).
+type SCGFailureInformationReport struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
+// SCGFailureTransfer represents the ASN.1 type SCGFailureTransfer (SEQUENCE).
+type SCGFailureTransfer struct {
+	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
+	ExtCount_         int64               `asn1:"-" json:"-"`
+	ExtPresent_       []bool              `asn1:"-" json:"-"`
+	ExtData_          [][]byte            `asn1:"-" json:"-"`
+}
+
 // ERABsAdmittedToBeModifiedSgNBModConfItemResourceConfiguration choice constants.
 const (
 	ERABsAdmittedToBeModifiedSgNBModConfItemResourceConfigurationChoiceSgNBPDCPpresent    = 1
@@ -29048,6 +29075,267 @@ func (v *X2SetupResponse) UnmarshalAPER(data []byte) error {
 }
 
 func (v *X2SetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		v.ExtData_ = make([][]byte, extCount+1)
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes RachIndication to APER format.
+func (v *RachIndication) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *RachIndication) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes RachIndication from APER format.
+func (v *RachIndication) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *RachIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		v.ExtData_ = make([][]byte, extCount+1)
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes SCGFailureInformationReport to APER format.
+func (v *SCGFailureInformationReport) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SCGFailureInformationReport) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes SCGFailureInformationReport from APER format.
+func (v *SCGFailureInformationReport) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *SCGFailureInformationReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if err != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	}
+	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	for i := int64(0); i < seqLen_protocolies; i++ {
+		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.ExtCount_ = extCount
+		v.ExtData_ = make([][]byte, extCount+1)
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenTypeAligned(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
+		}
+	}
+	return nil
+}
+
+// MarshalAPER encodes SCGFailureTransfer to APER format.
+func (v *SCGFailureTransfer) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SCGFailureTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
+		return fmt.Errorf("encoding protocolIEs length: %w", err)
+	}
+	for _, elem := range v.ProtocolIEs {
+		if err := elem.MarshalAPERTo(bb); err != nil {
+			return fmt.Errorf("encoding protocolIEs element: %w", err)
+		}
+	}
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes SCGFailureTransfer from APER format.
+func (v *SCGFailureTransfer) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *SCGFailureTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
