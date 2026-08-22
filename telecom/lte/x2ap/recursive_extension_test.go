@@ -194,6 +194,66 @@ func TestDecodeProtocolExtensionsRecursiveInlineListOwners(t *testing.T) {
 	}
 }
 
+func TestDecodeProtocolExtensionsRecursivePreservesPublishedAdmittedItemObjectSets(t *testing.T) {
+	// 3GPP TS 36.423 V19.1.0, Section 9.3.4 X2AP-PDU-Contents publishes these
+	// three object-set names exactly as written below. Each set is empty and
+	// extensible, so unknown/private extensions retain their raw bytes.
+	raw := []byte{0xde, 0xad, 0xbe, 0xef}
+	extension := ProtocolExtensionContainer{{
+		Id: 65532, ExtensionValue: runtime.RawValue{Bytes: raw},
+	}}
+	tests := []struct {
+		name      string
+		value     any
+		path      string
+		objectSet string
+	}{
+		{
+			name: "admitted to be added",
+			value: &ERABsAdmittedToBeAddedSgNBAddReqAckItem{
+				IEExtensions: extension,
+			},
+			path:      "ERABsAdmittedToBeAddedSgNBAddReqAckItem.IEExtensions[0]",
+			objectSet: "E-RABs-ToBeAdded-SgNBAddReqAck-ItemExtIEs",
+		},
+		{
+			name: "admitted to be modified",
+			value: &ERABsAdmittedToBeModifiedSgNBModAckItem{
+				IEExtensions: extension,
+			},
+			path:      "ERABsAdmittedToBeModifiedSgNBModAckItem.IEExtensions[0]",
+			objectSet: "E-RABs-ToBeAdded-SgNBModAck-ItemExtIEs",
+		},
+		{
+			name: "admitted to be released",
+			value: &ERABsAdmittedToReleasedSgNBModAckItem{
+				IEExtensions: extension,
+			},
+			path:      "ERABsAdmittedToReleasedSgNBModAckItem.IEExtensions[0]",
+			objectSet: "E-RABs-ToBeReleased-SgNBModAck-ItemExtIEs",
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			decoded, err := DecodeProtocolExtensionsRecursive(test.value)
+			if err != nil {
+				t.Fatalf("recursive extension decode: %v", err)
+			}
+			if len(decoded) != 1 {
+				t.Fatalf("decoded extensions = %#v, want one", decoded)
+			}
+			ext := decoded[0]
+			if ext.Path != test.path || ext.ObjectSet != test.objectSet || ext.Value != nil {
+				t.Errorf("extension = (%q, %q, %T), want (%q, %q, nil)",
+					ext.Path, ext.ObjectSet, ext.Value, test.path, test.objectSet)
+			}
+			if !bytes.Equal(ext.Field.ExtensionValue.Bytes, raw) {
+				t.Errorf("extension bytes = %x, want %x", ext.Field.ExtensionValue.Bytes, raw)
+			}
+		})
+	}
+}
+
 func TestDecodeProtocolExtensionsRecursiveReportsDAPSPath(t *testing.T) {
 	item := &ERABsAdmittedItem{
 		IEExtensions: ProtocolExtensionContainer{{Id: IdDAPSResponseInfo}},
