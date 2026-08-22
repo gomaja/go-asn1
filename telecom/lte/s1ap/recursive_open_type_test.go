@@ -120,6 +120,64 @@ func TestDecodeProtocolIEsRecursiveResetAcknowledgeConnectionList(t *testing.T) 
 	}
 }
 
+func TestDecodeProtocolIEsRecursivePreservesEmptyChoiceExtensionSets(t *testing.T) {
+	// 3GPP TS 36.413 V19.2.0, Section 9.3.5 S1AP-IEs defines each of these
+	// ChoiceExtensions object sets as empty and extensible. Unknown/private IEs
+	// therefore remain unresolved while retaining their original open-type bytes.
+	raw := []byte{0xde, 0xad, 0xbe, 0xef}
+	field := ProtocolIESingleContainer{
+		Id: 65532, Criticality: CriticalityIgnore,
+		Value: runtime.RawValue{Bytes: raw},
+	}
+	eventTrigger := NewEventTriggerChoiceExtensions(field)
+	measurementThreshold := NewMeasurementThresholdL1LoggedMDTChoiceExtensions(field)
+	sensorName := NewSensorNameConfigChoiceExtensions(field)
+	tests := []struct {
+		name      string
+		value     any
+		path      string
+		objectSet string
+	}{
+		{
+			name:      "event trigger",
+			value:     &eventTrigger,
+			path:      "EventTrigger.ChoiceExtensions[0]",
+			objectSet: "EventTrigger-ExtIEs",
+		},
+		{
+			name:      "measurement threshold",
+			value:     &measurementThreshold,
+			path:      "MeasurementThresholdL1LoggedMDT.ChoiceExtensions[0]",
+			objectSet: "MeasurementThresholdL1LoggedMDT-ExtIEs",
+		},
+		{
+			name:      "sensor name",
+			value:     &sensorName,
+			path:      "SensorNameConfig.ChoiceExtensions[0]",
+			objectSet: "SensorNameConfig-ExtIEs",
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			decoded, err := DecodeProtocolIEsRecursive(test.value)
+			if err != nil {
+				t.Fatalf("recursive choice extension decode: %v", err)
+			}
+			if len(decoded) != 1 {
+				t.Fatalf("decoded IEs = %#v, want one", decoded)
+			}
+			ie := decoded[0]
+			if ie.Path != test.path || ie.ObjectSet != test.objectSet || ie.Value != nil {
+				t.Errorf("IE = (%q, %q, %T), want (%q, %q, nil)",
+					ie.Path, ie.ObjectSet, ie.Value, test.path, test.objectSet)
+			}
+			if !bytes.Equal(ie.Field.Value.Bytes, raw) {
+				t.Errorf("IE bytes = %x, want %x", ie.Field.Value.Bytes, raw)
+			}
+		})
+	}
+}
+
 func FuzzDecodeProtocolIEFieldsRecursive(f *testing.F) {
 	f.Add([]byte{0x00})
 	f.Add([]byte{})
