@@ -699,9 +699,9 @@ func DecodeUnsuccessfulOutcomeValue(procedureCode int64, data []byte) (interface
 	}
 }
 
-// decodeProtocolIEFieldListConstrained decodes a SEQUENCE OF ProtocolIE-Field from APER
+// decodeIEProtocolIEFieldListConstrained decodes a constrained SEQUENCE OF ProtocolIEField values from APER.
 // with the given SIZE constraint bounds.
-func decodeProtocolIEFieldListConstrained(bb *per.BitBuffer, lb, ub int64) ([]ProtocolIEField, error) {
+func decodeIEProtocolIEFieldListConstrained(bb *per.BitBuffer, lb, ub int64) ([]ProtocolIEField, error) {
 	n, err := per.DecodeConstrainedWholeNumberAligned(bb, lb, ub)
 	if err != nil {
 		return nil, fmt.Errorf("decoding list length: %w", err)
@@ -715,7 +715,7 @@ func decodeProtocolIEFieldListConstrained(bb *per.BitBuffer, lb, ub int64) ([]Pr
 	return result, nil
 }
 
-// DecodeIEFieldValue decodes a ProtocolIE-Field Value based on message type and IE ID.
+// DecodeIEFieldValue decodes a known IE open value using its object-set context and ID.
 // Returns the decoded typed value, or nil if the combination is unknown.
 func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{}, error) {
 	bb := per.NewBitBufferFromBytes(data)
@@ -947,13 +947,13 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEX2APID(v)
 			return &result, nil
 		case 1: // id-E-RABs-Admitted-List -> ERABsAdmittedList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 3: // id-E-RABs-NotAdmitted-List -> E-RAB-List (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE E-RAB-List (%d): %w", ieId, err)
 			}
@@ -1007,7 +1007,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEContextKeptIndicator(v)
 			return &result, nil
 		case 339: // id-ERABs-transferred-to-MeNB -> E-RAB-List (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE E-RAB-List (%d): %w", ieId, err)
 			}
@@ -1200,7 +1200,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEX2APID(v)
 			return &result, nil
 		case 18: // id-E-RABs-SubjectToStatusTransfer-List -> ERABsSubjectToStatusTransferList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsSubjectToStatusTransferList (%d): %w", ieId, err)
 			}
@@ -1616,7 +1616,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 	case "LoadInformation", "LoadInformation-IEs":
 		switch ieId {
 		case 6: // id-CellInformation -> CellInformationList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CellInformationList (%d): %w", ieId, err)
 			}
@@ -1768,7 +1768,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := ReportCharacteristics{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 29: // id-CellToReport -> CellToReportList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CellToReportList (%d): %w", ieId, err)
 			}
@@ -1834,7 +1834,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 65: // id-MeasurementInitiationResult-List -> MeasurementInitiationResultList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementInitiationResultList (%d): %w", ieId, err)
 			}
@@ -1887,7 +1887,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 68: // id-CompleteFailureCauseInformation-List -> CompleteFailureCauseInformationList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CompleteFailureCauseInformationList (%d): %w", ieId, err)
 			}
@@ -1919,7 +1919,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := MeasurementID(v)
 			return &result, nil
 		case 32: // id-CellMeasurementResult -> CellMeasurementResultList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CellMeasurementResultList (%d): %w", ieId, err)
 			}
@@ -2198,7 +2198,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := PLMNIdentity(v)
 			return &result, nil
 		case 117: // id-E-RABs-ToBeAdded-List -> ERABsToBeAddedList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeAddedList (%d): %w", ieId, err)
 			}
@@ -2271,13 +2271,13 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEX2APID(v)
 			return &result, nil
 		case 120: // id-E-RABs-Admitted-ToBeAdded-List -> ERABsAdmittedToBeAddedList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeAddedList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 3: // id-E-RABs-NotAdmitted-List -> E-RAB-List (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE E-RAB-List (%d): %w", ieId, err)
 			}
@@ -2534,25 +2534,25 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEX2APID(v)
 			return &result, nil
 		case 128: // id-E-RABs-Admitted-ToBeAdded-ModAckList -> ERABsAdmittedToBeAddedModAckList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeAddedModAckList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 129: // id-E-RABs-Admitted-ToBeModified-ModAckList -> ERABsAdmittedToBeModifiedModAckList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeModifiedModAckList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 130: // id-E-RABs-Admitted-ToBeReleased-ModAckList -> ERABsAdmittedToBeReleasedModAckList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeReleasedModAckList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 3: // id-E-RABs-NotAdmitted-List -> E-RAB-List (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE E-RAB-List (%d): %w", ieId, err)
 			}
@@ -2685,7 +2685,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := SCGChangeIndication(v)
 			return &result, nil
 		case 134: // id-E-RABs-ToBeReleased-ModReqd -> ERABsToBeReleasedModReqd (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedModReqd (%d): %w", ieId, err)
 			}
@@ -2838,7 +2838,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 137: // id-E-RABs-ToBeReleased-List-RelReq -> ERABsToBeReleasedListRelReq (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedListRelReq (%d): %w", ieId, err)
 			}
@@ -2935,7 +2935,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEX2APID(v)
 			return &result, nil
 		case 139: // id-E-RABs-ToBeReleased-List-RelConf -> ERABsToBeReleasedListRelConf (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedListRelConf (%d): %w", ieId, err)
 			}
@@ -2987,7 +2987,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEX2APID(v)
 			return &result, nil
 		case 141: // id-E-RABs-SubjectToCounterCheck-List -> ERABsSubjectToCounterCheckList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsSubjectToCounterCheckList (%d): %w", ieId, err)
 			}
@@ -3305,7 +3305,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 205: // id-E-RABs-ToBeAdded-SgNBAddReqList -> ERABsToBeAddedSgNBAddReqList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeAddedSgNBAddReqList (%d): %w", ieId, err)
 			}
@@ -3524,13 +3524,13 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := SgNBUEX2APID(v)
 			return &result, nil
 		case 210: // id-E-RABs-Admitted-ToBeAdded-SgNBAddReqAckList -> ERABsAdmittedToBeAddedSgNBAddReqAckList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeAddedSgNBAddReqAckList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 3: // id-E-RABs-NotAdmitted-List -> E-RAB-List (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE E-RAB-List (%d): %w", ieId, err)
 			}
@@ -3905,25 +3905,25 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := SgNBUEX2APID(v)
 			return &result, nil
 		case 219: // id-E-RABs-Admitted-ToBeAdded-SgNBModAckList -> ERABsAdmittedToBeAddedSgNBModAckList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeAddedSgNBModAckList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 220: // id-E-RABs-Admitted-ToBeModified-SgNBModAckList -> ERABsAdmittedToBeModifiedSgNBModAckList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeModifiedSgNBModAckList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 221: // id-E-RABs-Admitted-ToBeReleased-SgNBModAckList -> ERABsAdmittedToBeReleasedSgNBModAckList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeReleasedSgNBModAckList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 3: // id-E-RABs-NotAdmitted-List -> E-RAB-List (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE E-RAB-List (%d): %w", ieId, err)
 			}
@@ -4102,7 +4102,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := PDCPChangeIndication(v)
 			return &result, nil
 		case 225: // id-E-RABs-ToBeReleased-SgNBModReqdList -> ERABsToBeReleasedSgNBModReqdList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedSgNBModReqdList (%d): %w", ieId, err)
 			}
@@ -4122,7 +4122,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 226: // id-E-RABs-ToBeModified-SgNBModReqdList -> ERABsToBeModifiedSgNBModReqdList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeModifiedSgNBModReqdList (%d): %w", ieId, err)
 			}
@@ -4202,7 +4202,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := SgNBUEX2APID(v)
 			return &result, nil
 		case 294: // id-E-RABs-AdmittedToBeModified-SgNBModConfList -> ERABsAdmittedToBeModifiedSgNBModConfList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeModifiedSgNBModConfList (%d): %w", ieId, err)
 			}
@@ -4309,7 +4309,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 231: // id-E-RABs-ToBeReleased-SgNBRelReqList -> ERABsToBeReleasedSgNBRelReqList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedSgNBRelReqList (%d): %w", ieId, err)
 			}
@@ -4336,7 +4336,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := MeNBtoSgNBContainer(v)
 			return &result, nil
 		case 339: // id-ERABs-transferred-to-MeNB -> E-RAB-List (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE E-RAB-List (%d): %w", ieId, err)
 			}
@@ -4381,7 +4381,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 318: // id-E-RABs-Admitted-ToBeReleased-SgNBRelReqAckList -> ERABsAdmittedToBeReleasedSgNBRelReqAckList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeReleasedSgNBRelReqAckList (%d): %w", ieId, err)
 			}
@@ -4462,7 +4462,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 320: // id-E-RABs-ToBeReleased-SgNBRelReqdList -> ERABsToBeReleasedSgNBRelReqdList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedSgNBRelReqdList (%d): %w", ieId, err)
 			}
@@ -4501,7 +4501,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := SgNBUEX2APID(v)
 			return &result, nil
 		case 233: // id-E-RABs-ToBeReleased-SgNBRelConfList -> ERABsToBeReleasedSgNBRelConfList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedSgNBRelConfList (%d): %w", ieId, err)
 			}
@@ -4546,7 +4546,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := SgNBUEX2APID(v)
 			return &result, nil
 		case 235: // id-E-RABs-SubjectToSgNBCounterCheck-List -> ERABsSubjectToSgNBCounterCheckList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsSubjectToSgNBCounterCheckList (%d): %w", ieId, err)
 			}
@@ -4649,7 +4649,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := SgNBUEX2APID(v)
 			return &result, nil
 		case 229: // id-E-RABs-ToBeReleased-SgNBChaConfList -> ERABsToBeReleasedSgNBChaConfList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedSgNBChaConfList (%d): %w", ieId, err)
 			}
@@ -5346,7 +5346,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := ReportCharacteristicsENDC{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 391: // id-CellToReport-NR-ENDC -> CellToReportNRENDCList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 16384)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 16384)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CellToReportNRENDCList (%d): %w", ieId, err)
 			}
@@ -5359,7 +5359,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := InterfaceInstanceIndication(v)
 			return &result, nil
 		case 403: // id-CellToReport-E-UTRA-ENDC -> CellToReportEUTRAENDCList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CellToReportEUTRAENDCList (%d): %w", ieId, err)
 			}
@@ -5466,7 +5466,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := MeasurementIDENDC(v)
 			return &result, nil
 		case 393: // id-CellMeasurementResult-NR-ENDC -> CellMeasurementResultNRENDCList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 16384)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 16384)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CellMeasurementResultNRENDCList (%d): %w", ieId, err)
 			}
@@ -5479,7 +5479,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := InterfaceInstanceIndication(v)
 			return &result, nil
 		case 401: // id-CellMeasurementResult-E-UTRA-ENDC -> CellMeasurementResultEUTRAENDCList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CellMeasurementResultEUTRAENDCList (%d): %w", ieId, err)
 			}
@@ -5520,7 +5520,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := SgNBUEX2APID(v)
 			return &result, nil
 		case 265: // id-SecondaryRATUsageReportList -> SecondaryRATUsageReportList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SecondaryRATUsageReportList (%d): %w", ieId, err)
 			}
@@ -5903,7 +5903,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UEX2APIDExtension(v)
 			return &result, nil
 		case 307: // id-E-RABs-DataForwardingAddress-List -> ERABsDataForwardingAddressList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeProtocolIEFieldListConstrained(bb, 1, 256)
+			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsDataForwardingAddressList (%d): %w", ieId, err)
 			}
@@ -6264,20 +6264,1735 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 	return nil, nil
 }
 
-// DecodedProtocolIEField contains one decoded protocol IE and any nested protocol IEs.
-// Field always retains the original open-type bytes, including for unknown/private IDs.
-type DecodedProtocolIEField struct {
-	Path      string
-	ObjectSet string
-	Field     ProtocolIEField
-	Value     interface{}
-	Children  []DecodedProtocolIEField
+// DecodeExtensionFieldValue decodes a known extension open value using its object-set context and ID.
+// Returns the decoded typed value, or nil if the combination is unknown.
+func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (interface{}, error) {
+	bb := per.NewBitBufferFromBytes(data)
+	switch context {
+	case "CHOinformationREQExtIEs", "CHOinformation-REQ-ExtIEs":
+		switch extensionId {
+		case 446: // id-CHOTimeBasedInformation -> CHOTimeBasedInformation
+			var v CHOTimeBasedInformation
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension CHOTimeBasedInformation (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		}
+	case "ERABLevelQoSParametersExtIEs", "E-RAB-Level-QoS-Parameters-ExtIEs":
+		switch extensionId {
+		case 273: // id-DownlinkPacketLossRate -> Packet-LossRate (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(1000), false)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension Packet-LossRate (%d): %w", extensionId, err)
+			}
+			result := PacketLossRate(v)
+			return &result, nil
+		case 274: // id-UplinkPacketLossRate -> Packet-LossRate (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(1000), false)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension Packet-LossRate (%d): %w", extensionId, err)
+			}
+			result := PacketLossRate(v)
+			return &result, nil
+		}
+	case "FDDInfoExtIEs", "FDD-Info-ExtIEs":
+		switch extensionId {
+		case 95: // id-UL-EARFCNExtension -> EARFCNExtension (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(65536), int64Ptr(262143), true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension EARFCNExtension (%d): %w", extensionId, err)
+			}
+			result := EARFCNExtension(v)
+			return &result, nil
+		case 96: // id-DL-EARFCNExtension -> EARFCNExtension (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(65536), int64Ptr(262143), true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension EARFCNExtension (%d): %w", extensionId, err)
+			}
+			result := EARFCNExtension(v)
+			return &result, nil
+		case 177: // id-OffsetOfNbiotChannelNumberToDL-EARFCN -> OffsetOfNbiotChannelNumberToEARFCN (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 21, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension OffsetOfNbiotChannelNumberToEARFCN (%d): %w", extensionId, err)
+			}
+			result := OffsetOfNbiotChannelNumberToEARFCN(v)
+			return &result, nil
+		case 178: // id-OffsetOfNbiotChannelNumberToUL-EARFCN -> OffsetOfNbiotChannelNumberToEARFCN (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 21, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension OffsetOfNbiotChannelNumberToEARFCN (%d): %w", extensionId, err)
+			}
+			result := OffsetOfNbiotChannelNumberToEARFCN(v)
+			return &result, nil
+		case 282: // id-NRS-NSSS-PowerOffset -> NRS-NSSS-PowerOffset (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension NRS-NSSS-PowerOffset (%d): %w", extensionId, err)
+			}
+			result := NRSNSSSPowerOffset(v)
+			return &result, nil
+		case 283: // id-NSSS-NumOccasionDifferentPrecoder -> NSSS-NumOccasionDifferentPrecoder (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension NSSS-NumOccasionDifferentPrecoder (%d): %w", extensionId, err)
+			}
+			result := NSSSNumOccasionDifferentPrecoder(v)
+			return &result, nil
+		}
+	case "FDDInfoNeighbourServedNRCellInformationExtIEs", "FDD-InfoNeighbourServedNRCell-Information-ExtIEs":
+		switch extensionId {
+		case 387: // id-ULCarrierList -> NRCarrierList (SEQUENCE OF NRCarrierItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 5)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension NRCarrierList length: %w", err)
+			}
+			result := make(NRCarrierList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension NRCarrierList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		}
+	case "GBRQosInformationExtIEs", "GBR-QosInformation-ExtIEs":
+		switch extensionId {
+		case 196: // id-extended-e-RAB-MaximumBitrateDL -> ExtendedBitRate (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(10000000001), int64Ptr(4000000000000), true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension ExtendedBitRate (%d): %w", extensionId, err)
+			}
+			result := ExtendedBitRate(v)
+			return &result, nil
+		case 197: // id-extended-e-RAB-MaximumBitrateUL -> ExtendedBitRate (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(10000000001), int64Ptr(4000000000000), true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension ExtendedBitRate (%d): %w", extensionId, err)
+			}
+			result := ExtendedBitRate(v)
+			return &result, nil
+		case 198: // id-extended-e-RAB-GuaranteedBitrateDL -> ExtendedBitRate (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(10000000001), int64Ptr(4000000000000), true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension ExtendedBitRate (%d): %w", extensionId, err)
+			}
+			result := ExtendedBitRate(v)
+			return &result, nil
+		case 199: // id-extended-e-RAB-GuaranteedBitrateUL -> ExtendedBitRate (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(10000000001), int64Ptr(4000000000000), true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension ExtendedBitRate (%d): %w", extensionId, err)
+			}
+			result := ExtendedBitRate(v)
+			return &result, nil
+		}
+	case "GTPtunnelEndpointExtIEs", "GTPtunnelEndpoint-ExtIEs":
+		switch extensionId {
+		case 396: // id-QoS-Mapping-Information -> QoS-Mapping-Information
+			var v QoSMappingInformation
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension QoS-Mapping-Information (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		}
+	case "HandoverRestrictionListExtIEs", "HandoverRestrictionList-ExtIEs":
+		switch extensionId {
+		case 202: // id-NRrestrictioninEPSasSecondaryRAT -> NRrestrictioninEPSasSecondaryRAT (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension NRrestrictioninEPSasSecondaryRAT (%d): %w", extensionId, err)
+			}
+			result := NRrestrictioninEPSasSecondaryRAT(v)
+			return &result, nil
+		case 301: // id-CNTypeRestrictions -> CNTypeRestrictions (SEQUENCE OF CNTypeRestrictionsItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension CNTypeRestrictions length: %w", err)
+			}
+			result := make(CNTypeRestrictions, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension CNTypeRestrictions item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 305: // id-NRrestrictionin5GS -> NRrestrictionin5GS (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension NRrestrictionin5GS (%d): %w", extensionId, err)
+			}
+			result := NRrestrictionin5GS(v)
+			return &result, nil
+		case 332: // id-LastNG-RANPLMNIdentity -> PLMN-Identity (OCTET_STRING)
+			v, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension PLMN-Identity (%d): %w", extensionId, err)
+			}
+			result := PLMNIdentity(v)
+			return &result, nil
+		case 358: // id-UnlicensedSpectrumRestriction -> UnlicensedSpectrumRestriction (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension UnlicensedSpectrumRestriction (%d): %w", extensionId, err)
+			}
+			result := UnlicensedSpectrumRestriction(v)
+			return &result, nil
+		case 437: // id-RAT-Restrictions -> RAT-Restrictions (SEQUENCE OF RATRestrictionsItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension RAT-Restrictions length: %w", err)
+			}
+			result := make(RATRestrictions, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension RAT-Restrictions item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		}
+	case "LastVisitedEUTRANCellInformationExtIEs", "LastVisitedEUTRANCellInformation-ExtIEs":
+		switch extensionId {
+		case 77: // id-Time-UE-StayedInCell-EnhancedGranularity -> Time-UE-StayedInCell-EnhancedGranularity (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(40950), false)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension Time-UE-StayedInCell-EnhancedGranularity (%d): %w", extensionId, err)
+			}
+			result := TimeUEStayedInCellEnhancedGranularity(v)
+			return &result, nil
+		case 80: // id-HO-cause -> Cause
+			var v Cause
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension Cause (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		}
+	case "LocationReportingInformationExtIEs", "LocationReportingInformation-ExtIEs":
+		switch extensionId {
+		case 409: // id-AdditionLocationInformation -> AdditionLocationInformation (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension AdditionLocationInformation (%d): %w", extensionId, err)
+			}
+			result := AdditionLocationInformation(v)
+			return &result, nil
+		}
+	case "M4ConfigurationExtIEs", "M4Configuration-ExtIEs":
+		switch extensionId {
+		case 442: // id-M4ReportAmount -> M4ReportAmountMDT (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension M4ReportAmountMDT (%d): %w", extensionId, err)
+			}
+			result := M4ReportAmountMDT(v)
+			return &result, nil
+		}
+	case "M5ConfigurationExtIEs", "M5Configuration-ExtIEs":
+		switch extensionId {
+		case 443: // id-M5ReportAmount -> M5ReportAmountMDT (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension M5ReportAmountMDT (%d): %w", extensionId, err)
+			}
+			result := M5ReportAmountMDT(v)
+			return &result, nil
+		}
+	case "M6ConfigurationExtIEs", "M6Configuration-ExtIEs":
+		switch extensionId {
+		case 444: // id-M6ReportAmount -> M6ReportAmountMDT (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension M6ReportAmountMDT (%d): %w", extensionId, err)
+			}
+			result := M6ReportAmountMDT(v)
+			return &result, nil
+		}
+	case "M7ConfigurationExtIEs", "M7Configuration-ExtIEs":
+		switch extensionId {
+		case 445: // id-M7ReportAmount -> M7ReportAmountMDT (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension M7ReportAmountMDT (%d): %w", extensionId, err)
+			}
+			result := M7ReportAmountMDT(v)
+			return &result, nil
+		}
+	case "MDTConfigurationExtIEs", "MDT-Configuration-ExtIEs":
+		switch extensionId {
+		case 85: // id-M3Configuration -> M3Configuration
+			var v M3Configuration
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension M3Configuration (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 86: // id-M4Configuration -> M4Configuration
+			var v M4Configuration
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension M4Configuration (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 87: // id-M5Configuration -> M5Configuration
+			var v M5Configuration
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension M5Configuration (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 88: // id-MDT-Location-Info -> MDT-Location-Info (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 8, 8, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension MDT-Location-Info (%d): %w", extensionId, err)
+			}
+			result := MDTLocationInfo{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		case 161: // id-M6Configuration -> M6Configuration
+			var v M6Configuration
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension M6Configuration (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 162: // id-M7Configuration -> M7Configuration
+			var v M7Configuration
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension M7Configuration (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 303: // id-BluetoothMeasurementConfiguration -> BluetoothMeasurementConfiguration
+			var v BluetoothMeasurementConfiguration
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension BluetoothMeasurementConfiguration (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 304: // id-WLANMeasurementConfiguration -> WLANMeasurementConfiguration
+			var v WLANMeasurementConfiguration
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension WLANMeasurementConfiguration (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 440: // id-SensorMeasurementConfiguration -> SensorMeasurementConfiguration
+			var v SensorMeasurementConfiguration
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension SensorMeasurementConfiguration (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		}
+	case "MeNBResourceCoordinationInformationExtIEs":
+		switch extensionId {
+		case 322: // id-NRCGI -> NRCGI
+			var v NRCGI
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension NRCGI (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 323: // id-MeNBCoordinationAssistanceInformation -> MeNBCoordinationAssistanceInformation (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension MeNBCoordinationAssistanceInformation (%d): %w", extensionId, err)
+			}
+			result := MeNBCoordinationAssistanceInformation(v)
+			return &result, nil
+		}
+	case "NeighbourInformationExtIEs", "Neighbour-Information-ExtIEs":
+		switch extensionId {
+		case 76: // id-NeighbourTAC -> TAC (OCTET_STRING)
+			v, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension TAC (%d): %w", extensionId, err)
+			}
+			result := TAC(v)
+			return &result, nil
+		case 94: // id-eARFCNExtension -> EARFCNExtension (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(65536), int64Ptr(262143), true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension EARFCNExtension (%d): %w", extensionId, err)
+			}
+			result := EARFCNExtension(v)
+			return &result, nil
+		}
+	case "NRFreqInfoExtIEs", "NRFreqInfo-ExtIEs":
+		switch extensionId {
+		case 388: // id-FrequencyShift7p5khz -> FrequencyShift7p5khz (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension FrequencyShift7p5khz (%d): %w", extensionId, err)
+			}
+			result := FrequencyShift7p5khz(v)
+			return &result, nil
+		}
+	case "NRRAReportListItemExtIEs", "NRRAReportList-Item-ExtIEs":
+		switch extensionId {
+		case 448: // id-PSCellListContainer -> PSCellListContainer (OCTET_STRING)
+			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension PSCellListContainer (%d): %w", extensionId, err)
+			}
+			result := PSCellListContainer(v)
+			return &result, nil
+		}
+	case "NRNeighbourInformationExtIEs", "NRNeighbour-Information-ExtIEs":
+		switch extensionId {
+		case 380: // id-CSI-RSTransmissionIndication -> CSI-RSTransmissionIndication (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension CSI-RSTransmissionIndication (%d): %w", extensionId, err)
+			}
+			result := CSIRSTransmissionIndication(v)
+			return &result, nil
+		case 389: // id-SSB-PositionsInBurst -> SSB-PositionsInBurst
+			var v SSBPositionsInBurst
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension SSB-PositionsInBurst (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 390: // id-NRCellPRACHConfig -> NRCellPRACHConfig (OCTET_STRING)
+			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension NRCellPRACHConfig (%d): %w", extensionId, err)
+			}
+			result := NRCellPRACHConfig(v)
+			return &result, nil
+		case 433: // id-Additional-Measurement-Timing-Configuration-List -> Additional-Measurement-Timing-Configuration-List (SEQUENCE OF AdditionalMeasurementTimingConfigurationItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension Additional-Measurement-Timing-Configuration-List length: %w", err)
+			}
+			result := make(AdditionalMeasurementTimingConfigurationList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension Additional-Measurement-Timing-Configuration-List item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		}
+	case "NRRadioResourceStatusExtIEs", "NRRadioResourceStatus-ExtIEs":
+		switch extensionId {
+		case 439: // id-MIMOPRBusageInformation -> MIMOPRBusageInformation
+			var v MIMOPRBusageInformation
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension MIMOPRBusageInformation (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		}
+	case "ProSeAuthorizedExtIEs", "ProSeAuthorized-ExtIEs":
+		switch extensionId {
+		case 149: // id-ProSeUEtoNetworkRelaying -> ProSeUEtoNetworkRelaying (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension ProSeUEtoNetworkRelaying (%d): %w", extensionId, err)
+			}
+			result := ProSeUEtoNetworkRelaying(v)
+			return &result, nil
+		}
+	case "RadioResourceStatusExtIEs", "RadioResourceStatus-ExtIEs":
+		switch extensionId {
+		case 193: // id-DL-scheduling-PDCCH-CCE-usage -> DL-scheduling-PDCCH-CCE-usage (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(100), false)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension DL-scheduling-PDCCH-CCE-usage (%d): %w", extensionId, err)
+			}
+			result := DLSchedulingPDCCHCCEUsage(v)
+			return &result, nil
+		case 194: // id-UL-scheduling-PDCCH-CCE-usage -> UL-scheduling-PDCCH-CCE-usage (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(100), false)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension UL-scheduling-PDCCH-CCE-usage (%d): %w", extensionId, err)
+			}
+			result := ULSchedulingPDCCHCCEUsage(v)
+			return &result, nil
+		}
+	case "RelativeNarrowbandTxPowerExtIEs", "RelativeNarrowbandTxPower-ExtIEs":
+		switch extensionId {
+		case 148: // id-enhancedRNTP -> EnhancedRNTP
+			var v EnhancedRNTP
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension EnhancedRNTP (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		}
+	case "RSRPMRListExtIEs", "RSRPMRList-ExtIEs":
+		switch extensionId {
+		case 147: // id-UEID -> UEID (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 16, 16, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension UEID (%d): %w", extensionId, err)
+			}
+			result := UEID{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		}
+	case "ServedCellExtIEs", "ServedCell-ExtIEs":
+		switch extensionId {
+		case 327: // id-NRNeighbourInfoToAdd -> NRNeighbour-Information (SEQUENCE OF NRNeighbourInformationElem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 1024)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension NRNeighbour-Information length: %w", err)
+			}
+			result := make(NRNeighbourInformation, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension NRNeighbour-Information item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 434: // id-ServedCellSpecificInfoReq-NR -> ServedCellSpecificInfoReq-NR (SEQUENCE OF ServedCellSpecificInfoReqNRItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension ServedCellSpecificInfoReq-NR length: %w", err)
+			}
+			result := make(ServedCellSpecificInfoReqNR, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension ServedCellSpecificInfoReq-NR item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		}
+	case "ServedCellInformationExtIEs", "ServedCell-Information-ExtIEs":
+		switch extensionId {
+		case 41: // id-Number-of-Antennaports -> Number-of-Antennaports (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension Number-of-Antennaports (%d): %w", extensionId, err)
+			}
+			result := NumberOfAntennaports(v)
+			return &result, nil
+		case 55: // id-PRACH-Configuration -> PRACH-Configuration
+			var v PRACHConfiguration
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension PRACH-Configuration (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 56: // id-MBSFN-Subframe-Info -> MBSFN-Subframe-Infolist (SEQUENCE OF MBSFNSubframeInfo)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 8)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension MBSFN-Subframe-Infolist length: %w", err)
+			}
+			result := make(MBSFNSubframeInfolist, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension MBSFN-Subframe-Infolist item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 70: // id-CSG-Id -> CSG-Id (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 27, 27, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension CSG-Id (%d): %w", extensionId, err)
+			}
+			result := CSGId{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		case 84: // id-MultibandInfoList -> MultibandInfoList (SEQUENCE OF BandInfo)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension MultibandInfoList length: %w", err)
+			}
+			result := make(MultibandInfoList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension MultibandInfoList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 160: // id-FreqBandIndicatorPriority -> FreqBandIndicatorPriority (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension FreqBandIndicatorPriority (%d): %w", extensionId, err)
+			}
+			result := FreqBandIndicatorPriority(v)
+			return &result, nil
+		case 180: // id-BandwidthReducedSI -> BandwidthReducedSI (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension BandwidthReducedSI (%d): %w", extensionId, err)
+			}
+			result := BandwidthReducedSI(v)
+			return &result, nil
+		case 284: // id-ProtectedEUTRAResourceIndication -> ProtectedEUTRAResourceIndication
+			var v ProtectedEUTRAResourceIndication
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension ProtectedEUTRAResourceIndication (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 336: // id-BPLMN-ID-Info-EUTRA -> BPLMN-ID-Info-EUTRA (SEQUENCE OF BPLMNIDInfoEUTRAItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 6)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension BPLMN-ID-Info-EUTRA length: %w", err)
+			}
+			result := make(BPLMNIDInfoEUTRA, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension BPLMN-ID-Info-EUTRA item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 373: // id-NPRACHConfiguration -> NPRACHConfiguration
+			var v NPRACHConfiguration
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension NPRACHConfiguration (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 406: // id-SFN-Offset -> SFN-Offset
+			var v SFNOffset
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension SFN-Offset (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		}
+	case "SgNBResourceCoordinationInformationExtIEs":
+		switch extensionId {
+		case 316: // id-ECGI -> ECGI
+			var v ECGI
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension ECGI (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 324: // id-SgNBCoordinationAssistanceInformation -> SgNBCoordinationAssistanceInformation (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension SgNBCoordinationAssistanceInformation (%d): %w", extensionId, err)
+			}
+			result := SgNBCoordinationAssistanceInformation(v)
+			return &result, nil
+		}
+	case "SULInformationExtIEs", "SULInformation-ExtIEs":
+		switch extensionId {
+		case 386: // id-CarrierList -> NRCarrierList (SEQUENCE OF NRCarrierItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 5)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension NRCarrierList length: %w", err)
+			}
+			result := make(NRCarrierList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension NRCarrierList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 388: // id-FrequencyShift7p5khz -> FrequencyShift7p5khz (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension FrequencyShift7p5khz (%d): %w", extensionId, err)
+			}
+			result := FrequencyShift7p5khz(v)
+			return &result, nil
+		}
+	case "TDDInfoExtIEs", "TDD-Info-ExtIEs":
+		switch extensionId {
+		case 97: // id-AdditionalSpecialSubframe-Info -> AdditionalSpecialSubframe-Info
+			var v AdditionalSpecialSubframeInfo
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension AdditionalSpecialSubframe-Info (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 94: // id-eARFCNExtension -> EARFCNExtension (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(65536), int64Ptr(262143), true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension EARFCNExtension (%d): %w", extensionId, err)
+			}
+			result := EARFCNExtension(v)
+			return &result, nil
+		case 179: // id-AdditionalSpecialSubframeExtension-Info -> AdditionalSpecialSubframeExtension-Info
+			var v AdditionalSpecialSubframeExtensionInfo
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension AdditionalSpecialSubframeExtension-Info (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 177: // id-OffsetOfNbiotChannelNumberToDL-EARFCN -> OffsetOfNbiotChannelNumberToEARFCN (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 21, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension OffsetOfNbiotChannelNumberToEARFCN (%d): %w", extensionId, err)
+			}
+			result := OffsetOfNbiotChannelNumberToEARFCN(v)
+			return &result, nil
+		case 338: // id-NBIoT-UL-DL-AlignmentOffset -> NBIoT-UL-DL-AlignmentOffset (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension NBIoT-UL-DL-AlignmentOffset (%d): %w", extensionId, err)
+			}
+			result := NBIoTULDLAlignmentOffset(v)
+			return &result, nil
+		}
+	case "TDDInfoNeighbourServedNRCellInformationExtIEs", "TDD-InfoNeighbourServedNRCell-Information-ExtIEs":
+		switch extensionId {
+		case 399: // id-IntendedTDD-DL-ULConfiguration-NR -> IntendedTDD-DL-ULConfiguration-NR (OCTET_STRING)
+			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension IntendedTDD-DL-ULConfiguration-NR (%d): %w", extensionId, err)
+			}
+			result := IntendedTDDDLULConfigurationNR(v)
+			return &result, nil
+		case 385: // id-TDDULDLConfigurationCommonNR -> TDDULDLConfigurationCommonNR (OCTET_STRING)
+			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension TDDULDLConfigurationCommonNR (%d): %w", extensionId, err)
+			}
+			result := TDDULDLConfigurationCommonNR(v)
+			return &result, nil
+		case 386: // id-CarrierList -> NRCarrierList (SEQUENCE OF NRCarrierItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 5)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension NRCarrierList length: %w", err)
+			}
+			result := make(NRCarrierList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension NRCarrierList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		}
+	case "TraceActivationExtIEs", "TraceActivation-ExtIEs":
+		switch extensionId {
+		case 72: // id-MDTConfiguration -> MDT-Configuration
+			var v MDTConfiguration
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension MDT-Configuration (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 195: // id-UEAppLayerMeasConfig -> UEAppLayerMeasConfig
+			var v UEAppLayerMeasConfig
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension UEAppLayerMeasConfig (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 375: // id-MDTConfigurationNR -> MDT-ConfigurationNR (OCTET_STRING)
+			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension MDT-ConfigurationNR (%d): %w", extensionId, err)
+			}
+			result := MDTConfigurationNR(v)
+			return &result, nil
+		}
+	case "UEAggregateMaximumBitrateExtIEs", "UEAggregate-MaximumBitrate-ExtIEs":
+		switch extensionId {
+		case 200: // id-extended-uEaggregateMaximumBitRateDownlink -> ExtendedBitRate (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(10000000001), int64Ptr(4000000000000), true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension ExtendedBitRate (%d): %w", extensionId, err)
+			}
+			result := ExtendedBitRate(v)
+			return &result, nil
+		case 201: // id-extended-uEaggregateMaximumBitRateUplink -> ExtendedBitRate (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(10000000001), int64Ptr(4000000000000), true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension ExtendedBitRate (%d): %w", extensionId, err)
+			}
+			result := ExtendedBitRate(v)
+			return &result, nil
+		}
+	case "UEAppLayerMeasConfigExtIEs", "UEAppLayerMeasConfig-ExtIEs":
+		switch extensionId {
+		case 276: // id-serviceType -> ServiceType (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension ServiceType (%d): %w", extensionId, err)
+			}
+			result := ServiceType(v)
+			return &result, nil
+		}
+	case "UEContextInformationExtIEs", "UE-ContextInformation-ExtIEs":
+		switch extensionId {
+		case 74: // id-ManagementBasedMDTallowed -> ManagementBasedMDTallowed (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension ManagementBasedMDTallowed (%d): %w", extensionId, err)
+			}
+			result := ManagementBasedMDTallowed(v)
+			return &result, nil
+		case 184: // id-UESidelinkAggregateMaximumBitRate -> UESidelinkAggregateMaximumBitRate
+			var v UESidelinkAggregateMaximumBitRate
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension UESidelinkAggregateMaximumBitRate (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 360: // id-EPCHandoverRestrictionListContainer -> EPCHandoverRestrictionListContainer (OCTET_STRING)
+			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension EPCHandoverRestrictionListContainer (%d): %w", extensionId, err)
+			}
+			result := EPCHandoverRestrictionListContainer(v)
+			return &result, nil
+		case 340: // id-AdditionalRRMPriorityIndex -> AdditionalRRMPriorityIndex (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 32, 32, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension AdditionalRRMPriorityIndex (%d): %w", extensionId, err)
+			}
+			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		case 371: // id-NRUESidelinkAggregateMaximumBitRate -> NRUESidelinkAggregateMaximumBitRate
+			var v NRUESidelinkAggregateMaximumBitRate
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension NRUESidelinkAggregateMaximumBitRate (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 378: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
+			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension UERadioCapabilityID (%d): %w", extensionId, err)
+			}
+			result := UERadioCapabilityID(v)
+			return &result, nil
+		case 408: // id-IMSvoiceEPSfallbackfrom5G -> IMSvoiceEPSfallbackfrom5G (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension IMSvoiceEPSfallbackfrom5G (%d): %w", extensionId, err)
+			}
+			result := IMSvoiceEPSfallbackfrom5G(v)
+			return &result, nil
+		}
+	case "ERABsToBeSetupItemExtIEs", "E-RABs-ToBeSetup-ItemExtIEs":
+		switch extensionId {
+		case 171: // id-BearerType -> BearerType (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension BearerType (%d): %w", extensionId, err)
+			}
+			result := BearerType(v)
+			return &result, nil
+		case 363: // id-DAPSRequestInfo -> DAPSRequestInfo
+			var v DAPSRequestInfo
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension DAPSRequestInfo (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 369: // id-Ethernet-Type -> Ethernet-Type (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension Ethernet-Type (%d): %w", extensionId, err)
+			}
+			result := EthernetType(v)
+			return &result, nil
+		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
+			}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		case 435: // id-SecurityIndication -> SecurityIndication
+			var v SecurityIndication
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension SecurityIndication (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		}
+	case "ERABsAdmittedItemExtIEs", "E-RABs-Admitted-Item-ExtIEs":
+		switch extensionId {
+		case 366: // id-DAPSResponseInfo -> DAPSResponseInfo
+			var v DAPSResponseInfo
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension DAPSResponseInfo (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		}
+	case "ERABsSubjectToStatusTransferItemExtIEs", "E-RABs-SubjectToStatusTransfer-ItemExtIEs":
+		switch extensionId {
+		case 91: // id-ReceiveStatusOfULPDCPSDUsExtended -> ReceiveStatusOfULPDCPSDUsExtended (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 1, 16384, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension ReceiveStatusOfULPDCPSDUsExtended (%d): %w", extensionId, err)
+			}
+			result := ReceiveStatusOfULPDCPSDUsExtended{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		case 92: // id-ULCOUNTValueExtended -> COUNTValueExtended
+			var v COUNTValueExtended
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension COUNTValueExtended (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 93: // id-DLCOUNTValueExtended -> COUNTValueExtended
+			var v COUNTValueExtended
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension COUNTValueExtended (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 150: // id-ReceiveStatusOfULPDCPSDUsPDCP-SNlength18 -> ReceiveStatusOfULPDCPSDUsPDCP-SNlength18 (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 1, 131072, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension ReceiveStatusOfULPDCPSDUsPDCP-SNlength18 (%d): %w", extensionId, err)
+			}
+			result := ReceiveStatusOfULPDCPSDUsPDCPSNlength18{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		case 151: // id-ULCOUNTValuePDCP-SNlength18 -> COUNTvaluePDCP-SNlength18
+			var v COUNTvaluePDCPSNlength18
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension COUNTvaluePDCP-SNlength18 (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 152: // id-DLCOUNTValuePDCP-SNlength18 -> COUNTvaluePDCP-SNlength18
+			var v COUNTvaluePDCPSNlength18
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension COUNTvaluePDCP-SNlength18 (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		}
+	case "CellInformationItemExtIEs", "CellInformation-Item-ExtIEs":
+		switch extensionId {
+		case 61: // id-ABSInformation -> ABSInformation
+			var v ABSInformation
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension ABSInformation (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 62: // id-InvokeIndication -> InvokeIndication (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension InvokeIndication (%d): %w", extensionId, err)
+			}
+			result := InvokeIndication(v)
+			return &result, nil
+		case 99: // id-IntendedULDLConfiguration -> SubframeAssignment (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 7, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension SubframeAssignment (%d): %w", extensionId, err)
+			}
+			result := SubframeAssignment(v)
+			return &result, nil
+		case 100: // id-ExtendedULInterferenceOverloadInfo -> ExtendedULInterferenceOverloadInfo
+			var v ExtendedULInterferenceOverloadInfo
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension ExtendedULInterferenceOverloadInfo (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 108: // id-CoMPInformation -> CoMPInformation
+			var v CoMPInformation
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension CoMPInformation (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 106: // id-DynamicDLTransmissionInformation -> DynamicDLTransmissionInformation
+			var v DynamicDLTransmissionInformation
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension DynamicDLTransmissionInformation (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		}
+	case "ServedCellsToModifyItemExtIEs", "ServedCellsToModify-Item-ExtIEs":
+		switch extensionId {
+		case 59: // id-DeactivationIndication -> DeactivationIndication (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension DeactivationIndication (%d): %w", extensionId, err)
+			}
+			result := DeactivationIndication(v)
+			return &result, nil
+		case 328: // id-NRNeighbourInfoToModify -> NRNeighbour-Information (SEQUENCE OF NRNeighbourInformationElem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 1024)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension NRNeighbour-Information length: %w", err)
+			}
+			result := make(NRNeighbourInformation, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension NRNeighbour-Information item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		}
+	case "CellMeasurementResultItemExtIEs", "CellMeasurementResult-Item-ExtIEs":
+		switch extensionId {
+		case 42: // id-CompositeAvailableCapacityGroup -> CompositeAvailableCapacityGroup
+			var v CompositeAvailableCapacityGroup
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension CompositeAvailableCapacityGroup (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 63: // id-ABS-Status -> ABS-Status
+			var v ABSStatus
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension ABS-Status (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 110: // id-RSRPMRList -> RSRPMRList (SEQUENCE OF RSRPMRListElem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 128)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension RSRPMRList length: %w", err)
+			}
+			result := make(RSRPMRList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension RSRPMRList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 146: // id-CSIReportList -> CSIReportList (SEQUENCE OF CSIReportListElem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 128)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension CSIReportList length: %w", err)
+			}
+			result := make(CSIReportList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension CSIReportList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 170: // id-CellReportingIndicator -> CellReportingIndicator (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension CellReportingIndicator (%d): %w", extensionId, err)
+			}
+			result := CellReportingIndicator(v)
+			return &result, nil
+		case 417: // id-MeasurementResultforNRCellsPossiblyAggregated -> MeasurementResultforNRCellsPossiblyAggregated (SEQUENCE OF MeasurementResultforNRCellsPossiblyAggregatedItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension MeasurementResultforNRCellsPossiblyAggregated length: %w", err)
+			}
+			result := make(MeasurementResultforNRCellsPossiblyAggregated, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension MeasurementResultforNRCellsPossiblyAggregated item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		}
+	case "ERABsToBeAddedItemSCGBearerExtIEs", "E-RABs-ToBeAdded-Item-SCG-BearerExtIEs":
+		switch extensionId {
+		case 166: // id-Correlation-ID -> Correlation-ID (OCTET_STRING)
+			v, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension Correlation-ID (%d): %w", extensionId, err)
+			}
+			result := CorrelationID(v)
+			return &result, nil
+		case 167: // id-SIPTO-Correlation-ID -> Correlation-ID (OCTET_STRING)
+			v, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension Correlation-ID (%d): %w", extensionId, err)
+			}
+			result := CorrelationID(v)
+			return &result, nil
+		case 171: // id-BearerType -> BearerType (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension BearerType (%d): %w", extensionId, err)
+			}
+			result := BearerType(v)
+			return &result, nil
+		case 369: // id-Ethernet-Type -> Ethernet-Type (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension Ethernet-Type (%d): %w", extensionId, err)
+			}
+			result := EthernetType(v)
+			return &result, nil
+		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
+			}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		}
+	case "ERABsToBeAddedItemSplitBearerExtIEs", "E-RABs-ToBeAdded-Item-Split-BearerExtIEs":
+		switch extensionId {
+		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
+			}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		}
+	case "ERABsAdmittedToBeAddedItemSCGBearerExtIEs", "E-RABs-Admitted-ToBeAdded-Item-SCG-BearerExtIEs":
+		switch extensionId {
+		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
+			}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		}
+	case "ERABsAdmittedToBeAddedItemSplitBearerExtIEs", "E-RABs-Admitted-ToBeAdded-Item-Split-BearerExtIEs":
+		switch extensionId {
+		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
+			}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		}
+	case "ERABsToBeAddedModReqItemSCGBearerExtIEs", "E-RABs-ToBeAdded-ModReqItem-SCG-BearerExtIEs":
+		switch extensionId {
+		case 166: // id-Correlation-ID -> Correlation-ID (OCTET_STRING)
+			v, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension Correlation-ID (%d): %w", extensionId, err)
+			}
+			result := CorrelationID(v)
+			return &result, nil
+		case 167: // id-SIPTO-Correlation-ID -> Correlation-ID (OCTET_STRING)
+			v, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension Correlation-ID (%d): %w", extensionId, err)
+			}
+			result := CorrelationID(v)
+			return &result, nil
+		case 171: // id-BearerType -> BearerType (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension BearerType (%d): %w", extensionId, err)
+			}
+			result := BearerType(v)
+			return &result, nil
+		case 369: // id-Ethernet-Type -> Ethernet-Type (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension Ethernet-Type (%d): %w", extensionId, err)
+			}
+			result := EthernetType(v)
+			return &result, nil
+		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
+			}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		}
+	case "ERABsToBeAddedModReqItemSplitBearerExtIEs", "E-RABs-ToBeAdded-ModReqItem-Split-BearerExtIEs":
+		switch extensionId {
+		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
+			}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		}
+	case "ERABsAdmittedToBeAddedModAckItemSCGBearerExtIEs", "E-RABs-Admitted-ToBeAdded-ModAckItem-SCG-BearerExtIEs":
+		switch extensionId {
+		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
+			}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		}
+	case "ERABsAdmittedToBeAddedModAckItemSplitBearerExtIEs", "E-RABs-Admitted-ToBeAdded-ModAckItem-Split-BearerExtIEs":
+		switch extensionId {
+		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
+			}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		}
+	case "UEContextInformationRetrieveExtIEs", "UE-ContextInformationRetrieve-ExtIEs":
+		switch extensionId {
+		case 184: // id-UESidelinkAggregateMaximumBitRate -> UESidelinkAggregateMaximumBitRate
+			var v UESidelinkAggregateMaximumBitRate
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension UESidelinkAggregateMaximumBitRate (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 340: // id-AdditionalRRMPriorityIndex -> AdditionalRRMPriorityIndex (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 32, 32, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension AdditionalRRMPriorityIndex (%d): %w", extensionId, err)
+			}
+			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		case 360: // id-EPCHandoverRestrictionListContainer -> EPCHandoverRestrictionListContainer (OCTET_STRING)
+			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension EPCHandoverRestrictionListContainer (%d): %w", extensionId, err)
+			}
+			result := EPCHandoverRestrictionListContainer(v)
+			return &result, nil
+		case 371: // id-NRUESidelinkAggregateMaximumBitRate -> NRUESidelinkAggregateMaximumBitRate
+			var v NRUESidelinkAggregateMaximumBitRate
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension NRUESidelinkAggregateMaximumBitRate (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 378: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
+			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension UERadioCapabilityID (%d): %w", extensionId, err)
+			}
+			result := UERadioCapabilityID(v)
+			return &result, nil
+		case 408: // id-IMSvoiceEPSfallbackfrom5G -> IMSvoiceEPSfallbackfrom5G (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension IMSvoiceEPSfallbackfrom5G (%d): %w", extensionId, err)
+			}
+			result := IMSvoiceEPSfallbackfrom5G(v)
+			return &result, nil
+		}
+	case "ERABsToBeSetupRetrieveItemExtIEs", "E-RABs-ToBeSetupRetrieve-ItemExtIEs":
+		switch extensionId {
+		case 185: // id-uL-GTPtunnelEndpoint -> GTPtunnelEndpoint
+			var v GTPtunnelEndpoint
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension GTPtunnelEndpoint (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 306: // id-dL-Forwarding -> DL-Forwarding (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension DL-Forwarding (%d): %w", extensionId, err)
+			}
+			result := DLForwarding(v)
+			return &result, nil
+		case 369: // id-Ethernet-Type -> Ethernet-Type (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension Ethernet-Type (%d): %w", extensionId, err)
+			}
+			result := EthernetType(v)
+			return &result, nil
+		case 435: // id-SecurityIndication -> SecurityIndication
+			var v SecurityIndication
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension SecurityIndication (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
+			}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		}
+	case "ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresentExtIEs", "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPpresentExtIEs":
+		switch extensionId {
+		case 317: // id-RLCMode-transferred -> RLCMode (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension RLCMode (%d): %w", extensionId, err)
+			}
+			result := RLCMode(v)
+			return &result, nil
+		case 171: // id-BearerType -> BearerType (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension BearerType (%d): %w", extensionId, err)
+			}
+			result := BearerType(v)
+			return &result, nil
+		case 369: // id-Ethernet-Type -> Ethernet-Type (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension Ethernet-Type (%d): %w", extensionId, err)
+			}
+			result := EthernetType(v)
+			return &result, nil
+		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
+			}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		case 435: // id-SecurityIndication -> SecurityIndication
+			var v SecurityIndication
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension SecurityIndication (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 413: // id-SourceNodeDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
+			}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		}
+	case "ERABsToBeAddedSgNBAddReqItemSgNBPDCPnotpresentExtIEs", "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPnotpresentExtIEs":
+		switch extensionId {
+		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
+			}
+			result := PDCPSnLength(v)
+			return &result, nil
+		case 311: // id-dLPDCPSnLength -> PDCPSnLength (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
+			}
+			result := PDCPSnLength(v)
+			return &result, nil
+		case 315: // id-duplicationActivation -> DuplicationActivation (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension DuplicationActivation (%d): %w", extensionId, err)
+			}
+			result := DuplicationActivation(v)
+			return &result, nil
+		}
+	case "ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresentExtIEs", "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPpresentExtIEs":
+		switch extensionId {
+		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
+			}
+			result := PDCPSnLength(v)
+			return &result, nil
+		case 311: // id-dLPDCPSnLength -> PDCPSnLength (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
+			}
+			result := PDCPSnLength(v)
+			return &result, nil
+		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
+			}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		case 436: // id-SecurityResult -> SecurityResult
+			var v SecurityResult
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension SecurityResult (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		}
+	case "ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEs", "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresentExtIEs":
+		switch extensionId {
+		case 314: // id-lCID -> LCID (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(32), true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension LCID (%d): %w", extensionId, err)
+			}
+			result := LCID(v)
+			return &result, nil
+		}
+	case "UEContextInformationSgNBModReqExtIEs", "UE-ContextInformationSgNBModReqExtIEs":
+		switch extensionId {
+		case 275: // id-SubscriberProfileIDforRFP -> SubscriberProfileIDforRFP (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(256), false)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension SubscriberProfileIDforRFP (%d): %w", extensionId, err)
+			}
+			result := SubscriberProfileIDforRFP(v)
+			return &result, nil
+		case 340: // id-AdditionalRRMPriorityIndex -> AdditionalRRMPriorityIndex (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 32, 32, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension AdditionalRRMPriorityIndex (%d): %w", extensionId, err)
+			}
+			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		case 341: // id-LowerLayerPresenceStatusChange -> LowerLayerPresenceStatusChange (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension LowerLayerPresenceStatusChange (%d): %w", extensionId, err)
+			}
+			result := LowerLayerPresenceStatusChange(v)
+			return &result, nil
+		}
+	case "ERABsToBeAddedSgNBModReqItemSgNBPDCPpresentExtIEs", "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPpresentExtIEs":
+		switch extensionId {
+		case 317: // id-RLCMode-transferred -> RLCMode (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension RLCMode (%d): %w", extensionId, err)
+			}
+			result := RLCMode(v)
+			return &result, nil
+		case 171: // id-BearerType -> BearerType (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension BearerType (%d): %w", extensionId, err)
+			}
+			result := BearerType(v)
+			return &result, nil
+		case 369: // id-Ethernet-Type -> Ethernet-Type (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension Ethernet-Type (%d): %w", extensionId, err)
+			}
+			result := EthernetType(v)
+			return &result, nil
+		case 435: // id-SecurityIndication -> SecurityIndication
+			var v SecurityIndication
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension SecurityIndication (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
+			}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		}
+	case "ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresentExtIEs", "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs":
+		switch extensionId {
+		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
+			}
+			result := PDCPSnLength(v)
+			return &result, nil
+		case 311: // id-dLPDCPSnLength -> PDCPSnLength (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
+			}
+			result := PDCPSnLength(v)
+			return &result, nil
+		case 315: // id-duplicationActivation -> DuplicationActivation (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension DuplicationActivation (%d): %w", extensionId, err)
+			}
+			result := DuplicationActivation(v)
+			return &result, nil
+		}
+	case "ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresentExtIEs", "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPpresentExtIEs":
+		switch extensionId {
+		case 300: // id-RLC-Status -> RLC-Status
+			var v RLCStatus
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension RLC-Status (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		}
+	case "ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentExtIEs", "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs":
+		switch extensionId {
+		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
+			}
+			result := PDCPSnLength(v)
+			return &result, nil
+		case 311: // id-dLPDCPSnLength -> PDCPSnLength (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
+			}
+			result := PDCPSnLength(v)
+			return &result, nil
+		case 313: // id-secondarymeNBULGTPTEIDatPDCP -> GTPtunnelEndpoint
+			var v GTPtunnelEndpoint
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension GTPtunnelEndpoint (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		}
+	case "ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresentExtIEs", "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPpresentExtIEs":
+		switch extensionId {
+		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
+			}
+			result := PDCPSnLength(v)
+			return &result, nil
+		case 311: // id-dLPDCPSnLength -> PDCPSnLength (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
+			}
+			result := PDCPSnLength(v)
+			return &result, nil
+		case 436: // id-SecurityResult -> SecurityResult
+			var v SecurityResult
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension SecurityResult (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
+			}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			return &result, nil
+		}
+	case "ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEs", "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs":
+		switch extensionId {
+		case 314: // id-lCID -> LCID (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(32), true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension LCID (%d): %w", extensionId, err)
+			}
+			result := LCID(v)
+			return &result, nil
+		}
+	case "ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEs", "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresentExtIEs":
+		switch extensionId {
+		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
+			}
+			result := PDCPSnLength(v)
+			return &result, nil
+		case 311: // id-dLPDCPSnLength -> PDCPSnLength (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
+			}
+			result := PDCPSnLength(v)
+			return &result, nil
+		}
+	case "ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresentExtIEs", "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs":
+		switch extensionId {
+		case 312: // id-secondarysgNBDLGTPTEIDatPDCP -> GTPtunnelEndpoint
+			var v GTPtunnelEndpoint
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension GTPtunnelEndpoint (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 300: // id-RLC-Status -> RLC-Status
+			var v RLCStatus
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension RLC-Status (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		}
+	case "ERABsToBeReleasedSgNBModReqdItemExtIEs", "E-RABs-ToBeReleased-SgNBModReqd-ItemExtIEs":
+		switch extensionId {
+		case 317: // id-RLCMode-transferred -> RLCMode (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension RLCMode (%d): %w", extensionId, err)
+			}
+			result := RLCMode(v)
+			return &result, nil
+		}
+	case "ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentExtIEs", "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPpresentExtIEs":
+		switch extensionId {
+		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
+			}
+			result := PDCPSnLength(v)
+			return &result, nil
+		case 311: // id-dLPDCPSnLength -> PDCPSnLength (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
+			}
+			result := PDCPSnLength(v)
+			return &result, nil
+		case 325: // id-new-drb-ID-req -> NewDRBIDrequest (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension NewDRBIDrequest (%d): %w", extensionId, err)
+			}
+			result := NewDRBIDrequest(v)
+			return &result, nil
+		}
+	case "ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentExtIEs", "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPnotpresentExtIEs":
+		switch extensionId {
+		case 300: // id-RLC-Status -> RLC-Status
+			var v RLCStatus
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension RLC-Status (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 314: // id-lCID -> LCID (INTEGER)
+			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(32), true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension LCID (%d): %w", extensionId, err)
+			}
+			result := LCID(v)
+			return &result, nil
+		}
+	case "ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEs", "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresentExtIEs":
+		switch extensionId {
+		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
+			}
+			result := PDCPSnLength(v)
+			return &result, nil
+		case 311: // id-dLPDCPSnLength -> PDCPSnLength (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
+			}
+			result := PDCPSnLength(v)
+			return &result, nil
+		}
+	case "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEs", "E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresentExtIEs":
+		switch extensionId {
+		case 441: // id-AdditionalListofForwardingGTPTunnelEndpoint -> AdditionalListofForwardingGTPTunnelEndpoint (SEQUENCE OF AdditionalListofForwardingGTPTunnelEndpointItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 7)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension AdditionalListofForwardingGTPTunnelEndpoint length: %w", err)
+			}
+			result := make(AdditionalListofForwardingGTPTunnelEndpoint, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension AdditionalListofForwardingGTPTunnelEndpoint item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		}
+	case "EnGNBServedCellsExtIEs", "En-gNBServedCells-ExtIEs":
+		switch extensionId {
+		case 434: // id-ServedCellSpecificInfoReq-NR -> ServedCellSpecificInfoReq-NR (SEQUENCE OF ServedCellSpecificInfoReqNRItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension ServedCellSpecificInfoReq-NR length: %w", err)
+			}
+			result := make(ServedCellSpecificInfoReqNR, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension ServedCellSpecificInfoReq-NR item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		}
+	case "ServedNRCellInformationExtIEs", "ServedNRCell-Information-ExtIEs":
+		switch extensionId {
+		case 337: // id-BPLMN-ID-Info-NR -> BPLMN-ID-Info-NR (SEQUENCE OF BPLMNIDInfoNRItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 12)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension BPLMN-ID-Info-NR length: %w", err)
+			}
+			result := make(BPLMNIDInfoNR, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension BPLMN-ID-Info-NR item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 389: // id-SSB-PositionsInBurst -> SSB-PositionsInBurst
+			var v SSBPositionsInBurst
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension SSB-PositionsInBurst (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 390: // id-NRCellPRACHConfig -> NRCellPRACHConfig (OCTET_STRING)
+			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension NRCellPRACHConfig (%d): %w", extensionId, err)
+			}
+			result := NRCellPRACHConfig(v)
+			return &result, nil
+		case 380: // id-CSI-RSTransmissionIndication -> CSI-RSTransmissionIndication (ENUMERATED)
+			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension CSI-RSTransmissionIndication (%d): %w", extensionId, err)
+			}
+			result := CSIRSTransmissionIndication(v)
+			return &result, nil
+		case 406: // id-SFN-Offset -> SFN-Offset
+			var v SFNOffset
+			if err := v.UnmarshalAPERFrom(bb); err != nil {
+				return nil, fmt.Errorf("decoding extension SFN-Offset (%d): %w", extensionId, err)
+			}
+			return &v, nil
+		case 433: // id-Additional-Measurement-Timing-Configuration-List -> Additional-Measurement-Timing-Configuration-List (SEQUENCE OF AdditionalMeasurementTimingConfigurationItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension Additional-Measurement-Timing-Configuration-List length: %w", err)
+			}
+			result := make(AdditionalMeasurementTimingConfigurationList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension Additional-Measurement-Timing-Configuration-List item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		}
+	case "FDDInfoServedNRCellInformationExtIEs", "FDD-InfoServedNRCell-Information-ExtIEs":
+		switch extensionId {
+		case 387: // id-ULCarrierList -> NRCarrierList (SEQUENCE OF NRCarrierItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 5)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension NRCarrierList length: %w", err)
+			}
+			result := make(NRCarrierList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension NRCarrierList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 381: // id-DLCarrierList -> NRCarrierList (SEQUENCE OF NRCarrierItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 5)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension NRCarrierList length: %w", err)
+			}
+			result := make(NRCarrierList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension NRCarrierList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		}
+	case "TDDInfoServedNRCellInformationExtIEs", "TDD-InfoServedNRCell-Information-ExtIEs":
+		switch extensionId {
+		case 385: // id-TDDULDLConfigurationCommonNR -> TDDULDLConfigurationCommonNR (OCTET_STRING)
+			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension TDDULDLConfigurationCommonNR (%d): %w", extensionId, err)
+			}
+			result := TDDULDLConfigurationCommonNR(v)
+			return &result, nil
+		case 386: // id-CarrierList -> NRCarrierList (SEQUENCE OF NRCarrierItem)
+			seqLen, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 5)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension NRCarrierList length: %w", err)
+			}
+			result := make(NRCarrierList, seqLen)
+			for i := int64(0); i < seqLen; i++ {
+				if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+					return nil, fmt.Errorf("decoding extension NRCarrierList item %d: %w", i, err)
+				}
+			}
+			return &result, nil
+		case 399: // id-IntendedTDD-DL-ULConfiguration-NR -> IntendedTDD-DL-ULConfiguration-NR (OCTET_STRING)
+			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			if err != nil {
+				return nil, fmt.Errorf("decoding extension IntendedTDD-DL-ULConfiguration-NR (%d): %w", extensionId, err)
+			}
+			result := IntendedTDDDLULConfigurationNR(v)
+			return &result, nil
+		}
+	}
+	return nil, nil
 }
 
-// DecodedProtocolValue contains a decoded procedure value and all recursively decoded protocol IEs.
-type DecodedProtocolValue struct {
+// DecodedProtocolIEField contains one decoded protocol IE and its nested open-type fields.
+// Field always retains the original open-type bytes, including for unknown/private IDs.
+type DecodedProtocolIEField struct {
+	Path       string
+	ObjectSet  string
+	Field      ProtocolIEField
+	Value      interface{}
+	Children   []DecodedProtocolIEField
+	Extensions []DecodedProtocolExtensionField
+}
+
+// DecodedProtocolExtensionField contains one decoded protocol extension and its nested open-type fields.
+// Field always retains the original open-type bytes, including for unknown/private IDs.
+type DecodedProtocolExtensionField struct {
+	Path        string
+	ObjectSet   string
+	Field       ProtocolExtensionField
 	Value       interface{}
 	ProtocolIEs []DecodedProtocolIEField
+	Extensions  []DecodedProtocolExtensionField
+}
+
+// DecodedProtocolValue contains a decoded procedure value and all recursively decoded top-level open-type fields.
+type DecodedProtocolValue struct {
+	Value              interface{}
+	ProtocolIEs        []DecodedProtocolIEField
+	ProtocolExtensions []DecodedProtocolExtensionField
 }
 
 var protocolIEFieldObjectSets = map[string]string{
@@ -6467,6 +8182,78 @@ var protocolIETypeObjectSets = map[string]string{
 	"MeasurementInitiationResultList":            "MeasurementInitiationResult-ItemIEs",
 	"SecondaryRATUsageReportList":                "SecondaryRATUsageReport-ItemIEs",
 }
+
+var protocolExtensionFieldObjectSets = map[string]string{
+	"CHOinformationREQ.IEExtensions":                                          "CHOinformation-REQ-ExtIEs",
+	"CellInformationItem.IEExtensions":                                        "CellInformation-Item-ExtIEs",
+	"CellMeasurementResultItem.IEExtensions":                                  "CellMeasurementResult-Item-ExtIEs",
+	"ERABLevelQoSParameters.IEExtensions":                                     "E-RAB-Level-QoS-Parameters-ExtIEs",
+	"ERABsAdmittedItem.IEExtensions":                                          "E-RABs-Admitted-Item-ExtIEs",
+	"ERABsAdmittedToBeAddedItemSCGBearer.IEExtensions":                        "E-RABs-Admitted-ToBeAdded-Item-SCG-BearerExtIEs",
+	"ERABsAdmittedToBeAddedItemSplitBearer.IEExtensions":                      "E-RABs-Admitted-ToBeAdded-Item-Split-BearerExtIEs",
+	"ERABsAdmittedToBeAddedModAckItemSCGBearer.IEExtensions":                  "E-RABs-Admitted-ToBeAdded-ModAckItem-SCG-BearerExtIEs",
+	"ERABsAdmittedToBeAddedModAckItemSplitBearer.IEExtensions":                "E-RABs-Admitted-ToBeAdded-ModAckItem-Split-BearerExtIEs",
+	"ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresent.IEExtensions":  "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresentExtIEs",
+	"ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresent.IEExtensions":     "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPpresentExtIEs",
+	"ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresent.IEExtensions":     "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs",
+	"ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresent.IEExtensions":        "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPpresentExtIEs",
+	"ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresent.IEExtensions":  "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs",
+	"ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresent.IEExtensions":     "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresentExtIEs",
+	"ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresent.IEExtensions": "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresentExtIEs",
+	"ERABsSubjectToStatusTransferItem.IEExtensions":                           "E-RABs-SubjectToStatusTransfer-ItemExtIEs",
+	"ERABsToBeAddedItemSCGBearer.IEExtensions":                                "E-RABs-ToBeAdded-Item-SCG-BearerExtIEs",
+	"ERABsToBeAddedItemSplitBearer.IEExtensions":                              "E-RABs-ToBeAdded-Item-Split-BearerExtIEs",
+	"ERABsToBeAddedModReqItemSCGBearer.IEExtensions":                          "E-RABs-ToBeAdded-ModReqItem-SCG-BearerExtIEs",
+	"ERABsToBeAddedModReqItemSplitBearer.IEExtensions":                        "E-RABs-ToBeAdded-ModReqItem-Split-BearerExtIEs",
+	"ERABsToBeAddedSgNBAddReqItemSgNBPDCPnotpresent.IEExtensions":             "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPnotpresentExtIEs",
+	"ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresent.IEExtensions":                "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPpresentExtIEs",
+	"ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresent.IEExtensions":             "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs",
+	"ERABsToBeAddedSgNBModReqItemSgNBPDCPpresent.IEExtensions":                "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPpresentExtIEs",
+	"ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent.IEExtensions":          "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs",
+	"ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent.IEExtensions":             "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPpresentExtIEs",
+	"ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent.IEExtensions":         "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPnotpresentExtIEs",
+	"ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent.IEExtensions":            "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPpresentExtIEs",
+	"ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent.IEExtensions":            "E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresentExtIEs",
+	"ERABsToBeReleasedSgNBModReqdItem.IEExtensions":                           "E-RABs-ToBeReleased-SgNBModReqd-ItemExtIEs",
+	"ERABsToBeSetupItem.IEExtensions":                                         "E-RABs-ToBeSetup-ItemExtIEs",
+	"ERABsToBeSetupRetrieveItem.IEExtensions":                                 "E-RABs-ToBeSetupRetrieve-ItemExtIEs",
+	"FDDInfo.IEExtensions":                                                    "FDD-Info-ExtIEs",
+	"FDDInfoNeighbourServedNRCellInformation.IEExtensions":                    "FDD-InfoNeighbourServedNRCell-Information-ExtIEs",
+	"FDDInfoServedNRCellInformation.IEExtensions":                             "FDD-InfoServedNRCell-Information-ExtIEs",
+	"GBRQosInformation.IEExtensions":                                          "GBR-QosInformation-ExtIEs",
+	"GTPtunnelEndpoint.IEExtensions":                                          "GTPtunnelEndpoint-ExtIEs",
+	"HandoverRestrictionList.IEExtensions":                                    "HandoverRestrictionList-ExtIEs",
+	"LastVisitedEUTRANCellInformation.IEExtensions":                           "LastVisitedEUTRANCellInformation-ExtIEs",
+	"LocationReportingInformation.IEExtensions":                               "LocationReportingInformation-ExtIEs",
+	"M4Configuration.IEExtensions":                                            "M4Configuration-ExtIEs",
+	"M5Configuration.IEExtensions":                                            "M5Configuration-ExtIEs",
+	"M6Configuration.IEExtensions":                                            "M6Configuration-ExtIEs",
+	"M7Configuration.IEExtensions":                                            "M7Configuration-ExtIEs",
+	"MDTConfiguration.IEExtensions":                                           "MDT-Configuration-ExtIEs",
+	"MeNBResourceCoordinationInformation.IEExtensions":                        "MeNBResourceCoordinationInformationExtIEs",
+	"NRFreqInfo.IEExtensions":                                                 "NRFreqInfo-ExtIEs",
+	"NRRAReportListItem.IEExtensions":                                         "NRRAReportList-Item-ExtIEs",
+	"NRRadioResourceStatus.IEExtensions":                                      "NRRadioResourceStatus-ExtIEs",
+	"ProSeAuthorized.IEExtensions":                                            "ProSeAuthorized-ExtIEs",
+	"RadioResourceStatus.IEExtensions":                                        "RadioResourceStatus-ExtIEs",
+	"RelativeNarrowbandTxPower.IEExtensions":                                  "RelativeNarrowbandTxPower-ExtIEs",
+	"SULInformation.IEExtensions":                                             "SULInformation-ExtIEs",
+	"ServedCellInformation.IEExtensions":                                      "ServedCell-Information-ExtIEs",
+	"ServedCellsToModifyItem.IEExtensions":                                    "ServedCellsToModify-Item-ExtIEs",
+	"ServedNRCellInformation.IEExtensions":                                    "ServedNRCell-Information-ExtIEs",
+	"SgNBResourceCoordinationInformation.IEExtensions":                        "SgNBResourceCoordinationInformationExtIEs",
+	"TDDInfo.IEExtensions":                                                    "TDD-Info-ExtIEs",
+	"TDDInfoNeighbourServedNRCellInformation.IEExtensions":                    "TDD-InfoNeighbourServedNRCell-Information-ExtIEs",
+	"TDDInfoServedNRCellInformation.IEExtensions":                             "TDD-InfoServedNRCell-Information-ExtIEs",
+	"TraceActivation.IEExtensions":                                            "TraceActivation-ExtIEs",
+	"UEAggregateMaximumBitRate.IEExtensions":                                  "UEAggregate-MaximumBitrate-ExtIEs",
+	"UEAppLayerMeasConfig.IEExtensions":                                       "UEAppLayerMeasConfig-ExtIEs",
+	"UEContextInformation.IEExtensions":                                       "UE-ContextInformation-ExtIEs",
+	"UEContextInformationRetrieve.IEExtensions":                               "UE-ContextInformationRetrieve-ExtIEs",
+	"UEContextInformationSgNBModReq.IEExtensions":                             "UE-ContextInformationSgNBModReqExtIEs",
+}
+
+var protocolExtensionTypeObjectSets = map[string]string{}
 
 func protocolIEObjectSet(context string) string {
 	switch context {
@@ -7159,214 +8946,545 @@ func protocolIEObjectSet(context string) string {
 	}
 }
 
-func protocolIEValueTypeHint(objectSet string, id int64) string {
+func protocolExtensionObjectSet(context string) string {
+	switch context {
+	case "CHOinformation-REQ-ExtIEs":
+		return "CHOinformation-REQ-ExtIEs"
+	case "CHOinformationREQExtIEs":
+		return "CHOinformation-REQ-ExtIEs"
+	case "CellInformation-Item-ExtIEs":
+		return "CellInformation-Item-ExtIEs"
+	case "CellInformationItemExtIEs":
+		return "CellInformation-Item-ExtIEs"
+	case "CellMeasurementResult-Item-ExtIEs":
+		return "CellMeasurementResult-Item-ExtIEs"
+	case "CellMeasurementResultItemExtIEs":
+		return "CellMeasurementResult-Item-ExtIEs"
+	case "E-RAB-Level-QoS-Parameters-ExtIEs":
+		return "E-RAB-Level-QoS-Parameters-ExtIEs"
+	case "E-RABs-Admitted-Item-ExtIEs":
+		return "E-RABs-Admitted-Item-ExtIEs"
+	case "E-RABs-Admitted-ToBeAdded-Item-SCG-BearerExtIEs":
+		return "E-RABs-Admitted-ToBeAdded-Item-SCG-BearerExtIEs"
+	case "E-RABs-Admitted-ToBeAdded-Item-Split-BearerExtIEs":
+		return "E-RABs-Admitted-ToBeAdded-Item-Split-BearerExtIEs"
+	case "E-RABs-Admitted-ToBeAdded-ModAckItem-SCG-BearerExtIEs":
+		return "E-RABs-Admitted-ToBeAdded-ModAckItem-SCG-BearerExtIEs"
+	case "E-RABs-Admitted-ToBeAdded-ModAckItem-Split-BearerExtIEs":
+		return "E-RABs-Admitted-ToBeAdded-ModAckItem-Split-BearerExtIEs"
+	case "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresentExtIEs":
+		return "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresentExtIEs"
+	case "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPpresentExtIEs":
+		return "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPpresentExtIEs"
+	case "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs":
+		return "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs"
+	case "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPpresentExtIEs":
+		return "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPpresentExtIEs"
+	case "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs":
+		return "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs"
+	case "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresentExtIEs":
+		return "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresentExtIEs"
+	case "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresentExtIEs":
+		return "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresentExtIEs"
+	case "E-RABs-SubjectToStatusTransfer-ItemExtIEs":
+		return "E-RABs-SubjectToStatusTransfer-ItemExtIEs"
+	case "E-RABs-ToBeAdded-Item-SCG-BearerExtIEs":
+		return "E-RABs-ToBeAdded-Item-SCG-BearerExtIEs"
+	case "E-RABs-ToBeAdded-Item-Split-BearerExtIEs":
+		return "E-RABs-ToBeAdded-Item-Split-BearerExtIEs"
+	case "E-RABs-ToBeAdded-ModReqItem-SCG-BearerExtIEs":
+		return "E-RABs-ToBeAdded-ModReqItem-SCG-BearerExtIEs"
+	case "E-RABs-ToBeAdded-ModReqItem-Split-BearerExtIEs":
+		return "E-RABs-ToBeAdded-ModReqItem-Split-BearerExtIEs"
+	case "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPnotpresentExtIEs":
+		return "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPnotpresentExtIEs"
+	case "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPpresentExtIEs":
+		return "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPpresentExtIEs"
+	case "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs":
+		return "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs"
+	case "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPpresentExtIEs":
+		return "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPpresentExtIEs"
+	case "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs":
+		return "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs"
+	case "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPpresentExtIEs":
+		return "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPpresentExtIEs"
+	case "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPnotpresentExtIEs":
+		return "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPnotpresentExtIEs"
+	case "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPpresentExtIEs":
+		return "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPpresentExtIEs"
+	case "E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresentExtIEs":
+		return "E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresentExtIEs"
+	case "E-RABs-ToBeReleased-SgNBModReqd-ItemExtIEs":
+		return "E-RABs-ToBeReleased-SgNBModReqd-ItemExtIEs"
+	case "E-RABs-ToBeSetup-ItemExtIEs":
+		return "E-RABs-ToBeSetup-ItemExtIEs"
+	case "E-RABs-ToBeSetupRetrieve-ItemExtIEs":
+		return "E-RABs-ToBeSetupRetrieve-ItemExtIEs"
+	case "ERABLevelQoSParametersExtIEs":
+		return "E-RAB-Level-QoS-Parameters-ExtIEs"
+	case "ERABsAdmittedItemExtIEs":
+		return "E-RABs-Admitted-Item-ExtIEs"
+	case "ERABsAdmittedToBeAddedItemSCGBearerExtIEs":
+		return "E-RABs-Admitted-ToBeAdded-Item-SCG-BearerExtIEs"
+	case "ERABsAdmittedToBeAddedItemSplitBearerExtIEs":
+		return "E-RABs-Admitted-ToBeAdded-Item-Split-BearerExtIEs"
+	case "ERABsAdmittedToBeAddedModAckItemSCGBearerExtIEs":
+		return "E-RABs-Admitted-ToBeAdded-ModAckItem-SCG-BearerExtIEs"
+	case "ERABsAdmittedToBeAddedModAckItemSplitBearerExtIEs":
+		return "E-RABs-Admitted-ToBeAdded-ModAckItem-Split-BearerExtIEs"
+	case "ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEs":
+		return "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresentExtIEs"
+	case "ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresentExtIEs":
+		return "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPpresentExtIEs"
+	case "ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEs":
+		return "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs"
+	case "ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresentExtIEs":
+		return "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPpresentExtIEs"
+	case "ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresentExtIEs":
+		return "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs"
+	case "ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEs":
+		return "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresentExtIEs"
+	case "ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEs":
+		return "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresentExtIEs"
+	case "ERABsSubjectToStatusTransferItemExtIEs":
+		return "E-RABs-SubjectToStatusTransfer-ItemExtIEs"
+	case "ERABsToBeAddedItemSCGBearerExtIEs":
+		return "E-RABs-ToBeAdded-Item-SCG-BearerExtIEs"
+	case "ERABsToBeAddedItemSplitBearerExtIEs":
+		return "E-RABs-ToBeAdded-Item-Split-BearerExtIEs"
+	case "ERABsToBeAddedModReqItemSCGBearerExtIEs":
+		return "E-RABs-ToBeAdded-ModReqItem-SCG-BearerExtIEs"
+	case "ERABsToBeAddedModReqItemSplitBearerExtIEs":
+		return "E-RABs-ToBeAdded-ModReqItem-Split-BearerExtIEs"
+	case "ERABsToBeAddedSgNBAddReqItemSgNBPDCPnotpresentExtIEs":
+		return "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPnotpresentExtIEs"
+	case "ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresentExtIEs":
+		return "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPpresentExtIEs"
+	case "ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresentExtIEs":
+		return "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs"
+	case "ERABsToBeAddedSgNBModReqItemSgNBPDCPpresentExtIEs":
+		return "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPpresentExtIEs"
+	case "ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentExtIEs":
+		return "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs"
+	case "ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresentExtIEs":
+		return "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPpresentExtIEs"
+	case "ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentExtIEs":
+		return "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPnotpresentExtIEs"
+	case "ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentExtIEs":
+		return "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPpresentExtIEs"
+	case "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEs":
+		return "E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresentExtIEs"
+	case "ERABsToBeReleasedSgNBModReqdItemExtIEs":
+		return "E-RABs-ToBeReleased-SgNBModReqd-ItemExtIEs"
+	case "ERABsToBeSetupItemExtIEs":
+		return "E-RABs-ToBeSetup-ItemExtIEs"
+	case "ERABsToBeSetupRetrieveItemExtIEs":
+		return "E-RABs-ToBeSetupRetrieve-ItemExtIEs"
+	case "En-gNBServedCells-ExtIEs":
+		return "En-gNBServedCells-ExtIEs"
+	case "EnGNBServedCellsExtIEs":
+		return "En-gNBServedCells-ExtIEs"
+	case "FDD-Info-ExtIEs":
+		return "FDD-Info-ExtIEs"
+	case "FDD-InfoNeighbourServedNRCell-Information-ExtIEs":
+		return "FDD-InfoNeighbourServedNRCell-Information-ExtIEs"
+	case "FDD-InfoServedNRCell-Information-ExtIEs":
+		return "FDD-InfoServedNRCell-Information-ExtIEs"
+	case "FDDInfoExtIEs":
+		return "FDD-Info-ExtIEs"
+	case "FDDInfoNeighbourServedNRCellInformationExtIEs":
+		return "FDD-InfoNeighbourServedNRCell-Information-ExtIEs"
+	case "FDDInfoServedNRCellInformationExtIEs":
+		return "FDD-InfoServedNRCell-Information-ExtIEs"
+	case "GBR-QosInformation-ExtIEs":
+		return "GBR-QosInformation-ExtIEs"
+	case "GBRQosInformationExtIEs":
+		return "GBR-QosInformation-ExtIEs"
+	case "GTPtunnelEndpoint-ExtIEs":
+		return "GTPtunnelEndpoint-ExtIEs"
+	case "GTPtunnelEndpointExtIEs":
+		return "GTPtunnelEndpoint-ExtIEs"
+	case "HandoverRestrictionList-ExtIEs":
+		return "HandoverRestrictionList-ExtIEs"
+	case "HandoverRestrictionListExtIEs":
+		return "HandoverRestrictionList-ExtIEs"
+	case "LastVisitedEUTRANCellInformation-ExtIEs":
+		return "LastVisitedEUTRANCellInformation-ExtIEs"
+	case "LastVisitedEUTRANCellInformationExtIEs":
+		return "LastVisitedEUTRANCellInformation-ExtIEs"
+	case "LocationReportingInformation-ExtIEs":
+		return "LocationReportingInformation-ExtIEs"
+	case "LocationReportingInformationExtIEs":
+		return "LocationReportingInformation-ExtIEs"
+	case "M4Configuration-ExtIEs":
+		return "M4Configuration-ExtIEs"
+	case "M4ConfigurationExtIEs":
+		return "M4Configuration-ExtIEs"
+	case "M5Configuration-ExtIEs":
+		return "M5Configuration-ExtIEs"
+	case "M5ConfigurationExtIEs":
+		return "M5Configuration-ExtIEs"
+	case "M6Configuration-ExtIEs":
+		return "M6Configuration-ExtIEs"
+	case "M6ConfigurationExtIEs":
+		return "M6Configuration-ExtIEs"
+	case "M7Configuration-ExtIEs":
+		return "M7Configuration-ExtIEs"
+	case "M7ConfigurationExtIEs":
+		return "M7Configuration-ExtIEs"
+	case "MDT-Configuration-ExtIEs":
+		return "MDT-Configuration-ExtIEs"
+	case "MDTConfigurationExtIEs":
+		return "MDT-Configuration-ExtIEs"
+	case "MeNBResourceCoordinationInformationExtIEs":
+		return "MeNBResourceCoordinationInformationExtIEs"
+	case "NRFreqInfo-ExtIEs":
+		return "NRFreqInfo-ExtIEs"
+	case "NRFreqInfoExtIEs":
+		return "NRFreqInfo-ExtIEs"
+	case "NRNeighbour-Information-ExtIEs":
+		return "NRNeighbour-Information-ExtIEs"
+	case "NRNeighbourInformationExtIEs":
+		return "NRNeighbour-Information-ExtIEs"
+	case "NRRAReportList-Item-ExtIEs":
+		return "NRRAReportList-Item-ExtIEs"
+	case "NRRAReportListItemExtIEs":
+		return "NRRAReportList-Item-ExtIEs"
+	case "NRRadioResourceStatus-ExtIEs":
+		return "NRRadioResourceStatus-ExtIEs"
+	case "NRRadioResourceStatusExtIEs":
+		return "NRRadioResourceStatus-ExtIEs"
+	case "Neighbour-Information-ExtIEs":
+		return "Neighbour-Information-ExtIEs"
+	case "NeighbourInformationExtIEs":
+		return "Neighbour-Information-ExtIEs"
+	case "ProSeAuthorized-ExtIEs":
+		return "ProSeAuthorized-ExtIEs"
+	case "ProSeAuthorizedExtIEs":
+		return "ProSeAuthorized-ExtIEs"
+	case "RSRPMRList-ExtIEs":
+		return "RSRPMRList-ExtIEs"
+	case "RSRPMRListExtIEs":
+		return "RSRPMRList-ExtIEs"
+	case "RadioResourceStatus-ExtIEs":
+		return "RadioResourceStatus-ExtIEs"
+	case "RadioResourceStatusExtIEs":
+		return "RadioResourceStatus-ExtIEs"
+	case "RelativeNarrowbandTxPower-ExtIEs":
+		return "RelativeNarrowbandTxPower-ExtIEs"
+	case "RelativeNarrowbandTxPowerExtIEs":
+		return "RelativeNarrowbandTxPower-ExtIEs"
+	case "SULInformation-ExtIEs":
+		return "SULInformation-ExtIEs"
+	case "SULInformationExtIEs":
+		return "SULInformation-ExtIEs"
+	case "ServedCell-ExtIEs":
+		return "ServedCell-ExtIEs"
+	case "ServedCell-Information-ExtIEs":
+		return "ServedCell-Information-ExtIEs"
+	case "ServedCellExtIEs":
+		return "ServedCell-ExtIEs"
+	case "ServedCellInformationExtIEs":
+		return "ServedCell-Information-ExtIEs"
+	case "ServedCellsToModify-Item-ExtIEs":
+		return "ServedCellsToModify-Item-ExtIEs"
+	case "ServedCellsToModifyItemExtIEs":
+		return "ServedCellsToModify-Item-ExtIEs"
+	case "ServedNRCell-Information-ExtIEs":
+		return "ServedNRCell-Information-ExtIEs"
+	case "ServedNRCellInformationExtIEs":
+		return "ServedNRCell-Information-ExtIEs"
+	case "SgNBResourceCoordinationInformationExtIEs":
+		return "SgNBResourceCoordinationInformationExtIEs"
+	case "TDD-Info-ExtIEs":
+		return "TDD-Info-ExtIEs"
+	case "TDD-InfoNeighbourServedNRCell-Information-ExtIEs":
+		return "TDD-InfoNeighbourServedNRCell-Information-ExtIEs"
+	case "TDD-InfoServedNRCell-Information-ExtIEs":
+		return "TDD-InfoServedNRCell-Information-ExtIEs"
+	case "TDDInfoExtIEs":
+		return "TDD-Info-ExtIEs"
+	case "TDDInfoNeighbourServedNRCellInformationExtIEs":
+		return "TDD-InfoNeighbourServedNRCell-Information-ExtIEs"
+	case "TDDInfoServedNRCellInformationExtIEs":
+		return "TDD-InfoServedNRCell-Information-ExtIEs"
+	case "TraceActivation-ExtIEs":
+		return "TraceActivation-ExtIEs"
+	case "TraceActivationExtIEs":
+		return "TraceActivation-ExtIEs"
+	case "UE-ContextInformation-ExtIEs":
+		return "UE-ContextInformation-ExtIEs"
+	case "UE-ContextInformationRetrieve-ExtIEs":
+		return "UE-ContextInformationRetrieve-ExtIEs"
+	case "UE-ContextInformationSgNBModReqExtIEs":
+		return "UE-ContextInformationSgNBModReqExtIEs"
+	case "UEAggregate-MaximumBitrate-ExtIEs":
+		return "UEAggregate-MaximumBitrate-ExtIEs"
+	case "UEAggregateMaximumBitrateExtIEs":
+		return "UEAggregate-MaximumBitrate-ExtIEs"
+	case "UEAppLayerMeasConfig-ExtIEs":
+		return "UEAppLayerMeasConfig-ExtIEs"
+	case "UEAppLayerMeasConfigExtIEs":
+		return "UEAppLayerMeasConfig-ExtIEs"
+	case "UEContextInformationExtIEs":
+		return "UE-ContextInformation-ExtIEs"
+	case "UEContextInformationRetrieveExtIEs":
+		return "UE-ContextInformationRetrieve-ExtIEs"
+	case "UEContextInformationSgNBModReqExtIEs":
+		return "UE-ContextInformationSgNBModReqExtIEs"
+	default:
+		return context
+	}
+}
+
+func protocolIEValueTypeHint(objectSet string, id int64) protocolOpenTypeHint {
 	switch objectSet {
 	case "DataForwardingAddressIndication-IEs":
 		switch id {
 		case 307:
-			return "ERABsDataForwardingAddressList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-DataForwardingAddress-ItemIEs", typeName: "ERABsDataForwardingAddressList"}
 		}
 	case "ENDCResourceStatusRequest-IEs":
 		switch id {
 		case 391:
-			return "CellToReportNRENDCList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "CellToReport-NR-ENDC-ItemIEs", typeName: "CellToReportNRENDCList"}
 		case 403:
-			return "CellToReportEUTRAENDCList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "CellToReport-E-UTRA-ENDC-Item-IEs", typeName: "CellToReportEUTRAENDCList"}
 		}
 	case "ENDCResourceStatusUpdate-IEs":
 		switch id {
 		case 393:
-			return "CellMeasurementResultNRENDCList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "CellMeasurementResult-NR-ENDC-ItemIEs", typeName: "CellMeasurementResultNRENDCList"}
 		case 401:
-			return "CellMeasurementResultEUTRAENDCList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "CellMeasurementResult-E-UTRA-ENDC-ItemIEs", typeName: "CellMeasurementResultEUTRAENDCList"}
 		}
 	case "HandoverRequestAcknowledge-IEs":
 		switch id {
 		case 1:
-			return "ERABsAdmittedList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-Admitted-ItemIEs", typeName: "ERABsAdmittedList"}
 		case 3:
-			return "ERABList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RAB-ItemIEs", typeName: "ERABList"}
 		case 339:
-			return "ERABList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RAB-ItemIEs", typeName: "ERABList"}
 		}
 	case "LoadInformation-IEs":
 		switch id {
 		case 6:
-			return "CellInformationList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "CellInformation-ItemIEs", typeName: "CellInformationList"}
 		}
 	case "ResourceStatusFailure-IEs":
 		switch id {
 		case 68:
-			return "CompleteFailureCauseInformationList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "CompleteFailureCauseInformation-ItemIEs", typeName: "CompleteFailureCauseInformationList"}
 		}
 	case "ResourceStatusRequest-IEs":
 		switch id {
 		case 29:
-			return "CellToReportList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "CellToReport-ItemIEs", typeName: "CellToReportList"}
 		}
 	case "ResourceStatusResponse-IEs":
 		switch id {
 		case 65:
-			return "MeasurementInitiationResultList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "MeasurementInitiationResult-ItemIEs", typeName: "MeasurementInitiationResultList"}
 		}
 	case "ResourceStatusUpdate-IEs":
 		switch id {
 		case 32:
-			return "CellMeasurementResultList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "CellMeasurementResult-ItemIEs", typeName: "CellMeasurementResultList"}
 		}
 	case "SNStatusTransfer-IEs":
 		switch id {
 		case 18:
-			return "ERABsSubjectToStatusTransferList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-SubjectToStatusTransfer-ItemIEs", typeName: "ERABsSubjectToStatusTransferList"}
 		}
 	case "SeNBAdditionRequest-IEs":
 		switch id {
 		case 117:
-			return "ERABsToBeAddedList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-ToBeAdded-ItemIEs", typeName: "ERABsToBeAddedList"}
 		}
 	case "SeNBAdditionRequestAcknowledge-IEs":
 		switch id {
 		case 3:
-			return "ERABList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RAB-ItemIEs", typeName: "ERABList"}
 		case 120:
-			return "ERABsAdmittedToBeAddedList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-Admitted-ToBeAdded-ItemIEs", typeName: "ERABsAdmittedToBeAddedList"}
 		}
 	case "SeNBCounterCheckRequest-IEs":
 		switch id {
 		case 141:
-			return "ERABsSubjectToCounterCheckList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-SubjectToCounterCheckItemIEs", typeName: "ERABsSubjectToCounterCheckList"}
 		}
 	case "SeNBModificationRequestAcknowledge-IEs":
 		switch id {
 		case 3:
-			return "ERABList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RAB-ItemIEs", typeName: "ERABList"}
 		case 128:
-			return "ERABsAdmittedToBeAddedModAckList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-Admitted-ToBeAdded-ModAckItemIEs", typeName: "ERABsAdmittedToBeAddedModAckList"}
 		case 129:
-			return "ERABsAdmittedToBeModifiedModAckList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-Admitted-ToBeModified-ModAckItemIEs", typeName: "ERABsAdmittedToBeModifiedModAckList"}
 		case 130:
-			return "ERABsAdmittedToBeReleasedModAckList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-Admitted-ToBeReleased-ModAckItemIEs", typeName: "ERABsAdmittedToBeReleasedModAckList"}
 		}
 	case "SeNBModificationRequired-IEs":
 		switch id {
 		case 134:
-			return "ERABsToBeReleasedModReqd"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-ToBeReleased-ModReqdItemIEs", typeName: "ERABsToBeReleasedModReqd"}
 		}
 	case "SeNBReleaseConfirm-IEs":
 		switch id {
 		case 139:
-			return "ERABsToBeReleasedListRelConf"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-ToBeReleased-RelConfItemIEs", typeName: "ERABsToBeReleasedListRelConf"}
 		}
 	case "SeNBReleaseRequest-IEs":
 		switch id {
 		case 137:
-			return "ERABsToBeReleasedListRelReq"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-ToBeReleased-RelReqItemIEs", typeName: "ERABsToBeReleasedListRelReq"}
 		}
 	case "SecondaryRATDataUsageReport-IEs":
 		switch id {
 		case 265:
-			return "SecondaryRATUsageReportList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "SecondaryRATUsageReport-ItemIEs", typeName: "SecondaryRATUsageReportList"}
 		}
 	case "SgNBAdditionRequest-IEs":
 		switch id {
 		case 205:
-			return "ERABsToBeAddedSgNBAddReqList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-ToBeAdded-SgNBAddReq-ItemIEs", typeName: "ERABsToBeAddedSgNBAddReqList"}
 		}
 	case "SgNBAdditionRequestAcknowledge-IEs":
 		switch id {
 		case 3:
-			return "ERABList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RAB-ItemIEs", typeName: "ERABList"}
 		case 210:
-			return "ERABsAdmittedToBeAddedSgNBAddReqAckList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-ItemIEs", typeName: "ERABsAdmittedToBeAddedSgNBAddReqAckList"}
 		}
 	case "SgNBChangeConfirm-IEs":
 		switch id {
 		case 229:
-			return "ERABsToBeReleasedSgNBChaConfList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-ToBeReleased-SgNBChaConf-ItemIEs", typeName: "ERABsToBeReleasedSgNBChaConfList"}
 		}
 	case "SgNBCounterCheckRequest-IEs":
 		switch id {
 		case 235:
-			return "ERABsSubjectToSgNBCounterCheckList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-SubjectToSgNBCounterCheck-ItemIEs", typeName: "ERABsSubjectToSgNBCounterCheckList"}
 		}
 	case "SgNBModificationConfirm-IEs":
 		switch id {
 		case 294:
-			return "ERABsAdmittedToBeModifiedSgNBModConfList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-AdmittedToBeModified-SgNBModConf-ItemIEs", typeName: "ERABsAdmittedToBeModifiedSgNBModConfList"}
 		}
 	case "SgNBModificationRequestAcknowledge-IEs":
 		switch id {
 		case 3:
-			return "ERABList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RAB-ItemIEs", typeName: "ERABList"}
 		case 219:
-			return "ERABsAdmittedToBeAddedSgNBModAckList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-Admitted-ToBeAdded-SgNBModAck-ItemIEs", typeName: "ERABsAdmittedToBeAddedSgNBModAckList"}
 		case 220:
-			return "ERABsAdmittedToBeModifiedSgNBModAckList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-Admitted-ToBeModified-SgNBModAck-ItemIEs", typeName: "ERABsAdmittedToBeModifiedSgNBModAckList"}
 		case 221:
-			return "ERABsAdmittedToBeReleasedSgNBModAckList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-Admitted-ToBeReleased-SgNBModAck-ItemIEs", typeName: "ERABsAdmittedToBeReleasedSgNBModAckList"}
 		}
 	case "SgNBModificationRequired-IEs":
 		switch id {
 		case 225:
-			return "ERABsToBeReleasedSgNBModReqdList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-ToBeReleased-SgNBModReqd-ItemIEs", typeName: "ERABsToBeReleasedSgNBModReqdList"}
 		case 226:
-			return "ERABsToBeModifiedSgNBModReqdList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-ToBeModified-SgNBModReqd-ItemIEs", typeName: "ERABsToBeModifiedSgNBModReqdList"}
 		}
 	case "SgNBReleaseConfirm-IEs":
 		switch id {
 		case 233:
-			return "ERABsToBeReleasedSgNBRelConfList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-ToBeReleased-SgNBRelConf-ItemIEs", typeName: "ERABsToBeReleasedSgNBRelConfList"}
 		}
 	case "SgNBReleaseRequest-IEs":
 		switch id {
 		case 231:
-			return "ERABsToBeReleasedSgNBRelReqList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-ToBeReleased-SgNBRelReq-ItemIEs", typeName: "ERABsToBeReleasedSgNBRelReqList"}
 		case 339:
-			return "ERABList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RAB-ItemIEs", typeName: "ERABList"}
 		}
 	case "SgNBReleaseRequestAcknowledge-IEs":
 		switch id {
 		case 318:
-			return "ERABsAdmittedToBeReleasedSgNBRelReqAckList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-ItemIEs", typeName: "ERABsAdmittedToBeReleasedSgNBRelReqAckList"}
 		}
 	case "SgNBReleaseRequired-IEs":
 		switch id {
 		case 320:
-			return "ERABsToBeReleasedSgNBRelReqdList"
+			return protocolOpenTypeHint{family: "protocolIE", objectSet: "E-RABs-ToBeReleased-SgNBRelReqd-ItemIEs", typeName: "ERABsToBeReleasedSgNBRelReqdList"}
 		}
 	}
-	return ""
+	return protocolOpenTypeHint{}
+}
+
+func protocolExtensionValueTypeHint(objectSet string, id int64) protocolOpenTypeHint {
+	switch objectSet {
+	}
+	return protocolOpenTypeHint{}
+}
+
+type protocolOpenTypeHint struct {
+	family    string
+	objectSet string
+	typeName  string
+}
+
+type decodedProtocolFields struct {
+	protocolIEs []DecodedProtocolIEField
+	extensions  []DecodedProtocolExtensionField
 }
 
 // DecodeProtocolIEFieldsRecursive decodes fields using an ASN.1 object-set or legacy message-type context.
 func DecodeProtocolIEFieldsRecursive(context string, fields []ProtocolIEField) ([]DecodedProtocolIEField, error) {
 	objectSet := protocolIEObjectSet(context)
-	return decodeProtocolIEFieldsAt(objectSet, fields, objectSet, map[protocolIEVisit]bool{})
+	return decodeProtocolIEFieldsAt(objectSet, fields, objectSet, map[protocolOpenTypeVisit]bool{})
+}
+
+// DecodeProtocolExtensionFieldsRecursive decodes extension fields using their ASN.1 object-set context.
+func DecodeProtocolExtensionFieldsRecursive(context string, fields []ProtocolExtensionField) ([]DecodedProtocolExtensionField, error) {
+	objectSet := protocolExtensionObjectSet(context)
+	return decodeProtocolExtensionFieldsAt(objectSet, fields, objectSet, map[protocolOpenTypeVisit]bool{})
 }
 
 // DecodeProtocolIEsRecursive discovers and decodes every context-bound ProtocolIE-Field list in value.
 func DecodeProtocolIEsRecursive(value interface{}) ([]DecodedProtocolIEField, error) {
+	fields, err := decodeProtocolFieldsRecursive(value)
+	if err != nil {
+		return nil, err
+	}
+	return fields.protocolIEs, nil
+}
+
+// DecodeProtocolExtensionsRecursive discovers and decodes every context-bound ProtocolExtensionField list in value.
+func DecodeProtocolExtensionsRecursive(value interface{}) ([]DecodedProtocolExtensionField, error) {
+	fields, err := decodeProtocolFieldsRecursive(value)
+	if err != nil {
+		return nil, err
+	}
+	return fields.extensions, nil
+}
+
+func decodeProtocolFieldsRecursive(value interface{}) (decodedProtocolFields, error) {
 	if value == nil {
-		return nil, nil
+		return decodedProtocolFields{}, nil
 	}
 	rv := reflect.ValueOf(value)
-	root := indirectProtocolIEValue(rv)
+	root := indirectProtocolOpenTypeValue(rv)
 	if !root.IsValid() {
-		return nil, nil
+		return decodedProtocolFields{}, nil
 	}
 	path := root.Type().Name()
 	if path == "" {
-		return nil, fmt.Errorf("recursive protocol IE decode requires a named root value; use DecodeProtocolIEFieldsRecursive for a standalone list")
+		return decodedProtocolFields{}, fmt.Errorf("recursive protocol open-type decode requires a named root value; use a field-list function for a standalone list")
 	}
-	return decodeProtocolIEsInValue(rv, "", path, map[protocolIEVisit]bool{})
+	return decodeProtocolFieldsInValue(rv, protocolOpenTypeHint{}, path, map[protocolOpenTypeVisit]bool{})
 }
 
-type protocolIEVisit struct {
+type protocolOpenTypeVisit struct {
 	typ reflect.Type
 	ptr uintptr
 }
 
-func indirectProtocolIEValue(value reflect.Value) reflect.Value {
+func indirectProtocolOpenTypeValue(value reflect.Value) reflect.Value {
 	for value.IsValid() && (value.Kind() == reflect.Interface || value.Kind() == reflect.Pointer) {
 		if value.IsNil() {
 			return reflect.Value{}
@@ -7376,45 +9494,72 @@ func indirectProtocolIEValue(value reflect.Value) reflect.Value {
 	return value
 }
 
-func decodeProtocolIEsInValue(value reflect.Value, typeHint, path string, seen map[protocolIEVisit]bool) ([]DecodedProtocolIEField, error) {
+func decodeProtocolFieldsInValue(value reflect.Value, hint protocolOpenTypeHint, path string, seen map[protocolOpenTypeVisit]bool) (decodedProtocolFields, error) {
 	for value.IsValid() && value.Kind() == reflect.Interface {
 		if value.IsNil() {
-			return nil, nil
+			return decodedProtocolFields{}, nil
 		}
 		value = value.Elem()
 	}
 	if !value.IsValid() {
-		return nil, nil
+		return decodedProtocolFields{}, nil
 	}
 	if value.Kind() == reflect.Pointer {
 		if value.IsNil() {
-			return nil, nil
+			return decodedProtocolFields{}, nil
 		}
-		visit := protocolIEVisit{typ: value.Type(), ptr: value.Pointer()}
+		visit := protocolOpenTypeVisit{typ: value.Type(), ptr: value.Pointer()}
 		if seen[visit] {
-			return nil, nil
+			return decodedProtocolFields{}, nil
 		}
 		seen[visit] = true
 		defer delete(seen, visit)
-		return decodeProtocolIEsInValue(value.Elem(), typeHint, path, seen)
+		return decodeProtocolFieldsInValue(value.Elem(), hint, path, seen)
 	}
 
-	resolvedType := typeHint
+	resolvedType := hint.typeName
 	if resolvedType == "" {
 		resolvedType = value.Type().Name()
+	}
+	if hint.objectSet != "" {
+		switch hint.family {
+		case "protocolIE":
+			fields, ok := protocolIEFieldsFromValue(value)
+			if !ok {
+				return decodedProtocolFields{}, fmt.Errorf("%s: generated binding %s expects ProtocolIE-Field data, got %s", path, resolvedType, value.Type())
+			}
+			decoded, err := decodeProtocolIEFieldsAt(hint.objectSet, fields, path, seen)
+			return decodedProtocolFields{protocolIEs: decoded}, err
+		case "protocolExtension":
+			fields, ok := protocolExtensionFieldsFromValue(value)
+			if !ok {
+				return decodedProtocolFields{}, fmt.Errorf("%s: generated binding %s expects ProtocolExtensionField data, got %s", path, resolvedType, value.Type())
+			}
+			decoded, err := decodeProtocolExtensionFieldsAt(hint.objectSet, fields, path, seen)
+			return decodedProtocolFields{extensions: decoded}, err
+		}
 	}
 	if objectSet := protocolIETypeObjectSets[resolvedType]; objectSet != "" {
 		fields, ok := protocolIEFieldsFromValue(value)
 		if !ok {
-			return nil, fmt.Errorf("%s: generated binding %s expects ProtocolIE-Field data, got %s", path, resolvedType, value.Type())
+			return decodedProtocolFields{}, fmt.Errorf("%s: generated binding %s expects ProtocolIE-Field data, got %s", path, resolvedType, value.Type())
 		}
-		return decodeProtocolIEFieldsAt(objectSet, fields, path, seen)
+		decoded, err := decodeProtocolIEFieldsAt(objectSet, fields, path, seen)
+		return decodedProtocolFields{protocolIEs: decoded}, err
+	}
+	if objectSet := protocolExtensionTypeObjectSets[resolvedType]; objectSet != "" {
+		fields, ok := protocolExtensionFieldsFromValue(value)
+		if !ok {
+			return decodedProtocolFields{}, fmt.Errorf("%s: generated binding %s expects ProtocolExtensionField data, got %s", path, resolvedType, value.Type())
+		}
+		decoded, err := decodeProtocolExtensionFieldsAt(objectSet, fields, path, seen)
+		return decodedProtocolFields{extensions: decoded}, err
 	}
 
 	switch value.Kind() {
 	case reflect.Struct:
 		owner := value.Type().Name()
-		var result []DecodedProtocolIEField
+		var result decodedProtocolFields
 		for i := 0; i < value.NumField(); i++ {
 			fieldInfo := value.Type().Field(i)
 			if fieldInfo.PkgPath != "" || fieldInfo.Tag.Get("asn1") == "-" {
@@ -7425,42 +9570,53 @@ func decodeProtocolIEsInValue(value reflect.Value, typeHint, path string, seen m
 			if objectSet := protocolIEFieldObjectSets[owner+"."+fieldInfo.Name]; objectSet != "" {
 				fields, ok := protocolIEFieldsFromValue(fieldValue)
 				if !ok {
-					return nil, fmt.Errorf("%s: generated binding expects ProtocolIE-Field data, got %s", fieldPath, fieldValue.Type())
+					return decodedProtocolFields{}, fmt.Errorf("%s: generated binding expects ProtocolIE-Field data, got %s", fieldPath, fieldValue.Type())
 				}
 				decoded, err := decodeProtocolIEFieldsAt(objectSet, fields, fieldPath, seen)
 				if err != nil {
-					return nil, err
+					return decodedProtocolFields{}, err
 				}
-				result = append(result, decoded...)
+				result.protocolIEs = append(result.protocolIEs, decoded...)
 				continue
 			}
-			decoded, err := decodeProtocolIEsInValue(fieldValue, "", fieldPath, seen)
-			if err != nil {
-				return nil, err
+			if objectSet := protocolExtensionFieldObjectSets[owner+"."+fieldInfo.Name]; objectSet != "" {
+				fields, ok := protocolExtensionFieldsFromValue(fieldValue)
+				if !ok {
+					return decodedProtocolFields{}, fmt.Errorf("%s: generated binding expects ProtocolExtensionField data, got %s", fieldPath, fieldValue.Type())
+				}
+				decoded, err := decodeProtocolExtensionFieldsAt(objectSet, fields, fieldPath, seen)
+				if err != nil {
+					return decodedProtocolFields{}, err
+				}
+				result.extensions = append(result.extensions, decoded...)
+				continue
 			}
-			result = append(result, decoded...)
+			decoded, err := decodeProtocolFieldsInValue(fieldValue, protocolOpenTypeHint{}, fieldPath, seen)
+			if err != nil {
+				return decodedProtocolFields{}, err
+			}
+			result.protocolIEs = append(result.protocolIEs, decoded.protocolIEs...)
+			result.extensions = append(result.extensions, decoded.extensions...)
 		}
 		return result, nil
 	case reflect.Slice, reflect.Array:
-		if value.Type().Elem().Kind() != reflect.Struct && value.Type().Elem().Kind() != reflect.Pointer && value.Type().Elem().Kind() != reflect.Interface {
-			return nil, nil
-		}
-		var result []DecodedProtocolIEField
+		var result decodedProtocolFields
 		for i := 0; i < value.Len(); i++ {
-			decoded, err := decodeProtocolIEsInValue(value.Index(i), "", fmt.Sprintf("%s[%d]", path, i), seen)
+			decoded, err := decodeProtocolFieldsInValue(value.Index(i), protocolOpenTypeHint{}, fmt.Sprintf("%s[%d]", path, i), seen)
 			if err != nil {
-				return nil, err
+				return decodedProtocolFields{}, err
 			}
-			result = append(result, decoded...)
+			result.protocolIEs = append(result.protocolIEs, decoded.protocolIEs...)
+			result.extensions = append(result.extensions, decoded.extensions...)
 		}
 		return result, nil
 	default:
-		return nil, nil
+		return decodedProtocolFields{}, nil
 	}
 }
 
 func protocolIEFieldsFromValue(value reflect.Value) ([]ProtocolIEField, bool) {
-	value = indirectProtocolIEValue(value)
+	value = indirectProtocolOpenTypeValue(value)
 	if !value.IsValid() {
 		return nil, true
 	}
@@ -7473,8 +9629,8 @@ func protocolIEFieldsFromValue(value reflect.Value) ([]ProtocolIEField, bool) {
 	}
 	result := make([]ProtocolIEField, value.Len())
 	for i := 0; i < value.Len(); i++ {
-		item := indirectProtocolIEValue(value.Index(i))
-		if !item.IsValid() || (!item.Type().AssignableTo(fieldType) && !item.Type().ConvertibleTo(fieldType)) {
+		item := indirectProtocolOpenTypeValue(value.Index(i))
+		if !item.IsValid() || !item.Type().ConvertibleTo(fieldType) {
 			return nil, false
 		}
 		result[i] = item.Convert(fieldType).Interface().(ProtocolIEField)
@@ -7482,13 +9638,34 @@ func protocolIEFieldsFromValue(value reflect.Value) ([]ProtocolIEField, bool) {
 	return result, true
 }
 
-func decodeProtocolIEFieldsAt(objectSet string, fields []ProtocolIEField, path string, seen map[protocolIEVisit]bool) ([]DecodedProtocolIEField, error) {
+func protocolExtensionFieldsFromValue(value reflect.Value) ([]ProtocolExtensionField, bool) {
+	value = indirectProtocolOpenTypeValue(value)
+	if !value.IsValid() {
+		return nil, true
+	}
+	fieldType := reflect.TypeOf(ProtocolExtensionField{})
+	if value.Type() == fieldType || value.Type().ConvertibleTo(fieldType) {
+		return []ProtocolExtensionField{value.Convert(fieldType).Interface().(ProtocolExtensionField)}, true
+	}
+	if value.Kind() != reflect.Slice && value.Kind() != reflect.Array {
+		return nil, false
+	}
+	result := make([]ProtocolExtensionField, value.Len())
+	for i := 0; i < value.Len(); i++ {
+		item := indirectProtocolOpenTypeValue(value.Index(i))
+		if !item.IsValid() || !item.Type().ConvertibleTo(fieldType) {
+			return nil, false
+		}
+		result[i] = item.Convert(fieldType).Interface().(ProtocolExtensionField)
+	}
+	return result, true
+}
+
+func decodeProtocolIEFieldsAt(objectSet string, fields []ProtocolIEField, path string, seen map[protocolOpenTypeVisit]bool) ([]DecodedProtocolIEField, error) {
 	result := make([]DecodedProtocolIEField, len(fields))
 	for i := range fields {
 		fieldPath := fmt.Sprintf("%s[%d]", path, i)
-		result[i] = DecodedProtocolIEField{
-			Path: fieldPath, ObjectSet: objectSet, Field: fields[i],
-		}
+		result[i] = DecodedProtocolIEField{Path: fieldPath, ObjectSet: objectSet, Field: fields[i]}
 		value, err := DecodeIEFieldValue(objectSet, int64(fields[i].Id), fields[i].Value.Bytes)
 		if err != nil {
 			return nil, fmt.Errorf("%s: decoding object set %s IE %d: %w", fieldPath, objectSet, fields[i].Id, err)
@@ -7497,53 +9674,76 @@ func decodeProtocolIEFieldsAt(objectSet string, fields []ProtocolIEField, path s
 		if value == nil {
 			continue
 		}
-		hint := protocolIEValueTypeHint(objectSet, int64(fields[i].Id))
-		children, err := decodeProtocolIEsInValue(reflect.ValueOf(value), hint, fieldPath, seen)
+		children, err := decodeProtocolFieldsInValue(reflect.ValueOf(value), protocolIEValueTypeHint(objectSet, int64(fields[i].Id)), fieldPath, seen)
 		if err != nil {
 			return nil, err
 		}
-		result[i].Children = children
+		result[i].Children = children.protocolIEs
+		result[i].Extensions = children.extensions
 	}
 	return result, nil
 }
 
-// DecodeValueRecursive decodes InitiatingMessage and every nested protocol IE with its ASN.1 object-set context.
+func decodeProtocolExtensionFieldsAt(objectSet string, fields []ProtocolExtensionField, path string, seen map[protocolOpenTypeVisit]bool) ([]DecodedProtocolExtensionField, error) {
+	result := make([]DecodedProtocolExtensionField, len(fields))
+	for i := range fields {
+		fieldPath := fmt.Sprintf("%s[%d]", path, i)
+		result[i] = DecodedProtocolExtensionField{Path: fieldPath, ObjectSet: objectSet, Field: fields[i]}
+		value, err := DecodeExtensionFieldValue(objectSet, int64(fields[i].Id), fields[i].ExtensionValue.Bytes)
+		if err != nil {
+			return nil, fmt.Errorf("%s: decoding object set %s extension %d: %w", fieldPath, objectSet, fields[i].Id, err)
+		}
+		result[i].Value = value
+		if value == nil {
+			continue
+		}
+		children, err := decodeProtocolFieldsInValue(reflect.ValueOf(value), protocolExtensionValueTypeHint(objectSet, int64(fields[i].Id)), fieldPath, seen)
+		if err != nil {
+			return nil, err
+		}
+		result[i].ProtocolIEs = children.protocolIEs
+		result[i].Extensions = children.extensions
+	}
+	return result, nil
+}
+
+// DecodeValueRecursive decodes InitiatingMessage and every nested protocol IE and extension with ASN.1 object-set context.
 func (v *InitiatingMessage) DecodeValueRecursive() (*DecodedProtocolValue, error) {
 	value, err := v.DecodeValue()
 	if err != nil {
 		return nil, err
 	}
-	fields, err := DecodeProtocolIEsRecursive(value)
+	fields, err := decodeProtocolFieldsRecursive(value)
 	if err != nil {
 		return nil, err
 	}
-	return &DecodedProtocolValue{Value: value, ProtocolIEs: fields}, nil
+	return &DecodedProtocolValue{Value: value, ProtocolIEs: fields.protocolIEs, ProtocolExtensions: fields.extensions}, nil
 }
 
-// DecodeValueRecursive decodes SuccessfulOutcome and every nested protocol IE with its ASN.1 object-set context.
+// DecodeValueRecursive decodes SuccessfulOutcome and every nested protocol IE and extension with ASN.1 object-set context.
 func (v *SuccessfulOutcome) DecodeValueRecursive() (*DecodedProtocolValue, error) {
 	value, err := v.DecodeValue()
 	if err != nil {
 		return nil, err
 	}
-	fields, err := DecodeProtocolIEsRecursive(value)
+	fields, err := decodeProtocolFieldsRecursive(value)
 	if err != nil {
 		return nil, err
 	}
-	return &DecodedProtocolValue{Value: value, ProtocolIEs: fields}, nil
+	return &DecodedProtocolValue{Value: value, ProtocolIEs: fields.protocolIEs, ProtocolExtensions: fields.extensions}, nil
 }
 
-// DecodeValueRecursive decodes UnsuccessfulOutcome and every nested protocol IE with its ASN.1 object-set context.
+// DecodeValueRecursive decodes UnsuccessfulOutcome and every nested protocol IE and extension with ASN.1 object-set context.
 func (v *UnsuccessfulOutcome) DecodeValueRecursive() (*DecodedProtocolValue, error) {
 	value, err := v.DecodeValue()
 	if err != nil {
 		return nil, err
 	}
-	fields, err := DecodeProtocolIEsRecursive(value)
+	fields, err := decodeProtocolFieldsRecursive(value)
 	if err != nil {
 		return nil, err
 	}
-	return &DecodedProtocolValue{Value: value, ProtocolIEs: fields}, nil
+	return &DecodedProtocolValue{Value: value, ProtocolIEs: fields.protocolIEs, ProtocolExtensions: fields.extensions}, nil
 }
 
 // DecodeValue decodes the Value field of InitiatingMessage based on ProcedureCode.
@@ -7568,4 +9768,9 @@ func (v *UnsuccessfulOutcome) DecodeValue() (interface{}, error) {
 // messageType should be the Go type name (e.g., "HandoverRequired").
 func (v *ProtocolIEField) DecodeValue(messageType string) (interface{}, error) {
 	return DecodeIEFieldValue(messageType, int64(v.Id), v.Value.Bytes)
+}
+
+// DecodeValue decodes ExtensionValue based on its object-set context and extension ID.
+func (v *ProtocolExtensionField) DecodeValue(context string) (interface{}, error) {
+	return DecodeExtensionFieldValue(context, int64(v.Id), v.ExtensionValue.Bytes)
 }
