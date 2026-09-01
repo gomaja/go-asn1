@@ -1512,7 +1512,10 @@ type PresentationAddressNAddresses = [][]byte
 // MarshalBER encodes Attribute to BER format.
 func (v *Attribute) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_type := ber.EncodeObjectIdentifier([]uint64(v.Type))
+	enc_type, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.Type))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding type: %w", oidErr)
+	}
 	children = append(children, enc_type...)
 	enc_values, err := MarshalBERAttributeValues(v.Values)
 	if err != nil {
@@ -1583,7 +1586,10 @@ func (v *Attribute) UnmarshalBER(data []byte) error {
 // MarshalBER encodes AttributeTypeAndValue to BER format.
 func (v *AttributeTypeAndValue) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_type := ber.EncodeObjectIdentifier([]uint64(v.Type))
+	enc_type, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.Type))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding type: %w", oidErr)
+	}
 	children = append(children, enc_type...)
 	enc_value := v.Value.Bytes
 	children = append(children, enc_value...)
@@ -1639,31 +1645,46 @@ func (v *X520name) MarshalBER() ([]byte, error) {
 		if v.TeletexString == nil {
 			return nil, fmt.Errorf("choice X520name: teletexString is nil")
 		}
-		enc_0 := ber.EncodeStringTag(20, *v.TeletexString)
+		enc_0, stringErr := ber.EncodeStringTagChecked(20, *v.TeletexString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding teletexString: %w", stringErr)
+		}
 		return enc_0, nil
 	case X520nameChoicePrintableString:
 		if v.PrintableString == nil {
 			return nil, fmt.Errorf("choice X520name: printableString is nil")
 		}
-		enc_1 := ber.EncodeStringTag(19, *v.PrintableString)
+		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
+		}
 		return enc_1, nil
 	case X520nameChoiceUniversalString:
 		if v.UniversalString == nil {
 			return nil, fmt.Errorf("choice X520name: universalString is nil")
 		}
-		enc_2 := ber.EncodeStringTag(28, *v.UniversalString)
+		enc_2, stringErr := ber.EncodeStringTagChecked(28, *v.UniversalString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding universalString: %w", stringErr)
+		}
 		return enc_2, nil
 	case X520nameChoiceUtf8String:
 		if v.Utf8String == nil {
 			return nil, fmt.Errorf("choice X520name: utf8String is nil")
 		}
-		enc_3 := ber.EncodeStringTag(12, *v.Utf8String)
+		enc_3, stringErr := ber.EncodeStringTagChecked(12, *v.Utf8String)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding utf8String: %w", stringErr)
+		}
 		return enc_3, nil
 	case X520nameChoiceBmpString:
 		if v.BmpString == nil {
 			return nil, fmt.Errorf("choice X520name: bmpString is nil")
 		}
-		enc_4 := ber.EncodeStringTag(30, *v.BmpString)
+		enc_4, stringErr := ber.EncodeStringTagChecked(30, *v.BmpString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding bmpString: %w", stringErr)
+		}
 		return enc_4, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for X520name", v.Choice)
@@ -1742,31 +1763,46 @@ func (v *X520CommonName) MarshalBER() ([]byte, error) {
 		if v.TeletexString == nil {
 			return nil, fmt.Errorf("choice X520CommonName: teletexString is nil")
 		}
-		enc_0 := ber.EncodeStringTag(20, *v.TeletexString)
+		enc_0, stringErr := ber.EncodeStringTagChecked(20, *v.TeletexString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding teletexString: %w", stringErr)
+		}
 		return enc_0, nil
 	case X520CommonNameChoicePrintableString:
 		if v.PrintableString == nil {
 			return nil, fmt.Errorf("choice X520CommonName: printableString is nil")
 		}
-		enc_1 := ber.EncodeStringTag(19, *v.PrintableString)
+		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
+		}
 		return enc_1, nil
 	case X520CommonNameChoiceUniversalString:
 		if v.UniversalString == nil {
 			return nil, fmt.Errorf("choice X520CommonName: universalString is nil")
 		}
-		enc_2 := ber.EncodeStringTag(28, *v.UniversalString)
+		enc_2, stringErr := ber.EncodeStringTagChecked(28, *v.UniversalString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding universalString: %w", stringErr)
+		}
 		return enc_2, nil
 	case X520CommonNameChoiceUtf8String:
 		if v.Utf8String == nil {
 			return nil, fmt.Errorf("choice X520CommonName: utf8String is nil")
 		}
-		enc_3 := ber.EncodeStringTag(12, *v.Utf8String)
+		enc_3, stringErr := ber.EncodeStringTagChecked(12, *v.Utf8String)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding utf8String: %w", stringErr)
+		}
 		return enc_3, nil
 	case X520CommonNameChoiceBmpString:
 		if v.BmpString == nil {
 			return nil, fmt.Errorf("choice X520CommonName: bmpString is nil")
 		}
-		enc_4 := ber.EncodeStringTag(30, *v.BmpString)
+		enc_4, stringErr := ber.EncodeStringTagChecked(30, *v.BmpString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding bmpString: %w", stringErr)
+		}
 		return enc_4, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for X520CommonName", v.Choice)
@@ -1845,31 +1881,46 @@ func (v *X520LocalityName) MarshalBER() ([]byte, error) {
 		if v.TeletexString == nil {
 			return nil, fmt.Errorf("choice X520LocalityName: teletexString is nil")
 		}
-		enc_0 := ber.EncodeStringTag(20, *v.TeletexString)
+		enc_0, stringErr := ber.EncodeStringTagChecked(20, *v.TeletexString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding teletexString: %w", stringErr)
+		}
 		return enc_0, nil
 	case X520LocalityNameChoicePrintableString:
 		if v.PrintableString == nil {
 			return nil, fmt.Errorf("choice X520LocalityName: printableString is nil")
 		}
-		enc_1 := ber.EncodeStringTag(19, *v.PrintableString)
+		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
+		}
 		return enc_1, nil
 	case X520LocalityNameChoiceUniversalString:
 		if v.UniversalString == nil {
 			return nil, fmt.Errorf("choice X520LocalityName: universalString is nil")
 		}
-		enc_2 := ber.EncodeStringTag(28, *v.UniversalString)
+		enc_2, stringErr := ber.EncodeStringTagChecked(28, *v.UniversalString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding universalString: %w", stringErr)
+		}
 		return enc_2, nil
 	case X520LocalityNameChoiceUtf8String:
 		if v.Utf8String == nil {
 			return nil, fmt.Errorf("choice X520LocalityName: utf8String is nil")
 		}
-		enc_3 := ber.EncodeStringTag(12, *v.Utf8String)
+		enc_3, stringErr := ber.EncodeStringTagChecked(12, *v.Utf8String)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding utf8String: %w", stringErr)
+		}
 		return enc_3, nil
 	case X520LocalityNameChoiceBmpString:
 		if v.BmpString == nil {
 			return nil, fmt.Errorf("choice X520LocalityName: bmpString is nil")
 		}
-		enc_4 := ber.EncodeStringTag(30, *v.BmpString)
+		enc_4, stringErr := ber.EncodeStringTagChecked(30, *v.BmpString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding bmpString: %w", stringErr)
+		}
 		return enc_4, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for X520LocalityName", v.Choice)
@@ -1948,31 +1999,46 @@ func (v *X520StateOrProvinceName) MarshalBER() ([]byte, error) {
 		if v.TeletexString == nil {
 			return nil, fmt.Errorf("choice X520StateOrProvinceName: teletexString is nil")
 		}
-		enc_0 := ber.EncodeStringTag(20, *v.TeletexString)
+		enc_0, stringErr := ber.EncodeStringTagChecked(20, *v.TeletexString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding teletexString: %w", stringErr)
+		}
 		return enc_0, nil
 	case X520StateOrProvinceNameChoicePrintableString:
 		if v.PrintableString == nil {
 			return nil, fmt.Errorf("choice X520StateOrProvinceName: printableString is nil")
 		}
-		enc_1 := ber.EncodeStringTag(19, *v.PrintableString)
+		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
+		}
 		return enc_1, nil
 	case X520StateOrProvinceNameChoiceUniversalString:
 		if v.UniversalString == nil {
 			return nil, fmt.Errorf("choice X520StateOrProvinceName: universalString is nil")
 		}
-		enc_2 := ber.EncodeStringTag(28, *v.UniversalString)
+		enc_2, stringErr := ber.EncodeStringTagChecked(28, *v.UniversalString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding universalString: %w", stringErr)
+		}
 		return enc_2, nil
 	case X520StateOrProvinceNameChoiceUtf8String:
 		if v.Utf8String == nil {
 			return nil, fmt.Errorf("choice X520StateOrProvinceName: utf8String is nil")
 		}
-		enc_3 := ber.EncodeStringTag(12, *v.Utf8String)
+		enc_3, stringErr := ber.EncodeStringTagChecked(12, *v.Utf8String)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding utf8String: %w", stringErr)
+		}
 		return enc_3, nil
 	case X520StateOrProvinceNameChoiceBmpString:
 		if v.BmpString == nil {
 			return nil, fmt.Errorf("choice X520StateOrProvinceName: bmpString is nil")
 		}
-		enc_4 := ber.EncodeStringTag(30, *v.BmpString)
+		enc_4, stringErr := ber.EncodeStringTagChecked(30, *v.BmpString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding bmpString: %w", stringErr)
+		}
 		return enc_4, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for X520StateOrProvinceName", v.Choice)
@@ -2051,31 +2117,46 @@ func (v *X520OrganizationName) MarshalBER() ([]byte, error) {
 		if v.TeletexString == nil {
 			return nil, fmt.Errorf("choice X520OrganizationName: teletexString is nil")
 		}
-		enc_0 := ber.EncodeStringTag(20, *v.TeletexString)
+		enc_0, stringErr := ber.EncodeStringTagChecked(20, *v.TeletexString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding teletexString: %w", stringErr)
+		}
 		return enc_0, nil
 	case X520OrganizationNameChoicePrintableString:
 		if v.PrintableString == nil {
 			return nil, fmt.Errorf("choice X520OrganizationName: printableString is nil")
 		}
-		enc_1 := ber.EncodeStringTag(19, *v.PrintableString)
+		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
+		}
 		return enc_1, nil
 	case X520OrganizationNameChoiceUniversalString:
 		if v.UniversalString == nil {
 			return nil, fmt.Errorf("choice X520OrganizationName: universalString is nil")
 		}
-		enc_2 := ber.EncodeStringTag(28, *v.UniversalString)
+		enc_2, stringErr := ber.EncodeStringTagChecked(28, *v.UniversalString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding universalString: %w", stringErr)
+		}
 		return enc_2, nil
 	case X520OrganizationNameChoiceUtf8String:
 		if v.Utf8String == nil {
 			return nil, fmt.Errorf("choice X520OrganizationName: utf8String is nil")
 		}
-		enc_3 := ber.EncodeStringTag(12, *v.Utf8String)
+		enc_3, stringErr := ber.EncodeStringTagChecked(12, *v.Utf8String)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding utf8String: %w", stringErr)
+		}
 		return enc_3, nil
 	case X520OrganizationNameChoiceBmpString:
 		if v.BmpString == nil {
 			return nil, fmt.Errorf("choice X520OrganizationName: bmpString is nil")
 		}
-		enc_4 := ber.EncodeStringTag(30, *v.BmpString)
+		enc_4, stringErr := ber.EncodeStringTagChecked(30, *v.BmpString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding bmpString: %w", stringErr)
+		}
 		return enc_4, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for X520OrganizationName", v.Choice)
@@ -2154,31 +2235,46 @@ func (v *X520OrganizationalUnitName) MarshalBER() ([]byte, error) {
 		if v.TeletexString == nil {
 			return nil, fmt.Errorf("choice X520OrganizationalUnitName: teletexString is nil")
 		}
-		enc_0 := ber.EncodeStringTag(20, *v.TeletexString)
+		enc_0, stringErr := ber.EncodeStringTagChecked(20, *v.TeletexString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding teletexString: %w", stringErr)
+		}
 		return enc_0, nil
 	case X520OrganizationalUnitNameChoicePrintableString:
 		if v.PrintableString == nil {
 			return nil, fmt.Errorf("choice X520OrganizationalUnitName: printableString is nil")
 		}
-		enc_1 := ber.EncodeStringTag(19, *v.PrintableString)
+		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
+		}
 		return enc_1, nil
 	case X520OrganizationalUnitNameChoiceUniversalString:
 		if v.UniversalString == nil {
 			return nil, fmt.Errorf("choice X520OrganizationalUnitName: universalString is nil")
 		}
-		enc_2 := ber.EncodeStringTag(28, *v.UniversalString)
+		enc_2, stringErr := ber.EncodeStringTagChecked(28, *v.UniversalString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding universalString: %w", stringErr)
+		}
 		return enc_2, nil
 	case X520OrganizationalUnitNameChoiceUtf8String:
 		if v.Utf8String == nil {
 			return nil, fmt.Errorf("choice X520OrganizationalUnitName: utf8String is nil")
 		}
-		enc_3 := ber.EncodeStringTag(12, *v.Utf8String)
+		enc_3, stringErr := ber.EncodeStringTagChecked(12, *v.Utf8String)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding utf8String: %w", stringErr)
+		}
 		return enc_3, nil
 	case X520OrganizationalUnitNameChoiceBmpString:
 		if v.BmpString == nil {
 			return nil, fmt.Errorf("choice X520OrganizationalUnitName: bmpString is nil")
 		}
-		enc_4 := ber.EncodeStringTag(30, *v.BmpString)
+		enc_4, stringErr := ber.EncodeStringTagChecked(30, *v.BmpString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding bmpString: %w", stringErr)
+		}
 		return enc_4, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for X520OrganizationalUnitName", v.Choice)
@@ -2257,31 +2353,46 @@ func (v *X520Title) MarshalBER() ([]byte, error) {
 		if v.TeletexString == nil {
 			return nil, fmt.Errorf("choice X520Title: teletexString is nil")
 		}
-		enc_0 := ber.EncodeStringTag(20, *v.TeletexString)
+		enc_0, stringErr := ber.EncodeStringTagChecked(20, *v.TeletexString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding teletexString: %w", stringErr)
+		}
 		return enc_0, nil
 	case X520TitleChoicePrintableString:
 		if v.PrintableString == nil {
 			return nil, fmt.Errorf("choice X520Title: printableString is nil")
 		}
-		enc_1 := ber.EncodeStringTag(19, *v.PrintableString)
+		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
+		}
 		return enc_1, nil
 	case X520TitleChoiceUniversalString:
 		if v.UniversalString == nil {
 			return nil, fmt.Errorf("choice X520Title: universalString is nil")
 		}
-		enc_2 := ber.EncodeStringTag(28, *v.UniversalString)
+		enc_2, stringErr := ber.EncodeStringTagChecked(28, *v.UniversalString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding universalString: %w", stringErr)
+		}
 		return enc_2, nil
 	case X520TitleChoiceUtf8String:
 		if v.Utf8String == nil {
 			return nil, fmt.Errorf("choice X520Title: utf8String is nil")
 		}
-		enc_3 := ber.EncodeStringTag(12, *v.Utf8String)
+		enc_3, stringErr := ber.EncodeStringTagChecked(12, *v.Utf8String)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding utf8String: %w", stringErr)
+		}
 		return enc_3, nil
 	case X520TitleChoiceBmpString:
 		if v.BmpString == nil {
 			return nil, fmt.Errorf("choice X520Title: bmpString is nil")
 		}
-		enc_4 := ber.EncodeStringTag(30, *v.BmpString)
+		enc_4, stringErr := ber.EncodeStringTagChecked(30, *v.BmpString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding bmpString: %w", stringErr)
+		}
 		return enc_4, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for X520Title", v.Choice)
@@ -2360,31 +2471,46 @@ func (v *X520Pseudonym) MarshalBER() ([]byte, error) {
 		if v.TeletexString == nil {
 			return nil, fmt.Errorf("choice X520Pseudonym: teletexString is nil")
 		}
-		enc_0 := ber.EncodeStringTag(20, *v.TeletexString)
+		enc_0, stringErr := ber.EncodeStringTagChecked(20, *v.TeletexString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding teletexString: %w", stringErr)
+		}
 		return enc_0, nil
 	case X520PseudonymChoicePrintableString:
 		if v.PrintableString == nil {
 			return nil, fmt.Errorf("choice X520Pseudonym: printableString is nil")
 		}
-		enc_1 := ber.EncodeStringTag(19, *v.PrintableString)
+		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
+		}
 		return enc_1, nil
 	case X520PseudonymChoiceUniversalString:
 		if v.UniversalString == nil {
 			return nil, fmt.Errorf("choice X520Pseudonym: universalString is nil")
 		}
-		enc_2 := ber.EncodeStringTag(28, *v.UniversalString)
+		enc_2, stringErr := ber.EncodeStringTagChecked(28, *v.UniversalString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding universalString: %w", stringErr)
+		}
 		return enc_2, nil
 	case X520PseudonymChoiceUtf8String:
 		if v.Utf8String == nil {
 			return nil, fmt.Errorf("choice X520Pseudonym: utf8String is nil")
 		}
-		enc_3 := ber.EncodeStringTag(12, *v.Utf8String)
+		enc_3, stringErr := ber.EncodeStringTagChecked(12, *v.Utf8String)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding utf8String: %w", stringErr)
+		}
 		return enc_3, nil
 	case X520PseudonymChoiceBmpString:
 		if v.BmpString == nil {
 			return nil, fmt.Errorf("choice X520Pseudonym: bmpString is nil")
 		}
-		enc_4 := ber.EncodeStringTag(30, *v.BmpString)
+		enc_4, stringErr := ber.EncodeStringTagChecked(30, *v.BmpString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding bmpString: %w", stringErr)
+		}
 		return enc_4, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for X520Pseudonym", v.Choice)
@@ -2598,31 +2724,46 @@ func (v *DirectoryString) MarshalBER() ([]byte, error) {
 		if v.TeletexString == nil {
 			return nil, fmt.Errorf("choice DirectoryString: teletexString is nil")
 		}
-		enc_0 := ber.EncodeStringTag(20, *v.TeletexString)
+		enc_0, stringErr := ber.EncodeStringTagChecked(20, *v.TeletexString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding teletexString: %w", stringErr)
+		}
 		return enc_0, nil
 	case DirectoryStringChoicePrintableString:
 		if v.PrintableString == nil {
 			return nil, fmt.Errorf("choice DirectoryString: printableString is nil")
 		}
-		enc_1 := ber.EncodeStringTag(19, *v.PrintableString)
+		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
+		}
 		return enc_1, nil
 	case DirectoryStringChoiceUniversalString:
 		if v.UniversalString == nil {
 			return nil, fmt.Errorf("choice DirectoryString: universalString is nil")
 		}
-		enc_2 := ber.EncodeStringTag(28, *v.UniversalString)
+		enc_2, stringErr := ber.EncodeStringTagChecked(28, *v.UniversalString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding universalString: %w", stringErr)
+		}
 		return enc_2, nil
 	case DirectoryStringChoiceUtf8String:
 		if v.Utf8String == nil {
 			return nil, fmt.Errorf("choice DirectoryString: utf8String is nil")
 		}
-		enc_3 := ber.EncodeStringTag(12, *v.Utf8String)
+		enc_3, stringErr := ber.EncodeStringTagChecked(12, *v.Utf8String)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding utf8String: %w", stringErr)
+		}
 		return enc_3, nil
 	case DirectoryStringChoiceBmpString:
 		if v.BmpString == nil {
 			return nil, fmt.Errorf("choice DirectoryString: bmpString is nil")
 		}
-		enc_4 := ber.EncodeStringTag(30, *v.BmpString)
+		enc_4, stringErr := ber.EncodeStringTagChecked(30, *v.BmpString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding bmpString: %w", stringErr)
+		}
 		return enc_4, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for DirectoryString", v.Choice)
@@ -3238,7 +3379,10 @@ func UnmarshalBERExtensions(data []byte) (Extensions, error) {
 // MarshalBER encodes Extension to BER format.
 func (v *Extension) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_extnid := ber.EncodeObjectIdentifier([]uint64(v.ExtnID))
+	enc_extnid, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.ExtnID))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding extnID: %w", oidErr)
+	}
 	children = append(children, enc_extnid...)
 	if v.Critical != nil {
 		var enc_critical []byte
@@ -3586,7 +3730,10 @@ func (v *TBSCertList) UnmarshalBER(data []byte) error {
 // MarshalBER encodes AlgorithmIdentifier to BER format.
 func (v *AlgorithmIdentifier) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_algorithm := ber.EncodeObjectIdentifier([]uint64(v.Algorithm))
+	enc_algorithm, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.Algorithm))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding algorithm: %w", oidErr)
+	}
 	children = append(children, enc_algorithm...)
 	if v.Parameters != nil {
 		enc_parameters := v.Parameters.Bytes
@@ -3773,12 +3920,18 @@ func (v *BuiltInStandardAttributes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_administrationdomainname...)
 	}
 	if v.NetworkAddress != nil {
-		enc_networkaddress := ber.EncodeStringTag(18, string(*v.NetworkAddress))
+		enc_networkaddress, stringErr := ber.EncodeStringTagChecked(18, string(*v.NetworkAddress))
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding network-address: %w", stringErr)
+		}
 		enc_networkaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_networkaddress)
 		children = append(children, enc_networkaddress...)
 	}
 	if v.TerminalIdentifier != nil {
-		enc_terminalidentifier := ber.EncodeStringTag(19, string(*v.TerminalIdentifier))
+		enc_terminalidentifier, stringErr := ber.EncodeStringTagChecked(19, string(*v.TerminalIdentifier))
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding terminal-identifier: %w", stringErr)
+		}
 		enc_terminalidentifier = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_terminalidentifier)
 		children = append(children, enc_terminalidentifier...)
 	}
@@ -3791,12 +3944,18 @@ func (v *BuiltInStandardAttributes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_privatedomainname...)
 	}
 	if v.OrganizationName != nil {
-		enc_organizationname := ber.EncodeStringTag(19, string(*v.OrganizationName))
+		enc_organizationname, stringErr := ber.EncodeStringTagChecked(19, string(*v.OrganizationName))
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding organization-name: %w", stringErr)
+		}
 		enc_organizationname = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_organizationname)
 		children = append(children, enc_organizationname...)
 	}
 	if v.NumericUserIdentifier != nil {
-		enc_numericuseridentifier := ber.EncodeStringTag(18, string(*v.NumericUserIdentifier))
+		enc_numericuseridentifier, stringErr := ber.EncodeStringTagChecked(18, string(*v.NumericUserIdentifier))
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding numeric-user-identifier: %w", stringErr)
+		}
 		enc_numericuseridentifier = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_numericuseridentifier)
 		children = append(children, enc_numericuseridentifier...)
 	}
@@ -3894,7 +4053,10 @@ func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding network-address: %w", err)
 				}
-				decVal_networkaddress := ber.DecodeStringValue(rawVal_networkaddress)
+				decVal_networkaddress, stringErr := ber.DecodeStringValueTag(18, rawVal_networkaddress)
+				if stringErr != nil {
+					return fmt.Errorf("decoding network-address: %w", stringErr)
+				}
 				v.NetworkAddress = &decVal_networkaddress
 				offset += n_networkaddress
 			}
@@ -3909,7 +4071,10 @@ func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding terminal-identifier: %w", err)
 				}
-				decVal_terminalidentifier := ber.DecodeStringValue(rawVal_terminalidentifier)
+				decVal_terminalidentifier, stringErr := ber.DecodeStringValueTag(19, rawVal_terminalidentifier)
+				if stringErr != nil {
+					return fmt.Errorf("decoding terminal-identifier: %w", stringErr)
+				}
 				v.TerminalIdentifier = &decVal_terminalidentifier
 				offset += n_terminalidentifier
 			}
@@ -3943,7 +4108,10 @@ func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding organization-name: %w", err)
 				}
-				decVal_organizationname := ber.DecodeStringValue(rawVal_organizationname)
+				decVal_organizationname, stringErr := ber.DecodeStringValueTag(19, rawVal_organizationname)
+				if stringErr != nil {
+					return fmt.Errorf("decoding organization-name: %w", stringErr)
+				}
 				v.OrganizationName = &decVal_organizationname
 				offset += n_organizationname
 			}
@@ -3958,7 +4126,10 @@ func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding numeric-user-identifier: %w", err)
 				}
-				decVal_numericuseridentifier := ber.DecodeStringValue(rawVal_numericuseridentifier)
+				decVal_numericuseridentifier, stringErr := ber.DecodeStringValueTag(18, rawVal_numericuseridentifier)
+				if stringErr != nil {
+					return fmt.Errorf("decoding numeric-user-identifier: %w", stringErr)
+				}
 				v.NumericUserIdentifier = &decVal_numericuseridentifier
 				offset += n_numericuseridentifier
 			}
@@ -4022,14 +4193,20 @@ func (v *CountryName) MarshalBER() ([]byte, error) {
 		if v.X121DccCode == nil {
 			return nil, fmt.Errorf("choice CountryName: x121-dcc-code is nil")
 		}
-		enc_0 := ber.EncodeStringTag(18, *v.X121DccCode)
+		enc_0, stringErr := ber.EncodeStringTagChecked(18, *v.X121DccCode)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding x121-dcc-code: %w", stringErr)
+		}
 		enc_0 = ber.EncodeExplicitTagWithClass(tag.ClassApplication, 1, enc_0)
 		return enc_0, nil
 	case CountryNameChoiceIso3166Alpha2Code:
 		if v.Iso3166Alpha2Code == nil {
 			return nil, fmt.Errorf("choice CountryName: iso-3166-alpha2-code is nil")
 		}
-		enc_1 := ber.EncodeStringTag(19, *v.Iso3166Alpha2Code)
+		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.Iso3166Alpha2Code)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding iso-3166-alpha2-code: %w", stringErr)
+		}
 		enc_1 = ber.EncodeExplicitTagWithClass(tag.ClassApplication, 1, enc_1)
 		return enc_1, nil
 	default:
@@ -4101,14 +4278,20 @@ func (v *AdministrationDomainName) MarshalBER() ([]byte, error) {
 		if v.Numeric == nil {
 			return nil, fmt.Errorf("choice AdministrationDomainName: numeric is nil")
 		}
-		enc_0 := ber.EncodeStringTag(18, *v.Numeric)
+		enc_0, stringErr := ber.EncodeStringTagChecked(18, *v.Numeric)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding numeric: %w", stringErr)
+		}
 		enc_0 = ber.EncodeExplicitTagWithClass(tag.ClassApplication, 2, enc_0)
 		return enc_0, nil
 	case AdministrationDomainNameChoicePrintable:
 		if v.Printable == nil {
 			return nil, fmt.Errorf("choice AdministrationDomainName: printable is nil")
 		}
-		enc_1 := ber.EncodeStringTag(19, *v.Printable)
+		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.Printable)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding printable: %w", stringErr)
+		}
 		enc_1 = ber.EncodeExplicitTagWithClass(tag.ClassApplication, 2, enc_1)
 		return enc_1, nil
 	default:
@@ -4180,13 +4363,19 @@ func (v *PrivateDomainName) MarshalBER() ([]byte, error) {
 		if v.Numeric == nil {
 			return nil, fmt.Errorf("choice PrivateDomainName: numeric is nil")
 		}
-		enc_0 := ber.EncodeStringTag(18, *v.Numeric)
+		enc_0, stringErr := ber.EncodeStringTagChecked(18, *v.Numeric)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding numeric: %w", stringErr)
+		}
 		return enc_0, nil
 	case PrivateDomainNameChoicePrintable:
 		if v.Printable == nil {
 			return nil, fmt.Errorf("choice PrivateDomainName: printable is nil")
 		}
-		enc_1 := ber.EncodeStringTag(19, *v.Printable)
+		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.Printable)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding printable: %w", stringErr)
+		}
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for PrivateDomainName", v.Choice)
@@ -4240,21 +4429,33 @@ func (v *PrivateDomainName) UnmarshalBER(data []byte) error {
 // MarshalBER encodes PersonalName to BER format.
 func (v *PersonalName) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_surname := ber.EncodeStringTag(19, v.Surname)
+	enc_surname, stringErr := ber.EncodeStringTagChecked(19, v.Surname)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding surname: %w", stringErr)
+	}
 	enc_surname = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_surname)
 	children = append(children, enc_surname...)
 	if v.GivenName != nil {
-		enc_givenname := ber.EncodeStringTag(19, *v.GivenName)
+		enc_givenname, stringErr := ber.EncodeStringTagChecked(19, *v.GivenName)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding given-name: %w", stringErr)
+		}
 		enc_givenname = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_givenname)
 		children = append(children, enc_givenname...)
 	}
 	if v.Initials != nil {
-		enc_initials := ber.EncodeStringTag(19, *v.Initials)
+		enc_initials, stringErr := ber.EncodeStringTagChecked(19, *v.Initials)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding initials: %w", stringErr)
+		}
 		enc_initials = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_initials)
 		children = append(children, enc_initials...)
 	}
 	if v.GenerationQualifier != nil {
-		enc_generationqualifier := ber.EncodeStringTag(19, *v.GenerationQualifier)
+		enc_generationqualifier, stringErr := ber.EncodeStringTagChecked(19, *v.GenerationQualifier)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding generation-qualifier: %w", stringErr)
+		}
 		enc_generationqualifier = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_generationqualifier)
 		children = append(children, enc_generationqualifier...)
 	}
@@ -4290,7 +4491,10 @@ func (v *PersonalName) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding surname: %w", err)
 	}
-	decVal_surname := ber.DecodeStringValue(rawVal_surname)
+	decVal_surname, stringErr := ber.DecodeStringValueTag(19, rawVal_surname)
+	if stringErr != nil {
+		return fmt.Errorf("decoding surname: %w", stringErr)
+	}
 	v.Surname = decVal_surname
 	offset += n_surname
 	// Decode given-name
@@ -4302,7 +4506,10 @@ func (v *PersonalName) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding given-name: %w", err)
 				}
-				decVal_givenname := ber.DecodeStringValue(rawVal_givenname)
+				decVal_givenname, stringErr := ber.DecodeStringValueTag(19, rawVal_givenname)
+				if stringErr != nil {
+					return fmt.Errorf("decoding given-name: %w", stringErr)
+				}
 				v.GivenName = &decVal_givenname
 				offset += n_givenname
 			}
@@ -4317,7 +4524,10 @@ func (v *PersonalName) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding initials: %w", err)
 				}
-				decVal_initials := ber.DecodeStringValue(rawVal_initials)
+				decVal_initials, stringErr := ber.DecodeStringValueTag(19, rawVal_initials)
+				if stringErr != nil {
+					return fmt.Errorf("decoding initials: %w", stringErr)
+				}
 				v.Initials = &decVal_initials
 				offset += n_initials
 			}
@@ -4332,7 +4542,10 @@ func (v *PersonalName) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding generation-qualifier: %w", err)
 				}
-				decVal_generationqualifier := ber.DecodeStringValue(rawVal_generationqualifier)
+				decVal_generationqualifier, stringErr := ber.DecodeStringValueTag(19, rawVal_generationqualifier)
+				if stringErr != nil {
+					return fmt.Errorf("decoding generation-qualifier: %w", stringErr)
+				}
 				v.GenerationQualifier = &decVal_generationqualifier
 				offset += n_generationqualifier
 			}
@@ -4348,7 +4561,11 @@ func (v *PersonalName) UnmarshalBER(data []byte) error {
 func MarshalBEROrganizationalUnitNames(list OrganizationalUnitNames) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
-		children = append(children, ber.EncodeStringTag(19, string(elem))...)
+		encodedElem, stringErr := ber.EncodeStringTagChecked(19, string(elem))
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding element: %w", stringErr)
+		}
+		children = append(children, encodedElem...)
 	}
 	return ber.EncodeSequence(children), nil
 }
@@ -4417,9 +4634,15 @@ func UnmarshalBERBuiltInDomainDefinedAttributes(data []byte) (BuiltInDomainDefin
 // MarshalBER encodes BuiltInDomainDefinedAttribute to BER format.
 func (v *BuiltInDomainDefinedAttribute) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_type := ber.EncodeStringTag(19, v.Type)
+	enc_type, stringErr := ber.EncodeStringTagChecked(19, v.Type)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding type: %w", stringErr)
+	}
 	children = append(children, enc_type...)
-	enc_value := ber.EncodeStringTag(19, v.Value)
+	enc_value, stringErr := ber.EncodeStringTagChecked(19, v.Value)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding value: %w", stringErr)
+	}
 	children = append(children, enc_value...)
 	return ber.EncodeSequence(children), nil
 }
@@ -4580,21 +4803,33 @@ func (v *ExtensionAttribute) UnmarshalBER(data []byte) error {
 // MarshalBER encodes TeletexPersonalName to BER format.
 func (v *TeletexPersonalName) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_surname := ber.EncodeStringTag(20, v.Surname)
+	enc_surname, stringErr := ber.EncodeStringTagChecked(20, v.Surname)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding surname: %w", stringErr)
+	}
 	enc_surname = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_surname)
 	children = append(children, enc_surname...)
 	if v.GivenName != nil {
-		enc_givenname := ber.EncodeStringTag(20, *v.GivenName)
+		enc_givenname, stringErr := ber.EncodeStringTagChecked(20, *v.GivenName)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding given-name: %w", stringErr)
+		}
 		enc_givenname = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_givenname)
 		children = append(children, enc_givenname...)
 	}
 	if v.Initials != nil {
-		enc_initials := ber.EncodeStringTag(20, *v.Initials)
+		enc_initials, stringErr := ber.EncodeStringTagChecked(20, *v.Initials)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding initials: %w", stringErr)
+		}
 		enc_initials = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_initials)
 		children = append(children, enc_initials...)
 	}
 	if v.GenerationQualifier != nil {
-		enc_generationqualifier := ber.EncodeStringTag(20, *v.GenerationQualifier)
+		enc_generationqualifier, stringErr := ber.EncodeStringTagChecked(20, *v.GenerationQualifier)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding generation-qualifier: %w", stringErr)
+		}
 		enc_generationqualifier = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_generationqualifier)
 		children = append(children, enc_generationqualifier...)
 	}
@@ -4630,7 +4865,10 @@ func (v *TeletexPersonalName) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding surname: %w", err)
 	}
-	decVal_surname := ber.DecodeStringValue(rawVal_surname)
+	decVal_surname, stringErr := ber.DecodeStringValueTag(20, rawVal_surname)
+	if stringErr != nil {
+		return fmt.Errorf("decoding surname: %w", stringErr)
+	}
 	v.Surname = decVal_surname
 	offset += n_surname
 	// Decode given-name
@@ -4642,7 +4880,10 @@ func (v *TeletexPersonalName) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding given-name: %w", err)
 				}
-				decVal_givenname := ber.DecodeStringValue(rawVal_givenname)
+				decVal_givenname, stringErr := ber.DecodeStringValueTag(20, rawVal_givenname)
+				if stringErr != nil {
+					return fmt.Errorf("decoding given-name: %w", stringErr)
+				}
 				v.GivenName = &decVal_givenname
 				offset += n_givenname
 			}
@@ -4657,7 +4898,10 @@ func (v *TeletexPersonalName) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding initials: %w", err)
 				}
-				decVal_initials := ber.DecodeStringValue(rawVal_initials)
+				decVal_initials, stringErr := ber.DecodeStringValueTag(20, rawVal_initials)
+				if stringErr != nil {
+					return fmt.Errorf("decoding initials: %w", stringErr)
+				}
 				v.Initials = &decVal_initials
 				offset += n_initials
 			}
@@ -4672,7 +4916,10 @@ func (v *TeletexPersonalName) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding generation-qualifier: %w", err)
 				}
-				decVal_generationqualifier := ber.DecodeStringValue(rawVal_generationqualifier)
+				decVal_generationqualifier, stringErr := ber.DecodeStringValueTag(20, rawVal_generationqualifier)
+				if stringErr != nil {
+					return fmt.Errorf("decoding generation-qualifier: %w", stringErr)
+				}
 				v.GenerationQualifier = &decVal_generationqualifier
 				offset += n_generationqualifier
 			}
@@ -4688,7 +4935,11 @@ func (v *TeletexPersonalName) UnmarshalBER(data []byte) error {
 func MarshalBERTeletexOrganizationalUnitNames(list TeletexOrganizationalUnitNames) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
-		children = append(children, ber.EncodeStringTag(20, string(elem))...)
+		encodedElem, stringErr := ber.EncodeStringTagChecked(20, string(elem))
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding element: %w", stringErr)
+		}
+		children = append(children, encodedElem...)
 	}
 	return ber.EncodeSequence(children), nil
 }
@@ -4722,13 +4973,19 @@ func (v *PhysicalDeliveryCountryName) MarshalBER() ([]byte, error) {
 		if v.X121DccCode == nil {
 			return nil, fmt.Errorf("choice PhysicalDeliveryCountryName: x121-dcc-code is nil")
 		}
-		enc_0 := ber.EncodeStringTag(18, *v.X121DccCode)
+		enc_0, stringErr := ber.EncodeStringTagChecked(18, *v.X121DccCode)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding x121-dcc-code: %w", stringErr)
+		}
 		return enc_0, nil
 	case PhysicalDeliveryCountryNameChoiceIso3166Alpha2Code:
 		if v.Iso3166Alpha2Code == nil {
 			return nil, fmt.Errorf("choice PhysicalDeliveryCountryName: iso-3166-alpha2-code is nil")
 		}
-		enc_1 := ber.EncodeStringTag(19, *v.Iso3166Alpha2Code)
+		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.Iso3166Alpha2Code)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding iso-3166-alpha2-code: %w", stringErr)
+		}
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for PhysicalDeliveryCountryName", v.Choice)
@@ -4786,13 +5043,19 @@ func (v *PostalCode) MarshalBER() ([]byte, error) {
 		if v.NumericCode == nil {
 			return nil, fmt.Errorf("choice PostalCode: numeric-code is nil")
 		}
-		enc_0 := ber.EncodeStringTag(18, *v.NumericCode)
+		enc_0, stringErr := ber.EncodeStringTagChecked(18, *v.NumericCode)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding numeric-code: %w", stringErr)
+		}
 		return enc_0, nil
 	case PostalCodeChoicePrintableCode:
 		if v.PrintableCode == nil {
 			return nil, fmt.Errorf("choice PostalCode: printable-code is nil")
 		}
-		enc_1 := ber.EncodeStringTag(19, *v.PrintableCode)
+		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableCode)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding printable-code: %w", stringErr)
+		}
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for PostalCode", v.Choice)
@@ -4854,7 +5117,10 @@ func (v *UnformattedPostalAddress) MarshalBER() ([]byte, error) {
 		children = append(children, enc_printableaddress...)
 	}
 	if v.TeletexString != nil {
-		enc_teletexstring := ber.EncodeStringTag(20, *v.TeletexString)
+		enc_teletexstring, stringErr := ber.EncodeStringTagChecked(20, *v.TeletexString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding teletex-string: %w", stringErr)
+		}
 		children = append(children, enc_teletexstring...)
 	}
 	return ber.EncodeSet(children), nil
@@ -4930,11 +5196,17 @@ func (v *UnformattedPostalAddress) UnmarshalBER(data []byte) error {
 func (v *PDSParameter) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.PrintableString != nil {
-		enc_printablestring := ber.EncodeStringTag(19, *v.PrintableString)
+		enc_printablestring, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding printable-string: %w", stringErr)
+		}
 		children = append(children, enc_printablestring...)
 	}
 	if v.TeletexString != nil {
-		enc_teletexstring := ber.EncodeStringTag(20, *v.TeletexString)
+		enc_teletexstring, stringErr := ber.EncodeStringTagChecked(20, *v.TeletexString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding teletex-string: %w", stringErr)
+		}
 		children = append(children, enc_teletexstring...)
 	}
 	return ber.EncodeSet(children), nil
@@ -5262,9 +5534,15 @@ func UnmarshalBERTeletexDomainDefinedAttributes(data []byte) (TeletexDomainDefin
 // MarshalBER encodes TeletexDomainDefinedAttribute to BER format.
 func (v *TeletexDomainDefinedAttribute) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_type := ber.EncodeStringTag(20, v.Type)
+	enc_type, stringErr := ber.EncodeStringTagChecked(20, v.Type)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding type: %w", stringErr)
+	}
 	children = append(children, enc_type...)
-	enc_value := ber.EncodeStringTag(20, v.Value)
+	enc_value, stringErr := ber.EncodeStringTagChecked(20, v.Value)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding value: %w", stringErr)
+	}
 	children = append(children, enc_value...)
 	return ber.EncodeSequence(children), nil
 }
@@ -5486,7 +5764,11 @@ func UnmarshalBERTBSCertListRevokedCertificates(data []byte) (TBSCertListRevoked
 func MarshalBERUnformattedPostalAddressPrintableAddress(list UnformattedPostalAddressPrintableAddress) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
-		children = append(children, ber.EncodeStringTag(19, elem)...)
+		encodedElem, stringErr := ber.EncodeStringTagChecked(19, elem)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding element: %w", stringErr)
+		}
+		children = append(children, encodedElem...)
 	}
 	return ber.EncodeSequence(children), nil
 }
@@ -5516,11 +5798,17 @@ func UnmarshalBERUnformattedPostalAddressPrintableAddress(data []byte) (Unformat
 // MarshalBER encodes ExtendedNetworkAddressE1634Address to BER format.
 func (v *ExtendedNetworkAddressE1634Address) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_number := ber.EncodeStringTag(18, v.Number)
+	enc_number, stringErr := ber.EncodeStringTagChecked(18, v.Number)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding number: %w", stringErr)
+	}
 	enc_number = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_number)
 	children = append(children, enc_number...)
 	if v.SubAddress != nil {
-		enc_subaddress := ber.EncodeStringTag(18, *v.SubAddress)
+		enc_subaddress, stringErr := ber.EncodeStringTagChecked(18, *v.SubAddress)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding sub-address: %w", stringErr)
+		}
 		enc_subaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_subaddress)
 		children = append(children, enc_subaddress...)
 	}
@@ -5556,7 +5844,10 @@ func (v *ExtendedNetworkAddressE1634Address) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding number: %w", err)
 	}
-	decVal_number := ber.DecodeStringValue(rawVal_number)
+	decVal_number, stringErr := ber.DecodeStringValueTag(18, rawVal_number)
+	if stringErr != nil {
+		return fmt.Errorf("decoding number: %w", stringErr)
+	}
 	v.Number = decVal_number
 	offset += n_number
 	// Decode sub-address
@@ -5568,7 +5859,10 @@ func (v *ExtendedNetworkAddressE1634Address) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding sub-address: %w", err)
 				}
-				decVal_subaddress := ber.DecodeStringValue(rawVal_subaddress)
+				decVal_subaddress, stringErr := ber.DecodeStringValueTag(18, rawVal_subaddress)
+				if stringErr != nil {
+					return fmt.Errorf("decoding sub-address: %w", stringErr)
+				}
 				v.SubAddress = &decVal_subaddress
 				offset += n_subaddress
 			}

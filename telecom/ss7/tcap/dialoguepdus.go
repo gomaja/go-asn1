@@ -940,7 +940,10 @@ func (v *AARQApdu) MarshalBER() ([]byte, error) {
 		enc_protocolversion = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_protocolversion)
 		children = append(children, enc_protocolversion...)
 	}
-	enc_applicationcontextname := ber.EncodeObjectIdentifier([]uint64(v.ApplicationContextName))
+	enc_applicationcontextname, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.ApplicationContextName))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding application-context-name: %w", oidErr)
+	}
 	enc_applicationcontextname = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 1, enc_applicationcontextname)
 	children = append(children, enc_applicationcontextname...)
 	if v.UserInformation != nil {
@@ -1064,7 +1067,10 @@ func (v *AAREApdu) MarshalBER() ([]byte, error) {
 		enc_protocolversion = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_protocolversion)
 		children = append(children, enc_protocolversion...)
 	}
-	enc_applicationcontextname := ber.EncodeObjectIdentifier([]uint64(v.ApplicationContextName))
+	enc_applicationcontextname, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.ApplicationContextName))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding application-context-name: %w", oidErr)
+	}
 	enc_applicationcontextname = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 1, enc_applicationcontextname)
 	children = append(children, enc_applicationcontextname...)
 	enc_result := ber.EncodeBigInt((v.Result).BigInt())

@@ -35996,7 +35996,10 @@ func (v *CallBarringData) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_callbarringfeaturelist...)
 	if v.Password != nil {
-		enc_password := ber.EncodeStringTag(18, string(*v.Password))
+		enc_password, stringErr := ber.EncodeStringTagChecked(18, string(*v.Password))
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding password: %w", stringErr)
+		}
 		children = append(children, enc_password...)
 	}
 	if v.WrongPasswordAttemptsCounter != nil {
@@ -38859,7 +38862,10 @@ func (v *ModificationRequestForCBInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ssstatus...)
 	}
 	if v.Password != nil {
-		enc_password := ber.EncodeStringTag(18, string(*v.Password))
+		enc_password, stringErr := ber.EncodeStringTagChecked(18, string(*v.Password))
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding password: %w", stringErr)
+		}
 		enc_password = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_password)
 		children = append(children, enc_password...)
 	}
@@ -38973,7 +38979,10 @@ func (v *ModificationRequestForCBInfo) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding password: %w", err)
 				}
-				decVal_password := ber.DecodeStringValue(rawVal_password)
+				decVal_password, stringErr := ber.DecodeStringValueTag(18, rawVal_password)
+				if stringErr != nil {
+					return fmt.Errorf("decoding password: %w", stringErr)
+				}
 				v.Password = &decVal_password
 				offset += n_password
 			}
@@ -40619,7 +40628,10 @@ func (v *ExtCallBarringInfoForCSE) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_callbarringfeaturelist...)
 	if v.Password != nil {
-		enc_password := ber.EncodeStringTag(18, string(*v.Password))
+		enc_password, stringErr := ber.EncodeStringTagChecked(18, string(*v.Password))
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding password: %w", stringErr)
+		}
 		enc_password = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_password)
 		children = append(children, enc_password...)
 	}
@@ -40729,7 +40741,10 @@ func (v *ExtCallBarringInfoForCSE) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding password: %w", err)
 				}
-				decVal_password := ber.DecodeStringValue(rawVal_password)
+				decVal_password, stringErr := ber.DecodeStringValueTag(18, rawVal_password)
+				if stringErr != nil {
+					return fmt.Errorf("decoding password: %w", stringErr)
+				}
 				v.Password = &decVal_password
 				offset += n_password
 			}

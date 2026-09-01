@@ -1,10 +1,12 @@
 package ber
 
 import (
+	"encoding/binary"
 	"fmt"
 	"math"
 	"math/big"
 	"time"
+	"unicode/utf8"
 
 	"github.com/gomaja/go-asn1/runtime/tag"
 )
@@ -364,6 +366,9 @@ func DecodeObjectIdentifier(data []byte) ([]uint64, int, error) {
 	if t.Class != tag.ClassUniversal || t.Number != tag.TagObjectID {
 		return nil, 0, fmt.Errorf("%w: expected OBJECT IDENTIFIER tag, got %s", ErrInvalidTag, t)
 	}
+	if t.Constructed {
+		return nil, 0, fmt.Errorf("%w: OBJECT IDENTIFIER must be primitive", ErrInvalidTag)
+	}
 	if len(value) == 0 {
 		return nil, 0, fmt.Errorf("%w: OBJECT IDENTIFIER content must contain at least one subidentifier", ErrInvalidValue)
 	}
@@ -393,13 +398,40 @@ func DecodeObjectIdentifier(data []byte) ([]uint64, int, error) {
 	return oid, total, nil
 }
 
+// DecodeRelativeObjectIdentifier decodes a RELATIVE-OID per X.690
+// (02/2021) section 8.20.
+func DecodeRelativeObjectIdentifier(data []byte) ([]uint64, int, error) {
+	t, total, value, err := DecodeTLV(data)
+	if err != nil {
+		return nil, 0, err
+	}
+	if t.Class != tag.ClassUniversal || t.Number != tag.TagRelativeOID {
+		return nil, 0, fmt.Errorf("%w: expected RELATIVE-OID tag, got %s", ErrInvalidTag, t)
+	}
+	if t.Constructed {
+		return nil, 0, fmt.Errorf("%w: RELATIVE-OID must be primitive", ErrInvalidTag)
+	}
+	oid, err := DecodeRelativeOIDValue(value)
+	if err != nil {
+		return nil, 0, err
+	}
+	return oid, total, nil
+}
+
 func decodeBase128(data []byte, offset int) (uint64, int, error) {
 	var v uint64
 	start := offset
 	for offset < len(data) {
 		b := data[offset]
 		offset++
-		v = (v << 7) | uint64(b&0x7F)
+		if offset == start+1 && b == 0x80 {
+			return 0, offset, fmt.Errorf("%w: non-minimal base-128 subidentifier", ErrInvalidValue)
+		}
+		bits := uint64(b & 0x7f)
+		if v > math.MaxUint64>>7 || v == math.MaxUint64>>7 && bits > math.MaxUint64&0x7f {
+			return 0, offset, fmt.Errorf("%w: base-128 subidentifier overflows uint64", ErrInvalidValue)
+		}
+		v = (v << 7) | bits
 		if b&0x80 == 0 {
 			return v, offset, nil
 		}
@@ -530,7 +562,11 @@ func DecodeString(data []byte, expectedTag int) (string, int, error) {
 	if t.Class != tag.ClassUniversal || t.Number != expectedTag {
 		return "", 0, fmt.Errorf("%w: expected tag %d, got %s", ErrInvalidTag, expectedTag, t)
 	}
-	return string(value), total, nil
+	decoded, err := DecodeStringValueTag(expectedTag, value)
+	if err != nil {
+		return "", 0, err
+	}
+	return decoded, total, nil
 }
 
 // DecodeUTCTime decodes a UTCTime value from raw TLV bytes.
@@ -665,6 +701,42 @@ func DecodeStringValue(value []byte) string {
 	return string(value)
 }
 
+// DecodeStringValueTag decodes restricted-character-string contents according
+// to the supplied UNIVERSAL tag number. X.690 (02/2021) sections 8.23.7 and
+// 8.23.8 require four-octet UniversalString and two-octet BMPString forms.
+func DecodeStringValueTag(tagNum int, value []byte) (string, error) {
+	switch tagNum {
+	case tag.TagBMPString:
+		if len(value)%2 != 0 {
+			return "", fmt.Errorf("%w: BMPString content length %d is not divisible by 2", ErrInvalidValue, len(value))
+		}
+		runes := make([]rune, 0, len(value)/2)
+		for offset := 0; offset < len(value); offset += 2 {
+			r := rune(binary.BigEndian.Uint16(value[offset : offset+2]))
+			if !utf8.ValidRune(r) {
+				return "", fmt.Errorf("%w: BMPString contains invalid code point U+%04X", ErrInvalidValue, r)
+			}
+			runes = append(runes, r)
+		}
+		return string(runes), nil
+	case tag.TagUniversalString:
+		if len(value)%4 != 0 {
+			return "", fmt.Errorf("%w: UniversalString content length %d is not divisible by 4", ErrInvalidValue, len(value))
+		}
+		runes := make([]rune, 0, len(value)/4)
+		for offset := 0; offset < len(value); offset += 4 {
+			r := rune(binary.BigEndian.Uint32(value[offset : offset+4]))
+			if !utf8.ValidRune(r) {
+				return "", fmt.Errorf("%w: UniversalString contains invalid code point U+%04X", ErrInvalidValue, r)
+			}
+			runes = append(runes, r)
+		}
+		return string(runes), nil
+	default:
+		return string(value), nil
+	}
+}
+
 // DecodeRealValue decodes a REAL from raw value bytes.
 func DecodeRealValue(value []byte) (float64, error) {
 	if len(value) == 0 {
@@ -758,6 +830,23 @@ func DecodeOIDValue(value []byte) ([]uint64, error) {
 		offset = consumed
 	}
 	return result, nil
+}
+
+// DecodeRelativeOIDValue decodes X.690 section 8.20 contents octets.
+func DecodeRelativeOIDValue(value []byte) ([]uint64, error) {
+	if len(value) == 0 {
+		return nil, fmt.Errorf("%w: empty RELATIVE-OID value", ErrInvalidValue)
+	}
+	oid := make([]uint64, 0, 4)
+	for offset := 0; offset < len(value); {
+		arc, next, err := decodeBase128(value, offset)
+		if err != nil {
+			return nil, fmt.Errorf("decoding RELATIVE-OID subidentifier: %w", err)
+		}
+		oid = append(oid, arc)
+		offset = next
+	}
+	return oid, nil
 }
 
 // SkipTLV skips one complete TLV in data and returns the number of bytes consumed.

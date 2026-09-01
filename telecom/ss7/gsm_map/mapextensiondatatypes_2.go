@@ -361,7 +361,10 @@ func UnmarshalBERExtensionDataTypesPrivateExtensionList(data []byte) (ExtensionD
 // MarshalBER encodes ExtensionDataTypesPrivateExtension to BER format.
 func (v *ExtensionDataTypesPrivateExtension) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_extid := ber.EncodeObjectIdentifier([]uint64(v.ExtId))
+	enc_extid, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.ExtId))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding extId: %w", oidErr)
+	}
 	children = append(children, enc_extid...)
 	if v.ExtType != nil {
 		enc_exttype := v.ExtType.Bytes

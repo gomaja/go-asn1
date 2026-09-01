@@ -60,7 +60,10 @@ func (v *Code) MarshalBER() ([]byte, error) {
 		enc_0 := ber.EncodeBigInt(v.Local)
 		return enc_0, nil
 	case CodeChoiceGlobal:
-		enc_1 := ber.EncodeObjectIdentifier([]uint64(v.Global))
+		enc_1, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.Global))
+		if oidErr != nil {
+			return nil, fmt.Errorf("encoding global: %w", oidErr)
+		}
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for Code", v.Choice)

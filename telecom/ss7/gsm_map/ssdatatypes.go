@@ -7469,7 +7469,10 @@ func (v *LCSPeriodicTriggeredInvokeArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_referencenumberext...)
 	}
 	if v.HGmlcCallBackUri != nil {
-		enc_hgmlccallbackuri := ber.EncodeStringTag(12, *v.HGmlcCallBackUri)
+		enc_hgmlccallbackuri, stringErr := ber.EncodeStringTagChecked(12, *v.HGmlcCallBackUri)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-callBackUri: %w", stringErr)
+		}
 		enc_hgmlccallbackuri = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, false, enc_hgmlccallbackuri)
 		children = append(children, enc_hgmlccallbackuri...)
 	}
@@ -7751,7 +7754,10 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding h-gmlc-callBackUri: %w", err)
 				}
-				decVal_hgmlccallbackuri := ber.DecodeStringValue(rawVal_hgmlccallbackuri)
+				decVal_hgmlccallbackuri, stringErr := ber.DecodeStringValueTag(12, rawVal_hgmlccallbackuri)
+				if stringErr != nil {
+					return fmt.Errorf("decoding h-gmlc-callBackUri: %w", stringErr)
+				}
 				v.HGmlcCallBackUri = &decVal_hgmlccallbackuri
 				offset += n_hgmlccallbackuri
 			}
@@ -8762,7 +8768,10 @@ func (v *LCSEventReportArg) MarshalBER() ([]byte, error) {
 	enc_referencenumberext := ber.EncodeOctetString([]byte(v.ReferenceNumberExt))
 	enc_referencenumberext = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_referencenumberext)
 	children = append(children, enc_referencenumberext...)
-	enc_hgmlccallbackuri := ber.EncodeStringTag(12, v.HGmlcCallBackUri)
+	enc_hgmlccallbackuri, stringErr := ber.EncodeStringTagChecked(12, v.HGmlcCallBackUri)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding h-gmlc-callBackUri: %w", stringErr)
+	}
 	enc_hgmlccallbackuri = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_hgmlccallbackuri)
 	children = append(children, enc_hgmlccallbackuri...)
 	if v.LocationInfo != nil {
@@ -8894,7 +8903,10 @@ func (v *LCSEventReportArg) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding h-gmlc-callBackUri: %w", err)
 	}
-	decVal_hgmlccallbackuri := ber.DecodeStringValue(rawVal_hgmlccallbackuri)
+	decVal_hgmlccallbackuri, stringErr := ber.DecodeStringValueTag(12, rawVal_hgmlccallbackuri)
+	if stringErr != nil {
+		return fmt.Errorf("decoding h-gmlc-callBackUri: %w", stringErr)
+	}
 	v.HGmlcCallBackUri = decVal_hgmlccallbackuri
 	offset += n_hgmlccallbackuri
 	// Decode locationInfo
@@ -9514,7 +9526,10 @@ func (v *LCSCancelDeferredLocationArg) MarshalBER() ([]byte, error) {
 	enc_referencenumberext := ber.EncodeOctetString([]byte(v.ReferenceNumberExt))
 	enc_referencenumberext = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_referencenumberext)
 	children = append(children, enc_referencenumberext...)
-	enc_hgmlccallbackuri := ber.EncodeStringTag(12, v.HGmlcCallBackUri)
+	enc_hgmlccallbackuri, stringErr := ber.EncodeStringTagChecked(12, v.HGmlcCallBackUri)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding h-gmlc-callBackUri: %w", stringErr)
+	}
 	enc_hgmlccallbackuri = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_hgmlccallbackuri)
 	children = append(children, enc_hgmlccallbackuri...)
 	for i, ext := range v.ExtData_ {
@@ -9579,7 +9594,10 @@ func (v *LCSCancelDeferredLocationArg) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding h-gmlc-callBackUri: %w", err)
 	}
-	decVal_hgmlccallbackuri := ber.DecodeStringValue(rawVal_hgmlccallbackuri)
+	decVal_hgmlccallbackuri, stringErr := ber.DecodeStringValueTag(12, rawVal_hgmlccallbackuri)
+	if stringErr != nil {
+		return fmt.Errorf("decoding h-gmlc-callBackUri: %w", stringErr)
+	}
 	v.HGmlcCallBackUri = decVal_hgmlccallbackuri
 	offset += n_hgmlccallbackuri
 	v.ExtCount_ = 0

@@ -28,6 +28,12 @@ func asn1VectorHexForFuzz(input string) []byte {
 	return decoded
 }
 
+func TestASN1VectorPathRejectsNegativeIndex(t *testing.T) {
+	if _, err := asn1VectorValueAtPath(reflect.ValueOf([]int{1}), "[-1]"); err == nil {
+		t.Fatal("asn1VectorValueAtPath accepted a negative index")
+	}
+}
+
 func asn1VectorAssertPath(t *testing.T, value any, path, expectedJSON string) {
 	t.Helper()
 	actual, err := asn1VectorValueAtPath(reflect.ValueOf(value), path)
@@ -83,7 +89,7 @@ func asn1VectorValueAtPath(current reflect.Value, path string) (any, error) {
 			if current.Kind() != reflect.Array && current.Kind() != reflect.Slice {
 				return nil, fmt.Errorf("path %s: indexed value is not a list", path)
 			}
-			if index >= current.Len() {
+			if index < 0 || index >= current.Len() {
 				return nil, fmt.Errorf("path %s: index %d exceeds length %d", path, index, current.Len())
 			}
 			current = current.Index(index)

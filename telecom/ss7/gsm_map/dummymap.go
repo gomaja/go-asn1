@@ -167,7 +167,7 @@ func NewMAPOPERATIONGlobalValue(v runtime.ObjectIdentifier) MAPOPERATION {
 // NewMAPOPERATIONLocalValueInt64 creates a MAPOPERATION localValue alternative from an int64 code.
 func NewMAPOPERATIONLocalValueInt64(v int64) MAPOPERATION {
 	var local OperationLocalvalue
-	if err := local.UnmarshalText([]byte(fmt.Sprintf("%d", v))); err != nil {
+	if err := local.UnmarshalText(fmt.Appendf(nil, "%d", v)); err != nil {
 		panic(err)
 	}
 	return NewMAPOPERATIONLocalValue(local)
@@ -2253,7 +2253,7 @@ func NewMAPERRORGlobalValue(v runtime.ObjectIdentifier) MAPERROR {
 // NewMAPERRORLocalValueInt64 creates a MAPERROR localValue alternative from an int64 code.
 func NewMAPERRORLocalValueInt64(v int64) MAPERROR {
 	var local LocalErrorcode
-	if err := local.UnmarshalText([]byte(fmt.Sprintf("%d", v))); err != nil {
+	if err := local.UnmarshalText(fmt.Appendf(nil, "%d", v)); err != nil {
 		panic(err)
 	}
 	return NewMAPERRORLocalValue(local)
@@ -5272,7 +5272,10 @@ func (v *MAPOPERATION) MarshalBER() ([]byte, error) {
 		enc_0 := ber.EncodeBigInt(v.LocalValue.BigInt())
 		return enc_0, nil
 	case MAPOPERATIONChoiceGlobalValue:
-		enc_1 := ber.EncodeObjectIdentifier([]uint64(v.GlobalValue))
+		enc_1, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.GlobalValue))
+		if oidErr != nil {
+			return nil, fmt.Errorf("encoding globalValue: %w", oidErr)
+		}
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for MAPOPERATION", v.Choice)
@@ -5338,7 +5341,10 @@ func (v *MAPERROR) MarshalBER() ([]byte, error) {
 		enc_0 := ber.EncodeBigInt(v.LocalValue.BigInt())
 		return enc_0, nil
 	case MAPERRORChoiceGlobalValue:
-		enc_1 := ber.EncodeObjectIdentifier([]uint64(v.GlobalValue))
+		enc_1, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.GlobalValue))
+		if oidErr != nil {
+			return nil, fmt.Errorf("encoding globalValue: %w", oidErr)
+		}
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for MAPERROR", v.Choice)
@@ -7073,7 +7079,10 @@ func (v *OperationCode) MarshalBER() ([]byte, error) {
 		enc_0 := ber.EncodeBigInt(v.LocalValue)
 		return enc_0, nil
 	case OperationCodeChoiceGlobalValue:
-		enc_1 := ber.EncodeObjectIdentifier([]uint64(v.GlobalValue))
+		enc_1, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.GlobalValue))
+		if oidErr != nil {
+			return nil, fmt.Errorf("encoding globalValue: %w", oidErr)
+		}
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for OperationCode", v.Choice)
@@ -7135,7 +7144,10 @@ func (v *ErrorCode) MarshalBER() ([]byte, error) {
 		enc_0 := ber.EncodeBigInt(v.LocalValue)
 		return enc_0, nil
 	case ErrorCodeChoiceGlobalValue:
-		enc_1 := ber.EncodeObjectIdentifier([]uint64(v.GlobalValue))
+		enc_1, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.GlobalValue))
+		if oidErr != nil {
+			return nil, fmt.Errorf("encoding globalValue: %w", oidErr)
+		}
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for ErrorCode", v.Choice)

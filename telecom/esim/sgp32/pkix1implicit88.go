@@ -828,7 +828,10 @@ func UnmarshalBERCertificatePolicies(data []byte) (CertificatePolicies, error) {
 // MarshalBER encodes PolicyInformation to BER format.
 func (v *PolicyInformation) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_policyidentifier := ber.EncodeObjectIdentifier([]uint64(v.PolicyIdentifier))
+	enc_policyidentifier, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.PolicyIdentifier))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding policyIdentifier: %w", oidErr)
+	}
 	children = append(children, enc_policyidentifier...)
 	if v.PolicyQualifiers != nil {
 		enc_policyqualifiers, err := MarshalBERPolicyInformationPolicyQualifiers(v.PolicyQualifiers)
@@ -905,7 +908,10 @@ func (v *PolicyInformation) UnmarshalBER(data []byte) error {
 // MarshalBER encodes PolicyQualifierInfo to BER format.
 func (v *PolicyQualifierInfo) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_policyqualifierid := ber.EncodeObjectIdentifier([]uint64(v.PolicyQualifierId))
+	enc_policyqualifierid, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.PolicyQualifierId))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding policyQualifierId: %w", oidErr)
+	}
 	children = append(children, enc_policyqualifierid...)
 	enc_qualifier := v.Qualifier.Bytes
 	children = append(children, enc_qualifier...)
@@ -1118,25 +1124,37 @@ func (v *DisplayText) MarshalBER() ([]byte, error) {
 		if v.Ia5String == nil {
 			return nil, fmt.Errorf("choice DisplayText: ia5String is nil")
 		}
-		enc_0 := ber.EncodeStringTag(22, *v.Ia5String)
+		enc_0, stringErr := ber.EncodeStringTagChecked(22, *v.Ia5String)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding ia5String: %w", stringErr)
+		}
 		return enc_0, nil
 	case DisplayTextChoiceVisibleString:
 		if v.VisibleString == nil {
 			return nil, fmt.Errorf("choice DisplayText: visibleString is nil")
 		}
-		enc_1 := ber.EncodeStringTag(26, *v.VisibleString)
+		enc_1, stringErr := ber.EncodeStringTagChecked(26, *v.VisibleString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding visibleString: %w", stringErr)
+		}
 		return enc_1, nil
 	case DisplayTextChoiceBmpString:
 		if v.BmpString == nil {
 			return nil, fmt.Errorf("choice DisplayText: bmpString is nil")
 		}
-		enc_2 := ber.EncodeStringTag(30, *v.BmpString)
+		enc_2, stringErr := ber.EncodeStringTagChecked(30, *v.BmpString)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding bmpString: %w", stringErr)
+		}
 		return enc_2, nil
 	case DisplayTextChoiceUtf8String:
 		if v.Utf8String == nil {
 			return nil, fmt.Errorf("choice DisplayText: utf8String is nil")
 		}
-		enc_3 := ber.EncodeStringTag(12, *v.Utf8String)
+		enc_3, stringErr := ber.EncodeStringTagChecked(12, *v.Utf8String)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding utf8String: %w", stringErr)
+		}
 		return enc_3, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for DisplayText", v.Choice)
@@ -1296,14 +1314,20 @@ func (v *GeneralName) MarshalBER() ([]byte, error) {
 		if v.Rfc822Name == nil {
 			return nil, fmt.Errorf("choice GeneralName: rfc822Name is nil")
 		}
-		enc_1 := ber.EncodeStringTag(22, *v.Rfc822Name)
+		enc_1, stringErr := ber.EncodeStringTagChecked(22, *v.Rfc822Name)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding rfc822Name: %w", stringErr)
+		}
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		return enc_1, nil
 	case GeneralNameChoiceDNSName:
 		if v.DNSName == nil {
 			return nil, fmt.Errorf("choice GeneralName: dNSName is nil")
 		}
-		enc_2 := ber.EncodeStringTag(22, *v.DNSName)
+		enc_2, stringErr := ber.EncodeStringTagChecked(22, *v.DNSName)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding dNSName: %w", stringErr)
+		}
 		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_2)
 		return enc_2, nil
 	case GeneralNameChoiceX400Address:
@@ -1340,7 +1364,10 @@ func (v *GeneralName) MarshalBER() ([]byte, error) {
 		if v.UniformResourceIdentifier == nil {
 			return nil, fmt.Errorf("choice GeneralName: uniformResourceIdentifier is nil")
 		}
-		enc_6 := ber.EncodeStringTag(22, *v.UniformResourceIdentifier)
+		enc_6, stringErr := ber.EncodeStringTagChecked(22, *v.UniformResourceIdentifier)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding uniformResourceIdentifier: %w", stringErr)
+		}
 		enc_6 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, false, enc_6)
 		return enc_6, nil
 	case GeneralNameChoiceIPAddress:
@@ -1348,7 +1375,10 @@ func (v *GeneralName) MarshalBER() ([]byte, error) {
 		enc_7 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, false, enc_7)
 		return enc_7, nil
 	case GeneralNameChoiceRegisteredID:
-		enc_8 := ber.EncodeObjectIdentifier([]uint64(v.RegisteredID))
+		enc_8, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.RegisteredID))
+		if oidErr != nil {
+			return nil, fmt.Errorf("encoding registeredID: %w", oidErr)
+		}
 		enc_8 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, false, enc_8)
 		return enc_8, nil
 	default:
@@ -1440,7 +1470,10 @@ func (v *GeneralName) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding rfc822Name: %w", tlvErr)
 		}
-		decVal := ber.DecodeStringValue(rawVal)
+		decVal, stringErr := ber.DecodeStringValueTag(22, rawVal)
+		if stringErr != nil {
+			return fmt.Errorf("decoding rfc822Name: %w", stringErr)
+		}
 		v.Rfc822Name = &decVal
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
 		v.Choice = GeneralNameChoiceDNSName
@@ -1448,7 +1481,10 @@ func (v *GeneralName) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding dNSName: %w", tlvErr)
 		}
-		decVal := ber.DecodeStringValue(rawVal)
+		decVal, stringErr := ber.DecodeStringValueTag(22, rawVal)
+		if stringErr != nil {
+			return fmt.Errorf("decoding dNSName: %w", stringErr)
+		}
 		v.DNSName = &decVal
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
 		v.Choice = GeneralNameChoiceX400Address
@@ -1491,7 +1527,10 @@ func (v *GeneralName) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding uniformResourceIdentifier: %w", tlvErr)
 		}
-		decVal := ber.DecodeStringValue(rawVal)
+		decVal, stringErr := ber.DecodeStringValueTag(22, rawVal)
+		if stringErr != nil {
+			return fmt.Errorf("decoding uniformResourceIdentifier: %w", stringErr)
+		}
 		v.UniformResourceIdentifier = &decVal
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
 		v.Choice = GeneralNameChoiceIPAddress
@@ -1520,7 +1559,10 @@ func (v *GeneralName) UnmarshalBER(data []byte) error {
 // MarshalBER encodes AnotherName to BER format.
 func (v *AnotherName) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_typeid := ber.EncodeObjectIdentifier([]uint64(v.TypeId))
+	enc_typeid, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.TypeId))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding type-id: %w", oidErr)
+	}
 	children = append(children, enc_typeid...)
 	enc_value := v.Value.Bytes
 	enc_value = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 0, enc_value)
@@ -2337,7 +2379,11 @@ func (v *DistributionPointName) UnmarshalBER(data []byte) error {
 func MarshalBERExtKeyUsageSyntax(list ExtKeyUsageSyntax) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
-		children = append(children, ber.EncodeObjectIdentifier([]uint64(elem))...)
+		encodedElem, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(elem))
+		if oidErr != nil {
+			return nil, fmt.Errorf("encoding element: %w", oidErr)
+		}
+		children = append(children, encodedElem...)
 	}
 	return ber.EncodeSequence(children), nil
 }
@@ -2406,7 +2452,10 @@ func UnmarshalBERAuthorityInfoAccessSyntax(data []byte) (AuthorityInfoAccessSynt
 // MarshalBER encodes AccessDescription to BER format.
 func (v *AccessDescription) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_accessmethod := ber.EncodeObjectIdentifier([]uint64(v.AccessMethod))
+	enc_accessmethod, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.AccessMethod))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding accessMethod: %w", oidErr)
+	}
 	children = append(children, enc_accessmethod...)
 	enc_accesslocation, err := v.AccessLocation.MarshalBER()
 	if err != nil {
@@ -2779,9 +2828,15 @@ func UnmarshalBERNoticeReferenceNoticeNumbers(data []byte) (NoticeReferenceNotic
 // MarshalBER encodes PolicyMappingsElem to BER format.
 func (v *PolicyMappingsElem) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_issuerdomainpolicy := ber.EncodeObjectIdentifier([]uint64(v.IssuerDomainPolicy))
+	enc_issuerdomainpolicy, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.IssuerDomainPolicy))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding issuerDomainPolicy: %w", oidErr)
+	}
 	children = append(children, enc_issuerdomainpolicy...)
-	enc_subjectdomainpolicy := ber.EncodeObjectIdentifier([]uint64(v.SubjectDomainPolicy))
+	enc_subjectdomainpolicy, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.SubjectDomainPolicy))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding subjectDomainPolicy: %w", oidErr)
+	}
 	children = append(children, enc_subjectdomainpolicy...)
 	return ber.EncodeSequence(children), nil
 }

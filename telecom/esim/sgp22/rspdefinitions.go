@@ -5881,7 +5881,10 @@ func (v *ProfileInstallationResultData) MarshalBER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding notificationMetadata: %w", err)
 	}
 	children = append(children, enc_notificationmetadata...)
-	enc_smdpoid := ber.EncodeObjectIdentifier([]uint64(v.SmdpOid))
+	enc_smdpoid, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.SmdpOid))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding smdpOid: %w", oidErr)
+	}
 	children = append(children, enc_smdpoid...)
 	enc_finalresult, err := v.FinalResult.MarshalBER()
 	if err != nil {
@@ -6702,7 +6705,10 @@ func (v *DeviceAdditionalFeatureSupport) MarshalBER() ([]byte, error) {
 		children = append(children, enc_naisupport...)
 	}
 	if v.GroupOfDeviceManufacturerOid != nil {
-		enc_groupofdevicemanufactureroid := ber.EncodeObjectIdentifier([]uint64(v.GroupOfDeviceManufacturerOid))
+		enc_groupofdevicemanufactureroid, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.GroupOfDeviceManufacturerOid))
+		if oidErr != nil {
+			return nil, fmt.Errorf("encoding groupOfDeviceManufacturerOid: %w", oidErr)
+		}
 		enc_groupofdevicemanufactureroid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_groupofdevicemanufactureroid)
 		children = append(children, enc_groupofdevicemanufactureroid...)
 	}
@@ -6836,7 +6842,10 @@ func (v *ActivationCodeRetrievalInfo) MarshalBER() ([]byte, error) {
 		if v.ActivationCodeForProfileRedownload == nil {
 			return nil, fmt.Errorf("choice ActivationCodeRetrievalInfo: activationCodeForProfileRedownload is nil")
 		}
-		enc_0 := ber.EncodeStringTag(12, *v.ActivationCodeForProfileRedownload)
+		enc_0, stringErr := ber.EncodeStringTagChecked(12, *v.ActivationCodeForProfileRedownload)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding activationCodeForProfileRedownload: %w", stringErr)
+		}
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_0)
 		return enc_0, nil
 	case ActivationCodeRetrievalInfoChoiceActivationCodeRetrievalAvailable:
@@ -6888,7 +6897,10 @@ func (v *ActivationCodeRetrievalInfo) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding activationCodeForProfileRedownload: %w", tlvErr)
 		}
-		decVal := ber.DecodeStringValue(rawVal)
+		decVal, stringErr := ber.DecodeStringValueTag(12, rawVal)
+		if stringErr != nil {
+			return fmt.Errorf("decoding activationCodeForProfileRedownload: %w", stringErr)
+		}
 		v.ActivationCodeForProfileRedownload = &decVal
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
 		v.Choice = ActivationCodeRetrievalInfoChoiceActivationCodeRetrievalAvailable
@@ -6922,12 +6934,18 @@ func (v *ActivationCodeRetrievalInfo) UnmarshalBER(data []byte) error {
 func (v *UpdateMetadataRequest) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.ServiceProviderName != nil {
-		enc_serviceprovidername := ber.EncodeStringTag(12, *v.ServiceProviderName)
+		enc_serviceprovidername, stringErr := ber.EncodeStringTagChecked(12, *v.ServiceProviderName)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding serviceProviderName: %w", stringErr)
+		}
 		enc_serviceprovidername = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 17, false, enc_serviceprovidername)
 		children = append(children, enc_serviceprovidername...)
 	}
 	if v.ProfileName != nil {
-		enc_profilename := ber.EncodeStringTag(12, *v.ProfileName)
+		enc_profilename, stringErr := ber.EncodeStringTagChecked(12, *v.ProfileName)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding profileName: %w", stringErr)
+		}
 		enc_profilename = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, false, enc_profilename)
 		children = append(children, enc_profilename...)
 	}
@@ -7022,7 +7040,10 @@ func (v *UpdateMetadataRequest) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding serviceProviderName: %w", err)
 				}
-				decVal_serviceprovidername := ber.DecodeStringValue(rawVal_serviceprovidername)
+				decVal_serviceprovidername, stringErr := ber.DecodeStringValueTag(12, rawVal_serviceprovidername)
+				if stringErr != nil {
+					return fmt.Errorf("decoding serviceProviderName: %w", stringErr)
+				}
 				v.ServiceProviderName = &decVal_serviceprovidername
 				offset += n_serviceprovidername
 			}
@@ -7037,7 +7058,10 @@ func (v *UpdateMetadataRequest) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding profileName: %w", err)
 				}
-				decVal_profilename := ber.DecodeStringValue(rawVal_profilename)
+				decVal_profilename, stringErr := ber.DecodeStringValueTag(12, rawVal_profilename)
+				if stringErr != nil {
+					return fmt.Errorf("decoding profileName: %w", stringErr)
+				}
 				v.ProfileName = &decVal_profilename
 				offset += n_profilename
 			}
@@ -7515,7 +7539,10 @@ func (v *ConfigureISDPRequest) UnmarshalBER(data []byte) error {
 // MarshalBER encodes DpProprietaryData to BER format.
 func (v *DpProprietaryData) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_dpoid := ber.EncodeObjectIdentifier([]uint64(v.DpOid))
+	enc_dpoid, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.DpOid))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding dpOid: %w", oidErr)
+	}
 	enc_dpoid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_dpoid)
 	children = append(children, enc_dpoid...)
 	for i, ext := range v.ExtData_ {
@@ -7593,10 +7620,16 @@ func (v *StoreMetadataRequest) MarshalBER() ([]byte, error) {
 	enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	enc_iccid = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 26, false, enc_iccid)
 	children = append(children, enc_iccid...)
-	enc_serviceprovidername := ber.EncodeStringTag(12, v.ServiceProviderName)
+	enc_serviceprovidername, stringErr := ber.EncodeStringTagChecked(12, v.ServiceProviderName)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding serviceProviderName: %w", stringErr)
+	}
 	enc_serviceprovidername = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 17, false, enc_serviceprovidername)
 	children = append(children, enc_serviceprovidername...)
-	enc_profilename := ber.EncodeStringTag(12, v.ProfileName)
+	enc_profilename, stringErr := ber.EncodeStringTagChecked(12, v.ProfileName)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding profileName: %w", stringErr)
+	}
 	enc_profilename = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, false, enc_profilename)
 	children = append(children, enc_profilename...)
 	if v.IconType != nil {
@@ -7776,7 +7809,10 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding serviceProviderName: %w", err)
 	}
-	decVal_serviceprovidername := ber.DecodeStringValue(rawVal_serviceprovidername)
+	decVal_serviceprovidername, stringErr := ber.DecodeStringValueTag(12, rawVal_serviceprovidername)
+	if stringErr != nil {
+		return fmt.Errorf("decoding serviceProviderName: %w", stringErr)
+	}
 	v.ServiceProviderName = decVal_serviceprovidername
 	offset += n_serviceprovidername
 	// Decode profileName
@@ -7792,7 +7828,10 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding profileName: %w", err)
 	}
-	decVal_profilename := ber.DecodeStringValue(rawVal_profilename)
+	decVal_profilename, stringErr := ber.DecodeStringValueTag(12, rawVal_profilename)
+	if stringErr != nil {
+		return fmt.Errorf("decoding profileName: %w", stringErr)
+	}
 	v.ProfileName = decVal_profilename
 	offset += n_profilename
 	// Decode iconType
@@ -8053,7 +8092,10 @@ func (v *NotificationConfigurationInformation) MarshalBER() ([]byte, error) {
 	enc_profilemanagementoperation := ber.EncodeBitString(v.ProfileManagementOperation.Bytes, (8-(v.ProfileManagementOperation.BitLength%8))%8)
 	enc_profilemanagementoperation = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_profilemanagementoperation)
 	children = append(children, enc_profilemanagementoperation...)
-	enc_notificationaddress := ber.EncodeStringTag(12, v.NotificationAddress)
+	enc_notificationaddress, stringErr := ber.EncodeStringTagChecked(12, v.NotificationAddress)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding notificationAddress: %w", stringErr)
+	}
 	enc_notificationaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_notificationaddress)
 	children = append(children, enc_notificationaddress...)
 	for i, ext := range v.ExtData_ {
@@ -8122,7 +8164,10 @@ func (v *NotificationConfigurationInformation) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding notificationAddress: %w", err)
 	}
-	decVal_notificationaddress := ber.DecodeStringValue(rawVal_notificationaddress)
+	decVal_notificationaddress, stringErr := ber.DecodeStringValueTag(12, rawVal_notificationaddress)
+	if stringErr != nil {
+		return fmt.Errorf("decoding notificationAddress: %w", stringErr)
+	}
 	v.NotificationAddress = decVal_notificationaddress
 	offset += n_notificationaddress
 	v.ExtCount_ = 0
@@ -8603,11 +8648,17 @@ func (v *EuiccConfiguredAddressesRequest) UnmarshalBER(data []byte) error {
 func (v *EuiccConfiguredAddressesResponse) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.DefaultDpAddress != nil {
-		enc_defaultdpaddress := ber.EncodeStringTag(12, *v.DefaultDpAddress)
+		enc_defaultdpaddress, stringErr := ber.EncodeStringTagChecked(12, *v.DefaultDpAddress)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding defaultDpAddress: %w", stringErr)
+		}
 		enc_defaultdpaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_defaultdpaddress)
 		children = append(children, enc_defaultdpaddress...)
 	}
-	enc_rootdsaddress := ber.EncodeStringTag(12, v.RootDsAddress)
+	enc_rootdsaddress, stringErr := ber.EncodeStringTagChecked(12, v.RootDsAddress)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding rootDsAddress: %w", stringErr)
+	}
 	enc_rootdsaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_rootdsaddress)
 	children = append(children, enc_rootdsaddress...)
 	for i, ext := range v.ExtData_ {
@@ -8656,7 +8707,10 @@ func (v *EuiccConfiguredAddressesResponse) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding defaultDpAddress: %w", err)
 				}
-				decVal_defaultdpaddress := ber.DecodeStringValue(rawVal_defaultdpaddress)
+				decVal_defaultdpaddress, stringErr := ber.DecodeStringValueTag(12, rawVal_defaultdpaddress)
+				if stringErr != nil {
+					return fmt.Errorf("decoding defaultDpAddress: %w", stringErr)
+				}
 				v.DefaultDpAddress = &decVal_defaultdpaddress
 				offset += n_defaultdpaddress
 			}
@@ -8675,7 +8729,10 @@ func (v *EuiccConfiguredAddressesResponse) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding rootDsAddress: %w", err)
 	}
-	decVal_rootdsaddress := ber.DecodeStringValue(rawVal_rootdsaddress)
+	decVal_rootdsaddress, stringErr := ber.DecodeStringValueTag(12, rawVal_rootdsaddress)
+	if stringErr != nil {
+		return fmt.Errorf("decoding rootDsAddress: %w", stringErr)
+	}
 	v.RootDsAddress = decVal_rootdsaddress
 	offset += n_rootdsaddress
 	v.ExtCount_ = 0
@@ -8697,7 +8754,10 @@ func (v *EuiccConfiguredAddressesResponse) UnmarshalBER(data []byte) error {
 // MarshalBER encodes SetDefaultDpAddressRequest to BER format.
 func (v *SetDefaultDpAddressRequest) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_defaultdpaddress := ber.EncodeStringTag(12, v.DefaultDpAddress)
+	enc_defaultdpaddress, stringErr := ber.EncodeStringTagChecked(12, v.DefaultDpAddress)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding defaultDpAddress: %w", stringErr)
+	}
 	enc_defaultdpaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_defaultdpaddress)
 	children = append(children, enc_defaultdpaddress...)
 	for i, ext := range v.ExtData_ {
@@ -8750,7 +8810,10 @@ func (v *SetDefaultDpAddressRequest) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding defaultDpAddress: %w", err)
 	}
-	decVal_defaultdpaddress := ber.DecodeStringValue(rawVal_defaultdpaddress)
+	decVal_defaultdpaddress, stringErr := ber.DecodeStringValueTag(12, rawVal_defaultdpaddress)
+	if stringErr != nil {
+		return fmt.Errorf("decoding defaultDpAddress: %w", stringErr)
+	}
 	v.DefaultDpAddress = decVal_defaultdpaddress
 	offset += n_defaultdpaddress
 	v.ExtCount_ = 0
@@ -9971,7 +10034,10 @@ func (v *EUICCInfo2) MarshalBER() ([]byte, error) {
 	}
 	enc_ppversion := ber.EncodeOctetString([]byte(v.PpVersion))
 	children = append(children, enc_ppversion...)
-	enc_sasacreditationnumber := ber.EncodeStringTag(12, v.SasAcreditationNumber)
+	enc_sasacreditationnumber, stringErr := ber.EncodeStringTagChecked(12, v.SasAcreditationNumber)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding sasAcreditationNumber: %w", stringErr)
+	}
 	children = append(children, enc_sasacreditationnumber...)
 	if v.CertificationDataObject != nil {
 		enc_certificationdataobject, err := v.CertificationDataObject.MarshalBER()
@@ -9987,7 +10053,10 @@ func (v *EUICCInfo2) MarshalBER() ([]byte, error) {
 		children = append(children, enc_treproperties...)
 	}
 	if v.TreProductReference != nil {
-		enc_treproductreference := ber.EncodeStringTag(12, *v.TreProductReference)
+		enc_treproductreference, stringErr := ber.EncodeStringTagChecked(12, *v.TreProductReference)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding treProductReference: %w", stringErr)
+		}
 		enc_treproductreference = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, false, enc_treproductreference)
 		children = append(children, enc_treproductreference...)
 	}
@@ -10386,7 +10455,10 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding treProductReference: %w", err)
 				}
-				decVal_treproductreference := ber.DecodeStringValue(rawVal_treproductreference)
+				decVal_treproductreference, stringErr := ber.DecodeStringValueTag(12, rawVal_treproductreference)
+				if stringErr != nil {
+					return fmt.Errorf("decoding treProductReference: %w", stringErr)
+				}
 				v.TreProductReference = &decVal_treproductreference
 				offset += n_treproductreference
 			}
@@ -10545,10 +10617,16 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 // MarshalBER encodes CertificationDataObject to BER format.
 func (v *CertificationDataObject) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_platformlabel := ber.EncodeStringTag(12, v.PlatformLabel)
+	enc_platformlabel, stringErr := ber.EncodeStringTagChecked(12, v.PlatformLabel)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding platformLabel: %w", stringErr)
+	}
 	enc_platformlabel = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_platformlabel)
 	children = append(children, enc_platformlabel...)
-	enc_discoverybaseurl := ber.EncodeStringTag(12, v.DiscoveryBaseURL)
+	enc_discoverybaseurl, stringErr := ber.EncodeStringTagChecked(12, v.DiscoveryBaseURL)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding discoveryBaseURL: %w", stringErr)
+	}
 	enc_discoverybaseurl = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_discoverybaseurl)
 	children = append(children, enc_discoverybaseurl...)
 	for i, ext := range v.ExtData_ {
@@ -10598,7 +10676,10 @@ func (v *CertificationDataObject) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding platformLabel: %w", err)
 	}
-	decVal_platformlabel := ber.DecodeStringValue(rawVal_platformlabel)
+	decVal_platformlabel, stringErr := ber.DecodeStringValueTag(12, rawVal_platformlabel)
+	if stringErr != nil {
+		return fmt.Errorf("decoding platformLabel: %w", stringErr)
+	}
 	v.PlatformLabel = decVal_platformlabel
 	offset += n_platformlabel
 	// Decode discoveryBaseURL
@@ -10614,7 +10695,10 @@ func (v *CertificationDataObject) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding discoveryBaseURL: %w", err)
 	}
-	decVal_discoverybaseurl := ber.DecodeStringValue(rawVal_discoverybaseurl)
+	decVal_discoverybaseurl, stringErr := ber.DecodeStringValueTag(12, rawVal_discoverybaseurl)
+	if stringErr != nil {
+		return fmt.Errorf("decoding discoveryBaseURL: %w", stringErr)
+	}
 	v.DiscoveryBaseURL = decVal_discoverybaseurl
 	offset += n_discoverybaseurl
 	v.ExtCount_ = 0
@@ -10875,7 +10959,10 @@ func (v *NotificationMetadata) MarshalBER() ([]byte, error) {
 	enc_profilemanagementoperation := ber.EncodeBitString(v.ProfileManagementOperation.Bytes, (8-(v.ProfileManagementOperation.BitLength%8))%8)
 	enc_profilemanagementoperation = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_profilemanagementoperation)
 	children = append(children, enc_profilemanagementoperation...)
-	enc_notificationaddress := ber.EncodeStringTag(12, v.NotificationAddress)
+	enc_notificationaddress, stringErr := ber.EncodeStringTagChecked(12, v.NotificationAddress)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding notificationAddress: %w", stringErr)
+	}
 	children = append(children, enc_notificationaddress...)
 	if v.Iccid != nil {
 		enc_iccid := ber.EncodeOctetString([]byte(*v.Iccid))
@@ -11994,7 +12081,10 @@ func (v *ServerSigned1) MarshalBER() ([]byte, error) {
 	enc_euiccchallenge := ber.EncodeOctetString([]byte(v.EuiccChallenge))
 	enc_euiccchallenge = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_euiccchallenge)
 	children = append(children, enc_euiccchallenge...)
-	enc_serveraddress := ber.EncodeStringTag(12, v.ServerAddress)
+	enc_serveraddress, stringErr := ber.EncodeStringTagChecked(12, v.ServerAddress)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding serverAddress: %w", stringErr)
+	}
 	enc_serveraddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_serveraddress)
 	children = append(children, enc_serveraddress...)
 	enc_serverchallenge := ber.EncodeOctetString([]byte(v.ServerChallenge))
@@ -12077,7 +12167,10 @@ func (v *ServerSigned1) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding serverAddress: %w", err)
 	}
-	decVal_serveraddress := ber.DecodeStringValue(rawVal_serveraddress)
+	decVal_serveraddress, stringErr := ber.DecodeStringValueTag(12, rawVal_serveraddress)
+	if stringErr != nil {
+		return fmt.Errorf("decoding serverAddress: %w", stringErr)
+	}
 	v.ServerAddress = decVal_serveraddress
 	offset += n_serveraddress
 	// Decode serverChallenge
@@ -12187,7 +12280,10 @@ func (v *CtxParams1) UnmarshalBER(data []byte) error {
 func (v *CtxParamsForCommonAuthentication) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.MatchingId != nil {
-		enc_matchingid := ber.EncodeStringTag(12, *v.MatchingId)
+		enc_matchingid, stringErr := ber.EncodeStringTagChecked(12, *v.MatchingId)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding matchingId: %w", stringErr)
+		}
 		enc_matchingid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_matchingid)
 		children = append(children, enc_matchingid...)
 	}
@@ -12240,7 +12336,10 @@ func (v *CtxParamsForCommonAuthentication) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding matchingId: %w", err)
 				}
-				decVal_matchingid := ber.DecodeStringValue(rawVal_matchingid)
+				decVal_matchingid, stringErr := ber.DecodeStringValueTag(12, rawVal_matchingid)
+				if stringErr != nil {
+					return fmt.Errorf("decoding matchingId: %w", stringErr)
+				}
 				v.MatchingId = &decVal_matchingid
 				offset += n_matchingid
 			}
@@ -12532,7 +12631,10 @@ func (v *EuiccSigned1) MarshalBER() ([]byte, error) {
 	enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	enc_transactionid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_transactionid)
 	children = append(children, enc_transactionid...)
-	enc_serveraddress := ber.EncodeStringTag(12, v.ServerAddress)
+	enc_serveraddress, stringErr := ber.EncodeStringTagChecked(12, v.ServerAddress)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding serverAddress: %w", stringErr)
+	}
 	enc_serveraddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_serveraddress)
 	children = append(children, enc_serveraddress...)
 	enc_serverchallenge := ber.EncodeOctetString([]byte(v.ServerChallenge))
@@ -12610,7 +12712,10 @@ func (v *EuiccSigned1) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding serverAddress: %w", err)
 	}
-	decVal_serveraddress := ber.DecodeStringValue(rawVal_serveraddress)
+	decVal_serveraddress, stringErr := ber.DecodeStringValueTag(12, rawVal_serveraddress)
+	if stringErr != nil {
+		return fmt.Errorf("decoding serverAddress: %w", stringErr)
+	}
 	v.ServerAddress = decVal_serveraddress
 	offset += n_serveraddress
 	// Decode serverChallenge
@@ -13067,7 +13172,10 @@ func (v *EuiccCancelSessionSigned) MarshalBER() ([]byte, error) {
 	enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	enc_transactionid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_transactionid)
 	children = append(children, enc_transactionid...)
-	enc_smdpoid := ber.EncodeObjectIdentifier([]uint64(v.SmdpOid))
+	enc_smdpoid, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.SmdpOid))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding smdpOid: %w", oidErr)
+	}
 	enc_smdpoid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_smdpoid)
 	children = append(children, enc_smdpoid...)
 	enc_reason := ber.EncodeBigInt((v.Reason).BigInt())
@@ -13419,17 +13527,26 @@ func (v *ProfileInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_profilestate...)
 	}
 	if v.ProfileNickname != nil {
-		enc_profilenickname := ber.EncodeStringTag(12, *v.ProfileNickname)
+		enc_profilenickname, stringErr := ber.EncodeStringTagChecked(12, *v.ProfileNickname)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding profileNickname: %w", stringErr)
+		}
 		enc_profilenickname = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, false, enc_profilenickname)
 		children = append(children, enc_profilenickname...)
 	}
 	if v.ServiceProviderName != nil {
-		enc_serviceprovidername := ber.EncodeStringTag(12, *v.ServiceProviderName)
+		enc_serviceprovidername, stringErr := ber.EncodeStringTagChecked(12, *v.ServiceProviderName)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding serviceProviderName: %w", stringErr)
+		}
 		enc_serviceprovidername = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 17, false, enc_serviceprovidername)
 		children = append(children, enc_serviceprovidername...)
 	}
 	if v.ProfileName != nil {
-		enc_profilename := ber.EncodeStringTag(12, *v.ProfileName)
+		enc_profilename, stringErr := ber.EncodeStringTagChecked(12, *v.ProfileName)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding profileName: %w", stringErr)
+		}
 		enc_profilename = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, false, enc_profilename)
 		children = append(children, enc_profilename...)
 	}
@@ -13643,7 +13760,10 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding profileNickname: %w", err)
 				}
-				decVal_profilenickname := ber.DecodeStringValue(rawVal_profilenickname)
+				decVal_profilenickname, stringErr := ber.DecodeStringValueTag(12, rawVal_profilenickname)
+				if stringErr != nil {
+					return fmt.Errorf("decoding profileNickname: %w", stringErr)
+				}
 				v.ProfileNickname = &decVal_profilenickname
 				offset += n_profilenickname
 			}
@@ -13658,7 +13778,10 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding serviceProviderName: %w", err)
 				}
-				decVal_serviceprovidername := ber.DecodeStringValue(rawVal_serviceprovidername)
+				decVal_serviceprovidername, stringErr := ber.DecodeStringValueTag(12, rawVal_serviceprovidername)
+				if stringErr != nil {
+					return fmt.Errorf("decoding serviceProviderName: %w", stringErr)
+				}
 				v.ServiceProviderName = &decVal_serviceprovidername
 				offset += n_serviceprovidername
 			}
@@ -13673,7 +13796,10 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding profileName: %w", err)
 				}
-				decVal_profilename := ber.DecodeStringValue(rawVal_profilename)
+				decVal_profilename, stringErr := ber.DecodeStringValueTag(12, rawVal_profilename)
+				if stringErr != nil {
+					return fmt.Errorf("decoding profileName: %w", stringErr)
+				}
 				v.ProfileName = &decVal_profilename
 				offset += n_profilename
 			}
@@ -14802,7 +14928,10 @@ func (v *SetNicknameRequest) MarshalBER() ([]byte, error) {
 	enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	enc_iccid = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 26, false, enc_iccid)
 	children = append(children, enc_iccid...)
-	enc_profilenickname := ber.EncodeStringTag(12, v.ProfileNickname)
+	enc_profilenickname, stringErr := ber.EncodeStringTagChecked(12, v.ProfileNickname)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding profileNickname: %w", stringErr)
+	}
 	enc_profilenickname = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, false, enc_profilenickname)
 	children = append(children, enc_profilenickname...)
 	for i, ext := range v.ExtData_ {
@@ -14870,7 +14999,10 @@ func (v *SetNicknameRequest) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding profileNickname: %w", err)
 	}
-	decVal_profilenickname := ber.DecodeStringValue(rawVal_profilenickname)
+	decVal_profilenickname, stringErr := ber.DecodeStringValueTag(12, rawVal_profilenickname)
+	if stringErr != nil {
+		return fmt.Errorf("decoding profileNickname: %w", stringErr)
+	}
 	v.ProfileNickname = decVal_profilenickname
 	offset += n_profilenickname
 	v.ExtCount_ = 0
@@ -15691,7 +15823,10 @@ func (v *InitiateAuthenticationRequest) MarshalBER() ([]byte, error) {
 	enc_euiccchallenge := ber.EncodeOctetString([]byte(v.EuiccChallenge))
 	enc_euiccchallenge = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_euiccchallenge)
 	children = append(children, enc_euiccchallenge...)
-	enc_smdpaddress := ber.EncodeStringTag(12, v.SmdpAddress)
+	enc_smdpaddress, stringErr := ber.EncodeStringTagChecked(12, v.SmdpAddress)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding smdpAddress: %w", stringErr)
+	}
 	enc_smdpaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_smdpaddress)
 	children = append(children, enc_smdpaddress...)
 	enc_euiccinfo1, err := v.EuiccInfo1.MarshalBER()
@@ -15764,7 +15899,10 @@ func (v *InitiateAuthenticationRequest) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding smdpAddress: %w", err)
 	}
-	decVal_smdpaddress := ber.DecodeStringValue(rawVal_smdpaddress)
+	decVal_smdpaddress, stringErr := ber.DecodeStringValueTag(12, rawVal_smdpaddress)
+	if stringErr != nil {
+		return fmt.Errorf("decoding smdpAddress: %w", stringErr)
+	}
 	v.SmdpAddress = decVal_smdpaddress
 	offset += n_smdpaddress
 	// Decode euiccInfo1
@@ -17415,10 +17553,16 @@ func (v *AuthenticateClientOkEs11) UnmarshalBER(data []byte) error {
 // MarshalBER encodes EventEntries to BER format.
 func (v *EventEntries) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_eventid := ber.EncodeStringTag(12, v.EventId)
+	enc_eventid, stringErr := ber.EncodeStringTagChecked(12, v.EventId)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding eventId: %w", stringErr)
+	}
 	enc_eventid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_eventid)
 	children = append(children, enc_eventid...)
-	enc_rspserveraddress := ber.EncodeStringTag(12, v.RspServerAddress)
+	enc_rspserveraddress, stringErr := ber.EncodeStringTagChecked(12, v.RspServerAddress)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding rspServerAddress: %w", stringErr)
+	}
 	enc_rspserveraddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_rspserveraddress)
 	children = append(children, enc_rspserveraddress...)
 	for i, ext := range v.ExtData_ {
@@ -17468,7 +17612,10 @@ func (v *EventEntries) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding eventId: %w", err)
 	}
-	decVal_eventid := ber.DecodeStringValue(rawVal_eventid)
+	decVal_eventid, stringErr := ber.DecodeStringValueTag(12, rawVal_eventid)
+	if stringErr != nil {
+		return fmt.Errorf("decoding eventId: %w", stringErr)
+	}
 	v.EventId = decVal_eventid
 	offset += n_eventid
 	// Decode rspServerAddress
@@ -17484,7 +17631,10 @@ func (v *EventEntries) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding rspServerAddress: %w", err)
 	}
-	decVal_rspserveraddress := ber.DecodeStringValue(rawVal_rspserveraddress)
+	decVal_rspserveraddress, stringErr := ber.DecodeStringValueTag(12, rawVal_rspserveraddress)
+	if stringErr != nil {
+		return fmt.Errorf("decoding rspServerAddress: %w", stringErr)
+	}
 	v.RspServerAddress = decVal_rspserveraddress
 	offset += n_rspserveraddress
 	v.ExtCount_ = 0
@@ -17826,7 +17976,10 @@ func (v *StoreMetadataRequestIotSpecificMetadata) UnmarshalBER(data []byte) erro
 // MarshalBER encodes VendorSpecificExtensionElem to BER format.
 func (v *VendorSpecificExtensionElem) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_vendoroid := ber.EncodeObjectIdentifier([]uint64(v.VendorOid))
+	enc_vendoroid, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.VendorOid))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding vendorOid: %w", oidErr)
+	}
 	enc_vendoroid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_vendoroid)
 	children = append(children, enc_vendoroid...)
 	enc_vendorspecificdata := v.VendorSpecificData.Bytes

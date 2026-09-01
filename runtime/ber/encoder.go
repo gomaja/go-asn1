@@ -1,9 +1,12 @@
 package ber
 
 import (
+	"encoding/binary"
+	"fmt"
 	"math"
 	"math/big"
 	"time"
+	"unicode/utf8"
 
 	"github.com/gomaja/go-asn1/runtime/tag"
 )
@@ -148,22 +151,35 @@ func EncodeNull() []byte {
 	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagNull}, nil)
 }
 
-// EncodeObjectIdentifier encodes an OID per X.690 section 8.19.
+// EncodeObjectIdentifier encodes an OID per X.690 section 8.19. Invalid
+// values return nil; generated code uses EncodeObjectIdentifierChecked so it
+// can report the validation error.
 func EncodeObjectIdentifier(oid []uint64) []byte {
-	if len(oid) < 2 {
-		return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagObjectID}, nil)
+	encoded, err := EncodeObjectIdentifierChecked(oid)
+	if err != nil {
+		return nil
 	}
+	return encoded
+}
 
-	// First two components combined: val = oid[0]*40 + oid[1].
-	first := oid[0]*40 + oid[1]
-	var value []byte
-	value = append(value, encodeBase128(first)...)
-
-	for _, arc := range oid[2:] {
-		value = append(value, encodeBase128(arc)...)
+// EncodeObjectIdentifierChecked encodes a validated OID per X.690
+// (02/2021) section 8.19.4.
+func EncodeObjectIdentifierChecked(oid []uint64) ([]byte, error) {
+	value, err := EncodeOIDValueChecked(oid)
+	if err != nil {
+		return nil, err
 	}
+	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagObjectID}, value), nil
+}
 
-	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagObjectID}, value)
+// EncodeRelativeObjectIdentifierChecked encodes a validated RELATIVE-OID per
+// X.690 (02/2021) section 8.20.
+func EncodeRelativeObjectIdentifierChecked(oid []uint64) ([]byte, error) {
+	value, err := EncodeRelativeOIDValueChecked(oid)
+	if err != nil {
+		return nil, err
+	}
+	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagRelativeOID}, value), nil
 }
 
 func encodeBase128(v uint64) []byte {
@@ -286,18 +302,61 @@ func EncodePrintableString(v string) []byte {
 }
 
 // EncodeStringTag encodes a character string value under an arbitrary
-// UNIVERSAL tag number. This is the single encoder generated code uses for
-// every ASN.1 character string kind (UTF8String, PrintableString, IA5String,
-// T61String, VisibleString, NumericString, BMPString, UniversalString,
-// GraphicString, GeneralString, VideotexString, ...): the wire content is
-// identical byte-for-byte across all of them (this codec does not transcode
-// content, matching how the decoder already treats string content as opaque
-// bytes) and only the tag number distinguishes the kind. A single
-// tag-parameterised function keeps every string kind's tag correct by
-// construction, rather than requiring one hand-written Encode<Kind>String
-// function per kind kept in sync with tag.go by hand.
+// UNIVERSAL tag number. Invalid values return nil; generated code uses
+// EncodeStringTagChecked so it can report the validation error.
 func EncodeStringTag(tagNum int, v string) []byte {
-	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tagNum}, []byte(v))
+	encoded, err := EncodeStringTagChecked(tagNum, v)
+	if err != nil {
+		return nil
+	}
+	return encoded
+}
+
+// EncodeStringTagChecked applies the fixed-width forms required by X.690
+// (02/2021) sections 8.23.7 and 8.23.8 before wrapping the value.
+func EncodeStringTagChecked(tagNum int, v string) ([]byte, error) {
+	value, err := EncodeStringValueTagChecked(tagNum, v)
+	if err != nil {
+		return nil, err
+	}
+	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tagNum}, value), nil
+}
+
+// EncodeStringValueTagChecked returns the contents octets for a restricted
+// character string with the supplied UNIVERSAL tag number.
+func EncodeStringValueTagChecked(tagNum int, v string) ([]byte, error) {
+	return encodeStringValueTag(tagNum, v)
+}
+
+func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
+	switch tagNum {
+	case tag.TagBMPString:
+		if !utf8.ValidString(v) {
+			return nil, fmt.Errorf("BMPString contains invalid UTF-8")
+		}
+		value := make([]byte, 0, len(v)*2)
+		for _, r := range v {
+			if r > 0xffff || !utf8.ValidRune(r) {
+				return nil, fmt.Errorf("BMPString character U+%04X is outside the Basic Multilingual Plane", r)
+			}
+			value = binary.BigEndian.AppendUint16(value, uint16(r))
+		}
+		return value, nil
+	case tag.TagUniversalString:
+		if !utf8.ValidString(v) {
+			return nil, fmt.Errorf("UniversalString contains invalid UTF-8")
+		}
+		value := make([]byte, 0, len(v)*4)
+		for _, r := range v {
+			if !utf8.ValidRune(r) {
+				return nil, fmt.Errorf("UniversalString character U+%04X is not a Unicode scalar value", r)
+			}
+			value = binary.BigEndian.AppendUint32(value, uint32(r))
+		}
+		return value, nil
+	default:
+		return []byte(v), nil
+	}
 }
 
 // EncodeUTCTime encodes a UTCTime per X.690 section 11.8.
@@ -429,10 +488,30 @@ func EncodeBitStringValue(bytes []byte, unusedBits int) []byte {
 	return result
 }
 
-// EncodeOIDValue returns the raw value bytes for an OID.
+// EncodeOIDValue returns the raw value bytes for an OID. Invalid values return
+// nil; generated code and PER use EncodeOIDValueChecked to retain the error.
 func EncodeOIDValue(oid []uint64) []byte {
-	if len(oid) < 2 {
+	encoded, err := EncodeOIDValueChecked(oid)
+	if err != nil {
 		return nil
+	}
+	return encoded
+}
+
+// EncodeOIDValueChecked returns the X.690 section 8.19 contents octets after
+// validating the first two arcs and their packed uint64 representation.
+func EncodeOIDValueChecked(oid []uint64) ([]byte, error) {
+	if len(oid) < 2 {
+		return nil, fmt.Errorf("object identifier needs at least 2 arcs, got %d", len(oid))
+	}
+	if oid[0] > 2 {
+		return nil, fmt.Errorf("object identifier first arc %d exceeds 2", oid[0])
+	}
+	if oid[0] < 2 && oid[1] > 39 {
+		return nil, fmt.Errorf("object identifier second arc %d exceeds 39 under first arc %d", oid[1], oid[0])
+	}
+	if oid[0] == 2 && oid[1] > math.MaxUint64-80 {
+		return nil, fmt.Errorf("object identifier first subidentifier overflows uint64")
 	}
 	var buf []byte
 	first := oid[0]*40 + oid[1]
@@ -440,7 +519,20 @@ func EncodeOIDValue(oid []uint64) []byte {
 	for _, arc := range oid[2:] {
 		buf = append(buf, encodeBase128(arc)...)
 	}
-	return buf
+	return buf, nil
+}
+
+// EncodeRelativeOIDValueChecked returns the X.690 section 8.20 contents
+// octets. X.680 (02/2021) section 33.3 requires at least one arc.
+func EncodeRelativeOIDValueChecked(oid []uint64) ([]byte, error) {
+	if len(oid) == 0 {
+		return nil, fmt.Errorf("relative object identifier needs at least 1 arc")
+	}
+	var value []byte
+	for _, arc := range oid {
+		value = append(value, encodeBase128(arc)...)
+	}
+	return value, nil
 }
 
 // EncodeStringValue returns the raw value bytes for a string.

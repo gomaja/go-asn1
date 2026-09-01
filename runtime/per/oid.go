@@ -53,6 +53,52 @@ func DecodeObjectIdentifierAligned(bb *BitBuffer) ([]uint64, error) {
 	return decodeOIDContents(contents)
 }
 
+// EncodeRelativeObjectIdentifier writes a RELATIVE-OID in unaligned PER.
+// X.691 (02/2021) section 24 wraps the X.690 section 8.20 contents octets in
+// an unconstrained-length octet string.
+func EncodeRelativeObjectIdentifier(bb *BitBuffer, oid []uint64) error {
+	contents, err := ber.EncodeRelativeOIDValueChecked(oid)
+	if err != nil {
+		return fmt.Errorf("relative object identifier: %w", err)
+	}
+	return EncodeOctetString(bb, contents, 0, 0, false)
+}
+
+// DecodeRelativeObjectIdentifier reads a RELATIVE-OID in unaligned PER.
+func DecodeRelativeObjectIdentifier(bb *BitBuffer) ([]uint64, error) {
+	contents, err := DecodeOctetString(bb, 0, 0, false)
+	if err != nil {
+		return nil, fmt.Errorf("relative object identifier: %w", err)
+	}
+	oid, err := ber.DecodeRelativeOIDValue(contents)
+	if err != nil {
+		return nil, fmt.Errorf("relative object identifier: %w", err)
+	}
+	return oid, nil
+}
+
+// EncodeRelativeObjectIdentifierAligned writes a RELATIVE-OID in aligned PER.
+func EncodeRelativeObjectIdentifierAligned(bb *BitBuffer, oid []uint64) error {
+	contents, err := ber.EncodeRelativeOIDValueChecked(oid)
+	if err != nil {
+		return fmt.Errorf("relative object identifier: %w", err)
+	}
+	return EncodeOctetStringAligned(bb, contents, 0, 0, false)
+}
+
+// DecodeRelativeObjectIdentifierAligned reads a RELATIVE-OID in aligned PER.
+func DecodeRelativeObjectIdentifierAligned(bb *BitBuffer) ([]uint64, error) {
+	contents, err := DecodeOctetStringAligned(bb, 0, 0, false)
+	if err != nil {
+		return nil, fmt.Errorf("relative object identifier: %w", err)
+	}
+	oid, err := ber.DecodeRelativeOIDValue(contents)
+	if err != nil {
+		return nil, fmt.Errorf("relative object identifier: %w", err)
+	}
+	return oid, nil
+}
+
 // oidContents produces the X.690 §8.19 contents octets for oid.
 //
 // ber.EncodeOIDValue returns those contents directly (no tag, no length),
@@ -61,10 +107,11 @@ func DecodeObjectIdentifierAligned(bb *BitBuffer) ([]uint64, error) {
 // here keeps a malformed value from being encoded as something a decoder
 // would silently read back as a different OID.
 func oidContents(oid []uint64) ([]byte, error) {
-	if len(oid) < 2 {
-		return nil, fmt.Errorf("object identifier needs at least 2 arcs, got %d", len(oid))
+	contents, err := ber.EncodeOIDValueChecked(oid)
+	if err != nil {
+		return nil, fmt.Errorf("object identifier: %w", err)
 	}
-	return ber.EncodeOIDValue(oid), nil
+	return contents, nil
 }
 
 func decodeOIDContents(contents []byte) ([]uint64, error) {

@@ -810,7 +810,10 @@ func (v *MAPRefuseInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.AlternativeApplicationContext != nil {
-		enc_alternativeapplicationcontext := ber.EncodeObjectIdentifier([]uint64(v.AlternativeApplicationContext))
+		enc_alternativeapplicationcontext, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.AlternativeApplicationContext))
+		if oidErr != nil {
+			return nil, fmt.Errorf("encoding alternativeApplicationContext: %w", oidErr)
+		}
 		children = append(children, enc_alternativeapplicationcontext...)
 	}
 	for i, ext := range v.ExtData_ {
