@@ -20,16 +20,16 @@ var (
 
 const (
 
-	// MaxNumOfSentParameter is the integer constant for maxNumOfSentParameter.
+	// MaxNumOfSentParameter is the integer constant for MaxNumOfSentParameter.
 	MaxNumOfSentParameter int64 = 6
 )
 
-// AccessTypeId returns the OID value for accessType-id.
+// AccessTypeId returns the OID value for AccessTypeId.
 func AccessTypeId() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 12, 2, 1107, 3, 66, 1, 1}
 }
 
-// AccessTypeNotAllowedId returns the OID value for accessTypeNotAllowed-id.
+// AccessTypeNotAllowedId returns the OID value for AccessTypeNotAllowedId.
 func AccessTypeNotAllowedId() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 12, 2, 1107, 3, 66, 1, 2}
 }
@@ -98,9 +98,10 @@ type DumInvoke struct {
 	InvokeID        InvokeIdType      `asn1:""`
 	LinkedID        *InvokeIdType     `asn1:"tag:0,context,implicit,optional" json:"LinkedID,omitempty"`
 	OpCode          MAPOPERATION      `asn1:""`
-	Invokeparameter *runtime.RawValue `asn1:",optional" json:"Invokeparameter,omitempty"`
+	Invokeparameter *runtime.RawValue `asn1:",optional" json:"Invokeparameter,omitempty" asn1c:"raw-preserve"`
 }
 
+// asn1c:raw-preserve
 // InvokeParameter represents the ASN.1 type InvokeParameter (ANY).
 type InvokeParameter = runtime.RawValue
 
@@ -110,6 +111,7 @@ type DumReturnResult struct {
 	Resultretres *ReturnResultResultretres `asn1:",optional" json:"Resultretres,omitempty"`
 }
 
+// asn1c:raw-preserve
 // ReturnResultParameter represents the ASN.1 type ReturnResultParameter (ANY).
 type ReturnResultParameter = runtime.RawValue
 
@@ -117,9 +119,10 @@ type ReturnResultParameter = runtime.RawValue
 type DumReturnError struct {
 	InvokeID  InvokeIdType      `asn1:""`
 	ErrorCode MAPERROR          `asn1:""`
-	Parameter *runtime.RawValue `asn1:",optional" json:"Parameter,omitempty"`
+	Parameter *runtime.RawValue `asn1:",optional" json:"Parameter,omitempty" asn1c:"raw-preserve"`
 }
 
+// asn1c:raw-preserve
 // ReturnErrorParameter represents the ASN.1 type ReturnErrorParameter (ANY).
 type ReturnErrorParameter = runtime.RawValue
 
@@ -138,14 +141,14 @@ const (
 	MAPOPERATIONChoiceGlobalValue = 2
 )
 
-// MAPOPERATION represents the ASN.1 CHOICE type MAP-OPERATION.
+// MAPOPERATION represents the ASN.1 CHOICE type MAPOPERATION.
 type MAPOPERATION struct {
 	Choice      int
 	LocalValue  *OperationLocalvalue     `json:"LocalValue,omitempty"`
 	GlobalValue runtime.ObjectIdentifier `json:"GlobalValue,omitempty"`
 }
 
-// NewMAPOPERATIONLocalValue creates a MAP-OPERATION with the localValue alternative.
+// NewMAPOPERATIONLocalValue creates a MAPOPERATION with the localValue alternative.
 func NewMAPOPERATIONLocalValue(v OperationLocalvalue) MAPOPERATION {
 	return MAPOPERATION{
 		Choice:     MAPOPERATIONChoiceLocalValue,
@@ -153,7 +156,7 @@ func NewMAPOPERATIONLocalValue(v OperationLocalvalue) MAPOPERATION {
 	}
 }
 
-// NewMAPOPERATIONGlobalValue creates a MAP-OPERATION with the globalValue alternative.
+// NewMAPOPERATIONGlobalValue creates a MAPOPERATION with the globalValue alternative.
 func NewMAPOPERATIONGlobalValue(v runtime.ObjectIdentifier) MAPOPERATION {
 	return MAPOPERATION{
 		Choice:      MAPOPERATIONChoiceGlobalValue,
@@ -161,410 +164,2062 @@ func NewMAPOPERATIONGlobalValue(v runtime.ObjectIdentifier) MAPOPERATION {
 	}
 }
 
-// NewMAPOPERATIONLocalValueInt64 creates a MAPOPERATION localValue alternative from a local int64 code.
-func NewMAPOPERATIONLocalValueInt64(v OperationLocalvalue) MAPOPERATION {
-	return NewMAPOPERATIONLocalValue(v)
-}
-
-// LocalCode returns the localValue code when this MAPOPERATION carries a localValue alternative.
-func (v MAPOPERATION) LocalCode() (OperationLocalvalue, bool) {
-	if v.Choice != MAPOPERATIONChoiceLocalValue || v.LocalValue == nil {
-		var zero OperationLocalvalue
-		return zero, false
+// NewMAPOPERATIONLocalValueInt64 creates a MAPOPERATION localValue alternative from an int64 code.
+func NewMAPOPERATIONLocalValueInt64(v int64) MAPOPERATION {
+	var local OperationLocalvalue
+	if err := local.UnmarshalText([]byte(fmt.Sprintf("%d", v))); err != nil {
+		panic(err)
 	}
-	return *v.LocalValue, true
+	return NewMAPOPERATIONLocalValue(local)
 }
 
-// GSMMAPOperationLocalvalue represents the ASN.1 INTEGER type GSMMAPOperationLocalvalue with named numbers.
-type GSMMAPOperationLocalvalue int64
+// LocalCode returns the localValue code when this MAPOPERATION carries an int64 localValue alternative.
+func (v MAPOPERATION) LocalCode() (int64, bool) {
+	if v.Choice != MAPOPERATIONChoiceLocalValue || v.LocalValue == nil {
+		return 0, false
+	}
+	return v.LocalValue.AsInt64()
+}
+
+// GSMMAPOperationLocalvalue represents the arbitrary-width ASN.1 INTEGER type GSMMAPOperationLocalvalue with named numbers.
+type GSMMAPOperationLocalvalue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	GSMMAPOperationLocalvalueUpdateLocation                   GSMMAPOperationLocalvalue = 2
-	GSMMAPOperationLocalvalueCancelLocation                   GSMMAPOperationLocalvalue = 3
-	GSMMAPOperationLocalvalueProvideRoamingNumber             GSMMAPOperationLocalvalue = 4
-	GSMMAPOperationLocalvalueNoteSubscriberDataModified       GSMMAPOperationLocalvalue = 5
-	GSMMAPOperationLocalvalueResumeCallHandling               GSMMAPOperationLocalvalue = 6
-	GSMMAPOperationLocalvalueInsertSubscriberData             GSMMAPOperationLocalvalue = 7
-	GSMMAPOperationLocalvalueDeleteSubscriberData             GSMMAPOperationLocalvalue = 8
-	GSMMAPOperationLocalvalueSendParameters                   GSMMAPOperationLocalvalue = 9
-	GSMMAPOperationLocalvalueRegisterSS                       GSMMAPOperationLocalvalue = 10
-	GSMMAPOperationLocalvalueEraseSS                          GSMMAPOperationLocalvalue = 11
-	GSMMAPOperationLocalvalueActivateSS                       GSMMAPOperationLocalvalue = 12
-	GSMMAPOperationLocalvalueDeactivateSS                     GSMMAPOperationLocalvalue = 13
-	GSMMAPOperationLocalvalueInterrogateSS                    GSMMAPOperationLocalvalue = 14
-	GSMMAPOperationLocalvalueAuthenticationFailureReport      GSMMAPOperationLocalvalue = 15
-	GSMMAPOperationLocalvalueNotifySS                         GSMMAPOperationLocalvalue = 16
-	GSMMAPOperationLocalvalueRegisterPassword                 GSMMAPOperationLocalvalue = 17
-	GSMMAPOperationLocalvalueGetPassword                      GSMMAPOperationLocalvalue = 18
-	GSMMAPOperationLocalvalueProcessUnstructuredSSData        GSMMAPOperationLocalvalue = 19
-	GSMMAPOperationLocalvalueReleaseResources                 GSMMAPOperationLocalvalue = 20
-	GSMMAPOperationLocalvalueMtForwardSMVGCS                  GSMMAPOperationLocalvalue = 21
-	GSMMAPOperationLocalvalueSendRoutingInfo                  GSMMAPOperationLocalvalue = 22
-	GSMMAPOperationLocalvalueUpdateGprsLocation               GSMMAPOperationLocalvalue = 23
-	GSMMAPOperationLocalvalueSendRoutingInfoForGprs           GSMMAPOperationLocalvalue = 24
-	GSMMAPOperationLocalvalueFailureReport                    GSMMAPOperationLocalvalue = 25
-	GSMMAPOperationLocalvalueNoteMsPresentForGprs             GSMMAPOperationLocalvalue = 26
-	GSMMAPOperationLocalvalueUnAllocated                      GSMMAPOperationLocalvalue = 27
-	GSMMAPOperationLocalvaluePerformHandover                  GSMMAPOperationLocalvalue = 28
-	GSMMAPOperationLocalvalueSendEndSignal                    GSMMAPOperationLocalvalue = 29
-	GSMMAPOperationLocalvaluePerformSubsequentHandover        GSMMAPOperationLocalvalue = 30
-	GSMMAPOperationLocalvalueProvideSIWFSNumber               GSMMAPOperationLocalvalue = 31
-	GSMMAPOperationLocalvalueSIWFSSignallingModify            GSMMAPOperationLocalvalue = 32
-	GSMMAPOperationLocalvalueProcessAccessSignalling          GSMMAPOperationLocalvalue = 33
-	GSMMAPOperationLocalvalueForwardAccessSignalling          GSMMAPOperationLocalvalue = 34
-	GSMMAPOperationLocalvalueNoteInternalHandover             GSMMAPOperationLocalvalue = 35
-	GSMMAPOperationLocalvalueCancelVcsgLocation               GSMMAPOperationLocalvalue = 36
-	GSMMAPOperationLocalvalueReset                            GSMMAPOperationLocalvalue = 37
-	GSMMAPOperationLocalvalueForwardCheckSS                   GSMMAPOperationLocalvalue = 38
-	GSMMAPOperationLocalvaluePrepareGroupCall                 GSMMAPOperationLocalvalue = 39
-	GSMMAPOperationLocalvalueSendGroupCallEndSignal           GSMMAPOperationLocalvalue = 40
-	GSMMAPOperationLocalvalueProcessGroupCallSignalling       GSMMAPOperationLocalvalue = 41
-	GSMMAPOperationLocalvalueForwardGroupCallSignalling       GSMMAPOperationLocalvalue = 42
-	GSMMAPOperationLocalvalueCheckIMEI                        GSMMAPOperationLocalvalue = 43
-	GSMMAPOperationLocalvalueMtForwardSM                      GSMMAPOperationLocalvalue = 44
-	GSMMAPOperationLocalvalueSendRoutingInfoForSM             GSMMAPOperationLocalvalue = 45
-	GSMMAPOperationLocalvalueMoForwardSM                      GSMMAPOperationLocalvalue = 46
-	GSMMAPOperationLocalvalueReportSMDeliveryStatus           GSMMAPOperationLocalvalue = 47
-	GSMMAPOperationLocalvalueNoteSubscriberPresent            GSMMAPOperationLocalvalue = 48
-	GSMMAPOperationLocalvalueAlertServiceCentreWithoutResult  GSMMAPOperationLocalvalue = 49
-	GSMMAPOperationLocalvalueActivateTraceMode                GSMMAPOperationLocalvalue = 50
-	GSMMAPOperationLocalvalueDeactivateTraceMode              GSMMAPOperationLocalvalue = 51
-	GSMMAPOperationLocalvalueTraceSubscriberActivity          GSMMAPOperationLocalvalue = 52
-	GSMMAPOperationLocalvalueUpdateVcsgLocation               GSMMAPOperationLocalvalue = 53
-	GSMMAPOperationLocalvalueBeginSubscriberActivity          GSMMAPOperationLocalvalue = 54
-	GSMMAPOperationLocalvalueSendIdentification               GSMMAPOperationLocalvalue = 55
-	GSMMAPOperationLocalvalueSendAuthenticationInfo           GSMMAPOperationLocalvalue = 56
-	GSMMAPOperationLocalvalueRestoreData                      GSMMAPOperationLocalvalue = 57
-	GSMMAPOperationLocalvalueSendIMSI                         GSMMAPOperationLocalvalue = 58
-	GSMMAPOperationLocalvalueProcessUnstructuredSSRequest     GSMMAPOperationLocalvalue = 59
-	GSMMAPOperationLocalvalueUnstructuredSSRequest            GSMMAPOperationLocalvalue = 60
-	GSMMAPOperationLocalvalueUnstructuredSSNotify             GSMMAPOperationLocalvalue = 61
-	GSMMAPOperationLocalvalueAnyTimeSubscriptionInterrogation GSMMAPOperationLocalvalue = 62
-	GSMMAPOperationLocalvalueInformServiceCentre              GSMMAPOperationLocalvalue = 63
-	GSMMAPOperationLocalvalueAlertServiceCentre               GSMMAPOperationLocalvalue = 64
-	GSMMAPOperationLocalvalueAnyTimeModification              GSMMAPOperationLocalvalue = 65
-	GSMMAPOperationLocalvalueReadyForSM                       GSMMAPOperationLocalvalue = 66
-	GSMMAPOperationLocalvaluePurgeMS                          GSMMAPOperationLocalvalue = 67
-	GSMMAPOperationLocalvaluePrepareHandover                  GSMMAPOperationLocalvalue = 68
-	GSMMAPOperationLocalvaluePrepareSubsequentHandover        GSMMAPOperationLocalvalue = 69
-	GSMMAPOperationLocalvalueProvideSubscriberInfo            GSMMAPOperationLocalvalue = 70
-	GSMMAPOperationLocalvalueAnyTimeInterrogation             GSMMAPOperationLocalvalue = 71
-	GSMMAPOperationLocalvalueSsInvocationNotification         GSMMAPOperationLocalvalue = 72
-	GSMMAPOperationLocalvalueSetReportingState                GSMMAPOperationLocalvalue = 73
-	GSMMAPOperationLocalvalueStatusReport                     GSMMAPOperationLocalvalue = 74
-	GSMMAPOperationLocalvalueRemoteUserFree                   GSMMAPOperationLocalvalue = 75
-	GSMMAPOperationLocalvalueRegisterCCEntry                  GSMMAPOperationLocalvalue = 76
-	GSMMAPOperationLocalvalueEraseCCEntry                     GSMMAPOperationLocalvalue = 77
-	GSMMAPOperationLocalvalueSecureTransportClass1            GSMMAPOperationLocalvalue = 78
-	GSMMAPOperationLocalvalueSecureTransportClass2            GSMMAPOperationLocalvalue = 79
-	GSMMAPOperationLocalvalueSecureTransportClass3            GSMMAPOperationLocalvalue = 80
-	GSMMAPOperationLocalvalueSecureTransportClass4            GSMMAPOperationLocalvalue = 81
-	GSMMAPOperationLocalvalueUnAllocated82                    GSMMAPOperationLocalvalue = 82
-	GSMMAPOperationLocalvalueProvideSubscriberLocation        GSMMAPOperationLocalvalue = 83
-	GSMMAPOperationLocalvalueSendGroupCallInfo                GSMMAPOperationLocalvalue = 84
-	GSMMAPOperationLocalvalueSendRoutingInfoForLCS            GSMMAPOperationLocalvalue = 85
-	GSMMAPOperationLocalvalueSubscriberLocationReport         GSMMAPOperationLocalvalue = 86
-	GSMMAPOperationLocalvalueIstAlert                         GSMMAPOperationLocalvalue = 87
-	GSMMAPOperationLocalvalueIstCommand                       GSMMAPOperationLocalvalue = 88
-	GSMMAPOperationLocalvalueNoteMMEvent                      GSMMAPOperationLocalvalue = 89
-	GSMMAPOperationLocalvalueUnAllocated90                    GSMMAPOperationLocalvalue = 90
-	GSMMAPOperationLocalvalueUnAllocated91                    GSMMAPOperationLocalvalue = 91
-	GSMMAPOperationLocalvalueUnAllocated92                    GSMMAPOperationLocalvalue = 92
-	GSMMAPOperationLocalvalueUnAllocated93                    GSMMAPOperationLocalvalue = 93
-	GSMMAPOperationLocalvalueUnAllocated94                    GSMMAPOperationLocalvalue = 94
-	GSMMAPOperationLocalvalueUnAllocated95                    GSMMAPOperationLocalvalue = 95
-	GSMMAPOperationLocalvalueUnAllocated96                    GSMMAPOperationLocalvalue = 96
-	GSMMAPOperationLocalvalueUnAllocated97                    GSMMAPOperationLocalvalue = 97
-	GSMMAPOperationLocalvalueUnAllocated98                    GSMMAPOperationLocalvalue = 98
-	GSMMAPOperationLocalvalueUnAllocated99                    GSMMAPOperationLocalvalue = 99
-	GSMMAPOperationLocalvalueUnAllocated100                   GSMMAPOperationLocalvalue = 100
-	GSMMAPOperationLocalvalueUnAllocated101                   GSMMAPOperationLocalvalue = 101
-	GSMMAPOperationLocalvalueUnAllocated102                   GSMMAPOperationLocalvalue = 102
-	GSMMAPOperationLocalvalueUnAllocated103                   GSMMAPOperationLocalvalue = 103
-	GSMMAPOperationLocalvalueUnAllocated104                   GSMMAPOperationLocalvalue = 104
-	GSMMAPOperationLocalvalueUnAllocated105                   GSMMAPOperationLocalvalue = 105
-	GSMMAPOperationLocalvalueUnAllocated106                   GSMMAPOperationLocalvalue = 106
-	GSMMAPOperationLocalvalueUnAllocated107                   GSMMAPOperationLocalvalue = 107
-	GSMMAPOperationLocalvalueUnAllocated108                   GSMMAPOperationLocalvalue = 108
-	GSMMAPOperationLocalvalueLcsPeriodicLocationCancellation  GSMMAPOperationLocalvalue = 109
-	GSMMAPOperationLocalvalueLcsLocationUpdate                GSMMAPOperationLocalvalue = 110
-	GSMMAPOperationLocalvalueLcsPeriodicLocationRequest       GSMMAPOperationLocalvalue = 111
-	GSMMAPOperationLocalvalueLcsAreaEventCancellation         GSMMAPOperationLocalvalue = 112
-	GSMMAPOperationLocalvalueLcsAreaEventReport               GSMMAPOperationLocalvalue = 113
-	GSMMAPOperationLocalvalueLcsAreaEventRequest              GSMMAPOperationLocalvalue = 114
-	GSMMAPOperationLocalvalueLcsMOLR                          GSMMAPOperationLocalvalue = 115
-	GSMMAPOperationLocalvalueLcsLocationNotification          GSMMAPOperationLocalvalue = 116
-	GSMMAPOperationLocalvalueCallDeflection                   GSMMAPOperationLocalvalue = 117
-	GSMMAPOperationLocalvalueUserUserService                  GSMMAPOperationLocalvalue = 118
-	GSMMAPOperationLocalvalueAccessRegisterCCEntry            GSMMAPOperationLocalvalue = 119
-	GSMMAPOperationLocalvalueForwardCUGInfo                   GSMMAPOperationLocalvalue = 120
-	GSMMAPOperationLocalvalueSplitMPTY                        GSMMAPOperationLocalvalue = 121
-	GSMMAPOperationLocalvalueRetrieveMPTY                     GSMMAPOperationLocalvalue = 122
-	GSMMAPOperationLocalvalueHoldMPTY                         GSMMAPOperationLocalvalue = 123
-	GSMMAPOperationLocalvalueBuildMPTY                        GSMMAPOperationLocalvalue = 124
-	GSMMAPOperationLocalvalueForwardChargeAdvice              GSMMAPOperationLocalvalue = 125
-	GSMMAPOperationLocalvalueExplicitCT                       GSMMAPOperationLocalvalue = 126
+	GSMMAPOperationLocalvalueUpdateLocationDecimal                   = "2"
+	GSMMAPOperationLocalvalueUpdateLocation                          = 2
+	GSMMAPOperationLocalvalueCancelLocationDecimal                   = "3"
+	GSMMAPOperationLocalvalueCancelLocation                          = 3
+	GSMMAPOperationLocalvalueProvideRoamingNumberDecimal             = "4"
+	GSMMAPOperationLocalvalueProvideRoamingNumber                    = 4
+	GSMMAPOperationLocalvalueNoteSubscriberDataModifiedDecimal       = "5"
+	GSMMAPOperationLocalvalueNoteSubscriberDataModified              = 5
+	GSMMAPOperationLocalvalueResumeCallHandlingDecimal               = "6"
+	GSMMAPOperationLocalvalueResumeCallHandling                      = 6
+	GSMMAPOperationLocalvalueInsertSubscriberDataDecimal             = "7"
+	GSMMAPOperationLocalvalueInsertSubscriberData                    = 7
+	GSMMAPOperationLocalvalueDeleteSubscriberDataDecimal             = "8"
+	GSMMAPOperationLocalvalueDeleteSubscriberData                    = 8
+	GSMMAPOperationLocalvalueSendParametersDecimal                   = "9"
+	GSMMAPOperationLocalvalueSendParameters                          = 9
+	GSMMAPOperationLocalvalueRegisterSSDecimal                       = "10"
+	GSMMAPOperationLocalvalueRegisterSS                              = 10
+	GSMMAPOperationLocalvalueEraseSSDecimal                          = "11"
+	GSMMAPOperationLocalvalueEraseSS                                 = 11
+	GSMMAPOperationLocalvalueActivateSSDecimal                       = "12"
+	GSMMAPOperationLocalvalueActivateSS                              = 12
+	GSMMAPOperationLocalvalueDeactivateSSDecimal                     = "13"
+	GSMMAPOperationLocalvalueDeactivateSS                            = 13
+	GSMMAPOperationLocalvalueInterrogateSSDecimal                    = "14"
+	GSMMAPOperationLocalvalueInterrogateSS                           = 14
+	GSMMAPOperationLocalvalueAuthenticationFailureReportDecimal      = "15"
+	GSMMAPOperationLocalvalueAuthenticationFailureReport             = 15
+	GSMMAPOperationLocalvalueNotifySSDecimal                         = "16"
+	GSMMAPOperationLocalvalueNotifySS                                = 16
+	GSMMAPOperationLocalvalueRegisterPasswordDecimal                 = "17"
+	GSMMAPOperationLocalvalueRegisterPassword                        = 17
+	GSMMAPOperationLocalvalueGetPasswordDecimal                      = "18"
+	GSMMAPOperationLocalvalueGetPassword                             = 18
+	GSMMAPOperationLocalvalueProcessUnstructuredSSDataDecimal        = "19"
+	GSMMAPOperationLocalvalueProcessUnstructuredSSData               = 19
+	GSMMAPOperationLocalvalueReleaseResourcesDecimal                 = "20"
+	GSMMAPOperationLocalvalueReleaseResources                        = 20
+	GSMMAPOperationLocalvalueMtForwardSMVGCSDecimal                  = "21"
+	GSMMAPOperationLocalvalueMtForwardSMVGCS                         = 21
+	GSMMAPOperationLocalvalueSendRoutingInfoDecimal                  = "22"
+	GSMMAPOperationLocalvalueSendRoutingInfo                         = 22
+	GSMMAPOperationLocalvalueUpdateGprsLocationDecimal               = "23"
+	GSMMAPOperationLocalvalueUpdateGprsLocation                      = 23
+	GSMMAPOperationLocalvalueSendRoutingInfoForGprsDecimal           = "24"
+	GSMMAPOperationLocalvalueSendRoutingInfoForGprs                  = 24
+	GSMMAPOperationLocalvalueFailureReportDecimal                    = "25"
+	GSMMAPOperationLocalvalueFailureReport                           = 25
+	GSMMAPOperationLocalvalueNoteMsPresentForGprsDecimal             = "26"
+	GSMMAPOperationLocalvalueNoteMsPresentForGprs                    = 26
+	GSMMAPOperationLocalvaluePerformHandoverDecimal                  = "28"
+	GSMMAPOperationLocalvaluePerformHandover                         = 28
+	GSMMAPOperationLocalvalueSendEndSignalDecimal                    = "29"
+	GSMMAPOperationLocalvalueSendEndSignal                           = 29
+	GSMMAPOperationLocalvaluePerformSubsequentHandoverDecimal        = "30"
+	GSMMAPOperationLocalvaluePerformSubsequentHandover               = 30
+	GSMMAPOperationLocalvalueProvideSIWFSNumberDecimal               = "31"
+	GSMMAPOperationLocalvalueProvideSIWFSNumber                      = 31
+	GSMMAPOperationLocalvalueSIWFSSignallingModifyDecimal            = "32"
+	GSMMAPOperationLocalvalueSIWFSSignallingModify                   = 32
+	GSMMAPOperationLocalvalueProcessAccessSignallingDecimal          = "33"
+	GSMMAPOperationLocalvalueProcessAccessSignalling                 = 33
+	GSMMAPOperationLocalvalueForwardAccessSignallingDecimal          = "34"
+	GSMMAPOperationLocalvalueForwardAccessSignalling                 = 34
+	GSMMAPOperationLocalvalueNoteInternalHandoverDecimal             = "35"
+	GSMMAPOperationLocalvalueNoteInternalHandover                    = 35
+	GSMMAPOperationLocalvalueCancelVcsgLocationDecimal               = "36"
+	GSMMAPOperationLocalvalueCancelVcsgLocation                      = 36
+	GSMMAPOperationLocalvalueResetDecimal                            = "37"
+	GSMMAPOperationLocalvalueReset                                   = 37
+	GSMMAPOperationLocalvalueForwardCheckSSDecimal                   = "38"
+	GSMMAPOperationLocalvalueForwardCheckSS                          = 38
+	GSMMAPOperationLocalvaluePrepareGroupCallDecimal                 = "39"
+	GSMMAPOperationLocalvaluePrepareGroupCall                        = 39
+	GSMMAPOperationLocalvalueSendGroupCallEndSignalDecimal           = "40"
+	GSMMAPOperationLocalvalueSendGroupCallEndSignal                  = 40
+	GSMMAPOperationLocalvalueProcessGroupCallSignallingDecimal       = "41"
+	GSMMAPOperationLocalvalueProcessGroupCallSignalling              = 41
+	GSMMAPOperationLocalvalueForwardGroupCallSignallingDecimal       = "42"
+	GSMMAPOperationLocalvalueForwardGroupCallSignalling              = 42
+	GSMMAPOperationLocalvalueCheckIMEIDecimal                        = "43"
+	GSMMAPOperationLocalvalueCheckIMEI                               = 43
+	GSMMAPOperationLocalvalueMtForwardSMDecimal                      = "44"
+	GSMMAPOperationLocalvalueMtForwardSM                             = 44
+	GSMMAPOperationLocalvalueSendRoutingInfoForSMDecimal             = "45"
+	GSMMAPOperationLocalvalueSendRoutingInfoForSM                    = 45
+	GSMMAPOperationLocalvalueMoForwardSMDecimal                      = "46"
+	GSMMAPOperationLocalvalueMoForwardSM                             = 46
+	GSMMAPOperationLocalvalueReportSMDeliveryStatusDecimal           = "47"
+	GSMMAPOperationLocalvalueReportSMDeliveryStatus                  = 47
+	GSMMAPOperationLocalvalueNoteSubscriberPresentDecimal            = "48"
+	GSMMAPOperationLocalvalueNoteSubscriberPresent                   = 48
+	GSMMAPOperationLocalvalueAlertServiceCentreWithoutResultDecimal  = "49"
+	GSMMAPOperationLocalvalueAlertServiceCentreWithoutResult         = 49
+	GSMMAPOperationLocalvalueActivateTraceModeDecimal                = "50"
+	GSMMAPOperationLocalvalueActivateTraceMode                       = 50
+	GSMMAPOperationLocalvalueDeactivateTraceModeDecimal              = "51"
+	GSMMAPOperationLocalvalueDeactivateTraceMode                     = 51
+	GSMMAPOperationLocalvalueTraceSubscriberActivityDecimal          = "52"
+	GSMMAPOperationLocalvalueTraceSubscriberActivity                 = 52
+	GSMMAPOperationLocalvalueUpdateVcsgLocationDecimal               = "53"
+	GSMMAPOperationLocalvalueUpdateVcsgLocation                      = 53
+	GSMMAPOperationLocalvalueBeginSubscriberActivityDecimal          = "54"
+	GSMMAPOperationLocalvalueBeginSubscriberActivity                 = 54
+	GSMMAPOperationLocalvalueSendIdentificationDecimal               = "55"
+	GSMMAPOperationLocalvalueSendIdentification                      = 55
+	GSMMAPOperationLocalvalueSendAuthenticationInfoDecimal           = "56"
+	GSMMAPOperationLocalvalueSendAuthenticationInfo                  = 56
+	GSMMAPOperationLocalvalueRestoreDataDecimal                      = "57"
+	GSMMAPOperationLocalvalueRestoreData                             = 57
+	GSMMAPOperationLocalvalueSendIMSIDecimal                         = "58"
+	GSMMAPOperationLocalvalueSendIMSI                                = 58
+	GSMMAPOperationLocalvalueProcessUnstructuredSSRequestDecimal     = "59"
+	GSMMAPOperationLocalvalueProcessUnstructuredSSRequest            = 59
+	GSMMAPOperationLocalvalueUnstructuredSSRequestDecimal            = "60"
+	GSMMAPOperationLocalvalueUnstructuredSSRequest                   = 60
+	GSMMAPOperationLocalvalueUnstructuredSSNotifyDecimal             = "61"
+	GSMMAPOperationLocalvalueUnstructuredSSNotify                    = 61
+	GSMMAPOperationLocalvalueAnyTimeSubscriptionInterrogationDecimal = "62"
+	GSMMAPOperationLocalvalueAnyTimeSubscriptionInterrogation        = 62
+	GSMMAPOperationLocalvalueInformServiceCentreDecimal              = "63"
+	GSMMAPOperationLocalvalueInformServiceCentre                     = 63
+	GSMMAPOperationLocalvalueAlertServiceCentreDecimal               = "64"
+	GSMMAPOperationLocalvalueAlertServiceCentre                      = 64
+	GSMMAPOperationLocalvalueAnyTimeModificationDecimal              = "65"
+	GSMMAPOperationLocalvalueAnyTimeModification                     = 65
+	GSMMAPOperationLocalvalueReadyForSMDecimal                       = "66"
+	GSMMAPOperationLocalvalueReadyForSM                              = 66
+	GSMMAPOperationLocalvaluePurgeMSDecimal                          = "67"
+	GSMMAPOperationLocalvaluePurgeMS                                 = 67
+	GSMMAPOperationLocalvaluePrepareHandoverDecimal                  = "68"
+	GSMMAPOperationLocalvaluePrepareHandover                         = 68
+	GSMMAPOperationLocalvaluePrepareSubsequentHandoverDecimal        = "69"
+	GSMMAPOperationLocalvaluePrepareSubsequentHandover               = 69
+	GSMMAPOperationLocalvalueProvideSubscriberInfoDecimal            = "70"
+	GSMMAPOperationLocalvalueProvideSubscriberInfo                   = 70
+	GSMMAPOperationLocalvalueAnyTimeInterrogationDecimal             = "71"
+	GSMMAPOperationLocalvalueAnyTimeInterrogation                    = 71
+	GSMMAPOperationLocalvalueSsInvocationNotificationDecimal         = "72"
+	GSMMAPOperationLocalvalueSsInvocationNotification                = 72
+	GSMMAPOperationLocalvalueSetReportingStateDecimal                = "73"
+	GSMMAPOperationLocalvalueSetReportingState                       = 73
+	GSMMAPOperationLocalvalueStatusReportDecimal                     = "74"
+	GSMMAPOperationLocalvalueStatusReport                            = 74
+	GSMMAPOperationLocalvalueRemoteUserFreeDecimal                   = "75"
+	GSMMAPOperationLocalvalueRemoteUserFree                          = 75
+	GSMMAPOperationLocalvalueRegisterCCEntryDecimal                  = "76"
+	GSMMAPOperationLocalvalueRegisterCCEntry                         = 76
+	GSMMAPOperationLocalvalueEraseCCEntryDecimal                     = "77"
+	GSMMAPOperationLocalvalueEraseCCEntry                            = 77
+	GSMMAPOperationLocalvalueSecureTransportClass1Decimal            = "78"
+	GSMMAPOperationLocalvalueSecureTransportClass1                   = 78
+	GSMMAPOperationLocalvalueSecureTransportClass2Decimal            = "79"
+	GSMMAPOperationLocalvalueSecureTransportClass2                   = 79
+	GSMMAPOperationLocalvalueSecureTransportClass3Decimal            = "80"
+	GSMMAPOperationLocalvalueSecureTransportClass3                   = 80
+	GSMMAPOperationLocalvalueSecureTransportClass4Decimal            = "81"
+	GSMMAPOperationLocalvalueSecureTransportClass4                   = 81
+	GSMMAPOperationLocalvalueProvideSubscriberLocationDecimal        = "83"
+	GSMMAPOperationLocalvalueProvideSubscriberLocation               = 83
+	GSMMAPOperationLocalvalueSendGroupCallInfoDecimal                = "84"
+	GSMMAPOperationLocalvalueSendGroupCallInfo                       = 84
+	GSMMAPOperationLocalvalueSendRoutingInfoForLCSDecimal            = "85"
+	GSMMAPOperationLocalvalueSendRoutingInfoForLCS                   = 85
+	GSMMAPOperationLocalvalueSubscriberLocationReportDecimal         = "86"
+	GSMMAPOperationLocalvalueSubscriberLocationReport                = 86
+	GSMMAPOperationLocalvalueIstAlertDecimal                         = "87"
+	GSMMAPOperationLocalvalueIstAlert                                = 87
+	GSMMAPOperationLocalvalueIstCommandDecimal                       = "88"
+	GSMMAPOperationLocalvalueIstCommand                              = 88
+	GSMMAPOperationLocalvalueNoteMMEventDecimal                      = "89"
+	GSMMAPOperationLocalvalueNoteMMEvent                             = 89
+	GSMMAPOperationLocalvalueLcsPeriodicLocationCancellationDecimal  = "109"
+	GSMMAPOperationLocalvalueLcsPeriodicLocationCancellation         = 109
+	GSMMAPOperationLocalvalueLcsLocationUpdateDecimal                = "110"
+	GSMMAPOperationLocalvalueLcsLocationUpdate                       = 110
+	GSMMAPOperationLocalvalueLcsPeriodicLocationRequestDecimal       = "111"
+	GSMMAPOperationLocalvalueLcsPeriodicLocationRequest              = 111
+	GSMMAPOperationLocalvalueLcsAreaEventCancellationDecimal         = "112"
+	GSMMAPOperationLocalvalueLcsAreaEventCancellation                = 112
+	GSMMAPOperationLocalvalueLcsAreaEventReportDecimal               = "113"
+	GSMMAPOperationLocalvalueLcsAreaEventReport                      = 113
+	GSMMAPOperationLocalvalueLcsAreaEventRequestDecimal              = "114"
+	GSMMAPOperationLocalvalueLcsAreaEventRequest                     = 114
+	GSMMAPOperationLocalvalueLcsMOLRDecimal                          = "115"
+	GSMMAPOperationLocalvalueLcsMOLR                                 = 115
+	GSMMAPOperationLocalvalueLcsLocationNotificationDecimal          = "116"
+	GSMMAPOperationLocalvalueLcsLocationNotification                 = 116
+	GSMMAPOperationLocalvalueCallDeflectionDecimal                   = "117"
+	GSMMAPOperationLocalvalueCallDeflection                          = 117
+	GSMMAPOperationLocalvalueUserUserServiceDecimal                  = "118"
+	GSMMAPOperationLocalvalueUserUserService                         = 118
+	GSMMAPOperationLocalvalueAccessRegisterCCEntryDecimal            = "119"
+	GSMMAPOperationLocalvalueAccessRegisterCCEntry                   = 119
+	GSMMAPOperationLocalvalueForwardCUGInfoDecimal                   = "120"
+	GSMMAPOperationLocalvalueForwardCUGInfo                          = 120
+	GSMMAPOperationLocalvalueSplitMPTYDecimal                        = "121"
+	GSMMAPOperationLocalvalueSplitMPTY                               = 121
+	GSMMAPOperationLocalvalueRetrieveMPTYDecimal                     = "122"
+	GSMMAPOperationLocalvalueRetrieveMPTY                            = 122
+	GSMMAPOperationLocalvalueHoldMPTYDecimal                         = "123"
+	GSMMAPOperationLocalvalueHoldMPTY                                = 123
+	GSMMAPOperationLocalvalueBuildMPTYDecimal                        = "124"
+	GSMMAPOperationLocalvalueBuildMPTY                               = 124
+	GSMMAPOperationLocalvalueForwardChargeAdviceDecimal              = "125"
+	GSMMAPOperationLocalvalueForwardChargeAdvice                     = 125
+	GSMMAPOperationLocalvalueExplicitCTDecimal                       = "126"
+	GSMMAPOperationLocalvalueExplicitCT                              = 126
 )
 
-func (v GSMMAPOperationLocalvalue) String() string {
-	switch v {
-	case GSMMAPOperationLocalvalueUpdateLocation:
-		return "updateLocation"
-	case GSMMAPOperationLocalvalueCancelLocation:
-		return "cancelLocation"
-	case GSMMAPOperationLocalvalueProvideRoamingNumber:
-		return "provideRoamingNumber"
-	case GSMMAPOperationLocalvalueNoteSubscriberDataModified:
-		return "noteSubscriberDataModified"
-	case GSMMAPOperationLocalvalueResumeCallHandling:
-		return "resumeCallHandling"
-	case GSMMAPOperationLocalvalueInsertSubscriberData:
-		return "insertSubscriberData"
-	case GSMMAPOperationLocalvalueDeleteSubscriberData:
-		return "deleteSubscriberData"
-	case GSMMAPOperationLocalvalueSendParameters:
-		return "sendParameters"
-	case GSMMAPOperationLocalvalueRegisterSS:
-		return "registerSS"
-	case GSMMAPOperationLocalvalueEraseSS:
-		return "eraseSS"
-	case GSMMAPOperationLocalvalueActivateSS:
-		return "activateSS"
-	case GSMMAPOperationLocalvalueDeactivateSS:
-		return "deactivateSS"
-	case GSMMAPOperationLocalvalueInterrogateSS:
-		return "interrogateSS"
-	case GSMMAPOperationLocalvalueAuthenticationFailureReport:
-		return "authenticationFailureReport"
-	case GSMMAPOperationLocalvalueNotifySS:
-		return "notifySS"
-	case GSMMAPOperationLocalvalueRegisterPassword:
-		return "registerPassword"
-	case GSMMAPOperationLocalvalueGetPassword:
-		return "getPassword"
-	case GSMMAPOperationLocalvalueProcessUnstructuredSSData:
-		return "processUnstructuredSS-Data"
-	case GSMMAPOperationLocalvalueReleaseResources:
-		return "releaseResources"
-	case GSMMAPOperationLocalvalueMtForwardSMVGCS:
-		return "mt-ForwardSM-VGCS"
-	case GSMMAPOperationLocalvalueSendRoutingInfo:
-		return "sendRoutingInfo"
-	case GSMMAPOperationLocalvalueUpdateGprsLocation:
-		return "updateGprsLocation"
-	case GSMMAPOperationLocalvalueSendRoutingInfoForGprs:
-		return "sendRoutingInfoForGprs"
-	case GSMMAPOperationLocalvalueFailureReport:
-		return "failureReport"
-	case GSMMAPOperationLocalvalueNoteMsPresentForGprs:
-		return "noteMsPresentForGprs"
-	case GSMMAPOperationLocalvalueUnAllocated:
-		return "unAllocated"
-	case GSMMAPOperationLocalvaluePerformHandover:
-		return "performHandover"
-	case GSMMAPOperationLocalvalueSendEndSignal:
-		return "sendEndSignal"
-	case GSMMAPOperationLocalvaluePerformSubsequentHandover:
-		return "performSubsequentHandover"
-	case GSMMAPOperationLocalvalueProvideSIWFSNumber:
-		return "provideSIWFSNumber"
-	case GSMMAPOperationLocalvalueSIWFSSignallingModify:
-		return "sIWFSSignallingModify"
-	case GSMMAPOperationLocalvalueProcessAccessSignalling:
-		return "processAccessSignalling"
-	case GSMMAPOperationLocalvalueForwardAccessSignalling:
-		return "forwardAccessSignalling"
-	case GSMMAPOperationLocalvalueNoteInternalHandover:
-		return "noteInternalHandover"
-	case GSMMAPOperationLocalvalueCancelVcsgLocation:
-		return "cancelVcsgLocation"
-	case GSMMAPOperationLocalvalueReset:
-		return "reset"
-	case GSMMAPOperationLocalvalueForwardCheckSS:
-		return "forwardCheckSS"
-	case GSMMAPOperationLocalvaluePrepareGroupCall:
-		return "prepareGroupCall"
-	case GSMMAPOperationLocalvalueSendGroupCallEndSignal:
-		return "sendGroupCallEndSignal"
-	case GSMMAPOperationLocalvalueProcessGroupCallSignalling:
-		return "processGroupCallSignalling"
-	case GSMMAPOperationLocalvalueForwardGroupCallSignalling:
-		return "forwardGroupCallSignalling"
-	case GSMMAPOperationLocalvalueCheckIMEI:
-		return "checkIMEI"
-	case GSMMAPOperationLocalvalueMtForwardSM:
-		return "mt-forwardSM"
-	case GSMMAPOperationLocalvalueSendRoutingInfoForSM:
-		return "sendRoutingInfoForSM"
-	case GSMMAPOperationLocalvalueMoForwardSM:
-		return "mo-forwardSM"
-	case GSMMAPOperationLocalvalueReportSMDeliveryStatus:
-		return "reportSM-DeliveryStatus"
-	case GSMMAPOperationLocalvalueNoteSubscriberPresent:
-		return "noteSubscriberPresent"
-	case GSMMAPOperationLocalvalueAlertServiceCentreWithoutResult:
-		return "alertServiceCentreWithoutResult"
-	case GSMMAPOperationLocalvalueActivateTraceMode:
-		return "activateTraceMode"
-	case GSMMAPOperationLocalvalueDeactivateTraceMode:
-		return "deactivateTraceMode"
-	case GSMMAPOperationLocalvalueTraceSubscriberActivity:
-		return "traceSubscriberActivity"
-	case GSMMAPOperationLocalvalueUpdateVcsgLocation:
-		return "updateVcsgLocation"
-	case GSMMAPOperationLocalvalueBeginSubscriberActivity:
-		return "beginSubscriberActivity"
-	case GSMMAPOperationLocalvalueSendIdentification:
-		return "sendIdentification"
-	case GSMMAPOperationLocalvalueSendAuthenticationInfo:
-		return "sendAuthenticationInfo"
-	case GSMMAPOperationLocalvalueRestoreData:
-		return "restoreData"
-	case GSMMAPOperationLocalvalueSendIMSI:
-		return "sendIMSI"
-	case GSMMAPOperationLocalvalueProcessUnstructuredSSRequest:
-		return "processUnstructuredSS-Request"
-	case GSMMAPOperationLocalvalueUnstructuredSSRequest:
-		return "unstructuredSS-Request"
-	case GSMMAPOperationLocalvalueUnstructuredSSNotify:
-		return "unstructuredSS-Notify"
-	case GSMMAPOperationLocalvalueAnyTimeSubscriptionInterrogation:
-		return "anyTimeSubscriptionInterrogation"
-	case GSMMAPOperationLocalvalueInformServiceCentre:
-		return "informServiceCentre"
-	case GSMMAPOperationLocalvalueAlertServiceCentre:
-		return "alertServiceCentre"
-	case GSMMAPOperationLocalvalueAnyTimeModification:
-		return "anyTimeModification"
-	case GSMMAPOperationLocalvalueReadyForSM:
-		return "readyForSM"
-	case GSMMAPOperationLocalvaluePurgeMS:
-		return "purgeMS"
-	case GSMMAPOperationLocalvaluePrepareHandover:
-		return "prepareHandover"
-	case GSMMAPOperationLocalvaluePrepareSubsequentHandover:
-		return "prepareSubsequentHandover"
-	case GSMMAPOperationLocalvalueProvideSubscriberInfo:
-		return "provideSubscriberInfo"
-	case GSMMAPOperationLocalvalueAnyTimeInterrogation:
-		return "anyTimeInterrogation"
-	case GSMMAPOperationLocalvalueSsInvocationNotification:
-		return "ss-InvocationNotification"
-	case GSMMAPOperationLocalvalueSetReportingState:
-		return "setReportingState"
-	case GSMMAPOperationLocalvalueStatusReport:
-		return "statusReport"
-	case GSMMAPOperationLocalvalueRemoteUserFree:
-		return "remoteUserFree"
-	case GSMMAPOperationLocalvalueRegisterCCEntry:
-		return "registerCC-Entry"
-	case GSMMAPOperationLocalvalueEraseCCEntry:
-		return "eraseCC-Entry"
-	case GSMMAPOperationLocalvalueSecureTransportClass1:
-		return "secureTransportClass1"
-	case GSMMAPOperationLocalvalueSecureTransportClass2:
-		return "secureTransportClass2"
-	case GSMMAPOperationLocalvalueSecureTransportClass3:
-		return "secureTransportClass3"
-	case GSMMAPOperationLocalvalueSecureTransportClass4:
-		return "secureTransportClass4"
-	case GSMMAPOperationLocalvalueUnAllocated82:
-		return "unAllocated-82"
-	case GSMMAPOperationLocalvalueProvideSubscriberLocation:
-		return "provideSubscriberLocation"
-	case GSMMAPOperationLocalvalueSendGroupCallInfo:
-		return "sendGroupCallInfo"
-	case GSMMAPOperationLocalvalueSendRoutingInfoForLCS:
-		return "sendRoutingInfoForLCS"
-	case GSMMAPOperationLocalvalueSubscriberLocationReport:
-		return "subscriberLocationReport"
-	case GSMMAPOperationLocalvalueIstAlert:
-		return "ist-Alert"
-	case GSMMAPOperationLocalvalueIstCommand:
-		return "ist-Command"
-	case GSMMAPOperationLocalvalueNoteMMEvent:
-		return "noteMM-Event"
-	case GSMMAPOperationLocalvalueUnAllocated90:
-		return "unAllocated-90"
-	case GSMMAPOperationLocalvalueUnAllocated91:
-		return "unAllocated-91"
-	case GSMMAPOperationLocalvalueUnAllocated92:
-		return "unAllocated-92"
-	case GSMMAPOperationLocalvalueUnAllocated93:
-		return "unAllocated-93"
-	case GSMMAPOperationLocalvalueUnAllocated94:
-		return "unAllocated-94"
-	case GSMMAPOperationLocalvalueUnAllocated95:
-		return "unAllocated-95"
-	case GSMMAPOperationLocalvalueUnAllocated96:
-		return "unAllocated-96"
-	case GSMMAPOperationLocalvalueUnAllocated97:
-		return "unAllocated-97"
-	case GSMMAPOperationLocalvalueUnAllocated98:
-		return "unAllocated-98"
-	case GSMMAPOperationLocalvalueUnAllocated99:
-		return "unAllocated-99"
-	case GSMMAPOperationLocalvalueUnAllocated100:
-		return "unAllocated-100"
-	case GSMMAPOperationLocalvalueUnAllocated101:
-		return "unAllocated-101"
-	case GSMMAPOperationLocalvalueUnAllocated102:
-		return "unAllocated-102"
-	case GSMMAPOperationLocalvalueUnAllocated103:
-		return "unAllocated-103"
-	case GSMMAPOperationLocalvalueUnAllocated104:
-		return "unAllocated-104"
-	case GSMMAPOperationLocalvalueUnAllocated105:
-		return "unAllocated-105"
-	case GSMMAPOperationLocalvalueUnAllocated106:
-		return "unAllocated-106"
-	case GSMMAPOperationLocalvalueUnAllocated107:
-		return "unAllocated-107"
-	case GSMMAPOperationLocalvalueUnAllocated108:
-		return "unAllocated-108"
-	case GSMMAPOperationLocalvalueLcsPeriodicLocationCancellation:
-		return "lcs-PeriodicLocationCancellation"
-	case GSMMAPOperationLocalvalueLcsLocationUpdate:
-		return "lcs-LocationUpdate"
-	case GSMMAPOperationLocalvalueLcsPeriodicLocationRequest:
-		return "lcs-PeriodicLocationRequest"
-	case GSMMAPOperationLocalvalueLcsAreaEventCancellation:
-		return "lcs-AreaEventCancellation"
-	case GSMMAPOperationLocalvalueLcsAreaEventReport:
-		return "lcs-AreaEventReport"
-	case GSMMAPOperationLocalvalueLcsAreaEventRequest:
-		return "lcs-AreaEventRequest"
-	case GSMMAPOperationLocalvalueLcsMOLR:
-		return "lcs-MOLR"
-	case GSMMAPOperationLocalvalueLcsLocationNotification:
-		return "lcs-LocationNotification"
-	case GSMMAPOperationLocalvalueCallDeflection:
-		return "callDeflection"
-	case GSMMAPOperationLocalvalueUserUserService:
-		return "userUserService"
-	case GSMMAPOperationLocalvalueAccessRegisterCCEntry:
-		return "accessRegisterCCEntry"
-	case GSMMAPOperationLocalvalueForwardCUGInfo:
-		return "forwardCUG-Info"
-	case GSMMAPOperationLocalvalueSplitMPTY:
-		return "splitMPTY"
-	case GSMMAPOperationLocalvalueRetrieveMPTY:
-		return "retrieveMPTY"
-	case GSMMAPOperationLocalvalueHoldMPTY:
-		return "holdMPTY"
-	case GSMMAPOperationLocalvalueBuildMPTY:
-		return "buildMPTY"
-	case GSMMAPOperationLocalvalueForwardChargeAdvice:
-		return "forwardChargeAdvice"
-	case GSMMAPOperationLocalvalueExplicitCT:
-		return "explicitCT"
+// NewGSMMAPOperationLocalvalue returns an immutable GSMMAPOperationLocalvalue containing value.
+func NewGSMMAPOperationLocalvalue(value *big.Int) GSMMAPOperationLocalvalue {
+	return GSMMAPOperationLocalvalue{value: runtime.CloneBigInt(value)}
+}
+
+// NewGSMMAPOperationLocalvalueInt64 returns a GSMMAPOperationLocalvalue containing value.
+func NewGSMMAPOperationLocalvalueInt64(value int64) GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(big.NewInt(value))
+}
+
+// GSMMAPOperationLocalvalueUpdateLocationValue returns the named value updateLocation.
+func GSMMAPOperationLocalvalueUpdateLocationValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueUpdateLocationDecimal))
+}
+
+// GSMMAPOperationLocalvalueCancelLocationValue returns the named value cancelLocation.
+func GSMMAPOperationLocalvalueCancelLocationValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueCancelLocationDecimal))
+}
+
+// GSMMAPOperationLocalvalueProvideRoamingNumberValue returns the named value provideRoamingNumber.
+func GSMMAPOperationLocalvalueProvideRoamingNumberValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueProvideRoamingNumberDecimal))
+}
+
+// GSMMAPOperationLocalvalueNoteSubscriberDataModifiedValue returns the named value noteSubscriberDataModified.
+func GSMMAPOperationLocalvalueNoteSubscriberDataModifiedValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueNoteSubscriberDataModifiedDecimal))
+}
+
+// GSMMAPOperationLocalvalueResumeCallHandlingValue returns the named value resumeCallHandling.
+func GSMMAPOperationLocalvalueResumeCallHandlingValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueResumeCallHandlingDecimal))
+}
+
+// GSMMAPOperationLocalvalueInsertSubscriberDataValue returns the named value insertSubscriberData.
+func GSMMAPOperationLocalvalueInsertSubscriberDataValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueInsertSubscriberDataDecimal))
+}
+
+// GSMMAPOperationLocalvalueDeleteSubscriberDataValue returns the named value deleteSubscriberData.
+func GSMMAPOperationLocalvalueDeleteSubscriberDataValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueDeleteSubscriberDataDecimal))
+}
+
+// GSMMAPOperationLocalvalueSendParametersValue returns the named value sendParameters.
+func GSMMAPOperationLocalvalueSendParametersValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueSendParametersDecimal))
+}
+
+// GSMMAPOperationLocalvalueRegisterSSValue returns the named value registerSS.
+func GSMMAPOperationLocalvalueRegisterSSValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueRegisterSSDecimal))
+}
+
+// GSMMAPOperationLocalvalueEraseSSValue returns the named value eraseSS.
+func GSMMAPOperationLocalvalueEraseSSValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueEraseSSDecimal))
+}
+
+// GSMMAPOperationLocalvalueActivateSSValue returns the named value activateSS.
+func GSMMAPOperationLocalvalueActivateSSValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueActivateSSDecimal))
+}
+
+// GSMMAPOperationLocalvalueDeactivateSSValue returns the named value deactivateSS.
+func GSMMAPOperationLocalvalueDeactivateSSValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueDeactivateSSDecimal))
+}
+
+// GSMMAPOperationLocalvalueInterrogateSSValue returns the named value interrogateSS.
+func GSMMAPOperationLocalvalueInterrogateSSValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueInterrogateSSDecimal))
+}
+
+// GSMMAPOperationLocalvalueAuthenticationFailureReportValue returns the named value authenticationFailureReport.
+func GSMMAPOperationLocalvalueAuthenticationFailureReportValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueAuthenticationFailureReportDecimal))
+}
+
+// GSMMAPOperationLocalvalueNotifySSValue returns the named value notifySS.
+func GSMMAPOperationLocalvalueNotifySSValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueNotifySSDecimal))
+}
+
+// GSMMAPOperationLocalvalueRegisterPasswordValue returns the named value registerPassword.
+func GSMMAPOperationLocalvalueRegisterPasswordValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueRegisterPasswordDecimal))
+}
+
+// GSMMAPOperationLocalvalueGetPasswordValue returns the named value getPassword.
+func GSMMAPOperationLocalvalueGetPasswordValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueGetPasswordDecimal))
+}
+
+// GSMMAPOperationLocalvalueProcessUnstructuredSSDataValue returns the named value processUnstructuredSS-Data.
+func GSMMAPOperationLocalvalueProcessUnstructuredSSDataValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueProcessUnstructuredSSDataDecimal))
+}
+
+// GSMMAPOperationLocalvalueReleaseResourcesValue returns the named value releaseResources.
+func GSMMAPOperationLocalvalueReleaseResourcesValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueReleaseResourcesDecimal))
+}
+
+// GSMMAPOperationLocalvalueMtForwardSMVGCSValue returns the named value mt-ForwardSM-VGCS.
+func GSMMAPOperationLocalvalueMtForwardSMVGCSValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueMtForwardSMVGCSDecimal))
+}
+
+// GSMMAPOperationLocalvalueSendRoutingInfoValue returns the named value sendRoutingInfo.
+func GSMMAPOperationLocalvalueSendRoutingInfoValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueSendRoutingInfoDecimal))
+}
+
+// GSMMAPOperationLocalvalueUpdateGprsLocationValue returns the named value updateGprsLocation.
+func GSMMAPOperationLocalvalueUpdateGprsLocationValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueUpdateGprsLocationDecimal))
+}
+
+// GSMMAPOperationLocalvalueSendRoutingInfoForGprsValue returns the named value sendRoutingInfoForGprs.
+func GSMMAPOperationLocalvalueSendRoutingInfoForGprsValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueSendRoutingInfoForGprsDecimal))
+}
+
+// GSMMAPOperationLocalvalueFailureReportValue returns the named value failureReport.
+func GSMMAPOperationLocalvalueFailureReportValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueFailureReportDecimal))
+}
+
+// GSMMAPOperationLocalvalueNoteMsPresentForGprsValue returns the named value noteMsPresentForGprs.
+func GSMMAPOperationLocalvalueNoteMsPresentForGprsValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueNoteMsPresentForGprsDecimal))
+}
+
+// GSMMAPOperationLocalvaluePerformHandoverValue returns the named value performHandover.
+func GSMMAPOperationLocalvaluePerformHandoverValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvaluePerformHandoverDecimal))
+}
+
+// GSMMAPOperationLocalvalueSendEndSignalValue returns the named value sendEndSignal.
+func GSMMAPOperationLocalvalueSendEndSignalValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueSendEndSignalDecimal))
+}
+
+// GSMMAPOperationLocalvaluePerformSubsequentHandoverValue returns the named value performSubsequentHandover.
+func GSMMAPOperationLocalvaluePerformSubsequentHandoverValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvaluePerformSubsequentHandoverDecimal))
+}
+
+// GSMMAPOperationLocalvalueProvideSIWFSNumberValue returns the named value provideSIWFSNumber.
+func GSMMAPOperationLocalvalueProvideSIWFSNumberValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueProvideSIWFSNumberDecimal))
+}
+
+// GSMMAPOperationLocalvalueSIWFSSignallingModifyValue returns the named value sIWFSSignallingModify.
+func GSMMAPOperationLocalvalueSIWFSSignallingModifyValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueSIWFSSignallingModifyDecimal))
+}
+
+// GSMMAPOperationLocalvalueProcessAccessSignallingValue returns the named value processAccessSignalling.
+func GSMMAPOperationLocalvalueProcessAccessSignallingValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueProcessAccessSignallingDecimal))
+}
+
+// GSMMAPOperationLocalvalueForwardAccessSignallingValue returns the named value forwardAccessSignalling.
+func GSMMAPOperationLocalvalueForwardAccessSignallingValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueForwardAccessSignallingDecimal))
+}
+
+// GSMMAPOperationLocalvalueNoteInternalHandoverValue returns the named value noteInternalHandover.
+func GSMMAPOperationLocalvalueNoteInternalHandoverValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueNoteInternalHandoverDecimal))
+}
+
+// GSMMAPOperationLocalvalueCancelVcsgLocationValue returns the named value cancelVcsgLocation.
+func GSMMAPOperationLocalvalueCancelVcsgLocationValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueCancelVcsgLocationDecimal))
+}
+
+// GSMMAPOperationLocalvalueResetValue returns the named value reset.
+func GSMMAPOperationLocalvalueResetValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueResetDecimal))
+}
+
+// GSMMAPOperationLocalvalueForwardCheckSSValue returns the named value forwardCheckSS.
+func GSMMAPOperationLocalvalueForwardCheckSSValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueForwardCheckSSDecimal))
+}
+
+// GSMMAPOperationLocalvaluePrepareGroupCallValue returns the named value prepareGroupCall.
+func GSMMAPOperationLocalvaluePrepareGroupCallValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvaluePrepareGroupCallDecimal))
+}
+
+// GSMMAPOperationLocalvalueSendGroupCallEndSignalValue returns the named value sendGroupCallEndSignal.
+func GSMMAPOperationLocalvalueSendGroupCallEndSignalValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueSendGroupCallEndSignalDecimal))
+}
+
+// GSMMAPOperationLocalvalueProcessGroupCallSignallingValue returns the named value processGroupCallSignalling.
+func GSMMAPOperationLocalvalueProcessGroupCallSignallingValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueProcessGroupCallSignallingDecimal))
+}
+
+// GSMMAPOperationLocalvalueForwardGroupCallSignallingValue returns the named value forwardGroupCallSignalling.
+func GSMMAPOperationLocalvalueForwardGroupCallSignallingValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueForwardGroupCallSignallingDecimal))
+}
+
+// GSMMAPOperationLocalvalueCheckIMEIValue returns the named value checkIMEI.
+func GSMMAPOperationLocalvalueCheckIMEIValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueCheckIMEIDecimal))
+}
+
+// GSMMAPOperationLocalvalueMtForwardSMValue returns the named value mt-forwardSM.
+func GSMMAPOperationLocalvalueMtForwardSMValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueMtForwardSMDecimal))
+}
+
+// GSMMAPOperationLocalvalueSendRoutingInfoForSMValue returns the named value sendRoutingInfoForSM.
+func GSMMAPOperationLocalvalueSendRoutingInfoForSMValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueSendRoutingInfoForSMDecimal))
+}
+
+// GSMMAPOperationLocalvalueMoForwardSMValue returns the named value mo-forwardSM.
+func GSMMAPOperationLocalvalueMoForwardSMValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueMoForwardSMDecimal))
+}
+
+// GSMMAPOperationLocalvalueReportSMDeliveryStatusValue returns the named value reportSM-DeliveryStatus.
+func GSMMAPOperationLocalvalueReportSMDeliveryStatusValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueReportSMDeliveryStatusDecimal))
+}
+
+// GSMMAPOperationLocalvalueNoteSubscriberPresentValue returns the named value noteSubscriberPresent.
+func GSMMAPOperationLocalvalueNoteSubscriberPresentValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueNoteSubscriberPresentDecimal))
+}
+
+// GSMMAPOperationLocalvalueAlertServiceCentreWithoutResultValue returns the named value alertServiceCentreWithoutResult.
+func GSMMAPOperationLocalvalueAlertServiceCentreWithoutResultValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueAlertServiceCentreWithoutResultDecimal))
+}
+
+// GSMMAPOperationLocalvalueActivateTraceModeValue returns the named value activateTraceMode.
+func GSMMAPOperationLocalvalueActivateTraceModeValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueActivateTraceModeDecimal))
+}
+
+// GSMMAPOperationLocalvalueDeactivateTraceModeValue returns the named value deactivateTraceMode.
+func GSMMAPOperationLocalvalueDeactivateTraceModeValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueDeactivateTraceModeDecimal))
+}
+
+// GSMMAPOperationLocalvalueTraceSubscriberActivityValue returns the named value traceSubscriberActivity.
+func GSMMAPOperationLocalvalueTraceSubscriberActivityValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueTraceSubscriberActivityDecimal))
+}
+
+// GSMMAPOperationLocalvalueUpdateVcsgLocationValue returns the named value updateVcsgLocation.
+func GSMMAPOperationLocalvalueUpdateVcsgLocationValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueUpdateVcsgLocationDecimal))
+}
+
+// GSMMAPOperationLocalvalueBeginSubscriberActivityValue returns the named value beginSubscriberActivity.
+func GSMMAPOperationLocalvalueBeginSubscriberActivityValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueBeginSubscriberActivityDecimal))
+}
+
+// GSMMAPOperationLocalvalueSendIdentificationValue returns the named value sendIdentification.
+func GSMMAPOperationLocalvalueSendIdentificationValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueSendIdentificationDecimal))
+}
+
+// GSMMAPOperationLocalvalueSendAuthenticationInfoValue returns the named value sendAuthenticationInfo.
+func GSMMAPOperationLocalvalueSendAuthenticationInfoValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueSendAuthenticationInfoDecimal))
+}
+
+// GSMMAPOperationLocalvalueRestoreDataValue returns the named value restoreData.
+func GSMMAPOperationLocalvalueRestoreDataValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueRestoreDataDecimal))
+}
+
+// GSMMAPOperationLocalvalueSendIMSIValue returns the named value sendIMSI.
+func GSMMAPOperationLocalvalueSendIMSIValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueSendIMSIDecimal))
+}
+
+// GSMMAPOperationLocalvalueProcessUnstructuredSSRequestValue returns the named value processUnstructuredSS-Request.
+func GSMMAPOperationLocalvalueProcessUnstructuredSSRequestValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueProcessUnstructuredSSRequestDecimal))
+}
+
+// GSMMAPOperationLocalvalueUnstructuredSSRequestValue returns the named value unstructuredSS-Request.
+func GSMMAPOperationLocalvalueUnstructuredSSRequestValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueUnstructuredSSRequestDecimal))
+}
+
+// GSMMAPOperationLocalvalueUnstructuredSSNotifyValue returns the named value unstructuredSS-Notify.
+func GSMMAPOperationLocalvalueUnstructuredSSNotifyValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueUnstructuredSSNotifyDecimal))
+}
+
+// GSMMAPOperationLocalvalueAnyTimeSubscriptionInterrogationValue returns the named value anyTimeSubscriptionInterrogation.
+func GSMMAPOperationLocalvalueAnyTimeSubscriptionInterrogationValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueAnyTimeSubscriptionInterrogationDecimal))
+}
+
+// GSMMAPOperationLocalvalueInformServiceCentreValue returns the named value informServiceCentre.
+func GSMMAPOperationLocalvalueInformServiceCentreValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueInformServiceCentreDecimal))
+}
+
+// GSMMAPOperationLocalvalueAlertServiceCentreValue returns the named value alertServiceCentre.
+func GSMMAPOperationLocalvalueAlertServiceCentreValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueAlertServiceCentreDecimal))
+}
+
+// GSMMAPOperationLocalvalueAnyTimeModificationValue returns the named value anyTimeModification.
+func GSMMAPOperationLocalvalueAnyTimeModificationValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueAnyTimeModificationDecimal))
+}
+
+// GSMMAPOperationLocalvalueReadyForSMValue returns the named value readyForSM.
+func GSMMAPOperationLocalvalueReadyForSMValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueReadyForSMDecimal))
+}
+
+// GSMMAPOperationLocalvaluePurgeMSValue returns the named value purgeMS.
+func GSMMAPOperationLocalvaluePurgeMSValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvaluePurgeMSDecimal))
+}
+
+// GSMMAPOperationLocalvaluePrepareHandoverValue returns the named value prepareHandover.
+func GSMMAPOperationLocalvaluePrepareHandoverValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvaluePrepareHandoverDecimal))
+}
+
+// GSMMAPOperationLocalvaluePrepareSubsequentHandoverValue returns the named value prepareSubsequentHandover.
+func GSMMAPOperationLocalvaluePrepareSubsequentHandoverValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvaluePrepareSubsequentHandoverDecimal))
+}
+
+// GSMMAPOperationLocalvalueProvideSubscriberInfoValue returns the named value provideSubscriberInfo.
+func GSMMAPOperationLocalvalueProvideSubscriberInfoValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueProvideSubscriberInfoDecimal))
+}
+
+// GSMMAPOperationLocalvalueAnyTimeInterrogationValue returns the named value anyTimeInterrogation.
+func GSMMAPOperationLocalvalueAnyTimeInterrogationValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueAnyTimeInterrogationDecimal))
+}
+
+// GSMMAPOperationLocalvalueSsInvocationNotificationValue returns the named value ss-InvocationNotification.
+func GSMMAPOperationLocalvalueSsInvocationNotificationValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueSsInvocationNotificationDecimal))
+}
+
+// GSMMAPOperationLocalvalueSetReportingStateValue returns the named value setReportingState.
+func GSMMAPOperationLocalvalueSetReportingStateValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueSetReportingStateDecimal))
+}
+
+// GSMMAPOperationLocalvalueStatusReportValue returns the named value statusReport.
+func GSMMAPOperationLocalvalueStatusReportValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueStatusReportDecimal))
+}
+
+// GSMMAPOperationLocalvalueRemoteUserFreeValue returns the named value remoteUserFree.
+func GSMMAPOperationLocalvalueRemoteUserFreeValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueRemoteUserFreeDecimal))
+}
+
+// GSMMAPOperationLocalvalueRegisterCCEntryValue returns the named value registerCC-Entry.
+func GSMMAPOperationLocalvalueRegisterCCEntryValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueRegisterCCEntryDecimal))
+}
+
+// GSMMAPOperationLocalvalueEraseCCEntryValue returns the named value eraseCC-Entry.
+func GSMMAPOperationLocalvalueEraseCCEntryValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueEraseCCEntryDecimal))
+}
+
+// GSMMAPOperationLocalvalueSecureTransportClass1Value returns the named value secureTransportClass1.
+func GSMMAPOperationLocalvalueSecureTransportClass1Value() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueSecureTransportClass1Decimal))
+}
+
+// GSMMAPOperationLocalvalueSecureTransportClass2Value returns the named value secureTransportClass2.
+func GSMMAPOperationLocalvalueSecureTransportClass2Value() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueSecureTransportClass2Decimal))
+}
+
+// GSMMAPOperationLocalvalueSecureTransportClass3Value returns the named value secureTransportClass3.
+func GSMMAPOperationLocalvalueSecureTransportClass3Value() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueSecureTransportClass3Decimal))
+}
+
+// GSMMAPOperationLocalvalueSecureTransportClass4Value returns the named value secureTransportClass4.
+func GSMMAPOperationLocalvalueSecureTransportClass4Value() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueSecureTransportClass4Decimal))
+}
+
+// GSMMAPOperationLocalvalueProvideSubscriberLocationValue returns the named value provideSubscriberLocation.
+func GSMMAPOperationLocalvalueProvideSubscriberLocationValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueProvideSubscriberLocationDecimal))
+}
+
+// GSMMAPOperationLocalvalueSendGroupCallInfoValue returns the named value sendGroupCallInfo.
+func GSMMAPOperationLocalvalueSendGroupCallInfoValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueSendGroupCallInfoDecimal))
+}
+
+// GSMMAPOperationLocalvalueSendRoutingInfoForLCSValue returns the named value sendRoutingInfoForLCS.
+func GSMMAPOperationLocalvalueSendRoutingInfoForLCSValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueSendRoutingInfoForLCSDecimal))
+}
+
+// GSMMAPOperationLocalvalueSubscriberLocationReportValue returns the named value subscriberLocationReport.
+func GSMMAPOperationLocalvalueSubscriberLocationReportValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueSubscriberLocationReportDecimal))
+}
+
+// GSMMAPOperationLocalvalueIstAlertValue returns the named value ist-Alert.
+func GSMMAPOperationLocalvalueIstAlertValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueIstAlertDecimal))
+}
+
+// GSMMAPOperationLocalvalueIstCommandValue returns the named value ist-Command.
+func GSMMAPOperationLocalvalueIstCommandValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueIstCommandDecimal))
+}
+
+// GSMMAPOperationLocalvalueNoteMMEventValue returns the named value noteMM-Event.
+func GSMMAPOperationLocalvalueNoteMMEventValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueNoteMMEventDecimal))
+}
+
+// GSMMAPOperationLocalvalueLcsPeriodicLocationCancellationValue returns the named value lcs-PeriodicLocationCancellation.
+func GSMMAPOperationLocalvalueLcsPeriodicLocationCancellationValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueLcsPeriodicLocationCancellationDecimal))
+}
+
+// GSMMAPOperationLocalvalueLcsLocationUpdateValue returns the named value lcs-LocationUpdate.
+func GSMMAPOperationLocalvalueLcsLocationUpdateValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueLcsLocationUpdateDecimal))
+}
+
+// GSMMAPOperationLocalvalueLcsPeriodicLocationRequestValue returns the named value lcs-PeriodicLocationRequest.
+func GSMMAPOperationLocalvalueLcsPeriodicLocationRequestValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueLcsPeriodicLocationRequestDecimal))
+}
+
+// GSMMAPOperationLocalvalueLcsAreaEventCancellationValue returns the named value lcs-AreaEventCancellation.
+func GSMMAPOperationLocalvalueLcsAreaEventCancellationValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueLcsAreaEventCancellationDecimal))
+}
+
+// GSMMAPOperationLocalvalueLcsAreaEventReportValue returns the named value lcs-AreaEventReport.
+func GSMMAPOperationLocalvalueLcsAreaEventReportValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueLcsAreaEventReportDecimal))
+}
+
+// GSMMAPOperationLocalvalueLcsAreaEventRequestValue returns the named value lcs-AreaEventRequest.
+func GSMMAPOperationLocalvalueLcsAreaEventRequestValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueLcsAreaEventRequestDecimal))
+}
+
+// GSMMAPOperationLocalvalueLcsMOLRValue returns the named value lcs-MOLR.
+func GSMMAPOperationLocalvalueLcsMOLRValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueLcsMOLRDecimal))
+}
+
+// GSMMAPOperationLocalvalueLcsLocationNotificationValue returns the named value lcs-LocationNotification.
+func GSMMAPOperationLocalvalueLcsLocationNotificationValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueLcsLocationNotificationDecimal))
+}
+
+// GSMMAPOperationLocalvalueCallDeflectionValue returns the named value callDeflection.
+func GSMMAPOperationLocalvalueCallDeflectionValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueCallDeflectionDecimal))
+}
+
+// GSMMAPOperationLocalvalueUserUserServiceValue returns the named value userUserService.
+func GSMMAPOperationLocalvalueUserUserServiceValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueUserUserServiceDecimal))
+}
+
+// GSMMAPOperationLocalvalueAccessRegisterCCEntryValue returns the named value accessRegisterCCEntry.
+func GSMMAPOperationLocalvalueAccessRegisterCCEntryValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueAccessRegisterCCEntryDecimal))
+}
+
+// GSMMAPOperationLocalvalueForwardCUGInfoValue returns the named value forwardCUG-Info.
+func GSMMAPOperationLocalvalueForwardCUGInfoValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueForwardCUGInfoDecimal))
+}
+
+// GSMMAPOperationLocalvalueSplitMPTYValue returns the named value splitMPTY.
+func GSMMAPOperationLocalvalueSplitMPTYValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueSplitMPTYDecimal))
+}
+
+// GSMMAPOperationLocalvalueRetrieveMPTYValue returns the named value retrieveMPTY.
+func GSMMAPOperationLocalvalueRetrieveMPTYValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueRetrieveMPTYDecimal))
+}
+
+// GSMMAPOperationLocalvalueHoldMPTYValue returns the named value holdMPTY.
+func GSMMAPOperationLocalvalueHoldMPTYValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueHoldMPTYDecimal))
+}
+
+// GSMMAPOperationLocalvalueBuildMPTYValue returns the named value buildMPTY.
+func GSMMAPOperationLocalvalueBuildMPTYValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueBuildMPTYDecimal))
+}
+
+// GSMMAPOperationLocalvalueForwardChargeAdviceValue returns the named value forwardChargeAdvice.
+func GSMMAPOperationLocalvalueForwardChargeAdviceValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueForwardChargeAdviceDecimal))
+}
+
+// GSMMAPOperationLocalvalueExplicitCTValue returns the named value explicitCT.
+func GSMMAPOperationLocalvalueExplicitCTValue() GSMMAPOperationLocalvalue {
+	return NewGSMMAPOperationLocalvalue(runtime.MustParseBigIntDecimal(GSMMAPOperationLocalvalueExplicitCTDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v GSMMAPOperationLocalvalue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v GSMMAPOperationLocalvalue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v GSMMAPOperationLocalvalue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case GSMMAPOperationLocalvalueUpdateLocationDecimal:
+		return "updateLocation", true
+	case GSMMAPOperationLocalvalueCancelLocationDecimal:
+		return "cancelLocation", true
+	case GSMMAPOperationLocalvalueProvideRoamingNumberDecimal:
+		return "provideRoamingNumber", true
+	case GSMMAPOperationLocalvalueNoteSubscriberDataModifiedDecimal:
+		return "noteSubscriberDataModified", true
+	case GSMMAPOperationLocalvalueResumeCallHandlingDecimal:
+		return "resumeCallHandling", true
+	case GSMMAPOperationLocalvalueInsertSubscriberDataDecimal:
+		return "insertSubscriberData", true
+	case GSMMAPOperationLocalvalueDeleteSubscriberDataDecimal:
+		return "deleteSubscriberData", true
+	case GSMMAPOperationLocalvalueSendParametersDecimal:
+		return "sendParameters", true
+	case GSMMAPOperationLocalvalueRegisterSSDecimal:
+		return "registerSS", true
+	case GSMMAPOperationLocalvalueEraseSSDecimal:
+		return "eraseSS", true
+	case GSMMAPOperationLocalvalueActivateSSDecimal:
+		return "activateSS", true
+	case GSMMAPOperationLocalvalueDeactivateSSDecimal:
+		return "deactivateSS", true
+	case GSMMAPOperationLocalvalueInterrogateSSDecimal:
+		return "interrogateSS", true
+	case GSMMAPOperationLocalvalueAuthenticationFailureReportDecimal:
+		return "authenticationFailureReport", true
+	case GSMMAPOperationLocalvalueNotifySSDecimal:
+		return "notifySS", true
+	case GSMMAPOperationLocalvalueRegisterPasswordDecimal:
+		return "registerPassword", true
+	case GSMMAPOperationLocalvalueGetPasswordDecimal:
+		return "getPassword", true
+	case GSMMAPOperationLocalvalueProcessUnstructuredSSDataDecimal:
+		return "processUnstructuredSS-Data", true
+	case GSMMAPOperationLocalvalueReleaseResourcesDecimal:
+		return "releaseResources", true
+	case GSMMAPOperationLocalvalueMtForwardSMVGCSDecimal:
+		return "mt-ForwardSM-VGCS", true
+	case GSMMAPOperationLocalvalueSendRoutingInfoDecimal:
+		return "sendRoutingInfo", true
+	case GSMMAPOperationLocalvalueUpdateGprsLocationDecimal:
+		return "updateGprsLocation", true
+	case GSMMAPOperationLocalvalueSendRoutingInfoForGprsDecimal:
+		return "sendRoutingInfoForGprs", true
+	case GSMMAPOperationLocalvalueFailureReportDecimal:
+		return "failureReport", true
+	case GSMMAPOperationLocalvalueNoteMsPresentForGprsDecimal:
+		return "noteMsPresentForGprs", true
+	case GSMMAPOperationLocalvaluePerformHandoverDecimal:
+		return "performHandover", true
+	case GSMMAPOperationLocalvalueSendEndSignalDecimal:
+		return "sendEndSignal", true
+	case GSMMAPOperationLocalvaluePerformSubsequentHandoverDecimal:
+		return "performSubsequentHandover", true
+	case GSMMAPOperationLocalvalueProvideSIWFSNumberDecimal:
+		return "provideSIWFSNumber", true
+	case GSMMAPOperationLocalvalueSIWFSSignallingModifyDecimal:
+		return "sIWFSSignallingModify", true
+	case GSMMAPOperationLocalvalueProcessAccessSignallingDecimal:
+		return "processAccessSignalling", true
+	case GSMMAPOperationLocalvalueForwardAccessSignallingDecimal:
+		return "forwardAccessSignalling", true
+	case GSMMAPOperationLocalvalueNoteInternalHandoverDecimal:
+		return "noteInternalHandover", true
+	case GSMMAPOperationLocalvalueCancelVcsgLocationDecimal:
+		return "cancelVcsgLocation", true
+	case GSMMAPOperationLocalvalueResetDecimal:
+		return "reset", true
+	case GSMMAPOperationLocalvalueForwardCheckSSDecimal:
+		return "forwardCheckSS", true
+	case GSMMAPOperationLocalvaluePrepareGroupCallDecimal:
+		return "prepareGroupCall", true
+	case GSMMAPOperationLocalvalueSendGroupCallEndSignalDecimal:
+		return "sendGroupCallEndSignal", true
+	case GSMMAPOperationLocalvalueProcessGroupCallSignallingDecimal:
+		return "processGroupCallSignalling", true
+	case GSMMAPOperationLocalvalueForwardGroupCallSignallingDecimal:
+		return "forwardGroupCallSignalling", true
+	case GSMMAPOperationLocalvalueCheckIMEIDecimal:
+		return "checkIMEI", true
+	case GSMMAPOperationLocalvalueMtForwardSMDecimal:
+		return "mt-forwardSM", true
+	case GSMMAPOperationLocalvalueSendRoutingInfoForSMDecimal:
+		return "sendRoutingInfoForSM", true
+	case GSMMAPOperationLocalvalueMoForwardSMDecimal:
+		return "mo-forwardSM", true
+	case GSMMAPOperationLocalvalueReportSMDeliveryStatusDecimal:
+		return "reportSM-DeliveryStatus", true
+	case GSMMAPOperationLocalvalueNoteSubscriberPresentDecimal:
+		return "noteSubscriberPresent", true
+	case GSMMAPOperationLocalvalueAlertServiceCentreWithoutResultDecimal:
+		return "alertServiceCentreWithoutResult", true
+	case GSMMAPOperationLocalvalueActivateTraceModeDecimal:
+		return "activateTraceMode", true
+	case GSMMAPOperationLocalvalueDeactivateTraceModeDecimal:
+		return "deactivateTraceMode", true
+	case GSMMAPOperationLocalvalueTraceSubscriberActivityDecimal:
+		return "traceSubscriberActivity", true
+	case GSMMAPOperationLocalvalueUpdateVcsgLocationDecimal:
+		return "updateVcsgLocation", true
+	case GSMMAPOperationLocalvalueBeginSubscriberActivityDecimal:
+		return "beginSubscriberActivity", true
+	case GSMMAPOperationLocalvalueSendIdentificationDecimal:
+		return "sendIdentification", true
+	case GSMMAPOperationLocalvalueSendAuthenticationInfoDecimal:
+		return "sendAuthenticationInfo", true
+	case GSMMAPOperationLocalvalueRestoreDataDecimal:
+		return "restoreData", true
+	case GSMMAPOperationLocalvalueSendIMSIDecimal:
+		return "sendIMSI", true
+	case GSMMAPOperationLocalvalueProcessUnstructuredSSRequestDecimal:
+		return "processUnstructuredSS-Request", true
+	case GSMMAPOperationLocalvalueUnstructuredSSRequestDecimal:
+		return "unstructuredSS-Request", true
+	case GSMMAPOperationLocalvalueUnstructuredSSNotifyDecimal:
+		return "unstructuredSS-Notify", true
+	case GSMMAPOperationLocalvalueAnyTimeSubscriptionInterrogationDecimal:
+		return "anyTimeSubscriptionInterrogation", true
+	case GSMMAPOperationLocalvalueInformServiceCentreDecimal:
+		return "informServiceCentre", true
+	case GSMMAPOperationLocalvalueAlertServiceCentreDecimal:
+		return "alertServiceCentre", true
+	case GSMMAPOperationLocalvalueAnyTimeModificationDecimal:
+		return "anyTimeModification", true
+	case GSMMAPOperationLocalvalueReadyForSMDecimal:
+		return "readyForSM", true
+	case GSMMAPOperationLocalvaluePurgeMSDecimal:
+		return "purgeMS", true
+	case GSMMAPOperationLocalvaluePrepareHandoverDecimal:
+		return "prepareHandover", true
+	case GSMMAPOperationLocalvaluePrepareSubsequentHandoverDecimal:
+		return "prepareSubsequentHandover", true
+	case GSMMAPOperationLocalvalueProvideSubscriberInfoDecimal:
+		return "provideSubscriberInfo", true
+	case GSMMAPOperationLocalvalueAnyTimeInterrogationDecimal:
+		return "anyTimeInterrogation", true
+	case GSMMAPOperationLocalvalueSsInvocationNotificationDecimal:
+		return "ss-InvocationNotification", true
+	case GSMMAPOperationLocalvalueSetReportingStateDecimal:
+		return "setReportingState", true
+	case GSMMAPOperationLocalvalueStatusReportDecimal:
+		return "statusReport", true
+	case GSMMAPOperationLocalvalueRemoteUserFreeDecimal:
+		return "remoteUserFree", true
+	case GSMMAPOperationLocalvalueRegisterCCEntryDecimal:
+		return "registerCC-Entry", true
+	case GSMMAPOperationLocalvalueEraseCCEntryDecimal:
+		return "eraseCC-Entry", true
+	case GSMMAPOperationLocalvalueSecureTransportClass1Decimal:
+		return "secureTransportClass1", true
+	case GSMMAPOperationLocalvalueSecureTransportClass2Decimal:
+		return "secureTransportClass2", true
+	case GSMMAPOperationLocalvalueSecureTransportClass3Decimal:
+		return "secureTransportClass3", true
+	case GSMMAPOperationLocalvalueSecureTransportClass4Decimal:
+		return "secureTransportClass4", true
+	case GSMMAPOperationLocalvalueProvideSubscriberLocationDecimal:
+		return "provideSubscriberLocation", true
+	case GSMMAPOperationLocalvalueSendGroupCallInfoDecimal:
+		return "sendGroupCallInfo", true
+	case GSMMAPOperationLocalvalueSendRoutingInfoForLCSDecimal:
+		return "sendRoutingInfoForLCS", true
+	case GSMMAPOperationLocalvalueSubscriberLocationReportDecimal:
+		return "subscriberLocationReport", true
+	case GSMMAPOperationLocalvalueIstAlertDecimal:
+		return "ist-Alert", true
+	case GSMMAPOperationLocalvalueIstCommandDecimal:
+		return "ist-Command", true
+	case GSMMAPOperationLocalvalueNoteMMEventDecimal:
+		return "noteMM-Event", true
+	case GSMMAPOperationLocalvalueLcsPeriodicLocationCancellationDecimal:
+		return "lcs-PeriodicLocationCancellation", true
+	case GSMMAPOperationLocalvalueLcsLocationUpdateDecimal:
+		return "lcs-LocationUpdate", true
+	case GSMMAPOperationLocalvalueLcsPeriodicLocationRequestDecimal:
+		return "lcs-PeriodicLocationRequest", true
+	case GSMMAPOperationLocalvalueLcsAreaEventCancellationDecimal:
+		return "lcs-AreaEventCancellation", true
+	case GSMMAPOperationLocalvalueLcsAreaEventReportDecimal:
+		return "lcs-AreaEventReport", true
+	case GSMMAPOperationLocalvalueLcsAreaEventRequestDecimal:
+		return "lcs-AreaEventRequest", true
+	case GSMMAPOperationLocalvalueLcsMOLRDecimal:
+		return "lcs-MOLR", true
+	case GSMMAPOperationLocalvalueLcsLocationNotificationDecimal:
+		return "lcs-LocationNotification", true
+	case GSMMAPOperationLocalvalueCallDeflectionDecimal:
+		return "callDeflection", true
+	case GSMMAPOperationLocalvalueUserUserServiceDecimal:
+		return "userUserService", true
+	case GSMMAPOperationLocalvalueAccessRegisterCCEntryDecimal:
+		return "accessRegisterCCEntry", true
+	case GSMMAPOperationLocalvalueForwardCUGInfoDecimal:
+		return "forwardCUG-Info", true
+	case GSMMAPOperationLocalvalueSplitMPTYDecimal:
+		return "splitMPTY", true
+	case GSMMAPOperationLocalvalueRetrieveMPTYDecimal:
+		return "retrieveMPTY", true
+	case GSMMAPOperationLocalvalueHoldMPTYDecimal:
+		return "holdMPTY", true
+	case GSMMAPOperationLocalvalueBuildMPTYDecimal:
+		return "buildMPTY", true
+	case GSMMAPOperationLocalvalueForwardChargeAdviceDecimal:
+		return "forwardChargeAdvice", true
+	case GSMMAPOperationLocalvalueExplicitCTDecimal:
+		return "explicitCT", true
 	default:
-		return "unknown"
+		return "", false
 	}
 }
 
-// OperationLocalvalue represents the ASN.1 type OperationLocalvalue (INTEGER).
-type OperationLocalvalue = GSMMAPOperationLocalvalue
+func (v GSMMAPOperationLocalvalue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v GSMMAPOperationLocalvalue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *GSMMAPOperationLocalvalue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal GSMMAPOperationLocalvalue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewGSMMAPOperationLocalvalue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v GSMMAPOperationLocalvalue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *GSMMAPOperationLocalvalue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal GSMMAPOperationLocalvalue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewGSMMAPOperationLocalvalue(value)
+	return nil
+}
+
+// OperationLocalvalue represents the arbitrary-width ASN.1 INTEGER type OperationLocalvalue with named numbers.
+type OperationLocalvalue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	OperationLocalvalueUpdateLocationDecimal                   = "2"
+	OperationLocalvalueUpdateLocation                          = 2
+	OperationLocalvalueCancelLocationDecimal                   = "3"
+	OperationLocalvalueCancelLocation                          = 3
+	OperationLocalvalueProvideRoamingNumberDecimal             = "4"
+	OperationLocalvalueProvideRoamingNumber                    = 4
+	OperationLocalvalueNoteSubscriberDataModifiedDecimal       = "5"
+	OperationLocalvalueNoteSubscriberDataModified              = 5
+	OperationLocalvalueResumeCallHandlingDecimal               = "6"
+	OperationLocalvalueResumeCallHandling                      = 6
+	OperationLocalvalueInsertSubscriberDataDecimal             = "7"
+	OperationLocalvalueInsertSubscriberData                    = 7
+	OperationLocalvalueDeleteSubscriberDataDecimal             = "8"
+	OperationLocalvalueDeleteSubscriberData                    = 8
+	OperationLocalvalueSendParametersDecimal                   = "9"
+	OperationLocalvalueSendParameters                          = 9
+	OperationLocalvalueRegisterSSDecimal                       = "10"
+	OperationLocalvalueRegisterSS                              = 10
+	OperationLocalvalueEraseSSDecimal                          = "11"
+	OperationLocalvalueEraseSS                                 = 11
+	OperationLocalvalueActivateSSDecimal                       = "12"
+	OperationLocalvalueActivateSS                              = 12
+	OperationLocalvalueDeactivateSSDecimal                     = "13"
+	OperationLocalvalueDeactivateSS                            = 13
+	OperationLocalvalueInterrogateSSDecimal                    = "14"
+	OperationLocalvalueInterrogateSS                           = 14
+	OperationLocalvalueAuthenticationFailureReportDecimal      = "15"
+	OperationLocalvalueAuthenticationFailureReport             = 15
+	OperationLocalvalueNotifySSDecimal                         = "16"
+	OperationLocalvalueNotifySS                                = 16
+	OperationLocalvalueRegisterPasswordDecimal                 = "17"
+	OperationLocalvalueRegisterPassword                        = 17
+	OperationLocalvalueGetPasswordDecimal                      = "18"
+	OperationLocalvalueGetPassword                             = 18
+	OperationLocalvalueProcessUnstructuredSSDataDecimal        = "19"
+	OperationLocalvalueProcessUnstructuredSSData               = 19
+	OperationLocalvalueReleaseResourcesDecimal                 = "20"
+	OperationLocalvalueReleaseResources                        = 20
+	OperationLocalvalueMtForwardSMVGCSDecimal                  = "21"
+	OperationLocalvalueMtForwardSMVGCS                         = 21
+	OperationLocalvalueSendRoutingInfoDecimal                  = "22"
+	OperationLocalvalueSendRoutingInfo                         = 22
+	OperationLocalvalueUpdateGprsLocationDecimal               = "23"
+	OperationLocalvalueUpdateGprsLocation                      = 23
+	OperationLocalvalueSendRoutingInfoForGprsDecimal           = "24"
+	OperationLocalvalueSendRoutingInfoForGprs                  = 24
+	OperationLocalvalueFailureReportDecimal                    = "25"
+	OperationLocalvalueFailureReport                           = 25
+	OperationLocalvalueNoteMsPresentForGprsDecimal             = "26"
+	OperationLocalvalueNoteMsPresentForGprs                    = 26
+	OperationLocalvaluePerformHandoverDecimal                  = "28"
+	OperationLocalvaluePerformHandover                         = 28
+	OperationLocalvalueSendEndSignalDecimal                    = "29"
+	OperationLocalvalueSendEndSignal                           = 29
+	OperationLocalvaluePerformSubsequentHandoverDecimal        = "30"
+	OperationLocalvaluePerformSubsequentHandover               = 30
+	OperationLocalvalueProvideSIWFSNumberDecimal               = "31"
+	OperationLocalvalueProvideSIWFSNumber                      = 31
+	OperationLocalvalueSIWFSSignallingModifyDecimal            = "32"
+	OperationLocalvalueSIWFSSignallingModify                   = 32
+	OperationLocalvalueProcessAccessSignallingDecimal          = "33"
+	OperationLocalvalueProcessAccessSignalling                 = 33
+	OperationLocalvalueForwardAccessSignallingDecimal          = "34"
+	OperationLocalvalueForwardAccessSignalling                 = 34
+	OperationLocalvalueNoteInternalHandoverDecimal             = "35"
+	OperationLocalvalueNoteInternalHandover                    = 35
+	OperationLocalvalueCancelVcsgLocationDecimal               = "36"
+	OperationLocalvalueCancelVcsgLocation                      = 36
+	OperationLocalvalueResetDecimal                            = "37"
+	OperationLocalvalueReset                                   = 37
+	OperationLocalvalueForwardCheckSSDecimal                   = "38"
+	OperationLocalvalueForwardCheckSS                          = 38
+	OperationLocalvaluePrepareGroupCallDecimal                 = "39"
+	OperationLocalvaluePrepareGroupCall                        = 39
+	OperationLocalvalueSendGroupCallEndSignalDecimal           = "40"
+	OperationLocalvalueSendGroupCallEndSignal                  = 40
+	OperationLocalvalueProcessGroupCallSignallingDecimal       = "41"
+	OperationLocalvalueProcessGroupCallSignalling              = 41
+	OperationLocalvalueForwardGroupCallSignallingDecimal       = "42"
+	OperationLocalvalueForwardGroupCallSignalling              = 42
+	OperationLocalvalueCheckIMEIDecimal                        = "43"
+	OperationLocalvalueCheckIMEI                               = 43
+	OperationLocalvalueMtForwardSMDecimal                      = "44"
+	OperationLocalvalueMtForwardSM                             = 44
+	OperationLocalvalueSendRoutingInfoForSMDecimal             = "45"
+	OperationLocalvalueSendRoutingInfoForSM                    = 45
+	OperationLocalvalueMoForwardSMDecimal                      = "46"
+	OperationLocalvalueMoForwardSM                             = 46
+	OperationLocalvalueReportSMDeliveryStatusDecimal           = "47"
+	OperationLocalvalueReportSMDeliveryStatus                  = 47
+	OperationLocalvalueNoteSubscriberPresentDecimal            = "48"
+	OperationLocalvalueNoteSubscriberPresent                   = 48
+	OperationLocalvalueAlertServiceCentreWithoutResultDecimal  = "49"
+	OperationLocalvalueAlertServiceCentreWithoutResult         = 49
+	OperationLocalvalueActivateTraceModeDecimal                = "50"
+	OperationLocalvalueActivateTraceMode                       = 50
+	OperationLocalvalueDeactivateTraceModeDecimal              = "51"
+	OperationLocalvalueDeactivateTraceMode                     = 51
+	OperationLocalvalueTraceSubscriberActivityDecimal          = "52"
+	OperationLocalvalueTraceSubscriberActivity                 = 52
+	OperationLocalvalueUpdateVcsgLocationDecimal               = "53"
+	OperationLocalvalueUpdateVcsgLocation                      = 53
+	OperationLocalvalueBeginSubscriberActivityDecimal          = "54"
+	OperationLocalvalueBeginSubscriberActivity                 = 54
+	OperationLocalvalueSendIdentificationDecimal               = "55"
+	OperationLocalvalueSendIdentification                      = 55
+	OperationLocalvalueSendAuthenticationInfoDecimal           = "56"
+	OperationLocalvalueSendAuthenticationInfo                  = 56
+	OperationLocalvalueRestoreDataDecimal                      = "57"
+	OperationLocalvalueRestoreData                             = 57
+	OperationLocalvalueSendIMSIDecimal                         = "58"
+	OperationLocalvalueSendIMSI                                = 58
+	OperationLocalvalueProcessUnstructuredSSRequestDecimal     = "59"
+	OperationLocalvalueProcessUnstructuredSSRequest            = 59
+	OperationLocalvalueUnstructuredSSRequestDecimal            = "60"
+	OperationLocalvalueUnstructuredSSRequest                   = 60
+	OperationLocalvalueUnstructuredSSNotifyDecimal             = "61"
+	OperationLocalvalueUnstructuredSSNotify                    = 61
+	OperationLocalvalueAnyTimeSubscriptionInterrogationDecimal = "62"
+	OperationLocalvalueAnyTimeSubscriptionInterrogation        = 62
+	OperationLocalvalueInformServiceCentreDecimal              = "63"
+	OperationLocalvalueInformServiceCentre                     = 63
+	OperationLocalvalueAlertServiceCentreDecimal               = "64"
+	OperationLocalvalueAlertServiceCentre                      = 64
+	OperationLocalvalueAnyTimeModificationDecimal              = "65"
+	OperationLocalvalueAnyTimeModification                     = 65
+	OperationLocalvalueReadyForSMDecimal                       = "66"
+	OperationLocalvalueReadyForSM                              = 66
+	OperationLocalvaluePurgeMSDecimal                          = "67"
+	OperationLocalvaluePurgeMS                                 = 67
+	OperationLocalvaluePrepareHandoverDecimal                  = "68"
+	OperationLocalvaluePrepareHandover                         = 68
+	OperationLocalvaluePrepareSubsequentHandoverDecimal        = "69"
+	OperationLocalvaluePrepareSubsequentHandover               = 69
+	OperationLocalvalueProvideSubscriberInfoDecimal            = "70"
+	OperationLocalvalueProvideSubscriberInfo                   = 70
+	OperationLocalvalueAnyTimeInterrogationDecimal             = "71"
+	OperationLocalvalueAnyTimeInterrogation                    = 71
+	OperationLocalvalueSsInvocationNotificationDecimal         = "72"
+	OperationLocalvalueSsInvocationNotification                = 72
+	OperationLocalvalueSetReportingStateDecimal                = "73"
+	OperationLocalvalueSetReportingState                       = 73
+	OperationLocalvalueStatusReportDecimal                     = "74"
+	OperationLocalvalueStatusReport                            = 74
+	OperationLocalvalueRemoteUserFreeDecimal                   = "75"
+	OperationLocalvalueRemoteUserFree                          = 75
+	OperationLocalvalueRegisterCCEntryDecimal                  = "76"
+	OperationLocalvalueRegisterCCEntry                         = 76
+	OperationLocalvalueEraseCCEntryDecimal                     = "77"
+	OperationLocalvalueEraseCCEntry                            = 77
+	OperationLocalvalueSecureTransportClass1Decimal            = "78"
+	OperationLocalvalueSecureTransportClass1                   = 78
+	OperationLocalvalueSecureTransportClass2Decimal            = "79"
+	OperationLocalvalueSecureTransportClass2                   = 79
+	OperationLocalvalueSecureTransportClass3Decimal            = "80"
+	OperationLocalvalueSecureTransportClass3                   = 80
+	OperationLocalvalueSecureTransportClass4Decimal            = "81"
+	OperationLocalvalueSecureTransportClass4                   = 81
+	OperationLocalvalueProvideSubscriberLocationDecimal        = "83"
+	OperationLocalvalueProvideSubscriberLocation               = 83
+	OperationLocalvalueSendGroupCallInfoDecimal                = "84"
+	OperationLocalvalueSendGroupCallInfo                       = 84
+	OperationLocalvalueSendRoutingInfoForLCSDecimal            = "85"
+	OperationLocalvalueSendRoutingInfoForLCS                   = 85
+	OperationLocalvalueSubscriberLocationReportDecimal         = "86"
+	OperationLocalvalueSubscriberLocationReport                = 86
+	OperationLocalvalueIstAlertDecimal                         = "87"
+	OperationLocalvalueIstAlert                                = 87
+	OperationLocalvalueIstCommandDecimal                       = "88"
+	OperationLocalvalueIstCommand                              = 88
+	OperationLocalvalueNoteMMEventDecimal                      = "89"
+	OperationLocalvalueNoteMMEvent                             = 89
+	OperationLocalvalueLcsPeriodicLocationCancellationDecimal  = "109"
+	OperationLocalvalueLcsPeriodicLocationCancellation         = 109
+	OperationLocalvalueLcsLocationUpdateDecimal                = "110"
+	OperationLocalvalueLcsLocationUpdate                       = 110
+	OperationLocalvalueLcsPeriodicLocationRequestDecimal       = "111"
+	OperationLocalvalueLcsPeriodicLocationRequest              = 111
+	OperationLocalvalueLcsAreaEventCancellationDecimal         = "112"
+	OperationLocalvalueLcsAreaEventCancellation                = 112
+	OperationLocalvalueLcsAreaEventReportDecimal               = "113"
+	OperationLocalvalueLcsAreaEventReport                      = 113
+	OperationLocalvalueLcsAreaEventRequestDecimal              = "114"
+	OperationLocalvalueLcsAreaEventRequest                     = 114
+	OperationLocalvalueLcsMOLRDecimal                          = "115"
+	OperationLocalvalueLcsMOLR                                 = 115
+	OperationLocalvalueLcsLocationNotificationDecimal          = "116"
+	OperationLocalvalueLcsLocationNotification                 = 116
+	OperationLocalvalueCallDeflectionDecimal                   = "117"
+	OperationLocalvalueCallDeflection                          = 117
+	OperationLocalvalueUserUserServiceDecimal                  = "118"
+	OperationLocalvalueUserUserService                         = 118
+	OperationLocalvalueAccessRegisterCCEntryDecimal            = "119"
+	OperationLocalvalueAccessRegisterCCEntry                   = 119
+	OperationLocalvalueForwardCUGInfoDecimal                   = "120"
+	OperationLocalvalueForwardCUGInfo                          = 120
+	OperationLocalvalueSplitMPTYDecimal                        = "121"
+	OperationLocalvalueSplitMPTY                               = 121
+	OperationLocalvalueRetrieveMPTYDecimal                     = "122"
+	OperationLocalvalueRetrieveMPTY                            = 122
+	OperationLocalvalueHoldMPTYDecimal                         = "123"
+	OperationLocalvalueHoldMPTY                                = 123
+	OperationLocalvalueBuildMPTYDecimal                        = "124"
+	OperationLocalvalueBuildMPTY                               = 124
+	OperationLocalvalueForwardChargeAdviceDecimal              = "125"
+	OperationLocalvalueForwardChargeAdvice                     = 125
+	OperationLocalvalueExplicitCTDecimal                       = "126"
+	OperationLocalvalueExplicitCT                              = 126
+)
+
+// NewOperationLocalvalue returns an immutable OperationLocalvalue containing value.
+func NewOperationLocalvalue(value *big.Int) OperationLocalvalue {
+	return OperationLocalvalue{value: runtime.CloneBigInt(value)}
+}
+
+// NewOperationLocalvalueInt64 returns a OperationLocalvalue containing value.
+func NewOperationLocalvalueInt64(value int64) OperationLocalvalue {
+	return NewOperationLocalvalue(big.NewInt(value))
+}
+
+// OperationLocalvalueUpdateLocationValue returns the named value updateLocation.
+func OperationLocalvalueUpdateLocationValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueUpdateLocationDecimal))
+}
+
+// OperationLocalvalueCancelLocationValue returns the named value cancelLocation.
+func OperationLocalvalueCancelLocationValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueCancelLocationDecimal))
+}
+
+// OperationLocalvalueProvideRoamingNumberValue returns the named value provideRoamingNumber.
+func OperationLocalvalueProvideRoamingNumberValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueProvideRoamingNumberDecimal))
+}
+
+// OperationLocalvalueNoteSubscriberDataModifiedValue returns the named value noteSubscriberDataModified.
+func OperationLocalvalueNoteSubscriberDataModifiedValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueNoteSubscriberDataModifiedDecimal))
+}
+
+// OperationLocalvalueResumeCallHandlingValue returns the named value resumeCallHandling.
+func OperationLocalvalueResumeCallHandlingValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueResumeCallHandlingDecimal))
+}
+
+// OperationLocalvalueInsertSubscriberDataValue returns the named value insertSubscriberData.
+func OperationLocalvalueInsertSubscriberDataValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueInsertSubscriberDataDecimal))
+}
+
+// OperationLocalvalueDeleteSubscriberDataValue returns the named value deleteSubscriberData.
+func OperationLocalvalueDeleteSubscriberDataValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueDeleteSubscriberDataDecimal))
+}
+
+// OperationLocalvalueSendParametersValue returns the named value sendParameters.
+func OperationLocalvalueSendParametersValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueSendParametersDecimal))
+}
+
+// OperationLocalvalueRegisterSSValue returns the named value registerSS.
+func OperationLocalvalueRegisterSSValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueRegisterSSDecimal))
+}
+
+// OperationLocalvalueEraseSSValue returns the named value eraseSS.
+func OperationLocalvalueEraseSSValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueEraseSSDecimal))
+}
+
+// OperationLocalvalueActivateSSValue returns the named value activateSS.
+func OperationLocalvalueActivateSSValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueActivateSSDecimal))
+}
+
+// OperationLocalvalueDeactivateSSValue returns the named value deactivateSS.
+func OperationLocalvalueDeactivateSSValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueDeactivateSSDecimal))
+}
+
+// OperationLocalvalueInterrogateSSValue returns the named value interrogateSS.
+func OperationLocalvalueInterrogateSSValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueInterrogateSSDecimal))
+}
+
+// OperationLocalvalueAuthenticationFailureReportValue returns the named value authenticationFailureReport.
+func OperationLocalvalueAuthenticationFailureReportValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueAuthenticationFailureReportDecimal))
+}
+
+// OperationLocalvalueNotifySSValue returns the named value notifySS.
+func OperationLocalvalueNotifySSValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueNotifySSDecimal))
+}
+
+// OperationLocalvalueRegisterPasswordValue returns the named value registerPassword.
+func OperationLocalvalueRegisterPasswordValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueRegisterPasswordDecimal))
+}
+
+// OperationLocalvalueGetPasswordValue returns the named value getPassword.
+func OperationLocalvalueGetPasswordValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueGetPasswordDecimal))
+}
+
+// OperationLocalvalueProcessUnstructuredSSDataValue returns the named value processUnstructuredSS-Data.
+func OperationLocalvalueProcessUnstructuredSSDataValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueProcessUnstructuredSSDataDecimal))
+}
+
+// OperationLocalvalueReleaseResourcesValue returns the named value releaseResources.
+func OperationLocalvalueReleaseResourcesValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueReleaseResourcesDecimal))
+}
+
+// OperationLocalvalueMtForwardSMVGCSValue returns the named value mt-ForwardSM-VGCS.
+func OperationLocalvalueMtForwardSMVGCSValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueMtForwardSMVGCSDecimal))
+}
+
+// OperationLocalvalueSendRoutingInfoValue returns the named value sendRoutingInfo.
+func OperationLocalvalueSendRoutingInfoValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueSendRoutingInfoDecimal))
+}
+
+// OperationLocalvalueUpdateGprsLocationValue returns the named value updateGprsLocation.
+func OperationLocalvalueUpdateGprsLocationValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueUpdateGprsLocationDecimal))
+}
+
+// OperationLocalvalueSendRoutingInfoForGprsValue returns the named value sendRoutingInfoForGprs.
+func OperationLocalvalueSendRoutingInfoForGprsValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueSendRoutingInfoForGprsDecimal))
+}
+
+// OperationLocalvalueFailureReportValue returns the named value failureReport.
+func OperationLocalvalueFailureReportValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueFailureReportDecimal))
+}
+
+// OperationLocalvalueNoteMsPresentForGprsValue returns the named value noteMsPresentForGprs.
+func OperationLocalvalueNoteMsPresentForGprsValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueNoteMsPresentForGprsDecimal))
+}
+
+// OperationLocalvaluePerformHandoverValue returns the named value performHandover.
+func OperationLocalvaluePerformHandoverValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvaluePerformHandoverDecimal))
+}
+
+// OperationLocalvalueSendEndSignalValue returns the named value sendEndSignal.
+func OperationLocalvalueSendEndSignalValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueSendEndSignalDecimal))
+}
+
+// OperationLocalvaluePerformSubsequentHandoverValue returns the named value performSubsequentHandover.
+func OperationLocalvaluePerformSubsequentHandoverValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvaluePerformSubsequentHandoverDecimal))
+}
+
+// OperationLocalvalueProvideSIWFSNumberValue returns the named value provideSIWFSNumber.
+func OperationLocalvalueProvideSIWFSNumberValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueProvideSIWFSNumberDecimal))
+}
+
+// OperationLocalvalueSIWFSSignallingModifyValue returns the named value sIWFSSignallingModify.
+func OperationLocalvalueSIWFSSignallingModifyValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueSIWFSSignallingModifyDecimal))
+}
+
+// OperationLocalvalueProcessAccessSignallingValue returns the named value processAccessSignalling.
+func OperationLocalvalueProcessAccessSignallingValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueProcessAccessSignallingDecimal))
+}
+
+// OperationLocalvalueForwardAccessSignallingValue returns the named value forwardAccessSignalling.
+func OperationLocalvalueForwardAccessSignallingValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueForwardAccessSignallingDecimal))
+}
+
+// OperationLocalvalueNoteInternalHandoverValue returns the named value noteInternalHandover.
+func OperationLocalvalueNoteInternalHandoverValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueNoteInternalHandoverDecimal))
+}
+
+// OperationLocalvalueCancelVcsgLocationValue returns the named value cancelVcsgLocation.
+func OperationLocalvalueCancelVcsgLocationValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueCancelVcsgLocationDecimal))
+}
+
+// OperationLocalvalueResetValue returns the named value reset.
+func OperationLocalvalueResetValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueResetDecimal))
+}
+
+// OperationLocalvalueForwardCheckSSValue returns the named value forwardCheckSS.
+func OperationLocalvalueForwardCheckSSValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueForwardCheckSSDecimal))
+}
+
+// OperationLocalvaluePrepareGroupCallValue returns the named value prepareGroupCall.
+func OperationLocalvaluePrepareGroupCallValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvaluePrepareGroupCallDecimal))
+}
+
+// OperationLocalvalueSendGroupCallEndSignalValue returns the named value sendGroupCallEndSignal.
+func OperationLocalvalueSendGroupCallEndSignalValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueSendGroupCallEndSignalDecimal))
+}
+
+// OperationLocalvalueProcessGroupCallSignallingValue returns the named value processGroupCallSignalling.
+func OperationLocalvalueProcessGroupCallSignallingValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueProcessGroupCallSignallingDecimal))
+}
+
+// OperationLocalvalueForwardGroupCallSignallingValue returns the named value forwardGroupCallSignalling.
+func OperationLocalvalueForwardGroupCallSignallingValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueForwardGroupCallSignallingDecimal))
+}
+
+// OperationLocalvalueCheckIMEIValue returns the named value checkIMEI.
+func OperationLocalvalueCheckIMEIValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueCheckIMEIDecimal))
+}
+
+// OperationLocalvalueMtForwardSMValue returns the named value mt-forwardSM.
+func OperationLocalvalueMtForwardSMValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueMtForwardSMDecimal))
+}
+
+// OperationLocalvalueSendRoutingInfoForSMValue returns the named value sendRoutingInfoForSM.
+func OperationLocalvalueSendRoutingInfoForSMValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueSendRoutingInfoForSMDecimal))
+}
+
+// OperationLocalvalueMoForwardSMValue returns the named value mo-forwardSM.
+func OperationLocalvalueMoForwardSMValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueMoForwardSMDecimal))
+}
+
+// OperationLocalvalueReportSMDeliveryStatusValue returns the named value reportSM-DeliveryStatus.
+func OperationLocalvalueReportSMDeliveryStatusValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueReportSMDeliveryStatusDecimal))
+}
+
+// OperationLocalvalueNoteSubscriberPresentValue returns the named value noteSubscriberPresent.
+func OperationLocalvalueNoteSubscriberPresentValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueNoteSubscriberPresentDecimal))
+}
+
+// OperationLocalvalueAlertServiceCentreWithoutResultValue returns the named value alertServiceCentreWithoutResult.
+func OperationLocalvalueAlertServiceCentreWithoutResultValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueAlertServiceCentreWithoutResultDecimal))
+}
+
+// OperationLocalvalueActivateTraceModeValue returns the named value activateTraceMode.
+func OperationLocalvalueActivateTraceModeValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueActivateTraceModeDecimal))
+}
+
+// OperationLocalvalueDeactivateTraceModeValue returns the named value deactivateTraceMode.
+func OperationLocalvalueDeactivateTraceModeValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueDeactivateTraceModeDecimal))
+}
+
+// OperationLocalvalueTraceSubscriberActivityValue returns the named value traceSubscriberActivity.
+func OperationLocalvalueTraceSubscriberActivityValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueTraceSubscriberActivityDecimal))
+}
+
+// OperationLocalvalueUpdateVcsgLocationValue returns the named value updateVcsgLocation.
+func OperationLocalvalueUpdateVcsgLocationValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueUpdateVcsgLocationDecimal))
+}
+
+// OperationLocalvalueBeginSubscriberActivityValue returns the named value beginSubscriberActivity.
+func OperationLocalvalueBeginSubscriberActivityValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueBeginSubscriberActivityDecimal))
+}
+
+// OperationLocalvalueSendIdentificationValue returns the named value sendIdentification.
+func OperationLocalvalueSendIdentificationValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueSendIdentificationDecimal))
+}
+
+// OperationLocalvalueSendAuthenticationInfoValue returns the named value sendAuthenticationInfo.
+func OperationLocalvalueSendAuthenticationInfoValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueSendAuthenticationInfoDecimal))
+}
+
+// OperationLocalvalueRestoreDataValue returns the named value restoreData.
+func OperationLocalvalueRestoreDataValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueRestoreDataDecimal))
+}
+
+// OperationLocalvalueSendIMSIValue returns the named value sendIMSI.
+func OperationLocalvalueSendIMSIValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueSendIMSIDecimal))
+}
+
+// OperationLocalvalueProcessUnstructuredSSRequestValue returns the named value processUnstructuredSS-Request.
+func OperationLocalvalueProcessUnstructuredSSRequestValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueProcessUnstructuredSSRequestDecimal))
+}
+
+// OperationLocalvalueUnstructuredSSRequestValue returns the named value unstructuredSS-Request.
+func OperationLocalvalueUnstructuredSSRequestValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueUnstructuredSSRequestDecimal))
+}
+
+// OperationLocalvalueUnstructuredSSNotifyValue returns the named value unstructuredSS-Notify.
+func OperationLocalvalueUnstructuredSSNotifyValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueUnstructuredSSNotifyDecimal))
+}
+
+// OperationLocalvalueAnyTimeSubscriptionInterrogationValue returns the named value anyTimeSubscriptionInterrogation.
+func OperationLocalvalueAnyTimeSubscriptionInterrogationValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueAnyTimeSubscriptionInterrogationDecimal))
+}
+
+// OperationLocalvalueInformServiceCentreValue returns the named value informServiceCentre.
+func OperationLocalvalueInformServiceCentreValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueInformServiceCentreDecimal))
+}
+
+// OperationLocalvalueAlertServiceCentreValue returns the named value alertServiceCentre.
+func OperationLocalvalueAlertServiceCentreValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueAlertServiceCentreDecimal))
+}
+
+// OperationLocalvalueAnyTimeModificationValue returns the named value anyTimeModification.
+func OperationLocalvalueAnyTimeModificationValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueAnyTimeModificationDecimal))
+}
+
+// OperationLocalvalueReadyForSMValue returns the named value readyForSM.
+func OperationLocalvalueReadyForSMValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueReadyForSMDecimal))
+}
+
+// OperationLocalvaluePurgeMSValue returns the named value purgeMS.
+func OperationLocalvaluePurgeMSValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvaluePurgeMSDecimal))
+}
+
+// OperationLocalvaluePrepareHandoverValue returns the named value prepareHandover.
+func OperationLocalvaluePrepareHandoverValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvaluePrepareHandoverDecimal))
+}
+
+// OperationLocalvaluePrepareSubsequentHandoverValue returns the named value prepareSubsequentHandover.
+func OperationLocalvaluePrepareSubsequentHandoverValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvaluePrepareSubsequentHandoverDecimal))
+}
+
+// OperationLocalvalueProvideSubscriberInfoValue returns the named value provideSubscriberInfo.
+func OperationLocalvalueProvideSubscriberInfoValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueProvideSubscriberInfoDecimal))
+}
+
+// OperationLocalvalueAnyTimeInterrogationValue returns the named value anyTimeInterrogation.
+func OperationLocalvalueAnyTimeInterrogationValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueAnyTimeInterrogationDecimal))
+}
+
+// OperationLocalvalueSsInvocationNotificationValue returns the named value ss-InvocationNotification.
+func OperationLocalvalueSsInvocationNotificationValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueSsInvocationNotificationDecimal))
+}
+
+// OperationLocalvalueSetReportingStateValue returns the named value setReportingState.
+func OperationLocalvalueSetReportingStateValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueSetReportingStateDecimal))
+}
+
+// OperationLocalvalueStatusReportValue returns the named value statusReport.
+func OperationLocalvalueStatusReportValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueStatusReportDecimal))
+}
+
+// OperationLocalvalueRemoteUserFreeValue returns the named value remoteUserFree.
+func OperationLocalvalueRemoteUserFreeValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueRemoteUserFreeDecimal))
+}
+
+// OperationLocalvalueRegisterCCEntryValue returns the named value registerCC-Entry.
+func OperationLocalvalueRegisterCCEntryValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueRegisterCCEntryDecimal))
+}
+
+// OperationLocalvalueEraseCCEntryValue returns the named value eraseCC-Entry.
+func OperationLocalvalueEraseCCEntryValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueEraseCCEntryDecimal))
+}
+
+// OperationLocalvalueSecureTransportClass1Value returns the named value secureTransportClass1.
+func OperationLocalvalueSecureTransportClass1Value() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueSecureTransportClass1Decimal))
+}
+
+// OperationLocalvalueSecureTransportClass2Value returns the named value secureTransportClass2.
+func OperationLocalvalueSecureTransportClass2Value() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueSecureTransportClass2Decimal))
+}
+
+// OperationLocalvalueSecureTransportClass3Value returns the named value secureTransportClass3.
+func OperationLocalvalueSecureTransportClass3Value() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueSecureTransportClass3Decimal))
+}
+
+// OperationLocalvalueSecureTransportClass4Value returns the named value secureTransportClass4.
+func OperationLocalvalueSecureTransportClass4Value() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueSecureTransportClass4Decimal))
+}
+
+// OperationLocalvalueProvideSubscriberLocationValue returns the named value provideSubscriberLocation.
+func OperationLocalvalueProvideSubscriberLocationValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueProvideSubscriberLocationDecimal))
+}
+
+// OperationLocalvalueSendGroupCallInfoValue returns the named value sendGroupCallInfo.
+func OperationLocalvalueSendGroupCallInfoValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueSendGroupCallInfoDecimal))
+}
+
+// OperationLocalvalueSendRoutingInfoForLCSValue returns the named value sendRoutingInfoForLCS.
+func OperationLocalvalueSendRoutingInfoForLCSValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueSendRoutingInfoForLCSDecimal))
+}
+
+// OperationLocalvalueSubscriberLocationReportValue returns the named value subscriberLocationReport.
+func OperationLocalvalueSubscriberLocationReportValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueSubscriberLocationReportDecimal))
+}
+
+// OperationLocalvalueIstAlertValue returns the named value ist-Alert.
+func OperationLocalvalueIstAlertValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueIstAlertDecimal))
+}
+
+// OperationLocalvalueIstCommandValue returns the named value ist-Command.
+func OperationLocalvalueIstCommandValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueIstCommandDecimal))
+}
+
+// OperationLocalvalueNoteMMEventValue returns the named value noteMM-Event.
+func OperationLocalvalueNoteMMEventValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueNoteMMEventDecimal))
+}
+
+// OperationLocalvalueLcsPeriodicLocationCancellationValue returns the named value lcs-PeriodicLocationCancellation.
+func OperationLocalvalueLcsPeriodicLocationCancellationValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueLcsPeriodicLocationCancellationDecimal))
+}
+
+// OperationLocalvalueLcsLocationUpdateValue returns the named value lcs-LocationUpdate.
+func OperationLocalvalueLcsLocationUpdateValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueLcsLocationUpdateDecimal))
+}
+
+// OperationLocalvalueLcsPeriodicLocationRequestValue returns the named value lcs-PeriodicLocationRequest.
+func OperationLocalvalueLcsPeriodicLocationRequestValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueLcsPeriodicLocationRequestDecimal))
+}
+
+// OperationLocalvalueLcsAreaEventCancellationValue returns the named value lcs-AreaEventCancellation.
+func OperationLocalvalueLcsAreaEventCancellationValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueLcsAreaEventCancellationDecimal))
+}
+
+// OperationLocalvalueLcsAreaEventReportValue returns the named value lcs-AreaEventReport.
+func OperationLocalvalueLcsAreaEventReportValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueLcsAreaEventReportDecimal))
+}
+
+// OperationLocalvalueLcsAreaEventRequestValue returns the named value lcs-AreaEventRequest.
+func OperationLocalvalueLcsAreaEventRequestValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueLcsAreaEventRequestDecimal))
+}
+
+// OperationLocalvalueLcsMOLRValue returns the named value lcs-MOLR.
+func OperationLocalvalueLcsMOLRValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueLcsMOLRDecimal))
+}
+
+// OperationLocalvalueLcsLocationNotificationValue returns the named value lcs-LocationNotification.
+func OperationLocalvalueLcsLocationNotificationValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueLcsLocationNotificationDecimal))
+}
+
+// OperationLocalvalueCallDeflectionValue returns the named value callDeflection.
+func OperationLocalvalueCallDeflectionValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueCallDeflectionDecimal))
+}
+
+// OperationLocalvalueUserUserServiceValue returns the named value userUserService.
+func OperationLocalvalueUserUserServiceValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueUserUserServiceDecimal))
+}
+
+// OperationLocalvalueAccessRegisterCCEntryValue returns the named value accessRegisterCCEntry.
+func OperationLocalvalueAccessRegisterCCEntryValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueAccessRegisterCCEntryDecimal))
+}
+
+// OperationLocalvalueForwardCUGInfoValue returns the named value forwardCUG-Info.
+func OperationLocalvalueForwardCUGInfoValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueForwardCUGInfoDecimal))
+}
+
+// OperationLocalvalueSplitMPTYValue returns the named value splitMPTY.
+func OperationLocalvalueSplitMPTYValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueSplitMPTYDecimal))
+}
+
+// OperationLocalvalueRetrieveMPTYValue returns the named value retrieveMPTY.
+func OperationLocalvalueRetrieveMPTYValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueRetrieveMPTYDecimal))
+}
+
+// OperationLocalvalueHoldMPTYValue returns the named value holdMPTY.
+func OperationLocalvalueHoldMPTYValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueHoldMPTYDecimal))
+}
+
+// OperationLocalvalueBuildMPTYValue returns the named value buildMPTY.
+func OperationLocalvalueBuildMPTYValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueBuildMPTYDecimal))
+}
+
+// OperationLocalvalueForwardChargeAdviceValue returns the named value forwardChargeAdvice.
+func OperationLocalvalueForwardChargeAdviceValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueForwardChargeAdviceDecimal))
+}
+
+// OperationLocalvalueExplicitCTValue returns the named value explicitCT.
+func OperationLocalvalueExplicitCTValue() OperationLocalvalue {
+	return NewOperationLocalvalue(runtime.MustParseBigIntDecimal(OperationLocalvalueExplicitCTDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v OperationLocalvalue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v OperationLocalvalue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v OperationLocalvalue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case OperationLocalvalueUpdateLocationDecimal:
+		return "updateLocation", true
+	case OperationLocalvalueCancelLocationDecimal:
+		return "cancelLocation", true
+	case OperationLocalvalueProvideRoamingNumberDecimal:
+		return "provideRoamingNumber", true
+	case OperationLocalvalueNoteSubscriberDataModifiedDecimal:
+		return "noteSubscriberDataModified", true
+	case OperationLocalvalueResumeCallHandlingDecimal:
+		return "resumeCallHandling", true
+	case OperationLocalvalueInsertSubscriberDataDecimal:
+		return "insertSubscriberData", true
+	case OperationLocalvalueDeleteSubscriberDataDecimal:
+		return "deleteSubscriberData", true
+	case OperationLocalvalueSendParametersDecimal:
+		return "sendParameters", true
+	case OperationLocalvalueRegisterSSDecimal:
+		return "registerSS", true
+	case OperationLocalvalueEraseSSDecimal:
+		return "eraseSS", true
+	case OperationLocalvalueActivateSSDecimal:
+		return "activateSS", true
+	case OperationLocalvalueDeactivateSSDecimal:
+		return "deactivateSS", true
+	case OperationLocalvalueInterrogateSSDecimal:
+		return "interrogateSS", true
+	case OperationLocalvalueAuthenticationFailureReportDecimal:
+		return "authenticationFailureReport", true
+	case OperationLocalvalueNotifySSDecimal:
+		return "notifySS", true
+	case OperationLocalvalueRegisterPasswordDecimal:
+		return "registerPassword", true
+	case OperationLocalvalueGetPasswordDecimal:
+		return "getPassword", true
+	case OperationLocalvalueProcessUnstructuredSSDataDecimal:
+		return "processUnstructuredSS-Data", true
+	case OperationLocalvalueReleaseResourcesDecimal:
+		return "releaseResources", true
+	case OperationLocalvalueMtForwardSMVGCSDecimal:
+		return "mt-ForwardSM-VGCS", true
+	case OperationLocalvalueSendRoutingInfoDecimal:
+		return "sendRoutingInfo", true
+	case OperationLocalvalueUpdateGprsLocationDecimal:
+		return "updateGprsLocation", true
+	case OperationLocalvalueSendRoutingInfoForGprsDecimal:
+		return "sendRoutingInfoForGprs", true
+	case OperationLocalvalueFailureReportDecimal:
+		return "failureReport", true
+	case OperationLocalvalueNoteMsPresentForGprsDecimal:
+		return "noteMsPresentForGprs", true
+	case OperationLocalvaluePerformHandoverDecimal:
+		return "performHandover", true
+	case OperationLocalvalueSendEndSignalDecimal:
+		return "sendEndSignal", true
+	case OperationLocalvaluePerformSubsequentHandoverDecimal:
+		return "performSubsequentHandover", true
+	case OperationLocalvalueProvideSIWFSNumberDecimal:
+		return "provideSIWFSNumber", true
+	case OperationLocalvalueSIWFSSignallingModifyDecimal:
+		return "sIWFSSignallingModify", true
+	case OperationLocalvalueProcessAccessSignallingDecimal:
+		return "processAccessSignalling", true
+	case OperationLocalvalueForwardAccessSignallingDecimal:
+		return "forwardAccessSignalling", true
+	case OperationLocalvalueNoteInternalHandoverDecimal:
+		return "noteInternalHandover", true
+	case OperationLocalvalueCancelVcsgLocationDecimal:
+		return "cancelVcsgLocation", true
+	case OperationLocalvalueResetDecimal:
+		return "reset", true
+	case OperationLocalvalueForwardCheckSSDecimal:
+		return "forwardCheckSS", true
+	case OperationLocalvaluePrepareGroupCallDecimal:
+		return "prepareGroupCall", true
+	case OperationLocalvalueSendGroupCallEndSignalDecimal:
+		return "sendGroupCallEndSignal", true
+	case OperationLocalvalueProcessGroupCallSignallingDecimal:
+		return "processGroupCallSignalling", true
+	case OperationLocalvalueForwardGroupCallSignallingDecimal:
+		return "forwardGroupCallSignalling", true
+	case OperationLocalvalueCheckIMEIDecimal:
+		return "checkIMEI", true
+	case OperationLocalvalueMtForwardSMDecimal:
+		return "mt-forwardSM", true
+	case OperationLocalvalueSendRoutingInfoForSMDecimal:
+		return "sendRoutingInfoForSM", true
+	case OperationLocalvalueMoForwardSMDecimal:
+		return "mo-forwardSM", true
+	case OperationLocalvalueReportSMDeliveryStatusDecimal:
+		return "reportSM-DeliveryStatus", true
+	case OperationLocalvalueNoteSubscriberPresentDecimal:
+		return "noteSubscriberPresent", true
+	case OperationLocalvalueAlertServiceCentreWithoutResultDecimal:
+		return "alertServiceCentreWithoutResult", true
+	case OperationLocalvalueActivateTraceModeDecimal:
+		return "activateTraceMode", true
+	case OperationLocalvalueDeactivateTraceModeDecimal:
+		return "deactivateTraceMode", true
+	case OperationLocalvalueTraceSubscriberActivityDecimal:
+		return "traceSubscriberActivity", true
+	case OperationLocalvalueUpdateVcsgLocationDecimal:
+		return "updateVcsgLocation", true
+	case OperationLocalvalueBeginSubscriberActivityDecimal:
+		return "beginSubscriberActivity", true
+	case OperationLocalvalueSendIdentificationDecimal:
+		return "sendIdentification", true
+	case OperationLocalvalueSendAuthenticationInfoDecimal:
+		return "sendAuthenticationInfo", true
+	case OperationLocalvalueRestoreDataDecimal:
+		return "restoreData", true
+	case OperationLocalvalueSendIMSIDecimal:
+		return "sendIMSI", true
+	case OperationLocalvalueProcessUnstructuredSSRequestDecimal:
+		return "processUnstructuredSS-Request", true
+	case OperationLocalvalueUnstructuredSSRequestDecimal:
+		return "unstructuredSS-Request", true
+	case OperationLocalvalueUnstructuredSSNotifyDecimal:
+		return "unstructuredSS-Notify", true
+	case OperationLocalvalueAnyTimeSubscriptionInterrogationDecimal:
+		return "anyTimeSubscriptionInterrogation", true
+	case OperationLocalvalueInformServiceCentreDecimal:
+		return "informServiceCentre", true
+	case OperationLocalvalueAlertServiceCentreDecimal:
+		return "alertServiceCentre", true
+	case OperationLocalvalueAnyTimeModificationDecimal:
+		return "anyTimeModification", true
+	case OperationLocalvalueReadyForSMDecimal:
+		return "readyForSM", true
+	case OperationLocalvaluePurgeMSDecimal:
+		return "purgeMS", true
+	case OperationLocalvaluePrepareHandoverDecimal:
+		return "prepareHandover", true
+	case OperationLocalvaluePrepareSubsequentHandoverDecimal:
+		return "prepareSubsequentHandover", true
+	case OperationLocalvalueProvideSubscriberInfoDecimal:
+		return "provideSubscriberInfo", true
+	case OperationLocalvalueAnyTimeInterrogationDecimal:
+		return "anyTimeInterrogation", true
+	case OperationLocalvalueSsInvocationNotificationDecimal:
+		return "ss-InvocationNotification", true
+	case OperationLocalvalueSetReportingStateDecimal:
+		return "setReportingState", true
+	case OperationLocalvalueStatusReportDecimal:
+		return "statusReport", true
+	case OperationLocalvalueRemoteUserFreeDecimal:
+		return "remoteUserFree", true
+	case OperationLocalvalueRegisterCCEntryDecimal:
+		return "registerCC-Entry", true
+	case OperationLocalvalueEraseCCEntryDecimal:
+		return "eraseCC-Entry", true
+	case OperationLocalvalueSecureTransportClass1Decimal:
+		return "secureTransportClass1", true
+	case OperationLocalvalueSecureTransportClass2Decimal:
+		return "secureTransportClass2", true
+	case OperationLocalvalueSecureTransportClass3Decimal:
+		return "secureTransportClass3", true
+	case OperationLocalvalueSecureTransportClass4Decimal:
+		return "secureTransportClass4", true
+	case OperationLocalvalueProvideSubscriberLocationDecimal:
+		return "provideSubscriberLocation", true
+	case OperationLocalvalueSendGroupCallInfoDecimal:
+		return "sendGroupCallInfo", true
+	case OperationLocalvalueSendRoutingInfoForLCSDecimal:
+		return "sendRoutingInfoForLCS", true
+	case OperationLocalvalueSubscriberLocationReportDecimal:
+		return "subscriberLocationReport", true
+	case OperationLocalvalueIstAlertDecimal:
+		return "ist-Alert", true
+	case OperationLocalvalueIstCommandDecimal:
+		return "ist-Command", true
+	case OperationLocalvalueNoteMMEventDecimal:
+		return "noteMM-Event", true
+	case OperationLocalvalueLcsPeriodicLocationCancellationDecimal:
+		return "lcs-PeriodicLocationCancellation", true
+	case OperationLocalvalueLcsLocationUpdateDecimal:
+		return "lcs-LocationUpdate", true
+	case OperationLocalvalueLcsPeriodicLocationRequestDecimal:
+		return "lcs-PeriodicLocationRequest", true
+	case OperationLocalvalueLcsAreaEventCancellationDecimal:
+		return "lcs-AreaEventCancellation", true
+	case OperationLocalvalueLcsAreaEventReportDecimal:
+		return "lcs-AreaEventReport", true
+	case OperationLocalvalueLcsAreaEventRequestDecimal:
+		return "lcs-AreaEventRequest", true
+	case OperationLocalvalueLcsMOLRDecimal:
+		return "lcs-MOLR", true
+	case OperationLocalvalueLcsLocationNotificationDecimal:
+		return "lcs-LocationNotification", true
+	case OperationLocalvalueCallDeflectionDecimal:
+		return "callDeflection", true
+	case OperationLocalvalueUserUserServiceDecimal:
+		return "userUserService", true
+	case OperationLocalvalueAccessRegisterCCEntryDecimal:
+		return "accessRegisterCCEntry", true
+	case OperationLocalvalueForwardCUGInfoDecimal:
+		return "forwardCUG-Info", true
+	case OperationLocalvalueSplitMPTYDecimal:
+		return "splitMPTY", true
+	case OperationLocalvalueRetrieveMPTYDecimal:
+		return "retrieveMPTY", true
+	case OperationLocalvalueHoldMPTYDecimal:
+		return "holdMPTY", true
+	case OperationLocalvalueBuildMPTYDecimal:
+		return "buildMPTY", true
+	case OperationLocalvalueForwardChargeAdviceDecimal:
+		return "forwardChargeAdvice", true
+	case OperationLocalvalueExplicitCTDecimal:
+		return "explicitCT", true
+	default:
+		return "", false
+	}
+}
+
+func (v OperationLocalvalue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v OperationLocalvalue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *OperationLocalvalue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal OperationLocalvalue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewOperationLocalvalue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v OperationLocalvalue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *OperationLocalvalue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal OperationLocalvalue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewOperationLocalvalue(value)
+	return nil
+}
 
 // MAPERROR choice constants.
 const (
@@ -572,14 +2227,14 @@ const (
 	MAPERRORChoiceGlobalValue = 2
 )
 
-// MAPERROR represents the ASN.1 CHOICE type MAP-ERROR.
+// MAPERROR represents the ASN.1 CHOICE type MAPERROR.
 type MAPERROR struct {
 	Choice      int
 	LocalValue  *LocalErrorcode          `json:"LocalValue,omitempty"`
 	GlobalValue runtime.ObjectIdentifier `json:"GlobalValue,omitempty"`
 }
 
-// NewMAPERRORLocalValue creates a MAP-ERROR with the localValue alternative.
+// NewMAPERRORLocalValue creates a MAPERROR with the localValue alternative.
 func NewMAPERRORLocalValue(v LocalErrorcode) MAPERROR {
 	return MAPERROR{
 		Choice:     MAPERRORChoiceLocalValue,
@@ -587,7 +2242,7 @@ func NewMAPERRORLocalValue(v LocalErrorcode) MAPERROR {
 	}
 }
 
-// NewMAPERRORGlobalValue creates a MAP-ERROR with the globalValue alternative.
+// NewMAPERRORGlobalValue creates a MAPERROR with the globalValue alternative.
 func NewMAPERRORGlobalValue(v runtime.ObjectIdentifier) MAPERROR {
 	return MAPERROR{
 		Choice:      MAPERRORChoiceGlobalValue,
@@ -595,420 +2250,1873 @@ func NewMAPERRORGlobalValue(v runtime.ObjectIdentifier) MAPERROR {
 	}
 }
 
-// NewMAPERRORLocalValueInt64 creates a MAPERROR localValue alternative from a local int64 code.
-func NewMAPERRORLocalValueInt64(v LocalErrorcode) MAPERROR {
-	return NewMAPERRORLocalValue(v)
-}
-
-// LocalCode returns the localValue code when this MAPERROR carries a localValue alternative.
-func (v MAPERROR) LocalCode() (LocalErrorcode, bool) {
-	if v.Choice != MAPERRORChoiceLocalValue || v.LocalValue == nil {
-		var zero LocalErrorcode
-		return zero, false
+// NewMAPERRORLocalValueInt64 creates a MAPERROR localValue alternative from an int64 code.
+func NewMAPERRORLocalValueInt64(v int64) MAPERROR {
+	var local LocalErrorcode
+	if err := local.UnmarshalText([]byte(fmt.Sprintf("%d", v))); err != nil {
+		panic(err)
 	}
-	return *v.LocalValue, true
+	return NewMAPERRORLocalValue(local)
 }
 
-// GSMMAPLocalErrorcode represents the ASN.1 INTEGER type GSMMAPLocalErrorcode with named numbers.
-type GSMMAPLocalErrorcode int64
+// LocalCode returns the localValue code when this MAPERROR carries an int64 localValue alternative.
+func (v MAPERROR) LocalCode() (int64, bool) {
+	if v.Choice != MAPERRORChoiceLocalValue || v.LocalValue == nil {
+		return 0, false
+	}
+	return v.LocalValue.AsInt64()
+}
+
+// GSMMAPLocalErrorcode represents the arbitrary-width ASN.1 INTEGER type GSMMAPLocalErrorcode with named numbers.
+type GSMMAPLocalErrorcode struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	GSMMAPLocalErrorcodeUnknownSubscriber              GSMMAPLocalErrorcode = 1
-	GSMMAPLocalErrorcodeUnknownBaseStation             GSMMAPLocalErrorcode = 2
-	GSMMAPLocalErrorcodeUnknownMSC                     GSMMAPLocalErrorcode = 3
-	GSMMAPLocalErrorcodeSecureTransportError           GSMMAPLocalErrorcode = 4
-	GSMMAPLocalErrorcodeUnidentifiedSubscriber         GSMMAPLocalErrorcode = 5
-	GSMMAPLocalErrorcodeAbsentSubscriberSM             GSMMAPLocalErrorcode = 6
-	GSMMAPLocalErrorcodeUnknownEquipment               GSMMAPLocalErrorcode = 7
-	GSMMAPLocalErrorcodeRoamingNotAllowed              GSMMAPLocalErrorcode = 8
-	GSMMAPLocalErrorcodeIllegalSubscriber              GSMMAPLocalErrorcode = 9
-	GSMMAPLocalErrorcodeBearerServiceNotProvisioned    GSMMAPLocalErrorcode = 10
-	GSMMAPLocalErrorcodeTeleserviceNotProvisioned      GSMMAPLocalErrorcode = 11
-	GSMMAPLocalErrorcodeIllegalEquipment               GSMMAPLocalErrorcode = 12
-	GSMMAPLocalErrorcodeCallBarred                     GSMMAPLocalErrorcode = 13
-	GSMMAPLocalErrorcodeForwardingViolation            GSMMAPLocalErrorcode = 14
-	GSMMAPLocalErrorcodeCugReject                      GSMMAPLocalErrorcode = 15
-	GSMMAPLocalErrorcodeIllegalSSOperation             GSMMAPLocalErrorcode = 16
-	GSMMAPLocalErrorcodeSsErrorStatus                  GSMMAPLocalErrorcode = 17
-	GSMMAPLocalErrorcodeSsNotAvailable                 GSMMAPLocalErrorcode = 18
-	GSMMAPLocalErrorcodeSsSubscriptionViolation        GSMMAPLocalErrorcode = 19
-	GSMMAPLocalErrorcodeSsIncompatibility              GSMMAPLocalErrorcode = 20
-	GSMMAPLocalErrorcodeFacilityNotSupported           GSMMAPLocalErrorcode = 21
-	GSMMAPLocalErrorcodeOngoingGroupCall               GSMMAPLocalErrorcode = 22
-	GSMMAPLocalErrorcodeInvalidTargetBaseStation       GSMMAPLocalErrorcode = 23
-	GSMMAPLocalErrorcodeNoRadioResourceAvailable       GSMMAPLocalErrorcode = 24
-	GSMMAPLocalErrorcodeNoHandoverNumberAvailable      GSMMAPLocalErrorcode = 25
-	GSMMAPLocalErrorcodeSubsequentHandoverFailure      GSMMAPLocalErrorcode = 26
-	GSMMAPLocalErrorcodeAbsentSubscriber               GSMMAPLocalErrorcode = 27
-	GSMMAPLocalErrorcodeIncompatibleTerminal           GSMMAPLocalErrorcode = 28
-	GSMMAPLocalErrorcodeShortTermDenial                GSMMAPLocalErrorcode = 29
-	GSMMAPLocalErrorcodeLongTermDenial                 GSMMAPLocalErrorcode = 30
-	GSMMAPLocalErrorcodeSubscriberBusyForMTSMS         GSMMAPLocalErrorcode = 31
-	GSMMAPLocalErrorcodeSmDeliveryFailure              GSMMAPLocalErrorcode = 32
-	GSMMAPLocalErrorcodeMessageWaitingListFull         GSMMAPLocalErrorcode = 33
-	GSMMAPLocalErrorcodeSystemFailure                  GSMMAPLocalErrorcode = 34
-	GSMMAPLocalErrorcodeDataMissing                    GSMMAPLocalErrorcode = 35
-	GSMMAPLocalErrorcodeUnexpectedDataValue            GSMMAPLocalErrorcode = 36
-	GSMMAPLocalErrorcodePwRegistrationFailure          GSMMAPLocalErrorcode = 37
-	GSMMAPLocalErrorcodeNegativePWCheck                GSMMAPLocalErrorcode = 38
-	GSMMAPLocalErrorcodeNoRoamingNumberAvailable       GSMMAPLocalErrorcode = 39
-	GSMMAPLocalErrorcodeTracingBufferFull              GSMMAPLocalErrorcode = 40
-	GSMMAPLocalErrorcodeTargetCellOutsideGroupCallArea GSMMAPLocalErrorcode = 42
-	GSMMAPLocalErrorcodeNumberOfPWAttemptsViolation    GSMMAPLocalErrorcode = 43
-	GSMMAPLocalErrorcodeNumberChanged                  GSMMAPLocalErrorcode = 44
-	GSMMAPLocalErrorcodeBusySubscriber                 GSMMAPLocalErrorcode = 45
-	GSMMAPLocalErrorcodeNoSubscriberReply              GSMMAPLocalErrorcode = 46
-	GSMMAPLocalErrorcodeForwardingFailed               GSMMAPLocalErrorcode = 47
-	GSMMAPLocalErrorcodeOrNotAllowed                   GSMMAPLocalErrorcode = 48
-	GSMMAPLocalErrorcodeAtiNotAllowed                  GSMMAPLocalErrorcode = 49
-	GSMMAPLocalErrorcodeNoGroupCallNumberAvailable     GSMMAPLocalErrorcode = 50
-	GSMMAPLocalErrorcodeResourceLimitation             GSMMAPLocalErrorcode = 51
-	GSMMAPLocalErrorcodeUnauthorizedRequestingNetwork  GSMMAPLocalErrorcode = 52
-	GSMMAPLocalErrorcodeUnauthorizedLCSClient          GSMMAPLocalErrorcode = 53
-	GSMMAPLocalErrorcodePositionMethodFailure          GSMMAPLocalErrorcode = 54
-	GSMMAPLocalErrorcodeUnknownOrUnreachableLCSClient  GSMMAPLocalErrorcode = 58
-	GSMMAPLocalErrorcodeMmEventNotSupported            GSMMAPLocalErrorcode = 59
-	GSMMAPLocalErrorcodeAtsiNotAllowed                 GSMMAPLocalErrorcode = 60
-	GSMMAPLocalErrorcodeAtmNotAllowed                  GSMMAPLocalErrorcode = 61
-	GSMMAPLocalErrorcodeInformationNotAvailable        GSMMAPLocalErrorcode = 62
-	GSMMAPLocalErrorcodeUnknownAlphabet                GSMMAPLocalErrorcode = 71
-	GSMMAPLocalErrorcodeUssdBusy                       GSMMAPLocalErrorcode = 72
+	GSMMAPLocalErrorcodeUnknownSubscriberDecimal              = "1"
+	GSMMAPLocalErrorcodeUnknownSubscriber                     = 1
+	GSMMAPLocalErrorcodeUnknownBaseStationDecimal             = "2"
+	GSMMAPLocalErrorcodeUnknownBaseStation                    = 2
+	GSMMAPLocalErrorcodeUnknownMSCDecimal                     = "3"
+	GSMMAPLocalErrorcodeUnknownMSC                            = 3
+	GSMMAPLocalErrorcodeSecureTransportErrorDecimal           = "4"
+	GSMMAPLocalErrorcodeSecureTransportError                  = 4
+	GSMMAPLocalErrorcodeUnidentifiedSubscriberDecimal         = "5"
+	GSMMAPLocalErrorcodeUnidentifiedSubscriber                = 5
+	GSMMAPLocalErrorcodeAbsentSubscriberSMDecimal             = "6"
+	GSMMAPLocalErrorcodeAbsentSubscriberSM                    = 6
+	GSMMAPLocalErrorcodeUnknownEquipmentDecimal               = "7"
+	GSMMAPLocalErrorcodeUnknownEquipment                      = 7
+	GSMMAPLocalErrorcodeRoamingNotAllowedDecimal              = "8"
+	GSMMAPLocalErrorcodeRoamingNotAllowed                     = 8
+	GSMMAPLocalErrorcodeIllegalSubscriberDecimal              = "9"
+	GSMMAPLocalErrorcodeIllegalSubscriber                     = 9
+	GSMMAPLocalErrorcodeBearerServiceNotProvisionedDecimal    = "10"
+	GSMMAPLocalErrorcodeBearerServiceNotProvisioned           = 10
+	GSMMAPLocalErrorcodeTeleserviceNotProvisionedDecimal      = "11"
+	GSMMAPLocalErrorcodeTeleserviceNotProvisioned             = 11
+	GSMMAPLocalErrorcodeIllegalEquipmentDecimal               = "12"
+	GSMMAPLocalErrorcodeIllegalEquipment                      = 12
+	GSMMAPLocalErrorcodeCallBarredDecimal                     = "13"
+	GSMMAPLocalErrorcodeCallBarred                            = 13
+	GSMMAPLocalErrorcodeForwardingViolationDecimal            = "14"
+	GSMMAPLocalErrorcodeForwardingViolation                   = 14
+	GSMMAPLocalErrorcodeCugRejectDecimal                      = "15"
+	GSMMAPLocalErrorcodeCugReject                             = 15
+	GSMMAPLocalErrorcodeIllegalSSOperationDecimal             = "16"
+	GSMMAPLocalErrorcodeIllegalSSOperation                    = 16
+	GSMMAPLocalErrorcodeSsErrorStatusDecimal                  = "17"
+	GSMMAPLocalErrorcodeSsErrorStatus                         = 17
+	GSMMAPLocalErrorcodeSsNotAvailableDecimal                 = "18"
+	GSMMAPLocalErrorcodeSsNotAvailable                        = 18
+	GSMMAPLocalErrorcodeSsSubscriptionViolationDecimal        = "19"
+	GSMMAPLocalErrorcodeSsSubscriptionViolation               = 19
+	GSMMAPLocalErrorcodeSsIncompatibilityDecimal              = "20"
+	GSMMAPLocalErrorcodeSsIncompatibility                     = 20
+	GSMMAPLocalErrorcodeFacilityNotSupportedDecimal           = "21"
+	GSMMAPLocalErrorcodeFacilityNotSupported                  = 21
+	GSMMAPLocalErrorcodeOngoingGroupCallDecimal               = "22"
+	GSMMAPLocalErrorcodeOngoingGroupCall                      = 22
+	GSMMAPLocalErrorcodeInvalidTargetBaseStationDecimal       = "23"
+	GSMMAPLocalErrorcodeInvalidTargetBaseStation              = 23
+	GSMMAPLocalErrorcodeNoRadioResourceAvailableDecimal       = "24"
+	GSMMAPLocalErrorcodeNoRadioResourceAvailable              = 24
+	GSMMAPLocalErrorcodeNoHandoverNumberAvailableDecimal      = "25"
+	GSMMAPLocalErrorcodeNoHandoverNumberAvailable             = 25
+	GSMMAPLocalErrorcodeSubsequentHandoverFailureDecimal      = "26"
+	GSMMAPLocalErrorcodeSubsequentHandoverFailure             = 26
+	GSMMAPLocalErrorcodeAbsentSubscriberDecimal               = "27"
+	GSMMAPLocalErrorcodeAbsentSubscriber                      = 27
+	GSMMAPLocalErrorcodeIncompatibleTerminalDecimal           = "28"
+	GSMMAPLocalErrorcodeIncompatibleTerminal                  = 28
+	GSMMAPLocalErrorcodeShortTermDenialDecimal                = "29"
+	GSMMAPLocalErrorcodeShortTermDenial                       = 29
+	GSMMAPLocalErrorcodeLongTermDenialDecimal                 = "30"
+	GSMMAPLocalErrorcodeLongTermDenial                        = 30
+	GSMMAPLocalErrorcodeSubscriberBusyForMTSMSDecimal         = "31"
+	GSMMAPLocalErrorcodeSubscriberBusyForMTSMS                = 31
+	GSMMAPLocalErrorcodeSmDeliveryFailureDecimal              = "32"
+	GSMMAPLocalErrorcodeSmDeliveryFailure                     = 32
+	GSMMAPLocalErrorcodeMessageWaitingListFullDecimal         = "33"
+	GSMMAPLocalErrorcodeMessageWaitingListFull                = 33
+	GSMMAPLocalErrorcodeSystemFailureDecimal                  = "34"
+	GSMMAPLocalErrorcodeSystemFailure                         = 34
+	GSMMAPLocalErrorcodeDataMissingDecimal                    = "35"
+	GSMMAPLocalErrorcodeDataMissing                           = 35
+	GSMMAPLocalErrorcodeUnexpectedDataValueDecimal            = "36"
+	GSMMAPLocalErrorcodeUnexpectedDataValue                   = 36
+	GSMMAPLocalErrorcodePwRegistrationFailureDecimal          = "37"
+	GSMMAPLocalErrorcodePwRegistrationFailure                 = 37
+	GSMMAPLocalErrorcodeNegativePWCheckDecimal                = "38"
+	GSMMAPLocalErrorcodeNegativePWCheck                       = 38
+	GSMMAPLocalErrorcodeNoRoamingNumberAvailableDecimal       = "39"
+	GSMMAPLocalErrorcodeNoRoamingNumberAvailable              = 39
+	GSMMAPLocalErrorcodeTracingBufferFullDecimal              = "40"
+	GSMMAPLocalErrorcodeTracingBufferFull                     = 40
+	GSMMAPLocalErrorcodeTargetCellOutsideGroupCallAreaDecimal = "42"
+	GSMMAPLocalErrorcodeTargetCellOutsideGroupCallArea        = 42
+	GSMMAPLocalErrorcodeNumberOfPWAttemptsViolationDecimal    = "43"
+	GSMMAPLocalErrorcodeNumberOfPWAttemptsViolation           = 43
+	GSMMAPLocalErrorcodeNumberChangedDecimal                  = "44"
+	GSMMAPLocalErrorcodeNumberChanged                         = 44
+	GSMMAPLocalErrorcodeBusySubscriberDecimal                 = "45"
+	GSMMAPLocalErrorcodeBusySubscriber                        = 45
+	GSMMAPLocalErrorcodeNoSubscriberReplyDecimal              = "46"
+	GSMMAPLocalErrorcodeNoSubscriberReply                     = 46
+	GSMMAPLocalErrorcodeForwardingFailedDecimal               = "47"
+	GSMMAPLocalErrorcodeForwardingFailed                      = 47
+	GSMMAPLocalErrorcodeOrNotAllowedDecimal                   = "48"
+	GSMMAPLocalErrorcodeOrNotAllowed                          = 48
+	GSMMAPLocalErrorcodeAtiNotAllowedDecimal                  = "49"
+	GSMMAPLocalErrorcodeAtiNotAllowed                         = 49
+	GSMMAPLocalErrorcodeNoGroupCallNumberAvailableDecimal     = "50"
+	GSMMAPLocalErrorcodeNoGroupCallNumberAvailable            = 50
+	GSMMAPLocalErrorcodeResourceLimitationDecimal             = "51"
+	GSMMAPLocalErrorcodeResourceLimitation                    = 51
+	GSMMAPLocalErrorcodeUnauthorizedRequestingNetworkDecimal  = "52"
+	GSMMAPLocalErrorcodeUnauthorizedRequestingNetwork         = 52
+	GSMMAPLocalErrorcodeUnauthorizedLCSClientDecimal          = "53"
+	GSMMAPLocalErrorcodeUnauthorizedLCSClient                 = 53
+	GSMMAPLocalErrorcodePositionMethodFailureDecimal          = "54"
+	GSMMAPLocalErrorcodePositionMethodFailure                 = 54
+	GSMMAPLocalErrorcodeUnknownOrUnreachableLCSClientDecimal  = "58"
+	GSMMAPLocalErrorcodeUnknownOrUnreachableLCSClient         = 58
+	GSMMAPLocalErrorcodeMmEventNotSupportedDecimal            = "59"
+	GSMMAPLocalErrorcodeMmEventNotSupported                   = 59
+	GSMMAPLocalErrorcodeAtsiNotAllowedDecimal                 = "60"
+	GSMMAPLocalErrorcodeAtsiNotAllowed                        = 60
+	GSMMAPLocalErrorcodeAtmNotAllowedDecimal                  = "61"
+	GSMMAPLocalErrorcodeAtmNotAllowed                         = 61
+	GSMMAPLocalErrorcodeInformationNotAvailableDecimal        = "62"
+	GSMMAPLocalErrorcodeInformationNotAvailable               = 62
+	GSMMAPLocalErrorcodeUnknownAlphabetDecimal                = "71"
+	GSMMAPLocalErrorcodeUnknownAlphabet                       = 71
+	GSMMAPLocalErrorcodeUssdBusyDecimal                       = "72"
+	GSMMAPLocalErrorcodeUssdBusy                              = 72
 )
+
+// NewGSMMAPLocalErrorcode returns an immutable GSMMAPLocalErrorcode containing value.
+func NewGSMMAPLocalErrorcode(value *big.Int) GSMMAPLocalErrorcode {
+	return GSMMAPLocalErrorcode{value: runtime.CloneBigInt(value)}
+}
+
+// NewGSMMAPLocalErrorcodeInt64 returns a GSMMAPLocalErrorcode containing value.
+func NewGSMMAPLocalErrorcodeInt64(value int64) GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(big.NewInt(value))
+}
+
+// GSMMAPLocalErrorcodeUnknownSubscriberValue returns the named value unknownSubscriber.
+func GSMMAPLocalErrorcodeUnknownSubscriberValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeUnknownSubscriberDecimal))
+}
+
+// GSMMAPLocalErrorcodeUnknownBaseStationValue returns the named value unknownBaseStation.
+func GSMMAPLocalErrorcodeUnknownBaseStationValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeUnknownBaseStationDecimal))
+}
+
+// GSMMAPLocalErrorcodeUnknownMSCValue returns the named value unknownMSC.
+func GSMMAPLocalErrorcodeUnknownMSCValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeUnknownMSCDecimal))
+}
+
+// GSMMAPLocalErrorcodeSecureTransportErrorValue returns the named value secureTransportError.
+func GSMMAPLocalErrorcodeSecureTransportErrorValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeSecureTransportErrorDecimal))
+}
+
+// GSMMAPLocalErrorcodeUnidentifiedSubscriberValue returns the named value unidentifiedSubscriber.
+func GSMMAPLocalErrorcodeUnidentifiedSubscriberValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeUnidentifiedSubscriberDecimal))
+}
+
+// GSMMAPLocalErrorcodeAbsentSubscriberSMValue returns the named value absentSubscriberSM.
+func GSMMAPLocalErrorcodeAbsentSubscriberSMValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeAbsentSubscriberSMDecimal))
+}
+
+// GSMMAPLocalErrorcodeUnknownEquipmentValue returns the named value unknownEquipment.
+func GSMMAPLocalErrorcodeUnknownEquipmentValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeUnknownEquipmentDecimal))
+}
+
+// GSMMAPLocalErrorcodeRoamingNotAllowedValue returns the named value roamingNotAllowed.
+func GSMMAPLocalErrorcodeRoamingNotAllowedValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeRoamingNotAllowedDecimal))
+}
+
+// GSMMAPLocalErrorcodeIllegalSubscriberValue returns the named value illegalSubscriber.
+func GSMMAPLocalErrorcodeIllegalSubscriberValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeIllegalSubscriberDecimal))
+}
+
+// GSMMAPLocalErrorcodeBearerServiceNotProvisionedValue returns the named value bearerServiceNotProvisioned.
+func GSMMAPLocalErrorcodeBearerServiceNotProvisionedValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeBearerServiceNotProvisionedDecimal))
+}
+
+// GSMMAPLocalErrorcodeTeleserviceNotProvisionedValue returns the named value teleserviceNotProvisioned.
+func GSMMAPLocalErrorcodeTeleserviceNotProvisionedValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeTeleserviceNotProvisionedDecimal))
+}
+
+// GSMMAPLocalErrorcodeIllegalEquipmentValue returns the named value illegalEquipment.
+func GSMMAPLocalErrorcodeIllegalEquipmentValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeIllegalEquipmentDecimal))
+}
+
+// GSMMAPLocalErrorcodeCallBarredValue returns the named value callBarred.
+func GSMMAPLocalErrorcodeCallBarredValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeCallBarredDecimal))
+}
+
+// GSMMAPLocalErrorcodeForwardingViolationValue returns the named value forwardingViolation.
+func GSMMAPLocalErrorcodeForwardingViolationValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeForwardingViolationDecimal))
+}
+
+// GSMMAPLocalErrorcodeCugRejectValue returns the named value cug-Reject.
+func GSMMAPLocalErrorcodeCugRejectValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeCugRejectDecimal))
+}
+
+// GSMMAPLocalErrorcodeIllegalSSOperationValue returns the named value illegalSS-Operation.
+func GSMMAPLocalErrorcodeIllegalSSOperationValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeIllegalSSOperationDecimal))
+}
+
+// GSMMAPLocalErrorcodeSsErrorStatusValue returns the named value ss-ErrorStatus.
+func GSMMAPLocalErrorcodeSsErrorStatusValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeSsErrorStatusDecimal))
+}
+
+// GSMMAPLocalErrorcodeSsNotAvailableValue returns the named value ss-NotAvailable.
+func GSMMAPLocalErrorcodeSsNotAvailableValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeSsNotAvailableDecimal))
+}
+
+// GSMMAPLocalErrorcodeSsSubscriptionViolationValue returns the named value ss-SubscriptionViolation.
+func GSMMAPLocalErrorcodeSsSubscriptionViolationValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeSsSubscriptionViolationDecimal))
+}
+
+// GSMMAPLocalErrorcodeSsIncompatibilityValue returns the named value ss-Incompatibility.
+func GSMMAPLocalErrorcodeSsIncompatibilityValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeSsIncompatibilityDecimal))
+}
+
+// GSMMAPLocalErrorcodeFacilityNotSupportedValue returns the named value facilityNotSupported.
+func GSMMAPLocalErrorcodeFacilityNotSupportedValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeFacilityNotSupportedDecimal))
+}
+
+// GSMMAPLocalErrorcodeOngoingGroupCallValue returns the named value ongoingGroupCall.
+func GSMMAPLocalErrorcodeOngoingGroupCallValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeOngoingGroupCallDecimal))
+}
+
+// GSMMAPLocalErrorcodeInvalidTargetBaseStationValue returns the named value invalidTargetBaseStation.
+func GSMMAPLocalErrorcodeInvalidTargetBaseStationValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeInvalidTargetBaseStationDecimal))
+}
+
+// GSMMAPLocalErrorcodeNoRadioResourceAvailableValue returns the named value noRadioResourceAvailable.
+func GSMMAPLocalErrorcodeNoRadioResourceAvailableValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeNoRadioResourceAvailableDecimal))
+}
+
+// GSMMAPLocalErrorcodeNoHandoverNumberAvailableValue returns the named value noHandoverNumberAvailable.
+func GSMMAPLocalErrorcodeNoHandoverNumberAvailableValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeNoHandoverNumberAvailableDecimal))
+}
+
+// GSMMAPLocalErrorcodeSubsequentHandoverFailureValue returns the named value subsequentHandoverFailure.
+func GSMMAPLocalErrorcodeSubsequentHandoverFailureValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeSubsequentHandoverFailureDecimal))
+}
+
+// GSMMAPLocalErrorcodeAbsentSubscriberValue returns the named value absentSubscriber.
+func GSMMAPLocalErrorcodeAbsentSubscriberValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeAbsentSubscriberDecimal))
+}
+
+// GSMMAPLocalErrorcodeIncompatibleTerminalValue returns the named value incompatibleTerminal.
+func GSMMAPLocalErrorcodeIncompatibleTerminalValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeIncompatibleTerminalDecimal))
+}
+
+// GSMMAPLocalErrorcodeShortTermDenialValue returns the named value shortTermDenial.
+func GSMMAPLocalErrorcodeShortTermDenialValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeShortTermDenialDecimal))
+}
+
+// GSMMAPLocalErrorcodeLongTermDenialValue returns the named value longTermDenial.
+func GSMMAPLocalErrorcodeLongTermDenialValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeLongTermDenialDecimal))
+}
+
+// GSMMAPLocalErrorcodeSubscriberBusyForMTSMSValue returns the named value subscriberBusyForMT-SMS.
+func GSMMAPLocalErrorcodeSubscriberBusyForMTSMSValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeSubscriberBusyForMTSMSDecimal))
+}
+
+// GSMMAPLocalErrorcodeSmDeliveryFailureValue returns the named value sm-DeliveryFailure.
+func GSMMAPLocalErrorcodeSmDeliveryFailureValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeSmDeliveryFailureDecimal))
+}
+
+// GSMMAPLocalErrorcodeMessageWaitingListFullValue returns the named value messageWaitingListFull.
+func GSMMAPLocalErrorcodeMessageWaitingListFullValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeMessageWaitingListFullDecimal))
+}
+
+// GSMMAPLocalErrorcodeSystemFailureValue returns the named value systemFailure.
+func GSMMAPLocalErrorcodeSystemFailureValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeSystemFailureDecimal))
+}
+
+// GSMMAPLocalErrorcodeDataMissingValue returns the named value dataMissing.
+func GSMMAPLocalErrorcodeDataMissingValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeDataMissingDecimal))
+}
+
+// GSMMAPLocalErrorcodeUnexpectedDataValueValue returns the named value unexpectedDataValue.
+func GSMMAPLocalErrorcodeUnexpectedDataValueValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeUnexpectedDataValueDecimal))
+}
+
+// GSMMAPLocalErrorcodePwRegistrationFailureValue returns the named value pw-RegistrationFailure.
+func GSMMAPLocalErrorcodePwRegistrationFailureValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodePwRegistrationFailureDecimal))
+}
+
+// GSMMAPLocalErrorcodeNegativePWCheckValue returns the named value negativePW-Check.
+func GSMMAPLocalErrorcodeNegativePWCheckValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeNegativePWCheckDecimal))
+}
+
+// GSMMAPLocalErrorcodeNoRoamingNumberAvailableValue returns the named value noRoamingNumberAvailable.
+func GSMMAPLocalErrorcodeNoRoamingNumberAvailableValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeNoRoamingNumberAvailableDecimal))
+}
+
+// GSMMAPLocalErrorcodeTracingBufferFullValue returns the named value tracingBufferFull.
+func GSMMAPLocalErrorcodeTracingBufferFullValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeTracingBufferFullDecimal))
+}
+
+// GSMMAPLocalErrorcodeTargetCellOutsideGroupCallAreaValue returns the named value targetCellOutsideGroupCallArea.
+func GSMMAPLocalErrorcodeTargetCellOutsideGroupCallAreaValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeTargetCellOutsideGroupCallAreaDecimal))
+}
+
+// GSMMAPLocalErrorcodeNumberOfPWAttemptsViolationValue returns the named value numberOfPW-AttemptsViolation.
+func GSMMAPLocalErrorcodeNumberOfPWAttemptsViolationValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeNumberOfPWAttemptsViolationDecimal))
+}
+
+// GSMMAPLocalErrorcodeNumberChangedValue returns the named value numberChanged.
+func GSMMAPLocalErrorcodeNumberChangedValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeNumberChangedDecimal))
+}
+
+// GSMMAPLocalErrorcodeBusySubscriberValue returns the named value busySubscriber.
+func GSMMAPLocalErrorcodeBusySubscriberValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeBusySubscriberDecimal))
+}
+
+// GSMMAPLocalErrorcodeNoSubscriberReplyValue returns the named value noSubscriberReply.
+func GSMMAPLocalErrorcodeNoSubscriberReplyValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeNoSubscriberReplyDecimal))
+}
+
+// GSMMAPLocalErrorcodeForwardingFailedValue returns the named value forwardingFailed.
+func GSMMAPLocalErrorcodeForwardingFailedValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeForwardingFailedDecimal))
+}
+
+// GSMMAPLocalErrorcodeOrNotAllowedValue returns the named value or-NotAllowed.
+func GSMMAPLocalErrorcodeOrNotAllowedValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeOrNotAllowedDecimal))
+}
+
+// GSMMAPLocalErrorcodeAtiNotAllowedValue returns the named value ati-NotAllowed.
+func GSMMAPLocalErrorcodeAtiNotAllowedValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeAtiNotAllowedDecimal))
+}
+
+// GSMMAPLocalErrorcodeNoGroupCallNumberAvailableValue returns the named value noGroupCallNumberAvailable.
+func GSMMAPLocalErrorcodeNoGroupCallNumberAvailableValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeNoGroupCallNumberAvailableDecimal))
+}
+
+// GSMMAPLocalErrorcodeResourceLimitationValue returns the named value resourceLimitation.
+func GSMMAPLocalErrorcodeResourceLimitationValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeResourceLimitationDecimal))
+}
+
+// GSMMAPLocalErrorcodeUnauthorizedRequestingNetworkValue returns the named value unauthorizedRequestingNetwork.
+func GSMMAPLocalErrorcodeUnauthorizedRequestingNetworkValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeUnauthorizedRequestingNetworkDecimal))
+}
+
+// GSMMAPLocalErrorcodeUnauthorizedLCSClientValue returns the named value unauthorizedLCSClient.
+func GSMMAPLocalErrorcodeUnauthorizedLCSClientValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeUnauthorizedLCSClientDecimal))
+}
+
+// GSMMAPLocalErrorcodePositionMethodFailureValue returns the named value positionMethodFailure.
+func GSMMAPLocalErrorcodePositionMethodFailureValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodePositionMethodFailureDecimal))
+}
+
+// GSMMAPLocalErrorcodeUnknownOrUnreachableLCSClientValue returns the named value unknownOrUnreachableLCSClient.
+func GSMMAPLocalErrorcodeUnknownOrUnreachableLCSClientValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeUnknownOrUnreachableLCSClientDecimal))
+}
+
+// GSMMAPLocalErrorcodeMmEventNotSupportedValue returns the named value mm-EventNotSupported.
+func GSMMAPLocalErrorcodeMmEventNotSupportedValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeMmEventNotSupportedDecimal))
+}
+
+// GSMMAPLocalErrorcodeAtsiNotAllowedValue returns the named value atsi-NotAllowed.
+func GSMMAPLocalErrorcodeAtsiNotAllowedValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeAtsiNotAllowedDecimal))
+}
+
+// GSMMAPLocalErrorcodeAtmNotAllowedValue returns the named value atm-NotAllowed.
+func GSMMAPLocalErrorcodeAtmNotAllowedValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeAtmNotAllowedDecimal))
+}
+
+// GSMMAPLocalErrorcodeInformationNotAvailableValue returns the named value informationNotAvailable.
+func GSMMAPLocalErrorcodeInformationNotAvailableValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeInformationNotAvailableDecimal))
+}
+
+// GSMMAPLocalErrorcodeUnknownAlphabetValue returns the named value unknownAlphabet.
+func GSMMAPLocalErrorcodeUnknownAlphabetValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeUnknownAlphabetDecimal))
+}
+
+// GSMMAPLocalErrorcodeUssdBusyValue returns the named value ussd-Busy.
+func GSMMAPLocalErrorcodeUssdBusyValue() GSMMAPLocalErrorcode {
+	return NewGSMMAPLocalErrorcode(runtime.MustParseBigIntDecimal(GSMMAPLocalErrorcodeUssdBusyDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v GSMMAPLocalErrorcode) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v GSMMAPLocalErrorcode) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v GSMMAPLocalErrorcode) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case GSMMAPLocalErrorcodeUnknownSubscriberDecimal:
+		return "unknownSubscriber", true
+	case GSMMAPLocalErrorcodeUnknownBaseStationDecimal:
+		return "unknownBaseStation", true
+	case GSMMAPLocalErrorcodeUnknownMSCDecimal:
+		return "unknownMSC", true
+	case GSMMAPLocalErrorcodeSecureTransportErrorDecimal:
+		return "secureTransportError", true
+	case GSMMAPLocalErrorcodeUnidentifiedSubscriberDecimal:
+		return "unidentifiedSubscriber", true
+	case GSMMAPLocalErrorcodeAbsentSubscriberSMDecimal:
+		return "absentSubscriberSM", true
+	case GSMMAPLocalErrorcodeUnknownEquipmentDecimal:
+		return "unknownEquipment", true
+	case GSMMAPLocalErrorcodeRoamingNotAllowedDecimal:
+		return "roamingNotAllowed", true
+	case GSMMAPLocalErrorcodeIllegalSubscriberDecimal:
+		return "illegalSubscriber", true
+	case GSMMAPLocalErrorcodeBearerServiceNotProvisionedDecimal:
+		return "bearerServiceNotProvisioned", true
+	case GSMMAPLocalErrorcodeTeleserviceNotProvisionedDecimal:
+		return "teleserviceNotProvisioned", true
+	case GSMMAPLocalErrorcodeIllegalEquipmentDecimal:
+		return "illegalEquipment", true
+	case GSMMAPLocalErrorcodeCallBarredDecimal:
+		return "callBarred", true
+	case GSMMAPLocalErrorcodeForwardingViolationDecimal:
+		return "forwardingViolation", true
+	case GSMMAPLocalErrorcodeCugRejectDecimal:
+		return "cug-Reject", true
+	case GSMMAPLocalErrorcodeIllegalSSOperationDecimal:
+		return "illegalSS-Operation", true
+	case GSMMAPLocalErrorcodeSsErrorStatusDecimal:
+		return "ss-ErrorStatus", true
+	case GSMMAPLocalErrorcodeSsNotAvailableDecimal:
+		return "ss-NotAvailable", true
+	case GSMMAPLocalErrorcodeSsSubscriptionViolationDecimal:
+		return "ss-SubscriptionViolation", true
+	case GSMMAPLocalErrorcodeSsIncompatibilityDecimal:
+		return "ss-Incompatibility", true
+	case GSMMAPLocalErrorcodeFacilityNotSupportedDecimal:
+		return "facilityNotSupported", true
+	case GSMMAPLocalErrorcodeOngoingGroupCallDecimal:
+		return "ongoingGroupCall", true
+	case GSMMAPLocalErrorcodeInvalidTargetBaseStationDecimal:
+		return "invalidTargetBaseStation", true
+	case GSMMAPLocalErrorcodeNoRadioResourceAvailableDecimal:
+		return "noRadioResourceAvailable", true
+	case GSMMAPLocalErrorcodeNoHandoverNumberAvailableDecimal:
+		return "noHandoverNumberAvailable", true
+	case GSMMAPLocalErrorcodeSubsequentHandoverFailureDecimal:
+		return "subsequentHandoverFailure", true
+	case GSMMAPLocalErrorcodeAbsentSubscriberDecimal:
+		return "absentSubscriber", true
+	case GSMMAPLocalErrorcodeIncompatibleTerminalDecimal:
+		return "incompatibleTerminal", true
+	case GSMMAPLocalErrorcodeShortTermDenialDecimal:
+		return "shortTermDenial", true
+	case GSMMAPLocalErrorcodeLongTermDenialDecimal:
+		return "longTermDenial", true
+	case GSMMAPLocalErrorcodeSubscriberBusyForMTSMSDecimal:
+		return "subscriberBusyForMT-SMS", true
+	case GSMMAPLocalErrorcodeSmDeliveryFailureDecimal:
+		return "sm-DeliveryFailure", true
+	case GSMMAPLocalErrorcodeMessageWaitingListFullDecimal:
+		return "messageWaitingListFull", true
+	case GSMMAPLocalErrorcodeSystemFailureDecimal:
+		return "systemFailure", true
+	case GSMMAPLocalErrorcodeDataMissingDecimal:
+		return "dataMissing", true
+	case GSMMAPLocalErrorcodeUnexpectedDataValueDecimal:
+		return "unexpectedDataValue", true
+	case GSMMAPLocalErrorcodePwRegistrationFailureDecimal:
+		return "pw-RegistrationFailure", true
+	case GSMMAPLocalErrorcodeNegativePWCheckDecimal:
+		return "negativePW-Check", true
+	case GSMMAPLocalErrorcodeNoRoamingNumberAvailableDecimal:
+		return "noRoamingNumberAvailable", true
+	case GSMMAPLocalErrorcodeTracingBufferFullDecimal:
+		return "tracingBufferFull", true
+	case GSMMAPLocalErrorcodeTargetCellOutsideGroupCallAreaDecimal:
+		return "targetCellOutsideGroupCallArea", true
+	case GSMMAPLocalErrorcodeNumberOfPWAttemptsViolationDecimal:
+		return "numberOfPW-AttemptsViolation", true
+	case GSMMAPLocalErrorcodeNumberChangedDecimal:
+		return "numberChanged", true
+	case GSMMAPLocalErrorcodeBusySubscriberDecimal:
+		return "busySubscriber", true
+	case GSMMAPLocalErrorcodeNoSubscriberReplyDecimal:
+		return "noSubscriberReply", true
+	case GSMMAPLocalErrorcodeForwardingFailedDecimal:
+		return "forwardingFailed", true
+	case GSMMAPLocalErrorcodeOrNotAllowedDecimal:
+		return "or-NotAllowed", true
+	case GSMMAPLocalErrorcodeAtiNotAllowedDecimal:
+		return "ati-NotAllowed", true
+	case GSMMAPLocalErrorcodeNoGroupCallNumberAvailableDecimal:
+		return "noGroupCallNumberAvailable", true
+	case GSMMAPLocalErrorcodeResourceLimitationDecimal:
+		return "resourceLimitation", true
+	case GSMMAPLocalErrorcodeUnauthorizedRequestingNetworkDecimal:
+		return "unauthorizedRequestingNetwork", true
+	case GSMMAPLocalErrorcodeUnauthorizedLCSClientDecimal:
+		return "unauthorizedLCSClient", true
+	case GSMMAPLocalErrorcodePositionMethodFailureDecimal:
+		return "positionMethodFailure", true
+	case GSMMAPLocalErrorcodeUnknownOrUnreachableLCSClientDecimal:
+		return "unknownOrUnreachableLCSClient", true
+	case GSMMAPLocalErrorcodeMmEventNotSupportedDecimal:
+		return "mm-EventNotSupported", true
+	case GSMMAPLocalErrorcodeAtsiNotAllowedDecimal:
+		return "atsi-NotAllowed", true
+	case GSMMAPLocalErrorcodeAtmNotAllowedDecimal:
+		return "atm-NotAllowed", true
+	case GSMMAPLocalErrorcodeInformationNotAvailableDecimal:
+		return "informationNotAvailable", true
+	case GSMMAPLocalErrorcodeUnknownAlphabetDecimal:
+		return "unknownAlphabet", true
+	case GSMMAPLocalErrorcodeUssdBusyDecimal:
+		return "ussd-Busy", true
+	default:
+		return "", false
+	}
+}
 
 func (v GSMMAPLocalErrorcode) String() string {
-	switch v {
-	case GSMMAPLocalErrorcodeUnknownSubscriber:
-		return "unknownSubscriber"
-	case GSMMAPLocalErrorcodeUnknownBaseStation:
-		return "unknownBaseStation"
-	case GSMMAPLocalErrorcodeUnknownMSC:
-		return "unknownMSC"
-	case GSMMAPLocalErrorcodeSecureTransportError:
-		return "secureTransportError"
-	case GSMMAPLocalErrorcodeUnidentifiedSubscriber:
-		return "unidentifiedSubscriber"
-	case GSMMAPLocalErrorcodeAbsentSubscriberSM:
-		return "absentSubscriberSM"
-	case GSMMAPLocalErrorcodeUnknownEquipment:
-		return "unknownEquipment"
-	case GSMMAPLocalErrorcodeRoamingNotAllowed:
-		return "roamingNotAllowed"
-	case GSMMAPLocalErrorcodeIllegalSubscriber:
-		return "illegalSubscriber"
-	case GSMMAPLocalErrorcodeBearerServiceNotProvisioned:
-		return "bearerServiceNotProvisioned"
-	case GSMMAPLocalErrorcodeTeleserviceNotProvisioned:
-		return "teleserviceNotProvisioned"
-	case GSMMAPLocalErrorcodeIllegalEquipment:
-		return "illegalEquipment"
-	case GSMMAPLocalErrorcodeCallBarred:
-		return "callBarred"
-	case GSMMAPLocalErrorcodeForwardingViolation:
-		return "forwardingViolation"
-	case GSMMAPLocalErrorcodeCugReject:
-		return "cug-Reject"
-	case GSMMAPLocalErrorcodeIllegalSSOperation:
-		return "illegalSS-Operation"
-	case GSMMAPLocalErrorcodeSsErrorStatus:
-		return "ss-ErrorStatus"
-	case GSMMAPLocalErrorcodeSsNotAvailable:
-		return "ss-NotAvailable"
-	case GSMMAPLocalErrorcodeSsSubscriptionViolation:
-		return "ss-SubscriptionViolation"
-	case GSMMAPLocalErrorcodeSsIncompatibility:
-		return "ss-Incompatibility"
-	case GSMMAPLocalErrorcodeFacilityNotSupported:
-		return "facilityNotSupported"
-	case GSMMAPLocalErrorcodeOngoingGroupCall:
-		return "ongoingGroupCall"
-	case GSMMAPLocalErrorcodeInvalidTargetBaseStation:
-		return "invalidTargetBaseStation"
-	case GSMMAPLocalErrorcodeNoRadioResourceAvailable:
-		return "noRadioResourceAvailable"
-	case GSMMAPLocalErrorcodeNoHandoverNumberAvailable:
-		return "noHandoverNumberAvailable"
-	case GSMMAPLocalErrorcodeSubsequentHandoverFailure:
-		return "subsequentHandoverFailure"
-	case GSMMAPLocalErrorcodeAbsentSubscriber:
-		return "absentSubscriber"
-	case GSMMAPLocalErrorcodeIncompatibleTerminal:
-		return "incompatibleTerminal"
-	case GSMMAPLocalErrorcodeShortTermDenial:
-		return "shortTermDenial"
-	case GSMMAPLocalErrorcodeLongTermDenial:
-		return "longTermDenial"
-	case GSMMAPLocalErrorcodeSubscriberBusyForMTSMS:
-		return "subscriberBusyForMT-SMS"
-	case GSMMAPLocalErrorcodeSmDeliveryFailure:
-		return "sm-DeliveryFailure"
-	case GSMMAPLocalErrorcodeMessageWaitingListFull:
-		return "messageWaitingListFull"
-	case GSMMAPLocalErrorcodeSystemFailure:
-		return "systemFailure"
-	case GSMMAPLocalErrorcodeDataMissing:
-		return "dataMissing"
-	case GSMMAPLocalErrorcodeUnexpectedDataValue:
-		return "unexpectedDataValue"
-	case GSMMAPLocalErrorcodePwRegistrationFailure:
-		return "pw-RegistrationFailure"
-	case GSMMAPLocalErrorcodeNegativePWCheck:
-		return "negativePW-Check"
-	case GSMMAPLocalErrorcodeNoRoamingNumberAvailable:
-		return "noRoamingNumberAvailable"
-	case GSMMAPLocalErrorcodeTracingBufferFull:
-		return "tracingBufferFull"
-	case GSMMAPLocalErrorcodeTargetCellOutsideGroupCallArea:
-		return "targetCellOutsideGroupCallArea"
-	case GSMMAPLocalErrorcodeNumberOfPWAttemptsViolation:
-		return "numberOfPW-AttemptsViolation"
-	case GSMMAPLocalErrorcodeNumberChanged:
-		return "numberChanged"
-	case GSMMAPLocalErrorcodeBusySubscriber:
-		return "busySubscriber"
-	case GSMMAPLocalErrorcodeNoSubscriberReply:
-		return "noSubscriberReply"
-	case GSMMAPLocalErrorcodeForwardingFailed:
-		return "forwardingFailed"
-	case GSMMAPLocalErrorcodeOrNotAllowed:
-		return "or-NotAllowed"
-	case GSMMAPLocalErrorcodeAtiNotAllowed:
-		return "ati-NotAllowed"
-	case GSMMAPLocalErrorcodeNoGroupCallNumberAvailable:
-		return "noGroupCallNumberAvailable"
-	case GSMMAPLocalErrorcodeResourceLimitation:
-		return "resourceLimitation"
-	case GSMMAPLocalErrorcodeUnauthorizedRequestingNetwork:
-		return "unauthorizedRequestingNetwork"
-	case GSMMAPLocalErrorcodeUnauthorizedLCSClient:
-		return "unauthorizedLCSClient"
-	case GSMMAPLocalErrorcodePositionMethodFailure:
-		return "positionMethodFailure"
-	case GSMMAPLocalErrorcodeUnknownOrUnreachableLCSClient:
-		return "unknownOrUnreachableLCSClient"
-	case GSMMAPLocalErrorcodeMmEventNotSupported:
-		return "mm-EventNotSupported"
-	case GSMMAPLocalErrorcodeAtsiNotAllowed:
-		return "atsi-NotAllowed"
-	case GSMMAPLocalErrorcodeAtmNotAllowed:
-		return "atm-NotAllowed"
-	case GSMMAPLocalErrorcodeInformationNotAvailable:
-		return "informationNotAvailable"
-	case GSMMAPLocalErrorcodeUnknownAlphabet:
-		return "unknownAlphabet"
-	case GSMMAPLocalErrorcodeUssdBusy:
-		return "ussd-Busy"
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v GSMMAPLocalErrorcode) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *GSMMAPLocalErrorcode) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal GSMMAPLocalErrorcode into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewGSMMAPLocalErrorcode(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v GSMMAPLocalErrorcode) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *GSMMAPLocalErrorcode) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal GSMMAPLocalErrorcode into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewGSMMAPLocalErrorcode(value)
+	return nil
+}
+
+// LocalErrorcode represents the arbitrary-width ASN.1 INTEGER type LocalErrorcode with named numbers.
+type LocalErrorcode struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	LocalErrorcodeUnknownSubscriberDecimal              = "1"
+	LocalErrorcodeUnknownSubscriber                     = 1
+	LocalErrorcodeUnknownBaseStationDecimal             = "2"
+	LocalErrorcodeUnknownBaseStation                    = 2
+	LocalErrorcodeUnknownMSCDecimal                     = "3"
+	LocalErrorcodeUnknownMSC                            = 3
+	LocalErrorcodeSecureTransportErrorDecimal           = "4"
+	LocalErrorcodeSecureTransportError                  = 4
+	LocalErrorcodeUnidentifiedSubscriberDecimal         = "5"
+	LocalErrorcodeUnidentifiedSubscriber                = 5
+	LocalErrorcodeAbsentSubscriberSMDecimal             = "6"
+	LocalErrorcodeAbsentSubscriberSM                    = 6
+	LocalErrorcodeUnknownEquipmentDecimal               = "7"
+	LocalErrorcodeUnknownEquipment                      = 7
+	LocalErrorcodeRoamingNotAllowedDecimal              = "8"
+	LocalErrorcodeRoamingNotAllowed                     = 8
+	LocalErrorcodeIllegalSubscriberDecimal              = "9"
+	LocalErrorcodeIllegalSubscriber                     = 9
+	LocalErrorcodeBearerServiceNotProvisionedDecimal    = "10"
+	LocalErrorcodeBearerServiceNotProvisioned           = 10
+	LocalErrorcodeTeleserviceNotProvisionedDecimal      = "11"
+	LocalErrorcodeTeleserviceNotProvisioned             = 11
+	LocalErrorcodeIllegalEquipmentDecimal               = "12"
+	LocalErrorcodeIllegalEquipment                      = 12
+	LocalErrorcodeCallBarredDecimal                     = "13"
+	LocalErrorcodeCallBarred                            = 13
+	LocalErrorcodeForwardingViolationDecimal            = "14"
+	LocalErrorcodeForwardingViolation                   = 14
+	LocalErrorcodeCugRejectDecimal                      = "15"
+	LocalErrorcodeCugReject                             = 15
+	LocalErrorcodeIllegalSSOperationDecimal             = "16"
+	LocalErrorcodeIllegalSSOperation                    = 16
+	LocalErrorcodeSsErrorStatusDecimal                  = "17"
+	LocalErrorcodeSsErrorStatus                         = 17
+	LocalErrorcodeSsNotAvailableDecimal                 = "18"
+	LocalErrorcodeSsNotAvailable                        = 18
+	LocalErrorcodeSsSubscriptionViolationDecimal        = "19"
+	LocalErrorcodeSsSubscriptionViolation               = 19
+	LocalErrorcodeSsIncompatibilityDecimal              = "20"
+	LocalErrorcodeSsIncompatibility                     = 20
+	LocalErrorcodeFacilityNotSupportedDecimal           = "21"
+	LocalErrorcodeFacilityNotSupported                  = 21
+	LocalErrorcodeOngoingGroupCallDecimal               = "22"
+	LocalErrorcodeOngoingGroupCall                      = 22
+	LocalErrorcodeInvalidTargetBaseStationDecimal       = "23"
+	LocalErrorcodeInvalidTargetBaseStation              = 23
+	LocalErrorcodeNoRadioResourceAvailableDecimal       = "24"
+	LocalErrorcodeNoRadioResourceAvailable              = 24
+	LocalErrorcodeNoHandoverNumberAvailableDecimal      = "25"
+	LocalErrorcodeNoHandoverNumberAvailable             = 25
+	LocalErrorcodeSubsequentHandoverFailureDecimal      = "26"
+	LocalErrorcodeSubsequentHandoverFailure             = 26
+	LocalErrorcodeAbsentSubscriberDecimal               = "27"
+	LocalErrorcodeAbsentSubscriber                      = 27
+	LocalErrorcodeIncompatibleTerminalDecimal           = "28"
+	LocalErrorcodeIncompatibleTerminal                  = 28
+	LocalErrorcodeShortTermDenialDecimal                = "29"
+	LocalErrorcodeShortTermDenial                       = 29
+	LocalErrorcodeLongTermDenialDecimal                 = "30"
+	LocalErrorcodeLongTermDenial                        = 30
+	LocalErrorcodeSubscriberBusyForMTSMSDecimal         = "31"
+	LocalErrorcodeSubscriberBusyForMTSMS                = 31
+	LocalErrorcodeSmDeliveryFailureDecimal              = "32"
+	LocalErrorcodeSmDeliveryFailure                     = 32
+	LocalErrorcodeMessageWaitingListFullDecimal         = "33"
+	LocalErrorcodeMessageWaitingListFull                = 33
+	LocalErrorcodeSystemFailureDecimal                  = "34"
+	LocalErrorcodeSystemFailure                         = 34
+	LocalErrorcodeDataMissingDecimal                    = "35"
+	LocalErrorcodeDataMissing                           = 35
+	LocalErrorcodeUnexpectedDataValueDecimal            = "36"
+	LocalErrorcodeUnexpectedDataValue                   = 36
+	LocalErrorcodePwRegistrationFailureDecimal          = "37"
+	LocalErrorcodePwRegistrationFailure                 = 37
+	LocalErrorcodeNegativePWCheckDecimal                = "38"
+	LocalErrorcodeNegativePWCheck                       = 38
+	LocalErrorcodeNoRoamingNumberAvailableDecimal       = "39"
+	LocalErrorcodeNoRoamingNumberAvailable              = 39
+	LocalErrorcodeTracingBufferFullDecimal              = "40"
+	LocalErrorcodeTracingBufferFull                     = 40
+	LocalErrorcodeTargetCellOutsideGroupCallAreaDecimal = "42"
+	LocalErrorcodeTargetCellOutsideGroupCallArea        = 42
+	LocalErrorcodeNumberOfPWAttemptsViolationDecimal    = "43"
+	LocalErrorcodeNumberOfPWAttemptsViolation           = 43
+	LocalErrorcodeNumberChangedDecimal                  = "44"
+	LocalErrorcodeNumberChanged                         = 44
+	LocalErrorcodeBusySubscriberDecimal                 = "45"
+	LocalErrorcodeBusySubscriber                        = 45
+	LocalErrorcodeNoSubscriberReplyDecimal              = "46"
+	LocalErrorcodeNoSubscriberReply                     = 46
+	LocalErrorcodeForwardingFailedDecimal               = "47"
+	LocalErrorcodeForwardingFailed                      = 47
+	LocalErrorcodeOrNotAllowedDecimal                   = "48"
+	LocalErrorcodeOrNotAllowed                          = 48
+	LocalErrorcodeAtiNotAllowedDecimal                  = "49"
+	LocalErrorcodeAtiNotAllowed                         = 49
+	LocalErrorcodeNoGroupCallNumberAvailableDecimal     = "50"
+	LocalErrorcodeNoGroupCallNumberAvailable            = 50
+	LocalErrorcodeResourceLimitationDecimal             = "51"
+	LocalErrorcodeResourceLimitation                    = 51
+	LocalErrorcodeUnauthorizedRequestingNetworkDecimal  = "52"
+	LocalErrorcodeUnauthorizedRequestingNetwork         = 52
+	LocalErrorcodeUnauthorizedLCSClientDecimal          = "53"
+	LocalErrorcodeUnauthorizedLCSClient                 = 53
+	LocalErrorcodePositionMethodFailureDecimal          = "54"
+	LocalErrorcodePositionMethodFailure                 = 54
+	LocalErrorcodeUnknownOrUnreachableLCSClientDecimal  = "58"
+	LocalErrorcodeUnknownOrUnreachableLCSClient         = 58
+	LocalErrorcodeMmEventNotSupportedDecimal            = "59"
+	LocalErrorcodeMmEventNotSupported                   = 59
+	LocalErrorcodeAtsiNotAllowedDecimal                 = "60"
+	LocalErrorcodeAtsiNotAllowed                        = 60
+	LocalErrorcodeAtmNotAllowedDecimal                  = "61"
+	LocalErrorcodeAtmNotAllowed                         = 61
+	LocalErrorcodeInformationNotAvailableDecimal        = "62"
+	LocalErrorcodeInformationNotAvailable               = 62
+	LocalErrorcodeUnknownAlphabetDecimal                = "71"
+	LocalErrorcodeUnknownAlphabet                       = 71
+	LocalErrorcodeUssdBusyDecimal                       = "72"
+	LocalErrorcodeUssdBusy                              = 72
+)
+
+// NewLocalErrorcode returns an immutable LocalErrorcode containing value.
+func NewLocalErrorcode(value *big.Int) LocalErrorcode {
+	return LocalErrorcode{value: runtime.CloneBigInt(value)}
+}
+
+// NewLocalErrorcodeInt64 returns a LocalErrorcode containing value.
+func NewLocalErrorcodeInt64(value int64) LocalErrorcode {
+	return NewLocalErrorcode(big.NewInt(value))
+}
+
+// LocalErrorcodeUnknownSubscriberValue returns the named value unknownSubscriber.
+func LocalErrorcodeUnknownSubscriberValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeUnknownSubscriberDecimal))
+}
+
+// LocalErrorcodeUnknownBaseStationValue returns the named value unknownBaseStation.
+func LocalErrorcodeUnknownBaseStationValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeUnknownBaseStationDecimal))
+}
+
+// LocalErrorcodeUnknownMSCValue returns the named value unknownMSC.
+func LocalErrorcodeUnknownMSCValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeUnknownMSCDecimal))
+}
+
+// LocalErrorcodeSecureTransportErrorValue returns the named value secureTransportError.
+func LocalErrorcodeSecureTransportErrorValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeSecureTransportErrorDecimal))
+}
+
+// LocalErrorcodeUnidentifiedSubscriberValue returns the named value unidentifiedSubscriber.
+func LocalErrorcodeUnidentifiedSubscriberValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeUnidentifiedSubscriberDecimal))
+}
+
+// LocalErrorcodeAbsentSubscriberSMValue returns the named value absentSubscriberSM.
+func LocalErrorcodeAbsentSubscriberSMValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeAbsentSubscriberSMDecimal))
+}
+
+// LocalErrorcodeUnknownEquipmentValue returns the named value unknownEquipment.
+func LocalErrorcodeUnknownEquipmentValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeUnknownEquipmentDecimal))
+}
+
+// LocalErrorcodeRoamingNotAllowedValue returns the named value roamingNotAllowed.
+func LocalErrorcodeRoamingNotAllowedValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeRoamingNotAllowedDecimal))
+}
+
+// LocalErrorcodeIllegalSubscriberValue returns the named value illegalSubscriber.
+func LocalErrorcodeIllegalSubscriberValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeIllegalSubscriberDecimal))
+}
+
+// LocalErrorcodeBearerServiceNotProvisionedValue returns the named value bearerServiceNotProvisioned.
+func LocalErrorcodeBearerServiceNotProvisionedValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeBearerServiceNotProvisionedDecimal))
+}
+
+// LocalErrorcodeTeleserviceNotProvisionedValue returns the named value teleserviceNotProvisioned.
+func LocalErrorcodeTeleserviceNotProvisionedValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeTeleserviceNotProvisionedDecimal))
+}
+
+// LocalErrorcodeIllegalEquipmentValue returns the named value illegalEquipment.
+func LocalErrorcodeIllegalEquipmentValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeIllegalEquipmentDecimal))
+}
+
+// LocalErrorcodeCallBarredValue returns the named value callBarred.
+func LocalErrorcodeCallBarredValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeCallBarredDecimal))
+}
+
+// LocalErrorcodeForwardingViolationValue returns the named value forwardingViolation.
+func LocalErrorcodeForwardingViolationValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeForwardingViolationDecimal))
+}
+
+// LocalErrorcodeCugRejectValue returns the named value cug-Reject.
+func LocalErrorcodeCugRejectValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeCugRejectDecimal))
+}
+
+// LocalErrorcodeIllegalSSOperationValue returns the named value illegalSS-Operation.
+func LocalErrorcodeIllegalSSOperationValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeIllegalSSOperationDecimal))
+}
+
+// LocalErrorcodeSsErrorStatusValue returns the named value ss-ErrorStatus.
+func LocalErrorcodeSsErrorStatusValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeSsErrorStatusDecimal))
+}
+
+// LocalErrorcodeSsNotAvailableValue returns the named value ss-NotAvailable.
+func LocalErrorcodeSsNotAvailableValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeSsNotAvailableDecimal))
+}
+
+// LocalErrorcodeSsSubscriptionViolationValue returns the named value ss-SubscriptionViolation.
+func LocalErrorcodeSsSubscriptionViolationValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeSsSubscriptionViolationDecimal))
+}
+
+// LocalErrorcodeSsIncompatibilityValue returns the named value ss-Incompatibility.
+func LocalErrorcodeSsIncompatibilityValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeSsIncompatibilityDecimal))
+}
+
+// LocalErrorcodeFacilityNotSupportedValue returns the named value facilityNotSupported.
+func LocalErrorcodeFacilityNotSupportedValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeFacilityNotSupportedDecimal))
+}
+
+// LocalErrorcodeOngoingGroupCallValue returns the named value ongoingGroupCall.
+func LocalErrorcodeOngoingGroupCallValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeOngoingGroupCallDecimal))
+}
+
+// LocalErrorcodeInvalidTargetBaseStationValue returns the named value invalidTargetBaseStation.
+func LocalErrorcodeInvalidTargetBaseStationValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeInvalidTargetBaseStationDecimal))
+}
+
+// LocalErrorcodeNoRadioResourceAvailableValue returns the named value noRadioResourceAvailable.
+func LocalErrorcodeNoRadioResourceAvailableValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeNoRadioResourceAvailableDecimal))
+}
+
+// LocalErrorcodeNoHandoverNumberAvailableValue returns the named value noHandoverNumberAvailable.
+func LocalErrorcodeNoHandoverNumberAvailableValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeNoHandoverNumberAvailableDecimal))
+}
+
+// LocalErrorcodeSubsequentHandoverFailureValue returns the named value subsequentHandoverFailure.
+func LocalErrorcodeSubsequentHandoverFailureValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeSubsequentHandoverFailureDecimal))
+}
+
+// LocalErrorcodeAbsentSubscriberValue returns the named value absentSubscriber.
+func LocalErrorcodeAbsentSubscriberValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeAbsentSubscriberDecimal))
+}
+
+// LocalErrorcodeIncompatibleTerminalValue returns the named value incompatibleTerminal.
+func LocalErrorcodeIncompatibleTerminalValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeIncompatibleTerminalDecimal))
+}
+
+// LocalErrorcodeShortTermDenialValue returns the named value shortTermDenial.
+func LocalErrorcodeShortTermDenialValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeShortTermDenialDecimal))
+}
+
+// LocalErrorcodeLongTermDenialValue returns the named value longTermDenial.
+func LocalErrorcodeLongTermDenialValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeLongTermDenialDecimal))
+}
+
+// LocalErrorcodeSubscriberBusyForMTSMSValue returns the named value subscriberBusyForMT-SMS.
+func LocalErrorcodeSubscriberBusyForMTSMSValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeSubscriberBusyForMTSMSDecimal))
+}
+
+// LocalErrorcodeSmDeliveryFailureValue returns the named value sm-DeliveryFailure.
+func LocalErrorcodeSmDeliveryFailureValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeSmDeliveryFailureDecimal))
+}
+
+// LocalErrorcodeMessageWaitingListFullValue returns the named value messageWaitingListFull.
+func LocalErrorcodeMessageWaitingListFullValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeMessageWaitingListFullDecimal))
+}
+
+// LocalErrorcodeSystemFailureValue returns the named value systemFailure.
+func LocalErrorcodeSystemFailureValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeSystemFailureDecimal))
+}
+
+// LocalErrorcodeDataMissingValue returns the named value dataMissing.
+func LocalErrorcodeDataMissingValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeDataMissingDecimal))
+}
+
+// LocalErrorcodeUnexpectedDataValueValue returns the named value unexpectedDataValue.
+func LocalErrorcodeUnexpectedDataValueValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeUnexpectedDataValueDecimal))
+}
+
+// LocalErrorcodePwRegistrationFailureValue returns the named value pw-RegistrationFailure.
+func LocalErrorcodePwRegistrationFailureValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodePwRegistrationFailureDecimal))
+}
+
+// LocalErrorcodeNegativePWCheckValue returns the named value negativePW-Check.
+func LocalErrorcodeNegativePWCheckValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeNegativePWCheckDecimal))
+}
+
+// LocalErrorcodeNoRoamingNumberAvailableValue returns the named value noRoamingNumberAvailable.
+func LocalErrorcodeNoRoamingNumberAvailableValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeNoRoamingNumberAvailableDecimal))
+}
+
+// LocalErrorcodeTracingBufferFullValue returns the named value tracingBufferFull.
+func LocalErrorcodeTracingBufferFullValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeTracingBufferFullDecimal))
+}
+
+// LocalErrorcodeTargetCellOutsideGroupCallAreaValue returns the named value targetCellOutsideGroupCallArea.
+func LocalErrorcodeTargetCellOutsideGroupCallAreaValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeTargetCellOutsideGroupCallAreaDecimal))
+}
+
+// LocalErrorcodeNumberOfPWAttemptsViolationValue returns the named value numberOfPW-AttemptsViolation.
+func LocalErrorcodeNumberOfPWAttemptsViolationValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeNumberOfPWAttemptsViolationDecimal))
+}
+
+// LocalErrorcodeNumberChangedValue returns the named value numberChanged.
+func LocalErrorcodeNumberChangedValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeNumberChangedDecimal))
+}
+
+// LocalErrorcodeBusySubscriberValue returns the named value busySubscriber.
+func LocalErrorcodeBusySubscriberValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeBusySubscriberDecimal))
+}
+
+// LocalErrorcodeNoSubscriberReplyValue returns the named value noSubscriberReply.
+func LocalErrorcodeNoSubscriberReplyValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeNoSubscriberReplyDecimal))
+}
+
+// LocalErrorcodeForwardingFailedValue returns the named value forwardingFailed.
+func LocalErrorcodeForwardingFailedValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeForwardingFailedDecimal))
+}
+
+// LocalErrorcodeOrNotAllowedValue returns the named value or-NotAllowed.
+func LocalErrorcodeOrNotAllowedValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeOrNotAllowedDecimal))
+}
+
+// LocalErrorcodeAtiNotAllowedValue returns the named value ati-NotAllowed.
+func LocalErrorcodeAtiNotAllowedValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeAtiNotAllowedDecimal))
+}
+
+// LocalErrorcodeNoGroupCallNumberAvailableValue returns the named value noGroupCallNumberAvailable.
+func LocalErrorcodeNoGroupCallNumberAvailableValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeNoGroupCallNumberAvailableDecimal))
+}
+
+// LocalErrorcodeResourceLimitationValue returns the named value resourceLimitation.
+func LocalErrorcodeResourceLimitationValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeResourceLimitationDecimal))
+}
+
+// LocalErrorcodeUnauthorizedRequestingNetworkValue returns the named value unauthorizedRequestingNetwork.
+func LocalErrorcodeUnauthorizedRequestingNetworkValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeUnauthorizedRequestingNetworkDecimal))
+}
+
+// LocalErrorcodeUnauthorizedLCSClientValue returns the named value unauthorizedLCSClient.
+func LocalErrorcodeUnauthorizedLCSClientValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeUnauthorizedLCSClientDecimal))
+}
+
+// LocalErrorcodePositionMethodFailureValue returns the named value positionMethodFailure.
+func LocalErrorcodePositionMethodFailureValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodePositionMethodFailureDecimal))
+}
+
+// LocalErrorcodeUnknownOrUnreachableLCSClientValue returns the named value unknownOrUnreachableLCSClient.
+func LocalErrorcodeUnknownOrUnreachableLCSClientValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeUnknownOrUnreachableLCSClientDecimal))
+}
+
+// LocalErrorcodeMmEventNotSupportedValue returns the named value mm-EventNotSupported.
+func LocalErrorcodeMmEventNotSupportedValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeMmEventNotSupportedDecimal))
+}
+
+// LocalErrorcodeAtsiNotAllowedValue returns the named value atsi-NotAllowed.
+func LocalErrorcodeAtsiNotAllowedValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeAtsiNotAllowedDecimal))
+}
+
+// LocalErrorcodeAtmNotAllowedValue returns the named value atm-NotAllowed.
+func LocalErrorcodeAtmNotAllowedValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeAtmNotAllowedDecimal))
+}
+
+// LocalErrorcodeInformationNotAvailableValue returns the named value informationNotAvailable.
+func LocalErrorcodeInformationNotAvailableValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeInformationNotAvailableDecimal))
+}
+
+// LocalErrorcodeUnknownAlphabetValue returns the named value unknownAlphabet.
+func LocalErrorcodeUnknownAlphabetValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeUnknownAlphabetDecimal))
+}
+
+// LocalErrorcodeUssdBusyValue returns the named value ussd-Busy.
+func LocalErrorcodeUssdBusyValue() LocalErrorcode {
+	return NewLocalErrorcode(runtime.MustParseBigIntDecimal(LocalErrorcodeUssdBusyDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v LocalErrorcode) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v LocalErrorcode) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v LocalErrorcode) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case LocalErrorcodeUnknownSubscriberDecimal:
+		return "unknownSubscriber", true
+	case LocalErrorcodeUnknownBaseStationDecimal:
+		return "unknownBaseStation", true
+	case LocalErrorcodeUnknownMSCDecimal:
+		return "unknownMSC", true
+	case LocalErrorcodeSecureTransportErrorDecimal:
+		return "secureTransportError", true
+	case LocalErrorcodeUnidentifiedSubscriberDecimal:
+		return "unidentifiedSubscriber", true
+	case LocalErrorcodeAbsentSubscriberSMDecimal:
+		return "absentSubscriberSM", true
+	case LocalErrorcodeUnknownEquipmentDecimal:
+		return "unknownEquipment", true
+	case LocalErrorcodeRoamingNotAllowedDecimal:
+		return "roamingNotAllowed", true
+	case LocalErrorcodeIllegalSubscriberDecimal:
+		return "illegalSubscriber", true
+	case LocalErrorcodeBearerServiceNotProvisionedDecimal:
+		return "bearerServiceNotProvisioned", true
+	case LocalErrorcodeTeleserviceNotProvisionedDecimal:
+		return "teleserviceNotProvisioned", true
+	case LocalErrorcodeIllegalEquipmentDecimal:
+		return "illegalEquipment", true
+	case LocalErrorcodeCallBarredDecimal:
+		return "callBarred", true
+	case LocalErrorcodeForwardingViolationDecimal:
+		return "forwardingViolation", true
+	case LocalErrorcodeCugRejectDecimal:
+		return "cug-Reject", true
+	case LocalErrorcodeIllegalSSOperationDecimal:
+		return "illegalSS-Operation", true
+	case LocalErrorcodeSsErrorStatusDecimal:
+		return "ss-ErrorStatus", true
+	case LocalErrorcodeSsNotAvailableDecimal:
+		return "ss-NotAvailable", true
+	case LocalErrorcodeSsSubscriptionViolationDecimal:
+		return "ss-SubscriptionViolation", true
+	case LocalErrorcodeSsIncompatibilityDecimal:
+		return "ss-Incompatibility", true
+	case LocalErrorcodeFacilityNotSupportedDecimal:
+		return "facilityNotSupported", true
+	case LocalErrorcodeOngoingGroupCallDecimal:
+		return "ongoingGroupCall", true
+	case LocalErrorcodeInvalidTargetBaseStationDecimal:
+		return "invalidTargetBaseStation", true
+	case LocalErrorcodeNoRadioResourceAvailableDecimal:
+		return "noRadioResourceAvailable", true
+	case LocalErrorcodeNoHandoverNumberAvailableDecimal:
+		return "noHandoverNumberAvailable", true
+	case LocalErrorcodeSubsequentHandoverFailureDecimal:
+		return "subsequentHandoverFailure", true
+	case LocalErrorcodeAbsentSubscriberDecimal:
+		return "absentSubscriber", true
+	case LocalErrorcodeIncompatibleTerminalDecimal:
+		return "incompatibleTerminal", true
+	case LocalErrorcodeShortTermDenialDecimal:
+		return "shortTermDenial", true
+	case LocalErrorcodeLongTermDenialDecimal:
+		return "longTermDenial", true
+	case LocalErrorcodeSubscriberBusyForMTSMSDecimal:
+		return "subscriberBusyForMT-SMS", true
+	case LocalErrorcodeSmDeliveryFailureDecimal:
+		return "sm-DeliveryFailure", true
+	case LocalErrorcodeMessageWaitingListFullDecimal:
+		return "messageWaitingListFull", true
+	case LocalErrorcodeSystemFailureDecimal:
+		return "systemFailure", true
+	case LocalErrorcodeDataMissingDecimal:
+		return "dataMissing", true
+	case LocalErrorcodeUnexpectedDataValueDecimal:
+		return "unexpectedDataValue", true
+	case LocalErrorcodePwRegistrationFailureDecimal:
+		return "pw-RegistrationFailure", true
+	case LocalErrorcodeNegativePWCheckDecimal:
+		return "negativePW-Check", true
+	case LocalErrorcodeNoRoamingNumberAvailableDecimal:
+		return "noRoamingNumberAvailable", true
+	case LocalErrorcodeTracingBufferFullDecimal:
+		return "tracingBufferFull", true
+	case LocalErrorcodeTargetCellOutsideGroupCallAreaDecimal:
+		return "targetCellOutsideGroupCallArea", true
+	case LocalErrorcodeNumberOfPWAttemptsViolationDecimal:
+		return "numberOfPW-AttemptsViolation", true
+	case LocalErrorcodeNumberChangedDecimal:
+		return "numberChanged", true
+	case LocalErrorcodeBusySubscriberDecimal:
+		return "busySubscriber", true
+	case LocalErrorcodeNoSubscriberReplyDecimal:
+		return "noSubscriberReply", true
+	case LocalErrorcodeForwardingFailedDecimal:
+		return "forwardingFailed", true
+	case LocalErrorcodeOrNotAllowedDecimal:
+		return "or-NotAllowed", true
+	case LocalErrorcodeAtiNotAllowedDecimal:
+		return "ati-NotAllowed", true
+	case LocalErrorcodeNoGroupCallNumberAvailableDecimal:
+		return "noGroupCallNumberAvailable", true
+	case LocalErrorcodeResourceLimitationDecimal:
+		return "resourceLimitation", true
+	case LocalErrorcodeUnauthorizedRequestingNetworkDecimal:
+		return "unauthorizedRequestingNetwork", true
+	case LocalErrorcodeUnauthorizedLCSClientDecimal:
+		return "unauthorizedLCSClient", true
+	case LocalErrorcodePositionMethodFailureDecimal:
+		return "positionMethodFailure", true
+	case LocalErrorcodeUnknownOrUnreachableLCSClientDecimal:
+		return "unknownOrUnreachableLCSClient", true
+	case LocalErrorcodeMmEventNotSupportedDecimal:
+		return "mm-EventNotSupported", true
+	case LocalErrorcodeAtsiNotAllowedDecimal:
+		return "atsi-NotAllowed", true
+	case LocalErrorcodeAtmNotAllowedDecimal:
+		return "atm-NotAllowed", true
+	case LocalErrorcodeInformationNotAvailableDecimal:
+		return "informationNotAvailable", true
+	case LocalErrorcodeUnknownAlphabetDecimal:
+		return "unknownAlphabet", true
+	case LocalErrorcodeUssdBusyDecimal:
+		return "ussd-Busy", true
 	default:
-		return "unknown"
+		return "", false
 	}
 }
 
-// LocalErrorcode represents the ASN.1 type LocalErrorcode (INTEGER).
-type LocalErrorcode = GSMMAPLocalErrorcode
+func (v LocalErrorcode) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
 
-// DumGeneralProblem represents the ASN.1 INTEGER type DumGeneralProblem with named numbers.
-type DumGeneralProblem int64
+// MarshalText returns the exact decimal INTEGER value.
+func (v LocalErrorcode) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *LocalErrorcode) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal LocalErrorcode into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewLocalErrorcode(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v LocalErrorcode) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *LocalErrorcode) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal LocalErrorcode into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewLocalErrorcode(value)
+	return nil
+}
+
+// DumGeneralProblem represents the arbitrary-width ASN.1 INTEGER type DumGeneralProblem with named numbers.
+type DumGeneralProblem struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	DumGeneralProblemUnrecognizedComponent    DumGeneralProblem = 0
-	DumGeneralProblemMistypedComponent        DumGeneralProblem = 1
-	DumGeneralProblemBadlyStructuredComponent DumGeneralProblem = 2
+	DumGeneralProblemUnrecognizedComponentDecimal    = "0"
+	DumGeneralProblemUnrecognizedComponent           = 0
+	DumGeneralProblemMistypedComponentDecimal        = "1"
+	DumGeneralProblemMistypedComponent               = 1
+	DumGeneralProblemBadlyStructuredComponentDecimal = "2"
+	DumGeneralProblemBadlyStructuredComponent        = 2
 )
+
+// NewDumGeneralProblem returns an immutable DumGeneralProblem containing value.
+func NewDumGeneralProblem(value *big.Int) DumGeneralProblem {
+	return DumGeneralProblem{value: runtime.CloneBigInt(value)}
+}
+
+// NewDumGeneralProblemInt64 returns a DumGeneralProblem containing value.
+func NewDumGeneralProblemInt64(value int64) DumGeneralProblem {
+	return NewDumGeneralProblem(big.NewInt(value))
+}
+
+// DumGeneralProblemUnrecognizedComponentValue returns the named value unrecognizedComponent.
+func DumGeneralProblemUnrecognizedComponentValue() DumGeneralProblem {
+	return NewDumGeneralProblem(runtime.MustParseBigIntDecimal(DumGeneralProblemUnrecognizedComponentDecimal))
+}
+
+// DumGeneralProblemMistypedComponentValue returns the named value mistypedComponent.
+func DumGeneralProblemMistypedComponentValue() DumGeneralProblem {
+	return NewDumGeneralProblem(runtime.MustParseBigIntDecimal(DumGeneralProblemMistypedComponentDecimal))
+}
+
+// DumGeneralProblemBadlyStructuredComponentValue returns the named value badlyStructuredComponent.
+func DumGeneralProblemBadlyStructuredComponentValue() DumGeneralProblem {
+	return NewDumGeneralProblem(runtime.MustParseBigIntDecimal(DumGeneralProblemBadlyStructuredComponentDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v DumGeneralProblem) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v DumGeneralProblem) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v DumGeneralProblem) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case DumGeneralProblemUnrecognizedComponentDecimal:
+		return "unrecognizedComponent", true
+	case DumGeneralProblemMistypedComponentDecimal:
+		return "mistypedComponent", true
+	case DumGeneralProblemBadlyStructuredComponentDecimal:
+		return "badlyStructuredComponent", true
+	default:
+		return "", false
+	}
+}
 
 func (v DumGeneralProblem) String() string {
-	switch v {
-	case DumGeneralProblemUnrecognizedComponent:
-		return "unrecognizedComponent"
-	case DumGeneralProblemMistypedComponent:
-		return "mistypedComponent"
-	case DumGeneralProblemBadlyStructuredComponent:
-		return "badlyStructuredComponent"
-	default:
-		return "unknown"
+	if name, ok := v.Name(); ok {
+		return name
 	}
+	return v.BigInt().String()
 }
 
-// DumInvokeProblem represents the ASN.1 INTEGER type DumInvokeProblem with named numbers.
-type DumInvokeProblem int64
+// MarshalText returns the exact decimal INTEGER value.
+func (v DumGeneralProblem) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *DumGeneralProblem) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal DumGeneralProblem into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewDumGeneralProblem(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v DumGeneralProblem) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *DumGeneralProblem) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal DumGeneralProblem into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewDumGeneralProblem(value)
+	return nil
+}
+
+// DumInvokeProblem represents the arbitrary-width ASN.1 INTEGER type DumInvokeProblem with named numbers.
+type DumInvokeProblem struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	DumInvokeProblemDuplicateInvokeID         DumInvokeProblem = 0
-	DumInvokeProblemUnrecognizedOperation     DumInvokeProblem = 1
-	DumInvokeProblemMistypedParameter         DumInvokeProblem = 2
-	DumInvokeProblemResourceLimitation        DumInvokeProblem = 3
-	DumInvokeProblemInitiatingRelease         DumInvokeProblem = 4
-	DumInvokeProblemUnrecognizedLinkedID      DumInvokeProblem = 5
-	DumInvokeProblemLinkedResponseUnexpected  DumInvokeProblem = 6
-	DumInvokeProblemUnexpectedLinkedOperation DumInvokeProblem = 7
+	DumInvokeProblemDuplicateInvokeIDDecimal         = "0"
+	DumInvokeProblemDuplicateInvokeID                = 0
+	DumInvokeProblemUnrecognizedOperationDecimal     = "1"
+	DumInvokeProblemUnrecognizedOperation            = 1
+	DumInvokeProblemMistypedParameterDecimal         = "2"
+	DumInvokeProblemMistypedParameter                = 2
+	DumInvokeProblemResourceLimitationDecimal        = "3"
+	DumInvokeProblemResourceLimitation               = 3
+	DumInvokeProblemInitiatingReleaseDecimal         = "4"
+	DumInvokeProblemInitiatingRelease                = 4
+	DumInvokeProblemUnrecognizedLinkedIDDecimal      = "5"
+	DumInvokeProblemUnrecognizedLinkedID             = 5
+	DumInvokeProblemLinkedResponseUnexpectedDecimal  = "6"
+	DumInvokeProblemLinkedResponseUnexpected         = 6
+	DumInvokeProblemUnexpectedLinkedOperationDecimal = "7"
+	DumInvokeProblemUnexpectedLinkedOperation        = 7
 )
+
+// NewDumInvokeProblem returns an immutable DumInvokeProblem containing value.
+func NewDumInvokeProblem(value *big.Int) DumInvokeProblem {
+	return DumInvokeProblem{value: runtime.CloneBigInt(value)}
+}
+
+// NewDumInvokeProblemInt64 returns a DumInvokeProblem containing value.
+func NewDumInvokeProblemInt64(value int64) DumInvokeProblem {
+	return NewDumInvokeProblem(big.NewInt(value))
+}
+
+// DumInvokeProblemDuplicateInvokeIDValue returns the named value duplicateInvokeID.
+func DumInvokeProblemDuplicateInvokeIDValue() DumInvokeProblem {
+	return NewDumInvokeProblem(runtime.MustParseBigIntDecimal(DumInvokeProblemDuplicateInvokeIDDecimal))
+}
+
+// DumInvokeProblemUnrecognizedOperationValue returns the named value unrecognizedOperation.
+func DumInvokeProblemUnrecognizedOperationValue() DumInvokeProblem {
+	return NewDumInvokeProblem(runtime.MustParseBigIntDecimal(DumInvokeProblemUnrecognizedOperationDecimal))
+}
+
+// DumInvokeProblemMistypedParameterValue returns the named value mistypedParameter.
+func DumInvokeProblemMistypedParameterValue() DumInvokeProblem {
+	return NewDumInvokeProblem(runtime.MustParseBigIntDecimal(DumInvokeProblemMistypedParameterDecimal))
+}
+
+// DumInvokeProblemResourceLimitationValue returns the named value resourceLimitation.
+func DumInvokeProblemResourceLimitationValue() DumInvokeProblem {
+	return NewDumInvokeProblem(runtime.MustParseBigIntDecimal(DumInvokeProblemResourceLimitationDecimal))
+}
+
+// DumInvokeProblemInitiatingReleaseValue returns the named value initiatingRelease.
+func DumInvokeProblemInitiatingReleaseValue() DumInvokeProblem {
+	return NewDumInvokeProblem(runtime.MustParseBigIntDecimal(DumInvokeProblemInitiatingReleaseDecimal))
+}
+
+// DumInvokeProblemUnrecognizedLinkedIDValue returns the named value unrecognizedLinkedID.
+func DumInvokeProblemUnrecognizedLinkedIDValue() DumInvokeProblem {
+	return NewDumInvokeProblem(runtime.MustParseBigIntDecimal(DumInvokeProblemUnrecognizedLinkedIDDecimal))
+}
+
+// DumInvokeProblemLinkedResponseUnexpectedValue returns the named value linkedResponseUnexpected.
+func DumInvokeProblemLinkedResponseUnexpectedValue() DumInvokeProblem {
+	return NewDumInvokeProblem(runtime.MustParseBigIntDecimal(DumInvokeProblemLinkedResponseUnexpectedDecimal))
+}
+
+// DumInvokeProblemUnexpectedLinkedOperationValue returns the named value unexpectedLinkedOperation.
+func DumInvokeProblemUnexpectedLinkedOperationValue() DumInvokeProblem {
+	return NewDumInvokeProblem(runtime.MustParseBigIntDecimal(DumInvokeProblemUnexpectedLinkedOperationDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v DumInvokeProblem) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v DumInvokeProblem) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v DumInvokeProblem) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case DumInvokeProblemDuplicateInvokeIDDecimal:
+		return "duplicateInvokeID", true
+	case DumInvokeProblemUnrecognizedOperationDecimal:
+		return "unrecognizedOperation", true
+	case DumInvokeProblemMistypedParameterDecimal:
+		return "mistypedParameter", true
+	case DumInvokeProblemResourceLimitationDecimal:
+		return "resourceLimitation", true
+	case DumInvokeProblemInitiatingReleaseDecimal:
+		return "initiatingRelease", true
+	case DumInvokeProblemUnrecognizedLinkedIDDecimal:
+		return "unrecognizedLinkedID", true
+	case DumInvokeProblemLinkedResponseUnexpectedDecimal:
+		return "linkedResponseUnexpected", true
+	case DumInvokeProblemUnexpectedLinkedOperationDecimal:
+		return "unexpectedLinkedOperation", true
+	default:
+		return "", false
+	}
+}
 
 func (v DumInvokeProblem) String() string {
-	switch v {
-	case DumInvokeProblemDuplicateInvokeID:
-		return "duplicateInvokeID"
-	case DumInvokeProblemUnrecognizedOperation:
-		return "unrecognizedOperation"
-	case DumInvokeProblemMistypedParameter:
-		return "mistypedParameter"
-	case DumInvokeProblemResourceLimitation:
-		return "resourceLimitation"
-	case DumInvokeProblemInitiatingRelease:
-		return "initiatingRelease"
-	case DumInvokeProblemUnrecognizedLinkedID:
-		return "unrecognizedLinkedID"
-	case DumInvokeProblemLinkedResponseUnexpected:
-		return "linkedResponseUnexpected"
-	case DumInvokeProblemUnexpectedLinkedOperation:
-		return "unexpectedLinkedOperation"
-	default:
-		return "unknown"
+	if name, ok := v.Name(); ok {
+		return name
 	}
+	return v.BigInt().String()
 }
 
-// DumReturnResultProblem represents the ASN.1 INTEGER type DumReturnResultProblem with named numbers.
-type DumReturnResultProblem int64
+// MarshalText returns the exact decimal INTEGER value.
+func (v DumInvokeProblem) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *DumInvokeProblem) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal DumInvokeProblem into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewDumInvokeProblem(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v DumInvokeProblem) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *DumInvokeProblem) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal DumInvokeProblem into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewDumInvokeProblem(value)
+	return nil
+}
+
+// DumReturnResultProblem represents the arbitrary-width ASN.1 INTEGER type DumReturnResultProblem with named numbers.
+type DumReturnResultProblem struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	DumReturnResultProblemUnrecognizedInvokeID   DumReturnResultProblem = 0
-	DumReturnResultProblemReturnResultUnexpected DumReturnResultProblem = 1
-	DumReturnResultProblemMistypedParameter      DumReturnResultProblem = 2
+	DumReturnResultProblemUnrecognizedInvokeIDDecimal   = "0"
+	DumReturnResultProblemUnrecognizedInvokeID          = 0
+	DumReturnResultProblemReturnResultUnexpectedDecimal = "1"
+	DumReturnResultProblemReturnResultUnexpected        = 1
+	DumReturnResultProblemMistypedParameterDecimal      = "2"
+	DumReturnResultProblemMistypedParameter             = 2
 )
+
+// NewDumReturnResultProblem returns an immutable DumReturnResultProblem containing value.
+func NewDumReturnResultProblem(value *big.Int) DumReturnResultProblem {
+	return DumReturnResultProblem{value: runtime.CloneBigInt(value)}
+}
+
+// NewDumReturnResultProblemInt64 returns a DumReturnResultProblem containing value.
+func NewDumReturnResultProblemInt64(value int64) DumReturnResultProblem {
+	return NewDumReturnResultProblem(big.NewInt(value))
+}
+
+// DumReturnResultProblemUnrecognizedInvokeIDValue returns the named value unrecognizedInvokeID.
+func DumReturnResultProblemUnrecognizedInvokeIDValue() DumReturnResultProblem {
+	return NewDumReturnResultProblem(runtime.MustParseBigIntDecimal(DumReturnResultProblemUnrecognizedInvokeIDDecimal))
+}
+
+// DumReturnResultProblemReturnResultUnexpectedValue returns the named value returnResultUnexpected.
+func DumReturnResultProblemReturnResultUnexpectedValue() DumReturnResultProblem {
+	return NewDumReturnResultProblem(runtime.MustParseBigIntDecimal(DumReturnResultProblemReturnResultUnexpectedDecimal))
+}
+
+// DumReturnResultProblemMistypedParameterValue returns the named value mistypedParameter.
+func DumReturnResultProblemMistypedParameterValue() DumReturnResultProblem {
+	return NewDumReturnResultProblem(runtime.MustParseBigIntDecimal(DumReturnResultProblemMistypedParameterDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v DumReturnResultProblem) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v DumReturnResultProblem) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v DumReturnResultProblem) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case DumReturnResultProblemUnrecognizedInvokeIDDecimal:
+		return "unrecognizedInvokeID", true
+	case DumReturnResultProblemReturnResultUnexpectedDecimal:
+		return "returnResultUnexpected", true
+	case DumReturnResultProblemMistypedParameterDecimal:
+		return "mistypedParameter", true
+	default:
+		return "", false
+	}
+}
 
 func (v DumReturnResultProblem) String() string {
-	switch v {
-	case DumReturnResultProblemUnrecognizedInvokeID:
-		return "unrecognizedInvokeID"
-	case DumReturnResultProblemReturnResultUnexpected:
-		return "returnResultUnexpected"
-	case DumReturnResultProblemMistypedParameter:
-		return "mistypedParameter"
-	default:
-		return "unknown"
+	if name, ok := v.Name(); ok {
+		return name
 	}
+	return v.BigInt().String()
 }
 
-// DumReturnErrorProblem represents the ASN.1 INTEGER type DumReturnErrorProblem with named numbers.
-type DumReturnErrorProblem int64
+// MarshalText returns the exact decimal INTEGER value.
+func (v DumReturnResultProblem) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *DumReturnResultProblem) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal DumReturnResultProblem into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewDumReturnResultProblem(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v DumReturnResultProblem) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *DumReturnResultProblem) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal DumReturnResultProblem into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewDumReturnResultProblem(value)
+	return nil
+}
+
+// DumReturnErrorProblem represents the arbitrary-width ASN.1 INTEGER type DumReturnErrorProblem with named numbers.
+type DumReturnErrorProblem struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	DumReturnErrorProblemUnrecognizedInvokeID  DumReturnErrorProblem = 0
-	DumReturnErrorProblemReturnErrorUnexpected DumReturnErrorProblem = 1
-	DumReturnErrorProblemUnrecognizedError     DumReturnErrorProblem = 2
-	DumReturnErrorProblemUnexpectedError       DumReturnErrorProblem = 3
-	DumReturnErrorProblemMistypedParameter     DumReturnErrorProblem = 4
+	DumReturnErrorProblemUnrecognizedInvokeIDDecimal  = "0"
+	DumReturnErrorProblemUnrecognizedInvokeID         = 0
+	DumReturnErrorProblemReturnErrorUnexpectedDecimal = "1"
+	DumReturnErrorProblemReturnErrorUnexpected        = 1
+	DumReturnErrorProblemUnrecognizedErrorDecimal     = "2"
+	DumReturnErrorProblemUnrecognizedError            = 2
+	DumReturnErrorProblemUnexpectedErrorDecimal       = "3"
+	DumReturnErrorProblemUnexpectedError              = 3
+	DumReturnErrorProblemMistypedParameterDecimal     = "4"
+	DumReturnErrorProblemMistypedParameter            = 4
 )
 
-func (v DumReturnErrorProblem) String() string {
-	switch v {
-	case DumReturnErrorProblemUnrecognizedInvokeID:
-		return "unrecognizedInvokeID"
-	case DumReturnErrorProblemReturnErrorUnexpected:
-		return "returnErrorUnexpected"
-	case DumReturnErrorProblemUnrecognizedError:
-		return "unrecognizedError"
-	case DumReturnErrorProblemUnexpectedError:
-		return "unexpectedError"
-	case DumReturnErrorProblemMistypedParameter:
-		return "mistypedParameter"
+// NewDumReturnErrorProblem returns an immutable DumReturnErrorProblem containing value.
+func NewDumReturnErrorProblem(value *big.Int) DumReturnErrorProblem {
+	return DumReturnErrorProblem{value: runtime.CloneBigInt(value)}
+}
+
+// NewDumReturnErrorProblemInt64 returns a DumReturnErrorProblem containing value.
+func NewDumReturnErrorProblemInt64(value int64) DumReturnErrorProblem {
+	return NewDumReturnErrorProblem(big.NewInt(value))
+}
+
+// DumReturnErrorProblemUnrecognizedInvokeIDValue returns the named value unrecognizedInvokeID.
+func DumReturnErrorProblemUnrecognizedInvokeIDValue() DumReturnErrorProblem {
+	return NewDumReturnErrorProblem(runtime.MustParseBigIntDecimal(DumReturnErrorProblemUnrecognizedInvokeIDDecimal))
+}
+
+// DumReturnErrorProblemReturnErrorUnexpectedValue returns the named value returnErrorUnexpected.
+func DumReturnErrorProblemReturnErrorUnexpectedValue() DumReturnErrorProblem {
+	return NewDumReturnErrorProblem(runtime.MustParseBigIntDecimal(DumReturnErrorProblemReturnErrorUnexpectedDecimal))
+}
+
+// DumReturnErrorProblemUnrecognizedErrorValue returns the named value unrecognizedError.
+func DumReturnErrorProblemUnrecognizedErrorValue() DumReturnErrorProblem {
+	return NewDumReturnErrorProblem(runtime.MustParseBigIntDecimal(DumReturnErrorProblemUnrecognizedErrorDecimal))
+}
+
+// DumReturnErrorProblemUnexpectedErrorValue returns the named value unexpectedError.
+func DumReturnErrorProblemUnexpectedErrorValue() DumReturnErrorProblem {
+	return NewDumReturnErrorProblem(runtime.MustParseBigIntDecimal(DumReturnErrorProblemUnexpectedErrorDecimal))
+}
+
+// DumReturnErrorProblemMistypedParameterValue returns the named value mistypedParameter.
+func DumReturnErrorProblemMistypedParameterValue() DumReturnErrorProblem {
+	return NewDumReturnErrorProblem(runtime.MustParseBigIntDecimal(DumReturnErrorProblemMistypedParameterDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v DumReturnErrorProblem) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v DumReturnErrorProblem) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v DumReturnErrorProblem) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case DumReturnErrorProblemUnrecognizedInvokeIDDecimal:
+		return "unrecognizedInvokeID", true
+	case DumReturnErrorProblemReturnErrorUnexpectedDecimal:
+		return "returnErrorUnexpected", true
+	case DumReturnErrorProblemUnrecognizedErrorDecimal:
+		return "unrecognizedError", true
+	case DumReturnErrorProblemUnexpectedErrorDecimal:
+		return "unexpectedError", true
+	case DumReturnErrorProblemMistypedParameterDecimal:
+		return "mistypedParameter", true
 	default:
-		return "unknown"
+		return "", false
 	}
 }
 
-// BssAPDU represents the ASN.1 type Bss-APDU (SEQUENCE).
+func (v DumReturnErrorProblem) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v DumReturnErrorProblem) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *DumReturnErrorProblem) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal DumReturnErrorProblem into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewDumReturnErrorProblem(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v DumReturnErrorProblem) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *DumReturnErrorProblem) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal DumReturnErrorProblem into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewDumReturnErrorProblem(value)
+	return nil
+}
+
+// BssAPDU represents the ASN.1 type BssAPDU (SEQUENCE).
 type BssAPDU struct {
-	ProtocolId         ProtocolId          `asn1:""`
-	SignalInfo         SignalInfo          `asn1:""`
-	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	ProtocolId         CommonDataTypesProtocolId             `asn1:""`
+	SignalInfo         CommonDataTypesSignalInfo             `asn1:""`
+	ExtensionContainer *ExtensionDataTypesExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64                                 `asn1:"-" json:"-"`
+	ExtPresent_        []bool                                `asn1:"-" json:"-"`
+	ExtData_           [][]byte                              `asn1:"-" json:"-"`
 }
 
 // ProvideSIWFSNumberArg represents the ASN.1 type ProvideSIWFSNumberArg (SEQUENCE).
 type ProvideSIWFSNumberArg struct {
-	GsmBearerCapability     ExternalSignalInfo  `asn1:"tag:0,context,implicit"`
-	IsdnBearerCapability    ExternalSignalInfo  `asn1:"tag:1,context,implicit"`
-	CallDirection           CallDirection       `asn1:"tag:2,context,implicit"`
-	BSubscriberAddress      ISDNAddressString   `asn1:"tag:3,context,implicit"`
-	ChosenChannel           ExternalSignalInfo  `asn1:"tag:4,context,implicit"`
-	LowerLayerCompatibility *ExternalSignalInfo `asn1:"tag:5,context,implicit,optional" json:"LowerLayerCompatibility,omitempty"`
-	HighLayerCompatibility  *ExternalSignalInfo `asn1:"tag:6,context,implicit,optional" json:"HighLayerCompatibility,omitempty"`
-	ExtensionContainer      *ExtensionContainer `asn1:"tag:7,context,implicit,optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_               int64               `asn1:"-" json:"-"`
-	ExtPresent_             []bool              `asn1:"-" json:"-"`
-	ExtData_                [][]byte            `asn1:"-" json:"-"`
+	GsmBearerCapability     CommonDataTypesExternalSignalInfo     `asn1:"tag:0,context,implicit"`
+	IsdnBearerCapability    CommonDataTypesExternalSignalInfo     `asn1:"tag:1,context,implicit"`
+	CallDirection           CallDirection                         `asn1:"tag:2,context,implicit"`
+	BSubscriberAddress      CommonDataTypesISDNAddressString      `asn1:"tag:3,context,implicit"`
+	ChosenChannel           CommonDataTypesExternalSignalInfo     `asn1:"tag:4,context,implicit"`
+	LowerLayerCompatibility *CommonDataTypesExternalSignalInfo    `asn1:"tag:5,context,implicit,optional" json:"LowerLayerCompatibility,omitempty"`
+	HighLayerCompatibility  *CommonDataTypesExternalSignalInfo    `asn1:"tag:6,context,implicit,optional" json:"HighLayerCompatibility,omitempty"`
+	ExtensionContainer      *ExtensionDataTypesExtensionContainer `asn1:"tag:7,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_               int64                                 `asn1:"-" json:"-"`
+	ExtPresent_             []bool                                `asn1:"-" json:"-"`
+	ExtData_                [][]byte                              `asn1:"-" json:"-"`
 }
 
 // ProvideSIWFSNumberRes represents the ASN.1 type ProvideSIWFSNumberRes (SEQUENCE).
 type ProvideSIWFSNumberRes struct {
-	SIWFSNumber        ISDNAddressString   `asn1:"tag:0,context,implicit"`
-	ExtensionContainer *ExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	SIWFSNumber        CommonDataTypesISDNAddressString      `asn1:"tag:0,context,implicit"`
+	ExtensionContainer *ExtensionDataTypesExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64                                 `asn1:"-" json:"-"`
+	ExtPresent_        []bool                                `asn1:"-" json:"-"`
+	ExtData_           [][]byte                              `asn1:"-" json:"-"`
 }
 
 // CallDirection represents the ASN.1 type CallDirection (OCTET_STRING).
 type CallDirection = []byte
 
-// PurgeMSArgV2 represents the ASN.1 type PurgeMSArgV2 (SEQUENCE).
-type PurgeMSArgV2 struct {
-	Imsi        IMSI               `asn1:""`
-	VlrNumber   *ISDNAddressString `asn1:",optional" json:"VlrNumber,omitempty"`
-	ExtCount_   int64              `asn1:"-" json:"-"`
-	ExtPresent_ []bool             `asn1:"-" json:"-"`
-	ExtData_    [][]byte           `asn1:"-" json:"-"`
+// DumPurgeMSArgV2 represents the ASN.1 type DumPurgeMSArgV2 (SEQUENCE).
+type DumPurgeMSArgV2 struct {
+	Imsi        CommonDataTypesIMSI               `asn1:""`
+	VlrNumber   *CommonDataTypesISDNAddressString `asn1:",optional" json:"VlrNumber,omitempty"`
+	ExtCount_   int64                             `asn1:"-" json:"-"`
+	ExtPresent_ []bool                            `asn1:"-" json:"-"`
+	ExtData_    [][]byte                          `asn1:"-" json:"-"`
 }
 
-// PrepareHOArgOld represents the ASN.1 type PrepareHO-ArgOld (SEQUENCE).
+// PrepareHOArgOld represents the ASN.1 type PrepareHOArgOld (SEQUENCE).
 type PrepareHOArgOld struct {
-	TargetCellId        *GlobalCellId `asn1:",optional" json:"TargetCellId,omitempty"`
-	HoNumberNotRequired *struct{}     `asn1:",optional" json:"HoNumberNotRequired,omitempty"`
-	BssAPDU             *BssAPDU      `asn1:",optional" json:"BssAPDU,omitempty"`
-	ExtCount_           int64         `asn1:"-" json:"-"`
-	ExtPresent_         []bool        `asn1:"-" json:"-"`
-	ExtData_            [][]byte      `asn1:"-" json:"-"`
+	TargetCellId        *CommonDataTypesGlobalCellId `asn1:",optional" json:"TargetCellId,omitempty"`
+	HoNumberNotRequired *struct{}                    `asn1:",optional" json:"HoNumberNotRequired,omitempty"`
+	BssAPDU             *BssAPDU                     `asn1:",optional" json:"BssAPDU,omitempty"`
+	ExtCount_           int64                        `asn1:"-" json:"-"`
+	ExtPresent_         []bool                       `asn1:"-" json:"-"`
+	ExtData_            [][]byte                     `asn1:"-" json:"-"`
 }
 
-// PrepareHOResOld represents the ASN.1 type PrepareHO-ResOld (SEQUENCE).
+// PrepareHOResOld represents the ASN.1 type PrepareHOResOld (SEQUENCE).
 type PrepareHOResOld struct {
-	HandoverNumber *ISDNAddressString `asn1:",optional" json:"HandoverNumber,omitempty"`
-	BssAPDU        *BssAPDU           `asn1:",optional" json:"BssAPDU,omitempty"`
-	ExtCount_      int64              `asn1:"-" json:"-"`
-	ExtPresent_    []bool             `asn1:"-" json:"-"`
-	ExtData_       [][]byte           `asn1:"-" json:"-"`
+	HandoverNumber *CommonDataTypesISDNAddressString `asn1:",optional" json:"HandoverNumber,omitempty"`
+	BssAPDU        *BssAPDU                          `asn1:",optional" json:"BssAPDU,omitempty"`
+	ExtCount_      int64                             `asn1:"-" json:"-"`
+	ExtPresent_    []bool                            `asn1:"-" json:"-"`
+	ExtData_       [][]byte                          `asn1:"-" json:"-"`
 }
 
-// SendAuthenticationInfoResOld represents the ASN.1 type SendAuthenticationInfoResOld (SEQUENCE_OF).
-type SendAuthenticationInfoResOld = []SendAuthenticationInfoResOldElem
+// DumSendAuthenticationInfoResOld represents the ASN.1 type DumSendAuthenticationInfoResOld (SEQUENCE_OF).
+type DumSendAuthenticationInfoResOld = []DumSendAuthenticationInfoResOldElem
 
-// RAND represents the ASN.1 type RAND (OCTET_STRING).
-type RAND = []byte
+// DumRAND represents the ASN.1 type DumRAND (OCTET_STRING).
+type DumRAND = []byte
 
-// SRES represents the ASN.1 type SRES (OCTET_STRING).
-type SRES = []byte
+// DumSRES represents the ASN.1 type DumSRES (OCTET_STRING).
+type DumSRES = []byte
 
-// Kc represents the ASN.1 type Kc (OCTET_STRING).
-type Kc = []byte
+// DumKc represents the ASN.1 type DumKc (OCTET_STRING).
+type DumKc = []byte
 
-// SendIdentificationResV2 represents the ASN.1 type SendIdentificationResV2 (SEQUENCE).
-type SendIdentificationResV2 struct {
-	Imsi              *IMSI          `asn1:",optional" json:"Imsi,omitempty"`
-	TripletList       TripletListold `asn1:",optional" json:"TripletList,omitempty"`
-	TripletListIndef_ bool           `asn1:"-" json:"-"`
-	ExtCount_         int64          `asn1:"-" json:"-"`
-	ExtPresent_       []bool         `asn1:"-" json:"-"`
-	ExtData_          [][]byte       `asn1:"-" json:"-"`
+// DumSendIdentificationResV2 represents the ASN.1 type DumSendIdentificationResV2 (SEQUENCE).
+type DumSendIdentificationResV2 struct {
+	Imsi              *CommonDataTypesIMSI `asn1:",optional" json:"Imsi,omitempty"`
+	TripletList       TripletListold       `asn1:",optional" json:"TripletList,omitempty"`
+	TripletListIndef_ bool                 `asn1:"-" json:"-"`
+	ExtCount_         int64                `asn1:"-" json:"-"`
+	ExtPresent_       []bool               `asn1:"-" json:"-"`
+	ExtData_          [][]byte             `asn1:"-" json:"-"`
 }
 
 // TripletListold represents the ASN.1 type TripletListold (SEQUENCE_OF).
 type TripletListold = []AuthenticationTripletV2
 
-// AuthenticationTripletV2 represents the ASN.1 type AuthenticationTriplet-v2 (SEQUENCE).
+// AuthenticationTripletV2 represents the ASN.1 type AuthenticationTripletV2 (SEQUENCE).
 type AuthenticationTripletV2 struct {
-	Rand        RAND     `asn1:""`
-	Sres        SRES     `asn1:""`
-	Kc          Kc       `asn1:""`
+	Rand        DumRAND  `asn1:""`
+	Sres        DumSRES  `asn1:""`
+	Kc          DumKc    `asn1:""`
 	ExtCount_   int64    `asn1:"-" json:"-"`
 	ExtPresent_ []bool   `asn1:"-" json:"-"`
 	ExtData_    [][]byte `asn1:"-" json:"-"`
@@ -1016,21 +4124,21 @@ type AuthenticationTripletV2 struct {
 
 // SIWFSSignallingModifyArg represents the ASN.1 type SIWFSSignallingModifyArg (SEQUENCE).
 type SIWFSSignallingModifyArg struct {
-	ChannelType        *ExternalSignalInfo `asn1:"tag:0,context,implicit,optional" json:"ChannelType,omitempty"`
-	ChosenChannel      *ExternalSignalInfo `asn1:"tag:1,context,implicit,optional" json:"ChosenChannel,omitempty"`
-	ExtensionContainer *ExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	ChannelType        *CommonDataTypesExternalSignalInfo    `asn1:"tag:0,context,implicit,optional" json:"ChannelType,omitempty"`
+	ChosenChannel      *CommonDataTypesExternalSignalInfo    `asn1:"tag:1,context,implicit,optional" json:"ChosenChannel,omitempty"`
+	ExtensionContainer *ExtensionDataTypesExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64                                 `asn1:"-" json:"-"`
+	ExtPresent_        []bool                                `asn1:"-" json:"-"`
+	ExtData_           [][]byte                              `asn1:"-" json:"-"`
 }
 
 // SIWFSSignallingModifyRes represents the ASN.1 type SIWFSSignallingModifyRes (SEQUENCE).
 type SIWFSSignallingModifyRes struct {
-	ChannelType        *ExternalSignalInfo `asn1:"tag:0,context,implicit,optional" json:"ChannelType,omitempty"`
-	ExtensionContainer *ExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	ChannelType        *CommonDataTypesExternalSignalInfo    `asn1:"tag:0,context,implicit,optional" json:"ChannelType,omitempty"`
+	ExtensionContainer *ExtensionDataTypesExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_          int64                                 `asn1:"-" json:"-"`
+	ExtPresent_        []bool                                `asn1:"-" json:"-"`
+	ExtData_           [][]byte                              `asn1:"-" json:"-"`
 }
 
 // NewPassword represents the ASN.1 type NewPassword (NumericString).
@@ -1223,28 +4331,28 @@ func (v ErrorCode) LocalCode() (int64, bool) {
 
 // PlmnContainer represents the ASN.1 type PlmnContainer (SEQUENCE).
 type PlmnContainer struct {
-	Msisdn               *ISDNAddressString          `asn1:"tag:0,context,implicit,optional" json:"Msisdn,omitempty"`
-	Category             *Category                   `asn1:"tag:1,context,implicit,optional" json:"Category,omitempty"`
-	BasicService         *BasicServiceCode           `asn1:",optional" json:"BasicService,omitempty"`
-	OperatorSSCode       PlmnContainerOperatorSSCode `asn1:"tag:4,context,implicit,optional" json:"OperatorSSCode,omitempty"`
-	OperatorSSCodeIndef_ bool                        `asn1:"-" json:"-"`
-	ExtCount_            int64                       `asn1:"-" json:"-"`
-	ExtPresent_          []bool                      `asn1:"-" json:"-"`
-	ExtData_             [][]byte                    `asn1:"-" json:"-"`
+	Msisdn               *CommonDataTypesISDNAddressString `asn1:"tag:0,context,implicit,optional" json:"Msisdn,omitempty"`
+	Category             *DumCategory                      `asn1:"tag:1,context,implicit,optional" json:"Category,omitempty"`
+	BasicService         *CommonDataTypesBasicServiceCode  `asn1:",optional" json:"BasicService,omitempty"`
+	OperatorSSCode       PlmnContainerOperatorSSCode       `asn1:"tag:4,context,implicit,optional" json:"OperatorSSCode,omitempty"`
+	OperatorSSCodeIndef_ bool                              `asn1:"-" json:"-"`
+	ExtCount_            int64                             `asn1:"-" json:"-"`
+	ExtPresent_          []bool                            `asn1:"-" json:"-"`
+	ExtData_             [][]byte                          `asn1:"-" json:"-"`
 }
 
-// Category represents the ASN.1 type Category (OCTET_STRING).
-type Category = []byte
+// DumCategory represents the ASN.1 type DumCategory (OCTET_STRING).
+type DumCategory = []byte
 
-// ForwardSMArg represents the ASN.1 type ForwardSM-Arg (SEQUENCE).
+// ForwardSMArg represents the ASN.1 type ForwardSMArg (SEQUENCE).
 type ForwardSMArg struct {
-	SmRPDA             SMRPDAold  `asn1:""`
-	SmRPOA             SMRPOAold  `asn1:""`
-	SmRPUI             SignalInfo `asn1:""`
-	MoreMessagesToSend *struct{}  `asn1:",optional" json:"MoreMessagesToSend,omitempty"`
-	ExtCount_          int64      `asn1:"-" json:"-"`
-	ExtPresent_        []bool     `asn1:"-" json:"-"`
-	ExtData_           [][]byte   `asn1:"-" json:"-"`
+	SmRPDA             SMRPDAold                 `asn1:""`
+	SmRPOA             SMRPOAold                 `asn1:""`
+	SmRPUI             CommonDataTypesSignalInfo `asn1:""`
+	MoreMessagesToSend *struct{}                 `asn1:",optional" json:"MoreMessagesToSend,omitempty"`
+	ExtCount_          int64                     `asn1:"-" json:"-"`
+	ExtPresent_        []bool                    `asn1:"-" json:"-"`
+	ExtData_           [][]byte                  `asn1:"-" json:"-"`
 }
 
 // SMRPDAold choice constants.
@@ -1255,40 +4363,40 @@ const (
 	SMRPDAoldChoiceNoSMRPDA               = 4
 )
 
-// SMRPDAold represents the ASN.1 CHOICE type SM-RP-DAold.
+// SMRPDAold represents the ASN.1 CHOICE type SMRPDAold.
 type SMRPDAold struct {
 	Choice                 int
-	Imsi                   *IMSI          `json:"Imsi,omitempty"`
-	Lmsi                   *LMSI          `json:"Lmsi,omitempty"`
-	ServiceCentreAddressDA *AddressString `json:"ServiceCentreAddressDA,omitempty"`
-	NoSMRPDA               *struct{}      `json:"NoSMRPDA,omitempty"`
+	Imsi                   *CommonDataTypesIMSI          `json:"Imsi,omitempty"`
+	Lmsi                   *CommonDataTypesLMSI          `json:"Lmsi,omitempty"`
+	ServiceCentreAddressDA *CommonDataTypesAddressString `json:"ServiceCentreAddressDA,omitempty"`
+	NoSMRPDA               *struct{}                     `json:"NoSMRPDA,omitempty"`
 }
 
-// NewSMRPDAoldImsi creates a SM-RP-DAold with the imsi alternative.
-func NewSMRPDAoldImsi(v IMSI) SMRPDAold {
+// NewSMRPDAoldImsi creates a SMRPDAold with the imsi alternative.
+func NewSMRPDAoldImsi(v CommonDataTypesIMSI) SMRPDAold {
 	return SMRPDAold{
 		Choice: SMRPDAoldChoiceImsi,
 		Imsi:   &v,
 	}
 }
 
-// NewSMRPDAoldLmsi creates a SM-RP-DAold with the lmsi alternative.
-func NewSMRPDAoldLmsi(v LMSI) SMRPDAold {
+// NewSMRPDAoldLmsi creates a SMRPDAold with the lmsi alternative.
+func NewSMRPDAoldLmsi(v CommonDataTypesLMSI) SMRPDAold {
 	return SMRPDAold{
 		Choice: SMRPDAoldChoiceLmsi,
 		Lmsi:   &v,
 	}
 }
 
-// NewSMRPDAoldServiceCentreAddressDA creates a SM-RP-DAold with the serviceCentreAddressDA alternative.
-func NewSMRPDAoldServiceCentreAddressDA(v AddressString) SMRPDAold {
+// NewSMRPDAoldServiceCentreAddressDA creates a SMRPDAold with the serviceCentreAddressDA alternative.
+func NewSMRPDAoldServiceCentreAddressDA(v CommonDataTypesAddressString) SMRPDAold {
 	return SMRPDAold{
 		Choice:                 SMRPDAoldChoiceServiceCentreAddressDA,
 		ServiceCentreAddressDA: &v,
 	}
 }
 
-// NewSMRPDAoldNoSMRPDA creates a SM-RP-DAold with the noSM-RP-DA alternative.
+// NewSMRPDAoldNoSMRPDA creates a SMRPDAold with the noSM-RP-DA alternative.
 func NewSMRPDAoldNoSMRPDA(v struct{}) SMRPDAold {
 	return SMRPDAold{
 		Choice:   SMRPDAoldChoiceNoSMRPDA,
@@ -1303,31 +4411,31 @@ const (
 	SMRPOAoldChoiceNoSMRPOA               = 3
 )
 
-// SMRPOAold represents the ASN.1 CHOICE type SM-RP-OAold.
+// SMRPOAold represents the ASN.1 CHOICE type SMRPOAold.
 type SMRPOAold struct {
 	Choice                 int
-	Msisdn                 *ISDNAddressString `json:"Msisdn,omitempty"`
-	ServiceCentreAddressOA *AddressString     `json:"ServiceCentreAddressOA,omitempty"`
-	NoSMRPOA               *struct{}          `json:"NoSMRPOA,omitempty"`
+	Msisdn                 *CommonDataTypesISDNAddressString `json:"Msisdn,omitempty"`
+	ServiceCentreAddressOA *CommonDataTypesAddressString     `json:"ServiceCentreAddressOA,omitempty"`
+	NoSMRPOA               *struct{}                         `json:"NoSMRPOA,omitempty"`
 }
 
-// NewSMRPOAoldMsisdn creates a SM-RP-OAold with the msisdn alternative.
-func NewSMRPOAoldMsisdn(v ISDNAddressString) SMRPOAold {
+// NewSMRPOAoldMsisdn creates a SMRPOAold with the msisdn alternative.
+func NewSMRPOAoldMsisdn(v CommonDataTypesISDNAddressString) SMRPOAold {
 	return SMRPOAold{
 		Choice: SMRPOAoldChoiceMsisdn,
 		Msisdn: &v,
 	}
 }
 
-// NewSMRPOAoldServiceCentreAddressOA creates a SM-RP-OAold with the serviceCentreAddressOA alternative.
-func NewSMRPOAoldServiceCentreAddressOA(v AddressString) SMRPOAold {
+// NewSMRPOAoldServiceCentreAddressOA creates a SMRPOAold with the serviceCentreAddressOA alternative.
+func NewSMRPOAoldServiceCentreAddressOA(v CommonDataTypesAddressString) SMRPOAold {
 	return SMRPOAold{
 		Choice:                 SMRPOAoldChoiceServiceCentreAddressOA,
 		ServiceCentreAddressOA: &v,
 	}
 }
 
-// NewSMRPOAoldNoSMRPOA creates a SM-RP-OAold with the noSM-RP-OA alternative.
+// NewSMRPOAoldNoSMRPOA creates a SMRPOAold with the noSM-RP-OA alternative.
 func NewSMRPOAoldNoSMRPOA(v struct{}) SMRPOAold {
 	return SMRPOAold{
 		Choice:   SMRPOAoldChoiceNoSMRPOA,
@@ -1337,52 +4445,52 @@ func NewSMRPOAoldNoSMRPOA(v struct{}) SMRPOAold {
 
 // SendRoutingInfoArgV2 represents the ASN.1 type SendRoutingInfoArgV2 (SEQUENCE).
 type SendRoutingInfoArgV2 struct {
-	Msisdn             ISDNAddressString   `asn1:"tag:0,context,implicit"`
-	CugCheckInfo       *CUGCheckInfo       `asn1:"tag:1,context,implicit,optional" json:"CugCheckInfo,omitempty"`
-	NumberOfForwarding *NumberOfForwarding `asn1:"tag:2,context,implicit,optional" json:"NumberOfForwarding,omitempty"`
-	NetworkSignalInfo  *ExternalSignalInfo `asn1:"tag:10,context,implicit,optional" json:"NetworkSignalInfo,omitempty"`
-	ExtCount_          int64               `asn1:"-" json:"-"`
-	ExtPresent_        []bool              `asn1:"-" json:"-"`
-	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	Msisdn             CommonDataTypesISDNAddressString   `asn1:"tag:0,context,implicit"`
+	CugCheckInfo       *CHCUGCheckInfo                    `asn1:"tag:1,context,implicit,optional" json:"CugCheckInfo,omitempty"`
+	NumberOfForwarding *CHNumberOfForwarding              `asn1:"tag:2,context,implicit,optional" json:"NumberOfForwarding,omitempty"`
+	NetworkSignalInfo  *CommonDataTypesExternalSignalInfo `asn1:"tag:10,context,implicit,optional" json:"NetworkSignalInfo,omitempty"`
+	ExtCount_          int64                              `asn1:"-" json:"-"`
+	ExtPresent_        []bool                             `asn1:"-" json:"-"`
+	ExtData_           [][]byte                           `asn1:"-" json:"-"`
 }
 
 // SendRoutingInfoResV2 represents the ASN.1 type SendRoutingInfoResV2 (SEQUENCE).
 type SendRoutingInfoResV2 struct {
-	Imsi         IMSI          `asn1:""`
-	RoutingInfo  RoutingInfo   `asn1:""`
-	CugCheckInfo *CUGCheckInfo `asn1:",optional" json:"CugCheckInfo,omitempty"`
-	ExtCount_    int64         `asn1:"-" json:"-"`
-	ExtPresent_  []bool        `asn1:"-" json:"-"`
-	ExtData_     [][]byte      `asn1:"-" json:"-"`
+	Imsi         CommonDataTypesIMSI `asn1:""`
+	RoutingInfo  CHRoutingInfo       `asn1:""`
+	CugCheckInfo *CHCUGCheckInfo     `asn1:",optional" json:"CugCheckInfo,omitempty"`
+	ExtCount_    int64               `asn1:"-" json:"-"`
+	ExtPresent_  []bool              `asn1:"-" json:"-"`
+	ExtData_     [][]byte            `asn1:"-" json:"-"`
 }
 
 // BeginSubscriberActivityArg represents the ASN.1 type BeginSubscriberActivityArg (SEQUENCE).
 type BeginSubscriberActivityArg struct {
-	Imsi                    IMSI              `asn1:""`
-	OriginatingEntityNumber ISDNAddressString `asn1:""`
-	Msisdn                  *AddressString    `asn1:"tag:28,private,implicit,optional" json:"Msisdn,omitempty"`
-	ExtCount_               int64             `asn1:"-" json:"-"`
-	ExtPresent_             []bool            `asn1:"-" json:"-"`
-	ExtData_                [][]byte          `asn1:"-" json:"-"`
+	Imsi                    CommonDataTypesIMSI              `asn1:""`
+	OriginatingEntityNumber CommonDataTypesISDNAddressString `asn1:""`
+	Msisdn                  *CommonDataTypesAddressString    `asn1:"tag:28,private,implicit,optional" json:"Msisdn,omitempty"`
+	ExtCount_               int64                            `asn1:"-" json:"-"`
+	ExtPresent_             []bool                           `asn1:"-" json:"-"`
+	ExtData_                [][]byte                         `asn1:"-" json:"-"`
 }
 
-// RoutingInfoForSMArgV1 represents the ASN.1 type RoutingInfoForSM-ArgV1 (SEQUENCE).
+// RoutingInfoForSMArgV1 represents the ASN.1 type RoutingInfoForSMArgV1 (SEQUENCE).
 type RoutingInfoForSMArgV1 struct {
-	Msisdn               ISDNAddressString `asn1:"tag:0,context,implicit"`
-	SmRPPRI              bool              `asn1:"tag:1,context,implicit"`
-	SmRPPRIRaw_          byte              `asn1:"-" json:"-"`
-	ServiceCentreAddress AddressString     `asn1:"tag:2,context,implicit"`
-	CugInterlock         *CUGInterlock     `asn1:"tag:3,context,implicit,optional" json:"CugInterlock,omitempty"`
-	TeleserviceCode      *TeleserviceCode  `asn1:"tag:5,context,implicit,optional" json:"TeleserviceCode,omitempty"`
-	Imsi                 *IMSI             `asn1:"tag:12,context,implicit,optional" json:"Imsi,omitempty"`
-	ExtCount_            int64             `asn1:"-" json:"-"`
-	ExtPresent_          []bool            `asn1:"-" json:"-"`
-	ExtData_             [][]byte          `asn1:"-" json:"-"`
+	Msisdn               CommonDataTypesISDNAddressString `asn1:"tag:0,context,implicit"`
+	SmRPPRI              bool                             `asn1:"tag:1,context,implicit"`
+	SmRPPRIRaw_          byte                             `asn1:"-" json:"-"`
+	ServiceCentreAddress CommonDataTypesAddressString     `asn1:"tag:2,context,implicit"`
+	CugInterlock         *CUGInterlock3                   `asn1:"tag:3,context,implicit,optional" json:"CugInterlock,omitempty"`
+	TeleserviceCode      *TSTeleserviceCode               `asn1:"tag:5,context,implicit,optional" json:"TeleserviceCode,omitempty"`
+	Imsi                 *CommonDataTypesIMSI             `asn1:"tag:12,context,implicit,optional" json:"Imsi,omitempty"`
+	ExtCount_            int64                            `asn1:"-" json:"-"`
+	ExtPresent_          []bool                           `asn1:"-" json:"-"`
+	ExtData_             [][]byte                         `asn1:"-" json:"-"`
 }
 
-// RoutingInfoForSMResV2 represents the ASN.1 type RoutingInfoForSM-ResV2 (SEQUENCE).
+// RoutingInfoForSMResV2 represents the ASN.1 type RoutingInfoForSMResV2 (SEQUENCE).
 type RoutingInfoForSMResV2 struct {
-	Imsi                 IMSI                   `asn1:""`
+	Imsi                 CommonDataTypesIMSI    `asn1:""`
 	LocationInfoWithLMSI LocationInfoWithLMSIv2 `asn1:"tag:0,context,implicit"`
 	MwdSet               *bool                  `asn1:"tag:2,context,implicit,optional" json:"MwdSet,omitempty"`
 	MwdSetRaw_           byte                   `asn1:"-" json:"-"`
@@ -1393,11 +4501,11 @@ type RoutingInfoForSMResV2 struct {
 
 // LocationInfoWithLMSIv2 represents the ASN.1 type LocationInfoWithLMSIv2 (SEQUENCE).
 type LocationInfoWithLMSIv2 struct {
-	LocationInfo LocationInfo `asn1:""`
-	Lmsi         *LMSI        `asn1:",optional" json:"Lmsi,omitempty"`
-	ExtCount_    int64        `asn1:"-" json:"-"`
-	ExtPresent_  []bool       `asn1:"-" json:"-"`
-	ExtData_     [][]byte     `asn1:"-" json:"-"`
+	LocationInfo LocationInfo         `asn1:""`
+	Lmsi         *CommonDataTypesLMSI `asn1:",optional" json:"Lmsi,omitempty"`
+	ExtCount_    int64                `asn1:"-" json:"-"`
+	ExtPresent_  []bool               `asn1:"-" json:"-"`
+	ExtData_     [][]byte             `asn1:"-" json:"-"`
 }
 
 // LocationInfo choice constants.
@@ -1409,12 +4517,12 @@ const (
 // LocationInfo represents the ASN.1 CHOICE type LocationInfo.
 type LocationInfo struct {
 	Choice        int
-	RoamingNumber *ISDNAddressString `json:"RoamingNumber,omitempty"`
-	MscNumber     *ISDNAddressString `json:"MscNumber,omitempty"`
+	RoamingNumber *CommonDataTypesISDNAddressString `json:"RoamingNumber,omitempty"`
+	MscNumber     *CommonDataTypesISDNAddressString `json:"MscNumber,omitempty"`
 }
 
 // NewLocationInfoRoamingNumber creates a LocationInfo with the roamingNumber alternative.
-func NewLocationInfoRoamingNumber(v ISDNAddressString) LocationInfo {
+func NewLocationInfoRoamingNumber(v CommonDataTypesISDNAddressString) LocationInfo {
 	return LocationInfo{
 		Choice:        LocationInfoChoiceRoamingNumber,
 		RoamingNumber: &v,
@@ -1422,7 +4530,7 @@ func NewLocationInfoRoamingNumber(v ISDNAddressString) LocationInfo {
 }
 
 // NewLocationInfoMscNumber creates a LocationInfo with the msc-Number alternative.
-func NewLocationInfoMscNumber(v ISDNAddressString) LocationInfo {
+func NewLocationInfoMscNumber(v CommonDataTypesISDNAddressString) LocationInfo {
 	return LocationInfo{
 		Choice:    LocationInfoChoiceMscNumber,
 		MscNumber: &v,
@@ -1434,9 +4542,9 @@ type Ki = []byte
 
 // SendParametersArg represents the ASN.1 type SendParametersArg (SEQUENCE).
 type SendParametersArg struct {
-	SubscriberId               SubscriberId         `asn1:""`
-	RequestParameterList       RequestParameterList `asn1:""`
-	RequestParameterListIndef_ bool                 `asn1:"-" json:"-"`
+	SubscriberId               CommonDataTypesSubscriberId `asn1:""`
+	RequestParameterList       RequestParameterList        `asn1:""`
+	RequestParameterListIndef_ bool                        `asn1:"-" json:"-"`
 }
 
 // RequestParameter represents the ASN.1 ENUMERATED type RequestParameter.
@@ -1478,14 +4586,14 @@ const (
 // SentParameter represents the ASN.1 CHOICE type SentParameter.
 type SentParameter struct {
 	Choice            int
-	Imsi              *IMSI                     `json:"Imsi,omitempty"`
+	Imsi              *CommonDataTypesIMSI      `json:"Imsi,omitempty"`
 	AuthenticationSet *AuthenticationSetListOld `json:"AuthenticationSet,omitempty"`
-	SubscriberData    *SubscriberData           `json:"SubscriberData,omitempty"`
+	SubscriberData    *SubscriberData3          `json:"SubscriberData,omitempty"`
 	Ki                *Ki                       `json:"Ki,omitempty"`
 }
 
 // NewSentParameterImsi creates a SentParameter with the imsi alternative.
-func NewSentParameterImsi(v IMSI) SentParameter {
+func NewSentParameterImsi(v CommonDataTypesIMSI) SentParameter {
 	return SentParameter{
 		Choice: SentParameterChoiceImsi,
 		Imsi:   &v,
@@ -1501,7 +4609,7 @@ func NewSentParameterAuthenticationSet(v AuthenticationSetListOld) SentParameter
 }
 
 // NewSentParameterSubscriberData creates a SentParameter with the subscriberData alternative.
-func NewSentParameterSubscriberData(v SubscriberData) SentParameter {
+func NewSentParameterSubscriberData(v SubscriberData3) SentParameter {
 	return SentParameter{
 		Choice:         SentParameterChoiceSubscriberData,
 		SubscriberData: &v,
@@ -1525,12 +4633,12 @@ const (
 // AuthenticationSetListOld represents the ASN.1 CHOICE type AuthenticationSetListOld.
 type AuthenticationSetListOld struct {
 	Choice         int
-	TripletList    TripletList    `json:"TripletList,omitempty"`
-	QuintupletList QuintupletList `json:"QuintupletList,omitempty"`
+	TripletList    TripletList3    `json:"TripletList,omitempty"`
+	QuintupletList QuintupletList3 `json:"QuintupletList,omitempty"`
 }
 
 // NewAuthenticationSetListOldTripletList creates a AuthenticationSetListOld with the tripletList alternative.
-func NewAuthenticationSetListOldTripletList(v TripletList) AuthenticationSetListOld {
+func NewAuthenticationSetListOldTripletList(v TripletList3) AuthenticationSetListOld {
 	return AuthenticationSetListOld{
 		Choice:      AuthenticationSetListOldChoiceTripletList,
 		TripletList: v,
@@ -1538,7 +4646,7 @@ func NewAuthenticationSetListOldTripletList(v TripletList) AuthenticationSetList
 }
 
 // NewAuthenticationSetListOldQuintupletList creates a AuthenticationSetListOld with the quintupletList alternative.
-func NewAuthenticationSetListOldQuintupletList(v QuintupletList) AuthenticationSetListOld {
+func NewAuthenticationSetListOldQuintupletList(v QuintupletList3) AuthenticationSetListOld {
 	return AuthenticationSetListOld{
 		Choice:         AuthenticationSetListOldChoiceQuintupletList,
 		QuintupletList: v,
@@ -1550,19 +4658,19 @@ type SentParameterList = []SentParameter
 
 // ResetArgV2 represents the ASN.1 type ResetArgV2 (SEQUENCE).
 type ResetArgV2 struct {
-	NetworkResource *NetworkResource  `asn1:",optional" json:"NetworkResource,omitempty"`
-	HlrNumber       ISDNAddressString `asn1:""`
-	HlrList         HLRList           `asn1:",optional" json:"HlrList,omitempty"`
-	HlrListIndef_   bool              `asn1:"-" json:"-"`
-	ExtCount_       int64             `asn1:"-" json:"-"`
-	ExtPresent_     []bool            `asn1:"-" json:"-"`
-	ExtData_        [][]byte          `asn1:"-" json:"-"`
+	NetworkResource *CommonDataTypesNetworkResource  `asn1:",optional" json:"NetworkResource,omitempty"`
+	HlrNumber       CommonDataTypesISDNAddressString `asn1:""`
+	HlrList         CommonDataTypesHLRList           `asn1:",optional" json:"HlrList,omitempty"`
+	HlrListIndef_   bool                             `asn1:"-" json:"-"`
+	ExtCount_       int64                            `asn1:"-" json:"-"`
+	ExtPresent_     []bool                           `asn1:"-" json:"-"`
+	ExtData_        [][]byte                         `asn1:"-" json:"-"`
 }
 
-// ReturnResultResultretres represents the ASN.1 type ReturnResult-resultretres (SEQUENCE).
+// ReturnResultResultretres represents the ASN.1 type ReturnResultResultretres (SEQUENCE).
 type ReturnResultResultretres struct {
 	OpCode          MAPOPERATION      `asn1:""`
-	Returnparameter *runtime.RawValue `asn1:",optional" json:"Returnparameter,omitempty"`
+	Returnparameter *runtime.RawValue `asn1:",optional" json:"Returnparameter,omitempty" asn1c:"raw-preserve"`
 }
 
 // RejectInvokeIDRej choice constants.
@@ -1571,14 +4679,14 @@ const (
 	RejectInvokeIDRejChoiceNotDerivable = 2
 )
 
-// RejectInvokeIDRej represents the ASN.1 CHOICE type Reject-invokeIDRej.
+// RejectInvokeIDRej represents the ASN.1 CHOICE type RejectInvokeIDRej.
 type RejectInvokeIDRej struct {
 	Choice       int
 	Derivable    *InvokeIdType `json:"Derivable,omitempty"`
 	NotDerivable *struct{}     `json:"NotDerivable,omitempty"`
 }
 
-// NewRejectInvokeIDRejDerivable creates a Reject-invokeIDRej with the derivable alternative.
+// NewRejectInvokeIDRejDerivable creates a RejectInvokeIDRej with the derivable alternative.
 func NewRejectInvokeIDRejDerivable(v InvokeIdType) RejectInvokeIDRej {
 	return RejectInvokeIDRej{
 		Choice:    RejectInvokeIDRejChoiceDerivable,
@@ -1586,7 +4694,7 @@ func NewRejectInvokeIDRejDerivable(v InvokeIdType) RejectInvokeIDRej {
 	}
 }
 
-// NewRejectInvokeIDRejNotDerivable creates a Reject-invokeIDRej with the not-derivable alternative.
+// NewRejectInvokeIDRejNotDerivable creates a RejectInvokeIDRej with the not-derivable alternative.
 func NewRejectInvokeIDRejNotDerivable(v struct{}) RejectInvokeIDRej {
 	return RejectInvokeIDRej{
 		Choice:       RejectInvokeIDRejChoiceNotDerivable,
@@ -1643,17 +4751,17 @@ func NewDumRejectProblemReturnErrorProblem(v DumReturnErrorProblem) DumRejectPro
 	}
 }
 
-// SendAuthenticationInfoResOldElem represents the ASN.1 type SendAuthenticationInfoResOld-Elem (SEQUENCE).
-type SendAuthenticationInfoResOldElem struct {
-	Rand        RAND     `asn1:""`
-	Sres        SRES     `asn1:""`
-	Kc          Kc       `asn1:""`
+// DumSendAuthenticationInfoResOldElem represents the ASN.1 type DumSendAuthenticationInfoResOldElem (SEQUENCE).
+type DumSendAuthenticationInfoResOldElem struct {
+	Rand        DumRAND  `asn1:""`
+	Sres        DumSRES  `asn1:""`
+	Kc          DumKc    `asn1:""`
 	ExtCount_   int64    `asn1:"-" json:"-"`
 	ExtPresent_ []bool   `asn1:"-" json:"-"`
 	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// PlmnContainerOperatorSSCode represents the ASN.1 type PlmnContainer-operatorSS-Code (SEQUENCE_OF).
+// PlmnContainerOperatorSSCode represents the ASN.1 type PlmnContainerOperatorSSCode (SEQUENCE_OF).
 type PlmnContainerOperatorSSCode = [][]byte
 
 // MarshalBER encodes Component to BER format.
@@ -2161,7 +5269,7 @@ func (v *MAPOPERATION) MarshalBER() ([]byte, error) {
 		if v.LocalValue == nil {
 			return nil, fmt.Errorf("choice MAPOPERATION: localValue is nil")
 		}
-		enc_0 := ber.EncodeInteger(int64(*v.LocalValue))
+		enc_0 := ber.EncodeBigInt(v.LocalValue.BigInt())
 		return enc_0, nil
 	case MAPOPERATIONChoiceGlobalValue:
 		enc_1 := ber.EncodeObjectIdentifier([]uint64(v.GlobalValue))
@@ -2197,12 +5305,15 @@ func (v *MAPOPERATION) UnmarshalBER(data []byte) error {
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 {
 		v.Choice = MAPOPERATIONChoiceLocalValue
-		decVal, _, intErr := ber.DecodeInteger(choiceData)
+		decVal, _, intErr := ber.DecodeBigInt(choiceData)
 		if intErr != nil {
 			return fmt.Errorf("decoding localValue: %w", intErr)
 		}
-		tmp := OperationLocalvalue(decVal)
-		v.LocalValue = &tmp
+		var named_localvalue OperationLocalvalue
+		if namedErr := named_localvalue.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding localValue: %w", namedErr)
+		}
+		v.LocalValue = &named_localvalue
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 6 {
 		v.Choice = MAPOPERATIONChoiceGlobalValue
 		decVal, _, oidErr := ber.DecodeObjectIdentifier(choiceData)
@@ -2224,7 +5335,7 @@ func (v *MAPERROR) MarshalBER() ([]byte, error) {
 		if v.LocalValue == nil {
 			return nil, fmt.Errorf("choice MAPERROR: localValue is nil")
 		}
-		enc_0 := ber.EncodeInteger(int64(*v.LocalValue))
+		enc_0 := ber.EncodeBigInt(v.LocalValue.BigInt())
 		return enc_0, nil
 	case MAPERRORChoiceGlobalValue:
 		enc_1 := ber.EncodeObjectIdentifier([]uint64(v.GlobalValue))
@@ -2260,12 +5371,15 @@ func (v *MAPERROR) UnmarshalBER(data []byte) error {
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 {
 		v.Choice = MAPERRORChoiceLocalValue
-		decVal, _, intErr := ber.DecodeInteger(choiceData)
+		decVal, _, intErr := ber.DecodeBigInt(choiceData)
 		if intErr != nil {
 			return fmt.Errorf("decoding localValue: %w", intErr)
 		}
-		tmp := LocalErrorcode(decVal)
-		v.LocalValue = &tmp
+		var named_localvalue LocalErrorcode
+		if namedErr := named_localvalue.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding localValue: %w", namedErr)
+		}
+		v.LocalValue = &named_localvalue
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 6 {
 		v.Choice = MAPERRORChoiceGlobalValue
 		decVal, _, oidErr := ber.DecodeObjectIdentifier(choiceData)
@@ -2336,7 +5450,7 @@ func (v *BssAPDU) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding protocolId: %w", err)
 	}
-	v.ProtocolId = ProtocolId(val_protocolid)
+	v.ProtocolId = CommonDataTypesProtocolId(val_protocolid)
 	offset += n
 	// Decode signalInfo
 	if offset >= len(content) {
@@ -2346,19 +5460,19 @@ func (v *BssAPDU) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding signalInfo: %w", err)
 	}
-	v.SignalInfo = SignalInfo(val_signalinfo)
+	v.SignalInfo = CommonDataTypesSignalInfo(val_signalinfo)
 	offset += n
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer)
+				// Decode nested SEQUENCE (ExtensionDataTypesExtensionContainer)
 				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
 				if tlvErr_extensioncontainer != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
 				}
-				var dec_extensioncontainer ExtensionContainer
+				var dec_extensioncontainer ExtensionDataTypesExtensionContainer
 				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -2532,7 +5646,7 @@ func (v *ProvideSIWFSNumberArg) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding b-Subscriber-Address: %w", err)
 	}
-	v.BSubscriberAddress = ISDNAddressString(rawVal_bsubscriberaddress)
+	v.BSubscriberAddress = CommonDataTypesISDNAddressString(rawVal_bsubscriberaddress)
 	offset += n_bsubscriberaddress
 	// Decode chosenChannel
 	if offset >= len(content) {
@@ -2562,7 +5676,7 @@ func (v *ProvideSIWFSNumberArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding lowerLayerCompatibility: %w", err)
 				}
 				reconstructed_lowerlayercompatibility := ber.EncodeSequence(rawVal_lowerlayercompatibility)
-				var dec_lowerlayercompatibility ExternalSignalInfo
+				var dec_lowerlayercompatibility CommonDataTypesExternalSignalInfo
 				if unmErr := dec_lowerlayercompatibility.UnmarshalBER(reconstructed_lowerlayercompatibility); unmErr != nil {
 					return fmt.Errorf("decoding lowerLayerCompatibility: %w", unmErr)
 				}
@@ -2581,7 +5695,7 @@ func (v *ProvideSIWFSNumberArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding highLayerCompatibility: %w", err)
 				}
 				reconstructed_highlayercompatibility := ber.EncodeSequence(rawVal_highlayercompatibility)
-				var dec_highlayercompatibility ExternalSignalInfo
+				var dec_highlayercompatibility CommonDataTypesExternalSignalInfo
 				if unmErr := dec_highlayercompatibility.UnmarshalBER(reconstructed_highlayercompatibility); unmErr != nil {
 					return fmt.Errorf("decoding highLayerCompatibility: %w", unmErr)
 				}
@@ -2600,7 +5714,7 @@ func (v *ProvideSIWFSNumberArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding extensionContainer: %w", err)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
-				var dec_extensioncontainer ExtensionContainer
+				var dec_extensioncontainer ExtensionDataTypesExtensionContainer
 				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -2686,7 +5800,7 @@ func (v *ProvideSIWFSNumberRes) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding sIWFSNumber: %w", err)
 	}
-	v.SIWFSNumber = ISDNAddressString(rawVal_siwfsnumber)
+	v.SIWFSNumber = CommonDataTypesISDNAddressString(rawVal_siwfsnumber)
 	offset += n_siwfsnumber
 	// Decode extensionContainer
 	if offset < len(content) {
@@ -2698,7 +5812,7 @@ func (v *ProvideSIWFSNumberRes) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding extensionContainer: %w", err)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
-				var dec_extensioncontainer ExtensionContainer
+				var dec_extensioncontainer ExtensionDataTypesExtensionContainer
 				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -2723,8 +5837,8 @@ func (v *ProvideSIWFSNumberRes) UnmarshalBER(data []byte) error {
 	return nil
 }
 
-// MarshalBER encodes PurgeMSArgV2 to BER format.
-func (v *PurgeMSArgV2) MarshalBER() ([]byte, error) {
+// MarshalBER encodes DumPurgeMSArgV2 to BER format.
+func (v *DumPurgeMSArgV2) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	children = append(children, enc_imsi...)
@@ -2745,8 +5859,8 @@ func (v *PurgeMSArgV2) MarshalBER() ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes PurgeMSArgV2 to DER format.
-func (v *PurgeMSArgV2) MarshalDER() ([]byte, error) {
+// MarshalDER encodes DumPurgeMSArgV2 to DER format.
+func (v *DumPurgeMSArgV2) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
@@ -2756,14 +5870,14 @@ func (v *PurgeMSArgV2) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes PurgeMSArgV2 from BER/DER format.
-func (v *PurgeMSArgV2) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes DumPurgeMSArgV2 from BER/DER format.
+func (v *DumPurgeMSArgV2) UnmarshalBER(data []byte) error {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding PurgeMSArgV2 SEQUENCE: %w", err)
+		return fmt.Errorf("decoding DumPurgeMSArgV2 SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "PurgeMSArgV2", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "DumPurgeMSArgV2", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -2774,7 +5888,7 @@ func (v *PurgeMSArgV2) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding imsi: %w", err)
 	}
-	v.Imsi = IMSI(val_imsi)
+	v.Imsi = CommonDataTypesIMSI(val_imsi)
 	offset += n
 	// Decode vlr-Number
 	if offset < len(content) {
@@ -2785,7 +5899,7 @@ func (v *PurgeMSArgV2) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding vlr-Number: %w", err)
 				}
-				tmp_vlrnumber := ISDNAddressString(val_vlrnumber)
+				tmp_vlrnumber := CommonDataTypesISDNAddressString(val_vlrnumber)
 				v.VlrNumber = &tmp_vlrnumber
 				offset += n
 			}
@@ -2797,7 +5911,7 @@ func (v *PurgeMSArgV2) UnmarshalBER(data []byte) error {
 	for offset < len(content) {
 		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "PurgeMSArgV2", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "DumPurgeMSArgV2", Cause: extErr_}
 		}
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
@@ -2868,7 +5982,7 @@ func (v *PrepareHOArgOld) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding targetCellId: %w", err)
 				}
-				tmp_targetcellid := GlobalCellId(val_targetcellid)
+				tmp_targetcellid := CommonDataTypesGlobalCellId(val_targetcellid)
 				v.TargetCellId = &tmp_targetcellid
 				offset += n
 			}
@@ -2980,7 +6094,7 @@ func (v *PrepareHOResOld) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding handoverNumber: %w", err)
 				}
-				tmp_handovernumber := ISDNAddressString(val_handovernumber)
+				tmp_handovernumber := CommonDataTypesISDNAddressString(val_handovernumber)
 				v.HandoverNumber = &tmp_handovernumber
 				offset += n
 			}
@@ -3021,8 +6135,8 @@ func (v *PrepareHOResOld) UnmarshalBER(data []byte) error {
 	return nil
 }
 
-// MarshalBERSendAuthenticationInfoResOld encodes a SendAuthenticationInfoResOld list to BER.
-func MarshalBERSendAuthenticationInfoResOld(list SendAuthenticationInfoResOld) ([]byte, error) {
+// MarshalBERDumSendAuthenticationInfoResOld encodes a DumSendAuthenticationInfoResOld list to BER.
+func MarshalBERDumSendAuthenticationInfoResOld(list DumSendAuthenticationInfoResOld) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -3034,19 +6148,19 @@ func MarshalBERSendAuthenticationInfoResOld(list SendAuthenticationInfoResOld) (
 	return ber.EncodeSequence(children), nil
 }
 
-// UnmarshalBERSendAuthenticationInfoResOld decodes a SendAuthenticationInfoResOld list from BER.
-func UnmarshalBERSendAuthenticationInfoResOld(data []byte) (SendAuthenticationInfoResOld, error) {
+// UnmarshalBERDumSendAuthenticationInfoResOld decodes a DumSendAuthenticationInfoResOld list from BER.
+func UnmarshalBERDumSendAuthenticationInfoResOld(data []byte) (DumSendAuthenticationInfoResOld, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return nil, fmt.Errorf("decoding SendAuthenticationInfoResOld: %w", err)
+		return nil, fmt.Errorf("decoding DumSendAuthenticationInfoResOld: %w", err)
 	}
 	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "SendAuthenticationInfoResOld", Cause: ber.ErrExtraData}
+		return nil, &ber.DecodeError{Offset: total, TypeName: "DumSendAuthenticationInfoResOld", Cause: ber.ErrExtraData}
 	}
-	var result SendAuthenticationInfoResOld
+	var result DumSendAuthenticationInfoResOld
 	offset := 0
 	for offset < len(content) {
-		var elem SendAuthenticationInfoResOldElem
+		var elem DumSendAuthenticationInfoResOldElem
 		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
 		if tlvErr != nil {
 			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
@@ -3060,8 +6174,8 @@ func UnmarshalBERSendAuthenticationInfoResOld(data []byte) (SendAuthenticationIn
 	return result, nil
 }
 
-// MarshalBER encodes SendIdentificationResV2 to BER format.
-func (v *SendIdentificationResV2) MarshalBER() ([]byte, error) {
+// MarshalBER encodes DumSendIdentificationResV2 to BER format.
+func (v *DumSendIdentificationResV2) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.Imsi != nil {
 		enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
@@ -3087,8 +6201,8 @@ func (v *SendIdentificationResV2) MarshalBER() ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes SendIdentificationResV2 to DER format.
-func (v *SendIdentificationResV2) MarshalDER() ([]byte, error) {
+// MarshalDER encodes DumSendIdentificationResV2 to DER format.
+func (v *DumSendIdentificationResV2) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
@@ -3101,14 +6215,14 @@ func (v *SendIdentificationResV2) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes SendIdentificationResV2 from BER/DER format.
-func (v *SendIdentificationResV2) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes DumSendIdentificationResV2 from BER/DER format.
+func (v *DumSendIdentificationResV2) UnmarshalBER(data []byte) error {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding SendIdentificationResV2 SEQUENCE: %w", err)
+		return fmt.Errorf("decoding DumSendIdentificationResV2 SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SendIdentificationResV2", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "DumSendIdentificationResV2", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -3120,7 +6234,7 @@ func (v *SendIdentificationResV2) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding imsi: %w", err)
 				}
-				tmp_imsi := IMSI(val_imsi)
+				tmp_imsi := CommonDataTypesIMSI(val_imsi)
 				v.Imsi = &tmp_imsi
 				offset += n
 			}
@@ -3159,7 +6273,7 @@ func (v *SendIdentificationResV2) UnmarshalBER(data []byte) error {
 	for offset < len(content) {
 		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "SendIdentificationResV2", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "DumSendIdentificationResV2", Cause: extErr_}
 		}
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
@@ -3259,7 +6373,7 @@ func (v *AuthenticationTripletV2) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding rand: %w", err)
 	}
-	v.Rand = RAND(val_rand)
+	v.Rand = DumRAND(val_rand)
 	offset += n
 	// Decode sres
 	if offset >= len(content) {
@@ -3269,7 +6383,7 @@ func (v *AuthenticationTripletV2) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding sres: %w", err)
 	}
-	v.Sres = SRES(val_sres)
+	v.Sres = DumSRES(val_sres)
 	offset += n
 	// Decode kc
 	if offset >= len(content) {
@@ -3279,7 +6393,7 @@ func (v *AuthenticationTripletV2) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding kc: %w", err)
 	}
-	v.Kc = Kc(val_kc)
+	v.Kc = DumKc(val_kc)
 	offset += n
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
@@ -3368,7 +6482,7 @@ func (v *SIWFSSignallingModifyArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding channelType: %w", err)
 				}
 				reconstructed_channeltype := ber.EncodeSequence(rawVal_channeltype)
-				var dec_channeltype ExternalSignalInfo
+				var dec_channeltype CommonDataTypesExternalSignalInfo
 				if unmErr := dec_channeltype.UnmarshalBER(reconstructed_channeltype); unmErr != nil {
 					return fmt.Errorf("decoding channelType: %w", unmErr)
 				}
@@ -3387,7 +6501,7 @@ func (v *SIWFSSignallingModifyArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding chosenChannel: %w", err)
 				}
 				reconstructed_chosenchannel := ber.EncodeSequence(rawVal_chosenchannel)
-				var dec_chosenchannel ExternalSignalInfo
+				var dec_chosenchannel CommonDataTypesExternalSignalInfo
 				if unmErr := dec_chosenchannel.UnmarshalBER(reconstructed_chosenchannel); unmErr != nil {
 					return fmt.Errorf("decoding chosenChannel: %w", unmErr)
 				}
@@ -3406,7 +6520,7 @@ func (v *SIWFSSignallingModifyArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding extensionContainer: %w", err)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
-				var dec_extensioncontainer ExtensionContainer
+				var dec_extensioncontainer ExtensionDataTypesExtensionContainer
 				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -3494,7 +6608,7 @@ func (v *SIWFSSignallingModifyRes) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding channelType: %w", err)
 				}
 				reconstructed_channeltype := ber.EncodeSequence(rawVal_channeltype)
-				var dec_channeltype ExternalSignalInfo
+				var dec_channeltype CommonDataTypesExternalSignalInfo
 				if unmErr := dec_channeltype.UnmarshalBER(reconstructed_channeltype); unmErr != nil {
 					return fmt.Errorf("decoding channelType: %w", unmErr)
 				}
@@ -3513,7 +6627,7 @@ func (v *SIWFSSignallingModifyRes) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding extensionContainer: %w", err)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
-				var dec_extensioncontainer ExtensionContainer
+				var dec_extensioncontainer ExtensionDataTypesExtensionContainer
 				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -4159,7 +7273,7 @@ func (v *PlmnContainer) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding msisdn: %w", err)
 				}
-				tmp_msisdn := ISDNAddressString(rawVal_msisdn)
+				tmp_msisdn := CommonDataTypesISDNAddressString(rawVal_msisdn)
 				v.Msisdn = &tmp_msisdn
 				offset += n_msisdn
 			}
@@ -4174,7 +7288,7 @@ func (v *PlmnContainer) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding category: %w", err)
 				}
-				tmp_category := Category(rawVal_category)
+				tmp_category := DumCategory(rawVal_category)
 				v.Category = &tmp_category
 				offset += n_category
 			}
@@ -4185,12 +7299,12 @@ func (v *PlmnContainer) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) {
-				// Decode nested CHOICE (BasicServiceCode)
+				// Decode nested CHOICE (CommonDataTypesBasicServiceCode)
 				_, n_basicservice, _, tlvErr_basicservice := ber.DecodeTLV(content[offset:])
 				if tlvErr_basicservice != nil {
 					return fmt.Errorf("decoding basicService: %w", tlvErr_basicservice)
 				}
-				var dec_basicservice BasicServiceCode
+				var dec_basicservice CommonDataTypesBasicServiceCode
 				if unmErr := dec_basicservice.UnmarshalBER(content[offset : offset+n_basicservice]); unmErr != nil {
 					return fmt.Errorf("decoding basicService: %w", unmErr)
 				}
@@ -4328,7 +7442,7 @@ func (v *ForwardSMArg) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding sm-RP-UI: %w", err)
 	}
-	v.SmRPUI = SignalInfo(val_smrpui)
+	v.SmRPUI = CommonDataTypesSignalInfo(val_smrpui)
 	offset += n
 	// Decode moreMessagesToSend
 	if offset < len(content) {
@@ -4414,7 +7528,7 @@ func (v *SMRPDAold) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding imsi: %w", tlvErr)
 		}
-		tmp := IMSI(rawVal)
+		tmp := CommonDataTypesIMSI(rawVal)
 		v.Imsi = &tmp
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
 		v.Choice = SMRPDAoldChoiceLmsi
@@ -4422,7 +7536,7 @@ func (v *SMRPDAold) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding lmsi: %w", tlvErr)
 		}
-		tmp := LMSI(rawVal)
+		tmp := CommonDataTypesLMSI(rawVal)
 		v.Lmsi = &tmp
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
 		v.Choice = SMRPDAoldChoiceServiceCentreAddressDA
@@ -4430,7 +7544,7 @@ func (v *SMRPDAold) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding serviceCentreAddressDA: %w", tlvErr)
 		}
-		tmp := AddressString(rawVal)
+		tmp := CommonDataTypesAddressString(rawVal)
 		v.ServiceCentreAddressDA = &tmp
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
 		v.Choice = SMRPDAoldChoiceNoSMRPDA
@@ -4496,7 +7610,7 @@ func (v *SMRPOAold) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding msisdn: %w", tlvErr)
 		}
-		tmp := ISDNAddressString(rawVal)
+		tmp := CommonDataTypesISDNAddressString(rawVal)
 		v.Msisdn = &tmp
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
 		v.Choice = SMRPOAoldChoiceServiceCentreAddressOA
@@ -4504,7 +7618,7 @@ func (v *SMRPOAold) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding serviceCentreAddressOA: %w", tlvErr)
 		}
-		tmp := AddressString(rawVal)
+		tmp := CommonDataTypesAddressString(rawVal)
 		v.ServiceCentreAddressOA = &tmp
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
 		v.Choice = SMRPOAoldChoiceNoSMRPOA
@@ -4594,7 +7708,7 @@ func (v *SendRoutingInfoArgV2) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding msisdn: %w", err)
 	}
-	v.Msisdn = ISDNAddressString(rawVal_msisdn)
+	v.Msisdn = CommonDataTypesISDNAddressString(rawVal_msisdn)
 	offset += n_msisdn
 	// Decode cug-CheckInfo
 	if offset < len(content) {
@@ -4606,7 +7720,7 @@ func (v *SendRoutingInfoArgV2) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding cug-CheckInfo: %w", err)
 				}
 				reconstructed_cugcheckinfo := ber.EncodeSequence(rawVal_cugcheckinfo)
-				var dec_cugcheckinfo CUGCheckInfo
+				var dec_cugcheckinfo CHCUGCheckInfo
 				if unmErr := dec_cugcheckinfo.UnmarshalBER(reconstructed_cugcheckinfo); unmErr != nil {
 					return fmt.Errorf("decoding cug-CheckInfo: %w", unmErr)
 				}
@@ -4628,7 +7742,7 @@ func (v *SendRoutingInfoArgV2) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding numberOfForwarding: %w", intErr)
 				}
-				tmp_numberofforwarding := NumberOfForwarding(decVal_numberofforwarding)
+				tmp_numberofforwarding := CHNumberOfForwarding(decVal_numberofforwarding)
 				v.NumberOfForwarding = &tmp_numberofforwarding
 				offset += n_numberofforwarding
 			}
@@ -4644,7 +7758,7 @@ func (v *SendRoutingInfoArgV2) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding networkSignalInfo: %w", err)
 				}
 				reconstructed_networksignalinfo := ber.EncodeSequence(rawVal_networksignalinfo)
-				var dec_networksignalinfo ExternalSignalInfo
+				var dec_networksignalinfo CommonDataTypesExternalSignalInfo
 				if unmErr := dec_networksignalinfo.UnmarshalBER(reconstructed_networksignalinfo); unmErr != nil {
 					return fmt.Errorf("decoding networkSignalInfo: %w", unmErr)
 				}
@@ -4728,13 +7842,13 @@ func (v *SendRoutingInfoResV2) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding imsi: %w", err)
 	}
-	v.Imsi = IMSI(val_imsi)
+	v.Imsi = CommonDataTypesIMSI(val_imsi)
 	offset += n
 	// Decode routingInfo
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field routingInfo")
 	}
-	// Decode nested CHOICE (RoutingInfo)
+	// Decode nested CHOICE (CHRoutingInfo)
 	_, n_routinginfo, _, tlvErr_routinginfo := ber.DecodeTLV(content[offset:])
 	if tlvErr_routinginfo != nil {
 		return fmt.Errorf("decoding routingInfo: %w", tlvErr_routinginfo)
@@ -4748,12 +7862,12 @@ func (v *SendRoutingInfoResV2) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (CUGCheckInfo)
+				// Decode nested SEQUENCE (CHCUGCheckInfo)
 				_, n_cugcheckinfo, _, tlvErr_cugcheckinfo := ber.DecodeTLV(content[offset:])
 				if tlvErr_cugcheckinfo != nil {
 					return fmt.Errorf("decoding cug-CheckInfo: %w", tlvErr_cugcheckinfo)
 				}
-				var dec_cugcheckinfo CUGCheckInfo
+				var dec_cugcheckinfo CHCUGCheckInfo
 				if unmErr := dec_cugcheckinfo.UnmarshalBER(content[offset : offset+n_cugcheckinfo]); unmErr != nil {
 					return fmt.Errorf("decoding cug-CheckInfo: %w", unmErr)
 				}
@@ -4832,7 +7946,7 @@ func (v *BeginSubscriberActivityArg) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding imsi: %w", err)
 	}
-	v.Imsi = IMSI(val_imsi)
+	v.Imsi = CommonDataTypesIMSI(val_imsi)
 	offset += n
 	// Decode originatingEntityNumber
 	if offset >= len(content) {
@@ -4842,7 +7956,7 @@ func (v *BeginSubscriberActivityArg) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding originatingEntityNumber: %w", err)
 	}
-	v.OriginatingEntityNumber = ISDNAddressString(val_originatingentitynumber)
+	v.OriginatingEntityNumber = CommonDataTypesISDNAddressString(val_originatingentitynumber)
 	offset += n
 	// Decode msisdn
 	if offset < len(content) {
@@ -4853,7 +7967,7 @@ func (v *BeginSubscriberActivityArg) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding msisdn: %w", err)
 				}
-				tmp_msisdn := AddressString(rawVal_msisdn)
+				tmp_msisdn := CommonDataTypesAddressString(rawVal_msisdn)
 				v.Msisdn = &tmp_msisdn
 				offset += n_msisdn
 			}
@@ -4954,7 +8068,7 @@ func (v *RoutingInfoForSMArgV1) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding msisdn: %w", err)
 	}
-	v.Msisdn = ISDNAddressString(rawVal_msisdn)
+	v.Msisdn = CommonDataTypesISDNAddressString(rawVal_msisdn)
 	offset += n_msisdn
 	// Decode sm-RP-PRI
 	if offset >= len(content) {
@@ -4991,7 +8105,7 @@ func (v *RoutingInfoForSMArgV1) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding serviceCentreAddress: %w", err)
 	}
-	v.ServiceCentreAddress = AddressString(rawVal_servicecentreaddress)
+	v.ServiceCentreAddress = CommonDataTypesAddressString(rawVal_servicecentreaddress)
 	offset += n_servicecentreaddress
 	// Decode cug-Interlock
 	if offset < len(content) {
@@ -5002,7 +8116,7 @@ func (v *RoutingInfoForSMArgV1) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding cug-Interlock: %w", err)
 				}
-				tmp_cuginterlock := CUGInterlock(rawVal_cuginterlock)
+				tmp_cuginterlock := CUGInterlock3(rawVal_cuginterlock)
 				v.CugInterlock = &tmp_cuginterlock
 				offset += n_cuginterlock
 			}
@@ -5017,7 +8131,7 @@ func (v *RoutingInfoForSMArgV1) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding teleserviceCode: %w", err)
 				}
-				tmp_teleservicecode := TeleserviceCode(rawVal_teleservicecode)
+				tmp_teleservicecode := TSTeleserviceCode(rawVal_teleservicecode)
 				v.TeleserviceCode = &tmp_teleservicecode
 				offset += n_teleservicecode
 			}
@@ -5032,7 +8146,7 @@ func (v *RoutingInfoForSMArgV1) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding imsi: %w", err)
 				}
-				tmp_imsi := IMSI(rawVal_imsi)
+				tmp_imsi := CommonDataTypesIMSI(rawVal_imsi)
 				v.Imsi = &tmp_imsi
 				offset += n_imsi
 			}
@@ -5117,7 +8231,7 @@ func (v *RoutingInfoForSMResV2) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding imsi: %w", err)
 	}
-	v.Imsi = IMSI(val_imsi)
+	v.Imsi = CommonDataTypesIMSI(val_imsi)
 	offset += n
 	// Decode locationInfoWithLMSI
 	if offset >= len(content) {
@@ -5242,7 +8356,7 @@ func (v *LocationInfoWithLMSIv2) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding lmsi: %w", err)
 				}
-				tmp_lmsi := LMSI(val_lmsi)
+				tmp_lmsi := CommonDataTypesLMSI(val_lmsi)
 				v.Lmsi = &tmp_lmsi
 				offset += n
 			}
@@ -5310,7 +8424,7 @@ func (v *LocationInfo) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding roamingNumber: %w", tlvErr)
 		}
-		tmp := ISDNAddressString(rawVal)
+		tmp := CommonDataTypesISDNAddressString(rawVal)
 		v.RoamingNumber = &tmp
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
 		v.Choice = LocationInfoChoiceMscNumber
@@ -5318,7 +8432,7 @@ func (v *LocationInfo) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding msc-Number: %w", tlvErr)
 		}
-		tmp := ISDNAddressString(rawVal)
+		tmp := CommonDataTypesISDNAddressString(rawVal)
 		v.MscNumber = &tmp
 	} else {
 		return fmt.Errorf("unknown tag %s for LocationInfo CHOICE", peekTag)
@@ -5365,7 +8479,7 @@ func (v *SendParametersArg) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field subscriberId")
 	}
-	// Decode nested CHOICE (SubscriberId)
+	// Decode nested CHOICE (CommonDataTypesSubscriberId)
 	_, n_subscriberid, _, tlvErr_subscriberid := ber.DecodeTLV(content[offset:])
 	if tlvErr_subscriberid != nil {
 		return fmt.Errorf("decoding subscriberId: %w", tlvErr_subscriberid)
@@ -5522,7 +8636,7 @@ func (v *SentParameter) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding imsi: %w", tlvErr)
 		}
-		tmp := IMSI(rawVal)
+		tmp := CommonDataTypesIMSI(rawVal)
 		v.Imsi = &tmp
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
 		v.Choice = SentParameterChoiceAuthenticationSet
@@ -5542,7 +8656,7 @@ func (v *SentParameter) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding subscriberData: %w", tlvErr)
 		}
 		reconstructed := ber.EncodeSequence(rawVal)
-		var dec SubscriberData
+		var dec SubscriberData3
 		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
 			return fmt.Errorf("decoding subscriberData: %w", unmErr)
 		}
@@ -5568,7 +8682,7 @@ func (v *AuthenticationSetListOld) MarshalBER() ([]byte, error) {
 		if v.TripletList == nil {
 			return nil, fmt.Errorf("choice AuthenticationSetListOld: tripletList is nil")
 		}
-		enc_0, err := MarshalBERTripletList(v.TripletList)
+		enc_0, err := MarshalBERTripletList3(v.TripletList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding tripletList: %w", err)
 		}
@@ -5578,7 +8692,7 @@ func (v *AuthenticationSetListOld) MarshalBER() ([]byte, error) {
 		if v.QuintupletList == nil {
 			return nil, fmt.Errorf("choice AuthenticationSetListOld: quintupletList is nil")
 		}
-		enc_1, err := MarshalBERQuintupletList(v.QuintupletList)
+		enc_1, err := MarshalBERQuintupletList3(v.QuintupletList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding quintupletList: %w", err)
 		}
@@ -5620,7 +8734,7 @@ func (v *AuthenticationSetListOld) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding tripletList: %w", tlvErr)
 		}
 		reconstructed := ber.EncodeSequence(rawVal)
-		dec, unmErr := UnmarshalBERTripletList(reconstructed)
+		dec, unmErr := UnmarshalBERTripletList3(reconstructed)
 		if unmErr != nil {
 			return fmt.Errorf("decoding tripletList: %w", unmErr)
 		}
@@ -5632,7 +8746,7 @@ func (v *AuthenticationSetListOld) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding quintupletList: %w", tlvErr)
 		}
 		reconstructed := ber.EncodeSequence(rawVal)
-		dec, unmErr := UnmarshalBERQuintupletList(reconstructed)
+		dec, unmErr := UnmarshalBERQuintupletList3(reconstructed)
 		if unmErr != nil {
 			return fmt.Errorf("decoding quintupletList: %w", unmErr)
 		}
@@ -5692,7 +8806,7 @@ func (v *ResetArgV2) MarshalBER() ([]byte, error) {
 	enc_hlrnumber := ber.EncodeOctetString([]byte(v.HlrNumber))
 	children = append(children, enc_hlrnumber...)
 	if v.HlrList != nil {
-		enc_hlrlist, err := MarshalBERHLRList(v.HlrList)
+		enc_hlrlist, err := MarshalBERCommonDataTypesHLRList(v.HlrList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding hlr-List: %w", err)
 		}
@@ -5744,7 +8858,7 @@ func (v *ResetArgV2) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding networkResource: %w", err)
 				}
-				tmp_networkresource := NetworkResource(val_networkresource)
+				tmp_networkresource := CommonDataTypesNetworkResource(val_networkresource)
 				v.NetworkResource = &tmp_networkresource
 				offset += n
 			}
@@ -5758,7 +8872,7 @@ func (v *ResetArgV2) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding hlr-Number: %w", err)
 	}
-	v.HlrNumber = ISDNAddressString(val_hlrnumber)
+	v.HlrNumber = CommonDataTypesISDNAddressString(val_hlrnumber)
 	offset += n
 	// Decode hlr-List
 	v.HlrListIndef_ = false
@@ -5766,7 +8880,7 @@ func (v *ResetArgV2) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE_OF (HLRList)
+				// Decode nested SEQUENCE_OF (CommonDataTypesHLRList)
 				_, n_hlrlist, _, tlvErr_hlrlist := ber.DecodeTLV(content[offset:])
 				if tlvErr_hlrlist != nil {
 					return fmt.Errorf("decoding hlr-List: %w", tlvErr_hlrlist)
@@ -5778,7 +8892,7 @@ func (v *ResetArgV2) UnmarshalBER(data []byte) error {
 						v.HlrListIndef_ = true
 					}
 				}
-				dec_hlrlist, unmErr := UnmarshalBERHLRList(tlv_hlrlist)
+				dec_hlrlist, unmErr := UnmarshalBERCommonDataTypesHLRList(tlv_hlrlist)
 				if unmErr != nil {
 					return fmt.Errorf("decoding hlr-List: %w", unmErr)
 				}
@@ -5931,28 +9045,28 @@ func (v *DumRejectProblem) MarshalBER() ([]byte, error) {
 		if v.GeneralProblem == nil {
 			return nil, fmt.Errorf("choice DumRejectProblem: generalProblem is nil")
 		}
-		enc_0 := ber.EncodeInteger(int64(*v.GeneralProblem))
+		enc_0 := ber.EncodeBigInt(v.GeneralProblem.BigInt())
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
 		return enc_0, nil
 	case DumRejectProblemChoiceInvokeProblem:
 		if v.InvokeProblem == nil {
 			return nil, fmt.Errorf("choice DumRejectProblem: invokeProblem is nil")
 		}
-		enc_1 := ber.EncodeInteger(int64(*v.InvokeProblem))
+		enc_1 := ber.EncodeBigInt(v.InvokeProblem.BigInt())
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		return enc_1, nil
 	case DumRejectProblemChoiceReturnResultProblem:
 		if v.ReturnResultProblem == nil {
 			return nil, fmt.Errorf("choice DumRejectProblem: returnResultProblem is nil")
 		}
-		enc_2 := ber.EncodeInteger(int64(*v.ReturnResultProblem))
+		enc_2 := ber.EncodeBigInt(v.ReturnResultProblem.BigInt())
 		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_2)
 		return enc_2, nil
 	case DumRejectProblemChoiceReturnErrorProblem:
 		if v.ReturnErrorProblem == nil {
 			return nil, fmt.Errorf("choice DumRejectProblem: returnErrorProblem is nil")
 		}
-		enc_3 := ber.EncodeInteger(int64(*v.ReturnErrorProblem))
+		enc_3 := ber.EncodeBigInt(v.ReturnErrorProblem.BigInt())
 		enc_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_3)
 		return enc_3, nil
 	default:
@@ -5990,56 +9104,68 @@ func (v *DumRejectProblem) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding generalProblem: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding generalProblem: %w", intErr)
 		}
-		tmp := DumGeneralProblem(decVal)
-		v.GeneralProblem = &tmp
+		var named_generalproblem DumGeneralProblem
+		if namedErr := named_generalproblem.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding generalProblem: %w", namedErr)
+		}
+		v.GeneralProblem = &named_generalproblem
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
 		v.Choice = DumRejectProblemChoiceInvokeProblem
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding invokeProblem: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding invokeProblem: %w", intErr)
 		}
-		tmp := DumInvokeProblem(decVal)
-		v.InvokeProblem = &tmp
+		var named_invokeproblem DumInvokeProblem
+		if namedErr := named_invokeproblem.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding invokeProblem: %w", namedErr)
+		}
+		v.InvokeProblem = &named_invokeproblem
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
 		v.Choice = DumRejectProblemChoiceReturnResultProblem
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding returnResultProblem: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding returnResultProblem: %w", intErr)
 		}
-		tmp := DumReturnResultProblem(decVal)
-		v.ReturnResultProblem = &tmp
+		var named_returnresultproblem DumReturnResultProblem
+		if namedErr := named_returnresultproblem.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding returnResultProblem: %w", namedErr)
+		}
+		v.ReturnResultProblem = &named_returnresultproblem
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
 		v.Choice = DumRejectProblemChoiceReturnErrorProblem
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding returnErrorProblem: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding returnErrorProblem: %w", intErr)
 		}
-		tmp := DumReturnErrorProblem(decVal)
-		v.ReturnErrorProblem = &tmp
+		var named_returnerrorproblem DumReturnErrorProblem
+		if namedErr := named_returnerrorproblem.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding returnErrorProblem: %w", namedErr)
+		}
+		v.ReturnErrorProblem = &named_returnerrorproblem
 	} else {
 		return fmt.Errorf("unknown tag %s for DumRejectProblem CHOICE", peekTag)
 	}
 	return nil
 }
 
-// MarshalBER encodes SendAuthenticationInfoResOldElem to BER format.
-func (v *SendAuthenticationInfoResOldElem) MarshalBER() ([]byte, error) {
+// MarshalBER encodes DumSendAuthenticationInfoResOldElem to BER format.
+func (v *DumSendAuthenticationInfoResOldElem) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_rand := ber.EncodeOctetString([]byte(v.Rand))
 	children = append(children, enc_rand...)
@@ -6060,8 +9186,8 @@ func (v *SendAuthenticationInfoResOldElem) MarshalBER() ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes SendAuthenticationInfoResOldElem to DER format.
-func (v *SendAuthenticationInfoResOldElem) MarshalDER() ([]byte, error) {
+// MarshalDER encodes DumSendAuthenticationInfoResOldElem to DER format.
+func (v *DumSendAuthenticationInfoResOldElem) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
@@ -6071,14 +9197,14 @@ func (v *SendAuthenticationInfoResOldElem) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes SendAuthenticationInfoResOldElem from BER/DER format.
-func (v *SendAuthenticationInfoResOldElem) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes DumSendAuthenticationInfoResOldElem from BER/DER format.
+func (v *DumSendAuthenticationInfoResOldElem) UnmarshalBER(data []byte) error {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding SendAuthenticationInfoResOldElem SEQUENCE: %w", err)
+		return fmt.Errorf("decoding DumSendAuthenticationInfoResOldElem SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SendAuthenticationInfoResOldElem", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "DumSendAuthenticationInfoResOldElem", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode rand
@@ -6089,7 +9215,7 @@ func (v *SendAuthenticationInfoResOldElem) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding rand: %w", err)
 	}
-	v.Rand = RAND(val_rand)
+	v.Rand = DumRAND(val_rand)
 	offset += n
 	// Decode sres
 	if offset >= len(content) {
@@ -6099,7 +9225,7 @@ func (v *SendAuthenticationInfoResOldElem) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding sres: %w", err)
 	}
-	v.Sres = SRES(val_sres)
+	v.Sres = DumSRES(val_sres)
 	offset += n
 	// Decode kc
 	if offset >= len(content) {
@@ -6109,7 +9235,7 @@ func (v *SendAuthenticationInfoResOldElem) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding kc: %w", err)
 	}
-	v.Kc = Kc(val_kc)
+	v.Kc = DumKc(val_kc)
 	offset += n
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
@@ -6117,7 +9243,7 @@ func (v *SendAuthenticationInfoResOldElem) UnmarshalBER(data []byte) error {
 	for offset < len(content) {
 		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "SendAuthenticationInfoResOldElem", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "DumSendAuthenticationInfoResOldElem", Cause: extErr_}
 		}
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)

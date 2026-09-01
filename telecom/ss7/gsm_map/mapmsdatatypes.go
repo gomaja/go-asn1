@@ -20,124 +20,124 @@ var (
 
 const (
 
-	// MaxPermittedIntegrityProtectionAlgorithmsLength is the integer constant for maxPermittedIntegrityProtectionAlgorithmsLength.
+	// MaxPermittedIntegrityProtectionAlgorithmsLength is the integer constant for MaxPermittedIntegrityProtectionAlgorithmsLength.
 	MaxPermittedIntegrityProtectionAlgorithmsLength int64 = 9
 
-	// MaxPermittedEncryptionAlgorithmsLength is the integer constant for maxPermittedEncryptionAlgorithmsLength.
+	// MaxPermittedEncryptionAlgorithmsLength is the integer constant for MaxPermittedEncryptionAlgorithmsLength.
 	MaxPermittedEncryptionAlgorithmsLength int64 = 9
 
-	// MaxNumOfServiceHandovers is the integer constant for maxNumOfServiceHandovers.
+	// MaxNumOfServiceHandovers is the integer constant for MaxNumOfServiceHandovers.
 	MaxNumOfServiceHandovers int64 = 7
 
-	// MaxNumOfRadioResources is the integer constant for maxNumOfRadioResources.
+	// MaxNumOfRadioResources is the integer constant for MaxNumOfRadioResources.
 	MaxNumOfRadioResources int64 = 7
 
-	// MaxNrOfRABs is the integer constant for maxNrOfRABs.
+	// MaxNrOfRABs is the integer constant for MaxNrOfRABs.
 	MaxNrOfRABs int64 = 255
 
-	// MaxNumOfRelocationNumber is the integer constant for maxNumOfRelocationNumber.
+	// MaxNumOfRelocationNumber is the integer constant for MaxNumOfRelocationNumber.
 	MaxNumOfRelocationNumber int64 = 7
 
-	// MaxNumOfIntegrityInfo is the integer constant for maxNumOfIntegrityInfo.
+	// MaxNumOfIntegrityInfo is the integer constant for MaxNumOfIntegrityInfo.
 	MaxNumOfIntegrityInfo int64 = 100
 
-	// MaxNumOfEncryptionInfo is the integer constant for maxNumOfEncryptionInfo.
+	// MaxNumOfEncryptionInfo is the integer constant for MaxNumOfEncryptionInfo.
 	MaxNumOfEncryptionInfo int64 = 100
 
-	// MaxNumOfLIPAAllowedAPN is the integer constant for maxNumOfLIPAAllowedAPN.
+	// MaxNumOfLIPAAllowedAPN is the integer constant for MaxNumOfLIPAAllowedAPN.
 	MaxNumOfLIPAAllowedAPN int64 = 50
 
-	// MaxNumOfAPNConfigurations is the integer constant for maxNumOfAPN-Configurations.
+	// MaxNumOfAPNConfigurations is the integer constant for MaxNumOfAPNConfigurations.
 	MaxNumOfAPNConfigurations int64 = 50
 
-	// MaxNumOfSpecificAPNInfos is the integer constant for maxNumOfSpecificAPNInfos.
+	// MaxNumOfSpecificAPNInfos is the integer constant for MaxNumOfSpecificAPNInfos.
 	MaxNumOfSpecificAPNInfos int64 = 50
 
-	// MaxNumOfGMLC is the integer constant for maxNumOfGMLC.
+	// MaxNumOfGMLC is the integer constant for MaxNumOfGMLC.
 	MaxNumOfGMLC int64 = 5
 
-	// MaxNumOfPDPContexts is the integer constant for maxNumOfPDP-Contexts.
+	// MaxNumOfPDPContexts is the integer constant for MaxNumOfPDPContexts.
 	MaxNumOfPDPContexts int64 = 50
 
-	// MaxNumOfLSAs is the integer constant for maxNumOfLSAs.
+	// MaxNumOfLSAs is the integer constant for MaxNumOfLSAs.
 	MaxNumOfLSAs int64 = 20
 
-	// MaxNumOfBearerServices is the integer constant for maxNumOfBearerServices.
+	// MaxNumOfBearerServices is the integer constant for MaxNumOfBearerServices.
 	MaxNumOfBearerServices int64 = 50
 
-	// MaxNumOfTeleservices is the integer constant for maxNumOfTeleservices.
+	// MaxNumOfTeleservices is the integer constant for MaxNumOfTeleservices.
 	MaxNumOfTeleservices int64 = 20
 
-	// MaxNumOfCUG is the integer constant for maxNumOfCUG.
+	// MaxNumOfCUG is the integer constant for MaxNumOfCUG.
 	MaxNumOfCUG int64 = 10
 
-	// MaxNumOfExtBasicServiceGroups is the integer constant for maxNumOfExt-BasicServiceGroups.
+	// MaxNumOfExtBasicServiceGroups is the integer constant for MaxNumOfExtBasicServiceGroups.
 	MaxNumOfExtBasicServiceGroups int64 = 32
 
-	// MaxNumOfPrivacyClass is the integer constant for maxNumOfPrivacyClass.
+	// MaxNumOfPrivacyClass is the integer constant for MaxNumOfPrivacyClass.
 	MaxNumOfPrivacyClass int64 = 4
 
-	// MaxNumOfExternalClient is the integer constant for maxNumOfExternalClient.
+	// MaxNumOfExternalClient is the integer constant for MaxNumOfExternalClient.
 	MaxNumOfExternalClient int64 = 5
 
-	// MaxNumOfPLMNClient is the integer constant for maxNumOfPLMNClient.
+	// MaxNumOfPLMNClient is the integer constant for MaxNumOfPLMNClient.
 	MaxNumOfPLMNClient int64 = 5
 
-	// MaxNumOfExtExternalClient is the integer constant for maxNumOfExt-ExternalClient.
+	// MaxNumOfExtExternalClient is the integer constant for MaxNumOfExtExternalClient.
 	MaxNumOfExtExternalClient int64 = 35
 
-	// MaxNumOfServiceType is the integer constant for maxNumOfServiceType.
+	// MaxNumOfServiceType is the integer constant for MaxNumOfServiceType.
 	MaxNumOfServiceType int64 = 32
 
-	// MaxNumOfMOLRClass is the integer constant for maxNumOfMOLR-Class.
+	// MaxNumOfMOLRClass is the integer constant for MaxNumOfMOLRClass.
 	MaxNumOfMOLRClass int64 = 3
 
-	// MaxNumOfZoneCodes is the integer constant for maxNumOfZoneCodes.
+	// MaxNumOfZoneCodes is the integer constant for MaxNumOfZoneCodes.
 	MaxNumOfZoneCodes int64 = 10
 
-	// MaxNumOfBasicServices is the integer constant for maxNumOfBasicServices.
+	// MaxNumOfBasicServices is the integer constant for MaxNumOfBasicServices.
 	MaxNumOfBasicServices int64 = 70
 
-	// MaxNumOfTPDUTypes is the integer constant for maxNumOfTPDUTypes.
+	// MaxNumOfTPDUTypes is the integer constant for MaxNumOfTPDUTypes.
 	MaxNumOfTPDUTypes int64 = 5
 
-	// MaxNumOfDPAnalysedInfoCriteria is the integer constant for maxNumOfDP-AnalysedInfoCriteria.
+	// MaxNumOfDPAnalysedInfoCriteria is the integer constant for MaxNumOfDPAnalysedInfoCriteria.
 	MaxNumOfDPAnalysedInfoCriteria int64 = 10
 
-	// MaxNumOfCamelSSEvents is the integer constant for maxNumOfCamelSSEvents.
+	// MaxNumOfCamelSSEvents is the integer constant for MaxNumOfCamelSSEvents.
 	MaxNumOfCamelSSEvents int64 = 10
 
-	// MaxNumOfCamelTDPData is the integer constant for maxNumOfCamelTDPData.
+	// MaxNumOfCamelTDPData is the integer constant for MaxNumOfCamelTDPData.
 	MaxNumOfCamelTDPData int64 = 10
 
-	// MaxNumOfISDNAddressDigits is the integer constant for maxNumOfISDN-AddressDigits.
+	// MaxNumOfISDNAddressDigits is the integer constant for MaxNumOfISDNAddressDigits.
 	MaxNumOfISDNAddressDigits int64 = 15
 
-	// MaxNumOfCamelDestinationNumbers is the integer constant for maxNumOfCamelDestinationNumbers.
+	// MaxNumOfCamelDestinationNumbers is the integer constant for MaxNumOfCamelDestinationNumbers.
 	MaxNumOfCamelDestinationNumbers int64 = 10
 
-	// MaxNumOfCamelDestinationNumberLengths is the integer constant for maxNumOfCamelDestinationNumberLengths.
+	// MaxNumOfCamelDestinationNumberLengths is the integer constant for MaxNumOfCamelDestinationNumberLengths.
 	MaxNumOfCamelDestinationNumberLengths int64 = 3
 
-	// MaxNumOfCamelBasicServiceCriteria is the integer constant for maxNumOfCamelBasicServiceCriteria.
+	// MaxNumOfCamelBasicServiceCriteria is the integer constant for MaxNumOfCamelBasicServiceCriteria.
 	MaxNumOfCamelBasicServiceCriteria int64 = 5
 
-	// MaxNumOfCAMELOCauseValueCriteria is the integer constant for maxNumOfCAMEL-O-CauseValueCriteria.
+	// MaxNumOfCAMELOCauseValueCriteria is the integer constant for MaxNumOfCAMELOCauseValueCriteria.
 	MaxNumOfCAMELOCauseValueCriteria int64 = 5
 
-	// MaxNumOfCAMELTCauseValueCriteria is the integer constant for maxNumOfCAMEL-T-CauseValueCriteria.
+	// MaxNumOfCAMELTCauseValueCriteria is the integer constant for MaxNumOfCAMELTCauseValueCriteria.
 	MaxNumOfCAMELTCauseValueCriteria int64 = 5
 
-	// MaxNumOfMobilityTriggers is the integer constant for maxNumOfMobilityTriggers.
+	// MaxNumOfMobilityTriggers is the integer constant for MaxNumOfMobilityTriggers.
 	MaxNumOfMobilityTriggers int64 = 10
 
-	// MaxNumOfVBSGroupIds is the integer constant for maxNumOfVBSGroupIds.
+	// MaxNumOfVBSGroupIds is the integer constant for MaxNumOfVBSGroupIds.
 	MaxNumOfVBSGroupIds int64 = 50
 
-	// MaxNumOfVGCSGroupIds is the integer constant for maxNumOfVGCSGroupIds.
+	// MaxNumOfVGCSGroupIds is the integer constant for MaxNumOfVGCSGroupIds.
 	MaxNumOfVGCSGroupIds int64 = 50
 
-	// MaxNumOfMSISDN is the integer constant for maxNumOfMSISDN.
+	// MaxNumOfMSISDN is the integer constant for MaxNumOfMSISDN.
 	MaxNumOfMSISDN int64 = 50
 )
 
@@ -165,7 +165,7 @@ type UpdateLocationArg struct {
 	ExtData_                    [][]byte                    `asn1:"-" json:"-"`
 }
 
-// VLRCapability represents the ASN.1 type VLR-Capability (SEQUENCE).
+// VLRCapability represents the ASN.1 type VLRCapability (SEQUENCE).
 type VLRCapability struct {
 	SupportedCamelPhases                        *SupportedCamelPhases       `asn1:"tag:0,context,implicit,optional" json:"SupportedCamelPhases,omitempty"`
 	ExtensionContainer                          *ExtensionContainer         `asn1:",optional" json:"ExtensionContainer,omitempty"`
@@ -185,7 +185,7 @@ type VLRCapability struct {
 	ExtData_                                    [][]byte                    `asn1:"-" json:"-"`
 }
 
-// SupportedRATTypes represents the ASN.1 type SupportedRAT-Types (BIT_STRING).
+// SupportedRATTypes represents the ASN.1 type SupportedRATTypes (BIT_STRING).
 type SupportedRATTypes = runtime.BitString
 
 // SuperChargerInfo choice constants.
@@ -220,7 +220,7 @@ func NewSuperChargerInfoSubscriberDataStored(v AgeIndicator) SuperChargerInfo {
 // AgeIndicator represents the ASN.1 type AgeIndicator (OCTET_STRING).
 type AgeIndicator = []byte
 
-// ISTSupportIndicator represents the ASN.1 ENUMERATED type IST-SupportIndicator.
+// ISTSupportIndicator represents the ASN.1 ENUMERATED type ISTSupportIndicator.
 type ISTSupportIndicator int64
 
 const (
@@ -239,7 +239,7 @@ func (v ISTSupportIndicator) String() string {
 	}
 }
 
-// SupportedLCSCapabilitySets represents the ASN.1 type SupportedLCS-CapabilitySets (BIT_STRING).
+// SupportedLCSCapabilitySets represents the ASN.1 type SupportedLCSCapabilitySets (BIT_STRING).
 type SupportedLCSCapabilitySets = runtime.BitString
 
 // UpdateLocationRes represents the ASN.1 type UpdateLocationRes (SEQUENCE).
@@ -253,7 +253,7 @@ type UpdateLocationRes struct {
 	ExtData_             [][]byte            `asn1:"-" json:"-"`
 }
 
-// ADDInfo represents the ASN.1 type ADD-Info (SEQUENCE).
+// ADDInfo represents the ASN.1 type ADDInfo (SEQUENCE).
 type ADDInfo struct {
 	Imeisv                   IMEI      `asn1:"tag:0,context,implicit"`
 	SkipSubscriberDataUpdate *struct{} `asn1:"tag:1,context,implicit,optional" json:"SkipSubscriberDataUpdate,omitempty"`
@@ -363,7 +363,7 @@ type CancelLocationRes struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// PurgeMSArg represents the ASN.1 type PurgeMS-Arg (SEQUENCE).
+// PurgeMSArg represents the ASN.1 type PurgeMSArg (SEQUENCE).
 type PurgeMSArg struct {
 	Imsi                    IMSI                     `asn1:""`
 	VlrNumber               *ISDNAddressString       `asn1:"tag:0,context,implicit,optional" json:"VlrNumber,omitempty"`
@@ -377,7 +377,7 @@ type PurgeMSArg struct {
 	ExtData_                [][]byte                 `asn1:"-" json:"-"`
 }
 
-// PurgeMSRes represents the ASN.1 type PurgeMS-Res (SEQUENCE).
+// PurgeMSRes represents the ASN.1 type PurgeMSRes (SEQUENCE).
 type PurgeMSRes struct {
 	FreezeTMSI         *struct{}           `asn1:"tag:0,context,implicit,optional" json:"FreezeTMSI,omitempty"`
 	FreezePTMSI        *struct{}           `asn1:"tag:1,context,implicit,optional" json:"FreezePTMSI,omitempty"`
@@ -458,9 +458,9 @@ type QuintupletList = []AuthenticationQuintuplet
 
 // AuthenticationTriplet represents the ASN.1 type AuthenticationTriplet (SEQUENCE).
 type AuthenticationTriplet struct {
-	Rand        MSRAND   `asn1:""`
-	Sres        MSSRES   `asn1:""`
-	Kc          MSKc     `asn1:""`
+	Rand        RAND     `asn1:""`
+	Sres        SRES     `asn1:""`
+	Kc          Kc       `asn1:""`
 	ExtCount_   int64    `asn1:"-" json:"-"`
 	ExtPresent_ []bool   `asn1:"-" json:"-"`
 	ExtData_    [][]byte `asn1:"-" json:"-"`
@@ -468,7 +468,7 @@ type AuthenticationTriplet struct {
 
 // AuthenticationQuintuplet represents the ASN.1 type AuthenticationQuintuplet (SEQUENCE).
 type AuthenticationQuintuplet struct {
-	Rand        MSRAND   `asn1:""`
+	Rand        RAND     `asn1:""`
 	Xres        XRES     `asn1:""`
 	Ck          CK       `asn1:""`
 	Ik          IK       `asn1:""`
@@ -507,16 +507,16 @@ func NewCurrentSecurityContextUmtsSecurityContextData(v UMTSSecurityContextData)
 	}
 }
 
-// GSMSecurityContextData represents the ASN.1 type GSM-SecurityContextData (SEQUENCE).
+// GSMSecurityContextData represents the ASN.1 type GSMSecurityContextData (SEQUENCE).
 type GSMSecurityContextData struct {
-	Kc          MSKc     `asn1:""`
+	Kc          Kc       `asn1:""`
 	Cksn        Cksn     `asn1:""`
 	ExtCount_   int64    `asn1:"-" json:"-"`
 	ExtPresent_ []bool   `asn1:"-" json:"-"`
 	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// UMTSSecurityContextData represents the ASN.1 type UMTS-SecurityContextData (SEQUENCE).
+// UMTSSecurityContextData represents the ASN.1 type UMTSSecurityContextData (SEQUENCE).
 type UMTSSecurityContextData struct {
 	Ck          CK       `asn1:""`
 	Ik          IK       `asn1:""`
@@ -526,14 +526,14 @@ type UMTSSecurityContextData struct {
 	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// MSRAND represents the ASN.1 type MSRAND (OCTET_STRING).
-type MSRAND = []byte
+// RAND represents the ASN.1 type RAND (OCTET_STRING).
+type RAND = []byte
 
-// MSSRES represents the ASN.1 type MSSRES (OCTET_STRING).
-type MSSRES = []byte
+// SRES represents the ASN.1 type SRES (OCTET_STRING).
+type SRES = []byte
 
-// MSKc represents the ASN.1 type MSKc (OCTET_STRING).
-type MSKc = []byte
+// Kc represents the ASN.1 type Kc (OCTET_STRING).
+type Kc = []byte
 
 // XRES represents the ASN.1 type XRES (OCTET_STRING).
 type XRES = []byte
@@ -564,7 +564,7 @@ type AuthenticationFailureReportArg struct {
 	ReAttempt          *bool               `asn1:",optional" json:"ReAttempt,omitempty"`
 	ReAttemptRaw_      byte                `asn1:"-" json:"-"`
 	AccessType         *AccessType         `asn1:",optional" json:"AccessType,omitempty"`
-	Rand               *MSRAND             `asn1:",optional" json:"Rand,omitempty"`
+	Rand               *RAND               `asn1:",optional" json:"Rand,omitempty"`
 	VlrNumber          *ISDNAddressString  `asn1:"tag:0,context,implicit,optional" json:"VlrNumber,omitempty"`
 	SgsnNumber         *ISDNAddressString  `asn1:"tag:1,context,implicit,optional" json:"SgsnNumber,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -704,7 +704,7 @@ func (v SMSRegisterRequest) String() string {
 	}
 }
 
-// UsedRATType represents the ASN.1 ENUMERATED type Used-RAT-Type.
+// UsedRATType represents the ASN.1 ENUMERATED type UsedRATType.
 type UsedRATType int64
 
 const (
@@ -741,14 +741,14 @@ const (
 	EPSInfoChoiceIsrInformation = 2
 )
 
-// EPSInfo represents the ASN.1 CHOICE type EPS-Info.
+// EPSInfo represents the ASN.1 CHOICE type EPSInfo.
 type EPSInfo struct {
 	Choice         int
 	PdnGwUpdate    *PDNGWUpdate    `json:"PdnGwUpdate,omitempty"`
 	IsrInformation *ISRInformation `json:"IsrInformation,omitempty"`
 }
 
-// NewEPSInfoPdnGwUpdate creates a EPS-Info with the pdn-gw-update alternative.
+// NewEPSInfoPdnGwUpdate creates a EPSInfo with the pdn-gw-update alternative.
 func NewEPSInfoPdnGwUpdate(v PDNGWUpdate) EPSInfo {
 	return EPSInfo{
 		Choice:      EPSInfoChoicePdnGwUpdate,
@@ -756,7 +756,7 @@ func NewEPSInfoPdnGwUpdate(v PDNGWUpdate) EPSInfo {
 	}
 }
 
-// NewEPSInfoIsrInformation creates a EPS-Info with the isr-Information alternative.
+// NewEPSInfoIsrInformation creates a EPSInfo with the isr-Information alternative.
 func NewEPSInfoIsrInformation(v ISRInformation) EPSInfo {
 	return EPSInfo{
 		Choice:         EPSInfoChoiceIsrInformation,
@@ -764,7 +764,7 @@ func NewEPSInfoIsrInformation(v ISRInformation) EPSInfo {
 	}
 }
 
-// PDNGWUpdate represents the ASN.1 type PDN-GW-Update (SEQUENCE).
+// PDNGWUpdate represents the ASN.1 type PDNGWUpdate (SEQUENCE).
 type PDNGWUpdate struct {
 	Apn                *APN                `asn1:"tag:0,context,implicit,optional" json:"Apn,omitempty"`
 	PdnGwIdentity      *PDNGWIdentity      `asn1:"tag:1,context,implicit,optional" json:"PdnGwIdentity,omitempty"`
@@ -775,10 +775,10 @@ type PDNGWUpdate struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// ISRInformation represents the ASN.1 type ISR-Information (BIT_STRING).
+// ISRInformation represents the ASN.1 type ISRInformation (BIT_STRING).
 type ISRInformation = runtime.BitString
 
-// SGSNCapability represents the ASN.1 type SGSN-Capability (SEQUENCE).
+// SGSNCapability represents the ASN.1 type SGSNCapability (SEQUENCE).
 type SGSNCapability struct {
 	SolsaSupportIndicator                              *struct{}                   `asn1:",optional" json:"SolsaSupportIndicator,omitempty"`
 	ExtensionContainer                                 *ExtensionContainer         `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
@@ -806,10 +806,10 @@ type SGSNCapability struct {
 // SupportedFeatures represents the ASN.1 type SupportedFeatures (BIT_STRING).
 type SupportedFeatures = runtime.BitString
 
-// ExtSupportedFeatures represents the ASN.1 type Ext-SupportedFeatures (BIT_STRING).
+// ExtSupportedFeatures represents the ASN.1 type ExtSupportedFeatures (BIT_STRING).
 type ExtSupportedFeatures = runtime.BitString
 
-// UESRVCCCapability represents the ASN.1 ENUMERATED type UE-SRVCC-Capability.
+// UESRVCCCapability represents the ASN.1 ENUMERATED type UESRVCCCapability.
 type UESRVCCCapability int64
 
 const (
@@ -840,13 +840,13 @@ type UpdateGprsLocationRes struct {
 	ExtData_                   [][]byte            `asn1:"-" json:"-"`
 }
 
-// EPLMNList represents the ASN.1 type EPLMN-List (SEQUENCE_OF).
+// EPLMNList represents the ASN.1 type EPLMNList (SEQUENCE_OF).
 type EPLMNList = []PLMNId
 
-// AdjacentPLMNList represents the ASN.1 type AdjacentPLMN-List (SEQUENCE_OF).
+// AdjacentPLMNList represents the ASN.1 type AdjacentPLMNList (SEQUENCE_OF).
 type AdjacentPLMNList = []PLMNId
 
-// ForwardAccessSignallingArg represents the ASN.1 type ForwardAccessSignalling-Arg (SEQUENCE).
+// ForwardAccessSignallingArg represents the ASN.1 type ForwardAccessSignallingArg (SEQUENCE).
 type ForwardAccessSignallingArg struct {
 	AnAPDU                          AccessNetworkSignalInfo         `asn1:""`
 	IntegrityProtectionInfo         *IntegrityProtectionInformation `asn1:"tag:0,context,implicit,optional" json:"IntegrityProtectionInfo,omitempty"`
@@ -877,10 +877,10 @@ type ForwardAccessSignallingArg struct {
 	ExtData_                        [][]byte                        `asn1:"-" json:"-"`
 }
 
-// AllowedGSMAlgorithms represents the ASN.1 type AllowedGSM-Algorithms (OCTET_STRING).
+// AllowedGSMAlgorithms represents the ASN.1 type AllowedGSMAlgorithms (OCTET_STRING).
 type AllowedGSMAlgorithms = []byte
 
-// AllowedUMTSAlgorithms represents the ASN.1 type AllowedUMTS-Algorithms (SEQUENCE).
+// AllowedUMTSAlgorithms represents the ASN.1 type AllowedUMTSAlgorithms (SEQUENCE).
 type AllowedUMTSAlgorithms struct {
 	IntegrityProtectionAlgorithms *PermittedIntegrityProtectionAlgorithms `asn1:"tag:0,context,implicit,optional" json:"IntegrityProtectionAlgorithms,omitempty"`
 	EncryptionAlgorithms          *PermittedEncryptionAlgorithms          `asn1:"tag:1,context,implicit,optional" json:"EncryptionAlgorithms,omitempty"`
@@ -915,7 +915,7 @@ func (v KeyStatus) String() string {
 	}
 }
 
-// PrepareHOArg represents the ASN.1 type PrepareHO-Arg (SEQUENCE).
+// PrepareHOArg represents the ASN.1 type PrepareHOArg (SEQUENCE).
 type PrepareHOArg struct {
 	TargetCellId                    *GlobalCellId                   `asn1:"tag:0,context,implicit,optional" json:"TargetCellId,omitempty"`
 	HoNumberNotRequired             *struct{}                       `asn1:",optional" json:"HoNumberNotRequired,omitempty"`
@@ -958,19 +958,19 @@ type PrepareHOArg struct {
 	ExtData_                        [][]byte                        `asn1:"-" json:"-"`
 }
 
-// LCLSGlobalCallReference represents the ASN.1 type LCLS-GlobalCallReference (OCTET_STRING).
+// LCLSGlobalCallReference represents the ASN.1 type LCLSGlobalCallReference (OCTET_STRING).
 type LCLSGlobalCallReference = []byte
 
-// LCLSNegotiation represents the ASN.1 type LCLS-Negotiation (BIT_STRING).
+// LCLSNegotiation represents the ASN.1 type LCLSNegotiation (BIT_STRING).
 type LCLSNegotiation = runtime.BitString
 
-// LCLSConfigurationPreference represents the ASN.1 type LCLS-ConfigurationPreference (BIT_STRING).
+// LCLSConfigurationPreference represents the ASN.1 type LCLSConfigurationPreference (BIT_STRING).
 type LCLSConfigurationPreference = runtime.BitString
 
-// BSSMAPServiceHandoverList represents the ASN.1 type BSSMAP-ServiceHandoverList (SEQUENCE_OF).
+// BSSMAPServiceHandoverList represents the ASN.1 type BSSMAPServiceHandoverList (SEQUENCE_OF).
 type BSSMAPServiceHandoverList = []BSSMAPServiceHandoverInfo
 
-// BSSMAPServiceHandoverInfo represents the ASN.1 type BSSMAP-ServiceHandoverInfo (SEQUENCE).
+// BSSMAPServiceHandoverInfo represents the ASN.1 type BSSMAPServiceHandoverInfo (SEQUENCE).
 type BSSMAPServiceHandoverInfo struct {
 	BssmapServiceHandover BSSMAPServiceHandover `asn1:""`
 	RabId                 RABId                 `asn1:""`
@@ -979,10 +979,10 @@ type BSSMAPServiceHandoverInfo struct {
 	ExtData_              [][]byte              `asn1:"-" json:"-"`
 }
 
-// BSSMAPServiceHandover represents the ASN.1 type BSSMAP-ServiceHandover (OCTET_STRING).
+// BSSMAPServiceHandover represents the ASN.1 type BSSMAPServiceHandover (OCTET_STRING).
 type BSSMAPServiceHandover = []byte
 
-// RANAPServiceHandover represents the ASN.1 type RANAP-ServiceHandover (OCTET_STRING).
+// RANAPServiceHandover represents the ASN.1 type RANAPServiceHandover (OCTET_STRING).
 type RANAPServiceHandover = []byte
 
 // RadioResourceList represents the ASN.1 type RadioResourceList (SEQUENCE_OF).
@@ -997,7 +997,7 @@ type RadioResource struct {
 	ExtData_                 [][]byte                 `asn1:"-" json:"-"`
 }
 
-// PrepareHORes represents the ASN.1 type PrepareHO-Res (SEQUENCE).
+// PrepareHORes represents the ASN.1 type PrepareHORes (SEQUENCE).
 type PrepareHORes struct {
 	HandoverNumber                 *ISDNAddressString              `asn1:"tag:0,context,implicit,optional" json:"HandoverNumber,omitempty"`
 	RelocationNumberList           RelocationNumberList            `asn1:"tag:1,context,implicit,optional" json:"RelocationNumberList,omitempty"`
@@ -1017,7 +1017,7 @@ type PrepareHORes struct {
 	ExtData_                       [][]byte                        `asn1:"-" json:"-"`
 }
 
-// SelectedUMTSAlgorithms represents the ASN.1 type SelectedUMTS-Algorithms (SEQUENCE).
+// SelectedUMTSAlgorithms represents the ASN.1 type SelectedUMTSAlgorithms (SEQUENCE).
 type SelectedUMTSAlgorithms struct {
 	IntegrityProtectionAlgorithm *ChosenIntegrityProtectionAlgorithm `asn1:"tag:0,context,implicit,optional" json:"IntegrityProtectionAlgorithm,omitempty"`
 	EncryptionAlgorithm          *ChosenEncryptionAlgorithm          `asn1:"tag:1,context,implicit,optional" json:"EncryptionAlgorithm,omitempty"`
@@ -1048,7 +1048,7 @@ type ChosenChannelInfo = []byte
 // ChosenSpeechVersion represents the ASN.1 type ChosenSpeechVersion (OCTET_STRING).
 type ChosenSpeechVersion = []byte
 
-// PrepareSubsequentHOArg represents the ASN.1 type PrepareSubsequentHO-Arg (SEQUENCE).
+// PrepareSubsequentHOArg represents the ASN.1 type PrepareSubsequentHOArg (SEQUENCE).
 type PrepareSubsequentHOArg struct {
 	TargetCellId              *GlobalCellId            `asn1:"tag:0,context,implicit,optional" json:"TargetCellId,omitempty"`
 	TargetMSCNumber           ISDNAddressString        `asn1:"tag:1,context,implicit"`
@@ -1063,7 +1063,7 @@ type PrepareSubsequentHOArg struct {
 	ExtData_                  [][]byte                 `asn1:"-" json:"-"`
 }
 
-// PrepareSubsequentHORes represents the ASN.1 type PrepareSubsequentHO-Res (SEQUENCE).
+// PrepareSubsequentHORes represents the ASN.1 type PrepareSubsequentHORes (SEQUENCE).
 type PrepareSubsequentHORes struct {
 	AnAPDU             AccessNetworkSignalInfo `asn1:""`
 	ExtensionContainer *ExtensionContainer     `asn1:"tag:0,context,implicit,optional" json:"ExtensionContainer,omitempty"`
@@ -1072,7 +1072,7 @@ type PrepareSubsequentHORes struct {
 	ExtData_           [][]byte                `asn1:"-" json:"-"`
 }
 
-// ProcessAccessSignallingArg represents the ASN.1 type ProcessAccessSignalling-Arg (SEQUENCE).
+// ProcessAccessSignallingArg represents the ASN.1 type ProcessAccessSignallingArg (SEQUENCE).
 type ProcessAccessSignallingArg struct {
 	AnAPDU                         AccessNetworkSignalInfo         `asn1:""`
 	SelectedUMTSAlgorithms         *SelectedUMTSAlgorithms         `asn1:"tag:1,context,implicit,optional" json:"SelectedUMTSAlgorithms,omitempty"`
@@ -1137,13 +1137,13 @@ type CodecList struct {
 // Codec represents the ASN.1 type Codec (OCTET_STRING).
 type Codec = []byte
 
-// GERANClassmark represents the ASN.1 type GERAN-Classmark (OCTET_STRING).
+// GERANClassmark represents the ASN.1 type GERANClassmark (OCTET_STRING).
 type GERANClassmark = []byte
 
-// SelectedGSMAlgorithm represents the ASN.1 type SelectedGSM-Algorithm (OCTET_STRING).
+// SelectedGSMAlgorithm represents the ASN.1 type SelectedGSMAlgorithm (OCTET_STRING).
 type SelectedGSMAlgorithm = []byte
 
-// SendEndSignalArg represents the ASN.1 type SendEndSignal-Arg (SEQUENCE).
+// SendEndSignalArg represents the ASN.1 type SendEndSignalArg (SEQUENCE).
 type SendEndSignalArg struct {
 	AnAPDU             AccessNetworkSignalInfo `asn1:""`
 	ExtensionContainer *ExtensionContainer     `asn1:"tag:0,context,implicit,optional" json:"ExtensionContainer,omitempty"`
@@ -1152,7 +1152,7 @@ type SendEndSignalArg struct {
 	ExtData_           [][]byte                `asn1:"-" json:"-"`
 }
 
-// SendEndSignalRes represents the ASN.1 type SendEndSignal-Res (SEQUENCE).
+// SendEndSignalRes represents the ASN.1 type SendEndSignalRes (SEQUENCE).
 type SendEndSignalRes struct {
 	ExtensionContainer *ExtensionContainer `asn1:"tag:0,context,implicit,optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -1178,7 +1178,7 @@ type RelocationNumber struct {
 	ExtData_       [][]byte          `asn1:"-" json:"-"`
 }
 
-// RABId represents the ASN.1 type RAB-Id (INTEGER).
+// RABId represents the ASN.1 type RABId (INTEGER).
 type RABId = int64
 
 // RadioResourceInformation represents the ASN.1 type RadioResourceInformation (OCTET_STRING).
@@ -1211,9 +1211,9 @@ type SendAuthenticationInfoArg struct {
 // NumberOfRequestedVectors represents the ASN.1 type NumberOfRequestedVectors (INTEGER).
 type NumberOfRequestedVectors = int64
 
-// ReSynchronisationInfo represents the ASN.1 type Re-synchronisationInfo (SEQUENCE).
+// ReSynchronisationInfo represents the ASN.1 type ReSynchronisationInfo (SEQUENCE).
 type ReSynchronisationInfo struct {
-	Rand        MSRAND   `asn1:""`
+	Rand        RAND     `asn1:""`
 	Auts        AUTS     `asn1:""`
 	ExtCount_   int64    `asn1:"-" json:"-"`
 	ExtPresent_ []bool   `asn1:"-" json:"-"`
@@ -1232,15 +1232,15 @@ type SendAuthenticationInfoRes struct {
 	ExtData_                       [][]byte                 `asn1:"-" json:"-"`
 }
 
-// EPSAuthenticationSetList represents the ASN.1 type EPS-AuthenticationSetList (SEQUENCE_OF).
+// EPSAuthenticationSetList represents the ASN.1 type EPSAuthenticationSetList (SEQUENCE_OF).
 type EPSAuthenticationSetList = []EPCAV
 
-// UEUsageType represents the ASN.1 type UE-UsageType (OCTET_STRING).
+// UEUsageType represents the ASN.1 type UEUsageType (OCTET_STRING).
 type UEUsageType = []byte
 
-// EPCAV represents the ASN.1 type EPC-AV (SEQUENCE).
+// EPCAV represents the ASN.1 type EPCAV (SEQUENCE).
 type EPCAV struct {
-	Rand               MSRAND              `asn1:""`
+	Rand               RAND                `asn1:""`
 	Xres               XRES                `asn1:""`
 	Autn               AUTN                `asn1:""`
 	Kasme              KASME               `asn1:""`
@@ -1290,7 +1290,7 @@ func (v RequestingNodeType) String() string {
 	}
 }
 
-// CheckIMEIArg represents the ASN.1 type CheckIMEI-Arg (SEQUENCE).
+// CheckIMEIArg represents the ASN.1 type CheckIMEIArg (SEQUENCE).
 type CheckIMEIArg struct {
 	Imei                   IMEI                   `asn1:""`
 	RequestedEquipmentInfo RequestedEquipmentInfo `asn1:""`
@@ -1300,7 +1300,7 @@ type CheckIMEIArg struct {
 	ExtData_               [][]byte               `asn1:"-" json:"-"`
 }
 
-// CheckIMEIRes represents the ASN.1 type CheckIMEI-Res (SEQUENCE).
+// CheckIMEIRes represents the ASN.1 type CheckIMEIRes (SEQUENCE).
 type CheckIMEIRes struct {
 	EquipmentStatus    *EquipmentStatus    `asn1:",optional" json:"EquipmentStatus,omitempty"`
 	Bmuef              *UESBIIu            `asn1:",optional" json:"Bmuef,omitempty"`
@@ -1313,7 +1313,7 @@ type CheckIMEIRes struct {
 // RequestedEquipmentInfo represents the ASN.1 type RequestedEquipmentInfo (BIT_STRING).
 type RequestedEquipmentInfo = runtime.BitString
 
-// UESBIIu represents the ASN.1 type UESBI-Iu (SEQUENCE).
+// UESBIIu represents the ASN.1 type UESBIIu (SEQUENCE).
 type UESBIIu struct {
 	UesbiIuA    *UESBIIuA `asn1:"tag:0,context,implicit,optional" json:"UesbiIuA,omitempty"`
 	UesbiIuB    *UESBIIuB `asn1:"tag:1,context,implicit,optional" json:"UesbiIuB,omitempty"`
@@ -1322,10 +1322,10 @@ type UESBIIu struct {
 	ExtData_    [][]byte  `asn1:"-" json:"-"`
 }
 
-// UESBIIuA represents the ASN.1 type UESBI-IuA (BIT_STRING).
+// UESBIIuA represents the ASN.1 type UESBIIuA (BIT_STRING).
 type UESBIIuA = runtime.BitString
 
-// UESBIIuB represents the ASN.1 type UESBI-IuB (BIT_STRING).
+// UESBIIuB represents the ASN.1 type UESBIIuB (BIT_STRING).
 type UESBIIuB = runtime.BitString
 
 // EquipmentStatus represents the ASN.1 ENUMERATED type EquipmentStatus.
@@ -1354,7 +1354,7 @@ func (v EquipmentStatus) String() string {
 type InsertSubscriberDataArg struct {
 	Imsi                                           *IMSI                             `asn1:"tag:0,context,implicit,optional" json:"Imsi,omitempty"`
 	Msisdn                                         *ISDNAddressString                `asn1:"tag:1,context,implicit,optional" json:"Msisdn,omitempty"`
-	Category                                       *MSCategory                       `asn1:"tag:2,context,implicit,optional" json:"Category,omitempty"`
+	Category                                       *Category                         `asn1:"tag:2,context,implicit,optional" json:"Category,omitempty"`
 	SubscriberStatus                               *SubscriberStatus                 `asn1:"tag:3,context,implicit,optional" json:"SubscriberStatus,omitempty"`
 	BearerServiceList                              BearerServiceList                 `asn1:"tag:4,context,implicit,optional" json:"BearerServiceList,omitempty"`
 	BearerServiceListIndef_                        bool                              `asn1:"-" json:"-"`
@@ -1424,10 +1424,10 @@ type InsertSubscriberDataArg struct {
 	ExtData_                                       [][]byte                          `asn1:"-" json:"-"`
 }
 
-// EDRXCycleLengthList represents the ASN.1 type EDRX-Cycle-Length-List (SEQUENCE_OF).
+// EDRXCycleLengthList represents the ASN.1 type EDRXCycleLengthList (SEQUENCE_OF).
 type EDRXCycleLengthList = []EDRXCycleLength
 
-// EDRXCycleLength represents the ASN.1 type EDRX-Cycle-Length (SEQUENCE).
+// EDRXCycleLength represents the ASN.1 type EDRXCycleLength (SEQUENCE).
 type EDRXCycleLength struct {
 	RatType              UsedRATType          `asn1:"tag:0,context,implicit"`
 	EDRXCycleLengthValue EDRXCycleLengthValue `asn1:"tag:1,context,implicit"`
@@ -1436,28 +1436,28 @@ type EDRXCycleLength struct {
 	ExtData_             [][]byte             `asn1:"-" json:"-"`
 }
 
-// EDRXCycleLengthValue represents the ASN.1 type EDRX-Cycle-Length-Value (OCTET_STRING).
+// EDRXCycleLengthValue represents the ASN.1 type EDRXCycleLengthValue (OCTET_STRING).
 type EDRXCycleLengthValue = []byte
 
-// ResetIdList represents the ASN.1 type Reset-Id-List (SEQUENCE_OF).
+// ResetIdList represents the ASN.1 type ResetIdList (SEQUENCE_OF).
 type ResetIdList = []ResetId
 
-// ResetId represents the ASN.1 type Reset-Id (OCTET_STRING).
+// ResetId represents the ASN.1 type ResetId (OCTET_STRING).
 type ResetId = []byte
 
-// DLBufferingSuggestedPacketCount represents the ASN.1 type DL-Buffering-Suggested-Packet-Count (INTEGER).
+// DLBufferingSuggestedPacketCount represents the ASN.1 type DLBufferingSuggestedPacketCount (INTEGER).
 type DLBufferingSuggestedPacketCount = int64
 
-// GroupServiceID represents the ASN.1 type Group-Service-ID (INTEGER).
+// GroupServiceID represents the ASN.1 type GroupServiceID (INTEGER).
 type GroupServiceID = int64
 
-// LocalGroupID represents the ASN.1 type Local-GroupID (OCTET_STRING).
+// LocalGroupID represents the ASN.1 type LocalGroupID (OCTET_STRING).
 type LocalGroupID = []byte
 
-// IMSIGroupIdList represents the ASN.1 type IMSI-GroupIdList (SEQUENCE_OF).
+// IMSIGroupIdList represents the ASN.1 type IMSIGroupIdList (SEQUENCE_OF).
 type IMSIGroupIdList = []IMSIGroupId
 
-// IMSIGroupId represents the ASN.1 type IMSI-GroupId (SEQUENCE).
+// IMSIGroupId represents the ASN.1 type IMSIGroupId (SEQUENCE).
 type IMSIGroupId struct {
 	GroupServiceId GroupServiceID `asn1:"tag:0,context,implicit"`
 	PlmnId         PLMNId         `asn1:"tag:1,context,implicit"`
@@ -1473,10 +1473,10 @@ type SubscribedPeriodicRAUTAUtimer = int64
 // SubscribedPeriodicLAUtimer represents the ASN.1 type SubscribedPeriodicLAUtimer (INTEGER).
 type SubscribedPeriodicLAUtimer = int64
 
-// CSGSubscriptionDataList represents the ASN.1 type CSG-SubscriptionDataList (SEQUENCE_OF).
+// CSGSubscriptionDataList represents the ASN.1 type CSGSubscriptionDataList (SEQUENCE_OF).
 type CSGSubscriptionDataList = []CSGSubscriptionData
 
-// CSGSubscriptionData represents the ASN.1 type CSG-SubscriptionData (SEQUENCE).
+// CSGSubscriptionData represents the ASN.1 type CSGSubscriptionData (SEQUENCE).
 type CSGSubscriptionData struct {
 	CsgId                    CSGId               `asn1:""`
 	ExpirationDate           *Time               `asn1:",optional" json:"ExpirationDate,omitempty"`
@@ -1489,16 +1489,16 @@ type CSGSubscriptionData struct {
 	ExtData_                 [][]byte            `asn1:"-" json:"-"`
 }
 
-// VPLMNCSGSubscriptionDataList represents the ASN.1 type VPLMN-CSG-SubscriptionDataList (SEQUENCE_OF).
+// VPLMNCSGSubscriptionDataList represents the ASN.1 type VPLMNCSGSubscriptionDataList (SEQUENCE_OF).
 type VPLMNCSGSubscriptionDataList = []CSGSubscriptionData
 
-// CSGId represents the ASN.1 type CSG-Id (BIT_STRING).
+// CSGId represents the ASN.1 type CSGId (BIT_STRING).
 type CSGId = runtime.BitString
 
-// LIPAAllowedAPNList represents the ASN.1 type LIPA-AllowedAPNList (SEQUENCE_OF).
+// LIPAAllowedAPNList represents the ASN.1 type LIPAAllowedAPNList (SEQUENCE_OF).
 type LIPAAllowedAPNList = []APN
 
-// EPSSubscriptionData represents the ASN.1 type EPS-SubscriptionData (SEQUENCE).
+// EPSSubscriptionData represents the ASN.1 type EPSSubscriptionData (SEQUENCE).
 type EPSSubscriptionData struct {
 	ApnOiReplacement        *APNOIReplacement        `asn1:"tag:0,context,implicit,optional" json:"ApnOiReplacement,omitempty"`
 	RfspId                  *RFSPID                  `asn1:"tag:2,context,implicit,optional" json:"RfspId,omitempty"`
@@ -1514,13 +1514,13 @@ type EPSSubscriptionData struct {
 	ExtData_                [][]byte                 `asn1:"-" json:"-"`
 }
 
-// APNOIReplacement represents the ASN.1 type APN-OI-Replacement (OCTET_STRING).
+// APNOIReplacement represents the ASN.1 type APNOIReplacement (OCTET_STRING).
 type APNOIReplacement = []byte
 
-// RFSPID represents the ASN.1 type RFSP-ID (INTEGER).
+// RFSPID represents the ASN.1 type RFSPID (INTEGER).
 type RFSPID = int64
 
-// APNConfigurationProfile represents the ASN.1 type APN-ConfigurationProfile (SEQUENCE).
+// APNConfigurationProfile represents the ASN.1 type APNConfigurationProfile (SEQUENCE).
 type APNConfigurationProfile struct {
 	DefaultContext           ContextId           `asn1:""`
 	CompleteDataListIncluded *struct{}           `asn1:",optional" json:"CompleteDataListIncluded,omitempty"`
@@ -1533,10 +1533,10 @@ type APNConfigurationProfile struct {
 	ExtData_                 [][]byte            `asn1:"-" json:"-"`
 }
 
-// EPSDataList represents the ASN.1 type EPS-DataList (SEQUENCE_OF).
+// EPSDataList represents the ASN.1 type EPSDataList (SEQUENCE_OF).
 type EPSDataList = []APNConfiguration
 
-// APNConfiguration represents the ASN.1 type APN-Configuration (SEQUENCE).
+// APNConfiguration represents the ASN.1 type APNConfiguration (SEQUENCE).
 type APNConfiguration struct {
 	ContextId                   ContextId                    `asn1:"tag:0,context,implicit"`
 	PdnType                     PDNType                      `asn1:"tag:1,context,implicit"`
@@ -1567,7 +1567,7 @@ type APNConfiguration struct {
 	ExtData_                    [][]byte                     `asn1:"-" json:"-"`
 }
 
-// PDNConnectionContinuity represents the ASN.1 ENUMERATED type PDN-ConnectionContinuity.
+// PDNConnectionContinuity represents the ASN.1 ENUMERATED type PDNConnectionContinuity.
 type PDNConnectionContinuity int64
 
 const (
@@ -1589,7 +1589,7 @@ func (v PDNConnectionContinuity) String() string {
 	}
 }
 
-// NIDDMechanism represents the ASN.1 ENUMERATED type NIDD-Mechanism.
+// NIDDMechanism represents the ASN.1 ENUMERATED type NIDDMechanism.
 type NIDDMechanism int64
 
 const (
@@ -1608,10 +1608,10 @@ func (v NIDDMechanism) String() string {
 	}
 }
 
-// PDNType represents the ASN.1 type PDN-Type (OCTET_STRING).
+// PDNType represents the ASN.1 type PDNType (OCTET_STRING).
 type PDNType = []byte
 
-// EPSQoSSubscribed represents the ASN.1 type EPS-QoS-Subscribed (SEQUENCE).
+// EPSQoSSubscribed represents the ASN.1 type EPSQoSSubscribed (SEQUENCE).
 type EPSQoSSubscribed struct {
 	QosClassIdentifier          QoSClassIdentifier          `asn1:"tag:0,context,implicit"`
 	AllocationRetentionPriority AllocationRetentionPriority `asn1:"tag:1,context,implicit"`
@@ -1652,10 +1652,10 @@ type Bandwidth = *big.Int
 // BandwidthExt represents the ASN.1 type BandwidthExt (INTEGER).
 type BandwidthExt = *big.Int
 
-// QoSClassIdentifier represents the ASN.1 type QoS-Class-Identifier (INTEGER).
+// QoSClassIdentifier represents the ASN.1 type QoSClassIdentifier (INTEGER).
 type QoSClassIdentifier = int64
 
-// AllocationRetentionPriority represents the ASN.1 type Allocation-Retention-Priority (SEQUENCE).
+// AllocationRetentionPriority represents the ASN.1 type AllocationRetentionPriority (SEQUENCE).
 type AllocationRetentionPriority struct {
 	PriorityLevel               *big.Int            `asn1:"tag:0,context,implicit"`
 	PreEmptionCapability        *bool               `asn1:"tag:1,context,implicit,optional" json:"PreEmptionCapability,omitempty"`
@@ -1668,7 +1668,7 @@ type AllocationRetentionPriority struct {
 	ExtData_                    [][]byte            `asn1:"-" json:"-"`
 }
 
-// PDNGWIdentity represents the ASN.1 type PDN-GW-Identity (SEQUENCE).
+// PDNGWIdentity represents the ASN.1 type PDNGWIdentity (SEQUENCE).
 type PDNGWIdentity struct {
 	PdnGwIpv4Address   *PDPAddress         `asn1:"tag:0,context,implicit,optional" json:"PdnGwIpv4Address,omitempty"`
 	PdnGwIpv6Address   *PDPAddress         `asn1:"tag:1,context,implicit,optional" json:"PdnGwIpv6Address,omitempty"`
@@ -1682,7 +1682,7 @@ type PDNGWIdentity struct {
 // FQDN represents the ASN.1 type FQDN (OCTET_STRING).
 type FQDN = []byte
 
-// PDNGWAllocationType represents the ASN.1 ENUMERATED type PDN-GW-AllocationType.
+// PDNGWAllocationType represents the ASN.1 ENUMERATED type PDNGWAllocationType.
 type PDNGWAllocationType int64
 
 const (
@@ -1701,7 +1701,7 @@ func (v PDNGWAllocationType) String() string {
 	}
 }
 
-// WLANOffloadability represents the ASN.1 type WLAN-Offloadability (SEQUENCE).
+// WLANOffloadability represents the ASN.1 type WLANOffloadability (SEQUENCE).
 type WLANOffloadability struct {
 	WlanOffloadabilityEUTRAN *WLANOffloadabilityIndication `asn1:"tag:0,context,implicit,optional" json:"WlanOffloadabilityEUTRAN,omitempty"`
 	WlanOffloadabilityUTRAN  *WLANOffloadabilityIndication `asn1:"tag:1,context,implicit,optional" json:"WlanOffloadabilityUTRAN,omitempty"`
@@ -1711,7 +1711,7 @@ type WLANOffloadability struct {
 	ExtData_                 [][]byte                      `asn1:"-" json:"-"`
 }
 
-// WLANOffloadabilityIndication represents the ASN.1 ENUMERATED type WLAN-Offloadability-Indication.
+// WLANOffloadabilityIndication represents the ASN.1 ENUMERATED type WLANOffloadabilityIndication.
 type WLANOffloadabilityIndication int64
 
 const (
@@ -1733,7 +1733,7 @@ func (v WLANOffloadabilityIndication) String() string {
 // AccessRestrictionData represents the ASN.1 type AccessRestrictionData (BIT_STRING).
 type AccessRestrictionData = runtime.BitString
 
-// ExtAccessRestrictionData represents the ASN.1 type Ext-AccessRestrictionData (BIT_STRING).
+// ExtAccessRestrictionData represents the ASN.1 type ExtAccessRestrictionData (BIT_STRING).
 type ExtAccessRestrictionData = runtime.BitString
 
 // AdjacentAccessRestrictionDataList represents the ASN.1 type AdjacentAccessRestrictionDataList (SEQUENCE_OF).
@@ -1749,10 +1749,10 @@ type AdjacentAccessRestrictionData struct {
 	ExtData_                 [][]byte                  `asn1:"-" json:"-"`
 }
 
-// CSAllocationRetentionPriority represents the ASN.1 type CS-AllocationRetentionPriority (OCTET_STRING).
+// CSAllocationRetentionPriority represents the ASN.1 type CSAllocationRetentionPriority (OCTET_STRING).
 type CSAllocationRetentionPriority = []byte
 
-// ISTAlertTimerValue represents the ASN.1 type IST-AlertTimerValue (INTEGER).
+// ISTAlertTimerValue represents the ASN.1 type ISTAlertTimerValue (INTEGER).
 type ISTAlertTimerValue = int64
 
 // LCSInformation represents the ASN.1 type LCSInformation (SEQUENCE).
@@ -1770,7 +1770,7 @@ type LCSInformation struct {
 	ExtData_                         [][]byte                `asn1:"-" json:"-"`
 }
 
-// GMLCList represents the ASN.1 type GMLC-List (SEQUENCE_OF).
+// GMLCList represents the ASN.1 type GMLCList (SEQUENCE_OF).
 type GMLCList = []ISDNAddressString
 
 // NetworkAccessMode represents the ASN.1 ENUMERATED type NetworkAccessMode.
@@ -1798,7 +1798,7 @@ func (v NetworkAccessMode) String() string {
 // GPRSDataList represents the ASN.1 type GPRSDataList (SEQUENCE_OF).
 type GPRSDataList = []PDPContext
 
-// PDPContext represents the ASN.1 type PDP-Context (SEQUENCE).
+// PDPContext represents the ASN.1 type PDPContext (SEQUENCE).
 type PDPContext struct {
 	PdpContextId                ContextId                    `asn1:""`
 	PdpType                     PDPType                      `asn1:"tag:16,context,implicit"`
@@ -1827,10 +1827,10 @@ type PDPContext struct {
 	ExtData_                    [][]byte                     `asn1:"-" json:"-"`
 }
 
-// RestorationPriority represents the ASN.1 type Restoration-Priority (OCTET_STRING).
+// RestorationPriority represents the ASN.1 type RestorationPriority (OCTET_STRING).
 type RestorationPriority = []byte
 
-// SIPTOPermission represents the ASN.1 ENUMERATED type SIPTO-Permission.
+// SIPTOPermission represents the ASN.1 ENUMERATED type SIPTOPermission.
 type SIPTOPermission int64
 
 const (
@@ -1849,7 +1849,7 @@ func (v SIPTOPermission) String() string {
 	}
 }
 
-// SIPTOLocalNetworkPermission represents the ASN.1 ENUMERATED type SIPTO-Local-Network-Permission.
+// SIPTOLocalNetworkPermission represents the ASN.1 ENUMERATED type SIPTOLocalNetworkPermission.
 type SIPTOLocalNetworkPermission int64
 
 const (
@@ -1868,7 +1868,7 @@ func (v SIPTOLocalNetworkPermission) String() string {
 	}
 }
 
-// LIPAPermission represents the ASN.1 ENUMERATED type LIPA-Permission.
+// LIPAPermission represents the ASN.1 ENUMERATED type LIPAPermission.
 type LIPAPermission int64
 
 const (
@@ -1905,7 +1905,7 @@ type GPRSSubscriptionData struct {
 	ExtData_                 [][]byte            `asn1:"-" json:"-"`
 }
 
-// SGSNCAMELSubscriptionInfo represents the ASN.1 type SGSN-CAMEL-SubscriptionInfo (SEQUENCE).
+// SGSNCAMELSubscriptionInfo represents the ASN.1 type SGSNCAMELSubscriptionInfo (SEQUENCE).
 type SGSNCAMELSubscriptionInfo struct {
 	GprsCSI                         *GPRSCSI                  `asn1:"tag:0,context,implicit,optional" json:"GprsCSI,omitempty"`
 	MoSmsCSI                        *SMSCSI                   `asn1:"tag:1,context,implicit,optional" json:"MoSmsCSI,omitempty"`
@@ -1919,7 +1919,7 @@ type SGSNCAMELSubscriptionInfo struct {
 	ExtData_                        [][]byte                  `asn1:"-" json:"-"`
 }
 
-// GPRSCSI represents the ASN.1 type GPRS-CSI (SEQUENCE).
+// GPRSCSI represents the ASN.1 type GPRSCSI (SEQUENCE).
 type GPRSCSI struct {
 	GprsCamelTDPDataList       GPRSCamelTDPDataList     `asn1:"tag:0,context,implicit,optional" json:"GprsCamelTDPDataList,omitempty"`
 	GprsCamelTDPDataListIndef_ bool                     `asn1:"-" json:"-"`
@@ -1932,10 +1932,10 @@ type GPRSCSI struct {
 	ExtData_                   [][]byte                 `asn1:"-" json:"-"`
 }
 
-// GPRSCamelTDPDataList represents the ASN.1 type GPRS-CamelTDPDataList (SEQUENCE_OF).
+// GPRSCamelTDPDataList represents the ASN.1 type GPRSCamelTDPDataList (SEQUENCE_OF).
 type GPRSCamelTDPDataList = []GPRSCamelTDPData
 
-// GPRSCamelTDPData represents the ASN.1 type GPRS-CamelTDPData (SEQUENCE).
+// GPRSCamelTDPData represents the ASN.1 type GPRSCamelTDPData (SEQUENCE).
 type GPRSCamelTDPData struct {
 	GprsTriggerDetectionPoint GPRSTriggerDetectionPoint `asn1:"tag:0,context,implicit"`
 	ServiceKey                ServiceKey                `asn1:"tag:1,context,implicit"`
@@ -1947,7 +1947,7 @@ type GPRSCamelTDPData struct {
 	ExtData_                  [][]byte                  `asn1:"-" json:"-"`
 }
 
-// DefaultGPRSHandling represents the ASN.1 ENUMERATED type DefaultGPRS-Handling.
+// DefaultGPRSHandling represents the ASN.1 ENUMERATED type DefaultGPRSHandling.
 type DefaultGPRSHandling int64
 
 const (
@@ -1966,7 +1966,7 @@ func (v DefaultGPRSHandling) String() string {
 	}
 }
 
-// GPRSTriggerDetectionPoint represents the ASN.1 ENUMERATED type GPRS-TriggerDetectionPoint.
+// GPRSTriggerDetectionPoint represents the ASN.1 ENUMERATED type GPRSTriggerDetectionPoint.
 type GPRSTriggerDetectionPoint int64
 
 const (
@@ -1997,28 +1997,28 @@ func (v GPRSTriggerDetectionPoint) String() string {
 // APN represents the ASN.1 type APN (OCTET_STRING).
 type APN = []byte
 
-// PDPType represents the ASN.1 type PDP-Type (OCTET_STRING).
+// PDPType represents the ASN.1 type PDPType (OCTET_STRING).
 type PDPType = []byte
 
-// ExtPDPType represents the ASN.1 type Ext-PDP-Type (OCTET_STRING).
+// ExtPDPType represents the ASN.1 type ExtPDPType (OCTET_STRING).
 type ExtPDPType = []byte
 
-// PDPAddress represents the ASN.1 type PDP-Address (OCTET_STRING).
+// PDPAddress represents the ASN.1 type PDPAddress (OCTET_STRING).
 type PDPAddress = []byte
 
-// QoSSubscribed represents the ASN.1 type QoS-Subscribed (OCTET_STRING).
+// QoSSubscribed represents the ASN.1 type QoSSubscribed (OCTET_STRING).
 type QoSSubscribed = []byte
 
-// ExtQoSSubscribed represents the ASN.1 type Ext-QoS-Subscribed (OCTET_STRING).
+// ExtQoSSubscribed represents the ASN.1 type ExtQoSSubscribed (OCTET_STRING).
 type ExtQoSSubscribed = []byte
 
-// Ext2QoSSubscribed represents the ASN.1 type Ext2-QoS-Subscribed (OCTET_STRING).
+// Ext2QoSSubscribed represents the ASN.1 type Ext2QoSSubscribed (OCTET_STRING).
 type Ext2QoSSubscribed = []byte
 
-// Ext3QoSSubscribed represents the ASN.1 type Ext3-QoS-Subscribed (OCTET_STRING).
+// Ext3QoSSubscribed represents the ASN.1 type Ext3QoSSubscribed (OCTET_STRING).
 type Ext3QoSSubscribed = []byte
 
-// Ext4QoSSubscribed represents the ASN.1 type Ext4-QoS-Subscribed (OCTET_STRING).
+// Ext4QoSSubscribed represents the ASN.1 type Ext4QoSSubscribed (OCTET_STRING).
 type Ext4QoSSubscribed = []byte
 
 // ChargingCharacteristics represents the ASN.1 type ChargingCharacteristics (OCTET_STRING).
@@ -2078,7 +2078,7 @@ type LSAAttributes = []byte
 // SubscriberData represents the ASN.1 type SubscriberData (SEQUENCE).
 type SubscriberData struct {
 	Msisdn                                    *ISDNAddressString        `asn1:"tag:1,context,implicit,optional" json:"Msisdn,omitempty"`
-	Category                                  *MSCategory               `asn1:"tag:2,context,implicit,optional" json:"Category,omitempty"`
+	Category                                  *Category                 `asn1:"tag:2,context,implicit,optional" json:"Category,omitempty"`
 	SubscriberStatus                          *SubscriberStatus         `asn1:"tag:3,context,implicit,optional" json:"SubscriberStatus,omitempty"`
 	BearerServiceList                         BearerServiceList         `asn1:"tag:4,context,implicit,optional" json:"BearerServiceList,omitempty"`
 	BearerServiceListIndef_                   bool                      `asn1:"-" json:"-"`
@@ -2097,8 +2097,8 @@ type SubscriberData struct {
 	VlrCamelSubscriptionInfo                  *VlrCamelSubscriptionInfo `asn1:"tag:13,context,implicit,optional" json:"VlrCamelSubscriptionInfo,omitempty"`
 }
 
-// MSCategory represents the ASN.1 type MSCategory (OCTET_STRING).
-type MSCategory = []byte
+// Category represents the ASN.1 type Category (OCTET_STRING).
+type Category = []byte
 
 // SubscriberStatus represents the ASN.1 ENUMERATED type SubscriberStatus.
 type SubscriberStatus int64
@@ -2125,7 +2125,7 @@ type BearerServiceList = []ExtBearerServiceCode
 // TeleserviceList represents the ASN.1 type TeleserviceList (SEQUENCE_OF).
 type TeleserviceList = []ExtTeleserviceCode
 
-// ODBData represents the ASN.1 type ODB-Data (SEQUENCE).
+// ODBData represents the ASN.1 type ODBData (SEQUENCE).
 type ODBData struct {
 	OdbGeneralData     ODBGeneralData      `asn1:""`
 	OdbHPLMNData       *ODBHPLMNData       `asn1:",optional" json:"OdbHPLMNData,omitempty"`
@@ -2135,13 +2135,13 @@ type ODBData struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// ODBGeneralData represents the ASN.1 type ODB-GeneralData (BIT_STRING).
+// ODBGeneralData represents the ASN.1 type ODBGeneralData (BIT_STRING).
 type ODBGeneralData = runtime.BitString
 
-// ODBHPLMNData represents the ASN.1 type ODB-HPLMN-Data (BIT_STRING).
+// ODBHPLMNData represents the ASN.1 type ODBHPLMNData (BIT_STRING).
 type ODBHPLMNData = runtime.BitString
 
-// ExtSSInfoList represents the ASN.1 type Ext-SS-InfoList (SEQUENCE_OF).
+// ExtSSInfoList represents the ASN.1 type ExtSSInfoList (SEQUENCE_OF).
 type ExtSSInfoList = []ExtSSInfo
 
 // ExtSSInfo choice constants.
@@ -2153,7 +2153,7 @@ const (
 	ExtSSInfoChoiceEmlppInfo       = 5
 )
 
-// ExtSSInfo represents the ASN.1 CHOICE type Ext-SS-Info.
+// ExtSSInfo represents the ASN.1 CHOICE type ExtSSInfo.
 type ExtSSInfo struct {
 	Choice          int
 	ForwardingInfo  *ExtForwInfo    `json:"ForwardingInfo,omitempty"`
@@ -2163,7 +2163,7 @@ type ExtSSInfo struct {
 	EmlppInfo       *EMLPPInfo      `json:"EmlppInfo,omitempty"`
 }
 
-// NewExtSSInfoForwardingInfo creates a Ext-SS-Info with the forwardingInfo alternative.
+// NewExtSSInfoForwardingInfo creates a ExtSSInfo with the forwardingInfo alternative.
 func NewExtSSInfoForwardingInfo(v ExtForwInfo) ExtSSInfo {
 	return ExtSSInfo{
 		Choice:         ExtSSInfoChoiceForwardingInfo,
@@ -2171,7 +2171,7 @@ func NewExtSSInfoForwardingInfo(v ExtForwInfo) ExtSSInfo {
 	}
 }
 
-// NewExtSSInfoCallBarringInfo creates a Ext-SS-Info with the callBarringInfo alternative.
+// NewExtSSInfoCallBarringInfo creates a ExtSSInfo with the callBarringInfo alternative.
 func NewExtSSInfoCallBarringInfo(v ExtCallBarInfo) ExtSSInfo {
 	return ExtSSInfo{
 		Choice:          ExtSSInfoChoiceCallBarringInfo,
@@ -2179,7 +2179,7 @@ func NewExtSSInfoCallBarringInfo(v ExtCallBarInfo) ExtSSInfo {
 	}
 }
 
-// NewExtSSInfoCugInfo creates a Ext-SS-Info with the cug-Info alternative.
+// NewExtSSInfoCugInfo creates a ExtSSInfo with the cug-Info alternative.
 func NewExtSSInfoCugInfo(v CUGInfo) ExtSSInfo {
 	return ExtSSInfo{
 		Choice:  ExtSSInfoChoiceCugInfo,
@@ -2187,7 +2187,7 @@ func NewExtSSInfoCugInfo(v CUGInfo) ExtSSInfo {
 	}
 }
 
-// NewExtSSInfoSsData creates a Ext-SS-Info with the ss-Data alternative.
+// NewExtSSInfoSsData creates a ExtSSInfo with the ss-Data alternative.
 func NewExtSSInfoSsData(v ExtSSData) ExtSSInfo {
 	return ExtSSInfo{
 		Choice: ExtSSInfoChoiceSsData,
@@ -2195,7 +2195,7 @@ func NewExtSSInfoSsData(v ExtSSData) ExtSSInfo {
 	}
 }
 
-// NewExtSSInfoEmlppInfo creates a Ext-SS-Info with the emlpp-Info alternative.
+// NewExtSSInfoEmlppInfo creates a ExtSSInfo with the emlpp-Info alternative.
 func NewExtSSInfoEmlppInfo(v EMLPPInfo) ExtSSInfo {
 	return ExtSSInfo{
 		Choice:    ExtSSInfoChoiceEmlppInfo,
@@ -2203,7 +2203,7 @@ func NewExtSSInfoEmlppInfo(v EMLPPInfo) ExtSSInfo {
 	}
 }
 
-// ExtForwInfo represents the ASN.1 type Ext-ForwInfo (SEQUENCE).
+// ExtForwInfo represents the ASN.1 type ExtForwInfo (SEQUENCE).
 type ExtForwInfo struct {
 	SsCode                      SSCode              `asn1:""`
 	ForwardingFeatureList       ExtForwFeatureList  `asn1:""`
@@ -2214,10 +2214,10 @@ type ExtForwInfo struct {
 	ExtData_                    [][]byte            `asn1:"-" json:"-"`
 }
 
-// ExtForwFeatureList represents the ASN.1 type Ext-ForwFeatureList (SEQUENCE_OF).
+// ExtForwFeatureList represents the ASN.1 type ExtForwFeatureList (SEQUENCE_OF).
 type ExtForwFeatureList = []ExtForwFeature
 
-// ExtForwFeature represents the ASN.1 type Ext-ForwFeature (SEQUENCE).
+// ExtForwFeature represents the ASN.1 type ExtForwFeature (SEQUENCE).
 type ExtForwFeature struct {
 	BasicService          *ExtBasicServiceCode  `asn1:",optional" json:"BasicService,omitempty"`
 	SsStatus              ExtSSStatus           `asn1:"tag:4,context,implicit"`
@@ -2232,13 +2232,13 @@ type ExtForwFeature struct {
 	ExtData_              [][]byte              `asn1:"-" json:"-"`
 }
 
-// ExtForwOptions represents the ASN.1 type Ext-ForwOptions (OCTET_STRING).
+// ExtForwOptions represents the ASN.1 type ExtForwOptions (OCTET_STRING).
 type ExtForwOptions = []byte
 
-// ExtNoRepCondTime represents the ASN.1 type Ext-NoRepCondTime (INTEGER).
+// ExtNoRepCondTime represents the ASN.1 type ExtNoRepCondTime (INTEGER).
 type ExtNoRepCondTime = int64
 
-// ExtCallBarInfo represents the ASN.1 type Ext-CallBarInfo (SEQUENCE).
+// ExtCallBarInfo represents the ASN.1 type ExtCallBarInfo (SEQUENCE).
 type ExtCallBarInfo struct {
 	SsCode                       SSCode                `asn1:""`
 	CallBarringFeatureList       ExtCallBarFeatureList `asn1:""`
@@ -2249,10 +2249,10 @@ type ExtCallBarInfo struct {
 	ExtData_                     [][]byte              `asn1:"-" json:"-"`
 }
 
-// ExtCallBarFeatureList represents the ASN.1 type Ext-CallBarFeatureList (SEQUENCE_OF).
+// ExtCallBarFeatureList represents the ASN.1 type ExtCallBarFeatureList (SEQUENCE_OF).
 type ExtCallBarFeatureList = []ExtCallBarringFeature
 
-// ExtCallBarringFeature represents the ASN.1 type Ext-CallBarringFeature (SEQUENCE).
+// ExtCallBarringFeature represents the ASN.1 type ExtCallBarringFeature (SEQUENCE).
 type ExtCallBarringFeature struct {
 	BasicService       *ExtBasicServiceCode `asn1:",optional" json:"BasicService,omitempty"`
 	SsStatus           ExtSSStatus          `asn1:"tag:4,context,implicit"`
@@ -2262,7 +2262,7 @@ type ExtCallBarringFeature struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// CUGInfo represents the ASN.1 type CUG-Info (SEQUENCE).
+// CUGInfo represents the ASN.1 type CUGInfo (SEQUENCE).
 type CUGInfo struct {
 	CugSubscriptionList       CUGSubscriptionList `asn1:""`
 	CugSubscriptionListIndef_ bool                `asn1:"-" json:"-"`
@@ -2274,10 +2274,10 @@ type CUGInfo struct {
 	ExtData_                  [][]byte            `asn1:"-" json:"-"`
 }
 
-// CUGSubscriptionList represents the ASN.1 type CUG-SubscriptionList (SEQUENCE_OF).
+// CUGSubscriptionList represents the ASN.1 type CUGSubscriptionList (SEQUENCE_OF).
 type CUGSubscriptionList = []CUGSubscription
 
-// CUGSubscription represents the ASN.1 type CUG-Subscription (SEQUENCE).
+// CUGSubscription represents the ASN.1 type CUGSubscription (SEQUENCE).
 type CUGSubscription struct {
 	CugIndex                    CUGIndex                 `asn1:""`
 	CugInterlock                CUGInterlock             `asn1:""`
@@ -2290,13 +2290,13 @@ type CUGSubscription struct {
 	ExtData_                    [][]byte                 `asn1:"-" json:"-"`
 }
 
-// CUGIndex represents the ASN.1 type CUG-Index (INTEGER).
+// CUGIndex represents the ASN.1 type CUGIndex (INTEGER).
 type CUGIndex = int64
 
-// CUGInterlock represents the ASN.1 type CUG-Interlock (OCTET_STRING).
+// CUGInterlock represents the ASN.1 type CUGInterlock (OCTET_STRING).
 type CUGInterlock = []byte
 
-// IntraCUGOptions represents the ASN.1 ENUMERATED type IntraCUG-Options.
+// IntraCUGOptions represents the ASN.1 ENUMERATED type IntraCUGOptions.
 type IntraCUGOptions int64
 
 const (
@@ -2318,13 +2318,13 @@ func (v IntraCUGOptions) String() string {
 	}
 }
 
-// CUGFeatureList represents the ASN.1 type CUG-FeatureList (SEQUENCE_OF).
+// CUGFeatureList represents the ASN.1 type CUGFeatureList (SEQUENCE_OF).
 type CUGFeatureList = []CUGFeature
 
-// ExtBasicServiceGroupList represents the ASN.1 type Ext-BasicServiceGroupList (SEQUENCE_OF).
+// ExtBasicServiceGroupList represents the ASN.1 type ExtBasicServiceGroupList (SEQUENCE_OF).
 type ExtBasicServiceGroupList = []ExtBasicServiceCode
 
-// CUGFeature represents the ASN.1 type CUG-Feature (SEQUENCE).
+// CUGFeature represents the ASN.1 type CUGFeature (SEQUENCE).
 type CUGFeature struct {
 	BasicService             *ExtBasicServiceCode `asn1:",optional" json:"BasicService,omitempty"`
 	PreferentialCUGIndicator *CUGIndex            `asn1:",optional" json:"PreferentialCUGIndicator,omitempty"`
@@ -2335,10 +2335,10 @@ type CUGFeature struct {
 	ExtData_                 [][]byte             `asn1:"-" json:"-"`
 }
 
-// InterCUGRestrictions represents the ASN.1 type InterCUG-Restrictions (OCTET_STRING).
+// InterCUGRestrictions represents the ASN.1 type InterCUGRestrictions (OCTET_STRING).
 type InterCUGRestrictions = []byte
 
-// ExtSSData represents the ASN.1 type Ext-SS-Data (SEQUENCE).
+// ExtSSData represents the ASN.1 type ExtSSData (SEQUENCE).
 type ExtSSData struct {
 	SsCode                      SSCode                   `asn1:""`
 	SsStatus                    ExtSSStatus              `asn1:"tag:4,context,implicit"`
@@ -2351,10 +2351,10 @@ type ExtSSData struct {
 	ExtData_                    [][]byte                 `asn1:"-" json:"-"`
 }
 
-// LCSPrivacyExceptionList represents the ASN.1 type LCS-PrivacyExceptionList (SEQUENCE_OF).
+// LCSPrivacyExceptionList represents the ASN.1 type LCSPrivacyExceptionList (SEQUENCE_OF).
 type LCSPrivacyExceptionList = []LCSPrivacyClass
 
-// LCSPrivacyClass represents the ASN.1 type LCS-PrivacyClass (SEQUENCE).
+// LCSPrivacyClass represents the ASN.1 type LCSPrivacyClass (SEQUENCE).
 type LCSPrivacyClass struct {
 	SsCode                      SSCode                `asn1:""`
 	SsStatus                    ExtSSStatus           `asn1:""`
@@ -2379,7 +2379,7 @@ type ExternalClientList = []ExternalClient
 // PLMNClientList represents the ASN.1 type PLMNClientList (SEQUENCE_OF).
 type PLMNClientList = []LCSClientInternalID
 
-// ExtExternalClientList represents the ASN.1 type Ext-ExternalClientList (SEQUENCE_OF).
+// ExtExternalClientList represents the ASN.1 type ExtExternalClientList (SEQUENCE_OF).
 type ExtExternalClientList = []ExternalClient
 
 // ExternalClient represents the ASN.1 type ExternalClient (SEQUENCE).
@@ -2393,7 +2393,7 @@ type ExternalClient struct {
 	ExtData_             [][]byte              `asn1:"-" json:"-"`
 }
 
-// GMLCRestriction represents the ASN.1 ENUMERATED type GMLC-Restriction.
+// GMLCRestriction represents the ASN.1 ENUMERATED type GMLCRestriction.
 type GMLCRestriction int64
 
 const (
@@ -2451,10 +2451,10 @@ type ServiceType struct {
 	ExtData_             [][]byte              `asn1:"-" json:"-"`
 }
 
-// MOLRList represents the ASN.1 type MOLR-List (SEQUENCE_OF).
+// MOLRList represents the ASN.1 type MOLRList (SEQUENCE_OF).
 type MOLRList = []MOLRClass
 
-// MOLRClass represents the ASN.1 type MOLR-Class (SEQUENCE).
+// MOLRClass represents the ASN.1 type MOLRClass (SEQUENCE).
 type MOLRClass struct {
 	SsCode             SSCode              `asn1:""`
 	SsStatus           ExtSSStatus         `asn1:""`
@@ -2556,7 +2556,7 @@ type DeleteSubscriberDataArg struct {
 	ExtData_                                        [][]byte                      `asn1:"-" json:"-"`
 }
 
-// SpecificCSIWithdraw represents the ASN.1 type SpecificCSI-Withdraw (BIT_STRING).
+// SpecificCSIWithdraw represents the ASN.1 type SpecificCSIWithdraw (BIT_STRING).
 type SpecificCSIWithdraw = runtime.BitString
 
 // GPRSSubscriptionDataWithdraw choice constants.
@@ -2594,14 +2594,14 @@ const (
 	EPSSubscriptionDataWithdrawChoiceContextIdList = 2
 )
 
-// EPSSubscriptionDataWithdraw represents the ASN.1 CHOICE type EPS-SubscriptionDataWithdraw.
+// EPSSubscriptionDataWithdraw represents the ASN.1 CHOICE type EPSSubscriptionDataWithdraw.
 type EPSSubscriptionDataWithdraw struct {
 	Choice        int
 	AllEPSData    *struct{}     `json:"AllEPSData,omitempty"`
 	ContextIdList ContextIdList `json:"ContextIdList,omitempty"`
 }
 
-// NewEPSSubscriptionDataWithdrawAllEPSData creates a EPS-SubscriptionDataWithdraw with the allEPS-Data alternative.
+// NewEPSSubscriptionDataWithdrawAllEPSData creates a EPSSubscriptionDataWithdraw with the allEPS-Data alternative.
 func NewEPSSubscriptionDataWithdrawAllEPSData(v struct{}) EPSSubscriptionDataWithdraw {
 	return EPSSubscriptionDataWithdraw{
 		Choice:     EPSSubscriptionDataWithdrawChoiceAllEPSData,
@@ -2609,7 +2609,7 @@ func NewEPSSubscriptionDataWithdrawAllEPSData(v struct{}) EPSSubscriptionDataWit
 	}
 }
 
-// NewEPSSubscriptionDataWithdrawContextIdList creates a EPS-SubscriptionDataWithdraw with the contextIdList alternative.
+// NewEPSSubscriptionDataWithdrawContextIdList creates a EPSSubscriptionDataWithdraw with the contextIdList alternative.
 func NewEPSSubscriptionDataWithdrawContextIdList(v ContextIdList) EPSSubscriptionDataWithdraw {
 	return EPSSubscriptionDataWithdraw{
 		Choice:        EPSSubscriptionDataWithdrawChoiceContextIdList,
@@ -2686,10 +2686,10 @@ type VlrCamelSubscriptionInfo struct {
 	ExtData_                        [][]byte                  `asn1:"-" json:"-"`
 }
 
-// MTSmsCAMELTDPCriteriaList represents the ASN.1 type MT-smsCAMELTDP-CriteriaList (SEQUENCE_OF).
+// MTSmsCAMELTDPCriteriaList represents the ASN.1 type MTSmsCAMELTDPCriteriaList (SEQUENCE_OF).
 type MTSmsCAMELTDPCriteriaList = []MTSmsCAMELTDPCriteria
 
-// MTSmsCAMELTDPCriteria represents the ASN.1 type MT-smsCAMELTDP-Criteria (SEQUENCE).
+// MTSmsCAMELTDPCriteria represents the ASN.1 type MTSmsCAMELTDPCriteria (SEQUENCE).
 type MTSmsCAMELTDPCriteria struct {
 	SmsTriggerDetectionPoint SMSTriggerDetectionPoint `asn1:""`
 	TpduTypeCriterion        TPDUTypeCriterion        `asn1:"tag:0,context,implicit,optional" json:"TpduTypeCriterion,omitempty"`
@@ -2699,10 +2699,10 @@ type MTSmsCAMELTDPCriteria struct {
 	ExtData_                 [][]byte                 `asn1:"-" json:"-"`
 }
 
-// TPDUTypeCriterion represents the ASN.1 type TPDU-TypeCriterion (SEQUENCE_OF).
+// TPDUTypeCriterion represents the ASN.1 type TPDUTypeCriterion (SEQUENCE_OF).
 type TPDUTypeCriterion = []MTSMSTPDUType
 
-// MTSMSTPDUType represents the ASN.1 ENUMERATED type MT-SMS-TPDU-Type.
+// MTSMSTPDUType represents the ASN.1 ENUMERATED type MTSMSTPDUType.
 type MTSMSTPDUType int64
 
 const (
@@ -2724,7 +2724,7 @@ func (v MTSMSTPDUType) String() string {
 	}
 }
 
-// DCSI represents the ASN.1 type D-CSI (SEQUENCE).
+// DCSI represents the ASN.1 type DCSI (SEQUENCE).
 type DCSI struct {
 	DpAnalysedInfoCriteriaList       DPAnalysedInfoCriteriaList `asn1:"tag:0,context,implicit,optional" json:"DpAnalysedInfoCriteriaList,omitempty"`
 	DpAnalysedInfoCriteriaListIndef_ bool                       `asn1:"-" json:"-"`
@@ -2737,10 +2737,10 @@ type DCSI struct {
 	ExtData_                         [][]byte                   `asn1:"-" json:"-"`
 }
 
-// DPAnalysedInfoCriteriaList represents the ASN.1 type DP-AnalysedInfoCriteriaList (SEQUENCE_OF).
+// DPAnalysedInfoCriteriaList represents the ASN.1 type DPAnalysedInfoCriteriaList (SEQUENCE_OF).
 type DPAnalysedInfoCriteriaList = []DPAnalysedInfoCriterium
 
-// DPAnalysedInfoCriterium represents the ASN.1 type DP-AnalysedInfoCriterium (SEQUENCE).
+// DPAnalysedInfoCriterium represents the ASN.1 type DPAnalysedInfoCriterium (SEQUENCE).
 type DPAnalysedInfoCriterium struct {
 	DialledNumber       ISDNAddressString   `asn1:""`
 	ServiceKey          ServiceKey          `asn1:""`
@@ -2752,7 +2752,7 @@ type DPAnalysedInfoCriterium struct {
 	ExtData_            [][]byte            `asn1:"-" json:"-"`
 }
 
-// SSCSI represents the ASN.1 type SS-CSI (SEQUENCE).
+// SSCSI represents the ASN.1 type SSCSI (SEQUENCE).
 type SSCSI struct {
 	SsCamelData        SSCamelData         `asn1:""`
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
@@ -2763,7 +2763,7 @@ type SSCSI struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// SSCamelData represents the ASN.1 type SS-CamelData (SEQUENCE).
+// SSCamelData represents the ASN.1 type SSCamelData (SEQUENCE).
 type SSCamelData struct {
 	SsEventList        SSEventList         `asn1:""`
 	SsEventListIndef_  bool                `asn1:"-" json:"-"`
@@ -2774,10 +2774,10 @@ type SSCamelData struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// SSEventList represents the ASN.1 type SS-EventList (SEQUENCE_OF).
+// SSEventList represents the ASN.1 type SSEventList (SEQUENCE_OF).
 type SSEventList = []SSCode
 
-// OCSI represents the ASN.1 type O-CSI (SEQUENCE).
+// OCSI represents the ASN.1 type OCSI (SEQUENCE).
 type OCSI struct {
 	OBcsmCamelTDPDataList       OBcsmCamelTDPDataList    `asn1:""`
 	OBcsmCamelTDPDataListIndef_ bool                     `asn1:"-" json:"-"`
@@ -2790,10 +2790,10 @@ type OCSI struct {
 	ExtData_                    [][]byte                 `asn1:"-" json:"-"`
 }
 
-// OBcsmCamelTDPDataList represents the ASN.1 type O-BcsmCamelTDPDataList (SEQUENCE_OF).
+// OBcsmCamelTDPDataList represents the ASN.1 type OBcsmCamelTDPDataList (SEQUENCE_OF).
 type OBcsmCamelTDPDataList = []OBcsmCamelTDPData
 
-// OBcsmCamelTDPData represents the ASN.1 type O-BcsmCamelTDPData (SEQUENCE).
+// OBcsmCamelTDPData represents the ASN.1 type OBcsmCamelTDPData (SEQUENCE).
 type OBcsmCamelTDPData struct {
 	OBcsmTriggerDetectionPoint OBcsmTriggerDetectionPoint `asn1:""`
 	ServiceKey                 ServiceKey                 `asn1:""`
@@ -2808,7 +2808,7 @@ type OBcsmCamelTDPData struct {
 // ServiceKey represents the ASN.1 type ServiceKey (INTEGER).
 type ServiceKey = int64
 
-// OBcsmTriggerDetectionPoint represents the ASN.1 ENUMERATED type O-BcsmTriggerDetectionPoint.
+// OBcsmTriggerDetectionPoint represents the ASN.1 ENUMERATED type OBcsmTriggerDetectionPoint.
 type OBcsmTriggerDetectionPoint int64
 
 const (
@@ -2827,13 +2827,13 @@ func (v OBcsmTriggerDetectionPoint) String() string {
 	}
 }
 
-// OBcsmCamelTDPCriteriaList represents the ASN.1 type O-BcsmCamelTDPCriteriaList (SEQUENCE_OF).
+// OBcsmCamelTDPCriteriaList represents the ASN.1 type OBcsmCamelTDPCriteriaList (SEQUENCE_OF).
 type OBcsmCamelTDPCriteriaList = []OBcsmCamelTDPCriteria
 
-// TBCSMCAMELTDPCriteriaList represents the ASN.1 type T-BCSM-CAMEL-TDP-CriteriaList (SEQUENCE_OF).
+// TBCSMCAMELTDPCriteriaList represents the ASN.1 type TBCSMCAMELTDPCriteriaList (SEQUENCE_OF).
 type TBCSMCAMELTDPCriteriaList = []TBCSMCAMELTDPCriteria
 
-// OBcsmCamelTDPCriteria represents the ASN.1 type O-BcsmCamelTDP-Criteria (SEQUENCE).
+// OBcsmCamelTDPCriteria represents the ASN.1 type OBcsmCamelTDPCriteria (SEQUENCE).
 type OBcsmCamelTDPCriteria struct {
 	OBcsmTriggerDetectionPoint OBcsmTriggerDetectionPoint `asn1:""`
 	DestinationNumberCriteria  *DestinationNumberCriteria `asn1:"tag:0,context,implicit,optional" json:"DestinationNumberCriteria,omitempty"`
@@ -2848,7 +2848,7 @@ type OBcsmCamelTDPCriteria struct {
 	ExtData_                   [][]byte                   `asn1:"-" json:"-"`
 }
 
-// TBCSMCAMELTDPCriteria represents the ASN.1 type T-BCSM-CAMEL-TDP-Criteria (SEQUENCE).
+// TBCSMCAMELTDPCriteria represents the ASN.1 type TBCSMCAMELTDPCriteria (SEQUENCE).
 type TBCSMCAMELTDPCriteria struct {
 	TBCSMTriggerDetectionPoint TBcsmTriggerDetectionPoint `asn1:""`
 	BasicServiceCriteria       BasicServiceCriteria       `asn1:"tag:0,context,implicit,optional" json:"BasicServiceCriteria,omitempty"`
@@ -2919,10 +2919,10 @@ func (v MatchType) String() string {
 	}
 }
 
-// OCauseValueCriteria represents the ASN.1 type O-CauseValueCriteria (SEQUENCE_OF).
+// OCauseValueCriteria represents the ASN.1 type OCauseValueCriteria (SEQUENCE_OF).
 type OCauseValueCriteria = []CauseValue
 
-// TCauseValueCriteria represents the ASN.1 type T-CauseValueCriteria (SEQUENCE_OF).
+// TCauseValueCriteria represents the ASN.1 type TCauseValueCriteria (SEQUENCE_OF).
 type TCauseValueCriteria = []CauseValue
 
 // CauseValue represents the ASN.1 type CauseValue (OCTET_STRING).
@@ -2959,7 +2959,7 @@ type OfferedCamel4CSIs = runtime.BitString
 // OfferedCamel4Functionalities represents the ASN.1 type OfferedCamel4Functionalities (BIT_STRING).
 type OfferedCamel4Functionalities = runtime.BitString
 
-// SMSCSI represents the ASN.1 type SMS-CSI (SEQUENCE).
+// SMSCSI represents the ASN.1 type SMSCSI (SEQUENCE).
 type SMSCSI struct {
 	SmsCAMELTDPDataList       SMSCAMELTDPDataList      `asn1:"tag:0,context,implicit,optional" json:"SmsCAMELTDPDataList,omitempty"`
 	SmsCAMELTDPDataListIndef_ bool                     `asn1:"-" json:"-"`
@@ -2972,10 +2972,10 @@ type SMSCSI struct {
 	ExtData_                  [][]byte                 `asn1:"-" json:"-"`
 }
 
-// SMSCAMELTDPDataList represents the ASN.1 type SMS-CAMEL-TDP-DataList (SEQUENCE_OF).
+// SMSCAMELTDPDataList represents the ASN.1 type SMSCAMELTDPDataList (SEQUENCE_OF).
 type SMSCAMELTDPDataList = []SMSCAMELTDPData
 
-// SMSCAMELTDPData represents the ASN.1 type SMS-CAMEL-TDP-Data (SEQUENCE).
+// SMSCAMELTDPData represents the ASN.1 type SMSCAMELTDPData (SEQUENCE).
 type SMSCAMELTDPData struct {
 	SmsTriggerDetectionPoint SMSTriggerDetectionPoint `asn1:"tag:0,context,implicit"`
 	ServiceKey               ServiceKey               `asn1:"tag:1,context,implicit"`
@@ -2987,7 +2987,7 @@ type SMSCAMELTDPData struct {
 	ExtData_                 [][]byte                 `asn1:"-" json:"-"`
 }
 
-// SMSTriggerDetectionPoint represents the ASN.1 ENUMERATED type SMS-TriggerDetectionPoint.
+// SMSTriggerDetectionPoint represents the ASN.1 ENUMERATED type SMSTriggerDetectionPoint.
 type SMSTriggerDetectionPoint int64
 
 const (
@@ -3006,7 +3006,7 @@ func (v SMSTriggerDetectionPoint) String() string {
 	}
 }
 
-// DefaultSMSHandling represents the ASN.1 ENUMERATED type DefaultSMS-Handling.
+// DefaultSMSHandling represents the ASN.1 ENUMERATED type DefaultSMSHandling.
 type DefaultSMSHandling int64
 
 const (
@@ -3025,7 +3025,7 @@ func (v DefaultSMSHandling) String() string {
 	}
 }
 
-// MCSI represents the ASN.1 type M-CSI (SEQUENCE).
+// MCSI represents the ASN.1 type MCSI (SEQUENCE).
 type MCSI struct {
 	MobilityTriggers       MobilityTriggers    `asn1:""`
 	MobilityTriggersIndef_ bool                `asn1:"-" json:"-"`
@@ -3039,7 +3039,7 @@ type MCSI struct {
 	ExtData_               [][]byte            `asn1:"-" json:"-"`
 }
 
-// MGCSI represents the ASN.1 type MG-CSI (SEQUENCE).
+// MGCSI represents the ASN.1 type MGCSI (SEQUENCE).
 type MGCSI struct {
 	MobilityTriggers       MobilityTriggers    `asn1:""`
 	MobilityTriggersIndef_ bool                `asn1:"-" json:"-"`
@@ -3056,10 +3056,10 @@ type MGCSI struct {
 // MobilityTriggers represents the ASN.1 type MobilityTriggers (SEQUENCE_OF).
 type MobilityTriggers = []MMCode
 
-// MMCode represents the ASN.1 type MM-Code (OCTET_STRING).
+// MMCode represents the ASN.1 type MMCode (OCTET_STRING).
 type MMCode = []byte
 
-// TCSI represents the ASN.1 type T-CSI (SEQUENCE).
+// TCSI represents the ASN.1 type TCSI (SEQUENCE).
 type TCSI struct {
 	TBcsmCamelTDPDataList       TBcsmCamelTDPDataList    `asn1:""`
 	TBcsmCamelTDPDataListIndef_ bool                     `asn1:"-" json:"-"`
@@ -3072,10 +3072,10 @@ type TCSI struct {
 	ExtData_                    [][]byte                 `asn1:"-" json:"-"`
 }
 
-// TBcsmCamelTDPDataList represents the ASN.1 type T-BcsmCamelTDPDataList (SEQUENCE_OF).
+// TBcsmCamelTDPDataList represents the ASN.1 type TBcsmCamelTDPDataList (SEQUENCE_OF).
 type TBcsmCamelTDPDataList = []TBcsmCamelTDPData
 
-// TBcsmCamelTDPData represents the ASN.1 type T-BcsmCamelTDPData (SEQUENCE).
+// TBcsmCamelTDPData represents the ASN.1 type TBcsmCamelTDPData (SEQUENCE).
 type TBcsmCamelTDPData struct {
 	TBcsmTriggerDetectionPoint TBcsmTriggerDetectionPoint `asn1:""`
 	ServiceKey                 ServiceKey                 `asn1:""`
@@ -3087,7 +3087,7 @@ type TBcsmCamelTDPData struct {
 	ExtData_                   [][]byte                   `asn1:"-" json:"-"`
 }
 
-// TBcsmTriggerDetectionPoint represents the ASN.1 ENUMERATED type T-BcsmTriggerDetectionPoint.
+// TBcsmTriggerDetectionPoint represents the ASN.1 ENUMERATED type TBcsmTriggerDetectionPoint.
 type TBcsmTriggerDetectionPoint int64
 
 const (
@@ -3191,14 +3191,14 @@ const (
 	SendingNodeNumberChoiceCssNumber = 2
 )
 
-// SendingNodeNumber represents the ASN.1 CHOICE type SendingNode-Number.
+// SendingNodeNumber represents the ASN.1 CHOICE type SendingNodeNumber.
 type SendingNodeNumber struct {
 	Choice    int
 	HlrNumber *ISDNAddressString `json:"HlrNumber,omitempty"`
 	CssNumber *ISDNAddressString `json:"CssNumber,omitempty"`
 }
 
-// NewSendingNodeNumberHlrNumber creates a SendingNode-Number with the hlr-Number alternative.
+// NewSendingNodeNumberHlrNumber creates a SendingNodeNumber with the hlr-Number alternative.
 func NewSendingNodeNumberHlrNumber(v ISDNAddressString) SendingNodeNumber {
 	return SendingNodeNumber{
 		Choice:    SendingNodeNumberChoiceHlrNumber,
@@ -3206,7 +3206,7 @@ func NewSendingNodeNumberHlrNumber(v ISDNAddressString) SendingNodeNumber {
 	}
 }
 
-// NewSendingNodeNumberCssNumber creates a SendingNode-Number with the css-Number alternative.
+// NewSendingNodeNumberCssNumber creates a SendingNodeNumber with the css-Number alternative.
 func NewSendingNodeNumberCssNumber(v ISDNAddressString) SendingNodeNumber {
 	return SendingNodeNumber{
 		Choice:    SendingNodeNumberChoiceCssNumber,
@@ -3274,14 +3274,14 @@ type VoiceBroadcastData struct {
 // GroupId represents the ASN.1 type GroupId (OCTET_STRING).
 type GroupId = TBCDSTRING
 
-// LongGroupId represents the ASN.1 type Long-GroupId (OCTET_STRING).
+// LongGroupId represents the ASN.1 type LongGroupId (OCTET_STRING).
 type LongGroupId = TBCDSTRING
 
 // ProvideSubscriberInfoArg represents the ASN.1 type ProvideSubscriberInfoArg (SEQUENCE).
 type ProvideSubscriberInfoArg struct {
 	Imsi               IMSI                `asn1:"tag:0,context,implicit"`
 	Lmsi               *LMSI               `asn1:"tag:1,context,implicit,optional" json:"Lmsi,omitempty"`
-	RequestedInfo      MSRequestedInfo     `asn1:"tag:2,context,implicit"`
+	RequestedInfo      RequestedInfo       `asn1:"tag:2,context,implicit"`
 	ExtensionContainer *ExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"ExtensionContainer,omitempty"`
 	CallPriority       *EMLPPPriority      `asn1:"tag:4,context,implicit,optional" json:"CallPriority,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -3322,7 +3322,7 @@ type SubscriberInfo struct {
 	ExtData_                         [][]byte                   `asn1:"-" json:"-"`
 }
 
-// IMSVoiceOverPSSessionsInd represents the ASN.1 ENUMERATED type IMS-VoiceOverPS-SessionsInd.
+// IMSVoiceOverPSSessionsInd represents the ASN.1 ENUMERATED type IMSVoiceOverPSSessionsInd.
 type IMSVoiceOverPSSessionsInd int64
 
 const (
@@ -3412,7 +3412,7 @@ func (v NumberPortabilityStatus) String() string {
 	}
 }
 
-// MSClassmark2 represents the ASN.1 type MS-Classmark2 (OCTET_STRING).
+// MSClassmark2 represents the ASN.1 type MSClassmark2 (OCTET_STRING).
 type MSClassmark2 = []byte
 
 // GPRSMSClass represents the ASN.1 type GPRSMSClass (SEQUENCE).
@@ -3427,8 +3427,8 @@ type MSNetworkCapability = []byte
 // MSRadioAccessCapability represents the ASN.1 type MSRadioAccessCapability (OCTET_STRING).
 type MSRadioAccessCapability = []byte
 
-// MSRequestedInfo represents the ASN.1 type MSRequestedInfo (SEQUENCE).
-type MSRequestedInfo struct {
+// RequestedInfo represents the ASN.1 type RequestedInfo (SEQUENCE).
+type RequestedInfo struct {
 	LocationInformation             *struct{}           `asn1:"tag:0,context,implicit,optional" json:"LocationInformation,omitempty"`
 	SubscriberState                 *struct{}           `asn1:"tag:1,context,implicit,optional" json:"SubscriberState,omitempty"`
 	ExtensionContainer              *ExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"ExtensionContainer,omitempty"`
@@ -3622,7 +3622,7 @@ const (
 	PSSubscriberStateChoiceNetDetNotReachable               = 7
 )
 
-// PSSubscriberState represents the ASN.1 CHOICE type PS-SubscriberState.
+// PSSubscriberState represents the ASN.1 CHOICE type PSSubscriberState.
 type PSSubscriberState struct {
 	Choice                           int
 	NotProvidedFromSGSNorMME         *struct{}           `json:"NotProvidedFromSGSNorMME,omitempty"`
@@ -3634,7 +3634,7 @@ type PSSubscriberState struct {
 	NetDetNotReachable               *NotReachableReason `json:"NetDetNotReachable,omitempty"`
 }
 
-// NewPSSubscriberStateNotProvidedFromSGSNorMME creates a PS-SubscriberState with the notProvidedFromSGSNorMME alternative.
+// NewPSSubscriberStateNotProvidedFromSGSNorMME creates a PSSubscriberState with the notProvidedFromSGSNorMME alternative.
 func NewPSSubscriberStateNotProvidedFromSGSNorMME(v struct{}) PSSubscriberState {
 	return PSSubscriberState{
 		Choice:                   PSSubscriberStateChoiceNotProvidedFromSGSNorMME,
@@ -3642,7 +3642,7 @@ func NewPSSubscriberStateNotProvidedFromSGSNorMME(v struct{}) PSSubscriberState 
 	}
 }
 
-// NewPSSubscriberStatePsDetached creates a PS-SubscriberState with the ps-Detached alternative.
+// NewPSSubscriberStatePsDetached creates a PSSubscriberState with the ps-Detached alternative.
 func NewPSSubscriberStatePsDetached(v struct{}) PSSubscriberState {
 	return PSSubscriberState{
 		Choice:     PSSubscriberStateChoicePsDetached,
@@ -3650,7 +3650,7 @@ func NewPSSubscriberStatePsDetached(v struct{}) PSSubscriberState {
 	}
 }
 
-// NewPSSubscriberStatePsAttachedNotReachableForPaging creates a PS-SubscriberState with the ps-AttachedNotReachableForPaging alternative.
+// NewPSSubscriberStatePsAttachedNotReachableForPaging creates a PSSubscriberState with the ps-AttachedNotReachableForPaging alternative.
 func NewPSSubscriberStatePsAttachedNotReachableForPaging(v struct{}) PSSubscriberState {
 	return PSSubscriberState{
 		Choice:                          PSSubscriberStateChoicePsAttachedNotReachableForPaging,
@@ -3658,7 +3658,7 @@ func NewPSSubscriberStatePsAttachedNotReachableForPaging(v struct{}) PSSubscribe
 	}
 }
 
-// NewPSSubscriberStatePsAttachedReachableForPaging creates a PS-SubscriberState with the ps-AttachedReachableForPaging alternative.
+// NewPSSubscriberStatePsAttachedReachableForPaging creates a PSSubscriberState with the ps-AttachedReachableForPaging alternative.
 func NewPSSubscriberStatePsAttachedReachableForPaging(v struct{}) PSSubscriberState {
 	return PSSubscriberState{
 		Choice:                       PSSubscriberStateChoicePsAttachedReachableForPaging,
@@ -3666,7 +3666,7 @@ func NewPSSubscriberStatePsAttachedReachableForPaging(v struct{}) PSSubscriberSt
 	}
 }
 
-// NewPSSubscriberStatePsPDPActiveNotReachableForPaging creates a PS-SubscriberState with the ps-PDP-ActiveNotReachableForPaging alternative.
+// NewPSSubscriberStatePsPDPActiveNotReachableForPaging creates a PSSubscriberState with the ps-PDP-ActiveNotReachableForPaging alternative.
 func NewPSSubscriberStatePsPDPActiveNotReachableForPaging(v PDPContextInfoList) PSSubscriberState {
 	return PSSubscriberState{
 		Choice:                           PSSubscriberStateChoicePsPDPActiveNotReachableForPaging,
@@ -3674,7 +3674,7 @@ func NewPSSubscriberStatePsPDPActiveNotReachableForPaging(v PDPContextInfoList) 
 	}
 }
 
-// NewPSSubscriberStatePsPDPActiveReachableForPaging creates a PS-SubscriberState with the ps-PDP-ActiveReachableForPaging alternative.
+// NewPSSubscriberStatePsPDPActiveReachableForPaging creates a PSSubscriberState with the ps-PDP-ActiveReachableForPaging alternative.
 func NewPSSubscriberStatePsPDPActiveReachableForPaging(v PDPContextInfoList) PSSubscriberState {
 	return PSSubscriberState{
 		Choice:                        PSSubscriberStateChoicePsPDPActiveReachableForPaging,
@@ -3682,7 +3682,7 @@ func NewPSSubscriberStatePsPDPActiveReachableForPaging(v PDPContextInfoList) PSS
 	}
 }
 
-// NewPSSubscriberStateNetDetNotReachable creates a PS-SubscriberState with the netDetNotReachable alternative.
+// NewPSSubscriberStateNetDetNotReachable creates a PSSubscriberState with the netDetNotReachable alternative.
 func NewPSSubscriberStateNetDetNotReachable(v NotReachableReason) PSSubscriberState {
 	return PSSubscriberState{
 		Choice:             PSSubscriberStateChoiceNetDetNotReachable,
@@ -3690,10 +3690,10 @@ func NewPSSubscriberStateNetDetNotReachable(v NotReachableReason) PSSubscriberSt
 	}
 }
 
-// PDPContextInfoList represents the ASN.1 type PDP-ContextInfoList (SEQUENCE_OF).
+// PDPContextInfoList represents the ASN.1 type PDPContextInfoList (SEQUENCE_OF).
 type PDPContextInfoList = []PDPContextInfo
 
-// PDPContextInfo represents the ASN.1 type PDP-ContextInfo (SEQUENCE).
+// PDPContextInfo represents the ASN.1 type PDPContextInfo (SEQUENCE).
 type PDPContextInfo struct {
 	PdpContextIdentifier    ContextId                `asn1:"tag:0,context,implicit"`
 	PdpContextActive        *struct{}                `asn1:"tag:1,context,implicit,optional" json:"PdpContextActive,omitempty"`
@@ -3769,7 +3769,7 @@ func (v NotReachableReason) String() string {
 // AnyTimeInterrogationArg represents the ASN.1 type AnyTimeInterrogationArg (SEQUENCE).
 type AnyTimeInterrogationArg struct {
 	SubscriberIdentity SubscriberIdentity  `asn1:"tag:0,context,explicit"`
-	RequestedInfo      MSRequestedInfo     `asn1:"tag:1,context,implicit"`
+	RequestedInfo      RequestedInfo       `asn1:"tag:1,context,implicit"`
 	GsmSCFAddress      ISDNAddressString   `asn1:"tag:3,context,implicit"`
 	ExtensionContainer *ExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -3833,10 +3833,10 @@ type CallWaitingData struct {
 	ExtData_            [][]byte         `asn1:"-" json:"-"`
 }
 
-// ExtCwFeatureList represents the ASN.1 type Ext-CwFeatureList (SEQUENCE_OF).
+// ExtCwFeatureList represents the ASN.1 type ExtCwFeatureList (SEQUENCE_OF).
 type ExtCwFeatureList = []ExtCwFeature
 
-// ExtCwFeature represents the ASN.1 type Ext-CwFeature (SEQUENCE).
+// ExtCwFeature represents the ASN.1 type ExtCwFeature (SEQUENCE).
 type ExtCwFeature struct {
 	BasicService ExtBasicServiceCode `asn1:"tag:1,context,explicit"`
 	SsStatus     ExtSSStatus         `asn1:"tag:2,context,implicit"`
@@ -3904,10 +3904,10 @@ type RequestedSubscriptionInfo struct {
 	ExtData_                                 [][]byte                                  `asn1:"-" json:"-"`
 }
 
-// MSISDNBSList represents the ASN.1 type MSISDN-BS-List (SEQUENCE_OF).
+// MSISDNBSList represents the ASN.1 type MSISDNBSList (SEQUENCE_OF).
 type MSISDNBSList = []MSISDNBS
 
-// MSISDNBS represents the ASN.1 type MSISDN-BS (SEQUENCE).
+// MSISDNBS represents the ASN.1 type MSISDNBS (SEQUENCE).
 type MSISDNBS struct {
 	Msisdn                 ISDNAddressString   `asn1:""`
 	BasicServiceList       BasicServiceList    `asn1:"tag:0,context,implicit,optional" json:"BasicServiceList,omitempty"`
@@ -3918,7 +3918,7 @@ type MSISDNBS struct {
 	ExtData_               [][]byte            `asn1:"-" json:"-"`
 }
 
-// RequestedCAMELSubscriptionInfo represents the ASN.1 ENUMERATED type RequestedCAMEL-SubscriptionInfo.
+// RequestedCAMELSubscriptionInfo represents the ASN.1 ENUMERATED type RequestedCAMELSubscriptionInfo.
 type RequestedCAMELSubscriptionInfo int64
 
 const (
@@ -3958,7 +3958,7 @@ func (v RequestedCAMELSubscriptionInfo) String() string {
 	}
 }
 
-// AdditionalRequestedCAMELSubscriptionInfo represents the ASN.1 ENUMERATED type AdditionalRequestedCAMEL-SubscriptionInfo.
+// AdditionalRequestedCAMELSubscriptionInfo represents the ASN.1 ENUMERATED type AdditionalRequestedCAMELSubscriptionInfo.
 type AdditionalRequestedCAMELSubscriptionInfo int64
 
 const (
@@ -4013,7 +4013,7 @@ type CallBarringData struct {
 // WrongPasswordAttemptsCounter represents the ASN.1 type WrongPasswordAttemptsCounter (INTEGER).
 type WrongPasswordAttemptsCounter = int64
 
-// ODBInfo represents the ASN.1 type ODB-Info (SEQUENCE).
+// ODBInfo represents the ASN.1 type ODBInfo (SEQUENCE).
 type ODBInfo struct {
 	OdbData            ODBData             `asn1:""`
 	NotificationToCSE  *struct{}           `asn1:",optional" json:"NotificationToCSE,omitempty"`
@@ -4023,7 +4023,7 @@ type ODBInfo struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// CAMELSubscriptionInfo represents the ASN.1 type CAMEL-SubscriptionInfo (SEQUENCE).
+// CAMELSubscriptionInfo represents the ASN.1 type CAMELSubscriptionInfo (SEQUENCE).
 type CAMELSubscriptionInfo struct {
 	OCSI                               *OCSI                     `asn1:"tag:0,context,implicit,optional" json:"OCSI,omitempty"`
 	OBcsmCamelTDPCriteriaList          OBcsmCamelTDPCriteriaList `asn1:"tag:1,context,implicit,optional" json:"OBcsmCamelTDPCriteriaList,omitempty"`
@@ -4082,7 +4082,7 @@ type AnyTimeModificationArg struct {
 	ExtData_                           [][]byte                          `asn1:"-" json:"-"`
 }
 
-// ModificationRequestForCWInfo represents the ASN.1 type ModificationRequestFor-CW-Info (SEQUENCE).
+// ModificationRequestForCWInfo represents the ASN.1 type ModificationRequestForCWInfo (SEQUENCE).
 type ModificationRequestForCWInfo struct {
 	BasicService            *ExtBasicServiceCode     `asn1:"tag:0,context,explicit,optional" json:"BasicService,omitempty"`
 	SsStatus                *ExtSSStatus             `asn1:"tag:1,context,implicit,optional" json:"SsStatus,omitempty"`
@@ -4093,7 +4093,7 @@ type ModificationRequestForCWInfo struct {
 	ExtData_                [][]byte                 `asn1:"-" json:"-"`
 }
 
-// ModificationRequestForCHInfo represents the ASN.1 type ModificationRequestFor-CH-Info (SEQUENCE).
+// ModificationRequestForCHInfo represents the ASN.1 type ModificationRequestForCHInfo (SEQUENCE).
 type ModificationRequestForCHInfo struct {
 	SsStatus                *ExtSSStatus             `asn1:"tag:0,context,implicit,optional" json:"SsStatus,omitempty"`
 	ModifyNotificationToCSE *ModificationInstruction `asn1:"tag:1,context,implicit,optional" json:"ModifyNotificationToCSE,omitempty"`
@@ -4103,7 +4103,7 @@ type ModificationRequestForCHInfo struct {
 	ExtData_                [][]byte                 `asn1:"-" json:"-"`
 }
 
-// ModificationRequestForECTInfo represents the ASN.1 type ModificationRequestFor-ECT-Info (SEQUENCE).
+// ModificationRequestForECTInfo represents the ASN.1 type ModificationRequestForECTInfo (SEQUENCE).
 type ModificationRequestForECTInfo struct {
 	SsStatus                *ExtSSStatus             `asn1:"tag:0,context,implicit,optional" json:"SsStatus,omitempty"`
 	ModifyNotificationToCSE *ModificationInstruction `asn1:"tag:1,context,implicit,optional" json:"ModifyNotificationToCSE,omitempty"`
@@ -4113,7 +4113,7 @@ type ModificationRequestForECTInfo struct {
 	ExtData_                [][]byte                 `asn1:"-" json:"-"`
 }
 
-// ModificationRequestForCLIRInfo represents the ASN.1 type ModificationRequestFor-CLIR-Info (SEQUENCE).
+// ModificationRequestForCLIRInfo represents the ASN.1 type ModificationRequestForCLIRInfo (SEQUENCE).
 type ModificationRequestForCLIRInfo struct {
 	SsStatus                *ExtSSStatus             `asn1:"tag:0,context,implicit,optional" json:"SsStatus,omitempty"`
 	CliRestrictionOption    *CliRestrictionOption    `asn1:"tag:1,context,implicit,optional" json:"CliRestrictionOption,omitempty"`
@@ -4124,7 +4124,7 @@ type ModificationRequestForCLIRInfo struct {
 	ExtData_                [][]byte                 `asn1:"-" json:"-"`
 }
 
-// ModificationRequestForCLIPInfo represents the ASN.1 type ModificationRequestFor-CLIP-Info (SEQUENCE).
+// ModificationRequestForCLIPInfo represents the ASN.1 type ModificationRequestForCLIPInfo (SEQUENCE).
 type ModificationRequestForCLIPInfo struct {
 	SsStatus                *ExtSSStatus             `asn1:"tag:0,context,implicit,optional" json:"SsStatus,omitempty"`
 	OverrideCategory        *OverrideCategory        `asn1:"tag:1,context,implicit,optional" json:"OverrideCategory,omitempty"`
@@ -4135,7 +4135,7 @@ type ModificationRequestForCLIPInfo struct {
 	ExtData_                [][]byte                 `asn1:"-" json:"-"`
 }
 
-// ModificationRequestForCSG represents the ASN.1 type ModificationRequestFor-CSG (SEQUENCE).
+// ModificationRequestForCSG represents the ASN.1 type ModificationRequestForCSG (SEQUENCE).
 type ModificationRequestForCSG struct {
 	ModifyNotificationToCSE *ModificationInstruction `asn1:"tag:0,context,implicit,optional" json:"ModifyNotificationToCSE,omitempty"`
 	ExtensionContainer      *ExtensionContainer      `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
@@ -4167,7 +4167,7 @@ type AnyTimeModificationRes struct {
 	ExtData_              [][]byte               `asn1:"-" json:"-"`
 }
 
-// ModificationRequestForCFInfo represents the ASN.1 type ModificationRequestFor-CF-Info (SEQUENCE).
+// ModificationRequestForCFInfo represents the ASN.1 type ModificationRequestForCFInfo (SEQUENCE).
 type ModificationRequestForCFInfo struct {
 	SsCode                  SSCode                   `asn1:"tag:0,context,implicit"`
 	BasicService            *ExtBasicServiceCode     `asn1:"tag:1,context,explicit,optional" json:"BasicService,omitempty"`
@@ -4182,7 +4182,7 @@ type ModificationRequestForCFInfo struct {
 	ExtData_                [][]byte                 `asn1:"-" json:"-"`
 }
 
-// ModificationRequestForCBInfo represents the ASN.1 type ModificationRequestFor-CB-Info (SEQUENCE).
+// ModificationRequestForCBInfo represents the ASN.1 type ModificationRequestForCBInfo (SEQUENCE).
 type ModificationRequestForCBInfo struct {
 	SsCode                       SSCode                        `asn1:"tag:0,context,implicit"`
 	BasicService                 *ExtBasicServiceCode          `asn1:"tag:1,context,explicit,optional" json:"BasicService,omitempty"`
@@ -4196,7 +4196,7 @@ type ModificationRequestForCBInfo struct {
 	ExtData_                     [][]byte                      `asn1:"-" json:"-"`
 }
 
-// ModificationRequestForODBData represents the ASN.1 type ModificationRequestFor-ODB-data (SEQUENCE).
+// ModificationRequestForODBData represents the ASN.1 type ModificationRequestForODBData (SEQUENCE).
 type ModificationRequestForODBData struct {
 	OdbData                 *ODBData                 `asn1:"tag:0,context,implicit,optional" json:"OdbData,omitempty"`
 	ModifyNotificationToCSE *ModificationInstruction `asn1:"tag:1,context,implicit,optional" json:"ModifyNotificationToCSE,omitempty"`
@@ -4206,7 +4206,7 @@ type ModificationRequestForODBData struct {
 	ExtData_                [][]byte                 `asn1:"-" json:"-"`
 }
 
-// ModificationRequestForCSI represents the ASN.1 type ModificationRequestFor-CSI (SEQUENCE).
+// ModificationRequestForCSI represents the ASN.1 type ModificationRequestForCSI (SEQUENCE).
 type ModificationRequestForCSI struct {
 	RequestedCamelSubscriptionInfo           RequestedCAMELSubscriptionInfo            `asn1:"tag:0,context,implicit"`
 	ModifyNotificationToCSE                  *ModificationInstruction                  `asn1:"tag:1,context,implicit,optional" json:"ModifyNotificationToCSE,omitempty"`
@@ -4218,7 +4218,7 @@ type ModificationRequestForCSI struct {
 	ExtData_                                 [][]byte                                  `asn1:"-" json:"-"`
 }
 
-// ModificationRequestForIPSMGWData represents the ASN.1 type ModificationRequestFor-IP-SM-GW-Data (SEQUENCE).
+// ModificationRequestForIPSMGWData represents the ASN.1 type ModificationRequestForIPSMGWData (SEQUENCE).
 type ModificationRequestForIPSMGWData struct {
 	ModifyRegistrationStatus *ModificationInstruction    `asn1:"tag:0,context,implicit,optional" json:"ModifyRegistrationStatus,omitempty"`
 	ExtensionContainer       *ExtensionContainer         `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
@@ -4278,7 +4278,7 @@ type NoteSubscriberDataModifiedRes struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// NoteMMEventArg represents the ASN.1 type NoteMM-EventArg (SEQUENCE).
+// NoteMMEventArg represents the ASN.1 type NoteMMEventArg (SEQUENCE).
 type NoteMMEventArg struct {
 	ServiceKey                   ServiceKey                    `asn1:""`
 	EventMet                     MMCode                        `asn1:"tag:0,context,implicit"`
@@ -4294,7 +4294,7 @@ type NoteMMEventArg struct {
 	ExtData_                     [][]byte                      `asn1:"-" json:"-"`
 }
 
-// NoteMMEventRes represents the ASN.1 type NoteMM-EventRes (SEQUENCE).
+// NoteMMEventRes represents the ASN.1 type NoteMMEventRes (SEQUENCE).
 type NoteMMEventRes struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -4308,14 +4308,14 @@ const (
 	ExtSSInfoForCSEChoiceCallBarringInfoForCSE = 2
 )
 
-// ExtSSInfoForCSE represents the ASN.1 CHOICE type Ext-SS-InfoFor-CSE.
+// ExtSSInfoForCSE represents the ASN.1 CHOICE type ExtSSInfoForCSE.
 type ExtSSInfoForCSE struct {
 	Choice                int
 	ForwardingInfoForCSE  *ExtForwardingInfoForCSE  `json:"ForwardingInfoForCSE,omitempty"`
 	CallBarringInfoForCSE *ExtCallBarringInfoForCSE `json:"CallBarringInfoForCSE,omitempty"`
 }
 
-// NewExtSSInfoForCSEForwardingInfoForCSE creates a Ext-SS-InfoFor-CSE with the forwardingInfoFor-CSE alternative.
+// NewExtSSInfoForCSEForwardingInfoForCSE creates a ExtSSInfoForCSE with the forwardingInfoFor-CSE alternative.
 func NewExtSSInfoForCSEForwardingInfoForCSE(v ExtForwardingInfoForCSE) ExtSSInfoForCSE {
 	return ExtSSInfoForCSE{
 		Choice:               ExtSSInfoForCSEChoiceForwardingInfoForCSE,
@@ -4323,7 +4323,7 @@ func NewExtSSInfoForCSEForwardingInfoForCSE(v ExtForwardingInfoForCSE) ExtSSInfo
 	}
 }
 
-// NewExtSSInfoForCSECallBarringInfoForCSE creates a Ext-SS-InfoFor-CSE with the callBarringInfoFor-CSE alternative.
+// NewExtSSInfoForCSECallBarringInfoForCSE creates a ExtSSInfoForCSE with the callBarringInfoFor-CSE alternative.
 func NewExtSSInfoForCSECallBarringInfoForCSE(v ExtCallBarringInfoForCSE) ExtSSInfoForCSE {
 	return ExtSSInfoForCSE{
 		Choice:                ExtSSInfoForCSEChoiceCallBarringInfoForCSE,
@@ -4331,7 +4331,7 @@ func NewExtSSInfoForCSECallBarringInfoForCSE(v ExtCallBarringInfoForCSE) ExtSSIn
 	}
 }
 
-// ExtForwardingInfoForCSE represents the ASN.1 type Ext-ForwardingInfoFor-CSE (SEQUENCE).
+// ExtForwardingInfoForCSE represents the ASN.1 type ExtForwardingInfoForCSE (SEQUENCE).
 type ExtForwardingInfoForCSE struct {
 	SsCode                      SSCode              `asn1:"tag:0,context,implicit"`
 	ForwardingFeatureList       ExtForwFeatureList  `asn1:"tag:1,context,implicit"`
@@ -4343,7 +4343,7 @@ type ExtForwardingInfoForCSE struct {
 	ExtData_                    [][]byte            `asn1:"-" json:"-"`
 }
 
-// ExtCallBarringInfoForCSE represents the ASN.1 type Ext-CallBarringInfoFor-CSE (SEQUENCE).
+// ExtCallBarringInfoForCSE represents the ASN.1 type ExtCallBarringInfoForCSE (SEQUENCE).
 type ExtCallBarringInfoForCSE struct {
 	SsCode                       SSCode                        `asn1:"tag:0,context,implicit"`
 	CallBarringFeatureList       ExtCallBarFeatureList         `asn1:"tag:1,context,implicit"`
@@ -6889,7 +6889,7 @@ func (v *AuthenticationTriplet) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding rand: %w", err)
 	}
-	v.Rand = MSRAND(val_rand)
+	v.Rand = RAND(val_rand)
 	offset += n
 	// Decode sres
 	if offset >= len(content) {
@@ -6899,7 +6899,7 @@ func (v *AuthenticationTriplet) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding sres: %w", err)
 	}
-	v.Sres = MSSRES(val_sres)
+	v.Sres = SRES(val_sres)
 	offset += n
 	// Decode kc
 	if offset >= len(content) {
@@ -6909,7 +6909,7 @@ func (v *AuthenticationTriplet) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding kc: %w", err)
 	}
-	v.Kc = MSKc(val_kc)
+	v.Kc = Kc(val_kc)
 	offset += n
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
@@ -6982,7 +6982,7 @@ func (v *AuthenticationQuintuplet) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding rand: %w", err)
 	}
-	v.Rand = MSRAND(val_rand)
+	v.Rand = RAND(val_rand)
 	offset += n
 	// Decode xres
 	if offset >= len(content) {
@@ -7193,7 +7193,7 @@ func (v *GSMSecurityContextData) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding kc: %w", err)
 	}
-	v.Kc = MSKc(val_kc)
+	v.Kc = Kc(val_kc)
 	offset += n
 	// Decode cksn
 	if offset >= len(content) {
@@ -7463,7 +7463,7 @@ func (v *AuthenticationFailureReportArg) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding rand: %w", err)
 				}
-				tmp_rand := MSRAND(val_rand)
+				tmp_rand := RAND(val_rand)
 				v.Rand = &tmp_rand
 				offset += n
 			}
@@ -13400,7 +13400,7 @@ func (v *ReSynchronisationInfo) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding rand: %w", err)
 	}
-	v.Rand = MSRAND(val_rand)
+	v.Rand = RAND(val_rand)
 	offset += n
 	// Decode auts
 	if offset >= len(content) {
@@ -13701,7 +13701,7 @@ func (v *EPCAV) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding rand: %w", err)
 	}
-	v.Rand = MSRAND(val_rand)
+	v.Rand = RAND(val_rand)
 	offset += n
 	// Decode xres
 	if offset >= len(content) {
@@ -14636,7 +14636,7 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding category: %w", err)
 				}
-				tmp_category := MSCategory(rawVal_category)
+				tmp_category := Category(rawVal_category)
 				v.Category = &tmp_category
 				offset += n_category
 			}
@@ -20480,7 +20480,7 @@ func (v *SubscriberData) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding category: %w", err)
 				}
-				tmp_category := MSCategory(rawVal_category)
+				tmp_category := Category(rawVal_category)
 				v.Category = &tmp_category
 				offset += n_category
 			}
@@ -31171,8 +31171,8 @@ func (v *GPRSMSClass) UnmarshalBER(data []byte) error {
 	return nil
 }
 
-// MarshalBER encodes MSRequestedInfo to BER format.
-func (v *MSRequestedInfo) MarshalBER() ([]byte, error) {
+// MarshalBER encodes RequestedInfo to BER format.
+func (v *RequestedInfo) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.LocationInformation != nil {
 		enc_locationinformation := ber.EncodeNull()
@@ -31255,8 +31255,8 @@ func (v *MSRequestedInfo) MarshalBER() ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes MSRequestedInfo to DER format.
-func (v *MSRequestedInfo) MarshalDER() ([]byte, error) {
+// MarshalDER encodes RequestedInfo to DER format.
+func (v *RequestedInfo) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
@@ -31266,14 +31266,14 @@ func (v *MSRequestedInfo) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes MSRequestedInfo from BER/DER format.
-func (v *MSRequestedInfo) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes RequestedInfo from BER/DER format.
+func (v *RequestedInfo) UnmarshalBER(data []byte) error {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding MSRequestedInfo SEQUENCE: %w", err)
+		return fmt.Errorf("decoding RequestedInfo SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "MSRequestedInfo", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "RequestedInfo", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode locationInformation
@@ -31489,7 +31489,7 @@ func (v *MSRequestedInfo) UnmarshalBER(data []byte) error {
 	for offset < len(content) {
 		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "MSRequestedInfo", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "RequestedInfo", Cause: extErr_}
 		}
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)

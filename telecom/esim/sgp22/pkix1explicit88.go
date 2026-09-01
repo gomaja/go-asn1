@@ -21,287 +21,287 @@ var (
 
 const (
 
-	// CommonNameValue is the integer constant for common-name.
+	// CommonNameValue is the integer constant for CommonNameValue.
 	CommonNameValue int64 = 1
 
-	// TeletexCommonNameValue is the integer constant for teletex-common-name.
+	// TeletexCommonNameValue is the integer constant for TeletexCommonNameValue.
 	TeletexCommonNameValue int64 = 2
 
-	// TeletexOrganizationNameValue is the integer constant for teletex-organization-name.
+	// TeletexOrganizationNameValue is the integer constant for TeletexOrganizationNameValue.
 	TeletexOrganizationNameValue int64 = 3
 
-	// TeletexPersonalNameValue is the integer constant for teletex-personal-name.
+	// TeletexPersonalNameValue is the integer constant for TeletexPersonalNameValue.
 	TeletexPersonalNameValue int64 = 4
 
-	// TeletexOrganizationalUnitNamesValue is the integer constant for teletex-organizational-unit-names.
+	// TeletexOrganizationalUnitNamesValue is the integer constant for TeletexOrganizationalUnitNamesValue.
 	TeletexOrganizationalUnitNamesValue int64 = 5
 
-	// PdsName is the integer constant for pds-name.
+	// PdsName is the integer constant for PdsName.
 	PdsName int64 = 7
 
-	// PhysicalDeliveryCountryNameValue is the integer constant for physical-delivery-country-name.
+	// PhysicalDeliveryCountryNameValue is the integer constant for PhysicalDeliveryCountryNameValue.
 	PhysicalDeliveryCountryNameValue int64 = 8
 
-	// PostalCodeValue is the integer constant for postal-code.
+	// PostalCodeValue is the integer constant for PostalCodeValue.
 	PostalCodeValue int64 = 9
 
-	// PhysicalDeliveryOfficeNameValue is the integer constant for physical-delivery-office-name.
+	// PhysicalDeliveryOfficeNameValue is the integer constant for PhysicalDeliveryOfficeNameValue.
 	PhysicalDeliveryOfficeNameValue int64 = 10
 
-	// PhysicalDeliveryOfficeNumberValue is the integer constant for physical-delivery-office-number.
+	// PhysicalDeliveryOfficeNumberValue is the integer constant for PhysicalDeliveryOfficeNumberValue.
 	PhysicalDeliveryOfficeNumberValue int64 = 11
 
-	// ExtensionORAddressComponentsValue is the integer constant for extension-OR-address-components.
+	// ExtensionORAddressComponentsValue is the integer constant for ExtensionORAddressComponentsValue.
 	ExtensionORAddressComponentsValue int64 = 12
 
-	// PhysicalDeliveryPersonalNameValue is the integer constant for physical-delivery-personal-name.
+	// PhysicalDeliveryPersonalNameValue is the integer constant for PhysicalDeliveryPersonalNameValue.
 	PhysicalDeliveryPersonalNameValue int64 = 13
 
-	// PhysicalDeliveryOrganizationNameValue is the integer constant for physical-delivery-organization-name.
+	// PhysicalDeliveryOrganizationNameValue is the integer constant for PhysicalDeliveryOrganizationNameValue.
 	PhysicalDeliveryOrganizationNameValue int64 = 14
 
-	// ExtensionPhysicalDeliveryAddressComponentsValue is the integer constant for extension-physical-delivery-address-components.
+	// ExtensionPhysicalDeliveryAddressComponentsValue is the integer constant for ExtensionPhysicalDeliveryAddressComponentsValue.
 	ExtensionPhysicalDeliveryAddressComponentsValue int64 = 15
 
-	// UnformattedPostalAddressValue is the integer constant for unformatted-postal-address.
+	// UnformattedPostalAddressValue is the integer constant for UnformattedPostalAddressValue.
 	UnformattedPostalAddressValue int64 = 16
 
-	// StreetAddressValue is the integer constant for street-address.
+	// StreetAddressValue is the integer constant for StreetAddressValue.
 	StreetAddressValue int64 = 17
 
-	// PostOfficeBoxAddressValue is the integer constant for post-office-box-address.
+	// PostOfficeBoxAddressValue is the integer constant for PostOfficeBoxAddressValue.
 	PostOfficeBoxAddressValue int64 = 18
 
-	// PosteRestanteAddressValue is the integer constant for poste-restante-address.
+	// PosteRestanteAddressValue is the integer constant for PosteRestanteAddressValue.
 	PosteRestanteAddressValue int64 = 19
 
-	// UniquePostalNameValue is the integer constant for unique-postal-name.
+	// UniquePostalNameValue is the integer constant for UniquePostalNameValue.
 	UniquePostalNameValue int64 = 20
 
-	// LocalPostalAttributesValue is the integer constant for local-postal-attributes.
+	// LocalPostalAttributesValue is the integer constant for LocalPostalAttributesValue.
 	LocalPostalAttributesValue int64 = 21
 
-	// ExtendedNetworkAddressValue is the integer constant for extended-network-address.
+	// ExtendedNetworkAddressValue is the integer constant for ExtendedNetworkAddressValue.
 	ExtendedNetworkAddressValue int64 = 22
 
-	// TerminalTypeValue is the integer constant for terminal-type.
+	// TerminalTypeValue is the integer constant for TerminalTypeValue.
 	TerminalTypeValue int64 = 23
 
-	// TeletexDomainDefinedAttributesValue is the integer constant for teletex-domain-defined-attributes.
+	// TeletexDomainDefinedAttributesValue is the integer constant for TeletexDomainDefinedAttributesValue.
 	TeletexDomainDefinedAttributesValue int64 = 6
 
-	// UbName is the integer constant for ub-name.
+	// UbName is the integer constant for UbName.
 	UbName int64 = 32768
 
-	// UbCommonName is the integer constant for ub-common-name.
+	// UbCommonName is the integer constant for UbCommonName.
 	UbCommonName int64 = 64
 
-	// UbLocalityName is the integer constant for ub-locality-name.
+	// UbLocalityName is the integer constant for UbLocalityName.
 	UbLocalityName int64 = 128
 
-	// UbStateName is the integer constant for ub-state-name.
+	// UbStateName is the integer constant for UbStateName.
 	UbStateName int64 = 128
 
-	// UbOrganizationName is the integer constant for ub-organization-name.
+	// UbOrganizationName is the integer constant for UbOrganizationName.
 	UbOrganizationName int64 = 64
 
-	// UbOrganizationalUnitName is the integer constant for ub-organizational-unit-name.
+	// UbOrganizationalUnitName is the integer constant for UbOrganizationalUnitName.
 	UbOrganizationalUnitName int64 = 64
 
-	// UbTitle is the integer constant for ub-title.
+	// UbTitle is the integer constant for UbTitle.
 	UbTitle int64 = 64
 
-	// UbSerialNumber is the integer constant for ub-serial-number.
+	// UbSerialNumber is the integer constant for UbSerialNumber.
 	UbSerialNumber int64 = 64
 
-	// UbMatch is the integer constant for ub-match.
+	// UbMatch is the integer constant for UbMatch.
 	UbMatch int64 = 128
 
-	// UbEmailaddressLength is the integer constant for ub-emailaddress-length.
+	// UbEmailaddressLength is the integer constant for UbEmailaddressLength.
 	UbEmailaddressLength int64 = 255
 
-	// UbCommonNameLength is the integer constant for ub-common-name-length.
+	// UbCommonNameLength is the integer constant for UbCommonNameLength.
 	UbCommonNameLength int64 = 64
 
-	// UbCountryNameAlphaLength is the integer constant for ub-country-name-alpha-length.
+	// UbCountryNameAlphaLength is the integer constant for UbCountryNameAlphaLength.
 	UbCountryNameAlphaLength int64 = 2
 
-	// UbCountryNameNumericLength is the integer constant for ub-country-name-numeric-length.
+	// UbCountryNameNumericLength is the integer constant for UbCountryNameNumericLength.
 	UbCountryNameNumericLength int64 = 3
 
-	// UbDomainDefinedAttributes is the integer constant for ub-domain-defined-attributes.
+	// UbDomainDefinedAttributes is the integer constant for UbDomainDefinedAttributes.
 	UbDomainDefinedAttributes int64 = 4
 
-	// UbDomainDefinedAttributeTypeLength is the integer constant for ub-domain-defined-attribute-type-length.
+	// UbDomainDefinedAttributeTypeLength is the integer constant for UbDomainDefinedAttributeTypeLength.
 	UbDomainDefinedAttributeTypeLength int64 = 8
 
-	// UbDomainDefinedAttributeValueLength is the integer constant for ub-domain-defined-attribute-value-length.
+	// UbDomainDefinedAttributeValueLength is the integer constant for UbDomainDefinedAttributeValueLength.
 	UbDomainDefinedAttributeValueLength int64 = 128
 
-	// UbDomainNameLength is the integer constant for ub-domain-name-length.
+	// UbDomainNameLength is the integer constant for UbDomainNameLength.
 	UbDomainNameLength int64 = 16
 
-	// UbExtensionAttributes is the integer constant for ub-extension-attributes.
+	// UbExtensionAttributes is the integer constant for UbExtensionAttributes.
 	UbExtensionAttributes int64 = 256
 
-	// UbE1634NumberLength is the integer constant for ub-e163-4-number-length.
+	// UbE1634NumberLength is the integer constant for UbE1634NumberLength.
 	UbE1634NumberLength int64 = 15
 
-	// UbE1634SubAddressLength is the integer constant for ub-e163-4-sub-address-length.
+	// UbE1634SubAddressLength is the integer constant for UbE1634SubAddressLength.
 	UbE1634SubAddressLength int64 = 40
 
-	// UbGenerationQualifierLength is the integer constant for ub-generation-qualifier-length.
+	// UbGenerationQualifierLength is the integer constant for UbGenerationQualifierLength.
 	UbGenerationQualifierLength int64 = 3
 
-	// UbGivenNameLength is the integer constant for ub-given-name-length.
+	// UbGivenNameLength is the integer constant for UbGivenNameLength.
 	UbGivenNameLength int64 = 16
 
-	// UbInitialsLength is the integer constant for ub-initials-length.
+	// UbInitialsLength is the integer constant for UbInitialsLength.
 	UbInitialsLength int64 = 5
 
-	// UbIntegerOptions is the integer constant for ub-integer-options.
+	// UbIntegerOptions is the integer constant for UbIntegerOptions.
 	UbIntegerOptions int64 = 256
 
-	// UbNumericUserIdLength is the integer constant for ub-numeric-user-id-length.
+	// UbNumericUserIdLength is the integer constant for UbNumericUserIdLength.
 	UbNumericUserIdLength int64 = 32
 
-	// UbOrganizationNameLength is the integer constant for ub-organization-name-length.
+	// UbOrganizationNameLength is the integer constant for UbOrganizationNameLength.
 	UbOrganizationNameLength int64 = 64
 
-	// UbOrganizationalUnitNameLength is the integer constant for ub-organizational-unit-name-length.
+	// UbOrganizationalUnitNameLength is the integer constant for UbOrganizationalUnitNameLength.
 	UbOrganizationalUnitNameLength int64 = 32
 
-	// UbOrganizationalUnits is the integer constant for ub-organizational-units.
+	// UbOrganizationalUnits is the integer constant for UbOrganizationalUnits.
 	UbOrganizationalUnits int64 = 4
 
-	// UbPdsNameLength is the integer constant for ub-pds-name-length.
+	// UbPdsNameLength is the integer constant for UbPdsNameLength.
 	UbPdsNameLength int64 = 16
 
-	// UbPdsParameterLength is the integer constant for ub-pds-parameter-length.
+	// UbPdsParameterLength is the integer constant for UbPdsParameterLength.
 	UbPdsParameterLength int64 = 30
 
-	// UbPdsPhysicalAddressLines is the integer constant for ub-pds-physical-address-lines.
+	// UbPdsPhysicalAddressLines is the integer constant for UbPdsPhysicalAddressLines.
 	UbPdsPhysicalAddressLines int64 = 6
 
-	// UbPostalCodeLength is the integer constant for ub-postal-code-length.
+	// UbPostalCodeLength is the integer constant for UbPostalCodeLength.
 	UbPostalCodeLength int64 = 16
 
-	// UbPseudonym is the integer constant for ub-pseudonym.
+	// UbPseudonym is the integer constant for UbPseudonym.
 	UbPseudonym int64 = 128
 
-	// UbSurnameLength is the integer constant for ub-surname-length.
+	// UbSurnameLength is the integer constant for UbSurnameLength.
 	UbSurnameLength int64 = 40
 
-	// UbTerminalIdLength is the integer constant for ub-terminal-id-length.
+	// UbTerminalIdLength is the integer constant for UbTerminalIdLength.
 	UbTerminalIdLength int64 = 24
 
-	// UbUnformattedAddressLength is the integer constant for ub-unformatted-address-length.
+	// UbUnformattedAddressLength is the integer constant for UbUnformattedAddressLength.
 	UbUnformattedAddressLength int64 = 180
 
-	// UbX121AddressLength is the integer constant for ub-x121-address-length.
+	// UbX121AddressLength is the integer constant for UbX121AddressLength.
 	UbX121AddressLength int64 = 16
 )
 
-// IdPkix returns the OID value for id-pkix.
+// IdPkix returns the OID value for IdPkix.
 func IdPkix() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7} }
 
-// IdPe returns the OID value for id-pe.
+// IdPe returns the OID value for IdPe.
 func IdPe() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1} }
 
-// IdQt returns the OID value for id-qt.
+// IdQt returns the OID value for IdQt.
 func IdQt() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 2} }
 
-// IdKp returns the OID value for id-kp.
+// IdKp returns the OID value for IdKp.
 func IdKp() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 3} }
 
-// IdAd returns the OID value for id-ad.
+// IdAd returns the OID value for IdAd.
 func IdAd() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 48} }
 
-// IdQtCps returns the OID value for id-qt-cps.
+// IdQtCps returns the OID value for IdQtCps.
 func IdQtCps() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 2, 1} }
 
-// IdQtUnotice returns the OID value for id-qt-unotice.
+// IdQtUnotice returns the OID value for IdQtUnotice.
 func IdQtUnotice() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 2, 2}
 }
 
-// IdAdOcsp returns the OID value for id-ad-ocsp.
+// IdAdOcsp returns the OID value for IdAdOcsp.
 func IdAdOcsp() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 48, 1} }
 
-// IdAdCaIssuers returns the OID value for id-ad-caIssuers.
+// IdAdCaIssuers returns the OID value for IdAdCaIssuers.
 func IdAdCaIssuers() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 48, 2}
 }
 
-// IdAdTimeStamping returns the OID value for id-ad-timeStamping.
+// IdAdTimeStamping returns the OID value for IdAdTimeStamping.
 func IdAdTimeStamping() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 48, 3}
 }
 
-// IdAdCaRepository returns the OID value for id-ad-caRepository.
+// IdAdCaRepository returns the OID value for IdAdCaRepository.
 func IdAdCaRepository() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 48, 5}
 }
 
-// IdAt returns the OID value for id-at.
+// IdAt returns the OID value for IdAt.
 func IdAt() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4} }
 
-// IdAtName returns the OID value for id-at-name.
+// IdAtName returns the OID value for IdAtName.
 func IdAtName() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 41} }
 
-// IdAtSurname returns the OID value for id-at-surname.
+// IdAtSurname returns the OID value for IdAtSurname.
 func IdAtSurname() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 4} }
 
-// IdAtGivenName returns the OID value for id-at-givenName.
+// IdAtGivenName returns the OID value for IdAtGivenName.
 func IdAtGivenName() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 42} }
 
-// IdAtInitials returns the OID value for id-at-initials.
+// IdAtInitials returns the OID value for IdAtInitials.
 func IdAtInitials() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 43} }
 
-// IdAtGenerationQualifier returns the OID value for id-at-generationQualifier.
+// IdAtGenerationQualifier returns the OID value for IdAtGenerationQualifier.
 func IdAtGenerationQualifier() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 44} }
 
-// IdAtCommonName returns the OID value for id-at-commonName.
+// IdAtCommonName returns the OID value for IdAtCommonName.
 func IdAtCommonName() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 3} }
 
-// IdAtLocalityName returns the OID value for id-at-localityName.
+// IdAtLocalityName returns the OID value for IdAtLocalityName.
 func IdAtLocalityName() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 7} }
 
-// IdAtStateOrProvinceName returns the OID value for id-at-stateOrProvinceName.
+// IdAtStateOrProvinceName returns the OID value for IdAtStateOrProvinceName.
 func IdAtStateOrProvinceName() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 8} }
 
-// IdAtOrganizationName returns the OID value for id-at-organizationName.
+// IdAtOrganizationName returns the OID value for IdAtOrganizationName.
 func IdAtOrganizationName() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 10} }
 
-// IdAtOrganizationalUnitName returns the OID value for id-at-organizationalUnitName.
+// IdAtOrganizationalUnitName returns the OID value for IdAtOrganizationalUnitName.
 func IdAtOrganizationalUnitName() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 5, 4, 11}
 }
 
-// IdAtTitle returns the OID value for id-at-title.
+// IdAtTitle returns the OID value for IdAtTitle.
 func IdAtTitle() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 12} }
 
-// IdAtDnQualifier returns the OID value for id-at-dnQualifier.
+// IdAtDnQualifier returns the OID value for IdAtDnQualifier.
 func IdAtDnQualifier() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 46} }
 
-// IdAtCountryName returns the OID value for id-at-countryName.
+// IdAtCountryName returns the OID value for IdAtCountryName.
 func IdAtCountryName() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 6} }
 
-// IdAtSerialNumber returns the OID value for id-at-serialNumber.
+// IdAtSerialNumber returns the OID value for IdAtSerialNumber.
 func IdAtSerialNumber() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 5} }
 
-// IdAtPseudonym returns the OID value for id-at-pseudonym.
+// IdAtPseudonym returns the OID value for IdAtPseudonym.
 func IdAtPseudonym() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 65} }
 
-// IdDomainComponent returns the OID value for id-domainComponent.
+// IdDomainComponent returns the OID value for IdDomainComponent.
 func IdDomainComponent() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{0, 9, 2342, 19200300, 100, 1, 25}
 }
 
-// Pkcs9 returns the OID value for pkcs-9.
+// Pkcs9 returns the OID value for Pkcs9.
 func Pkcs9() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{1, 2, 840, 113549, 1, 9} }
 
-// IdEmailAddress returns the OID value for id-emailAddress.
+// IdEmailAddress returns the OID value for IdEmailAddress.
 func IdEmailAddress() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 2, 840, 113549, 1, 9, 1}
 }
@@ -316,13 +316,14 @@ type Attribute struct {
 // AttributeType represents the ASN.1 type AttributeType (OBJECT_IDENTIFIER).
 type AttributeType = runtime.ObjectIdentifier
 
+// asn1c:raw-preserve
 // AttributeValue represents the ASN.1 type AttributeValue (ANY).
 type AttributeValue = runtime.RawValue
 
 // AttributeTypeAndValue represents the ASN.1 type AttributeTypeAndValue (SEQUENCE).
 type AttributeTypeAndValue struct {
 	Type  AttributeType    `asn1:""`
-	Value runtime.RawValue `asn1:""`
+	Value runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
 }
 
 // X520name choice constants.
@@ -921,26 +922,115 @@ type TBSCertificate struct {
 	ExtensionsIndef_     bool                    `asn1:"-" json:"-"`
 }
 
-// Version represents the ASN.1 INTEGER type Version with named numbers.
-type Version int64
+// Version represents the arbitrary-width ASN.1 INTEGER type Version with named numbers.
+type Version struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	VersionV1 Version = 0
-	VersionV2 Version = 1
-	VersionV3 Version = 2
+	VersionV1Decimal = "0"
+	VersionV1        = 0
+	VersionV2Decimal = "1"
+	VersionV2        = 1
+	VersionV3Decimal = "2"
+	VersionV3        = 2
 )
 
-func (v Version) String() string {
-	switch v {
-	case VersionV1:
-		return "v1"
-	case VersionV2:
-		return "v2"
-	case VersionV3:
-		return "v3"
-	default:
-		return "unknown"
+// NewVersion returns an immutable Version containing value.
+func NewVersion(value *big.Int) Version {
+	return Version{value: runtime.CloneBigInt(value)}
+}
+
+// NewVersionInt64 returns a Version containing value.
+func NewVersionInt64(value int64) Version {
+	return NewVersion(big.NewInt(value))
+}
+
+// VersionV1Value returns the named value v1.
+func VersionV1Value() Version {
+	return NewVersion(runtime.MustParseBigIntDecimal(VersionV1Decimal))
+}
+
+// VersionV2Value returns the named value v2.
+func VersionV2Value() Version {
+	return NewVersion(runtime.MustParseBigIntDecimal(VersionV2Decimal))
+}
+
+// VersionV3Value returns the named value v3.
+func VersionV3Value() Version {
+	return NewVersion(runtime.MustParseBigIntDecimal(VersionV3Decimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v Version) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v Version) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
 	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v Version) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case VersionV1Decimal:
+		return "v1", true
+	case VersionV2Decimal:
+		return "v2", true
+	case VersionV3Decimal:
+		return "v3", true
+	default:
+		return "", false
+	}
+}
+
+func (v Version) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v Version) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *Version) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal Version into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewVersion(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v Version) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *Version) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal Version into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewVersion(value)
+	return nil
 }
 
 // CertificateSerialNumber represents the ASN.1 type CertificateSerialNumber (INTEGER).
@@ -1024,7 +1114,7 @@ type TBSCertList struct {
 // AlgorithmIdentifier represents the ASN.1 type AlgorithmIdentifier (SEQUENCE).
 type AlgorithmIdentifier struct {
 	Algorithm  runtime.ObjectIdentifier `asn1:""`
-	Parameters *runtime.RawValue        `asn1:",optional" json:"Parameters,omitempty"`
+	Parameters *runtime.RawValue        `asn1:",optional" json:"Parameters,omitempty" asn1c:"raw-preserve"`
 }
 
 // ORAddress represents the ASN.1 type ORAddress (SEQUENCE).
@@ -1181,7 +1271,7 @@ type ExtensionAttributes = []ExtensionAttribute
 // ExtensionAttribute represents the ASN.1 type ExtensionAttribute (SEQUENCE).
 type ExtensionAttribute struct {
 	ExtensionAttributeType  int64            `asn1:"tag:0,context,implicit"`
-	ExtensionAttributeValue runtime.RawValue `asn1:"tag:1,context,explicit"`
+	ExtensionAttributeValue runtime.RawValue `asn1:"tag:1,context,explicit" asn1c:"raw-preserve"`
 }
 
 // CommonName represents the ASN.1 type CommonName (PrintableString).
@@ -1392,10 +1482,11 @@ type TeletexDomainDefinedAttribute struct {
 	Value string `asn1:""`
 }
 
-// AttributeValues represents the ASN.1 type Attribute-values (SET_OF).
+// asn1c:raw-preserve
+// AttributeValues represents the ASN.1 type AttributeValues (SET_OF).
 type AttributeValues = []AttributeValue
 
-// TBSCertListRevokedCertificatesElem represents the ASN.1 type TBSCertList-revokedCertificates-Elem (SEQUENCE).
+// TBSCertListRevokedCertificatesElem represents the ASN.1 type TBSCertListRevokedCertificatesElem (SEQUENCE).
 type TBSCertListRevokedCertificatesElem struct {
 	UserCertificate          CertificateSerialNumber `asn1:""`
 	RevocationDate           Time                    `asn1:""`
@@ -1403,19 +1494,19 @@ type TBSCertListRevokedCertificatesElem struct {
 	CrlEntryExtensionsIndef_ bool                    `asn1:"-" json:"-"`
 }
 
-// TBSCertListRevokedCertificates represents the ASN.1 type TBSCertList-revokedCertificates (SEQUENCE_OF).
+// TBSCertListRevokedCertificates represents the ASN.1 type TBSCertListRevokedCertificates (SEQUENCE_OF).
 type TBSCertListRevokedCertificates = []TBSCertListRevokedCertificatesElem
 
-// UnformattedPostalAddressPrintableAddress represents the ASN.1 type UnformattedPostalAddress-printable-address (SEQUENCE_OF).
+// UnformattedPostalAddressPrintableAddress represents the ASN.1 type UnformattedPostalAddressPrintableAddress (SEQUENCE_OF).
 type UnformattedPostalAddressPrintableAddress = []string
 
-// ExtendedNetworkAddressE1634Address represents the ASN.1 type ExtendedNetworkAddress-e163-4-address (SEQUENCE).
+// ExtendedNetworkAddressE1634Address represents the ASN.1 type ExtendedNetworkAddressE1634Address (SEQUENCE).
 type ExtendedNetworkAddressE1634Address struct {
 	Number     string  `asn1:"tag:0,context,implicit"`
 	SubAddress *string `asn1:"tag:1,context,implicit,optional" json:"SubAddress,omitempty"`
 }
 
-// PresentationAddressNAddresses represents the ASN.1 type PresentationAddress-nAddresses (SET_OF).
+// PresentationAddressNAddresses represents the ASN.1 type PresentationAddressNAddresses (SET_OF).
 type PresentationAddressNAddresses = [][]byte
 
 // MarshalBER encodes Attribute to BER format.
@@ -2683,7 +2774,7 @@ func (v *Certificate) UnmarshalBER(data []byte) error {
 func (v *TBSCertificate) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.Version != nil {
-		enc_version := ber.EncodeInteger(int64(*v.Version))
+		enc_version := ber.EncodeBigInt((*v.Version).BigInt())
 		enc_version = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 0, enc_version)
 		children = append(children, enc_version...)
 	}
@@ -2767,12 +2858,15 @@ func (v *TBSCertificate) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding version: %w", err)
 				}
 				// Decode inner value from explicit tag wrapper
-				val_version, _, err := ber.DecodeInteger(innerData_version)
+				val_version, _, err := ber.DecodeBigInt(innerData_version)
 				if err != nil {
 					return fmt.Errorf("decoding version: %w", err)
 				}
-				tmp_version := Version(val_version)
-				v.Version = &tmp_version
+				var named_version Version
+				if namedErr := named_version.UnmarshalText([]byte(val_version.String())); namedErr != nil {
+					return fmt.Errorf("decoding version: %w", namedErr)
+				}
+				v.Version = &named_version
 				offset += n_version
 			}
 		}
@@ -3297,7 +3391,7 @@ func (v *CertificateList) UnmarshalBER(data []byte) error {
 func (v *TBSCertList) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.Version != nil {
-		enc_version := ber.EncodeInteger(int64(*v.Version))
+		enc_version := ber.EncodeBigInt((*v.Version).BigInt())
 		children = append(children, enc_version...)
 	}
 	enc_signature, err := v.Signature.MarshalBER()
@@ -3365,12 +3459,15 @@ func (v *TBSCertList) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 {
-				val_version, n, err := ber.DecodeInteger(content[offset:])
+				val_version, n, err := ber.DecodeBigInt(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding version: %w", err)
 				}
-				tmp_version := Version(val_version)
-				v.Version = &tmp_version
+				var named_version Version
+				if namedErr := named_version.UnmarshalText([]byte(val_version.String())); namedErr != nil {
+					return fmt.Errorf("decoding version: %w", namedErr)
+				}
+				v.Version = &named_version
 				offset += n
 			}
 		}

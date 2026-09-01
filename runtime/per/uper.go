@@ -32,7 +32,7 @@ func DecodeBoolean(bb *BitBuffer) (bool, error) {
 }
 
 // EncodeConstrainedWholeNumber encodes v in [lb..ub] using minimal bits.
-// X.691 Section 12.2.2.
+// ITU-T X.691 (02/2021), clause 11.5.
 func EncodeConstrainedWholeNumber(bb *BitBuffer, v, lb, ub int64) error {
 	rangeVal := ub - lb
 	if rangeVal < 0 {
@@ -133,7 +133,7 @@ func decodeExtensionBitmapBits(bb *BitBuffer, count int64) (int64, []bool, error
 }
 
 // EncodeSemiConstrainedWholeNumber encodes v with known lower bound but no upper bound.
-// X.691 Section 12.2.3.
+// ITU-T X.691 (02/2021), clause 11.7.
 func EncodeSemiConstrainedWholeNumber(bb *BitBuffer, v, lb int64) error {
 	offset := v - lb
 	if offset < 0 {
@@ -152,7 +152,7 @@ func DecodeSemiConstrainedWholeNumber(bb *BitBuffer, lb int64) (int64, error) {
 }
 
 // EncodeUnconstrainedWholeNumber encodes a signed integer with no bounds.
-// X.691 Section 12.2.4.
+// ITU-T X.691 (02/2021), clause 11.8.
 func EncodeUnconstrainedWholeNumber(bb *BitBuffer, v int64) error {
 	// Encode as 2's complement with length determinant.
 	var buf []byte
@@ -334,6 +334,23 @@ func DecodeEnumerated(bb *BitBuffer, rootCount int, extensible bool) (int64, err
 // If constrained and ub <= 65536: constrained length + bits.
 // Otherwise: unconstrained length + bits.
 func EncodeBitString(bb *BitBuffer, data []byte, bitLen int, lb, ub int64, constrained bool) error {
+	return EncodeBitStringExt(bb, data, bitLen, lb, ub, constrained, false)
+}
+
+// EncodeBitStringExt encodes a BIT STRING with optional SIZE extensibility.
+func EncodeBitStringExt(bb *BitBuffer, data []byte, bitLen int, lb, ub int64, constrained, extensible bool) error {
+	if extensible && constrained {
+		inRoot := int64(bitLen) >= lb && int64(bitLen) <= ub
+		if err := EncodeBoolean(bb, !inRoot); err != nil {
+			return err
+		}
+		if !inRoot {
+			if err := EncodeUnconstrainedLength(bb, int64(bitLen)); err != nil {
+				return err
+			}
+			return bb.WriteBitsFromBytes(data, bitLen)
+		}
+	}
 	if constrained && lb == ub {
 		// Fixed size — write exactly lb bits.
 		if int64(bitLen) != lb {
@@ -356,6 +373,25 @@ func EncodeBitString(bb *BitBuffer, data []byte, bitLen int, lb, ub int64, const
 
 // DecodeBitString decodes a bit string. Returns (bytes, bitLength, error).
 func DecodeBitString(bb *BitBuffer, lb, ub int64, constrained bool) ([]byte, int, error) {
+	return DecodeBitStringExt(bb, lb, ub, constrained, false)
+}
+
+// DecodeBitStringExt decodes a BIT STRING with optional SIZE extensibility.
+func DecodeBitStringExt(bb *BitBuffer, lb, ub int64, constrained, extensible bool) ([]byte, int, error) {
+	if extensible && constrained {
+		isExtension, err := DecodeBoolean(bb)
+		if err != nil {
+			return nil, 0, err
+		}
+		if isExtension {
+			bitLen, err := DecodeUnconstrainedLength(bb)
+			if err != nil {
+				return nil, 0, err
+			}
+			data, err := bb.ReadBitsToBytes(int(bitLen))
+			return data, int(bitLen), err
+		}
+	}
 	if constrained && lb == ub {
 		data, err := bb.ReadBitsToBytes(int(lb))
 		return data, int(lb), err
@@ -379,7 +415,25 @@ func DecodeBitString(bb *BitBuffer, lb, ub int64, constrained bool) ([]byte, int
 // If constrained and ub <= 65536: constrained length + octets.
 // Otherwise: unconstrained length + octets.
 func EncodeOctetString(bb *BitBuffer, data []byte, lb, ub int64, constrained bool) error {
+	return EncodeOctetStringExt(bb, data, lb, ub, constrained, false)
+}
+
+// EncodeOctetStringExt implements the SIZE extension bit required by
+// ITU-T X.691 (02/2021) Section 17.3.
+func EncodeOctetStringExt(bb *BitBuffer, data []byte, lb, ub int64, constrained, extensible bool) error {
 	length := int64(len(data))
+	if extensible && constrained {
+		inRoot := length >= lb && length <= ub
+		if err := EncodeBoolean(bb, !inRoot); err != nil {
+			return err
+		}
+		if !inRoot {
+			if err := EncodeUnconstrainedLength(bb, length); err != nil {
+				return err
+			}
+			return bb.WriteBytes(data)
+		}
+	}
 	if constrained && lb == ub {
 		// Fixed size — write exactly lb octets.
 		if int64(len(data)) != lb {
@@ -402,6 +456,25 @@ func EncodeOctetString(bb *BitBuffer, data []byte, lb, ub int64, constrained boo
 
 // DecodeOctetString decodes an octet string.
 func DecodeOctetString(bb *BitBuffer, lb, ub int64, constrained bool) ([]byte, error) {
+	return DecodeOctetStringExt(bb, lb, ub, constrained, false)
+}
+
+// DecodeOctetStringExt implements the SIZE extension bit required by
+// ITU-T X.691 (02/2021) Section 17.3.
+func DecodeOctetStringExt(bb *BitBuffer, lb, ub int64, constrained, extensible bool) ([]byte, error) {
+	if extensible && constrained {
+		isExtension, err := DecodeBoolean(bb)
+		if err != nil {
+			return nil, err
+		}
+		if isExtension {
+			length, err := DecodeUnconstrainedLength(bb)
+			if err != nil {
+				return nil, err
+			}
+			return bb.ReadBytes(int(length))
+		}
+	}
 	if constrained && lb == ub {
 		return bb.ReadBytes(int(lb))
 	}
@@ -431,7 +504,22 @@ func DecodeNull(_ *BitBuffer) error {
 // EncodeKnownMultiplierString encodes a string with known character set.
 // bitsPerChar is the bits per character (e.g., 7 for IA5String/VisibleString, 4 for NumericString).
 func EncodeKnownMultiplierString(bb *BitBuffer, s string, bitsPerChar int, lb, ub int64, constrained bool) error {
+	return EncodeKnownMultiplierStringExt(bb, s, bitsPerChar, lb, ub, constrained, false)
+}
+
+// EncodeKnownMultiplierStringExt implements the size extension bit required
+// by ITU-T X.691 (02/2021) Section 30.4.
+func EncodeKnownMultiplierStringExt(bb *BitBuffer, s string, bitsPerChar int, lb, ub int64, constrained, extensible bool) error {
 	length := int64(len(s))
+	if extensible && constrained {
+		inRoot := length >= lb && length <= ub
+		if err := EncodeBoolean(bb, !inRoot); err != nil {
+			return err
+		}
+		if !inRoot {
+			return EncodeKnownMultiplierString(bb, s, bitsPerChar, 0, 0, false)
+		}
+	}
 	if constrained && lb == ub {
 		// Fixed size — write exactly lb characters.
 		if length != lb {
@@ -463,6 +551,21 @@ func EncodeKnownMultiplierString(bb *BitBuffer, s string, bitsPerChar int, lb, u
 
 // DecodeKnownMultiplierString decodes a string with known character set.
 func DecodeKnownMultiplierString(bb *BitBuffer, bitsPerChar int, lb, ub int64, constrained bool) (string, error) {
+	return DecodeKnownMultiplierStringExt(bb, bitsPerChar, lb, ub, constrained, false)
+}
+
+// DecodeKnownMultiplierStringExt implements the size extension bit required
+// by ITU-T X.691 (02/2021) Section 30.4.
+func DecodeKnownMultiplierStringExt(bb *BitBuffer, bitsPerChar int, lb, ub int64, constrained, extensible bool) (string, error) {
+	if extensible && constrained {
+		isExtension, err := DecodeBoolean(bb)
+		if err != nil {
+			return "", err
+		}
+		if isExtension {
+			return DecodeKnownMultiplierString(bb, bitsPerChar, 0, 0, false)
+		}
+	}
 	var length int64
 	var err error
 	if constrained && lb == ub {

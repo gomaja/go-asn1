@@ -9,7 +9,6 @@ import (
 	"github.com/gomaja/go-asn1/runtime"
 	"github.com/gomaja/go-asn1/runtime/ber"
 	"github.com/gomaja/go-asn1/runtime/tag"
-	"github.com/gomaja/go-asn1/telecom/esim/sgp22"
 )
 
 // Ensure imports are used.
@@ -23,15 +22,21 @@ var (
 type EuiccPackageRequest struct {
 	EuiccPackageSigned EuiccPackageSigned `asn1:""`
 	EimSignature       []byte             `asn1:"tag:55,application,implicit"`
+	ExtCount_          int64              `asn1:"-" json:"-"`
+	ExtPresent_        []bool             `asn1:"-" json:"-"`
+	ExtData_           [][]byte           `asn1:"-" json:"-"`
 }
 
 // EuiccPackageSigned represents the ASN.1 type EuiccPackageSigned (SEQUENCE).
 type EuiccPackageSigned struct {
-	EimId            string               `asn1:"tag:0,context,implicit"`
-	EidValue         sgp22.Octet16        `asn1:"tag:26,application,implicit"`
-	CounterValue     *big.Int             `asn1:"tag:1,context,implicit"`
-	EimTransactionId *sgp22.TransactionId `asn1:"tag:2,context,implicit,optional" json:"EimTransactionId,omitempty"`
-	EuiccPackage     EuiccPackage         `asn1:""`
+	EimId            string         `asn1:"tag:0,context,implicit"`
+	EidValue         Octet16        `asn1:"tag:26,application,implicit"`
+	CounterValue     *big.Int       `asn1:"tag:1,context,implicit"`
+	EimTransactionId *TransactionId `asn1:"tag:2,context,implicit,optional" json:"EimTransactionId,omitempty"`
+	EuiccPackage     EuiccPackage   `asn1:""`
+	ExtCount_        int64          `asn1:"-" json:"-"`
+	ExtPresent_      []bool         `asn1:"-" json:"-"`
+	ExtData_         [][]byte       `asn1:"-" json:"-"`
 }
 
 // EuiccPackage choice constants.
@@ -73,32 +78,124 @@ type EimConfigurationData struct {
 	EimPublicKeyData                          *EimConfigurationDataEimPublicKeyData        `asn1:"tag:5,context,explicit,optional" json:"EimPublicKeyData,omitempty"`
 	TrustedPublicKeyDataTls                   *EimConfigurationDataTrustedPublicKeyDataTls `asn1:"tag:6,context,explicit,optional" json:"TrustedPublicKeyDataTls,omitempty"`
 	EimSupportedProtocol                      *EimSupportedProtocol                        `asn1:"tag:7,context,implicit,optional" json:"EimSupportedProtocol,omitempty"`
-	EuiccCiPKId                               *sgp22.SubjectKeyIdentifier                  `asn1:"tag:8,context,implicit,optional" json:"EuiccCiPKId,omitempty"`
+	EuiccCiPKId                               *SubjectKeyIdentifier                        `asn1:"tag:8,context,implicit,optional" json:"EuiccCiPKId,omitempty"`
 	IndirectProfileDownload                   *struct{}                                    `asn1:"tag:9,context,implicit,optional" json:"IndirectProfileDownload,omitempty"`
-	ESipaProprietaryProtocolInformation       sgp22.VendorSpecificExtension                `asn1:"tag:10,context,implicit,optional" json:"ESipaProprietaryProtocolInformation,omitempty"`
+	ESipaProprietaryProtocolInformation       VendorSpecificExtension                      `asn1:"tag:10,context,implicit,optional" json:"ESipaProprietaryProtocolInformation,omitempty"`
 	ESipaProprietaryProtocolInformationIndef_ bool                                         `asn1:"-" json:"-"`
+	ExtCount_                                 int64                                        `asn1:"-" json:"-"`
+	ExtPresent_                               []bool                                       `asn1:"-" json:"-"`
+	ExtData_                                  [][]byte                                     `asn1:"-" json:"-"`
 }
 
-// EimIdType represents the ASN.1 INTEGER type EimIdType with named numbers.
-type EimIdType int64
+// EimIdType represents the arbitrary-width ASN.1 INTEGER type EimIdType with named numbers.
+type EimIdType struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	EimIdTypeEimIdTypeOid         EimIdType = 1
-	EimIdTypeEimIdTypeFqdn        EimIdType = 2
-	EimIdTypeEimIdTypeProprietary EimIdType = 3
+	EimIdTypeEimIdTypeOidDecimal         = "1"
+	EimIdTypeEimIdTypeOid                = 1
+	EimIdTypeEimIdTypeFqdnDecimal        = "2"
+	EimIdTypeEimIdTypeFqdn               = 2
+	EimIdTypeEimIdTypeProprietaryDecimal = "3"
+	EimIdTypeEimIdTypeProprietary        = 3
 )
 
-func (v EimIdType) String() string {
-	switch v {
-	case EimIdTypeEimIdTypeOid:
-		return "eimIdTypeOid"
-	case EimIdTypeEimIdTypeFqdn:
-		return "eimIdTypeFqdn"
-	case EimIdTypeEimIdTypeProprietary:
-		return "eimIdTypeProprietary"
-	default:
-		return "unknown"
+// NewEimIdType returns an immutable EimIdType containing value.
+func NewEimIdType(value *big.Int) EimIdType {
+	return EimIdType{value: runtime.CloneBigInt(value)}
+}
+
+// NewEimIdTypeInt64 returns a EimIdType containing value.
+func NewEimIdTypeInt64(value int64) EimIdType {
+	return NewEimIdType(big.NewInt(value))
+}
+
+// EimIdTypeEimIdTypeOidValue returns the named value eimIdTypeOid.
+func EimIdTypeEimIdTypeOidValue() EimIdType {
+	return NewEimIdType(runtime.MustParseBigIntDecimal(EimIdTypeEimIdTypeOidDecimal))
+}
+
+// EimIdTypeEimIdTypeFqdnValue returns the named value eimIdTypeFqdn.
+func EimIdTypeEimIdTypeFqdnValue() EimIdType {
+	return NewEimIdType(runtime.MustParseBigIntDecimal(EimIdTypeEimIdTypeFqdnDecimal))
+}
+
+// EimIdTypeEimIdTypeProprietaryValue returns the named value eimIdTypeProprietary.
+func EimIdTypeEimIdTypeProprietaryValue() EimIdType {
+	return NewEimIdType(runtime.MustParseBigIntDecimal(EimIdTypeEimIdTypeProprietaryDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v EimIdType) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v EimIdType) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
 	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v EimIdType) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case EimIdTypeEimIdTypeOidDecimal:
+		return "eimIdTypeOid", true
+	case EimIdTypeEimIdTypeFqdnDecimal:
+		return "eimIdTypeFqdn", true
+	case EimIdTypeEimIdTypeProprietaryDecimal:
+		return "eimIdTypeProprietary", true
+	default:
+		return "", false
+	}
+}
+
+func (v EimIdType) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v EimIdType) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *EimIdType) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal EimIdType into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewEimIdType(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v EimIdType) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *EimIdType) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal EimIdType into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewEimIdType(value)
+	return nil
 }
 
 // EimSupportedProtocol represents the ASN.1 type EimSupportedProtocol (BIT_STRING).
@@ -169,15 +266,15 @@ const (
 // Psmo represents the ASN.1 CHOICE type Psmo.
 type Psmo struct {
 	Choice                   int
-	Enable                   *PsmoEnable                   `json:"Enable,omitempty"`
-	Disable                  *PsmoDisable                  `json:"Disable,omitempty"`
-	Delete                   *PsmoDelete                   `json:"Delete,omitempty"`
-	ListProfileInfo          *sgp22.ProfileInfoListRequest `json:"ListProfileInfo,omitempty"`
-	GetRAT                   *PsmoGetRAT                   `json:"GetRAT,omitempty"`
-	ConfigureImmediateEnable *PsmoConfigureImmediateEnable `json:"ConfigureImmediateEnable,omitempty"`
-	SetFallbackAttribute     *PsmoSetFallbackAttribute     `json:"SetFallbackAttribute,omitempty"`
-	UnsetFallbackAttribute   *PsmoUnsetFallbackAttribute   `json:"UnsetFallbackAttribute,omitempty"`
-	SetDefaultDpAddress      *SetDefaultDpAddressRequest   `json:"SetDefaultDpAddress,omitempty"`
+	Enable                   *PsmoEnable                    `json:"Enable,omitempty"`
+	Disable                  *PsmoDisable                   `json:"Disable,omitempty"`
+	Delete                   *PsmoDelete                    `json:"Delete,omitempty"`
+	ListProfileInfo          *ProfileInfoListRequest        `json:"ListProfileInfo,omitempty"`
+	GetRAT                   *PsmoGetRAT                    `json:"GetRAT,omitempty"`
+	ConfigureImmediateEnable *PsmoConfigureImmediateEnable  `json:"ConfigureImmediateEnable,omitempty"`
+	SetFallbackAttribute     *PsmoSetFallbackAttribute      `json:"SetFallbackAttribute,omitempty"`
+	UnsetFallbackAttribute   *PsmoUnsetFallbackAttribute    `json:"UnsetFallbackAttribute,omitempty"`
+	SetDefaultDpAddress      *SGPSetDefaultDpAddressRequest `json:"SetDefaultDpAddress,omitempty"`
 }
 
 // NewPsmoEnable creates a Psmo with the enable alternative.
@@ -205,7 +302,7 @@ func NewPsmoDelete(v PsmoDelete) Psmo {
 }
 
 // NewPsmoListProfileInfo creates a Psmo with the listProfileInfo alternative.
-func NewPsmoListProfileInfo(v sgp22.ProfileInfoListRequest) Psmo {
+func NewPsmoListProfileInfo(v ProfileInfoListRequest) Psmo {
 	return Psmo{
 		Choice:          PsmoChoiceListProfileInfo,
 		ListProfileInfo: &v,
@@ -245,7 +342,7 @@ func NewPsmoUnsetFallbackAttribute(v PsmoUnsetFallbackAttribute) Psmo {
 }
 
 // NewPsmoSetDefaultDpAddress creates a Psmo with the setDefaultDpAddress alternative.
-func NewPsmoSetDefaultDpAddress(v SetDefaultDpAddressRequest) Psmo {
+func NewPsmoSetDefaultDpAddress(v SGPSetDefaultDpAddressRequest) Psmo {
 	return Psmo{
 		Choice:              PsmoChoiceSetDefaultDpAddress,
 		SetDefaultDpAddress: &v,
@@ -258,13 +355,19 @@ type IpaEuiccDataRequest struct {
 	EuiccCiPKIdentifierToBeUsed      []byte                                               `asn1:",optional" json:"EuiccCiPKIdentifierToBeUsed,omitempty"`
 	SearchCriteriaNotification       *IpaEuiccDataRequestSearchCriteriaNotification       `asn1:"tag:1,context,explicit,optional" json:"SearchCriteriaNotification,omitempty"`
 	SearchCriteriaEuiccPackageResult *IpaEuiccDataRequestSearchCriteriaEuiccPackageResult `asn1:"tag:2,context,explicit,optional" json:"SearchCriteriaEuiccPackageResult,omitempty"`
-	EimTransactionId                 *sgp22.TransactionId                                 `asn1:"tag:3,context,implicit,optional" json:"EimTransactionId,omitempty"`
+	EimTransactionId                 *TransactionId                                       `asn1:"tag:3,context,implicit,optional" json:"EimTransactionId,omitempty"`
+	ExtCount_                        int64                                                `asn1:"-" json:"-"`
+	ExtPresent_                      []bool                                               `asn1:"-" json:"-"`
+	ExtData_                         [][]byte                                             `asn1:"-" json:"-"`
 }
 
 // ProfileDownloadTriggerRequest represents the ASN.1 type ProfileDownloadTriggerRequest (SEQUENCE).
 type ProfileDownloadTriggerRequest struct {
 	ProfileDownloadData *ProfileDownloadData `asn1:"tag:0,context,explicit,optional" json:"ProfileDownloadData,omitempty"`
-	EimTransactionId    *sgp22.TransactionId `asn1:"tag:2,context,implicit,optional" json:"EimTransactionId,omitempty"`
+	EimTransactionId    *TransactionId       `asn1:"tag:2,context,implicit,optional" json:"EimTransactionId,omitempty"`
+	ExtCount_           int64                `asn1:"-" json:"-"`
+	ExtPresent_         []bool               `asn1:"-" json:"-"`
+	ExtData_            [][]byte             `asn1:"-" json:"-"`
 }
 
 // ProfileDownloadData choice constants.
@@ -355,16 +458,22 @@ func NewEuiccPackageResultEuiccPackageErrorUnsigned(v EuiccPackageErrorUnsigned)
 type EuiccPackageResultSigned struct {
 	EuiccPackageResultDataSigned EuiccPackageResultDataSigned `asn1:""`
 	EuiccSignEPR                 []byte                       `asn1:"tag:55,application,implicit"`
+	ExtCount_                    int64                        `asn1:"-" json:"-"`
+	ExtPresent_                  []bool                       `asn1:"-" json:"-"`
+	ExtData_                     [][]byte                     `asn1:"-" json:"-"`
 }
 
 // EuiccPackageResultDataSigned represents the ASN.1 type EuiccPackageResultDataSigned (SEQUENCE).
 type EuiccPackageResultDataSigned struct {
 	EimId             string                                  `asn1:"tag:0,context,implicit"`
 	CounterValue      *big.Int                                `asn1:"tag:1,context,implicit"`
-	EimTransactionId  *sgp22.TransactionId                    `asn1:"tag:2,context,implicit,optional" json:"EimTransactionId,omitempty"`
+	EimTransactionId  *TransactionId                          `asn1:"tag:2,context,implicit,optional" json:"EimTransactionId,omitempty"`
 	SeqNumber         *big.Int                                `asn1:"tag:3,context,implicit"`
 	EuiccResult       EuiccPackageResultDataSignedEuiccResult `asn1:""`
 	EuiccResultIndef_ bool                                    `asn1:"-" json:"-"`
+	ExtCount_         int64                                   `asn1:"-" json:"-"`
+	ExtPresent_       []bool                                  `asn1:"-" json:"-"`
+	ExtData_          [][]byte                                `asn1:"-" json:"-"`
 }
 
 // EuiccResultData choice constants.
@@ -389,21 +498,21 @@ const (
 // EuiccResultData represents the ASN.1 CHOICE type EuiccResultData.
 type EuiccResultData struct {
 	Choice                         int
-	EnableResult                   *EnableProfileResult            `json:"EnableResult,omitempty"`
-	DisableResult                  *DisableProfileResult           `json:"DisableResult,omitempty"`
-	DeleteResult                   *DeleteProfileResult            `json:"DeleteResult,omitempty"`
-	ListProfileInfoResult          *ProfileInfoListResponse        `json:"ListProfileInfoResult,omitempty"`
-	GetRATResult                   sgp22.RulesAuthorisationTable   `json:"GetRATResult,omitempty"`
-	ConfigureImmediateEnableResult *ConfigureImmediateEnableResult `json:"ConfigureImmediateEnableResult,omitempty"`
-	AddEimResult                   *AddEimResult                   `json:"AddEimResult,omitempty"`
-	DeleteEimResult                *DeleteEimResult                `json:"DeleteEimResult,omitempty"`
-	UpdateEimResult                *UpdateEimResult                `json:"UpdateEimResult,omitempty"`
-	ListEimResult                  *ListEimResult                  `json:"ListEimResult,omitempty"`
-	RollbackResult                 *RollbackProfileResult          `json:"RollbackResult,omitempty"`
-	SetFallbackAttributeResult     *SetFallbackAttributeResult     `json:"SetFallbackAttributeResult,omitempty"`
-	UnsetFallbackAttributeResult   *UnsetFallbackAttributeResult   `json:"UnsetFallbackAttributeResult,omitempty"`
-	ProcessingTerminated           *int64                          `json:"ProcessingTerminated,omitempty"`
-	SetDefaultDpAddressResult      *SetDefaultDpAddressResponse    `json:"SetDefaultDpAddressResult,omitempty"`
+	EnableResult                   *EnableProfileResult                      `json:"EnableResult,omitempty"`
+	DisableResult                  *DisableProfileResult                     `json:"DisableResult,omitempty"`
+	DeleteResult                   *DeleteProfileResult                      `json:"DeleteResult,omitempty"`
+	ListProfileInfoResult          *SGPProfileInfoListResponse               `json:"ListProfileInfoResult,omitempty"`
+	GetRATResult                   RulesAuthorisationTable                   `json:"GetRATResult,omitempty"`
+	ConfigureImmediateEnableResult *ConfigureImmediateEnableResult           `json:"ConfigureImmediateEnableResult,omitempty"`
+	AddEimResult                   *AddEimResult                             `json:"AddEimResult,omitempty"`
+	DeleteEimResult                *DeleteEimResult                          `json:"DeleteEimResult,omitempty"`
+	UpdateEimResult                *UpdateEimResult                          `json:"UpdateEimResult,omitempty"`
+	ListEimResult                  *ListEimResult                            `json:"ListEimResult,omitempty"`
+	RollbackResult                 *RollbackProfileResult                    `json:"RollbackResult,omitempty"`
+	SetFallbackAttributeResult     *SetFallbackAttributeResult               `json:"SetFallbackAttributeResult,omitempty"`
+	UnsetFallbackAttributeResult   *UnsetFallbackAttributeResult             `json:"UnsetFallbackAttributeResult,omitempty"`
+	ProcessingTerminated           *EuiccResultDataProcessingTerminatedValue `json:"ProcessingTerminated,omitempty"`
+	SetDefaultDpAddressResult      *SGPSetDefaultDpAddressResponse           `json:"SetDefaultDpAddressResult,omitempty"`
 }
 
 // NewEuiccResultDataEnableResult creates a EuiccResultData with the enableResult alternative.
@@ -431,7 +540,7 @@ func NewEuiccResultDataDeleteResult(v DeleteProfileResult) EuiccResultData {
 }
 
 // NewEuiccResultDataListProfileInfoResult creates a EuiccResultData with the listProfileInfoResult alternative.
-func NewEuiccResultDataListProfileInfoResult(v ProfileInfoListResponse) EuiccResultData {
+func NewEuiccResultDataListProfileInfoResult(v SGPProfileInfoListResponse) EuiccResultData {
 	return EuiccResultData{
 		Choice:                EuiccResultDataChoiceListProfileInfoResult,
 		ListProfileInfoResult: &v,
@@ -439,7 +548,7 @@ func NewEuiccResultDataListProfileInfoResult(v ProfileInfoListResponse) EuiccRes
 }
 
 // NewEuiccResultDataGetRATResult creates a EuiccResultData with the getRATResult alternative.
-func NewEuiccResultDataGetRATResult(v sgp22.RulesAuthorisationTable) EuiccResultData {
+func NewEuiccResultDataGetRATResult(v RulesAuthorisationTable) EuiccResultData {
 	return EuiccResultData{
 		Choice:       EuiccResultDataChoiceGetRATResult,
 		GetRATResult: v,
@@ -511,7 +620,7 @@ func NewEuiccResultDataUnsetFallbackAttributeResult(v UnsetFallbackAttributeResu
 }
 
 // NewEuiccResultDataProcessingTerminated creates a EuiccResultData with the processingTerminated alternative.
-func NewEuiccResultDataProcessingTerminated(v int64) EuiccResultData {
+func NewEuiccResultDataProcessingTerminated(v EuiccResultDataProcessingTerminatedValue) EuiccResultData {
 	return EuiccResultData{
 		Choice:               EuiccResultDataChoiceProcessingTerminated,
 		ProcessingTerminated: &v,
@@ -519,7 +628,7 @@ func NewEuiccResultDataProcessingTerminated(v int64) EuiccResultData {
 }
 
 // NewEuiccResultDataSetDefaultDpAddressResult creates a EuiccResultData with the setDefaultDpAddressResult alternative.
-func NewEuiccResultDataSetDefaultDpAddressResult(v SetDefaultDpAddressResponse) EuiccResultData {
+func NewEuiccResultDataSetDefaultDpAddressResult(v SGPSetDefaultDpAddressResponse) EuiccResultData {
 	return EuiccResultData{
 		Choice:                    EuiccResultDataChoiceSetDefaultDpAddressResult,
 		SetDefaultDpAddressResult: &v,
@@ -530,322 +639,1323 @@ func NewEuiccResultDataSetDefaultDpAddressResult(v SetDefaultDpAddressResponse) 
 type EuiccPackageErrorSigned struct {
 	EuiccPackageErrorDataSigned EuiccPackageErrorDataSigned `asn1:""`
 	EuiccSignEPE                []byte                      `asn1:"tag:55,application,implicit"`
+	ExtCount_                   int64                       `asn1:"-" json:"-"`
+	ExtPresent_                 []bool                      `asn1:"-" json:"-"`
+	ExtData_                    [][]byte                    `asn1:"-" json:"-"`
 }
 
 // EuiccPackageErrorDataSigned represents the ASN.1 type EuiccPackageErrorDataSigned (SEQUENCE).
 type EuiccPackageErrorDataSigned struct {
 	EimId                 string                `asn1:"tag:0,context,implicit"`
 	CounterValue          *big.Int              `asn1:"tag:1,context,implicit"`
-	EimTransactionId      *sgp22.TransactionId  `asn1:"tag:2,context,implicit,optional" json:"EimTransactionId,omitempty"`
+	EimTransactionId      *TransactionId        `asn1:"tag:2,context,implicit,optional" json:"EimTransactionId,omitempty"`
 	EuiccPackageErrorCode EuiccPackageErrorCode `asn1:""`
+	ExtCount_             int64                 `asn1:"-" json:"-"`
+	ExtPresent_           []bool                `asn1:"-" json:"-"`
+	ExtData_              [][]byte              `asn1:"-" json:"-"`
 }
 
-// EuiccPackageErrorCode represents the ASN.1 INTEGER type EuiccPackageErrorCode with named numbers.
-type EuiccPackageErrorCode int64
+// EuiccPackageErrorCode represents the arbitrary-width ASN.1 INTEGER type EuiccPackageErrorCode with named numbers.
+type EuiccPackageErrorCode struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	EuiccPackageErrorCodeInvalidEid             EuiccPackageErrorCode = 3
-	EuiccPackageErrorCodeReplayError            EuiccPackageErrorCode = 4
-	EuiccPackageErrorCodeCounterValueOutOfRange EuiccPackageErrorCode = 6
-	EuiccPackageErrorCodeSizeOverflow           EuiccPackageErrorCode = 15
-	EuiccPackageErrorCodeEcallActive            EuiccPackageErrorCode = 104
-	EuiccPackageErrorCodeUndefinedError         EuiccPackageErrorCode = 127
+	EuiccPackageErrorCodeInvalidEidDecimal             = "3"
+	EuiccPackageErrorCodeInvalidEid                    = 3
+	EuiccPackageErrorCodeReplayErrorDecimal            = "4"
+	EuiccPackageErrorCodeReplayError                   = 4
+	EuiccPackageErrorCodeCounterValueOutOfRangeDecimal = "6"
+	EuiccPackageErrorCodeCounterValueOutOfRange        = 6
+	EuiccPackageErrorCodeSizeOverflowDecimal           = "15"
+	EuiccPackageErrorCodeSizeOverflow                  = 15
+	EuiccPackageErrorCodeEcallActiveDecimal            = "104"
+	EuiccPackageErrorCodeEcallActive                   = 104
+	EuiccPackageErrorCodeUndefinedErrorDecimal         = "127"
+	EuiccPackageErrorCodeUndefinedError                = 127
 )
+
+// NewEuiccPackageErrorCode returns an immutable EuiccPackageErrorCode containing value.
+func NewEuiccPackageErrorCode(value *big.Int) EuiccPackageErrorCode {
+	return EuiccPackageErrorCode{value: runtime.CloneBigInt(value)}
+}
+
+// NewEuiccPackageErrorCodeInt64 returns a EuiccPackageErrorCode containing value.
+func NewEuiccPackageErrorCodeInt64(value int64) EuiccPackageErrorCode {
+	return NewEuiccPackageErrorCode(big.NewInt(value))
+}
+
+// EuiccPackageErrorCodeInvalidEidValue returns the named value invalidEid.
+func EuiccPackageErrorCodeInvalidEidValue() EuiccPackageErrorCode {
+	return NewEuiccPackageErrorCode(runtime.MustParseBigIntDecimal(EuiccPackageErrorCodeInvalidEidDecimal))
+}
+
+// EuiccPackageErrorCodeReplayErrorValue returns the named value replayError.
+func EuiccPackageErrorCodeReplayErrorValue() EuiccPackageErrorCode {
+	return NewEuiccPackageErrorCode(runtime.MustParseBigIntDecimal(EuiccPackageErrorCodeReplayErrorDecimal))
+}
+
+// EuiccPackageErrorCodeCounterValueOutOfRangeValue returns the named value counterValueOutOfRange.
+func EuiccPackageErrorCodeCounterValueOutOfRangeValue() EuiccPackageErrorCode {
+	return NewEuiccPackageErrorCode(runtime.MustParseBigIntDecimal(EuiccPackageErrorCodeCounterValueOutOfRangeDecimal))
+}
+
+// EuiccPackageErrorCodeSizeOverflowValue returns the named value sizeOverflow.
+func EuiccPackageErrorCodeSizeOverflowValue() EuiccPackageErrorCode {
+	return NewEuiccPackageErrorCode(runtime.MustParseBigIntDecimal(EuiccPackageErrorCodeSizeOverflowDecimal))
+}
+
+// EuiccPackageErrorCodeEcallActiveValue returns the named value ecallActive.
+func EuiccPackageErrorCodeEcallActiveValue() EuiccPackageErrorCode {
+	return NewEuiccPackageErrorCode(runtime.MustParseBigIntDecimal(EuiccPackageErrorCodeEcallActiveDecimal))
+}
+
+// EuiccPackageErrorCodeUndefinedErrorValue returns the named value undefinedError.
+func EuiccPackageErrorCodeUndefinedErrorValue() EuiccPackageErrorCode {
+	return NewEuiccPackageErrorCode(runtime.MustParseBigIntDecimal(EuiccPackageErrorCodeUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v EuiccPackageErrorCode) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v EuiccPackageErrorCode) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v EuiccPackageErrorCode) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case EuiccPackageErrorCodeInvalidEidDecimal:
+		return "invalidEid", true
+	case EuiccPackageErrorCodeReplayErrorDecimal:
+		return "replayError", true
+	case EuiccPackageErrorCodeCounterValueOutOfRangeDecimal:
+		return "counterValueOutOfRange", true
+	case EuiccPackageErrorCodeSizeOverflowDecimal:
+		return "sizeOverflow", true
+	case EuiccPackageErrorCodeEcallActiveDecimal:
+		return "ecallActive", true
+	case EuiccPackageErrorCodeUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
 
 func (v EuiccPackageErrorCode) String() string {
-	switch v {
-	case EuiccPackageErrorCodeInvalidEid:
-		return "invalidEid"
-	case EuiccPackageErrorCodeReplayError:
-		return "replayError"
-	case EuiccPackageErrorCodeCounterValueOutOfRange:
-		return "counterValueOutOfRange"
-	case EuiccPackageErrorCodeSizeOverflow:
-		return "sizeOverflow"
-	case EuiccPackageErrorCodeEcallActive:
-		return "ecallActive"
-	case EuiccPackageErrorCodeUndefinedError:
-		return "undefinedError"
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v EuiccPackageErrorCode) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *EuiccPackageErrorCode) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal EuiccPackageErrorCode into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewEuiccPackageErrorCode(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v EuiccPackageErrorCode) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *EuiccPackageErrorCode) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal EuiccPackageErrorCode into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewEuiccPackageErrorCode(value)
+	return nil
+}
+
+// EuiccPackageUnsignedErrorCode represents the arbitrary-width ASN.1 INTEGER type EuiccPackageUnsignedErrorCode with named numbers.
+type EuiccPackageUnsignedErrorCode struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	EuiccPackageUnsignedErrorCodeSizeOverflowDecimal   = "15"
+	EuiccPackageUnsignedErrorCodeSizeOverflow          = 15
+	EuiccPackageUnsignedErrorCodeUndefinedErrorDecimal = "127"
+	EuiccPackageUnsignedErrorCodeUndefinedError        = 127
+)
+
+// NewEuiccPackageUnsignedErrorCode returns an immutable EuiccPackageUnsignedErrorCode containing value.
+func NewEuiccPackageUnsignedErrorCode(value *big.Int) EuiccPackageUnsignedErrorCode {
+	return EuiccPackageUnsignedErrorCode{value: runtime.CloneBigInt(value)}
+}
+
+// NewEuiccPackageUnsignedErrorCodeInt64 returns a EuiccPackageUnsignedErrorCode containing value.
+func NewEuiccPackageUnsignedErrorCodeInt64(value int64) EuiccPackageUnsignedErrorCode {
+	return NewEuiccPackageUnsignedErrorCode(big.NewInt(value))
+}
+
+// EuiccPackageUnsignedErrorCodeSizeOverflowValue returns the named value sizeOverflow.
+func EuiccPackageUnsignedErrorCodeSizeOverflowValue() EuiccPackageUnsignedErrorCode {
+	return NewEuiccPackageUnsignedErrorCode(runtime.MustParseBigIntDecimal(EuiccPackageUnsignedErrorCodeSizeOverflowDecimal))
+}
+
+// EuiccPackageUnsignedErrorCodeUndefinedErrorValue returns the named value undefinedError.
+func EuiccPackageUnsignedErrorCodeUndefinedErrorValue() EuiccPackageUnsignedErrorCode {
+	return NewEuiccPackageUnsignedErrorCode(runtime.MustParseBigIntDecimal(EuiccPackageUnsignedErrorCodeUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v EuiccPackageUnsignedErrorCode) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v EuiccPackageUnsignedErrorCode) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v EuiccPackageUnsignedErrorCode) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case EuiccPackageUnsignedErrorCodeSizeOverflowDecimal:
+		return "sizeOverflow", true
+	case EuiccPackageUnsignedErrorCodeUndefinedErrorDecimal:
+		return "undefinedError", true
 	default:
-		return "unknown"
+		return "", false
 	}
 }
 
-// EuiccPackageUnsignedErrorCode represents the ASN.1 INTEGER type EuiccPackageUnsignedErrorCode with named numbers.
-type EuiccPackageUnsignedErrorCode int64
-
-const (
-	EuiccPackageUnsignedErrorCodeSizeOverflow   EuiccPackageUnsignedErrorCode = 15
-	EuiccPackageUnsignedErrorCodeUndefinedError EuiccPackageUnsignedErrorCode = 127
-)
-
 func (v EuiccPackageUnsignedErrorCode) String() string {
-	switch v {
-	case EuiccPackageUnsignedErrorCodeSizeOverflow:
-		return "sizeOverflow"
-	case EuiccPackageUnsignedErrorCodeUndefinedError:
-		return "undefinedError"
-	default:
-		return "unknown"
+	if name, ok := v.Name(); ok {
+		return name
 	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v EuiccPackageUnsignedErrorCode) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *EuiccPackageUnsignedErrorCode) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal EuiccPackageUnsignedErrorCode into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewEuiccPackageUnsignedErrorCode(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v EuiccPackageUnsignedErrorCode) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *EuiccPackageUnsignedErrorCode) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal EuiccPackageUnsignedErrorCode into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewEuiccPackageUnsignedErrorCode(value)
+	return nil
 }
 
 // EuiccPackageErrorUnsigned represents the ASN.1 type EuiccPackageErrorUnsigned (SEQUENCE).
 type EuiccPackageErrorUnsigned struct {
 	EimId                         string                         `asn1:"tag:0,context,implicit"`
-	EimTransactionId              *sgp22.TransactionId           `asn1:"tag:2,context,implicit,optional" json:"EimTransactionId,omitempty"`
+	EimTransactionId              *TransactionId                 `asn1:"tag:2,context,implicit,optional" json:"EimTransactionId,omitempty"`
 	AssociationToken              *big.Int                       `asn1:"tag:4,context,implicit,optional" json:"AssociationToken,omitempty"`
 	EuiccPackageUnsignedErrorCode *EuiccPackageUnsignedErrorCode `asn1:"tag:15,context,implicit,optional" json:"EuiccPackageUnsignedErrorCode,omitempty"`
+	ExtCount_                     int64                          `asn1:"-" json:"-"`
+	ExtPresent_                   []bool                         `asn1:"-" json:"-"`
+	ExtData_                      [][]byte                       `asn1:"-" json:"-"`
 }
 
-// ConfigureImmediateEnableResult represents the ASN.1 INTEGER type ConfigureImmediateEnableResult with named numbers.
-type ConfigureImmediateEnableResult int64
+// ConfigureImmediateEnableResult represents the arbitrary-width ASN.1 INTEGER type ConfigureImmediateEnableResult with named numbers.
+type ConfigureImmediateEnableResult struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	ConfigureImmediateEnableResultOk                 ConfigureImmediateEnableResult = 0
-	ConfigureImmediateEnableResultInsufficientMemory ConfigureImmediateEnableResult = 1
-	ConfigureImmediateEnableResultCommandError       ConfigureImmediateEnableResult = 7
-	ConfigureImmediateEnableResultUndefinedError     ConfigureImmediateEnableResult = 127
+	ConfigureImmediateEnableResultOkDecimal                 = "0"
+	ConfigureImmediateEnableResultOk                        = 0
+	ConfigureImmediateEnableResultInsufficientMemoryDecimal = "1"
+	ConfigureImmediateEnableResultInsufficientMemory        = 1
+	ConfigureImmediateEnableResultCommandErrorDecimal       = "7"
+	ConfigureImmediateEnableResultCommandError              = 7
+	ConfigureImmediateEnableResultUndefinedErrorDecimal     = "127"
+	ConfigureImmediateEnableResultUndefinedError            = 127
 )
+
+// NewConfigureImmediateEnableResult returns an immutable ConfigureImmediateEnableResult containing value.
+func NewConfigureImmediateEnableResult(value *big.Int) ConfigureImmediateEnableResult {
+	return ConfigureImmediateEnableResult{value: runtime.CloneBigInt(value)}
+}
+
+// NewConfigureImmediateEnableResultInt64 returns a ConfigureImmediateEnableResult containing value.
+func NewConfigureImmediateEnableResultInt64(value int64) ConfigureImmediateEnableResult {
+	return NewConfigureImmediateEnableResult(big.NewInt(value))
+}
+
+// ConfigureImmediateEnableResultOkValue returns the named value ok.
+func ConfigureImmediateEnableResultOkValue() ConfigureImmediateEnableResult {
+	return NewConfigureImmediateEnableResult(runtime.MustParseBigIntDecimal(ConfigureImmediateEnableResultOkDecimal))
+}
+
+// ConfigureImmediateEnableResultInsufficientMemoryValue returns the named value insufficientMemory.
+func ConfigureImmediateEnableResultInsufficientMemoryValue() ConfigureImmediateEnableResult {
+	return NewConfigureImmediateEnableResult(runtime.MustParseBigIntDecimal(ConfigureImmediateEnableResultInsufficientMemoryDecimal))
+}
+
+// ConfigureImmediateEnableResultCommandErrorValue returns the named value commandError.
+func ConfigureImmediateEnableResultCommandErrorValue() ConfigureImmediateEnableResult {
+	return NewConfigureImmediateEnableResult(runtime.MustParseBigIntDecimal(ConfigureImmediateEnableResultCommandErrorDecimal))
+}
+
+// ConfigureImmediateEnableResultUndefinedErrorValue returns the named value undefinedError.
+func ConfigureImmediateEnableResultUndefinedErrorValue() ConfigureImmediateEnableResult {
+	return NewConfigureImmediateEnableResult(runtime.MustParseBigIntDecimal(ConfigureImmediateEnableResultUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v ConfigureImmediateEnableResult) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v ConfigureImmediateEnableResult) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v ConfigureImmediateEnableResult) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case ConfigureImmediateEnableResultOkDecimal:
+		return "ok", true
+	case ConfigureImmediateEnableResultInsufficientMemoryDecimal:
+		return "insufficientMemory", true
+	case ConfigureImmediateEnableResultCommandErrorDecimal:
+		return "commandError", true
+	case ConfigureImmediateEnableResultUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
 
 func (v ConfigureImmediateEnableResult) String() string {
-	switch v {
-	case ConfigureImmediateEnableResultOk:
-		return "ok"
-	case ConfigureImmediateEnableResultInsufficientMemory:
-		return "insufficientMemory"
-	case ConfigureImmediateEnableResultCommandError:
-		return "commandError"
-	case ConfigureImmediateEnableResultUndefinedError:
-		return "undefinedError"
-	default:
-		return "unknown"
+	if name, ok := v.Name(); ok {
+		return name
 	}
+	return v.BigInt().String()
 }
 
-// EnableProfileResult represents the ASN.1 INTEGER type EnableProfileResult with named numbers.
-type EnableProfileResult int64
+// MarshalText returns the exact decimal INTEGER value.
+func (v ConfigureImmediateEnableResult) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *ConfigureImmediateEnableResult) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ConfigureImmediateEnableResult into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewConfigureImmediateEnableResult(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v ConfigureImmediateEnableResult) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *ConfigureImmediateEnableResult) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ConfigureImmediateEnableResult into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewConfigureImmediateEnableResult(value)
+	return nil
+}
+
+// EnableProfileResult represents the arbitrary-width ASN.1 INTEGER type EnableProfileResult with named numbers.
+type EnableProfileResult struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	EnableProfileResultOk                        EnableProfileResult = 0
-	EnableProfileResultIccidOrAidNotFound        EnableProfileResult = 1
-	EnableProfileResultProfileNotInDisabledState EnableProfileResult = 2
-	EnableProfileResultDisallowedByPolicy        EnableProfileResult = 3
-	EnableProfileResultCatBusy                   EnableProfileResult = 5
-	EnableProfileResultRollbackNotAvailable      EnableProfileResult = 20
-	EnableProfileResultUndefinedError            EnableProfileResult = 127
+	EnableProfileResultOkDecimal                        = "0"
+	EnableProfileResultOk                               = 0
+	EnableProfileResultIccidOrAidNotFoundDecimal        = "1"
+	EnableProfileResultIccidOrAidNotFound               = 1
+	EnableProfileResultProfileNotInDisabledStateDecimal = "2"
+	EnableProfileResultProfileNotInDisabledState        = 2
+	EnableProfileResultDisallowedByPolicyDecimal        = "3"
+	EnableProfileResultDisallowedByPolicy               = 3
+	EnableProfileResultCatBusyDecimal                   = "5"
+	EnableProfileResultCatBusy                          = 5
+	EnableProfileResultRollbackNotAvailableDecimal      = "20"
+	EnableProfileResultRollbackNotAvailable             = 20
+	EnableProfileResultUndefinedErrorDecimal            = "127"
+	EnableProfileResultUndefinedError                   = 127
 )
+
+// NewEnableProfileResult returns an immutable EnableProfileResult containing value.
+func NewEnableProfileResult(value *big.Int) EnableProfileResult {
+	return EnableProfileResult{value: runtime.CloneBigInt(value)}
+}
+
+// NewEnableProfileResultInt64 returns a EnableProfileResult containing value.
+func NewEnableProfileResultInt64(value int64) EnableProfileResult {
+	return NewEnableProfileResult(big.NewInt(value))
+}
+
+// EnableProfileResultOkValue returns the named value ok.
+func EnableProfileResultOkValue() EnableProfileResult {
+	return NewEnableProfileResult(runtime.MustParseBigIntDecimal(EnableProfileResultOkDecimal))
+}
+
+// EnableProfileResultIccidOrAidNotFoundValue returns the named value iccidOrAidNotFound.
+func EnableProfileResultIccidOrAidNotFoundValue() EnableProfileResult {
+	return NewEnableProfileResult(runtime.MustParseBigIntDecimal(EnableProfileResultIccidOrAidNotFoundDecimal))
+}
+
+// EnableProfileResultProfileNotInDisabledStateValue returns the named value profileNotInDisabledState.
+func EnableProfileResultProfileNotInDisabledStateValue() EnableProfileResult {
+	return NewEnableProfileResult(runtime.MustParseBigIntDecimal(EnableProfileResultProfileNotInDisabledStateDecimal))
+}
+
+// EnableProfileResultDisallowedByPolicyValue returns the named value disallowedByPolicy.
+func EnableProfileResultDisallowedByPolicyValue() EnableProfileResult {
+	return NewEnableProfileResult(runtime.MustParseBigIntDecimal(EnableProfileResultDisallowedByPolicyDecimal))
+}
+
+// EnableProfileResultCatBusyValue returns the named value catBusy.
+func EnableProfileResultCatBusyValue() EnableProfileResult {
+	return NewEnableProfileResult(runtime.MustParseBigIntDecimal(EnableProfileResultCatBusyDecimal))
+}
+
+// EnableProfileResultRollbackNotAvailableValue returns the named value rollbackNotAvailable.
+func EnableProfileResultRollbackNotAvailableValue() EnableProfileResult {
+	return NewEnableProfileResult(runtime.MustParseBigIntDecimal(EnableProfileResultRollbackNotAvailableDecimal))
+}
+
+// EnableProfileResultUndefinedErrorValue returns the named value undefinedError.
+func EnableProfileResultUndefinedErrorValue() EnableProfileResult {
+	return NewEnableProfileResult(runtime.MustParseBigIntDecimal(EnableProfileResultUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v EnableProfileResult) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v EnableProfileResult) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v EnableProfileResult) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case EnableProfileResultOkDecimal:
+		return "ok", true
+	case EnableProfileResultIccidOrAidNotFoundDecimal:
+		return "iccidOrAidNotFound", true
+	case EnableProfileResultProfileNotInDisabledStateDecimal:
+		return "profileNotInDisabledState", true
+	case EnableProfileResultDisallowedByPolicyDecimal:
+		return "disallowedByPolicy", true
+	case EnableProfileResultCatBusyDecimal:
+		return "catBusy", true
+	case EnableProfileResultRollbackNotAvailableDecimal:
+		return "rollbackNotAvailable", true
+	case EnableProfileResultUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
 
 func (v EnableProfileResult) String() string {
-	switch v {
-	case EnableProfileResultOk:
-		return "ok"
-	case EnableProfileResultIccidOrAidNotFound:
-		return "iccidOrAidNotFound"
-	case EnableProfileResultProfileNotInDisabledState:
-		return "profileNotInDisabledState"
-	case EnableProfileResultDisallowedByPolicy:
-		return "disallowedByPolicy"
-	case EnableProfileResultCatBusy:
-		return "catBusy"
-	case EnableProfileResultRollbackNotAvailable:
-		return "rollbackNotAvailable"
-	case EnableProfileResultUndefinedError:
-		return "undefinedError"
-	default:
-		return "unknown"
+	if name, ok := v.Name(); ok {
+		return name
 	}
+	return v.BigInt().String()
 }
 
-// DisableProfileResult represents the ASN.1 INTEGER type DisableProfileResult with named numbers.
-type DisableProfileResult int64
+// MarshalText returns the exact decimal INTEGER value.
+func (v EnableProfileResult) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *EnableProfileResult) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal EnableProfileResult into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewEnableProfileResult(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v EnableProfileResult) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *EnableProfileResult) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal EnableProfileResult into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewEnableProfileResult(value)
+	return nil
+}
+
+// DisableProfileResult represents the arbitrary-width ASN.1 INTEGER type DisableProfileResult with named numbers.
+type DisableProfileResult struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	DisableProfileResultOk                       DisableProfileResult = 0
-	DisableProfileResultIccidOrAidNotFound       DisableProfileResult = 1
-	DisableProfileResultProfileNotInEnabledState DisableProfileResult = 2
-	DisableProfileResultDisallowedByPolicy       DisableProfileResult = 3
-	DisableProfileResultCatBusy                  DisableProfileResult = 5
-	DisableProfileResultUndefinedError           DisableProfileResult = 127
+	DisableProfileResultOkDecimal                       = "0"
+	DisableProfileResultOk                              = 0
+	DisableProfileResultIccidOrAidNotFoundDecimal       = "1"
+	DisableProfileResultIccidOrAidNotFound              = 1
+	DisableProfileResultProfileNotInEnabledStateDecimal = "2"
+	DisableProfileResultProfileNotInEnabledState        = 2
+	DisableProfileResultDisallowedByPolicyDecimal       = "3"
+	DisableProfileResultDisallowedByPolicy              = 3
+	DisableProfileResultCatBusyDecimal                  = "5"
+	DisableProfileResultCatBusy                         = 5
+	DisableProfileResultUndefinedErrorDecimal           = "127"
+	DisableProfileResultUndefinedError                  = 127
 )
+
+// NewDisableProfileResult returns an immutable DisableProfileResult containing value.
+func NewDisableProfileResult(value *big.Int) DisableProfileResult {
+	return DisableProfileResult{value: runtime.CloneBigInt(value)}
+}
+
+// NewDisableProfileResultInt64 returns a DisableProfileResult containing value.
+func NewDisableProfileResultInt64(value int64) DisableProfileResult {
+	return NewDisableProfileResult(big.NewInt(value))
+}
+
+// DisableProfileResultOkValue returns the named value ok.
+func DisableProfileResultOkValue() DisableProfileResult {
+	return NewDisableProfileResult(runtime.MustParseBigIntDecimal(DisableProfileResultOkDecimal))
+}
+
+// DisableProfileResultIccidOrAidNotFoundValue returns the named value iccidOrAidNotFound.
+func DisableProfileResultIccidOrAidNotFoundValue() DisableProfileResult {
+	return NewDisableProfileResult(runtime.MustParseBigIntDecimal(DisableProfileResultIccidOrAidNotFoundDecimal))
+}
+
+// DisableProfileResultProfileNotInEnabledStateValue returns the named value profileNotInEnabledState.
+func DisableProfileResultProfileNotInEnabledStateValue() DisableProfileResult {
+	return NewDisableProfileResult(runtime.MustParseBigIntDecimal(DisableProfileResultProfileNotInEnabledStateDecimal))
+}
+
+// DisableProfileResultDisallowedByPolicyValue returns the named value disallowedByPolicy.
+func DisableProfileResultDisallowedByPolicyValue() DisableProfileResult {
+	return NewDisableProfileResult(runtime.MustParseBigIntDecimal(DisableProfileResultDisallowedByPolicyDecimal))
+}
+
+// DisableProfileResultCatBusyValue returns the named value catBusy.
+func DisableProfileResultCatBusyValue() DisableProfileResult {
+	return NewDisableProfileResult(runtime.MustParseBigIntDecimal(DisableProfileResultCatBusyDecimal))
+}
+
+// DisableProfileResultUndefinedErrorValue returns the named value undefinedError.
+func DisableProfileResultUndefinedErrorValue() DisableProfileResult {
+	return NewDisableProfileResult(runtime.MustParseBigIntDecimal(DisableProfileResultUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v DisableProfileResult) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v DisableProfileResult) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v DisableProfileResult) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case DisableProfileResultOkDecimal:
+		return "ok", true
+	case DisableProfileResultIccidOrAidNotFoundDecimal:
+		return "iccidOrAidNotFound", true
+	case DisableProfileResultProfileNotInEnabledStateDecimal:
+		return "profileNotInEnabledState", true
+	case DisableProfileResultDisallowedByPolicyDecimal:
+		return "disallowedByPolicy", true
+	case DisableProfileResultCatBusyDecimal:
+		return "catBusy", true
+	case DisableProfileResultUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
 
 func (v DisableProfileResult) String() string {
-	switch v {
-	case DisableProfileResultOk:
-		return "ok"
-	case DisableProfileResultIccidOrAidNotFound:
-		return "iccidOrAidNotFound"
-	case DisableProfileResultProfileNotInEnabledState:
-		return "profileNotInEnabledState"
-	case DisableProfileResultDisallowedByPolicy:
-		return "disallowedByPolicy"
-	case DisableProfileResultCatBusy:
-		return "catBusy"
-	case DisableProfileResultUndefinedError:
-		return "undefinedError"
-	default:
-		return "unknown"
+	if name, ok := v.Name(); ok {
+		return name
 	}
+	return v.BigInt().String()
 }
 
-// DeleteProfileResult represents the ASN.1 INTEGER type DeleteProfileResult with named numbers.
-type DeleteProfileResult int64
+// MarshalText returns the exact decimal INTEGER value.
+func (v DisableProfileResult) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *DisableProfileResult) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal DisableProfileResult into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewDisableProfileResult(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v DisableProfileResult) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *DisableProfileResult) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal DisableProfileResult into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewDisableProfileResult(value)
+	return nil
+}
+
+// DeleteProfileResult represents the arbitrary-width ASN.1 INTEGER type DeleteProfileResult with named numbers.
+type DeleteProfileResult struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	DeleteProfileResultOk                        DeleteProfileResult = 0
-	DeleteProfileResultIccidOrAidNotFound        DeleteProfileResult = 1
-	DeleteProfileResultProfileNotInDisabledState DeleteProfileResult = 2
-	DeleteProfileResultDisallowedByPolicy        DeleteProfileResult = 3
-	DeleteProfileResultRollbackNotAvailable      DeleteProfileResult = 20
-	DeleteProfileResultReturnFallbackProfile     DeleteProfileResult = 21
-	DeleteProfileResultUndefinedError            DeleteProfileResult = 127
+	DeleteProfileResultOkDecimal                        = "0"
+	DeleteProfileResultOk                               = 0
+	DeleteProfileResultIccidOrAidNotFoundDecimal        = "1"
+	DeleteProfileResultIccidOrAidNotFound               = 1
+	DeleteProfileResultProfileNotInDisabledStateDecimal = "2"
+	DeleteProfileResultProfileNotInDisabledState        = 2
+	DeleteProfileResultDisallowedByPolicyDecimal        = "3"
+	DeleteProfileResultDisallowedByPolicy               = 3
+	DeleteProfileResultRollbackNotAvailableDecimal      = "20"
+	DeleteProfileResultRollbackNotAvailable             = 20
+	DeleteProfileResultReturnFallbackProfileDecimal     = "21"
+	DeleteProfileResultReturnFallbackProfile            = 21
+	DeleteProfileResultUndefinedErrorDecimal            = "127"
+	DeleteProfileResultUndefinedError                   = 127
 )
+
+// NewDeleteProfileResult returns an immutable DeleteProfileResult containing value.
+func NewDeleteProfileResult(value *big.Int) DeleteProfileResult {
+	return DeleteProfileResult{value: runtime.CloneBigInt(value)}
+}
+
+// NewDeleteProfileResultInt64 returns a DeleteProfileResult containing value.
+func NewDeleteProfileResultInt64(value int64) DeleteProfileResult {
+	return NewDeleteProfileResult(big.NewInt(value))
+}
+
+// DeleteProfileResultOkValue returns the named value ok.
+func DeleteProfileResultOkValue() DeleteProfileResult {
+	return NewDeleteProfileResult(runtime.MustParseBigIntDecimal(DeleteProfileResultOkDecimal))
+}
+
+// DeleteProfileResultIccidOrAidNotFoundValue returns the named value iccidOrAidNotFound.
+func DeleteProfileResultIccidOrAidNotFoundValue() DeleteProfileResult {
+	return NewDeleteProfileResult(runtime.MustParseBigIntDecimal(DeleteProfileResultIccidOrAidNotFoundDecimal))
+}
+
+// DeleteProfileResultProfileNotInDisabledStateValue returns the named value profileNotInDisabledState.
+func DeleteProfileResultProfileNotInDisabledStateValue() DeleteProfileResult {
+	return NewDeleteProfileResult(runtime.MustParseBigIntDecimal(DeleteProfileResultProfileNotInDisabledStateDecimal))
+}
+
+// DeleteProfileResultDisallowedByPolicyValue returns the named value disallowedByPolicy.
+func DeleteProfileResultDisallowedByPolicyValue() DeleteProfileResult {
+	return NewDeleteProfileResult(runtime.MustParseBigIntDecimal(DeleteProfileResultDisallowedByPolicyDecimal))
+}
+
+// DeleteProfileResultRollbackNotAvailableValue returns the named value rollbackNotAvailable.
+func DeleteProfileResultRollbackNotAvailableValue() DeleteProfileResult {
+	return NewDeleteProfileResult(runtime.MustParseBigIntDecimal(DeleteProfileResultRollbackNotAvailableDecimal))
+}
+
+// DeleteProfileResultReturnFallbackProfileValue returns the named value returnFallbackProfile.
+func DeleteProfileResultReturnFallbackProfileValue() DeleteProfileResult {
+	return NewDeleteProfileResult(runtime.MustParseBigIntDecimal(DeleteProfileResultReturnFallbackProfileDecimal))
+}
+
+// DeleteProfileResultUndefinedErrorValue returns the named value undefinedError.
+func DeleteProfileResultUndefinedErrorValue() DeleteProfileResult {
+	return NewDeleteProfileResult(runtime.MustParseBigIntDecimal(DeleteProfileResultUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v DeleteProfileResult) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v DeleteProfileResult) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v DeleteProfileResult) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case DeleteProfileResultOkDecimal:
+		return "ok", true
+	case DeleteProfileResultIccidOrAidNotFoundDecimal:
+		return "iccidOrAidNotFound", true
+	case DeleteProfileResultProfileNotInDisabledStateDecimal:
+		return "profileNotInDisabledState", true
+	case DeleteProfileResultDisallowedByPolicyDecimal:
+		return "disallowedByPolicy", true
+	case DeleteProfileResultRollbackNotAvailableDecimal:
+		return "rollbackNotAvailable", true
+	case DeleteProfileResultReturnFallbackProfileDecimal:
+		return "returnFallbackProfile", true
+	case DeleteProfileResultUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
 
 func (v DeleteProfileResult) String() string {
-	switch v {
-	case DeleteProfileResultOk:
-		return "ok"
-	case DeleteProfileResultIccidOrAidNotFound:
-		return "iccidOrAidNotFound"
-	case DeleteProfileResultProfileNotInDisabledState:
-		return "profileNotInDisabledState"
-	case DeleteProfileResultDisallowedByPolicy:
-		return "disallowedByPolicy"
-	case DeleteProfileResultRollbackNotAvailable:
-		return "rollbackNotAvailable"
-	case DeleteProfileResultReturnFallbackProfile:
-		return "returnFallbackProfile"
-	case DeleteProfileResultUndefinedError:
-		return "undefinedError"
-	default:
-		return "unknown"
+	if name, ok := v.Name(); ok {
+		return name
 	}
+	return v.BigInt().String()
 }
 
-// ProfileInfoListResponse choice constants.
+// MarshalText returns the exact decimal INTEGER value.
+func (v DeleteProfileResult) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *DeleteProfileResult) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal DeleteProfileResult into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewDeleteProfileResult(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v DeleteProfileResult) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *DeleteProfileResult) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal DeleteProfileResult into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewDeleteProfileResult(value)
+	return nil
+}
+
+// SGPProfileInfoListResponse choice constants.
 const (
-	ProfileInfoListResponseChoiceProfileInfoListOk    = 1
-	ProfileInfoListResponseChoiceProfileInfoListError = 2
+	SGPProfileInfoListResponseChoiceProfileInfoListOk    = 1
+	SGPProfileInfoListResponseChoiceProfileInfoListError = 2
 )
 
-// ProfileInfoListResponse represents the ASN.1 CHOICE type ProfileInfoListResponse.
-type ProfileInfoListResponse struct {
+// SGPProfileInfoListResponse represents the ASN.1 CHOICE type SGPProfileInfoListResponse.
+type SGPProfileInfoListResponse struct {
 	Choice               int
-	ProfileInfoListOk    ProfileInfoListResponseProfileInfoListOk `json:"ProfileInfoListOk,omitempty"`
-	ProfileInfoListError *ProfileInfoListError                    `json:"ProfileInfoListError,omitempty"`
+	ProfileInfoListOk    SGPProfileInfoListResponseProfileInfoListOk `json:"ProfileInfoListOk,omitempty"`
+	ProfileInfoListError *SGPProfileInfoListError                    `json:"ProfileInfoListError,omitempty"`
 }
 
-// NewProfileInfoListResponseProfileInfoListOk creates a ProfileInfoListResponse with the profileInfoListOk alternative.
-func NewProfileInfoListResponseProfileInfoListOk(v ProfileInfoListResponseProfileInfoListOk) ProfileInfoListResponse {
-	return ProfileInfoListResponse{
-		Choice:            ProfileInfoListResponseChoiceProfileInfoListOk,
+// NewSGPProfileInfoListResponseProfileInfoListOk creates a SGPProfileInfoListResponse with the profileInfoListOk alternative.
+func NewSGPProfileInfoListResponseProfileInfoListOk(v SGPProfileInfoListResponseProfileInfoListOk) SGPProfileInfoListResponse {
+	return SGPProfileInfoListResponse{
+		Choice:            SGPProfileInfoListResponseChoiceProfileInfoListOk,
 		ProfileInfoListOk: v,
 	}
 }
 
-// NewProfileInfoListResponseProfileInfoListError creates a ProfileInfoListResponse with the profileInfoListError alternative.
-func NewProfileInfoListResponseProfileInfoListError(v ProfileInfoListError) ProfileInfoListResponse {
-	return ProfileInfoListResponse{
-		Choice:               ProfileInfoListResponseChoiceProfileInfoListError,
+// NewSGPProfileInfoListResponseProfileInfoListError creates a SGPProfileInfoListResponse with the profileInfoListError alternative.
+func NewSGPProfileInfoListResponseProfileInfoListError(v SGPProfileInfoListError) SGPProfileInfoListResponse {
+	return SGPProfileInfoListResponse{
+		Choice:               SGPProfileInfoListResponseChoiceProfileInfoListError,
 		ProfileInfoListError: &v,
 	}
 }
 
-// ProfileInfoListError represents the ASN.1 INTEGER type ProfileInfoListError with named numbers.
-type ProfileInfoListError int64
+// SGPProfileInfoListError represents the arbitrary-width ASN.1 INTEGER type SGPProfileInfoListError with named numbers.
+type SGPProfileInfoListError struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	ProfileInfoListErrorIncorrectInputValues ProfileInfoListError = 1
-	ProfileInfoListErrorProfileChangeOngoing ProfileInfoListError = 11
-	ProfileInfoListErrorUndefinedError       ProfileInfoListError = 127
+	SGPProfileInfoListErrorIncorrectInputValuesDecimal = "1"
+	SGPProfileInfoListErrorIncorrectInputValues        = 1
+	SGPProfileInfoListErrorProfileChangeOngoingDecimal = "11"
+	SGPProfileInfoListErrorProfileChangeOngoing        = 11
+	SGPProfileInfoListErrorUndefinedErrorDecimal       = "127"
+	SGPProfileInfoListErrorUndefinedError              = 127
 )
 
-func (v ProfileInfoListError) String() string {
-	switch v {
-	case ProfileInfoListErrorIncorrectInputValues:
-		return "incorrectInputValues"
-	case ProfileInfoListErrorProfileChangeOngoing:
-		return "profileChangeOngoing"
-	case ProfileInfoListErrorUndefinedError:
-		return "undefinedError"
+// NewSGPProfileInfoListError returns an immutable SGPProfileInfoListError containing value.
+func NewSGPProfileInfoListError(value *big.Int) SGPProfileInfoListError {
+	return SGPProfileInfoListError{value: runtime.CloneBigInt(value)}
+}
+
+// NewSGPProfileInfoListErrorInt64 returns a SGPProfileInfoListError containing value.
+func NewSGPProfileInfoListErrorInt64(value int64) SGPProfileInfoListError {
+	return NewSGPProfileInfoListError(big.NewInt(value))
+}
+
+// SGPProfileInfoListErrorIncorrectInputValuesValue returns the named value incorrectInputValues.
+func SGPProfileInfoListErrorIncorrectInputValuesValue() SGPProfileInfoListError {
+	return NewSGPProfileInfoListError(runtime.MustParseBigIntDecimal(SGPProfileInfoListErrorIncorrectInputValuesDecimal))
+}
+
+// SGPProfileInfoListErrorProfileChangeOngoingValue returns the named value profileChangeOngoing.
+func SGPProfileInfoListErrorProfileChangeOngoingValue() SGPProfileInfoListError {
+	return NewSGPProfileInfoListError(runtime.MustParseBigIntDecimal(SGPProfileInfoListErrorProfileChangeOngoingDecimal))
+}
+
+// SGPProfileInfoListErrorUndefinedErrorValue returns the named value undefinedError.
+func SGPProfileInfoListErrorUndefinedErrorValue() SGPProfileInfoListError {
+	return NewSGPProfileInfoListError(runtime.MustParseBigIntDecimal(SGPProfileInfoListErrorUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v SGPProfileInfoListError) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v SGPProfileInfoListError) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v SGPProfileInfoListError) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case SGPProfileInfoListErrorIncorrectInputValuesDecimal:
+		return "incorrectInputValues", true
+	case SGPProfileInfoListErrorProfileChangeOngoingDecimal:
+		return "profileChangeOngoing", true
+	case SGPProfileInfoListErrorUndefinedErrorDecimal:
+		return "undefinedError", true
 	default:
-		return "unknown"
+		return "", false
 	}
 }
 
-// RollbackProfileResult represents the ASN.1 INTEGER type RollbackProfileResult with named numbers.
-type RollbackProfileResult int64
+func (v SGPProfileInfoListError) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v SGPProfileInfoListError) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *SGPProfileInfoListError) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal SGPProfileInfoListError into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewSGPProfileInfoListError(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v SGPProfileInfoListError) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *SGPProfileInfoListError) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal SGPProfileInfoListError into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewSGPProfileInfoListError(value)
+	return nil
+}
+
+// RollbackProfileResult represents the arbitrary-width ASN.1 INTEGER type RollbackProfileResult with named numbers.
+type RollbackProfileResult struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	RollbackProfileResultOk             RollbackProfileResult = 0
-	RollbackProfileResultUndefinedError RollbackProfileResult = 127
+	RollbackProfileResultOkDecimal             = "0"
+	RollbackProfileResultOk                    = 0
+	RollbackProfileResultUndefinedErrorDecimal = "127"
+	RollbackProfileResultUndefinedError        = 127
 )
+
+// NewRollbackProfileResult returns an immutable RollbackProfileResult containing value.
+func NewRollbackProfileResult(value *big.Int) RollbackProfileResult {
+	return RollbackProfileResult{value: runtime.CloneBigInt(value)}
+}
+
+// NewRollbackProfileResultInt64 returns a RollbackProfileResult containing value.
+func NewRollbackProfileResultInt64(value int64) RollbackProfileResult {
+	return NewRollbackProfileResult(big.NewInt(value))
+}
+
+// RollbackProfileResultOkValue returns the named value ok.
+func RollbackProfileResultOkValue() RollbackProfileResult {
+	return NewRollbackProfileResult(runtime.MustParseBigIntDecimal(RollbackProfileResultOkDecimal))
+}
+
+// RollbackProfileResultUndefinedErrorValue returns the named value undefinedError.
+func RollbackProfileResultUndefinedErrorValue() RollbackProfileResult {
+	return NewRollbackProfileResult(runtime.MustParseBigIntDecimal(RollbackProfileResultUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v RollbackProfileResult) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v RollbackProfileResult) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v RollbackProfileResult) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case RollbackProfileResultOkDecimal:
+		return "ok", true
+	case RollbackProfileResultUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
 
 func (v RollbackProfileResult) String() string {
-	switch v {
-	case RollbackProfileResultOk:
-		return "ok"
-	case RollbackProfileResultUndefinedError:
-		return "undefinedError"
-	default:
-		return "unknown"
+	if name, ok := v.Name(); ok {
+		return name
 	}
+	return v.BigInt().String()
 }
 
-// SetFallbackAttributeResult represents the ASN.1 INTEGER type SetFallbackAttributeResult with named numbers.
-type SetFallbackAttributeResult int64
+// MarshalText returns the exact decimal INTEGER value.
+func (v RollbackProfileResult) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *RollbackProfileResult) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal RollbackProfileResult into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewRollbackProfileResult(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v RollbackProfileResult) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *RollbackProfileResult) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal RollbackProfileResult into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewRollbackProfileResult(value)
+	return nil
+}
+
+// SetFallbackAttributeResult represents the arbitrary-width ASN.1 INTEGER type SetFallbackAttributeResult with named numbers.
+type SetFallbackAttributeResult struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	SetFallbackAttributeResultOk                     SetFallbackAttributeResult = 0
-	SetFallbackAttributeResultIccidOrAidNotFound     SetFallbackAttributeResult = 1
-	SetFallbackAttributeResultFallbackNotAllowed     SetFallbackAttributeResult = 2
-	SetFallbackAttributeResultFallbackProfileEnabled SetFallbackAttributeResult = 3
-	SetFallbackAttributeResultUndefinedError         SetFallbackAttributeResult = 127
+	SetFallbackAttributeResultOkDecimal                     = "0"
+	SetFallbackAttributeResultOk                            = 0
+	SetFallbackAttributeResultIccidOrAidNotFoundDecimal     = "1"
+	SetFallbackAttributeResultIccidOrAidNotFound            = 1
+	SetFallbackAttributeResultFallbackNotAllowedDecimal     = "2"
+	SetFallbackAttributeResultFallbackNotAllowed            = 2
+	SetFallbackAttributeResultFallbackProfileEnabledDecimal = "3"
+	SetFallbackAttributeResultFallbackProfileEnabled        = 3
+	SetFallbackAttributeResultUndefinedErrorDecimal         = "127"
+	SetFallbackAttributeResultUndefinedError                = 127
 )
+
+// NewSetFallbackAttributeResult returns an immutable SetFallbackAttributeResult containing value.
+func NewSetFallbackAttributeResult(value *big.Int) SetFallbackAttributeResult {
+	return SetFallbackAttributeResult{value: runtime.CloneBigInt(value)}
+}
+
+// NewSetFallbackAttributeResultInt64 returns a SetFallbackAttributeResult containing value.
+func NewSetFallbackAttributeResultInt64(value int64) SetFallbackAttributeResult {
+	return NewSetFallbackAttributeResult(big.NewInt(value))
+}
+
+// SetFallbackAttributeResultOkValue returns the named value ok.
+func SetFallbackAttributeResultOkValue() SetFallbackAttributeResult {
+	return NewSetFallbackAttributeResult(runtime.MustParseBigIntDecimal(SetFallbackAttributeResultOkDecimal))
+}
+
+// SetFallbackAttributeResultIccidOrAidNotFoundValue returns the named value iccidOrAidNotFound.
+func SetFallbackAttributeResultIccidOrAidNotFoundValue() SetFallbackAttributeResult {
+	return NewSetFallbackAttributeResult(runtime.MustParseBigIntDecimal(SetFallbackAttributeResultIccidOrAidNotFoundDecimal))
+}
+
+// SetFallbackAttributeResultFallbackNotAllowedValue returns the named value fallbackNotAllowed.
+func SetFallbackAttributeResultFallbackNotAllowedValue() SetFallbackAttributeResult {
+	return NewSetFallbackAttributeResult(runtime.MustParseBigIntDecimal(SetFallbackAttributeResultFallbackNotAllowedDecimal))
+}
+
+// SetFallbackAttributeResultFallbackProfileEnabledValue returns the named value fallbackProfileEnabled.
+func SetFallbackAttributeResultFallbackProfileEnabledValue() SetFallbackAttributeResult {
+	return NewSetFallbackAttributeResult(runtime.MustParseBigIntDecimal(SetFallbackAttributeResultFallbackProfileEnabledDecimal))
+}
+
+// SetFallbackAttributeResultUndefinedErrorValue returns the named value undefinedError.
+func SetFallbackAttributeResultUndefinedErrorValue() SetFallbackAttributeResult {
+	return NewSetFallbackAttributeResult(runtime.MustParseBigIntDecimal(SetFallbackAttributeResultUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v SetFallbackAttributeResult) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v SetFallbackAttributeResult) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v SetFallbackAttributeResult) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case SetFallbackAttributeResultOkDecimal:
+		return "ok", true
+	case SetFallbackAttributeResultIccidOrAidNotFoundDecimal:
+		return "iccidOrAidNotFound", true
+	case SetFallbackAttributeResultFallbackNotAllowedDecimal:
+		return "fallbackNotAllowed", true
+	case SetFallbackAttributeResultFallbackProfileEnabledDecimal:
+		return "fallbackProfileEnabled", true
+	case SetFallbackAttributeResultUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
 
 func (v SetFallbackAttributeResult) String() string {
-	switch v {
-	case SetFallbackAttributeResultOk:
-		return "ok"
-	case SetFallbackAttributeResultIccidOrAidNotFound:
-		return "iccidOrAidNotFound"
-	case SetFallbackAttributeResultFallbackNotAllowed:
-		return "fallbackNotAllowed"
-	case SetFallbackAttributeResultFallbackProfileEnabled:
-		return "fallbackProfileEnabled"
-	case SetFallbackAttributeResultUndefinedError:
-		return "undefinedError"
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v SetFallbackAttributeResult) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *SetFallbackAttributeResult) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal SetFallbackAttributeResult into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewSetFallbackAttributeResult(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v SetFallbackAttributeResult) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *SetFallbackAttributeResult) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal SetFallbackAttributeResult into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewSetFallbackAttributeResult(value)
+	return nil
+}
+
+// UnsetFallbackAttributeResult represents the arbitrary-width ASN.1 INTEGER type UnsetFallbackAttributeResult with named numbers.
+type UnsetFallbackAttributeResult struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	UnsetFallbackAttributeResultOkDecimal                     = "0"
+	UnsetFallbackAttributeResultOk                            = 0
+	UnsetFallbackAttributeResultNoFallbackAttributeDecimal    = "2"
+	UnsetFallbackAttributeResultNoFallbackAttribute           = 2
+	UnsetFallbackAttributeResultFallbackProfileEnabledDecimal = "3"
+	UnsetFallbackAttributeResultFallbackProfileEnabled        = 3
+	UnsetFallbackAttributeResultCommandErrorDecimal           = "7"
+	UnsetFallbackAttributeResultCommandError                  = 7
+	UnsetFallbackAttributeResultUndefinedErrorDecimal         = "127"
+	UnsetFallbackAttributeResultUndefinedError                = 127
+)
+
+// NewUnsetFallbackAttributeResult returns an immutable UnsetFallbackAttributeResult containing value.
+func NewUnsetFallbackAttributeResult(value *big.Int) UnsetFallbackAttributeResult {
+	return UnsetFallbackAttributeResult{value: runtime.CloneBigInt(value)}
+}
+
+// NewUnsetFallbackAttributeResultInt64 returns a UnsetFallbackAttributeResult containing value.
+func NewUnsetFallbackAttributeResultInt64(value int64) UnsetFallbackAttributeResult {
+	return NewUnsetFallbackAttributeResult(big.NewInt(value))
+}
+
+// UnsetFallbackAttributeResultOkValue returns the named value ok.
+func UnsetFallbackAttributeResultOkValue() UnsetFallbackAttributeResult {
+	return NewUnsetFallbackAttributeResult(runtime.MustParseBigIntDecimal(UnsetFallbackAttributeResultOkDecimal))
+}
+
+// UnsetFallbackAttributeResultNoFallbackAttributeValue returns the named value noFallbackAttribute.
+func UnsetFallbackAttributeResultNoFallbackAttributeValue() UnsetFallbackAttributeResult {
+	return NewUnsetFallbackAttributeResult(runtime.MustParseBigIntDecimal(UnsetFallbackAttributeResultNoFallbackAttributeDecimal))
+}
+
+// UnsetFallbackAttributeResultFallbackProfileEnabledValue returns the named value fallbackProfileEnabled.
+func UnsetFallbackAttributeResultFallbackProfileEnabledValue() UnsetFallbackAttributeResult {
+	return NewUnsetFallbackAttributeResult(runtime.MustParseBigIntDecimal(UnsetFallbackAttributeResultFallbackProfileEnabledDecimal))
+}
+
+// UnsetFallbackAttributeResultCommandErrorValue returns the named value commandError.
+func UnsetFallbackAttributeResultCommandErrorValue() UnsetFallbackAttributeResult {
+	return NewUnsetFallbackAttributeResult(runtime.MustParseBigIntDecimal(UnsetFallbackAttributeResultCommandErrorDecimal))
+}
+
+// UnsetFallbackAttributeResultUndefinedErrorValue returns the named value undefinedError.
+func UnsetFallbackAttributeResultUndefinedErrorValue() UnsetFallbackAttributeResult {
+	return NewUnsetFallbackAttributeResult(runtime.MustParseBigIntDecimal(UnsetFallbackAttributeResultUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v UnsetFallbackAttributeResult) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v UnsetFallbackAttributeResult) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v UnsetFallbackAttributeResult) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case UnsetFallbackAttributeResultOkDecimal:
+		return "ok", true
+	case UnsetFallbackAttributeResultNoFallbackAttributeDecimal:
+		return "noFallbackAttribute", true
+	case UnsetFallbackAttributeResultFallbackProfileEnabledDecimal:
+		return "fallbackProfileEnabled", true
+	case UnsetFallbackAttributeResultCommandErrorDecimal:
+		return "commandError", true
+	case UnsetFallbackAttributeResultUndefinedErrorDecimal:
+		return "undefinedError", true
 	default:
-		return "unknown"
+		return "", false
 	}
 }
 
-// UnsetFallbackAttributeResult represents the ASN.1 INTEGER type UnsetFallbackAttributeResult with named numbers.
-type UnsetFallbackAttributeResult int64
-
-const (
-	UnsetFallbackAttributeResultOk                     UnsetFallbackAttributeResult = 0
-	UnsetFallbackAttributeResultNoFallbackAttribute    UnsetFallbackAttributeResult = 2
-	UnsetFallbackAttributeResultFallbackProfileEnabled UnsetFallbackAttributeResult = 3
-	UnsetFallbackAttributeResultCommandError           UnsetFallbackAttributeResult = 7
-	UnsetFallbackAttributeResultUndefinedError         UnsetFallbackAttributeResult = 127
-)
-
 func (v UnsetFallbackAttributeResult) String() string {
-	switch v {
-	case UnsetFallbackAttributeResultOk:
-		return "ok"
-	case UnsetFallbackAttributeResultNoFallbackAttribute:
-		return "noFallbackAttribute"
-	case UnsetFallbackAttributeResultFallbackProfileEnabled:
-		return "fallbackProfileEnabled"
-	case UnsetFallbackAttributeResultCommandError:
-		return "commandError"
-	case UnsetFallbackAttributeResultUndefinedError:
-		return "undefinedError"
-	default:
-		return "unknown"
+	if name, ok := v.Name(); ok {
+		return name
 	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v UnsetFallbackAttributeResult) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *UnsetFallbackAttributeResult) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal UnsetFallbackAttributeResult into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewUnsetFallbackAttributeResult(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v UnsetFallbackAttributeResult) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *UnsetFallbackAttributeResult) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal UnsetFallbackAttributeResult into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewUnsetFallbackAttributeResult(value)
+	return nil
 }
 
 // AddEimResult choice constants.
@@ -857,8 +1967,8 @@ const (
 // AddEimResult represents the ASN.1 CHOICE type AddEimResult.
 type AddEimResult struct {
 	Choice           int
-	AssociationToken *big.Int `json:"AssociationToken,omitempty"`
-	AddEimResultCode *int64   `json:"AddEimResultCode,omitempty"`
+	AssociationToken *big.Int                           `json:"AssociationToken,omitempty"`
+	AddEimResultCode *AddEimResultAddEimResultCodeValue `json:"AddEimResultCode,omitempty"`
 }
 
 // NewAddEimResultAssociationToken creates a AddEimResult with the associationToken alternative.
@@ -870,70 +1980,278 @@ func NewAddEimResultAssociationToken(v *big.Int) AddEimResult {
 }
 
 // NewAddEimResultAddEimResultCode creates a AddEimResult with the addEimResultCode alternative.
-func NewAddEimResultAddEimResultCode(v int64) AddEimResult {
+func NewAddEimResultAddEimResultCode(v AddEimResultAddEimResultCodeValue) AddEimResult {
 	return AddEimResult{
 		Choice:           AddEimResultChoiceAddEimResultCode,
 		AddEimResultCode: &v,
 	}
 }
 
-// DeleteEimResult represents the ASN.1 INTEGER type DeleteEimResult with named numbers.
-type DeleteEimResult int64
+// DeleteEimResult represents the arbitrary-width ASN.1 INTEGER type DeleteEimResult with named numbers.
+type DeleteEimResult struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	DeleteEimResultOk             DeleteEimResult = 0
-	DeleteEimResultEimNotFound    DeleteEimResult = 1
-	DeleteEimResultLastEimDeleted DeleteEimResult = 2
-	DeleteEimResultCommandError   DeleteEimResult = 7
-	DeleteEimResultUndefinedError DeleteEimResult = 127
+	DeleteEimResultOkDecimal             = "0"
+	DeleteEimResultOk                    = 0
+	DeleteEimResultEimNotFoundDecimal    = "1"
+	DeleteEimResultEimNotFound           = 1
+	DeleteEimResultLastEimDeletedDecimal = "2"
+	DeleteEimResultLastEimDeleted        = 2
+	DeleteEimResultCommandErrorDecimal   = "7"
+	DeleteEimResultCommandError          = 7
+	DeleteEimResultUndefinedErrorDecimal = "127"
+	DeleteEimResultUndefinedError        = 127
 )
 
-func (v DeleteEimResult) String() string {
-	switch v {
-	case DeleteEimResultOk:
-		return "ok"
-	case DeleteEimResultEimNotFound:
-		return "eimNotFound"
-	case DeleteEimResultLastEimDeleted:
-		return "lastEimDeleted"
-	case DeleteEimResultCommandError:
-		return "commandError"
-	case DeleteEimResultUndefinedError:
-		return "undefinedError"
+// NewDeleteEimResult returns an immutable DeleteEimResult containing value.
+func NewDeleteEimResult(value *big.Int) DeleteEimResult {
+	return DeleteEimResult{value: runtime.CloneBigInt(value)}
+}
+
+// NewDeleteEimResultInt64 returns a DeleteEimResult containing value.
+func NewDeleteEimResultInt64(value int64) DeleteEimResult {
+	return NewDeleteEimResult(big.NewInt(value))
+}
+
+// DeleteEimResultOkValue returns the named value ok.
+func DeleteEimResultOkValue() DeleteEimResult {
+	return NewDeleteEimResult(runtime.MustParseBigIntDecimal(DeleteEimResultOkDecimal))
+}
+
+// DeleteEimResultEimNotFoundValue returns the named value eimNotFound.
+func DeleteEimResultEimNotFoundValue() DeleteEimResult {
+	return NewDeleteEimResult(runtime.MustParseBigIntDecimal(DeleteEimResultEimNotFoundDecimal))
+}
+
+// DeleteEimResultLastEimDeletedValue returns the named value lastEimDeleted.
+func DeleteEimResultLastEimDeletedValue() DeleteEimResult {
+	return NewDeleteEimResult(runtime.MustParseBigIntDecimal(DeleteEimResultLastEimDeletedDecimal))
+}
+
+// DeleteEimResultCommandErrorValue returns the named value commandError.
+func DeleteEimResultCommandErrorValue() DeleteEimResult {
+	return NewDeleteEimResult(runtime.MustParseBigIntDecimal(DeleteEimResultCommandErrorDecimal))
+}
+
+// DeleteEimResultUndefinedErrorValue returns the named value undefinedError.
+func DeleteEimResultUndefinedErrorValue() DeleteEimResult {
+	return NewDeleteEimResult(runtime.MustParseBigIntDecimal(DeleteEimResultUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v DeleteEimResult) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v DeleteEimResult) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v DeleteEimResult) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case DeleteEimResultOkDecimal:
+		return "ok", true
+	case DeleteEimResultEimNotFoundDecimal:
+		return "eimNotFound", true
+	case DeleteEimResultLastEimDeletedDecimal:
+		return "lastEimDeleted", true
+	case DeleteEimResultCommandErrorDecimal:
+		return "commandError", true
+	case DeleteEimResultUndefinedErrorDecimal:
+		return "undefinedError", true
 	default:
-		return "unknown"
+		return "", false
 	}
 }
 
-// UpdateEimResult represents the ASN.1 INTEGER type UpdateEimResult with named numbers.
-type UpdateEimResult int64
+func (v DeleteEimResult) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v DeleteEimResult) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *DeleteEimResult) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal DeleteEimResult into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewDeleteEimResult(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v DeleteEimResult) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *DeleteEimResult) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal DeleteEimResult into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewDeleteEimResult(value)
+	return nil
+}
+
+// UpdateEimResult represents the arbitrary-width ASN.1 INTEGER type UpdateEimResult with named numbers.
+type UpdateEimResult struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	UpdateEimResultOk                     UpdateEimResult = 0
-	UpdateEimResultEimNotFound            UpdateEimResult = 1
-	UpdateEimResultCiPKUnknown            UpdateEimResult = 3
-	UpdateEimResultCounterValueOutOfRange UpdateEimResult = 6
-	UpdateEimResultCommandError           UpdateEimResult = 7
-	UpdateEimResultUndefinedError         UpdateEimResult = 127
+	UpdateEimResultOkDecimal                     = "0"
+	UpdateEimResultOk                            = 0
+	UpdateEimResultEimNotFoundDecimal            = "1"
+	UpdateEimResultEimNotFound                   = 1
+	UpdateEimResultCiPKUnknownDecimal            = "3"
+	UpdateEimResultCiPKUnknown                   = 3
+	UpdateEimResultCounterValueOutOfRangeDecimal = "6"
+	UpdateEimResultCounterValueOutOfRange        = 6
+	UpdateEimResultCommandErrorDecimal           = "7"
+	UpdateEimResultCommandError                  = 7
+	UpdateEimResultUndefinedErrorDecimal         = "127"
+	UpdateEimResultUndefinedError                = 127
 )
 
-func (v UpdateEimResult) String() string {
-	switch v {
-	case UpdateEimResultOk:
-		return "ok"
-	case UpdateEimResultEimNotFound:
-		return "eimNotFound"
-	case UpdateEimResultCiPKUnknown:
-		return "ciPKUnknown"
-	case UpdateEimResultCounterValueOutOfRange:
-		return "counterValueOutOfRange"
-	case UpdateEimResultCommandError:
-		return "commandError"
-	case UpdateEimResultUndefinedError:
-		return "undefinedError"
-	default:
-		return "unknown"
+// NewUpdateEimResult returns an immutable UpdateEimResult containing value.
+func NewUpdateEimResult(value *big.Int) UpdateEimResult {
+	return UpdateEimResult{value: runtime.CloneBigInt(value)}
+}
+
+// NewUpdateEimResultInt64 returns a UpdateEimResult containing value.
+func NewUpdateEimResultInt64(value int64) UpdateEimResult {
+	return NewUpdateEimResult(big.NewInt(value))
+}
+
+// UpdateEimResultOkValue returns the named value ok.
+func UpdateEimResultOkValue() UpdateEimResult {
+	return NewUpdateEimResult(runtime.MustParseBigIntDecimal(UpdateEimResultOkDecimal))
+}
+
+// UpdateEimResultEimNotFoundValue returns the named value eimNotFound.
+func UpdateEimResultEimNotFoundValue() UpdateEimResult {
+	return NewUpdateEimResult(runtime.MustParseBigIntDecimal(UpdateEimResultEimNotFoundDecimal))
+}
+
+// UpdateEimResultCiPKUnknownValue returns the named value ciPKUnknown.
+func UpdateEimResultCiPKUnknownValue() UpdateEimResult {
+	return NewUpdateEimResult(runtime.MustParseBigIntDecimal(UpdateEimResultCiPKUnknownDecimal))
+}
+
+// UpdateEimResultCounterValueOutOfRangeValue returns the named value counterValueOutOfRange.
+func UpdateEimResultCounterValueOutOfRangeValue() UpdateEimResult {
+	return NewUpdateEimResult(runtime.MustParseBigIntDecimal(UpdateEimResultCounterValueOutOfRangeDecimal))
+}
+
+// UpdateEimResultCommandErrorValue returns the named value commandError.
+func UpdateEimResultCommandErrorValue() UpdateEimResult {
+	return NewUpdateEimResult(runtime.MustParseBigIntDecimal(UpdateEimResultCommandErrorDecimal))
+}
+
+// UpdateEimResultUndefinedErrorValue returns the named value undefinedError.
+func UpdateEimResultUndefinedErrorValue() UpdateEimResult {
+	return NewUpdateEimResult(runtime.MustParseBigIntDecimal(UpdateEimResultUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v UpdateEimResult) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v UpdateEimResult) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
 	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v UpdateEimResult) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case UpdateEimResultOkDecimal:
+		return "ok", true
+	case UpdateEimResultEimNotFoundDecimal:
+		return "eimNotFound", true
+	case UpdateEimResultCiPKUnknownDecimal:
+		return "ciPKUnknown", true
+	case UpdateEimResultCounterValueOutOfRangeDecimal:
+		return "counterValueOutOfRange", true
+	case UpdateEimResultCommandErrorDecimal:
+		return "commandError", true
+	case UpdateEimResultUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v UpdateEimResult) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v UpdateEimResult) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *UpdateEimResult) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal UpdateEimResult into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewUpdateEimResult(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v UpdateEimResult) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *UpdateEimResult) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal UpdateEimResult into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewUpdateEimResult(value)
+	return nil
 }
 
 // ListEimResult choice constants.
@@ -945,8 +2263,8 @@ const (
 // ListEimResult represents the ASN.1 CHOICE type ListEimResult.
 type ListEimResult struct {
 	Choice       int
-	EimIdList    ListEimResultEimIdList `json:"EimIdList,omitempty"`
-	ListEimError *int64                 `json:"ListEimError,omitempty"`
+	EimIdList    ListEimResultEimIdList          `json:"EimIdList,omitempty"`
+	ListEimError *ListEimResultListEimErrorValue `json:"ListEimError,omitempty"`
 }
 
 // NewListEimResultEimIdList creates a ListEimResult with the eimIdList alternative.
@@ -958,7 +2276,7 @@ func NewListEimResultEimIdList(v ListEimResultEimIdList) ListEimResult {
 }
 
 // NewListEimResultListEimError creates a ListEimResult with the listEimError alternative.
-func NewListEimResultListEimError(v int64) ListEimResult {
+func NewListEimResultListEimError(v ListEimResultListEimErrorValue) ListEimResult {
 	return ListEimResult{
 		Choice:       ListEimResultChoiceListEimError,
 		ListEimError: &v,
@@ -967,39 +2285,140 @@ func NewListEimResultListEimError(v int64) ListEimResult {
 
 // EimIdInfo represents the ASN.1 type EimIdInfo (SEQUENCE).
 type EimIdInfo struct {
-	EimId     string     `asn1:"tag:0,context,implicit"`
-	EimIdType *EimIdType `asn1:"tag:2,context,implicit,optional" json:"EimIdType,omitempty"`
+	EimId       string     `asn1:"tag:0,context,implicit"`
+	EimIdType   *EimIdType `asn1:"tag:2,context,implicit,optional" json:"EimIdType,omitempty"`
+	ExtCount_   int64      `asn1:"-" json:"-"`
+	ExtPresent_ []bool     `asn1:"-" json:"-"`
+	ExtData_    [][]byte   `asn1:"-" json:"-"`
 }
 
-// IpaEuiccDataErrorCode represents the ASN.1 INTEGER type IpaEuiccDataErrorCode with named numbers.
-type IpaEuiccDataErrorCode int64
+// IpaEuiccDataErrorCode represents the arbitrary-width ASN.1 INTEGER type IpaEuiccDataErrorCode with named numbers.
+type IpaEuiccDataErrorCode struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	IpaEuiccDataErrorCodeIncorrectTagList    IpaEuiccDataErrorCode = 1
-	IpaEuiccDataErrorCodeEuiccCiPKIdNotFound IpaEuiccDataErrorCode = 5
-	IpaEuiccDataErrorCodeEcallActive         IpaEuiccDataErrorCode = 104
-	IpaEuiccDataErrorCodeUndefinedError      IpaEuiccDataErrorCode = 127
+	IpaEuiccDataErrorCodeIncorrectTagListDecimal    = "1"
+	IpaEuiccDataErrorCodeIncorrectTagList           = 1
+	IpaEuiccDataErrorCodeEuiccCiPKIdNotFoundDecimal = "5"
+	IpaEuiccDataErrorCodeEuiccCiPKIdNotFound        = 5
+	IpaEuiccDataErrorCodeEcallActiveDecimal         = "104"
+	IpaEuiccDataErrorCodeEcallActive                = 104
+	IpaEuiccDataErrorCodeUndefinedErrorDecimal      = "127"
+	IpaEuiccDataErrorCodeUndefinedError             = 127
 )
 
-func (v IpaEuiccDataErrorCode) String() string {
-	switch v {
-	case IpaEuiccDataErrorCodeIncorrectTagList:
-		return "incorrectTagList"
-	case IpaEuiccDataErrorCodeEuiccCiPKIdNotFound:
-		return "euiccCiPKIdNotFound"
-	case IpaEuiccDataErrorCodeEcallActive:
-		return "ecallActive"
-	case IpaEuiccDataErrorCodeUndefinedError:
-		return "undefinedError"
-	default:
-		return "unknown"
+// NewIpaEuiccDataErrorCode returns an immutable IpaEuiccDataErrorCode containing value.
+func NewIpaEuiccDataErrorCode(value *big.Int) IpaEuiccDataErrorCode {
+	return IpaEuiccDataErrorCode{value: runtime.CloneBigInt(value)}
+}
+
+// NewIpaEuiccDataErrorCodeInt64 returns a IpaEuiccDataErrorCode containing value.
+func NewIpaEuiccDataErrorCodeInt64(value int64) IpaEuiccDataErrorCode {
+	return NewIpaEuiccDataErrorCode(big.NewInt(value))
+}
+
+// IpaEuiccDataErrorCodeIncorrectTagListValue returns the named value incorrectTagList.
+func IpaEuiccDataErrorCodeIncorrectTagListValue() IpaEuiccDataErrorCode {
+	return NewIpaEuiccDataErrorCode(runtime.MustParseBigIntDecimal(IpaEuiccDataErrorCodeIncorrectTagListDecimal))
+}
+
+// IpaEuiccDataErrorCodeEuiccCiPKIdNotFoundValue returns the named value euiccCiPKIdNotFound.
+func IpaEuiccDataErrorCodeEuiccCiPKIdNotFoundValue() IpaEuiccDataErrorCode {
+	return NewIpaEuiccDataErrorCode(runtime.MustParseBigIntDecimal(IpaEuiccDataErrorCodeEuiccCiPKIdNotFoundDecimal))
+}
+
+// IpaEuiccDataErrorCodeEcallActiveValue returns the named value ecallActive.
+func IpaEuiccDataErrorCodeEcallActiveValue() IpaEuiccDataErrorCode {
+	return NewIpaEuiccDataErrorCode(runtime.MustParseBigIntDecimal(IpaEuiccDataErrorCodeEcallActiveDecimal))
+}
+
+// IpaEuiccDataErrorCodeUndefinedErrorValue returns the named value undefinedError.
+func IpaEuiccDataErrorCodeUndefinedErrorValue() IpaEuiccDataErrorCode {
+	return NewIpaEuiccDataErrorCode(runtime.MustParseBigIntDecimal(IpaEuiccDataErrorCodeUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v IpaEuiccDataErrorCode) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v IpaEuiccDataErrorCode) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
 	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v IpaEuiccDataErrorCode) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case IpaEuiccDataErrorCodeIncorrectTagListDecimal:
+		return "incorrectTagList", true
+	case IpaEuiccDataErrorCodeEuiccCiPKIdNotFoundDecimal:
+		return "euiccCiPKIdNotFound", true
+	case IpaEuiccDataErrorCodeEcallActiveDecimal:
+		return "ecallActive", true
+	case IpaEuiccDataErrorCodeUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v IpaEuiccDataErrorCode) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v IpaEuiccDataErrorCode) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *IpaEuiccDataErrorCode) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal IpaEuiccDataErrorCode into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewIpaEuiccDataErrorCode(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v IpaEuiccDataErrorCode) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *IpaEuiccDataErrorCode) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal IpaEuiccDataErrorCode into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewIpaEuiccDataErrorCode(value)
+	return nil
 }
 
 // IpaEuiccDataResponseError represents the ASN.1 type IpaEuiccDataResponseError (SEQUENCE).
 type IpaEuiccDataResponseError struct {
-	EimTransactionId      *sgp22.TransactionId  `asn1:"tag:0,context,implicit,optional" json:"EimTransactionId,omitempty"`
+	EimTransactionId      *TransactionId        `asn1:"tag:0,context,implicit,optional" json:"EimTransactionId,omitempty"`
 	IpaEuiccDataErrorCode IpaEuiccDataErrorCode `asn1:""`
+	ExtCount_             int64                 `asn1:"-" json:"-"`
+	ExtPresent_           []bool                `asn1:"-" json:"-"`
+	ExtData_              [][]byte              `asn1:"-" json:"-"`
 }
 
 // IpaEuiccDataResponse choice constants.
@@ -1032,7 +2451,7 @@ func NewIpaEuiccDataResponseIpaEuiccDataResponseError(v IpaEuiccDataResponseErro
 }
 
 // PendingNotificationList represents the ASN.1 type PendingNotificationList (SEQUENCE_OF).
-type PendingNotificationList = []PendingNotification
+type PendingNotificationList = []SGPPendingNotification
 
 // EuiccPackageResultList represents the ASN.1 type EuiccPackageResultList (SEQUENCE_OF).
 type EuiccPackageResultList = []EuiccPackageResult
@@ -1044,179 +2463,301 @@ type IpaEuiccData struct {
 	DefaultSmdpAddress           *string                 `asn1:"tag:1,context,implicit,optional" json:"DefaultSmdpAddress,omitempty"`
 	EuiccPackageResultList       EuiccPackageResultList  `asn1:"tag:2,context,implicit,optional" json:"EuiccPackageResultList,omitempty"`
 	EuiccPackageResultListIndef_ bool                    `asn1:"-" json:"-"`
-	EuiccInfo1                   *sgp22.EUICCInfo1       `asn1:"tag:32,context,implicit,optional" json:"EuiccInfo1,omitempty"`
-	EuiccInfo2                   *EUICCInfo2             `asn1:"tag:34,context,implicit,optional" json:"EuiccInfo2,omitempty"`
+	EuiccInfo1                   *EUICCInfo1             `asn1:"tag:32,context,implicit,optional" json:"EuiccInfo1,omitempty"`
+	EuiccInfo2                   *SGPEUICCInfo2          `asn1:"tag:34,context,implicit,optional" json:"EuiccInfo2,omitempty"`
 	RootSmdsAddress              *string                 `asn1:"tag:3,context,implicit,optional" json:"RootSmdsAddress,omitempty"`
 	AssociationToken             *big.Int                `asn1:"tag:4,context,implicit,optional" json:"AssociationToken,omitempty"`
-	EumCertificate               *sgp22.Certificate      `asn1:"tag:5,context,implicit,optional" json:"EumCertificate,omitempty"`
-	EuiccCertificate             *sgp22.Certificate      `asn1:"tag:6,context,implicit,optional" json:"EuiccCertificate,omitempty"`
-	EimTransactionId             *sgp22.TransactionId    `asn1:"tag:7,context,implicit,optional" json:"EimTransactionId,omitempty"`
+	EumCertificate               *Certificate            `asn1:"tag:5,context,implicit,optional" json:"EumCertificate,omitempty"`
+	EuiccCertificate             *Certificate            `asn1:"tag:6,context,implicit,optional" json:"EuiccCertificate,omitempty"`
+	EimTransactionId             *TransactionId          `asn1:"tag:7,context,implicit,optional" json:"EimTransactionId,omitempty"`
 	IpaCapabilities              *IpaCapabilities        `asn1:"tag:8,context,implicit,optional" json:"IpaCapabilities,omitempty"`
-	DeviceInfo                   *sgp22.DeviceInfo       `asn1:"tag:9,context,implicit,optional" json:"DeviceInfo,omitempty"`
+	DeviceInfo                   *DeviceInfo             `asn1:"tag:9,context,implicit,optional" json:"DeviceInfo,omitempty"`
+	ExtCount_                    int64                   `asn1:"-" json:"-"`
+	ExtPresent_                  []bool                  `asn1:"-" json:"-"`
+	ExtData_                     [][]byte                `asn1:"-" json:"-"`
 }
 
 // ProfileDownloadTriggerResult represents the ASN.1 type ProfileDownloadTriggerResult (SEQUENCE).
 type ProfileDownloadTriggerResult struct {
-	EimTransactionId                 *sgp22.TransactionId                                         `asn1:"tag:2,context,implicit,optional" json:"EimTransactionId,omitempty"`
+	EimTransactionId                 *TransactionId                                               `asn1:"tag:2,context,implicit,optional" json:"EimTransactionId,omitempty"`
 	ProfileDownloadTriggerResultData ProfileDownloadTriggerResultProfileDownloadTriggerResultData `asn1:""`
+	ExtCount_                        int64                                                        `asn1:"-" json:"-"`
+	ExtPresent_                      []bool                                                       `asn1:"-" json:"-"`
+	ExtData_                         [][]byte                                                     `asn1:"-" json:"-"`
 }
 
 // ISDRProprietaryApplicationTemplateIoT represents the ASN.1 type ISDRProprietaryApplicationTemplateIoT (SEQUENCE).
 type ISDRProprietaryApplicationTemplateIoT struct {
 	EuiccConfiguration runtime.BitString `asn1:"tag:0,context,implicit"`
+	ExtCount_          int64             `asn1:"-" json:"-"`
+	ExtPresent_        []bool            `asn1:"-" json:"-"`
+	ExtData_           [][]byte          `asn1:"-" json:"-"`
 }
 
 // IpaeActivationRequest represents the ASN.1 type IpaeActivationRequest (SEQUENCE).
 type IpaeActivationRequest struct {
-	IpaeOption runtime.BitString `asn1:"tag:0,context,implicit"`
+	IpaeOption  runtime.BitString `asn1:"tag:0,context,implicit"`
+	ExtCount_   int64             `asn1:"-" json:"-"`
+	ExtPresent_ []bool            `asn1:"-" json:"-"`
+	ExtData_    [][]byte          `asn1:"-" json:"-"`
 }
 
 // IpaeActivationResponse represents the ASN.1 type IpaeActivationResponse (SEQUENCE).
 type IpaeActivationResponse struct {
-	IpaeActivationResult int64 `asn1:"tag:0,context,implicit"`
+	IpaeActivationResult IpaeActivationResponseIpaeActivationResultValue `asn1:"tag:0,context,implicit"`
+	ExtCount_            int64                                           `asn1:"-" json:"-"`
+	ExtPresent_          []bool                                          `asn1:"-" json:"-"`
+	ExtData_             [][]byte                                        `asn1:"-" json:"-"`
 }
 
 // IpaCapabilities represents the ASN.1 type IpaCapabilities (SEQUENCE).
 type IpaCapabilities struct {
-	IpaFeatures                               runtime.BitString             `asn1:"tag:0,context,implicit"`
-	IpaSupportedProtocols                     *runtime.BitString            `asn1:"tag:1,context,implicit,optional" json:"IpaSupportedProtocols,omitempty"`
-	ESipaProprietaryProtocolInformation       sgp22.VendorSpecificExtension `asn1:"tag:2,context,implicit,optional" json:"ESipaProprietaryProtocolInformation,omitempty"`
-	ESipaProprietaryProtocolInformationIndef_ bool                          `asn1:"-" json:"-"`
+	IpaFeatures                               runtime.BitString       `asn1:"tag:0,context,implicit"`
+	IpaSupportedProtocols                     *runtime.BitString      `asn1:"tag:1,context,implicit,optional" json:"IpaSupportedProtocols,omitempty"`
+	ESipaProprietaryProtocolInformation       VendorSpecificExtension `asn1:"tag:2,context,implicit,optional" json:"ESipaProprietaryProtocolInformation,omitempty"`
+	ESipaProprietaryProtocolInformationIndef_ bool                    `asn1:"-" json:"-"`
+	ExtCount_                                 int64                   `asn1:"-" json:"-"`
+	ExtPresent_                               []bool                  `asn1:"-" json:"-"`
+	ExtData_                                  [][]byte                `asn1:"-" json:"-"`
 }
 
-// ProfileInfo represents the ASN.1 type ProfileInfo (SEQUENCE).
-type ProfileInfo struct {
-	Iccid                                  *sgp22.Iccid                             `asn1:",optional" json:"Iccid,omitempty"`
-	IsdpAid                                *sgp22.OctetTo16                         `asn1:"tag:15,application,implicit,optional" json:"IsdpAid,omitempty"`
-	ProfileState                           *sgp22.ProfileState                      `asn1:"tag:112,context,implicit,optional" json:"ProfileState,omitempty"`
-	ProfileNickname                        *string                                  `asn1:"tag:16,context,implicit,optional" json:"ProfileNickname,omitempty"`
-	ServiceProviderName                    *string                                  `asn1:"tag:17,context,implicit,optional" json:"ServiceProviderName,omitempty"`
-	ProfileName                            *string                                  `asn1:"tag:18,context,implicit,optional" json:"ProfileName,omitempty"`
-	IconType                               *sgp22.IconType                          `asn1:"tag:19,context,implicit,optional" json:"IconType,omitempty"`
-	Icon                                   []byte                                   `asn1:"tag:20,context,implicit,optional" json:"Icon,omitempty"`
-	ProfileClass                           *sgp22.ProfileClass                      `asn1:"tag:21,context,implicit,optional" json:"ProfileClass,omitempty"`
-	NotificationConfigurationInfo          ProfileInfoNotificationConfigurationInfo `asn1:"tag:22,context,implicit,optional" json:"NotificationConfigurationInfo,omitempty"`
-	NotificationConfigurationInfoIndef_    bool                                     `asn1:"-" json:"-"`
-	ProfileOwner                           *sgp22.OperatorId                        `asn1:"tag:23,context,implicit,optional" json:"ProfileOwner,omitempty"`
-	DpProprietaryData                      *sgp22.DpProprietaryData                 `asn1:"tag:24,context,implicit,optional" json:"DpProprietaryData,omitempty"`
-	ProfilePolicyRules                     *sgp22.PprIds                            `asn1:"tag:25,context,implicit,optional" json:"ProfilePolicyRules,omitempty"`
-	ServiceSpecificDataStoredInEuicc       sgp22.VendorSpecificExtension            `asn1:"tag:34,context,implicit,optional" json:"ServiceSpecificDataStoredInEuicc,omitempty"`
-	ServiceSpecificDataStoredInEuiccIndef_ bool                                     `asn1:"-" json:"-"`
-	EcallIndication                        *bool                                    `asn1:"tag:123,context,implicit,optional" json:"EcallIndication,omitempty"`
-	EcallIndicationRaw_                    byte                                     `asn1:"-" json:"-"`
-	FallbackAttribute                      *bool                                    `asn1:"tag:38,context,implicit,optional" json:"FallbackAttribute,omitempty"`
-	FallbackAttributeRaw_                  byte                                     `asn1:"-" json:"-"`
-	FallbackAllowed                        *bool                                    `asn1:"tag:103,context,implicit,optional" json:"FallbackAllowed,omitempty"`
-	FallbackAllowedRaw_                    byte                                     `asn1:"-" json:"-"`
-	IotSpecificProfileInfo                 *ProfileInfoIotSpecificProfileInfo       `asn1:"tag:100,context,implicit,optional" json:"IotSpecificProfileInfo,omitempty"`
+// SGPProfileInfo represents the ASN.1 type SGPProfileInfo (SEQUENCE).
+type SGPProfileInfo struct {
+	Iccid                                  *Iccid                                      `asn1:",optional" json:"Iccid,omitempty"`
+	IsdpAid                                *OctetTo16                                  `asn1:"tag:15,application,implicit,optional" json:"IsdpAid,omitempty"`
+	ProfileState                           *ProfileState                               `asn1:"tag:112,context,implicit,optional" json:"ProfileState,omitempty"`
+	ProfileNickname                        *string                                     `asn1:"tag:16,context,implicit,optional" json:"ProfileNickname,omitempty"`
+	ServiceProviderName                    *string                                     `asn1:"tag:17,context,implicit,optional" json:"ServiceProviderName,omitempty"`
+	ProfileName                            *string                                     `asn1:"tag:18,context,implicit,optional" json:"ProfileName,omitempty"`
+	IconType                               *IconType                                   `asn1:"tag:19,context,implicit,optional" json:"IconType,omitempty"`
+	Icon                                   []byte                                      `asn1:"tag:20,context,implicit,optional" json:"Icon,omitempty"`
+	ProfileClass                           *ProfileClass                               `asn1:"tag:21,context,implicit,optional" json:"ProfileClass,omitempty"`
+	NotificationConfigurationInfo          SGPProfileInfoNotificationConfigurationInfo `asn1:"tag:22,context,implicit,optional" json:"NotificationConfigurationInfo,omitempty"`
+	NotificationConfigurationInfoIndef_    bool                                        `asn1:"-" json:"-"`
+	ProfileOwner                           *OperatorId                                 `asn1:"tag:23,context,implicit,optional" json:"ProfileOwner,omitempty"`
+	DpProprietaryData                      *DpProprietaryData                          `asn1:"tag:24,context,implicit,optional" json:"DpProprietaryData,omitempty"`
+	ProfilePolicyRules                     *PprIds                                     `asn1:"tag:25,context,implicit,optional" json:"ProfilePolicyRules,omitempty"`
+	ServiceSpecificDataStoredInEuicc       VendorSpecificExtension                     `asn1:"tag:34,context,implicit,optional" json:"ServiceSpecificDataStoredInEuicc,omitempty"`
+	ServiceSpecificDataStoredInEuiccIndef_ bool                                        `asn1:"-" json:"-"`
+	EcallIndication                        *bool                                       `asn1:"tag:123,context,implicit,optional" json:"EcallIndication,omitempty"`
+	EcallIndicationRaw_                    byte                                        `asn1:"-" json:"-"`
+	FallbackAttribute                      *bool                                       `asn1:"tag:38,context,implicit,optional" json:"FallbackAttribute,omitempty"`
+	FallbackAttributeRaw_                  byte                                        `asn1:"-" json:"-"`
+	FallbackAllowed                        *bool                                       `asn1:"tag:103,context,implicit,optional" json:"FallbackAllowed,omitempty"`
+	FallbackAllowedRaw_                    byte                                        `asn1:"-" json:"-"`
+	IotSpecificProfileInfo                 *SGPProfileInfoIotSpecificProfileInfo       `asn1:"tag:100,context,implicit,optional" json:"IotSpecificProfileInfo,omitempty"`
+	ExtCount_                              int64                                       `asn1:"-" json:"-"`
+	ExtPresent_                            []bool                                      `asn1:"-" json:"-"`
+	ExtData_                               [][]byte                                    `asn1:"-" json:"-"`
 }
 
-// UpdateMetadataRequest represents the ASN.1 type UpdateMetadataRequest (SEQUENCE).
-type UpdateMetadataRequest struct {
-	ServiceProviderName                    *string                       `asn1:"tag:17,context,implicit,optional" json:"ServiceProviderName,omitempty"`
-	ProfileName                            *string                       `asn1:"tag:18,context,implicit,optional" json:"ProfileName,omitempty"`
-	IconType                               *sgp22.IconType               `asn1:"tag:19,context,implicit,optional" json:"IconType,omitempty"`
-	Icon                                   []byte                        `asn1:"tag:20,context,implicit,optional" json:"Icon,omitempty"`
-	ProfilePolicyRules                     *sgp22.PprIds                 `asn1:"tag:25,context,implicit,optional" json:"ProfilePolicyRules,omitempty"`
-	ServiceSpecificDataStoredInEuicc       sgp22.VendorSpecificExtension `asn1:"tag:34,context,implicit,optional" json:"ServiceSpecificDataStoredInEuicc,omitempty"`
-	ServiceSpecificDataStoredInEuiccIndef_ bool                          `asn1:"-" json:"-"`
-	FallbackAllowed                        *bool                         `asn1:"tag:103,context,implicit,optional" json:"FallbackAllowed,omitempty"`
-	FallbackAllowedRaw_                    byte                          `asn1:"-" json:"-"`
+// SGPUpdateMetadataRequest represents the ASN.1 type SGPUpdateMetadataRequest (SEQUENCE).
+type SGPUpdateMetadataRequest struct {
+	ServiceProviderName                    *string                 `asn1:"tag:17,context,implicit,optional" json:"ServiceProviderName,omitempty"`
+	ProfileName                            *string                 `asn1:"tag:18,context,implicit,optional" json:"ProfileName,omitempty"`
+	IconType                               *IconType               `asn1:"tag:19,context,implicit,optional" json:"IconType,omitempty"`
+	Icon                                   []byte                  `asn1:"tag:20,context,implicit,optional" json:"Icon,omitempty"`
+	ProfilePolicyRules                     *PprIds                 `asn1:"tag:25,context,implicit,optional" json:"ProfilePolicyRules,omitempty"`
+	ServiceSpecificDataStoredInEuicc       VendorSpecificExtension `asn1:"tag:34,context,implicit,optional" json:"ServiceSpecificDataStoredInEuicc,omitempty"`
+	ServiceSpecificDataStoredInEuiccIndef_ bool                    `asn1:"-" json:"-"`
+	FallbackAllowed                        *bool                   `asn1:"tag:103,context,implicit,optional" json:"FallbackAllowed,omitempty"`
+	FallbackAllowedRaw_                    byte                    `asn1:"-" json:"-"`
+	ExtCount_                              int64                   `asn1:"-" json:"-"`
+	ExtPresent_                            []bool                  `asn1:"-" json:"-"`
+	ExtData_                               [][]byte                `asn1:"-" json:"-"`
 }
 
-// StoreMetadataRequest represents the ASN.1 type StoreMetadataRequest (SEQUENCE).
-type StoreMetadataRequest struct {
-	Iccid                                     sgp22.Iccid                                       `asn1:""`
-	ServiceProviderName                       string                                            `asn1:"tag:17,context,implicit"`
-	ProfileName                               string                                            `asn1:"tag:18,context,implicit"`
-	IconType                                  *sgp22.IconType                                   `asn1:"tag:19,context,implicit,optional" json:"IconType,omitempty"`
-	Icon                                      []byte                                            `asn1:"tag:20,context,implicit,optional" json:"Icon,omitempty"`
-	ProfileClass                              *sgp22.ProfileClass                               `asn1:"tag:21,context,implicit,optional" json:"ProfileClass,omitempty"`
-	NotificationConfigurationInfo             StoreMetadataRequestNotificationConfigurationInfo `asn1:"tag:22,context,implicit,optional" json:"NotificationConfigurationInfo,omitempty"`
-	NotificationConfigurationInfoIndef_       bool                                              `asn1:"-" json:"-"`
-	ProfileOwner                              *sgp22.OperatorId                                 `asn1:"tag:23,context,implicit,optional" json:"ProfileOwner,omitempty"`
-	ProfilePolicyRules                        *sgp22.PprIds                                     `asn1:"tag:25,context,implicit,optional" json:"ProfilePolicyRules,omitempty"`
-	ServiceSpecificDataStoredInEuicc          sgp22.VendorSpecificExtension                     `asn1:"tag:34,context,implicit,optional" json:"ServiceSpecificDataStoredInEuicc,omitempty"`
-	ServiceSpecificDataStoredInEuiccIndef_    bool                                              `asn1:"-" json:"-"`
-	ServiceSpecificDataNotStoredInEuicc       sgp22.VendorSpecificExtension                     `asn1:"tag:35,context,implicit,optional" json:"ServiceSpecificDataNotStoredInEuicc,omitempty"`
-	ServiceSpecificDataNotStoredInEuiccIndef_ bool                                              `asn1:"-" json:"-"`
-	EcallIndication                           *bool                                             `asn1:"tag:123,context,implicit,optional" json:"EcallIndication,omitempty"`
-	EcallIndicationRaw_                       byte                                              `asn1:"-" json:"-"`
-	FallbackAllowed                           *bool                                             `asn1:"tag:103,context,implicit,optional" json:"FallbackAllowed,omitempty"`
-	FallbackAllowedRaw_                       byte                                              `asn1:"-" json:"-"`
-	IotSpecificMetadata                       *StoreMetadataRequestIotSpecificMetadata          `asn1:"tag:100,context,implicit,optional" json:"IotSpecificMetadata,omitempty"`
+// SGPStoreMetadataRequest represents the ASN.1 type SGPStoreMetadataRequest (SEQUENCE).
+type SGPStoreMetadataRequest struct {
+	Iccid                                     Iccid                                                `asn1:""`
+	ServiceProviderName                       string                                               `asn1:"tag:17,context,implicit"`
+	ProfileName                               string                                               `asn1:"tag:18,context,implicit"`
+	IconType                                  *IconType                                            `asn1:"tag:19,context,implicit,optional" json:"IconType,omitempty"`
+	Icon                                      []byte                                               `asn1:"tag:20,context,implicit,optional" json:"Icon,omitempty"`
+	ProfileClass                              *ProfileClass                                        `asn1:"tag:21,context,implicit,optional" json:"ProfileClass,omitempty"`
+	NotificationConfigurationInfo             SGPStoreMetadataRequestNotificationConfigurationInfo `asn1:"tag:22,context,implicit,optional" json:"NotificationConfigurationInfo,omitempty"`
+	NotificationConfigurationInfoIndef_       bool                                                 `asn1:"-" json:"-"`
+	ProfileOwner                              *OperatorId                                          `asn1:"tag:23,context,implicit,optional" json:"ProfileOwner,omitempty"`
+	ProfilePolicyRules                        *PprIds                                              `asn1:"tag:25,context,implicit,optional" json:"ProfilePolicyRules,omitempty"`
+	ServiceSpecificDataStoredInEuicc          VendorSpecificExtension                              `asn1:"tag:34,context,implicit,optional" json:"ServiceSpecificDataStoredInEuicc,omitempty"`
+	ServiceSpecificDataStoredInEuiccIndef_    bool                                                 `asn1:"-" json:"-"`
+	ServiceSpecificDataNotStoredInEuicc       VendorSpecificExtension                              `asn1:"tag:35,context,implicit,optional" json:"ServiceSpecificDataNotStoredInEuicc,omitempty"`
+	ServiceSpecificDataNotStoredInEuiccIndef_ bool                                                 `asn1:"-" json:"-"`
+	EcallIndication                           *bool                                                `asn1:"tag:123,context,implicit,optional" json:"EcallIndication,omitempty"`
+	EcallIndicationRaw_                       byte                                                 `asn1:"-" json:"-"`
+	FallbackAllowed                           *bool                                                `asn1:"tag:103,context,implicit,optional" json:"FallbackAllowed,omitempty"`
+	FallbackAllowedRaw_                       byte                                                 `asn1:"-" json:"-"`
+	IotSpecificMetadata                       *SGPStoreMetadataRequestIotSpecificMetadata          `asn1:"tag:100,context,implicit,optional" json:"IotSpecificMetadata,omitempty"`
+	ExtCount_                                 int64                                                `asn1:"-" json:"-"`
+	ExtPresent_                               []bool                                               `asn1:"-" json:"-"`
+	ExtData_                                  [][]byte                                             `asn1:"-" json:"-"`
 }
 
-// AuthenticateClientRequest represents the ASN.1 type AuthenticateClientRequest (SEQUENCE).
-type AuthenticateClientRequest struct {
-	TransactionId              sgp22.TransactionId        `asn1:"tag:0,context,implicit"`
-	AuthenticateServerResponse AuthenticateServerResponse `asn1:"tag:56,context,explicit"`
+// SGPAuthenticateClientRequest represents the ASN.1 type SGPAuthenticateClientRequest (SEQUENCE).
+type SGPAuthenticateClientRequest struct {
+	TransactionId              TransactionId                 `asn1:"tag:0,context,implicit"`
+	AuthenticateServerResponse SGPAuthenticateServerResponse `asn1:"tag:56,context,explicit"`
+	ExtCount_                  int64                         `asn1:"-" json:"-"`
+	ExtPresent_                []bool                        `asn1:"-" json:"-"`
+	ExtData_                   [][]byte                      `asn1:"-" json:"-"`
 }
 
-// EUICCInfo2 represents the ASN.1 type EUICCInfo2 (SEQUENCE).
-type EUICCInfo2 struct {
-	ProfileVersion                              sgp22.VersionType                               `asn1:"tag:1,context,implicit"`
-	Svn                                         sgp22.VersionType                               `asn1:"tag:2,context,implicit"`
-	EuiccFirmwareVer                            sgp22.VersionType                               `asn1:"tag:3,context,implicit"`
-	ExtCardResource                             []byte                                          `asn1:"tag:4,context,implicit"`
-	UiccCapability                              runtime.BitString                               `asn1:"tag:5,context,implicit"`
-	Ts102241Version                             *sgp22.VersionType                              `asn1:"tag:6,context,implicit,optional" json:"Ts102241Version,omitempty"`
-	GlobalplatformVersion                       *sgp22.VersionType                              `asn1:"tag:7,context,implicit,optional" json:"GlobalplatformVersion,omitempty"`
-	RspCapability                               sgp22.RspCapability                             `asn1:"tag:8,context,implicit"`
-	EuiccCiPKIdListForVerification              EUICCInfo2EuiccCiPKIdListForVerification        `asn1:"tag:9,context,implicit"`
-	EuiccCiPKIdListForVerificationIndef_        bool                                            `asn1:"-" json:"-"`
-	EuiccCiPKIdListForSigning                   EUICCInfo2EuiccCiPKIdListForSigning             `asn1:"tag:10,context,implicit"`
-	EuiccCiPKIdListForSigningIndef_             bool                                            `asn1:"-" json:"-"`
-	EuiccCategory                               *int64                                          `asn1:"tag:11,context,implicit,optional" json:"EuiccCategory,omitempty"`
-	ForbiddenProfilePolicyRules                 *sgp22.PprIds                                   `asn1:"tag:25,context,implicit,optional" json:"ForbiddenProfilePolicyRules,omitempty"`
-	PpVersion                                   sgp22.VersionType                               `asn1:""`
-	SasAcreditationNumber                       string                                          `asn1:""`
-	CertificationDataObject                     *sgp22.CertificationDataObject                  `asn1:"tag:12,context,implicit,optional" json:"CertificationDataObject,omitempty"`
-	TreProperties                               *runtime.BitString                              `asn1:"tag:13,context,implicit,optional" json:"TreProperties,omitempty"`
-	TreProductReference                         *string                                         `asn1:"tag:14,context,implicit,optional" json:"TreProductReference,omitempty"`
-	AdditionalEuiccProfilePackageVersions       EUICCInfo2AdditionalEuiccProfilePackageVersions `asn1:"tag:15,context,implicit,optional" json:"AdditionalEuiccProfilePackageVersions,omitempty"`
-	AdditionalEuiccProfilePackageVersionsIndef_ bool                                            `asn1:"-" json:"-"`
-	IpaMode                                     *IpaMode                                        `asn1:"tag:16,context,implicit,optional" json:"IpaMode,omitempty"`
-	EuiccCiPKIdListForSigningV3                 EUICCInfo2EuiccCiPKIdListForSigningV3           `asn1:"tag:17,context,implicit,optional" json:"EuiccCiPKIdListForSigningV3,omitempty"`
-	EuiccCiPKIdListForSigningV3Indef_           bool                                            `asn1:"-" json:"-"`
-	AdditionalEuiccInfo                         []byte                                          `asn1:"tag:18,context,implicit,optional" json:"AdditionalEuiccInfo,omitempty"`
-	HighestSvn                                  *sgp22.VersionType                              `asn1:"tag:19,context,implicit,optional" json:"HighestSvn,omitempty"`
-	IotSpecificInfo                             *IoTSpecificInfo                                `asn1:"tag:20,context,implicit,optional" json:"IotSpecificInfo,omitempty"`
-	EuiccMinimumSecurityLevel                   []byte                                          `asn1:"tag:21,context,implicit,optional" json:"EuiccMinimumSecurityLevel,omitempty"`
+// SGPEUICCInfo2 represents the ASN.1 type SGPEUICCInfo2 (SEQUENCE).
+type SGPEUICCInfo2 struct {
+	ProfileVersion                              VersionType                                        `asn1:"tag:1,context,implicit"`
+	Svn                                         VersionType                                        `asn1:"tag:2,context,implicit"`
+	EuiccFirmwareVer                            VersionType                                        `asn1:"tag:3,context,implicit"`
+	ExtCardResource                             []byte                                             `asn1:"tag:4,context,implicit"`
+	UiccCapability                              UICCCapability                                     `asn1:"tag:5,context,implicit"`
+	Ts102241Version                             *VersionType                                       `asn1:"tag:6,context,implicit,optional" json:"Ts102241Version,omitempty"`
+	GlobalplatformVersion                       *VersionType                                       `asn1:"tag:7,context,implicit,optional" json:"GlobalplatformVersion,omitempty"`
+	RspCapability                               RspCapability                                      `asn1:"tag:8,context,implicit"`
+	EuiccCiPKIdListForVerification              SGPEUICCInfo2EuiccCiPKIdListForVerification        `asn1:"tag:9,context,implicit"`
+	EuiccCiPKIdListForVerificationIndef_        bool                                               `asn1:"-" json:"-"`
+	EuiccCiPKIdListForSigning                   SGPEUICCInfo2EuiccCiPKIdListForSigning             `asn1:"tag:10,context,implicit"`
+	EuiccCiPKIdListForSigningIndef_             bool                                               `asn1:"-" json:"-"`
+	EuiccCategory                               *SGPEUICCInfo2EuiccCategoryValue                   `asn1:"tag:11,context,implicit,optional" json:"EuiccCategory,omitempty"`
+	ForbiddenProfilePolicyRules                 *PprIds                                            `asn1:"tag:25,context,implicit,optional" json:"ForbiddenProfilePolicyRules,omitempty"`
+	PpVersion                                   VersionType                                        `asn1:""`
+	SasAcreditationNumber                       string                                             `asn1:""`
+	CertificationDataObject                     *CertificationDataObject                           `asn1:"tag:12,context,implicit,optional" json:"CertificationDataObject,omitempty"`
+	TreProperties                               *runtime.BitString                                 `asn1:"tag:13,context,implicit,optional" json:"TreProperties,omitempty"`
+	TreProductReference                         *string                                            `asn1:"tag:14,context,implicit,optional" json:"TreProductReference,omitempty"`
+	AdditionalEuiccProfilePackageVersions       SGPEUICCInfo2AdditionalEuiccProfilePackageVersions `asn1:"tag:15,context,implicit,optional" json:"AdditionalEuiccProfilePackageVersions,omitempty"`
+	AdditionalEuiccProfilePackageVersionsIndef_ bool                                               `asn1:"-" json:"-"`
+	IpaMode                                     *IpaMode                                           `asn1:"tag:16,context,implicit,optional" json:"IpaMode,omitempty"`
+	EuiccCiPKIdListForSigningV3                 SGPEUICCInfo2EuiccCiPKIdListForSigningV3           `asn1:"tag:17,context,implicit,optional" json:"EuiccCiPKIdListForSigningV3,omitempty"`
+	EuiccCiPKIdListForSigningV3Indef_           bool                                               `asn1:"-" json:"-"`
+	AdditionalEuiccInfo                         []byte                                             `asn1:"tag:18,context,implicit,optional" json:"AdditionalEuiccInfo,omitempty"`
+	HighestSvn                                  *VersionType                                       `asn1:"tag:19,context,implicit,optional" json:"HighestSvn,omitempty"`
+	IotSpecificInfo                             *SGPIoTSpecificInfo                                `asn1:"tag:20,context,implicit,optional" json:"IotSpecificInfo,omitempty"`
+	EuiccMinimumSecurityLevel                   []byte                                             `asn1:"tag:21,context,implicit,optional" json:"EuiccMinimumSecurityLevel,omitempty"`
+	ExtCount_                                   int64                                              `asn1:"-" json:"-"`
+	ExtPresent_                                 []bool                                             `asn1:"-" json:"-"`
+	ExtData_                                    [][]byte                                           `asn1:"-" json:"-"`
 }
 
-// IoTSpecificInfo represents the ASN.1 type IoTSpecificInfo (SEQUENCE).
-type IoTSpecificInfo struct {
+// SGPIoTSpecificInfo represents the ASN.1 type SGPIoTSpecificInfo (SEQUENCE).
+type SGPIoTSpecificInfo struct {
 	IotVersion                     IoTSpecificInfoIotVersion `asn1:"tag:0,context,implicit"`
 	IotVersionIndef_               bool                      `asn1:"-" json:"-"`
 	EcallSupported                 *struct{}                 `asn1:"tag:1,context,implicit,optional" json:"EcallSupported,omitempty"`
 	FallbackSupported              *struct{}                 `asn1:"tag:2,context,implicit,optional" json:"FallbackSupported,omitempty"`
 	FallbackAllowedUpdateSupported *struct{}                 `asn1:"tag:3,context,implicit,optional" json:"FallbackAllowedUpdateSupported,omitempty"`
+	ExtCount_                      int64                     `asn1:"-" json:"-"`
+	ExtPresent_                    []bool                    `asn1:"-" json:"-"`
+	ExtData_                       [][]byte                  `asn1:"-" json:"-"`
 }
 
-// IpaMode represents the ASN.1 INTEGER type IpaMode with named numbers.
-type IpaMode int64
+// IpaMode represents the arbitrary-width ASN.1 INTEGER type IpaMode with named numbers.
+type IpaMode struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	IpaModeIpad IpaMode = 0
-	IpaModeIpae IpaMode = 1
+	IpaModeIpadDecimal = "0"
+	IpaModeIpad        = 0
+	IpaModeIpaeDecimal = "1"
+	IpaModeIpae        = 1
 )
 
-func (v IpaMode) String() string {
-	switch v {
-	case IpaModeIpad:
-		return "ipad"
-	case IpaModeIpae:
-		return "ipae"
-	default:
-		return "unknown"
+// NewIpaMode returns an immutable IpaMode containing value.
+func NewIpaMode(value *big.Int) IpaMode {
+	return IpaMode{value: runtime.CloneBigInt(value)}
+}
+
+// NewIpaModeInt64 returns a IpaMode containing value.
+func NewIpaModeInt64(value int64) IpaMode {
+	return NewIpaMode(big.NewInt(value))
+}
+
+// IpaModeIpadValue returns the named value ipad.
+func IpaModeIpadValue() IpaMode {
+	return NewIpaMode(runtime.MustParseBigIntDecimal(IpaModeIpadDecimal))
+}
+
+// IpaModeIpaeValue returns the named value ipae.
+func IpaModeIpaeValue() IpaMode {
+	return NewIpaMode(runtime.MustParseBigIntDecimal(IpaModeIpaeDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v IpaMode) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v IpaMode) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
 	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v IpaMode) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case IpaModeIpadDecimal:
+		return "ipad", true
+	case IpaModeIpaeDecimal:
+		return "ipae", true
+	default:
+		return "", false
+	}
+}
+
+func (v IpaMode) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v IpaMode) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *IpaMode) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal IpaMode into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewIpaMode(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v IpaMode) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *IpaMode) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal IpaMode into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewIpaMode(value)
+	return nil
 }
 
 // AddInitialEimRequest represents the ASN.1 type AddInitialEimRequest (SEQUENCE).
 type AddInitialEimRequest struct {
 	EimConfigurationDataList       AddInitialEimRequestEimConfigurationDataList `asn1:"tag:0,context,implicit"`
 	EimConfigurationDataListIndef_ bool                                         `asn1:"-" json:"-"`
+	ExtCount_                      int64                                        `asn1:"-" json:"-"`
+	ExtPresent_                    []bool                                       `asn1:"-" json:"-"`
+	ExtData_                       [][]byte                                     `asn1:"-" json:"-"`
 }
 
 // AddInitialEimResponse choice constants.
@@ -1228,8 +2769,8 @@ const (
 // AddInitialEimResponse represents the ASN.1 CHOICE type AddInitialEimResponse.
 type AddInitialEimResponse struct {
 	Choice             int
-	AddInitialEimOk    AddInitialEimResponseAddInitialEimOk `json:"AddInitialEimOk,omitempty"`
-	AddInitialEimError *int64                               `json:"AddInitialEimError,omitempty"`
+	AddInitialEimOk    AddInitialEimResponseAddInitialEimOk          `json:"AddInitialEimOk,omitempty"`
+	AddInitialEimError *AddInitialEimResponseAddInitialEimErrorValue `json:"AddInitialEimError,omitempty"`
 }
 
 // NewAddInitialEimResponseAddInitialEimOk creates a AddInitialEimResponse with the addInitialEimOk alternative.
@@ -1241,28 +2782,37 @@ func NewAddInitialEimResponseAddInitialEimOk(v AddInitialEimResponseAddInitialEi
 }
 
 // NewAddInitialEimResponseAddInitialEimError creates a AddInitialEimResponse with the addInitialEimError alternative.
-func NewAddInitialEimResponseAddInitialEimError(v int64) AddInitialEimResponse {
+func NewAddInitialEimResponseAddInitialEimError(v AddInitialEimResponseAddInitialEimErrorValue) AddInitialEimResponse {
 	return AddInitialEimResponse{
 		Choice:             AddInitialEimResponseChoiceAddInitialEimError,
 		AddInitialEimError: &v,
 	}
 }
 
-// EuiccMemoryResetRequest represents the ASN.1 type EuiccMemoryResetRequest (SEQUENCE).
-type EuiccMemoryResetRequest struct {
+// SGPEuiccMemoryResetRequest represents the ASN.1 type SGPEuiccMemoryResetRequest (SEQUENCE).
+type SGPEuiccMemoryResetRequest struct {
 	ResetOptions runtime.BitString `asn1:"tag:2,context,implicit"`
+	ExtCount_    int64             `asn1:"-" json:"-"`
+	ExtPresent_  []bool            `asn1:"-" json:"-"`
+	ExtData_     [][]byte          `asn1:"-" json:"-"`
 }
 
-// EuiccMemoryResetResponse represents the ASN.1 type EuiccMemoryResetResponse (SEQUENCE).
-type EuiccMemoryResetResponse struct {
-	ResetResult                      int64  `asn1:"tag:0,context,implicit"`
-	ResetEimResult                   *int64 `asn1:"tag:1,context,implicit,optional" json:"ResetEimResult,omitempty"`
-	ResetImmediateEnableConfigResult *int64 `asn1:"tag:2,context,implicit,optional" json:"ResetImmediateEnableConfigResult,omitempty"`
+// SGPEuiccMemoryResetResponse represents the ASN.1 type SGPEuiccMemoryResetResponse (SEQUENCE).
+type SGPEuiccMemoryResetResponse struct {
+	ResetResult                      SGPEuiccMemoryResetResponseResetResultValue                    `asn1:"tag:0,context,implicit"`
+	ResetEimResult                   *EuiccMemoryResetResponseResetEimResultValue                   `asn1:"tag:1,context,implicit,optional" json:"ResetEimResult,omitempty"`
+	ResetImmediateEnableConfigResult *EuiccMemoryResetResponseResetImmediateEnableConfigResultValue `asn1:"tag:2,context,implicit,optional" json:"ResetImmediateEnableConfigResult,omitempty"`
+	ExtCount_                        int64                                                          `asn1:"-" json:"-"`
+	ExtPresent_                      []bool                                                         `asn1:"-" json:"-"`
+	ExtData_                         [][]byte                                                       `asn1:"-" json:"-"`
 }
 
 // GetCertsRequest represents the ASN.1 type GetCertsRequest (SEQUENCE).
 type GetCertsRequest struct {
-	EuiccCiPKId *sgp22.SubjectKeyIdentifier `asn1:"tag:0,context,implicit,optional" json:"EuiccCiPKId,omitempty"`
+	EuiccCiPKId *SubjectKeyIdentifier `asn1:"tag:0,context,implicit,optional" json:"EuiccCiPKId,omitempty"`
+	ExtCount_   int64                 `asn1:"-" json:"-"`
+	ExtPresent_ []bool                `asn1:"-" json:"-"`
+	ExtData_    [][]byte              `asn1:"-" json:"-"`
 }
 
 // GetCertsResponse choice constants.
@@ -1274,8 +2824,8 @@ const (
 // GetCertsResponse represents the ASN.1 CHOICE type GetCertsResponse.
 type GetCertsResponse struct {
 	Choice        int
-	Certs         *GetCertsResponseCerts `json:"Certs,omitempty"`
-	GetCertsError *int64                 `json:"GetCertsError,omitempty"`
+	Certs         *GetCertsResponseCerts              `json:"Certs,omitempty"`
+	GetCertsError *GetCertsResponseGetCertsErrorValue `json:"GetCertsError,omitempty"`
 }
 
 // NewGetCertsResponseCerts creates a GetCertsResponse with the certs alternative.
@@ -1287,78 +2837,93 @@ func NewGetCertsResponseCerts(v GetCertsResponseCerts) GetCertsResponse {
 }
 
 // NewGetCertsResponseGetCertsError creates a GetCertsResponse with the getCertsError alternative.
-func NewGetCertsResponseGetCertsError(v int64) GetCertsResponse {
+func NewGetCertsResponseGetCertsError(v GetCertsResponseGetCertsErrorValue) GetCertsResponse {
 	return GetCertsResponse{
 		Choice:        GetCertsResponseChoiceGetCertsError,
 		GetCertsError: &v,
 	}
 }
 
-// RetrieveNotificationsListRequest represents the ASN.1 type RetrieveNotificationsListRequest (SEQUENCE).
-type RetrieveNotificationsListRequest struct {
-	SearchCriteria *RetrieveNotificationsListRequestSearchCriteria `asn1:"tag:0,context,explicit,optional" json:"SearchCriteria,omitempty"`
+// SGPRetrieveNotificationsListRequest represents the ASN.1 type SGPRetrieveNotificationsListRequest (SEQUENCE).
+type SGPRetrieveNotificationsListRequest struct {
+	SearchCriteria *SGPRetrieveNotificationsListRequestSearchCriteria `asn1:"tag:0,context,explicit,optional" json:"SearchCriteria,omitempty"`
+	ExtCount_      int64                                              `asn1:"-" json:"-"`
+	ExtPresent_    []bool                                             `asn1:"-" json:"-"`
+	ExtData_       [][]byte                                           `asn1:"-" json:"-"`
 }
 
-// RetrieveNotificationsListResponse choice constants.
+// SGPRetrieveNotificationsListResponse choice constants.
 const (
-	RetrieveNotificationsListResponseChoiceNotificationList             = 1
-	RetrieveNotificationsListResponseChoiceNotificationsListResultError = 2
-	RetrieveNotificationsListResponseChoiceEuiccPackageResultList       = 3
+	SGPRetrieveNotificationsListResponseChoiceNotificationList             = 1
+	SGPRetrieveNotificationsListResponseChoiceNotificationsListResultError = 2
+	SGPRetrieveNotificationsListResponseChoiceEuiccPackageResultList       = 3
 )
 
-// RetrieveNotificationsListResponse represents the ASN.1 CHOICE type RetrieveNotificationsListResponse.
-type RetrieveNotificationsListResponse struct {
+// SGPRetrieveNotificationsListResponse represents the ASN.1 CHOICE type SGPRetrieveNotificationsListResponse.
+type SGPRetrieveNotificationsListResponse struct {
 	Choice                       int
-	NotificationList             PendingNotificationList `json:"NotificationList,omitempty"`
-	NotificationsListResultError *int64                  `json:"NotificationsListResultError,omitempty"`
-	EuiccPackageResultList       EuiccPackageResultList  `json:"EuiccPackageResultList,omitempty"`
+	NotificationList             PendingNotificationList                                                `json:"NotificationList,omitempty"`
+	NotificationsListResultError *SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue `json:"NotificationsListResultError,omitempty"`
+	EuiccPackageResultList       EuiccPackageResultList                                                 `json:"EuiccPackageResultList,omitempty"`
 }
 
-// NewRetrieveNotificationsListResponseNotificationList creates a RetrieveNotificationsListResponse with the notificationList alternative.
-func NewRetrieveNotificationsListResponseNotificationList(v PendingNotificationList) RetrieveNotificationsListResponse {
-	return RetrieveNotificationsListResponse{
-		Choice:           RetrieveNotificationsListResponseChoiceNotificationList,
+// NewSGPRetrieveNotificationsListResponseNotificationList creates a SGPRetrieveNotificationsListResponse with the notificationList alternative.
+func NewSGPRetrieveNotificationsListResponseNotificationList(v PendingNotificationList) SGPRetrieveNotificationsListResponse {
+	return SGPRetrieveNotificationsListResponse{
+		Choice:           SGPRetrieveNotificationsListResponseChoiceNotificationList,
 		NotificationList: v,
 	}
 }
 
-// NewRetrieveNotificationsListResponseNotificationsListResultError creates a RetrieveNotificationsListResponse with the notificationsListResultError alternative.
-func NewRetrieveNotificationsListResponseNotificationsListResultError(v int64) RetrieveNotificationsListResponse {
-	return RetrieveNotificationsListResponse{
-		Choice:                       RetrieveNotificationsListResponseChoiceNotificationsListResultError,
+// NewSGPRetrieveNotificationsListResponseNotificationsListResultError creates a SGPRetrieveNotificationsListResponse with the notificationsListResultError alternative.
+func NewSGPRetrieveNotificationsListResponseNotificationsListResultError(v SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue) SGPRetrieveNotificationsListResponse {
+	return SGPRetrieveNotificationsListResponse{
+		Choice:                       SGPRetrieveNotificationsListResponseChoiceNotificationsListResultError,
 		NotificationsListResultError: &v,
 	}
 }
 
-// NewRetrieveNotificationsListResponseEuiccPackageResultList creates a RetrieveNotificationsListResponse with the euiccPackageResultList alternative.
-func NewRetrieveNotificationsListResponseEuiccPackageResultList(v EuiccPackageResultList) RetrieveNotificationsListResponse {
-	return RetrieveNotificationsListResponse{
-		Choice:                 RetrieveNotificationsListResponseChoiceEuiccPackageResultList,
+// NewSGPRetrieveNotificationsListResponseEuiccPackageResultList creates a SGPRetrieveNotificationsListResponse with the euiccPackageResultList alternative.
+func NewSGPRetrieveNotificationsListResponseEuiccPackageResultList(v EuiccPackageResultList) SGPRetrieveNotificationsListResponse {
+	return SGPRetrieveNotificationsListResponse{
+		Choice:                 SGPRetrieveNotificationsListResponseChoiceEuiccPackageResultList,
 		EuiccPackageResultList: v,
 	}
 }
 
 // ImmediateEnableRequest represents the ASN.1 type ImmediateEnableRequest (SEQUENCE).
 type ImmediateEnableRequest struct {
-	RefreshFlag     bool `asn1:"tag:0,context,implicit"`
-	RefreshFlagRaw_ byte `asn1:"-" json:"-"`
+	RefreshFlag     bool     `asn1:"tag:0,context,implicit"`
+	RefreshFlagRaw_ byte     `asn1:"-" json:"-"`
+	ExtCount_       int64    `asn1:"-" json:"-"`
+	ExtPresent_     []bool   `asn1:"-" json:"-"`
+	ExtData_        [][]byte `asn1:"-" json:"-"`
 }
 
 // ImmediateEnableResponse represents the ASN.1 type ImmediateEnableResponse (SEQUENCE).
 type ImmediateEnableResponse struct {
-	ImmediateEnableResult int64 `asn1:"tag:0,context,implicit"`
+	ImmediateEnableResult ImmediateEnableResponseImmediateEnableResultValue `asn1:"tag:0,context,implicit"`
+	ExtCount_             int64                                             `asn1:"-" json:"-"`
+	ExtPresent_           []bool                                            `asn1:"-" json:"-"`
+	ExtData_              [][]byte                                          `asn1:"-" json:"-"`
 }
 
 // ProfileRollbackRequest represents the ASN.1 type ProfileRollbackRequest (SEQUENCE).
 type ProfileRollbackRequest struct {
-	RefreshFlag     bool `asn1:"tag:0,context,implicit"`
-	RefreshFlagRaw_ byte `asn1:"-" json:"-"`
+	RefreshFlag     bool     `asn1:"tag:0,context,implicit"`
+	RefreshFlagRaw_ byte     `asn1:"-" json:"-"`
+	ExtCount_       int64    `asn1:"-" json:"-"`
+	ExtPresent_     []bool   `asn1:"-" json:"-"`
+	ExtData_        [][]byte `asn1:"-" json:"-"`
 }
 
 // ProfileRollbackResponse represents the ASN.1 type ProfileRollbackResponse (SEQUENCE).
 type ProfileRollbackResponse struct {
-	CmdResult          int64               `asn1:""`
-	EUICCPackageResult *EuiccPackageResult `asn1:"tag:81,context,explicit,optional" json:"EUICCPackageResult,omitempty"`
+	CmdResult          ProfileRollbackResponseCmdResultValue `asn1:""`
+	EUICCPackageResult *EuiccPackageResult                   `asn1:"tag:81,context,explicit,optional" json:"EUICCPackageResult,omitempty"`
+	ExtCount_          int64                                 `asn1:"-" json:"-"`
+	ExtPresent_        []bool                                `asn1:"-" json:"-"`
+	ExtData_           [][]byte                              `asn1:"-" json:"-"`
 }
 
 // ConfigureImmediateProfileEnablingRequest represents the ASN.1 type ConfigureImmediateProfileEnablingRequest (SEQUENCE).
@@ -1366,70 +2931,109 @@ type ConfigureImmediateProfileEnablingRequest struct {
 	ImmediateEnableFlag *struct{}                `asn1:"tag:0,context,implicit,optional" json:"ImmediateEnableFlag,omitempty"`
 	DefaultSmdpOid      runtime.ObjectIdentifier `asn1:"tag:1,context,implicit,optional" json:"DefaultSmdpOid,omitempty"`
 	DefaultSmdpAddress  *string                  `asn1:"tag:2,context,implicit,optional" json:"DefaultSmdpAddress,omitempty"`
+	ExtCount_           int64                    `asn1:"-" json:"-"`
+	ExtPresent_         []bool                   `asn1:"-" json:"-"`
+	ExtData_            [][]byte                 `asn1:"-" json:"-"`
 }
 
 // ConfigureImmediateProfileEnablingResponse represents the ASN.1 type ConfigureImmediateProfileEnablingResponse (SEQUENCE).
 type ConfigureImmediateProfileEnablingResponse struct {
-	ConfigImmediateEnableResult int64 `asn1:"tag:0,context,implicit"`
+	ConfigImmediateEnableResult ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue `asn1:"tag:0,context,implicit"`
+	ExtCount_                   int64                                                                     `asn1:"-" json:"-"`
+	ExtPresent_                 []bool                                                                    `asn1:"-" json:"-"`
+	ExtData_                    [][]byte                                                                  `asn1:"-" json:"-"`
 }
 
 // GetEimConfigurationDataRequest represents the ASN.1 type GetEimConfigurationDataRequest (SEQUENCE).
 type GetEimConfigurationDataRequest struct {
 	SearchCriteria *GetEimConfigurationDataRequestSearchCriteria `asn1:"tag:0,context,explicit,optional" json:"SearchCriteria,omitempty"`
+	ExtCount_      int64                                         `asn1:"-" json:"-"`
+	ExtPresent_    []bool                                        `asn1:"-" json:"-"`
+	ExtData_       [][]byte                                      `asn1:"-" json:"-"`
 }
 
 // GetEimConfigurationDataResponse represents the ASN.1 type GetEimConfigurationDataResponse (SEQUENCE).
 type GetEimConfigurationDataResponse struct {
 	EimConfigurationDataList       GetEimConfigurationDataResponseEimConfigurationDataList `asn1:"tag:0,context,implicit"`
 	EimConfigurationDataListIndef_ bool                                                    `asn1:"-" json:"-"`
+	ExtCount_                      int64                                                   `asn1:"-" json:"-"`
+	ExtPresent_                    []bool                                                  `asn1:"-" json:"-"`
+	ExtData_                       [][]byte                                                `asn1:"-" json:"-"`
 }
 
 // ExecuteFallbackMechanismRequest represents the ASN.1 type ExecuteFallbackMechanismRequest (SEQUENCE).
 type ExecuteFallbackMechanismRequest struct {
-	RefreshFlag     bool `asn1:"tag:0,context,implicit"`
-	RefreshFlagRaw_ byte `asn1:"-" json:"-"`
+	RefreshFlag     bool     `asn1:"tag:0,context,implicit"`
+	RefreshFlagRaw_ byte     `asn1:"-" json:"-"`
+	ExtCount_       int64    `asn1:"-" json:"-"`
+	ExtPresent_     []bool   `asn1:"-" json:"-"`
+	ExtData_        [][]byte `asn1:"-" json:"-"`
 }
 
 // ExecuteFallbackMechanismResponse represents the ASN.1 type ExecuteFallbackMechanismResponse (SEQUENCE).
 type ExecuteFallbackMechanismResponse struct {
-	ExecuteFallbackMechanismResult int64 `asn1:"tag:0,context,implicit"`
+	ExecuteFallbackMechanismResult ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue `asn1:"tag:0,context,implicit"`
+	ExtCount_                      int64                                                               `asn1:"-" json:"-"`
+	ExtPresent_                    []bool                                                              `asn1:"-" json:"-"`
+	ExtData_                       [][]byte                                                            `asn1:"-" json:"-"`
 }
 
 // ReturnFromFallbackRequest represents the ASN.1 type ReturnFromFallbackRequest (SEQUENCE).
 type ReturnFromFallbackRequest struct {
-	RefreshFlag     bool `asn1:"tag:0,context,implicit"`
-	RefreshFlagRaw_ byte `asn1:"-" json:"-"`
+	RefreshFlag     bool     `asn1:"tag:0,context,implicit"`
+	RefreshFlagRaw_ byte     `asn1:"-" json:"-"`
+	ExtCount_       int64    `asn1:"-" json:"-"`
+	ExtPresent_     []bool   `asn1:"-" json:"-"`
+	ExtData_        [][]byte `asn1:"-" json:"-"`
 }
 
 // ReturnFromFallbackResponse represents the ASN.1 type ReturnFromFallbackResponse (SEQUENCE).
 type ReturnFromFallbackResponse struct {
-	ReturnFromFallbackResult int64 `asn1:"tag:0,context,implicit"`
+	ReturnFromFallbackResult ReturnFromFallbackResponseReturnFromFallbackResultValue `asn1:"tag:0,context,implicit"`
+	ExtCount_                int64                                                   `asn1:"-" json:"-"`
+	ExtPresent_              []bool                                                  `asn1:"-" json:"-"`
+	ExtData_                 [][]byte                                                `asn1:"-" json:"-"`
 }
 
 // EnableEmergencyProfileRequest represents the ASN.1 type EnableEmergencyProfileRequest (SEQUENCE).
 type EnableEmergencyProfileRequest struct {
-	RefreshFlag     bool `asn1:"tag:0,context,implicit"`
-	RefreshFlagRaw_ byte `asn1:"-" json:"-"`
+	RefreshFlag     bool     `asn1:"tag:0,context,implicit"`
+	RefreshFlagRaw_ byte     `asn1:"-" json:"-"`
+	ExtCount_       int64    `asn1:"-" json:"-"`
+	ExtPresent_     []bool   `asn1:"-" json:"-"`
+	ExtData_        [][]byte `asn1:"-" json:"-"`
 }
 
 // EnableEmergencyProfileResponse represents the ASN.1 type EnableEmergencyProfileResponse (SEQUENCE).
 type EnableEmergencyProfileResponse struct {
-	EnableEmergencyProfileResult int64 `asn1:"tag:0,context,implicit"`
+	EnableEmergencyProfileResult EnableEmergencyProfileResponseEnableEmergencyProfileResultValue `asn1:"tag:0,context,implicit"`
+	ExtCount_                    int64                                                           `asn1:"-" json:"-"`
+	ExtPresent_                  []bool                                                          `asn1:"-" json:"-"`
+	ExtData_                     [][]byte                                                        `asn1:"-" json:"-"`
 }
 
 // DisableEmergencyProfileRequest represents the ASN.1 type DisableEmergencyProfileRequest (SEQUENCE).
 type DisableEmergencyProfileRequest struct {
-	RefreshFlag     bool `asn1:"tag:0,context,implicit"`
-	RefreshFlagRaw_ byte `asn1:"-" json:"-"`
+	RefreshFlag     bool     `asn1:"tag:0,context,implicit"`
+	RefreshFlagRaw_ byte     `asn1:"-" json:"-"`
+	ExtCount_       int64    `asn1:"-" json:"-"`
+	ExtPresent_     []bool   `asn1:"-" json:"-"`
+	ExtData_        [][]byte `asn1:"-" json:"-"`
 }
 
 // DisableEmergencyProfileResponse represents the ASN.1 type DisableEmergencyProfileResponse (SEQUENCE).
 type DisableEmergencyProfileResponse struct {
-	DisableEmergencyProfileResult int64 `asn1:"tag:0,context,implicit"`
+	DisableEmergencyProfileResult DisableEmergencyProfileResponseDisableEmergencyProfileResultValue `asn1:"tag:0,context,implicit"`
+	ExtCount_                     int64                                                             `asn1:"-" json:"-"`
+	ExtPresent_                   []bool                                                            `asn1:"-" json:"-"`
+	ExtData_                      [][]byte                                                          `asn1:"-" json:"-"`
 }
 
 // GetConnectivityParametersRequest represents the ASN.1 type GetConnectivityParametersRequest (SEQUENCE).
 type GetConnectivityParametersRequest struct {
+	ExtCount_   int64    `asn1:"-" json:"-"`
+	ExtPresent_ []bool   `asn1:"-" json:"-"`
+	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
 // GetConnectivityParametersResponse choice constants.
@@ -1463,73 +3067,165 @@ func NewGetConnectivityParametersResponseConnectivityParametersError(v Connectiv
 
 // ConnectivityParameters represents the ASN.1 type ConnectivityParameters (SEQUENCE).
 type ConnectivityParameters struct {
-	HttpParams []byte `asn1:"tag:1,context,implicit,optional" json:"HttpParams,omitempty"`
+	HttpParams  []byte   `asn1:"tag:1,context,implicit,optional" json:"HttpParams,omitempty"`
+	ExtCount_   int64    `asn1:"-" json:"-"`
+	ExtPresent_ []bool   `asn1:"-" json:"-"`
+	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// ConnectivityParametersError represents the ASN.1 INTEGER type ConnectivityParametersError with named numbers.
-type ConnectivityParametersError int64
+// ConnectivityParametersError represents the arbitrary-width ASN.1 INTEGER type ConnectivityParametersError with named numbers.
+type ConnectivityParametersError struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	ConnectivityParametersErrorParametersNotAvailable ConnectivityParametersError = 1
-	ConnectivityParametersErrorUndefinedError         ConnectivityParametersError = 127
+	ConnectivityParametersErrorParametersNotAvailableDecimal = "1"
+	ConnectivityParametersErrorParametersNotAvailable        = 1
+	ConnectivityParametersErrorUndefinedErrorDecimal         = "127"
+	ConnectivityParametersErrorUndefinedError                = 127
 )
 
-func (v ConnectivityParametersError) String() string {
-	switch v {
-	case ConnectivityParametersErrorParametersNotAvailable:
-		return "parametersNotAvailable"
-	case ConnectivityParametersErrorUndefinedError:
-		return "undefinedError"
+// NewConnectivityParametersError returns an immutable ConnectivityParametersError containing value.
+func NewConnectivityParametersError(value *big.Int) ConnectivityParametersError {
+	return ConnectivityParametersError{value: runtime.CloneBigInt(value)}
+}
+
+// NewConnectivityParametersErrorInt64 returns a ConnectivityParametersError containing value.
+func NewConnectivityParametersErrorInt64(value int64) ConnectivityParametersError {
+	return NewConnectivityParametersError(big.NewInt(value))
+}
+
+// ConnectivityParametersErrorParametersNotAvailableValue returns the named value parametersNotAvailable.
+func ConnectivityParametersErrorParametersNotAvailableValue() ConnectivityParametersError {
+	return NewConnectivityParametersError(runtime.MustParseBigIntDecimal(ConnectivityParametersErrorParametersNotAvailableDecimal))
+}
+
+// ConnectivityParametersErrorUndefinedErrorValue returns the named value undefinedError.
+func ConnectivityParametersErrorUndefinedErrorValue() ConnectivityParametersError {
+	return NewConnectivityParametersError(runtime.MustParseBigIntDecimal(ConnectivityParametersErrorUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v ConnectivityParametersError) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v ConnectivityParametersError) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v ConnectivityParametersError) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case ConnectivityParametersErrorParametersNotAvailableDecimal:
+		return "parametersNotAvailable", true
+	case ConnectivityParametersErrorUndefinedErrorDecimal:
+		return "undefinedError", true
 	default:
-		return "unknown"
+		return "", false
 	}
 }
 
-// SetDefaultDpAddressRequest represents the ASN.1 type SetDefaultDpAddressRequest (SEQUENCE).
-type SetDefaultDpAddressRequest struct {
-	DefaultDpAddress string `asn1:"tag:0,context,implicit"`
+func (v ConnectivityParametersError) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
 }
 
-// SetDefaultDpAddressResponse represents the ASN.1 type SetDefaultDpAddressResponse (SEQUENCE).
-type SetDefaultDpAddressResponse struct {
-	SetDefaultDpAddressResult int64 `asn1:"tag:0,context,implicit"`
+// MarshalText returns the exact decimal INTEGER value.
+func (v ConnectivityParametersError) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
 }
 
-// PrepareDownloadResponse choice constants.
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *ConnectivityParametersError) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ConnectivityParametersError into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewConnectivityParametersError(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v ConnectivityParametersError) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *ConnectivityParametersError) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ConnectivityParametersError into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewConnectivityParametersError(value)
+	return nil
+}
+
+// SGPSetDefaultDpAddressRequest represents the ASN.1 type SGPSetDefaultDpAddressRequest (SEQUENCE).
+type SGPSetDefaultDpAddressRequest struct {
+	DefaultDpAddress string   `asn1:"tag:0,context,implicit"`
+	ExtCount_        int64    `asn1:"-" json:"-"`
+	ExtPresent_      []bool   `asn1:"-" json:"-"`
+	ExtData_         [][]byte `asn1:"-" json:"-"`
+}
+
+// SGPSetDefaultDpAddressResponse represents the ASN.1 type SGPSetDefaultDpAddressResponse (SEQUENCE).
+type SGPSetDefaultDpAddressResponse struct {
+	SetDefaultDpAddressResult SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue `asn1:"tag:0,context,implicit"`
+	ExtCount_                 int64                                                        `asn1:"-" json:"-"`
+	ExtPresent_               []bool                                                       `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                                                     `asn1:"-" json:"-"`
+}
+
+// SGPPrepareDownloadResponse choice constants.
 const (
-	PrepareDownloadResponseChoiceDownloadResponseOk        = 1
-	PrepareDownloadResponseChoiceDownloadResponseError     = 2
-	PrepareDownloadResponseChoiceCompactDownloadResponseOk = 3
+	SGPPrepareDownloadResponseChoiceDownloadResponseOk        = 1
+	SGPPrepareDownloadResponseChoiceDownloadResponseError     = 2
+	SGPPrepareDownloadResponseChoiceCompactDownloadResponseOk = 3
 )
 
-// PrepareDownloadResponse represents the ASN.1 CHOICE type PrepareDownloadResponse.
-type PrepareDownloadResponse struct {
+// SGPPrepareDownloadResponse represents the ASN.1 CHOICE type SGPPrepareDownloadResponse.
+type SGPPrepareDownloadResponse struct {
 	Choice                    int
-	DownloadResponseOk        *sgp22.PrepareDownloadResponseOk    `json:"DownloadResponseOk,omitempty"`
-	DownloadResponseError     *sgp22.PrepareDownloadResponseError `json:"DownloadResponseError,omitempty"`
-	CompactDownloadResponseOk *CompactPrepareDownloadResponseOk   `json:"CompactDownloadResponseOk,omitempty"`
+	DownloadResponseOk        *PrepareDownloadResponseOk        `json:"DownloadResponseOk,omitempty"`
+	DownloadResponseError     *PrepareDownloadResponseError     `json:"DownloadResponseError,omitempty"`
+	CompactDownloadResponseOk *CompactPrepareDownloadResponseOk `json:"CompactDownloadResponseOk,omitempty"`
 }
 
-// NewPrepareDownloadResponseDownloadResponseOk creates a PrepareDownloadResponse with the downloadResponseOk alternative.
-func NewPrepareDownloadResponseDownloadResponseOk(v sgp22.PrepareDownloadResponseOk) PrepareDownloadResponse {
-	return PrepareDownloadResponse{
-		Choice:             PrepareDownloadResponseChoiceDownloadResponseOk,
+// NewSGPPrepareDownloadResponseDownloadResponseOk creates a SGPPrepareDownloadResponse with the downloadResponseOk alternative.
+func NewSGPPrepareDownloadResponseDownloadResponseOk(v PrepareDownloadResponseOk) SGPPrepareDownloadResponse {
+	return SGPPrepareDownloadResponse{
+		Choice:             SGPPrepareDownloadResponseChoiceDownloadResponseOk,
 		DownloadResponseOk: &v,
 	}
 }
 
-// NewPrepareDownloadResponseDownloadResponseError creates a PrepareDownloadResponse with the downloadResponseError alternative.
-func NewPrepareDownloadResponseDownloadResponseError(v sgp22.PrepareDownloadResponseError) PrepareDownloadResponse {
-	return PrepareDownloadResponse{
-		Choice:                PrepareDownloadResponseChoiceDownloadResponseError,
+// NewSGPPrepareDownloadResponseDownloadResponseError creates a SGPPrepareDownloadResponse with the downloadResponseError alternative.
+func NewSGPPrepareDownloadResponseDownloadResponseError(v PrepareDownloadResponseError) SGPPrepareDownloadResponse {
+	return SGPPrepareDownloadResponse{
+		Choice:                SGPPrepareDownloadResponseChoiceDownloadResponseError,
 		DownloadResponseError: &v,
 	}
 }
 
-// NewPrepareDownloadResponseCompactDownloadResponseOk creates a PrepareDownloadResponse with the compactDownloadResponseOk alternative.
-func NewPrepareDownloadResponseCompactDownloadResponseOk(v CompactPrepareDownloadResponseOk) PrepareDownloadResponse {
-	return PrepareDownloadResponse{
-		Choice:                    PrepareDownloadResponseChoiceCompactDownloadResponseOk,
+// NewSGPPrepareDownloadResponseCompactDownloadResponseOk creates a SGPPrepareDownloadResponse with the compactDownloadResponseOk alternative.
+func NewSGPPrepareDownloadResponseCompactDownloadResponseOk(v CompactPrepareDownloadResponseOk) SGPPrepareDownloadResponse {
+	return SGPPrepareDownloadResponse{
+		Choice:                    SGPPrepareDownloadResponseChoiceCompactDownloadResponseOk,
 		CompactDownloadResponseOk: &v,
 	}
 }
@@ -1538,66 +3234,78 @@ func NewPrepareDownloadResponseCompactDownloadResponseOk(v CompactPrepareDownloa
 type CompactPrepareDownloadResponseOk struct {
 	CompactEuiccSigned2 CompactEuiccSigned2 `asn1:""`
 	EuiccSignature2     []byte              `asn1:"tag:55,application,implicit"`
+	ExtCount_           int64               `asn1:"-" json:"-"`
+	ExtPresent_         []bool              `asn1:"-" json:"-"`
+	ExtData_            [][]byte            `asn1:"-" json:"-"`
 }
 
 // CompactEuiccSigned2 represents the ASN.1 type CompactEuiccSigned2 (SEQUENCE).
 type CompactEuiccSigned2 struct {
-	EuiccOtpk []byte         `asn1:"tag:73,application,implicit,optional" json:"EuiccOtpk,omitempty"`
-	HashCc    *sgp22.Octet32 `asn1:",optional" json:"HashCc,omitempty"`
+	EuiccOtpk   []byte   `asn1:"tag:73,application,implicit,optional" json:"EuiccOtpk,omitempty"`
+	HashCc      *Octet32 `asn1:",optional" json:"HashCc,omitempty"`
+	ExtCount_   int64    `asn1:"-" json:"-"`
+	ExtPresent_ []bool   `asn1:"-" json:"-"`
+	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// EuiccSigned1 represents the ASN.1 type EuiccSigned1 (SEQUENCE).
-type EuiccSigned1 struct {
-	TransactionId   sgp22.TransactionId `asn1:"tag:0,context,implicit"`
-	ServerAddress   string              `asn1:"tag:3,context,implicit"`
-	ServerChallenge sgp22.Octet16       `asn1:"tag:4,context,implicit"`
-	EuiccInfo2      EUICCInfo2          `asn1:"tag:34,context,implicit"`
-	CtxParams1      sgp22.CtxParams1    `asn1:""`
+// SGPEuiccSigned1 represents the ASN.1 type SGPEuiccSigned1 (SEQUENCE).
+type SGPEuiccSigned1 struct {
+	TransactionId   TransactionId `asn1:"tag:0,context,implicit"`
+	ServerAddress   string        `asn1:"tag:3,context,implicit"`
+	ServerChallenge Octet16       `asn1:"tag:4,context,implicit"`
+	EuiccInfo2      SGPEUICCInfo2 `asn1:"tag:34,context,implicit"`
+	CtxParams1      CtxParams1    `asn1:""`
+	ExtCount_       int64         `asn1:"-" json:"-"`
+	ExtPresent_     []bool        `asn1:"-" json:"-"`
+	ExtData_        [][]byte      `asn1:"-" json:"-"`
 }
 
-// AuthenticateResponseOk represents the ASN.1 type AuthenticateResponseOk (SEQUENCE).
-type AuthenticateResponseOk struct {
-	EuiccSigned1     EuiccSigned1      `asn1:""`
-	EuiccSignature1  []byte            `asn1:"tag:55,application,implicit"`
-	EuiccCertificate sgp22.Certificate `asn1:""`
-	EumCertificate   sgp22.Certificate `asn1:""`
+// SGPAuthenticateResponseOk represents the ASN.1 type SGPAuthenticateResponseOk (SEQUENCE).
+type SGPAuthenticateResponseOk struct {
+	EuiccSigned1     SGPEuiccSigned1 `asn1:""`
+	EuiccSignature1  []byte          `asn1:"tag:55,application,implicit"`
+	EuiccCertificate Certificate     `asn1:""`
+	EumCertificate   Certificate     `asn1:""`
+	ExtCount_        int64           `asn1:"-" json:"-"`
+	ExtPresent_      []bool          `asn1:"-" json:"-"`
+	ExtData_         [][]byte        `asn1:"-" json:"-"`
 }
 
-// AuthenticateServerResponse choice constants.
+// SGPAuthenticateServerResponse choice constants.
 const (
-	AuthenticateServerResponseChoiceAuthenticateResponseOk        = 1
-	AuthenticateServerResponseChoiceAuthenticateResponseError     = 2
-	AuthenticateServerResponseChoiceCompactAuthenticateResponseOk = 3
+	SGPAuthenticateServerResponseChoiceAuthenticateResponseOk        = 1
+	SGPAuthenticateServerResponseChoiceAuthenticateResponseError     = 2
+	SGPAuthenticateServerResponseChoiceCompactAuthenticateResponseOk = 3
 )
 
-// AuthenticateServerResponse represents the ASN.1 CHOICE type AuthenticateServerResponse.
-type AuthenticateServerResponse struct {
+// SGPAuthenticateServerResponse represents the ASN.1 CHOICE type SGPAuthenticateServerResponse.
+type SGPAuthenticateServerResponse struct {
 	Choice                        int
-	AuthenticateResponseOk        *AuthenticateResponseOk          `json:"AuthenticateResponseOk,omitempty"`
-	AuthenticateResponseError     *sgp22.AuthenticateResponseError `json:"AuthenticateResponseError,omitempty"`
-	CompactAuthenticateResponseOk *CompactAuthenticateResponseOk   `json:"CompactAuthenticateResponseOk,omitempty"`
+	AuthenticateResponseOk        *SGPAuthenticateResponseOk     `json:"AuthenticateResponseOk,omitempty"`
+	AuthenticateResponseError     *AuthenticateResponseError     `json:"AuthenticateResponseError,omitempty"`
+	CompactAuthenticateResponseOk *CompactAuthenticateResponseOk `json:"CompactAuthenticateResponseOk,omitempty"`
 }
 
-// NewAuthenticateServerResponseAuthenticateResponseOk creates a AuthenticateServerResponse with the authenticateResponseOk alternative.
-func NewAuthenticateServerResponseAuthenticateResponseOk(v AuthenticateResponseOk) AuthenticateServerResponse {
-	return AuthenticateServerResponse{
-		Choice:                 AuthenticateServerResponseChoiceAuthenticateResponseOk,
+// NewSGPAuthenticateServerResponseAuthenticateResponseOk creates a SGPAuthenticateServerResponse with the authenticateResponseOk alternative.
+func NewSGPAuthenticateServerResponseAuthenticateResponseOk(v SGPAuthenticateResponseOk) SGPAuthenticateServerResponse {
+	return SGPAuthenticateServerResponse{
+		Choice:                 SGPAuthenticateServerResponseChoiceAuthenticateResponseOk,
 		AuthenticateResponseOk: &v,
 	}
 }
 
-// NewAuthenticateServerResponseAuthenticateResponseError creates a AuthenticateServerResponse with the authenticateResponseError alternative.
-func NewAuthenticateServerResponseAuthenticateResponseError(v sgp22.AuthenticateResponseError) AuthenticateServerResponse {
-	return AuthenticateServerResponse{
-		Choice:                    AuthenticateServerResponseChoiceAuthenticateResponseError,
+// NewSGPAuthenticateServerResponseAuthenticateResponseError creates a SGPAuthenticateServerResponse with the authenticateResponseError alternative.
+func NewSGPAuthenticateServerResponseAuthenticateResponseError(v AuthenticateResponseError) SGPAuthenticateServerResponse {
+	return SGPAuthenticateServerResponse{
+		Choice:                    SGPAuthenticateServerResponseChoiceAuthenticateResponseError,
 		AuthenticateResponseError: &v,
 	}
 }
 
-// NewAuthenticateServerResponseCompactAuthenticateResponseOk creates a AuthenticateServerResponse with the compactAuthenticateResponseOk alternative.
-func NewAuthenticateServerResponseCompactAuthenticateResponseOk(v CompactAuthenticateResponseOk) AuthenticateServerResponse {
-	return AuthenticateServerResponse{
-		Choice:                        AuthenticateServerResponseChoiceCompactAuthenticateResponseOk,
+// NewSGPAuthenticateServerResponseCompactAuthenticateResponseOk creates a SGPAuthenticateServerResponse with the compactAuthenticateResponseOk alternative.
+func NewSGPAuthenticateServerResponseCompactAuthenticateResponseOk(v CompactAuthenticateResponseOk) SGPAuthenticateServerResponse {
+	return SGPAuthenticateServerResponse{
+		Choice:                        SGPAuthenticateServerResponseChoiceCompactAuthenticateResponseOk,
 		CompactAuthenticateResponseOk: &v,
 	}
 }
@@ -1606,135 +3314,156 @@ func NewAuthenticateServerResponseCompactAuthenticateResponseOk(v CompactAuthent
 type CompactAuthenticateResponseOk struct {
 	SignedData       CompactAuthenticateResponseOkSignedData `asn1:""`
 	EuiccSignature1  []byte                                  `asn1:"tag:55,application,implicit"`
-	EuiccCertificate *sgp22.Certificate                      `asn1:"tag:1,context,implicit,optional" json:"EuiccCertificate,omitempty"`
-	EumCertificate   *sgp22.Certificate                      `asn1:"tag:2,context,implicit,optional" json:"EumCertificate,omitempty"`
+	EuiccCertificate *Certificate                            `asn1:"tag:1,context,implicit,optional" json:"EuiccCertificate,omitempty"`
+	EumCertificate   *Certificate                            `asn1:"tag:2,context,implicit,optional" json:"EumCertificate,omitempty"`
+	ExtCount_        int64                                   `asn1:"-" json:"-"`
+	ExtPresent_      []bool                                  `asn1:"-" json:"-"`
+	ExtData_         [][]byte                                `asn1:"-" json:"-"`
 }
 
 // CompactEuiccSigned1 represents the ASN.1 type CompactEuiccSigned1 (SEQUENCE).
 type CompactEuiccSigned1 struct {
-	ExtCardResource []byte            `asn1:"tag:4,context,implicit"`
-	CtxParams1      *sgp22.CtxParams1 `asn1:"tag:2,context,explicit,optional" json:"CtxParams1,omitempty"`
+	ExtCardResource []byte      `asn1:"tag:4,context,implicit"`
+	CtxParams1      *CtxParams1 `asn1:"tag:2,context,explicit,optional" json:"CtxParams1,omitempty"`
+	ExtCount_       int64       `asn1:"-" json:"-"`
+	ExtPresent_     []bool      `asn1:"-" json:"-"`
+	ExtData_        [][]byte    `asn1:"-" json:"-"`
 }
 
-// PendingNotification choice constants.
+// SGPPendingNotification choice constants.
 const (
-	PendingNotificationChoiceProfileInstallationResult        = 1
-	PendingNotificationChoiceOtherSignedNotification          = 2
-	PendingNotificationChoiceCompactProfileInstallationResult = 3
-	PendingNotificationChoiceCompactOtherSignedNotification   = 4
+	SGPPendingNotificationChoiceProfileInstallationResult        = 1
+	SGPPendingNotificationChoiceOtherSignedNotification          = 2
+	SGPPendingNotificationChoiceCompactProfileInstallationResult = 3
+	SGPPendingNotificationChoiceCompactOtherSignedNotification   = 4
 )
 
-// PendingNotification represents the ASN.1 CHOICE type PendingNotification.
-type PendingNotification struct {
+// SGPPendingNotification represents the ASN.1 CHOICE type SGPPendingNotification.
+type SGPPendingNotification struct {
 	Choice                           int
-	ProfileInstallationResult        *ProfileInstallationResult        `json:"ProfileInstallationResult,omitempty"`
-	OtherSignedNotification          *sgp22.OtherSignedNotification    `json:"OtherSignedNotification,omitempty"`
+	ProfileInstallationResult        *SGPProfileInstallationResult     `json:"ProfileInstallationResult,omitempty"`
+	OtherSignedNotification          *OtherSignedNotification          `json:"OtherSignedNotification,omitempty"`
 	CompactProfileInstallationResult *CompactProfileInstallationResult `json:"CompactProfileInstallationResult,omitempty"`
 	CompactOtherSignedNotification   *CompactOtherSignedNotification   `json:"CompactOtherSignedNotification,omitempty"`
 }
 
-// NewPendingNotificationProfileInstallationResult creates a PendingNotification with the profileInstallationResult alternative.
-func NewPendingNotificationProfileInstallationResult(v ProfileInstallationResult) PendingNotification {
-	return PendingNotification{
-		Choice:                    PendingNotificationChoiceProfileInstallationResult,
+// NewSGPPendingNotificationProfileInstallationResult creates a SGPPendingNotification with the profileInstallationResult alternative.
+func NewSGPPendingNotificationProfileInstallationResult(v SGPProfileInstallationResult) SGPPendingNotification {
+	return SGPPendingNotification{
+		Choice:                    SGPPendingNotificationChoiceProfileInstallationResult,
 		ProfileInstallationResult: &v,
 	}
 }
 
-// NewPendingNotificationOtherSignedNotification creates a PendingNotification with the otherSignedNotification alternative.
-func NewPendingNotificationOtherSignedNotification(v sgp22.OtherSignedNotification) PendingNotification {
-	return PendingNotification{
-		Choice:                  PendingNotificationChoiceOtherSignedNotification,
+// NewSGPPendingNotificationOtherSignedNotification creates a SGPPendingNotification with the otherSignedNotification alternative.
+func NewSGPPendingNotificationOtherSignedNotification(v OtherSignedNotification) SGPPendingNotification {
+	return SGPPendingNotification{
+		Choice:                  SGPPendingNotificationChoiceOtherSignedNotification,
 		OtherSignedNotification: &v,
 	}
 }
 
-// NewPendingNotificationCompactProfileInstallationResult creates a PendingNotification with the compactProfileInstallationResult alternative.
-func NewPendingNotificationCompactProfileInstallationResult(v CompactProfileInstallationResult) PendingNotification {
-	return PendingNotification{
-		Choice:                           PendingNotificationChoiceCompactProfileInstallationResult,
+// NewSGPPendingNotificationCompactProfileInstallationResult creates a SGPPendingNotification with the compactProfileInstallationResult alternative.
+func NewSGPPendingNotificationCompactProfileInstallationResult(v CompactProfileInstallationResult) SGPPendingNotification {
+	return SGPPendingNotification{
+		Choice:                           SGPPendingNotificationChoiceCompactProfileInstallationResult,
 		CompactProfileInstallationResult: &v,
 	}
 }
 
-// NewPendingNotificationCompactOtherSignedNotification creates a PendingNotification with the compactOtherSignedNotification alternative.
-func NewPendingNotificationCompactOtherSignedNotification(v CompactOtherSignedNotification) PendingNotification {
-	return PendingNotification{
-		Choice:                         PendingNotificationChoiceCompactOtherSignedNotification,
+// NewSGPPendingNotificationCompactOtherSignedNotification creates a SGPPendingNotification with the compactOtherSignedNotification alternative.
+func NewSGPPendingNotificationCompactOtherSignedNotification(v CompactOtherSignedNotification) SGPPendingNotification {
+	return SGPPendingNotification{
+		Choice:                         SGPPendingNotificationChoiceCompactOtherSignedNotification,
 		CompactOtherSignedNotification: &v,
 	}
 }
 
-// ProfileInstallationResult represents the ASN.1 type ProfileInstallationResult (SEQUENCE).
-type ProfileInstallationResult struct {
-	ProfileInstallationResultData sgp22.ProfileInstallationResultData `asn1:"tag:39,context,implicit"`
-	EuiccSignPIR                  sgp22.EuiccSignPIR                  `asn1:""`
+// SGPProfileInstallationResult represents the ASN.1 type SGPProfileInstallationResult (SEQUENCE).
+type SGPProfileInstallationResult struct {
+	ProfileInstallationResultData ProfileInstallationResultData `asn1:"tag:39,context,implicit"`
+	EuiccSignPIR                  EuiccSignPIR                  `asn1:""`
+	ExtCount_                     int64                         `asn1:"-" json:"-"`
+	ExtPresent_                   []bool                        `asn1:"-" json:"-"`
+	ExtData_                      [][]byte                      `asn1:"-" json:"-"`
 }
 
 // CompactProfileInstallationResult represents the ASN.1 type CompactProfileInstallationResult (SEQUENCE).
 type CompactProfileInstallationResult struct {
 	CompactProfileInstallationResultData CompactProfileInstallationResultData `asn1:"tag:0,context,implicit"`
-	EuiccSignPIR                         sgp22.EuiccSignPIR                   `asn1:""`
+	EuiccSignPIR                         EuiccSignPIR                         `asn1:""`
+	ExtCount_                            int64                                `asn1:"-" json:"-"`
+	ExtPresent_                          []bool                               `asn1:"-" json:"-"`
+	ExtData_                             [][]byte                             `asn1:"-" json:"-"`
 }
 
 // CompactProfileInstallationResultData represents the ASN.1 type CompactProfileInstallationResultData (SEQUENCE).
 type CompactProfileInstallationResultData struct {
-	TransactionId      sgp22.TransactionId                                    `asn1:"tag:0,context,implicit"`
+	TransactionId      TransactionId                                          `asn1:"tag:0,context,implicit"`
 	SeqNumber          *big.Int                                               `asn1:""`
 	IccidPresent       *bool                                                  `asn1:",optional" json:"IccidPresent,omitempty"`
 	IccidPresentRaw_   byte                                                   `asn1:"-" json:"-"`
 	CompactFinalResult CompactProfileInstallationResultDataCompactFinalResult `asn1:"tag:2,context,explicit"`
+	ExtCount_          int64                                                  `asn1:"-" json:"-"`
+	ExtPresent_        []bool                                                 `asn1:"-" json:"-"`
+	ExtData_           [][]byte                                               `asn1:"-" json:"-"`
 }
 
 // CompactSuccessResult represents the ASN.1 type CompactSuccessResult (SEQUENCE).
 type CompactSuccessResult struct {
-	CompactAid   []byte `asn1:"tag:15,application,implicit"`
-	SimaResponse []byte `asn1:",optional" json:"SimaResponse,omitempty"`
+	CompactAid   []byte   `asn1:"tag:15,application,implicit"`
+	SimaResponse []byte   `asn1:",optional" json:"SimaResponse,omitempty"`
+	ExtCount_    int64    `asn1:"-" json:"-"`
+	ExtPresent_  []bool   `asn1:"-" json:"-"`
+	ExtData_     [][]byte `asn1:"-" json:"-"`
 }
 
 // CompactOtherSignedNotification represents the ASN.1 type CompactOtherSignedNotification (SEQUENCE).
 type CompactOtherSignedNotification struct {
-	EidValue                    *sgp22.Octet16             `asn1:"tag:26,application,implicit,optional" json:"EidValue,omitempty"`
-	TbsOtherNotification        sgp22.NotificationMetadata `asn1:""`
-	EuiccNotificationSignature  []byte                     `asn1:"tag:55,application,implicit"`
-	EuiccCiPKIdentifierToBeUsed []byte                     `asn1:",optional" json:"EuiccCiPKIdentifierToBeUsed,omitempty"`
+	EidValue                    *Octet16             `asn1:"tag:26,application,implicit,optional" json:"EidValue,omitempty"`
+	TbsOtherNotification        NotificationMetadata `asn1:""`
+	EuiccNotificationSignature  []byte               `asn1:"tag:55,application,implicit"`
+	EuiccCiPKIdentifierToBeUsed []byte               `asn1:",optional" json:"EuiccCiPKIdentifierToBeUsed,omitempty"`
+	ExtCount_                   int64                `asn1:"-" json:"-"`
+	ExtPresent_                 []bool               `asn1:"-" json:"-"`
+	ExtData_                    [][]byte             `asn1:"-" json:"-"`
 }
 
-// CancelSessionResponse choice constants.
+// SGPCancelSessionResponse choice constants.
 const (
-	CancelSessionResponseChoiceCancelSessionResponseOk        = 1
-	CancelSessionResponseChoiceCancelSessionResponseError     = 2
-	CancelSessionResponseChoiceCompactCancelSessionResponseOk = 3
+	SGPCancelSessionResponseChoiceCancelSessionResponseOk        = 1
+	SGPCancelSessionResponseChoiceCancelSessionResponseError     = 2
+	SGPCancelSessionResponseChoiceCompactCancelSessionResponseOk = 3
 )
 
-// CancelSessionResponse represents the ASN.1 CHOICE type CancelSessionResponse.
-type CancelSessionResponse struct {
+// SGPCancelSessionResponse represents the ASN.1 CHOICE type SGPCancelSessionResponse.
+type SGPCancelSessionResponse struct {
 	Choice                         int
-	CancelSessionResponseOk        *sgp22.CancelSessionResponseOk  `json:"CancelSessionResponseOk,omitempty"`
-	CancelSessionResponseError     *int64                          `json:"CancelSessionResponseError,omitempty"`
-	CompactCancelSessionResponseOk *CompactCancelSessionResponseOk `json:"CompactCancelSessionResponseOk,omitempty"`
+	CancelSessionResponseOk        *CancelSessionResponseOk                                 `json:"CancelSessionResponseOk,omitempty"`
+	CancelSessionResponseError     *SGPCancelSessionResponseCancelSessionResponseErrorValue `json:"CancelSessionResponseError,omitempty"`
+	CompactCancelSessionResponseOk *CompactCancelSessionResponseOk                          `json:"CompactCancelSessionResponseOk,omitempty"`
 }
 
-// NewCancelSessionResponseCancelSessionResponseOk creates a CancelSessionResponse with the cancelSessionResponseOk alternative.
-func NewCancelSessionResponseCancelSessionResponseOk(v sgp22.CancelSessionResponseOk) CancelSessionResponse {
-	return CancelSessionResponse{
-		Choice:                  CancelSessionResponseChoiceCancelSessionResponseOk,
+// NewSGPCancelSessionResponseCancelSessionResponseOk creates a SGPCancelSessionResponse with the cancelSessionResponseOk alternative.
+func NewSGPCancelSessionResponseCancelSessionResponseOk(v CancelSessionResponseOk) SGPCancelSessionResponse {
+	return SGPCancelSessionResponse{
+		Choice:                  SGPCancelSessionResponseChoiceCancelSessionResponseOk,
 		CancelSessionResponseOk: &v,
 	}
 }
 
-// NewCancelSessionResponseCancelSessionResponseError creates a CancelSessionResponse with the cancelSessionResponseError alternative.
-func NewCancelSessionResponseCancelSessionResponseError(v int64) CancelSessionResponse {
-	return CancelSessionResponse{
-		Choice:                     CancelSessionResponseChoiceCancelSessionResponseError,
+// NewSGPCancelSessionResponseCancelSessionResponseError creates a SGPCancelSessionResponse with the cancelSessionResponseError alternative.
+func NewSGPCancelSessionResponseCancelSessionResponseError(v SGPCancelSessionResponseCancelSessionResponseErrorValue) SGPCancelSessionResponse {
+	return SGPCancelSessionResponse{
+		Choice:                     SGPCancelSessionResponseChoiceCancelSessionResponseError,
 		CancelSessionResponseError: &v,
 	}
 }
 
-// NewCancelSessionResponseCompactCancelSessionResponseOk creates a CancelSessionResponse with the compactCancelSessionResponseOk alternative.
-func NewCancelSessionResponseCompactCancelSessionResponseOk(v CompactCancelSessionResponseOk) CancelSessionResponse {
-	return CancelSessionResponse{
-		Choice:                         CancelSessionResponseChoiceCompactCancelSessionResponseOk,
+// NewSGPCancelSessionResponseCompactCancelSessionResponseOk creates a SGPCancelSessionResponse with the compactCancelSessionResponseOk alternative.
+func NewSGPCancelSessionResponseCompactCancelSessionResponseOk(v CompactCancelSessionResponseOk) SGPCancelSessionResponse {
+	return SGPCancelSessionResponse{
+		Choice:                         SGPCancelSessionResponseChoiceCompactCancelSessionResponseOk,
 		CompactCancelSessionResponseOk: &v,
 	}
 }
@@ -1743,11 +3472,17 @@ func NewCancelSessionResponseCompactCancelSessionResponseOk(v CompactCancelSessi
 type CompactCancelSessionResponseOk struct {
 	CompactEuiccCancelSessionSigned CompactEuiccCancelSessionSigned `asn1:""`
 	EuiccCancelSessionSignature     []byte                          `asn1:"tag:55,application,implicit"`
+	ExtCount_                       int64                           `asn1:"-" json:"-"`
+	ExtPresent_                     []bool                          `asn1:"-" json:"-"`
+	ExtData_                        [][]byte                        `asn1:"-" json:"-"`
 }
 
 // CompactEuiccCancelSessionSigned represents the ASN.1 type CompactEuiccCancelSessionSigned (SEQUENCE).
 type CompactEuiccCancelSessionSigned struct {
-	Reason *sgp22.CancelSessionReason `asn1:"tag:0,context,implicit,optional" json:"Reason,omitempty"`
+	Reason      *CancelSessionReason `asn1:"tag:0,context,implicit,optional" json:"Reason,omitempty"`
+	ExtCount_   int64                `asn1:"-" json:"-"`
+	ExtPresent_ []bool               `asn1:"-" json:"-"`
+	ExtData_    [][]byte             `asn1:"-" json:"-"`
 }
 
 // EsipaMessageFromIpaToEim choice constants.
@@ -1920,10 +3655,13 @@ func NewEsipaMessageFromEimToIpaProvideEimPackageResultResponse(v ProvideEimPack
 
 // InitiateAuthenticationRequestEsipa represents the ASN.1 type InitiateAuthenticationRequestEsipa (SEQUENCE).
 type InitiateAuthenticationRequestEsipa struct {
-	EuiccChallenge   sgp22.Octet16        `asn1:"tag:1,context,implicit"`
-	SmdpAddress      *string              `asn1:"tag:3,context,implicit,optional" json:"SmdpAddress,omitempty"`
-	EuiccInfo1       *sgp22.EUICCInfo1    `asn1:",optional" json:"EuiccInfo1,omitempty"`
-	EimTransactionId *sgp22.TransactionId `asn1:"tag:2,context,implicit,optional" json:"EimTransactionId,omitempty"`
+	EuiccChallenge   Octet16        `asn1:"tag:1,context,implicit"`
+	SmdpAddress      *string        `asn1:"tag:3,context,implicit,optional" json:"SmdpAddress,omitempty"`
+	EuiccInfo1       *EUICCInfo1    `asn1:",optional" json:"EuiccInfo1,omitempty"`
+	EimTransactionId *TransactionId `asn1:"tag:2,context,implicit,optional" json:"EimTransactionId,omitempty"`
+	ExtCount_        int64          `asn1:"-" json:"-"`
+	ExtPresent_      []bool         `asn1:"-" json:"-"`
+	ExtData_         [][]byte       `asn1:"-" json:"-"`
 }
 
 // InitiateAuthenticationResponseEsipa choice constants.
@@ -1935,8 +3673,8 @@ const (
 // InitiateAuthenticationResponseEsipa represents the ASN.1 CHOICE type InitiateAuthenticationResponseEsipa.
 type InitiateAuthenticationResponseEsipa struct {
 	Choice                           int
-	InitiateAuthenticationOkEsipa    *InitiateAuthenticationOkEsipa `json:"InitiateAuthenticationOkEsipa,omitempty"`
-	InitiateAuthenticationErrorEsipa *int64                         `json:"InitiateAuthenticationErrorEsipa,omitempty"`
+	InitiateAuthenticationOkEsipa    *InitiateAuthenticationOkEsipa                                            `json:"InitiateAuthenticationOkEsipa,omitempty"`
+	InitiateAuthenticationErrorEsipa *InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue `json:"InitiateAuthenticationErrorEsipa,omitempty"`
 }
 
 // NewInitiateAuthenticationResponseEsipaInitiateAuthenticationOkEsipa creates a InitiateAuthenticationResponseEsipa with the initiateAuthenticationOkEsipa alternative.
@@ -1948,7 +3686,7 @@ func NewInitiateAuthenticationResponseEsipaInitiateAuthenticationOkEsipa(v Initi
 }
 
 // NewInitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipa creates a InitiateAuthenticationResponseEsipa with the initiateAuthenticationErrorEsipa alternative.
-func NewInitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipa(v int64) InitiateAuthenticationResponseEsipa {
+func NewInitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipa(v InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue) InitiateAuthenticationResponseEsipa {
 	return InitiateAuthenticationResponseEsipa{
 		Choice:                           InitiateAuthenticationResponseEsipaChoiceInitiateAuthenticationErrorEsipa,
 		InitiateAuthenticationErrorEsipa: &v,
@@ -1957,19 +3695,25 @@ func NewInitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipa(v in
 
 // InitiateAuthenticationOkEsipa represents the ASN.1 type InitiateAuthenticationOkEsipa (SEQUENCE).
 type InitiateAuthenticationOkEsipa struct {
-	TransactionId               *sgp22.TransactionId `asn1:"tag:0,context,implicit,optional" json:"TransactionId,omitempty"`
-	ServerSigned1               sgp22.ServerSigned1  `asn1:""`
-	ServerSignature1            []byte               `asn1:"tag:55,application,implicit"`
-	EuiccCiPKIdentifierToBeUsed []byte               `asn1:""`
-	ServerCertificate           sgp22.Certificate    `asn1:""`
-	MatchingId                  *string              `asn1:",optional" json:"MatchingId,omitempty"`
-	CtxParams1                  *sgp22.CtxParams1    `asn1:"tag:2,context,explicit,optional" json:"CtxParams1,omitempty"`
+	TransactionId               *TransactionId `asn1:"tag:0,context,implicit,optional" json:"TransactionId,omitempty"`
+	ServerSigned1               ServerSigned1  `asn1:""`
+	ServerSignature1            []byte         `asn1:"tag:55,application,implicit"`
+	EuiccCiPKIdentifierToBeUsed []byte         `asn1:""`
+	ServerCertificate           Certificate    `asn1:""`
+	MatchingId                  *string        `asn1:",optional" json:"MatchingId,omitempty"`
+	CtxParams1                  *CtxParams1    `asn1:"tag:2,context,explicit,optional" json:"CtxParams1,omitempty"`
+	ExtCount_                   int64          `asn1:"-" json:"-"`
+	ExtPresent_                 []bool         `asn1:"-" json:"-"`
+	ExtData_                    [][]byte       `asn1:"-" json:"-"`
 }
 
 // AuthenticateClientRequestEsipa represents the ASN.1 type AuthenticateClientRequestEsipa (SEQUENCE).
 type AuthenticateClientRequestEsipa struct {
-	TransactionId              sgp22.TransactionId        `asn1:"tag:0,context,implicit"`
-	AuthenticateServerResponse AuthenticateServerResponse `asn1:"tag:56,context,explicit"`
+	TransactionId              TransactionId                 `asn1:"tag:0,context,implicit"`
+	AuthenticateServerResponse SGPAuthenticateServerResponse `asn1:"tag:56,context,explicit"`
+	ExtCount_                  int64                         `asn1:"-" json:"-"`
+	ExtPresent_                []bool                        `asn1:"-" json:"-"`
+	ExtData_                   [][]byte                      `asn1:"-" json:"-"`
 }
 
 // AuthenticateClientResponseEsipa choice constants.
@@ -1982,9 +3726,9 @@ const (
 // AuthenticateClientResponseEsipa represents the ASN.1 CHOICE type AuthenticateClientResponseEsipa.
 type AuthenticateClientResponseEsipa struct {
 	Choice                       int
-	AuthenticateClientOkDPEsipa  *AuthenticateClientOkDPEsipa `json:"AuthenticateClientOkDPEsipa,omitempty"`
-	AuthenticateClientOkDSEsipa  *AuthenticateClientOkDSEsipa `json:"AuthenticateClientOkDSEsipa,omitempty"`
-	AuthenticateClientErrorEsipa *int64                       `json:"AuthenticateClientErrorEsipa,omitempty"`
+	AuthenticateClientOkDPEsipa  *AuthenticateClientOkDPEsipa                                      `json:"AuthenticateClientOkDPEsipa,omitempty"`
+	AuthenticateClientOkDSEsipa  *AuthenticateClientOkDSEsipa                                      `json:"AuthenticateClientOkDSEsipa,omitempty"`
+	AuthenticateClientErrorEsipa *AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue `json:"AuthenticateClientErrorEsipa,omitempty"`
 }
 
 // NewAuthenticateClientResponseEsipaAuthenticateClientOkDPEsipa creates a AuthenticateClientResponseEsipa with the authenticateClientOkDPEsipa alternative.
@@ -2004,7 +3748,7 @@ func NewAuthenticateClientResponseEsipaAuthenticateClientOkDSEsipa(v Authenticat
 }
 
 // NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipa creates a AuthenticateClientResponseEsipa with the authenticateClientErrorEsipa alternative.
-func NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipa(v int64) AuthenticateClientResponseEsipa {
+func NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipa(v AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue) AuthenticateClientResponseEsipa {
 	return AuthenticateClientResponseEsipa{
 		Choice:                       AuthenticateClientResponseEsipaChoiceAuthenticateClientErrorEsipa,
 		AuthenticateClientErrorEsipa: &v,
@@ -2013,24 +3757,33 @@ func NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipa(v int64) Aut
 
 // AuthenticateClientOkDPEsipa represents the ASN.1 type AuthenticateClientOkDPEsipa (SEQUENCE).
 type AuthenticateClientOkDPEsipa struct {
-	TransactionId   *sgp22.TransactionId  `asn1:"tag:0,context,implicit,optional" json:"TransactionId,omitempty"`
-	ProfileMetaData *StoreMetadataRequest `asn1:"tag:37,context,implicit,optional" json:"ProfileMetaData,omitempty"`
-	SmdpSigned2     sgp22.SmdpSigned2     `asn1:""`
-	SmdpSignature2  []byte                `asn1:"tag:55,application,implicit"`
-	SmdpCertificate sgp22.Certificate     `asn1:""`
-	HashCc          *sgp22.Octet32        `asn1:",optional" json:"HashCc,omitempty"`
+	TransactionId   *TransactionId           `asn1:"tag:0,context,implicit,optional" json:"TransactionId,omitempty"`
+	ProfileMetaData *SGPStoreMetadataRequest `asn1:"tag:37,context,implicit,optional" json:"ProfileMetaData,omitempty"`
+	SmdpSigned2     SmdpSigned2              `asn1:""`
+	SmdpSignature2  []byte                   `asn1:"tag:55,application,implicit"`
+	SmdpCertificate Certificate              `asn1:""`
+	HashCc          *Octet32                 `asn1:",optional" json:"HashCc,omitempty"`
+	ExtCount_       int64                    `asn1:"-" json:"-"`
+	ExtPresent_     []bool                   `asn1:"-" json:"-"`
+	ExtData_        [][]byte                 `asn1:"-" json:"-"`
 }
 
 // AuthenticateClientOkDSEsipa represents the ASN.1 type AuthenticateClientOkDSEsipa (SEQUENCE).
 type AuthenticateClientOkDSEsipa struct {
-	TransactionId          sgp22.TransactionId            `asn1:"tag:0,context,implicit"`
+	TransactionId          TransactionId                  `asn1:"tag:0,context,implicit"`
 	ProfileDownloadTrigger *ProfileDownloadTriggerRequest `asn1:"tag:84,context,implicit,optional" json:"ProfileDownloadTrigger,omitempty"`
+	ExtCount_              int64                          `asn1:"-" json:"-"`
+	ExtPresent_            []bool                         `asn1:"-" json:"-"`
+	ExtData_               [][]byte                       `asn1:"-" json:"-"`
 }
 
 // GetBoundProfilePackageRequestEsipa represents the ASN.1 type GetBoundProfilePackageRequestEsipa (SEQUENCE).
 type GetBoundProfilePackageRequestEsipa struct {
-	TransactionId           sgp22.TransactionId     `asn1:"tag:0,context,implicit"`
-	PrepareDownloadResponse PrepareDownloadResponse `asn1:"tag:33,context,explicit"`
+	TransactionId           TransactionId              `asn1:"tag:0,context,implicit"`
+	PrepareDownloadResponse SGPPrepareDownloadResponse `asn1:"tag:33,context,explicit"`
+	ExtCount_               int64                      `asn1:"-" json:"-"`
+	ExtPresent_             []bool                     `asn1:"-" json:"-"`
+	ExtData_                [][]byte                   `asn1:"-" json:"-"`
 }
 
 // GetBoundProfilePackageResponseEsipa choice constants.
@@ -2042,8 +3795,8 @@ const (
 // GetBoundProfilePackageResponseEsipa represents the ASN.1 CHOICE type GetBoundProfilePackageResponseEsipa.
 type GetBoundProfilePackageResponseEsipa struct {
 	Choice                           int
-	GetBoundProfilePackageOkEsipa    *GetBoundProfilePackageOkEsipa `json:"GetBoundProfilePackageOkEsipa,omitempty"`
-	GetBoundProfilePackageErrorEsipa *int64                         `json:"GetBoundProfilePackageErrorEsipa,omitempty"`
+	GetBoundProfilePackageOkEsipa    *GetBoundProfilePackageOkEsipa                                            `json:"GetBoundProfilePackageOkEsipa,omitempty"`
+	GetBoundProfilePackageErrorEsipa *GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue `json:"GetBoundProfilePackageErrorEsipa,omitempty"`
 }
 
 // NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageOkEsipa creates a GetBoundProfilePackageResponseEsipa with the getBoundProfilePackageOkEsipa alternative.
@@ -2055,7 +3808,7 @@ func NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageOkEsipa(v GetBo
 }
 
 // NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipa creates a GetBoundProfilePackageResponseEsipa with the getBoundProfilePackageErrorEsipa alternative.
-func NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipa(v int64) GetBoundProfilePackageResponseEsipa {
+func NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipa(v GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue) GetBoundProfilePackageResponseEsipa {
 	return GetBoundProfilePackageResponseEsipa{
 		Choice:                           GetBoundProfilePackageResponseEsipaChoiceGetBoundProfilePackageErrorEsipa,
 		GetBoundProfilePackageErrorEsipa: &v,
@@ -2064,8 +3817,11 @@ func NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipa(v in
 
 // GetBoundProfilePackageOkEsipa represents the ASN.1 type GetBoundProfilePackageOkEsipa (SEQUENCE).
 type GetBoundProfilePackageOkEsipa struct {
-	TransactionId       *sgp22.TransactionId      `asn1:"tag:0,context,implicit,optional" json:"TransactionId,omitempty"`
-	BoundProfilePackage sgp22.BoundProfilePackage `asn1:"tag:54,context,implicit"`
+	TransactionId       *TransactionId      `asn1:"tag:0,context,implicit,optional" json:"TransactionId,omitempty"`
+	BoundProfilePackage BoundProfilePackage `asn1:"tag:54,context,implicit"`
+	ExtCount_           int64               `asn1:"-" json:"-"`
+	ExtPresent_         []bool              `asn1:"-" json:"-"`
+	ExtData_            [][]byte            `asn1:"-" json:"-"`
 }
 
 // HandleNotificationEsipa choice constants.
@@ -2077,12 +3833,12 @@ const (
 // HandleNotificationEsipa represents the ASN.1 CHOICE type HandleNotificationEsipa.
 type HandleNotificationEsipa struct {
 	Choice                  int
-	PendingNotification     *PendingNotification     `json:"PendingNotification,omitempty"`
+	PendingNotification     *SGPPendingNotification  `json:"PendingNotification,omitempty"`
 	ProvideEimPackageResult *ProvideEimPackageResult `json:"ProvideEimPackageResult,omitempty"`
 }
 
 // NewHandleNotificationEsipaPendingNotification creates a HandleNotificationEsipa with the pendingNotification alternative.
-func NewHandleNotificationEsipaPendingNotification(v PendingNotification) HandleNotificationEsipa {
+func NewHandleNotificationEsipaPendingNotification(v SGPPendingNotification) HandleNotificationEsipa {
 	return HandleNotificationEsipa{
 		Choice:              HandleNotificationEsipaChoicePendingNotification,
 		PendingNotification: &v,
@@ -2099,8 +3855,11 @@ func NewHandleNotificationEsipaProvideEimPackageResult(v ProvideEimPackageResult
 
 // CancelSessionRequestEsipa represents the ASN.1 type CancelSessionRequestEsipa (SEQUENCE).
 type CancelSessionRequestEsipa struct {
-	TransactionId         sgp22.TransactionId   `asn1:"tag:0,context,implicit"`
-	CancelSessionResponse CancelSessionResponse `asn1:"tag:1,context,explicit"`
+	TransactionId         TransactionId            `asn1:"tag:0,context,implicit"`
+	CancelSessionResponse SGPCancelSessionResponse `asn1:"tag:1,context,explicit"`
+	ExtCount_             int64                    `asn1:"-" json:"-"`
+	ExtPresent_           []bool                   `asn1:"-" json:"-"`
+	ExtData_              [][]byte                 `asn1:"-" json:"-"`
 }
 
 // CancelSessionResponseEsipa choice constants.
@@ -2112,12 +3871,12 @@ const (
 // CancelSessionResponseEsipa represents the ASN.1 CHOICE type CancelSessionResponseEsipa.
 type CancelSessionResponseEsipa struct {
 	Choice             int
-	CancelSessionOk    *CancelSessionOk `json:"CancelSessionOk,omitempty"`
-	CancelSessionError *int64           `json:"CancelSessionError,omitempty"`
+	CancelSessionOk    *SGPCancelSessionOk                                `json:"CancelSessionOk,omitempty"`
+	CancelSessionError *CancelSessionResponseEsipaCancelSessionErrorValue `json:"CancelSessionError,omitempty"`
 }
 
 // NewCancelSessionResponseEsipaCancelSessionOk creates a CancelSessionResponseEsipa with the cancelSessionOk alternative.
-func NewCancelSessionResponseEsipaCancelSessionOk(v CancelSessionOk) CancelSessionResponseEsipa {
+func NewCancelSessionResponseEsipaCancelSessionOk(v SGPCancelSessionOk) CancelSessionResponseEsipa {
 	return CancelSessionResponseEsipa{
 		Choice:          CancelSessionResponseEsipaChoiceCancelSessionOk,
 		CancelSessionOk: &v,
@@ -2125,60 +3884,185 @@ func NewCancelSessionResponseEsipaCancelSessionOk(v CancelSessionOk) CancelSessi
 }
 
 // NewCancelSessionResponseEsipaCancelSessionError creates a CancelSessionResponseEsipa with the cancelSessionError alternative.
-func NewCancelSessionResponseEsipaCancelSessionError(v int64) CancelSessionResponseEsipa {
+func NewCancelSessionResponseEsipaCancelSessionError(v CancelSessionResponseEsipaCancelSessionErrorValue) CancelSessionResponseEsipa {
 	return CancelSessionResponseEsipa{
 		Choice:             CancelSessionResponseEsipaChoiceCancelSessionError,
 		CancelSessionError: &v,
 	}
 }
 
-// CancelSessionOk represents the ASN.1 type CancelSessionOk (SEQUENCE).
-type CancelSessionOk struct {
+// SGPCancelSessionOk represents the ASN.1 type SGPCancelSessionOk (SEQUENCE).
+type SGPCancelSessionOk struct {
+	ExtCount_   int64    `asn1:"-" json:"-"`
+	ExtPresent_ []bool   `asn1:"-" json:"-"`
+	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// StateChangeCause represents the ASN.1 INTEGER type StateChangeCause with named numbers.
-type StateChangeCause int64
+// StateChangeCause represents the arbitrary-width ASN.1 INTEGER type StateChangeCause with named numbers.
+type StateChangeCause struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	StateChangeCauseOtherEim               StateChangeCause = 0
-	StateChangeCauseFallback               StateChangeCause = 1
-	StateChangeCauseEmergencyProfile       StateChangeCause = 2
-	StateChangeCauseLocal                  StateChangeCause = 3
-	StateChangeCauseReset                  StateChangeCause = 4
-	StateChangeCauseImmediateEnableProfile StateChangeCause = 5
-	StateChangeCauseDeviceChange           StateChangeCause = 6
-	StateChangeCauseUndefined              StateChangeCause = 127
+	StateChangeCauseOtherEimDecimal               = "0"
+	StateChangeCauseOtherEim                      = 0
+	StateChangeCauseFallbackDecimal               = "1"
+	StateChangeCauseFallback                      = 1
+	StateChangeCauseEmergencyProfileDecimal       = "2"
+	StateChangeCauseEmergencyProfile              = 2
+	StateChangeCauseLocalDecimal                  = "3"
+	StateChangeCauseLocal                         = 3
+	StateChangeCauseResetDecimal                  = "4"
+	StateChangeCauseReset                         = 4
+	StateChangeCauseImmediateEnableProfileDecimal = "5"
+	StateChangeCauseImmediateEnableProfile        = 5
+	StateChangeCauseDeviceChangeDecimal           = "6"
+	StateChangeCauseDeviceChange                  = 6
+	StateChangeCauseUndefinedDecimal              = "127"
+	StateChangeCauseUndefined                     = 127
 )
 
-func (v StateChangeCause) String() string {
-	switch v {
-	case StateChangeCauseOtherEim:
-		return "otherEim"
-	case StateChangeCauseFallback:
-		return "fallback"
-	case StateChangeCauseEmergencyProfile:
-		return "emergencyProfile"
-	case StateChangeCauseLocal:
-		return "local"
-	case StateChangeCauseReset:
-		return "reset"
-	case StateChangeCauseImmediateEnableProfile:
-		return "immediateEnableProfile"
-	case StateChangeCauseDeviceChange:
-		return "deviceChange"
-	case StateChangeCauseUndefined:
-		return "undefined"
-	default:
-		return "unknown"
+// NewStateChangeCause returns an immutable StateChangeCause containing value.
+func NewStateChangeCause(value *big.Int) StateChangeCause {
+	return StateChangeCause{value: runtime.CloneBigInt(value)}
+}
+
+// NewStateChangeCauseInt64 returns a StateChangeCause containing value.
+func NewStateChangeCauseInt64(value int64) StateChangeCause {
+	return NewStateChangeCause(big.NewInt(value))
+}
+
+// StateChangeCauseOtherEimValue returns the named value otherEim.
+func StateChangeCauseOtherEimValue() StateChangeCause {
+	return NewStateChangeCause(runtime.MustParseBigIntDecimal(StateChangeCauseOtherEimDecimal))
+}
+
+// StateChangeCauseFallbackValue returns the named value fallback.
+func StateChangeCauseFallbackValue() StateChangeCause {
+	return NewStateChangeCause(runtime.MustParseBigIntDecimal(StateChangeCauseFallbackDecimal))
+}
+
+// StateChangeCauseEmergencyProfileValue returns the named value emergencyProfile.
+func StateChangeCauseEmergencyProfileValue() StateChangeCause {
+	return NewStateChangeCause(runtime.MustParseBigIntDecimal(StateChangeCauseEmergencyProfileDecimal))
+}
+
+// StateChangeCauseLocalValue returns the named value local.
+func StateChangeCauseLocalValue() StateChangeCause {
+	return NewStateChangeCause(runtime.MustParseBigIntDecimal(StateChangeCauseLocalDecimal))
+}
+
+// StateChangeCauseResetValue returns the named value reset.
+func StateChangeCauseResetValue() StateChangeCause {
+	return NewStateChangeCause(runtime.MustParseBigIntDecimal(StateChangeCauseResetDecimal))
+}
+
+// StateChangeCauseImmediateEnableProfileValue returns the named value immediateEnableProfile.
+func StateChangeCauseImmediateEnableProfileValue() StateChangeCause {
+	return NewStateChangeCause(runtime.MustParseBigIntDecimal(StateChangeCauseImmediateEnableProfileDecimal))
+}
+
+// StateChangeCauseDeviceChangeValue returns the named value deviceChange.
+func StateChangeCauseDeviceChangeValue() StateChangeCause {
+	return NewStateChangeCause(runtime.MustParseBigIntDecimal(StateChangeCauseDeviceChangeDecimal))
+}
+
+// StateChangeCauseUndefinedValue returns the named value undefined.
+func StateChangeCauseUndefinedValue() StateChangeCause {
+	return NewStateChangeCause(runtime.MustParseBigIntDecimal(StateChangeCauseUndefinedDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v StateChangeCause) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v StateChangeCause) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
 	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v StateChangeCause) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case StateChangeCauseOtherEimDecimal:
+		return "otherEim", true
+	case StateChangeCauseFallbackDecimal:
+		return "fallback", true
+	case StateChangeCauseEmergencyProfileDecimal:
+		return "emergencyProfile", true
+	case StateChangeCauseLocalDecimal:
+		return "local", true
+	case StateChangeCauseResetDecimal:
+		return "reset", true
+	case StateChangeCauseImmediateEnableProfileDecimal:
+		return "immediateEnableProfile", true
+	case StateChangeCauseDeviceChangeDecimal:
+		return "deviceChange", true
+	case StateChangeCauseUndefinedDecimal:
+		return "undefined", true
+	default:
+		return "", false
+	}
+}
+
+func (v StateChangeCause) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v StateChangeCause) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *StateChangeCause) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal StateChangeCause into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewStateChangeCause(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v StateChangeCause) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *StateChangeCause) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal StateChangeCause into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewStateChangeCause(value)
+	return nil
 }
 
 // GetEimPackageRequest represents the ASN.1 type GetEimPackageRequest (SEQUENCE).
 type GetEimPackageRequest struct {
-	EidValue          sgp22.Octet16     `asn1:"tag:26,application,implicit"`
+	EidValue          Octet16           `asn1:"tag:26,application,implicit"`
 	NotifyStateChange *struct{}         `asn1:"tag:0,context,implicit,optional" json:"NotifyStateChange,omitempty"`
 	StateChangeCause  *StateChangeCause `asn1:"tag:1,context,implicit,optional" json:"StateChangeCause,omitempty"`
 	RPLMN             []byte            `asn1:"tag:2,context,implicit,optional" json:"RPLMN,omitempty"`
+	ExtCount_         int64             `asn1:"-" json:"-"`
+	ExtPresent_       []bool            `asn1:"-" json:"-"`
+	ExtData_          [][]byte          `asn1:"-" json:"-"`
 }
 
 // GetEimPackageResponse choice constants.
@@ -2192,10 +4076,10 @@ const (
 // GetEimPackageResponse represents the ASN.1 CHOICE type GetEimPackageResponse.
 type GetEimPackageResponse struct {
 	Choice                        int
-	EuiccPackageRequest           *EuiccPackageRequest           `json:"EuiccPackageRequest,omitempty"`
-	IpaEuiccDataRequest           *IpaEuiccDataRequest           `json:"IpaEuiccDataRequest,omitempty"`
-	ProfileDownloadTriggerRequest *ProfileDownloadTriggerRequest `json:"ProfileDownloadTriggerRequest,omitempty"`
-	EimPackageError               *int64                         `json:"EimPackageError,omitempty"`
+	EuiccPackageRequest           *EuiccPackageRequest                       `json:"EuiccPackageRequest,omitempty"`
+	IpaEuiccDataRequest           *IpaEuiccDataRequest                       `json:"IpaEuiccDataRequest,omitempty"`
+	ProfileDownloadTriggerRequest *ProfileDownloadTriggerRequest             `json:"ProfileDownloadTriggerRequest,omitempty"`
+	EimPackageError               *GetEimPackageResponseEimPackageErrorValue `json:"EimPackageError,omitempty"`
 }
 
 // NewGetEimPackageResponseEuiccPackageRequest creates a GetEimPackageResponse with the euiccPackageRequest alternative.
@@ -2223,39 +4107,131 @@ func NewGetEimPackageResponseProfileDownloadTriggerRequest(v ProfileDownloadTrig
 }
 
 // NewGetEimPackageResponseEimPackageError creates a GetEimPackageResponse with the eimPackageError alternative.
-func NewGetEimPackageResponseEimPackageError(v int64) GetEimPackageResponse {
+func NewGetEimPackageResponseEimPackageError(v GetEimPackageResponseEimPackageErrorValue) GetEimPackageResponse {
 	return GetEimPackageResponse{
 		Choice:          GetEimPackageResponseChoiceEimPackageError,
 		EimPackageError: &v,
 	}
 }
 
-// EimPackageResultErrorCode represents the ASN.1 INTEGER type EimPackageResultErrorCode with named numbers.
-type EimPackageResultErrorCode int64
+// EimPackageResultErrorCode represents the arbitrary-width ASN.1 INTEGER type EimPackageResultErrorCode with named numbers.
+type EimPackageResultErrorCode struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	EimPackageResultErrorCodeInvalidPackageFormat EimPackageResultErrorCode = 1
-	EimPackageResultErrorCodeUnknownPackage       EimPackageResultErrorCode = 2
-	EimPackageResultErrorCodeUndefinedError       EimPackageResultErrorCode = 127
+	EimPackageResultErrorCodeInvalidPackageFormatDecimal = "1"
+	EimPackageResultErrorCodeInvalidPackageFormat        = 1
+	EimPackageResultErrorCodeUnknownPackageDecimal       = "2"
+	EimPackageResultErrorCodeUnknownPackage              = 2
+	EimPackageResultErrorCodeUndefinedErrorDecimal       = "127"
+	EimPackageResultErrorCodeUndefinedError              = 127
 )
 
-func (v EimPackageResultErrorCode) String() string {
-	switch v {
-	case EimPackageResultErrorCodeInvalidPackageFormat:
-		return "invalidPackageFormat"
-	case EimPackageResultErrorCodeUnknownPackage:
-		return "unknownPackage"
-	case EimPackageResultErrorCodeUndefinedError:
-		return "undefinedError"
-	default:
-		return "unknown"
+// NewEimPackageResultErrorCode returns an immutable EimPackageResultErrorCode containing value.
+func NewEimPackageResultErrorCode(value *big.Int) EimPackageResultErrorCode {
+	return EimPackageResultErrorCode{value: runtime.CloneBigInt(value)}
+}
+
+// NewEimPackageResultErrorCodeInt64 returns a EimPackageResultErrorCode containing value.
+func NewEimPackageResultErrorCodeInt64(value int64) EimPackageResultErrorCode {
+	return NewEimPackageResultErrorCode(big.NewInt(value))
+}
+
+// EimPackageResultErrorCodeInvalidPackageFormatValue returns the named value invalidPackageFormat.
+func EimPackageResultErrorCodeInvalidPackageFormatValue() EimPackageResultErrorCode {
+	return NewEimPackageResultErrorCode(runtime.MustParseBigIntDecimal(EimPackageResultErrorCodeInvalidPackageFormatDecimal))
+}
+
+// EimPackageResultErrorCodeUnknownPackageValue returns the named value unknownPackage.
+func EimPackageResultErrorCodeUnknownPackageValue() EimPackageResultErrorCode {
+	return NewEimPackageResultErrorCode(runtime.MustParseBigIntDecimal(EimPackageResultErrorCodeUnknownPackageDecimal))
+}
+
+// EimPackageResultErrorCodeUndefinedErrorValue returns the named value undefinedError.
+func EimPackageResultErrorCodeUndefinedErrorValue() EimPackageResultErrorCode {
+	return NewEimPackageResultErrorCode(runtime.MustParseBigIntDecimal(EimPackageResultErrorCodeUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v EimPackageResultErrorCode) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v EimPackageResultErrorCode) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
 	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v EimPackageResultErrorCode) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case EimPackageResultErrorCodeInvalidPackageFormatDecimal:
+		return "invalidPackageFormat", true
+	case EimPackageResultErrorCodeUnknownPackageDecimal:
+		return "unknownPackage", true
+	case EimPackageResultErrorCodeUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v EimPackageResultErrorCode) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v EimPackageResultErrorCode) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *EimPackageResultErrorCode) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal EimPackageResultErrorCode into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewEimPackageResultErrorCode(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v EimPackageResultErrorCode) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *EimPackageResultErrorCode) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal EimPackageResultErrorCode into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewEimPackageResultErrorCode(value)
+	return nil
 }
 
 // EimPackageResultResponseError represents the ASN.1 type EimPackageResultResponseError (SEQUENCE).
 type EimPackageResultResponseError struct {
-	EimTransactionId          *sgp22.TransactionId      `asn1:"tag:0,context,implicit,optional" json:"EimTransactionId,omitempty"`
+	EimTransactionId          *TransactionId            `asn1:"tag:0,context,implicit,optional" json:"EimTransactionId,omitempty"`
 	EimPackageResultErrorCode EimPackageResultErrorCode `asn1:""`
+	ExtCount_                 int64                     `asn1:"-" json:"-"`
+	ExtPresent_               []bool                    `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                  `asn1:"-" json:"-"`
 }
 
 // EimPackageResult choice constants.
@@ -2319,8 +4295,11 @@ func NewEimPackageResultEimPackageResultResponseError(v EimPackageResultResponse
 
 // ProvideEimPackageResult represents the ASN.1 type ProvideEimPackageResult (SEQUENCE).
 type ProvideEimPackageResult struct {
-	EidValue         *sgp22.Octet16   `asn1:"tag:26,application,implicit,optional" json:"EidValue,omitempty"`
+	EidValue         *Octet16         `asn1:"tag:26,application,implicit,optional" json:"EidValue,omitempty"`
 	EimPackageResult EimPackageResult `asn1:""`
+	ExtCount_        int64            `asn1:"-" json:"-"`
+	ExtPresent_      []bool           `asn1:"-" json:"-"`
+	ExtData_         [][]byte         `asn1:"-" json:"-"`
 }
 
 // ProvideEimPackageResultResponse choice constants.
@@ -2333,9 +4312,9 @@ const (
 // ProvideEimPackageResultResponse represents the ASN.1 CHOICE type ProvideEimPackageResultResponse.
 type ProvideEimPackageResultResponse struct {
 	Choice                       int
-	EimAcknowledgements          EimAcknowledgements                           `json:"EimAcknowledgements,omitempty"`
-	EmptyResponse                *ProvideEimPackageResultResponseEmptyResponse `json:"EmptyResponse,omitempty"`
-	ProvideEimPackageResultError *int64                                        `json:"ProvideEimPackageResultError,omitempty"`
+	EimAcknowledgements          EimAcknowledgements                                               `json:"EimAcknowledgements,omitempty"`
+	EmptyResponse                *ProvideEimPackageResultResponseEmptyResponse                     `json:"EmptyResponse,omitempty"`
+	ProvideEimPackageResultError *ProvideEimPackageResultResponseProvideEimPackageResultErrorValue `json:"ProvideEimPackageResultError,omitempty"`
 }
 
 // NewProvideEimPackageResultResponseEimAcknowledgements creates a ProvideEimPackageResultResponse with the eimAcknowledgements alternative.
@@ -2355,7 +4334,7 @@ func NewProvideEimPackageResultResponseEmptyResponse(v ProvideEimPackageResultRe
 }
 
 // NewProvideEimPackageResultResponseProvideEimPackageResultError creates a ProvideEimPackageResultResponse with the provideEimPackageResultError alternative.
-func NewProvideEimPackageResultResponseProvideEimPackageResultError(v int64) ProvideEimPackageResultResponse {
+func NewProvideEimPackageResultResponseProvideEimPackageResultError(v ProvideEimPackageResultResponseProvideEimPackageResultErrorValue) ProvideEimPackageResultResponse {
 	return ProvideEimPackageResultResponse{
 		Choice:                       ProvideEimPackageResultResponseChoiceProvideEimPackageResultError,
 		ProvideEimPackageResultError: &v,
@@ -2425,13 +4404,13 @@ const (
 // TransferEimPackageResponse represents the ASN.1 CHOICE type TransferEimPackageResponse.
 type TransferEimPackageResponse struct {
 	Choice                    int
-	EuiccPackageResult        *EuiccPackageResult                            `json:"EuiccPackageResult,omitempty"`
-	EPRAndNotifications       *TransferEimPackageResponseEPRAndNotifications `json:"EPRAndNotifications,omitempty"`
-	IpaEuiccDataResponse      *IpaEuiccDataResponse                          `json:"IpaEuiccDataResponse,omitempty"`
-	EimPackageReceived        *struct{}                                      `json:"EimPackageReceived,omitempty"`
-	EimPackageReceivedWithCid *EimPackageReceivedWithCid                     `json:"EimPackageReceivedWithCid,omitempty"`
-	EimPackageError           *int64                                         `json:"EimPackageError,omitempty"`
-	EimPackageErrorWithCid    *EimPackageErrorWithCid                        `json:"EimPackageErrorWithCid,omitempty"`
+	EuiccPackageResult        *EuiccPackageResult                             `json:"EuiccPackageResult,omitempty"`
+	EPRAndNotifications       *TransferEimPackageResponseEPRAndNotifications  `json:"EPRAndNotifications,omitempty"`
+	IpaEuiccDataResponse      *IpaEuiccDataResponse                           `json:"IpaEuiccDataResponse,omitempty"`
+	EimPackageReceived        *struct{}                                       `json:"EimPackageReceived,omitempty"`
+	EimPackageReceivedWithCid *EimPackageReceivedWithCid                      `json:"EimPackageReceivedWithCid,omitempty"`
+	EimPackageError           *TransferEimPackageResponseEimPackageErrorValue `json:"EimPackageError,omitempty"`
+	EimPackageErrorWithCid    *EimPackageErrorWithCid                         `json:"EimPackageErrorWithCid,omitempty"`
 }
 
 // NewTransferEimPackageResponseEuiccPackageResult creates a TransferEimPackageResponse with the euiccPackageResult alternative.
@@ -2475,7 +4454,7 @@ func NewTransferEimPackageResponseEimPackageReceivedWithCid(v EimPackageReceived
 }
 
 // NewTransferEimPackageResponseEimPackageError creates a TransferEimPackageResponse with the eimPackageError alternative.
-func NewTransferEimPackageResponseEimPackageError(v int64) TransferEimPackageResponse {
+func NewTransferEimPackageResponseEimPackageError(v TransferEimPackageResponseEimPackageErrorValue) TransferEimPackageResponse {
 	return TransferEimPackageResponse{
 		Choice:          TransferEimPackageResponseChoiceEimPackageError,
 		EimPackageError: &v,
@@ -2493,18 +4472,24 @@ func NewTransferEimPackageResponseEimPackageErrorWithCid(v EimPackageErrorWithCi
 // EimPackageReceivedWithCid represents the ASN.1 type EimPackageReceivedWithCid (SEQUENCE).
 type EimPackageReceivedWithCid struct {
 	CorrelationId *EimPackageReceivedWithCidCorrelationId `asn1:"tag:0,context,explicit,optional" json:"CorrelationId,omitempty"`
+	ExtCount_     int64                                   `asn1:"-" json:"-"`
+	ExtPresent_   []bool                                  `asn1:"-" json:"-"`
+	ExtData_      [][]byte                                `asn1:"-" json:"-"`
 }
 
 // EimPackageErrorWithCid represents the ASN.1 type EimPackageErrorWithCid (SEQUENCE).
 type EimPackageErrorWithCid struct {
 	CorrelationId   *EimPackageErrorWithCidCorrelationId `asn1:"tag:0,context,explicit,optional" json:"CorrelationId,omitempty"`
 	EimPackageError EimPackageResultErrorCode            `asn1:"tag:1,context,implicit"`
+	ExtCount_       int64                                `asn1:"-" json:"-"`
+	ExtPresent_     []bool                               `asn1:"-" json:"-"`
+	ExtData_        [][]byte                             `asn1:"-" json:"-"`
 }
 
-// EuiccPackagePsmoList represents the ASN.1 type EuiccPackage-psmoList (SEQUENCE_OF).
+// EuiccPackagePsmoList represents the ASN.1 type EuiccPackagePsmoList (SEQUENCE_OF).
 type EuiccPackagePsmoList = []Psmo
 
-// EuiccPackageEcoList represents the ASN.1 type EuiccPackage-ecoList (SEQUENCE_OF).
+// EuiccPackageEcoList represents the ASN.1 type EuiccPackageEcoList (SEQUENCE_OF).
 type EuiccPackageEcoList = []Eco
 
 // EimConfigurationDataEimPublicKeyData choice constants.
@@ -2513,23 +4498,23 @@ const (
 	EimConfigurationDataEimPublicKeyDataChoiceEimCertificate = 2
 )
 
-// EimConfigurationDataEimPublicKeyData represents the ASN.1 CHOICE type EimConfigurationData-eimPublicKeyData.
+// EimConfigurationDataEimPublicKeyData represents the ASN.1 CHOICE type EimConfigurationDataEimPublicKeyData.
 type EimConfigurationDataEimPublicKeyData struct {
 	Choice         int
-	EimPublicKey   *sgp22.SubjectPublicKeyInfo `json:"EimPublicKey,omitempty"`
-	EimCertificate *sgp22.Certificate          `json:"EimCertificate,omitempty"`
+	EimPublicKey   *SubjectPublicKeyInfo `json:"EimPublicKey,omitempty"`
+	EimCertificate *Certificate          `json:"EimCertificate,omitempty"`
 }
 
-// NewEimConfigurationDataEimPublicKeyDataEimPublicKey creates a EimConfigurationData-eimPublicKeyData with the eimPublicKey alternative.
-func NewEimConfigurationDataEimPublicKeyDataEimPublicKey(v sgp22.SubjectPublicKeyInfo) EimConfigurationDataEimPublicKeyData {
+// NewEimConfigurationDataEimPublicKeyDataEimPublicKey creates a EimConfigurationDataEimPublicKeyData with the eimPublicKey alternative.
+func NewEimConfigurationDataEimPublicKeyDataEimPublicKey(v SubjectPublicKeyInfo) EimConfigurationDataEimPublicKeyData {
 	return EimConfigurationDataEimPublicKeyData{
 		Choice:       EimConfigurationDataEimPublicKeyDataChoiceEimPublicKey,
 		EimPublicKey: &v,
 	}
 }
 
-// NewEimConfigurationDataEimPublicKeyDataEimCertificate creates a EimConfigurationData-eimPublicKeyData with the eimCertificate alternative.
-func NewEimConfigurationDataEimPublicKeyDataEimCertificate(v sgp22.Certificate) EimConfigurationDataEimPublicKeyData {
+// NewEimConfigurationDataEimPublicKeyDataEimCertificate creates a EimConfigurationDataEimPublicKeyData with the eimCertificate alternative.
+func NewEimConfigurationDataEimPublicKeyDataEimCertificate(v Certificate) EimConfigurationDataEimPublicKeyData {
 	return EimConfigurationDataEimPublicKeyData{
 		Choice:         EimConfigurationDataEimPublicKeyDataChoiceEimCertificate,
 		EimCertificate: &v,
@@ -2542,72 +4527,99 @@ const (
 	EimConfigurationDataTrustedPublicKeyDataTlsChoiceTrustedCertificateTls = 2
 )
 
-// EimConfigurationDataTrustedPublicKeyDataTls represents the ASN.1 CHOICE type EimConfigurationData-trustedPublicKeyDataTls.
+// EimConfigurationDataTrustedPublicKeyDataTls represents the ASN.1 CHOICE type EimConfigurationDataTrustedPublicKeyDataTls.
 type EimConfigurationDataTrustedPublicKeyDataTls struct {
 	Choice                int
-	TrustedEimPkTls       *sgp22.SubjectPublicKeyInfo `json:"TrustedEimPkTls,omitempty"`
-	TrustedCertificateTls *sgp22.Certificate          `json:"TrustedCertificateTls,omitempty"`
+	TrustedEimPkTls       *SubjectPublicKeyInfo `json:"TrustedEimPkTls,omitempty"`
+	TrustedCertificateTls *Certificate          `json:"TrustedCertificateTls,omitempty"`
 }
 
-// NewEimConfigurationDataTrustedPublicKeyDataTlsTrustedEimPkTls creates a EimConfigurationData-trustedPublicKeyDataTls with the trustedEimPkTls alternative.
-func NewEimConfigurationDataTrustedPublicKeyDataTlsTrustedEimPkTls(v sgp22.SubjectPublicKeyInfo) EimConfigurationDataTrustedPublicKeyDataTls {
+// NewEimConfigurationDataTrustedPublicKeyDataTlsTrustedEimPkTls creates a EimConfigurationDataTrustedPublicKeyDataTls with the trustedEimPkTls alternative.
+func NewEimConfigurationDataTrustedPublicKeyDataTlsTrustedEimPkTls(v SubjectPublicKeyInfo) EimConfigurationDataTrustedPublicKeyDataTls {
 	return EimConfigurationDataTrustedPublicKeyDataTls{
 		Choice:          EimConfigurationDataTrustedPublicKeyDataTlsChoiceTrustedEimPkTls,
 		TrustedEimPkTls: &v,
 	}
 }
 
-// NewEimConfigurationDataTrustedPublicKeyDataTlsTrustedCertificateTls creates a EimConfigurationData-trustedPublicKeyDataTls with the trustedCertificateTls alternative.
-func NewEimConfigurationDataTrustedPublicKeyDataTlsTrustedCertificateTls(v sgp22.Certificate) EimConfigurationDataTrustedPublicKeyDataTls {
+// NewEimConfigurationDataTrustedPublicKeyDataTlsTrustedCertificateTls creates a EimConfigurationDataTrustedPublicKeyDataTls with the trustedCertificateTls alternative.
+func NewEimConfigurationDataTrustedPublicKeyDataTlsTrustedCertificateTls(v Certificate) EimConfigurationDataTrustedPublicKeyDataTls {
 	return EimConfigurationDataTrustedPublicKeyDataTls{
 		Choice:                EimConfigurationDataTrustedPublicKeyDataTlsChoiceTrustedCertificateTls,
 		TrustedCertificateTls: &v,
 	}
 }
 
-// EcoDeleteEim represents the ASN.1 type Eco-deleteEim (SEQUENCE).
+// EcoDeleteEim represents the ASN.1 type EcoDeleteEim (SEQUENCE).
 type EcoDeleteEim struct {
-	EimId string `asn1:"tag:0,context,implicit"`
+	EimId       string   `asn1:"tag:0,context,implicit"`
+	ExtCount_   int64    `asn1:"-" json:"-"`
+	ExtPresent_ []bool   `asn1:"-" json:"-"`
+	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// EcoListEim represents the ASN.1 type Eco-listEim (SEQUENCE).
+// EcoListEim represents the ASN.1 type EcoListEim (SEQUENCE).
 type EcoListEim struct {
+	ExtCount_   int64    `asn1:"-" json:"-"`
+	ExtPresent_ []bool   `asn1:"-" json:"-"`
+	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// PsmoEnable represents the ASN.1 type Psmo-enable (SEQUENCE).
+// PsmoEnable represents the ASN.1 type PsmoEnable (SEQUENCE).
 type PsmoEnable struct {
-	Iccid        sgp22.Iccid `asn1:"tag:26,application,implicit"`
-	RollbackFlag *struct{}   `asn1:",optional" json:"RollbackFlag,omitempty"`
+	Iccid        Iccid     `asn1:"tag:26,application,implicit"`
+	RollbackFlag *struct{} `asn1:",optional" json:"RollbackFlag,omitempty"`
+	ExtCount_    int64     `asn1:"-" json:"-"`
+	ExtPresent_  []bool    `asn1:"-" json:"-"`
+	ExtData_     [][]byte  `asn1:"-" json:"-"`
 }
 
-// PsmoDisable represents the ASN.1 type Psmo-disable (SEQUENCE).
+// PsmoDisable represents the ASN.1 type PsmoDisable (SEQUENCE).
 type PsmoDisable struct {
-	Iccid sgp22.Iccid `asn1:"tag:26,application,implicit"`
+	Iccid       Iccid    `asn1:"tag:26,application,implicit"`
+	ExtCount_   int64    `asn1:"-" json:"-"`
+	ExtPresent_ []bool   `asn1:"-" json:"-"`
+	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// PsmoDelete represents the ASN.1 type Psmo-delete (SEQUENCE).
+// PsmoDelete represents the ASN.1 type PsmoDelete (SEQUENCE).
 type PsmoDelete struct {
-	Iccid sgp22.Iccid `asn1:"tag:26,application,implicit"`
+	Iccid       Iccid    `asn1:"tag:26,application,implicit"`
+	ExtCount_   int64    `asn1:"-" json:"-"`
+	ExtPresent_ []bool   `asn1:"-" json:"-"`
+	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// PsmoGetRAT represents the ASN.1 type Psmo-getRAT (SEQUENCE).
+// PsmoGetRAT represents the ASN.1 type PsmoGetRAT (SEQUENCE).
 type PsmoGetRAT struct {
+	ExtCount_   int64    `asn1:"-" json:"-"`
+	ExtPresent_ []bool   `asn1:"-" json:"-"`
+	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// PsmoConfigureImmediateEnable represents the ASN.1 type Psmo-configureImmediateEnable (SEQUENCE).
+// PsmoConfigureImmediateEnable represents the ASN.1 type PsmoConfigureImmediateEnable (SEQUENCE).
 type PsmoConfigureImmediateEnable struct {
 	ImmediateEnableFlag *struct{}                `asn1:"tag:0,context,implicit,optional" json:"ImmediateEnableFlag,omitempty"`
 	DefaultSmdpOid      runtime.ObjectIdentifier `asn1:"tag:1,context,implicit,optional" json:"DefaultSmdpOid,omitempty"`
 	DefaultSmdpAddress  *string                  `asn1:"tag:2,context,implicit,optional" json:"DefaultSmdpAddress,omitempty"`
+	ExtCount_           int64                    `asn1:"-" json:"-"`
+	ExtPresent_         []bool                   `asn1:"-" json:"-"`
+	ExtData_            [][]byte                 `asn1:"-" json:"-"`
 }
 
-// PsmoSetFallbackAttribute represents the ASN.1 type Psmo-setFallbackAttribute (SEQUENCE).
+// PsmoSetFallbackAttribute represents the ASN.1 type PsmoSetFallbackAttribute (SEQUENCE).
 type PsmoSetFallbackAttribute struct {
-	Iccid sgp22.Iccid `asn1:"tag:26,application,implicit"`
+	Iccid       Iccid    `asn1:"tag:26,application,implicit"`
+	ExtCount_   int64    `asn1:"-" json:"-"`
+	ExtPresent_ []bool   `asn1:"-" json:"-"`
+	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// PsmoUnsetFallbackAttribute represents the ASN.1 type Psmo-unsetFallbackAttribute (SEQUENCE).
+// PsmoUnsetFallbackAttribute represents the ASN.1 type PsmoUnsetFallbackAttribute (SEQUENCE).
 type PsmoUnsetFallbackAttribute struct {
+	ExtCount_   int64    `asn1:"-" json:"-"`
+	ExtPresent_ []bool   `asn1:"-" json:"-"`
+	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
 // IpaEuiccDataRequestSearchCriteriaNotification choice constants.
@@ -2616,14 +4628,14 @@ const (
 	IpaEuiccDataRequestSearchCriteriaNotificationChoiceProfileManagementOperation = 2
 )
 
-// IpaEuiccDataRequestSearchCriteriaNotification represents the ASN.1 CHOICE type IpaEuiccDataRequest-searchCriteriaNotification.
+// IpaEuiccDataRequestSearchCriteriaNotification represents the ASN.1 CHOICE type IpaEuiccDataRequestSearchCriteriaNotification.
 type IpaEuiccDataRequestSearchCriteriaNotification struct {
 	Choice                     int
-	SeqNumber                  *big.Int                 `json:"SeqNumber,omitempty"`
-	ProfileManagementOperation *sgp22.NotificationEvent `json:"ProfileManagementOperation,omitempty"`
+	SeqNumber                  *big.Int           `json:"SeqNumber,omitempty"`
+	ProfileManagementOperation *NotificationEvent `json:"ProfileManagementOperation,omitempty"`
 }
 
-// NewIpaEuiccDataRequestSearchCriteriaNotificationSeqNumber creates a IpaEuiccDataRequest-searchCriteriaNotification with the seqNumber alternative.
+// NewIpaEuiccDataRequestSearchCriteriaNotificationSeqNumber creates a IpaEuiccDataRequestSearchCriteriaNotification with the seqNumber alternative.
 func NewIpaEuiccDataRequestSearchCriteriaNotificationSeqNumber(v *big.Int) IpaEuiccDataRequestSearchCriteriaNotification {
 	return IpaEuiccDataRequestSearchCriteriaNotification{
 		Choice:    IpaEuiccDataRequestSearchCriteriaNotificationChoiceSeqNumber,
@@ -2631,8 +4643,8 @@ func NewIpaEuiccDataRequestSearchCriteriaNotificationSeqNumber(v *big.Int) IpaEu
 	}
 }
 
-// NewIpaEuiccDataRequestSearchCriteriaNotificationProfileManagementOperation creates a IpaEuiccDataRequest-searchCriteriaNotification with the profileManagementOperation alternative.
-func NewIpaEuiccDataRequestSearchCriteriaNotificationProfileManagementOperation(v sgp22.NotificationEvent) IpaEuiccDataRequestSearchCriteriaNotification {
+// NewIpaEuiccDataRequestSearchCriteriaNotificationProfileManagementOperation creates a IpaEuiccDataRequestSearchCriteriaNotification with the profileManagementOperation alternative.
+func NewIpaEuiccDataRequestSearchCriteriaNotificationProfileManagementOperation(v NotificationEvent) IpaEuiccDataRequestSearchCriteriaNotification {
 	return IpaEuiccDataRequestSearchCriteriaNotification{
 		Choice:                     IpaEuiccDataRequestSearchCriteriaNotificationChoiceProfileManagementOperation,
 		ProfileManagementOperation: &v,
@@ -2644,13 +4656,13 @@ const (
 	IpaEuiccDataRequestSearchCriteriaEuiccPackageResultChoiceSeqNumber = 1
 )
 
-// IpaEuiccDataRequestSearchCriteriaEuiccPackageResult represents the ASN.1 CHOICE type IpaEuiccDataRequest-searchCriteriaEuiccPackageResult.
+// IpaEuiccDataRequestSearchCriteriaEuiccPackageResult represents the ASN.1 CHOICE type IpaEuiccDataRequestSearchCriteriaEuiccPackageResult.
 type IpaEuiccDataRequestSearchCriteriaEuiccPackageResult struct {
 	Choice    int
 	SeqNumber *big.Int `json:"SeqNumber,omitempty"`
 }
 
-// NewIpaEuiccDataRequestSearchCriteriaEuiccPackageResultSeqNumber creates a IpaEuiccDataRequest-searchCriteriaEuiccPackageResult with the seqNumber alternative.
+// NewIpaEuiccDataRequestSearchCriteriaEuiccPackageResultSeqNumber creates a IpaEuiccDataRequestSearchCriteriaEuiccPackageResult with the seqNumber alternative.
 func NewIpaEuiccDataRequestSearchCriteriaEuiccPackageResultSeqNumber(v *big.Int) IpaEuiccDataRequestSearchCriteriaEuiccPackageResult {
 	return IpaEuiccDataRequestSearchCriteriaEuiccPackageResult{
 		Choice:    IpaEuiccDataRequestSearchCriteriaEuiccPackageResultChoiceSeqNumber,
@@ -2658,19 +4670,391 @@ func NewIpaEuiccDataRequestSearchCriteriaEuiccPackageResultSeqNumber(v *big.Int)
 	}
 }
 
-// ProfileDownloadDataContactSmds represents the ASN.1 type ProfileDownloadData-contactSmds (SEQUENCE).
+// ProfileDownloadDataContactSmds represents the ASN.1 type ProfileDownloadDataContactSmds (SEQUENCE).
 type ProfileDownloadDataContactSmds struct {
-	SmdsAddress *string `asn1:"tag:0,context,implicit,optional" json:"SmdsAddress,omitempty"`
+	SmdsAddress *string  `asn1:"tag:0,context,implicit,optional" json:"SmdsAddress,omitempty"`
+	ExtCount_   int64    `asn1:"-" json:"-"`
+	ExtPresent_ []bool   `asn1:"-" json:"-"`
+	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// EuiccPackageResultDataSignedEuiccResult represents the ASN.1 type EuiccPackageResultDataSigned-euiccResult (SEQUENCE_OF).
+// EuiccPackageResultDataSignedEuiccResult represents the ASN.1 type EuiccPackageResultDataSignedEuiccResult (SEQUENCE_OF).
 type EuiccPackageResultDataSignedEuiccResult = []EuiccResultData
 
-// ProfileInfoListResponseProfileInfoListOk represents the ASN.1 type ProfileInfoListResponse-profileInfoListOk (SEQUENCE_OF).
-type ProfileInfoListResponseProfileInfoListOk = []ProfileInfo
+// EuiccResultDataProcessingTerminatedValue represents the arbitrary-width ASN.1 INTEGER type EuiccResultDataProcessingTerminatedValue with named numbers.
+type EuiccResultDataProcessingTerminatedValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
-// ListEimResultEimIdList represents the ASN.1 type ListEimResult-eimIdList (SEQUENCE_OF).
+const (
+	EuiccResultDataProcessingTerminatedValueResultSizeOverflowDecimal      = "1"
+	EuiccResultDataProcessingTerminatedValueResultSizeOverflow             = 1
+	EuiccResultDataProcessingTerminatedValueUnknownOrDamagedCommandDecimal = "2"
+	EuiccResultDataProcessingTerminatedValueUnknownOrDamagedCommand        = 2
+	EuiccResultDataProcessingTerminatedValueInterruptionDecimal            = "3"
+	EuiccResultDataProcessingTerminatedValueInterruption                   = 3
+	EuiccResultDataProcessingTerminatedValueUndefinedErrorDecimal          = "127"
+	EuiccResultDataProcessingTerminatedValueUndefinedError                 = 127
+)
+
+// NewEuiccResultDataProcessingTerminatedValue returns an immutable EuiccResultDataProcessingTerminatedValue containing value.
+func NewEuiccResultDataProcessingTerminatedValue(value *big.Int) EuiccResultDataProcessingTerminatedValue {
+	return EuiccResultDataProcessingTerminatedValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewEuiccResultDataProcessingTerminatedValueInt64 returns a EuiccResultDataProcessingTerminatedValue containing value.
+func NewEuiccResultDataProcessingTerminatedValueInt64(value int64) EuiccResultDataProcessingTerminatedValue {
+	return NewEuiccResultDataProcessingTerminatedValue(big.NewInt(value))
+}
+
+// EuiccResultDataProcessingTerminatedValueResultSizeOverflowValue returns the named value resultSizeOverflow.
+func EuiccResultDataProcessingTerminatedValueResultSizeOverflowValue() EuiccResultDataProcessingTerminatedValue {
+	return NewEuiccResultDataProcessingTerminatedValue(runtime.MustParseBigIntDecimal(EuiccResultDataProcessingTerminatedValueResultSizeOverflowDecimal))
+}
+
+// EuiccResultDataProcessingTerminatedValueUnknownOrDamagedCommandValue returns the named value unknownOrDamagedCommand.
+func EuiccResultDataProcessingTerminatedValueUnknownOrDamagedCommandValue() EuiccResultDataProcessingTerminatedValue {
+	return NewEuiccResultDataProcessingTerminatedValue(runtime.MustParseBigIntDecimal(EuiccResultDataProcessingTerminatedValueUnknownOrDamagedCommandDecimal))
+}
+
+// EuiccResultDataProcessingTerminatedValueInterruptionValue returns the named value interruption.
+func EuiccResultDataProcessingTerminatedValueInterruptionValue() EuiccResultDataProcessingTerminatedValue {
+	return NewEuiccResultDataProcessingTerminatedValue(runtime.MustParseBigIntDecimal(EuiccResultDataProcessingTerminatedValueInterruptionDecimal))
+}
+
+// EuiccResultDataProcessingTerminatedValueUndefinedErrorValue returns the named value undefinedError.
+func EuiccResultDataProcessingTerminatedValueUndefinedErrorValue() EuiccResultDataProcessingTerminatedValue {
+	return NewEuiccResultDataProcessingTerminatedValue(runtime.MustParseBigIntDecimal(EuiccResultDataProcessingTerminatedValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v EuiccResultDataProcessingTerminatedValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v EuiccResultDataProcessingTerminatedValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v EuiccResultDataProcessingTerminatedValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case EuiccResultDataProcessingTerminatedValueResultSizeOverflowDecimal:
+		return "resultSizeOverflow", true
+	case EuiccResultDataProcessingTerminatedValueUnknownOrDamagedCommandDecimal:
+		return "unknownOrDamagedCommand", true
+	case EuiccResultDataProcessingTerminatedValueInterruptionDecimal:
+		return "interruption", true
+	case EuiccResultDataProcessingTerminatedValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v EuiccResultDataProcessingTerminatedValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v EuiccResultDataProcessingTerminatedValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *EuiccResultDataProcessingTerminatedValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal EuiccResultDataProcessingTerminatedValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewEuiccResultDataProcessingTerminatedValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v EuiccResultDataProcessingTerminatedValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *EuiccResultDataProcessingTerminatedValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal EuiccResultDataProcessingTerminatedValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewEuiccResultDataProcessingTerminatedValue(value)
+	return nil
+}
+
+// SGPProfileInfoListResponseProfileInfoListOk represents the ASN.1 type SGPProfileInfoListResponseProfileInfoListOk (SEQUENCE_OF).
+type SGPProfileInfoListResponseProfileInfoListOk = []SGPProfileInfo
+
+// AddEimResultAddEimResultCodeValue represents the arbitrary-width ASN.1 INTEGER type AddEimResultAddEimResultCodeValue with named numbers.
+type AddEimResultAddEimResultCodeValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	AddEimResultAddEimResultCodeValueOkDecimal                         = "0"
+	AddEimResultAddEimResultCodeValueOk                                = 0
+	AddEimResultAddEimResultCodeValueInsufficientMemoryDecimal         = "1"
+	AddEimResultAddEimResultCodeValueInsufficientMemory                = 1
+	AddEimResultAddEimResultCodeValueAssociatedEimAlreadyExistsDecimal = "2"
+	AddEimResultAddEimResultCodeValueAssociatedEimAlreadyExists        = 2
+	AddEimResultAddEimResultCodeValueCiPKUnknownDecimal                = "3"
+	AddEimResultAddEimResultCodeValueCiPKUnknown                       = 3
+	AddEimResultAddEimResultCodeValueInvalidAssociationTokenDecimal    = "5"
+	AddEimResultAddEimResultCodeValueInvalidAssociationToken           = 5
+	AddEimResultAddEimResultCodeValueCounterValueOutOfRangeDecimal     = "6"
+	AddEimResultAddEimResultCodeValueCounterValueOutOfRange            = 6
+	AddEimResultAddEimResultCodeValueCommandErrorDecimal               = "7"
+	AddEimResultAddEimResultCodeValueCommandError                      = 7
+	AddEimResultAddEimResultCodeValueUndefinedErrorDecimal             = "127"
+	AddEimResultAddEimResultCodeValueUndefinedError                    = 127
+)
+
+// NewAddEimResultAddEimResultCodeValue returns an immutable AddEimResultAddEimResultCodeValue containing value.
+func NewAddEimResultAddEimResultCodeValue(value *big.Int) AddEimResultAddEimResultCodeValue {
+	return AddEimResultAddEimResultCodeValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewAddEimResultAddEimResultCodeValueInt64 returns a AddEimResultAddEimResultCodeValue containing value.
+func NewAddEimResultAddEimResultCodeValueInt64(value int64) AddEimResultAddEimResultCodeValue {
+	return NewAddEimResultAddEimResultCodeValue(big.NewInt(value))
+}
+
+// AddEimResultAddEimResultCodeValueOkValue returns the named value ok.
+func AddEimResultAddEimResultCodeValueOkValue() AddEimResultAddEimResultCodeValue {
+	return NewAddEimResultAddEimResultCodeValue(runtime.MustParseBigIntDecimal(AddEimResultAddEimResultCodeValueOkDecimal))
+}
+
+// AddEimResultAddEimResultCodeValueInsufficientMemoryValue returns the named value insufficientMemory.
+func AddEimResultAddEimResultCodeValueInsufficientMemoryValue() AddEimResultAddEimResultCodeValue {
+	return NewAddEimResultAddEimResultCodeValue(runtime.MustParseBigIntDecimal(AddEimResultAddEimResultCodeValueInsufficientMemoryDecimal))
+}
+
+// AddEimResultAddEimResultCodeValueAssociatedEimAlreadyExistsValue returns the named value associatedEimAlreadyExists.
+func AddEimResultAddEimResultCodeValueAssociatedEimAlreadyExistsValue() AddEimResultAddEimResultCodeValue {
+	return NewAddEimResultAddEimResultCodeValue(runtime.MustParseBigIntDecimal(AddEimResultAddEimResultCodeValueAssociatedEimAlreadyExistsDecimal))
+}
+
+// AddEimResultAddEimResultCodeValueCiPKUnknownValue returns the named value ciPKUnknown.
+func AddEimResultAddEimResultCodeValueCiPKUnknownValue() AddEimResultAddEimResultCodeValue {
+	return NewAddEimResultAddEimResultCodeValue(runtime.MustParseBigIntDecimal(AddEimResultAddEimResultCodeValueCiPKUnknownDecimal))
+}
+
+// AddEimResultAddEimResultCodeValueInvalidAssociationTokenValue returns the named value invalidAssociationToken.
+func AddEimResultAddEimResultCodeValueInvalidAssociationTokenValue() AddEimResultAddEimResultCodeValue {
+	return NewAddEimResultAddEimResultCodeValue(runtime.MustParseBigIntDecimal(AddEimResultAddEimResultCodeValueInvalidAssociationTokenDecimal))
+}
+
+// AddEimResultAddEimResultCodeValueCounterValueOutOfRangeValue returns the named value counterValueOutOfRange.
+func AddEimResultAddEimResultCodeValueCounterValueOutOfRangeValue() AddEimResultAddEimResultCodeValue {
+	return NewAddEimResultAddEimResultCodeValue(runtime.MustParseBigIntDecimal(AddEimResultAddEimResultCodeValueCounterValueOutOfRangeDecimal))
+}
+
+// AddEimResultAddEimResultCodeValueCommandErrorValue returns the named value commandError.
+func AddEimResultAddEimResultCodeValueCommandErrorValue() AddEimResultAddEimResultCodeValue {
+	return NewAddEimResultAddEimResultCodeValue(runtime.MustParseBigIntDecimal(AddEimResultAddEimResultCodeValueCommandErrorDecimal))
+}
+
+// AddEimResultAddEimResultCodeValueUndefinedErrorValue returns the named value undefinedError.
+func AddEimResultAddEimResultCodeValueUndefinedErrorValue() AddEimResultAddEimResultCodeValue {
+	return NewAddEimResultAddEimResultCodeValue(runtime.MustParseBigIntDecimal(AddEimResultAddEimResultCodeValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v AddEimResultAddEimResultCodeValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v AddEimResultAddEimResultCodeValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v AddEimResultAddEimResultCodeValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case AddEimResultAddEimResultCodeValueOkDecimal:
+		return "ok", true
+	case AddEimResultAddEimResultCodeValueInsufficientMemoryDecimal:
+		return "insufficientMemory", true
+	case AddEimResultAddEimResultCodeValueAssociatedEimAlreadyExistsDecimal:
+		return "associatedEimAlreadyExists", true
+	case AddEimResultAddEimResultCodeValueCiPKUnknownDecimal:
+		return "ciPKUnknown", true
+	case AddEimResultAddEimResultCodeValueInvalidAssociationTokenDecimal:
+		return "invalidAssociationToken", true
+	case AddEimResultAddEimResultCodeValueCounterValueOutOfRangeDecimal:
+		return "counterValueOutOfRange", true
+	case AddEimResultAddEimResultCodeValueCommandErrorDecimal:
+		return "commandError", true
+	case AddEimResultAddEimResultCodeValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v AddEimResultAddEimResultCodeValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v AddEimResultAddEimResultCodeValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *AddEimResultAddEimResultCodeValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal AddEimResultAddEimResultCodeValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewAddEimResultAddEimResultCodeValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v AddEimResultAddEimResultCodeValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *AddEimResultAddEimResultCodeValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal AddEimResultAddEimResultCodeValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewAddEimResultAddEimResultCodeValue(value)
+	return nil
+}
+
+// ListEimResultEimIdList represents the ASN.1 type ListEimResultEimIdList (SEQUENCE_OF).
 type ListEimResultEimIdList = []EimIdInfo
+
+// ListEimResultListEimErrorValue represents the arbitrary-width ASN.1 INTEGER type ListEimResultListEimErrorValue with named numbers.
+type ListEimResultListEimErrorValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	ListEimResultListEimErrorValueUndefinedErrorDecimal = "127"
+	ListEimResultListEimErrorValueUndefinedError        = 127
+)
+
+// NewListEimResultListEimErrorValue returns an immutable ListEimResultListEimErrorValue containing value.
+func NewListEimResultListEimErrorValue(value *big.Int) ListEimResultListEimErrorValue {
+	return ListEimResultListEimErrorValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewListEimResultListEimErrorValueInt64 returns a ListEimResultListEimErrorValue containing value.
+func NewListEimResultListEimErrorValueInt64(value int64) ListEimResultListEimErrorValue {
+	return NewListEimResultListEimErrorValue(big.NewInt(value))
+}
+
+// ListEimResultListEimErrorValueUndefinedErrorValue returns the named value undefinedError.
+func ListEimResultListEimErrorValueUndefinedErrorValue() ListEimResultListEimErrorValue {
+	return NewListEimResultListEimErrorValue(runtime.MustParseBigIntDecimal(ListEimResultListEimErrorValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v ListEimResultListEimErrorValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v ListEimResultListEimErrorValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v ListEimResultListEimErrorValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case ListEimResultListEimErrorValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v ListEimResultListEimErrorValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v ListEimResultListEimErrorValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *ListEimResultListEimErrorValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ListEimResultListEimErrorValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewListEimResultListEimErrorValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v ListEimResultListEimErrorValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *ListEimResultListEimErrorValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ListEimResultListEimErrorValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewListEimResultListEimErrorValue(value)
+	return nil
+}
 
 // ProfileDownloadTriggerResultProfileDownloadTriggerResultData choice constants.
 const (
@@ -2678,22 +5062,22 @@ const (
 	ProfileDownloadTriggerResultProfileDownloadTriggerResultDataChoiceProfileDownloadError      = 2
 )
 
-// ProfileDownloadTriggerResultProfileDownloadTriggerResultData represents the ASN.1 CHOICE type ProfileDownloadTriggerResult-profileDownloadTriggerResultData.
+// ProfileDownloadTriggerResultProfileDownloadTriggerResultData represents the ASN.1 CHOICE type ProfileDownloadTriggerResultProfileDownloadTriggerResultData.
 type ProfileDownloadTriggerResultProfileDownloadTriggerResultData struct {
 	Choice                    int
-	ProfileInstallationResult *ProfileInstallationResult                                                        `json:"ProfileInstallationResult,omitempty"`
+	ProfileInstallationResult *SGPProfileInstallationResult                                                     `json:"ProfileInstallationResult,omitempty"`
 	ProfileDownloadError      *ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError `json:"ProfileDownloadError,omitempty"`
 }
 
-// NewProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileInstallationResult creates a ProfileDownloadTriggerResult-profileDownloadTriggerResultData with the profileInstallationResult alternative.
-func NewProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileInstallationResult(v ProfileInstallationResult) ProfileDownloadTriggerResultProfileDownloadTriggerResultData {
+// NewProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileInstallationResult creates a ProfileDownloadTriggerResultProfileDownloadTriggerResultData with the profileInstallationResult alternative.
+func NewProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileInstallationResult(v SGPProfileInstallationResult) ProfileDownloadTriggerResultProfileDownloadTriggerResultData {
 	return ProfileDownloadTriggerResultProfileDownloadTriggerResultData{
 		Choice:                    ProfileDownloadTriggerResultProfileDownloadTriggerResultDataChoiceProfileInstallationResult,
 		ProfileInstallationResult: &v,
 	}
 }
 
-// NewProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError creates a ProfileDownloadTriggerResult-profileDownloadTriggerResultData with the profileDownloadError alternative.
+// NewProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError creates a ProfileDownloadTriggerResultProfileDownloadTriggerResultData with the profileDownloadError alternative.
 func NewProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError(v ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError) ProfileDownloadTriggerResultProfileDownloadTriggerResultData {
 	return ProfileDownloadTriggerResultProfileDownloadTriggerResultData{
 		Choice:               ProfileDownloadTriggerResultProfileDownloadTriggerResultDataChoiceProfileDownloadError,
@@ -2701,42 +5085,375 @@ func NewProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownl
 	}
 }
 
-// ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError represents the ASN.1 type ProfileDownloadTriggerResult-profileDownloadTriggerResultData-profileDownloadError (SEQUENCE).
+// ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError represents the ASN.1 type ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError (SEQUENCE).
 type ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError struct {
-	ProfileDownloadErrorReason int64  `asn1:"tag:0,context,implicit"`
-	ErrorResponse              []byte `asn1:",optional" json:"ErrorResponse,omitempty"`
+	ProfileDownloadErrorReason ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue `asn1:"tag:0,context,implicit"`
+	ErrorResponse              []byte                                                                                                          `asn1:",optional" json:"ErrorResponse,omitempty"`
+	ExtCount_                  int64                                                                                                           `asn1:"-" json:"-"`
+	ExtPresent_                []bool                                                                                                          `asn1:"-" json:"-"`
+	ExtData_                   [][]byte                                                                                                        `asn1:"-" json:"-"`
 }
 
-// ProfileInfoNotificationConfigurationInfo represents the ASN.1 type ProfileInfo-notificationConfigurationInfo (SEQUENCE_OF).
-type ProfileInfoNotificationConfigurationInfo = []sgp22.NotificationConfigurationInformation
-
-// ProfileInfoIotSpecificProfileInfo represents the ASN.1 type ProfileInfo-iotSpecificProfileInfo (SEQUENCE).
-type ProfileInfoIotSpecificProfileInfo struct {
+// ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue represents the arbitrary-width ASN.1 INTEGER type ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue with named numbers.
+type ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue struct {
+	noCompare [0]func()
+	value     *big.Int
 }
 
-// StoreMetadataRequestNotificationConfigurationInfo represents the ASN.1 type StoreMetadataRequest-notificationConfigurationInfo (SEQUENCE_OF).
-type StoreMetadataRequestNotificationConfigurationInfo = []sgp22.NotificationConfigurationInformation
+const (
+	ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValueEcallActiveDecimal    = "104"
+	ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValueEcallActive           = 104
+	ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValueUndefinedErrorDecimal = "127"
+	ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValueUndefinedError        = 127
+)
 
-// StoreMetadataRequestIotSpecificMetadata represents the ASN.1 type StoreMetadataRequest-iotSpecificMetadata (SEQUENCE).
-type StoreMetadataRequestIotSpecificMetadata struct {
+// NewProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue returns an immutable ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue containing value.
+func NewProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue(value *big.Int) ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue {
+	return ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue{value: runtime.CloneBigInt(value)}
 }
 
-// EUICCInfo2EuiccCiPKIdListForVerification represents the ASN.1 type EUICCInfo2-euiccCiPKIdListForVerification (SEQUENCE_OF).
-type EUICCInfo2EuiccCiPKIdListForVerification = []sgp22.SubjectKeyIdentifier
+// NewProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValueInt64 returns a ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue containing value.
+func NewProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValueInt64(value int64) ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue {
+	return NewProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue(big.NewInt(value))
+}
 
-// EUICCInfo2EuiccCiPKIdListForSigning represents the ASN.1 type EUICCInfo2-euiccCiPKIdListForSigning (SEQUENCE_OF).
-type EUICCInfo2EuiccCiPKIdListForSigning = []sgp22.SubjectKeyIdentifier
+// ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValueEcallActiveValue returns the named value ecallActive.
+func ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValueEcallActiveValue() ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue {
+	return NewProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue(runtime.MustParseBigIntDecimal(ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValueEcallActiveDecimal))
+}
 
-// EUICCInfo2AdditionalEuiccProfilePackageVersions represents the ASN.1 type EUICCInfo2-additionalEuiccProfilePackageVersions (SEQUENCE_OF).
-type EUICCInfo2AdditionalEuiccProfilePackageVersions = []sgp22.VersionType
+// ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValueUndefinedErrorValue returns the named value undefinedError.
+func ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValueUndefinedErrorValue() ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue {
+	return NewProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue(runtime.MustParseBigIntDecimal(ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValueUndefinedErrorDecimal))
+}
 
-// EUICCInfo2EuiccCiPKIdListForSigningV3 represents the ASN.1 type EUICCInfo2-euiccCiPKIdListForSigningV3 (SEQUENCE_OF).
-type EUICCInfo2EuiccCiPKIdListForSigningV3 = []sgp22.SubjectKeyIdentifier
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
 
-// IoTSpecificInfoIotVersion represents the ASN.1 type IoTSpecificInfo-iotVersion (SEQUENCE_OF).
-type IoTSpecificInfoIotVersion = []sgp22.VersionType
+// AsInt64 returns v when it is representable as int64.
+func (v ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
 
-// AddInitialEimRequestEimConfigurationDataList represents the ASN.1 type AddInitialEimRequest-eimConfigurationDataList (SEQUENCE_OF).
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValueEcallActiveDecimal:
+		return "ecallActive", true
+	case ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue(value)
+	return nil
+}
+
+// IpaeActivationResponseIpaeActivationResultValue represents the arbitrary-width ASN.1 INTEGER type IpaeActivationResponseIpaeActivationResultValue with named numbers.
+type IpaeActivationResponseIpaeActivationResultValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	IpaeActivationResponseIpaeActivationResultValueOkDecimal           = "0"
+	IpaeActivationResponseIpaeActivationResultValueOk                  = 0
+	IpaeActivationResponseIpaeActivationResultValueNotSupportedDecimal = "1"
+	IpaeActivationResponseIpaeActivationResultValueNotSupported        = 1
+)
+
+// NewIpaeActivationResponseIpaeActivationResultValue returns an immutable IpaeActivationResponseIpaeActivationResultValue containing value.
+func NewIpaeActivationResponseIpaeActivationResultValue(value *big.Int) IpaeActivationResponseIpaeActivationResultValue {
+	return IpaeActivationResponseIpaeActivationResultValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewIpaeActivationResponseIpaeActivationResultValueInt64 returns a IpaeActivationResponseIpaeActivationResultValue containing value.
+func NewIpaeActivationResponseIpaeActivationResultValueInt64(value int64) IpaeActivationResponseIpaeActivationResultValue {
+	return NewIpaeActivationResponseIpaeActivationResultValue(big.NewInt(value))
+}
+
+// IpaeActivationResponseIpaeActivationResultValueOkValue returns the named value ok.
+func IpaeActivationResponseIpaeActivationResultValueOkValue() IpaeActivationResponseIpaeActivationResultValue {
+	return NewIpaeActivationResponseIpaeActivationResultValue(runtime.MustParseBigIntDecimal(IpaeActivationResponseIpaeActivationResultValueOkDecimal))
+}
+
+// IpaeActivationResponseIpaeActivationResultValueNotSupportedValue returns the named value notSupported.
+func IpaeActivationResponseIpaeActivationResultValueNotSupportedValue() IpaeActivationResponseIpaeActivationResultValue {
+	return NewIpaeActivationResponseIpaeActivationResultValue(runtime.MustParseBigIntDecimal(IpaeActivationResponseIpaeActivationResultValueNotSupportedDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v IpaeActivationResponseIpaeActivationResultValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v IpaeActivationResponseIpaeActivationResultValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v IpaeActivationResponseIpaeActivationResultValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case IpaeActivationResponseIpaeActivationResultValueOkDecimal:
+		return "ok", true
+	case IpaeActivationResponseIpaeActivationResultValueNotSupportedDecimal:
+		return "notSupported", true
+	default:
+		return "", false
+	}
+}
+
+func (v IpaeActivationResponseIpaeActivationResultValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v IpaeActivationResponseIpaeActivationResultValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *IpaeActivationResponseIpaeActivationResultValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal IpaeActivationResponseIpaeActivationResultValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewIpaeActivationResponseIpaeActivationResultValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v IpaeActivationResponseIpaeActivationResultValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *IpaeActivationResponseIpaeActivationResultValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal IpaeActivationResponseIpaeActivationResultValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewIpaeActivationResponseIpaeActivationResultValue(value)
+	return nil
+}
+
+// SGPProfileInfoNotificationConfigurationInfo represents the ASN.1 type SGPProfileInfoNotificationConfigurationInfo (SEQUENCE_OF).
+type SGPProfileInfoNotificationConfigurationInfo = []NotificationConfigurationInformation
+
+// SGPProfileInfoIotSpecificProfileInfo represents the ASN.1 type SGPProfileInfoIotSpecificProfileInfo (SEQUENCE).
+type SGPProfileInfoIotSpecificProfileInfo struct {
+	ExtCount_   int64    `asn1:"-" json:"-"`
+	ExtPresent_ []bool   `asn1:"-" json:"-"`
+	ExtData_    [][]byte `asn1:"-" json:"-"`
+}
+
+// SGPStoreMetadataRequestNotificationConfigurationInfo represents the ASN.1 type SGPStoreMetadataRequestNotificationConfigurationInfo (SEQUENCE_OF).
+type SGPStoreMetadataRequestNotificationConfigurationInfo = []NotificationConfigurationInformation
+
+// SGPStoreMetadataRequestIotSpecificMetadata represents the ASN.1 type SGPStoreMetadataRequestIotSpecificMetadata (SEQUENCE).
+type SGPStoreMetadataRequestIotSpecificMetadata struct {
+	ExtCount_   int64    `asn1:"-" json:"-"`
+	ExtPresent_ []bool   `asn1:"-" json:"-"`
+	ExtData_    [][]byte `asn1:"-" json:"-"`
+}
+
+// SGPEUICCInfo2EuiccCiPKIdListForVerification represents the ASN.1 type SGPEUICCInfo2EuiccCiPKIdListForVerification (SEQUENCE_OF).
+type SGPEUICCInfo2EuiccCiPKIdListForVerification = []SubjectKeyIdentifier
+
+// SGPEUICCInfo2EuiccCiPKIdListForSigning represents the ASN.1 type SGPEUICCInfo2EuiccCiPKIdListForSigning (SEQUENCE_OF).
+type SGPEUICCInfo2EuiccCiPKIdListForSigning = []SubjectKeyIdentifier
+
+// SGPEUICCInfo2EuiccCategoryValue represents the arbitrary-width ASN.1 INTEGER type SGPEUICCInfo2EuiccCategoryValue with named numbers.
+type SGPEUICCInfo2EuiccCategoryValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	SGPEUICCInfo2EuiccCategoryValueOtherDecimal            = "0"
+	SGPEUICCInfo2EuiccCategoryValueOther                   = 0
+	SGPEUICCInfo2EuiccCategoryValueBasicEuiccDecimal       = "1"
+	SGPEUICCInfo2EuiccCategoryValueBasicEuicc              = 1
+	SGPEUICCInfo2EuiccCategoryValueMediumEuiccDecimal      = "2"
+	SGPEUICCInfo2EuiccCategoryValueMediumEuicc             = 2
+	SGPEUICCInfo2EuiccCategoryValueContactlessEuiccDecimal = "3"
+	SGPEUICCInfo2EuiccCategoryValueContactlessEuicc        = 3
+)
+
+// NewSGPEUICCInfo2EuiccCategoryValue returns an immutable SGPEUICCInfo2EuiccCategoryValue containing value.
+func NewSGPEUICCInfo2EuiccCategoryValue(value *big.Int) SGPEUICCInfo2EuiccCategoryValue {
+	return SGPEUICCInfo2EuiccCategoryValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewSGPEUICCInfo2EuiccCategoryValueInt64 returns a SGPEUICCInfo2EuiccCategoryValue containing value.
+func NewSGPEUICCInfo2EuiccCategoryValueInt64(value int64) SGPEUICCInfo2EuiccCategoryValue {
+	return NewSGPEUICCInfo2EuiccCategoryValue(big.NewInt(value))
+}
+
+// SGPEUICCInfo2EuiccCategoryValueOtherValue returns the named value other.
+func SGPEUICCInfo2EuiccCategoryValueOtherValue() SGPEUICCInfo2EuiccCategoryValue {
+	return NewSGPEUICCInfo2EuiccCategoryValue(runtime.MustParseBigIntDecimal(SGPEUICCInfo2EuiccCategoryValueOtherDecimal))
+}
+
+// SGPEUICCInfo2EuiccCategoryValueBasicEuiccValue returns the named value basicEuicc.
+func SGPEUICCInfo2EuiccCategoryValueBasicEuiccValue() SGPEUICCInfo2EuiccCategoryValue {
+	return NewSGPEUICCInfo2EuiccCategoryValue(runtime.MustParseBigIntDecimal(SGPEUICCInfo2EuiccCategoryValueBasicEuiccDecimal))
+}
+
+// SGPEUICCInfo2EuiccCategoryValueMediumEuiccValue returns the named value mediumEuicc.
+func SGPEUICCInfo2EuiccCategoryValueMediumEuiccValue() SGPEUICCInfo2EuiccCategoryValue {
+	return NewSGPEUICCInfo2EuiccCategoryValue(runtime.MustParseBigIntDecimal(SGPEUICCInfo2EuiccCategoryValueMediumEuiccDecimal))
+}
+
+// SGPEUICCInfo2EuiccCategoryValueContactlessEuiccValue returns the named value contactlessEuicc.
+func SGPEUICCInfo2EuiccCategoryValueContactlessEuiccValue() SGPEUICCInfo2EuiccCategoryValue {
+	return NewSGPEUICCInfo2EuiccCategoryValue(runtime.MustParseBigIntDecimal(SGPEUICCInfo2EuiccCategoryValueContactlessEuiccDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v SGPEUICCInfo2EuiccCategoryValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v SGPEUICCInfo2EuiccCategoryValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v SGPEUICCInfo2EuiccCategoryValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case SGPEUICCInfo2EuiccCategoryValueOtherDecimal:
+		return "other", true
+	case SGPEUICCInfo2EuiccCategoryValueBasicEuiccDecimal:
+		return "basicEuicc", true
+	case SGPEUICCInfo2EuiccCategoryValueMediumEuiccDecimal:
+		return "mediumEuicc", true
+	case SGPEUICCInfo2EuiccCategoryValueContactlessEuiccDecimal:
+		return "contactlessEuicc", true
+	default:
+		return "", false
+	}
+}
+
+func (v SGPEUICCInfo2EuiccCategoryValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v SGPEUICCInfo2EuiccCategoryValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *SGPEUICCInfo2EuiccCategoryValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal SGPEUICCInfo2EuiccCategoryValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewSGPEUICCInfo2EuiccCategoryValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v SGPEUICCInfo2EuiccCategoryValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *SGPEUICCInfo2EuiccCategoryValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal SGPEUICCInfo2EuiccCategoryValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewSGPEUICCInfo2EuiccCategoryValue(value)
+	return nil
+}
+
+// SGPEUICCInfo2AdditionalEuiccProfilePackageVersions represents the ASN.1 type SGPEUICCInfo2AdditionalEuiccProfilePackageVersions (SEQUENCE_OF).
+type SGPEUICCInfo2AdditionalEuiccProfilePackageVersions = []VersionType
+
+// SGPEUICCInfo2EuiccCiPKIdListForSigningV3 represents the ASN.1 type SGPEUICCInfo2EuiccCiPKIdListForSigningV3 (SEQUENCE_OF).
+type SGPEUICCInfo2EuiccCiPKIdListForSigningV3 = []SubjectKeyIdentifier
+
+// IoTSpecificInfoIotVersion represents the ASN.1 type IoTSpecificInfoIotVersion (SEQUENCE_OF).
+type IoTSpecificInfoIotVersion = []VersionType
+
+// AddInitialEimRequestEimConfigurationDataList represents the ASN.1 type AddInitialEimRequestEimConfigurationDataList (SEQUENCE_OF).
 type AddInitialEimRequestEimConfigurationDataList = []EimConfigurationData
 
 // AddInitialEimResponseAddInitialEimOkElem choice constants.
@@ -2745,14 +5462,14 @@ const (
 	AddInitialEimResponseAddInitialEimOkElemChoiceAddOk            = 2
 )
 
-// AddInitialEimResponseAddInitialEimOkElem represents the ASN.1 CHOICE type AddInitialEimResponse-addInitialEimOk-Elem.
+// AddInitialEimResponseAddInitialEimOkElem represents the ASN.1 CHOICE type AddInitialEimResponseAddInitialEimOkElem.
 type AddInitialEimResponseAddInitialEimOkElem struct {
 	Choice           int
 	AssociationToken *big.Int  `json:"AssociationToken,omitempty"`
 	AddOk            *struct{} `json:"AddOk,omitempty"`
 }
 
-// NewAddInitialEimResponseAddInitialEimOkElemAssociationToken creates a AddInitialEimResponse-addInitialEimOk-Elem with the associationToken alternative.
+// NewAddInitialEimResponseAddInitialEimOkElemAssociationToken creates a AddInitialEimResponseAddInitialEimOkElem with the associationToken alternative.
 func NewAddInitialEimResponseAddInitialEimOkElemAssociationToken(v *big.Int) AddInitialEimResponseAddInitialEimOkElem {
 	return AddInitialEimResponseAddInitialEimOkElem{
 		Choice:           AddInitialEimResponseAddInitialEimOkElemChoiceAssociationToken,
@@ -2760,7 +5477,7 @@ func NewAddInitialEimResponseAddInitialEimOkElemAssociationToken(v *big.Int) Add
 	}
 }
 
-// NewAddInitialEimResponseAddInitialEimOkElemAddOk creates a AddInitialEimResponse-addInitialEimOk-Elem with the addOk alternative.
+// NewAddInitialEimResponseAddInitialEimOkElemAddOk creates a AddInitialEimResponseAddInitialEimOkElem with the addOk alternative.
 func NewAddInitialEimResponseAddInitialEimOkElemAddOk(v struct{}) AddInitialEimResponseAddInitialEimOkElem {
 	return AddInitialEimResponseAddInitialEimOkElem{
 		Choice: AddInitialEimResponseAddInitialEimOkElemChoiceAddOk,
@@ -2768,52 +5485,1135 @@ func NewAddInitialEimResponseAddInitialEimOkElemAddOk(v struct{}) AddInitialEimR
 	}
 }
 
-// AddInitialEimResponseAddInitialEimOk represents the ASN.1 type AddInitialEimResponse-addInitialEimOk (SEQUENCE_OF).
+// AddInitialEimResponseAddInitialEimOk represents the ASN.1 type AddInitialEimResponseAddInitialEimOk (SEQUENCE_OF).
 type AddInitialEimResponseAddInitialEimOk = []AddInitialEimResponseAddInitialEimOkElem
 
-// GetCertsResponseCerts represents the ASN.1 type GetCertsResponse-certs (SEQUENCE).
-type GetCertsResponseCerts struct {
-	EumCertificate   sgp22.Certificate `asn1:"tag:5,context,implicit"`
-	EuiccCertificate sgp22.Certificate `asn1:"tag:6,context,implicit"`
+// AddInitialEimResponseAddInitialEimErrorValue represents the arbitrary-width ASN.1 INTEGER type AddInitialEimResponseAddInitialEimErrorValue with named numbers.
+type AddInitialEimResponseAddInitialEimErrorValue struct {
+	noCompare [0]func()
+	value     *big.Int
 }
 
-// RetrieveNotificationsListRequestSearchCriteria choice constants.
 const (
-	RetrieveNotificationsListRequestSearchCriteriaChoiceSeqNumber                  = 1
-	RetrieveNotificationsListRequestSearchCriteriaChoiceProfileManagementOperation = 2
-	RetrieveNotificationsListRequestSearchCriteriaChoiceEuiccPackageResults        = 3
+	AddInitialEimResponseAddInitialEimErrorValueInsufficientMemoryDecimal         = "1"
+	AddInitialEimResponseAddInitialEimErrorValueInsufficientMemory                = 1
+	AddInitialEimResponseAddInitialEimErrorValueAssociatedEimAlreadyExistsDecimal = "2"
+	AddInitialEimResponseAddInitialEimErrorValueAssociatedEimAlreadyExists        = 2
+	AddInitialEimResponseAddInitialEimErrorValueCiPKUnknownDecimal                = "3"
+	AddInitialEimResponseAddInitialEimErrorValueCiPKUnknown                       = 3
+	AddInitialEimResponseAddInitialEimErrorValueInvalidAssociationTokenDecimal    = "5"
+	AddInitialEimResponseAddInitialEimErrorValueInvalidAssociationToken           = 5
+	AddInitialEimResponseAddInitialEimErrorValueCounterValueOutOfRangeDecimal     = "6"
+	AddInitialEimResponseAddInitialEimErrorValueCounterValueOutOfRange            = 6
+	AddInitialEimResponseAddInitialEimErrorValueCommandErrorDecimal               = "7"
+	AddInitialEimResponseAddInitialEimErrorValueCommandError                      = 7
+	AddInitialEimResponseAddInitialEimErrorValueUndefinedErrorDecimal             = "127"
+	AddInitialEimResponseAddInitialEimErrorValueUndefinedError                    = 127
 )
 
-// RetrieveNotificationsListRequestSearchCriteria represents the ASN.1 CHOICE type RetrieveNotificationsListRequest-searchCriteria.
-type RetrieveNotificationsListRequestSearchCriteria struct {
-	Choice                     int
-	SeqNumber                  *big.Int                 `json:"SeqNumber,omitempty"`
-	ProfileManagementOperation *sgp22.NotificationEvent `json:"ProfileManagementOperation,omitempty"`
-	EuiccPackageResults        *struct{}                `json:"EuiccPackageResults,omitempty"`
+// NewAddInitialEimResponseAddInitialEimErrorValue returns an immutable AddInitialEimResponseAddInitialEimErrorValue containing value.
+func NewAddInitialEimResponseAddInitialEimErrorValue(value *big.Int) AddInitialEimResponseAddInitialEimErrorValue {
+	return AddInitialEimResponseAddInitialEimErrorValue{value: runtime.CloneBigInt(value)}
 }
 
-// NewRetrieveNotificationsListRequestSearchCriteriaSeqNumber creates a RetrieveNotificationsListRequest-searchCriteria with the seqNumber alternative.
-func NewRetrieveNotificationsListRequestSearchCriteriaSeqNumber(v *big.Int) RetrieveNotificationsListRequestSearchCriteria {
-	return RetrieveNotificationsListRequestSearchCriteria{
-		Choice:    RetrieveNotificationsListRequestSearchCriteriaChoiceSeqNumber,
+// NewAddInitialEimResponseAddInitialEimErrorValueInt64 returns a AddInitialEimResponseAddInitialEimErrorValue containing value.
+func NewAddInitialEimResponseAddInitialEimErrorValueInt64(value int64) AddInitialEimResponseAddInitialEimErrorValue {
+	return NewAddInitialEimResponseAddInitialEimErrorValue(big.NewInt(value))
+}
+
+// AddInitialEimResponseAddInitialEimErrorValueInsufficientMemoryValue returns the named value insufficientMemory.
+func AddInitialEimResponseAddInitialEimErrorValueInsufficientMemoryValue() AddInitialEimResponseAddInitialEimErrorValue {
+	return NewAddInitialEimResponseAddInitialEimErrorValue(runtime.MustParseBigIntDecimal(AddInitialEimResponseAddInitialEimErrorValueInsufficientMemoryDecimal))
+}
+
+// AddInitialEimResponseAddInitialEimErrorValueAssociatedEimAlreadyExistsValue returns the named value associatedEimAlreadyExists.
+func AddInitialEimResponseAddInitialEimErrorValueAssociatedEimAlreadyExistsValue() AddInitialEimResponseAddInitialEimErrorValue {
+	return NewAddInitialEimResponseAddInitialEimErrorValue(runtime.MustParseBigIntDecimal(AddInitialEimResponseAddInitialEimErrorValueAssociatedEimAlreadyExistsDecimal))
+}
+
+// AddInitialEimResponseAddInitialEimErrorValueCiPKUnknownValue returns the named value ciPKUnknown.
+func AddInitialEimResponseAddInitialEimErrorValueCiPKUnknownValue() AddInitialEimResponseAddInitialEimErrorValue {
+	return NewAddInitialEimResponseAddInitialEimErrorValue(runtime.MustParseBigIntDecimal(AddInitialEimResponseAddInitialEimErrorValueCiPKUnknownDecimal))
+}
+
+// AddInitialEimResponseAddInitialEimErrorValueInvalidAssociationTokenValue returns the named value invalidAssociationToken.
+func AddInitialEimResponseAddInitialEimErrorValueInvalidAssociationTokenValue() AddInitialEimResponseAddInitialEimErrorValue {
+	return NewAddInitialEimResponseAddInitialEimErrorValue(runtime.MustParseBigIntDecimal(AddInitialEimResponseAddInitialEimErrorValueInvalidAssociationTokenDecimal))
+}
+
+// AddInitialEimResponseAddInitialEimErrorValueCounterValueOutOfRangeValue returns the named value counterValueOutOfRange.
+func AddInitialEimResponseAddInitialEimErrorValueCounterValueOutOfRangeValue() AddInitialEimResponseAddInitialEimErrorValue {
+	return NewAddInitialEimResponseAddInitialEimErrorValue(runtime.MustParseBigIntDecimal(AddInitialEimResponseAddInitialEimErrorValueCounterValueOutOfRangeDecimal))
+}
+
+// AddInitialEimResponseAddInitialEimErrorValueCommandErrorValue returns the named value commandError.
+func AddInitialEimResponseAddInitialEimErrorValueCommandErrorValue() AddInitialEimResponseAddInitialEimErrorValue {
+	return NewAddInitialEimResponseAddInitialEimErrorValue(runtime.MustParseBigIntDecimal(AddInitialEimResponseAddInitialEimErrorValueCommandErrorDecimal))
+}
+
+// AddInitialEimResponseAddInitialEimErrorValueUndefinedErrorValue returns the named value undefinedError.
+func AddInitialEimResponseAddInitialEimErrorValueUndefinedErrorValue() AddInitialEimResponseAddInitialEimErrorValue {
+	return NewAddInitialEimResponseAddInitialEimErrorValue(runtime.MustParseBigIntDecimal(AddInitialEimResponseAddInitialEimErrorValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v AddInitialEimResponseAddInitialEimErrorValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v AddInitialEimResponseAddInitialEimErrorValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v AddInitialEimResponseAddInitialEimErrorValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case AddInitialEimResponseAddInitialEimErrorValueInsufficientMemoryDecimal:
+		return "insufficientMemory", true
+	case AddInitialEimResponseAddInitialEimErrorValueAssociatedEimAlreadyExistsDecimal:
+		return "associatedEimAlreadyExists", true
+	case AddInitialEimResponseAddInitialEimErrorValueCiPKUnknownDecimal:
+		return "ciPKUnknown", true
+	case AddInitialEimResponseAddInitialEimErrorValueInvalidAssociationTokenDecimal:
+		return "invalidAssociationToken", true
+	case AddInitialEimResponseAddInitialEimErrorValueCounterValueOutOfRangeDecimal:
+		return "counterValueOutOfRange", true
+	case AddInitialEimResponseAddInitialEimErrorValueCommandErrorDecimal:
+		return "commandError", true
+	case AddInitialEimResponseAddInitialEimErrorValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v AddInitialEimResponseAddInitialEimErrorValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v AddInitialEimResponseAddInitialEimErrorValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *AddInitialEimResponseAddInitialEimErrorValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal AddInitialEimResponseAddInitialEimErrorValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewAddInitialEimResponseAddInitialEimErrorValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v AddInitialEimResponseAddInitialEimErrorValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *AddInitialEimResponseAddInitialEimErrorValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal AddInitialEimResponseAddInitialEimErrorValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewAddInitialEimResponseAddInitialEimErrorValue(value)
+	return nil
+}
+
+// SGPEuiccMemoryResetResponseResetResultValue represents the arbitrary-width ASN.1 INTEGER type SGPEuiccMemoryResetResponseResetResultValue with named numbers.
+type SGPEuiccMemoryResetResponseResetResultValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	SGPEuiccMemoryResetResponseResetResultValueOkDecimal              = "0"
+	SGPEuiccMemoryResetResponseResetResultValueOk                     = 0
+	SGPEuiccMemoryResetResponseResetResultValueNothingToDeleteDecimal = "1"
+	SGPEuiccMemoryResetResponseResetResultValueNothingToDelete        = 1
+	SGPEuiccMemoryResetResponseResetResultValueCatBusyDecimal         = "5"
+	SGPEuiccMemoryResetResponseResetResultValueCatBusy                = 5
+	SGPEuiccMemoryResetResponseResetResultValueEcallActiveDecimal     = "104"
+	SGPEuiccMemoryResetResponseResetResultValueEcallActive            = 104
+	SGPEuiccMemoryResetResponseResetResultValueUndefinedErrorDecimal  = "127"
+	SGPEuiccMemoryResetResponseResetResultValueUndefinedError         = 127
+)
+
+// NewSGPEuiccMemoryResetResponseResetResultValue returns an immutable SGPEuiccMemoryResetResponseResetResultValue containing value.
+func NewSGPEuiccMemoryResetResponseResetResultValue(value *big.Int) SGPEuiccMemoryResetResponseResetResultValue {
+	return SGPEuiccMemoryResetResponseResetResultValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewSGPEuiccMemoryResetResponseResetResultValueInt64 returns a SGPEuiccMemoryResetResponseResetResultValue containing value.
+func NewSGPEuiccMemoryResetResponseResetResultValueInt64(value int64) SGPEuiccMemoryResetResponseResetResultValue {
+	return NewSGPEuiccMemoryResetResponseResetResultValue(big.NewInt(value))
+}
+
+// SGPEuiccMemoryResetResponseResetResultValueOkValue returns the named value ok.
+func SGPEuiccMemoryResetResponseResetResultValueOkValue() SGPEuiccMemoryResetResponseResetResultValue {
+	return NewSGPEuiccMemoryResetResponseResetResultValue(runtime.MustParseBigIntDecimal(SGPEuiccMemoryResetResponseResetResultValueOkDecimal))
+}
+
+// SGPEuiccMemoryResetResponseResetResultValueNothingToDeleteValue returns the named value nothingToDelete.
+func SGPEuiccMemoryResetResponseResetResultValueNothingToDeleteValue() SGPEuiccMemoryResetResponseResetResultValue {
+	return NewSGPEuiccMemoryResetResponseResetResultValue(runtime.MustParseBigIntDecimal(SGPEuiccMemoryResetResponseResetResultValueNothingToDeleteDecimal))
+}
+
+// SGPEuiccMemoryResetResponseResetResultValueCatBusyValue returns the named value catBusy.
+func SGPEuiccMemoryResetResponseResetResultValueCatBusyValue() SGPEuiccMemoryResetResponseResetResultValue {
+	return NewSGPEuiccMemoryResetResponseResetResultValue(runtime.MustParseBigIntDecimal(SGPEuiccMemoryResetResponseResetResultValueCatBusyDecimal))
+}
+
+// SGPEuiccMemoryResetResponseResetResultValueEcallActiveValue returns the named value ecallActive.
+func SGPEuiccMemoryResetResponseResetResultValueEcallActiveValue() SGPEuiccMemoryResetResponseResetResultValue {
+	return NewSGPEuiccMemoryResetResponseResetResultValue(runtime.MustParseBigIntDecimal(SGPEuiccMemoryResetResponseResetResultValueEcallActiveDecimal))
+}
+
+// SGPEuiccMemoryResetResponseResetResultValueUndefinedErrorValue returns the named value undefinedError.
+func SGPEuiccMemoryResetResponseResetResultValueUndefinedErrorValue() SGPEuiccMemoryResetResponseResetResultValue {
+	return NewSGPEuiccMemoryResetResponseResetResultValue(runtime.MustParseBigIntDecimal(SGPEuiccMemoryResetResponseResetResultValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v SGPEuiccMemoryResetResponseResetResultValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v SGPEuiccMemoryResetResponseResetResultValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v SGPEuiccMemoryResetResponseResetResultValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case SGPEuiccMemoryResetResponseResetResultValueOkDecimal:
+		return "ok", true
+	case SGPEuiccMemoryResetResponseResetResultValueNothingToDeleteDecimal:
+		return "nothingToDelete", true
+	case SGPEuiccMemoryResetResponseResetResultValueCatBusyDecimal:
+		return "catBusy", true
+	case SGPEuiccMemoryResetResponseResetResultValueEcallActiveDecimal:
+		return "ecallActive", true
+	case SGPEuiccMemoryResetResponseResetResultValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v SGPEuiccMemoryResetResponseResetResultValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v SGPEuiccMemoryResetResponseResetResultValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *SGPEuiccMemoryResetResponseResetResultValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal SGPEuiccMemoryResetResponseResetResultValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewSGPEuiccMemoryResetResponseResetResultValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v SGPEuiccMemoryResetResponseResetResultValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *SGPEuiccMemoryResetResponseResetResultValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal SGPEuiccMemoryResetResponseResetResultValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewSGPEuiccMemoryResetResponseResetResultValue(value)
+	return nil
+}
+
+// EuiccMemoryResetResponseResetEimResultValue represents the arbitrary-width ASN.1 INTEGER type EuiccMemoryResetResponseResetEimResultValue with named numbers.
+type EuiccMemoryResetResponseResetEimResultValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	EuiccMemoryResetResponseResetEimResultValueOkDecimal                   = "0"
+	EuiccMemoryResetResponseResetEimResultValueOk                          = 0
+	EuiccMemoryResetResponseResetEimResultValueNothingToDeleteDecimal      = "1"
+	EuiccMemoryResetResponseResetEimResultValueNothingToDelete             = 1
+	EuiccMemoryResetResponseResetEimResultValueEimResetNotSupportedDecimal = "2"
+	EuiccMemoryResetResponseResetEimResultValueEimResetNotSupported        = 2
+	EuiccMemoryResetResponseResetEimResultValueUndefinedErrorDecimal       = "127"
+	EuiccMemoryResetResponseResetEimResultValueUndefinedError              = 127
+)
+
+// NewEuiccMemoryResetResponseResetEimResultValue returns an immutable EuiccMemoryResetResponseResetEimResultValue containing value.
+func NewEuiccMemoryResetResponseResetEimResultValue(value *big.Int) EuiccMemoryResetResponseResetEimResultValue {
+	return EuiccMemoryResetResponseResetEimResultValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewEuiccMemoryResetResponseResetEimResultValueInt64 returns a EuiccMemoryResetResponseResetEimResultValue containing value.
+func NewEuiccMemoryResetResponseResetEimResultValueInt64(value int64) EuiccMemoryResetResponseResetEimResultValue {
+	return NewEuiccMemoryResetResponseResetEimResultValue(big.NewInt(value))
+}
+
+// EuiccMemoryResetResponseResetEimResultValueOkValue returns the named value ok.
+func EuiccMemoryResetResponseResetEimResultValueOkValue() EuiccMemoryResetResponseResetEimResultValue {
+	return NewEuiccMemoryResetResponseResetEimResultValue(runtime.MustParseBigIntDecimal(EuiccMemoryResetResponseResetEimResultValueOkDecimal))
+}
+
+// EuiccMemoryResetResponseResetEimResultValueNothingToDeleteValue returns the named value nothingToDelete.
+func EuiccMemoryResetResponseResetEimResultValueNothingToDeleteValue() EuiccMemoryResetResponseResetEimResultValue {
+	return NewEuiccMemoryResetResponseResetEimResultValue(runtime.MustParseBigIntDecimal(EuiccMemoryResetResponseResetEimResultValueNothingToDeleteDecimal))
+}
+
+// EuiccMemoryResetResponseResetEimResultValueEimResetNotSupportedValue returns the named value eimResetNotSupported.
+func EuiccMemoryResetResponseResetEimResultValueEimResetNotSupportedValue() EuiccMemoryResetResponseResetEimResultValue {
+	return NewEuiccMemoryResetResponseResetEimResultValue(runtime.MustParseBigIntDecimal(EuiccMemoryResetResponseResetEimResultValueEimResetNotSupportedDecimal))
+}
+
+// EuiccMemoryResetResponseResetEimResultValueUndefinedErrorValue returns the named value undefinedError.
+func EuiccMemoryResetResponseResetEimResultValueUndefinedErrorValue() EuiccMemoryResetResponseResetEimResultValue {
+	return NewEuiccMemoryResetResponseResetEimResultValue(runtime.MustParseBigIntDecimal(EuiccMemoryResetResponseResetEimResultValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v EuiccMemoryResetResponseResetEimResultValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v EuiccMemoryResetResponseResetEimResultValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v EuiccMemoryResetResponseResetEimResultValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case EuiccMemoryResetResponseResetEimResultValueOkDecimal:
+		return "ok", true
+	case EuiccMemoryResetResponseResetEimResultValueNothingToDeleteDecimal:
+		return "nothingToDelete", true
+	case EuiccMemoryResetResponseResetEimResultValueEimResetNotSupportedDecimal:
+		return "eimResetNotSupported", true
+	case EuiccMemoryResetResponseResetEimResultValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v EuiccMemoryResetResponseResetEimResultValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v EuiccMemoryResetResponseResetEimResultValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *EuiccMemoryResetResponseResetEimResultValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal EuiccMemoryResetResponseResetEimResultValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewEuiccMemoryResetResponseResetEimResultValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v EuiccMemoryResetResponseResetEimResultValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *EuiccMemoryResetResponseResetEimResultValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal EuiccMemoryResetResponseResetEimResultValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewEuiccMemoryResetResponseResetEimResultValue(value)
+	return nil
+}
+
+// EuiccMemoryResetResponseResetImmediateEnableConfigResultValue represents the arbitrary-width ASN.1 INTEGER type EuiccMemoryResetResponseResetImmediateEnableConfigResultValue with named numbers.
+type EuiccMemoryResetResponseResetImmediateEnableConfigResultValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	EuiccMemoryResetResponseResetImmediateEnableConfigResultValueOkDecimal                   = "0"
+	EuiccMemoryResetResponseResetImmediateEnableConfigResultValueOk                          = 0
+	EuiccMemoryResetResponseResetImmediateEnableConfigResultValueResetIECNotSupportedDecimal = "1"
+	EuiccMemoryResetResponseResetImmediateEnableConfigResultValueResetIECNotSupported        = 1
+	EuiccMemoryResetResponseResetImmediateEnableConfigResultValueUndefinedErrorDecimal       = "127"
+	EuiccMemoryResetResponseResetImmediateEnableConfigResultValueUndefinedError              = 127
+)
+
+// NewEuiccMemoryResetResponseResetImmediateEnableConfigResultValue returns an immutable EuiccMemoryResetResponseResetImmediateEnableConfigResultValue containing value.
+func NewEuiccMemoryResetResponseResetImmediateEnableConfigResultValue(value *big.Int) EuiccMemoryResetResponseResetImmediateEnableConfigResultValue {
+	return EuiccMemoryResetResponseResetImmediateEnableConfigResultValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewEuiccMemoryResetResponseResetImmediateEnableConfigResultValueInt64 returns a EuiccMemoryResetResponseResetImmediateEnableConfigResultValue containing value.
+func NewEuiccMemoryResetResponseResetImmediateEnableConfigResultValueInt64(value int64) EuiccMemoryResetResponseResetImmediateEnableConfigResultValue {
+	return NewEuiccMemoryResetResponseResetImmediateEnableConfigResultValue(big.NewInt(value))
+}
+
+// EuiccMemoryResetResponseResetImmediateEnableConfigResultValueOkValue returns the named value ok.
+func EuiccMemoryResetResponseResetImmediateEnableConfigResultValueOkValue() EuiccMemoryResetResponseResetImmediateEnableConfigResultValue {
+	return NewEuiccMemoryResetResponseResetImmediateEnableConfigResultValue(runtime.MustParseBigIntDecimal(EuiccMemoryResetResponseResetImmediateEnableConfigResultValueOkDecimal))
+}
+
+// EuiccMemoryResetResponseResetImmediateEnableConfigResultValueResetIECNotSupportedValue returns the named value resetIECNotSupported.
+func EuiccMemoryResetResponseResetImmediateEnableConfigResultValueResetIECNotSupportedValue() EuiccMemoryResetResponseResetImmediateEnableConfigResultValue {
+	return NewEuiccMemoryResetResponseResetImmediateEnableConfigResultValue(runtime.MustParseBigIntDecimal(EuiccMemoryResetResponseResetImmediateEnableConfigResultValueResetIECNotSupportedDecimal))
+}
+
+// EuiccMemoryResetResponseResetImmediateEnableConfigResultValueUndefinedErrorValue returns the named value undefinedError.
+func EuiccMemoryResetResponseResetImmediateEnableConfigResultValueUndefinedErrorValue() EuiccMemoryResetResponseResetImmediateEnableConfigResultValue {
+	return NewEuiccMemoryResetResponseResetImmediateEnableConfigResultValue(runtime.MustParseBigIntDecimal(EuiccMemoryResetResponseResetImmediateEnableConfigResultValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v EuiccMemoryResetResponseResetImmediateEnableConfigResultValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v EuiccMemoryResetResponseResetImmediateEnableConfigResultValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v EuiccMemoryResetResponseResetImmediateEnableConfigResultValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case EuiccMemoryResetResponseResetImmediateEnableConfigResultValueOkDecimal:
+		return "ok", true
+	case EuiccMemoryResetResponseResetImmediateEnableConfigResultValueResetIECNotSupportedDecimal:
+		return "resetIECNotSupported", true
+	case EuiccMemoryResetResponseResetImmediateEnableConfigResultValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v EuiccMemoryResetResponseResetImmediateEnableConfigResultValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v EuiccMemoryResetResponseResetImmediateEnableConfigResultValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *EuiccMemoryResetResponseResetImmediateEnableConfigResultValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal EuiccMemoryResetResponseResetImmediateEnableConfigResultValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewEuiccMemoryResetResponseResetImmediateEnableConfigResultValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v EuiccMemoryResetResponseResetImmediateEnableConfigResultValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *EuiccMemoryResetResponseResetImmediateEnableConfigResultValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal EuiccMemoryResetResponseResetImmediateEnableConfigResultValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewEuiccMemoryResetResponseResetImmediateEnableConfigResultValue(value)
+	return nil
+}
+
+// GetCertsResponseCerts represents the ASN.1 type GetCertsResponseCerts (SEQUENCE).
+type GetCertsResponseCerts struct {
+	EumCertificate   Certificate `asn1:"tag:5,context,implicit"`
+	EuiccCertificate Certificate `asn1:"tag:6,context,implicit"`
+	ExtCount_        int64       `asn1:"-" json:"-"`
+	ExtPresent_      []bool      `asn1:"-" json:"-"`
+	ExtData_         [][]byte    `asn1:"-" json:"-"`
+}
+
+// GetCertsResponseGetCertsErrorValue represents the arbitrary-width ASN.1 INTEGER type GetCertsResponseGetCertsErrorValue with named numbers.
+type GetCertsResponseGetCertsErrorValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	GetCertsResponseGetCertsErrorValueInvalidCiPKIdDecimal = "1"
+	GetCertsResponseGetCertsErrorValueInvalidCiPKId        = 1
+	GetCertsResponseGetCertsErrorValueUndfinedErrorDecimal = "127"
+	GetCertsResponseGetCertsErrorValueUndfinedError        = 127
+)
+
+// NewGetCertsResponseGetCertsErrorValue returns an immutable GetCertsResponseGetCertsErrorValue containing value.
+func NewGetCertsResponseGetCertsErrorValue(value *big.Int) GetCertsResponseGetCertsErrorValue {
+	return GetCertsResponseGetCertsErrorValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewGetCertsResponseGetCertsErrorValueInt64 returns a GetCertsResponseGetCertsErrorValue containing value.
+func NewGetCertsResponseGetCertsErrorValueInt64(value int64) GetCertsResponseGetCertsErrorValue {
+	return NewGetCertsResponseGetCertsErrorValue(big.NewInt(value))
+}
+
+// GetCertsResponseGetCertsErrorValueInvalidCiPKIdValue returns the named value invalidCiPKId.
+func GetCertsResponseGetCertsErrorValueInvalidCiPKIdValue() GetCertsResponseGetCertsErrorValue {
+	return NewGetCertsResponseGetCertsErrorValue(runtime.MustParseBigIntDecimal(GetCertsResponseGetCertsErrorValueInvalidCiPKIdDecimal))
+}
+
+// GetCertsResponseGetCertsErrorValueUndfinedErrorValue returns the named value undfinedError.
+func GetCertsResponseGetCertsErrorValueUndfinedErrorValue() GetCertsResponseGetCertsErrorValue {
+	return NewGetCertsResponseGetCertsErrorValue(runtime.MustParseBigIntDecimal(GetCertsResponseGetCertsErrorValueUndfinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v GetCertsResponseGetCertsErrorValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v GetCertsResponseGetCertsErrorValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v GetCertsResponseGetCertsErrorValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case GetCertsResponseGetCertsErrorValueInvalidCiPKIdDecimal:
+		return "invalidCiPKId", true
+	case GetCertsResponseGetCertsErrorValueUndfinedErrorDecimal:
+		return "undfinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v GetCertsResponseGetCertsErrorValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v GetCertsResponseGetCertsErrorValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *GetCertsResponseGetCertsErrorValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal GetCertsResponseGetCertsErrorValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewGetCertsResponseGetCertsErrorValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v GetCertsResponseGetCertsErrorValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *GetCertsResponseGetCertsErrorValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal GetCertsResponseGetCertsErrorValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewGetCertsResponseGetCertsErrorValue(value)
+	return nil
+}
+
+// SGPRetrieveNotificationsListRequestSearchCriteria choice constants.
+const (
+	SGPRetrieveNotificationsListRequestSearchCriteriaChoiceSeqNumber                  = 1
+	SGPRetrieveNotificationsListRequestSearchCriteriaChoiceProfileManagementOperation = 2
+	SGPRetrieveNotificationsListRequestSearchCriteriaChoiceEuiccPackageResults        = 3
+)
+
+// SGPRetrieveNotificationsListRequestSearchCriteria represents the ASN.1 CHOICE type SGPRetrieveNotificationsListRequestSearchCriteria.
+type SGPRetrieveNotificationsListRequestSearchCriteria struct {
+	Choice                     int
+	SeqNumber                  *big.Int           `json:"SeqNumber,omitempty"`
+	ProfileManagementOperation *NotificationEvent `json:"ProfileManagementOperation,omitempty"`
+	EuiccPackageResults        *struct{}          `json:"EuiccPackageResults,omitempty"`
+}
+
+// NewSGPRetrieveNotificationsListRequestSearchCriteriaSeqNumber creates a SGPRetrieveNotificationsListRequestSearchCriteria with the seqNumber alternative.
+func NewSGPRetrieveNotificationsListRequestSearchCriteriaSeqNumber(v *big.Int) SGPRetrieveNotificationsListRequestSearchCriteria {
+	return SGPRetrieveNotificationsListRequestSearchCriteria{
+		Choice:    SGPRetrieveNotificationsListRequestSearchCriteriaChoiceSeqNumber,
 		SeqNumber: v,
 	}
 }
 
-// NewRetrieveNotificationsListRequestSearchCriteriaProfileManagementOperation creates a RetrieveNotificationsListRequest-searchCriteria with the profileManagementOperation alternative.
-func NewRetrieveNotificationsListRequestSearchCriteriaProfileManagementOperation(v sgp22.NotificationEvent) RetrieveNotificationsListRequestSearchCriteria {
-	return RetrieveNotificationsListRequestSearchCriteria{
-		Choice:                     RetrieveNotificationsListRequestSearchCriteriaChoiceProfileManagementOperation,
+// NewSGPRetrieveNotificationsListRequestSearchCriteriaProfileManagementOperation creates a SGPRetrieveNotificationsListRequestSearchCriteria with the profileManagementOperation alternative.
+func NewSGPRetrieveNotificationsListRequestSearchCriteriaProfileManagementOperation(v NotificationEvent) SGPRetrieveNotificationsListRequestSearchCriteria {
+	return SGPRetrieveNotificationsListRequestSearchCriteria{
+		Choice:                     SGPRetrieveNotificationsListRequestSearchCriteriaChoiceProfileManagementOperation,
 		ProfileManagementOperation: &v,
 	}
 }
 
-// NewRetrieveNotificationsListRequestSearchCriteriaEuiccPackageResults creates a RetrieveNotificationsListRequest-searchCriteria with the euiccPackageResults alternative.
-func NewRetrieveNotificationsListRequestSearchCriteriaEuiccPackageResults(v struct{}) RetrieveNotificationsListRequestSearchCriteria {
-	return RetrieveNotificationsListRequestSearchCriteria{
-		Choice:              RetrieveNotificationsListRequestSearchCriteriaChoiceEuiccPackageResults,
+// NewSGPRetrieveNotificationsListRequestSearchCriteriaEuiccPackageResults creates a SGPRetrieveNotificationsListRequestSearchCriteria with the euiccPackageResults alternative.
+func NewSGPRetrieveNotificationsListRequestSearchCriteriaEuiccPackageResults(v struct{}) SGPRetrieveNotificationsListRequestSearchCriteria {
+	return SGPRetrieveNotificationsListRequestSearchCriteria{
+		Choice:              SGPRetrieveNotificationsListRequestSearchCriteriaChoiceEuiccPackageResults,
 		EuiccPackageResults: &v,
 	}
+}
+
+// SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue represents the arbitrary-width ASN.1 INTEGER type SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue with named numbers.
+type SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	SGPRetrieveNotificationsListResponseNotificationsListResultErrorValueUndefinedErrorDecimal = "127"
+	SGPRetrieveNotificationsListResponseNotificationsListResultErrorValueUndefinedError        = 127
+)
+
+// NewSGPRetrieveNotificationsListResponseNotificationsListResultErrorValue returns an immutable SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue containing value.
+func NewSGPRetrieveNotificationsListResponseNotificationsListResultErrorValue(value *big.Int) SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue {
+	return SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewSGPRetrieveNotificationsListResponseNotificationsListResultErrorValueInt64 returns a SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue containing value.
+func NewSGPRetrieveNotificationsListResponseNotificationsListResultErrorValueInt64(value int64) SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue {
+	return NewSGPRetrieveNotificationsListResponseNotificationsListResultErrorValue(big.NewInt(value))
+}
+
+// SGPRetrieveNotificationsListResponseNotificationsListResultErrorValueUndefinedErrorValue returns the named value undefinedError.
+func SGPRetrieveNotificationsListResponseNotificationsListResultErrorValueUndefinedErrorValue() SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue {
+	return NewSGPRetrieveNotificationsListResponseNotificationsListResultErrorValue(runtime.MustParseBigIntDecimal(SGPRetrieveNotificationsListResponseNotificationsListResultErrorValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case SGPRetrieveNotificationsListResponseNotificationsListResultErrorValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewSGPRetrieveNotificationsListResponseNotificationsListResultErrorValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewSGPRetrieveNotificationsListResponseNotificationsListResultErrorValue(value)
+	return nil
+}
+
+// ImmediateEnableResponseImmediateEnableResultValue represents the arbitrary-width ASN.1 INTEGER type ImmediateEnableResponseImmediateEnableResultValue with named numbers.
+type ImmediateEnableResponseImmediateEnableResultValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	ImmediateEnableResponseImmediateEnableResultValueOkDecimal                          = "0"
+	ImmediateEnableResponseImmediateEnableResultValueOk                                 = 0
+	ImmediateEnableResponseImmediateEnableResultValueImmediateEnableNotAvailableDecimal = "1"
+	ImmediateEnableResponseImmediateEnableResultValueImmediateEnableNotAvailable        = 1
+	ImmediateEnableResponseImmediateEnableResultValueNoSessionContextDecimal            = "4"
+	ImmediateEnableResponseImmediateEnableResultValueNoSessionContext                   = 4
+	ImmediateEnableResponseImmediateEnableResultValueCatBusyDecimal                     = "5"
+	ImmediateEnableResponseImmediateEnableResultValueCatBusy                            = 5
+	ImmediateEnableResponseImmediateEnableResultValueUndefinedErrorDecimal              = "127"
+	ImmediateEnableResponseImmediateEnableResultValueUndefinedError                     = 127
+)
+
+// NewImmediateEnableResponseImmediateEnableResultValue returns an immutable ImmediateEnableResponseImmediateEnableResultValue containing value.
+func NewImmediateEnableResponseImmediateEnableResultValue(value *big.Int) ImmediateEnableResponseImmediateEnableResultValue {
+	return ImmediateEnableResponseImmediateEnableResultValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewImmediateEnableResponseImmediateEnableResultValueInt64 returns a ImmediateEnableResponseImmediateEnableResultValue containing value.
+func NewImmediateEnableResponseImmediateEnableResultValueInt64(value int64) ImmediateEnableResponseImmediateEnableResultValue {
+	return NewImmediateEnableResponseImmediateEnableResultValue(big.NewInt(value))
+}
+
+// ImmediateEnableResponseImmediateEnableResultValueOkValue returns the named value ok.
+func ImmediateEnableResponseImmediateEnableResultValueOkValue() ImmediateEnableResponseImmediateEnableResultValue {
+	return NewImmediateEnableResponseImmediateEnableResultValue(runtime.MustParseBigIntDecimal(ImmediateEnableResponseImmediateEnableResultValueOkDecimal))
+}
+
+// ImmediateEnableResponseImmediateEnableResultValueImmediateEnableNotAvailableValue returns the named value immediateEnableNotAvailable.
+func ImmediateEnableResponseImmediateEnableResultValueImmediateEnableNotAvailableValue() ImmediateEnableResponseImmediateEnableResultValue {
+	return NewImmediateEnableResponseImmediateEnableResultValue(runtime.MustParseBigIntDecimal(ImmediateEnableResponseImmediateEnableResultValueImmediateEnableNotAvailableDecimal))
+}
+
+// ImmediateEnableResponseImmediateEnableResultValueNoSessionContextValue returns the named value noSessionContext.
+func ImmediateEnableResponseImmediateEnableResultValueNoSessionContextValue() ImmediateEnableResponseImmediateEnableResultValue {
+	return NewImmediateEnableResponseImmediateEnableResultValue(runtime.MustParseBigIntDecimal(ImmediateEnableResponseImmediateEnableResultValueNoSessionContextDecimal))
+}
+
+// ImmediateEnableResponseImmediateEnableResultValueCatBusyValue returns the named value catBusy.
+func ImmediateEnableResponseImmediateEnableResultValueCatBusyValue() ImmediateEnableResponseImmediateEnableResultValue {
+	return NewImmediateEnableResponseImmediateEnableResultValue(runtime.MustParseBigIntDecimal(ImmediateEnableResponseImmediateEnableResultValueCatBusyDecimal))
+}
+
+// ImmediateEnableResponseImmediateEnableResultValueUndefinedErrorValue returns the named value undefinedError.
+func ImmediateEnableResponseImmediateEnableResultValueUndefinedErrorValue() ImmediateEnableResponseImmediateEnableResultValue {
+	return NewImmediateEnableResponseImmediateEnableResultValue(runtime.MustParseBigIntDecimal(ImmediateEnableResponseImmediateEnableResultValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v ImmediateEnableResponseImmediateEnableResultValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v ImmediateEnableResponseImmediateEnableResultValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v ImmediateEnableResponseImmediateEnableResultValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case ImmediateEnableResponseImmediateEnableResultValueOkDecimal:
+		return "ok", true
+	case ImmediateEnableResponseImmediateEnableResultValueImmediateEnableNotAvailableDecimal:
+		return "immediateEnableNotAvailable", true
+	case ImmediateEnableResponseImmediateEnableResultValueNoSessionContextDecimal:
+		return "noSessionContext", true
+	case ImmediateEnableResponseImmediateEnableResultValueCatBusyDecimal:
+		return "catBusy", true
+	case ImmediateEnableResponseImmediateEnableResultValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v ImmediateEnableResponseImmediateEnableResultValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v ImmediateEnableResponseImmediateEnableResultValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *ImmediateEnableResponseImmediateEnableResultValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ImmediateEnableResponseImmediateEnableResultValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewImmediateEnableResponseImmediateEnableResultValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v ImmediateEnableResponseImmediateEnableResultValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *ImmediateEnableResponseImmediateEnableResultValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ImmediateEnableResponseImmediateEnableResultValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewImmediateEnableResponseImmediateEnableResultValue(value)
+	return nil
+}
+
+// ProfileRollbackResponseCmdResultValue represents the arbitrary-width ASN.1 INTEGER type ProfileRollbackResponseCmdResultValue with named numbers.
+type ProfileRollbackResponseCmdResultValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	ProfileRollbackResponseCmdResultValueOkDecimal                 = "0"
+	ProfileRollbackResponseCmdResultValueOk                        = 0
+	ProfileRollbackResponseCmdResultValueRollbackNotAllowedDecimal = "1"
+	ProfileRollbackResponseCmdResultValueRollbackNotAllowed        = 1
+	ProfileRollbackResponseCmdResultValueCatBusyDecimal            = "5"
+	ProfileRollbackResponseCmdResultValueCatBusy                   = 5
+	ProfileRollbackResponseCmdResultValueCommandErrorDecimal       = "7"
+	ProfileRollbackResponseCmdResultValueCommandError              = 7
+	ProfileRollbackResponseCmdResultValueUndefinedErrorDecimal     = "127"
+	ProfileRollbackResponseCmdResultValueUndefinedError            = 127
+)
+
+// NewProfileRollbackResponseCmdResultValue returns an immutable ProfileRollbackResponseCmdResultValue containing value.
+func NewProfileRollbackResponseCmdResultValue(value *big.Int) ProfileRollbackResponseCmdResultValue {
+	return ProfileRollbackResponseCmdResultValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewProfileRollbackResponseCmdResultValueInt64 returns a ProfileRollbackResponseCmdResultValue containing value.
+func NewProfileRollbackResponseCmdResultValueInt64(value int64) ProfileRollbackResponseCmdResultValue {
+	return NewProfileRollbackResponseCmdResultValue(big.NewInt(value))
+}
+
+// ProfileRollbackResponseCmdResultValueOkValue returns the named value ok.
+func ProfileRollbackResponseCmdResultValueOkValue() ProfileRollbackResponseCmdResultValue {
+	return NewProfileRollbackResponseCmdResultValue(runtime.MustParseBigIntDecimal(ProfileRollbackResponseCmdResultValueOkDecimal))
+}
+
+// ProfileRollbackResponseCmdResultValueRollbackNotAllowedValue returns the named value rollbackNotAllowed.
+func ProfileRollbackResponseCmdResultValueRollbackNotAllowedValue() ProfileRollbackResponseCmdResultValue {
+	return NewProfileRollbackResponseCmdResultValue(runtime.MustParseBigIntDecimal(ProfileRollbackResponseCmdResultValueRollbackNotAllowedDecimal))
+}
+
+// ProfileRollbackResponseCmdResultValueCatBusyValue returns the named value catBusy.
+func ProfileRollbackResponseCmdResultValueCatBusyValue() ProfileRollbackResponseCmdResultValue {
+	return NewProfileRollbackResponseCmdResultValue(runtime.MustParseBigIntDecimal(ProfileRollbackResponseCmdResultValueCatBusyDecimal))
+}
+
+// ProfileRollbackResponseCmdResultValueCommandErrorValue returns the named value commandError.
+func ProfileRollbackResponseCmdResultValueCommandErrorValue() ProfileRollbackResponseCmdResultValue {
+	return NewProfileRollbackResponseCmdResultValue(runtime.MustParseBigIntDecimal(ProfileRollbackResponseCmdResultValueCommandErrorDecimal))
+}
+
+// ProfileRollbackResponseCmdResultValueUndefinedErrorValue returns the named value undefinedError.
+func ProfileRollbackResponseCmdResultValueUndefinedErrorValue() ProfileRollbackResponseCmdResultValue {
+	return NewProfileRollbackResponseCmdResultValue(runtime.MustParseBigIntDecimal(ProfileRollbackResponseCmdResultValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v ProfileRollbackResponseCmdResultValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v ProfileRollbackResponseCmdResultValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v ProfileRollbackResponseCmdResultValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case ProfileRollbackResponseCmdResultValueOkDecimal:
+		return "ok", true
+	case ProfileRollbackResponseCmdResultValueRollbackNotAllowedDecimal:
+		return "rollbackNotAllowed", true
+	case ProfileRollbackResponseCmdResultValueCatBusyDecimal:
+		return "catBusy", true
+	case ProfileRollbackResponseCmdResultValueCommandErrorDecimal:
+		return "commandError", true
+	case ProfileRollbackResponseCmdResultValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v ProfileRollbackResponseCmdResultValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v ProfileRollbackResponseCmdResultValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *ProfileRollbackResponseCmdResultValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ProfileRollbackResponseCmdResultValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewProfileRollbackResponseCmdResultValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v ProfileRollbackResponseCmdResultValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *ProfileRollbackResponseCmdResultValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ProfileRollbackResponseCmdResultValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewProfileRollbackResponseCmdResultValue(value)
+	return nil
+}
+
+// ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue represents the arbitrary-width ASN.1 INTEGER type ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue with named numbers.
+type ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueOkDecimal                         = "0"
+	ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueOk                                = 0
+	ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueInsufficientMemoryDecimal         = "1"
+	ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueInsufficientMemory                = 1
+	ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueAssociatedEimAlreadyExistsDecimal = "2"
+	ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueAssociatedEimAlreadyExists        = 2
+	ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueUndefinedErrorDecimal             = "127"
+	ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueUndefinedError                    = 127
+)
+
+// NewConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue returns an immutable ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue containing value.
+func NewConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue(value *big.Int) ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue {
+	return ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueInt64 returns a ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue containing value.
+func NewConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueInt64(value int64) ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue {
+	return NewConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue(big.NewInt(value))
+}
+
+// ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueOkValue returns the named value ok.
+func ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueOkValue() ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue {
+	return NewConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue(runtime.MustParseBigIntDecimal(ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueOkDecimal))
+}
+
+// ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueInsufficientMemoryValue returns the named value insufficientMemory.
+func ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueInsufficientMemoryValue() ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue {
+	return NewConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue(runtime.MustParseBigIntDecimal(ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueInsufficientMemoryDecimal))
+}
+
+// ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueAssociatedEimAlreadyExistsValue returns the named value associatedEimAlreadyExists.
+func ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueAssociatedEimAlreadyExistsValue() ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue {
+	return NewConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue(runtime.MustParseBigIntDecimal(ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueAssociatedEimAlreadyExistsDecimal))
+}
+
+// ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueUndefinedErrorValue returns the named value undefinedError.
+func ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueUndefinedErrorValue() ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue {
+	return NewConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue(runtime.MustParseBigIntDecimal(ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueOkDecimal:
+		return "ok", true
+	case ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueInsufficientMemoryDecimal:
+		return "insufficientMemory", true
+	case ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueAssociatedEimAlreadyExistsDecimal:
+		return "associatedEimAlreadyExists", true
+	case ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue(value)
+	return nil
 }
 
 // GetEimConfigurationDataRequestSearchCriteria choice constants.
@@ -2821,13 +6621,13 @@ const (
 	GetEimConfigurationDataRequestSearchCriteriaChoiceEimId = 1
 )
 
-// GetEimConfigurationDataRequestSearchCriteria represents the ASN.1 CHOICE type GetEimConfigurationDataRequest-searchCriteria.
+// GetEimConfigurationDataRequestSearchCriteria represents the ASN.1 CHOICE type GetEimConfigurationDataRequestSearchCriteria.
 type GetEimConfigurationDataRequestSearchCriteria struct {
 	Choice int
 	EimId  *string `json:"EimId,omitempty"`
 }
 
-// NewGetEimConfigurationDataRequestSearchCriteriaEimId creates a GetEimConfigurationDataRequest-searchCriteria with the eimId alternative.
+// NewGetEimConfigurationDataRequestSearchCriteriaEimId creates a GetEimConfigurationDataRequestSearchCriteria with the eimId alternative.
 func NewGetEimConfigurationDataRequestSearchCriteriaEimId(v string) GetEimConfigurationDataRequestSearchCriteria {
 	return GetEimConfigurationDataRequestSearchCriteria{
 		Choice: GetEimConfigurationDataRequestSearchCriteriaChoiceEimId,
@@ -2835,8 +6635,644 @@ func NewGetEimConfigurationDataRequestSearchCriteriaEimId(v string) GetEimConfig
 	}
 }
 
-// GetEimConfigurationDataResponseEimConfigurationDataList represents the ASN.1 type GetEimConfigurationDataResponse-eimConfigurationDataList (SEQUENCE_OF).
+// GetEimConfigurationDataResponseEimConfigurationDataList represents the ASN.1 type GetEimConfigurationDataResponseEimConfigurationDataList (SEQUENCE_OF).
 type GetEimConfigurationDataResponseEimConfigurationDataList = []EimConfigurationData
+
+// ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue represents the arbitrary-width ASN.1 INTEGER type ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue with named numbers.
+type ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueOkDecimal                        = "0"
+	ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueOk                               = 0
+	ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueProfileNotInDisabledStateDecimal = "2"
+	ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueProfileNotInDisabledState        = 2
+	ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueCatBusyDecimal                   = "5"
+	ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueCatBusy                          = 5
+	ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueFallbackNotAvailableDecimal      = "6"
+	ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueFallbackNotAvailable             = 6
+	ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueCommandErrorDecimal              = "7"
+	ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueCommandError                     = 7
+	ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueEcallActiveDecimal               = "104"
+	ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueEcallActive                      = 104
+	ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueUndefinedErrorDecimal            = "127"
+	ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueUndefinedError                   = 127
+)
+
+// NewExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue returns an immutable ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue containing value.
+func NewExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue(value *big.Int) ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue {
+	return ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueInt64 returns a ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue containing value.
+func NewExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueInt64(value int64) ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue {
+	return NewExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue(big.NewInt(value))
+}
+
+// ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueOkValue returns the named value ok.
+func ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueOkValue() ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue {
+	return NewExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue(runtime.MustParseBigIntDecimal(ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueOkDecimal))
+}
+
+// ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueProfileNotInDisabledStateValue returns the named value profileNotInDisabledState.
+func ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueProfileNotInDisabledStateValue() ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue {
+	return NewExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue(runtime.MustParseBigIntDecimal(ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueProfileNotInDisabledStateDecimal))
+}
+
+// ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueCatBusyValue returns the named value catBusy.
+func ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueCatBusyValue() ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue {
+	return NewExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue(runtime.MustParseBigIntDecimal(ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueCatBusyDecimal))
+}
+
+// ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueFallbackNotAvailableValue returns the named value fallbackNotAvailable.
+func ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueFallbackNotAvailableValue() ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue {
+	return NewExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue(runtime.MustParseBigIntDecimal(ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueFallbackNotAvailableDecimal))
+}
+
+// ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueCommandErrorValue returns the named value commandError.
+func ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueCommandErrorValue() ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue {
+	return NewExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue(runtime.MustParseBigIntDecimal(ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueCommandErrorDecimal))
+}
+
+// ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueEcallActiveValue returns the named value ecallActive.
+func ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueEcallActiveValue() ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue {
+	return NewExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue(runtime.MustParseBigIntDecimal(ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueEcallActiveDecimal))
+}
+
+// ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueUndefinedErrorValue returns the named value undefinedError.
+func ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueUndefinedErrorValue() ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue {
+	return NewExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue(runtime.MustParseBigIntDecimal(ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueOkDecimal:
+		return "ok", true
+	case ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueProfileNotInDisabledStateDecimal:
+		return "profileNotInDisabledState", true
+	case ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueCatBusyDecimal:
+		return "catBusy", true
+	case ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueFallbackNotAvailableDecimal:
+		return "fallbackNotAvailable", true
+	case ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueCommandErrorDecimal:
+		return "commandError", true
+	case ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueEcallActiveDecimal:
+		return "ecallActive", true
+	case ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue(value)
+	return nil
+}
+
+// ReturnFromFallbackResponseReturnFromFallbackResultValue represents the arbitrary-width ASN.1 INTEGER type ReturnFromFallbackResponseReturnFromFallbackResultValue with named numbers.
+type ReturnFromFallbackResponseReturnFromFallbackResultValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	ReturnFromFallbackResponseReturnFromFallbackResultValueOkDecimal                   = "0"
+	ReturnFromFallbackResponseReturnFromFallbackResultValueOk                          = 0
+	ReturnFromFallbackResponseReturnFromFallbackResultValueCatBusyDecimal              = "5"
+	ReturnFromFallbackResponseReturnFromFallbackResultValueCatBusy                     = 5
+	ReturnFromFallbackResponseReturnFromFallbackResultValueFallbackNotAvailableDecimal = "6"
+	ReturnFromFallbackResponseReturnFromFallbackResultValueFallbackNotAvailable        = 6
+	ReturnFromFallbackResponseReturnFromFallbackResultValueCommandErrorDecimal         = "7"
+	ReturnFromFallbackResponseReturnFromFallbackResultValueCommandError                = 7
+	ReturnFromFallbackResponseReturnFromFallbackResultValueUndefinedErrorDecimal       = "127"
+	ReturnFromFallbackResponseReturnFromFallbackResultValueUndefinedError              = 127
+)
+
+// NewReturnFromFallbackResponseReturnFromFallbackResultValue returns an immutable ReturnFromFallbackResponseReturnFromFallbackResultValue containing value.
+func NewReturnFromFallbackResponseReturnFromFallbackResultValue(value *big.Int) ReturnFromFallbackResponseReturnFromFallbackResultValue {
+	return ReturnFromFallbackResponseReturnFromFallbackResultValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewReturnFromFallbackResponseReturnFromFallbackResultValueInt64 returns a ReturnFromFallbackResponseReturnFromFallbackResultValue containing value.
+func NewReturnFromFallbackResponseReturnFromFallbackResultValueInt64(value int64) ReturnFromFallbackResponseReturnFromFallbackResultValue {
+	return NewReturnFromFallbackResponseReturnFromFallbackResultValue(big.NewInt(value))
+}
+
+// ReturnFromFallbackResponseReturnFromFallbackResultValueOkValue returns the named value ok.
+func ReturnFromFallbackResponseReturnFromFallbackResultValueOkValue() ReturnFromFallbackResponseReturnFromFallbackResultValue {
+	return NewReturnFromFallbackResponseReturnFromFallbackResultValue(runtime.MustParseBigIntDecimal(ReturnFromFallbackResponseReturnFromFallbackResultValueOkDecimal))
+}
+
+// ReturnFromFallbackResponseReturnFromFallbackResultValueCatBusyValue returns the named value catBusy.
+func ReturnFromFallbackResponseReturnFromFallbackResultValueCatBusyValue() ReturnFromFallbackResponseReturnFromFallbackResultValue {
+	return NewReturnFromFallbackResponseReturnFromFallbackResultValue(runtime.MustParseBigIntDecimal(ReturnFromFallbackResponseReturnFromFallbackResultValueCatBusyDecimal))
+}
+
+// ReturnFromFallbackResponseReturnFromFallbackResultValueFallbackNotAvailableValue returns the named value fallbackNotAvailable.
+func ReturnFromFallbackResponseReturnFromFallbackResultValueFallbackNotAvailableValue() ReturnFromFallbackResponseReturnFromFallbackResultValue {
+	return NewReturnFromFallbackResponseReturnFromFallbackResultValue(runtime.MustParseBigIntDecimal(ReturnFromFallbackResponseReturnFromFallbackResultValueFallbackNotAvailableDecimal))
+}
+
+// ReturnFromFallbackResponseReturnFromFallbackResultValueCommandErrorValue returns the named value commandError.
+func ReturnFromFallbackResponseReturnFromFallbackResultValueCommandErrorValue() ReturnFromFallbackResponseReturnFromFallbackResultValue {
+	return NewReturnFromFallbackResponseReturnFromFallbackResultValue(runtime.MustParseBigIntDecimal(ReturnFromFallbackResponseReturnFromFallbackResultValueCommandErrorDecimal))
+}
+
+// ReturnFromFallbackResponseReturnFromFallbackResultValueUndefinedErrorValue returns the named value undefinedError.
+func ReturnFromFallbackResponseReturnFromFallbackResultValueUndefinedErrorValue() ReturnFromFallbackResponseReturnFromFallbackResultValue {
+	return NewReturnFromFallbackResponseReturnFromFallbackResultValue(runtime.MustParseBigIntDecimal(ReturnFromFallbackResponseReturnFromFallbackResultValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v ReturnFromFallbackResponseReturnFromFallbackResultValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v ReturnFromFallbackResponseReturnFromFallbackResultValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v ReturnFromFallbackResponseReturnFromFallbackResultValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case ReturnFromFallbackResponseReturnFromFallbackResultValueOkDecimal:
+		return "ok", true
+	case ReturnFromFallbackResponseReturnFromFallbackResultValueCatBusyDecimal:
+		return "catBusy", true
+	case ReturnFromFallbackResponseReturnFromFallbackResultValueFallbackNotAvailableDecimal:
+		return "fallbackNotAvailable", true
+	case ReturnFromFallbackResponseReturnFromFallbackResultValueCommandErrorDecimal:
+		return "commandError", true
+	case ReturnFromFallbackResponseReturnFromFallbackResultValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v ReturnFromFallbackResponseReturnFromFallbackResultValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v ReturnFromFallbackResponseReturnFromFallbackResultValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *ReturnFromFallbackResponseReturnFromFallbackResultValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ReturnFromFallbackResponseReturnFromFallbackResultValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewReturnFromFallbackResponseReturnFromFallbackResultValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v ReturnFromFallbackResponseReturnFromFallbackResultValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *ReturnFromFallbackResponseReturnFromFallbackResultValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ReturnFromFallbackResponseReturnFromFallbackResultValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewReturnFromFallbackResponseReturnFromFallbackResultValue(value)
+	return nil
+}
+
+// EnableEmergencyProfileResponseEnableEmergencyProfileResultValue represents the arbitrary-width ASN.1 INTEGER type EnableEmergencyProfileResponseEnableEmergencyProfileResultValue with named numbers.
+type EnableEmergencyProfileResponseEnableEmergencyProfileResultValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	EnableEmergencyProfileResponseEnableEmergencyProfileResultValueOkDecimal                        = "0"
+	EnableEmergencyProfileResponseEnableEmergencyProfileResultValueOk                               = 0
+	EnableEmergencyProfileResponseEnableEmergencyProfileResultValueProfileNotInDisabledStateDecimal = "2"
+	EnableEmergencyProfileResponseEnableEmergencyProfileResultValueProfileNotInDisabledState        = 2
+	EnableEmergencyProfileResponseEnableEmergencyProfileResultValueCatBusyDecimal                   = "5"
+	EnableEmergencyProfileResponseEnableEmergencyProfileResultValueCatBusy                          = 5
+	EnableEmergencyProfileResponseEnableEmergencyProfileResultValueEcallNotAvailableDecimal         = "8"
+	EnableEmergencyProfileResponseEnableEmergencyProfileResultValueEcallNotAvailable                = 8
+	EnableEmergencyProfileResponseEnableEmergencyProfileResultValueUndefinedErrorDecimal            = "127"
+	EnableEmergencyProfileResponseEnableEmergencyProfileResultValueUndefinedError                   = 127
+)
+
+// NewEnableEmergencyProfileResponseEnableEmergencyProfileResultValue returns an immutable EnableEmergencyProfileResponseEnableEmergencyProfileResultValue containing value.
+func NewEnableEmergencyProfileResponseEnableEmergencyProfileResultValue(value *big.Int) EnableEmergencyProfileResponseEnableEmergencyProfileResultValue {
+	return EnableEmergencyProfileResponseEnableEmergencyProfileResultValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewEnableEmergencyProfileResponseEnableEmergencyProfileResultValueInt64 returns a EnableEmergencyProfileResponseEnableEmergencyProfileResultValue containing value.
+func NewEnableEmergencyProfileResponseEnableEmergencyProfileResultValueInt64(value int64) EnableEmergencyProfileResponseEnableEmergencyProfileResultValue {
+	return NewEnableEmergencyProfileResponseEnableEmergencyProfileResultValue(big.NewInt(value))
+}
+
+// EnableEmergencyProfileResponseEnableEmergencyProfileResultValueOkValue returns the named value ok.
+func EnableEmergencyProfileResponseEnableEmergencyProfileResultValueOkValue() EnableEmergencyProfileResponseEnableEmergencyProfileResultValue {
+	return NewEnableEmergencyProfileResponseEnableEmergencyProfileResultValue(runtime.MustParseBigIntDecimal(EnableEmergencyProfileResponseEnableEmergencyProfileResultValueOkDecimal))
+}
+
+// EnableEmergencyProfileResponseEnableEmergencyProfileResultValueProfileNotInDisabledStateValue returns the named value profileNotInDisabledState.
+func EnableEmergencyProfileResponseEnableEmergencyProfileResultValueProfileNotInDisabledStateValue() EnableEmergencyProfileResponseEnableEmergencyProfileResultValue {
+	return NewEnableEmergencyProfileResponseEnableEmergencyProfileResultValue(runtime.MustParseBigIntDecimal(EnableEmergencyProfileResponseEnableEmergencyProfileResultValueProfileNotInDisabledStateDecimal))
+}
+
+// EnableEmergencyProfileResponseEnableEmergencyProfileResultValueCatBusyValue returns the named value catBusy.
+func EnableEmergencyProfileResponseEnableEmergencyProfileResultValueCatBusyValue() EnableEmergencyProfileResponseEnableEmergencyProfileResultValue {
+	return NewEnableEmergencyProfileResponseEnableEmergencyProfileResultValue(runtime.MustParseBigIntDecimal(EnableEmergencyProfileResponseEnableEmergencyProfileResultValueCatBusyDecimal))
+}
+
+// EnableEmergencyProfileResponseEnableEmergencyProfileResultValueEcallNotAvailableValue returns the named value ecallNotAvailable.
+func EnableEmergencyProfileResponseEnableEmergencyProfileResultValueEcallNotAvailableValue() EnableEmergencyProfileResponseEnableEmergencyProfileResultValue {
+	return NewEnableEmergencyProfileResponseEnableEmergencyProfileResultValue(runtime.MustParseBigIntDecimal(EnableEmergencyProfileResponseEnableEmergencyProfileResultValueEcallNotAvailableDecimal))
+}
+
+// EnableEmergencyProfileResponseEnableEmergencyProfileResultValueUndefinedErrorValue returns the named value undefinedError.
+func EnableEmergencyProfileResponseEnableEmergencyProfileResultValueUndefinedErrorValue() EnableEmergencyProfileResponseEnableEmergencyProfileResultValue {
+	return NewEnableEmergencyProfileResponseEnableEmergencyProfileResultValue(runtime.MustParseBigIntDecimal(EnableEmergencyProfileResponseEnableEmergencyProfileResultValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v EnableEmergencyProfileResponseEnableEmergencyProfileResultValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v EnableEmergencyProfileResponseEnableEmergencyProfileResultValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v EnableEmergencyProfileResponseEnableEmergencyProfileResultValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case EnableEmergencyProfileResponseEnableEmergencyProfileResultValueOkDecimal:
+		return "ok", true
+	case EnableEmergencyProfileResponseEnableEmergencyProfileResultValueProfileNotInDisabledStateDecimal:
+		return "profileNotInDisabledState", true
+	case EnableEmergencyProfileResponseEnableEmergencyProfileResultValueCatBusyDecimal:
+		return "catBusy", true
+	case EnableEmergencyProfileResponseEnableEmergencyProfileResultValueEcallNotAvailableDecimal:
+		return "ecallNotAvailable", true
+	case EnableEmergencyProfileResponseEnableEmergencyProfileResultValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v EnableEmergencyProfileResponseEnableEmergencyProfileResultValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v EnableEmergencyProfileResponseEnableEmergencyProfileResultValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *EnableEmergencyProfileResponseEnableEmergencyProfileResultValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal EnableEmergencyProfileResponseEnableEmergencyProfileResultValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewEnableEmergencyProfileResponseEnableEmergencyProfileResultValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v EnableEmergencyProfileResponseEnableEmergencyProfileResultValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *EnableEmergencyProfileResponseEnableEmergencyProfileResultValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal EnableEmergencyProfileResponseEnableEmergencyProfileResultValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewEnableEmergencyProfileResponseEnableEmergencyProfileResultValue(value)
+	return nil
+}
+
+// DisableEmergencyProfileResponseDisableEmergencyProfileResultValue represents the arbitrary-width ASN.1 INTEGER type DisableEmergencyProfileResponseDisableEmergencyProfileResultValue with named numbers.
+type DisableEmergencyProfileResponseDisableEmergencyProfileResultValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	DisableEmergencyProfileResponseDisableEmergencyProfileResultValueOkDecimal                       = "0"
+	DisableEmergencyProfileResponseDisableEmergencyProfileResultValueOk                              = 0
+	DisableEmergencyProfileResponseDisableEmergencyProfileResultValueProfileNotInEnabledStateDecimal = "2"
+	DisableEmergencyProfileResponseDisableEmergencyProfileResultValueProfileNotInEnabledState        = 2
+	DisableEmergencyProfileResponseDisableEmergencyProfileResultValueCatBusyDecimal                  = "5"
+	DisableEmergencyProfileResponseDisableEmergencyProfileResultValueCatBusy                         = 5
+	DisableEmergencyProfileResponseDisableEmergencyProfileResultValueEcallNotAvailableDecimal        = "8"
+	DisableEmergencyProfileResponseDisableEmergencyProfileResultValueEcallNotAvailable               = 8
+	DisableEmergencyProfileResponseDisableEmergencyProfileResultValueUndefinedErrorDecimal           = "127"
+	DisableEmergencyProfileResponseDisableEmergencyProfileResultValueUndefinedError                  = 127
+)
+
+// NewDisableEmergencyProfileResponseDisableEmergencyProfileResultValue returns an immutable DisableEmergencyProfileResponseDisableEmergencyProfileResultValue containing value.
+func NewDisableEmergencyProfileResponseDisableEmergencyProfileResultValue(value *big.Int) DisableEmergencyProfileResponseDisableEmergencyProfileResultValue {
+	return DisableEmergencyProfileResponseDisableEmergencyProfileResultValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewDisableEmergencyProfileResponseDisableEmergencyProfileResultValueInt64 returns a DisableEmergencyProfileResponseDisableEmergencyProfileResultValue containing value.
+func NewDisableEmergencyProfileResponseDisableEmergencyProfileResultValueInt64(value int64) DisableEmergencyProfileResponseDisableEmergencyProfileResultValue {
+	return NewDisableEmergencyProfileResponseDisableEmergencyProfileResultValue(big.NewInt(value))
+}
+
+// DisableEmergencyProfileResponseDisableEmergencyProfileResultValueOkValue returns the named value ok.
+func DisableEmergencyProfileResponseDisableEmergencyProfileResultValueOkValue() DisableEmergencyProfileResponseDisableEmergencyProfileResultValue {
+	return NewDisableEmergencyProfileResponseDisableEmergencyProfileResultValue(runtime.MustParseBigIntDecimal(DisableEmergencyProfileResponseDisableEmergencyProfileResultValueOkDecimal))
+}
+
+// DisableEmergencyProfileResponseDisableEmergencyProfileResultValueProfileNotInEnabledStateValue returns the named value profileNotInEnabledState.
+func DisableEmergencyProfileResponseDisableEmergencyProfileResultValueProfileNotInEnabledStateValue() DisableEmergencyProfileResponseDisableEmergencyProfileResultValue {
+	return NewDisableEmergencyProfileResponseDisableEmergencyProfileResultValue(runtime.MustParseBigIntDecimal(DisableEmergencyProfileResponseDisableEmergencyProfileResultValueProfileNotInEnabledStateDecimal))
+}
+
+// DisableEmergencyProfileResponseDisableEmergencyProfileResultValueCatBusyValue returns the named value catBusy.
+func DisableEmergencyProfileResponseDisableEmergencyProfileResultValueCatBusyValue() DisableEmergencyProfileResponseDisableEmergencyProfileResultValue {
+	return NewDisableEmergencyProfileResponseDisableEmergencyProfileResultValue(runtime.MustParseBigIntDecimal(DisableEmergencyProfileResponseDisableEmergencyProfileResultValueCatBusyDecimal))
+}
+
+// DisableEmergencyProfileResponseDisableEmergencyProfileResultValueEcallNotAvailableValue returns the named value ecallNotAvailable.
+func DisableEmergencyProfileResponseDisableEmergencyProfileResultValueEcallNotAvailableValue() DisableEmergencyProfileResponseDisableEmergencyProfileResultValue {
+	return NewDisableEmergencyProfileResponseDisableEmergencyProfileResultValue(runtime.MustParseBigIntDecimal(DisableEmergencyProfileResponseDisableEmergencyProfileResultValueEcallNotAvailableDecimal))
+}
+
+// DisableEmergencyProfileResponseDisableEmergencyProfileResultValueUndefinedErrorValue returns the named value undefinedError.
+func DisableEmergencyProfileResponseDisableEmergencyProfileResultValueUndefinedErrorValue() DisableEmergencyProfileResponseDisableEmergencyProfileResultValue {
+	return NewDisableEmergencyProfileResponseDisableEmergencyProfileResultValue(runtime.MustParseBigIntDecimal(DisableEmergencyProfileResponseDisableEmergencyProfileResultValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v DisableEmergencyProfileResponseDisableEmergencyProfileResultValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v DisableEmergencyProfileResponseDisableEmergencyProfileResultValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v DisableEmergencyProfileResponseDisableEmergencyProfileResultValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case DisableEmergencyProfileResponseDisableEmergencyProfileResultValueOkDecimal:
+		return "ok", true
+	case DisableEmergencyProfileResponseDisableEmergencyProfileResultValueProfileNotInEnabledStateDecimal:
+		return "profileNotInEnabledState", true
+	case DisableEmergencyProfileResponseDisableEmergencyProfileResultValueCatBusyDecimal:
+		return "catBusy", true
+	case DisableEmergencyProfileResponseDisableEmergencyProfileResultValueEcallNotAvailableDecimal:
+		return "ecallNotAvailable", true
+	case DisableEmergencyProfileResponseDisableEmergencyProfileResultValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v DisableEmergencyProfileResponseDisableEmergencyProfileResultValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v DisableEmergencyProfileResponseDisableEmergencyProfileResultValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *DisableEmergencyProfileResponseDisableEmergencyProfileResultValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal DisableEmergencyProfileResponseDisableEmergencyProfileResultValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewDisableEmergencyProfileResponseDisableEmergencyProfileResultValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v DisableEmergencyProfileResponseDisableEmergencyProfileResultValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *DisableEmergencyProfileResponseDisableEmergencyProfileResultValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal DisableEmergencyProfileResponseDisableEmergencyProfileResultValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewDisableEmergencyProfileResponseDisableEmergencyProfileResultValue(value)
+	return nil
+}
+
+// SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue represents the arbitrary-width ASN.1 INTEGER type SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue with named numbers.
+type SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValueOkDecimal             = "0"
+	SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValueOk                    = 0
+	SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValueUndefinedErrorDecimal = "127"
+	SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValueUndefinedError        = 127
+)
+
+// NewSGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue returns an immutable SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue containing value.
+func NewSGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue(value *big.Int) SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue {
+	return SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewSGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValueInt64 returns a SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue containing value.
+func NewSGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValueInt64(value int64) SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue {
+	return NewSGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue(big.NewInt(value))
+}
+
+// SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValueOkValue returns the named value ok.
+func SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValueOkValue() SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue {
+	return NewSGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue(runtime.MustParseBigIntDecimal(SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValueOkDecimal))
+}
+
+// SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValueUndefinedErrorValue returns the named value undefinedError.
+func SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValueUndefinedErrorValue() SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue {
+	return NewSGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue(runtime.MustParseBigIntDecimal(SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValueOkDecimal:
+		return "ok", true
+	case SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewSGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewSGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue(value)
+	return nil
+}
 
 // CompactAuthenticateResponseOkSignedData choice constants.
 const (
@@ -2844,22 +7280,22 @@ const (
 	CompactAuthenticateResponseOkSignedDataChoiceCompactEuiccSigned1 = 2
 )
 
-// CompactAuthenticateResponseOkSignedData represents the ASN.1 CHOICE type CompactAuthenticateResponseOk-signedData.
+// CompactAuthenticateResponseOkSignedData represents the ASN.1 CHOICE type CompactAuthenticateResponseOkSignedData.
 type CompactAuthenticateResponseOkSignedData struct {
 	Choice              int
-	EuiccSigned1        *EuiccSigned1        `json:"EuiccSigned1,omitempty"`
+	EuiccSigned1        *SGPEuiccSigned1     `json:"EuiccSigned1,omitempty"`
 	CompactEuiccSigned1 *CompactEuiccSigned1 `json:"CompactEuiccSigned1,omitempty"`
 }
 
-// NewCompactAuthenticateResponseOkSignedDataEuiccSigned1 creates a CompactAuthenticateResponseOk-signedData with the euiccSigned1 alternative.
-func NewCompactAuthenticateResponseOkSignedDataEuiccSigned1(v EuiccSigned1) CompactAuthenticateResponseOkSignedData {
+// NewCompactAuthenticateResponseOkSignedDataEuiccSigned1 creates a CompactAuthenticateResponseOkSignedData with the euiccSigned1 alternative.
+func NewCompactAuthenticateResponseOkSignedDataEuiccSigned1(v SGPEuiccSigned1) CompactAuthenticateResponseOkSignedData {
 	return CompactAuthenticateResponseOkSignedData{
 		Choice:       CompactAuthenticateResponseOkSignedDataChoiceEuiccSigned1,
 		EuiccSigned1: &v,
 	}
 }
 
-// NewCompactAuthenticateResponseOkSignedDataCompactEuiccSigned1 creates a CompactAuthenticateResponseOk-signedData with the compactEuiccSigned1 alternative.
+// NewCompactAuthenticateResponseOkSignedDataCompactEuiccSigned1 creates a CompactAuthenticateResponseOkSignedData with the compactEuiccSigned1 alternative.
 func NewCompactAuthenticateResponseOkSignedDataCompactEuiccSigned1(v CompactEuiccSigned1) CompactAuthenticateResponseOkSignedData {
 	return CompactAuthenticateResponseOkSignedData{
 		Choice:              CompactAuthenticateResponseOkSignedDataChoiceCompactEuiccSigned1,
@@ -2873,14 +7309,14 @@ const (
 	CompactProfileInstallationResultDataCompactFinalResultChoiceErrorResult          = 2
 )
 
-// CompactProfileInstallationResultDataCompactFinalResult represents the ASN.1 CHOICE type CompactProfileInstallationResultData-compactFinalResult.
+// CompactProfileInstallationResultDataCompactFinalResult represents the ASN.1 CHOICE type CompactProfileInstallationResultDataCompactFinalResult.
 type CompactProfileInstallationResultDataCompactFinalResult struct {
 	Choice               int
 	CompactSuccessResult *CompactSuccessResult `json:"CompactSuccessResult,omitempty"`
-	ErrorResult          *sgp22.ErrorResult    `json:"ErrorResult,omitempty"`
+	ErrorResult          *ErrorResult          `json:"ErrorResult,omitempty"`
 }
 
-// NewCompactProfileInstallationResultDataCompactFinalResultCompactSuccessResult creates a CompactProfileInstallationResultData-compactFinalResult with the compactSuccessResult alternative.
+// NewCompactProfileInstallationResultDataCompactFinalResultCompactSuccessResult creates a CompactProfileInstallationResultDataCompactFinalResult with the compactSuccessResult alternative.
 func NewCompactProfileInstallationResultDataCompactFinalResultCompactSuccessResult(v CompactSuccessResult) CompactProfileInstallationResultDataCompactFinalResult {
 	return CompactProfileInstallationResultDataCompactFinalResult{
 		Choice:               CompactProfileInstallationResultDataCompactFinalResultChoiceCompactSuccessResult,
@@ -2888,30 +7324,1143 @@ func NewCompactProfileInstallationResultDataCompactFinalResultCompactSuccessResu
 	}
 }
 
-// NewCompactProfileInstallationResultDataCompactFinalResultErrorResult creates a CompactProfileInstallationResultData-compactFinalResult with the errorResult alternative.
-func NewCompactProfileInstallationResultDataCompactFinalResultErrorResult(v sgp22.ErrorResult) CompactProfileInstallationResultDataCompactFinalResult {
+// NewCompactProfileInstallationResultDataCompactFinalResultErrorResult creates a CompactProfileInstallationResultDataCompactFinalResult with the errorResult alternative.
+func NewCompactProfileInstallationResultDataCompactFinalResultErrorResult(v ErrorResult) CompactProfileInstallationResultDataCompactFinalResult {
 	return CompactProfileInstallationResultDataCompactFinalResult{
 		Choice:      CompactProfileInstallationResultDataCompactFinalResultChoiceErrorResult,
 		ErrorResult: &v,
 	}
 }
 
-// EimPackageResultEPRAndNotifications represents the ASN.1 type EimPackageResult-ePRAndNotifications (SEQUENCE).
+// SGPCancelSessionResponseCancelSessionResponseErrorValue represents the arbitrary-width ASN.1 INTEGER type SGPCancelSessionResponseCancelSessionResponseErrorValue with named numbers.
+type SGPCancelSessionResponseCancelSessionResponseErrorValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	SGPCancelSessionResponseCancelSessionResponseErrorValueInvalidTransactionIdDecimal = "5"
+	SGPCancelSessionResponseCancelSessionResponseErrorValueInvalidTransactionId        = 5
+	SGPCancelSessionResponseCancelSessionResponseErrorValueUndefinedErrorDecimal       = "127"
+	SGPCancelSessionResponseCancelSessionResponseErrorValueUndefinedError              = 127
+)
+
+// NewSGPCancelSessionResponseCancelSessionResponseErrorValue returns an immutable SGPCancelSessionResponseCancelSessionResponseErrorValue containing value.
+func NewSGPCancelSessionResponseCancelSessionResponseErrorValue(value *big.Int) SGPCancelSessionResponseCancelSessionResponseErrorValue {
+	return SGPCancelSessionResponseCancelSessionResponseErrorValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewSGPCancelSessionResponseCancelSessionResponseErrorValueInt64 returns a SGPCancelSessionResponseCancelSessionResponseErrorValue containing value.
+func NewSGPCancelSessionResponseCancelSessionResponseErrorValueInt64(value int64) SGPCancelSessionResponseCancelSessionResponseErrorValue {
+	return NewSGPCancelSessionResponseCancelSessionResponseErrorValue(big.NewInt(value))
+}
+
+// SGPCancelSessionResponseCancelSessionResponseErrorValueInvalidTransactionIdValue returns the named value invalidTransactionId.
+func SGPCancelSessionResponseCancelSessionResponseErrorValueInvalidTransactionIdValue() SGPCancelSessionResponseCancelSessionResponseErrorValue {
+	return NewSGPCancelSessionResponseCancelSessionResponseErrorValue(runtime.MustParseBigIntDecimal(SGPCancelSessionResponseCancelSessionResponseErrorValueInvalidTransactionIdDecimal))
+}
+
+// SGPCancelSessionResponseCancelSessionResponseErrorValueUndefinedErrorValue returns the named value undefinedError.
+func SGPCancelSessionResponseCancelSessionResponseErrorValueUndefinedErrorValue() SGPCancelSessionResponseCancelSessionResponseErrorValue {
+	return NewSGPCancelSessionResponseCancelSessionResponseErrorValue(runtime.MustParseBigIntDecimal(SGPCancelSessionResponseCancelSessionResponseErrorValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v SGPCancelSessionResponseCancelSessionResponseErrorValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v SGPCancelSessionResponseCancelSessionResponseErrorValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v SGPCancelSessionResponseCancelSessionResponseErrorValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case SGPCancelSessionResponseCancelSessionResponseErrorValueInvalidTransactionIdDecimal:
+		return "invalidTransactionId", true
+	case SGPCancelSessionResponseCancelSessionResponseErrorValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v SGPCancelSessionResponseCancelSessionResponseErrorValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v SGPCancelSessionResponseCancelSessionResponseErrorValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *SGPCancelSessionResponseCancelSessionResponseErrorValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal SGPCancelSessionResponseCancelSessionResponseErrorValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewSGPCancelSessionResponseCancelSessionResponseErrorValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v SGPCancelSessionResponseCancelSessionResponseErrorValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *SGPCancelSessionResponseCancelSessionResponseErrorValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal SGPCancelSessionResponseCancelSessionResponseErrorValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewSGPCancelSessionResponseCancelSessionResponseErrorValue(value)
+	return nil
+}
+
+// InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue represents the arbitrary-width ASN.1 INTEGER type InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue with named numbers.
+type InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueInvalidDpAddressDecimal             = "1"
+	InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueInvalidDpAddress                    = 1
+	InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueEuiccVersionNotSupportedByDpDecimal = "2"
+	InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueEuiccVersionNotSupportedByDp        = 2
+	InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueCiPKIdNotSupportedDecimal           = "3"
+	InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueCiPKIdNotSupported                  = 3
+	InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueSmdpAddressMismatchDecimal          = "50"
+	InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueSmdpAddressMismatch                 = 50
+	InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueSmdpOidMismatchDecimal              = "51"
+	InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueSmdpOidMismatch                     = 51
+	InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueInvalidEimTransactionIdDecimal      = "52"
+	InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueInvalidEimTransactionId             = 52
+	InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueUndefinedErrorDecimal               = "127"
+	InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueUndefinedError                      = 127
+)
+
+// NewInitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue returns an immutable InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue containing value.
+func NewInitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue(value *big.Int) InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue {
+	return InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewInitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueInt64 returns a InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue containing value.
+func NewInitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueInt64(value int64) InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue {
+	return NewInitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue(big.NewInt(value))
+}
+
+// InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueInvalidDpAddressValue returns the named value invalidDpAddress.
+func InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueInvalidDpAddressValue() InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue {
+	return NewInitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue(runtime.MustParseBigIntDecimal(InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueInvalidDpAddressDecimal))
+}
+
+// InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueEuiccVersionNotSupportedByDpValue returns the named value euiccVersionNotSupportedByDp.
+func InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueEuiccVersionNotSupportedByDpValue() InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue {
+	return NewInitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue(runtime.MustParseBigIntDecimal(InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueEuiccVersionNotSupportedByDpDecimal))
+}
+
+// InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueCiPKIdNotSupportedValue returns the named value ciPKIdNotSupported.
+func InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueCiPKIdNotSupportedValue() InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue {
+	return NewInitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue(runtime.MustParseBigIntDecimal(InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueCiPKIdNotSupportedDecimal))
+}
+
+// InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueSmdpAddressMismatchValue returns the named value smdpAddressMismatch.
+func InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueSmdpAddressMismatchValue() InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue {
+	return NewInitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue(runtime.MustParseBigIntDecimal(InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueSmdpAddressMismatchDecimal))
+}
+
+// InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueSmdpOidMismatchValue returns the named value smdpOidMismatch.
+func InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueSmdpOidMismatchValue() InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue {
+	return NewInitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue(runtime.MustParseBigIntDecimal(InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueSmdpOidMismatchDecimal))
+}
+
+// InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueInvalidEimTransactionIdValue returns the named value invalidEimTransactionId.
+func InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueInvalidEimTransactionIdValue() InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue {
+	return NewInitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue(runtime.MustParseBigIntDecimal(InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueInvalidEimTransactionIdDecimal))
+}
+
+// InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueUndefinedErrorValue returns the named value undefinedError.
+func InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueUndefinedErrorValue() InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue {
+	return NewInitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue(runtime.MustParseBigIntDecimal(InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueInvalidDpAddressDecimal:
+		return "invalidDpAddress", true
+	case InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueEuiccVersionNotSupportedByDpDecimal:
+		return "euiccVersionNotSupportedByDp", true
+	case InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueCiPKIdNotSupportedDecimal:
+		return "ciPKIdNotSupported", true
+	case InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueSmdpAddressMismatchDecimal:
+		return "smdpAddressMismatch", true
+	case InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueSmdpOidMismatchDecimal:
+		return "smdpOidMismatch", true
+	case InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueInvalidEimTransactionIdDecimal:
+		return "invalidEimTransactionId", true
+	case InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewInitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewInitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue(value)
+	return nil
+}
+
+// AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue represents the arbitrary-width ASN.1 INTEGER type AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue with named numbers.
+type AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEumCertificateInvalidDecimal   = "1"
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEumCertificateInvalid          = 1
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEumCertificateExpiredDecimal   = "2"
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEumCertificateExpired          = 2
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEuiccCertificateInvalidDecimal = "3"
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEuiccCertificateInvalid        = 3
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEuiccCertificateExpiredDecimal = "4"
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEuiccCertificateExpired        = 4
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEuiccSignatureInvalidDecimal   = "5"
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEuiccSignatureInvalid          = 5
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueMatchingIdRefusedDecimal       = "6"
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueMatchingIdRefused              = 6
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEidMismatchDecimal             = "7"
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEidMismatch                    = 7
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueNoEligibleProfileDecimal       = "8"
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueNoEligibleProfile              = 8
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueCiPKUnknownDecimal             = "9"
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueCiPKUnknown                    = 9
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueInvalidTransactionIdDecimal    = "10"
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueInvalidTransactionId           = 10
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueInsufficientMemoryDecimal      = "11"
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueInsufficientMemory             = 11
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueDownloadOrderExpiredDecimal    = "18"
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueDownloadOrderExpired           = 18
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValuePprNotAllowedDecimal           = "50"
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValuePprNotAllowed                  = 50
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEventIdUnknownDecimal          = "56"
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEventIdUnknown                 = 56
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueUndefinedErrorDecimal          = "127"
+	AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueUndefinedError                 = 127
+)
+
+// NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue returns an immutable AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue containing value.
+func NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue(value *big.Int) AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue {
+	return AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueInt64 returns a AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue containing value.
+func NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueInt64(value int64) AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue {
+	return NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue(big.NewInt(value))
+}
+
+// AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEumCertificateInvalidValue returns the named value eumCertificateInvalid.
+func AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEumCertificateInvalidValue() AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue {
+	return NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue(runtime.MustParseBigIntDecimal(AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEumCertificateInvalidDecimal))
+}
+
+// AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEumCertificateExpiredValue returns the named value eumCertificateExpired.
+func AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEumCertificateExpiredValue() AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue {
+	return NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue(runtime.MustParseBigIntDecimal(AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEumCertificateExpiredDecimal))
+}
+
+// AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEuiccCertificateInvalidValue returns the named value euiccCertificateInvalid.
+func AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEuiccCertificateInvalidValue() AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue {
+	return NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue(runtime.MustParseBigIntDecimal(AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEuiccCertificateInvalidDecimal))
+}
+
+// AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEuiccCertificateExpiredValue returns the named value euiccCertificateExpired.
+func AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEuiccCertificateExpiredValue() AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue {
+	return NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue(runtime.MustParseBigIntDecimal(AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEuiccCertificateExpiredDecimal))
+}
+
+// AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEuiccSignatureInvalidValue returns the named value euiccSignatureInvalid.
+func AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEuiccSignatureInvalidValue() AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue {
+	return NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue(runtime.MustParseBigIntDecimal(AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEuiccSignatureInvalidDecimal))
+}
+
+// AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueMatchingIdRefusedValue returns the named value matchingIdRefused.
+func AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueMatchingIdRefusedValue() AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue {
+	return NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue(runtime.MustParseBigIntDecimal(AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueMatchingIdRefusedDecimal))
+}
+
+// AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEidMismatchValue returns the named value eidMismatch.
+func AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEidMismatchValue() AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue {
+	return NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue(runtime.MustParseBigIntDecimal(AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEidMismatchDecimal))
+}
+
+// AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueNoEligibleProfileValue returns the named value noEligibleProfile.
+func AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueNoEligibleProfileValue() AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue {
+	return NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue(runtime.MustParseBigIntDecimal(AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueNoEligibleProfileDecimal))
+}
+
+// AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueCiPKUnknownValue returns the named value ciPKUnknown.
+func AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueCiPKUnknownValue() AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue {
+	return NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue(runtime.MustParseBigIntDecimal(AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueCiPKUnknownDecimal))
+}
+
+// AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueInvalidTransactionIdValue returns the named value invalidTransactionId.
+func AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueInvalidTransactionIdValue() AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue {
+	return NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue(runtime.MustParseBigIntDecimal(AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueInvalidTransactionIdDecimal))
+}
+
+// AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueInsufficientMemoryValue returns the named value insufficientMemory.
+func AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueInsufficientMemoryValue() AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue {
+	return NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue(runtime.MustParseBigIntDecimal(AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueInsufficientMemoryDecimal))
+}
+
+// AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueDownloadOrderExpiredValue returns the named value downloadOrderExpired.
+func AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueDownloadOrderExpiredValue() AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue {
+	return NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue(runtime.MustParseBigIntDecimal(AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueDownloadOrderExpiredDecimal))
+}
+
+// AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValuePprNotAllowedValue returns the named value pprNotAllowed.
+func AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValuePprNotAllowedValue() AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue {
+	return NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue(runtime.MustParseBigIntDecimal(AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValuePprNotAllowedDecimal))
+}
+
+// AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEventIdUnknownValue returns the named value eventIdUnknown.
+func AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEventIdUnknownValue() AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue {
+	return NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue(runtime.MustParseBigIntDecimal(AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEventIdUnknownDecimal))
+}
+
+// AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueUndefinedErrorValue returns the named value undefinedError.
+func AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueUndefinedErrorValue() AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue {
+	return NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue(runtime.MustParseBigIntDecimal(AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEumCertificateInvalidDecimal:
+		return "eumCertificateInvalid", true
+	case AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEumCertificateExpiredDecimal:
+		return "eumCertificateExpired", true
+	case AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEuiccCertificateInvalidDecimal:
+		return "euiccCertificateInvalid", true
+	case AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEuiccCertificateExpiredDecimal:
+		return "euiccCertificateExpired", true
+	case AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEuiccSignatureInvalidDecimal:
+		return "euiccSignatureInvalid", true
+	case AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueMatchingIdRefusedDecimal:
+		return "matchingIdRefused", true
+	case AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEidMismatchDecimal:
+		return "eidMismatch", true
+	case AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueNoEligibleProfileDecimal:
+		return "noEligibleProfile", true
+	case AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueCiPKUnknownDecimal:
+		return "ciPKUnknown", true
+	case AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueInvalidTransactionIdDecimal:
+		return "invalidTransactionId", true
+	case AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueInsufficientMemoryDecimal:
+		return "insufficientMemory", true
+	case AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueDownloadOrderExpiredDecimal:
+		return "downloadOrderExpired", true
+	case AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValuePprNotAllowedDecimal:
+		return "pprNotAllowed", true
+	case AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueEventIdUnknownDecimal:
+		return "eventIdUnknown", true
+	case AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewAuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue(value)
+	return nil
+}
+
+// GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue represents the arbitrary-width ASN.1 INTEGER type GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue with named numbers.
+type GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueEuiccSignatureInvalidDecimal           = "1"
+	GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueEuiccSignatureInvalid                  = 1
+	GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueConfirmationCodeMissingDecimal         = "2"
+	GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueConfirmationCodeMissing                = 2
+	GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueConfirmationCodeRefusedDecimal         = "3"
+	GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueConfirmationCodeRefused                = 3
+	GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueConfirmationCodeRetriesExceededDecimal = "4"
+	GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueConfirmationCodeRetriesExceeded        = 4
+	GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueBppRebindingRefusedDecimal             = "5"
+	GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueBppRebindingRefused                    = 5
+	GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueDeprecatedDecimal                      = "6"
+	GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueDeprecated                             = 6
+	GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueMetadataMismatchDecimal                = "50"
+	GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueMetadataMismatch                       = 50
+	GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueInvalidTransactionIdDecimal            = "95"
+	GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueInvalidTransactionId                   = 95
+	GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueUndefinedErrorDecimal                  = "127"
+	GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueUndefinedError                         = 127
+)
+
+// NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue returns an immutable GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue containing value.
+func NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue(value *big.Int) GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue {
+	return GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueInt64 returns a GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue containing value.
+func NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueInt64(value int64) GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue {
+	return NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue(big.NewInt(value))
+}
+
+// GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueEuiccSignatureInvalidValue returns the named value euiccSignatureInvalid.
+func GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueEuiccSignatureInvalidValue() GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue {
+	return NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue(runtime.MustParseBigIntDecimal(GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueEuiccSignatureInvalidDecimal))
+}
+
+// GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueConfirmationCodeMissingValue returns the named value confirmationCodeMissing.
+func GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueConfirmationCodeMissingValue() GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue {
+	return NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue(runtime.MustParseBigIntDecimal(GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueConfirmationCodeMissingDecimal))
+}
+
+// GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueConfirmationCodeRefusedValue returns the named value confirmationCodeRefused.
+func GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueConfirmationCodeRefusedValue() GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue {
+	return NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue(runtime.MustParseBigIntDecimal(GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueConfirmationCodeRefusedDecimal))
+}
+
+// GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueConfirmationCodeRetriesExceededValue returns the named value confirmationCodeRetriesExceeded.
+func GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueConfirmationCodeRetriesExceededValue() GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue {
+	return NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue(runtime.MustParseBigIntDecimal(GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueConfirmationCodeRetriesExceededDecimal))
+}
+
+// GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueBppRebindingRefusedValue returns the named value bppRebindingRefused.
+func GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueBppRebindingRefusedValue() GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue {
+	return NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue(runtime.MustParseBigIntDecimal(GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueBppRebindingRefusedDecimal))
+}
+
+// GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueDeprecatedValue returns the named value deprecated.
+func GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueDeprecatedValue() GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue {
+	return NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue(runtime.MustParseBigIntDecimal(GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueDeprecatedDecimal))
+}
+
+// GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueMetadataMismatchValue returns the named value metadataMismatch.
+func GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueMetadataMismatchValue() GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue {
+	return NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue(runtime.MustParseBigIntDecimal(GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueMetadataMismatchDecimal))
+}
+
+// GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueInvalidTransactionIdValue returns the named value invalidTransactionId.
+func GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueInvalidTransactionIdValue() GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue {
+	return NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue(runtime.MustParseBigIntDecimal(GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueInvalidTransactionIdDecimal))
+}
+
+// GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueUndefinedErrorValue returns the named value undefinedError.
+func GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueUndefinedErrorValue() GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue {
+	return NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue(runtime.MustParseBigIntDecimal(GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueEuiccSignatureInvalidDecimal:
+		return "euiccSignatureInvalid", true
+	case GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueConfirmationCodeMissingDecimal:
+		return "confirmationCodeMissing", true
+	case GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueConfirmationCodeRefusedDecimal:
+		return "confirmationCodeRefused", true
+	case GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueConfirmationCodeRetriesExceededDecimal:
+		return "confirmationCodeRetriesExceeded", true
+	case GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueBppRebindingRefusedDecimal:
+		return "bppRebindingRefused", true
+	case GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueDeprecatedDecimal:
+		return "deprecated", true
+	case GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueMetadataMismatchDecimal:
+		return "metadataMismatch", true
+	case GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueInvalidTransactionIdDecimal:
+		return "invalidTransactionId", true
+	case GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewGetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue(value)
+	return nil
+}
+
+// CancelSessionResponseEsipaCancelSessionErrorValue represents the arbitrary-width ASN.1 INTEGER type CancelSessionResponseEsipaCancelSessionErrorValue with named numbers.
+type CancelSessionResponseEsipaCancelSessionErrorValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	CancelSessionResponseEsipaCancelSessionErrorValueInvalidTransactionIdDecimal  = "1"
+	CancelSessionResponseEsipaCancelSessionErrorValueInvalidTransactionId         = 1
+	CancelSessionResponseEsipaCancelSessionErrorValueEuiccSignatureInvalidDecimal = "2"
+	CancelSessionResponseEsipaCancelSessionErrorValueEuiccSignatureInvalid        = 2
+	CancelSessionResponseEsipaCancelSessionErrorValueUndefinedErrorDecimal        = "127"
+	CancelSessionResponseEsipaCancelSessionErrorValueUndefinedError               = 127
+)
+
+// NewCancelSessionResponseEsipaCancelSessionErrorValue returns an immutable CancelSessionResponseEsipaCancelSessionErrorValue containing value.
+func NewCancelSessionResponseEsipaCancelSessionErrorValue(value *big.Int) CancelSessionResponseEsipaCancelSessionErrorValue {
+	return CancelSessionResponseEsipaCancelSessionErrorValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewCancelSessionResponseEsipaCancelSessionErrorValueInt64 returns a CancelSessionResponseEsipaCancelSessionErrorValue containing value.
+func NewCancelSessionResponseEsipaCancelSessionErrorValueInt64(value int64) CancelSessionResponseEsipaCancelSessionErrorValue {
+	return NewCancelSessionResponseEsipaCancelSessionErrorValue(big.NewInt(value))
+}
+
+// CancelSessionResponseEsipaCancelSessionErrorValueInvalidTransactionIdValue returns the named value invalidTransactionId.
+func CancelSessionResponseEsipaCancelSessionErrorValueInvalidTransactionIdValue() CancelSessionResponseEsipaCancelSessionErrorValue {
+	return NewCancelSessionResponseEsipaCancelSessionErrorValue(runtime.MustParseBigIntDecimal(CancelSessionResponseEsipaCancelSessionErrorValueInvalidTransactionIdDecimal))
+}
+
+// CancelSessionResponseEsipaCancelSessionErrorValueEuiccSignatureInvalidValue returns the named value euiccSignatureInvalid.
+func CancelSessionResponseEsipaCancelSessionErrorValueEuiccSignatureInvalidValue() CancelSessionResponseEsipaCancelSessionErrorValue {
+	return NewCancelSessionResponseEsipaCancelSessionErrorValue(runtime.MustParseBigIntDecimal(CancelSessionResponseEsipaCancelSessionErrorValueEuiccSignatureInvalidDecimal))
+}
+
+// CancelSessionResponseEsipaCancelSessionErrorValueUndefinedErrorValue returns the named value undefinedError.
+func CancelSessionResponseEsipaCancelSessionErrorValueUndefinedErrorValue() CancelSessionResponseEsipaCancelSessionErrorValue {
+	return NewCancelSessionResponseEsipaCancelSessionErrorValue(runtime.MustParseBigIntDecimal(CancelSessionResponseEsipaCancelSessionErrorValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v CancelSessionResponseEsipaCancelSessionErrorValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v CancelSessionResponseEsipaCancelSessionErrorValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v CancelSessionResponseEsipaCancelSessionErrorValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case CancelSessionResponseEsipaCancelSessionErrorValueInvalidTransactionIdDecimal:
+		return "invalidTransactionId", true
+	case CancelSessionResponseEsipaCancelSessionErrorValueEuiccSignatureInvalidDecimal:
+		return "euiccSignatureInvalid", true
+	case CancelSessionResponseEsipaCancelSessionErrorValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v CancelSessionResponseEsipaCancelSessionErrorValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v CancelSessionResponseEsipaCancelSessionErrorValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *CancelSessionResponseEsipaCancelSessionErrorValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal CancelSessionResponseEsipaCancelSessionErrorValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewCancelSessionResponseEsipaCancelSessionErrorValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v CancelSessionResponseEsipaCancelSessionErrorValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *CancelSessionResponseEsipaCancelSessionErrorValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal CancelSessionResponseEsipaCancelSessionErrorValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewCancelSessionResponseEsipaCancelSessionErrorValue(value)
+	return nil
+}
+
+// GetEimPackageResponseEimPackageErrorValue represents the arbitrary-width ASN.1 INTEGER type GetEimPackageResponseEimPackageErrorValue with named numbers.
+type GetEimPackageResponseEimPackageErrorValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	GetEimPackageResponseEimPackageErrorValueNoEimPackageAvailableDecimal = "1"
+	GetEimPackageResponseEimPackageErrorValueNoEimPackageAvailable        = 1
+	GetEimPackageResponseEimPackageErrorValueEidNotFoundDecimal           = "2"
+	GetEimPackageResponseEimPackageErrorValueEidNotFound                  = 2
+	GetEimPackageResponseEimPackageErrorValueInvalidEidDecimal            = "3"
+	GetEimPackageResponseEimPackageErrorValueInvalidEid                   = 3
+	GetEimPackageResponseEimPackageErrorValueMissingEidDecimal            = "4"
+	GetEimPackageResponseEimPackageErrorValueMissingEid                   = 4
+	GetEimPackageResponseEimPackageErrorValueUndefinedErrorDecimal        = "127"
+	GetEimPackageResponseEimPackageErrorValueUndefinedError               = 127
+)
+
+// NewGetEimPackageResponseEimPackageErrorValue returns an immutable GetEimPackageResponseEimPackageErrorValue containing value.
+func NewGetEimPackageResponseEimPackageErrorValue(value *big.Int) GetEimPackageResponseEimPackageErrorValue {
+	return GetEimPackageResponseEimPackageErrorValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewGetEimPackageResponseEimPackageErrorValueInt64 returns a GetEimPackageResponseEimPackageErrorValue containing value.
+func NewGetEimPackageResponseEimPackageErrorValueInt64(value int64) GetEimPackageResponseEimPackageErrorValue {
+	return NewGetEimPackageResponseEimPackageErrorValue(big.NewInt(value))
+}
+
+// GetEimPackageResponseEimPackageErrorValueNoEimPackageAvailableValue returns the named value noEimPackageAvailable.
+func GetEimPackageResponseEimPackageErrorValueNoEimPackageAvailableValue() GetEimPackageResponseEimPackageErrorValue {
+	return NewGetEimPackageResponseEimPackageErrorValue(runtime.MustParseBigIntDecimal(GetEimPackageResponseEimPackageErrorValueNoEimPackageAvailableDecimal))
+}
+
+// GetEimPackageResponseEimPackageErrorValueEidNotFoundValue returns the named value eidNotFound.
+func GetEimPackageResponseEimPackageErrorValueEidNotFoundValue() GetEimPackageResponseEimPackageErrorValue {
+	return NewGetEimPackageResponseEimPackageErrorValue(runtime.MustParseBigIntDecimal(GetEimPackageResponseEimPackageErrorValueEidNotFoundDecimal))
+}
+
+// GetEimPackageResponseEimPackageErrorValueInvalidEidValue returns the named value invalidEid.
+func GetEimPackageResponseEimPackageErrorValueInvalidEidValue() GetEimPackageResponseEimPackageErrorValue {
+	return NewGetEimPackageResponseEimPackageErrorValue(runtime.MustParseBigIntDecimal(GetEimPackageResponseEimPackageErrorValueInvalidEidDecimal))
+}
+
+// GetEimPackageResponseEimPackageErrorValueMissingEidValue returns the named value missingEid.
+func GetEimPackageResponseEimPackageErrorValueMissingEidValue() GetEimPackageResponseEimPackageErrorValue {
+	return NewGetEimPackageResponseEimPackageErrorValue(runtime.MustParseBigIntDecimal(GetEimPackageResponseEimPackageErrorValueMissingEidDecimal))
+}
+
+// GetEimPackageResponseEimPackageErrorValueUndefinedErrorValue returns the named value undefinedError.
+func GetEimPackageResponseEimPackageErrorValueUndefinedErrorValue() GetEimPackageResponseEimPackageErrorValue {
+	return NewGetEimPackageResponseEimPackageErrorValue(runtime.MustParseBigIntDecimal(GetEimPackageResponseEimPackageErrorValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v GetEimPackageResponseEimPackageErrorValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v GetEimPackageResponseEimPackageErrorValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v GetEimPackageResponseEimPackageErrorValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case GetEimPackageResponseEimPackageErrorValueNoEimPackageAvailableDecimal:
+		return "noEimPackageAvailable", true
+	case GetEimPackageResponseEimPackageErrorValueEidNotFoundDecimal:
+		return "eidNotFound", true
+	case GetEimPackageResponseEimPackageErrorValueInvalidEidDecimal:
+		return "invalidEid", true
+	case GetEimPackageResponseEimPackageErrorValueMissingEidDecimal:
+		return "missingEid", true
+	case GetEimPackageResponseEimPackageErrorValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v GetEimPackageResponseEimPackageErrorValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v GetEimPackageResponseEimPackageErrorValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *GetEimPackageResponseEimPackageErrorValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal GetEimPackageResponseEimPackageErrorValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewGetEimPackageResponseEimPackageErrorValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v GetEimPackageResponseEimPackageErrorValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *GetEimPackageResponseEimPackageErrorValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal GetEimPackageResponseEimPackageErrorValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewGetEimPackageResponseEimPackageErrorValue(value)
+	return nil
+}
+
+// EimPackageResultEPRAndNotifications represents the ASN.1 type EimPackageResultEPRAndNotifications (SEQUENCE).
 type EimPackageResultEPRAndNotifications struct {
 	EuiccPackageResult     EuiccPackageResult      `asn1:"tag:81,context,explicit"`
 	NotificationList       PendingNotificationList `asn1:"tag:0,context,implicit"`
 	NotificationListIndef_ bool                    `asn1:"-" json:"-"`
+	ExtCount_              int64                   `asn1:"-" json:"-"`
+	ExtPresent_            []bool                  `asn1:"-" json:"-"`
+	ExtData_               [][]byte                `asn1:"-" json:"-"`
 }
 
-// ProvideEimPackageResultResponseEmptyResponse represents the ASN.1 type ProvideEimPackageResultResponse-emptyResponse (SEQUENCE).
+// ProvideEimPackageResultResponseEmptyResponse represents the ASN.1 type ProvideEimPackageResultResponseEmptyResponse (SEQUENCE).
 type ProvideEimPackageResultResponseEmptyResponse struct {
+	ExtCount_   int64    `asn1:"-" json:"-"`
+	ExtPresent_ []bool   `asn1:"-" json:"-"`
+	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// TransferEimPackageResponseEPRAndNotifications represents the ASN.1 type TransferEimPackageResponse-ePRAndNotifications (SEQUENCE).
+// ProvideEimPackageResultResponseProvideEimPackageResultErrorValue represents the arbitrary-width ASN.1 INTEGER type ProvideEimPackageResultResponseProvideEimPackageResultErrorValue with named numbers.
+type ProvideEimPackageResultResponseProvideEimPackageResultErrorValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	ProvideEimPackageResultResponseProvideEimPackageResultErrorValueEidNotFoundDecimal    = "2"
+	ProvideEimPackageResultResponseProvideEimPackageResultErrorValueEidNotFound           = 2
+	ProvideEimPackageResultResponseProvideEimPackageResultErrorValueInvalidEidDecimal     = "3"
+	ProvideEimPackageResultResponseProvideEimPackageResultErrorValueInvalidEid            = 3
+	ProvideEimPackageResultResponseProvideEimPackageResultErrorValueMissingEidDecimal     = "4"
+	ProvideEimPackageResultResponseProvideEimPackageResultErrorValueMissingEid            = 4
+	ProvideEimPackageResultResponseProvideEimPackageResultErrorValueUndefinedErrorDecimal = "127"
+	ProvideEimPackageResultResponseProvideEimPackageResultErrorValueUndefinedError        = 127
+)
+
+// NewProvideEimPackageResultResponseProvideEimPackageResultErrorValue returns an immutable ProvideEimPackageResultResponseProvideEimPackageResultErrorValue containing value.
+func NewProvideEimPackageResultResponseProvideEimPackageResultErrorValue(value *big.Int) ProvideEimPackageResultResponseProvideEimPackageResultErrorValue {
+	return ProvideEimPackageResultResponseProvideEimPackageResultErrorValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewProvideEimPackageResultResponseProvideEimPackageResultErrorValueInt64 returns a ProvideEimPackageResultResponseProvideEimPackageResultErrorValue containing value.
+func NewProvideEimPackageResultResponseProvideEimPackageResultErrorValueInt64(value int64) ProvideEimPackageResultResponseProvideEimPackageResultErrorValue {
+	return NewProvideEimPackageResultResponseProvideEimPackageResultErrorValue(big.NewInt(value))
+}
+
+// ProvideEimPackageResultResponseProvideEimPackageResultErrorValueEidNotFoundValue returns the named value eidNotFound.
+func ProvideEimPackageResultResponseProvideEimPackageResultErrorValueEidNotFoundValue() ProvideEimPackageResultResponseProvideEimPackageResultErrorValue {
+	return NewProvideEimPackageResultResponseProvideEimPackageResultErrorValue(runtime.MustParseBigIntDecimal(ProvideEimPackageResultResponseProvideEimPackageResultErrorValueEidNotFoundDecimal))
+}
+
+// ProvideEimPackageResultResponseProvideEimPackageResultErrorValueInvalidEidValue returns the named value invalidEid.
+func ProvideEimPackageResultResponseProvideEimPackageResultErrorValueInvalidEidValue() ProvideEimPackageResultResponseProvideEimPackageResultErrorValue {
+	return NewProvideEimPackageResultResponseProvideEimPackageResultErrorValue(runtime.MustParseBigIntDecimal(ProvideEimPackageResultResponseProvideEimPackageResultErrorValueInvalidEidDecimal))
+}
+
+// ProvideEimPackageResultResponseProvideEimPackageResultErrorValueMissingEidValue returns the named value missingEid.
+func ProvideEimPackageResultResponseProvideEimPackageResultErrorValueMissingEidValue() ProvideEimPackageResultResponseProvideEimPackageResultErrorValue {
+	return NewProvideEimPackageResultResponseProvideEimPackageResultErrorValue(runtime.MustParseBigIntDecimal(ProvideEimPackageResultResponseProvideEimPackageResultErrorValueMissingEidDecimal))
+}
+
+// ProvideEimPackageResultResponseProvideEimPackageResultErrorValueUndefinedErrorValue returns the named value undefinedError.
+func ProvideEimPackageResultResponseProvideEimPackageResultErrorValueUndefinedErrorValue() ProvideEimPackageResultResponseProvideEimPackageResultErrorValue {
+	return NewProvideEimPackageResultResponseProvideEimPackageResultErrorValue(runtime.MustParseBigIntDecimal(ProvideEimPackageResultResponseProvideEimPackageResultErrorValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v ProvideEimPackageResultResponseProvideEimPackageResultErrorValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v ProvideEimPackageResultResponseProvideEimPackageResultErrorValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v ProvideEimPackageResultResponseProvideEimPackageResultErrorValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case ProvideEimPackageResultResponseProvideEimPackageResultErrorValueEidNotFoundDecimal:
+		return "eidNotFound", true
+	case ProvideEimPackageResultResponseProvideEimPackageResultErrorValueInvalidEidDecimal:
+		return "invalidEid", true
+	case ProvideEimPackageResultResponseProvideEimPackageResultErrorValueMissingEidDecimal:
+		return "missingEid", true
+	case ProvideEimPackageResultResponseProvideEimPackageResultErrorValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v ProvideEimPackageResultResponseProvideEimPackageResultErrorValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v ProvideEimPackageResultResponseProvideEimPackageResultErrorValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *ProvideEimPackageResultResponseProvideEimPackageResultErrorValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ProvideEimPackageResultResponseProvideEimPackageResultErrorValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewProvideEimPackageResultResponseProvideEimPackageResultErrorValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v ProvideEimPackageResultResponseProvideEimPackageResultErrorValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *ProvideEimPackageResultResponseProvideEimPackageResultErrorValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ProvideEimPackageResultResponseProvideEimPackageResultErrorValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewProvideEimPackageResultResponseProvideEimPackageResultErrorValue(value)
+	return nil
+}
+
+// TransferEimPackageResponseEPRAndNotifications represents the ASN.1 type TransferEimPackageResponseEPRAndNotifications (SEQUENCE).
 type TransferEimPackageResponseEPRAndNotifications struct {
 	EuiccPackageResult     EuiccPackageResult      `asn1:"tag:81,context,explicit"`
 	NotificationList       PendingNotificationList `asn1:"tag:0,context,implicit"`
 	NotificationListIndef_ bool                    `asn1:"-" json:"-"`
+	ExtCount_              int64                   `asn1:"-" json:"-"`
+	ExtPresent_            []bool                  `asn1:"-" json:"-"`
+	ExtData_               [][]byte                `asn1:"-" json:"-"`
+}
+
+// TransferEimPackageResponseEimPackageErrorValue represents the arbitrary-width ASN.1 INTEGER type TransferEimPackageResponseEimPackageErrorValue with named numbers.
+type TransferEimPackageResponseEimPackageErrorValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	TransferEimPackageResponseEimPackageErrorValueInvalidPackageFormatDecimal = "1"
+	TransferEimPackageResponseEimPackageErrorValueInvalidPackageFormat        = 1
+	TransferEimPackageResponseEimPackageErrorValueUnknownPackageDecimal       = "2"
+	TransferEimPackageResponseEimPackageErrorValueUnknownPackage              = 2
+	TransferEimPackageResponseEimPackageErrorValueUndefinedErrorDecimal       = "127"
+	TransferEimPackageResponseEimPackageErrorValueUndefinedError              = 127
+)
+
+// NewTransferEimPackageResponseEimPackageErrorValue returns an immutable TransferEimPackageResponseEimPackageErrorValue containing value.
+func NewTransferEimPackageResponseEimPackageErrorValue(value *big.Int) TransferEimPackageResponseEimPackageErrorValue {
+	return TransferEimPackageResponseEimPackageErrorValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewTransferEimPackageResponseEimPackageErrorValueInt64 returns a TransferEimPackageResponseEimPackageErrorValue containing value.
+func NewTransferEimPackageResponseEimPackageErrorValueInt64(value int64) TransferEimPackageResponseEimPackageErrorValue {
+	return NewTransferEimPackageResponseEimPackageErrorValue(big.NewInt(value))
+}
+
+// TransferEimPackageResponseEimPackageErrorValueInvalidPackageFormatValue returns the named value invalidPackageFormat.
+func TransferEimPackageResponseEimPackageErrorValueInvalidPackageFormatValue() TransferEimPackageResponseEimPackageErrorValue {
+	return NewTransferEimPackageResponseEimPackageErrorValue(runtime.MustParseBigIntDecimal(TransferEimPackageResponseEimPackageErrorValueInvalidPackageFormatDecimal))
+}
+
+// TransferEimPackageResponseEimPackageErrorValueUnknownPackageValue returns the named value unknownPackage.
+func TransferEimPackageResponseEimPackageErrorValueUnknownPackageValue() TransferEimPackageResponseEimPackageErrorValue {
+	return NewTransferEimPackageResponseEimPackageErrorValue(runtime.MustParseBigIntDecimal(TransferEimPackageResponseEimPackageErrorValueUnknownPackageDecimal))
+}
+
+// TransferEimPackageResponseEimPackageErrorValueUndefinedErrorValue returns the named value undefinedError.
+func TransferEimPackageResponseEimPackageErrorValueUndefinedErrorValue() TransferEimPackageResponseEimPackageErrorValue {
+	return NewTransferEimPackageResponseEimPackageErrorValue(runtime.MustParseBigIntDecimal(TransferEimPackageResponseEimPackageErrorValueUndefinedErrorDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v TransferEimPackageResponseEimPackageErrorValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v TransferEimPackageResponseEimPackageErrorValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v TransferEimPackageResponseEimPackageErrorValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case TransferEimPackageResponseEimPackageErrorValueInvalidPackageFormatDecimal:
+		return "invalidPackageFormat", true
+	case TransferEimPackageResponseEimPackageErrorValueUnknownPackageDecimal:
+		return "unknownPackage", true
+	case TransferEimPackageResponseEimPackageErrorValueUndefinedErrorDecimal:
+		return "undefinedError", true
+	default:
+		return "", false
+	}
+}
+
+func (v TransferEimPackageResponseEimPackageErrorValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v TransferEimPackageResponseEimPackageErrorValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *TransferEimPackageResponseEimPackageErrorValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal TransferEimPackageResponseEimPackageErrorValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewTransferEimPackageResponseEimPackageErrorValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v TransferEimPackageResponseEimPackageErrorValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *TransferEimPackageResponseEimPackageErrorValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal TransferEimPackageResponseEimPackageErrorValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewTransferEimPackageResponseEimPackageErrorValue(value)
+	return nil
 }
 
 // EimPackageReceivedWithCidCorrelationId choice constants.
@@ -2920,23 +8469,23 @@ const (
 	EimPackageReceivedWithCidCorrelationIdChoiceEidValue         = 2
 )
 
-// EimPackageReceivedWithCidCorrelationId represents the ASN.1 CHOICE type EimPackageReceivedWithCid-correlationId.
+// EimPackageReceivedWithCidCorrelationId represents the ASN.1 CHOICE type EimPackageReceivedWithCidCorrelationId.
 type EimPackageReceivedWithCidCorrelationId struct {
 	Choice           int
-	EimTransactionId *sgp22.TransactionId `json:"EimTransactionId,omitempty"`
-	EidValue         *sgp22.Octet16       `json:"EidValue,omitempty"`
+	EimTransactionId *TransactionId `json:"EimTransactionId,omitempty"`
+	EidValue         *Octet16       `json:"EidValue,omitempty"`
 }
 
-// NewEimPackageReceivedWithCidCorrelationIdEimTransactionId creates a EimPackageReceivedWithCid-correlationId with the eimTransactionId alternative.
-func NewEimPackageReceivedWithCidCorrelationIdEimTransactionId(v sgp22.TransactionId) EimPackageReceivedWithCidCorrelationId {
+// NewEimPackageReceivedWithCidCorrelationIdEimTransactionId creates a EimPackageReceivedWithCidCorrelationId with the eimTransactionId alternative.
+func NewEimPackageReceivedWithCidCorrelationIdEimTransactionId(v TransactionId) EimPackageReceivedWithCidCorrelationId {
 	return EimPackageReceivedWithCidCorrelationId{
 		Choice:           EimPackageReceivedWithCidCorrelationIdChoiceEimTransactionId,
 		EimTransactionId: &v,
 	}
 }
 
-// NewEimPackageReceivedWithCidCorrelationIdEidValue creates a EimPackageReceivedWithCid-correlationId with the eidValue alternative.
-func NewEimPackageReceivedWithCidCorrelationIdEidValue(v sgp22.Octet16) EimPackageReceivedWithCidCorrelationId {
+// NewEimPackageReceivedWithCidCorrelationIdEidValue creates a EimPackageReceivedWithCidCorrelationId with the eidValue alternative.
+func NewEimPackageReceivedWithCidCorrelationIdEidValue(v Octet16) EimPackageReceivedWithCidCorrelationId {
 	return EimPackageReceivedWithCidCorrelationId{
 		Choice:   EimPackageReceivedWithCidCorrelationIdChoiceEidValue,
 		EidValue: &v,
@@ -2949,23 +8498,23 @@ const (
 	EimPackageErrorWithCidCorrelationIdChoiceEidValue         = 2
 )
 
-// EimPackageErrorWithCidCorrelationId represents the ASN.1 CHOICE type EimPackageErrorWithCid-correlationId.
+// EimPackageErrorWithCidCorrelationId represents the ASN.1 CHOICE type EimPackageErrorWithCidCorrelationId.
 type EimPackageErrorWithCidCorrelationId struct {
 	Choice           int
-	EimTransactionId *sgp22.TransactionId `json:"EimTransactionId,omitempty"`
-	EidValue         *sgp22.Octet16       `json:"EidValue,omitempty"`
+	EimTransactionId *TransactionId `json:"EimTransactionId,omitempty"`
+	EidValue         *Octet16       `json:"EidValue,omitempty"`
 }
 
-// NewEimPackageErrorWithCidCorrelationIdEimTransactionId creates a EimPackageErrorWithCid-correlationId with the eimTransactionId alternative.
-func NewEimPackageErrorWithCidCorrelationIdEimTransactionId(v sgp22.TransactionId) EimPackageErrorWithCidCorrelationId {
+// NewEimPackageErrorWithCidCorrelationIdEimTransactionId creates a EimPackageErrorWithCidCorrelationId with the eimTransactionId alternative.
+func NewEimPackageErrorWithCidCorrelationIdEimTransactionId(v TransactionId) EimPackageErrorWithCidCorrelationId {
 	return EimPackageErrorWithCidCorrelationId{
 		Choice:           EimPackageErrorWithCidCorrelationIdChoiceEimTransactionId,
 		EimTransactionId: &v,
 	}
 }
 
-// NewEimPackageErrorWithCidCorrelationIdEidValue creates a EimPackageErrorWithCid-correlationId with the eidValue alternative.
-func NewEimPackageErrorWithCidCorrelationIdEidValue(v sgp22.Octet16) EimPackageErrorWithCidCorrelationId {
+// NewEimPackageErrorWithCidCorrelationIdEidValue creates a EimPackageErrorWithCidCorrelationId with the eidValue alternative.
+func NewEimPackageErrorWithCidCorrelationIdEidValue(v Octet16) EimPackageErrorWithCidCorrelationId {
 	return EimPackageErrorWithCidCorrelationId{
 		Choice:   EimPackageErrorWithCidCorrelationIdChoiceEidValue,
 		EidValue: &v,
@@ -2983,11 +8532,26 @@ func (v *EuiccPackageRequest) MarshalBER() ([]byte, error) {
 	enc_eimsignature := ber.EncodeOctetString(v.EimSignature)
 	enc_eimsignature = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 55, false, enc_eimsignature)
 	children = append(children, enc_eimsignature...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 81, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes EuiccPackageRequest to DER format.
 func (v *EuiccPackageRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -3033,9 +8597,19 @@ func (v *EuiccPackageRequest) UnmarshalBER(data []byte) error {
 	}
 	v.EimSignature = rawVal_eimsignature
 	offset += n_eimsignature
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EuiccPackageRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "EuiccPackageRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -3064,11 +8638,26 @@ func (v *EuiccPackageSigned) MarshalBER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding euiccPackage: %w", err)
 	}
 	children = append(children, enc_euiccpackage...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes EuiccPackageSigned to DER format.
 func (v *EuiccPackageSigned) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -3112,7 +8701,7 @@ func (v *EuiccPackageSigned) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding eidValue: %w", err)
 	}
-	v.EidValue = sgp22.Octet16(rawVal_eidvalue)
+	v.EidValue = Octet16(rawVal_eidvalue)
 	offset += n_eidvalue
 	// Decode counterValue
 	if offset >= len(content) {
@@ -3142,7 +8731,7 @@ func (v *EuiccPackageSigned) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding eimTransactionId: %w", err)
 				}
-				tmp_eimtransactionid := sgp22.TransactionId(rawVal_eimtransactionid)
+				tmp_eimtransactionid := TransactionId(rawVal_eimtransactionid)
 				v.EimTransactionId = &tmp_eimtransactionid
 				offset += n_eimtransactionid
 			}
@@ -3161,9 +8750,19 @@ func (v *EuiccPackageSigned) UnmarshalBER(data []byte) error {
 		return fmt.Errorf("decoding euiccPackage: %w", unmErr)
 	}
 	offset += n_euiccpackage
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EuiccPackageSigned", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "EuiccPackageSigned", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -3261,7 +8860,7 @@ func (v *EimConfigurationData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_eimfqdn...)
 	}
 	if v.EimIdType != nil {
-		enc_eimidtype := ber.EncodeInteger(int64(*v.EimIdType))
+		enc_eimidtype := ber.EncodeBigInt((*v.EimIdType).BigInt())
 		enc_eimidtype = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_eimidtype)
 		children = append(children, enc_eimidtype...)
 	}
@@ -3307,7 +8906,7 @@ func (v *EimConfigurationData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_indirectprofiledownload...)
 	}
 	if v.ESipaProprietaryProtocolInformation != nil {
-		enc_esipaproprietaryprotocolinformation, err := sgp22.MarshalBERVendorSpecificExtension(v.ESipaProprietaryProtocolInformation)
+		enc_esipaproprietaryprotocolinformation, err := MarshalBERVendorSpecificExtension(v.ESipaProprietaryProtocolInformation)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eSipaProprietaryProtocolInformation: %w", err)
 		}
@@ -3323,11 +8922,26 @@ func (v *EimConfigurationData) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, enc_esipaproprietaryprotocolinformation...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes EimConfigurationData to DER format.
 func (v *EimConfigurationData) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
 	derValue := *v
 	derValue.ESipaProprietaryProtocolInformationIndef_ = false
@@ -3385,12 +8999,15 @@ func (v *EimConfigurationData) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding eimIdType: %w", err)
 				}
-				decVal_eimidtype, intErr := ber.DecodeIntegerValue(rawVal_eimidtype)
+				decVal_eimidtype, intErr := ber.DecodeBigIntValue(rawVal_eimidtype)
 				if intErr != nil {
 					return fmt.Errorf("decoding eimIdType: %w", intErr)
 				}
-				tmp_eimidtype := EimIdType(decVal_eimidtype)
-				v.EimIdType = &tmp_eimidtype
+				var named_eimidtype EimIdType
+				if namedErr := named_eimidtype.UnmarshalText([]byte(decVal_eimidtype.String())); namedErr != nil {
+					return fmt.Errorf("decoding eimIdType: %w", namedErr)
+				}
+				v.EimIdType = &named_eimidtype
 				offset += n_eimidtype
 			}
 		}
@@ -3497,7 +9114,7 @@ func (v *EimConfigurationData) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding euiccCiPKId: %w", err)
 				}
-				tmp_euicccipkid := sgp22.SubjectKeyIdentifier(rawVal_euicccipkid)
+				tmp_euicccipkid := SubjectKeyIdentifier(rawVal_euicccipkid)
 				v.EuiccCiPKId = &tmp_euicccipkid
 				offset += n_euicccipkid
 			}
@@ -3529,7 +9146,7 @@ func (v *EimConfigurationData) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding eSipaProprietaryProtocolInformation: %w", err)
 				}
 				reconstructed_esipaproprietaryprotocolinformation := ber.EncodeSequence(rawVal_esipaproprietaryprotocolinformation)
-				dec_esipaproprietaryprotocolinformation, unmErr := sgp22.UnmarshalBERVendorSpecificExtension(reconstructed_esipaproprietaryprotocolinformation)
+				dec_esipaproprietaryprotocolinformation, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_esipaproprietaryprotocolinformation)
 				if unmErr != nil {
 					return fmt.Errorf("decoding eSipaProprietaryProtocolInformation: %w", unmErr)
 				}
@@ -3544,9 +9161,19 @@ func (v *EimConfigurationData) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EimConfigurationData", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "EimConfigurationData", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -3966,7 +9593,7 @@ func (v *Psmo) UnmarshalBER(data []byte) error {
 		v.Delete = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 45 {
 		v.Choice = PsmoChoiceListProfileInfo
-		var dec sgp22.ProfileInfoListRequest
+		var dec ProfileInfoListRequest
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
 			return fmt.Errorf("decoding listProfileInfo: %w", unmErr)
 		}
@@ -4021,7 +9648,7 @@ func (v *Psmo) UnmarshalBER(data []byte) error {
 		v.UnsetFallbackAttribute = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 101 {
 		v.Choice = PsmoChoiceSetDefaultDpAddress
-		var dec SetDefaultDpAddressRequest
+		var dec SGPSetDefaultDpAddressRequest
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
 			return fmt.Errorf("decoding setDefaultDpAddress: %w", unmErr)
 		}
@@ -4063,11 +9690,26 @@ func (v *IpaEuiccDataRequest) MarshalBER() ([]byte, error) {
 		enc_eimtransactionid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_eimtransactionid)
 		children = append(children, enc_eimtransactionid...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 82, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes IpaEuiccDataRequest to DER format.
 func (v *IpaEuiccDataRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -4162,15 +9804,25 @@ func (v *IpaEuiccDataRequest) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding eimTransactionId: %w", err)
 				}
-				tmp_eimtransactionid := sgp22.TransactionId(rawVal_eimtransactionid)
+				tmp_eimtransactionid := TransactionId(rawVal_eimtransactionid)
 				v.EimTransactionId = &tmp_eimtransactionid
 				offset += n_eimtransactionid
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "IpaEuiccDataRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "IpaEuiccDataRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -4190,11 +9842,26 @@ func (v *ProfileDownloadTriggerRequest) MarshalBER() ([]byte, error) {
 		enc_eimtransactionid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_eimtransactionid)
 		children = append(children, enc_eimtransactionid...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 84, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes ProfileDownloadTriggerRequest to DER format.
 func (v *ProfileDownloadTriggerRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -4240,15 +9907,25 @@ func (v *ProfileDownloadTriggerRequest) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding eimTransactionId: %w", err)
 				}
-				tmp_eimtransactionid := sgp22.TransactionId(rawVal_eimtransactionid)
+				tmp_eimtransactionid := TransactionId(rawVal_eimtransactionid)
 				v.EimTransactionId = &tmp_eimtransactionid
 				offset += n_eimtransactionid
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ProfileDownloadTriggerRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ProfileDownloadTriggerRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -4354,7 +10031,10 @@ func (v *ProfileDownloadData) UnmarshalBER(data []byte) error {
 // MarshalBEREimAcknowledgements encodes a EimAcknowledgements list to BER.
 func MarshalBEREimAcknowledgements(list EimAcknowledgements) ([]byte, error) {
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if elem == nil {
+			return nil, fmt.Errorf("encoding EimAcknowledgements[%d]: required INTEGER is nil", elemIndex)
+		}
 		children = append(children, ber.EncodeBigInt(elem)...)
 	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 83, Constructed: true}, children), nil
@@ -4551,11 +10231,26 @@ func (v *EuiccPackageResultSigned) MarshalBER() ([]byte, error) {
 	enc_euiccsignepr := ber.EncodeOctetString(v.EuiccSignEPR)
 	enc_euiccsignepr = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 55, false, enc_euiccsignepr)
 	children = append(children, enc_euiccsignepr...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes EuiccPackageResultSigned to DER format.
 func (v *EuiccPackageResultSigned) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -4598,9 +10293,19 @@ func (v *EuiccPackageResultSigned) UnmarshalBER(data []byte) error {
 	}
 	v.EuiccSignEPR = rawVal_euiccsignepr
 	offset += n_euiccsignepr
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EuiccPackageResultSigned", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "EuiccPackageResultSigned", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -4632,11 +10337,26 @@ func (v *EuiccPackageResultDataSigned) MarshalBER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding euiccResult: %w", err)
 	}
 	children = append(children, enc_euiccresult...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes EuiccPackageResultDataSigned to DER format.
 func (v *EuiccPackageResultDataSigned) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
 	derValue := *v
 	derValue.EuiccResultIndef_ = false
@@ -4698,7 +10418,7 @@ func (v *EuiccPackageResultDataSigned) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding eimTransactionId: %w", err)
 				}
-				tmp_eimtransactionid := sgp22.TransactionId(rawVal_eimtransactionid)
+				tmp_eimtransactionid := TransactionId(rawVal_eimtransactionid)
 				v.EimTransactionId = &tmp_eimtransactionid
 				offset += n_eimtransactionid
 			}
@@ -4746,9 +10466,19 @@ func (v *EuiccPackageResultDataSigned) UnmarshalBER(data []byte) error {
 	}
 	v.EuiccResult = dec_euiccresult
 	offset += n_euiccresult
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EuiccPackageResultDataSigned", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "EuiccPackageResultDataSigned", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -4759,21 +10489,21 @@ func (v *EuiccResultData) MarshalBER() ([]byte, error) {
 		if v.EnableResult == nil {
 			return nil, fmt.Errorf("choice EuiccResultData: enableResult is nil")
 		}
-		enc_0 := ber.EncodeInteger(int64(*v.EnableResult))
+		enc_0 := ber.EncodeBigInt(v.EnableResult.BigInt())
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_0)
 		return enc_0, nil
 	case EuiccResultDataChoiceDisableResult:
 		if v.DisableResult == nil {
 			return nil, fmt.Errorf("choice EuiccResultData: disableResult is nil")
 		}
-		enc_1 := ber.EncodeInteger(int64(*v.DisableResult))
+		enc_1 := ber.EncodeBigInt(v.DisableResult.BigInt())
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_1)
 		return enc_1, nil
 	case EuiccResultDataChoiceDeleteResult:
 		if v.DeleteResult == nil {
 			return nil, fmt.Errorf("choice EuiccResultData: deleteResult is nil")
 		}
-		enc_2 := ber.EncodeInteger(int64(*v.DeleteResult))
+		enc_2 := ber.EncodeBigInt(v.DeleteResult.BigInt())
 		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, false, enc_2)
 		return enc_2, nil
 	case EuiccResultDataChoiceListProfileInfoResult:
@@ -4789,7 +10519,7 @@ func (v *EuiccResultData) MarshalBER() ([]byte, error) {
 		if v.GetRATResult == nil {
 			return nil, fmt.Errorf("choice EuiccResultData: getRATResult is nil")
 		}
-		enc_4, err := sgp22.MarshalBERRulesAuthorisationTable(v.GetRATResult)
+		enc_4, err := MarshalBERRulesAuthorisationTable(v.GetRATResult)
 		if err != nil {
 			return nil, fmt.Errorf("encoding getRATResult: %w", err)
 		}
@@ -4799,7 +10529,7 @@ func (v *EuiccResultData) MarshalBER() ([]byte, error) {
 		if v.ConfigureImmediateEnableResult == nil {
 			return nil, fmt.Errorf("choice EuiccResultData: configureImmediateEnableResult is nil")
 		}
-		enc_5 := ber.EncodeInteger(int64(*v.ConfigureImmediateEnableResult))
+		enc_5 := ber.EncodeBigInt(v.ConfigureImmediateEnableResult.BigInt())
 		enc_5 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, false, enc_5)
 		return enc_5, nil
 	case EuiccResultDataChoiceAddEimResult:
@@ -4816,14 +10546,14 @@ func (v *EuiccResultData) MarshalBER() ([]byte, error) {
 		if v.DeleteEimResult == nil {
 			return nil, fmt.Errorf("choice EuiccResultData: deleteEimResult is nil")
 		}
-		enc_7 := ber.EncodeInteger(int64(*v.DeleteEimResult))
+		enc_7 := ber.EncodeBigInt(v.DeleteEimResult.BigInt())
 		enc_7 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, false, enc_7)
 		return enc_7, nil
 	case EuiccResultDataChoiceUpdateEimResult:
 		if v.UpdateEimResult == nil {
 			return nil, fmt.Errorf("choice EuiccResultData: updateEimResult is nil")
 		}
-		enc_8 := ber.EncodeInteger(int64(*v.UpdateEimResult))
+		enc_8 := ber.EncodeBigInt(v.UpdateEimResult.BigInt())
 		enc_8 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, false, enc_8)
 		return enc_8, nil
 	case EuiccResultDataChoiceListEimResult:
@@ -4840,28 +10570,28 @@ func (v *EuiccResultData) MarshalBER() ([]byte, error) {
 		if v.RollbackResult == nil {
 			return nil, fmt.Errorf("choice EuiccResultData: rollbackResult is nil")
 		}
-		enc_10 := ber.EncodeInteger(int64(*v.RollbackResult))
+		enc_10 := ber.EncodeBigInt(v.RollbackResult.BigInt())
 		enc_10 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, false, enc_10)
 		return enc_10, nil
 	case EuiccResultDataChoiceSetFallbackAttributeResult:
 		if v.SetFallbackAttributeResult == nil {
 			return nil, fmt.Errorf("choice EuiccResultData: setFallbackAttributeResult is nil")
 		}
-		enc_11 := ber.EncodeInteger(int64(*v.SetFallbackAttributeResult))
+		enc_11 := ber.EncodeBigInt(v.SetFallbackAttributeResult.BigInt())
 		enc_11 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 13, false, enc_11)
 		return enc_11, nil
 	case EuiccResultDataChoiceUnsetFallbackAttributeResult:
 		if v.UnsetFallbackAttributeResult == nil {
 			return nil, fmt.Errorf("choice EuiccResultData: unsetFallbackAttributeResult is nil")
 		}
-		enc_12 := ber.EncodeInteger(int64(*v.UnsetFallbackAttributeResult))
+		enc_12 := ber.EncodeBigInt(v.UnsetFallbackAttributeResult.BigInt())
 		enc_12 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, false, enc_12)
 		return enc_12, nil
 	case EuiccResultDataChoiceProcessingTerminated:
 		if v.ProcessingTerminated == nil {
 			return nil, fmt.Errorf("choice EuiccResultData: processingTerminated is nil")
 		}
-		enc_13 := ber.EncodeInteger(int64(*v.ProcessingTerminated))
+		enc_13 := ber.EncodeBigInt(v.ProcessingTerminated.BigInt())
 		return enc_13, nil
 	case EuiccResultDataChoiceSetDefaultDpAddressResult:
 		if v.SetDefaultDpAddressResult == nil {
@@ -4947,39 +10677,48 @@ func (v *EuiccResultData) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding enableResult: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding enableResult: %w", intErr)
 		}
-		tmp := EnableProfileResult(decVal)
-		v.EnableResult = &tmp
+		var named_enableresult EnableProfileResult
+		if namedErr := named_enableresult.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding enableResult: %w", namedErr)
+		}
+		v.EnableResult = &named_enableresult
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
 		v.Choice = EuiccResultDataChoiceDisableResult
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding disableResult: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding disableResult: %w", intErr)
 		}
-		tmp := DisableProfileResult(decVal)
-		v.DisableResult = &tmp
+		var named_disableresult DisableProfileResult
+		if namedErr := named_disableresult.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding disableResult: %w", namedErr)
+		}
+		v.DisableResult = &named_disableresult
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
 		v.Choice = EuiccResultDataChoiceDeleteResult
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding deleteResult: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding deleteResult: %w", intErr)
 		}
-		tmp := DeleteProfileResult(decVal)
-		v.DeleteResult = &tmp
+		var named_deleteresult DeleteProfileResult
+		if namedErr := named_deleteresult.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding deleteResult: %w", namedErr)
+		}
+		v.DeleteResult = &named_deleteresult
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 45 {
 		v.Choice = EuiccResultDataChoiceListProfileInfoResult
-		var dec ProfileInfoListResponse
+		var dec SGPProfileInfoListResponse
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
 			return fmt.Errorf("decoding listProfileInfoResult: %w", unmErr)
 		}
@@ -4991,7 +10730,7 @@ func (v *EuiccResultData) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding getRATResult: %w", tlvErr)
 		}
 		reconstructed := ber.EncodeSequence(rawVal)
-		dec, unmErr := sgp22.UnmarshalBERRulesAuthorisationTable(reconstructed)
+		dec, unmErr := UnmarshalBERRulesAuthorisationTable(reconstructed)
 		if unmErr != nil {
 			return fmt.Errorf("decoding getRATResult: %w", unmErr)
 		}
@@ -5002,12 +10741,15 @@ func (v *EuiccResultData) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding configureImmediateEnableResult: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding configureImmediateEnableResult: %w", intErr)
 		}
-		tmp := ConfigureImmediateEnableResult(decVal)
-		v.ConfigureImmediateEnableResult = &tmp
+		var named_configureimmediateenableresult ConfigureImmediateEnableResult
+		if namedErr := named_configureimmediateenableresult.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding configureImmediateEnableResult: %w", namedErr)
+		}
+		v.ConfigureImmediateEnableResult = &named_configureimmediateenableresult
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
 		v.Choice = EuiccResultDataChoiceAddEimResult
 		_, _, innerData, tlvErr := ber.DecodeTLV(choiceData)
@@ -5025,24 +10767,30 @@ func (v *EuiccResultData) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding deleteEimResult: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding deleteEimResult: %w", intErr)
 		}
-		tmp := DeleteEimResult(decVal)
-		v.DeleteEimResult = &tmp
+		var named_deleteeimresult DeleteEimResult
+		if namedErr := named_deleteeimresult.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding deleteEimResult: %w", namedErr)
+		}
+		v.DeleteEimResult = &named_deleteeimresult
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
 		v.Choice = EuiccResultDataChoiceUpdateEimResult
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding updateEimResult: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding updateEimResult: %w", intErr)
 		}
-		tmp := UpdateEimResult(decVal)
-		v.UpdateEimResult = &tmp
+		var named_updateeimresult UpdateEimResult
+		if namedErr := named_updateeimresult.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding updateEimResult: %w", namedErr)
+		}
+		v.UpdateEimResult = &named_updateeimresult
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
 		v.Choice = EuiccResultDataChoiceListEimResult
 		_, _, innerData, tlvErr := ber.DecodeTLV(choiceData)
@@ -5060,46 +10808,59 @@ func (v *EuiccResultData) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding rollbackResult: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding rollbackResult: %w", intErr)
 		}
-		tmp := RollbackProfileResult(decVal)
-		v.RollbackResult = &tmp
+		var named_rollbackresult RollbackProfileResult
+		if namedErr := named_rollbackresult.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding rollbackResult: %w", namedErr)
+		}
+		v.RollbackResult = &named_rollbackresult
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13 {
 		v.Choice = EuiccResultDataChoiceSetFallbackAttributeResult
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding setFallbackAttributeResult: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding setFallbackAttributeResult: %w", intErr)
 		}
-		tmp := SetFallbackAttributeResult(decVal)
-		v.SetFallbackAttributeResult = &tmp
+		var named_setfallbackattributeresult SetFallbackAttributeResult
+		if namedErr := named_setfallbackattributeresult.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding setFallbackAttributeResult: %w", namedErr)
+		}
+		v.SetFallbackAttributeResult = &named_setfallbackattributeresult
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14 {
 		v.Choice = EuiccResultDataChoiceUnsetFallbackAttributeResult
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding unsetFallbackAttributeResult: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding unsetFallbackAttributeResult: %w", intErr)
 		}
-		tmp := UnsetFallbackAttributeResult(decVal)
-		v.UnsetFallbackAttributeResult = &tmp
+		var named_unsetfallbackattributeresult UnsetFallbackAttributeResult
+		if namedErr := named_unsetfallbackattributeresult.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding unsetFallbackAttributeResult: %w", namedErr)
+		}
+		v.UnsetFallbackAttributeResult = &named_unsetfallbackattributeresult
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 {
 		v.Choice = EuiccResultDataChoiceProcessingTerminated
-		decVal, _, intErr := ber.DecodeInteger(choiceData)
+		decVal, _, intErr := ber.DecodeBigInt(choiceData)
 		if intErr != nil {
 			return fmt.Errorf("decoding processingTerminated: %w", intErr)
 		}
-		v.ProcessingTerminated = &decVal
+		var named_processingterminated EuiccResultDataProcessingTerminatedValue
+		if namedErr := named_processingterminated.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding processingTerminated: %w", namedErr)
+		}
+		v.ProcessingTerminated = &named_processingterminated
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 101 {
 		v.Choice = EuiccResultDataChoiceSetDefaultDpAddressResult
-		var dec SetDefaultDpAddressResponse
+		var dec SGPSetDefaultDpAddressResponse
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
 			return fmt.Errorf("decoding setDefaultDpAddressResult: %w", unmErr)
 		}
@@ -5121,11 +10882,26 @@ func (v *EuiccPackageErrorSigned) MarshalBER() ([]byte, error) {
 	enc_euiccsignepe := ber.EncodeOctetString(v.EuiccSignEPE)
 	enc_euiccsignepe = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 55, false, enc_euiccsignepe)
 	children = append(children, enc_euiccsignepe...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes EuiccPackageErrorSigned to DER format.
 func (v *EuiccPackageErrorSigned) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -5168,9 +10944,19 @@ func (v *EuiccPackageErrorSigned) UnmarshalBER(data []byte) error {
 	}
 	v.EuiccSignEPE = rawVal_euiccsignepe
 	offset += n_euiccsignepe
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EuiccPackageErrorSigned", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "EuiccPackageErrorSigned", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -5191,13 +10977,28 @@ func (v *EuiccPackageErrorDataSigned) MarshalBER() ([]byte, error) {
 		enc_eimtransactionid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_eimtransactionid)
 		children = append(children, enc_eimtransactionid...)
 	}
-	enc_euiccpackageerrorcode := ber.EncodeInteger(int64(v.EuiccPackageErrorCode))
+	enc_euiccpackageerrorcode := ber.EncodeBigInt((v.EuiccPackageErrorCode).BigInt())
 	children = append(children, enc_euiccpackageerrorcode...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes EuiccPackageErrorDataSigned to DER format.
 func (v *EuiccPackageErrorDataSigned) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -5256,7 +11057,7 @@ func (v *EuiccPackageErrorDataSigned) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding eimTransactionId: %w", err)
 				}
-				tmp_eimtransactionid := sgp22.TransactionId(rawVal_eimtransactionid)
+				tmp_eimtransactionid := TransactionId(rawVal_eimtransactionid)
 				v.EimTransactionId = &tmp_eimtransactionid
 				offset += n_eimtransactionid
 			}
@@ -5266,15 +11067,29 @@ func (v *EuiccPackageErrorDataSigned) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field euiccPackageErrorCode")
 	}
-	val_euiccpackageerrorcode, n, err := ber.DecodeInteger(content[offset:])
+	val_euiccpackageerrorcode, n, err := ber.DecodeBigInt(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding euiccPackageErrorCode: %w", err)
 	}
-	v.EuiccPackageErrorCode = EuiccPackageErrorCode(val_euiccpackageerrorcode)
-	offset += n
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EuiccPackageErrorDataSigned", Cause: ber.ErrExtraData}
+	var named_euiccpackageerrorcode EuiccPackageErrorCode
+	if namedErr := named_euiccpackageerrorcode.UnmarshalText([]byte(val_euiccpackageerrorcode.String())); namedErr != nil {
+		return fmt.Errorf("decoding euiccPackageErrorCode: %w", namedErr)
 	}
+	v.EuiccPackageErrorCode = named_euiccpackageerrorcode
+	offset += n
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "EuiccPackageErrorDataSigned", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -5295,15 +11110,30 @@ func (v *EuiccPackageErrorUnsigned) MarshalBER() ([]byte, error) {
 		children = append(children, enc_associationtoken...)
 	}
 	if v.EuiccPackageUnsignedErrorCode != nil {
-		enc_euiccpackageunsignederrorcode := ber.EncodeInteger(int64(*v.EuiccPackageUnsignedErrorCode))
+		enc_euiccpackageunsignederrorcode := ber.EncodeBigInt((*v.EuiccPackageUnsignedErrorCode).BigInt())
 		enc_euiccpackageunsignederrorcode = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 15, false, enc_euiccpackageunsignederrorcode)
 		children = append(children, enc_euiccpackageunsignederrorcode...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
 	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes EuiccPackageErrorUnsigned to DER format.
 func (v *EuiccPackageErrorUnsigned) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -5343,7 +11173,7 @@ func (v *EuiccPackageErrorUnsigned) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding eimTransactionId: %w", err)
 				}
-				tmp_eimtransactionid := sgp22.TransactionId(rawVal_eimtransactionid)
+				tmp_eimtransactionid := TransactionId(rawVal_eimtransactionid)
 				v.EimTransactionId = &tmp_eimtransactionid
 				offset += n_eimtransactionid
 			}
@@ -5376,112 +11206,128 @@ func (v *EuiccPackageErrorUnsigned) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding euiccPackageUnsignedErrorCode: %w", err)
 				}
-				decVal_euiccpackageunsignederrorcode, intErr := ber.DecodeIntegerValue(rawVal_euiccpackageunsignederrorcode)
+				decVal_euiccpackageunsignederrorcode, intErr := ber.DecodeBigIntValue(rawVal_euiccpackageunsignederrorcode)
 				if intErr != nil {
 					return fmt.Errorf("decoding euiccPackageUnsignedErrorCode: %w", intErr)
 				}
-				tmp_euiccpackageunsignederrorcode := EuiccPackageUnsignedErrorCode(decVal_euiccpackageunsignederrorcode)
-				v.EuiccPackageUnsignedErrorCode = &tmp_euiccpackageunsignederrorcode
+				var named_euiccpackageunsignederrorcode EuiccPackageUnsignedErrorCode
+				if namedErr := named_euiccpackageunsignederrorcode.UnmarshalText([]byte(decVal_euiccpackageunsignederrorcode.String())); namedErr != nil {
+					return fmt.Errorf("decoding euiccPackageUnsignedErrorCode: %w", namedErr)
+				}
+				v.EuiccPackageUnsignedErrorCode = &named_euiccpackageunsignederrorcode
 				offset += n_euiccpackageunsignederrorcode
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EuiccPackageErrorUnsigned", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "EuiccPackageErrorUnsigned", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBER encodes ProfileInfoListResponse to BER format.
-func (v *ProfileInfoListResponse) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPProfileInfoListResponse to BER format.
+func (v *SGPProfileInfoListResponse) MarshalBER() ([]byte, error) {
 	switch v.Choice {
-	case ProfileInfoListResponseChoiceProfileInfoListOk:
+	case SGPProfileInfoListResponseChoiceProfileInfoListOk:
 		if v.ProfileInfoListOk == nil {
-			return nil, fmt.Errorf("choice ProfileInfoListResponse: profileInfoListOk is nil")
+			return nil, fmt.Errorf("choice SGPProfileInfoListResponse: profileInfoListOk is nil")
 		}
-		enc_0, err := MarshalBERProfileInfoListResponseProfileInfoListOk(v.ProfileInfoListOk)
+		enc_0, err := MarshalBERSGPProfileInfoListResponseProfileInfoListOk(v.ProfileInfoListOk)
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileInfoListOk: %w", err)
 		}
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_0)
 		enc_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 45, enc_0)
 		return enc_0, nil
-	case ProfileInfoListResponseChoiceProfileInfoListError:
+	case SGPProfileInfoListResponseChoiceProfileInfoListError:
 		if v.ProfileInfoListError == nil {
-			return nil, fmt.Errorf("choice ProfileInfoListResponse: profileInfoListError is nil")
+			return nil, fmt.Errorf("choice SGPProfileInfoListResponse: profileInfoListError is nil")
 		}
-		enc_1 := ber.EncodeInteger(int64(*v.ProfileInfoListError))
+		enc_1 := ber.EncodeBigInt(v.ProfileInfoListError.BigInt())
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		enc_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 45, enc_1)
 		return enc_1, nil
 	default:
-		return nil, fmt.Errorf("unknown choice %d for ProfileInfoListResponse", v.Choice)
+		return nil, fmt.Errorf("unknown choice %d for SGPProfileInfoListResponse", v.Choice)
 	}
 }
 
-// MarshalDER encodes ProfileInfoListResponse to DER format.
-func (v *ProfileInfoListResponse) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPProfileInfoListResponse to DER format.
+func (v *SGPProfileInfoListResponse) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes ProfileInfoListResponse from BER/DER format.
-func (v *ProfileInfoListResponse) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPProfileInfoListResponse from BER/DER format.
+func (v *SGPProfileInfoListResponse) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for ProfileInfoListResponse CHOICE")
+		return fmt.Errorf("empty data for SGPProfileInfoListResponse CHOICE")
 	}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding ProfileInfoListResponse CHOICE: %w", err)
+		return fmt.Errorf("decoding SGPProfileInfoListResponse CHOICE: %w", err)
 	}
 	if decodedTag.Class != tag.ClassContextSpecific || decodedTag.Number != 45 || !decodedTag.Constructed {
-		return fmt.Errorf("decoding ProfileInfoListResponse CHOICE: %w: expected tag [CONTEXT 45], got %s", ber.ErrInvalidTag, decodedTag)
+		return fmt.Errorf("decoding SGPProfileInfoListResponse CHOICE: %w: expected tag [CONTEXT 45], got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ProfileInfoListResponse", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPProfileInfoListResponse", Cause: ber.ErrExtraData}
 	}
 	if len(content) == 0 {
-		return fmt.Errorf("empty content for ProfileInfoListResponse CHOICE")
+		return fmt.Errorf("empty content for SGPProfileInfoListResponse CHOICE")
 	}
 	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for ProfileInfoListResponse: %w", peekErr)
+		return fmt.Errorf("peeking tag for SGPProfileInfoListResponse: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
-		return fmt.Errorf("decoding ProfileInfoListResponse CHOICE: %w", tlvErr)
+		return fmt.Errorf("decoding SGPProfileInfoListResponse CHOICE: %w", tlvErr)
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "ProfileInfoListResponse", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPProfileInfoListResponse", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-		v.Choice = ProfileInfoListResponseChoiceProfileInfoListOk
+		v.Choice = SGPProfileInfoListResponseChoiceProfileInfoListOk
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding profileInfoListOk: %w", tlvErr)
 		}
 		reconstructed := ber.EncodeSequence(rawVal)
-		dec, unmErr := UnmarshalBERProfileInfoListResponseProfileInfoListOk(reconstructed)
+		dec, unmErr := UnmarshalBERSGPProfileInfoListResponseProfileInfoListOk(reconstructed)
 		if unmErr != nil {
 			return fmt.Errorf("decoding profileInfoListOk: %w", unmErr)
 		}
 		v.ProfileInfoListOk = dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-		v.Choice = ProfileInfoListResponseChoiceProfileInfoListError
+		v.Choice = SGPProfileInfoListResponseChoiceProfileInfoListError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding profileInfoListError: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding profileInfoListError: %w", intErr)
 		}
-		tmp := ProfileInfoListError(decVal)
-		v.ProfileInfoListError = &tmp
+		var named_profileinfolisterror SGPProfileInfoListError
+		if namedErr := named_profileinfolisterror.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding profileInfoListError: %w", namedErr)
+		}
+		v.ProfileInfoListError = &named_profileinfolisterror
 	} else {
-		return fmt.Errorf("unknown tag %s for ProfileInfoListResponse CHOICE", peekTag)
+		return fmt.Errorf("unknown tag %s for SGPProfileInfoListResponse CHOICE", peekTag)
 	}
 	return nil
 }
@@ -5500,7 +11346,7 @@ func (v *AddEimResult) MarshalBER() ([]byte, error) {
 		if v.AddEimResultCode == nil {
 			return nil, fmt.Errorf("choice AddEimResult: addEimResultCode is nil")
 		}
-		enc_1 := ber.EncodeInteger(int64(*v.AddEimResultCode))
+		enc_1 := ber.EncodeBigInt(v.AddEimResultCode.BigInt())
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for AddEimResult", v.Choice)
@@ -5544,11 +11390,15 @@ func (v *AddEimResult) UnmarshalBER(data []byte) error {
 		v.AssociationToken = decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 {
 		v.Choice = AddEimResultChoiceAddEimResultCode
-		decVal, _, intErr := ber.DecodeInteger(choiceData)
+		decVal, _, intErr := ber.DecodeBigInt(choiceData)
 		if intErr != nil {
 			return fmt.Errorf("decoding addEimResultCode: %w", intErr)
 		}
-		v.AddEimResultCode = &decVal
+		var named_addeimresultcode AddEimResultAddEimResultCodeValue
+		if namedErr := named_addeimresultcode.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding addEimResultCode: %w", namedErr)
+		}
+		v.AddEimResultCode = &named_addeimresultcode
 	} else {
 		return fmt.Errorf("unknown tag %s for AddEimResult CHOICE", peekTag)
 	}
@@ -5572,7 +11422,7 @@ func (v *ListEimResult) MarshalBER() ([]byte, error) {
 		if v.ListEimError == nil {
 			return nil, fmt.Errorf("choice ListEimResult: listEimError is nil")
 		}
-		enc_1 := ber.EncodeInteger(int64(*v.ListEimError))
+		enc_1 := ber.EncodeBigInt(v.ListEimError.BigInt())
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		return enc_1, nil
 	default:
@@ -5622,11 +11472,15 @@ func (v *ListEimResult) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding listEimError: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding listEimError: %w", intErr)
 		}
-		v.ListEimError = &decVal
+		var named_listeimerror ListEimResultListEimErrorValue
+		if namedErr := named_listeimerror.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding listEimError: %w", namedErr)
+		}
+		v.ListEimError = &named_listeimerror
 	} else {
 		return fmt.Errorf("unknown tag %s for ListEimResult CHOICE", peekTag)
 	}
@@ -5640,15 +11494,30 @@ func (v *EimIdInfo) MarshalBER() ([]byte, error) {
 	enc_eimid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_eimid)
 	children = append(children, enc_eimid...)
 	if v.EimIdType != nil {
-		enc_eimidtype := ber.EncodeInteger(int64(*v.EimIdType))
+		enc_eimidtype := ber.EncodeBigInt((*v.EimIdType).BigInt())
 		enc_eimidtype = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_eimidtype)
 		children = append(children, enc_eimidtype...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
 	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes EimIdInfo to DER format.
 func (v *EimIdInfo) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -5688,19 +11557,32 @@ func (v *EimIdInfo) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding eimIdType: %w", err)
 				}
-				decVal_eimidtype, intErr := ber.DecodeIntegerValue(rawVal_eimidtype)
+				decVal_eimidtype, intErr := ber.DecodeBigIntValue(rawVal_eimidtype)
 				if intErr != nil {
 					return fmt.Errorf("decoding eimIdType: %w", intErr)
 				}
-				tmp_eimidtype := EimIdType(decVal_eimidtype)
-				v.EimIdType = &tmp_eimidtype
+				var named_eimidtype EimIdType
+				if namedErr := named_eimidtype.UnmarshalText([]byte(decVal_eimidtype.String())); namedErr != nil {
+					return fmt.Errorf("decoding eimIdType: %w", namedErr)
+				}
+				v.EimIdType = &named_eimidtype
 				offset += n_eimidtype
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EimIdInfo", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "EimIdInfo", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -5712,13 +11594,28 @@ func (v *IpaEuiccDataResponseError) MarshalBER() ([]byte, error) {
 		enc_eimtransactionid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_eimtransactionid)
 		children = append(children, enc_eimtransactionid...)
 	}
-	enc_ipaeuiccdataerrorcode := ber.EncodeInteger(int64(v.IpaEuiccDataErrorCode))
+	enc_ipaeuiccdataerrorcode := ber.EncodeBigInt((v.IpaEuiccDataErrorCode).BigInt())
 	children = append(children, enc_ipaeuiccdataerrorcode...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes IpaEuiccDataResponseError to DER format.
 func (v *IpaEuiccDataResponseError) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -5742,7 +11639,7 @@ func (v *IpaEuiccDataResponseError) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding eimTransactionId: %w", err)
 				}
-				tmp_eimtransactionid := sgp22.TransactionId(rawVal_eimtransactionid)
+				tmp_eimtransactionid := TransactionId(rawVal_eimtransactionid)
 				v.EimTransactionId = &tmp_eimtransactionid
 				offset += n_eimtransactionid
 			}
@@ -5752,15 +11649,29 @@ func (v *IpaEuiccDataResponseError) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field ipaEuiccDataErrorCode")
 	}
-	val_ipaeuiccdataerrorcode, n, err := ber.DecodeInteger(content[offset:])
+	val_ipaeuiccdataerrorcode, n, err := ber.DecodeBigInt(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding ipaEuiccDataErrorCode: %w", err)
 	}
-	v.IpaEuiccDataErrorCode = IpaEuiccDataErrorCode(val_ipaeuiccdataerrorcode)
-	offset += n
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "IpaEuiccDataResponseError", Cause: ber.ErrExtraData}
+	var named_ipaeuiccdataerrorcode IpaEuiccDataErrorCode
+	if namedErr := named_ipaeuiccdataerrorcode.UnmarshalText([]byte(val_ipaeuiccdataerrorcode.String())); namedErr != nil {
+		return fmt.Errorf("decoding ipaEuiccDataErrorCode: %w", namedErr)
 	}
+	v.IpaEuiccDataErrorCode = named_ipaeuiccdataerrorcode
+	offset += n
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "IpaEuiccDataResponseError", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -5910,7 +11821,7 @@ func UnmarshalBERPendingNotificationList(data []byte) (PendingNotificationList, 
 	var result PendingNotificationList
 	offset := 0
 	for offset < len(content) {
-		var elem PendingNotification
+		var elem SGPPendingNotification
 		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
 		if tlvErr != nil {
 			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
@@ -6066,11 +11977,26 @@ func (v *IpaEuiccData) MarshalBER() ([]byte, error) {
 		enc_deviceinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, true, enc_deviceinfo)
 		children = append(children, enc_deviceinfo...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes IpaEuiccData to DER format.
 func (v *IpaEuiccData) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
 	derValue := *v
 	derValue.NotificationsListIndef_ = false
@@ -6161,12 +12087,12 @@ func (v *IpaEuiccData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 32 {
-				// Decode nested SEQUENCE (sgp22.EUICCInfo1)
+				// Decode nested SEQUENCE (EUICCInfo1)
 				_, n_euiccinfo1, _, tlvErr_euiccinfo1 := ber.DecodeTLV(content[offset:])
 				if tlvErr_euiccinfo1 != nil {
 					return fmt.Errorf("decoding euiccInfo1: %w", tlvErr_euiccinfo1)
 				}
-				var dec_euiccinfo1 sgp22.EUICCInfo1
+				var dec_euiccinfo1 EUICCInfo1
 				if unmErr := dec_euiccinfo1.UnmarshalBER(content[offset : offset+n_euiccinfo1]); unmErr != nil {
 					return fmt.Errorf("decoding euiccInfo1: %w", unmErr)
 				}
@@ -6180,12 +12106,12 @@ func (v *IpaEuiccData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 34 {
-				// Decode nested SEQUENCE (EUICCInfo2)
+				// Decode nested SEQUENCE (SGPEUICCInfo2)
 				_, n_euiccinfo2, _, tlvErr_euiccinfo2 := ber.DecodeTLV(content[offset:])
 				if tlvErr_euiccinfo2 != nil {
 					return fmt.Errorf("decoding euiccInfo2: %w", tlvErr_euiccinfo2)
 				}
-				var dec_euiccinfo2 EUICCInfo2
+				var dec_euiccinfo2 SGPEUICCInfo2
 				if unmErr := dec_euiccinfo2.UnmarshalBER(content[offset : offset+n_euiccinfo2]); unmErr != nil {
 					return fmt.Errorf("decoding euiccInfo2: %w", unmErr)
 				}
@@ -6237,7 +12163,7 @@ func (v *IpaEuiccData) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding eumCertificate: %w", err)
 				}
 				reconstructed_eumcertificate := ber.EncodeSequence(rawVal_eumcertificate)
-				var dec_eumcertificate sgp22.Certificate
+				var dec_eumcertificate Certificate
 				if unmErr := dec_eumcertificate.UnmarshalBER(reconstructed_eumcertificate); unmErr != nil {
 					return fmt.Errorf("decoding eumCertificate: %w", unmErr)
 				}
@@ -6256,7 +12182,7 @@ func (v *IpaEuiccData) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding euiccCertificate: %w", err)
 				}
 				reconstructed_euicccertificate := ber.EncodeSequence(rawVal_euicccertificate)
-				var dec_euicccertificate sgp22.Certificate
+				var dec_euicccertificate Certificate
 				if unmErr := dec_euicccertificate.UnmarshalBER(reconstructed_euicccertificate); unmErr != nil {
 					return fmt.Errorf("decoding euiccCertificate: %w", unmErr)
 				}
@@ -6274,7 +12200,7 @@ func (v *IpaEuiccData) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding eimTransactionId: %w", err)
 				}
-				tmp_eimtransactionid := sgp22.TransactionId(rawVal_eimtransactionid)
+				tmp_eimtransactionid := TransactionId(rawVal_eimtransactionid)
 				v.EimTransactionId = &tmp_eimtransactionid
 				offset += n_eimtransactionid
 			}
@@ -6309,7 +12235,7 @@ func (v *IpaEuiccData) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding deviceInfo: %w", err)
 				}
 				reconstructed_deviceinfo := ber.EncodeSequence(rawVal_deviceinfo)
-				var dec_deviceinfo sgp22.DeviceInfo
+				var dec_deviceinfo DeviceInfo
 				if unmErr := dec_deviceinfo.UnmarshalBER(reconstructed_deviceinfo); unmErr != nil {
 					return fmt.Errorf("decoding deviceInfo: %w", unmErr)
 				}
@@ -6318,9 +12244,19 @@ func (v *IpaEuiccData) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "IpaEuiccData", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "IpaEuiccData", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -6337,11 +12273,26 @@ func (v *ProfileDownloadTriggerResult) MarshalBER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding profileDownloadTriggerResultData: %w", err)
 	}
 	children = append(children, enc_profiledownloadtriggerresultdata...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 84, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes ProfileDownloadTriggerResult to DER format.
 func (v *ProfileDownloadTriggerResult) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -6368,7 +12319,7 @@ func (v *ProfileDownloadTriggerResult) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding eimTransactionId: %w", err)
 				}
-				tmp_eimtransactionid := sgp22.TransactionId(rawVal_eimtransactionid)
+				tmp_eimtransactionid := TransactionId(rawVal_eimtransactionid)
 				v.EimTransactionId = &tmp_eimtransactionid
 				offset += n_eimtransactionid
 			}
@@ -6387,9 +12338,19 @@ func (v *ProfileDownloadTriggerResult) UnmarshalBER(data []byte) error {
 		return fmt.Errorf("decoding profileDownloadTriggerResultData: %w", unmErr)
 	}
 	offset += n_profiledownloadtriggerresultdata
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ProfileDownloadTriggerResult", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ProfileDownloadTriggerResult", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -6399,11 +12360,26 @@ func (v *ISDRProprietaryApplicationTemplateIoT) MarshalBER() ([]byte, error) {
 	enc_euiccconfiguration := ber.EncodeBitString(v.EuiccConfiguration.Bytes, (8-(v.EuiccConfiguration.BitLength%8))%8)
 	enc_euiccconfiguration = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_euiccconfiguration)
 	children = append(children, enc_euiccconfiguration...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassPrivate, Number: 1, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes ISDRProprietaryApplicationTemplateIoT to DER format.
 func (v *ISDRProprietaryApplicationTemplateIoT) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -6440,9 +12416,19 @@ func (v *ISDRProprietaryApplicationTemplateIoT) UnmarshalBER(data []byte) error 
 	}
 	v.EuiccConfiguration = runtime.BitString{Bytes: bsBytes_euiccconfiguration, BitLength: len(bsBytes_euiccconfiguration)*8 - bsUnused_euiccconfiguration}
 	offset += n_euiccconfiguration
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ISDRProprietaryApplicationTemplateIoT", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ISDRProprietaryApplicationTemplateIoT", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -6452,11 +12438,26 @@ func (v *IpaeActivationRequest) MarshalBER() ([]byte, error) {
 	enc_ipaeoption := ber.EncodeBitString(v.IpaeOption.Bytes, (8-(v.IpaeOption.BitLength%8))%8)
 	enc_ipaeoption = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_ipaeoption)
 	children = append(children, enc_ipaeoption...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 66, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes IpaeActivationRequest to DER format.
 func (v *IpaeActivationRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -6493,23 +12494,48 @@ func (v *IpaeActivationRequest) UnmarshalBER(data []byte) error {
 	}
 	v.IpaeOption = runtime.BitString{Bytes: bsBytes_ipaeoption, BitLength: len(bsBytes_ipaeoption)*8 - bsUnused_ipaeoption}
 	offset += n_ipaeoption
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "IpaeActivationRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "IpaeActivationRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
 // MarshalBER encodes IpaeActivationResponse to BER format.
 func (v *IpaeActivationResponse) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_ipaeactivationresult := ber.EncodeInteger(int64(v.IpaeActivationResult))
+	enc_ipaeactivationresult := ber.EncodeBigInt((v.IpaeActivationResult).BigInt())
 	enc_ipaeactivationresult = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_ipaeactivationresult)
 	children = append(children, enc_ipaeactivationresult...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 66, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes IpaeActivationResponse to DER format.
 func (v *IpaeActivationResponse) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -6540,15 +12566,29 @@ func (v *IpaeActivationResponse) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding ipaeActivationResult: %w", err)
 	}
-	decVal_ipaeactivationresult, intErr := ber.DecodeIntegerValue(rawVal_ipaeactivationresult)
+	decVal_ipaeactivationresult, intErr := ber.DecodeBigIntValue(rawVal_ipaeactivationresult)
 	if intErr != nil {
 		return fmt.Errorf("decoding ipaeActivationResult: %w", intErr)
 	}
-	v.IpaeActivationResult = decVal_ipaeactivationresult
-	offset += n_ipaeactivationresult
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "IpaeActivationResponse", Cause: ber.ErrExtraData}
+	var named_ipaeactivationresult IpaeActivationResponseIpaeActivationResultValue
+	if namedErr := named_ipaeactivationresult.UnmarshalText([]byte(decVal_ipaeactivationresult.String())); namedErr != nil {
+		return fmt.Errorf("decoding ipaeActivationResult: %w", namedErr)
 	}
+	v.IpaeActivationResult = named_ipaeactivationresult
+	offset += n_ipaeactivationresult
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "IpaeActivationResponse", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -6564,7 +12604,7 @@ func (v *IpaCapabilities) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ipasupportedprotocols...)
 	}
 	if v.ESipaProprietaryProtocolInformation != nil {
-		enc_esipaproprietaryprotocolinformation, err := sgp22.MarshalBERVendorSpecificExtension(v.ESipaProprietaryProtocolInformation)
+		enc_esipaproprietaryprotocolinformation, err := MarshalBERVendorSpecificExtension(v.ESipaProprietaryProtocolInformation)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eSipaProprietaryProtocolInformation: %w", err)
 		}
@@ -6580,11 +12620,26 @@ func (v *IpaCapabilities) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, enc_esipaproprietaryprotocolinformation...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes IpaCapabilities to DER format.
 func (v *IpaCapabilities) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
 	derValue := *v
 	derValue.ESipaProprietaryProtocolInformationIndef_ = false
@@ -6651,7 +12706,7 @@ func (v *IpaCapabilities) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding eSipaProprietaryProtocolInformation: %w", err)
 				}
 				reconstructed_esipaproprietaryprotocolinformation := ber.EncodeSequence(rawVal_esipaproprietaryprotocolinformation)
-				dec_esipaproprietaryprotocolinformation, unmErr := sgp22.UnmarshalBERVendorSpecificExtension(reconstructed_esipaproprietaryprotocolinformation)
+				dec_esipaproprietaryprotocolinformation, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_esipaproprietaryprotocolinformation)
 				if unmErr != nil {
 					return fmt.Errorf("decoding eSipaProprietaryProtocolInformation: %w", unmErr)
 				}
@@ -6666,14 +12721,24 @@ func (v *IpaCapabilities) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "IpaCapabilities", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "IpaCapabilities", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBER encodes ProfileInfo to BER format.
-func (v *ProfileInfo) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPProfileInfo to BER format.
+func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.Iccid != nil {
 		enc_iccid := ber.EncodeOctetString([]byte(*v.Iccid))
@@ -6686,7 +12751,7 @@ func (v *ProfileInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_isdpaid...)
 	}
 	if v.ProfileState != nil {
-		enc_profilestate := ber.EncodeInteger(int64(*v.ProfileState))
+		enc_profilestate := ber.EncodeBigInt((*v.ProfileState).BigInt())
 		enc_profilestate = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 112, false, enc_profilestate)
 		children = append(children, enc_profilestate...)
 	}
@@ -6706,7 +12771,7 @@ func (v *ProfileInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_profilename...)
 	}
 	if v.IconType != nil {
-		enc_icontype := ber.EncodeInteger(int64(*v.IconType))
+		enc_icontype := ber.EncodeBigInt((*v.IconType).BigInt())
 		enc_icontype = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, false, enc_icontype)
 		children = append(children, enc_icontype...)
 	}
@@ -6716,12 +12781,12 @@ func (v *ProfileInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_icon...)
 	}
 	if v.ProfileClass != nil {
-		enc_profileclass := ber.EncodeInteger(int64(*v.ProfileClass))
+		enc_profileclass := ber.EncodeBigInt((*v.ProfileClass).BigInt())
 		enc_profileclass = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 21, false, enc_profileclass)
 		children = append(children, enc_profileclass...)
 	}
 	if v.NotificationConfigurationInfo != nil {
-		enc_notificationconfigurationinfo, err := MarshalBERProfileInfoNotificationConfigurationInfo(v.NotificationConfigurationInfo)
+		enc_notificationconfigurationinfo, err := MarshalBERSGPProfileInfoNotificationConfigurationInfo(v.NotificationConfigurationInfo)
 		if err != nil {
 			return nil, fmt.Errorf("encoding notificationConfigurationInfo: %w", err)
 		}
@@ -6759,7 +12824,7 @@ func (v *ProfileInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_profilepolicyrules...)
 	}
 	if v.ServiceSpecificDataStoredInEuicc != nil {
-		enc_servicespecificdatastoredineuicc, err := sgp22.MarshalBERVendorSpecificExtension(v.ServiceSpecificDataStoredInEuicc)
+		enc_servicespecificdatastoredineuicc, err := MarshalBERVendorSpecificExtension(v.ServiceSpecificDataStoredInEuicc)
 		if err != nil {
 			return nil, fmt.Errorf("encoding serviceSpecificDataStoredInEuicc: %w", err)
 		}
@@ -6813,11 +12878,26 @@ func (v *ProfileInfo) MarshalBER() ([]byte, error) {
 		enc_iotspecificprofileinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 100, true, enc_iotspecificprofileinfo)
 		children = append(children, enc_iotspecificprofileinfo...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassPrivate, Number: 3, Constructed: true}, children), nil
 }
 
-// MarshalDER encodes ProfileInfo to DER format.
-func (v *ProfileInfo) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPProfileInfo to DER format.
+func (v *SGPProfileInfo) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
 	derValue := *v
 	derValue.NotificationConfigurationInfoIndef_ = false
@@ -6826,17 +12906,17 @@ func (v *ProfileInfo) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes ProfileInfo from BER/DER format.
-func (v *ProfileInfo) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPProfileInfo from BER/DER format.
+func (v *SGPProfileInfo) UnmarshalBER(data []byte) error {
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding ProfileInfo: %w", err)
+		return fmt.Errorf("decoding SGPProfileInfo: %w", err)
 	}
 	if decodedTag.Class != tag.ClassPrivate || decodedTag.Number != 3 || !decodedTag.Constructed {
-		return fmt.Errorf("decoding ProfileInfo: %w: expected tag [PRIVATE 3], got %s", ber.ErrInvalidTag, decodedTag)
+		return fmt.Errorf("decoding SGPProfileInfo: %w: expected tag [PRIVATE 3], got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ProfileInfo", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPProfileInfo", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode iccid
@@ -6848,7 +12928,7 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding iccid: %w", err)
 				}
-				tmp_iccid := sgp22.Iccid(rawVal_iccid)
+				tmp_iccid := Iccid(rawVal_iccid)
 				v.Iccid = &tmp_iccid
 				offset += n_iccid
 			}
@@ -6863,7 +12943,7 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding isdpAid: %w", err)
 				}
-				tmp_isdpaid := sgp22.OctetTo16(rawVal_isdpaid)
+				tmp_isdpaid := OctetTo16(rawVal_isdpaid)
 				v.IsdpAid = &tmp_isdpaid
 				offset += n_isdpaid
 			}
@@ -6878,12 +12958,15 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding profileState: %w", err)
 				}
-				decVal_profilestate, intErr := ber.DecodeIntegerValue(rawVal_profilestate)
+				decVal_profilestate, intErr := ber.DecodeBigIntValue(rawVal_profilestate)
 				if intErr != nil {
 					return fmt.Errorf("decoding profileState: %w", intErr)
 				}
-				tmp_profilestate := sgp22.ProfileState(decVal_profilestate)
-				v.ProfileState = &tmp_profilestate
+				var named_profilestate ProfileState
+				if namedErr := named_profilestate.UnmarshalText([]byte(decVal_profilestate.String())); namedErr != nil {
+					return fmt.Errorf("decoding profileState: %w", namedErr)
+				}
+				v.ProfileState = &named_profilestate
 				offset += n_profilestate
 			}
 		}
@@ -6942,12 +13025,15 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding iconType: %w", err)
 				}
-				decVal_icontype, intErr := ber.DecodeIntegerValue(rawVal_icontype)
+				decVal_icontype, intErr := ber.DecodeBigIntValue(rawVal_icontype)
 				if intErr != nil {
 					return fmt.Errorf("decoding iconType: %w", intErr)
 				}
-				tmp_icontype := sgp22.IconType(decVal_icontype)
-				v.IconType = &tmp_icontype
+				var named_icontype IconType
+				if namedErr := named_icontype.UnmarshalText([]byte(decVal_icontype.String())); namedErr != nil {
+					return fmt.Errorf("decoding iconType: %w", namedErr)
+				}
+				v.IconType = &named_icontype
 				offset += n_icontype
 			}
 		}
@@ -6976,12 +13062,15 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding profileClass: %w", err)
 				}
-				decVal_profileclass, intErr := ber.DecodeIntegerValue(rawVal_profileclass)
+				decVal_profileclass, intErr := ber.DecodeBigIntValue(rawVal_profileclass)
 				if intErr != nil {
 					return fmt.Errorf("decoding profileClass: %w", intErr)
 				}
-				tmp_profileclass := sgp22.ProfileClass(decVal_profileclass)
-				v.ProfileClass = &tmp_profileclass
+				var named_profileclass ProfileClass
+				if namedErr := named_profileclass.UnmarshalText([]byte(decVal_profileclass.String())); namedErr != nil {
+					return fmt.Errorf("decoding profileClass: %w", namedErr)
+				}
+				v.ProfileClass = &named_profileclass
 				offset += n_profileclass
 			}
 		}
@@ -6997,7 +13086,7 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding notificationConfigurationInfo: %w", err)
 				}
 				reconstructed_notificationconfigurationinfo := ber.EncodeSequence(rawVal_notificationconfigurationinfo)
-				dec_notificationconfigurationinfo, unmErr := UnmarshalBERProfileInfoNotificationConfigurationInfo(reconstructed_notificationconfigurationinfo)
+				dec_notificationconfigurationinfo, unmErr := UnmarshalBERSGPProfileInfoNotificationConfigurationInfo(reconstructed_notificationconfigurationinfo)
 				if unmErr != nil {
 					return fmt.Errorf("decoding notificationConfigurationInfo: %w", unmErr)
 				}
@@ -7022,7 +13111,7 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding profileOwner: %w", err)
 				}
 				reconstructed_profileowner := ber.EncodeSequence(rawVal_profileowner)
-				var dec_profileowner sgp22.OperatorId
+				var dec_profileowner OperatorId
 				if unmErr := dec_profileowner.UnmarshalBER(reconstructed_profileowner); unmErr != nil {
 					return fmt.Errorf("decoding profileOwner: %w", unmErr)
 				}
@@ -7041,7 +13130,7 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding dpProprietaryData: %w", err)
 				}
 				reconstructed_dpproprietarydata := ber.EncodeSequence(rawVal_dpproprietarydata)
-				var dec_dpproprietarydata sgp22.DpProprietaryData
+				var dec_dpproprietarydata DpProprietaryData
 				if unmErr := dec_dpproprietarydata.UnmarshalBER(reconstructed_dpproprietarydata); unmErr != nil {
 					return fmt.Errorf("decoding dpProprietaryData: %w", unmErr)
 				}
@@ -7080,7 +13169,7 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding serviceSpecificDataStoredInEuicc: %w", err)
 				}
 				reconstructed_servicespecificdatastoredineuicc := ber.EncodeSequence(rawVal_servicespecificdatastoredineuicc)
-				dec_servicespecificdatastoredineuicc, unmErr := sgp22.UnmarshalBERVendorSpecificExtension(reconstructed_servicespecificdatastoredineuicc)
+				dec_servicespecificdatastoredineuicc, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_servicespecificdatastoredineuicc)
 				if unmErr != nil {
 					return fmt.Errorf("decoding serviceSpecificDataStoredInEuicc: %w", unmErr)
 				}
@@ -7168,7 +13257,7 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding iotSpecificProfileInfo: %w", err)
 				}
 				reconstructed_iotspecificprofileinfo := ber.EncodeSequence(rawVal_iotspecificprofileinfo)
-				var dec_iotspecificprofileinfo ProfileInfoIotSpecificProfileInfo
+				var dec_iotspecificprofileinfo SGPProfileInfoIotSpecificProfileInfo
 				if unmErr := dec_iotspecificprofileinfo.UnmarshalBER(reconstructed_iotspecificprofileinfo); unmErr != nil {
 					return fmt.Errorf("decoding iotSpecificProfileInfo: %w", unmErr)
 				}
@@ -7177,14 +13266,24 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ProfileInfo", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SGPProfileInfo", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBER encodes UpdateMetadataRequest to BER format.
-func (v *UpdateMetadataRequest) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPUpdateMetadataRequest to BER format.
+func (v *SGPUpdateMetadataRequest) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.ServiceProviderName != nil {
 		enc_serviceprovidername := ber.EncodeStringTag(12, *v.ServiceProviderName)
@@ -7197,7 +13296,7 @@ func (v *UpdateMetadataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_profilename...)
 	}
 	if v.IconType != nil {
-		enc_icontype := ber.EncodeInteger(int64(*v.IconType))
+		enc_icontype := ber.EncodeBigInt((*v.IconType).BigInt())
 		enc_icontype = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, false, enc_icontype)
 		children = append(children, enc_icontype...)
 	}
@@ -7212,7 +13311,7 @@ func (v *UpdateMetadataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_profilepolicyrules...)
 	}
 	if v.ServiceSpecificDataStoredInEuicc != nil {
-		enc_servicespecificdatastoredineuicc, err := sgp22.MarshalBERVendorSpecificExtension(v.ServiceSpecificDataStoredInEuicc)
+		enc_servicespecificdatastoredineuicc, err := MarshalBERVendorSpecificExtension(v.ServiceSpecificDataStoredInEuicc)
 		if err != nil {
 			return nil, fmt.Errorf("encoding serviceSpecificDataStoredInEuicc: %w", err)
 		}
@@ -7238,11 +13337,26 @@ func (v *UpdateMetadataRequest) MarshalBER() ([]byte, error) {
 		enc_fallbackallowed = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 103, false, enc_fallbackallowed)
 		children = append(children, enc_fallbackallowed...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 42, Constructed: true}, children), nil
 }
 
-// MarshalDER encodes UpdateMetadataRequest to DER format.
-func (v *UpdateMetadataRequest) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPUpdateMetadataRequest to DER format.
+func (v *SGPUpdateMetadataRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
 	derValue := *v
 	derValue.ServiceSpecificDataStoredInEuiccIndef_ = false
@@ -7250,17 +13364,17 @@ func (v *UpdateMetadataRequest) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes UpdateMetadataRequest from BER/DER format.
-func (v *UpdateMetadataRequest) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPUpdateMetadataRequest from BER/DER format.
+func (v *SGPUpdateMetadataRequest) UnmarshalBER(data []byte) error {
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding UpdateMetadataRequest: %w", err)
+		return fmt.Errorf("decoding SGPUpdateMetadataRequest: %w", err)
 	}
 	if decodedTag.Class != tag.ClassContextSpecific || decodedTag.Number != 42 || !decodedTag.Constructed {
-		return fmt.Errorf("decoding UpdateMetadataRequest: %w: expected tag [CONTEXT 42], got %s", ber.ErrInvalidTag, decodedTag)
+		return fmt.Errorf("decoding SGPUpdateMetadataRequest: %w: expected tag [CONTEXT 42], got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "UpdateMetadataRequest", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPUpdateMetadataRequest", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode serviceProviderName
@@ -7302,12 +13416,15 @@ func (v *UpdateMetadataRequest) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding iconType: %w", err)
 				}
-				decVal_icontype, intErr := ber.DecodeIntegerValue(rawVal_icontype)
+				decVal_icontype, intErr := ber.DecodeBigIntValue(rawVal_icontype)
 				if intErr != nil {
 					return fmt.Errorf("decoding iconType: %w", intErr)
 				}
-				tmp_icontype := sgp22.IconType(decVal_icontype)
-				v.IconType = &tmp_icontype
+				var named_icontype IconType
+				if namedErr := named_icontype.UnmarshalText([]byte(decVal_icontype.String())); namedErr != nil {
+					return fmt.Errorf("decoding iconType: %w", namedErr)
+				}
+				v.IconType = &named_icontype
 				offset += n_icontype
 			}
 		}
@@ -7357,7 +13474,7 @@ func (v *UpdateMetadataRequest) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding serviceSpecificDataStoredInEuicc: %w", err)
 				}
 				reconstructed_servicespecificdatastoredineuicc := ber.EncodeSequence(rawVal_servicespecificdatastoredineuicc)
-				dec_servicespecificdatastoredineuicc, unmErr := sgp22.UnmarshalBERVendorSpecificExtension(reconstructed_servicespecificdatastoredineuicc)
+				dec_servicespecificdatastoredineuicc, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_servicespecificdatastoredineuicc)
 				if unmErr != nil {
 					return fmt.Errorf("decoding serviceSpecificDataStoredInEuicc: %w", unmErr)
 				}
@@ -7393,14 +13510,24 @@ func (v *UpdateMetadataRequest) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "UpdateMetadataRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SGPUpdateMetadataRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBER encodes StoreMetadataRequest to BER format.
-func (v *StoreMetadataRequest) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPStoreMetadataRequest to BER format.
+func (v *SGPStoreMetadataRequest) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	enc_iccid = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 26, false, enc_iccid)
@@ -7412,7 +13539,7 @@ func (v *StoreMetadataRequest) MarshalBER() ([]byte, error) {
 	enc_profilename = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, false, enc_profilename)
 	children = append(children, enc_profilename...)
 	if v.IconType != nil {
-		enc_icontype := ber.EncodeInteger(int64(*v.IconType))
+		enc_icontype := ber.EncodeBigInt((*v.IconType).BigInt())
 		enc_icontype = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, false, enc_icontype)
 		children = append(children, enc_icontype...)
 	}
@@ -7422,12 +13549,12 @@ func (v *StoreMetadataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_icon...)
 	}
 	if v.ProfileClass != nil {
-		enc_profileclass := ber.EncodeInteger(int64(*v.ProfileClass))
+		enc_profileclass := ber.EncodeBigInt((*v.ProfileClass).BigInt())
 		enc_profileclass = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 21, false, enc_profileclass)
 		children = append(children, enc_profileclass...)
 	}
 	if v.NotificationConfigurationInfo != nil {
-		enc_notificationconfigurationinfo, err := MarshalBERStoreMetadataRequestNotificationConfigurationInfo(v.NotificationConfigurationInfo)
+		enc_notificationconfigurationinfo, err := MarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo(v.NotificationConfigurationInfo)
 		if err != nil {
 			return nil, fmt.Errorf("encoding notificationConfigurationInfo: %w", err)
 		}
@@ -7457,7 +13584,7 @@ func (v *StoreMetadataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_profilepolicyrules...)
 	}
 	if v.ServiceSpecificDataStoredInEuicc != nil {
-		enc_servicespecificdatastoredineuicc, err := sgp22.MarshalBERVendorSpecificExtension(v.ServiceSpecificDataStoredInEuicc)
+		enc_servicespecificdatastoredineuicc, err := MarshalBERVendorSpecificExtension(v.ServiceSpecificDataStoredInEuicc)
 		if err != nil {
 			return nil, fmt.Errorf("encoding serviceSpecificDataStoredInEuicc: %w", err)
 		}
@@ -7474,7 +13601,7 @@ func (v *StoreMetadataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_servicespecificdatastoredineuicc...)
 	}
 	if v.ServiceSpecificDataNotStoredInEuicc != nil {
-		enc_servicespecificdatanotstoredineuicc, err := sgp22.MarshalBERVendorSpecificExtension(v.ServiceSpecificDataNotStoredInEuicc)
+		enc_servicespecificdatanotstoredineuicc, err := MarshalBERVendorSpecificExtension(v.ServiceSpecificDataNotStoredInEuicc)
 		if err != nil {
 			return nil, fmt.Errorf("encoding serviceSpecificDataNotStoredInEuicc: %w", err)
 		}
@@ -7518,11 +13645,26 @@ func (v *StoreMetadataRequest) MarshalBER() ([]byte, error) {
 		enc_iotspecificmetadata = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 100, true, enc_iotspecificmetadata)
 		children = append(children, enc_iotspecificmetadata...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 37, Constructed: true}, children), nil
 }
 
-// MarshalDER encodes StoreMetadataRequest to DER format.
-func (v *StoreMetadataRequest) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPStoreMetadataRequest to DER format.
+func (v *SGPStoreMetadataRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
 	derValue := *v
 	derValue.NotificationConfigurationInfoIndef_ = false
@@ -7532,17 +13674,17 @@ func (v *StoreMetadataRequest) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes StoreMetadataRequest from BER/DER format.
-func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPStoreMetadataRequest from BER/DER format.
+func (v *SGPStoreMetadataRequest) UnmarshalBER(data []byte) error {
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding StoreMetadataRequest: %w", err)
+		return fmt.Errorf("decoding SGPStoreMetadataRequest: %w", err)
 	}
 	if decodedTag.Class != tag.ClassContextSpecific || decodedTag.Number != 37 || !decodedTag.Constructed {
-		return fmt.Errorf("decoding StoreMetadataRequest: %w: expected tag [CONTEXT 37], got %s", ber.ErrInvalidTag, decodedTag)
+		return fmt.Errorf("decoding SGPStoreMetadataRequest: %w: expected tag [CONTEXT 37], got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "StoreMetadataRequest", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPStoreMetadataRequest", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode iccid
@@ -7558,7 +13700,7 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding iccid: %w", err)
 	}
-	v.Iccid = sgp22.Iccid(rawVal_iccid)
+	v.Iccid = Iccid(rawVal_iccid)
 	offset += n_iccid
 	// Decode serviceProviderName
 	if offset >= len(content) {
@@ -7601,12 +13743,15 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding iconType: %w", err)
 				}
-				decVal_icontype, intErr := ber.DecodeIntegerValue(rawVal_icontype)
+				decVal_icontype, intErr := ber.DecodeBigIntValue(rawVal_icontype)
 				if intErr != nil {
 					return fmt.Errorf("decoding iconType: %w", intErr)
 				}
-				tmp_icontype := sgp22.IconType(decVal_icontype)
-				v.IconType = &tmp_icontype
+				var named_icontype IconType
+				if namedErr := named_icontype.UnmarshalText([]byte(decVal_icontype.String())); namedErr != nil {
+					return fmt.Errorf("decoding iconType: %w", namedErr)
+				}
+				v.IconType = &named_icontype
 				offset += n_icontype
 			}
 		}
@@ -7635,12 +13780,15 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding profileClass: %w", err)
 				}
-				decVal_profileclass, intErr := ber.DecodeIntegerValue(rawVal_profileclass)
+				decVal_profileclass, intErr := ber.DecodeBigIntValue(rawVal_profileclass)
 				if intErr != nil {
 					return fmt.Errorf("decoding profileClass: %w", intErr)
 				}
-				tmp_profileclass := sgp22.ProfileClass(decVal_profileclass)
-				v.ProfileClass = &tmp_profileclass
+				var named_profileclass ProfileClass
+				if namedErr := named_profileclass.UnmarshalText([]byte(decVal_profileclass.String())); namedErr != nil {
+					return fmt.Errorf("decoding profileClass: %w", namedErr)
+				}
+				v.ProfileClass = &named_profileclass
 				offset += n_profileclass
 			}
 		}
@@ -7656,7 +13804,7 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding notificationConfigurationInfo: %w", err)
 				}
 				reconstructed_notificationconfigurationinfo := ber.EncodeSequence(rawVal_notificationconfigurationinfo)
-				dec_notificationconfigurationinfo, unmErr := UnmarshalBERStoreMetadataRequestNotificationConfigurationInfo(reconstructed_notificationconfigurationinfo)
+				dec_notificationconfigurationinfo, unmErr := UnmarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo(reconstructed_notificationconfigurationinfo)
 				if unmErr != nil {
 					return fmt.Errorf("decoding notificationConfigurationInfo: %w", unmErr)
 				}
@@ -7681,7 +13829,7 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding profileOwner: %w", err)
 				}
 				reconstructed_profileowner := ber.EncodeSequence(rawVal_profileowner)
-				var dec_profileowner sgp22.OperatorId
+				var dec_profileowner OperatorId
 				if unmErr := dec_profileowner.UnmarshalBER(reconstructed_profileowner); unmErr != nil {
 					return fmt.Errorf("decoding profileOwner: %w", unmErr)
 				}
@@ -7720,7 +13868,7 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding serviceSpecificDataStoredInEuicc: %w", err)
 				}
 				reconstructed_servicespecificdatastoredineuicc := ber.EncodeSequence(rawVal_servicespecificdatastoredineuicc)
-				dec_servicespecificdatastoredineuicc, unmErr := sgp22.UnmarshalBERVendorSpecificExtension(reconstructed_servicespecificdatastoredineuicc)
+				dec_servicespecificdatastoredineuicc, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_servicespecificdatastoredineuicc)
 				if unmErr != nil {
 					return fmt.Errorf("decoding serviceSpecificDataStoredInEuicc: %w", unmErr)
 				}
@@ -7746,7 +13894,7 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding serviceSpecificDataNotStoredInEuicc: %w", err)
 				}
 				reconstructed_servicespecificdatanotstoredineuicc := ber.EncodeSequence(rawVal_servicespecificdatanotstoredineuicc)
-				dec_servicespecificdatanotstoredineuicc, unmErr := sgp22.UnmarshalBERVendorSpecificExtension(reconstructed_servicespecificdatanotstoredineuicc)
+				dec_servicespecificdatanotstoredineuicc, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_servicespecificdatanotstoredineuicc)
 				if unmErr != nil {
 					return fmt.Errorf("decoding serviceSpecificDataNotStoredInEuicc: %w", unmErr)
 				}
@@ -7813,7 +13961,7 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding iotSpecificMetadata: %w", err)
 				}
 				reconstructed_iotspecificmetadata := ber.EncodeSequence(rawVal_iotspecificmetadata)
-				var dec_iotspecificmetadata StoreMetadataRequestIotSpecificMetadata
+				var dec_iotspecificmetadata SGPStoreMetadataRequestIotSpecificMetadata
 				if unmErr := dec_iotspecificmetadata.UnmarshalBER(reconstructed_iotspecificmetadata); unmErr != nil {
 					return fmt.Errorf("decoding iotSpecificMetadata: %w", unmErr)
 				}
@@ -7822,14 +13970,24 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "StoreMetadataRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SGPStoreMetadataRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBER encodes AuthenticateClientRequest to BER format.
-func (v *AuthenticateClientRequest) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPAuthenticateClientRequest to BER format.
+func (v *SGPAuthenticateClientRequest) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	enc_transactionid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_transactionid)
@@ -7839,26 +13997,41 @@ func (v *AuthenticateClientRequest) MarshalBER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding authenticateServerResponse: %w", err)
 	}
 	children = append(children, enc_authenticateserverresponse...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 59, Constructed: true}, children), nil
 }
 
-// MarshalDER encodes AuthenticateClientRequest to DER format.
-func (v *AuthenticateClientRequest) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPAuthenticateClientRequest to DER format.
+func (v *SGPAuthenticateClientRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes AuthenticateClientRequest from BER/DER format.
-func (v *AuthenticateClientRequest) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPAuthenticateClientRequest from BER/DER format.
+func (v *SGPAuthenticateClientRequest) UnmarshalBER(data []byte) error {
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding AuthenticateClientRequest: %w", err)
+		return fmt.Errorf("decoding SGPAuthenticateClientRequest: %w", err)
 	}
 	if decodedTag.Class != tag.ClassContextSpecific || decodedTag.Number != 59 || !decodedTag.Constructed {
-		return fmt.Errorf("decoding AuthenticateClientRequest: %w: expected tag [CONTEXT 59], got %s", ber.ErrInvalidTag, decodedTag)
+		return fmt.Errorf("decoding SGPAuthenticateClientRequest: %w: expected tag [CONTEXT 59], got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "AuthenticateClientRequest", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPAuthenticateClientRequest", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode transactionId
@@ -7874,7 +14047,7 @@ func (v *AuthenticateClientRequest) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
 	}
-	v.TransactionId = sgp22.TransactionId(rawVal_transactionid)
+	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
 	// Decode authenticateServerResponse
 	if offset >= len(content) {
@@ -7885,7 +14058,7 @@ func (v *AuthenticateClientRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for authenticateServerResponse, got %s", "CONTEXT", 56, reqTag_)
 		}
 	}
-	// Decode nested CHOICE (AuthenticateServerResponse)
+	// Decode nested CHOICE (SGPAuthenticateServerResponse)
 	_, n_authenticateserverresponse, _, tlvErr_authenticateserverresponse := ber.DecodeTLV(content[offset:])
 	if tlvErr_authenticateserverresponse != nil {
 		return fmt.Errorf("decoding authenticateServerResponse: %w", tlvErr_authenticateserverresponse)
@@ -7894,14 +14067,24 @@ func (v *AuthenticateClientRequest) UnmarshalBER(data []byte) error {
 		return fmt.Errorf("decoding authenticateServerResponse: %w", unmErr)
 	}
 	offset += n_authenticateserverresponse
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "AuthenticateClientRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SGPAuthenticateClientRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBER encodes EUICCInfo2 to BER format.
-func (v *EUICCInfo2) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPEUICCInfo2 to BER format.
+func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_profileversion := ber.EncodeOctetString([]byte(v.ProfileVersion))
 	enc_profileversion = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_profileversion)
@@ -7931,7 +14114,7 @@ func (v *EUICCInfo2) MarshalBER() ([]byte, error) {
 	enc_rspcapability := ber.EncodeBitString(v.RspCapability.Bytes, (8-(v.RspCapability.BitLength%8))%8)
 	enc_rspcapability = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, false, enc_rspcapability)
 	children = append(children, enc_rspcapability...)
-	enc_euicccipkidlistforverification, err := MarshalBEREUICCInfo2EuiccCiPKIdListForVerification(v.EuiccCiPKIdListForVerification)
+	enc_euicccipkidlistforverification, err := MarshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification(v.EuiccCiPKIdListForVerification)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccCiPKIdListForVerification: %w", err)
 	}
@@ -7946,7 +14129,7 @@ func (v *EUICCInfo2) MarshalBER() ([]byte, error) {
 		enc_euicccipkidlistforverification = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, true, enc_euicccipkidlistforverification)
 	}
 	children = append(children, enc_euicccipkidlistforverification...)
-	enc_euicccipkidlistforsigning, err := MarshalBEREUICCInfo2EuiccCiPKIdListForSigning(v.EuiccCiPKIdListForSigning)
+	enc_euicccipkidlistforsigning, err := MarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning(v.EuiccCiPKIdListForSigning)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccCiPKIdListForSigning: %w", err)
 	}
@@ -7962,7 +14145,7 @@ func (v *EUICCInfo2) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_euicccipkidlistforsigning...)
 	if v.EuiccCategory != nil {
-		enc_euicccategory := ber.EncodeInteger(int64(*v.EuiccCategory))
+		enc_euicccategory := ber.EncodeBigInt((*v.EuiccCategory).BigInt())
 		enc_euicccategory = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, false, enc_euicccategory)
 		children = append(children, enc_euicccategory...)
 	}
@@ -7994,7 +14177,7 @@ func (v *EUICCInfo2) MarshalBER() ([]byte, error) {
 		children = append(children, enc_treproductreference...)
 	}
 	if v.AdditionalEuiccProfilePackageVersions != nil {
-		enc_additionaleuiccprofilepackageversions, err := MarshalBEREUICCInfo2AdditionalEuiccProfilePackageVersions(v.AdditionalEuiccProfilePackageVersions)
+		enc_additionaleuiccprofilepackageversions, err := MarshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(v.AdditionalEuiccProfilePackageVersions)
 		if err != nil {
 			return nil, fmt.Errorf("encoding additionalEuiccProfilePackageVersions: %w", err)
 		}
@@ -8011,12 +14194,12 @@ func (v *EUICCInfo2) MarshalBER() ([]byte, error) {
 		children = append(children, enc_additionaleuiccprofilepackageversions...)
 	}
 	if v.IpaMode != nil {
-		enc_ipamode := ber.EncodeInteger(int64(*v.IpaMode))
+		enc_ipamode := ber.EncodeBigInt((*v.IpaMode).BigInt())
 		enc_ipamode = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, false, enc_ipamode)
 		children = append(children, enc_ipamode...)
 	}
 	if v.EuiccCiPKIdListForSigningV3 != nil {
-		enc_euicccipkidlistforsigningv3, err := MarshalBEREUICCInfo2EuiccCiPKIdListForSigningV3(v.EuiccCiPKIdListForSigningV3)
+		enc_euicccipkidlistforsigningv3, err := MarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(v.EuiccCiPKIdListForSigningV3)
 		if err != nil {
 			return nil, fmt.Errorf("encoding euiccCiPKIdListForSigningV3: %w", err)
 		}
@@ -8055,11 +14238,26 @@ func (v *EUICCInfo2) MarshalBER() ([]byte, error) {
 		enc_euiccminimumsecuritylevel = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 21, false, enc_euiccminimumsecuritylevel)
 		children = append(children, enc_euiccminimumsecuritylevel...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 34, Constructed: true}, children), nil
 }
 
-// MarshalDER encodes EUICCInfo2 to DER format.
-func (v *EUICCInfo2) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPEUICCInfo2 to DER format.
+func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
 	derValue := *v
 	derValue.EuiccCiPKIdListForVerificationIndef_ = false
@@ -8070,17 +14268,17 @@ func (v *EUICCInfo2) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes EUICCInfo2 from BER/DER format.
-func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPEUICCInfo2 from BER/DER format.
+func (v *SGPEUICCInfo2) UnmarshalBER(data []byte) error {
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding EUICCInfo2: %w", err)
+		return fmt.Errorf("decoding SGPEUICCInfo2: %w", err)
 	}
 	if decodedTag.Class != tag.ClassContextSpecific || decodedTag.Number != 34 || !decodedTag.Constructed {
-		return fmt.Errorf("decoding EUICCInfo2: %w: expected tag [CONTEXT 34], got %s", ber.ErrInvalidTag, decodedTag)
+		return fmt.Errorf("decoding SGPEUICCInfo2: %w: expected tag [CONTEXT 34], got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "EUICCInfo2", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPEUICCInfo2", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode profileVersion
@@ -8096,7 +14294,7 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding profileVersion: %w", err)
 	}
-	v.ProfileVersion = sgp22.VersionType(rawVal_profileversion)
+	v.ProfileVersion = VersionType(rawVal_profileversion)
 	offset += n_profileversion
 	// Decode svn
 	if offset >= len(content) {
@@ -8111,7 +14309,7 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding svn: %w", err)
 	}
-	v.Svn = sgp22.VersionType(rawVal_svn)
+	v.Svn = VersionType(rawVal_svn)
 	offset += n_svn
 	// Decode euiccFirmwareVer
 	if offset >= len(content) {
@@ -8126,7 +14324,7 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding euiccFirmwareVer: %w", err)
 	}
-	v.EuiccFirmwareVer = sgp22.VersionType(rawVal_euiccfirmwarever)
+	v.EuiccFirmwareVer = VersionType(rawVal_euiccfirmwarever)
 	offset += n_euiccfirmwarever
 	// Decode extCardResource
 	if offset >= len(content) {
@@ -8171,7 +14369,7 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding ts102241Version: %w", err)
 				}
-				tmp_ts102241version := sgp22.VersionType(rawVal_ts102241version)
+				tmp_ts102241version := VersionType(rawVal_ts102241version)
 				v.Ts102241Version = &tmp_ts102241version
 				offset += n_ts102241version
 			}
@@ -8186,7 +14384,7 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding globalplatformVersion: %w", err)
 				}
-				tmp_globalplatformversion := sgp22.VersionType(rawVal_globalplatformversion)
+				tmp_globalplatformversion := VersionType(rawVal_globalplatformversion)
 				v.GlobalplatformVersion = &tmp_globalplatformversion
 				offset += n_globalplatformversion
 			}
@@ -8226,7 +14424,7 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 		return fmt.Errorf("decoding euiccCiPKIdListForVerification: %w", err)
 	}
 	reconstructed_euicccipkidlistforverification := ber.EncodeSequence(rawVal_euicccipkidlistforverification)
-	dec_euicccipkidlistforverification, unmErr := UnmarshalBEREUICCInfo2EuiccCiPKIdListForVerification(reconstructed_euicccipkidlistforverification)
+	dec_euicccipkidlistforverification, unmErr := UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification(reconstructed_euicccipkidlistforverification)
 	if unmErr != nil {
 		return fmt.Errorf("decoding euiccCiPKIdListForVerification: %w", unmErr)
 	}
@@ -8253,7 +14451,7 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 		return fmt.Errorf("decoding euiccCiPKIdListForSigning: %w", err)
 	}
 	reconstructed_euicccipkidlistforsigning := ber.EncodeSequence(rawVal_euicccipkidlistforsigning)
-	dec_euicccipkidlistforsigning, unmErr := UnmarshalBEREUICCInfo2EuiccCiPKIdListForSigning(reconstructed_euicccipkidlistforsigning)
+	dec_euicccipkidlistforsigning, unmErr := UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning(reconstructed_euicccipkidlistforsigning)
 	if unmErr != nil {
 		return fmt.Errorf("decoding euiccCiPKIdListForSigning: %w", unmErr)
 	}
@@ -8274,11 +14472,15 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding euiccCategory: %w", err)
 				}
-				decVal_euicccategory, intErr := ber.DecodeIntegerValue(rawVal_euicccategory)
+				decVal_euicccategory, intErr := ber.DecodeBigIntValue(rawVal_euicccategory)
 				if intErr != nil {
 					return fmt.Errorf("decoding euiccCategory: %w", intErr)
 				}
-				v.EuiccCategory = &decVal_euicccategory
+				var named_euicccategory SGPEUICCInfo2EuiccCategoryValue
+				if namedErr := named_euicccategory.UnmarshalText([]byte(decVal_euicccategory.String())); namedErr != nil {
+					return fmt.Errorf("decoding euiccCategory: %w", namedErr)
+				}
+				v.EuiccCategory = &named_euicccategory
 				offset += n_euicccategory
 			}
 		}
@@ -8310,7 +14512,7 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding ppVersion: %w", err)
 	}
-	v.PpVersion = sgp22.VersionType(val_ppversion)
+	v.PpVersion = VersionType(val_ppversion)
 	offset += n
 	// Decode sasAcreditationNumber
 	if offset >= len(content) {
@@ -8332,7 +14534,7 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding certificationDataObject: %w", err)
 				}
 				reconstructed_certificationdataobject := ber.EncodeSequence(rawVal_certificationdataobject)
-				var dec_certificationdataobject sgp22.CertificationDataObject
+				var dec_certificationdataobject CertificationDataObject
 				if unmErr := dec_certificationdataobject.UnmarshalBER(reconstructed_certificationdataobject); unmErr != nil {
 					return fmt.Errorf("decoding certificationDataObject: %w", unmErr)
 				}
@@ -8386,7 +14588,7 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding additionalEuiccProfilePackageVersions: %w", err)
 				}
 				reconstructed_additionaleuiccprofilepackageversions := ber.EncodeSequence(rawVal_additionaleuiccprofilepackageversions)
-				dec_additionaleuiccprofilepackageversions, unmErr := UnmarshalBEREUICCInfo2AdditionalEuiccProfilePackageVersions(reconstructed_additionaleuiccprofilepackageversions)
+				dec_additionaleuiccprofilepackageversions, unmErr := UnmarshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(reconstructed_additionaleuiccprofilepackageversions)
 				if unmErr != nil {
 					return fmt.Errorf("decoding additionalEuiccProfilePackageVersions: %w", unmErr)
 				}
@@ -8410,12 +14612,15 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding ipaMode: %w", err)
 				}
-				decVal_ipamode, intErr := ber.DecodeIntegerValue(rawVal_ipamode)
+				decVal_ipamode, intErr := ber.DecodeBigIntValue(rawVal_ipamode)
 				if intErr != nil {
 					return fmt.Errorf("decoding ipaMode: %w", intErr)
 				}
-				tmp_ipamode := IpaMode(decVal_ipamode)
-				v.IpaMode = &tmp_ipamode
+				var named_ipamode IpaMode
+				if namedErr := named_ipamode.UnmarshalText([]byte(decVal_ipamode.String())); namedErr != nil {
+					return fmt.Errorf("decoding ipaMode: %w", namedErr)
+				}
+				v.IpaMode = &named_ipamode
 				offset += n_ipamode
 			}
 		}
@@ -8431,7 +14636,7 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding euiccCiPKIdListForSigningV3: %w", err)
 				}
 				reconstructed_euicccipkidlistforsigningv3 := ber.EncodeSequence(rawVal_euicccipkidlistforsigningv3)
-				dec_euicccipkidlistforsigningv3, unmErr := UnmarshalBEREUICCInfo2EuiccCiPKIdListForSigningV3(reconstructed_euicccipkidlistforsigningv3)
+				dec_euicccipkidlistforsigningv3, unmErr := UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(reconstructed_euicccipkidlistforsigningv3)
 				if unmErr != nil {
 					return fmt.Errorf("decoding euiccCiPKIdListForSigningV3: %w", unmErr)
 				}
@@ -8470,7 +14675,7 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding highestSvn: %w", err)
 				}
-				tmp_highestsvn := sgp22.VersionType(rawVal_highestsvn)
+				tmp_highestsvn := VersionType(rawVal_highestsvn)
 				v.HighestSvn = &tmp_highestsvn
 				offset += n_highestsvn
 			}
@@ -8486,7 +14691,7 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding iotSpecificInfo: %w", err)
 				}
 				reconstructed_iotspecificinfo := ber.EncodeSequence(rawVal_iotspecificinfo)
-				var dec_iotspecificinfo IoTSpecificInfo
+				var dec_iotspecificinfo SGPIoTSpecificInfo
 				if unmErr := dec_iotspecificinfo.UnmarshalBER(reconstructed_iotspecificinfo); unmErr != nil {
 					return fmt.Errorf("decoding iotSpecificInfo: %w", unmErr)
 				}
@@ -8510,14 +14715,24 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EUICCInfo2", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SGPEUICCInfo2", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBER encodes IoTSpecificInfo to BER format.
-func (v *IoTSpecificInfo) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPIoTSpecificInfo to BER format.
+func (v *SGPIoTSpecificInfo) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_iotversion, err := MarshalBERIoTSpecificInfoIotVersion(v.IotVersion)
 	if err != nil {
@@ -8549,11 +14764,26 @@ func (v *IoTSpecificInfo) MarshalBER() ([]byte, error) {
 		enc_fallbackallowedupdatesupported = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_fallbackallowedupdatesupported)
 		children = append(children, enc_fallbackallowedupdatesupported...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes IoTSpecificInfo to DER format.
-func (v *IoTSpecificInfo) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPIoTSpecificInfo to DER format.
+func (v *SGPIoTSpecificInfo) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
 	derValue := *v
 	derValue.IotVersionIndef_ = false
@@ -8561,14 +14791,14 @@ func (v *IoTSpecificInfo) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes IoTSpecificInfo from BER/DER format.
-func (v *IoTSpecificInfo) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPIoTSpecificInfo from BER/DER format.
+func (v *SGPIoTSpecificInfo) UnmarshalBER(data []byte) error {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding IoTSpecificInfo SEQUENCE: %w", err)
+		return fmt.Errorf("decoding SGPIoTSpecificInfo SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "IoTSpecificInfo", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPIoTSpecificInfo", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode iotVersion
@@ -8643,9 +14873,19 @@ func (v *IoTSpecificInfo) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "IoTSpecificInfo", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SGPIoTSpecificInfo", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -8667,11 +14907,26 @@ func (v *AddInitialEimRequest) MarshalBER() ([]byte, error) {
 		enc_eimconfigurationdatalist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_eimconfigurationdatalist)
 	}
 	children = append(children, enc_eimconfigurationdatalist...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 87, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes AddInitialEimRequest to DER format.
 func (v *AddInitialEimRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
 	derValue := *v
 	derValue.EimConfigurationDataListIndef_ = false
@@ -8719,9 +14974,19 @@ func (v *AddInitialEimRequest) UnmarshalBER(data []byte) error {
 		}
 	}
 	offset += n_eimconfigurationdatalist
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "AddInitialEimRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "AddInitialEimRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -8743,7 +15008,7 @@ func (v *AddInitialEimResponse) MarshalBER() ([]byte, error) {
 		if v.AddInitialEimError == nil {
 			return nil, fmt.Errorf("choice AddInitialEimResponse: addInitialEimError is nil")
 		}
-		enc_1 := ber.EncodeInteger(int64(*v.AddInitialEimError))
+		enc_1 := ber.EncodeBigInt(v.AddInitialEimError.BigInt())
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		enc_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 87, enc_1)
 		return enc_1, nil
@@ -8807,43 +15072,62 @@ func (v *AddInitialEimResponse) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding addInitialEimError: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding addInitialEimError: %w", intErr)
 		}
-		v.AddInitialEimError = &decVal
+		var named_addinitialeimerror AddInitialEimResponseAddInitialEimErrorValue
+		if namedErr := named_addinitialeimerror.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding addInitialEimError: %w", namedErr)
+		}
+		v.AddInitialEimError = &named_addinitialeimerror
 	} else {
 		return fmt.Errorf("unknown tag %s for AddInitialEimResponse CHOICE", peekTag)
 	}
 	return nil
 }
 
-// MarshalBER encodes EuiccMemoryResetRequest to BER format.
-func (v *EuiccMemoryResetRequest) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPEuiccMemoryResetRequest to BER format.
+func (v *SGPEuiccMemoryResetRequest) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_resetoptions := ber.EncodeBitString(v.ResetOptions.Bytes, (8-(v.ResetOptions.BitLength%8))%8)
 	enc_resetoptions = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_resetoptions)
 	children = append(children, enc_resetoptions...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 100, Constructed: true}, children), nil
 }
 
-// MarshalDER encodes EuiccMemoryResetRequest to DER format.
-func (v *EuiccMemoryResetRequest) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPEuiccMemoryResetRequest to DER format.
+func (v *SGPEuiccMemoryResetRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes EuiccMemoryResetRequest from BER/DER format.
-func (v *EuiccMemoryResetRequest) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPEuiccMemoryResetRequest from BER/DER format.
+func (v *SGPEuiccMemoryResetRequest) UnmarshalBER(data []byte) error {
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding EuiccMemoryResetRequest: %w", err)
+		return fmt.Errorf("decoding SGPEuiccMemoryResetRequest: %w", err)
 	}
 	if decodedTag.Class != tag.ClassContextSpecific || decodedTag.Number != 100 || !decodedTag.Constructed {
-		return fmt.Errorf("decoding EuiccMemoryResetRequest: %w: expected tag [CONTEXT 100], got %s", ber.ErrInvalidTag, decodedTag)
+		return fmt.Errorf("decoding SGPEuiccMemoryResetRequest: %w: expected tag [CONTEXT 100], got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "EuiccMemoryResetRequest", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPEuiccMemoryResetRequest", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode resetOptions
@@ -8865,48 +15149,73 @@ func (v *EuiccMemoryResetRequest) UnmarshalBER(data []byte) error {
 	}
 	v.ResetOptions = runtime.BitString{Bytes: bsBytes_resetoptions, BitLength: len(bsBytes_resetoptions)*8 - bsUnused_resetoptions}
 	offset += n_resetoptions
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EuiccMemoryResetRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SGPEuiccMemoryResetRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBER encodes EuiccMemoryResetResponse to BER format.
-func (v *EuiccMemoryResetResponse) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPEuiccMemoryResetResponse to BER format.
+func (v *SGPEuiccMemoryResetResponse) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_resetresult := ber.EncodeInteger(int64(v.ResetResult))
+	enc_resetresult := ber.EncodeBigInt((v.ResetResult).BigInt())
 	enc_resetresult = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_resetresult)
 	children = append(children, enc_resetresult...)
 	if v.ResetEimResult != nil {
-		enc_reseteimresult := ber.EncodeInteger(int64(*v.ResetEimResult))
+		enc_reseteimresult := ber.EncodeBigInt((*v.ResetEimResult).BigInt())
 		enc_reseteimresult = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_reseteimresult)
 		children = append(children, enc_reseteimresult...)
 	}
 	if v.ResetImmediateEnableConfigResult != nil {
-		enc_resetimmediateenableconfigresult := ber.EncodeInteger(int64(*v.ResetImmediateEnableConfigResult))
+		enc_resetimmediateenableconfigresult := ber.EncodeBigInt((*v.ResetImmediateEnableConfigResult).BigInt())
 		enc_resetimmediateenableconfigresult = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_resetimmediateenableconfigresult)
 		children = append(children, enc_resetimmediateenableconfigresult...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
 	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 100, Constructed: true}, children), nil
 }
 
-// MarshalDER encodes EuiccMemoryResetResponse to DER format.
-func (v *EuiccMemoryResetResponse) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPEuiccMemoryResetResponse to DER format.
+func (v *SGPEuiccMemoryResetResponse) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes EuiccMemoryResetResponse from BER/DER format.
-func (v *EuiccMemoryResetResponse) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPEuiccMemoryResetResponse from BER/DER format.
+func (v *SGPEuiccMemoryResetResponse) UnmarshalBER(data []byte) error {
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding EuiccMemoryResetResponse: %w", err)
+		return fmt.Errorf("decoding SGPEuiccMemoryResetResponse: %w", err)
 	}
 	if decodedTag.Class != tag.ClassContextSpecific || decodedTag.Number != 100 || !decodedTag.Constructed {
-		return fmt.Errorf("decoding EuiccMemoryResetResponse: %w: expected tag [CONTEXT 100], got %s", ber.ErrInvalidTag, decodedTag)
+		return fmt.Errorf("decoding SGPEuiccMemoryResetResponse: %w: expected tag [CONTEXT 100], got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "EuiccMemoryResetResponse", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPEuiccMemoryResetResponse", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode resetResult
@@ -8922,11 +15231,15 @@ func (v *EuiccMemoryResetResponse) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding resetResult: %w", err)
 	}
-	decVal_resetresult, intErr := ber.DecodeIntegerValue(rawVal_resetresult)
+	decVal_resetresult, intErr := ber.DecodeBigIntValue(rawVal_resetresult)
 	if intErr != nil {
 		return fmt.Errorf("decoding resetResult: %w", intErr)
 	}
-	v.ResetResult = decVal_resetresult
+	var named_resetresult SGPEuiccMemoryResetResponseResetResultValue
+	if namedErr := named_resetresult.UnmarshalText([]byte(decVal_resetresult.String())); namedErr != nil {
+		return fmt.Errorf("decoding resetResult: %w", namedErr)
+	}
+	v.ResetResult = named_resetresult
 	offset += n_resetresult
 	// Decode resetEimResult
 	if offset < len(content) {
@@ -8937,11 +15250,15 @@ func (v *EuiccMemoryResetResponse) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding resetEimResult: %w", err)
 				}
-				decVal_reseteimresult, intErr := ber.DecodeIntegerValue(rawVal_reseteimresult)
+				decVal_reseteimresult, intErr := ber.DecodeBigIntValue(rawVal_reseteimresult)
 				if intErr != nil {
 					return fmt.Errorf("decoding resetEimResult: %w", intErr)
 				}
-				v.ResetEimResult = &decVal_reseteimresult
+				var named_reseteimresult EuiccMemoryResetResponseResetEimResultValue
+				if namedErr := named_reseteimresult.UnmarshalText([]byte(decVal_reseteimresult.String())); namedErr != nil {
+					return fmt.Errorf("decoding resetEimResult: %w", namedErr)
+				}
+				v.ResetEimResult = &named_reseteimresult
 				offset += n_reseteimresult
 			}
 		}
@@ -8955,18 +15272,32 @@ func (v *EuiccMemoryResetResponse) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding resetImmediateEnableConfigResult: %w", err)
 				}
-				decVal_resetimmediateenableconfigresult, intErr := ber.DecodeIntegerValue(rawVal_resetimmediateenableconfigresult)
+				decVal_resetimmediateenableconfigresult, intErr := ber.DecodeBigIntValue(rawVal_resetimmediateenableconfigresult)
 				if intErr != nil {
 					return fmt.Errorf("decoding resetImmediateEnableConfigResult: %w", intErr)
 				}
-				v.ResetImmediateEnableConfigResult = &decVal_resetimmediateenableconfigresult
+				var named_resetimmediateenableconfigresult EuiccMemoryResetResponseResetImmediateEnableConfigResultValue
+				if namedErr := named_resetimmediateenableconfigresult.UnmarshalText([]byte(decVal_resetimmediateenableconfigresult.String())); namedErr != nil {
+					return fmt.Errorf("decoding resetImmediateEnableConfigResult: %w", namedErr)
+				}
+				v.ResetImmediateEnableConfigResult = &named_resetimmediateenableconfigresult
 				offset += n_resetimmediateenableconfigresult
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EuiccMemoryResetResponse", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SGPEuiccMemoryResetResponse", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -8978,11 +15309,26 @@ func (v *GetCertsRequest) MarshalBER() ([]byte, error) {
 		enc_euicccipkid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_euicccipkid)
 		children = append(children, enc_euicccipkid...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 86, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes GetCertsRequest to DER format.
 func (v *GetCertsRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -9009,15 +15355,25 @@ func (v *GetCertsRequest) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding euiccCiPKId: %w", err)
 				}
-				tmp_euicccipkid := sgp22.SubjectKeyIdentifier(rawVal_euicccipkid)
+				tmp_euicccipkid := SubjectKeyIdentifier(rawVal_euicccipkid)
 				v.EuiccCiPKId = &tmp_euicccipkid
 				offset += n_euicccipkid
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "GetCertsRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "GetCertsRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -9039,7 +15395,7 @@ func (v *GetCertsResponse) MarshalBER() ([]byte, error) {
 		if v.GetCertsError == nil {
 			return nil, fmt.Errorf("choice GetCertsResponse: getCertsError is nil")
 		}
-		enc_1 := ber.EncodeInteger(int64(*v.GetCertsError))
+		enc_1 := ber.EncodeBigInt(v.GetCertsError.BigInt())
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		enc_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 86, enc_1)
 		return enc_1, nil
@@ -9116,19 +15472,23 @@ func (v *GetCertsResponse) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding getCertsError: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding getCertsError: %w", intErr)
 		}
-		v.GetCertsError = &decVal
+		var named_getcertserror GetCertsResponseGetCertsErrorValue
+		if namedErr := named_getcertserror.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding getCertsError: %w", namedErr)
+		}
+		v.GetCertsError = &named_getcertserror
 	} else {
 		return fmt.Errorf("unknown tag %s for GetCertsResponse CHOICE", peekTag)
 	}
 	return nil
 }
 
-// MarshalBER encodes RetrieveNotificationsListRequest to BER format.
-func (v *RetrieveNotificationsListRequest) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPRetrieveNotificationsListRequest to BER format.
+func (v *SGPRetrieveNotificationsListRequest) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.SearchCriteria != nil {
 		enc_searchcriteria, err := v.SearchCriteria.MarshalBER()
@@ -9138,26 +15498,41 @@ func (v *RetrieveNotificationsListRequest) MarshalBER() ([]byte, error) {
 		enc_searchcriteria = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 0, enc_searchcriteria)
 		children = append(children, enc_searchcriteria...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 43, Constructed: true}, children), nil
 }
 
-// MarshalDER encodes RetrieveNotificationsListRequest to DER format.
-func (v *RetrieveNotificationsListRequest) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPRetrieveNotificationsListRequest to DER format.
+func (v *SGPRetrieveNotificationsListRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes RetrieveNotificationsListRequest from BER/DER format.
-func (v *RetrieveNotificationsListRequest) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPRetrieveNotificationsListRequest from BER/DER format.
+func (v *SGPRetrieveNotificationsListRequest) UnmarshalBER(data []byte) error {
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding RetrieveNotificationsListRequest: %w", err)
+		return fmt.Errorf("decoding SGPRetrieveNotificationsListRequest: %w", err)
 	}
 	if decodedTag.Class != tag.ClassContextSpecific || decodedTag.Number != 43 || !decodedTag.Constructed {
-		return fmt.Errorf("decoding RetrieveNotificationsListRequest: %w: expected tag [CONTEXT 43], got %s", ber.ErrInvalidTag, decodedTag)
+		return fmt.Errorf("decoding SGPRetrieveNotificationsListRequest: %w: expected tag [CONTEXT 43], got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "RetrieveNotificationsListRequest", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPRetrieveNotificationsListRequest", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode searchCriteria
@@ -9170,7 +15545,7 @@ func (v *RetrieveNotificationsListRequest) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding searchCriteria: %w", err)
 				}
 				// Decode inner value from explicit tag wrapper
-				var dec_searchcriteria RetrieveNotificationsListRequestSearchCriteria
+				var dec_searchcriteria SGPRetrieveNotificationsListRequestSearchCriteria
 				if unmErr := dec_searchcriteria.UnmarshalBER(innerData_searchcriteria); unmErr != nil {
 					return fmt.Errorf("decoding searchCriteria: %w", unmErr)
 				}
@@ -9179,18 +15554,28 @@ func (v *RetrieveNotificationsListRequest) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "RetrieveNotificationsListRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SGPRetrieveNotificationsListRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBER encodes RetrieveNotificationsListResponse to BER format.
-func (v *RetrieveNotificationsListResponse) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPRetrieveNotificationsListResponse to BER format.
+func (v *SGPRetrieveNotificationsListResponse) MarshalBER() ([]byte, error) {
 	switch v.Choice {
-	case RetrieveNotificationsListResponseChoiceNotificationList:
+	case SGPRetrieveNotificationsListResponseChoiceNotificationList:
 		if v.NotificationList == nil {
-			return nil, fmt.Errorf("choice RetrieveNotificationsListResponse: notificationList is nil")
+			return nil, fmt.Errorf("choice SGPRetrieveNotificationsListResponse: notificationList is nil")
 		}
 		enc_0, err := MarshalBERPendingNotificationList(v.NotificationList)
 		if err != nil {
@@ -9199,17 +15584,17 @@ func (v *RetrieveNotificationsListResponse) MarshalBER() ([]byte, error) {
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_0)
 		enc_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 43, enc_0)
 		return enc_0, nil
-	case RetrieveNotificationsListResponseChoiceNotificationsListResultError:
+	case SGPRetrieveNotificationsListResponseChoiceNotificationsListResultError:
 		if v.NotificationsListResultError == nil {
-			return nil, fmt.Errorf("choice RetrieveNotificationsListResponse: notificationsListResultError is nil")
+			return nil, fmt.Errorf("choice SGPRetrieveNotificationsListResponse: notificationsListResultError is nil")
 		}
-		enc_1 := ber.EncodeInteger(int64(*v.NotificationsListResultError))
+		enc_1 := ber.EncodeBigInt(v.NotificationsListResultError.BigInt())
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		enc_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 43, enc_1)
 		return enc_1, nil
-	case RetrieveNotificationsListResponseChoiceEuiccPackageResultList:
+	case SGPRetrieveNotificationsListResponseChoiceEuiccPackageResultList:
 		if v.EuiccPackageResultList == nil {
-			return nil, fmt.Errorf("choice RetrieveNotificationsListResponse: euiccPackageResultList is nil")
+			return nil, fmt.Errorf("choice SGPRetrieveNotificationsListResponse: euiccPackageResultList is nil")
 		}
 		enc_2, err := MarshalBEREuiccPackageResultList(v.EuiccPackageResultList)
 		if err != nil {
@@ -9219,49 +15604,49 @@ func (v *RetrieveNotificationsListResponse) MarshalBER() ([]byte, error) {
 		enc_2 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 43, enc_2)
 		return enc_2, nil
 	default:
-		return nil, fmt.Errorf("unknown choice %d for RetrieveNotificationsListResponse", v.Choice)
+		return nil, fmt.Errorf("unknown choice %d for SGPRetrieveNotificationsListResponse", v.Choice)
 	}
 }
 
-// MarshalDER encodes RetrieveNotificationsListResponse to DER format.
-func (v *RetrieveNotificationsListResponse) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPRetrieveNotificationsListResponse to DER format.
+func (v *SGPRetrieveNotificationsListResponse) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes RetrieveNotificationsListResponse from BER/DER format.
-func (v *RetrieveNotificationsListResponse) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPRetrieveNotificationsListResponse from BER/DER format.
+func (v *SGPRetrieveNotificationsListResponse) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for RetrieveNotificationsListResponse CHOICE")
+		return fmt.Errorf("empty data for SGPRetrieveNotificationsListResponse CHOICE")
 	}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding RetrieveNotificationsListResponse CHOICE: %w", err)
+		return fmt.Errorf("decoding SGPRetrieveNotificationsListResponse CHOICE: %w", err)
 	}
 	if decodedTag.Class != tag.ClassContextSpecific || decodedTag.Number != 43 || !decodedTag.Constructed {
-		return fmt.Errorf("decoding RetrieveNotificationsListResponse CHOICE: %w: expected tag [CONTEXT 43], got %s", ber.ErrInvalidTag, decodedTag)
+		return fmt.Errorf("decoding SGPRetrieveNotificationsListResponse CHOICE: %w: expected tag [CONTEXT 43], got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "RetrieveNotificationsListResponse", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPRetrieveNotificationsListResponse", Cause: ber.ErrExtraData}
 	}
 	if len(content) == 0 {
-		return fmt.Errorf("empty content for RetrieveNotificationsListResponse CHOICE")
+		return fmt.Errorf("empty content for SGPRetrieveNotificationsListResponse CHOICE")
 	}
 	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for RetrieveNotificationsListResponse: %w", peekErr)
+		return fmt.Errorf("peeking tag for SGPRetrieveNotificationsListResponse: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
-		return fmt.Errorf("decoding RetrieveNotificationsListResponse CHOICE: %w", tlvErr)
+		return fmt.Errorf("decoding SGPRetrieveNotificationsListResponse CHOICE: %w", tlvErr)
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "RetrieveNotificationsListResponse", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPRetrieveNotificationsListResponse", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-		v.Choice = RetrieveNotificationsListResponseChoiceNotificationList
+		v.Choice = SGPRetrieveNotificationsListResponseChoiceNotificationList
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding notificationList: %w", tlvErr)
@@ -9273,18 +15658,22 @@ func (v *RetrieveNotificationsListResponse) UnmarshalBER(data []byte) error {
 		}
 		v.NotificationList = dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-		v.Choice = RetrieveNotificationsListResponseChoiceNotificationsListResultError
+		v.Choice = SGPRetrieveNotificationsListResponseChoiceNotificationsListResultError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding notificationsListResultError: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding notificationsListResultError: %w", intErr)
 		}
-		v.NotificationsListResultError = &decVal
+		var named_notificationslistresulterror SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue
+		if namedErr := named_notificationslistresulterror.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding notificationsListResultError: %w", namedErr)
+		}
+		v.NotificationsListResultError = &named_notificationslistresulterror
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-		v.Choice = RetrieveNotificationsListResponseChoiceEuiccPackageResultList
+		v.Choice = SGPRetrieveNotificationsListResponseChoiceEuiccPackageResultList
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding euiccPackageResultList: %w", tlvErr)
@@ -9296,7 +15685,7 @@ func (v *RetrieveNotificationsListResponse) UnmarshalBER(data []byte) error {
 		}
 		v.EuiccPackageResultList = dec
 	} else {
-		return fmt.Errorf("unknown tag %s for RetrieveNotificationsListResponse CHOICE", peekTag)
+		return fmt.Errorf("unknown tag %s for SGPRetrieveNotificationsListResponse CHOICE", peekTag)
 	}
 	return nil
 }
@@ -9312,11 +15701,26 @@ func (v *ImmediateEnableRequest) MarshalBER() ([]byte, error) {
 	}
 	enc_refreshflag = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_refreshflag)
 	children = append(children, enc_refreshflag...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 90, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes ImmediateEnableRequest to DER format.
 func (v *ImmediateEnableRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -9356,23 +15760,48 @@ func (v *ImmediateEnableRequest) UnmarshalBER(data []byte) error {
 	}
 	v.RefreshFlag = decVal_refreshflag
 	offset += n_refreshflag
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ImmediateEnableRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ImmediateEnableRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
 // MarshalBER encodes ImmediateEnableResponse to BER format.
 func (v *ImmediateEnableResponse) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_immediateenableresult := ber.EncodeInteger(int64(v.ImmediateEnableResult))
+	enc_immediateenableresult := ber.EncodeBigInt((v.ImmediateEnableResult).BigInt())
 	enc_immediateenableresult = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_immediateenableresult)
 	children = append(children, enc_immediateenableresult...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 90, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes ImmediateEnableResponse to DER format.
 func (v *ImmediateEnableResponse) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -9403,15 +15832,29 @@ func (v *ImmediateEnableResponse) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding immediateEnableResult: %w", err)
 	}
-	decVal_immediateenableresult, intErr := ber.DecodeIntegerValue(rawVal_immediateenableresult)
+	decVal_immediateenableresult, intErr := ber.DecodeBigIntValue(rawVal_immediateenableresult)
 	if intErr != nil {
 		return fmt.Errorf("decoding immediateEnableResult: %w", intErr)
 	}
-	v.ImmediateEnableResult = decVal_immediateenableresult
-	offset += n_immediateenableresult
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ImmediateEnableResponse", Cause: ber.ErrExtraData}
+	var named_immediateenableresult ImmediateEnableResponseImmediateEnableResultValue
+	if namedErr := named_immediateenableresult.UnmarshalText([]byte(decVal_immediateenableresult.String())); namedErr != nil {
+		return fmt.Errorf("decoding immediateEnableResult: %w", namedErr)
 	}
+	v.ImmediateEnableResult = named_immediateenableresult
+	offset += n_immediateenableresult
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ImmediateEnableResponse", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -9426,11 +15869,26 @@ func (v *ProfileRollbackRequest) MarshalBER() ([]byte, error) {
 	}
 	enc_refreshflag = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_refreshflag)
 	children = append(children, enc_refreshflag...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 88, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes ProfileRollbackRequest to DER format.
 func (v *ProfileRollbackRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -9470,16 +15928,26 @@ func (v *ProfileRollbackRequest) UnmarshalBER(data []byte) error {
 	}
 	v.RefreshFlag = decVal_refreshflag
 	offset += n_refreshflag
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ProfileRollbackRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ProfileRollbackRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
 // MarshalBER encodes ProfileRollbackResponse to BER format.
 func (v *ProfileRollbackResponse) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_cmdresult := ber.EncodeInteger(int64(v.CmdResult))
+	enc_cmdresult := ber.EncodeBigInt((v.CmdResult).BigInt())
 	children = append(children, enc_cmdresult...)
 	if v.EUICCPackageResult != nil {
 		enc_euiccpackageresult, err := v.EUICCPackageResult.MarshalBER()
@@ -9488,11 +15956,26 @@ func (v *ProfileRollbackResponse) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, enc_euiccpackageresult...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 88, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes ProfileRollbackResponse to DER format.
 func (v *ProfileRollbackResponse) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -9514,11 +15997,15 @@ func (v *ProfileRollbackResponse) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field cmdResult")
 	}
-	val_cmdresult, n, err := ber.DecodeInteger(content[offset:])
+	val_cmdresult, n, err := ber.DecodeBigInt(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding cmdResult: %w", err)
 	}
-	v.CmdResult = val_cmdresult
+	var named_cmdresult ProfileRollbackResponseCmdResultValue
+	if namedErr := named_cmdresult.UnmarshalText([]byte(val_cmdresult.String())); namedErr != nil {
+		return fmt.Errorf("decoding cmdResult: %w", namedErr)
+	}
+	v.CmdResult = named_cmdresult
 	offset += n
 	// Decode eUICCPackageResult
 	if offset < len(content) {
@@ -9539,9 +16026,19 @@ func (v *ProfileRollbackResponse) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ProfileRollbackResponse", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ProfileRollbackResponse", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -9563,11 +16060,26 @@ func (v *ConfigureImmediateProfileEnablingRequest) MarshalBER() ([]byte, error) 
 		enc_defaultsmdpaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_defaultsmdpaddress)
 		children = append(children, enc_defaultsmdpaddress...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 89, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes ConfigureImmediateProfileEnablingRequest to DER format.
 func (v *ConfigureImmediateProfileEnablingRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -9634,23 +16146,48 @@ func (v *ConfigureImmediateProfileEnablingRequest) UnmarshalBER(data []byte) err
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ConfigureImmediateProfileEnablingRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ConfigureImmediateProfileEnablingRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
 // MarshalBER encodes ConfigureImmediateProfileEnablingResponse to BER format.
 func (v *ConfigureImmediateProfileEnablingResponse) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_configimmediateenableresult := ber.EncodeInteger(int64(v.ConfigImmediateEnableResult))
+	enc_configimmediateenableresult := ber.EncodeBigInt((v.ConfigImmediateEnableResult).BigInt())
 	enc_configimmediateenableresult = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_configimmediateenableresult)
 	children = append(children, enc_configimmediateenableresult...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 89, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes ConfigureImmediateProfileEnablingResponse to DER format.
 func (v *ConfigureImmediateProfileEnablingResponse) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -9681,15 +16218,29 @@ func (v *ConfigureImmediateProfileEnablingResponse) UnmarshalBER(data []byte) er
 	if err != nil {
 		return fmt.Errorf("decoding configImmediateEnableResult: %w", err)
 	}
-	decVal_configimmediateenableresult, intErr := ber.DecodeIntegerValue(rawVal_configimmediateenableresult)
+	decVal_configimmediateenableresult, intErr := ber.DecodeBigIntValue(rawVal_configimmediateenableresult)
 	if intErr != nil {
 		return fmt.Errorf("decoding configImmediateEnableResult: %w", intErr)
 	}
-	v.ConfigImmediateEnableResult = decVal_configimmediateenableresult
-	offset += n_configimmediateenableresult
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ConfigureImmediateProfileEnablingResponse", Cause: ber.ErrExtraData}
+	var named_configimmediateenableresult ConfigureImmediateProfileEnablingResponseConfigImmediateEnableResultValue
+	if namedErr := named_configimmediateenableresult.UnmarshalText([]byte(decVal_configimmediateenableresult.String())); namedErr != nil {
+		return fmt.Errorf("decoding configImmediateEnableResult: %w", namedErr)
 	}
+	v.ConfigImmediateEnableResult = named_configimmediateenableresult
+	offset += n_configimmediateenableresult
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ConfigureImmediateProfileEnablingResponse", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -9704,11 +16255,26 @@ func (v *GetEimConfigurationDataRequest) MarshalBER() ([]byte, error) {
 		enc_searchcriteria = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 0, enc_searchcriteria)
 		children = append(children, enc_searchcriteria...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 85, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes GetEimConfigurationDataRequest to DER format.
 func (v *GetEimConfigurationDataRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -9745,9 +16311,19 @@ func (v *GetEimConfigurationDataRequest) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "GetEimConfigurationDataRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "GetEimConfigurationDataRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -9769,11 +16345,26 @@ func (v *GetEimConfigurationDataResponse) MarshalBER() ([]byte, error) {
 		enc_eimconfigurationdatalist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_eimconfigurationdatalist)
 	}
 	children = append(children, enc_eimconfigurationdatalist...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 85, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes GetEimConfigurationDataResponse to DER format.
 func (v *GetEimConfigurationDataResponse) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
 	derValue := *v
 	derValue.EimConfigurationDataListIndef_ = false
@@ -9821,9 +16412,19 @@ func (v *GetEimConfigurationDataResponse) UnmarshalBER(data []byte) error {
 		}
 	}
 	offset += n_eimconfigurationdatalist
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "GetEimConfigurationDataResponse", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "GetEimConfigurationDataResponse", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -9838,11 +16439,26 @@ func (v *ExecuteFallbackMechanismRequest) MarshalBER() ([]byte, error) {
 	}
 	enc_refreshflag = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_refreshflag)
 	children = append(children, enc_refreshflag...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 93, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes ExecuteFallbackMechanismRequest to DER format.
 func (v *ExecuteFallbackMechanismRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -9882,23 +16498,48 @@ func (v *ExecuteFallbackMechanismRequest) UnmarshalBER(data []byte) error {
 	}
 	v.RefreshFlag = decVal_refreshflag
 	offset += n_refreshflag
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ExecuteFallbackMechanismRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ExecuteFallbackMechanismRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
 // MarshalBER encodes ExecuteFallbackMechanismResponse to BER format.
 func (v *ExecuteFallbackMechanismResponse) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_executefallbackmechanismresult := ber.EncodeInteger(int64(v.ExecuteFallbackMechanismResult))
+	enc_executefallbackmechanismresult := ber.EncodeBigInt((v.ExecuteFallbackMechanismResult).BigInt())
 	enc_executefallbackmechanismresult = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_executefallbackmechanismresult)
 	children = append(children, enc_executefallbackmechanismresult...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 93, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes ExecuteFallbackMechanismResponse to DER format.
 func (v *ExecuteFallbackMechanismResponse) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -9929,15 +16570,29 @@ func (v *ExecuteFallbackMechanismResponse) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding executeFallbackMechanismResult: %w", err)
 	}
-	decVal_executefallbackmechanismresult, intErr := ber.DecodeIntegerValue(rawVal_executefallbackmechanismresult)
+	decVal_executefallbackmechanismresult, intErr := ber.DecodeBigIntValue(rawVal_executefallbackmechanismresult)
 	if intErr != nil {
 		return fmt.Errorf("decoding executeFallbackMechanismResult: %w", intErr)
 	}
-	v.ExecuteFallbackMechanismResult = decVal_executefallbackmechanismresult
-	offset += n_executefallbackmechanismresult
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ExecuteFallbackMechanismResponse", Cause: ber.ErrExtraData}
+	var named_executefallbackmechanismresult ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue
+	if namedErr := named_executefallbackmechanismresult.UnmarshalText([]byte(decVal_executefallbackmechanismresult.String())); namedErr != nil {
+		return fmt.Errorf("decoding executeFallbackMechanismResult: %w", namedErr)
 	}
+	v.ExecuteFallbackMechanismResult = named_executefallbackmechanismresult
+	offset += n_executefallbackmechanismresult
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ExecuteFallbackMechanismResponse", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -9952,11 +16607,26 @@ func (v *ReturnFromFallbackRequest) MarshalBER() ([]byte, error) {
 	}
 	enc_refreshflag = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_refreshflag)
 	children = append(children, enc_refreshflag...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 94, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes ReturnFromFallbackRequest to DER format.
 func (v *ReturnFromFallbackRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -9996,23 +16666,48 @@ func (v *ReturnFromFallbackRequest) UnmarshalBER(data []byte) error {
 	}
 	v.RefreshFlag = decVal_refreshflag
 	offset += n_refreshflag
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ReturnFromFallbackRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ReturnFromFallbackRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
 // MarshalBER encodes ReturnFromFallbackResponse to BER format.
 func (v *ReturnFromFallbackResponse) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_returnfromfallbackresult := ber.EncodeInteger(int64(v.ReturnFromFallbackResult))
+	enc_returnfromfallbackresult := ber.EncodeBigInt((v.ReturnFromFallbackResult).BigInt())
 	enc_returnfromfallbackresult = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_returnfromfallbackresult)
 	children = append(children, enc_returnfromfallbackresult...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 94, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes ReturnFromFallbackResponse to DER format.
 func (v *ReturnFromFallbackResponse) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -10043,15 +16738,29 @@ func (v *ReturnFromFallbackResponse) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding returnFromFallbackResult: %w", err)
 	}
-	decVal_returnfromfallbackresult, intErr := ber.DecodeIntegerValue(rawVal_returnfromfallbackresult)
+	decVal_returnfromfallbackresult, intErr := ber.DecodeBigIntValue(rawVal_returnfromfallbackresult)
 	if intErr != nil {
 		return fmt.Errorf("decoding returnFromFallbackResult: %w", intErr)
 	}
-	v.ReturnFromFallbackResult = decVal_returnfromfallbackresult
-	offset += n_returnfromfallbackresult
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ReturnFromFallbackResponse", Cause: ber.ErrExtraData}
+	var named_returnfromfallbackresult ReturnFromFallbackResponseReturnFromFallbackResultValue
+	if namedErr := named_returnfromfallbackresult.UnmarshalText([]byte(decVal_returnfromfallbackresult.String())); namedErr != nil {
+		return fmt.Errorf("decoding returnFromFallbackResult: %w", namedErr)
 	}
+	v.ReturnFromFallbackResult = named_returnfromfallbackresult
+	offset += n_returnfromfallbackresult
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ReturnFromFallbackResponse", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -10066,11 +16775,26 @@ func (v *EnableEmergencyProfileRequest) MarshalBER() ([]byte, error) {
 	}
 	enc_refreshflag = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_refreshflag)
 	children = append(children, enc_refreshflag...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 91, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes EnableEmergencyProfileRequest to DER format.
 func (v *EnableEmergencyProfileRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -10110,23 +16834,48 @@ func (v *EnableEmergencyProfileRequest) UnmarshalBER(data []byte) error {
 	}
 	v.RefreshFlag = decVal_refreshflag
 	offset += n_refreshflag
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EnableEmergencyProfileRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "EnableEmergencyProfileRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
 // MarshalBER encodes EnableEmergencyProfileResponse to BER format.
 func (v *EnableEmergencyProfileResponse) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_enableemergencyprofileresult := ber.EncodeInteger(int64(v.EnableEmergencyProfileResult))
+	enc_enableemergencyprofileresult := ber.EncodeBigInt((v.EnableEmergencyProfileResult).BigInt())
 	enc_enableemergencyprofileresult = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_enableemergencyprofileresult)
 	children = append(children, enc_enableemergencyprofileresult...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 91, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes EnableEmergencyProfileResponse to DER format.
 func (v *EnableEmergencyProfileResponse) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -10157,15 +16906,29 @@ func (v *EnableEmergencyProfileResponse) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding enableEmergencyProfileResult: %w", err)
 	}
-	decVal_enableemergencyprofileresult, intErr := ber.DecodeIntegerValue(rawVal_enableemergencyprofileresult)
+	decVal_enableemergencyprofileresult, intErr := ber.DecodeBigIntValue(rawVal_enableemergencyprofileresult)
 	if intErr != nil {
 		return fmt.Errorf("decoding enableEmergencyProfileResult: %w", intErr)
 	}
-	v.EnableEmergencyProfileResult = decVal_enableemergencyprofileresult
-	offset += n_enableemergencyprofileresult
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EnableEmergencyProfileResponse", Cause: ber.ErrExtraData}
+	var named_enableemergencyprofileresult EnableEmergencyProfileResponseEnableEmergencyProfileResultValue
+	if namedErr := named_enableemergencyprofileresult.UnmarshalText([]byte(decVal_enableemergencyprofileresult.String())); namedErr != nil {
+		return fmt.Errorf("decoding enableEmergencyProfileResult: %w", namedErr)
 	}
+	v.EnableEmergencyProfileResult = named_enableemergencyprofileresult
+	offset += n_enableemergencyprofileresult
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "EnableEmergencyProfileResponse", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -10180,11 +16943,26 @@ func (v *DisableEmergencyProfileRequest) MarshalBER() ([]byte, error) {
 	}
 	enc_refreshflag = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_refreshflag)
 	children = append(children, enc_refreshflag...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 92, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes DisableEmergencyProfileRequest to DER format.
 func (v *DisableEmergencyProfileRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -10224,23 +17002,48 @@ func (v *DisableEmergencyProfileRequest) UnmarshalBER(data []byte) error {
 	}
 	v.RefreshFlag = decVal_refreshflag
 	offset += n_refreshflag
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "DisableEmergencyProfileRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "DisableEmergencyProfileRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
 // MarshalBER encodes DisableEmergencyProfileResponse to BER format.
 func (v *DisableEmergencyProfileResponse) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_disableemergencyprofileresult := ber.EncodeInteger(int64(v.DisableEmergencyProfileResult))
+	enc_disableemergencyprofileresult := ber.EncodeBigInt((v.DisableEmergencyProfileResult).BigInt())
 	enc_disableemergencyprofileresult = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_disableemergencyprofileresult)
 	children = append(children, enc_disableemergencyprofileresult...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 92, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes DisableEmergencyProfileResponse to DER format.
 func (v *DisableEmergencyProfileResponse) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -10271,32 +17074,62 @@ func (v *DisableEmergencyProfileResponse) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding disableEmergencyProfileResult: %w", err)
 	}
-	decVal_disableemergencyprofileresult, intErr := ber.DecodeIntegerValue(rawVal_disableemergencyprofileresult)
+	decVal_disableemergencyprofileresult, intErr := ber.DecodeBigIntValue(rawVal_disableemergencyprofileresult)
 	if intErr != nil {
 		return fmt.Errorf("decoding disableEmergencyProfileResult: %w", intErr)
 	}
-	v.DisableEmergencyProfileResult = decVal_disableemergencyprofileresult
-	offset += n_disableemergencyprofileresult
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "DisableEmergencyProfileResponse", Cause: ber.ErrExtraData}
+	var named_disableemergencyprofileresult DisableEmergencyProfileResponseDisableEmergencyProfileResultValue
+	if namedErr := named_disableemergencyprofileresult.UnmarshalText([]byte(decVal_disableemergencyprofileresult.String())); namedErr != nil {
+		return fmt.Errorf("decoding disableEmergencyProfileResult: %w", namedErr)
 	}
+	v.DisableEmergencyProfileResult = named_disableemergencyprofileresult
+	offset += n_disableemergencyprofileresult
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "DisableEmergencyProfileResponse", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
 // MarshalBER encodes GetConnectivityParametersRequest to BER format.
 func (v *GetConnectivityParametersRequest) MarshalBER() ([]byte, error) {
-	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 95, Constructed: true}, nil), nil
+	var children []byte
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 95, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes GetConnectivityParametersRequest to DER format.
 func (v *GetConnectivityParametersRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
 // UnmarshalBER decodes GetConnectivityParametersRequest from BER/DER format.
 func (v *GetConnectivityParametersRequest) UnmarshalBER(data []byte) error {
-	decodedTag, _, total, err := ber.DecodeConstructedContent(data)
+	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding GetConnectivityParametersRequest: %w", err)
 	}
@@ -10306,6 +17139,20 @@ func (v *GetConnectivityParametersRequest) UnmarshalBER(data []byte) error {
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "GetConnectivityParametersRequest", Cause: ber.ErrExtraData}
 	}
+	offset := 0
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "GetConnectivityParametersRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -10327,7 +17174,7 @@ func (v *GetConnectivityParametersResponse) MarshalBER() ([]byte, error) {
 		if v.ConnectivityParametersError == nil {
 			return nil, fmt.Errorf("choice GetConnectivityParametersResponse: connectivityParametersError is nil")
 		}
-		enc_1 := ber.EncodeInteger(int64(*v.ConnectivityParametersError))
+		enc_1 := ber.EncodeBigInt(v.ConnectivityParametersError.BigInt())
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		enc_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 95, enc_1)
 		return enc_1, nil
@@ -10404,12 +17251,15 @@ func (v *GetConnectivityParametersResponse) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding connectivityParametersError: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding connectivityParametersError: %w", intErr)
 		}
-		tmp := ConnectivityParametersError(decVal)
-		v.ConnectivityParametersError = &tmp
+		var named_connectivityparameterserror ConnectivityParametersError
+		if namedErr := named_connectivityparameterserror.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding connectivityParametersError: %w", namedErr)
+		}
+		v.ConnectivityParametersError = &named_connectivityparameterserror
 	} else {
 		return fmt.Errorf("unknown tag %s for GetConnectivityParametersResponse CHOICE", peekTag)
 	}
@@ -10424,11 +17274,26 @@ func (v *ConnectivityParameters) MarshalBER() ([]byte, error) {
 		enc_httpparams = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_httpparams)
 		children = append(children, enc_httpparams...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes ConnectivityParameters to DER format.
 func (v *ConnectivityParameters) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -10458,38 +17323,63 @@ func (v *ConnectivityParameters) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ConnectivityParameters", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ConnectivityParameters", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBER encodes SetDefaultDpAddressRequest to BER format.
-func (v *SetDefaultDpAddressRequest) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPSetDefaultDpAddressRequest to BER format.
+func (v *SGPSetDefaultDpAddressRequest) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_defaultdpaddress := ber.EncodeStringTag(12, v.DefaultDpAddress)
 	enc_defaultdpaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_defaultdpaddress)
 	children = append(children, enc_defaultdpaddress...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 101, Constructed: true}, children), nil
 }
 
-// MarshalDER encodes SetDefaultDpAddressRequest to DER format.
-func (v *SetDefaultDpAddressRequest) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPSetDefaultDpAddressRequest to DER format.
+func (v *SGPSetDefaultDpAddressRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes SetDefaultDpAddressRequest from BER/DER format.
-func (v *SetDefaultDpAddressRequest) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPSetDefaultDpAddressRequest from BER/DER format.
+func (v *SGPSetDefaultDpAddressRequest) UnmarshalBER(data []byte) error {
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding SetDefaultDpAddressRequest: %w", err)
+		return fmt.Errorf("decoding SGPSetDefaultDpAddressRequest: %w", err)
 	}
 	if decodedTag.Class != tag.ClassContextSpecific || decodedTag.Number != 101 || !decodedTag.Constructed {
-		return fmt.Errorf("decoding SetDefaultDpAddressRequest: %w: expected tag [CONTEXT 101], got %s", ber.ErrInvalidTag, decodedTag)
+		return fmt.Errorf("decoding SGPSetDefaultDpAddressRequest: %w: expected tag [CONTEXT 101], got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SetDefaultDpAddressRequest", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPSetDefaultDpAddressRequest", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode defaultDpAddress
@@ -10508,38 +17398,63 @@ func (v *SetDefaultDpAddressRequest) UnmarshalBER(data []byte) error {
 	decVal_defaultdpaddress := ber.DecodeStringValue(rawVal_defaultdpaddress)
 	v.DefaultDpAddress = decVal_defaultdpaddress
 	offset += n_defaultdpaddress
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "SetDefaultDpAddressRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SGPSetDefaultDpAddressRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBER encodes SetDefaultDpAddressResponse to BER format.
-func (v *SetDefaultDpAddressResponse) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPSetDefaultDpAddressResponse to BER format.
+func (v *SGPSetDefaultDpAddressResponse) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_setdefaultdpaddressresult := ber.EncodeInteger(int64(v.SetDefaultDpAddressResult))
+	enc_setdefaultdpaddressresult := ber.EncodeBigInt((v.SetDefaultDpAddressResult).BigInt())
 	enc_setdefaultdpaddressresult = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_setdefaultdpaddressresult)
 	children = append(children, enc_setdefaultdpaddressresult...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 101, Constructed: true}, children), nil
 }
 
-// MarshalDER encodes SetDefaultDpAddressResponse to DER format.
-func (v *SetDefaultDpAddressResponse) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPSetDefaultDpAddressResponse to DER format.
+func (v *SGPSetDefaultDpAddressResponse) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes SetDefaultDpAddressResponse from BER/DER format.
-func (v *SetDefaultDpAddressResponse) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPSetDefaultDpAddressResponse from BER/DER format.
+func (v *SGPSetDefaultDpAddressResponse) UnmarshalBER(data []byte) error {
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding SetDefaultDpAddressResponse: %w", err)
+		return fmt.Errorf("decoding SGPSetDefaultDpAddressResponse: %w", err)
 	}
 	if decodedTag.Class != tag.ClassContextSpecific || decodedTag.Number != 101 || !decodedTag.Constructed {
-		return fmt.Errorf("decoding SetDefaultDpAddressResponse: %w: expected tag [CONTEXT 101], got %s", ber.ErrInvalidTag, decodedTag)
+		return fmt.Errorf("decoding SGPSetDefaultDpAddressResponse: %w: expected tag [CONTEXT 101], got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SetDefaultDpAddressResponse", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPSetDefaultDpAddressResponse", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode setDefaultDpAddressResult
@@ -10555,24 +17470,38 @@ func (v *SetDefaultDpAddressResponse) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding setDefaultDpAddressResult: %w", err)
 	}
-	decVal_setdefaultdpaddressresult, intErr := ber.DecodeIntegerValue(rawVal_setdefaultdpaddressresult)
+	decVal_setdefaultdpaddressresult, intErr := ber.DecodeBigIntValue(rawVal_setdefaultdpaddressresult)
 	if intErr != nil {
 		return fmt.Errorf("decoding setDefaultDpAddressResult: %w", intErr)
 	}
-	v.SetDefaultDpAddressResult = decVal_setdefaultdpaddressresult
-	offset += n_setdefaultdpaddressresult
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "SetDefaultDpAddressResponse", Cause: ber.ErrExtraData}
+	var named_setdefaultdpaddressresult SGPSetDefaultDpAddressResponseSetDefaultDpAddressResultValue
+	if namedErr := named_setdefaultdpaddressresult.UnmarshalText([]byte(decVal_setdefaultdpaddressresult.String())); namedErr != nil {
+		return fmt.Errorf("decoding setDefaultDpAddressResult: %w", namedErr)
 	}
+	v.SetDefaultDpAddressResult = named_setdefaultdpaddressresult
+	offset += n_setdefaultdpaddressresult
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SGPSetDefaultDpAddressResponse", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBER encodes PrepareDownloadResponse to BER format.
-func (v *PrepareDownloadResponse) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPPrepareDownloadResponse to BER format.
+func (v *SGPPrepareDownloadResponse) MarshalBER() ([]byte, error) {
 	switch v.Choice {
-	case PrepareDownloadResponseChoiceDownloadResponseOk:
+	case SGPPrepareDownloadResponseChoiceDownloadResponseOk:
 		if v.DownloadResponseOk == nil {
-			return nil, fmt.Errorf("choice PrepareDownloadResponse: downloadResponseOk is nil")
+			return nil, fmt.Errorf("choice SGPPrepareDownloadResponse: downloadResponseOk is nil")
 		}
 		enc_0, err := v.DownloadResponseOk.MarshalBER()
 		if err != nil {
@@ -10581,9 +17510,9 @@ func (v *PrepareDownloadResponse) MarshalBER() ([]byte, error) {
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_0)
 		enc_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 33, enc_0)
 		return enc_0, nil
-	case PrepareDownloadResponseChoiceDownloadResponseError:
+	case SGPPrepareDownloadResponseChoiceDownloadResponseError:
 		if v.DownloadResponseError == nil {
-			return nil, fmt.Errorf("choice PrepareDownloadResponse: downloadResponseError is nil")
+			return nil, fmt.Errorf("choice SGPPrepareDownloadResponse: downloadResponseError is nil")
 		}
 		enc_1, err := v.DownloadResponseError.MarshalBER()
 		if err != nil {
@@ -10592,9 +17521,9 @@ func (v *PrepareDownloadResponse) MarshalBER() ([]byte, error) {
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_1)
 		enc_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 33, enc_1)
 		return enc_1, nil
-	case PrepareDownloadResponseChoiceCompactDownloadResponseOk:
+	case SGPPrepareDownloadResponseChoiceCompactDownloadResponseOk:
 		if v.CompactDownloadResponseOk == nil {
-			return nil, fmt.Errorf("choice PrepareDownloadResponse: compactDownloadResponseOk is nil")
+			return nil, fmt.Errorf("choice SGPPrepareDownloadResponse: compactDownloadResponseOk is nil")
 		}
 		enc_2, err := v.CompactDownloadResponseOk.MarshalBER()
 		if err != nil {
@@ -10604,16 +17533,16 @@ func (v *PrepareDownloadResponse) MarshalBER() ([]byte, error) {
 		enc_2 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 33, enc_2)
 		return enc_2, nil
 	default:
-		return nil, fmt.Errorf("unknown choice %d for PrepareDownloadResponse", v.Choice)
+		return nil, fmt.Errorf("unknown choice %d for SGPPrepareDownloadResponse", v.Choice)
 	}
 }
 
-// MarshalDER encodes PrepareDownloadResponse to DER format.
-func (v *PrepareDownloadResponse) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPPrepareDownloadResponse to DER format.
+func (v *SGPPrepareDownloadResponse) MarshalDER() ([]byte, error) {
 	switch v.Choice {
-	case PrepareDownloadResponseChoiceDownloadResponseOk:
+	case SGPPrepareDownloadResponseChoiceDownloadResponseOk:
 		if v.DownloadResponseOk == nil {
-			return nil, fmt.Errorf("choice PrepareDownloadResponse: downloadResponseOk is nil")
+			return nil, fmt.Errorf("choice SGPPrepareDownloadResponse: downloadResponseOk is nil")
 		}
 		enc_der_0, err := v.DownloadResponseOk.MarshalDER()
 		if err != nil {
@@ -10622,9 +17551,9 @@ func (v *PrepareDownloadResponse) MarshalDER() ([]byte, error) {
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
 		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 33, enc_der_0)
 		return enc_der_0, nil
-	case PrepareDownloadResponseChoiceDownloadResponseError:
+	case SGPPrepareDownloadResponseChoiceDownloadResponseError:
 		if v.DownloadResponseError == nil {
-			return nil, fmt.Errorf("choice PrepareDownloadResponse: downloadResponseError is nil")
+			return nil, fmt.Errorf("choice SGPPrepareDownloadResponse: downloadResponseError is nil")
 		}
 		enc_der_1, err := v.DownloadResponseError.MarshalDER()
 		if err != nil {
@@ -10633,9 +17562,9 @@ func (v *PrepareDownloadResponse) MarshalDER() ([]byte, error) {
 		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_1)
 		enc_der_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 33, enc_der_1)
 		return enc_der_1, nil
-	case PrepareDownloadResponseChoiceCompactDownloadResponseOk:
+	case SGPPrepareDownloadResponseChoiceCompactDownloadResponseOk:
 		if v.CompactDownloadResponseOk == nil {
-			return nil, fmt.Errorf("choice PrepareDownloadResponse: compactDownloadResponseOk is nil")
+			return nil, fmt.Errorf("choice SGPPrepareDownloadResponse: compactDownloadResponseOk is nil")
 		}
 		enc_der_2, err := v.CompactDownloadResponseOk.MarshalDER()
 		if err != nil {
@@ -10648,64 +17577,64 @@ func (v *PrepareDownloadResponse) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes PrepareDownloadResponse from BER/DER format.
-func (v *PrepareDownloadResponse) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPPrepareDownloadResponse from BER/DER format.
+func (v *SGPPrepareDownloadResponse) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for PrepareDownloadResponse CHOICE")
+		return fmt.Errorf("empty data for SGPPrepareDownloadResponse CHOICE")
 	}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding PrepareDownloadResponse CHOICE: %w", err)
+		return fmt.Errorf("decoding SGPPrepareDownloadResponse CHOICE: %w", err)
 	}
 	if decodedTag.Class != tag.ClassContextSpecific || decodedTag.Number != 33 || !decodedTag.Constructed {
-		return fmt.Errorf("decoding PrepareDownloadResponse CHOICE: %w: expected tag [CONTEXT 33], got %s", ber.ErrInvalidTag, decodedTag)
+		return fmt.Errorf("decoding SGPPrepareDownloadResponse CHOICE: %w: expected tag [CONTEXT 33], got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "PrepareDownloadResponse", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPPrepareDownloadResponse", Cause: ber.ErrExtraData}
 	}
 	if len(content) == 0 {
-		return fmt.Errorf("empty content for PrepareDownloadResponse CHOICE")
+		return fmt.Errorf("empty content for SGPPrepareDownloadResponse CHOICE")
 	}
 	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for PrepareDownloadResponse: %w", peekErr)
+		return fmt.Errorf("peeking tag for SGPPrepareDownloadResponse: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
-		return fmt.Errorf("decoding PrepareDownloadResponse CHOICE: %w", tlvErr)
+		return fmt.Errorf("decoding SGPPrepareDownloadResponse CHOICE: %w", tlvErr)
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "PrepareDownloadResponse", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPPrepareDownloadResponse", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-		v.Choice = PrepareDownloadResponseChoiceDownloadResponseOk
+		v.Choice = SGPPrepareDownloadResponseChoiceDownloadResponseOk
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding downloadResponseOk: %w", tlvErr)
 		}
 		reconstructed := ber.EncodeSequence(rawVal)
-		var dec sgp22.PrepareDownloadResponseOk
+		var dec PrepareDownloadResponseOk
 		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
 			return fmt.Errorf("decoding downloadResponseOk: %w", unmErr)
 		}
 		v.DownloadResponseOk = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-		v.Choice = PrepareDownloadResponseChoiceDownloadResponseError
+		v.Choice = SGPPrepareDownloadResponseChoiceDownloadResponseError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding downloadResponseError: %w", tlvErr)
 		}
 		reconstructed := ber.EncodeSequence(rawVal)
-		var dec sgp22.PrepareDownloadResponseError
+		var dec PrepareDownloadResponseError
 		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
 			return fmt.Errorf("decoding downloadResponseError: %w", unmErr)
 		}
 		v.DownloadResponseError = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-		v.Choice = PrepareDownloadResponseChoiceCompactDownloadResponseOk
+		v.Choice = SGPPrepareDownloadResponseChoiceCompactDownloadResponseOk
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding compactDownloadResponseOk: %w", tlvErr)
@@ -10717,7 +17646,7 @@ func (v *PrepareDownloadResponse) UnmarshalBER(data []byte) error {
 		}
 		v.CompactDownloadResponseOk = &dec
 	} else {
-		return fmt.Errorf("unknown tag %s for PrepareDownloadResponse CHOICE", peekTag)
+		return fmt.Errorf("unknown tag %s for SGPPrepareDownloadResponse CHOICE", peekTag)
 	}
 	return nil
 }
@@ -10733,11 +17662,26 @@ func (v *CompactPrepareDownloadResponseOk) MarshalBER() ([]byte, error) {
 	enc_euiccsignature2 := ber.EncodeOctetString(v.EuiccSignature2)
 	enc_euiccsignature2 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 55, false, enc_euiccsignature2)
 	children = append(children, enc_euiccsignature2...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes CompactPrepareDownloadResponseOk to DER format.
 func (v *CompactPrepareDownloadResponseOk) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -10780,9 +17724,19 @@ func (v *CompactPrepareDownloadResponseOk) UnmarshalBER(data []byte) error {
 	}
 	v.EuiccSignature2 = rawVal_euiccsignature2
 	offset += n_euiccsignature2
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "CompactPrepareDownloadResponseOk", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "CompactPrepareDownloadResponseOk", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -10798,11 +17752,26 @@ func (v *CompactEuiccSigned2) MarshalBER() ([]byte, error) {
 		enc_hashcc := ber.EncodeOctetString([]byte(*v.HashCc))
 		children = append(children, enc_hashcc...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes CompactEuiccSigned2 to DER format.
 func (v *CompactEuiccSigned2) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -10841,20 +17810,30 @@ func (v *CompactEuiccSigned2) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding hashCc: %w", err)
 				}
-				tmp_hashcc := sgp22.Octet32(val_hashcc)
+				tmp_hashcc := Octet32(val_hashcc)
 				v.HashCc = &tmp_hashcc
 				offset += n
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "CompactEuiccSigned2", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "CompactEuiccSigned2", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBER encodes EuiccSigned1 to BER format.
-func (v *EuiccSigned1) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPEuiccSigned1 to BER format.
+func (v *SGPEuiccSigned1) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	enc_transactionid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_transactionid)
@@ -10875,23 +17854,38 @@ func (v *EuiccSigned1) MarshalBER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding ctxParams1: %w", err)
 	}
 	children = append(children, enc_ctxparams1...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes EuiccSigned1 to DER format.
-func (v *EuiccSigned1) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPEuiccSigned1 to DER format.
+func (v *SGPEuiccSigned1) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes EuiccSigned1 from BER/DER format.
-func (v *EuiccSigned1) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPEuiccSigned1 from BER/DER format.
+func (v *SGPEuiccSigned1) UnmarshalBER(data []byte) error {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding EuiccSigned1 SEQUENCE: %w", err)
+		return fmt.Errorf("decoding SGPEuiccSigned1 SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "EuiccSigned1", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPEuiccSigned1", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode transactionId
@@ -10907,7 +17901,7 @@ func (v *EuiccSigned1) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
 	}
-	v.TransactionId = sgp22.TransactionId(rawVal_transactionid)
+	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
 	// Decode serverAddress
 	if offset >= len(content) {
@@ -10938,7 +17932,7 @@ func (v *EuiccSigned1) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding serverChallenge: %w", err)
 	}
-	v.ServerChallenge = sgp22.Octet16(rawVal_serverchallenge)
+	v.ServerChallenge = Octet16(rawVal_serverchallenge)
 	offset += n_serverchallenge
 	// Decode euiccInfo2
 	if offset >= len(content) {
@@ -10949,7 +17943,7 @@ func (v *EuiccSigned1) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for euiccInfo2, got %s", "CONTEXT", 34, reqTag_)
 		}
 	}
-	// Decode nested SEQUENCE (EUICCInfo2)
+	// Decode nested SEQUENCE (SGPEUICCInfo2)
 	_, n_euiccinfo2, _, tlvErr_euiccinfo2 := ber.DecodeTLV(content[offset:])
 	if tlvErr_euiccinfo2 != nil {
 		return fmt.Errorf("decoding euiccInfo2: %w", tlvErr_euiccinfo2)
@@ -10962,7 +17956,7 @@ func (v *EuiccSigned1) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field ctxParams1")
 	}
-	// Decode nested CHOICE (sgp22.CtxParams1)
+	// Decode nested CHOICE (CtxParams1)
 	_, n_ctxparams1, _, tlvErr_ctxparams1 := ber.DecodeTLV(content[offset:])
 	if tlvErr_ctxparams1 != nil {
 		return fmt.Errorf("decoding ctxParams1: %w", tlvErr_ctxparams1)
@@ -10971,14 +17965,24 @@ func (v *EuiccSigned1) UnmarshalBER(data []byte) error {
 		return fmt.Errorf("decoding ctxParams1: %w", unmErr)
 	}
 	offset += n_ctxparams1
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EuiccSigned1", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SGPEuiccSigned1", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBER encodes AuthenticateResponseOk to BER format.
-func (v *AuthenticateResponseOk) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPAuthenticateResponseOk to BER format.
+func (v *SGPAuthenticateResponseOk) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_euiccsigned1, err := v.EuiccSigned1.MarshalBER()
 	if err != nil {
@@ -10998,30 +18002,45 @@ func (v *AuthenticateResponseOk) MarshalBER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding eumCertificate: %w", err)
 	}
 	children = append(children, enc_eumcertificate...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes AuthenticateResponseOk to DER format.
-func (v *AuthenticateResponseOk) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPAuthenticateResponseOk to DER format.
+func (v *SGPAuthenticateResponseOk) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes AuthenticateResponseOk from BER/DER format.
-func (v *AuthenticateResponseOk) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPAuthenticateResponseOk from BER/DER format.
+func (v *SGPAuthenticateResponseOk) UnmarshalBER(data []byte) error {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding AuthenticateResponseOk SEQUENCE: %w", err)
+		return fmt.Errorf("decoding SGPAuthenticateResponseOk SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "AuthenticateResponseOk", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPAuthenticateResponseOk", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode euiccSigned1
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field euiccSigned1")
 	}
-	// Decode nested SEQUENCE (EuiccSigned1)
+	// Decode nested SEQUENCE (SGPEuiccSigned1)
 	_, n_euiccsigned1, _, tlvErr_euiccsigned1 := ber.DecodeTLV(content[offset:])
 	if tlvErr_euiccsigned1 != nil {
 		return fmt.Errorf("decoding euiccSigned1: %w", tlvErr_euiccsigned1)
@@ -11049,7 +18068,7 @@ func (v *AuthenticateResponseOk) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field euiccCertificate")
 	}
-	// Decode nested SEQUENCE (sgp22.Certificate)
+	// Decode nested SEQUENCE (Certificate)
 	_, n_euicccertificate, _, tlvErr_euicccertificate := ber.DecodeTLV(content[offset:])
 	if tlvErr_euicccertificate != nil {
 		return fmt.Errorf("decoding euiccCertificate: %w", tlvErr_euicccertificate)
@@ -11062,7 +18081,7 @@ func (v *AuthenticateResponseOk) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field eumCertificate")
 	}
-	// Decode nested SEQUENCE (sgp22.Certificate)
+	// Decode nested SEQUENCE (Certificate)
 	_, n_eumcertificate, _, tlvErr_eumcertificate := ber.DecodeTLV(content[offset:])
 	if tlvErr_eumcertificate != nil {
 		return fmt.Errorf("decoding eumCertificate: %w", tlvErr_eumcertificate)
@@ -11071,18 +18090,28 @@ func (v *AuthenticateResponseOk) UnmarshalBER(data []byte) error {
 		return fmt.Errorf("decoding eumCertificate: %w", unmErr)
 	}
 	offset += n_eumcertificate
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "AuthenticateResponseOk", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SGPAuthenticateResponseOk", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBER encodes AuthenticateServerResponse to BER format.
-func (v *AuthenticateServerResponse) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPAuthenticateServerResponse to BER format.
+func (v *SGPAuthenticateServerResponse) MarshalBER() ([]byte, error) {
 	switch v.Choice {
-	case AuthenticateServerResponseChoiceAuthenticateResponseOk:
+	case SGPAuthenticateServerResponseChoiceAuthenticateResponseOk:
 		if v.AuthenticateResponseOk == nil {
-			return nil, fmt.Errorf("choice AuthenticateServerResponse: authenticateResponseOk is nil")
+			return nil, fmt.Errorf("choice SGPAuthenticateServerResponse: authenticateResponseOk is nil")
 		}
 		enc_0, err := v.AuthenticateResponseOk.MarshalBER()
 		if err != nil {
@@ -11091,9 +18120,9 @@ func (v *AuthenticateServerResponse) MarshalBER() ([]byte, error) {
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_0)
 		enc_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 56, enc_0)
 		return enc_0, nil
-	case AuthenticateServerResponseChoiceAuthenticateResponseError:
+	case SGPAuthenticateServerResponseChoiceAuthenticateResponseError:
 		if v.AuthenticateResponseError == nil {
-			return nil, fmt.Errorf("choice AuthenticateServerResponse: authenticateResponseError is nil")
+			return nil, fmt.Errorf("choice SGPAuthenticateServerResponse: authenticateResponseError is nil")
 		}
 		enc_1, err := v.AuthenticateResponseError.MarshalBER()
 		if err != nil {
@@ -11102,9 +18131,9 @@ func (v *AuthenticateServerResponse) MarshalBER() ([]byte, error) {
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_1)
 		enc_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 56, enc_1)
 		return enc_1, nil
-	case AuthenticateServerResponseChoiceCompactAuthenticateResponseOk:
+	case SGPAuthenticateServerResponseChoiceCompactAuthenticateResponseOk:
 		if v.CompactAuthenticateResponseOk == nil {
-			return nil, fmt.Errorf("choice AuthenticateServerResponse: compactAuthenticateResponseOk is nil")
+			return nil, fmt.Errorf("choice SGPAuthenticateServerResponse: compactAuthenticateResponseOk is nil")
 		}
 		enc_2, err := v.CompactAuthenticateResponseOk.MarshalBER()
 		if err != nil {
@@ -11114,16 +18143,16 @@ func (v *AuthenticateServerResponse) MarshalBER() ([]byte, error) {
 		enc_2 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 56, enc_2)
 		return enc_2, nil
 	default:
-		return nil, fmt.Errorf("unknown choice %d for AuthenticateServerResponse", v.Choice)
+		return nil, fmt.Errorf("unknown choice %d for SGPAuthenticateServerResponse", v.Choice)
 	}
 }
 
-// MarshalDER encodes AuthenticateServerResponse to DER format.
-func (v *AuthenticateServerResponse) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPAuthenticateServerResponse to DER format.
+func (v *SGPAuthenticateServerResponse) MarshalDER() ([]byte, error) {
 	switch v.Choice {
-	case AuthenticateServerResponseChoiceAuthenticateResponseOk:
+	case SGPAuthenticateServerResponseChoiceAuthenticateResponseOk:
 		if v.AuthenticateResponseOk == nil {
-			return nil, fmt.Errorf("choice AuthenticateServerResponse: authenticateResponseOk is nil")
+			return nil, fmt.Errorf("choice SGPAuthenticateServerResponse: authenticateResponseOk is nil")
 		}
 		enc_der_0, err := v.AuthenticateResponseOk.MarshalDER()
 		if err != nil {
@@ -11132,9 +18161,9 @@ func (v *AuthenticateServerResponse) MarshalDER() ([]byte, error) {
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
 		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 56, enc_der_0)
 		return enc_der_0, nil
-	case AuthenticateServerResponseChoiceAuthenticateResponseError:
+	case SGPAuthenticateServerResponseChoiceAuthenticateResponseError:
 		if v.AuthenticateResponseError == nil {
-			return nil, fmt.Errorf("choice AuthenticateServerResponse: authenticateResponseError is nil")
+			return nil, fmt.Errorf("choice SGPAuthenticateServerResponse: authenticateResponseError is nil")
 		}
 		enc_der_1, err := v.AuthenticateResponseError.MarshalDER()
 		if err != nil {
@@ -11143,9 +18172,9 @@ func (v *AuthenticateServerResponse) MarshalDER() ([]byte, error) {
 		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_1)
 		enc_der_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 56, enc_der_1)
 		return enc_der_1, nil
-	case AuthenticateServerResponseChoiceCompactAuthenticateResponseOk:
+	case SGPAuthenticateServerResponseChoiceCompactAuthenticateResponseOk:
 		if v.CompactAuthenticateResponseOk == nil {
-			return nil, fmt.Errorf("choice AuthenticateServerResponse: compactAuthenticateResponseOk is nil")
+			return nil, fmt.Errorf("choice SGPAuthenticateServerResponse: compactAuthenticateResponseOk is nil")
 		}
 		enc_der_2, err := v.CompactAuthenticateResponseOk.MarshalDER()
 		if err != nil {
@@ -11158,64 +18187,64 @@ func (v *AuthenticateServerResponse) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes AuthenticateServerResponse from BER/DER format.
-func (v *AuthenticateServerResponse) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPAuthenticateServerResponse from BER/DER format.
+func (v *SGPAuthenticateServerResponse) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for AuthenticateServerResponse CHOICE")
+		return fmt.Errorf("empty data for SGPAuthenticateServerResponse CHOICE")
 	}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding AuthenticateServerResponse CHOICE: %w", err)
+		return fmt.Errorf("decoding SGPAuthenticateServerResponse CHOICE: %w", err)
 	}
 	if decodedTag.Class != tag.ClassContextSpecific || decodedTag.Number != 56 || !decodedTag.Constructed {
-		return fmt.Errorf("decoding AuthenticateServerResponse CHOICE: %w: expected tag [CONTEXT 56], got %s", ber.ErrInvalidTag, decodedTag)
+		return fmt.Errorf("decoding SGPAuthenticateServerResponse CHOICE: %w: expected tag [CONTEXT 56], got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "AuthenticateServerResponse", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPAuthenticateServerResponse", Cause: ber.ErrExtraData}
 	}
 	if len(content) == 0 {
-		return fmt.Errorf("empty content for AuthenticateServerResponse CHOICE")
+		return fmt.Errorf("empty content for SGPAuthenticateServerResponse CHOICE")
 	}
 	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for AuthenticateServerResponse: %w", peekErr)
+		return fmt.Errorf("peeking tag for SGPAuthenticateServerResponse: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
-		return fmt.Errorf("decoding AuthenticateServerResponse CHOICE: %w", tlvErr)
+		return fmt.Errorf("decoding SGPAuthenticateServerResponse CHOICE: %w", tlvErr)
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "AuthenticateServerResponse", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPAuthenticateServerResponse", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-		v.Choice = AuthenticateServerResponseChoiceAuthenticateResponseOk
+		v.Choice = SGPAuthenticateServerResponseChoiceAuthenticateResponseOk
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding authenticateResponseOk: %w", tlvErr)
 		}
 		reconstructed := ber.EncodeSequence(rawVal)
-		var dec AuthenticateResponseOk
+		var dec SGPAuthenticateResponseOk
 		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
 			return fmt.Errorf("decoding authenticateResponseOk: %w", unmErr)
 		}
 		v.AuthenticateResponseOk = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-		v.Choice = AuthenticateServerResponseChoiceAuthenticateResponseError
+		v.Choice = SGPAuthenticateServerResponseChoiceAuthenticateResponseError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding authenticateResponseError: %w", tlvErr)
 		}
 		reconstructed := ber.EncodeSequence(rawVal)
-		var dec sgp22.AuthenticateResponseError
+		var dec AuthenticateResponseError
 		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
 			return fmt.Errorf("decoding authenticateResponseError: %w", unmErr)
 		}
 		v.AuthenticateResponseError = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-		v.Choice = AuthenticateServerResponseChoiceCompactAuthenticateResponseOk
+		v.Choice = SGPAuthenticateServerResponseChoiceCompactAuthenticateResponseOk
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding compactAuthenticateResponseOk: %w", tlvErr)
@@ -11227,7 +18256,7 @@ func (v *AuthenticateServerResponse) UnmarshalBER(data []byte) error {
 		}
 		v.CompactAuthenticateResponseOk = &dec
 	} else {
-		return fmt.Errorf("unknown tag %s for AuthenticateServerResponse CHOICE", peekTag)
+		return fmt.Errorf("unknown tag %s for SGPAuthenticateServerResponse CHOICE", peekTag)
 	}
 	return nil
 }
@@ -11259,11 +18288,26 @@ func (v *CompactAuthenticateResponseOk) MarshalBER() ([]byte, error) {
 		enc_eumcertificate = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_eumcertificate)
 		children = append(children, enc_eumcertificate...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes CompactAuthenticateResponseOk to DER format.
 func (v *CompactAuthenticateResponseOk) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -11316,7 +18360,7 @@ func (v *CompactAuthenticateResponseOk) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding euiccCertificate: %w", err)
 				}
 				reconstructed_euicccertificate := ber.EncodeSequence(rawVal_euicccertificate)
-				var dec_euicccertificate sgp22.Certificate
+				var dec_euicccertificate Certificate
 				if unmErr := dec_euicccertificate.UnmarshalBER(reconstructed_euicccertificate); unmErr != nil {
 					return fmt.Errorf("decoding euiccCertificate: %w", unmErr)
 				}
@@ -11335,7 +18379,7 @@ func (v *CompactAuthenticateResponseOk) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding eumCertificate: %w", err)
 				}
 				reconstructed_eumcertificate := ber.EncodeSequence(rawVal_eumcertificate)
-				var dec_eumcertificate sgp22.Certificate
+				var dec_eumcertificate Certificate
 				if unmErr := dec_eumcertificate.UnmarshalBER(reconstructed_eumcertificate); unmErr != nil {
 					return fmt.Errorf("decoding eumCertificate: %w", unmErr)
 				}
@@ -11344,9 +18388,19 @@ func (v *CompactAuthenticateResponseOk) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "CompactAuthenticateResponseOk", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "CompactAuthenticateResponseOk", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -11364,11 +18418,26 @@ func (v *CompactEuiccSigned1) MarshalBER() ([]byte, error) {
 		enc_ctxparams1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_ctxparams1)
 		children = append(children, enc_ctxparams1...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes CompactEuiccSigned1 to DER format.
 func (v *CompactEuiccSigned1) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -11408,7 +18477,7 @@ func (v *CompactEuiccSigned1) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding ctxParams1: %w", err)
 				}
 				// Decode inner value from explicit tag wrapper
-				var dec_ctxparams1 sgp22.CtxParams1
+				var dec_ctxparams1 CtxParams1
 				if unmErr := dec_ctxparams1.UnmarshalBER(innerData_ctxparams1); unmErr != nil {
 					return fmt.Errorf("decoding ctxParams1: %w", unmErr)
 				}
@@ -11417,36 +18486,46 @@ func (v *CompactEuiccSigned1) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "CompactEuiccSigned1", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "CompactEuiccSigned1", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBER encodes PendingNotification to BER format.
-func (v *PendingNotification) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPPendingNotification to BER format.
+func (v *SGPPendingNotification) MarshalBER() ([]byte, error) {
 	switch v.Choice {
-	case PendingNotificationChoiceProfileInstallationResult:
+	case SGPPendingNotificationChoiceProfileInstallationResult:
 		if v.ProfileInstallationResult == nil {
-			return nil, fmt.Errorf("choice PendingNotification: profileInstallationResult is nil")
+			return nil, fmt.Errorf("choice SGPPendingNotification: profileInstallationResult is nil")
 		}
 		enc_0, err := v.ProfileInstallationResult.MarshalBER()
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileInstallationResult: %w", err)
 		}
 		return enc_0, nil
-	case PendingNotificationChoiceOtherSignedNotification:
+	case SGPPendingNotificationChoiceOtherSignedNotification:
 		if v.OtherSignedNotification == nil {
-			return nil, fmt.Errorf("choice PendingNotification: otherSignedNotification is nil")
+			return nil, fmt.Errorf("choice SGPPendingNotification: otherSignedNotification is nil")
 		}
 		enc_1, err := v.OtherSignedNotification.MarshalBER()
 		if err != nil {
 			return nil, fmt.Errorf("encoding otherSignedNotification: %w", err)
 		}
 		return enc_1, nil
-	case PendingNotificationChoiceCompactProfileInstallationResult:
+	case SGPPendingNotificationChoiceCompactProfileInstallationResult:
 		if v.CompactProfileInstallationResult == nil {
-			return nil, fmt.Errorf("choice PendingNotification: compactProfileInstallationResult is nil")
+			return nil, fmt.Errorf("choice SGPPendingNotification: compactProfileInstallationResult is nil")
 		}
 		enc_2, err := v.CompactProfileInstallationResult.MarshalBER()
 		if err != nil {
@@ -11454,9 +18533,9 @@ func (v *PendingNotification) MarshalBER() ([]byte, error) {
 		}
 		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_2)
 		return enc_2, nil
-	case PendingNotificationChoiceCompactOtherSignedNotification:
+	case SGPPendingNotificationChoiceCompactOtherSignedNotification:
 		if v.CompactOtherSignedNotification == nil {
-			return nil, fmt.Errorf("choice PendingNotification: compactOtherSignedNotification is nil")
+			return nil, fmt.Errorf("choice SGPPendingNotification: compactOtherSignedNotification is nil")
 		}
 		enc_3, err := v.CompactOtherSignedNotification.MarshalBER()
 		if err != nil {
@@ -11465,34 +18544,34 @@ func (v *PendingNotification) MarshalBER() ([]byte, error) {
 		enc_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_3)
 		return enc_3, nil
 	default:
-		return nil, fmt.Errorf("unknown choice %d for PendingNotification", v.Choice)
+		return nil, fmt.Errorf("unknown choice %d for SGPPendingNotification", v.Choice)
 	}
 }
 
-// MarshalDER encodes PendingNotification to DER format.
-func (v *PendingNotification) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPPendingNotification to DER format.
+func (v *SGPPendingNotification) MarshalDER() ([]byte, error) {
 	switch v.Choice {
-	case PendingNotificationChoiceProfileInstallationResult:
+	case SGPPendingNotificationChoiceProfileInstallationResult:
 		if v.ProfileInstallationResult == nil {
-			return nil, fmt.Errorf("choice PendingNotification: profileInstallationResult is nil")
+			return nil, fmt.Errorf("choice SGPPendingNotification: profileInstallationResult is nil")
 		}
 		enc_der_0, err := v.ProfileInstallationResult.MarshalDER()
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileInstallationResult: %w", err)
 		}
 		return enc_der_0, nil
-	case PendingNotificationChoiceOtherSignedNotification:
+	case SGPPendingNotificationChoiceOtherSignedNotification:
 		if v.OtherSignedNotification == nil {
-			return nil, fmt.Errorf("choice PendingNotification: otherSignedNotification is nil")
+			return nil, fmt.Errorf("choice SGPPendingNotification: otherSignedNotification is nil")
 		}
 		enc_der_1, err := v.OtherSignedNotification.MarshalDER()
 		if err != nil {
 			return nil, fmt.Errorf("encoding otherSignedNotification: %w", err)
 		}
 		return enc_der_1, nil
-	case PendingNotificationChoiceCompactProfileInstallationResult:
+	case SGPPendingNotificationChoiceCompactProfileInstallationResult:
 		if v.CompactProfileInstallationResult == nil {
-			return nil, fmt.Errorf("choice PendingNotification: compactProfileInstallationResult is nil")
+			return nil, fmt.Errorf("choice SGPPendingNotification: compactProfileInstallationResult is nil")
 		}
 		enc_der_2, err := v.CompactProfileInstallationResult.MarshalDER()
 		if err != nil {
@@ -11500,9 +18579,9 @@ func (v *PendingNotification) MarshalDER() ([]byte, error) {
 		}
 		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_2)
 		return enc_der_2, nil
-	case PendingNotificationChoiceCompactOtherSignedNotification:
+	case SGPPendingNotificationChoiceCompactOtherSignedNotification:
 		if v.CompactOtherSignedNotification == nil {
-			return nil, fmt.Errorf("choice PendingNotification: compactOtherSignedNotification is nil")
+			return nil, fmt.Errorf("choice SGPPendingNotification: compactOtherSignedNotification is nil")
 		}
 		enc_der_3, err := v.CompactOtherSignedNotification.MarshalDER()
 		if err != nil {
@@ -11514,41 +18593,41 @@ func (v *PendingNotification) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes PendingNotification from BER/DER format.
-func (v *PendingNotification) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPPendingNotification from BER/DER format.
+func (v *SGPPendingNotification) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for PendingNotification CHOICE")
+		return fmt.Errorf("empty data for SGPPendingNotification CHOICE")
 	}
 	choiceData := data
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for PendingNotification: %w", peekErr)
+		return fmt.Errorf("peeking tag for SGPPendingNotification: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
-		return fmt.Errorf("decoding PendingNotification CHOICE: %w", tlvErr)
+		return fmt.Errorf("decoding SGPPendingNotification CHOICE: %w", tlvErr)
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "PendingNotification", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPPendingNotification", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 55 {
-		v.Choice = PendingNotificationChoiceProfileInstallationResult
-		var dec ProfileInstallationResult
+		v.Choice = SGPPendingNotificationChoiceProfileInstallationResult
+		var dec SGPProfileInstallationResult
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
 			return fmt.Errorf("decoding profileInstallationResult: %w", unmErr)
 		}
 		v.ProfileInstallationResult = &dec
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-		v.Choice = PendingNotificationChoiceOtherSignedNotification
-		var dec sgp22.OtherSignedNotification
+		v.Choice = SGPPendingNotificationChoiceOtherSignedNotification
+		var dec OtherSignedNotification
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
 			return fmt.Errorf("decoding otherSignedNotification: %w", unmErr)
 		}
 		v.OtherSignedNotification = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-		v.Choice = PendingNotificationChoiceCompactProfileInstallationResult
+		v.Choice = SGPPendingNotificationChoiceCompactProfileInstallationResult
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding compactProfileInstallationResult: %w", tlvErr)
@@ -11560,7 +18639,7 @@ func (v *PendingNotification) UnmarshalBER(data []byte) error {
 		}
 		v.CompactProfileInstallationResult = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-		v.Choice = PendingNotificationChoiceCompactOtherSignedNotification
+		v.Choice = SGPPendingNotificationChoiceCompactOtherSignedNotification
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding compactOtherSignedNotification: %w", tlvErr)
@@ -11572,13 +18651,13 @@ func (v *PendingNotification) UnmarshalBER(data []byte) error {
 		}
 		v.CompactOtherSignedNotification = &dec
 	} else {
-		return fmt.Errorf("unknown tag %s for PendingNotification CHOICE", peekTag)
+		return fmt.Errorf("unknown tag %s for SGPPendingNotification CHOICE", peekTag)
 	}
 	return nil
 }
 
-// MarshalBER encodes ProfileInstallationResult to BER format.
-func (v *ProfileInstallationResult) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPProfileInstallationResult to BER format.
+func (v *SGPProfileInstallationResult) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_profileinstallationresultdata, err := v.ProfileInstallationResultData.MarshalBER()
 	if err != nil {
@@ -11588,26 +18667,41 @@ func (v *ProfileInstallationResult) MarshalBER() ([]byte, error) {
 	enc_euiccsignpir := ber.EncodeOctetString([]byte(v.EuiccSignPIR))
 	enc_euiccsignpir = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 55, false, enc_euiccsignpir)
 	children = append(children, enc_euiccsignpir...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 55, Constructed: true}, children), nil
 }
 
-// MarshalDER encodes ProfileInstallationResult to DER format.
-func (v *ProfileInstallationResult) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPProfileInstallationResult to DER format.
+func (v *SGPProfileInstallationResult) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes ProfileInstallationResult from BER/DER format.
-func (v *ProfileInstallationResult) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPProfileInstallationResult from BER/DER format.
+func (v *SGPProfileInstallationResult) UnmarshalBER(data []byte) error {
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding ProfileInstallationResult: %w", err)
+		return fmt.Errorf("decoding SGPProfileInstallationResult: %w", err)
 	}
 	if decodedTag.Class != tag.ClassContextSpecific || decodedTag.Number != 55 || !decodedTag.Constructed {
-		return fmt.Errorf("decoding ProfileInstallationResult: %w: expected tag [CONTEXT 55], got %s", ber.ErrInvalidTag, decodedTag)
+		return fmt.Errorf("decoding SGPProfileInstallationResult: %w: expected tag [CONTEXT 55], got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ProfileInstallationResult", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPProfileInstallationResult", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode profileInstallationResultData
@@ -11619,7 +18713,7 @@ func (v *ProfileInstallationResult) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for profileInstallationResultData, got %s", "CONTEXT", 39, reqTag_)
 		}
 	}
-	// Decode nested SEQUENCE (sgp22.ProfileInstallationResultData)
+	// Decode nested SEQUENCE (ProfileInstallationResultData)
 	_, n_profileinstallationresultdata, _, tlvErr_profileinstallationresultdata := ber.DecodeTLV(content[offset:])
 	if tlvErr_profileinstallationresultdata != nil {
 		return fmt.Errorf("decoding profileInstallationResultData: %w", tlvErr_profileinstallationresultdata)
@@ -11641,11 +18735,21 @@ func (v *ProfileInstallationResult) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding euiccSignPIR: %w", err)
 	}
-	v.EuiccSignPIR = sgp22.EuiccSignPIR(rawVal_euiccsignpir)
+	v.EuiccSignPIR = EuiccSignPIR(rawVal_euiccsignpir)
 	offset += n_euiccsignpir
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ProfileInstallationResult", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SGPProfileInstallationResult", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -11661,11 +18765,26 @@ func (v *CompactProfileInstallationResult) MarshalBER() ([]byte, error) {
 	enc_euiccsignpir := ber.EncodeOctetString([]byte(v.EuiccSignPIR))
 	enc_euiccsignpir = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 55, false, enc_euiccsignpir)
 	children = append(children, enc_euiccsignpir...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes CompactProfileInstallationResult to DER format.
 func (v *CompactProfileInstallationResult) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -11711,11 +18830,21 @@ func (v *CompactProfileInstallationResult) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding euiccSignPIR: %w", err)
 	}
-	v.EuiccSignPIR = sgp22.EuiccSignPIR(rawVal_euiccsignpir)
+	v.EuiccSignPIR = EuiccSignPIR(rawVal_euiccsignpir)
 	offset += n_euiccsignpir
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "CompactProfileInstallationResult", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "CompactProfileInstallationResult", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -11745,11 +18874,26 @@ func (v *CompactProfileInstallationResultData) MarshalBER() ([]byte, error) {
 	}
 	enc_compactfinalresult = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_compactfinalresult)
 	children = append(children, enc_compactfinalresult...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes CompactProfileInstallationResultData to DER format.
 func (v *CompactProfileInstallationResultData) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -11777,7 +18921,7 @@ func (v *CompactProfileInstallationResultData) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
 	}
-	v.TransactionId = sgp22.TransactionId(rawVal_transactionid)
+	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
 	// Decode seqNumber
 	if offset >= len(content) {
@@ -11822,9 +18966,19 @@ func (v *CompactProfileInstallationResultData) UnmarshalBER(data []byte) error {
 		return fmt.Errorf("decoding compactFinalResult: %w", unmErr)
 	}
 	offset += n_compactfinalresult
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "CompactProfileInstallationResultData", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "CompactProfileInstallationResultData", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -11838,11 +18992,26 @@ func (v *CompactSuccessResult) MarshalBER() ([]byte, error) {
 		enc_simaresponse := ber.EncodeOctetString(v.SimaResponse)
 		children = append(children, enc_simaresponse...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes CompactSuccessResult to DER format.
 func (v *CompactSuccessResult) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -11887,9 +19056,19 @@ func (v *CompactSuccessResult) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "CompactSuccessResult", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "CompactSuccessResult", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -11913,11 +19092,26 @@ func (v *CompactOtherSignedNotification) MarshalBER() ([]byte, error) {
 		enc_euicccipkidentifiertobeused := ber.EncodeOctetString(v.EuiccCiPKIdentifierToBeUsed)
 		children = append(children, enc_euicccipkidentifiertobeused...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes CompactOtherSignedNotification to DER format.
 func (v *CompactOtherSignedNotification) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -11941,7 +19135,7 @@ func (v *CompactOtherSignedNotification) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding eidValue: %w", err)
 				}
-				tmp_eidvalue := sgp22.Octet16(rawVal_eidvalue)
+				tmp_eidvalue := Octet16(rawVal_eidvalue)
 				v.EidValue = &tmp_eidvalue
 				offset += n_eidvalue
 			}
@@ -11951,7 +19145,7 @@ func (v *CompactOtherSignedNotification) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field tbsOtherNotification")
 	}
-	// Decode nested SEQUENCE (sgp22.NotificationMetadata)
+	// Decode nested SEQUENCE (NotificationMetadata)
 	_, n_tbsothernotification, _, tlvErr_tbsothernotification := ber.DecodeTLV(content[offset:])
 	if tlvErr_tbsothernotification != nil {
 		return fmt.Errorf("decoding tbsOtherNotification: %w", tlvErr_tbsothernotification)
@@ -11990,18 +19184,28 @@ func (v *CompactOtherSignedNotification) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "CompactOtherSignedNotification", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "CompactOtherSignedNotification", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBER encodes CancelSessionResponse to BER format.
-func (v *CancelSessionResponse) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPCancelSessionResponse to BER format.
+func (v *SGPCancelSessionResponse) MarshalBER() ([]byte, error) {
 	switch v.Choice {
-	case CancelSessionResponseChoiceCancelSessionResponseOk:
+	case SGPCancelSessionResponseChoiceCancelSessionResponseOk:
 		if v.CancelSessionResponseOk == nil {
-			return nil, fmt.Errorf("choice CancelSessionResponse: cancelSessionResponseOk is nil")
+			return nil, fmt.Errorf("choice SGPCancelSessionResponse: cancelSessionResponseOk is nil")
 		}
 		enc_0, err := v.CancelSessionResponseOk.MarshalBER()
 		if err != nil {
@@ -12010,17 +19214,17 @@ func (v *CancelSessionResponse) MarshalBER() ([]byte, error) {
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_0)
 		enc_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 65, enc_0)
 		return enc_0, nil
-	case CancelSessionResponseChoiceCancelSessionResponseError:
+	case SGPCancelSessionResponseChoiceCancelSessionResponseError:
 		if v.CancelSessionResponseError == nil {
-			return nil, fmt.Errorf("choice CancelSessionResponse: cancelSessionResponseError is nil")
+			return nil, fmt.Errorf("choice SGPCancelSessionResponse: cancelSessionResponseError is nil")
 		}
-		enc_1 := ber.EncodeInteger(int64(*v.CancelSessionResponseError))
+		enc_1 := ber.EncodeBigInt(v.CancelSessionResponseError.BigInt())
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		enc_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 65, enc_1)
 		return enc_1, nil
-	case CancelSessionResponseChoiceCompactCancelSessionResponseOk:
+	case SGPCancelSessionResponseChoiceCompactCancelSessionResponseOk:
 		if v.CompactCancelSessionResponseOk == nil {
-			return nil, fmt.Errorf("choice CancelSessionResponse: compactCancelSessionResponseOk is nil")
+			return nil, fmt.Errorf("choice SGPCancelSessionResponse: compactCancelSessionResponseOk is nil")
 		}
 		enc_2, err := v.CompactCancelSessionResponseOk.MarshalBER()
 		if err != nil {
@@ -12030,16 +19234,16 @@ func (v *CancelSessionResponse) MarshalBER() ([]byte, error) {
 		enc_2 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 65, enc_2)
 		return enc_2, nil
 	default:
-		return nil, fmt.Errorf("unknown choice %d for CancelSessionResponse", v.Choice)
+		return nil, fmt.Errorf("unknown choice %d for SGPCancelSessionResponse", v.Choice)
 	}
 }
 
-// MarshalDER encodes CancelSessionResponse to DER format.
-func (v *CancelSessionResponse) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPCancelSessionResponse to DER format.
+func (v *SGPCancelSessionResponse) MarshalDER() ([]byte, error) {
 	switch v.Choice {
-	case CancelSessionResponseChoiceCancelSessionResponseOk:
+	case SGPCancelSessionResponseChoiceCancelSessionResponseOk:
 		if v.CancelSessionResponseOk == nil {
-			return nil, fmt.Errorf("choice CancelSessionResponse: cancelSessionResponseOk is nil")
+			return nil, fmt.Errorf("choice SGPCancelSessionResponse: cancelSessionResponseOk is nil")
 		}
 		enc_der_0, err := v.CancelSessionResponseOk.MarshalDER()
 		if err != nil {
@@ -12048,9 +19252,9 @@ func (v *CancelSessionResponse) MarshalDER() ([]byte, error) {
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
 		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 65, enc_der_0)
 		return enc_der_0, nil
-	case CancelSessionResponseChoiceCompactCancelSessionResponseOk:
+	case SGPCancelSessionResponseChoiceCompactCancelSessionResponseOk:
 		if v.CompactCancelSessionResponseOk == nil {
-			return nil, fmt.Errorf("choice CancelSessionResponse: compactCancelSessionResponseOk is nil")
+			return nil, fmt.Errorf("choice SGPCancelSessionResponse: compactCancelSessionResponseOk is nil")
 		}
 		enc_der_2, err := v.CompactCancelSessionResponseOk.MarshalDER()
 		if err != nil {
@@ -12063,63 +19267,67 @@ func (v *CancelSessionResponse) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes CancelSessionResponse from BER/DER format.
-func (v *CancelSessionResponse) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPCancelSessionResponse from BER/DER format.
+func (v *SGPCancelSessionResponse) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for CancelSessionResponse CHOICE")
+		return fmt.Errorf("empty data for SGPCancelSessionResponse CHOICE")
 	}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding CancelSessionResponse CHOICE: %w", err)
+		return fmt.Errorf("decoding SGPCancelSessionResponse CHOICE: %w", err)
 	}
 	if decodedTag.Class != tag.ClassContextSpecific || decodedTag.Number != 65 || !decodedTag.Constructed {
-		return fmt.Errorf("decoding CancelSessionResponse CHOICE: %w: expected tag [CONTEXT 65], got %s", ber.ErrInvalidTag, decodedTag)
+		return fmt.Errorf("decoding SGPCancelSessionResponse CHOICE: %w: expected tag [CONTEXT 65], got %s", ber.ErrInvalidTag, decodedTag)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "CancelSessionResponse", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPCancelSessionResponse", Cause: ber.ErrExtraData}
 	}
 	if len(content) == 0 {
-		return fmt.Errorf("empty content for CancelSessionResponse CHOICE")
+		return fmt.Errorf("empty content for SGPCancelSessionResponse CHOICE")
 	}
 	choiceData := content
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for CancelSessionResponse: %w", peekErr)
+		return fmt.Errorf("peeking tag for SGPCancelSessionResponse: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
-		return fmt.Errorf("decoding CancelSessionResponse CHOICE: %w", tlvErr)
+		return fmt.Errorf("decoding SGPCancelSessionResponse CHOICE: %w", tlvErr)
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "CancelSessionResponse", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPCancelSessionResponse", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-		v.Choice = CancelSessionResponseChoiceCancelSessionResponseOk
+		v.Choice = SGPCancelSessionResponseChoiceCancelSessionResponseOk
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding cancelSessionResponseOk: %w", tlvErr)
 		}
 		reconstructed := ber.EncodeSequence(rawVal)
-		var dec sgp22.CancelSessionResponseOk
+		var dec CancelSessionResponseOk
 		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
 			return fmt.Errorf("decoding cancelSessionResponseOk: %w", unmErr)
 		}
 		v.CancelSessionResponseOk = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-		v.Choice = CancelSessionResponseChoiceCancelSessionResponseError
+		v.Choice = SGPCancelSessionResponseChoiceCancelSessionResponseError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding cancelSessionResponseError: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding cancelSessionResponseError: %w", intErr)
 		}
-		v.CancelSessionResponseError = &decVal
+		var named_cancelsessionresponseerror SGPCancelSessionResponseCancelSessionResponseErrorValue
+		if namedErr := named_cancelsessionresponseerror.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding cancelSessionResponseError: %w", namedErr)
+		}
+		v.CancelSessionResponseError = &named_cancelsessionresponseerror
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-		v.Choice = CancelSessionResponseChoiceCompactCancelSessionResponseOk
+		v.Choice = SGPCancelSessionResponseChoiceCompactCancelSessionResponseOk
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding compactCancelSessionResponseOk: %w", tlvErr)
@@ -12131,7 +19339,7 @@ func (v *CancelSessionResponse) UnmarshalBER(data []byte) error {
 		}
 		v.CompactCancelSessionResponseOk = &dec
 	} else {
-		return fmt.Errorf("unknown tag %s for CancelSessionResponse CHOICE", peekTag)
+		return fmt.Errorf("unknown tag %s for SGPCancelSessionResponse CHOICE", peekTag)
 	}
 	return nil
 }
@@ -12147,11 +19355,26 @@ func (v *CompactCancelSessionResponseOk) MarshalBER() ([]byte, error) {
 	enc_euicccancelsessionsignature := ber.EncodeOctetString(v.EuiccCancelSessionSignature)
 	enc_euicccancelsessionsignature = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 55, false, enc_euicccancelsessionsignature)
 	children = append(children, enc_euicccancelsessionsignature...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes CompactCancelSessionResponseOk to DER format.
 func (v *CompactCancelSessionResponseOk) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -12194,9 +19417,19 @@ func (v *CompactCancelSessionResponseOk) UnmarshalBER(data []byte) error {
 	}
 	v.EuiccCancelSessionSignature = rawVal_euicccancelsessionsignature
 	offset += n_euicccancelsessionsignature
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "CompactCancelSessionResponseOk", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "CompactCancelSessionResponseOk", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -12204,15 +19437,30 @@ func (v *CompactCancelSessionResponseOk) UnmarshalBER(data []byte) error {
 func (v *CompactEuiccCancelSessionSigned) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.Reason != nil {
-		enc_reason := ber.EncodeInteger(int64(*v.Reason))
+		enc_reason := ber.EncodeBigInt((*v.Reason).BigInt())
 		enc_reason = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_reason)
 		children = append(children, enc_reason...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
 	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes CompactEuiccCancelSessionSigned to DER format.
 func (v *CompactEuiccCancelSessionSigned) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -12236,19 +19484,32 @@ func (v *CompactEuiccCancelSessionSigned) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding reason: %w", err)
 				}
-				decVal_reason, intErr := ber.DecodeIntegerValue(rawVal_reason)
+				decVal_reason, intErr := ber.DecodeBigIntValue(rawVal_reason)
 				if intErr != nil {
 					return fmt.Errorf("decoding reason: %w", intErr)
 				}
-				tmp_reason := sgp22.CancelSessionReason(decVal_reason)
-				v.Reason = &tmp_reason
+				var named_reason CancelSessionReason
+				if namedErr := named_reason.UnmarshalText([]byte(decVal_reason.String())); namedErr != nil {
+					return fmt.Errorf("decoding reason: %w", namedErr)
+				}
+				v.Reason = &named_reason
 				offset += n_reason
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "CompactEuiccCancelSessionSigned", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "CompactEuiccCancelSessionSigned", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -12730,11 +19991,26 @@ func (v *InitiateAuthenticationRequestEsipa) MarshalBER() ([]byte, error) {
 		enc_eimtransactionid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_eimtransactionid)
 		children = append(children, enc_eimtransactionid...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 57, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes InitiateAuthenticationRequestEsipa to DER format.
 func (v *InitiateAuthenticationRequestEsipa) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -12765,7 +20041,7 @@ func (v *InitiateAuthenticationRequestEsipa) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding euiccChallenge: %w", err)
 	}
-	v.EuiccChallenge = sgp22.Octet16(rawVal_euiccchallenge)
+	v.EuiccChallenge = Octet16(rawVal_euiccchallenge)
 	offset += n_euiccchallenge
 	// Decode smdpAddress
 	if offset < len(content) {
@@ -12787,12 +20063,12 @@ func (v *InitiateAuthenticationRequestEsipa) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (sgp22.EUICCInfo1)
+				// Decode nested SEQUENCE (EUICCInfo1)
 				_, n_euiccinfo1, _, tlvErr_euiccinfo1 := ber.DecodeTLV(content[offset:])
 				if tlvErr_euiccinfo1 != nil {
 					return fmt.Errorf("decoding euiccInfo1: %w", tlvErr_euiccinfo1)
 				}
-				var dec_euiccinfo1 sgp22.EUICCInfo1
+				var dec_euiccinfo1 EUICCInfo1
 				if unmErr := dec_euiccinfo1.UnmarshalBER(content[offset : offset+n_euiccinfo1]); unmErr != nil {
 					return fmt.Errorf("decoding euiccInfo1: %w", unmErr)
 				}
@@ -12810,15 +20086,25 @@ func (v *InitiateAuthenticationRequestEsipa) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding eimTransactionId: %w", err)
 				}
-				tmp_eimtransactionid := sgp22.TransactionId(rawVal_eimtransactionid)
+				tmp_eimtransactionid := TransactionId(rawVal_eimtransactionid)
 				v.EimTransactionId = &tmp_eimtransactionid
 				offset += n_eimtransactionid
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "InitiateAuthenticationRequestEsipa", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "InitiateAuthenticationRequestEsipa", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -12840,7 +20126,7 @@ func (v *InitiateAuthenticationResponseEsipa) MarshalBER() ([]byte, error) {
 		if v.InitiateAuthenticationErrorEsipa == nil {
 			return nil, fmt.Errorf("choice InitiateAuthenticationResponseEsipa: initiateAuthenticationErrorEsipa is nil")
 		}
-		enc_1 := ber.EncodeInteger(int64(*v.InitiateAuthenticationErrorEsipa))
+		enc_1 := ber.EncodeBigInt(v.InitiateAuthenticationErrorEsipa.BigInt())
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		enc_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 57, enc_1)
 		return enc_1, nil
@@ -12917,11 +20203,15 @@ func (v *InitiateAuthenticationResponseEsipa) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding initiateAuthenticationErrorEsipa: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding initiateAuthenticationErrorEsipa: %w", intErr)
 		}
-		v.InitiateAuthenticationErrorEsipa = &decVal
+		var named_initiateauthenticationerroresipa InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue
+		if namedErr := named_initiateauthenticationerroresipa.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding initiateAuthenticationErrorEsipa: %w", namedErr)
+		}
+		v.InitiateAuthenticationErrorEsipa = &named_initiateauthenticationerroresipa
 	} else {
 		return fmt.Errorf("unknown tag %s for InitiateAuthenticationResponseEsipa CHOICE", peekTag)
 	}
@@ -12963,11 +20253,26 @@ func (v *InitiateAuthenticationOkEsipa) MarshalBER() ([]byte, error) {
 		enc_ctxparams1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_ctxparams1)
 		children = append(children, enc_ctxparams1...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes InitiateAuthenticationOkEsipa to DER format.
 func (v *InitiateAuthenticationOkEsipa) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -12991,7 +20296,7 @@ func (v *InitiateAuthenticationOkEsipa) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding transactionId: %w", err)
 				}
-				tmp_transactionid := sgp22.TransactionId(rawVal_transactionid)
+				tmp_transactionid := TransactionId(rawVal_transactionid)
 				v.TransactionId = &tmp_transactionid
 				offset += n_transactionid
 			}
@@ -13001,7 +20306,7 @@ func (v *InitiateAuthenticationOkEsipa) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field serverSigned1")
 	}
-	// Decode nested SEQUENCE (sgp22.ServerSigned1)
+	// Decode nested SEQUENCE (ServerSigned1)
 	_, n_serversigned1, _, tlvErr_serversigned1 := ber.DecodeTLV(content[offset:])
 	if tlvErr_serversigned1 != nil {
 		return fmt.Errorf("decoding serverSigned1: %w", tlvErr_serversigned1)
@@ -13039,7 +20344,7 @@ func (v *InitiateAuthenticationOkEsipa) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field serverCertificate")
 	}
-	// Decode nested SEQUENCE (sgp22.Certificate)
+	// Decode nested SEQUENCE (Certificate)
 	_, n_servercertificate, _, tlvErr_servercertificate := ber.DecodeTLV(content[offset:])
 	if tlvErr_servercertificate != nil {
 		return fmt.Errorf("decoding serverCertificate: %w", tlvErr_servercertificate)
@@ -13072,7 +20377,7 @@ func (v *InitiateAuthenticationOkEsipa) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding ctxParams1: %w", err)
 				}
 				// Decode inner value from explicit tag wrapper
-				var dec_ctxparams1 sgp22.CtxParams1
+				var dec_ctxparams1 CtxParams1
 				if unmErr := dec_ctxparams1.UnmarshalBER(innerData_ctxparams1); unmErr != nil {
 					return fmt.Errorf("decoding ctxParams1: %w", unmErr)
 				}
@@ -13081,9 +20386,19 @@ func (v *InitiateAuthenticationOkEsipa) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "InitiateAuthenticationOkEsipa", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "InitiateAuthenticationOkEsipa", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -13098,11 +20413,26 @@ func (v *AuthenticateClientRequestEsipa) MarshalBER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding authenticateServerResponse: %w", err)
 	}
 	children = append(children, enc_authenticateserverresponse...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 59, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes AuthenticateClientRequestEsipa to DER format.
 func (v *AuthenticateClientRequestEsipa) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -13133,7 +20463,7 @@ func (v *AuthenticateClientRequestEsipa) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
 	}
-	v.TransactionId = sgp22.TransactionId(rawVal_transactionid)
+	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
 	// Decode authenticateServerResponse
 	if offset >= len(content) {
@@ -13144,7 +20474,7 @@ func (v *AuthenticateClientRequestEsipa) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for authenticateServerResponse, got %s", "CONTEXT", 56, reqTag_)
 		}
 	}
-	// Decode nested CHOICE (AuthenticateServerResponse)
+	// Decode nested CHOICE (SGPAuthenticateServerResponse)
 	_, n_authenticateserverresponse, _, tlvErr_authenticateserverresponse := ber.DecodeTLV(content[offset:])
 	if tlvErr_authenticateserverresponse != nil {
 		return fmt.Errorf("decoding authenticateServerResponse: %w", tlvErr_authenticateserverresponse)
@@ -13153,9 +20483,19 @@ func (v *AuthenticateClientRequestEsipa) UnmarshalBER(data []byte) error {
 		return fmt.Errorf("decoding authenticateServerResponse: %w", unmErr)
 	}
 	offset += n_authenticateserverresponse
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "AuthenticateClientRequestEsipa", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "AuthenticateClientRequestEsipa", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -13188,7 +20528,7 @@ func (v *AuthenticateClientResponseEsipa) MarshalBER() ([]byte, error) {
 		if v.AuthenticateClientErrorEsipa == nil {
 			return nil, fmt.Errorf("choice AuthenticateClientResponseEsipa: authenticateClientErrorEsipa is nil")
 		}
-		enc_2 := ber.EncodeInteger(int64(*v.AuthenticateClientErrorEsipa))
+		enc_2 := ber.EncodeBigInt(v.AuthenticateClientErrorEsipa.BigInt())
 		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_2)
 		enc_2 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 59, enc_2)
 		return enc_2, nil
@@ -13288,11 +20628,15 @@ func (v *AuthenticateClientResponseEsipa) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding authenticateClientErrorEsipa: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding authenticateClientErrorEsipa: %w", intErr)
 		}
-		v.AuthenticateClientErrorEsipa = &decVal
+		var named_authenticateclienterroresipa AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue
+		if namedErr := named_authenticateclienterroresipa.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding authenticateClientErrorEsipa: %w", namedErr)
+		}
+		v.AuthenticateClientErrorEsipa = &named_authenticateclienterroresipa
 	} else {
 		return fmt.Errorf("unknown tag %s for AuthenticateClientResponseEsipa CHOICE", peekTag)
 	}
@@ -13331,11 +20675,26 @@ func (v *AuthenticateClientOkDPEsipa) MarshalBER() ([]byte, error) {
 		enc_hashcc := ber.EncodeOctetString([]byte(*v.HashCc))
 		children = append(children, enc_hashcc...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes AuthenticateClientOkDPEsipa to DER format.
 func (v *AuthenticateClientOkDPEsipa) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -13359,7 +20718,7 @@ func (v *AuthenticateClientOkDPEsipa) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding transactionId: %w", err)
 				}
-				tmp_transactionid := sgp22.TransactionId(rawVal_transactionid)
+				tmp_transactionid := TransactionId(rawVal_transactionid)
 				v.TransactionId = &tmp_transactionid
 				offset += n_transactionid
 			}
@@ -13370,12 +20729,12 @@ func (v *AuthenticateClientOkDPEsipa) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 37 {
-				// Decode nested SEQUENCE (StoreMetadataRequest)
+				// Decode nested SEQUENCE (SGPStoreMetadataRequest)
 				_, n_profilemetadata, _, tlvErr_profilemetadata := ber.DecodeTLV(content[offset:])
 				if tlvErr_profilemetadata != nil {
 					return fmt.Errorf("decoding profileMetaData: %w", tlvErr_profilemetadata)
 				}
-				var dec_profilemetadata StoreMetadataRequest
+				var dec_profilemetadata SGPStoreMetadataRequest
 				if unmErr := dec_profilemetadata.UnmarshalBER(content[offset : offset+n_profilemetadata]); unmErr != nil {
 					return fmt.Errorf("decoding profileMetaData: %w", unmErr)
 				}
@@ -13388,7 +20747,7 @@ func (v *AuthenticateClientOkDPEsipa) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field smdpSigned2")
 	}
-	// Decode nested SEQUENCE (sgp22.SmdpSigned2)
+	// Decode nested SEQUENCE (SmdpSigned2)
 	_, n_smdpsigned2, _, tlvErr_smdpsigned2 := ber.DecodeTLV(content[offset:])
 	if tlvErr_smdpsigned2 != nil {
 		return fmt.Errorf("decoding smdpSigned2: %w", tlvErr_smdpsigned2)
@@ -13416,7 +20775,7 @@ func (v *AuthenticateClientOkDPEsipa) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field smdpCertificate")
 	}
-	// Decode nested SEQUENCE (sgp22.Certificate)
+	// Decode nested SEQUENCE (Certificate)
 	_, n_smdpcertificate, _, tlvErr_smdpcertificate := ber.DecodeTLV(content[offset:])
 	if tlvErr_smdpcertificate != nil {
 		return fmt.Errorf("decoding smdpCertificate: %w", tlvErr_smdpcertificate)
@@ -13434,15 +20793,25 @@ func (v *AuthenticateClientOkDPEsipa) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding hashCc: %w", err)
 				}
-				tmp_hashcc := sgp22.Octet32(val_hashcc)
+				tmp_hashcc := Octet32(val_hashcc)
 				v.HashCc = &tmp_hashcc
 				offset += n
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "AuthenticateClientOkDPEsipa", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "AuthenticateClientOkDPEsipa", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -13459,11 +20828,26 @@ func (v *AuthenticateClientOkDSEsipa) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, enc_profiledownloadtrigger...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes AuthenticateClientOkDSEsipa to DER format.
 func (v *AuthenticateClientOkDSEsipa) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -13491,7 +20875,7 @@ func (v *AuthenticateClientOkDSEsipa) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
 	}
-	v.TransactionId = sgp22.TransactionId(rawVal_transactionid)
+	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
 	// Decode profileDownloadTrigger
 	if offset < len(content) {
@@ -13512,9 +20896,19 @@ func (v *AuthenticateClientOkDSEsipa) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "AuthenticateClientOkDSEsipa", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "AuthenticateClientOkDSEsipa", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -13529,11 +20923,26 @@ func (v *GetBoundProfilePackageRequestEsipa) MarshalBER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding prepareDownloadResponse: %w", err)
 	}
 	children = append(children, enc_preparedownloadresponse...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 58, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes GetBoundProfilePackageRequestEsipa to DER format.
 func (v *GetBoundProfilePackageRequestEsipa) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -13564,7 +20973,7 @@ func (v *GetBoundProfilePackageRequestEsipa) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
 	}
-	v.TransactionId = sgp22.TransactionId(rawVal_transactionid)
+	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
 	// Decode prepareDownloadResponse
 	if offset >= len(content) {
@@ -13575,7 +20984,7 @@ func (v *GetBoundProfilePackageRequestEsipa) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for prepareDownloadResponse, got %s", "CONTEXT", 33, reqTag_)
 		}
 	}
-	// Decode nested CHOICE (PrepareDownloadResponse)
+	// Decode nested CHOICE (SGPPrepareDownloadResponse)
 	_, n_preparedownloadresponse, _, tlvErr_preparedownloadresponse := ber.DecodeTLV(content[offset:])
 	if tlvErr_preparedownloadresponse != nil {
 		return fmt.Errorf("decoding prepareDownloadResponse: %w", tlvErr_preparedownloadresponse)
@@ -13584,9 +20993,19 @@ func (v *GetBoundProfilePackageRequestEsipa) UnmarshalBER(data []byte) error {
 		return fmt.Errorf("decoding prepareDownloadResponse: %w", unmErr)
 	}
 	offset += n_preparedownloadresponse
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "GetBoundProfilePackageRequestEsipa", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "GetBoundProfilePackageRequestEsipa", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -13608,7 +21027,7 @@ func (v *GetBoundProfilePackageResponseEsipa) MarshalBER() ([]byte, error) {
 		if v.GetBoundProfilePackageErrorEsipa == nil {
 			return nil, fmt.Errorf("choice GetBoundProfilePackageResponseEsipa: getBoundProfilePackageErrorEsipa is nil")
 		}
-		enc_1 := ber.EncodeInteger(int64(*v.GetBoundProfilePackageErrorEsipa))
+		enc_1 := ber.EncodeBigInt(v.GetBoundProfilePackageErrorEsipa.BigInt())
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		enc_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 58, enc_1)
 		return enc_1, nil
@@ -13685,11 +21104,15 @@ func (v *GetBoundProfilePackageResponseEsipa) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding getBoundProfilePackageErrorEsipa: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding getBoundProfilePackageErrorEsipa: %w", intErr)
 		}
-		v.GetBoundProfilePackageErrorEsipa = &decVal
+		var named_getboundprofilepackageerroresipa GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue
+		if namedErr := named_getboundprofilepackageerroresipa.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding getBoundProfilePackageErrorEsipa: %w", namedErr)
+		}
+		v.GetBoundProfilePackageErrorEsipa = &named_getboundprofilepackageerroresipa
 	} else {
 		return fmt.Errorf("unknown tag %s for GetBoundProfilePackageResponseEsipa CHOICE", peekTag)
 	}
@@ -13709,11 +21132,26 @@ func (v *GetBoundProfilePackageOkEsipa) MarshalBER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding boundProfilePackage: %w", err)
 	}
 	children = append(children, enc_boundprofilepackage...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes GetBoundProfilePackageOkEsipa to DER format.
 func (v *GetBoundProfilePackageOkEsipa) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -13737,7 +21175,7 @@ func (v *GetBoundProfilePackageOkEsipa) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding transactionId: %w", err)
 				}
-				tmp_transactionid := sgp22.TransactionId(rawVal_transactionid)
+				tmp_transactionid := TransactionId(rawVal_transactionid)
 				v.TransactionId = &tmp_transactionid
 				offset += n_transactionid
 			}
@@ -13752,7 +21190,7 @@ func (v *GetBoundProfilePackageOkEsipa) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for boundProfilePackage, got %s", "CONTEXT", 54, reqTag_)
 		}
 	}
-	// Decode nested SEQUENCE (sgp22.BoundProfilePackage)
+	// Decode nested SEQUENCE (BoundProfilePackage)
 	_, n_boundprofilepackage, _, tlvErr_boundprofilepackage := ber.DecodeTLV(content[offset:])
 	if tlvErr_boundprofilepackage != nil {
 		return fmt.Errorf("decoding boundProfilePackage: %w", tlvErr_boundprofilepackage)
@@ -13761,9 +21199,19 @@ func (v *GetBoundProfilePackageOkEsipa) UnmarshalBER(data []byte) error {
 		return fmt.Errorf("decoding boundProfilePackage: %w", unmErr)
 	}
 	offset += n_boundprofilepackage
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "GetBoundProfilePackageOkEsipa", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "GetBoundProfilePackageOkEsipa", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -13862,7 +21310,7 @@ func (v *HandleNotificationEsipa) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding pendingNotification: %w", tlvErr)
 		}
-		var dec PendingNotification
+		var dec SGPPendingNotification
 		if unmErr := dec.UnmarshalBER(innerData); unmErr != nil {
 			return fmt.Errorf("decoding pendingNotification: %w", unmErr)
 		}
@@ -13892,11 +21340,26 @@ func (v *CancelSessionRequestEsipa) MarshalBER() ([]byte, error) {
 	}
 	enc_cancelsessionresponse = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 1, enc_cancelsessionresponse)
 	children = append(children, enc_cancelsessionresponse...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 65, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes CancelSessionRequestEsipa to DER format.
 func (v *CancelSessionRequestEsipa) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -13927,7 +21390,7 @@ func (v *CancelSessionRequestEsipa) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
 	}
-	v.TransactionId = sgp22.TransactionId(rawVal_transactionid)
+	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
 	// Decode cancelSessionResponse
 	if offset >= len(content) {
@@ -13947,9 +21410,19 @@ func (v *CancelSessionRequestEsipa) UnmarshalBER(data []byte) error {
 		return fmt.Errorf("decoding cancelSessionResponse: %w", unmErr)
 	}
 	offset += n_cancelsessionresponse
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "CancelSessionRequestEsipa", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "CancelSessionRequestEsipa", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -13971,7 +21444,7 @@ func (v *CancelSessionResponseEsipa) MarshalBER() ([]byte, error) {
 		if v.CancelSessionError == nil {
 			return nil, fmt.Errorf("choice CancelSessionResponseEsipa: cancelSessionError is nil")
 		}
-		enc_1 := ber.EncodeInteger(int64(*v.CancelSessionError))
+		enc_1 := ber.EncodeBigInt(v.CancelSessionError.BigInt())
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		enc_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 65, enc_1)
 		return enc_1, nil
@@ -14037,7 +21510,7 @@ func (v *CancelSessionResponseEsipa) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding cancelSessionOk: %w", tlvErr)
 		}
 		reconstructed := ber.EncodeSequence(rawVal)
-		var dec CancelSessionOk
+		var dec SGPCancelSessionOk
 		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
 			return fmt.Errorf("decoding cancelSessionOk: %w", unmErr)
 		}
@@ -14048,37 +21521,71 @@ func (v *CancelSessionResponseEsipa) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding cancelSessionError: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding cancelSessionError: %w", intErr)
 		}
-		v.CancelSessionError = &decVal
+		var named_cancelsessionerror CancelSessionResponseEsipaCancelSessionErrorValue
+		if namedErr := named_cancelsessionerror.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding cancelSessionError: %w", namedErr)
+		}
+		v.CancelSessionError = &named_cancelsessionerror
 	} else {
 		return fmt.Errorf("unknown tag %s for CancelSessionResponseEsipa CHOICE", peekTag)
 	}
 	return nil
 }
 
-// MarshalBER encodes CancelSessionOk to BER format.
-func (v *CancelSessionOk) MarshalBER() ([]byte, error) {
-	return ber.EncodeSequence(nil), nil
+// MarshalBER encodes SGPCancelSessionOk to BER format.
+func (v *SGPCancelSessionOk) MarshalBER() ([]byte, error) {
+	var children []byte
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes CancelSessionOk to DER format.
-func (v *CancelSessionOk) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPCancelSessionOk to DER format.
+func (v *SGPCancelSessionOk) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes CancelSessionOk from BER/DER format.
-func (v *CancelSessionOk) UnmarshalBER(data []byte) error {
-	_, total, err := ber.DecodeSequenceContent(data)
+// UnmarshalBER decodes SGPCancelSessionOk from BER/DER format.
+func (v *SGPCancelSessionOk) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding CancelSessionOk SEQUENCE: %w", err)
+		return fmt.Errorf("decoding SGPCancelSessionOk SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "CancelSessionOk", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPCancelSessionOk", Cause: ber.ErrExtraData}
 	}
+	offset := 0
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SGPCancelSessionOk", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -14094,7 +21601,7 @@ func (v *GetEimPackageRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_notifystatechange...)
 	}
 	if v.StateChangeCause != nil {
-		enc_statechangecause := ber.EncodeInteger(int64(*v.StateChangeCause))
+		enc_statechangecause := ber.EncodeBigInt((*v.StateChangeCause).BigInt())
 		enc_statechangecause = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_statechangecause)
 		children = append(children, enc_statechangecause...)
 	}
@@ -14103,11 +21610,26 @@ func (v *GetEimPackageRequest) MarshalBER() ([]byte, error) {
 		enc_rplmn = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_rplmn)
 		children = append(children, enc_rplmn...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 79, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes GetEimPackageRequest to DER format.
 func (v *GetEimPackageRequest) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -14138,7 +21660,7 @@ func (v *GetEimPackageRequest) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding eidValue: %w", err)
 	}
-	v.EidValue = sgp22.Octet16(rawVal_eidvalue)
+	v.EidValue = Octet16(rawVal_eidvalue)
 	offset += n_eidvalue
 	// Decode notifyStateChange
 	if offset < len(content) {
@@ -14164,12 +21686,15 @@ func (v *GetEimPackageRequest) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding stateChangeCause: %w", err)
 				}
-				decVal_statechangecause, intErr := ber.DecodeIntegerValue(rawVal_statechangecause)
+				decVal_statechangecause, intErr := ber.DecodeBigIntValue(rawVal_statechangecause)
 				if intErr != nil {
 					return fmt.Errorf("decoding stateChangeCause: %w", intErr)
 				}
-				tmp_statechangecause := StateChangeCause(decVal_statechangecause)
-				v.StateChangeCause = &tmp_statechangecause
+				var named_statechangecause StateChangeCause
+				if namedErr := named_statechangecause.UnmarshalText([]byte(decVal_statechangecause.String())); namedErr != nil {
+					return fmt.Errorf("decoding stateChangeCause: %w", namedErr)
+				}
+				v.StateChangeCause = &named_statechangecause
 				offset += n_statechangecause
 			}
 		}
@@ -14189,9 +21714,19 @@ func (v *GetEimPackageRequest) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "GetEimPackageRequest", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "GetEimPackageRequest", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -14232,7 +21767,7 @@ func (v *GetEimPackageResponse) MarshalBER() ([]byte, error) {
 		if v.EimPackageError == nil {
 			return nil, fmt.Errorf("choice GetEimPackageResponse: eimPackageError is nil")
 		}
-		enc_3 := ber.EncodeInteger(int64(*v.EimPackageError))
+		enc_3 := ber.EncodeBigInt(v.EimPackageError.BigInt())
 		enc_3 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 79, enc_3)
 		return enc_3, nil
 	default:
@@ -14332,11 +21867,15 @@ func (v *GetEimPackageResponse) UnmarshalBER(data []byte) error {
 		v.ProfileDownloadTriggerRequest = &dec
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 {
 		v.Choice = GetEimPackageResponseChoiceEimPackageError
-		decVal, _, intErr := ber.DecodeInteger(choiceData)
+		decVal, _, intErr := ber.DecodeBigInt(choiceData)
 		if intErr != nil {
 			return fmt.Errorf("decoding eimPackageError: %w", intErr)
 		}
-		v.EimPackageError = &decVal
+		var named_eimpackageerror GetEimPackageResponseEimPackageErrorValue
+		if namedErr := named_eimpackageerror.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding eimPackageError: %w", namedErr)
+		}
+		v.EimPackageError = &named_eimpackageerror
 	} else {
 		return fmt.Errorf("unknown tag %s for GetEimPackageResponse CHOICE", peekTag)
 	}
@@ -14351,13 +21890,28 @@ func (v *EimPackageResultResponseError) MarshalBER() ([]byte, error) {
 		enc_eimtransactionid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_eimtransactionid)
 		children = append(children, enc_eimtransactionid...)
 	}
-	enc_eimpackageresulterrorcode := ber.EncodeInteger(int64(v.EimPackageResultErrorCode))
+	enc_eimpackageresulterrorcode := ber.EncodeBigInt((v.EimPackageResultErrorCode).BigInt())
 	children = append(children, enc_eimpackageresulterrorcode...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes EimPackageResultResponseError to DER format.
 func (v *EimPackageResultResponseError) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -14381,7 +21935,7 @@ func (v *EimPackageResultResponseError) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding eimTransactionId: %w", err)
 				}
-				tmp_eimtransactionid := sgp22.TransactionId(rawVal_eimtransactionid)
+				tmp_eimtransactionid := TransactionId(rawVal_eimtransactionid)
 				v.EimTransactionId = &tmp_eimtransactionid
 				offset += n_eimtransactionid
 			}
@@ -14391,15 +21945,29 @@ func (v *EimPackageResultResponseError) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field eimPackageResultErrorCode")
 	}
-	val_eimpackageresulterrorcode, n, err := ber.DecodeInteger(content[offset:])
+	val_eimpackageresulterrorcode, n, err := ber.DecodeBigInt(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding eimPackageResultErrorCode: %w", err)
 	}
-	v.EimPackageResultErrorCode = EimPackageResultErrorCode(val_eimpackageresulterrorcode)
-	offset += n
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EimPackageResultResponseError", Cause: ber.ErrExtraData}
+	var named_eimpackageresulterrorcode EimPackageResultErrorCode
+	if namedErr := named_eimpackageresulterrorcode.UnmarshalText([]byte(val_eimpackageresulterrorcode.String())); namedErr != nil {
+		return fmt.Errorf("decoding eimPackageResultErrorCode: %w", namedErr)
 	}
+	v.EimPackageResultErrorCode = named_eimpackageresulterrorcode
+	offset += n
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "EimPackageResultResponseError", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -14588,11 +22156,26 @@ func (v *ProvideEimPackageResult) MarshalBER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding eimPackageResult: %w", err)
 	}
 	children = append(children, enc_eimpackageresult...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassContextSpecific, Number: 80, Constructed: true}, children), nil
 }
 
 // MarshalDER encodes ProvideEimPackageResult to DER format.
 func (v *ProvideEimPackageResult) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -14619,7 +22202,7 @@ func (v *ProvideEimPackageResult) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding eidValue: %w", err)
 				}
-				tmp_eidvalue := sgp22.Octet16(rawVal_eidvalue)
+				tmp_eidvalue := Octet16(rawVal_eidvalue)
 				v.EidValue = &tmp_eidvalue
 				offset += n_eidvalue
 			}
@@ -14638,9 +22221,19 @@ func (v *ProvideEimPackageResult) UnmarshalBER(data []byte) error {
 		return fmt.Errorf("decoding eimPackageResult: %w", unmErr)
 	}
 	offset += n_eimpackageresult
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ProvideEimPackageResult", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ProvideEimPackageResult", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -14671,7 +22264,7 @@ func (v *ProvideEimPackageResultResponse) MarshalBER() ([]byte, error) {
 		if v.ProvideEimPackageResultError == nil {
 			return nil, fmt.Errorf("choice ProvideEimPackageResultResponse: provideEimPackageResultError is nil")
 		}
-		enc_2 := ber.EncodeInteger(int64(*v.ProvideEimPackageResultError))
+		enc_2 := ber.EncodeBigInt(v.ProvideEimPackageResultError.BigInt())
 		enc_2 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 80, enc_2)
 		return enc_2, nil
 	default:
@@ -14744,11 +22337,15 @@ func (v *ProvideEimPackageResultResponse) UnmarshalBER(data []byte) error {
 		v.EmptyResponse = &dec
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 {
 		v.Choice = ProvideEimPackageResultResponseChoiceProvideEimPackageResultError
-		decVal, _, intErr := ber.DecodeInteger(choiceData)
+		decVal, _, intErr := ber.DecodeBigInt(choiceData)
 		if intErr != nil {
 			return fmt.Errorf("decoding provideEimPackageResultError: %w", intErr)
 		}
-		v.ProvideEimPackageResultError = &decVal
+		var named_provideeimpackageresulterror ProvideEimPackageResultResponseProvideEimPackageResultErrorValue
+		if namedErr := named_provideeimpackageresulterror.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding provideEimPackageResultError: %w", namedErr)
+		}
+		v.ProvideEimPackageResultError = &named_provideeimpackageresulterror
 	} else {
 		return fmt.Errorf("unknown tag %s for ProvideEimPackageResultResponse CHOICE", peekTag)
 	}
@@ -14958,7 +22555,7 @@ func (v *TransferEimPackageResponse) MarshalBER() ([]byte, error) {
 		if v.EimPackageError == nil {
 			return nil, fmt.Errorf("choice TransferEimPackageResponse: eimPackageError is nil")
 		}
-		enc_5 := ber.EncodeInteger(int64(*v.EimPackageError))
+		enc_5 := ber.EncodeBigInt(v.EimPackageError.BigInt())
 		enc_5 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 78, enc_5)
 		return enc_5, nil
 	case TransferEimPackageResponseChoiceEimPackageErrorWithCid:
@@ -15109,11 +22706,15 @@ func (v *TransferEimPackageResponse) UnmarshalBER(data []byte) error {
 		v.EimPackageReceivedWithCid = &dec
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 {
 		v.Choice = TransferEimPackageResponseChoiceEimPackageError
-		decVal, _, intErr := ber.DecodeInteger(choiceData)
+		decVal, _, intErr := ber.DecodeBigInt(choiceData)
 		if intErr != nil {
 			return fmt.Errorf("decoding eimPackageError: %w", intErr)
 		}
-		v.EimPackageError = &decVal
+		var named_eimpackageerror TransferEimPackageResponseEimPackageErrorValue
+		if namedErr := named_eimpackageerror.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding eimPackageError: %w", namedErr)
+		}
+		v.EimPackageError = &named_eimpackageerror
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 97 {
 		v.Choice = TransferEimPackageResponseChoiceEimPackageErrorWithCid
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
@@ -15143,11 +22744,26 @@ func (v *EimPackageReceivedWithCid) MarshalBER() ([]byte, error) {
 		enc_correlationid = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 0, enc_correlationid)
 		children = append(children, enc_correlationid...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes EimPackageReceivedWithCid to DER format.
 func (v *EimPackageReceivedWithCid) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -15181,9 +22797,19 @@ func (v *EimPackageReceivedWithCid) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EimPackageReceivedWithCid", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "EimPackageReceivedWithCid", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -15198,14 +22824,29 @@ func (v *EimPackageErrorWithCid) MarshalBER() ([]byte, error) {
 		enc_correlationid = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 0, enc_correlationid)
 		children = append(children, enc_correlationid...)
 	}
-	enc_eimpackageerror := ber.EncodeInteger(int64(v.EimPackageError))
+	enc_eimpackageerror := ber.EncodeBigInt((v.EimPackageError).BigInt())
 	enc_eimpackageerror = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_eimpackageerror)
 	children = append(children, enc_eimpackageerror...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes EimPackageErrorWithCid to DER format.
 func (v *EimPackageErrorWithCid) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -15252,15 +22893,29 @@ func (v *EimPackageErrorWithCid) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding eimPackageError: %w", err)
 	}
-	decVal_eimpackageerror, intErr := ber.DecodeIntegerValue(rawVal_eimpackageerror)
+	decVal_eimpackageerror, intErr := ber.DecodeBigIntValue(rawVal_eimpackageerror)
 	if intErr != nil {
 		return fmt.Errorf("decoding eimPackageError: %w", intErr)
 	}
-	v.EimPackageError = EimPackageResultErrorCode(decVal_eimpackageerror)
-	offset += n_eimpackageerror
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EimPackageErrorWithCid", Cause: ber.ErrExtraData}
+	var named_eimpackageerror EimPackageResultErrorCode
+	if namedErr := named_eimpackageerror.UnmarshalText([]byte(decVal_eimpackageerror.String())); namedErr != nil {
+		return fmt.Errorf("decoding eimPackageError: %w", namedErr)
 	}
+	v.EimPackageError = named_eimpackageerror
+	offset += n_eimpackageerror
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "EimPackageErrorWithCid", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -15423,7 +23078,7 @@ func (v *EimConfigurationDataEimPublicKeyData) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding eimPublicKey: %w", tlvErr)
 		}
 		reconstructed := ber.EncodeSequence(rawVal)
-		var dec sgp22.SubjectPublicKeyInfo
+		var dec SubjectPublicKeyInfo
 		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
 			return fmt.Errorf("decoding eimPublicKey: %w", unmErr)
 		}
@@ -15435,7 +23090,7 @@ func (v *EimConfigurationDataEimPublicKeyData) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding eimCertificate: %w", tlvErr)
 		}
 		reconstructed := ber.EncodeSequence(rawVal)
-		var dec sgp22.Certificate
+		var dec Certificate
 		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
 			return fmt.Errorf("decoding eimCertificate: %w", unmErr)
 		}
@@ -15527,7 +23182,7 @@ func (v *EimConfigurationDataTrustedPublicKeyDataTls) UnmarshalBER(data []byte) 
 			return fmt.Errorf("decoding trustedEimPkTls: %w", tlvErr)
 		}
 		reconstructed := ber.EncodeSequence(rawVal)
-		var dec sgp22.SubjectPublicKeyInfo
+		var dec SubjectPublicKeyInfo
 		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
 			return fmt.Errorf("decoding trustedEimPkTls: %w", unmErr)
 		}
@@ -15539,7 +23194,7 @@ func (v *EimConfigurationDataTrustedPublicKeyDataTls) UnmarshalBER(data []byte) 
 			return fmt.Errorf("decoding trustedCertificateTls: %w", tlvErr)
 		}
 		reconstructed := ber.EncodeSequence(rawVal)
-		var dec sgp22.Certificate
+		var dec Certificate
 		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
 			return fmt.Errorf("decoding trustedCertificateTls: %w", unmErr)
 		}
@@ -15556,11 +23211,26 @@ func (v *EcoDeleteEim) MarshalBER() ([]byte, error) {
 	enc_eimid := ber.EncodeStringTag(12, v.EimId)
 	enc_eimid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_eimid)
 	children = append(children, enc_eimid...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes EcoDeleteEim to DER format.
 func (v *EcoDeleteEim) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -15591,32 +23261,72 @@ func (v *EcoDeleteEim) UnmarshalBER(data []byte) error {
 	decVal_eimid := ber.DecodeStringValue(rawVal_eimid)
 	v.EimId = decVal_eimid
 	offset += n_eimid
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EcoDeleteEim", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "EcoDeleteEim", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
 // MarshalBER encodes EcoListEim to BER format.
 func (v *EcoListEim) MarshalBER() ([]byte, error) {
-	return ber.EncodeSequence(nil), nil
+	var children []byte
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes EcoListEim to DER format.
 func (v *EcoListEim) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
 // UnmarshalBER decodes EcoListEim from BER/DER format.
 func (v *EcoListEim) UnmarshalBER(data []byte) error {
-	_, total, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EcoListEim SEQUENCE: %w", err)
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "EcoListEim", Cause: ber.ErrExtraData}
 	}
+	offset := 0
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "EcoListEim", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -15630,11 +23340,26 @@ func (v *PsmoEnable) MarshalBER() ([]byte, error) {
 		enc_rollbackflag := ber.EncodeNull()
 		children = append(children, enc_rollbackflag...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes PsmoEnable to DER format.
 func (v *PsmoEnable) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -15662,7 +23387,7 @@ func (v *PsmoEnable) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding iccid: %w", err)
 	}
-	v.Iccid = sgp22.Iccid(rawVal_iccid)
+	v.Iccid = Iccid(rawVal_iccid)
 	offset += n_iccid
 	// Decode rollbackFlag
 	if offset < len(content) {
@@ -15678,9 +23403,19 @@ func (v *PsmoEnable) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "PsmoEnable", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "PsmoEnable", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -15690,11 +23425,26 @@ func (v *PsmoDisable) MarshalBER() ([]byte, error) {
 	enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	enc_iccid = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 26, false, enc_iccid)
 	children = append(children, enc_iccid...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes PsmoDisable to DER format.
 func (v *PsmoDisable) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -15722,11 +23472,21 @@ func (v *PsmoDisable) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding iccid: %w", err)
 	}
-	v.Iccid = sgp22.Iccid(rawVal_iccid)
+	v.Iccid = Iccid(rawVal_iccid)
 	offset += n_iccid
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "PsmoDisable", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "PsmoDisable", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -15736,11 +23496,26 @@ func (v *PsmoDelete) MarshalBER() ([]byte, error) {
 	enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	enc_iccid = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 26, false, enc_iccid)
 	children = append(children, enc_iccid...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes PsmoDelete to DER format.
 func (v *PsmoDelete) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -15768,34 +23543,74 @@ func (v *PsmoDelete) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding iccid: %w", err)
 	}
-	v.Iccid = sgp22.Iccid(rawVal_iccid)
+	v.Iccid = Iccid(rawVal_iccid)
 	offset += n_iccid
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "PsmoDelete", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "PsmoDelete", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
 // MarshalBER encodes PsmoGetRAT to BER format.
 func (v *PsmoGetRAT) MarshalBER() ([]byte, error) {
-	return ber.EncodeSequence(nil), nil
+	var children []byte
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes PsmoGetRAT to DER format.
 func (v *PsmoGetRAT) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
 // UnmarshalBER decodes PsmoGetRAT from BER/DER format.
 func (v *PsmoGetRAT) UnmarshalBER(data []byte) error {
-	_, total, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PsmoGetRAT SEQUENCE: %w", err)
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "PsmoGetRAT", Cause: ber.ErrExtraData}
 	}
+	offset := 0
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "PsmoGetRAT", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -15817,11 +23632,26 @@ func (v *PsmoConfigureImmediateEnable) MarshalBER() ([]byte, error) {
 		enc_defaultsmdpaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_defaultsmdpaddress)
 		children = append(children, enc_defaultsmdpaddress...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes PsmoConfigureImmediateEnable to DER format.
 func (v *PsmoConfigureImmediateEnable) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -15885,9 +23715,19 @@ func (v *PsmoConfigureImmediateEnable) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "PsmoConfigureImmediateEnable", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "PsmoConfigureImmediateEnable", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -15897,11 +23737,26 @@ func (v *PsmoSetFallbackAttribute) MarshalBER() ([]byte, error) {
 	enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	enc_iccid = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 26, false, enc_iccid)
 	children = append(children, enc_iccid...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes PsmoSetFallbackAttribute to DER format.
 func (v *PsmoSetFallbackAttribute) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -15929,34 +23784,74 @@ func (v *PsmoSetFallbackAttribute) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding iccid: %w", err)
 	}
-	v.Iccid = sgp22.Iccid(rawVal_iccid)
+	v.Iccid = Iccid(rawVal_iccid)
 	offset += n_iccid
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "PsmoSetFallbackAttribute", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "PsmoSetFallbackAttribute", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
 // MarshalBER encodes PsmoUnsetFallbackAttribute to BER format.
 func (v *PsmoUnsetFallbackAttribute) MarshalBER() ([]byte, error) {
-	return ber.EncodeSequence(nil), nil
+	var children []byte
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes PsmoUnsetFallbackAttribute to DER format.
 func (v *PsmoUnsetFallbackAttribute) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
 // UnmarshalBER decodes PsmoUnsetFallbackAttribute from BER/DER format.
 func (v *PsmoUnsetFallbackAttribute) UnmarshalBER(data []byte) error {
-	_, total, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PsmoUnsetFallbackAttribute SEQUENCE: %w", err)
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "PsmoUnsetFallbackAttribute", Cause: ber.ErrExtraData}
 	}
+	offset := 0
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "PsmoUnsetFallbackAttribute", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -16096,11 +23991,26 @@ func (v *ProfileDownloadDataContactSmds) MarshalBER() ([]byte, error) {
 		enc_smdsaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_smdsaddress)
 		children = append(children, enc_smdsaddress...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes ProfileDownloadDataContactSmds to DER format.
 func (v *ProfileDownloadDataContactSmds) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -16130,9 +24040,19 @@ func (v *ProfileDownloadDataContactSmds) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ProfileDownloadDataContactSmds", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ProfileDownloadDataContactSmds", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -16175,8 +24095,8 @@ func UnmarshalBEREuiccPackageResultDataSignedEuiccResult(data []byte) (EuiccPack
 	return result, nil
 }
 
-// MarshalBERProfileInfoListResponseProfileInfoListOk encodes a ProfileInfoListResponseProfileInfoListOk list to BER.
-func MarshalBERProfileInfoListResponseProfileInfoListOk(list ProfileInfoListResponseProfileInfoListOk) ([]byte, error) {
+// MarshalBERSGPProfileInfoListResponseProfileInfoListOk encodes a SGPProfileInfoListResponseProfileInfoListOk list to BER.
+func MarshalBERSGPProfileInfoListResponseProfileInfoListOk(list SGPProfileInfoListResponseProfileInfoListOk) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -16188,19 +24108,19 @@ func MarshalBERProfileInfoListResponseProfileInfoListOk(list ProfileInfoListResp
 	return ber.EncodeSequence(children), nil
 }
 
-// UnmarshalBERProfileInfoListResponseProfileInfoListOk decodes a ProfileInfoListResponseProfileInfoListOk list from BER.
-func UnmarshalBERProfileInfoListResponseProfileInfoListOk(data []byte) (ProfileInfoListResponseProfileInfoListOk, error) {
+// UnmarshalBERSGPProfileInfoListResponseProfileInfoListOk decodes a SGPProfileInfoListResponseProfileInfoListOk list from BER.
+func UnmarshalBERSGPProfileInfoListResponseProfileInfoListOk(data []byte) (SGPProfileInfoListResponseProfileInfoListOk, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return nil, fmt.Errorf("decoding ProfileInfoListResponseProfileInfoListOk: %w", err)
+		return nil, fmt.Errorf("decoding SGPProfileInfoListResponseProfileInfoListOk: %w", err)
 	}
 	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "ProfileInfoListResponseProfileInfoListOk", Cause: ber.ErrExtraData}
+		return nil, &ber.DecodeError{Offset: total, TypeName: "SGPProfileInfoListResponseProfileInfoListOk", Cause: ber.ErrExtraData}
 	}
-	var result ProfileInfoListResponseProfileInfoListOk
+	var result SGPProfileInfoListResponseProfileInfoListOk
 	offset := 0
 	for offset < len(content) {
-		var elem ProfileInfo
+		var elem SGPProfileInfo
 		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
 		if tlvErr != nil {
 			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
@@ -16325,7 +24245,7 @@ func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultData) Unmarshal
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 55 {
 		v.Choice = ProfileDownloadTriggerResultProfileDownloadTriggerResultDataChoiceProfileInstallationResult
-		var dec ProfileInstallationResult
+		var dec SGPProfileInstallationResult
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
 			return fmt.Errorf("decoding profileInstallationResult: %w", unmErr)
 		}
@@ -16346,18 +24266,33 @@ func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultData) Unmarshal
 // MarshalBER encodes ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError to BER format.
 func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_profiledownloaderrorreason := ber.EncodeInteger(int64(v.ProfileDownloadErrorReason))
+	enc_profiledownloaderrorreason := ber.EncodeBigInt((v.ProfileDownloadErrorReason).BigInt())
 	enc_profiledownloaderrorreason = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_profiledownloaderrorreason)
 	children = append(children, enc_profiledownloaderrorreason...)
 	if v.ErrorResponse != nil {
 		enc_errorresponse := ber.EncodeOctetString(v.ErrorResponse)
 		children = append(children, enc_errorresponse...)
 	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError to DER format.
 func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -16385,11 +24320,15 @@ func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDown
 	if err != nil {
 		return fmt.Errorf("decoding profileDownloadErrorReason: %w", err)
 	}
-	decVal_profiledownloaderrorreason, intErr := ber.DecodeIntegerValue(rawVal_profiledownloaderrorreason)
+	decVal_profiledownloaderrorreason, intErr := ber.DecodeBigIntValue(rawVal_profiledownloaderrorreason)
 	if intErr != nil {
 		return fmt.Errorf("decoding profileDownloadErrorReason: %w", intErr)
 	}
-	v.ProfileDownloadErrorReason = decVal_profiledownloaderrorreason
+	var named_profiledownloaderrorreason ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue
+	if namedErr := named_profiledownloaderrorreason.UnmarshalText([]byte(decVal_profiledownloaderrorreason.String())); namedErr != nil {
+		return fmt.Errorf("decoding profileDownloadErrorReason: %w", namedErr)
+	}
+	v.ProfileDownloadErrorReason = named_profiledownloaderrorreason
 	offset += n_profiledownloaderrorreason
 	// Decode errorResponse
 	if offset < len(content) {
@@ -16406,14 +24345,24 @@ func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDown
 			}
 		}
 	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBERProfileInfoNotificationConfigurationInfo encodes a ProfileInfoNotificationConfigurationInfo list to BER.
-func MarshalBERProfileInfoNotificationConfigurationInfo(list ProfileInfoNotificationConfigurationInfo) ([]byte, error) {
+// MarshalBERSGPProfileInfoNotificationConfigurationInfo encodes a SGPProfileInfoNotificationConfigurationInfo list to BER.
+func MarshalBERSGPProfileInfoNotificationConfigurationInfo(list SGPProfileInfoNotificationConfigurationInfo) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -16425,19 +24374,19 @@ func MarshalBERProfileInfoNotificationConfigurationInfo(list ProfileInfoNotifica
 	return ber.EncodeSequence(children), nil
 }
 
-// UnmarshalBERProfileInfoNotificationConfigurationInfo decodes a ProfileInfoNotificationConfigurationInfo list from BER.
-func UnmarshalBERProfileInfoNotificationConfigurationInfo(data []byte) (ProfileInfoNotificationConfigurationInfo, error) {
+// UnmarshalBERSGPProfileInfoNotificationConfigurationInfo decodes a SGPProfileInfoNotificationConfigurationInfo list from BER.
+func UnmarshalBERSGPProfileInfoNotificationConfigurationInfo(data []byte) (SGPProfileInfoNotificationConfigurationInfo, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return nil, fmt.Errorf("decoding ProfileInfoNotificationConfigurationInfo: %w", err)
+		return nil, fmt.Errorf("decoding SGPProfileInfoNotificationConfigurationInfo: %w", err)
 	}
 	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "ProfileInfoNotificationConfigurationInfo", Cause: ber.ErrExtraData}
+		return nil, &ber.DecodeError{Offset: total, TypeName: "SGPProfileInfoNotificationConfigurationInfo", Cause: ber.ErrExtraData}
 	}
-	var result ProfileInfoNotificationConfigurationInfo
+	var result SGPProfileInfoNotificationConfigurationInfo
 	offset := 0
 	for offset < len(content) {
-		var elem sgp22.NotificationConfigurationInformation
+		var elem NotificationConfigurationInformation
 		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
 		if tlvErr != nil {
 			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
@@ -16451,31 +24400,61 @@ func UnmarshalBERProfileInfoNotificationConfigurationInfo(data []byte) (ProfileI
 	return result, nil
 }
 
-// MarshalBER encodes ProfileInfoIotSpecificProfileInfo to BER format.
-func (v *ProfileInfoIotSpecificProfileInfo) MarshalBER() ([]byte, error) {
-	return ber.EncodeSequence(nil), nil
+// MarshalBER encodes SGPProfileInfoIotSpecificProfileInfo to BER format.
+func (v *SGPProfileInfoIotSpecificProfileInfo) MarshalBER() ([]byte, error) {
+	var children []byte
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes ProfileInfoIotSpecificProfileInfo to DER format.
-func (v *ProfileInfoIotSpecificProfileInfo) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPProfileInfoIotSpecificProfileInfo to DER format.
+func (v *SGPProfileInfoIotSpecificProfileInfo) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes ProfileInfoIotSpecificProfileInfo from BER/DER format.
-func (v *ProfileInfoIotSpecificProfileInfo) UnmarshalBER(data []byte) error {
-	_, total, err := ber.DecodeSequenceContent(data)
+// UnmarshalBER decodes SGPProfileInfoIotSpecificProfileInfo from BER/DER format.
+func (v *SGPProfileInfoIotSpecificProfileInfo) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding ProfileInfoIotSpecificProfileInfo SEQUENCE: %w", err)
+		return fmt.Errorf("decoding SGPProfileInfoIotSpecificProfileInfo SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ProfileInfoIotSpecificProfileInfo", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPProfileInfoIotSpecificProfileInfo", Cause: ber.ErrExtraData}
 	}
+	offset := 0
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SGPProfileInfoIotSpecificProfileInfo", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBERStoreMetadataRequestNotificationConfigurationInfo encodes a StoreMetadataRequestNotificationConfigurationInfo list to BER.
-func MarshalBERStoreMetadataRequestNotificationConfigurationInfo(list StoreMetadataRequestNotificationConfigurationInfo) ([]byte, error) {
+// MarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo encodes a SGPStoreMetadataRequestNotificationConfigurationInfo list to BER.
+func MarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo(list SGPStoreMetadataRequestNotificationConfigurationInfo) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -16487,19 +24466,19 @@ func MarshalBERStoreMetadataRequestNotificationConfigurationInfo(list StoreMetad
 	return ber.EncodeSequence(children), nil
 }
 
-// UnmarshalBERStoreMetadataRequestNotificationConfigurationInfo decodes a StoreMetadataRequestNotificationConfigurationInfo list from BER.
-func UnmarshalBERStoreMetadataRequestNotificationConfigurationInfo(data []byte) (StoreMetadataRequestNotificationConfigurationInfo, error) {
+// UnmarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo decodes a SGPStoreMetadataRequestNotificationConfigurationInfo list from BER.
+func UnmarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo(data []byte) (SGPStoreMetadataRequestNotificationConfigurationInfo, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return nil, fmt.Errorf("decoding StoreMetadataRequestNotificationConfigurationInfo: %w", err)
+		return nil, fmt.Errorf("decoding SGPStoreMetadataRequestNotificationConfigurationInfo: %w", err)
 	}
 	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "StoreMetadataRequestNotificationConfigurationInfo", Cause: ber.ErrExtraData}
+		return nil, &ber.DecodeError{Offset: total, TypeName: "SGPStoreMetadataRequestNotificationConfigurationInfo", Cause: ber.ErrExtraData}
 	}
-	var result StoreMetadataRequestNotificationConfigurationInfo
+	var result SGPStoreMetadataRequestNotificationConfigurationInfo
 	offset := 0
 	for offset < len(content) {
-		var elem sgp22.NotificationConfigurationInformation
+		var elem NotificationConfigurationInformation
 		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
 		if tlvErr != nil {
 			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
@@ -16513,31 +24492,61 @@ func UnmarshalBERStoreMetadataRequestNotificationConfigurationInfo(data []byte) 
 	return result, nil
 }
 
-// MarshalBER encodes StoreMetadataRequestIotSpecificMetadata to BER format.
-func (v *StoreMetadataRequestIotSpecificMetadata) MarshalBER() ([]byte, error) {
-	return ber.EncodeSequence(nil), nil
+// MarshalBER encodes SGPStoreMetadataRequestIotSpecificMetadata to BER format.
+func (v *SGPStoreMetadataRequestIotSpecificMetadata) MarshalBER() ([]byte, error) {
+	var children []byte
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
 }
 
-// MarshalDER encodes StoreMetadataRequestIotSpecificMetadata to DER format.
-func (v *StoreMetadataRequestIotSpecificMetadata) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPStoreMetadataRequestIotSpecificMetadata to DER format.
+func (v *SGPStoreMetadataRequestIotSpecificMetadata) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes StoreMetadataRequestIotSpecificMetadata from BER/DER format.
-func (v *StoreMetadataRequestIotSpecificMetadata) UnmarshalBER(data []byte) error {
-	_, total, err := ber.DecodeSequenceContent(data)
+// UnmarshalBER decodes SGPStoreMetadataRequestIotSpecificMetadata from BER/DER format.
+func (v *SGPStoreMetadataRequestIotSpecificMetadata) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return fmt.Errorf("decoding StoreMetadataRequestIotSpecificMetadata SEQUENCE: %w", err)
+		return fmt.Errorf("decoding SGPStoreMetadataRequestIotSpecificMetadata SEQUENCE: %w", err)
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "StoreMetadataRequestIotSpecificMetadata", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPStoreMetadataRequestIotSpecificMetadata", Cause: ber.ErrExtraData}
 	}
+	offset := 0
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "SGPStoreMetadataRequestIotSpecificMetadata", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBEREUICCInfo2EuiccCiPKIdListForVerification encodes a EUICCInfo2EuiccCiPKIdListForVerification list to BER.
-func MarshalBEREUICCInfo2EuiccCiPKIdListForVerification(list EUICCInfo2EuiccCiPKIdListForVerification) ([]byte, error) {
+// MarshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification encodes a SGPEUICCInfo2EuiccCiPKIdListForVerification list to BER.
+func MarshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification(list SGPEUICCInfo2EuiccCiPKIdListForVerification) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -16545,30 +24554,30 @@ func MarshalBEREUICCInfo2EuiccCiPKIdListForVerification(list EUICCInfo2EuiccCiPK
 	return ber.EncodeSequence(children), nil
 }
 
-// UnmarshalBEREUICCInfo2EuiccCiPKIdListForVerification decodes a EUICCInfo2EuiccCiPKIdListForVerification list from BER.
-func UnmarshalBEREUICCInfo2EuiccCiPKIdListForVerification(data []byte) (EUICCInfo2EuiccCiPKIdListForVerification, error) {
+// UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification decodes a SGPEUICCInfo2EuiccCiPKIdListForVerification list from BER.
+func UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification(data []byte) (SGPEUICCInfo2EuiccCiPKIdListForVerification, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return nil, fmt.Errorf("decoding EUICCInfo2EuiccCiPKIdListForVerification: %w", err)
+		return nil, fmt.Errorf("decoding SGPEUICCInfo2EuiccCiPKIdListForVerification: %w", err)
 	}
 	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "EUICCInfo2EuiccCiPKIdListForVerification", Cause: ber.ErrExtraData}
+		return nil, &ber.DecodeError{Offset: total, TypeName: "SGPEUICCInfo2EuiccCiPKIdListForVerification", Cause: ber.ErrExtraData}
 	}
-	var result EUICCInfo2EuiccCiPKIdListForVerification
+	var result SGPEUICCInfo2EuiccCiPKIdListForVerification
 	offset := 0
 	for offset < len(content) {
 		val, n, osErr := ber.DecodeOctetString(content[offset:])
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
-		result = append(result, sgp22.SubjectKeyIdentifier(val))
+		result = append(result, SubjectKeyIdentifier(val))
 		offset += n
 	}
 	return result, nil
 }
 
-// MarshalBEREUICCInfo2EuiccCiPKIdListForSigning encodes a EUICCInfo2EuiccCiPKIdListForSigning list to BER.
-func MarshalBEREUICCInfo2EuiccCiPKIdListForSigning(list EUICCInfo2EuiccCiPKIdListForSigning) ([]byte, error) {
+// MarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning encodes a SGPEUICCInfo2EuiccCiPKIdListForSigning list to BER.
+func MarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning(list SGPEUICCInfo2EuiccCiPKIdListForSigning) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -16576,30 +24585,30 @@ func MarshalBEREUICCInfo2EuiccCiPKIdListForSigning(list EUICCInfo2EuiccCiPKIdLis
 	return ber.EncodeSequence(children), nil
 }
 
-// UnmarshalBEREUICCInfo2EuiccCiPKIdListForSigning decodes a EUICCInfo2EuiccCiPKIdListForSigning list from BER.
-func UnmarshalBEREUICCInfo2EuiccCiPKIdListForSigning(data []byte) (EUICCInfo2EuiccCiPKIdListForSigning, error) {
+// UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning decodes a SGPEUICCInfo2EuiccCiPKIdListForSigning list from BER.
+func UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning(data []byte) (SGPEUICCInfo2EuiccCiPKIdListForSigning, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return nil, fmt.Errorf("decoding EUICCInfo2EuiccCiPKIdListForSigning: %w", err)
+		return nil, fmt.Errorf("decoding SGPEUICCInfo2EuiccCiPKIdListForSigning: %w", err)
 	}
 	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "EUICCInfo2EuiccCiPKIdListForSigning", Cause: ber.ErrExtraData}
+		return nil, &ber.DecodeError{Offset: total, TypeName: "SGPEUICCInfo2EuiccCiPKIdListForSigning", Cause: ber.ErrExtraData}
 	}
-	var result EUICCInfo2EuiccCiPKIdListForSigning
+	var result SGPEUICCInfo2EuiccCiPKIdListForSigning
 	offset := 0
 	for offset < len(content) {
 		val, n, osErr := ber.DecodeOctetString(content[offset:])
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
-		result = append(result, sgp22.SubjectKeyIdentifier(val))
+		result = append(result, SubjectKeyIdentifier(val))
 		offset += n
 	}
 	return result, nil
 }
 
-// MarshalBEREUICCInfo2AdditionalEuiccProfilePackageVersions encodes a EUICCInfo2AdditionalEuiccProfilePackageVersions list to BER.
-func MarshalBEREUICCInfo2AdditionalEuiccProfilePackageVersions(list EUICCInfo2AdditionalEuiccProfilePackageVersions) ([]byte, error) {
+// MarshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions encodes a SGPEUICCInfo2AdditionalEuiccProfilePackageVersions list to BER.
+func MarshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(list SGPEUICCInfo2AdditionalEuiccProfilePackageVersions) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -16607,30 +24616,30 @@ func MarshalBEREUICCInfo2AdditionalEuiccProfilePackageVersions(list EUICCInfo2Ad
 	return ber.EncodeSequence(children), nil
 }
 
-// UnmarshalBEREUICCInfo2AdditionalEuiccProfilePackageVersions decodes a EUICCInfo2AdditionalEuiccProfilePackageVersions list from BER.
-func UnmarshalBEREUICCInfo2AdditionalEuiccProfilePackageVersions(data []byte) (EUICCInfo2AdditionalEuiccProfilePackageVersions, error) {
+// UnmarshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions decodes a SGPEUICCInfo2AdditionalEuiccProfilePackageVersions list from BER.
+func UnmarshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(data []byte) (SGPEUICCInfo2AdditionalEuiccProfilePackageVersions, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return nil, fmt.Errorf("decoding EUICCInfo2AdditionalEuiccProfilePackageVersions: %w", err)
+		return nil, fmt.Errorf("decoding SGPEUICCInfo2AdditionalEuiccProfilePackageVersions: %w", err)
 	}
 	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "EUICCInfo2AdditionalEuiccProfilePackageVersions", Cause: ber.ErrExtraData}
+		return nil, &ber.DecodeError{Offset: total, TypeName: "SGPEUICCInfo2AdditionalEuiccProfilePackageVersions", Cause: ber.ErrExtraData}
 	}
-	var result EUICCInfo2AdditionalEuiccProfilePackageVersions
+	var result SGPEUICCInfo2AdditionalEuiccProfilePackageVersions
 	offset := 0
 	for offset < len(content) {
 		val, n, osErr := ber.DecodeOctetString(content[offset:])
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
-		result = append(result, sgp22.VersionType(val))
+		result = append(result, VersionType(val))
 		offset += n
 	}
 	return result, nil
 }
 
-// MarshalBEREUICCInfo2EuiccCiPKIdListForSigningV3 encodes a EUICCInfo2EuiccCiPKIdListForSigningV3 list to BER.
-func MarshalBEREUICCInfo2EuiccCiPKIdListForSigningV3(list EUICCInfo2EuiccCiPKIdListForSigningV3) ([]byte, error) {
+// MarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3 encodes a SGPEUICCInfo2EuiccCiPKIdListForSigningV3 list to BER.
+func MarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(list SGPEUICCInfo2EuiccCiPKIdListForSigningV3) ([]byte, error) {
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -16638,23 +24647,23 @@ func MarshalBEREUICCInfo2EuiccCiPKIdListForSigningV3(list EUICCInfo2EuiccCiPKIdL
 	return ber.EncodeSequence(children), nil
 }
 
-// UnmarshalBEREUICCInfo2EuiccCiPKIdListForSigningV3 decodes a EUICCInfo2EuiccCiPKIdListForSigningV3 list from BER.
-func UnmarshalBEREUICCInfo2EuiccCiPKIdListForSigningV3(data []byte) (EUICCInfo2EuiccCiPKIdListForSigningV3, error) {
+// UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3 decodes a SGPEUICCInfo2EuiccCiPKIdListForSigningV3 list from BER.
+func UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(data []byte) (SGPEUICCInfo2EuiccCiPKIdListForSigningV3, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
-		return nil, fmt.Errorf("decoding EUICCInfo2EuiccCiPKIdListForSigningV3: %w", err)
+		return nil, fmt.Errorf("decoding SGPEUICCInfo2EuiccCiPKIdListForSigningV3: %w", err)
 	}
 	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "EUICCInfo2EuiccCiPKIdListForSigningV3", Cause: ber.ErrExtraData}
+		return nil, &ber.DecodeError{Offset: total, TypeName: "SGPEUICCInfo2EuiccCiPKIdListForSigningV3", Cause: ber.ErrExtraData}
 	}
-	var result EUICCInfo2EuiccCiPKIdListForSigningV3
+	var result SGPEUICCInfo2EuiccCiPKIdListForSigningV3
 	offset := 0
 	for offset < len(content) {
 		val, n, osErr := ber.DecodeOctetString(content[offset:])
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
-		result = append(result, sgp22.SubjectKeyIdentifier(val))
+		result = append(result, SubjectKeyIdentifier(val))
 		offset += n
 	}
 	return result, nil
@@ -16685,7 +24694,7 @@ func UnmarshalBERIoTSpecificInfoIotVersion(data []byte) (IoTSpecificInfoIotVersi
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
-		result = append(result, sgp22.VersionType(val))
+		result = append(result, VersionType(val))
 		offset += n
 	}
 	return result, nil
@@ -16849,11 +24858,26 @@ func (v *GetCertsResponseCerts) MarshalBER() ([]byte, error) {
 	}
 	enc_euicccertificate = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, true, enc_euicccertificate)
 	children = append(children, enc_euicccertificate...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes GetCertsResponseCerts to DER format.
 func (v *GetCertsResponseCerts) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
@@ -16904,61 +24928,71 @@ func (v *GetCertsResponseCerts) UnmarshalBER(data []byte) error {
 		return fmt.Errorf("decoding euiccCertificate: %w", unmErr)
 	}
 	offset += n_euicccertificate
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "GetCertsResponseCerts", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "GetCertsResponseCerts", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
-// MarshalBER encodes RetrieveNotificationsListRequestSearchCriteria to BER format.
-func (v *RetrieveNotificationsListRequestSearchCriteria) MarshalBER() ([]byte, error) {
+// MarshalBER encodes SGPRetrieveNotificationsListRequestSearchCriteria to BER format.
+func (v *SGPRetrieveNotificationsListRequestSearchCriteria) MarshalBER() ([]byte, error) {
 	switch v.Choice {
-	case RetrieveNotificationsListRequestSearchCriteriaChoiceSeqNumber:
+	case SGPRetrieveNotificationsListRequestSearchCriteriaChoiceSeqNumber:
 		if v.SeqNumber == nil {
-			return nil, fmt.Errorf("choice RetrieveNotificationsListRequestSearchCriteria: seqNumber is nil")
+			return nil, fmt.Errorf("choice SGPRetrieveNotificationsListRequestSearchCriteria: seqNumber is nil")
 		}
 		enc_0 := ber.EncodeBigInt(v.SeqNumber)
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
 		return enc_0, nil
-	case RetrieveNotificationsListRequestSearchCriteriaChoiceProfileManagementOperation:
+	case SGPRetrieveNotificationsListRequestSearchCriteriaChoiceProfileManagementOperation:
 		enc_1 := ber.EncodeBitString(v.ProfileManagementOperation.Bytes, (8-(v.ProfileManagementOperation.BitLength%8))%8)
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		return enc_1, nil
-	case RetrieveNotificationsListRequestSearchCriteriaChoiceEuiccPackageResults:
+	case SGPRetrieveNotificationsListRequestSearchCriteriaChoiceEuiccPackageResults:
 		enc_2 := ber.EncodeNull()
 		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_2)
 		return enc_2, nil
 	default:
-		return nil, fmt.Errorf("unknown choice %d for RetrieveNotificationsListRequestSearchCriteria", v.Choice)
+		return nil, fmt.Errorf("unknown choice %d for SGPRetrieveNotificationsListRequestSearchCriteria", v.Choice)
 	}
 }
 
-// MarshalDER encodes RetrieveNotificationsListRequestSearchCriteria to DER format.
-func (v *RetrieveNotificationsListRequestSearchCriteria) MarshalDER() ([]byte, error) {
+// MarshalDER encodes SGPRetrieveNotificationsListRequestSearchCriteria to DER format.
+func (v *SGPRetrieveNotificationsListRequestSearchCriteria) MarshalDER() ([]byte, error) {
 	return v.MarshalBER()
 }
 
-// UnmarshalBER decodes RetrieveNotificationsListRequestSearchCriteria from BER/DER format.
-func (v *RetrieveNotificationsListRequestSearchCriteria) UnmarshalBER(data []byte) error {
+// UnmarshalBER decodes SGPRetrieveNotificationsListRequestSearchCriteria from BER/DER format.
+func (v *SGPRetrieveNotificationsListRequestSearchCriteria) UnmarshalBER(data []byte) error {
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for RetrieveNotificationsListRequestSearchCriteria CHOICE")
+		return fmt.Errorf("empty data for SGPRetrieveNotificationsListRequestSearchCriteria CHOICE")
 	}
 	choiceData := data
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for RetrieveNotificationsListRequestSearchCriteria: %w", peekErr)
+		return fmt.Errorf("peeking tag for SGPRetrieveNotificationsListRequestSearchCriteria: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
 	if tlvErr != nil {
-		return fmt.Errorf("decoding RetrieveNotificationsListRequestSearchCriteria CHOICE: %w", tlvErr)
+		return fmt.Errorf("decoding SGPRetrieveNotificationsListRequestSearchCriteria CHOICE: %w", tlvErr)
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "RetrieveNotificationsListRequestSearchCriteria", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SGPRetrieveNotificationsListRequestSearchCriteria", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-		v.Choice = RetrieveNotificationsListRequestSearchCriteriaChoiceSeqNumber
+		v.Choice = SGPRetrieveNotificationsListRequestSearchCriteriaChoiceSeqNumber
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding seqNumber: %w", tlvErr)
@@ -16969,7 +25003,7 @@ func (v *RetrieveNotificationsListRequestSearchCriteria) UnmarshalBER(data []byt
 		}
 		v.SeqNumber = decVal
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-		v.Choice = RetrieveNotificationsListRequestSearchCriteriaChoiceProfileManagementOperation
+		v.Choice = SGPRetrieveNotificationsListRequestSearchCriteriaChoiceProfileManagementOperation
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding profileManagementOperation: %w", tlvErr)
@@ -16981,7 +25015,7 @@ func (v *RetrieveNotificationsListRequestSearchCriteria) UnmarshalBER(data []byt
 		tmp := runtime.BitString{Bytes: bsBytes, BitLength: len(bsBytes)*8 - bsUnused}
 		v.ProfileManagementOperation = &tmp
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-		v.Choice = RetrieveNotificationsListRequestSearchCriteriaChoiceEuiccPackageResults
+		v.Choice = SGPRetrieveNotificationsListRequestSearchCriteriaChoiceEuiccPackageResults
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding euiccPackageResults: %w", tlvErr)
@@ -16989,7 +25023,7 @@ func (v *RetrieveNotificationsListRequestSearchCriteria) UnmarshalBER(data []byt
 		_ = rawVal // NULL has no content
 		v.EuiccPackageResults = &struct{}{}
 	} else {
-		return fmt.Errorf("unknown tag %s for RetrieveNotificationsListRequestSearchCriteria CHOICE", peekTag)
+		return fmt.Errorf("unknown tag %s for SGPRetrieveNotificationsListRequestSearchCriteria CHOICE", peekTag)
 	}
 	return nil
 }
@@ -17160,7 +25194,7 @@ func (v *CompactAuthenticateResponseOkSignedData) UnmarshalBER(data []byte) erro
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
 		v.Choice = CompactAuthenticateResponseOkSignedDataChoiceEuiccSigned1
-		var dec EuiccSigned1
+		var dec SGPEuiccSigned1
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
 			return fmt.Errorf("decoding euiccSigned1: %w", unmErr)
 		}
@@ -17276,7 +25310,7 @@ func (v *CompactProfileInstallationResultDataCompactFinalResult) UnmarshalBER(da
 			return fmt.Errorf("decoding errorResult: %w", tlvErr)
 		}
 		reconstructed := ber.EncodeSequence(rawVal)
-		var dec sgp22.ErrorResult
+		var dec ErrorResult
 		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
 			return fmt.Errorf("decoding errorResult: %w", unmErr)
 		}
@@ -17310,11 +25344,26 @@ func (v *EimPackageResultEPRAndNotifications) MarshalBER() ([]byte, error) {
 		enc_notificationlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_notificationlist)
 	}
 	children = append(children, enc_notificationlist...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes EimPackageResultEPRAndNotifications to DER format.
 func (v *EimPackageResultEPRAndNotifications) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
 	derValue := *v
 	derValue.NotificationListIndef_ = false
@@ -17377,32 +25426,72 @@ func (v *EimPackageResultEPRAndNotifications) UnmarshalBER(data []byte) error {
 		}
 	}
 	offset += n_notificationlist
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EimPackageResultEPRAndNotifications", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "EimPackageResultEPRAndNotifications", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
 // MarshalBER encodes ProvideEimPackageResultResponseEmptyResponse to BER format.
 func (v *ProvideEimPackageResultResponseEmptyResponse) MarshalBER() ([]byte, error) {
-	return ber.EncodeSequence(nil), nil
+	var children []byte
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes ProvideEimPackageResultResponseEmptyResponse to DER format.
 func (v *ProvideEimPackageResultResponseEmptyResponse) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
 	return v.MarshalBER()
 }
 
 // UnmarshalBER decodes ProvideEimPackageResultResponseEmptyResponse from BER/DER format.
 func (v *ProvideEimPackageResultResponseEmptyResponse) UnmarshalBER(data []byte) error {
-	_, total, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ProvideEimPackageResultResponseEmptyResponse SEQUENCE: %w", err)
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "ProvideEimPackageResultResponseEmptyResponse", Cause: ber.ErrExtraData}
 	}
+	offset := 0
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "ProvideEimPackageResultResponseEmptyResponse", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -17429,11 +25518,26 @@ func (v *TransferEimPackageResponseEPRAndNotifications) MarshalBER() ([]byte, er
 		enc_notificationlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_notificationlist)
 	}
 	children = append(children, enc_notificationlist...)
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
 	return ber.EncodeSequence(children), nil
 }
 
 // MarshalDER encodes TransferEimPackageResponseEPRAndNotifications to DER format.
 func (v *TransferEimPackageResponseEPRAndNotifications) MarshalDER() ([]byte, error) {
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDERElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+	}
 	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
 	derValue := *v
 	derValue.NotificationListIndef_ = false
@@ -17496,9 +25600,19 @@ func (v *TransferEimPackageResponseEPRAndNotifications) UnmarshalBER(data []byte
 		}
 	}
 	offset += n_notificationlist
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "TransferEimPackageResponseEPRAndNotifications", Cause: ber.ErrExtraData}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "TransferEimPackageResponseEPRAndNotifications", Cause: extErr_}
+		}
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		offset += nExt_
 	}
+	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
 
@@ -17548,7 +25662,7 @@ func (v *EimPackageReceivedWithCidCorrelationId) UnmarshalBER(data []byte) error
 		if tlvErr != nil {
 			return fmt.Errorf("decoding eimTransactionId: %w", tlvErr)
 		}
-		tmp := sgp22.TransactionId(rawVal)
+		tmp := TransactionId(rawVal)
 		v.EimTransactionId = &tmp
 	} else if peekTag.Class == tag.ClassApplication && peekTag.Number == 26 {
 		v.Choice = EimPackageReceivedWithCidCorrelationIdChoiceEidValue
@@ -17556,7 +25670,7 @@ func (v *EimPackageReceivedWithCidCorrelationId) UnmarshalBER(data []byte) error
 		if tlvErr != nil {
 			return fmt.Errorf("decoding eidValue: %w", tlvErr)
 		}
-		tmp := sgp22.Octet16(rawVal)
+		tmp := Octet16(rawVal)
 		v.EidValue = &tmp
 	} else {
 		return fmt.Errorf("unknown tag %s for EimPackageReceivedWithCidCorrelationId CHOICE", peekTag)
@@ -17610,7 +25724,7 @@ func (v *EimPackageErrorWithCidCorrelationId) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding eimTransactionId: %w", tlvErr)
 		}
-		tmp := sgp22.TransactionId(rawVal)
+		tmp := TransactionId(rawVal)
 		v.EimTransactionId = &tmp
 	} else if peekTag.Class == tag.ClassApplication && peekTag.Number == 26 {
 		v.Choice = EimPackageErrorWithCidCorrelationIdChoiceEidValue
@@ -17618,7 +25732,7 @@ func (v *EimPackageErrorWithCidCorrelationId) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding eidValue: %w", tlvErr)
 		}
-		tmp := sgp22.Octet16(rawVal)
+		tmp := Octet16(rawVal)
 		v.EidValue = &tmp
 	} else {
 		return fmt.Errorf("unknown tag %s for EimPackageErrorWithCidCorrelationId CHOICE", peekTag)

@@ -19,7 +19,7 @@ var (
 
 const (
 
-	// MaxNumOfPrivateExtensions is the integer constant for maxNumOfPrivateExtensions.
+	// MaxNumOfPrivateExtensions is the integer constant for MaxNumOfPrivateExtensions.
 	MaxNumOfPrivateExtensions int64 = 10
 )
 
@@ -33,7 +33,7 @@ type ExtensionContainer struct {
 	ExtData_                   [][]byte             `asn1:"-" json:"-"`
 }
 
-// SLRArgExtensionContainer represents the ASN.1 type SLR-ArgExtensionContainer (SEQUENCE).
+// SLRArgExtensionContainer represents the ASN.1 type SLRArgExtensionContainer (SEQUENCE).
 type SLRArgExtensionContainer struct {
 	PrivateExtensionList       PrivateExtensionList `asn1:"tag:0,context,implicit,optional" json:"PrivateExtensionList,omitempty"`
 	PrivateExtensionListIndef_ bool                 `asn1:"-" json:"-"`
@@ -48,18 +48,18 @@ type PrivateExtensionList = []PrivateExtension
 
 // PrivateExtension represents the ASN.1 type PrivateExtension (SEQUENCE).
 type PrivateExtension struct {
-	ExtId   runtime.RawValue  `asn1:""`
-	ExtType *runtime.RawValue `asn1:",optional" json:"ExtType,omitempty"`
+	ExtId   runtime.ObjectIdentifier `asn1:""`
+	ExtType *runtime.RawValue        `asn1:",optional" json:"ExtType,omitempty" asn1c:"raw-preserve"`
 }
 
-// PCSExtensions represents the ASN.1 type PCS-Extensions (SEQUENCE).
+// PCSExtensions represents the ASN.1 type PCSExtensions (SEQUENCE).
 type PCSExtensions struct {
 	ExtCount_   int64    `asn1:"-" json:"-"`
 	ExtPresent_ []bool   `asn1:"-" json:"-"`
 	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// SLRArgPCSExtensions represents the ASN.1 type SLR-Arg-PCS-Extensions (SEQUENCE).
+// SLRArgPCSExtensions represents the ASN.1 type SLRArgPCSExtensions (SEQUENCE).
 type SLRArgPCSExtensions struct {
 	NaESRKRequest *struct{} `asn1:"tag:0,context,implicit,optional" json:"NaESRKRequest,omitempty"`
 	ExtCount_     int64     `asn1:"-" json:"-"`
@@ -361,7 +361,7 @@ func UnmarshalBERPrivateExtensionList(data []byte) (PrivateExtensionList, error)
 // MarshalBER encodes PrivateExtension to BER format.
 func (v *PrivateExtension) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_extid := v.ExtId.Bytes
+	enc_extid := ber.EncodeObjectIdentifier([]uint64(v.ExtId))
 	children = append(children, enc_extid...)
 	if v.ExtType != nil {
 		enc_exttype := v.ExtType.Bytes
@@ -390,12 +390,12 @@ func (v *PrivateExtension) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field extId")
 	}
-	_, n_extid, _, tlvErr_extid := ber.DecodeTLV(content[offset:])
-	if tlvErr_extid != nil {
-		return fmt.Errorf("decoding extId: %w", tlvErr_extid)
+	val_extid, n, err := ber.DecodeObjectIdentifier(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding extId: %w", err)
 	}
-	v.ExtId = runtime.RawValue{Bytes: content[offset : offset+n_extid]}
-	offset += n_extid
+	v.ExtId = runtime.ObjectIdentifier(val_extid)
+	offset += n
 	// Decode extType
 	if offset < len(content) {
 		_, n_exttype, _, tlvErr_exttype := ber.DecodeTLV(content[offset:])

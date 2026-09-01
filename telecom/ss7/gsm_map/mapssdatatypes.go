@@ -19,23 +19,23 @@ var (
 
 const (
 
-	// MaxNumOfCCBSRequests is the integer constant for maxNumOfCCBS-Requests.
+	// MaxNumOfCCBSRequests is the integer constant for MaxNumOfCCBSRequests.
 	MaxNumOfCCBSRequests int64 = 5
 
-	// MaxUSSDStringLength is the integer constant for maxUSSD-StringLength.
+	// MaxUSSDStringLength is the integer constant for MaxUSSDStringLength.
 	MaxUSSDStringLength int64 = 160
 
-	// MaxNumOfSS is the integer constant for maxNumOfSS.
+	// MaxNumOfSS is the integer constant for MaxNumOfSS.
 	MaxNumOfSS int64 = 30
 
-	// MaxNumOfBasicServiceGroups is the integer constant for maxNumOfBasicServiceGroups.
+	// MaxNumOfBasicServiceGroups is the integer constant for MaxNumOfBasicServiceGroups.
 	MaxNumOfBasicServiceGroups int64 = 13
 
-	// MaxEventSpecification is the integer constant for maxEventSpecification.
+	// MaxEventSpecification is the integer constant for MaxEventSpecification.
 	MaxEventSpecification int64 = 2
 )
 
-// RegisterSSArg represents the ASN.1 type RegisterSS-Arg (SEQUENCE).
+// RegisterSSArg represents the ASN.1 type RegisterSSArg (SEQUENCE).
 type RegisterSSArg struct {
 	SsCode                SSCode                `asn1:""`
 	BasicService          *BasicServiceCode     `asn1:",optional" json:"BasicService,omitempty"`
@@ -60,7 +60,7 @@ const (
 	SSInfoChoiceSsData          = 3
 )
 
-// SSInfo represents the ASN.1 CHOICE type SS-Info.
+// SSInfo represents the ASN.1 CHOICE type SSInfo.
 type SSInfo struct {
 	Choice          int
 	ForwardingInfo  *ForwardingInfo  `json:"ForwardingInfo,omitempty"`
@@ -68,7 +68,7 @@ type SSInfo struct {
 	SsData          *SSData          `json:"SsData,omitempty"`
 }
 
-// NewSSInfoForwardingInfo creates a SS-Info with the forwardingInfo alternative.
+// NewSSInfoForwardingInfo creates a SSInfo with the forwardingInfo alternative.
 func NewSSInfoForwardingInfo(v ForwardingInfo) SSInfo {
 	return SSInfo{
 		Choice:         SSInfoChoiceForwardingInfo,
@@ -76,7 +76,7 @@ func NewSSInfoForwardingInfo(v ForwardingInfo) SSInfo {
 	}
 }
 
-// NewSSInfoCallBarringInfo creates a SS-Info with the callBarringInfo alternative.
+// NewSSInfoCallBarringInfo creates a SSInfo with the callBarringInfo alternative.
 func NewSSInfoCallBarringInfo(v CallBarringInfo) SSInfo {
 	return SSInfo{
 		Choice:          SSInfoChoiceCallBarringInfo,
@@ -84,7 +84,7 @@ func NewSSInfoCallBarringInfo(v CallBarringInfo) SSInfo {
 	}
 }
 
-// NewSSInfoSsData creates a SS-Info with the ss-Data alternative.
+// NewSSInfoSsData creates a SSInfo with the ss-Data alternative.
 func NewSSInfoSsData(v SSData) SSInfo {
 	return SSInfo{
 		Choice: SSInfoChoiceSsData,
@@ -119,7 +119,7 @@ type ForwardingFeature struct {
 	ExtData_              [][]byte              `asn1:"-" json:"-"`
 }
 
-// SSStatus represents the ASN.1 type SS-Status (OCTET_STRING).
+// SSStatus represents the ASN.1 type SSStatus (OCTET_STRING).
 type SSStatus = []byte
 
 // ForwardingOptions represents the ASN.1 type ForwardingOptions (OCTET_STRING).
@@ -147,7 +147,7 @@ type CallBarringFeature struct {
 	ExtData_     [][]byte          `asn1:"-" json:"-"`
 }
 
-// SSData represents the ASN.1 type SS-Data (SEQUENCE).
+// SSData represents the ASN.1 type SSData (SEQUENCE).
 type SSData struct {
 	SsCode                      *SSCode               `asn1:",optional" json:"SsCode,omitempty"`
 	SsStatus                    *SSStatus             `asn1:"tag:4,context,implicit,optional" json:"SsStatus,omitempty"`
@@ -167,14 +167,14 @@ const (
 	SSSubscriptionOptionChoiceOverrideCategory     = 2
 )
 
-// SSSubscriptionOption represents the ASN.1 CHOICE type SS-SubscriptionOption.
+// SSSubscriptionOption represents the ASN.1 CHOICE type SSSubscriptionOption.
 type SSSubscriptionOption struct {
 	Choice               int
 	CliRestrictionOption *CliRestrictionOption `json:"CliRestrictionOption,omitempty"`
 	OverrideCategory     *OverrideCategory     `json:"OverrideCategory,omitempty"`
 }
 
-// NewSSSubscriptionOptionCliRestrictionOption creates a SS-SubscriptionOption with the cliRestrictionOption alternative.
+// NewSSSubscriptionOptionCliRestrictionOption creates a SSSubscriptionOption with the cliRestrictionOption alternative.
 func NewSSSubscriptionOptionCliRestrictionOption(v CliRestrictionOption) SSSubscriptionOption {
 	return SSSubscriptionOption{
 		Choice:               SSSubscriptionOptionChoiceCliRestrictionOption,
@@ -182,7 +182,7 @@ func NewSSSubscriptionOptionCliRestrictionOption(v CliRestrictionOption) SSSubsc
 	}
 }
 
-// NewSSSubscriptionOptionOverrideCategory creates a SS-SubscriptionOption with the overrideCategory alternative.
+// NewSSSubscriptionOptionOverrideCategory creates a SSSubscriptionOption with the overrideCategory alternative.
 func NewSSSubscriptionOptionOverrideCategory(v OverrideCategory) SSSubscriptionOption {
 	return SSSubscriptionOption{
 		Choice:           SSSubscriptionOptionChoiceOverrideCategory,
@@ -231,7 +231,7 @@ func (v OverrideCategory) String() string {
 	}
 }
 
-// SSForBSCode represents the ASN.1 type SS-ForBS-Code (SEQUENCE).
+// SSForBSCode represents the ASN.1 type SSForBSCode (SEQUENCE).
 type SSForBSCode struct {
 	SsCode           SSCode            `asn1:""`
 	BasicService     *BasicServiceCode `asn1:",optional" json:"BasicService,omitempty"`
@@ -257,10 +257,10 @@ type GenericServiceInfo struct {
 	ExtData_                [][]byte              `asn1:"-" json:"-"`
 }
 
-// CCBSFeatureList represents the ASN.1 type CCBS-FeatureList (SEQUENCE_OF).
+// CCBSFeatureList represents the ASN.1 type CCBSFeatureList (SEQUENCE_OF).
 type CCBSFeatureList = []CCBSFeature
 
-// CCBSFeature represents the ASN.1 type CCBS-Feature (SEQUENCE).
+// CCBSFeature represents the ASN.1 type CCBSFeature (SEQUENCE).
 type CCBSFeature struct {
 	CcbsIndex             *CCBSIndex            `asn1:"tag:0,context,implicit,optional" json:"CcbsIndex,omitempty"`
 	BSubscriberNumber     *ISDNAddressString    `asn1:"tag:1,context,implicit,optional" json:"BSubscriberNumber,omitempty"`
@@ -271,7 +271,7 @@ type CCBSFeature struct {
 	ExtData_              [][]byte              `asn1:"-" json:"-"`
 }
 
-// CCBSIndex represents the ASN.1 type CCBS-Index (INTEGER).
+// CCBSIndex represents the ASN.1 type CCBSIndex (INTEGER).
 type CCBSIndex = int64
 
 // InterrogateSSRes choice constants.
@@ -282,7 +282,7 @@ const (
 	InterrogateSSResChoiceGenericServiceInfo    = 4
 )
 
-// InterrogateSSRes represents the ASN.1 CHOICE type InterrogateSS-Res.
+// InterrogateSSRes represents the ASN.1 CHOICE type InterrogateSSRes.
 type InterrogateSSRes struct {
 	Choice                int
 	SsStatus              *SSStatus             `json:"SsStatus,omitempty"`
@@ -291,7 +291,7 @@ type InterrogateSSRes struct {
 	GenericServiceInfo    *GenericServiceInfo   `json:"GenericServiceInfo,omitempty"`
 }
 
-// NewInterrogateSSResSsStatus creates a InterrogateSS-Res with the ss-Status alternative.
+// NewInterrogateSSResSsStatus creates a InterrogateSSRes with the ss-Status alternative.
 func NewInterrogateSSResSsStatus(v SSStatus) InterrogateSSRes {
 	return InterrogateSSRes{
 		Choice:   InterrogateSSResChoiceSsStatus,
@@ -299,7 +299,7 @@ func NewInterrogateSSResSsStatus(v SSStatus) InterrogateSSRes {
 	}
 }
 
-// NewInterrogateSSResBasicServiceGroupList creates a InterrogateSS-Res with the basicServiceGroupList alternative.
+// NewInterrogateSSResBasicServiceGroupList creates a InterrogateSSRes with the basicServiceGroupList alternative.
 func NewInterrogateSSResBasicServiceGroupList(v BasicServiceGroupList) InterrogateSSRes {
 	return InterrogateSSRes{
 		Choice:                InterrogateSSResChoiceBasicServiceGroupList,
@@ -307,7 +307,7 @@ func NewInterrogateSSResBasicServiceGroupList(v BasicServiceGroupList) Interroga
 	}
 }
 
-// NewInterrogateSSResForwardingFeatureList creates a InterrogateSS-Res with the forwardingFeatureList alternative.
+// NewInterrogateSSResForwardingFeatureList creates a InterrogateSSRes with the forwardingFeatureList alternative.
 func NewInterrogateSSResForwardingFeatureList(v ForwardingFeatureList) InterrogateSSRes {
 	return InterrogateSSRes{
 		Choice:                InterrogateSSResChoiceForwardingFeatureList,
@@ -315,7 +315,7 @@ func NewInterrogateSSResForwardingFeatureList(v ForwardingFeatureList) Interroga
 	}
 }
 
-// NewInterrogateSSResGenericServiceInfo creates a InterrogateSS-Res with the genericServiceInfo alternative.
+// NewInterrogateSSResGenericServiceInfo creates a InterrogateSSRes with the genericServiceInfo alternative.
 func NewInterrogateSSResGenericServiceInfo(v GenericServiceInfo) InterrogateSSRes {
 	return InterrogateSSRes{
 		Choice:             InterrogateSSResChoiceGenericServiceInfo,
@@ -323,7 +323,7 @@ func NewInterrogateSSResGenericServiceInfo(v GenericServiceInfo) InterrogateSSRe
 	}
 }
 
-// USSDArg represents the ASN.1 type USSD-Arg (SEQUENCE).
+// USSDArg represents the ASN.1 type USSDArg (SEQUENCE).
 type USSDArg struct {
 	UssdDataCodingScheme USSDDataCodingScheme `asn1:""`
 	UssdString           USSDString           `asn1:""`
@@ -334,7 +334,7 @@ type USSDArg struct {
 	ExtData_             [][]byte             `asn1:"-" json:"-"`
 }
 
-// USSDRes represents the ASN.1 type USSD-Res (SEQUENCE).
+// USSDRes represents the ASN.1 type USSDRes (SEQUENCE).
 type USSDRes struct {
 	UssdDataCodingScheme USSDDataCodingScheme `asn1:""`
 	UssdString           USSDString           `asn1:""`
@@ -343,10 +343,10 @@ type USSDRes struct {
 	ExtData_             [][]byte             `asn1:"-" json:"-"`
 }
 
-// USSDDataCodingScheme represents the ASN.1 type USSD-DataCodingScheme (OCTET_STRING).
+// USSDDataCodingScheme represents the ASN.1 type USSDDataCodingScheme (OCTET_STRING).
 type USSDDataCodingScheme = []byte
 
-// USSDString represents the ASN.1 type USSD-String (OCTET_STRING).
+// USSDString represents the ASN.1 type USSDString (OCTET_STRING).
 type USSDString = []byte
 
 // Password represents the ASN.1 type Password (NumericString).
@@ -374,16 +374,16 @@ func (v GuidanceInfo) String() string {
 	}
 }
 
-// SSList represents the ASN.1 type SS-List (SEQUENCE_OF).
+// SSList represents the ASN.1 type SSList (SEQUENCE_OF).
 type SSList = []SSCode
 
-// SSInfoList represents the ASN.1 type SS-InfoList (SEQUENCE_OF).
+// SSInfoList represents the ASN.1 type SSInfoList (SEQUENCE_OF).
 type SSInfoList = []SSInfo
 
 // BasicServiceGroupList represents the ASN.1 type BasicServiceGroupList (SEQUENCE_OF).
 type BasicServiceGroupList = []BasicServiceCode
 
-// SSInvocationNotificationArg represents the ASN.1 type SS-InvocationNotificationArg (SEQUENCE).
+// SSInvocationNotificationArg represents the ASN.1 type SSInvocationNotificationArg (SEQUENCE).
 type SSInvocationNotificationArg struct {
 	Imsi                       IMSI                 `asn1:"tag:0,context,implicit"`
 	Msisdn                     ISDNAddressString    `asn1:"tag:1,context,implicit"`
@@ -398,7 +398,7 @@ type SSInvocationNotificationArg struct {
 	ExtData_                   [][]byte             `asn1:"-" json:"-"`
 }
 
-// CCBSRequestState represents the ASN.1 ENUMERATED type CCBS-RequestState.
+// CCBSRequestState represents the ASN.1 ENUMERATED type CCBSRequestState.
 type CCBSRequestState int64
 
 const (
@@ -432,7 +432,7 @@ func (v CCBSRequestState) String() string {
 	}
 }
 
-// SSInvocationNotificationRes represents the ASN.1 type SS-InvocationNotificationRes (SEQUENCE).
+// SSInvocationNotificationRes represents the ASN.1 type SSInvocationNotificationRes (SEQUENCE).
 type SSInvocationNotificationRes struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -440,10 +440,10 @@ type SSInvocationNotificationRes struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// SSEventSpecification represents the ASN.1 type SS-EventSpecification (SEQUENCE_OF).
+// SSEventSpecification represents the ASN.1 type SSEventSpecification (SEQUENCE_OF).
 type SSEventSpecification = []AddressString
 
-// RegisterCCEntryArg represents the ASN.1 type RegisterCC-EntryArg (SEQUENCE).
+// RegisterCCEntryArg represents the ASN.1 type RegisterCCEntryArg (SEQUENCE).
 type RegisterCCEntryArg struct {
 	SsCode      SSCode    `asn1:"tag:0,context,implicit"`
 	CcbsData    *CCBSData `asn1:"tag:1,context,implicit,optional" json:"CcbsData,omitempty"`
@@ -452,7 +452,7 @@ type RegisterCCEntryArg struct {
 	ExtData_    [][]byte  `asn1:"-" json:"-"`
 }
 
-// CCBSData represents the ASN.1 type CCBS-Data (SEQUENCE).
+// CCBSData represents the ASN.1 type CCBSData (SEQUENCE).
 type CCBSData struct {
 	CcbsFeature       CCBSFeature        `asn1:"tag:0,context,implicit"`
 	TranslatedBNumber ISDNAddressString  `asn1:"tag:1,context,implicit"`
@@ -467,7 +467,7 @@ type CCBSData struct {
 // ServiceIndicator represents the ASN.1 type ServiceIndicator (BIT_STRING).
 type ServiceIndicator = runtime.BitString
 
-// RegisterCCEntryRes represents the ASN.1 type RegisterCC-EntryRes (SEQUENCE).
+// RegisterCCEntryRes represents the ASN.1 type RegisterCCEntryRes (SEQUENCE).
 type RegisterCCEntryRes struct {
 	CcbsFeature *CCBSFeature `asn1:"tag:0,context,implicit,optional" json:"CcbsFeature,omitempty"`
 	ExtCount_   int64        `asn1:"-" json:"-"`
@@ -475,7 +475,7 @@ type RegisterCCEntryRes struct {
 	ExtData_    [][]byte     `asn1:"-" json:"-"`
 }
 
-// EraseCCEntryArg represents the ASN.1 type EraseCC-EntryArg (SEQUENCE).
+// EraseCCEntryArg represents the ASN.1 type EraseCCEntryArg (SEQUENCE).
 type EraseCCEntryArg struct {
 	SsCode      SSCode     `asn1:"tag:0,context,implicit"`
 	CcbsIndex   *CCBSIndex `asn1:"tag:1,context,implicit,optional" json:"CcbsIndex,omitempty"`
@@ -484,7 +484,7 @@ type EraseCCEntryArg struct {
 	ExtData_    [][]byte   `asn1:"-" json:"-"`
 }
 
-// EraseCCEntryRes represents the ASN.1 type EraseCC-EntryRes (SEQUENCE).
+// EraseCCEntryRes represents the ASN.1 type EraseCCEntryRes (SEQUENCE).
 type EraseCCEntryRes struct {
 	SsCode      SSCode    `asn1:"tag:0,context,implicit"`
 	SsStatus    *SSStatus `asn1:"tag:1,context,implicit,optional" json:"SsStatus,omitempty"`

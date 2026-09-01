@@ -40,7 +40,7 @@ type PrepareGroupCallArg struct {
 // VSTK represents the ASN.1 type VSTK (OCTET_STRING).
 type VSTK = []byte
 
-// VSTKRAND represents the ASN.1 type VSTK-RAND (OCTET_STRING).
+// VSTKRAND represents the ASN.1 type VSTKRAND (OCTET_STRING).
 type VSTKRAND = []byte
 
 // PrepareGroupCallRes represents the ASN.1 type PrepareGroupCallRes (SEQUENCE).
@@ -131,7 +131,7 @@ type ProcessGroupCallSignallingArg struct {
 // GroupKeyNumber represents the ASN.1 type GroupKeyNumber (INTEGER).
 type GroupKeyNumber = int64
 
-// CODECInfo represents the ASN.1 type CODEC-Info (OCTET_STRING).
+// CODECInfo represents the ASN.1 type CODECInfo (OCTET_STRING).
 type CODECInfo = []byte
 
 // CipheringAlgorithm represents the ASN.1 type CipheringAlgorithm (OCTET_STRING).
@@ -147,7 +147,7 @@ type StateAttributes struct {
 
 // SendGroupCallInfoArg represents the ASN.1 type SendGroupCallInfoArg (SEQUENCE).
 type SendGroupCallInfoArg struct {
-	RequestedInfo      RequestedInfo       `asn1:""`
+	RequestedInfo      GRRequestedInfo     `asn1:""`
 	GroupId            LongGroupId         `asn1:""`
 	Teleservice        ExtTeleserviceCode  `asn1:""`
 	CellId             *GlobalCellId       `asn1:"tag:0,context,implicit,optional" json:"CellId,omitempty"`
@@ -162,19 +162,19 @@ type SendGroupCallInfoArg struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// RequestedInfo represents the ASN.1 ENUMERATED type RequestedInfo.
-type RequestedInfo int64
+// GRRequestedInfo represents the ASN.1 ENUMERATED type GRRequestedInfo.
+type GRRequestedInfo int64
 
 const (
-	RequestedInfoAnchorMSCAddressAndASCICallReference           RequestedInfo = 0
-	RequestedInfoImsiAndAdditionalInfoAndAdditionalSubscription RequestedInfo = 1
+	GRRequestedInfoAnchorMSCAddressAndASCICallReference           GRRequestedInfo = 0
+	GRRequestedInfoImsiAndAdditionalInfoAndAdditionalSubscription GRRequestedInfo = 1
 )
 
-func (v RequestedInfo) String() string {
+func (v GRRequestedInfo) String() string {
 	switch v {
-	case RequestedInfoAnchorMSCAddressAndASCICallReference:
+	case GRRequestedInfoAnchorMSCAddressAndASCICallReference:
 		return "anchorMSC-AddressAndASCI-CallReference"
-	case RequestedInfoImsiAndAdditionalInfoAndAdditionalSubscription:
+	case GRRequestedInfoImsiAndAdditionalInfoAndAdditionalSubscription:
 		return "imsiAndAdditionalInfoAndAdditionalSubscription"
 	default:
 		return "unknown"
@@ -1578,7 +1578,7 @@ func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding requestedInfo: %w", err)
 	}
-	v.RequestedInfo = RequestedInfo(val_requestedinfo)
+	v.RequestedInfo = GRRequestedInfo(val_requestedinfo)
 	offset += n
 	// Decode groupId
 	if offset >= len(content) {

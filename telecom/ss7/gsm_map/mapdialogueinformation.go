@@ -17,7 +17,7 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// MapDialogueAS returns the OID value for map-DialogueAS.
+// MapDialogueAS returns the OID value for MapDialogueAS.
 func MapDialogueAS() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{0, 4, 0, 0, 1, 1, 1, 1}
 }
@@ -32,7 +32,7 @@ const (
 	MAPDialoguePDUChoiceMapProviderAbort = 6
 )
 
-// MAPDialoguePDU represents the ASN.1 CHOICE type MAP-DialoguePDU.
+// MAPDialoguePDU represents the ASN.1 CHOICE type MAPDialoguePDU.
 type MAPDialoguePDU struct {
 	Choice           int
 	MapOpen          *MAPOpenInfo          `json:"MapOpen,omitempty"`
@@ -43,7 +43,7 @@ type MAPDialoguePDU struct {
 	MapProviderAbort *MAPProviderAbortInfo `json:"MapProviderAbort,omitempty"`
 }
 
-// NewMAPDialoguePDUMapOpen creates a MAP-DialoguePDU with the map-open alternative.
+// NewMAPDialoguePDUMapOpen creates a MAPDialoguePDU with the map-open alternative.
 func NewMAPDialoguePDUMapOpen(v MAPOpenInfo) MAPDialoguePDU {
 	return MAPDialoguePDU{
 		Choice:  MAPDialoguePDUChoiceMapOpen,
@@ -51,7 +51,7 @@ func NewMAPDialoguePDUMapOpen(v MAPOpenInfo) MAPDialoguePDU {
 	}
 }
 
-// NewMAPDialoguePDUMapAccept creates a MAP-DialoguePDU with the map-accept alternative.
+// NewMAPDialoguePDUMapAccept creates a MAPDialoguePDU with the map-accept alternative.
 func NewMAPDialoguePDUMapAccept(v MAPAcceptInfo) MAPDialoguePDU {
 	return MAPDialoguePDU{
 		Choice:    MAPDialoguePDUChoiceMapAccept,
@@ -59,7 +59,7 @@ func NewMAPDialoguePDUMapAccept(v MAPAcceptInfo) MAPDialoguePDU {
 	}
 }
 
-// NewMAPDialoguePDUMapClose creates a MAP-DialoguePDU with the map-close alternative.
+// NewMAPDialoguePDUMapClose creates a MAPDialoguePDU with the map-close alternative.
 func NewMAPDialoguePDUMapClose(v MAPCloseInfo) MAPDialoguePDU {
 	return MAPDialoguePDU{
 		Choice:   MAPDialoguePDUChoiceMapClose,
@@ -67,7 +67,7 @@ func NewMAPDialoguePDUMapClose(v MAPCloseInfo) MAPDialoguePDU {
 	}
 }
 
-// NewMAPDialoguePDUMapRefuse creates a MAP-DialoguePDU with the map-refuse alternative.
+// NewMAPDialoguePDUMapRefuse creates a MAPDialoguePDU with the map-refuse alternative.
 func NewMAPDialoguePDUMapRefuse(v MAPRefuseInfo) MAPDialoguePDU {
 	return MAPDialoguePDU{
 		Choice:    MAPDialoguePDUChoiceMapRefuse,
@@ -75,7 +75,7 @@ func NewMAPDialoguePDUMapRefuse(v MAPRefuseInfo) MAPDialoguePDU {
 	}
 }
 
-// NewMAPDialoguePDUMapUserAbort creates a MAP-DialoguePDU with the map-userAbort alternative.
+// NewMAPDialoguePDUMapUserAbort creates a MAPDialoguePDU with the map-userAbort alternative.
 func NewMAPDialoguePDUMapUserAbort(v MAPUserAbortInfo) MAPDialoguePDU {
 	return MAPDialoguePDU{
 		Choice:       MAPDialoguePDUChoiceMapUserAbort,
@@ -83,7 +83,7 @@ func NewMAPDialoguePDUMapUserAbort(v MAPUserAbortInfo) MAPDialoguePDU {
 	}
 }
 
-// NewMAPDialoguePDUMapProviderAbort creates a MAP-DialoguePDU with the map-providerAbort alternative.
+// NewMAPDialoguePDUMapProviderAbort creates a MAPDialoguePDU with the map-providerAbort alternative.
 func NewMAPDialoguePDUMapProviderAbort(v MAPProviderAbortInfo) MAPDialoguePDU {
 	return MAPDialoguePDU{
 		Choice:           MAPDialoguePDUChoiceMapProviderAbort,
@@ -91,7 +91,7 @@ func NewMAPDialoguePDUMapProviderAbort(v MAPProviderAbortInfo) MAPDialoguePDU {
 	}
 }
 
-// MAPOpenInfo represents the ASN.1 type MAP-OpenInfo (SEQUENCE).
+// MAPOpenInfo represents the ASN.1 type MAPOpenInfo (SEQUENCE).
 type MAPOpenInfo struct {
 	DestinationReference *AddressString      `asn1:"tag:0,context,implicit,optional" json:"DestinationReference,omitempty"`
 	OriginationReference *AddressString      `asn1:"tag:1,context,implicit,optional" json:"OriginationReference,omitempty"`
@@ -101,7 +101,7 @@ type MAPOpenInfo struct {
 	ExtData_             [][]byte            `asn1:"-" json:"-"`
 }
 
-// MAPAcceptInfo represents the ASN.1 type MAP-AcceptInfo (SEQUENCE).
+// MAPAcceptInfo represents the ASN.1 type MAPAcceptInfo (SEQUENCE).
 type MAPAcceptInfo struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -109,7 +109,7 @@ type MAPAcceptInfo struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// MAPCloseInfo represents the ASN.1 type MAP-CloseInfo (SEQUENCE).
+// MAPCloseInfo represents the ASN.1 type MAPCloseInfo (SEQUENCE).
 type MAPCloseInfo struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -117,7 +117,7 @@ type MAPCloseInfo struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// MAPRefuseInfo represents the ASN.1 type MAP-RefuseInfo (SEQUENCE).
+// MAPRefuseInfo represents the ASN.1 type MAPRefuseInfo (SEQUENCE).
 type MAPRefuseInfo struct {
 	Reason                        Reason                   `asn1:""`
 	ExtensionContainer            *ExtensionContainer      `asn1:",optional" json:"ExtensionContainer,omitempty"`
@@ -149,7 +149,7 @@ func (v Reason) String() string {
 	}
 }
 
-// MAPUserAbortInfo represents the ASN.1 type MAP-UserAbortInfo (SEQUENCE).
+// MAPUserAbortInfo represents the ASN.1 type MAPUserAbortInfo (SEQUENCE).
 type MAPUserAbortInfo struct {
 	MapUserAbortChoice MAPUserAbortChoice  `asn1:""`
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
@@ -166,7 +166,7 @@ const (
 	MAPUserAbortChoiceChoiceApplicationProcedureCancellation = 4
 )
 
-// MAPUserAbortChoice represents the ASN.1 CHOICE type MAP-UserAbortChoice.
+// MAPUserAbortChoice represents the ASN.1 CHOICE type MAPUserAbortChoice.
 type MAPUserAbortChoice struct {
 	Choice                           int
 	UserSpecificReason               *struct{}                    `json:"UserSpecificReason,omitempty"`
@@ -175,7 +175,7 @@ type MAPUserAbortChoice struct {
 	ApplicationProcedureCancellation *ProcedureCancellationReason `json:"ApplicationProcedureCancellation,omitempty"`
 }
 
-// NewMAPUserAbortChoiceUserSpecificReason creates a MAP-UserAbortChoice with the userSpecificReason alternative.
+// NewMAPUserAbortChoiceUserSpecificReason creates a MAPUserAbortChoice with the userSpecificReason alternative.
 func NewMAPUserAbortChoiceUserSpecificReason(v struct{}) MAPUserAbortChoice {
 	return MAPUserAbortChoice{
 		Choice:             MAPUserAbortChoiceChoiceUserSpecificReason,
@@ -183,7 +183,7 @@ func NewMAPUserAbortChoiceUserSpecificReason(v struct{}) MAPUserAbortChoice {
 	}
 }
 
-// NewMAPUserAbortChoiceUserResourceLimitation creates a MAP-UserAbortChoice with the userResourceLimitation alternative.
+// NewMAPUserAbortChoiceUserResourceLimitation creates a MAPUserAbortChoice with the userResourceLimitation alternative.
 func NewMAPUserAbortChoiceUserResourceLimitation(v struct{}) MAPUserAbortChoice {
 	return MAPUserAbortChoice{
 		Choice:                 MAPUserAbortChoiceChoiceUserResourceLimitation,
@@ -191,7 +191,7 @@ func NewMAPUserAbortChoiceUserResourceLimitation(v struct{}) MAPUserAbortChoice 
 	}
 }
 
-// NewMAPUserAbortChoiceResourceUnavailable creates a MAP-UserAbortChoice with the resourceUnavailable alternative.
+// NewMAPUserAbortChoiceResourceUnavailable creates a MAPUserAbortChoice with the resourceUnavailable alternative.
 func NewMAPUserAbortChoiceResourceUnavailable(v ResourceUnavailableReason) MAPUserAbortChoice {
 	return MAPUserAbortChoice{
 		Choice:              MAPUserAbortChoiceChoiceResourceUnavailable,
@@ -199,7 +199,7 @@ func NewMAPUserAbortChoiceResourceUnavailable(v ResourceUnavailableReason) MAPUs
 	}
 }
 
-// NewMAPUserAbortChoiceApplicationProcedureCancellation creates a MAP-UserAbortChoice with the applicationProcedureCancellation alternative.
+// NewMAPUserAbortChoiceApplicationProcedureCancellation creates a MAPUserAbortChoice with the applicationProcedureCancellation alternative.
 func NewMAPUserAbortChoiceApplicationProcedureCancellation(v ProcedureCancellationReason) MAPUserAbortChoice {
 	return MAPUserAbortChoice{
 		Choice:                           MAPUserAbortChoiceChoiceApplicationProcedureCancellation,
@@ -260,7 +260,7 @@ func (v ProcedureCancellationReason) String() string {
 	}
 }
 
-// MAPProviderAbortInfo represents the ASN.1 type MAP-ProviderAbortInfo (SEQUENCE).
+// MAPProviderAbortInfo represents the ASN.1 type MAPProviderAbortInfo (SEQUENCE).
 type MAPProviderAbortInfo struct {
 	MapProviderAbortReason MAPProviderAbortReason `asn1:""`
 	ExtensionContainer     *ExtensionContainer    `asn1:",optional" json:"ExtensionContainer,omitempty"`
@@ -269,7 +269,7 @@ type MAPProviderAbortInfo struct {
 	ExtData_               [][]byte               `asn1:"-" json:"-"`
 }
 
-// MAPProviderAbortReason represents the ASN.1 ENUMERATED type MAP-ProviderAbortReason.
+// MAPProviderAbortReason represents the ASN.1 ENUMERATED type MAPProviderAbortReason.
 type MAPProviderAbortReason int64
 
 const (

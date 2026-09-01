@@ -273,18 +273,6 @@ func DecodeBigInt(data []byte) (*big.Int, int, error) {
 		return nil, 0, fmt.Errorf("%w: INTEGER value must have at least 1 byte", ErrInvalidValue)
 	}
 
-	v, err := decodeBigIntBytes(value)
-	if err != nil {
-		return nil, 0, err
-	}
-	return v, total, nil
-}
-
-func decodeBigIntBytes(value []byte) (*big.Int, error) {
-	if len(value) == 0 {
-		return nil, fmt.Errorf("%w: INTEGER value must have at least 1 byte", ErrInvalidValue)
-	}
-
 	v := new(big.Int)
 	if value[0]&0x80 != 0 {
 		// Negative: convert two's complement.
@@ -298,7 +286,7 @@ func decodeBigIntBytes(value []byte) (*big.Int, error) {
 	} else {
 		v.SetBytes(value)
 	}
-	return v, nil
+	return v, total, nil
 }
 
 // DecodeBitString decodes a bit string from raw TLV bytes.
@@ -572,7 +560,7 @@ func DecodeGeneralizedTime(data []byte) (time.Time, int, error) {
 }
 
 // DecodeUTCTimeValue decodes a UTCTime from raw value bytes (tag/length
-// already consumed by the caller - e.g. an implicitly tagged field, where
+// already consumed by the caller — e.g. an implicitly tagged field, where
 // the wrapping tag replaced the UNIVERSAL UTCTime tag, or a CHOICE
 // alternative whose tag has already been matched).
 func DecodeUTCTimeValue(value []byte) (time.Time, error) {
@@ -580,7 +568,7 @@ func DecodeUTCTimeValue(value []byte) (time.Time, error) {
 }
 
 // DecodeGeneralizedTimeValue decodes a GeneralizedTime from raw value bytes
-// (tag/length already consumed by the caller - see DecodeUTCTimeValue).
+// (tag/length already consumed by the caller — see DecodeUTCTimeValue).
 func DecodeGeneralizedTimeValue(value []byte) (time.Time, error) {
 	return parseGeneralizedTime(string(value))
 }
@@ -596,7 +584,7 @@ func parseUTCTime(s string) (time.Time, error) {
 	} {
 		t, err := time.Parse(layout, s)
 		if err == nil {
-			// ASN.1 UTCTime: YY >= 50 -> 19YY, YY < 50 -> 20YY.
+			// ASN.1 UTCTime: YY >= 50 → 19YY, YY < 50 → 20YY.
 			// Go's time.Parse uses cutoff 69, so years 50-68 are wrong.
 			year := t.Year()
 			if year >= 2050 && year <= 2068 {
@@ -805,8 +793,23 @@ func DecodeConstructedContent(data []byte) (tag.Tag, []byte, int, error) {
 //
 // It is the counterpart to DecodeIntegerValue, which caps at 8 octets because
 // its result is an int64. An ASN.1 INTEGER is unbounded, and unconstrained
-// ones legitimately exceed 64 bits: RFC 5280 Section 4.1.2.2 requires certificate
+// ones legitimately exceed 64 bits: RFC 5280 §4.1.2.2 requires certificate
 // users to handle a serialNumber of up to 20 octets.
 func DecodeBigIntValue(value []byte) (*big.Int, error) {
-	return decodeBigIntBytes(value)
+	if len(value) == 0 {
+		return nil, fmt.Errorf("%w: empty integer", ErrInvalidValue)
+	}
+	v := new(big.Int)
+	if value[0]&0x80 != 0 {
+		notBytes := make([]byte, len(value))
+		for i, b := range value {
+			notBytes[i] = ^b
+		}
+		v.SetBytes(notBytes)
+		v.Add(v, big.NewInt(1))
+		v.Neg(v)
+		return v, nil
+	}
+	v.SetBytes(value)
+	return v, nil
 }

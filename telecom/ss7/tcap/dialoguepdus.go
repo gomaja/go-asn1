@@ -4,6 +4,7 @@ package tcap
 
 import (
 	"fmt"
+	"math/big"
 
 	"github.com/gomaja/go-asn1/runtime"
 	"github.com/gomaja/go-asn1/runtime/ber"
@@ -17,7 +18,7 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// DialogueAsId returns the OID value for dialogue-as-id.
+// DialogueAsId returns the OID value for DialogueAsId.
 func DialogueAsId() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{0, 0, 17, 773, 1, 1, 1} }
 
 // DialoguePDU choice constants.
@@ -59,7 +60,7 @@ func NewDialoguePDUDialogueAbort(v ABRTApdu) DialoguePDU {
 	}
 }
 
-// AARQApdu represents the ASN.1 type AARQ-apdu (SEQUENCE).
+// AARQApdu represents the ASN.1 type AARQApdu (SEQUENCE).
 type AARQApdu struct {
 	ProtocolVersion        *runtime.BitString       `asn1:"tag:0,context,implicit,optional" json:"ProtocolVersion,omitempty"`
 	ApplicationContextName runtime.ObjectIdentifier `asn1:"tag:1,context,explicit"`
@@ -67,7 +68,7 @@ type AARQApdu struct {
 	UserInformationIndef_  bool                     `asn1:"-" json:"-"`
 }
 
-// AAREApdu represents the ASN.1 type AARE-apdu (SEQUENCE).
+// AAREApdu represents the ASN.1 type AAREApdu (SEQUENCE).
 type AAREApdu struct {
 	ProtocolVersion        *runtime.BitString        `asn1:"tag:0,context,implicit,optional" json:"ProtocolVersion,omitempty"`
 	ApplicationContextName runtime.ObjectIdentifier  `asn1:"tag:1,context,explicit"`
@@ -77,63 +78,229 @@ type AAREApdu struct {
 	UserInformationIndef_  bool                      `asn1:"-" json:"-"`
 }
 
-// RLRQApdu represents the ASN.1 type RLRQ-apdu (SEQUENCE).
+// RLRQApdu represents the ASN.1 type RLRQApdu (SEQUENCE).
 type RLRQApdu struct {
 	Reason                *ReleaseRequestReason   `asn1:"tag:0,context,implicit,optional" json:"Reason,omitempty"`
 	UserInformation       RLRQApduUserInformation `asn1:"tag:30,context,implicit,optional" json:"UserInformation,omitempty"`
 	UserInformationIndef_ bool                    `asn1:"-" json:"-"`
 }
 
-// RLREApdu represents the ASN.1 type RLRE-apdu (SEQUENCE).
+// RLREApdu represents the ASN.1 type RLREApdu (SEQUENCE).
 type RLREApdu struct {
 	Reason                *ReleaseResponseReason  `asn1:"tag:0,context,implicit,optional" json:"Reason,omitempty"`
 	UserInformation       RLREApduUserInformation `asn1:"tag:30,context,implicit,optional" json:"UserInformation,omitempty"`
 	UserInformationIndef_ bool                    `asn1:"-" json:"-"`
 }
 
-// ABRTApdu represents the ASN.1 type ABRT-apdu (SEQUENCE).
+// ABRTApdu represents the ASN.1 type ABRTApdu (SEQUENCE).
 type ABRTApdu struct {
 	AbortSource           ABRTSource              `asn1:"tag:0,context,implicit"`
 	UserInformation       ABRTApduUserInformation `asn1:"tag:30,context,implicit,optional" json:"UserInformation,omitempty"`
 	UserInformationIndef_ bool                    `asn1:"-" json:"-"`
 }
 
-// ABRTSource represents the ASN.1 INTEGER type ABRT-source with named numbers.
-type ABRTSource int64
+// ABRTSource represents the arbitrary-width ASN.1 INTEGER type ABRTSource with named numbers.
+type ABRTSource struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	ABRTSourceDialogueServiceUser     ABRTSource = 0
-	ABRTSourceDialogueServiceProvider ABRTSource = 1
+	ABRTSourceDialogueServiceUserDecimal     = "0"
+	ABRTSourceDialogueServiceUser            = 0
+	ABRTSourceDialogueServiceProviderDecimal = "1"
+	ABRTSourceDialogueServiceProvider        = 1
 )
 
-func (v ABRTSource) String() string {
-	switch v {
-	case ABRTSourceDialogueServiceUser:
-		return "dialogue-service-user"
-	case ABRTSourceDialogueServiceProvider:
-		return "dialogue-service-provider"
+// NewABRTSource returns an immutable ABRTSource containing value.
+func NewABRTSource(value *big.Int) ABRTSource {
+	return ABRTSource{value: runtime.CloneBigInt(value)}
+}
+
+// NewABRTSourceInt64 returns a ABRTSource containing value.
+func NewABRTSourceInt64(value int64) ABRTSource {
+	return NewABRTSource(big.NewInt(value))
+}
+
+// ABRTSourceDialogueServiceUserValue returns the named value dialogue-service-user.
+func ABRTSourceDialogueServiceUserValue() ABRTSource {
+	return NewABRTSource(runtime.MustParseBigIntDecimal(ABRTSourceDialogueServiceUserDecimal))
+}
+
+// ABRTSourceDialogueServiceProviderValue returns the named value dialogue-service-provider.
+func ABRTSourceDialogueServiceProviderValue() ABRTSource {
+	return NewABRTSource(runtime.MustParseBigIntDecimal(ABRTSourceDialogueServiceProviderDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v ABRTSource) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v ABRTSource) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v ABRTSource) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case ABRTSourceDialogueServiceUserDecimal:
+		return "dialogue-service-user", true
+	case ABRTSourceDialogueServiceProviderDecimal:
+		return "dialogue-service-provider", true
 	default:
-		return "unknown"
+		return "", false
 	}
 }
 
-// AssociateResult represents the ASN.1 INTEGER type Associate-result with named numbers.
-type AssociateResult int64
+func (v ABRTSource) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v ABRTSource) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *ABRTSource) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ABRTSource into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewABRTSource(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v ABRTSource) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *ABRTSource) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ABRTSource into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewABRTSource(value)
+	return nil
+}
+
+// AssociateResult represents the arbitrary-width ASN.1 INTEGER type AssociateResult with named numbers.
+type AssociateResult struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	AssociateResultAccepted        AssociateResult = 0
-	AssociateResultRejectPermanent AssociateResult = 1
+	AssociateResultAcceptedDecimal        = "0"
+	AssociateResultAccepted               = 0
+	AssociateResultRejectPermanentDecimal = "1"
+	AssociateResultRejectPermanent        = 1
 )
 
-func (v AssociateResult) String() string {
-	switch v {
-	case AssociateResultAccepted:
-		return "accepted"
-	case AssociateResultRejectPermanent:
-		return "reject-permanent"
-	default:
-		return "unknown"
+// NewAssociateResult returns an immutable AssociateResult containing value.
+func NewAssociateResult(value *big.Int) AssociateResult {
+	return AssociateResult{value: runtime.CloneBigInt(value)}
+}
+
+// NewAssociateResultInt64 returns a AssociateResult containing value.
+func NewAssociateResultInt64(value int64) AssociateResult {
+	return NewAssociateResult(big.NewInt(value))
+}
+
+// AssociateResultAcceptedValue returns the named value accepted.
+func AssociateResultAcceptedValue() AssociateResult {
+	return NewAssociateResult(runtime.MustParseBigIntDecimal(AssociateResultAcceptedDecimal))
+}
+
+// AssociateResultRejectPermanentValue returns the named value reject-permanent.
+func AssociateResultRejectPermanentValue() AssociateResult {
+	return NewAssociateResult(runtime.MustParseBigIntDecimal(AssociateResultRejectPermanentDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v AssociateResult) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v AssociateResult) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
 	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v AssociateResult) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case AssociateResultAcceptedDecimal:
+		return "accepted", true
+	case AssociateResultRejectPermanentDecimal:
+		return "reject-permanent", true
+	default:
+		return "", false
+	}
+}
+
+func (v AssociateResult) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v AssociateResult) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *AssociateResult) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal AssociateResult into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewAssociateResult(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v AssociateResult) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *AssociateResult) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal AssociateResult into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewAssociateResult(value)
+	return nil
 }
 
 // AssociateSourceDiagnostic choice constants.
@@ -142,87 +309,492 @@ const (
 	AssociateSourceDiagnosticChoiceDialogueServiceProvider = 2
 )
 
-// AssociateSourceDiagnostic represents the ASN.1 CHOICE type Associate-source-diagnostic.
+// AssociateSourceDiagnostic represents the ASN.1 CHOICE type AssociateSourceDiagnostic.
 type AssociateSourceDiagnostic struct {
 	Choice                  int
-	DialogueServiceUser     *int64 `json:"DialogueServiceUser,omitempty"`
-	DialogueServiceProvider *int64 `json:"DialogueServiceProvider,omitempty"`
+	DialogueServiceUser     *AssociateSourceDiagnosticDialogueServiceUserValue     `json:"DialogueServiceUser,omitempty"`
+	DialogueServiceProvider *AssociateSourceDiagnosticDialogueServiceProviderValue `json:"DialogueServiceProvider,omitempty"`
 }
 
-// NewAssociateSourceDiagnosticDialogueServiceUser creates a Associate-source-diagnostic with the dialogue-service-user alternative.
-func NewAssociateSourceDiagnosticDialogueServiceUser(v int64) AssociateSourceDiagnostic {
+// NewAssociateSourceDiagnosticDialogueServiceUser creates a AssociateSourceDiagnostic with the dialogue-service-user alternative.
+func NewAssociateSourceDiagnosticDialogueServiceUser(v AssociateSourceDiagnosticDialogueServiceUserValue) AssociateSourceDiagnostic {
 	return AssociateSourceDiagnostic{
 		Choice:              AssociateSourceDiagnosticChoiceDialogueServiceUser,
 		DialogueServiceUser: &v,
 	}
 }
 
-// NewAssociateSourceDiagnosticDialogueServiceProvider creates a Associate-source-diagnostic with the dialogue-service-provider alternative.
-func NewAssociateSourceDiagnosticDialogueServiceProvider(v int64) AssociateSourceDiagnostic {
+// NewAssociateSourceDiagnosticDialogueServiceProvider creates a AssociateSourceDiagnostic with the dialogue-service-provider alternative.
+func NewAssociateSourceDiagnosticDialogueServiceProvider(v AssociateSourceDiagnosticDialogueServiceProviderValue) AssociateSourceDiagnostic {
 	return AssociateSourceDiagnostic{
 		Choice:                  AssociateSourceDiagnosticChoiceDialogueServiceProvider,
 		DialogueServiceProvider: &v,
 	}
 }
 
-// ReleaseRequestReason represents the ASN.1 INTEGER type Release-request-reason with named numbers.
-type ReleaseRequestReason int64
+// ReleaseRequestReason represents the arbitrary-width ASN.1 INTEGER type ReleaseRequestReason with named numbers.
+type ReleaseRequestReason struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	ReleaseRequestReasonNormal      ReleaseRequestReason = 0
-	ReleaseRequestReasonUrgent      ReleaseRequestReason = 1
-	ReleaseRequestReasonUserDefined ReleaseRequestReason = 30
+	ReleaseRequestReasonNormalDecimal      = "0"
+	ReleaseRequestReasonNormal             = 0
+	ReleaseRequestReasonUrgentDecimal      = "1"
+	ReleaseRequestReasonUrgent             = 1
+	ReleaseRequestReasonUserDefinedDecimal = "30"
+	ReleaseRequestReasonUserDefined        = 30
 )
+
+// NewReleaseRequestReason returns an immutable ReleaseRequestReason containing value.
+func NewReleaseRequestReason(value *big.Int) ReleaseRequestReason {
+	return ReleaseRequestReason{value: runtime.CloneBigInt(value)}
+}
+
+// NewReleaseRequestReasonInt64 returns a ReleaseRequestReason containing value.
+func NewReleaseRequestReasonInt64(value int64) ReleaseRequestReason {
+	return NewReleaseRequestReason(big.NewInt(value))
+}
+
+// ReleaseRequestReasonNormalValue returns the named value normal.
+func ReleaseRequestReasonNormalValue() ReleaseRequestReason {
+	return NewReleaseRequestReason(runtime.MustParseBigIntDecimal(ReleaseRequestReasonNormalDecimal))
+}
+
+// ReleaseRequestReasonUrgentValue returns the named value urgent.
+func ReleaseRequestReasonUrgentValue() ReleaseRequestReason {
+	return NewReleaseRequestReason(runtime.MustParseBigIntDecimal(ReleaseRequestReasonUrgentDecimal))
+}
+
+// ReleaseRequestReasonUserDefinedValue returns the named value user-defined.
+func ReleaseRequestReasonUserDefinedValue() ReleaseRequestReason {
+	return NewReleaseRequestReason(runtime.MustParseBigIntDecimal(ReleaseRequestReasonUserDefinedDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v ReleaseRequestReason) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v ReleaseRequestReason) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v ReleaseRequestReason) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case ReleaseRequestReasonNormalDecimal:
+		return "normal", true
+	case ReleaseRequestReasonUrgentDecimal:
+		return "urgent", true
+	case ReleaseRequestReasonUserDefinedDecimal:
+		return "user-defined", true
+	default:
+		return "", false
+	}
+}
 
 func (v ReleaseRequestReason) String() string {
-	switch v {
-	case ReleaseRequestReasonNormal:
-		return "normal"
-	case ReleaseRequestReasonUrgent:
-		return "urgent"
-	case ReleaseRequestReasonUserDefined:
-		return "user-defined"
-	default:
-		return "unknown"
+	if name, ok := v.Name(); ok {
+		return name
 	}
+	return v.BigInt().String()
 }
 
-// ReleaseResponseReason represents the ASN.1 INTEGER type Release-response-reason with named numbers.
-type ReleaseResponseReason int64
+// MarshalText returns the exact decimal INTEGER value.
+func (v ReleaseRequestReason) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *ReleaseRequestReason) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ReleaseRequestReason into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewReleaseRequestReason(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v ReleaseRequestReason) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *ReleaseRequestReason) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ReleaseRequestReason into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewReleaseRequestReason(value)
+	return nil
+}
+
+// ReleaseResponseReason represents the arbitrary-width ASN.1 INTEGER type ReleaseResponseReason with named numbers.
+type ReleaseResponseReason struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	ReleaseResponseReasonNormal      ReleaseResponseReason = 0
-	ReleaseResponseReasonNotFinished ReleaseResponseReason = 1
-	ReleaseResponseReasonUserDefined ReleaseResponseReason = 30
+	ReleaseResponseReasonNormalDecimal      = "0"
+	ReleaseResponseReasonNormal             = 0
+	ReleaseResponseReasonNotFinishedDecimal = "1"
+	ReleaseResponseReasonNotFinished        = 1
+	ReleaseResponseReasonUserDefinedDecimal = "30"
+	ReleaseResponseReasonUserDefined        = 30
 )
 
-func (v ReleaseResponseReason) String() string {
-	switch v {
-	case ReleaseResponseReasonNormal:
-		return "normal"
-	case ReleaseResponseReasonNotFinished:
-		return "not-finished"
-	case ReleaseResponseReasonUserDefined:
-		return "user-defined"
+// NewReleaseResponseReason returns an immutable ReleaseResponseReason containing value.
+func NewReleaseResponseReason(value *big.Int) ReleaseResponseReason {
+	return ReleaseResponseReason{value: runtime.CloneBigInt(value)}
+}
+
+// NewReleaseResponseReasonInt64 returns a ReleaseResponseReason containing value.
+func NewReleaseResponseReasonInt64(value int64) ReleaseResponseReason {
+	return NewReleaseResponseReason(big.NewInt(value))
+}
+
+// ReleaseResponseReasonNormalValue returns the named value normal.
+func ReleaseResponseReasonNormalValue() ReleaseResponseReason {
+	return NewReleaseResponseReason(runtime.MustParseBigIntDecimal(ReleaseResponseReasonNormalDecimal))
+}
+
+// ReleaseResponseReasonNotFinishedValue returns the named value not-finished.
+func ReleaseResponseReasonNotFinishedValue() ReleaseResponseReason {
+	return NewReleaseResponseReason(runtime.MustParseBigIntDecimal(ReleaseResponseReasonNotFinishedDecimal))
+}
+
+// ReleaseResponseReasonUserDefinedValue returns the named value user-defined.
+func ReleaseResponseReasonUserDefinedValue() ReleaseResponseReason {
+	return NewReleaseResponseReason(runtime.MustParseBigIntDecimal(ReleaseResponseReasonUserDefinedDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v ReleaseResponseReason) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v ReleaseResponseReason) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v ReleaseResponseReason) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case ReleaseResponseReasonNormalDecimal:
+		return "normal", true
+	case ReleaseResponseReasonNotFinishedDecimal:
+		return "not-finished", true
+	case ReleaseResponseReasonUserDefinedDecimal:
+		return "user-defined", true
 	default:
-		return "unknown"
+		return "", false
 	}
 }
 
-// AARQApduUserInformation represents the ASN.1 type AARQ-apdu-user-information (SEQUENCE_OF).
+func (v ReleaseResponseReason) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v ReleaseResponseReason) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *ReleaseResponseReason) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ReleaseResponseReason into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewReleaseResponseReason(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v ReleaseResponseReason) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *ReleaseResponseReason) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ReleaseResponseReason into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewReleaseResponseReason(value)
+	return nil
+}
+
+// asn1c:raw-preserve
+// AARQApduUserInformation represents the ASN.1 type AARQApduUserInformation (SEQUENCE_OF).
 type AARQApduUserInformation = []runtime.RawValue
 
-// AAREApduUserInformation represents the ASN.1 type AARE-apdu-user-information (SEQUENCE_OF).
+// asn1c:raw-preserve
+// AAREApduUserInformation represents the ASN.1 type AAREApduUserInformation (SEQUENCE_OF).
 type AAREApduUserInformation = []runtime.RawValue
 
-// RLRQApduUserInformation represents the ASN.1 type RLRQ-apdu-user-information (SEQUENCE_OF).
+// asn1c:raw-preserve
+// RLRQApduUserInformation represents the ASN.1 type RLRQApduUserInformation (SEQUENCE_OF).
 type RLRQApduUserInformation = []runtime.RawValue
 
-// RLREApduUserInformation represents the ASN.1 type RLRE-apdu-user-information (SEQUENCE_OF).
+// asn1c:raw-preserve
+// RLREApduUserInformation represents the ASN.1 type RLREApduUserInformation (SEQUENCE_OF).
 type RLREApduUserInformation = []runtime.RawValue
 
-// ABRTApduUserInformation represents the ASN.1 type ABRT-apdu-user-information (SEQUENCE_OF).
+// asn1c:raw-preserve
+// ABRTApduUserInformation represents the ASN.1 type ABRTApduUserInformation (SEQUENCE_OF).
 type ABRTApduUserInformation = []runtime.RawValue
+
+// AssociateSourceDiagnosticDialogueServiceUserValue represents the arbitrary-width ASN.1 INTEGER type AssociateSourceDiagnosticDialogueServiceUserValue with named numbers.
+type AssociateSourceDiagnosticDialogueServiceUserValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	AssociateSourceDiagnosticDialogueServiceUserValueNullDecimal                               = "0"
+	AssociateSourceDiagnosticDialogueServiceUserValueNull                                      = 0
+	AssociateSourceDiagnosticDialogueServiceUserValueNoReasonGivenDecimal                      = "1"
+	AssociateSourceDiagnosticDialogueServiceUserValueNoReasonGiven                             = 1
+	AssociateSourceDiagnosticDialogueServiceUserValueApplicationContextNameNotSupportedDecimal = "2"
+	AssociateSourceDiagnosticDialogueServiceUserValueApplicationContextNameNotSupported        = 2
+)
+
+// NewAssociateSourceDiagnosticDialogueServiceUserValue returns an immutable AssociateSourceDiagnosticDialogueServiceUserValue containing value.
+func NewAssociateSourceDiagnosticDialogueServiceUserValue(value *big.Int) AssociateSourceDiagnosticDialogueServiceUserValue {
+	return AssociateSourceDiagnosticDialogueServiceUserValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewAssociateSourceDiagnosticDialogueServiceUserValueInt64 returns a AssociateSourceDiagnosticDialogueServiceUserValue containing value.
+func NewAssociateSourceDiagnosticDialogueServiceUserValueInt64(value int64) AssociateSourceDiagnosticDialogueServiceUserValue {
+	return NewAssociateSourceDiagnosticDialogueServiceUserValue(big.NewInt(value))
+}
+
+// AssociateSourceDiagnosticDialogueServiceUserValueNullValue returns the named value null.
+func AssociateSourceDiagnosticDialogueServiceUserValueNullValue() AssociateSourceDiagnosticDialogueServiceUserValue {
+	return NewAssociateSourceDiagnosticDialogueServiceUserValue(runtime.MustParseBigIntDecimal(AssociateSourceDiagnosticDialogueServiceUserValueNullDecimal))
+}
+
+// AssociateSourceDiagnosticDialogueServiceUserValueNoReasonGivenValue returns the named value no-reason-given.
+func AssociateSourceDiagnosticDialogueServiceUserValueNoReasonGivenValue() AssociateSourceDiagnosticDialogueServiceUserValue {
+	return NewAssociateSourceDiagnosticDialogueServiceUserValue(runtime.MustParseBigIntDecimal(AssociateSourceDiagnosticDialogueServiceUserValueNoReasonGivenDecimal))
+}
+
+// AssociateSourceDiagnosticDialogueServiceUserValueApplicationContextNameNotSupportedValue returns the named value application-context-name-not-supported.
+func AssociateSourceDiagnosticDialogueServiceUserValueApplicationContextNameNotSupportedValue() AssociateSourceDiagnosticDialogueServiceUserValue {
+	return NewAssociateSourceDiagnosticDialogueServiceUserValue(runtime.MustParseBigIntDecimal(AssociateSourceDiagnosticDialogueServiceUserValueApplicationContextNameNotSupportedDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v AssociateSourceDiagnosticDialogueServiceUserValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v AssociateSourceDiagnosticDialogueServiceUserValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v AssociateSourceDiagnosticDialogueServiceUserValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case AssociateSourceDiagnosticDialogueServiceUserValueNullDecimal:
+		return "null", true
+	case AssociateSourceDiagnosticDialogueServiceUserValueNoReasonGivenDecimal:
+		return "no-reason-given", true
+	case AssociateSourceDiagnosticDialogueServiceUserValueApplicationContextNameNotSupportedDecimal:
+		return "application-context-name-not-supported", true
+	default:
+		return "", false
+	}
+}
+
+func (v AssociateSourceDiagnosticDialogueServiceUserValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v AssociateSourceDiagnosticDialogueServiceUserValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *AssociateSourceDiagnosticDialogueServiceUserValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal AssociateSourceDiagnosticDialogueServiceUserValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewAssociateSourceDiagnosticDialogueServiceUserValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v AssociateSourceDiagnosticDialogueServiceUserValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *AssociateSourceDiagnosticDialogueServiceUserValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal AssociateSourceDiagnosticDialogueServiceUserValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewAssociateSourceDiagnosticDialogueServiceUserValue(value)
+	return nil
+}
+
+// AssociateSourceDiagnosticDialogueServiceProviderValue represents the arbitrary-width ASN.1 INTEGER type AssociateSourceDiagnosticDialogueServiceProviderValue with named numbers.
+type AssociateSourceDiagnosticDialogueServiceProviderValue struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	AssociateSourceDiagnosticDialogueServiceProviderValueNullDecimal                    = "0"
+	AssociateSourceDiagnosticDialogueServiceProviderValueNull                           = 0
+	AssociateSourceDiagnosticDialogueServiceProviderValueNoReasonGivenDecimal           = "1"
+	AssociateSourceDiagnosticDialogueServiceProviderValueNoReasonGiven                  = 1
+	AssociateSourceDiagnosticDialogueServiceProviderValueNoCommonDialoguePortionDecimal = "2"
+	AssociateSourceDiagnosticDialogueServiceProviderValueNoCommonDialoguePortion        = 2
+)
+
+// NewAssociateSourceDiagnosticDialogueServiceProviderValue returns an immutable AssociateSourceDiagnosticDialogueServiceProviderValue containing value.
+func NewAssociateSourceDiagnosticDialogueServiceProviderValue(value *big.Int) AssociateSourceDiagnosticDialogueServiceProviderValue {
+	return AssociateSourceDiagnosticDialogueServiceProviderValue{value: runtime.CloneBigInt(value)}
+}
+
+// NewAssociateSourceDiagnosticDialogueServiceProviderValueInt64 returns a AssociateSourceDiagnosticDialogueServiceProviderValue containing value.
+func NewAssociateSourceDiagnosticDialogueServiceProviderValueInt64(value int64) AssociateSourceDiagnosticDialogueServiceProviderValue {
+	return NewAssociateSourceDiagnosticDialogueServiceProviderValue(big.NewInt(value))
+}
+
+// AssociateSourceDiagnosticDialogueServiceProviderValueNullValue returns the named value null.
+func AssociateSourceDiagnosticDialogueServiceProviderValueNullValue() AssociateSourceDiagnosticDialogueServiceProviderValue {
+	return NewAssociateSourceDiagnosticDialogueServiceProviderValue(runtime.MustParseBigIntDecimal(AssociateSourceDiagnosticDialogueServiceProviderValueNullDecimal))
+}
+
+// AssociateSourceDiagnosticDialogueServiceProviderValueNoReasonGivenValue returns the named value no-reason-given.
+func AssociateSourceDiagnosticDialogueServiceProviderValueNoReasonGivenValue() AssociateSourceDiagnosticDialogueServiceProviderValue {
+	return NewAssociateSourceDiagnosticDialogueServiceProviderValue(runtime.MustParseBigIntDecimal(AssociateSourceDiagnosticDialogueServiceProviderValueNoReasonGivenDecimal))
+}
+
+// AssociateSourceDiagnosticDialogueServiceProviderValueNoCommonDialoguePortionValue returns the named value no-common-dialogue-portion.
+func AssociateSourceDiagnosticDialogueServiceProviderValueNoCommonDialoguePortionValue() AssociateSourceDiagnosticDialogueServiceProviderValue {
+	return NewAssociateSourceDiagnosticDialogueServiceProviderValue(runtime.MustParseBigIntDecimal(AssociateSourceDiagnosticDialogueServiceProviderValueNoCommonDialoguePortionDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v AssociateSourceDiagnosticDialogueServiceProviderValue) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v AssociateSourceDiagnosticDialogueServiceProviderValue) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v AssociateSourceDiagnosticDialogueServiceProviderValue) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case AssociateSourceDiagnosticDialogueServiceProviderValueNullDecimal:
+		return "null", true
+	case AssociateSourceDiagnosticDialogueServiceProviderValueNoReasonGivenDecimal:
+		return "no-reason-given", true
+	case AssociateSourceDiagnosticDialogueServiceProviderValueNoCommonDialoguePortionDecimal:
+		return "no-common-dialogue-portion", true
+	default:
+		return "", false
+	}
+}
+
+func (v AssociateSourceDiagnosticDialogueServiceProviderValue) String() string {
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v AssociateSourceDiagnosticDialogueServiceProviderValue) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *AssociateSourceDiagnosticDialogueServiceProviderValue) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal AssociateSourceDiagnosticDialogueServiceProviderValue into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewAssociateSourceDiagnosticDialogueServiceProviderValue(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v AssociateSourceDiagnosticDialogueServiceProviderValue) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *AssociateSourceDiagnosticDialogueServiceProviderValue) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal AssociateSourceDiagnosticDialogueServiceProviderValue into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewAssociateSourceDiagnosticDialogueServiceProviderValue(value)
+	return nil
+}
 
 // MarshalBER encodes DialoguePDU to BER format.
 func (v *DialoguePDU) MarshalBER() ([]byte, error) {
@@ -495,7 +1067,7 @@ func (v *AAREApdu) MarshalBER() ([]byte, error) {
 	enc_applicationcontextname := ber.EncodeObjectIdentifier([]uint64(v.ApplicationContextName))
 	enc_applicationcontextname = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 1, enc_applicationcontextname)
 	children = append(children, enc_applicationcontextname...)
-	enc_result := ber.EncodeInteger(int64(v.Result))
+	enc_result := ber.EncodeBigInt((v.Result).BigInt())
 	enc_result = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_result)
 	children = append(children, enc_result...)
 	enc_resultsourcediagnostic, err := v.ResultSourceDiagnostic.MarshalBER()
@@ -599,11 +1171,15 @@ func (v *AAREApdu) UnmarshalBER(data []byte) error {
 		return fmt.Errorf("decoding result: %w", err)
 	}
 	// Decode inner value from explicit tag wrapper
-	val_result, _, err := ber.DecodeInteger(innerData_result)
+	val_result, _, err := ber.DecodeBigInt(innerData_result)
 	if err != nil {
 		return fmt.Errorf("decoding result: %w", err)
 	}
-	v.Result = AssociateResult(val_result)
+	var named_result AssociateResult
+	if namedErr := named_result.UnmarshalText([]byte(val_result.String())); namedErr != nil {
+		return fmt.Errorf("decoding result: %w", namedErr)
+	}
+	v.Result = named_result
 	offset += n_result
 	// Decode result-source-diagnostic
 	if offset >= len(content) {
@@ -659,7 +1235,7 @@ func (v *AAREApdu) UnmarshalBER(data []byte) error {
 func (v *RLRQApdu) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.Reason != nil {
-		enc_reason := ber.EncodeInteger(int64(*v.Reason))
+		enc_reason := ber.EncodeBigInt((*v.Reason).BigInt())
 		enc_reason = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_reason)
 		children = append(children, enc_reason...)
 	}
@@ -714,12 +1290,15 @@ func (v *RLRQApdu) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding reason: %w", err)
 				}
-				decVal_reason, intErr := ber.DecodeIntegerValue(rawVal_reason)
+				decVal_reason, intErr := ber.DecodeBigIntValue(rawVal_reason)
 				if intErr != nil {
 					return fmt.Errorf("decoding reason: %w", intErr)
 				}
-				tmp_reason := ReleaseRequestReason(decVal_reason)
-				v.Reason = &tmp_reason
+				var named_reason ReleaseRequestReason
+				if namedErr := named_reason.UnmarshalText([]byte(decVal_reason.String())); namedErr != nil {
+					return fmt.Errorf("decoding reason: %w", namedErr)
+				}
+				v.Reason = &named_reason
 				offset += n_reason
 			}
 		}
@@ -760,7 +1339,7 @@ func (v *RLRQApdu) UnmarshalBER(data []byte) error {
 func (v *RLREApdu) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.Reason != nil {
-		enc_reason := ber.EncodeInteger(int64(*v.Reason))
+		enc_reason := ber.EncodeBigInt((*v.Reason).BigInt())
 		enc_reason = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_reason)
 		children = append(children, enc_reason...)
 	}
@@ -815,12 +1394,15 @@ func (v *RLREApdu) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding reason: %w", err)
 				}
-				decVal_reason, intErr := ber.DecodeIntegerValue(rawVal_reason)
+				decVal_reason, intErr := ber.DecodeBigIntValue(rawVal_reason)
 				if intErr != nil {
 					return fmt.Errorf("decoding reason: %w", intErr)
 				}
-				tmp_reason := ReleaseResponseReason(decVal_reason)
-				v.Reason = &tmp_reason
+				var named_reason ReleaseResponseReason
+				if namedErr := named_reason.UnmarshalText([]byte(decVal_reason.String())); namedErr != nil {
+					return fmt.Errorf("decoding reason: %w", namedErr)
+				}
+				v.Reason = &named_reason
 				offset += n_reason
 			}
 		}
@@ -860,7 +1442,7 @@ func (v *RLREApdu) UnmarshalBER(data []byte) error {
 // MarshalBER encodes ABRTApdu to BER format.
 func (v *ABRTApdu) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_abortsource := ber.EncodeInteger(int64(v.AbortSource))
+	enc_abortsource := ber.EncodeBigInt((v.AbortSource).BigInt())
 	enc_abortsource = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_abortsource)
 	children = append(children, enc_abortsource...)
 	if v.UserInformation != nil {
@@ -918,11 +1500,15 @@ func (v *ABRTApdu) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding abort-source: %w", err)
 	}
-	decVal_abortsource, intErr := ber.DecodeIntegerValue(rawVal_abortsource)
+	decVal_abortsource, intErr := ber.DecodeBigIntValue(rawVal_abortsource)
 	if intErr != nil {
 		return fmt.Errorf("decoding abort-source: %w", intErr)
 	}
-	v.AbortSource = ABRTSource(decVal_abortsource)
+	var named_abortsource ABRTSource
+	if namedErr := named_abortsource.UnmarshalText([]byte(decVal_abortsource.String())); namedErr != nil {
+		return fmt.Errorf("decoding abort-source: %w", namedErr)
+	}
+	v.AbortSource = named_abortsource
 	offset += n_abortsource
 	// Decode user-information
 	v.UserInformationIndef_ = false
@@ -963,14 +1549,14 @@ func (v *AssociateSourceDiagnostic) MarshalBER() ([]byte, error) {
 		if v.DialogueServiceUser == nil {
 			return nil, fmt.Errorf("choice AssociateSourceDiagnostic: dialogue-service-user is nil")
 		}
-		enc_0 := ber.EncodeInteger(int64(*v.DialogueServiceUser))
+		enc_0 := ber.EncodeBigInt(v.DialogueServiceUser.BigInt())
 		enc_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 1, enc_0)
 		return enc_0, nil
 	case AssociateSourceDiagnosticChoiceDialogueServiceProvider:
 		if v.DialogueServiceProvider == nil {
 			return nil, fmt.Errorf("choice AssociateSourceDiagnostic: dialogue-service-provider is nil")
 		}
-		enc_1 := ber.EncodeInteger(int64(*v.DialogueServiceProvider))
+		enc_1 := ber.EncodeBigInt(v.DialogueServiceProvider.BigInt())
 		enc_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_1)
 		return enc_1, nil
 	default:
@@ -1008,22 +1594,30 @@ func (v *AssociateSourceDiagnostic) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding dialogue-service-user: %w", tlvErr)
 		}
-		decVal, _, intErr := ber.DecodeInteger(innerData)
+		decVal, _, intErr := ber.DecodeBigInt(innerData)
 		if intErr != nil {
 			return fmt.Errorf("decoding dialogue-service-user: %w", intErr)
 		}
-		v.DialogueServiceUser = &decVal
+		var named_dialogueserviceuser AssociateSourceDiagnosticDialogueServiceUserValue
+		if namedErr := named_dialogueserviceuser.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding dialogue-service-user: %w", namedErr)
+		}
+		v.DialogueServiceUser = &named_dialogueserviceuser
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
 		v.Choice = AssociateSourceDiagnosticChoiceDialogueServiceProvider
 		_, _, innerData, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding dialogue-service-provider: %w", tlvErr)
 		}
-		decVal, _, intErr := ber.DecodeInteger(innerData)
+		decVal, _, intErr := ber.DecodeBigInt(innerData)
 		if intErr != nil {
 			return fmt.Errorf("decoding dialogue-service-provider: %w", intErr)
 		}
-		v.DialogueServiceProvider = &decVal
+		var named_dialogueserviceprovider AssociateSourceDiagnosticDialogueServiceProviderValue
+		if namedErr := named_dialogueserviceprovider.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding dialogue-service-provider: %w", namedErr)
+		}
+		v.DialogueServiceProvider = &named_dialogueserviceprovider
 	} else {
 		return fmt.Errorf("unknown tag %s for AssociateSourceDiagnostic CHOICE", peekTag)
 	}

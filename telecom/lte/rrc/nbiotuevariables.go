@@ -15,14 +15,14 @@ var (
 	_ = per.NewBitBuffer
 )
 
-// VarANRMeasConfigNBR16 represents the ASN.1 type VarANR-MeasConfig-NB-r16 (SEQUENCE).
+// VarANRMeasConfigNBR16 represents the ASN.1 type VarANRMeasConfigNBR16 (SEQUENCE).
 type VarANRMeasConfigNBR16 struct {
 	AnrQualityThresholdR16  NRSRPRangeNBR14     `asn1:"tag:0,context,implicit"`
 	AnrCarrierListR16       ANRCarrierListNBR16 `asn1:"tag:1,context,implicit"`
 	AnrCarrierListR16Indef_ bool                `asn1:"-" json:"-"`
 }
 
-// VarANRMeasReportNBR16 represents the ASN.1 type VarANR-MeasReport-NB-r16 (SEQUENCE).
+// VarANRMeasReportNBR16 represents the ASN.1 type VarANRMeasReportNBR16 (SEQUENCE).
 type VarANRMeasReportNBR16 struct {
 	PlmnIdentityListR16       PLMNIdentityList3R11                   `asn1:"tag:0,context,implicit"`
 	PlmnIdentityListR16Indef_ bool                                   `asn1:"-" json:"-"`
@@ -33,29 +33,20 @@ type VarANRMeasReportNBR16 struct {
 	MeasResultListR16Indef_   bool                                   `asn1:"-" json:"-"`
 }
 
-// VarRLFReportNBR16 represents the ASN.1 type VarRLF-Report-NB-r16 (SEQUENCE).
+// VarRLFReportNBR16 represents the ASN.1 type VarRLFReportNBR16 (SEQUENCE).
 type VarRLFReportNBR16 struct {
 	RlfReportR16              RLFReportNBR16       `asn1:"tag:0,context,implicit"`
 	PlmnIdentityListR16       PLMNIdentityList3R11 `asn1:"tag:1,context,implicit"`
 	PlmnIdentityListR16Indef_ bool                 `asn1:"-" json:"-"`
 }
 
-// VarShortMACInputNBR13 represents the ASN.1 type VarShortMAC-Input-NB-r13 (SEQUENCE).
-type VarShortMACInputNBR13 struct {
-	CellIdentity CellIdentity `asn1:"tag:0,context,implicit"`
-	PhysCellId   PhysCellId   `asn1:"tag:1,context,implicit"`
-	CRNTI        CRNTI        `asn1:"tag:2,context,implicit"`
-}
+// VarShortMACInputNBR13 represents the ASN.1 type VarShortMACInputNBR13 (SEQUENCE).
+type VarShortMACInputNBR13 = VarShortMACInput
 
-// VarShortResumeMACInputNBR13 represents the ASN.1 type VarShortResumeMAC-Input-NB-r13 (SEQUENCE).
-type VarShortResumeMACInputNBR13 struct {
-	CellIdentityR13        CellIdentity      `asn1:"tag:0,context,implicit"`
-	PhysCellIdR13          PhysCellId        `asn1:"tag:1,context,implicit"`
-	CRNTIR13               CRNTI             `asn1:"tag:2,context,implicit"`
-	ResumeDiscriminatorR13 runtime.BitString `asn1:"tag:3,context,implicit"`
-}
+// VarShortResumeMACInputNBR13 represents the ASN.1 type VarShortResumeMACInputNBR13 (SEQUENCE).
+type VarShortResumeMACInputNBR13 = VarShortResumeMACInputR13
 
-// VarANRMeasReportNBR16MeasResultListR16 represents the ASN.1 type VarANR-MeasReport-NB-r16-measResultList-r16 (SEQUENCE_OF).
+// VarANRMeasReportNBR16MeasResultListR16 represents the ASN.1 type VarANRMeasReportNBR16MeasResultListR16 (SEQUENCE_OF).
 type VarANRMeasReportNBR16MeasResultListR16 = []ANRMeasResultNBR16
 
 // MarshalUPER encodes VarANRMeasConfigNBR16 to UPER format.
@@ -233,104 +224,56 @@ func (v *VarRLFReportNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalUPER encodes VarShortMACInputNBR13 to UPER format.
-func (v *VarShortMACInputNBR13) MarshalUPER() ([]byte, error) {
+type asn1cUPERVarANRMeasReportNBR16MeasResultListR16ListValue struct {
+	Value VarANRMeasReportNBR16MeasResultListR16
+}
+
+// MarshalUPERVarANRMeasReportNBR16MeasResultListR16 encodes a VarANRMeasReportNBR16MeasResultListR16 list to UPER.
+func MarshalUPERVarANRMeasReportNBR16MeasResultListR16(list VarANRMeasReportNBR16MeasResultListR16) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
+	if err := marshalUPERVarANRMeasReportNBR16MeasResultListR16To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *VarShortMACInputNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeBitString(bb, v.CellIdentity.Bytes, v.CellIdentity.BitLength, 28, 28, true); err != nil {
-		return fmt.Errorf("encoding cellIdentity: %w", err)
+func marshalUPERVarANRMeasReportNBR16MeasResultListR16To(list VarANRMeasReportNBR16MeasResultListR16, bb *per.BitBuffer) error {
+	v := asn1cUPERVarANRMeasReportNBR16MeasResultListR16ListValue{Value: list}
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 2); err != nil {
+		return fmt.Errorf("encoding value length: %w", err)
 	}
-	if err := per.EncodeInteger(bb, int64(v.PhysCellId), int64Ptr(0), int64Ptr(503), false); err != nil {
-		return fmt.Errorf("encoding physCellId: %w", err)
-	}
-	if err := per.EncodeBitString(bb, v.CRNTI.Bytes, v.CRNTI.BitLength, 16, 16, true); err != nil {
-		return fmt.Errorf("encoding c-RNTI: %w", err)
+	for _, elem := range v.Value {
+		if err := elem.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding value element: %w", err)
+		}
 	}
 	return nil
 }
 
-// UnmarshalUPER decodes VarShortMACInputNBR13 from UPER format.
-func (v *VarShortMACInputNBR13) UnmarshalUPER(data []byte) error {
+// UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16 decodes a VarANRMeasReportNBR16MeasResultListR16 list from UPER.
+func UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16(data []byte) (VarANRMeasReportNBR16MeasResultListR16, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	return unmarshalUPERVarANRMeasReportNBR16MeasResultListR16From(bb)
 }
 
-func (v *VarShortMACInputNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	bsBytes_cellidentity, bsBitLen_cellidentity, err := per.DecodeBitString(bb, 28, 28, true)
-	if err != nil {
-		return fmt.Errorf("decoding cellIdentity: %w", err)
-	}
-	v.CellIdentity = runtime.BitString{Bytes: bsBytes_cellidentity, BitLength: bsBitLen_cellidentity}
-	val_physcellid, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(503), false)
-	if err != nil {
-		return fmt.Errorf("decoding physCellId: %w", err)
-	}
-	v.PhysCellId = PhysCellId(val_physcellid)
-	bsBytes_crnti, bsBitLen_crnti, err := per.DecodeBitString(bb, 16, 16, true)
-	if err != nil {
-		return fmt.Errorf("decoding c-RNTI: %w", err)
-	}
-	v.CRNTI = runtime.BitString{Bytes: bsBytes_crnti, BitLength: bsBitLen_crnti}
-	return nil
-}
-
-// MarshalUPER encodes VarShortResumeMACInputNBR13 to UPER format.
-func (v *VarShortResumeMACInputNBR13) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
+func unmarshalUPERVarANRMeasReportNBR16MeasResultListR16From(bb *per.BitBuffer) (VarANRMeasReportNBR16MeasResultListR16, error) {
+	var v asn1cUPERVarANRMeasReportNBR16MeasResultListR16ListValue
+	if err := unmarshalUPERVarANRMeasReportNBR16MeasResultListR16Into(&v, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return v.Value, nil
 }
 
-func (v *VarShortResumeMACInputNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeBitString(bb, v.CellIdentityR13.Bytes, v.CellIdentityR13.BitLength, 28, 28, true); err != nil {
-		return fmt.Errorf("encoding cellIdentity-r13: %w", err)
-	}
-	if err := per.EncodeInteger(bb, int64(v.PhysCellIdR13), int64Ptr(0), int64Ptr(503), false); err != nil {
-		return fmt.Errorf("encoding physCellId-r13: %w", err)
-	}
-	if err := per.EncodeBitString(bb, v.CRNTIR13.Bytes, v.CRNTIR13.BitLength, 16, 16, true); err != nil {
-		return fmt.Errorf("encoding c-RNTI-r13: %w", err)
-	}
-	if err := per.EncodeBitString(bb, v.ResumeDiscriminatorR13.Bytes, v.ResumeDiscriminatorR13.BitLength, 1, 1, true); err != nil {
-		return fmt.Errorf("encoding resumeDiscriminator-r13: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes VarShortResumeMACInputNBR13 from UPER format.
-func (v *VarShortResumeMACInputNBR13) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *VarShortResumeMACInputNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	bsBytes_cellidentityr13, bsBitLen_cellidentityr13, err := per.DecodeBitString(bb, 28, 28, true)
+func unmarshalUPERVarANRMeasReportNBR16MeasResultListR16Into(v *asn1cUPERVarANRMeasReportNBR16MeasResultListR16ListValue, bb *per.BitBuffer) error {
+	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
 	if err != nil {
-		return fmt.Errorf("decoding cellIdentity-r13: %w", err)
+		return fmt.Errorf("decoding value length: %w", err)
 	}
-	v.CellIdentityR13 = runtime.BitString{Bytes: bsBytes_cellidentityr13, BitLength: bsBitLen_cellidentityr13}
-	val_physcellidr13, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(503), false)
-	if err != nil {
-		return fmt.Errorf("decoding physCellId-r13: %w", err)
+	v.Value = make(VarANRMeasReportNBR16MeasResultListR16, seqLen_value)
+	for i := int64(0); i < seqLen_value; i++ {
+		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element: %w", err)
+		}
 	}
-	v.PhysCellIdR13 = PhysCellId(val_physcellidr13)
-	bsBytes_crntir13, bsBitLen_crntir13, err := per.DecodeBitString(bb, 16, 16, true)
-	if err != nil {
-		return fmt.Errorf("decoding c-RNTI-r13: %w", err)
-	}
-	v.CRNTIR13 = runtime.BitString{Bytes: bsBytes_crntir13, BitLength: bsBitLen_crntir13}
-	bsBytes_resumediscriminatorr13, bsBitLen_resumediscriminatorr13, err := per.DecodeBitString(bb, 1, 1, true)
-	if err != nil {
-		return fmt.Errorf("decoding resumeDiscriminator-r13: %w", err)
-	}
-	v.ResumeDiscriminatorR13 = runtime.BitString{Bytes: bsBytes_resumediscriminatorr13, BitLength: bsBitLen_resumediscriminatorr13}
 	return nil
 }

@@ -17,7 +17,7 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// UniDialogueAsId returns the OID value for uniDialogue-as-id.
+// UniDialogueAsId returns the OID value for UniDialogueAsId.
 func UniDialogueAsId() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{0, 0, 17, 773, 1, 2, 1}
 }
@@ -41,7 +41,7 @@ func NewUniDialoguePDUUnidialoguePDU(v AUDTApdu) UniDialoguePDU {
 	}
 }
 
-// AUDTApdu represents the ASN.1 type AUDT-apdu (SEQUENCE).
+// AUDTApdu represents the ASN.1 type AUDTApdu (SEQUENCE).
 type AUDTApdu struct {
 	ProtocolVersion        *runtime.BitString       `asn1:"tag:0,context,implicit,optional" json:"ProtocolVersion,omitempty"`
 	ApplicationContextName runtime.ObjectIdentifier `asn1:"tag:1,context,explicit"`
@@ -49,7 +49,8 @@ type AUDTApdu struct {
 	UserInformationIndef_  bool                     `asn1:"-" json:"-"`
 }
 
-// AUDTApduUserInformation represents the ASN.1 type AUDT-apdu-user-information (SEQUENCE_OF).
+// asn1c:raw-preserve
+// AUDTApduUserInformation represents the ASN.1 type AUDTApduUserInformation (SEQUENCE_OF).
 type AUDTApduUserInformation = []runtime.RawValue
 
 // MarshalBER encodes UniDialoguePDU to BER format.

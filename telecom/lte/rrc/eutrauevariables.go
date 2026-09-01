@@ -4,6 +4,7 @@ package rrc
 
 import (
 	"fmt"
+	"math/big"
 
 	"github.com/gomaja/go-asn1/runtime"
 	"github.com/gomaja/go-asn1/runtime/per"
@@ -17,21 +18,9 @@ var (
 
 const (
 
-	// MaxLogMeasR10 is the integer constant for maxLogMeas-r10.
+	// MaxLogMeasR10 is the integer constant for MaxLogMeasR10.
 	MaxLogMeasR10 int64 = 4060
 )
-
-// CSIRSTriggeredListR12 represents the ASN.1 type CSI-RS-TriggeredList-r12 (SEQUENCE_OF).
-type CSIRSTriggeredListR12 = []MeasCSIRSIdR12
-
-// CellsTriggeredList represents the ASN.1 type CellsTriggeredList (SEQUENCE_OF).
-type CellsTriggeredList = []CellsTriggeredListElem
-
-// LogMeasInfoList2R10 represents the ASN.1 type LogMeasInfoList2-r10 (SEQUENCE_OF).
-type LogMeasInfoList2R10 = []LogMeasInfoR10
-
-// SSBIndexListR15 represents the ASN.1 type SSB-IndexList-r15 (SEQUENCE_OF).
-type SSBIndexListR15 = []RSIndexNRR15
 
 // VarConditionalReconfiguration represents the ASN.1 type VarConditionalReconfiguration (SEQUENCE).
 type VarConditionalReconfiguration struct {
@@ -39,20 +28,20 @@ type VarConditionalReconfiguration struct {
 	CondReconfigurationListR16Indef_ bool                               `asn1:"-" json:"-"`
 }
 
-// VarConnEstFailReportR11 represents the ASN.1 type VarConnEstFailReport-r11 (SEQUENCE).
+// VarConnEstFailReportR11 represents the ASN.1 type VarConnEstFailReportR11 (SEQUENCE).
 type VarConnEstFailReportR11 struct {
 	ConnEstFailReportR11 ConnEstFailReportR11 `asn1:"tag:0,context,implicit"`
 	PlmnIdentityR11      PLMNIdentity         `asn1:"tag:1,context,implicit"`
 }
 
-// VarLogMeasConfigR10 represents the ASN.1 type VarLogMeasConfig-r10 (SEQUENCE).
+// VarLogMeasConfigR10 represents the ASN.1 type VarLogMeasConfigR10 (SEQUENCE).
 type VarLogMeasConfigR10 struct {
 	AreaConfigurationR10 *AreaConfigurationR10 `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
 	LoggingDurationR10   LoggingDurationR10    `asn1:"tag:1,context,implicit"`
 	LoggingIntervalR10   LoggingIntervalR10    `asn1:"tag:2,context,implicit"`
 }
 
-// VarLogMeasConfigR11 represents the ASN.1 type VarLogMeasConfig-r11 (SEQUENCE).
+// VarLogMeasConfigR11 represents the ASN.1 type VarLogMeasConfigR11 (SEQUENCE).
 type VarLogMeasConfigR11 struct {
 	AreaConfigurationR10   *AreaConfigurationR10   `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
 	AreaConfigurationV1130 *AreaConfigurationV1130 `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
@@ -60,7 +49,7 @@ type VarLogMeasConfigR11 struct {
 	LoggingIntervalR10     LoggingIntervalR10      `asn1:"tag:3,context,implicit"`
 }
 
-// VarLogMeasConfigR12 represents the ASN.1 type VarLogMeasConfig-r12 (SEQUENCE).
+// VarLogMeasConfigR12 represents the ASN.1 type VarLogMeasConfigR12 (SEQUENCE).
 type VarLogMeasConfigR12 struct {
 	AreaConfigurationR10         *AreaConfigurationR10   `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
 	AreaConfigurationV1130       *AreaConfigurationV1130 `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
@@ -70,7 +59,7 @@ type VarLogMeasConfigR12 struct {
 	TargetMBSFNAreaListR12Indef_ bool                    `asn1:"-" json:"-"`
 }
 
-// VarLogMeasConfigR15 represents the ASN.1 type VarLogMeasConfig-r15 (SEQUENCE).
+// VarLogMeasConfigR15 represents the ASN.1 type VarLogMeasConfigR15 (SEQUENCE).
 type VarLogMeasConfigR15 struct {
 	AreaConfigurationR10         *AreaConfigurationR10   `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
 	AreaConfigurationV1130       *AreaConfigurationV1130 `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
@@ -84,7 +73,7 @@ type VarLogMeasConfigR15 struct {
 	WlanNameListR15Indef_        bool                    `asn1:"-" json:"-"`
 }
 
-// VarLogMeasConfigR17 represents the ASN.1 type VarLogMeasConfig-r17 (SEQUENCE).
+// VarLogMeasConfigR17 represents the ASN.1 type VarLogMeasConfigR17 (SEQUENCE).
 type VarLogMeasConfigR17 struct {
 	AreaConfigurationR10         *AreaConfigurationR10        `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
 	AreaConfigurationV1130       *AreaConfigurationV1130      `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
@@ -100,7 +89,7 @@ type VarLogMeasConfigR17 struct {
 	MeasUncomBarPreR17           *int64                       `asn1:"tag:8,context,implicit,optional" json:"MeasUncomBarPreR17,omitempty"`
 }
 
-// VarLogMeasReportR10 represents the ASN.1 type VarLogMeasReport-r10 (SEQUENCE).
+// VarLogMeasReportR10 represents the ASN.1 type VarLogMeasReportR10 (SEQUENCE).
 type VarLogMeasReportR10 struct {
 	TraceReferenceR10           TraceReferenceR10   `asn1:"tag:0,context,implicit"`
 	TraceRecordingSessionRefR10 []byte              `asn1:"tag:1,context,implicit"`
@@ -111,7 +100,7 @@ type VarLogMeasReportR10 struct {
 	LogMeasInfoListR10Indef_    bool                `asn1:"-" json:"-"`
 }
 
-// VarLogMeasReportR11 represents the ASN.1 type VarLogMeasReport-r11 (SEQUENCE).
+// VarLogMeasReportR11 represents the ASN.1 type VarLogMeasReportR11 (SEQUENCE).
 type VarLogMeasReportR11 struct {
 	TraceReferenceR10           TraceReferenceR10    `asn1:"tag:0,context,implicit"`
 	TraceRecordingSessionRefR10 []byte               `asn1:"tag:1,context,implicit"`
@@ -121,7 +110,11 @@ type VarLogMeasReportR11 struct {
 	AbsoluteTimeInfoR10         AbsoluteTimeInfoR10  `asn1:"tag:4,context,implicit"`
 	LogMeasInfoListR10          LogMeasInfoList2R10  `asn1:"tag:5,context,implicit"`
 	LogMeasInfoListR10Indef_    bool                 `asn1:"-" json:"-"`
+	SigLoggedMeasTypeR18        int64                `asn1:"tag:6,context,implicit"`
 }
+
+// LogMeasInfoList2R10 represents the ASN.1 type LogMeasInfoList2R10 (SEQUENCE_OF).
+type LogMeasInfoList2R10 = []LogMeasInfoR10
 
 // VarMeasConfig represents the ASN.1 type VarMeasConfig (SEQUENCE).
 type VarMeasConfig struct {
@@ -149,14 +142,14 @@ type VarMeasConfig struct {
 	AllowInterruptionsR11Raw_  byte                         `asn1:"-" json:"-"`
 }
 
-// VarMeasIdleConfigR15 represents the ASN.1 type VarMeasIdleConfig-r15 (SEQUENCE).
+// VarMeasIdleConfigR15 represents the ASN.1 type VarMeasIdleConfigR15 (SEQUENCE).
 type VarMeasIdleConfigR15 struct {
 	MeasIdleCarrierListEUTRAR15       EUTRACarrierListR15 `asn1:"tag:0,context,implicit,optional" json:"MeasIdleCarrierListEUTRAR15,omitempty"`
 	MeasIdleCarrierListEUTRAR15Indef_ bool                `asn1:"-" json:"-"`
 	MeasIdleDurationR15               int64               `asn1:"tag:1,context,implicit"`
 }
 
-// VarMeasIdleConfigR16 represents the ASN.1 type VarMeasIdleConfig-r16 (SEQUENCE).
+// VarMeasIdleConfigR16 represents the ASN.1 type VarMeasIdleConfigR16 (SEQUENCE).
 type VarMeasIdleConfigR16 struct {
 	MeasIdleCarrierListNRR16       NRCarrierListR16    `asn1:"tag:0,context,implicit,optional" json:"MeasIdleCarrierListNRR16,omitempty"`
 	MeasIdleCarrierListNRR16Indef_ bool                `asn1:"-" json:"-"`
@@ -164,19 +157,25 @@ type VarMeasIdleConfigR16 struct {
 	ValidityAreaListR16Indef_      bool                `asn1:"-" json:"-"`
 }
 
-// VarMeasIdleReportR15 represents the ASN.1 type VarMeasIdleReport-r15 (SEQUENCE).
+// VarMeasIdleReportR15 represents the ASN.1 type VarMeasIdleReportR15 (SEQUENCE).
 type VarMeasIdleReportR15 struct {
 	MeasReportIdleR15       MeasResultListIdleR15 `asn1:"tag:0,context,implicit"`
 	MeasReportIdleR15Indef_ bool                  `asn1:"-" json:"-"`
 }
 
-// VarMeasIdleReportR16 represents the ASN.1 type VarMeasIdleReport-r16 (SEQUENCE).
+// VarMeasIdleReportR16 represents the ASN.1 type VarMeasIdleReportR16 (SEQUENCE).
 type VarMeasIdleReportR16 struct {
 	MeasReportIdleR16         MeasResultListExtIdleR16 `asn1:"tag:0,context,implicit,optional" json:"MeasReportIdleR16,omitempty"`
 	MeasReportIdleR16Indef_   bool                     `asn1:"-" json:"-"`
 	MeasReportIdleNRR16       MeasResultListIdleNRR16  `asn1:"tag:1,context,implicit,optional" json:"MeasReportIdleNRR16,omitempty"`
 	MeasReportIdleNRR16Indef_ bool                     `asn1:"-" json:"-"`
 }
+
+// VarMeasReportList represents the ASN.1 type VarMeasReportList (SEQUENCE_OF).
+type VarMeasReportList = []VarMeasReport
+
+// VarMeasReportListR12 represents the ASN.1 type VarMeasReportListR12 (SEQUENCE_OF).
+type VarMeasReportListR12 = []VarMeasReport
 
 // VarMeasReport represents the ASN.1 type VarMeasReport (SEQUENCE).
 type VarMeasReport struct {
@@ -188,52 +187,55 @@ type VarMeasReport struct {
 	CsiRSTriggeredListR12Indef_ bool                      `asn1:"-" json:"-"`
 	PoolsTriggeredListR14       TxResourcePoolMeasListR14 `asn1:"tag:4,context,implicit,optional" json:"PoolsTriggeredListR14,omitempty"`
 	PoolsTriggeredListR14Indef_ bool                      `asn1:"-" json:"-"`
-	NumberOfReportsSent         int64                     `asn1:"tag:5,context,implicit"`
+	NumberOfReportsSent         *big.Int                  `asn1:"tag:5,context,implicit"`
 }
 
-// VarMeasReportList represents the ASN.1 type VarMeasReportList (SEQUENCE_OF).
-type VarMeasReportList = []VarMeasReport
+// CellsTriggeredList represents the ASN.1 type CellsTriggeredList (SEQUENCE_OF).
+type CellsTriggeredList = []CellsTriggeredListElem
 
-// VarMeasReportListR12 represents the ASN.1 type VarMeasReportList-r12 (SEQUENCE_OF).
-type VarMeasReportListR12 = []VarMeasReport
+// CSIRSTriggeredListR12 represents the ASN.1 type CSIRSTriggeredListR12 (SEQUENCE_OF).
+type CSIRSTriggeredListR12 = []MeasCSIRSIdR12
 
-// VarMobilityHistoryReportR12 represents the ASN.1 type VarMobilityHistoryReport-r12 (SEQUENCE_OF).
-type VarMobilityHistoryReportR12 = []VisitedCellInfoR12
+// SSBIndexListR15 represents the ASN.1 type SSBIndexListR15 (SEQUENCE_OF).
+type SSBIndexListR15 = []RSIndexNRR15
 
-// VarPendingRnaUpdateR15 represents the ASN.1 type VarPendingRnaUpdate-r15 (SEQUENCE).
+// VarMobilityHistoryReportR12 represents the ASN.1 type VarMobilityHistoryReportR12 (SEQUENCE_OF).
+type VarMobilityHistoryReportR12 = VisitedCellInfoListR12
+
+// VarPendingRnaUpdateR15 represents the ASN.1 type VarPendingRnaUpdateR15 (SEQUENCE).
 type VarPendingRnaUpdateR15 struct {
 	PendingRnaUpdate     *bool `asn1:"tag:0,context,implicit,optional" json:"PendingRnaUpdate,omitempty"`
 	PendingRnaUpdateRaw_ byte  `asn1:"-" json:"-"`
 }
 
-// VarRLFReportR10 represents the ASN.1 type VarRLF-Report-r10 (SEQUENCE).
+// VarRLFReportR10 represents the ASN.1 type VarRLFReportR10 (SEQUENCE).
 type VarRLFReportR10 struct {
 	RlfReportR10    RLFReportR9  `asn1:"tag:0,context,implicit"`
 	PlmnIdentityR10 PLMNIdentity `asn1:"tag:1,context,implicit"`
 }
 
-// VarRLFReportR11 represents the ASN.1 type VarRLF-Report-r11 (SEQUENCE).
+// VarRLFReportR11 represents the ASN.1 type VarRLFReportR11 (SEQUENCE).
 type VarRLFReportR11 struct {
 	RlfReportR10              RLFReportR9          `asn1:"tag:0,context,implicit"`
 	PlmnIdentityListR11       PLMNIdentityList3R11 `asn1:"tag:1,context,implicit"`
 	PlmnIdentityListR11Indef_ bool                 `asn1:"-" json:"-"`
 }
 
-// VarShortINACTIVEMACInputR15 represents the ASN.1 type VarShortINACTIVE-MAC-Input-r15 (SEQUENCE).
+// VarShortINACTIVEMACInputR15 represents the ASN.1 type VarShortINACTIVEMACInputR15 (SEQUENCE).
 type VarShortINACTIVEMACInputR15 struct {
 	CellIdentityR15 CellIdentity `asn1:"tag:0,context,implicit"`
 	PhysCellIdR15   PhysCellId   `asn1:"tag:1,context,implicit"`
 	CRNTIR15        CRNTI        `asn1:"tag:2,context,implicit"`
 }
 
-// VarShortMACInput represents the ASN.1 type VarShortMAC-Input (SEQUENCE).
+// VarShortMACInput represents the ASN.1 type VarShortMACInput (SEQUENCE).
 type VarShortMACInput struct {
 	CellIdentity CellIdentity `asn1:"tag:0,context,implicit"`
 	PhysCellId   PhysCellId   `asn1:"tag:1,context,implicit"`
 	CRNTI        CRNTI        `asn1:"tag:2,context,implicit"`
 }
 
-// VarShortResumeMACInputR13 represents the ASN.1 type VarShortResumeMAC-Input-r13 (SEQUENCE).
+// VarShortResumeMACInputR13 represents the ASN.1 type VarShortResumeMACInputR13 (SEQUENCE).
 type VarShortResumeMACInputR13 struct {
 	CellIdentityR13        CellIdentity      `asn1:"tag:0,context,implicit"`
 	PhysCellIdR13          PhysCellId        `asn1:"tag:1,context,implicit"`
@@ -241,7 +243,7 @@ type VarShortResumeMACInputR13 struct {
 	ResumeDiscriminatorR13 runtime.BitString `asn1:"tag:3,context,implicit"`
 }
 
-// VarWLANMobilityConfig represents the ASN.1 type VarWLAN-MobilityConfig (SEQUENCE).
+// VarWLANMobilityConfig represents the ASN.1 type VarWLANMobilityConfig (SEQUENCE).
 type VarWLANMobilityConfig struct {
 	WlanMobilitySetR13       WLANIdListR13         `asn1:"tag:0,context,implicit,optional" json:"WlanMobilitySetR13,omitempty"`
 	WlanMobilitySetR13Indef_ bool                  `asn1:"-" json:"-"`
@@ -249,10 +251,45 @@ type VarWLANMobilityConfig struct {
 	WlanSuspendConfigR14     *WLANSuspendConfigR14 `asn1:"tag:2,context,implicit,optional" json:"WlanSuspendConfigR14,omitempty"`
 }
 
-// VarWLANStatusR13 represents the ASN.1 type VarWLAN-Status-r13 (SEQUENCE).
+// VarWLANStatusR13 represents the ASN.1 type VarWLANStatusR13 (SEQUENCE).
 type VarWLANStatusR13 struct {
 	StatusR13 WLANStatusR13    `asn1:"tag:0,context,implicit"`
 	StatusR14 *WLANStatusV1430 `asn1:"tag:1,context,implicit,optional" json:"StatusR14,omitempty"`
+}
+
+// VarMeasConfigSpeedStatePars choice constants.
+const (
+	VarMeasConfigSpeedStateParsChoiceRelease = 1
+	VarMeasConfigSpeedStateParsChoiceSetup   = 2
+)
+
+// VarMeasConfigSpeedStatePars represents the ASN.1 CHOICE type VarMeasConfigSpeedStatePars.
+type VarMeasConfigSpeedStatePars struct {
+	Choice  int
+	Release *struct{}                         `json:"Release,omitempty"`
+	Setup   *VarMeasConfigSpeedStateParsSetup `json:"Setup,omitempty"`
+}
+
+// NewVarMeasConfigSpeedStateParsRelease creates a VarMeasConfigSpeedStatePars with the release alternative.
+func NewVarMeasConfigSpeedStateParsRelease(v struct{}) VarMeasConfigSpeedStatePars {
+	return VarMeasConfigSpeedStatePars{
+		Choice:  VarMeasConfigSpeedStateParsChoiceRelease,
+		Release: &v,
+	}
+}
+
+// NewVarMeasConfigSpeedStateParsSetup creates a VarMeasConfigSpeedStatePars with the setup alternative.
+func NewVarMeasConfigSpeedStateParsSetup(v VarMeasConfigSpeedStateParsSetup) VarMeasConfigSpeedStatePars {
+	return VarMeasConfigSpeedStatePars{
+		Choice: VarMeasConfigSpeedStateParsChoiceSetup,
+		Setup:  &v,
+	}
+}
+
+// VarMeasConfigSpeedStateParsSetup represents the ASN.1 type VarMeasConfigSpeedStateParsSetup (SEQUENCE).
+type VarMeasConfigSpeedStateParsSetup struct {
+	MobilityStateParameters MobilityStateParameters `asn1:"tag:0,context,implicit"`
+	TimeToTriggerSF         SpeedStateScaleFactors  `asn1:"tag:1,context,implicit"`
 }
 
 // CellsTriggeredListElem choice constants.
@@ -265,7 +302,7 @@ const (
 	CellsTriggeredListElemChoicePhysCellIdNRR15    = 6
 )
 
-// CellsTriggeredListElem represents the ASN.1 CHOICE type CellsTriggeredList-Elem.
+// CellsTriggeredListElem represents the ASN.1 CHOICE type CellsTriggeredListElem.
 type CellsTriggeredListElem struct {
 	Choice             int
 	PhysCellIdEUTRA    *PhysCellId                            `json:"PhysCellIdEUTRA,omitempty"`
@@ -276,7 +313,7 @@ type CellsTriggeredListElem struct {
 	PhysCellIdNRR15    *CellsTriggeredListElemPhysCellIdNRR15 `json:"PhysCellIdNRR15,omitempty"`
 }
 
-// NewCellsTriggeredListElemPhysCellIdEUTRA creates a CellsTriggeredList-Elem with the physCellIdEUTRA alternative.
+// NewCellsTriggeredListElemPhysCellIdEUTRA creates a CellsTriggeredListElem with the physCellIdEUTRA alternative.
 func NewCellsTriggeredListElemPhysCellIdEUTRA(v PhysCellId) CellsTriggeredListElem {
 	return CellsTriggeredListElem{
 		Choice:          CellsTriggeredListElemChoicePhysCellIdEUTRA,
@@ -284,7 +321,7 @@ func NewCellsTriggeredListElemPhysCellIdEUTRA(v PhysCellId) CellsTriggeredListEl
 	}
 }
 
-// NewCellsTriggeredListElemPhysCellIdUTRA creates a CellsTriggeredList-Elem with the physCellIdUTRA alternative.
+// NewCellsTriggeredListElemPhysCellIdUTRA creates a CellsTriggeredListElem with the physCellIdUTRA alternative.
 func NewCellsTriggeredListElemPhysCellIdUTRA(v CellsTriggeredListElemPhysCellIdUTRA) CellsTriggeredListElem {
 	return CellsTriggeredListElem{
 		Choice:         CellsTriggeredListElemChoicePhysCellIdUTRA,
@@ -292,7 +329,7 @@ func NewCellsTriggeredListElemPhysCellIdUTRA(v CellsTriggeredListElemPhysCellIdU
 	}
 }
 
-// NewCellsTriggeredListElemPhysCellIdGERAN creates a CellsTriggeredList-Elem with the physCellIdGERAN alternative.
+// NewCellsTriggeredListElemPhysCellIdGERAN creates a CellsTriggeredListElem with the physCellIdGERAN alternative.
 func NewCellsTriggeredListElemPhysCellIdGERAN(v CellsTriggeredListElemPhysCellIdGERAN) CellsTriggeredListElem {
 	return CellsTriggeredListElem{
 		Choice:          CellsTriggeredListElemChoicePhysCellIdGERAN,
@@ -300,7 +337,7 @@ func NewCellsTriggeredListElemPhysCellIdGERAN(v CellsTriggeredListElemPhysCellId
 	}
 }
 
-// NewCellsTriggeredListElemPhysCellIdCDMA2000 creates a CellsTriggeredList-Elem with the physCellIdCDMA2000 alternative.
+// NewCellsTriggeredListElemPhysCellIdCDMA2000 creates a CellsTriggeredListElem with the physCellIdCDMA2000 alternative.
 func NewCellsTriggeredListElemPhysCellIdCDMA2000(v PhysCellIdCDMA2000) CellsTriggeredListElem {
 	return CellsTriggeredListElem{
 		Choice:             CellsTriggeredListElemChoicePhysCellIdCDMA2000,
@@ -308,7 +345,7 @@ func NewCellsTriggeredListElemPhysCellIdCDMA2000(v PhysCellIdCDMA2000) CellsTrig
 	}
 }
 
-// NewCellsTriggeredListElemWlanIdentifiersR13 creates a CellsTriggeredList-Elem with the wlan-Identifiers-r13 alternative.
+// NewCellsTriggeredListElemWlanIdentifiersR13 creates a CellsTriggeredListElem with the wlan-Identifiers-r13 alternative.
 func NewCellsTriggeredListElemWlanIdentifiersR13(v WLANIdentifiersR12) CellsTriggeredListElem {
 	return CellsTriggeredListElem{
 		Choice:             CellsTriggeredListElemChoiceWlanIdentifiersR13,
@@ -316,7 +353,7 @@ func NewCellsTriggeredListElemWlanIdentifiersR13(v WLANIdentifiersR12) CellsTrig
 	}
 }
 
-// NewCellsTriggeredListElemPhysCellIdNRR15 creates a CellsTriggeredList-Elem with the physCellIdNR-r15 alternative.
+// NewCellsTriggeredListElemPhysCellIdNRR15 creates a CellsTriggeredListElem with the physCellIdNR-r15 alternative.
 func NewCellsTriggeredListElemPhysCellIdNRR15(v CellsTriggeredListElemPhysCellIdNRR15) CellsTriggeredListElem {
 	return CellsTriggeredListElem{
 		Choice:          CellsTriggeredListElemChoicePhysCellIdNRR15,
@@ -330,14 +367,14 @@ const (
 	CellsTriggeredListElemPhysCellIdUTRAChoiceTdd = 2
 )
 
-// CellsTriggeredListElemPhysCellIdUTRA represents the ASN.1 CHOICE type CellsTriggeredList-Elem-physCellIdUTRA.
+// CellsTriggeredListElemPhysCellIdUTRA represents the ASN.1 CHOICE type CellsTriggeredListElemPhysCellIdUTRA.
 type CellsTriggeredListElemPhysCellIdUTRA struct {
 	Choice int
 	Fdd    *PhysCellIdUTRAFDD `json:"Fdd,omitempty"`
 	Tdd    *PhysCellIdUTRATDD `json:"Tdd,omitempty"`
 }
 
-// NewCellsTriggeredListElemPhysCellIdUTRAFdd creates a CellsTriggeredList-Elem-physCellIdUTRA with the fdd alternative.
+// NewCellsTriggeredListElemPhysCellIdUTRAFdd creates a CellsTriggeredListElemPhysCellIdUTRA with the fdd alternative.
 func NewCellsTriggeredListElemPhysCellIdUTRAFdd(v PhysCellIdUTRAFDD) CellsTriggeredListElemPhysCellIdUTRA {
 	return CellsTriggeredListElemPhysCellIdUTRA{
 		Choice: CellsTriggeredListElemPhysCellIdUTRAChoiceFdd,
@@ -345,7 +382,7 @@ func NewCellsTriggeredListElemPhysCellIdUTRAFdd(v PhysCellIdUTRAFDD) CellsTrigge
 	}
 }
 
-// NewCellsTriggeredListElemPhysCellIdUTRATdd creates a CellsTriggeredList-Elem-physCellIdUTRA with the tdd alternative.
+// NewCellsTriggeredListElemPhysCellIdUTRATdd creates a CellsTriggeredListElemPhysCellIdUTRA with the tdd alternative.
 func NewCellsTriggeredListElemPhysCellIdUTRATdd(v PhysCellIdUTRATDD) CellsTriggeredListElemPhysCellIdUTRA {
 	return CellsTriggeredListElemPhysCellIdUTRA{
 		Choice: CellsTriggeredListElemPhysCellIdUTRAChoiceTdd,
@@ -353,53 +390,18 @@ func NewCellsTriggeredListElemPhysCellIdUTRATdd(v PhysCellIdUTRATDD) CellsTrigge
 	}
 }
 
-// CellsTriggeredListElemPhysCellIdGERAN represents the ASN.1 type CellsTriggeredList-Elem-physCellIdGERAN (SEQUENCE).
+// CellsTriggeredListElemPhysCellIdGERAN represents the ASN.1 type CellsTriggeredListElemPhysCellIdGERAN (SEQUENCE).
 type CellsTriggeredListElemPhysCellIdGERAN struct {
 	CarrierFreq CarrierFreqGERAN `asn1:"tag:0,context,implicit"`
 	PhysCellId  PhysCellIdGERAN  `asn1:"tag:1,context,implicit"`
 }
 
-// CellsTriggeredListElemPhysCellIdNRR15 represents the ASN.1 type CellsTriggeredList-Elem-physCellIdNR-r15 (SEQUENCE).
+// CellsTriggeredListElemPhysCellIdNRR15 represents the ASN.1 type CellsTriggeredListElemPhysCellIdNRR15 (SEQUENCE).
 type CellsTriggeredListElemPhysCellIdNRR15 struct {
 	CarrierFreq          ARFCNValueNRR15 `asn1:"tag:0,context,implicit"`
 	PhysCellId           PhysCellIdNRR15 `asn1:"tag:1,context,implicit"`
 	RsIndexListR15       SSBIndexListR15 `asn1:"tag:2,context,implicit,optional" json:"RsIndexListR15,omitempty"`
 	RsIndexListR15Indef_ bool            `asn1:"-" json:"-"`
-}
-
-// VarMeasConfigSpeedStatePars choice constants.
-const (
-	VarMeasConfigSpeedStateParsChoiceRelease = 1
-	VarMeasConfigSpeedStateParsChoiceSetup   = 2
-)
-
-// VarMeasConfigSpeedStatePars represents the ASN.1 CHOICE type VarMeasConfig-speedStatePars.
-type VarMeasConfigSpeedStatePars struct {
-	Choice  int
-	Release *struct{}                         `json:"Release,omitempty"`
-	Setup   *VarMeasConfigSpeedStateParsSetup `json:"Setup,omitempty"`
-}
-
-// NewVarMeasConfigSpeedStateParsRelease creates a VarMeasConfig-speedStatePars with the release alternative.
-func NewVarMeasConfigSpeedStateParsRelease(v struct{}) VarMeasConfigSpeedStatePars {
-	return VarMeasConfigSpeedStatePars{
-		Choice:  VarMeasConfigSpeedStateParsChoiceRelease,
-		Release: &v,
-	}
-}
-
-// NewVarMeasConfigSpeedStateParsSetup creates a VarMeasConfig-speedStatePars with the setup alternative.
-func NewVarMeasConfigSpeedStateParsSetup(v VarMeasConfigSpeedStateParsSetup) VarMeasConfigSpeedStatePars {
-	return VarMeasConfigSpeedStatePars{
-		Choice: VarMeasConfigSpeedStateParsChoiceSetup,
-		Setup:  &v,
-	}
-}
-
-// VarMeasConfigSpeedStateParsSetup represents the ASN.1 type VarMeasConfig-speedStatePars-setup (SEQUENCE).
-type VarMeasConfigSpeedStateParsSetup struct {
-	MobilityStateParameters MobilityStateParameters `asn1:"tag:0,context,implicit"`
-	TimeToTriggerSF         SpeedStateScaleFactors  `asn1:"tag:1,context,implicit"`
 }
 
 // MarshalUPER encodes VarConditionalReconfiguration to UPER format.
@@ -1137,16 +1139,16 @@ func (v *VarLogMeasReportR10) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := v.TraceReferenceR10.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding traceReference-r10: %w", err)
 	}
-	if err := per.EncodeOctetString(bb, v.TraceRecordingSessionRefR10, 2, 2, true); err != nil {
+	if err := per.EncodeOctetStringExt(bb, v.TraceRecordingSessionRefR10, 2, 2, true, false); err != nil {
 		return fmt.Errorf("encoding traceRecordingSessionRef-r10: %w", err)
 	}
-	if err := per.EncodeOctetString(bb, v.TceIdR10, 1, 1, true); err != nil {
+	if err := per.EncodeOctetStringExt(bb, v.TceIdR10, 1, 1, true, false); err != nil {
 		return fmt.Errorf("encoding tce-Id-r10: %w", err)
 	}
 	if err := v.PlmnIdentityR10.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding plmn-Identity-r10: %w", err)
 	}
-	if err := per.EncodeBitString(bb, v.AbsoluteTimeInfoR10.Bytes, v.AbsoluteTimeInfoR10.BitLength, 48, 48, true); err != nil {
+	if err := per.EncodeBitStringExt(bb, v.AbsoluteTimeInfoR10.Bytes, v.AbsoluteTimeInfoR10.BitLength, 48, 48, true, false); err != nil {
 		return fmt.Errorf("encoding absoluteTimeInfo-r10: %w", err)
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.LogMeasInfoListR10)), 1, 4060); err != nil {
@@ -1170,12 +1172,12 @@ func (v *VarLogMeasReportR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err := v.TraceReferenceR10.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding traceReference-r10: %w", err)
 	}
-	val_tracerecordingsessionrefr10, err := per.DecodeOctetString(bb, 2, 2, true)
+	val_tracerecordingsessionrefr10, err := per.DecodeOctetStringExt(bb, 2, 2, true, false)
 	if err != nil {
 		return fmt.Errorf("decoding traceRecordingSessionRef-r10: %w", err)
 	}
 	v.TraceRecordingSessionRefR10 = val_tracerecordingsessionrefr10
-	val_tceidr10, err := per.DecodeOctetString(bb, 1, 1, true)
+	val_tceidr10, err := per.DecodeOctetStringExt(bb, 1, 1, true, false)
 	if err != nil {
 		return fmt.Errorf("decoding tce-Id-r10: %w", err)
 	}
@@ -1183,7 +1185,7 @@ func (v *VarLogMeasReportR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err := v.PlmnIdentityR10.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding plmn-Identity-r10: %w", err)
 	}
-	bsBytes_absolutetimeinfor10, bsBitLen_absolutetimeinfor10, err := per.DecodeBitString(bb, 48, 48, true)
+	bsBytes_absolutetimeinfor10, bsBitLen_absolutetimeinfor10, err := per.DecodeBitStringExt(bb, 48, 48, true, false)
 	if err != nil {
 		return fmt.Errorf("decoding absoluteTimeInfo-r10: %w", err)
 	}
@@ -1214,10 +1216,10 @@ func (v *VarLogMeasReportR11) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := v.TraceReferenceR10.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding traceReference-r10: %w", err)
 	}
-	if err := per.EncodeOctetString(bb, v.TraceRecordingSessionRefR10, 2, 2, true); err != nil {
+	if err := per.EncodeOctetStringExt(bb, v.TraceRecordingSessionRefR10, 2, 2, true, false); err != nil {
 		return fmt.Errorf("encoding traceRecordingSessionRef-r10: %w", err)
 	}
-	if err := per.EncodeOctetString(bb, v.TceIdR10, 1, 1, true); err != nil {
+	if err := per.EncodeOctetStringExt(bb, v.TceIdR10, 1, 1, true, false); err != nil {
 		return fmt.Errorf("encoding tce-Id-r10: %w", err)
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.PlmnIdentityListR11)), 1, 16); err != nil {
@@ -1228,7 +1230,7 @@ func (v *VarLogMeasReportR11) MarshalUPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding plmn-IdentityList-r11 element: %w", err)
 		}
 	}
-	if err := per.EncodeBitString(bb, v.AbsoluteTimeInfoR10.Bytes, v.AbsoluteTimeInfoR10.BitLength, 48, 48, true); err != nil {
+	if err := per.EncodeBitStringExt(bb, v.AbsoluteTimeInfoR10.Bytes, v.AbsoluteTimeInfoR10.BitLength, 48, 48, true, false); err != nil {
 		return fmt.Errorf("encoding absoluteTimeInfo-r10: %w", err)
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.LogMeasInfoListR10)), 1, 4060); err != nil {
@@ -1238,6 +1240,9 @@ func (v *VarLogMeasReportR11) MarshalUPERTo(bb *per.BitBuffer) error {
 		if err := elem.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding logMeasInfoList-r10 element: %w", err)
 		}
+	}
+	if err := per.EncodeEnumerated(bb, int64(v.SigLoggedMeasTypeR18), 1, false); err != nil {
+		return fmt.Errorf("encoding sigLoggedMeasType-r18: %w", err)
 	}
 	return nil
 }
@@ -1252,12 +1257,12 @@ func (v *VarLogMeasReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err := v.TraceReferenceR10.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding traceReference-r10: %w", err)
 	}
-	val_tracerecordingsessionrefr10, err := per.DecodeOctetString(bb, 2, 2, true)
+	val_tracerecordingsessionrefr10, err := per.DecodeOctetStringExt(bb, 2, 2, true, false)
 	if err != nil {
 		return fmt.Errorf("decoding traceRecordingSessionRef-r10: %w", err)
 	}
 	v.TraceRecordingSessionRefR10 = val_tracerecordingsessionrefr10
-	val_tceidr10, err := per.DecodeOctetString(bb, 1, 1, true)
+	val_tceidr10, err := per.DecodeOctetStringExt(bb, 1, 1, true, false)
 	if err != nil {
 		return fmt.Errorf("decoding tce-Id-r10: %w", err)
 	}
@@ -1272,7 +1277,7 @@ func (v *VarLogMeasReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("decoding plmn-IdentityList-r11 element: %w", err)
 		}
 	}
-	bsBytes_absolutetimeinfor10, bsBitLen_absolutetimeinfor10, err := per.DecodeBitString(bb, 48, 48, true)
+	bsBytes_absolutetimeinfor10, bsBitLen_absolutetimeinfor10, err := per.DecodeBitStringExt(bb, 48, 48, true, false)
 	if err != nil {
 		return fmt.Errorf("decoding absoluteTimeInfo-r10: %w", err)
 	}
@@ -1285,6 +1290,63 @@ func (v *VarLogMeasReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	for i := int64(0); i < seqLen_logmeasinfolistr10; i++ {
 		if err := v.LogMeasInfoListR10[i].UnmarshalUPERFrom(bb); err != nil {
 			return fmt.Errorf("decoding logMeasInfoList-r10 element: %w", err)
+		}
+	}
+	val_sigloggedmeastyper18, err := per.DecodeEnumerated(bb, 1, false)
+	if err != nil {
+		return fmt.Errorf("decoding sigLoggedMeasType-r18: %w", err)
+	}
+	v.SigLoggedMeasTypeR18 = val_sigloggedmeastyper18
+	return nil
+}
+
+type asn1cUPERLogMeasInfoList2R10ListValue struct{ Value LogMeasInfoList2R10 }
+
+// MarshalUPERLogMeasInfoList2R10 encodes a LogMeasInfoList2R10 list to UPER.
+func MarshalUPERLogMeasInfoList2R10(list LogMeasInfoList2R10) ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := marshalUPERLogMeasInfoList2R10To(list, bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func marshalUPERLogMeasInfoList2R10To(list LogMeasInfoList2R10, bb *per.BitBuffer) error {
+	v := asn1cUPERLogMeasInfoList2R10ListValue{Value: list}
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 4060); err != nil {
+		return fmt.Errorf("encoding value length: %w", err)
+	}
+	for _, elem := range v.Value {
+		if err := elem.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding value element: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPERLogMeasInfoList2R10 decodes a LogMeasInfoList2R10 list from UPER.
+func UnmarshalUPERLogMeasInfoList2R10(data []byte) (LogMeasInfoList2R10, error) {
+	bb := per.NewBitBufferFromBytes(data)
+	return unmarshalUPERLogMeasInfoList2R10From(bb)
+}
+
+func unmarshalUPERLogMeasInfoList2R10From(bb *per.BitBuffer) (LogMeasInfoList2R10, error) {
+	var v asn1cUPERLogMeasInfoList2R10ListValue
+	if err := unmarshalUPERLogMeasInfoList2R10Into(&v, bb); err != nil {
+		return nil, err
+	}
+	return v.Value, nil
+}
+
+func unmarshalUPERLogMeasInfoList2R10Into(v *asn1cUPERLogMeasInfoList2R10ListValue, bb *per.BitBuffer) error {
+	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 4060)
+	if err != nil {
+		return fmt.Errorf("decoding value length: %w", err)
+	}
+	v.Value = make(LogMeasInfoList2R10, seqLen_value)
+	for i := int64(0); i < seqLen_value; i++ {
+		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element: %w", err)
 		}
 	}
 	return nil
@@ -1862,11 +1924,9 @@ func (v *VarMeasIdleReportR16) MarshalUPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding measReportIdle-r16 length: %w", err)
 		}
 		for _, outerElem := range v.MeasReportIdleR16 {
-			if err := per.EncodeConstrainedWholeNumber(bb, int64(len(outerElem)), 1, 8); err != nil {
-				return fmt.Errorf("encoding measReportIdle-r16 inner length: %w", err)
+			if err := marshalUPERMeasResultIdleListEUTRAR15To(outerElem, bb); err != nil {
+				return fmt.Errorf("encoding measReportIdle-r16 element: %w", err)
 			}
-			// asn1c:unsupported {"encoding":"uper","operation":"encode","construct":"SEQUENCE_OF","reason":"nested-element-kind","field":"measReportIdle-r16","kind":"SEQUENCE"}
-			_ = outerElem // nested SEQUENCE_OF of SEQUENCE not yet supported
 		}
 	}
 	if v.MeasReportIdleNRR16 != nil {
@@ -1905,12 +1965,11 @@ func (v *VarMeasIdleReportR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		tmp_measreportidler16 := make(MeasResultListExtIdleR16, seqLen_measreportidler16)
 		for i_measreportidler16 := int64(0); i_measreportidler16 < seqLen_measreportidler16; i_measreportidler16++ {
-			innerLen, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
+			elem, err := unmarshalUPERMeasResultIdleListEUTRAR15From(bb)
 			if err != nil {
-				return fmt.Errorf("decoding measReportIdle-r16 inner length: %w", err)
+				return fmt.Errorf("decoding measReportIdle-r16 element: %w", err)
 			}
-			// asn1c:unsupported {"encoding":"uper","operation":"decode","construct":"SEQUENCE_OF","reason":"nested-element-kind","field":"measReportIdle-r16","kind":"SEQUENCE"}
-			_ = innerLen // nested SEQUENCE_OF of SEQUENCE not yet supported
+			tmp_measreportidler16[i_measreportidler16] = elem
 		}
 		v.MeasReportIdleR16 = tmp_measreportidler16
 	}
@@ -1926,6 +1985,110 @@ func (v *VarMeasIdleReportR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 		}
 		v.MeasReportIdleNRR16 = tmp_measreportidlenrr16
+	}
+	return nil
+}
+
+type asn1cUPERVarMeasReportListListValue struct{ Value VarMeasReportList }
+
+// MarshalUPERVarMeasReportList encodes a VarMeasReportList list to UPER.
+func MarshalUPERVarMeasReportList(list VarMeasReportList) ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := marshalUPERVarMeasReportListTo(list, bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func marshalUPERVarMeasReportListTo(list VarMeasReportList, bb *per.BitBuffer) error {
+	v := asn1cUPERVarMeasReportListListValue{Value: list}
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 32); err != nil {
+		return fmt.Errorf("encoding value length: %w", err)
+	}
+	for _, elem := range v.Value {
+		if err := elem.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding value element: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPERVarMeasReportList decodes a VarMeasReportList list from UPER.
+func UnmarshalUPERVarMeasReportList(data []byte) (VarMeasReportList, error) {
+	bb := per.NewBitBufferFromBytes(data)
+	return unmarshalUPERVarMeasReportListFrom(bb)
+}
+
+func unmarshalUPERVarMeasReportListFrom(bb *per.BitBuffer) (VarMeasReportList, error) {
+	var v asn1cUPERVarMeasReportListListValue
+	if err := unmarshalUPERVarMeasReportListInto(&v, bb); err != nil {
+		return nil, err
+	}
+	return v.Value, nil
+}
+
+func unmarshalUPERVarMeasReportListInto(v *asn1cUPERVarMeasReportListListValue, bb *per.BitBuffer) error {
+	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
+	if err != nil {
+		return fmt.Errorf("decoding value length: %w", err)
+	}
+	v.Value = make(VarMeasReportList, seqLen_value)
+	for i := int64(0); i < seqLen_value; i++ {
+		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element: %w", err)
+		}
+	}
+	return nil
+}
+
+type asn1cUPERVarMeasReportListR12ListValue struct{ Value VarMeasReportListR12 }
+
+// MarshalUPERVarMeasReportListR12 encodes a VarMeasReportListR12 list to UPER.
+func MarshalUPERVarMeasReportListR12(list VarMeasReportListR12) ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := marshalUPERVarMeasReportListR12To(list, bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func marshalUPERVarMeasReportListR12To(list VarMeasReportListR12, bb *per.BitBuffer) error {
+	v := asn1cUPERVarMeasReportListR12ListValue{Value: list}
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 64); err != nil {
+		return fmt.Errorf("encoding value length: %w", err)
+	}
+	for _, elem := range v.Value {
+		if err := elem.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding value element: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPERVarMeasReportListR12 decodes a VarMeasReportListR12 list from UPER.
+func UnmarshalUPERVarMeasReportListR12(data []byte) (VarMeasReportListR12, error) {
+	bb := per.NewBitBufferFromBytes(data)
+	return unmarshalUPERVarMeasReportListR12From(bb)
+}
+
+func unmarshalUPERVarMeasReportListR12From(bb *per.BitBuffer) (VarMeasReportListR12, error) {
+	var v asn1cUPERVarMeasReportListR12ListValue
+	if err := unmarshalUPERVarMeasReportListR12Into(&v, bb); err != nil {
+		return nil, err
+	}
+	return v.Value, nil
+}
+
+func unmarshalUPERVarMeasReportListR12Into(v *asn1cUPERVarMeasReportListR12ListValue, bb *per.BitBuffer) error {
+	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 64)
+	if err != nil {
+		return fmt.Errorf("decoding value length: %w", err)
+	}
+	v.Value = make(VarMeasReportListR12, seqLen_value)
+	for i := int64(0); i < seqLen_value; i++ {
+		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element: %w", err)
+		}
 	}
 	return nil
 }
@@ -1991,7 +2154,7 @@ func (v *VarMeasReport) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
-	if err := per.EncodeInteger(bb, int64(v.NumberOfReportsSent), nil, nil, false); err != nil {
+	if err := per.EncodeIntegerBig(bb, v.NumberOfReportsSent, nil, nil, false); err != nil {
 		return fmt.Errorf("encoding numberOfReportsSent: %w", err)
 	}
 	return nil
@@ -2077,11 +2240,171 @@ func (v *VarMeasReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.PoolsTriggeredListR14 = tmp_poolstriggeredlistr14
 	}
-	val_numberofreportssent, err := per.DecodeInteger(bb, nil, nil, false)
+	val_numberofreportssent, err := per.DecodeIntegerBig(bb, nil, nil, false)
 	if err != nil {
 		return fmt.Errorf("decoding numberOfReportsSent: %w", err)
 	}
 	v.NumberOfReportsSent = val_numberofreportssent
+	return nil
+}
+
+type asn1cUPERCellsTriggeredListListValue struct{ Value CellsTriggeredList }
+
+// MarshalUPERCellsTriggeredList encodes a CellsTriggeredList list to UPER.
+func MarshalUPERCellsTriggeredList(list CellsTriggeredList) ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := marshalUPERCellsTriggeredListTo(list, bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func marshalUPERCellsTriggeredListTo(list CellsTriggeredList, bb *per.BitBuffer) error {
+	v := asn1cUPERCellsTriggeredListListValue{Value: list}
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 32); err != nil {
+		return fmt.Errorf("encoding value length: %w", err)
+	}
+	for _, elem := range v.Value {
+		if err := elem.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding value element: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPERCellsTriggeredList decodes a CellsTriggeredList list from UPER.
+func UnmarshalUPERCellsTriggeredList(data []byte) (CellsTriggeredList, error) {
+	bb := per.NewBitBufferFromBytes(data)
+	return unmarshalUPERCellsTriggeredListFrom(bb)
+}
+
+func unmarshalUPERCellsTriggeredListFrom(bb *per.BitBuffer) (CellsTriggeredList, error) {
+	var v asn1cUPERCellsTriggeredListListValue
+	if err := unmarshalUPERCellsTriggeredListInto(&v, bb); err != nil {
+		return nil, err
+	}
+	return v.Value, nil
+}
+
+func unmarshalUPERCellsTriggeredListInto(v *asn1cUPERCellsTriggeredListListValue, bb *per.BitBuffer) error {
+	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
+	if err != nil {
+		return fmt.Errorf("decoding value length: %w", err)
+	}
+	v.Value = make(CellsTriggeredList, seqLen_value)
+	for i := int64(0); i < seqLen_value; i++ {
+		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element: %w", err)
+		}
+	}
+	return nil
+}
+
+type asn1cUPERCSIRSTriggeredListR12ListValue struct{ Value CSIRSTriggeredListR12 }
+
+// MarshalUPERCSIRSTriggeredListR12 encodes a CSIRSTriggeredListR12 list to UPER.
+func MarshalUPERCSIRSTriggeredListR12(list CSIRSTriggeredListR12) ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := marshalUPERCSIRSTriggeredListR12To(list, bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func marshalUPERCSIRSTriggeredListR12To(list CSIRSTriggeredListR12, bb *per.BitBuffer) error {
+	v := asn1cUPERCSIRSTriggeredListR12ListValue{Value: list}
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 96); err != nil {
+		return fmt.Errorf("encoding value length: %w", err)
+	}
+	for _, elem := range v.Value {
+		if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(96), false); err != nil {
+			return fmt.Errorf("encoding value element: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPERCSIRSTriggeredListR12 decodes a CSIRSTriggeredListR12 list from UPER.
+func UnmarshalUPERCSIRSTriggeredListR12(data []byte) (CSIRSTriggeredListR12, error) {
+	bb := per.NewBitBufferFromBytes(data)
+	return unmarshalUPERCSIRSTriggeredListR12From(bb)
+}
+
+func unmarshalUPERCSIRSTriggeredListR12From(bb *per.BitBuffer) (CSIRSTriggeredListR12, error) {
+	var v asn1cUPERCSIRSTriggeredListR12ListValue
+	if err := unmarshalUPERCSIRSTriggeredListR12Into(&v, bb); err != nil {
+		return nil, err
+	}
+	return v.Value, nil
+}
+
+func unmarshalUPERCSIRSTriggeredListR12Into(v *asn1cUPERCSIRSTriggeredListR12ListValue, bb *per.BitBuffer) error {
+	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 96)
+	if err != nil {
+		return fmt.Errorf("decoding value length: %w", err)
+	}
+	v.Value = make(CSIRSTriggeredListR12, seqLen_value)
+	for i := int64(0); i < seqLen_value; i++ {
+		val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(96), false)
+		if err != nil {
+			return fmt.Errorf("decoding value element: %w", err)
+		}
+		v.Value[i] = MeasCSIRSIdR12(val)
+	}
+	return nil
+}
+
+type asn1cUPERSSBIndexListR15ListValue struct{ Value SSBIndexListR15 }
+
+// MarshalUPERSSBIndexListR15 encodes a SSBIndexListR15 list to UPER.
+func MarshalUPERSSBIndexListR15(list SSBIndexListR15) ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := marshalUPERSSBIndexListR15To(list, bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func marshalUPERSSBIndexListR15To(list SSBIndexListR15, bb *per.BitBuffer) error {
+	v := asn1cUPERSSBIndexListR15ListValue{Value: list}
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 64); err != nil {
+		return fmt.Errorf("encoding value length: %w", err)
+	}
+	for _, elem := range v.Value {
+		if err := per.EncodeInteger(bb, int64(elem), int64Ptr(0), int64Ptr(63), false); err != nil {
+			return fmt.Errorf("encoding value element: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPERSSBIndexListR15 decodes a SSBIndexListR15 list from UPER.
+func UnmarshalUPERSSBIndexListR15(data []byte) (SSBIndexListR15, error) {
+	bb := per.NewBitBufferFromBytes(data)
+	return unmarshalUPERSSBIndexListR15From(bb)
+}
+
+func unmarshalUPERSSBIndexListR15From(bb *per.BitBuffer) (SSBIndexListR15, error) {
+	var v asn1cUPERSSBIndexListR15ListValue
+	if err := unmarshalUPERSSBIndexListR15Into(&v, bb); err != nil {
+		return nil, err
+	}
+	return v.Value, nil
+}
+
+func unmarshalUPERSSBIndexListR15Into(v *asn1cUPERSSBIndexListR15ListValue, bb *per.BitBuffer) error {
+	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 64)
+	if err != nil {
+		return fmt.Errorf("decoding value length: %w", err)
+	}
+	v.Value = make(SSBIndexListR15, seqLen_value)
+	for i := int64(0); i < seqLen_value; i++ {
+		val, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(63), false)
+		if err != nil {
+			return fmt.Errorf("decoding value element: %w", err)
+		}
+		v.Value[i] = RSIndexNRR15(val)
+	}
 	return nil
 }
 
@@ -2221,13 +2544,13 @@ func (v *VarShortINACTIVEMACInputR15) MarshalUPER() ([]byte, error) {
 }
 
 func (v *VarShortINACTIVEMACInputR15) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeBitString(bb, v.CellIdentityR15.Bytes, v.CellIdentityR15.BitLength, 28, 28, true); err != nil {
+	if err := per.EncodeBitStringExt(bb, v.CellIdentityR15.Bytes, v.CellIdentityR15.BitLength, 28, 28, true, false); err != nil {
 		return fmt.Errorf("encoding cellIdentity-r15: %w", err)
 	}
 	if err := per.EncodeInteger(bb, int64(v.PhysCellIdR15), int64Ptr(0), int64Ptr(503), false); err != nil {
 		return fmt.Errorf("encoding physCellId-r15: %w", err)
 	}
-	if err := per.EncodeBitString(bb, v.CRNTIR15.Bytes, v.CRNTIR15.BitLength, 16, 16, true); err != nil {
+	if err := per.EncodeBitStringExt(bb, v.CRNTIR15.Bytes, v.CRNTIR15.BitLength, 16, 16, true, false); err != nil {
 		return fmt.Errorf("encoding c-RNTI-r15: %w", err)
 	}
 	return nil
@@ -2240,7 +2563,7 @@ func (v *VarShortINACTIVEMACInputR15) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarShortINACTIVEMACInputR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	bsBytes_cellidentityr15, bsBitLen_cellidentityr15, err := per.DecodeBitString(bb, 28, 28, true)
+	bsBytes_cellidentityr15, bsBitLen_cellidentityr15, err := per.DecodeBitStringExt(bb, 28, 28, true, false)
 	if err != nil {
 		return fmt.Errorf("decoding cellIdentity-r15: %w", err)
 	}
@@ -2250,7 +2573,7 @@ func (v *VarShortINACTIVEMACInputR15) UnmarshalUPERFrom(bb *per.BitBuffer) error
 		return fmt.Errorf("decoding physCellId-r15: %w", err)
 	}
 	v.PhysCellIdR15 = PhysCellId(val_physcellidr15)
-	bsBytes_crntir15, bsBitLen_crntir15, err := per.DecodeBitString(bb, 16, 16, true)
+	bsBytes_crntir15, bsBitLen_crntir15, err := per.DecodeBitStringExt(bb, 16, 16, true, false)
 	if err != nil {
 		return fmt.Errorf("decoding c-RNTI-r15: %w", err)
 	}
@@ -2268,13 +2591,13 @@ func (v *VarShortMACInput) MarshalUPER() ([]byte, error) {
 }
 
 func (v *VarShortMACInput) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeBitString(bb, v.CellIdentity.Bytes, v.CellIdentity.BitLength, 28, 28, true); err != nil {
+	if err := per.EncodeBitStringExt(bb, v.CellIdentity.Bytes, v.CellIdentity.BitLength, 28, 28, true, false); err != nil {
 		return fmt.Errorf("encoding cellIdentity: %w", err)
 	}
 	if err := per.EncodeInteger(bb, int64(v.PhysCellId), int64Ptr(0), int64Ptr(503), false); err != nil {
 		return fmt.Errorf("encoding physCellId: %w", err)
 	}
-	if err := per.EncodeBitString(bb, v.CRNTI.Bytes, v.CRNTI.BitLength, 16, 16, true); err != nil {
+	if err := per.EncodeBitStringExt(bb, v.CRNTI.Bytes, v.CRNTI.BitLength, 16, 16, true, false); err != nil {
 		return fmt.Errorf("encoding c-RNTI: %w", err)
 	}
 	return nil
@@ -2287,7 +2610,7 @@ func (v *VarShortMACInput) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarShortMACInput) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	bsBytes_cellidentity, bsBitLen_cellidentity, err := per.DecodeBitString(bb, 28, 28, true)
+	bsBytes_cellidentity, bsBitLen_cellidentity, err := per.DecodeBitStringExt(bb, 28, 28, true, false)
 	if err != nil {
 		return fmt.Errorf("decoding cellIdentity: %w", err)
 	}
@@ -2297,7 +2620,7 @@ func (v *VarShortMACInput) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding physCellId: %w", err)
 	}
 	v.PhysCellId = PhysCellId(val_physcellid)
-	bsBytes_crnti, bsBitLen_crnti, err := per.DecodeBitString(bb, 16, 16, true)
+	bsBytes_crnti, bsBitLen_crnti, err := per.DecodeBitStringExt(bb, 16, 16, true, false)
 	if err != nil {
 		return fmt.Errorf("decoding c-RNTI: %w", err)
 	}
@@ -2315,16 +2638,16 @@ func (v *VarShortResumeMACInputR13) MarshalUPER() ([]byte, error) {
 }
 
 func (v *VarShortResumeMACInputR13) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeBitString(bb, v.CellIdentityR13.Bytes, v.CellIdentityR13.BitLength, 28, 28, true); err != nil {
+	if err := per.EncodeBitStringExt(bb, v.CellIdentityR13.Bytes, v.CellIdentityR13.BitLength, 28, 28, true, false); err != nil {
 		return fmt.Errorf("encoding cellIdentity-r13: %w", err)
 	}
 	if err := per.EncodeInteger(bb, int64(v.PhysCellIdR13), int64Ptr(0), int64Ptr(503), false); err != nil {
 		return fmt.Errorf("encoding physCellId-r13: %w", err)
 	}
-	if err := per.EncodeBitString(bb, v.CRNTIR13.Bytes, v.CRNTIR13.BitLength, 16, 16, true); err != nil {
+	if err := per.EncodeBitStringExt(bb, v.CRNTIR13.Bytes, v.CRNTIR13.BitLength, 16, 16, true, false); err != nil {
 		return fmt.Errorf("encoding c-RNTI-r13: %w", err)
 	}
-	if err := per.EncodeBitString(bb, v.ResumeDiscriminatorR13.Bytes, v.ResumeDiscriminatorR13.BitLength, 1, 1, true); err != nil {
+	if err := per.EncodeBitStringExt(bb, v.ResumeDiscriminatorR13.Bytes, v.ResumeDiscriminatorR13.BitLength, 1, 1, true, false); err != nil {
 		return fmt.Errorf("encoding resumeDiscriminator-r13: %w", err)
 	}
 	return nil
@@ -2337,7 +2660,7 @@ func (v *VarShortResumeMACInputR13) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarShortResumeMACInputR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	bsBytes_cellidentityr13, bsBitLen_cellidentityr13, err := per.DecodeBitString(bb, 28, 28, true)
+	bsBytes_cellidentityr13, bsBitLen_cellidentityr13, err := per.DecodeBitStringExt(bb, 28, 28, true, false)
 	if err != nil {
 		return fmt.Errorf("decoding cellIdentity-r13: %w", err)
 	}
@@ -2347,12 +2670,12 @@ func (v *VarShortResumeMACInputR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding physCellId-r13: %w", err)
 	}
 	v.PhysCellIdR13 = PhysCellId(val_physcellidr13)
-	bsBytes_crntir13, bsBitLen_crntir13, err := per.DecodeBitString(bb, 16, 16, true)
+	bsBytes_crntir13, bsBitLen_crntir13, err := per.DecodeBitStringExt(bb, 16, 16, true, false)
 	if err != nil {
 		return fmt.Errorf("decoding c-RNTI-r13: %w", err)
 	}
 	v.CRNTIR13 = runtime.BitString{Bytes: bsBytes_crntir13, BitLength: bsBitLen_crntir13}
-	bsBytes_resumediscriminatorr13, bsBitLen_resumediscriminatorr13, err := per.DecodeBitString(bb, 1, 1, true)
+	bsBytes_resumediscriminatorr13, bsBitLen_resumediscriminatorr13, err := per.DecodeBitStringExt(bb, 1, 1, true, false)
 	if err != nil {
 		return fmt.Errorf("decoding resumeDiscriminator-r13: %w", err)
 	}
@@ -2502,6 +2825,90 @@ func (v *VarWLANStatusR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		tmp_statusr14 := WLANStatusV1430(val_statusr14)
 		v.StatusR14 = &tmp_statusr14
+	}
+	return nil
+}
+
+// MarshalUPER encodes VarMeasConfigSpeedStatePars to UPER format.
+func (v *VarMeasConfigSpeedStatePars) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *VarMeasConfigSpeedStatePars) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case VarMeasConfigSpeedStateParsChoiceRelease:
+	case VarMeasConfigSpeedStateParsChoiceSetup:
+		if err := v.Setup.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding setup: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown VarMeasConfigSpeedStatePars choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes VarMeasConfigSpeedStatePars from UPER format.
+func (v *VarMeasConfigSpeedStatePars) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *VarMeasConfigSpeedStatePars) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case VarMeasConfigSpeedStateParsChoiceRelease:
+	case VarMeasConfigSpeedStateParsChoiceSetup:
+		var dec_setup VarMeasConfigSpeedStateParsSetup
+		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding setup: %w", err)
+		}
+		v.Setup = &dec_setup
+	}
+	return nil
+}
+
+// MarshalUPER encodes VarMeasConfigSpeedStateParsSetup to UPER format.
+func (v *VarMeasConfigSpeedStateParsSetup) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *VarMeasConfigSpeedStateParsSetup) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := v.MobilityStateParameters.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding mobilityStateParameters: %w", err)
+	}
+	if err := v.TimeToTriggerSF.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding timeToTrigger-SF: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes VarMeasConfigSpeedStateParsSetup from UPER format.
+func (v *VarMeasConfigSpeedStateParsSetup) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *VarMeasConfigSpeedStateParsSetup) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := v.MobilityStateParameters.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding mobilityStateParameters: %w", err)
+	}
+	if err := v.TimeToTriggerSF.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding timeToTrigger-SF: %w", err)
 	}
 	return nil
 }
@@ -2768,90 +3175,6 @@ func (v *CellsTriggeredListElemPhysCellIdNRR15) UnmarshalUPERFrom(bb *per.BitBuf
 			tmp_rsindexlistr15[i] = RSIndexNRR15(val)
 		}
 		v.RsIndexListR15 = tmp_rsindexlistr15
-	}
-	return nil
-}
-
-// MarshalUPER encodes VarMeasConfigSpeedStatePars to UPER format.
-func (v *VarMeasConfigSpeedStatePars) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *VarMeasConfigSpeedStatePars) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
-		return err
-	}
-	switch v.Choice {
-	case VarMeasConfigSpeedStateParsChoiceRelease:
-	case VarMeasConfigSpeedStateParsChoiceSetup:
-		if err := v.Setup.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding setup: %w", err)
-		}
-	default:
-		return fmt.Errorf("unknown VarMeasConfigSpeedStatePars choice %d", v.Choice)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes VarMeasConfigSpeedStatePars from UPER format.
-func (v *VarMeasConfigSpeedStatePars) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *VarMeasConfigSpeedStatePars) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
-	if err != nil {
-		return err
-	}
-	v.Choice = int(idx) + 1
-	switch v.Choice {
-	case VarMeasConfigSpeedStateParsChoiceRelease:
-	case VarMeasConfigSpeedStateParsChoiceSetup:
-		var dec_setup VarMeasConfigSpeedStateParsSetup
-		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding setup: %w", err)
-		}
-		v.Setup = &dec_setup
-	}
-	return nil
-}
-
-// MarshalUPER encodes VarMeasConfigSpeedStateParsSetup to UPER format.
-func (v *VarMeasConfigSpeedStateParsSetup) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *VarMeasConfigSpeedStateParsSetup) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := v.MobilityStateParameters.MarshalUPERTo(bb); err != nil {
-		return fmt.Errorf("encoding mobilityStateParameters: %w", err)
-	}
-	if err := v.TimeToTriggerSF.MarshalUPERTo(bb); err != nil {
-		return fmt.Errorf("encoding timeToTrigger-SF: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes VarMeasConfigSpeedStateParsSetup from UPER format.
-func (v *VarMeasConfigSpeedStateParsSetup) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *VarMeasConfigSpeedStateParsSetup) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	if err := v.MobilityStateParameters.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding mobilityStateParameters: %w", err)
-	}
-	if err := v.TimeToTriggerSF.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding timeToTrigger-SF: %w", err)
 	}
 	return nil
 }

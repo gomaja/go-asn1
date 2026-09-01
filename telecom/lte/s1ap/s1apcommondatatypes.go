@@ -65,14 +65,14 @@ const (
 	PrivateIEIDChoiceGlobal = 2
 )
 
-// PrivateIEID represents the ASN.1 CHOICE type PrivateIE-ID.
+// PrivateIEID represents the ASN.1 CHOICE type PrivateIEID.
 type PrivateIEID struct {
 	Choice int
 	Local  *int64                   `json:"Local,omitempty"`
 	Global runtime.ObjectIdentifier `json:"Global,omitempty"`
 }
 
-// NewPrivateIEIDLocal creates a PrivateIE-ID with the local alternative.
+// NewPrivateIEIDLocal creates a PrivateIEID with the local alternative.
 func NewPrivateIEIDLocal(v int64) PrivateIEID {
 	return PrivateIEID{
 		Choice: PrivateIEIDChoiceLocal,
@@ -80,7 +80,7 @@ func NewPrivateIEIDLocal(v int64) PrivateIEID {
 	}
 }
 
-// NewPrivateIEIDGlobal creates a PrivateIE-ID with the global alternative.
+// NewPrivateIEIDGlobal creates a PrivateIEID with the global alternative.
 func NewPrivateIEIDGlobal(v runtime.ObjectIdentifier) PrivateIEID {
 	return PrivateIEID{
 		Choice: PrivateIEIDChoiceGlobal,
@@ -94,7 +94,7 @@ type ProcedureCode = int64
 // ProtocolExtensionID represents the ASN.1 type ProtocolExtensionID (INTEGER).
 type ProtocolExtensionID = int64
 
-// ProtocolIEID represents the ASN.1 type ProtocolIE-ID (INTEGER).
+// ProtocolIEID represents the ASN.1 type ProtocolIEID (INTEGER).
 type ProtocolIEID = int64
 
 // TriggeringMessage represents the ASN.1 ENUMERATED type TriggeringMessage.

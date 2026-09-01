@@ -71,8 +71,8 @@ func NewROSReject(v Reject) ROS {
 type Invoke struct {
 	InvokeId InvokeId          `asn1:""`
 	LinkedId *InvokeLinkedId   `asn1:",optional" json:"LinkedId,omitempty"`
-	Opcode   runtime.RawValue  `asn1:""`
-	Argument *runtime.RawValue `asn1:",optional" json:"Argument,omitempty"`
+	Opcode   Code              `asn1:""`
+	Argument *runtime.RawValue `asn1:",optional" json:"Argument,omitempty" asn1c:"raw-preserve"`
 }
 
 // ReturnResult represents the ASN.1 type ReturnResult (SEQUENCE).
@@ -84,8 +84,8 @@ type ReturnResult struct {
 // ReturnError represents the ASN.1 type ReturnError (SEQUENCE).
 type ReturnError struct {
 	InvokeId  InvokeId          `asn1:""`
-	Errcode   runtime.RawValue  `asn1:""`
-	Parameter *runtime.RawValue `asn1:",optional" json:"Parameter,omitempty"`
+	Errcode   Code              `asn1:""`
+	Parameter *runtime.RawValue `asn1:",optional" json:"Parameter,omitempty" asn1c:"raw-preserve"`
 }
 
 // Reject represents the ASN.1 type Reject (SEQUENCE).
@@ -94,183 +94,766 @@ type Reject struct {
 	Problem  OperationsRejectProblem `asn1:""`
 }
 
-// GeneralProblem represents the ASN.1 INTEGER type GeneralProblem with named numbers.
-type GeneralProblem int64
+// GeneralProblem represents the arbitrary-width ASN.1 INTEGER type GeneralProblem with named numbers.
+type GeneralProblem struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	GeneralProblemUnrecognizedPDU    GeneralProblem = 0
-	GeneralProblemMistypedPDU        GeneralProblem = 1
-	GeneralProblemBadlyStructuredPDU GeneralProblem = 2
+	GeneralProblemUnrecognizedPDUDecimal    = "0"
+	GeneralProblemUnrecognizedPDU           = 0
+	GeneralProblemMistypedPDUDecimal        = "1"
+	GeneralProblemMistypedPDU               = 1
+	GeneralProblemBadlyStructuredPDUDecimal = "2"
+	GeneralProblemBadlyStructuredPDU        = 2
 )
+
+// NewGeneralProblem returns an immutable GeneralProblem containing value.
+func NewGeneralProblem(value *big.Int) GeneralProblem {
+	return GeneralProblem{value: runtime.CloneBigInt(value)}
+}
+
+// NewGeneralProblemInt64 returns a GeneralProblem containing value.
+func NewGeneralProblemInt64(value int64) GeneralProblem {
+	return NewGeneralProblem(big.NewInt(value))
+}
+
+// GeneralProblemUnrecognizedPDUValue returns the named value unrecognizedPDU.
+func GeneralProblemUnrecognizedPDUValue() GeneralProblem {
+	return NewGeneralProblem(runtime.MustParseBigIntDecimal(GeneralProblemUnrecognizedPDUDecimal))
+}
+
+// GeneralProblemMistypedPDUValue returns the named value mistypedPDU.
+func GeneralProblemMistypedPDUValue() GeneralProblem {
+	return NewGeneralProblem(runtime.MustParseBigIntDecimal(GeneralProblemMistypedPDUDecimal))
+}
+
+// GeneralProblemBadlyStructuredPDUValue returns the named value badlyStructuredPDU.
+func GeneralProblemBadlyStructuredPDUValue() GeneralProblem {
+	return NewGeneralProblem(runtime.MustParseBigIntDecimal(GeneralProblemBadlyStructuredPDUDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v GeneralProblem) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v GeneralProblem) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v GeneralProblem) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case GeneralProblemUnrecognizedPDUDecimal:
+		return "unrecognizedPDU", true
+	case GeneralProblemMistypedPDUDecimal:
+		return "mistypedPDU", true
+	case GeneralProblemBadlyStructuredPDUDecimal:
+		return "badlyStructuredPDU", true
+	default:
+		return "", false
+	}
+}
 
 func (v GeneralProblem) String() string {
-	switch v {
-	case GeneralProblemUnrecognizedPDU:
-		return "unrecognizedPDU"
-	case GeneralProblemMistypedPDU:
-		return "mistypedPDU"
-	case GeneralProblemBadlyStructuredPDU:
-		return "badlyStructuredPDU"
-	default:
-		return "unknown"
+	if name, ok := v.Name(); ok {
+		return name
 	}
+	return v.BigInt().String()
 }
 
-// InvokeProblem represents the ASN.1 INTEGER type InvokeProblem with named numbers.
-type InvokeProblem int64
+// MarshalText returns the exact decimal INTEGER value.
+func (v GeneralProblem) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *GeneralProblem) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal GeneralProblem into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewGeneralProblem(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v GeneralProblem) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *GeneralProblem) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal GeneralProblem into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewGeneralProblem(value)
+	return nil
+}
+
+// InvokeProblem represents the arbitrary-width ASN.1 INTEGER type InvokeProblem with named numbers.
+type InvokeProblem struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	InvokeProblemDuplicateInvocation       InvokeProblem = 0
-	InvokeProblemUnrecognizedOperation     InvokeProblem = 1
-	InvokeProblemMistypedArgument          InvokeProblem = 2
-	InvokeProblemResourceLimitation        InvokeProblem = 3
-	InvokeProblemReleaseInProgress         InvokeProblem = 4
-	InvokeProblemUnrecognizedLinkedId      InvokeProblem = 5
-	InvokeProblemLinkedResponseUnexpected  InvokeProblem = 6
-	InvokeProblemUnexpectedLinkedOperation InvokeProblem = 7
+	InvokeProblemDuplicateInvocationDecimal       = "0"
+	InvokeProblemDuplicateInvocation              = 0
+	InvokeProblemUnrecognizedOperationDecimal     = "1"
+	InvokeProblemUnrecognizedOperation            = 1
+	InvokeProblemMistypedArgumentDecimal          = "2"
+	InvokeProblemMistypedArgument                 = 2
+	InvokeProblemResourceLimitationDecimal        = "3"
+	InvokeProblemResourceLimitation               = 3
+	InvokeProblemReleaseInProgressDecimal         = "4"
+	InvokeProblemReleaseInProgress                = 4
+	InvokeProblemUnrecognizedLinkedIdDecimal      = "5"
+	InvokeProblemUnrecognizedLinkedId             = 5
+	InvokeProblemLinkedResponseUnexpectedDecimal  = "6"
+	InvokeProblemLinkedResponseUnexpected         = 6
+	InvokeProblemUnexpectedLinkedOperationDecimal = "7"
+	InvokeProblemUnexpectedLinkedOperation        = 7
 )
+
+// NewInvokeProblem returns an immutable InvokeProblem containing value.
+func NewInvokeProblem(value *big.Int) InvokeProblem {
+	return InvokeProblem{value: runtime.CloneBigInt(value)}
+}
+
+// NewInvokeProblemInt64 returns a InvokeProblem containing value.
+func NewInvokeProblemInt64(value int64) InvokeProblem {
+	return NewInvokeProblem(big.NewInt(value))
+}
+
+// InvokeProblemDuplicateInvocationValue returns the named value duplicateInvocation.
+func InvokeProblemDuplicateInvocationValue() InvokeProblem {
+	return NewInvokeProblem(runtime.MustParseBigIntDecimal(InvokeProblemDuplicateInvocationDecimal))
+}
+
+// InvokeProblemUnrecognizedOperationValue returns the named value unrecognizedOperation.
+func InvokeProblemUnrecognizedOperationValue() InvokeProblem {
+	return NewInvokeProblem(runtime.MustParseBigIntDecimal(InvokeProblemUnrecognizedOperationDecimal))
+}
+
+// InvokeProblemMistypedArgumentValue returns the named value mistypedArgument.
+func InvokeProblemMistypedArgumentValue() InvokeProblem {
+	return NewInvokeProblem(runtime.MustParseBigIntDecimal(InvokeProblemMistypedArgumentDecimal))
+}
+
+// InvokeProblemResourceLimitationValue returns the named value resourceLimitation.
+func InvokeProblemResourceLimitationValue() InvokeProblem {
+	return NewInvokeProblem(runtime.MustParseBigIntDecimal(InvokeProblemResourceLimitationDecimal))
+}
+
+// InvokeProblemReleaseInProgressValue returns the named value releaseInProgress.
+func InvokeProblemReleaseInProgressValue() InvokeProblem {
+	return NewInvokeProblem(runtime.MustParseBigIntDecimal(InvokeProblemReleaseInProgressDecimal))
+}
+
+// InvokeProblemUnrecognizedLinkedIdValue returns the named value unrecognizedLinkedId.
+func InvokeProblemUnrecognizedLinkedIdValue() InvokeProblem {
+	return NewInvokeProblem(runtime.MustParseBigIntDecimal(InvokeProblemUnrecognizedLinkedIdDecimal))
+}
+
+// InvokeProblemLinkedResponseUnexpectedValue returns the named value linkedResponseUnexpected.
+func InvokeProblemLinkedResponseUnexpectedValue() InvokeProblem {
+	return NewInvokeProblem(runtime.MustParseBigIntDecimal(InvokeProblemLinkedResponseUnexpectedDecimal))
+}
+
+// InvokeProblemUnexpectedLinkedOperationValue returns the named value unexpectedLinkedOperation.
+func InvokeProblemUnexpectedLinkedOperationValue() InvokeProblem {
+	return NewInvokeProblem(runtime.MustParseBigIntDecimal(InvokeProblemUnexpectedLinkedOperationDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v InvokeProblem) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v InvokeProblem) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v InvokeProblem) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case InvokeProblemDuplicateInvocationDecimal:
+		return "duplicateInvocation", true
+	case InvokeProblemUnrecognizedOperationDecimal:
+		return "unrecognizedOperation", true
+	case InvokeProblemMistypedArgumentDecimal:
+		return "mistypedArgument", true
+	case InvokeProblemResourceLimitationDecimal:
+		return "resourceLimitation", true
+	case InvokeProblemReleaseInProgressDecimal:
+		return "releaseInProgress", true
+	case InvokeProblemUnrecognizedLinkedIdDecimal:
+		return "unrecognizedLinkedId", true
+	case InvokeProblemLinkedResponseUnexpectedDecimal:
+		return "linkedResponseUnexpected", true
+	case InvokeProblemUnexpectedLinkedOperationDecimal:
+		return "unexpectedLinkedOperation", true
+	default:
+		return "", false
+	}
+}
 
 func (v InvokeProblem) String() string {
-	switch v {
-	case InvokeProblemDuplicateInvocation:
-		return "duplicateInvocation"
-	case InvokeProblemUnrecognizedOperation:
-		return "unrecognizedOperation"
-	case InvokeProblemMistypedArgument:
-		return "mistypedArgument"
-	case InvokeProblemResourceLimitation:
-		return "resourceLimitation"
-	case InvokeProblemReleaseInProgress:
-		return "releaseInProgress"
-	case InvokeProblemUnrecognizedLinkedId:
-		return "unrecognizedLinkedId"
-	case InvokeProblemLinkedResponseUnexpected:
-		return "linkedResponseUnexpected"
-	case InvokeProblemUnexpectedLinkedOperation:
-		return "unexpectedLinkedOperation"
-	default:
-		return "unknown"
+	if name, ok := v.Name(); ok {
+		return name
 	}
+	return v.BigInt().String()
 }
 
-// ReturnResultProblem represents the ASN.1 INTEGER type ReturnResultProblem with named numbers.
-type ReturnResultProblem int64
+// MarshalText returns the exact decimal INTEGER value.
+func (v InvokeProblem) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *InvokeProblem) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal InvokeProblem into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewInvokeProblem(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v InvokeProblem) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *InvokeProblem) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal InvokeProblem into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewInvokeProblem(value)
+	return nil
+}
+
+// ReturnResultProblem represents the arbitrary-width ASN.1 INTEGER type ReturnResultProblem with named numbers.
+type ReturnResultProblem struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	ReturnResultProblemUnrecognizedInvocation   ReturnResultProblem = 0
-	ReturnResultProblemResultResponseUnexpected ReturnResultProblem = 1
-	ReturnResultProblemMistypedResult           ReturnResultProblem = 2
+	ReturnResultProblemUnrecognizedInvocationDecimal   = "0"
+	ReturnResultProblemUnrecognizedInvocation          = 0
+	ReturnResultProblemResultResponseUnexpectedDecimal = "1"
+	ReturnResultProblemResultResponseUnexpected        = 1
+	ReturnResultProblemMistypedResultDecimal           = "2"
+	ReturnResultProblemMistypedResult                  = 2
 )
+
+// NewReturnResultProblem returns an immutable ReturnResultProblem containing value.
+func NewReturnResultProblem(value *big.Int) ReturnResultProblem {
+	return ReturnResultProblem{value: runtime.CloneBigInt(value)}
+}
+
+// NewReturnResultProblemInt64 returns a ReturnResultProblem containing value.
+func NewReturnResultProblemInt64(value int64) ReturnResultProblem {
+	return NewReturnResultProblem(big.NewInt(value))
+}
+
+// ReturnResultProblemUnrecognizedInvocationValue returns the named value unrecognizedInvocation.
+func ReturnResultProblemUnrecognizedInvocationValue() ReturnResultProblem {
+	return NewReturnResultProblem(runtime.MustParseBigIntDecimal(ReturnResultProblemUnrecognizedInvocationDecimal))
+}
+
+// ReturnResultProblemResultResponseUnexpectedValue returns the named value resultResponseUnexpected.
+func ReturnResultProblemResultResponseUnexpectedValue() ReturnResultProblem {
+	return NewReturnResultProblem(runtime.MustParseBigIntDecimal(ReturnResultProblemResultResponseUnexpectedDecimal))
+}
+
+// ReturnResultProblemMistypedResultValue returns the named value mistypedResult.
+func ReturnResultProblemMistypedResultValue() ReturnResultProblem {
+	return NewReturnResultProblem(runtime.MustParseBigIntDecimal(ReturnResultProblemMistypedResultDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v ReturnResultProblem) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v ReturnResultProblem) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v ReturnResultProblem) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case ReturnResultProblemUnrecognizedInvocationDecimal:
+		return "unrecognizedInvocation", true
+	case ReturnResultProblemResultResponseUnexpectedDecimal:
+		return "resultResponseUnexpected", true
+	case ReturnResultProblemMistypedResultDecimal:
+		return "mistypedResult", true
+	default:
+		return "", false
+	}
+}
 
 func (v ReturnResultProblem) String() string {
-	switch v {
-	case ReturnResultProblemUnrecognizedInvocation:
-		return "unrecognizedInvocation"
-	case ReturnResultProblemResultResponseUnexpected:
-		return "resultResponseUnexpected"
-	case ReturnResultProblemMistypedResult:
-		return "mistypedResult"
-	default:
-		return "unknown"
+	if name, ok := v.Name(); ok {
+		return name
 	}
+	return v.BigInt().String()
 }
 
-// ReturnErrorProblem represents the ASN.1 INTEGER type ReturnErrorProblem with named numbers.
-type ReturnErrorProblem int64
+// MarshalText returns the exact decimal INTEGER value.
+func (v ReturnResultProblem) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *ReturnResultProblem) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ReturnResultProblem into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewReturnResultProblem(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v ReturnResultProblem) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *ReturnResultProblem) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ReturnResultProblem into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewReturnResultProblem(value)
+	return nil
+}
+
+// ReturnErrorProblem represents the arbitrary-width ASN.1 INTEGER type ReturnErrorProblem with named numbers.
+type ReturnErrorProblem struct {
+	noCompare [0]func()
+	value     *big.Int
+}
 
 const (
-	ReturnErrorProblemUnrecognizedInvocation  ReturnErrorProblem = 0
-	ReturnErrorProblemErrorResponseUnexpected ReturnErrorProblem = 1
-	ReturnErrorProblemUnrecognizedError       ReturnErrorProblem = 2
-	ReturnErrorProblemUnexpectedError         ReturnErrorProblem = 3
-	ReturnErrorProblemMistypedParameter       ReturnErrorProblem = 4
+	ReturnErrorProblemUnrecognizedInvocationDecimal  = "0"
+	ReturnErrorProblemUnrecognizedInvocation         = 0
+	ReturnErrorProblemErrorResponseUnexpectedDecimal = "1"
+	ReturnErrorProblemErrorResponseUnexpected        = 1
+	ReturnErrorProblemUnrecognizedErrorDecimal       = "2"
+	ReturnErrorProblemUnrecognizedError              = 2
+	ReturnErrorProblemUnexpectedErrorDecimal         = "3"
+	ReturnErrorProblemUnexpectedError                = 3
+	ReturnErrorProblemMistypedParameterDecimal       = "4"
+	ReturnErrorProblemMistypedParameter              = 4
 )
+
+// NewReturnErrorProblem returns an immutable ReturnErrorProblem containing value.
+func NewReturnErrorProblem(value *big.Int) ReturnErrorProblem {
+	return ReturnErrorProblem{value: runtime.CloneBigInt(value)}
+}
+
+// NewReturnErrorProblemInt64 returns a ReturnErrorProblem containing value.
+func NewReturnErrorProblemInt64(value int64) ReturnErrorProblem {
+	return NewReturnErrorProblem(big.NewInt(value))
+}
+
+// ReturnErrorProblemUnrecognizedInvocationValue returns the named value unrecognizedInvocation.
+func ReturnErrorProblemUnrecognizedInvocationValue() ReturnErrorProblem {
+	return NewReturnErrorProblem(runtime.MustParseBigIntDecimal(ReturnErrorProblemUnrecognizedInvocationDecimal))
+}
+
+// ReturnErrorProblemErrorResponseUnexpectedValue returns the named value errorResponseUnexpected.
+func ReturnErrorProblemErrorResponseUnexpectedValue() ReturnErrorProblem {
+	return NewReturnErrorProblem(runtime.MustParseBigIntDecimal(ReturnErrorProblemErrorResponseUnexpectedDecimal))
+}
+
+// ReturnErrorProblemUnrecognizedErrorValue returns the named value unrecognizedError.
+func ReturnErrorProblemUnrecognizedErrorValue() ReturnErrorProblem {
+	return NewReturnErrorProblem(runtime.MustParseBigIntDecimal(ReturnErrorProblemUnrecognizedErrorDecimal))
+}
+
+// ReturnErrorProblemUnexpectedErrorValue returns the named value unexpectedError.
+func ReturnErrorProblemUnexpectedErrorValue() ReturnErrorProblem {
+	return NewReturnErrorProblem(runtime.MustParseBigIntDecimal(ReturnErrorProblemUnexpectedErrorDecimal))
+}
+
+// ReturnErrorProblemMistypedParameterValue returns the named value mistypedParameter.
+func ReturnErrorProblemMistypedParameterValue() ReturnErrorProblem {
+	return NewReturnErrorProblem(runtime.MustParseBigIntDecimal(ReturnErrorProblemMistypedParameterDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v ReturnErrorProblem) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v ReturnErrorProblem) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v ReturnErrorProblem) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case ReturnErrorProblemUnrecognizedInvocationDecimal:
+		return "unrecognizedInvocation", true
+	case ReturnErrorProblemErrorResponseUnexpectedDecimal:
+		return "errorResponseUnexpected", true
+	case ReturnErrorProblemUnrecognizedErrorDecimal:
+		return "unrecognizedError", true
+	case ReturnErrorProblemUnexpectedErrorDecimal:
+		return "unexpectedError", true
+	case ReturnErrorProblemMistypedParameterDecimal:
+		return "mistypedParameter", true
+	default:
+		return "", false
+	}
+}
 
 func (v ReturnErrorProblem) String() string {
-	switch v {
-	case ReturnErrorProblemUnrecognizedInvocation:
-		return "unrecognizedInvocation"
-	case ReturnErrorProblemErrorResponseUnexpected:
-		return "errorResponseUnexpected"
-	case ReturnErrorProblemUnrecognizedError:
-		return "unrecognizedError"
-	case ReturnErrorProblemUnexpectedError:
-		return "unexpectedError"
-	case ReturnErrorProblemMistypedParameter:
-		return "mistypedParameter"
+	if name, ok := v.Name(); ok {
+		return name
+	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v ReturnErrorProblem) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *ReturnErrorProblem) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ReturnErrorProblem into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewReturnErrorProblem(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v ReturnErrorProblem) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *ReturnErrorProblem) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal ReturnErrorProblem into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewReturnErrorProblem(value)
+	return nil
+}
+
+// RejectProblem represents the arbitrary-width ASN.1 INTEGER type RejectProblem with named numbers.
+type RejectProblem struct {
+	noCompare [0]func()
+	value     *big.Int
+}
+
+const (
+	RejectProblemGeneralUnrecognizedPDUDecimal               = "0"
+	RejectProblemGeneralUnrecognizedPDU                      = 0
+	RejectProblemGeneralMistypedPDUDecimal                   = "1"
+	RejectProblemGeneralMistypedPDU                          = 1
+	RejectProblemGeneralBadlyStructuredPDUDecimal            = "2"
+	RejectProblemGeneralBadlyStructuredPDU                   = 2
+	RejectProblemInvokeDuplicateInvocationDecimal            = "10"
+	RejectProblemInvokeDuplicateInvocation                   = 10
+	RejectProblemInvokeUnrecognizedOperationDecimal          = "11"
+	RejectProblemInvokeUnrecognizedOperation                 = 11
+	RejectProblemInvokeMistypedArgumentDecimal               = "12"
+	RejectProblemInvokeMistypedArgument                      = 12
+	RejectProblemInvokeResourceLimitationDecimal             = "13"
+	RejectProblemInvokeResourceLimitation                    = 13
+	RejectProblemInvokeReleaseInProgressDecimal              = "14"
+	RejectProblemInvokeReleaseInProgress                     = 14
+	RejectProblemInvokeUnrecognizedLinkedIdDecimal           = "15"
+	RejectProblemInvokeUnrecognizedLinkedId                  = 15
+	RejectProblemInvokeLinkedResponseUnexpectedDecimal       = "16"
+	RejectProblemInvokeLinkedResponseUnexpected              = 16
+	RejectProblemInvokeUnexpectedLinkedOperationDecimal      = "17"
+	RejectProblemInvokeUnexpectedLinkedOperation             = 17
+	RejectProblemReturnResultUnrecognizedInvocationDecimal   = "20"
+	RejectProblemReturnResultUnrecognizedInvocation          = 20
+	RejectProblemReturnResultResultResponseUnexpectedDecimal = "21"
+	RejectProblemReturnResultResultResponseUnexpected        = 21
+	RejectProblemReturnResultMistypedResultDecimal           = "22"
+	RejectProblemReturnResultMistypedResult                  = 22
+	RejectProblemReturnErrorUnrecognizedInvocationDecimal    = "30"
+	RejectProblemReturnErrorUnrecognizedInvocation           = 30
+	RejectProblemReturnErrorErrorResponseUnexpectedDecimal   = "31"
+	RejectProblemReturnErrorErrorResponseUnexpected          = 31
+	RejectProblemReturnErrorUnrecognizedErrorDecimal         = "32"
+	RejectProblemReturnErrorUnrecognizedError                = 32
+	RejectProblemReturnErrorUnexpectedErrorDecimal           = "33"
+	RejectProblemReturnErrorUnexpectedError                  = 33
+	RejectProblemReturnErrorMistypedParameterDecimal         = "34"
+	RejectProblemReturnErrorMistypedParameter                = 34
+)
+
+// NewRejectProblem returns an immutable RejectProblem containing value.
+func NewRejectProblem(value *big.Int) RejectProblem {
+	return RejectProblem{value: runtime.CloneBigInt(value)}
+}
+
+// NewRejectProblemInt64 returns a RejectProblem containing value.
+func NewRejectProblemInt64(value int64) RejectProblem {
+	return NewRejectProblem(big.NewInt(value))
+}
+
+// RejectProblemGeneralUnrecognizedPDUValue returns the named value general-unrecognizedPDU.
+func RejectProblemGeneralUnrecognizedPDUValue() RejectProblem {
+	return NewRejectProblem(runtime.MustParseBigIntDecimal(RejectProblemGeneralUnrecognizedPDUDecimal))
+}
+
+// RejectProblemGeneralMistypedPDUValue returns the named value general-mistypedPDU.
+func RejectProblemGeneralMistypedPDUValue() RejectProblem {
+	return NewRejectProblem(runtime.MustParseBigIntDecimal(RejectProblemGeneralMistypedPDUDecimal))
+}
+
+// RejectProblemGeneralBadlyStructuredPDUValue returns the named value general-badlyStructuredPDU.
+func RejectProblemGeneralBadlyStructuredPDUValue() RejectProblem {
+	return NewRejectProblem(runtime.MustParseBigIntDecimal(RejectProblemGeneralBadlyStructuredPDUDecimal))
+}
+
+// RejectProblemInvokeDuplicateInvocationValue returns the named value invoke-duplicateInvocation.
+func RejectProblemInvokeDuplicateInvocationValue() RejectProblem {
+	return NewRejectProblem(runtime.MustParseBigIntDecimal(RejectProblemInvokeDuplicateInvocationDecimal))
+}
+
+// RejectProblemInvokeUnrecognizedOperationValue returns the named value invoke-unrecognizedOperation.
+func RejectProblemInvokeUnrecognizedOperationValue() RejectProblem {
+	return NewRejectProblem(runtime.MustParseBigIntDecimal(RejectProblemInvokeUnrecognizedOperationDecimal))
+}
+
+// RejectProblemInvokeMistypedArgumentValue returns the named value invoke-mistypedArgument.
+func RejectProblemInvokeMistypedArgumentValue() RejectProblem {
+	return NewRejectProblem(runtime.MustParseBigIntDecimal(RejectProblemInvokeMistypedArgumentDecimal))
+}
+
+// RejectProblemInvokeResourceLimitationValue returns the named value invoke-resourceLimitation.
+func RejectProblemInvokeResourceLimitationValue() RejectProblem {
+	return NewRejectProblem(runtime.MustParseBigIntDecimal(RejectProblemInvokeResourceLimitationDecimal))
+}
+
+// RejectProblemInvokeReleaseInProgressValue returns the named value invoke-releaseInProgress.
+func RejectProblemInvokeReleaseInProgressValue() RejectProblem {
+	return NewRejectProblem(runtime.MustParseBigIntDecimal(RejectProblemInvokeReleaseInProgressDecimal))
+}
+
+// RejectProblemInvokeUnrecognizedLinkedIdValue returns the named value invoke-unrecognizedLinkedId.
+func RejectProblemInvokeUnrecognizedLinkedIdValue() RejectProblem {
+	return NewRejectProblem(runtime.MustParseBigIntDecimal(RejectProblemInvokeUnrecognizedLinkedIdDecimal))
+}
+
+// RejectProblemInvokeLinkedResponseUnexpectedValue returns the named value invoke-linkedResponseUnexpected.
+func RejectProblemInvokeLinkedResponseUnexpectedValue() RejectProblem {
+	return NewRejectProblem(runtime.MustParseBigIntDecimal(RejectProblemInvokeLinkedResponseUnexpectedDecimal))
+}
+
+// RejectProblemInvokeUnexpectedLinkedOperationValue returns the named value invoke-unexpectedLinkedOperation.
+func RejectProblemInvokeUnexpectedLinkedOperationValue() RejectProblem {
+	return NewRejectProblem(runtime.MustParseBigIntDecimal(RejectProblemInvokeUnexpectedLinkedOperationDecimal))
+}
+
+// RejectProblemReturnResultUnrecognizedInvocationValue returns the named value returnResult-unrecognizedInvocation.
+func RejectProblemReturnResultUnrecognizedInvocationValue() RejectProblem {
+	return NewRejectProblem(runtime.MustParseBigIntDecimal(RejectProblemReturnResultUnrecognizedInvocationDecimal))
+}
+
+// RejectProblemReturnResultResultResponseUnexpectedValue returns the named value returnResult-resultResponseUnexpected.
+func RejectProblemReturnResultResultResponseUnexpectedValue() RejectProblem {
+	return NewRejectProblem(runtime.MustParseBigIntDecimal(RejectProblemReturnResultResultResponseUnexpectedDecimal))
+}
+
+// RejectProblemReturnResultMistypedResultValue returns the named value returnResult-mistypedResult.
+func RejectProblemReturnResultMistypedResultValue() RejectProblem {
+	return NewRejectProblem(runtime.MustParseBigIntDecimal(RejectProblemReturnResultMistypedResultDecimal))
+}
+
+// RejectProblemReturnErrorUnrecognizedInvocationValue returns the named value returnError-unrecognizedInvocation.
+func RejectProblemReturnErrorUnrecognizedInvocationValue() RejectProblem {
+	return NewRejectProblem(runtime.MustParseBigIntDecimal(RejectProblemReturnErrorUnrecognizedInvocationDecimal))
+}
+
+// RejectProblemReturnErrorErrorResponseUnexpectedValue returns the named value returnError-errorResponseUnexpected.
+func RejectProblemReturnErrorErrorResponseUnexpectedValue() RejectProblem {
+	return NewRejectProblem(runtime.MustParseBigIntDecimal(RejectProblemReturnErrorErrorResponseUnexpectedDecimal))
+}
+
+// RejectProblemReturnErrorUnrecognizedErrorValue returns the named value returnError-unrecognizedError.
+func RejectProblemReturnErrorUnrecognizedErrorValue() RejectProblem {
+	return NewRejectProblem(runtime.MustParseBigIntDecimal(RejectProblemReturnErrorUnrecognizedErrorDecimal))
+}
+
+// RejectProblemReturnErrorUnexpectedErrorValue returns the named value returnError-unexpectedError.
+func RejectProblemReturnErrorUnexpectedErrorValue() RejectProblem {
+	return NewRejectProblem(runtime.MustParseBigIntDecimal(RejectProblemReturnErrorUnexpectedErrorDecimal))
+}
+
+// RejectProblemReturnErrorMistypedParameterValue returns the named value returnError-mistypedParameter.
+func RejectProblemReturnErrorMistypedParameterValue() RejectProblem {
+	return NewRejectProblem(runtime.MustParseBigIntDecimal(RejectProblemReturnErrorMistypedParameterDecimal))
+}
+
+// BigInt returns an independent arbitrary-precision copy of v.
+func (v RejectProblem) BigInt() *big.Int {
+	return runtime.CloneBigInt(v.value)
+}
+
+// AsInt64 returns v when it is representable as int64.
+func (v RejectProblem) AsInt64() (int64, bool) {
+	value := v.BigInt()
+	if !value.IsInt64() {
+		return 0, false
+	}
+	return value.Int64(), true
+}
+
+// Name returns the ASN.1 named-number label for v when one exists.
+func (v RejectProblem) Name() (string, bool) {
+	switch v.BigInt().String() {
+	case RejectProblemGeneralUnrecognizedPDUDecimal:
+		return "general-unrecognizedPDU", true
+	case RejectProblemGeneralMistypedPDUDecimal:
+		return "general-mistypedPDU", true
+	case RejectProblemGeneralBadlyStructuredPDUDecimal:
+		return "general-badlyStructuredPDU", true
+	case RejectProblemInvokeDuplicateInvocationDecimal:
+		return "invoke-duplicateInvocation", true
+	case RejectProblemInvokeUnrecognizedOperationDecimal:
+		return "invoke-unrecognizedOperation", true
+	case RejectProblemInvokeMistypedArgumentDecimal:
+		return "invoke-mistypedArgument", true
+	case RejectProblemInvokeResourceLimitationDecimal:
+		return "invoke-resourceLimitation", true
+	case RejectProblemInvokeReleaseInProgressDecimal:
+		return "invoke-releaseInProgress", true
+	case RejectProblemInvokeUnrecognizedLinkedIdDecimal:
+		return "invoke-unrecognizedLinkedId", true
+	case RejectProblemInvokeLinkedResponseUnexpectedDecimal:
+		return "invoke-linkedResponseUnexpected", true
+	case RejectProblemInvokeUnexpectedLinkedOperationDecimal:
+		return "invoke-unexpectedLinkedOperation", true
+	case RejectProblemReturnResultUnrecognizedInvocationDecimal:
+		return "returnResult-unrecognizedInvocation", true
+	case RejectProblemReturnResultResultResponseUnexpectedDecimal:
+		return "returnResult-resultResponseUnexpected", true
+	case RejectProblemReturnResultMistypedResultDecimal:
+		return "returnResult-mistypedResult", true
+	case RejectProblemReturnErrorUnrecognizedInvocationDecimal:
+		return "returnError-unrecognizedInvocation", true
+	case RejectProblemReturnErrorErrorResponseUnexpectedDecimal:
+		return "returnError-errorResponseUnexpected", true
+	case RejectProblemReturnErrorUnrecognizedErrorDecimal:
+		return "returnError-unrecognizedError", true
+	case RejectProblemReturnErrorUnexpectedErrorDecimal:
+		return "returnError-unexpectedError", true
+	case RejectProblemReturnErrorMistypedParameterDecimal:
+		return "returnError-mistypedParameter", true
 	default:
-		return "unknown"
+		return "", false
 	}
 }
 
-// RejectProblem represents the ASN.1 INTEGER type RejectProblem with named numbers.
-type RejectProblem int64
-
-const (
-	RejectProblemGeneralUnrecognizedPDU               RejectProblem = 0
-	RejectProblemGeneralMistypedPDU                   RejectProblem = 1
-	RejectProblemGeneralBadlyStructuredPDU            RejectProblem = 2
-	RejectProblemInvokeDuplicateInvocation            RejectProblem = 10
-	RejectProblemInvokeUnrecognizedOperation          RejectProblem = 11
-	RejectProblemInvokeMistypedArgument               RejectProblem = 12
-	RejectProblemInvokeResourceLimitation             RejectProblem = 13
-	RejectProblemInvokeReleaseInProgress              RejectProblem = 14
-	RejectProblemInvokeUnrecognizedLinkedId           RejectProblem = 15
-	RejectProblemInvokeLinkedResponseUnexpected       RejectProblem = 16
-	RejectProblemInvokeUnexpectedLinkedOperation      RejectProblem = 17
-	RejectProblemReturnResultUnrecognizedInvocation   RejectProblem = 20
-	RejectProblemReturnResultResultResponseUnexpected RejectProblem = 21
-	RejectProblemReturnResultMistypedResult           RejectProblem = 22
-	RejectProblemReturnErrorUnrecognizedInvocation    RejectProblem = 30
-	RejectProblemReturnErrorErrorResponseUnexpected   RejectProblem = 31
-	RejectProblemReturnErrorUnrecognizedError         RejectProblem = 32
-	RejectProblemReturnErrorUnexpectedError           RejectProblem = 33
-	RejectProblemReturnErrorMistypedParameter         RejectProblem = 34
-)
-
 func (v RejectProblem) String() string {
-	switch v {
-	case RejectProblemGeneralUnrecognizedPDU:
-		return "general-unrecognizedPDU"
-	case RejectProblemGeneralMistypedPDU:
-		return "general-mistypedPDU"
-	case RejectProblemGeneralBadlyStructuredPDU:
-		return "general-badlyStructuredPDU"
-	case RejectProblemInvokeDuplicateInvocation:
-		return "invoke-duplicateInvocation"
-	case RejectProblemInvokeUnrecognizedOperation:
-		return "invoke-unrecognizedOperation"
-	case RejectProblemInvokeMistypedArgument:
-		return "invoke-mistypedArgument"
-	case RejectProblemInvokeResourceLimitation:
-		return "invoke-resourceLimitation"
-	case RejectProblemInvokeReleaseInProgress:
-		return "invoke-releaseInProgress"
-	case RejectProblemInvokeUnrecognizedLinkedId:
-		return "invoke-unrecognizedLinkedId"
-	case RejectProblemInvokeLinkedResponseUnexpected:
-		return "invoke-linkedResponseUnexpected"
-	case RejectProblemInvokeUnexpectedLinkedOperation:
-		return "invoke-unexpectedLinkedOperation"
-	case RejectProblemReturnResultUnrecognizedInvocation:
-		return "returnResult-unrecognizedInvocation"
-	case RejectProblemReturnResultResultResponseUnexpected:
-		return "returnResult-resultResponseUnexpected"
-	case RejectProblemReturnResultMistypedResult:
-		return "returnResult-mistypedResult"
-	case RejectProblemReturnErrorUnrecognizedInvocation:
-		return "returnError-unrecognizedInvocation"
-	case RejectProblemReturnErrorErrorResponseUnexpected:
-		return "returnError-errorResponseUnexpected"
-	case RejectProblemReturnErrorUnrecognizedError:
-		return "returnError-unrecognizedError"
-	case RejectProblemReturnErrorUnexpectedError:
-		return "returnError-unexpectedError"
-	case RejectProblemReturnErrorMistypedParameter:
-		return "returnError-mistypedParameter"
-	default:
-		return "unknown"
+	if name, ok := v.Name(); ok {
+		return name
 	}
+	return v.BigInt().String()
+}
+
+// MarshalText returns the exact decimal INTEGER value.
+func (v RejectProblem) MarshalText() ([]byte, error) {
+	return []byte(v.BigInt().String()), nil
+}
+
+// UnmarshalText replaces v with an exact decimal INTEGER value.
+func (v *RejectProblem) UnmarshalText(text []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal RejectProblem into nil receiver")
+	}
+	value, err := runtime.ParseBigIntDecimal(string(text))
+	if err != nil {
+		return err
+	}
+	*v = NewRejectProblem(value)
+	return nil
+}
+
+// MarshalJSON returns the exact decimal INTEGER value as a JSON string.
+func (v RejectProblem) MarshalJSON() ([]byte, error) {
+	return runtime.MarshalBigIntJSON(v.BigInt())
+}
+
+// UnmarshalJSON accepts an exact decimal JSON string or number.
+func (v *RejectProblem) UnmarshalJSON(data []byte) error {
+	if v == nil {
+		return fmt.Errorf("cannot unmarshal RejectProblem into nil receiver")
+	}
+	value, err := runtime.UnmarshalBigIntJSON(data)
+	if err != nil {
+		return err
+	}
+	*v = NewRejectProblem(value)
+	return nil
 }
 
 // InvokeId choice constants.
@@ -312,9 +895,9 @@ const (
 // Bind represents the ASN.1 CHOICE type Bind.
 type Bind struct {
 	Choice     int
-	BindInvoke *runtime.RawValue `json:"BindInvoke,omitempty"`
-	BindResult *runtime.RawValue `json:"BindResult,omitempty"`
-	BindError  *runtime.RawValue `json:"BindError,omitempty"`
+	BindInvoke *runtime.RawValue `json:"BindInvoke,omitempty" asn1c:"raw-preserve"`
+	BindResult *runtime.RawValue `json:"BindResult,omitempty" asn1c:"raw-preserve"`
+	BindError  *runtime.RawValue `json:"BindError,omitempty" asn1c:"raw-preserve"`
 }
 
 // NewBindBindInvoke creates a Bind with the bind-invoke alternative.
@@ -351,9 +934,9 @@ const (
 // Unbind represents the ASN.1 CHOICE type Unbind.
 type Unbind struct {
 	Choice       int
-	UnbindInvoke *runtime.RawValue `json:"UnbindInvoke,omitempty"`
-	UnbindResult *runtime.RawValue `json:"UnbindResult,omitempty"`
-	UnbindError  *runtime.RawValue `json:"UnbindError,omitempty"`
+	UnbindInvoke *runtime.RawValue `json:"UnbindInvoke,omitempty" asn1c:"raw-preserve"`
+	UnbindResult *runtime.RawValue `json:"UnbindResult,omitempty" asn1c:"raw-preserve"`
+	UnbindError  *runtime.RawValue `json:"UnbindError,omitempty" asn1c:"raw-preserve"`
 }
 
 // NewUnbindUnbindInvoke creates a Unbind with the unbind-invoke alternative.
@@ -380,28 +963,63 @@ func NewUnbindUnbindError(v runtime.RawValue) Unbind {
 	}
 }
 
+// ROSInvokeLinkedId choice constants.
+const (
+	ROSInvokeLinkedIdChoicePresent = 1
+	ROSInvokeLinkedIdChoiceAbsent  = 2
+)
+
+// ROSInvokeLinkedId represents the ASN.1 CHOICE type ROSInvokeLinkedId.
+type ROSInvokeLinkedId struct {
+	Choice  int
+	Present *big.Int  `json:"Present,omitempty"`
+	Absent  *struct{} `json:"Absent,omitempty"`
+}
+
+// NewROSInvokeLinkedIdPresent creates a ROSInvokeLinkedId with the present alternative.
+func NewROSInvokeLinkedIdPresent(v *big.Int) ROSInvokeLinkedId {
+	return ROSInvokeLinkedId{
+		Choice:  ROSInvokeLinkedIdChoicePresent,
+		Present: v,
+	}
+}
+
+// NewROSInvokeLinkedIdAbsent creates a ROSInvokeLinkedId with the absent alternative.
+func NewROSInvokeLinkedIdAbsent(v struct{}) ROSInvokeLinkedId {
+	return ROSInvokeLinkedId{
+		Choice: ROSInvokeLinkedIdChoiceAbsent,
+		Absent: &v,
+	}
+}
+
+// ROSReturnResultResult represents the ASN.1 type ROSReturnResultResult (SEQUENCE).
+type ROSReturnResultResult struct {
+	Opcode Code             `asn1:""`
+	Result runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
+}
+
 // InvokeLinkedId choice constants.
 const (
 	InvokeLinkedIdChoicePresent = 1
 	InvokeLinkedIdChoiceAbsent  = 2
 )
 
-// InvokeLinkedId represents the ASN.1 CHOICE type Invoke-linkedId.
+// InvokeLinkedId represents the ASN.1 CHOICE type InvokeLinkedId.
 type InvokeLinkedId struct {
 	Choice  int
-	Present *InvokeId `json:"Present,omitempty"`
+	Present *big.Int  `json:"Present,omitempty"`
 	Absent  *struct{} `json:"Absent,omitempty"`
 }
 
-// NewInvokeLinkedIdPresent creates a Invoke-linkedId with the present alternative.
-func NewInvokeLinkedIdPresent(v InvokeId) InvokeLinkedId {
+// NewInvokeLinkedIdPresent creates a InvokeLinkedId with the present alternative.
+func NewInvokeLinkedIdPresent(v *big.Int) InvokeLinkedId {
 	return InvokeLinkedId{
 		Choice:  InvokeLinkedIdChoicePresent,
-		Present: &v,
+		Present: v,
 	}
 }
 
-// NewInvokeLinkedIdAbsent creates a Invoke-linkedId with the absent alternative.
+// NewInvokeLinkedIdAbsent creates a InvokeLinkedId with the absent alternative.
 func NewInvokeLinkedIdAbsent(v struct{}) InvokeLinkedId {
 	return InvokeLinkedId{
 		Choice: InvokeLinkedIdChoiceAbsent,
@@ -409,10 +1027,10 @@ func NewInvokeLinkedIdAbsent(v struct{}) InvokeLinkedId {
 	}
 }
 
-// ReturnResultResult represents the ASN.1 type ReturnResult-result (SEQUENCE).
+// ReturnResultResult represents the ASN.1 type ReturnResultResult (SEQUENCE).
 type ReturnResultResult struct {
-	Opcode runtime.RawValue `asn1:""`
-	Result runtime.RawValue `asn1:""`
+	Opcode Code             `asn1:""`
+	Result runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
 }
 
 // OperationsRejectProblem choice constants.
@@ -475,6 +1093,9 @@ func (v *ROS) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding invoke: %w", err)
 		}
+		if v.Invoke.LinkedId != nil {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
+		}
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_0)
 		return enc_0, nil
 	case ROSChoiceReturnResult:
@@ -522,6 +1143,9 @@ func (v *ROS) MarshalDER() ([]byte, error) {
 		enc_der_0, err := v.Invoke.MarshalDER()
 		if err != nil {
 			return nil, fmt.Errorf("encoding invoke: %w", err)
+		}
+		if v.Invoke.LinkedId != nil {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
 		}
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_0)
 		return enc_der_0, nil
@@ -590,6 +1214,9 @@ func (v *ROS) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding invoke: %w", unmErr)
 		}
 		v.Invoke = &dec
+		if v.Invoke.LinkedId != nil {
+			return fmt.Errorf("decoded Invoke violates WITH COMPONENTS: LinkedId must be absent")
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
 		v.Choice = ROSChoiceReturnResult
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
@@ -634,6 +1261,9 @@ func (v *ROS) UnmarshalBER(data []byte) error {
 
 // MarshalBER encodes Invoke to BER format.
 func (v *Invoke) MarshalBER() ([]byte, error) {
+	if v.LinkedId != nil {
+		return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
+	}
 	var children []byte
 	enc_invokeid, err := v.InvokeId.MarshalBER()
 	if err != nil {
@@ -647,7 +1277,10 @@ func (v *Invoke) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, enc_linkedid...)
 	}
-	enc_opcode := v.Opcode.Bytes
+	enc_opcode, err := v.Opcode.MarshalBER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding opcode: %w", err)
+	}
 	children = append(children, enc_opcode...)
 	if v.Argument != nil {
 		enc_argument := v.Argument.Bytes
@@ -708,11 +1341,14 @@ func (v *Invoke) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field opcode")
 	}
+	// Decode nested CHOICE (Code)
 	_, n_opcode, _, tlvErr_opcode := ber.DecodeTLV(content[offset:])
 	if tlvErr_opcode != nil {
 		return fmt.Errorf("decoding opcode: %w", tlvErr_opcode)
 	}
-	v.Opcode = runtime.RawValue{Bytes: content[offset : offset+n_opcode]}
+	if unmErr := v.Opcode.UnmarshalBER(content[offset : offset+n_opcode]); unmErr != nil {
+		return fmt.Errorf("decoding opcode: %w", unmErr)
+	}
 	offset += n_opcode
 	// Decode argument
 	if offset < len(content) {
@@ -726,6 +1362,9 @@ func (v *Invoke) UnmarshalBER(data []byte) error {
 	}
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "Invoke", Cause: ber.ErrExtraData}
+	}
+	if v.LinkedId != nil {
+		return fmt.Errorf("decoded Invoke violates WITH COMPONENTS: LinkedId must be absent")
 	}
 	return nil
 }
@@ -810,7 +1449,10 @@ func (v *ReturnError) MarshalBER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding invokeId: %w", err)
 	}
 	children = append(children, enc_invokeid...)
-	enc_errcode := v.Errcode.Bytes
+	enc_errcode, err := v.Errcode.MarshalBER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding errcode: %w", err)
+	}
 	children = append(children, enc_errcode...)
 	if v.Parameter != nil {
 		enc_parameter := v.Parameter.Bytes
@@ -852,11 +1494,14 @@ func (v *ReturnError) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field errcode")
 	}
+	// Decode nested CHOICE (Code)
 	_, n_errcode, _, tlvErr_errcode := ber.DecodeTLV(content[offset:])
 	if tlvErr_errcode != nil {
 		return fmt.Errorf("decoding errcode: %w", tlvErr_errcode)
 	}
-	v.Errcode = runtime.RawValue{Bytes: content[offset : offset+n_errcode]}
+	if unmErr := v.Errcode.UnmarshalBER(content[offset : offset+n_errcode]); unmErr != nil {
+		return fmt.Errorf("decoding errcode: %w", unmErr)
+	}
 	offset += n_errcode
 	// Decode parameter
 	if offset < len(content) {
@@ -1140,6 +1785,132 @@ func (v *Unbind) UnmarshalBER(data []byte) error {
 	return nil
 }
 
+// MarshalBER encodes ROSInvokeLinkedId to BER format.
+func (v *ROSInvokeLinkedId) MarshalBER() ([]byte, error) {
+	switch v.Choice {
+	case ROSInvokeLinkedIdChoicePresent:
+		if v.Present == nil {
+			return nil, fmt.Errorf("choice ROSInvokeLinkedId: present is nil")
+		}
+		enc_0 := ber.EncodeBigInt(v.Present)
+		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
+		return enc_0, nil
+	case ROSInvokeLinkedIdChoiceAbsent:
+		enc_1 := ber.EncodeNull()
+		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
+		return enc_1, nil
+	default:
+		return nil, fmt.Errorf("unknown choice %d for ROSInvokeLinkedId", v.Choice)
+	}
+}
+
+// MarshalDER encodes ROSInvokeLinkedId to DER format.
+func (v *ROSInvokeLinkedId) MarshalDER() ([]byte, error) {
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ROSInvokeLinkedId from BER/DER format.
+func (v *ROSInvokeLinkedId) UnmarshalBER(data []byte) error {
+	if len(data) == 0 {
+		return fmt.Errorf("empty data for ROSInvokeLinkedId CHOICE")
+	}
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
+	if peekErr != nil {
+		return fmt.Errorf("peeking tag for ROSInvokeLinkedId: %w", peekErr)
+	}
+
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
+	if tlvErr != nil {
+		return fmt.Errorf("decoding ROSInvokeLinkedId CHOICE: %w", tlvErr)
+	}
+	if total != len(choiceData) {
+		return &ber.DecodeError{Offset: total, TypeName: "ROSInvokeLinkedId", Cause: ber.ErrExtraData}
+	}
+
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+		v.Choice = ROSInvokeLinkedIdChoicePresent
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding present: %w", tlvErr)
+		}
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
+		if intErr != nil {
+			return fmt.Errorf("decoding present: %w", intErr)
+		}
+		v.Present = decVal
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+		v.Choice = ROSInvokeLinkedIdChoiceAbsent
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding absent: %w", tlvErr)
+		}
+		_ = rawVal // NULL has no content
+		v.Absent = &struct{}{}
+	} else {
+		return fmt.Errorf("unknown tag %s for ROSInvokeLinkedId CHOICE", peekTag)
+	}
+	return nil
+}
+
+// MarshalBER encodes ROSReturnResultResult to BER format.
+func (v *ROSReturnResultResult) MarshalBER() ([]byte, error) {
+	var children []byte
+	enc_opcode, err := v.Opcode.MarshalBER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding opcode: %w", err)
+	}
+	children = append(children, enc_opcode...)
+	enc_result := v.Result.Bytes
+	children = append(children, enc_result...)
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes ROSReturnResultResult to DER format.
+func (v *ROSReturnResultResult) MarshalDER() ([]byte, error) {
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ROSReturnResultResult from BER/DER format.
+func (v *ROSReturnResultResult) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding ROSReturnResultResult SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "ROSReturnResultResult", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode opcode
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field opcode")
+	}
+	// Decode nested CHOICE (Code)
+	_, n_opcode, _, tlvErr_opcode := ber.DecodeTLV(content[offset:])
+	if tlvErr_opcode != nil {
+		return fmt.Errorf("decoding opcode: %w", tlvErr_opcode)
+	}
+	if unmErr := v.Opcode.UnmarshalBER(content[offset : offset+n_opcode]); unmErr != nil {
+		return fmt.Errorf("decoding opcode: %w", unmErr)
+	}
+	offset += n_opcode
+	// Decode result
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field result")
+	}
+	_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:])
+	if tlvErr_result != nil {
+		return fmt.Errorf("decoding result: %w", tlvErr_result)
+	}
+	v.Result = runtime.RawValue{Bytes: content[offset : offset+n_result]}
+	offset += n_result
+	if offset != len(content) {
+		return &ber.DecodeError{Offset: offset, TypeName: "ROSReturnResultResult", Cause: ber.ErrExtraData}
+	}
+	return nil
+}
+
 // MarshalBER encodes InvokeLinkedId to BER format.
 func (v *InvokeLinkedId) MarshalBER() ([]byte, error) {
 	switch v.Choice {
@@ -1147,11 +1918,8 @@ func (v *InvokeLinkedId) MarshalBER() ([]byte, error) {
 		if v.Present == nil {
 			return nil, fmt.Errorf("choice InvokeLinkedId: present is nil")
 		}
-		enc_0, err := v.Present.MarshalBER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding present: %w", err)
-		}
-		enc_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
+		enc_0 := ber.EncodeBigInt(v.Present)
+		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
 		return enc_0, nil
 	case InvokeLinkedIdChoiceAbsent:
 		enc_1 := ber.EncodeNull()
@@ -1164,18 +1932,6 @@ func (v *InvokeLinkedId) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes InvokeLinkedId to DER format.
 func (v *InvokeLinkedId) MarshalDER() ([]byte, error) {
-	switch v.Choice {
-	case InvokeLinkedIdChoicePresent:
-		if v.Present == nil {
-			return nil, fmt.Errorf("choice InvokeLinkedId: present is nil")
-		}
-		enc_der_0, err := v.Present.MarshalDER()
-		if err != nil {
-			return nil, fmt.Errorf("encoding present: %w", err)
-		}
-		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 0, enc_der_0)
-		return enc_der_0, nil
-	}
 	return v.MarshalBER()
 }
 
@@ -1200,15 +1956,15 @@ func (v *InvokeLinkedId) UnmarshalBER(data []byte) error {
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
 		v.Choice = InvokeLinkedIdChoicePresent
-		_, _, innerData, tlvErr := ber.DecodeTLV(choiceData)
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding present: %w", tlvErr)
 		}
-		var dec InvokeId
-		if unmErr := dec.UnmarshalBER(innerData); unmErr != nil {
-			return fmt.Errorf("decoding present: %w", unmErr)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
+		if intErr != nil {
+			return fmt.Errorf("decoding present: %w", intErr)
 		}
-		v.Present = &dec
+		v.Present = decVal
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
 		v.Choice = InvokeLinkedIdChoiceAbsent
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
@@ -1226,7 +1982,10 @@ func (v *InvokeLinkedId) UnmarshalBER(data []byte) error {
 // MarshalBER encodes ReturnResultResult to BER format.
 func (v *ReturnResultResult) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_opcode := v.Opcode.Bytes
+	enc_opcode, err := v.Opcode.MarshalBER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding opcode: %w", err)
+	}
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
 	children = append(children, enc_result...)
@@ -1253,11 +2012,14 @@ func (v *ReturnResultResult) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field opcode")
 	}
+	// Decode nested CHOICE (Code)
 	_, n_opcode, _, tlvErr_opcode := ber.DecodeTLV(content[offset:])
 	if tlvErr_opcode != nil {
 		return fmt.Errorf("decoding opcode: %w", tlvErr_opcode)
 	}
-	v.Opcode = runtime.RawValue{Bytes: content[offset : offset+n_opcode]}
+	if unmErr := v.Opcode.UnmarshalBER(content[offset : offset+n_opcode]); unmErr != nil {
+		return fmt.Errorf("decoding opcode: %w", unmErr)
+	}
 	offset += n_opcode
 	// Decode result
 	if offset >= len(content) {
@@ -1282,28 +2044,28 @@ func (v *OperationsRejectProblem) MarshalBER() ([]byte, error) {
 		if v.General == nil {
 			return nil, fmt.Errorf("choice OperationsRejectProblem: general is nil")
 		}
-		enc_0 := ber.EncodeInteger(int64(*v.General))
+		enc_0 := ber.EncodeBigInt(v.General.BigInt())
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
 		return enc_0, nil
 	case OperationsRejectProblemChoiceInvoke:
 		if v.Invoke == nil {
 			return nil, fmt.Errorf("choice OperationsRejectProblem: invoke is nil")
 		}
-		enc_1 := ber.EncodeInteger(int64(*v.Invoke))
+		enc_1 := ber.EncodeBigInt(v.Invoke.BigInt())
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		return enc_1, nil
 	case OperationsRejectProblemChoiceReturnResult:
 		if v.ReturnResult == nil {
 			return nil, fmt.Errorf("choice OperationsRejectProblem: returnResult is nil")
 		}
-		enc_2 := ber.EncodeInteger(int64(*v.ReturnResult))
+		enc_2 := ber.EncodeBigInt(v.ReturnResult.BigInt())
 		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_2)
 		return enc_2, nil
 	case OperationsRejectProblemChoiceReturnError:
 		if v.ReturnError == nil {
 			return nil, fmt.Errorf("choice OperationsRejectProblem: returnError is nil")
 		}
-		enc_3 := ber.EncodeInteger(int64(*v.ReturnError))
+		enc_3 := ber.EncodeBigInt(v.ReturnError.BigInt())
 		enc_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_3)
 		return enc_3, nil
 	default:
@@ -1341,48 +2103,60 @@ func (v *OperationsRejectProblem) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding general: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding general: %w", intErr)
 		}
-		tmp := GeneralProblem(decVal)
-		v.General = &tmp
+		var named_general GeneralProblem
+		if namedErr := named_general.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding general: %w", namedErr)
+		}
+		v.General = &named_general
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
 		v.Choice = OperationsRejectProblemChoiceInvoke
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding invoke: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding invoke: %w", intErr)
 		}
-		tmp := InvokeProblem(decVal)
-		v.Invoke = &tmp
+		var named_invoke InvokeProblem
+		if namedErr := named_invoke.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding invoke: %w", namedErr)
+		}
+		v.Invoke = &named_invoke
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
 		v.Choice = OperationsRejectProblemChoiceReturnResult
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding returnResult: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding returnResult: %w", intErr)
 		}
-		tmp := ReturnResultProblem(decVal)
-		v.ReturnResult = &tmp
+		var named_returnresult ReturnResultProblem
+		if namedErr := named_returnresult.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding returnResult: %w", namedErr)
+		}
+		v.ReturnResult = &named_returnresult
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
 		v.Choice = OperationsRejectProblemChoiceReturnError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding returnError: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding returnError: %w", intErr)
 		}
-		tmp := ReturnErrorProblem(decVal)
-		v.ReturnError = &tmp
+		var named_returnerror ReturnErrorProblem
+		if namedErr := named_returnerror.UnmarshalText([]byte(decVal.String())); namedErr != nil {
+			return fmt.Errorf("decoding returnError: %w", namedErr)
+		}
+		v.ReturnError = &named_returnerror
 	} else {
 		return fmt.Errorf("unknown tag %s for OperationsRejectProblem CHOICE", peekTag)
 	}

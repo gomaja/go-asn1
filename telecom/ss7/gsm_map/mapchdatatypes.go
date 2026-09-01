@@ -17,7 +17,7 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// CUGCheckInfo represents the ASN.1 type CUG-CheckInfo (SEQUENCE).
+// CUGCheckInfo represents the ASN.1 type CUGCheckInfo (SEQUENCE).
 type CUGCheckInfo struct {
 	CugInterlock       CUGInterlock        `asn1:""`
 	CugOutgoingAccess  *struct{}           `asn1:",optional" json:"CugOutgoingAccess,omitempty"`
@@ -92,7 +92,7 @@ func (v InterrogationType) String() string {
 	}
 }
 
-// ORPhase represents the ASN.1 type OR-Phase (INTEGER).
+// ORPhase represents the ASN.1 type ORPhase (INTEGER).
 type ORPhase = int64
 
 // CallReferenceNumber represents the ASN.1 type CallReferenceNumber (OCTET_STRING).
@@ -120,7 +120,7 @@ func (v ForwardingReason) String() string {
 	}
 }
 
-// SupportedCCBSPhase represents the ASN.1 type SupportedCCBS-Phase (INTEGER).
+// SupportedCCBSPhase represents the ASN.1 type SupportedCCBSPhase (INTEGER).
 type SupportedCCBSPhase = int64
 
 // CallDiversionTreatmentIndicator represents the ASN.1 type CallDiversionTreatmentIndicator (OCTET_STRING).
@@ -193,7 +193,7 @@ func (v UnavailabilityCause) String() string {
 	}
 }
 
-// CCBSIndicators represents the ASN.1 type CCBS-Indicators (SEQUENCE).
+// CCBSIndicators represents the ASN.1 type CCBSIndicators (SEQUENCE).
 type CCBSIndicators struct {
 	CcbsPossible          *struct{}           `asn1:"tag:0,context,implicit,optional" json:"CcbsPossible,omitempty"`
 	KeepCCBSCallIndicator *struct{}           `asn1:"tag:1,context,implicit,optional" json:"KeepCCBSCallIndicator,omitempty"`
@@ -312,7 +312,7 @@ type ResumeCallHandlingArg struct {
 	ExtData_                        [][]byte                  `asn1:"-" json:"-"`
 }
 
-// UUData represents the ASN.1 type UU-Data (SEQUENCE).
+// UUData represents the ASN.1 type UUData (SEQUENCE).
 type UUData struct {
 	UuIndicator        *UUIndicator        `asn1:"tag:0,context,implicit,optional" json:"UuIndicator,omitempty"`
 	Uui                *UUI                `asn1:"tag:1,context,implicit,optional" json:"Uui,omitempty"`
@@ -441,7 +441,7 @@ type SetReportingStateRes struct {
 	ExtData_             [][]byte              `asn1:"-" json:"-"`
 }
 
-// CCBSSubscriberStatus represents the ASN.1 ENUMERATED type CCBS-SubscriberStatus.
+// CCBSSubscriberStatus represents the ASN.1 ENUMERATED type CCBSSubscriberStatus.
 type CCBSSubscriberStatus int64
 
 const (
@@ -565,7 +565,7 @@ type RemoteUserFreeRes struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// RUFOutcome represents the ASN.1 ENUMERATED type RUF-Outcome.
+// RUFOutcome represents the ASN.1 ENUMERATED type RUFOutcome.
 type RUFOutcome int64
 
 const (
@@ -596,7 +596,7 @@ func (v RUFOutcome) String() string {
 	}
 }
 
-// ISTAlertArg represents the ASN.1 type IST-AlertArg (SEQUENCE).
+// ISTAlertArg represents the ASN.1 type ISTAlertArg (SEQUENCE).
 type ISTAlertArg struct {
 	Imsi               IMSI                `asn1:"tag:0,context,implicit"`
 	ExtensionContainer *ExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
@@ -605,7 +605,7 @@ type ISTAlertArg struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// ISTAlertRes represents the ASN.1 type IST-AlertRes (SEQUENCE).
+// ISTAlertRes represents the ASN.1 type ISTAlertRes (SEQUENCE).
 type ISTAlertRes struct {
 	IstAlertTimer            *ISTAlertTimerValue       `asn1:"tag:0,context,implicit,optional" json:"IstAlertTimer,omitempty"`
 	IstInformationWithdraw   *struct{}                 `asn1:"tag:1,context,implicit,optional" json:"IstInformationWithdraw,omitempty"`
@@ -616,7 +616,7 @@ type ISTAlertRes struct {
 	ExtData_                 [][]byte                  `asn1:"-" json:"-"`
 }
 
-// ISTCommandArg represents the ASN.1 type IST-CommandArg (SEQUENCE).
+// ISTCommandArg represents the ASN.1 type ISTCommandArg (SEQUENCE).
 type ISTCommandArg struct {
 	Imsi               IMSI                `asn1:"tag:0,context,implicit"`
 	ExtensionContainer *ExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
@@ -625,7 +625,7 @@ type ISTCommandArg struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// ISTCommandRes represents the ASN.1 type IST-CommandRes (SEQUENCE).
+// ISTCommandRes represents the ASN.1 type ISTCommandRes (SEQUENCE).
 type ISTCommandRes struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`

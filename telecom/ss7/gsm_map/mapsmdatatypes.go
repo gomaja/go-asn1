@@ -19,14 +19,14 @@ var (
 
 const (
 
-	// MaxNumOfDispatchers is the integer constant for maxNumOfDispatchers.
+	// MaxNumOfDispatchers is the integer constant for MaxNumOfDispatchers.
 	MaxNumOfDispatchers int64 = 5
 
-	// MaxNumOfAdditionalDispatchers is the integer constant for maxNumOfAdditionalDispatchers.
+	// MaxNumOfAdditionalDispatchers is the integer constant for MaxNumOfAdditionalDispatchers.
 	MaxNumOfAdditionalDispatchers int64 = 15
 )
 
-// RoutingInfoForSMArg represents the ASN.1 type RoutingInfoForSM-Arg (SEQUENCE).
+// RoutingInfoForSMArg represents the ASN.1 type RoutingInfoForSMArg (SEQUENCE).
 type RoutingInfoForSMArg struct {
 	Msisdn                  ISDNAddressString      `asn1:"tag:0,context,implicit"`
 	SmRPPRI                 bool                   `asn1:"tag:1,context,implicit"`
@@ -48,7 +48,7 @@ type RoutingInfoForSMArg struct {
 	ExtData_                [][]byte               `asn1:"-" json:"-"`
 }
 
-// SMDeliveryNotIntended represents the ASN.1 ENUMERATED type SM-DeliveryNotIntended.
+// SMDeliveryNotIntended represents the ASN.1 ENUMERATED type SMDeliveryNotIntended.
 type SMDeliveryNotIntended int64
 
 const (
@@ -67,13 +67,13 @@ func (v SMDeliveryNotIntended) String() string {
 	}
 }
 
-// SMRPMTI represents the ASN.1 type SM-RP-MTI (INTEGER).
+// SMRPMTI represents the ASN.1 type SMRPMTI (INTEGER).
 type SMRPMTI = int64
 
-// SMRPSMEA represents the ASN.1 type SM-RP-SMEA (OCTET_STRING).
+// SMRPSMEA represents the ASN.1 type SMRPSMEA (OCTET_STRING).
 type SMRPSMEA = []byte
 
-// RoutingInfoForSMRes represents the ASN.1 type RoutingInfoForSM-Res (SEQUENCE).
+// RoutingInfoForSMRes represents the ASN.1 type RoutingInfoForSMRes (SEQUENCE).
 type RoutingInfoForSMRes struct {
 	Imsi                 IMSI                 `asn1:""`
 	LocationInfoWithLMSI LocationInfoWithLMSI `asn1:"tag:0,context,implicit"`
@@ -84,7 +84,7 @@ type RoutingInfoForSMRes struct {
 	ExtData_             [][]byte             `asn1:"-" json:"-"`
 }
 
-// IPSMGWGuidance represents the ASN.1 type IP-SM-GW-Guidance (SEQUENCE).
+// IPSMGWGuidance represents the ASN.1 type IPSMGWGuidance (SEQUENCE).
 type IPSMGWGuidance struct {
 	MinimumDeliveryTimeValue     SMDeliveryTimerValue `asn1:""`
 	RecommendedDeliveryTimeValue SMDeliveryTimerValue `asn1:""`
@@ -123,14 +123,14 @@ const (
 	AdditionalNumberChoiceSgsnNumber = 2
 )
 
-// AdditionalNumber represents the ASN.1 CHOICE type Additional-Number.
+// AdditionalNumber represents the ASN.1 CHOICE type AdditionalNumber.
 type AdditionalNumber struct {
 	Choice     int
 	MscNumber  *ISDNAddressString `json:"MscNumber,omitempty"`
 	SgsnNumber *ISDNAddressString `json:"SgsnNumber,omitempty"`
 }
 
-// NewAdditionalNumberMscNumber creates a Additional-Number with the msc-Number alternative.
+// NewAdditionalNumberMscNumber creates a AdditionalNumber with the msc-Number alternative.
 func NewAdditionalNumberMscNumber(v ISDNAddressString) AdditionalNumber {
 	return AdditionalNumber{
 		Choice:    AdditionalNumberChoiceMscNumber,
@@ -138,7 +138,7 @@ func NewAdditionalNumberMscNumber(v ISDNAddressString) AdditionalNumber {
 	}
 }
 
-// NewAdditionalNumberSgsnNumber creates a Additional-Number with the sgsn-Number alternative.
+// NewAdditionalNumberSgsnNumber creates a AdditionalNumber with the sgsn-Number alternative.
 func NewAdditionalNumberSgsnNumber(v ISDNAddressString) AdditionalNumber {
 	return AdditionalNumber{
 		Choice:     AdditionalNumberChoiceSgsnNumber,
@@ -146,7 +146,7 @@ func NewAdditionalNumberSgsnNumber(v ISDNAddressString) AdditionalNumber {
 	}
 }
 
-// MOForwardSMArg represents the ASN.1 type MO-ForwardSM-Arg (SEQUENCE).
+// MOForwardSMArg represents the ASN.1 type MOForwardSMArg (SEQUENCE).
 type MOForwardSMArg struct {
 	SmRPDA             SMRPDA              `asn1:""`
 	SmRPOA             SMRPOA              `asn1:""`
@@ -160,7 +160,7 @@ type MOForwardSMArg struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// MOForwardSMRes represents the ASN.1 type MO-ForwardSM-Res (SEQUENCE).
+// MOForwardSMRes represents the ASN.1 type MOForwardSMRes (SEQUENCE).
 type MOForwardSMRes struct {
 	SmRPUI             *SignalInfo         `asn1:",optional" json:"SmRPUI,omitempty"`
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
@@ -169,7 +169,7 @@ type MOForwardSMRes struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// MTForwardSMArg represents the ASN.1 type MT-ForwardSM-Arg (SEQUENCE).
+// MTForwardSMArg represents the ASN.1 type MTForwardSMArg (SEQUENCE).
 type MTForwardSMArg struct {
 	SmRPDA                    SMRPDA                      `asn1:""`
 	SmRPOA                    SMRPOA                      `asn1:""`
@@ -195,10 +195,10 @@ type CorrelationID struct {
 	SipUriB SIPURI  `asn1:"tag:2,context,implicit"`
 }
 
-// SIPURI represents the ASN.1 type SIP-URI (OCTET_STRING).
+// SIPURI represents the ASN.1 type SIPURI (OCTET_STRING).
 type SIPURI = []byte
 
-// MTForwardSMRes represents the ASN.1 type MT-ForwardSM-Res (SEQUENCE).
+// MTForwardSMRes represents the ASN.1 type MTForwardSMRes (SEQUENCE).
 type MTForwardSMRes struct {
 	SmRPUI             *SignalInfo         `asn1:",optional" json:"SmRPUI,omitempty"`
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
@@ -215,7 +215,7 @@ const (
 	SMRPDAChoiceNoSMRPDA               = 4
 )
 
-// SMRPDA represents the ASN.1 CHOICE type SM-RP-DA.
+// SMRPDA represents the ASN.1 CHOICE type SMRPDA.
 type SMRPDA struct {
 	Choice                 int
 	Imsi                   *IMSI          `json:"Imsi,omitempty"`
@@ -224,7 +224,7 @@ type SMRPDA struct {
 	NoSMRPDA               *struct{}      `json:"NoSMRPDA,omitempty"`
 }
 
-// NewSMRPDAImsi creates a SM-RP-DA with the imsi alternative.
+// NewSMRPDAImsi creates a SMRPDA with the imsi alternative.
 func NewSMRPDAImsi(v IMSI) SMRPDA {
 	return SMRPDA{
 		Choice: SMRPDAChoiceImsi,
@@ -232,7 +232,7 @@ func NewSMRPDAImsi(v IMSI) SMRPDA {
 	}
 }
 
-// NewSMRPDALmsi creates a SM-RP-DA with the lmsi alternative.
+// NewSMRPDALmsi creates a SMRPDA with the lmsi alternative.
 func NewSMRPDALmsi(v LMSI) SMRPDA {
 	return SMRPDA{
 		Choice: SMRPDAChoiceLmsi,
@@ -240,7 +240,7 @@ func NewSMRPDALmsi(v LMSI) SMRPDA {
 	}
 }
 
-// NewSMRPDAServiceCentreAddressDA creates a SM-RP-DA with the serviceCentreAddressDA alternative.
+// NewSMRPDAServiceCentreAddressDA creates a SMRPDA with the serviceCentreAddressDA alternative.
 func NewSMRPDAServiceCentreAddressDA(v AddressString) SMRPDA {
 	return SMRPDA{
 		Choice:                 SMRPDAChoiceServiceCentreAddressDA,
@@ -248,7 +248,7 @@ func NewSMRPDAServiceCentreAddressDA(v AddressString) SMRPDA {
 	}
 }
 
-// NewSMRPDANoSMRPDA creates a SM-RP-DA with the noSM-RP-DA alternative.
+// NewSMRPDANoSMRPDA creates a SMRPDA with the noSM-RP-DA alternative.
 func NewSMRPDANoSMRPDA(v struct{}) SMRPDA {
 	return SMRPDA{
 		Choice:   SMRPDAChoiceNoSMRPDA,
@@ -263,7 +263,7 @@ const (
 	SMRPOAChoiceNoSMRPOA               = 3
 )
 
-// SMRPOA represents the ASN.1 CHOICE type SM-RP-OA.
+// SMRPOA represents the ASN.1 CHOICE type SMRPOA.
 type SMRPOA struct {
 	Choice                 int
 	Msisdn                 *ISDNAddressString `json:"Msisdn,omitempty"`
@@ -271,7 +271,7 @@ type SMRPOA struct {
 	NoSMRPOA               *struct{}          `json:"NoSMRPOA,omitempty"`
 }
 
-// NewSMRPOAMsisdn creates a SM-RP-OA with the msisdn alternative.
+// NewSMRPOAMsisdn creates a SMRPOA with the msisdn alternative.
 func NewSMRPOAMsisdn(v ISDNAddressString) SMRPOA {
 	return SMRPOA{
 		Choice: SMRPOAChoiceMsisdn,
@@ -279,7 +279,7 @@ func NewSMRPOAMsisdn(v ISDNAddressString) SMRPOA {
 	}
 }
 
-// NewSMRPOAServiceCentreAddressOA creates a SM-RP-OA with the serviceCentreAddressOA alternative.
+// NewSMRPOAServiceCentreAddressOA creates a SMRPOA with the serviceCentreAddressOA alternative.
 func NewSMRPOAServiceCentreAddressOA(v AddressString) SMRPOA {
 	return SMRPOA{
 		Choice:                 SMRPOAChoiceServiceCentreAddressOA,
@@ -287,7 +287,7 @@ func NewSMRPOAServiceCentreAddressOA(v AddressString) SMRPOA {
 	}
 }
 
-// NewSMRPOANoSMRPOA creates a SM-RP-OA with the noSM-RP-OA alternative.
+// NewSMRPOANoSMRPOA creates a SMRPOA with the noSM-RP-OA alternative.
 func NewSMRPOANoSMRPOA(v struct{}) SMRPOA {
 	return SMRPOA{
 		Choice:   SMRPOAChoiceNoSMRPOA,
@@ -295,10 +295,10 @@ func NewSMRPOANoSMRPOA(v struct{}) SMRPOA {
 	}
 }
 
-// SMDeliveryTimerValue represents the ASN.1 type SM-DeliveryTimerValue (INTEGER).
+// SMDeliveryTimerValue represents the ASN.1 type SMDeliveryTimerValue (INTEGER).
 type SMDeliveryTimerValue = int64
 
-// ReportSMDeliveryStatusArg represents the ASN.1 type ReportSM-DeliveryStatusArg (SEQUENCE).
+// ReportSMDeliveryStatusArg represents the ASN.1 type ReportSMDeliveryStatusArg (SEQUENCE).
 type ReportSMDeliveryStatusArg struct {
 	Msisdn                                 ISDNAddressString             `asn1:""`
 	ServiceCentreAddress                   AddressString                 `asn1:""`
@@ -326,7 +326,7 @@ type ReportSMDeliveryStatusArg struct {
 	ExtData_                               [][]byte                      `asn1:"-" json:"-"`
 }
 
-// SMDeliveryOutcome represents the ASN.1 ENUMERATED type SM-DeliveryOutcome.
+// SMDeliveryOutcome represents the ASN.1 ENUMERATED type SMDeliveryOutcome.
 type SMDeliveryOutcome int64
 
 const (
@@ -348,7 +348,7 @@ func (v SMDeliveryOutcome) String() string {
 	}
 }
 
-// ReportSMDeliveryStatusRes represents the ASN.1 type ReportSM-DeliveryStatusRes (SEQUENCE).
+// ReportSMDeliveryStatusRes represents the ASN.1 type ReportSMDeliveryStatusRes (SEQUENCE).
 type ReportSMDeliveryStatusRes struct {
 	StoredMSISDN       *ISDNAddressString  `asn1:",optional" json:"StoredMSISDN,omitempty"`
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
@@ -376,7 +376,7 @@ type AlertServiceCentreArg struct {
 	ExtData_                  [][]byte                    `asn1:"-" json:"-"`
 }
 
-// SmsGmscAlertEvent represents the ASN.1 ENUMERATED type SmsGmsc-Alert-Event.
+// SmsGmscAlertEvent represents the ASN.1 ENUMERATED type SmsGmscAlertEvent.
 type SmsGmscAlertEvent int64
 
 const (
@@ -409,10 +409,10 @@ type InformServiceCentreArg struct {
 	ExtData_                                [][]byte                      `asn1:"-" json:"-"`
 }
 
-// MWStatus represents the ASN.1 type MW-Status (BIT_STRING).
+// MWStatus represents the ASN.1 type MWStatus (BIT_STRING).
 type MWStatus = runtime.BitString
 
-// ReadyForSMArg represents the ASN.1 type ReadyForSM-Arg (SEQUENCE).
+// ReadyForSMArg represents the ASN.1 type ReadyForSMArg (SEQUENCE).
 type ReadyForSMArg struct {
 	Imsi                           IMSI                `asn1:"tag:0,context,implicit"`
 	AlertReason                    AlertReason         `asn1:""`
@@ -425,7 +425,7 @@ type ReadyForSMArg struct {
 	ExtData_                       [][]byte            `asn1:"-" json:"-"`
 }
 
-// ReadyForSMRes represents the ASN.1 type ReadyForSM-Res (SEQUENCE).
+// ReadyForSMRes represents the ASN.1 type ReadyForSMRes (SEQUENCE).
 type ReadyForSMRes struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -452,7 +452,7 @@ func (v AlertReason) String() string {
 	}
 }
 
-// MTForwardSMVGCSArg represents the ASN.1 type MT-ForwardSM-VGCS-Arg (SEQUENCE).
+// MTForwardSMVGCSArg represents the ASN.1 type MTForwardSMVGCSArg (SEQUENCE).
 type MTForwardSMVGCSArg struct {
 	AsciCallReference  ASCICallReference   `asn1:""`
 	SmRPOA             SMRPOA              `asn1:""`
@@ -463,7 +463,7 @@ type MTForwardSMVGCSArg struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// MTForwardSMVGCSRes represents the ASN.1 type MT-ForwardSM-VGCS-Res (SEQUENCE).
+// MTForwardSMVGCSRes represents the ASN.1 type MTForwardSMVGCSRes (SEQUENCE).
 type MTForwardSMVGCSRes struct {
 	SmRPUI                         *SignalInfo              `asn1:"tag:0,context,implicit,optional" json:"SmRPUI,omitempty"`
 	DispatcherList                 DispatcherList           `asn1:"tag:1,context,implicit,optional" json:"DispatcherList,omitempty"`

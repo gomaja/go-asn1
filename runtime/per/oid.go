@@ -6,12 +6,12 @@ import (
 	"github.com/gomaja/go-asn1/runtime/ber"
 )
 
-// X.691 (02/2021) Section 23.1-23.4 encodes an OBJECT IDENTIFIER as an
+// X.691 (02/2021) §23.1-23.4 encodes an OBJECT IDENTIFIER as an
 // unconstrained-length octet string whose contents are exactly the contents
-// octets X.690 Section 8.19 specifies for BER - the same bytes, without the BER tag
+// octets X.690 §8.19 specifies for BER — the same bytes, without the BER tag
 // and length. The value is therefore delegated to the BER OID codec rather
 // than reimplemented, so the two encodings cannot drift apart on subidentifier
-// packing or on the first-two-arcs rule (X.690 Section 8.19.4).
+// packing or on the first-two-arcs rule (X.690 §8.19.4).
 //
 // Both variants below differ only in how the length determinant and the
 // octets that follow it are aligned, which EncodeOctetString and
@@ -53,7 +53,7 @@ func DecodeObjectIdentifierAligned(bb *BitBuffer) ([]uint64, error) {
 	return decodeOIDContents(contents)
 }
 
-// oidContents produces the X.690 Section 8.19 contents octets for oid.
+// oidContents produces the X.690 §8.19 contents octets for oid.
 //
 // ber.EncodeOIDValue returns those contents directly (no tag, no length),
 // which is exactly what PER wraps. An OID needs at least two arcs, since the
@@ -63,15 +63,6 @@ func DecodeObjectIdentifierAligned(bb *BitBuffer) ([]uint64, error) {
 func oidContents(oid []uint64) ([]byte, error) {
 	if len(oid) < 2 {
 		return nil, fmt.Errorf("object identifier needs at least 2 arcs, got %d", len(oid))
-	}
-	if oid[0] > 2 {
-		return nil, fmt.Errorf("object identifier first arc must be 0, 1, or 2, got %d", oid[0])
-	}
-	if oid[0] < 2 && oid[1] > 39 {
-		return nil, fmt.Errorf("object identifier second arc must be 0..39 when first arc is %d, got %d", oid[0], oid[1])
-	}
-	if oid[0] == 2 && oid[1] > (^uint64(0)-80) {
-		return nil, fmt.Errorf("object identifier first subidentifier overflows uint64: first arc %d, second arc %d", oid[0], oid[1])
 	}
 	return ber.EncodeOIDValue(oid), nil
 }

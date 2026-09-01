@@ -4,6 +4,7 @@ package tcap
 
 import (
 	"fmt"
+	"math/big"
 
 	"github.com/gomaja/go-asn1/runtime"
 	"github.com/gomaja/go-asn1/runtime/ber"
@@ -78,7 +79,7 @@ func NewTCMessageAbort(v Abort) TCMessage {
 
 // Unidirectional represents the ASN.1 type Unidirectional (SEQUENCE).
 type Unidirectional struct {
-	DialoguePortion  *DialoguePortion `asn1:",optional" json:"DialoguePortion,omitempty"`
+	DialoguePortion  *DialoguePortion `asn1:",optional" json:"DialoguePortion,omitempty" asn1c:"raw-preserve"`
 	Components       ComponentPortion `asn1:"tag:12,application,implicit"`
 	ComponentsIndef_ bool             `asn1:"-" json:"-"`
 }
@@ -86,7 +87,7 @@ type Unidirectional struct {
 // Begin represents the ASN.1 type Begin (SEQUENCE).
 type Begin struct {
 	Otid             OrigTransactionID `asn1:""`
-	DialoguePortion  *DialoguePortion  `asn1:",optional" json:"DialoguePortion,omitempty"`
+	DialoguePortion  *DialoguePortion  `asn1:",optional" json:"DialoguePortion,omitempty" asn1c:"raw-preserve"`
 	Components       ComponentPortion  `asn1:"tag:12,application,implicit,optional" json:"Components,omitempty"`
 	ComponentsIndef_ bool              `asn1:"-" json:"-"`
 }
@@ -94,7 +95,7 @@ type Begin struct {
 // End represents the ASN.1 type End (SEQUENCE).
 type End struct {
 	Dtid             DestTransactionID `asn1:""`
-	DialoguePortion  *DialoguePortion  `asn1:",optional" json:"DialoguePortion,omitempty"`
+	DialoguePortion  *DialoguePortion  `asn1:",optional" json:"DialoguePortion,omitempty" asn1c:"raw-preserve"`
 	Components       ComponentPortion  `asn1:"tag:12,application,implicit,optional" json:"Components,omitempty"`
 	ComponentsIndef_ bool              `asn1:"-" json:"-"`
 }
@@ -103,7 +104,7 @@ type End struct {
 type Continue struct {
 	Otid             OrigTransactionID `asn1:""`
 	Dtid             DestTransactionID `asn1:""`
-	DialoguePortion  *DialoguePortion  `asn1:",optional" json:"DialoguePortion,omitempty"`
+	DialoguePortion  *DialoguePortion  `asn1:",optional" json:"DialoguePortion,omitempty" asn1c:"raw-preserve"`
 	Components       ComponentPortion  `asn1:"tag:12,application,implicit,optional" json:"Components,omitempty"`
 	ComponentsIndef_ bool              `asn1:"-" json:"-"`
 }
@@ -114,6 +115,7 @@ type Abort struct {
 	Reason *AbortReason      `asn1:",optional" json:"Reason,omitempty"`
 }
 
+// asn1c:raw-preserve
 // DialoguePortion represents the ASN.1 type DialoguePortion (EXTERNAL).
 type DialoguePortion = runtime.RawValue
 
@@ -123,7 +125,7 @@ type OrigTransactionID = []byte
 // DestTransactionID represents the ASN.1 type DestTransactionID (OCTET_STRING).
 type DestTransactionID = []byte
 
-// PAbortCause represents the ASN.1 INTEGER type P-AbortCause with named numbers.
+// PAbortCause represents the ASN.1 INTEGER type PAbortCause with named numbers.
 type PAbortCause int64
 
 const (
@@ -163,8 +165,8 @@ const (
 // Component represents the ASN.1 CHOICE type Component.
 type Component struct {
 	Choice              int
-	BasicROS            *ROS `json:"BasicROS,omitempty"`
-	ReturnResultNotLast *ROS `json:"ReturnResultNotLast,omitempty"`
+	BasicROS            *ROS          `json:"BasicROS,omitempty"`
+	ReturnResultNotLast *ReturnResult `json:"ReturnResultNotLast,omitempty"`
 }
 
 // NewComponentBasicROS creates a Component with the basicROS alternative.
@@ -176,15 +178,41 @@ func NewComponentBasicROS(v ROS) Component {
 }
 
 // NewComponentReturnResultNotLast creates a Component with the returnResultNotLast alternative.
-func NewComponentReturnResultNotLast(v ROS) Component {
+func NewComponentReturnResultNotLast(v ReturnResult) Component {
 	return Component{
 		Choice:              ComponentChoiceReturnResultNotLast,
 		ReturnResultNotLast: &v,
 	}
 }
 
-// TCInvokeIdSet represents the ASN.1 type TCInvokeIdSet (CHOICE).
-type TCInvokeIdSet = InvokeId
+// TCInvokeIdSet choice constants.
+const (
+	TCInvokeIdSetChoicePresent = 1
+	TCInvokeIdSetChoiceAbsent  = 2
+)
+
+// TCInvokeIdSet represents the ASN.1 CHOICE type TCInvokeIdSet.
+type TCInvokeIdSet struct {
+	Choice  int
+	Present *int64    `json:"Present,omitempty"`
+	Absent  *struct{} `json:"Absent,omitempty"`
+}
+
+// NewTCInvokeIdSetPresent creates a TCInvokeIdSet with the present alternative.
+func NewTCInvokeIdSetPresent(v int64) TCInvokeIdSet {
+	return TCInvokeIdSet{
+		Choice:  TCInvokeIdSetChoicePresent,
+		Present: &v,
+	}
+}
+
+// NewTCInvokeIdSetAbsent creates a TCInvokeIdSet with the absent alternative.
+func NewTCInvokeIdSetAbsent(v struct{}) TCInvokeIdSet {
+	return TCInvokeIdSet{
+		Choice: TCInvokeIdSetChoiceAbsent,
+		Absent: &v,
+	}
+}
 
 // AbortReason choice constants.
 const (
@@ -192,14 +220,14 @@ const (
 	AbortReasonChoiceUAbortCause = 2
 )
 
-// AbortReason represents the ASN.1 CHOICE type Abort-reason.
+// AbortReason represents the ASN.1 CHOICE type AbortReason.
 type AbortReason struct {
 	Choice      int
 	PAbortCause *PAbortCause     `json:"PAbortCause,omitempty"`
-	UAbortCause *DialoguePortion `json:"UAbortCause,omitempty"`
+	UAbortCause *DialoguePortion `json:"UAbortCause,omitempty" asn1c:"raw-preserve"`
 }
 
-// NewAbortReasonPAbortCause creates a Abort-reason with the p-abortCause alternative.
+// NewAbortReasonPAbortCause creates a AbortReason with the p-abortCause alternative.
 func NewAbortReasonPAbortCause(v PAbortCause) AbortReason {
 	return AbortReason{
 		Choice:      AbortReasonChoicePAbortCause,
@@ -207,12 +235,53 @@ func NewAbortReasonPAbortCause(v PAbortCause) AbortReason {
 	}
 }
 
-// NewAbortReasonUAbortCause creates a Abort-reason with the u-abortCause alternative.
+// NewAbortReasonUAbortCause creates a AbortReason with the u-abortCause alternative.
 func NewAbortReasonUAbortCause(v DialoguePortion) AbortReason {
 	return AbortReason{
 		Choice:      AbortReasonChoiceUAbortCause,
 		UAbortCause: &v,
 	}
+}
+
+// ComponentBasicROSInvokeLinkedId choice constants.
+const (
+	ComponentBasicROSInvokeLinkedIdChoicePresent = 1
+	ComponentBasicROSInvokeLinkedIdChoiceAbsent  = 2
+)
+
+// ComponentBasicROSInvokeLinkedId represents the ASN.1 CHOICE type ComponentBasicROSInvokeLinkedId.
+type ComponentBasicROSInvokeLinkedId struct {
+	Choice  int
+	Present *big.Int  `json:"Present,omitempty"`
+	Absent  *struct{} `json:"Absent,omitempty"`
+}
+
+// NewComponentBasicROSInvokeLinkedIdPresent creates a ComponentBasicROSInvokeLinkedId with the present alternative.
+func NewComponentBasicROSInvokeLinkedIdPresent(v *big.Int) ComponentBasicROSInvokeLinkedId {
+	return ComponentBasicROSInvokeLinkedId{
+		Choice:  ComponentBasicROSInvokeLinkedIdChoicePresent,
+		Present: v,
+	}
+}
+
+// NewComponentBasicROSInvokeLinkedIdAbsent creates a ComponentBasicROSInvokeLinkedId with the absent alternative.
+func NewComponentBasicROSInvokeLinkedIdAbsent(v struct{}) ComponentBasicROSInvokeLinkedId {
+	return ComponentBasicROSInvokeLinkedId{
+		Choice: ComponentBasicROSInvokeLinkedIdChoiceAbsent,
+		Absent: &v,
+	}
+}
+
+// ComponentBasicROSReturnResultResult represents the ASN.1 type ComponentBasicROSReturnResultResult (SEQUENCE).
+type ComponentBasicROSReturnResultResult struct {
+	Opcode Code             `asn1:""`
+	Result runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
+}
+
+// ComponentReturnResultNotLastResult represents the ASN.1 type ComponentReturnResultNotLastResult (SEQUENCE).
+type ComponentReturnResultNotLastResult struct {
+	Opcode Code             `asn1:""`
+	Result runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
 }
 
 // MarshalBER encodes TCMessage to BER format.
@@ -992,7 +1061,7 @@ func (v *Component) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnResultNotLast: %w", err)
 		}
-		enc_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 7, enc_1)
+		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, true, enc_1)
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for Component", v.Choice)
@@ -1019,7 +1088,7 @@ func (v *Component) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnResultNotLast: %w", err)
 		}
-		enc_der_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 7, enc_der_1)
+		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, true, enc_der_1)
 		return enc_der_1, nil
 	}
 	return v.MarshalBER()
@@ -1046,12 +1115,13 @@ func (v *Component) UnmarshalBER(data []byte) error {
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
 		v.Choice = ComponentChoiceReturnResultNotLast
-		_, _, innerData, tlvErr := ber.DecodeTLV(choiceData)
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding returnResultNotLast: %w", tlvErr)
 		}
-		var dec ROS
-		if unmErr := dec.UnmarshalBER(innerData); unmErr != nil {
+		reconstructed := ber.EncodeSequence(rawVal)
+		var dec ReturnResult
+		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
 			return fmt.Errorf("decoding returnResultNotLast: %w", unmErr)
 		}
 		v.ReturnResultNotLast = &dec
@@ -1062,6 +1132,99 @@ func (v *Component) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding basicROS: %w", unmErr)
 		}
 		v.BasicROS = &dec
+	}
+	return nil
+}
+
+// MarshalBER encodes TCInvokeIdSet to BER format.
+func (v *TCInvokeIdSet) MarshalBER() ([]byte, error) {
+	if v.Choice == TCInvokeIdSetChoicePresent {
+		if v.Present == nil {
+			return nil, fmt.Errorf("encoding TCInvokeIdSet violates WITH COMPONENTS: Present must carry a constrained value")
+		}
+		if int64(*v.Present) < -128 || int64(*v.Present) > 127 {
+			return nil, fmt.Errorf("encoding TCInvokeIdSet violates WITH COMPONENTS: Present violates its value range")
+		}
+	}
+	if v.Choice == TCInvokeIdSetChoiceAbsent {
+		return nil, fmt.Errorf("encoding TCInvokeIdSet violates WITH COMPONENTS: Absent must be absent")
+	}
+	switch v.Choice {
+	case TCInvokeIdSetChoicePresent:
+		if v.Present == nil {
+			return nil, fmt.Errorf("choice TCInvokeIdSet: present is nil")
+		}
+		enc_0 := ber.EncodeInteger(int64(*v.Present))
+		return enc_0, nil
+	case TCInvokeIdSetChoiceAbsent:
+		enc_1 := ber.EncodeNull()
+		return enc_1, nil
+	default:
+		return nil, fmt.Errorf("unknown choice %d for TCInvokeIdSet", v.Choice)
+	}
+}
+
+// MarshalDER encodes TCInvokeIdSet to DER format.
+func (v *TCInvokeIdSet) MarshalDER() ([]byte, error) {
+	if v.Choice == TCInvokeIdSetChoicePresent {
+		if v.Present == nil {
+			return nil, fmt.Errorf("encoding TCInvokeIdSet violates WITH COMPONENTS: Present must carry a constrained value")
+		}
+		if int64(*v.Present) < -128 || int64(*v.Present) > 127 {
+			return nil, fmt.Errorf("encoding TCInvokeIdSet violates WITH COMPONENTS: Present violates its value range")
+		}
+	}
+	if v.Choice == TCInvokeIdSetChoiceAbsent {
+		return nil, fmt.Errorf("encoding TCInvokeIdSet violates WITH COMPONENTS: Absent must be absent")
+	}
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes TCInvokeIdSet from BER/DER format.
+func (v *TCInvokeIdSet) UnmarshalBER(data []byte) error {
+	if len(data) == 0 {
+		return fmt.Errorf("empty data for TCInvokeIdSet CHOICE")
+	}
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
+	if peekErr != nil {
+		return fmt.Errorf("peeking tag for TCInvokeIdSet: %w", peekErr)
+	}
+
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
+	if tlvErr != nil {
+		return fmt.Errorf("decoding TCInvokeIdSet CHOICE: %w", tlvErr)
+	}
+	if total != len(choiceData) {
+		return &ber.DecodeError{Offset: total, TypeName: "TCInvokeIdSet", Cause: ber.ErrExtraData}
+	}
+
+	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 {
+		v.Choice = TCInvokeIdSetChoicePresent
+		decVal, _, intErr := ber.DecodeInteger(choiceData)
+		if intErr != nil {
+			return fmt.Errorf("decoding present: %w", intErr)
+		}
+		v.Present = &decVal
+	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 5 {
+		v.Choice = TCInvokeIdSetChoiceAbsent
+		_, nullErr := ber.DecodeNull(choiceData)
+		if nullErr != nil {
+			return fmt.Errorf("decoding absent: %w", nullErr)
+		}
+	} else {
+		return fmt.Errorf("unknown tag %s for TCInvokeIdSet CHOICE", peekTag)
+	}
+	if v.Choice == TCInvokeIdSetChoicePresent {
+		if v.Present == nil {
+			return fmt.Errorf("decoded TCInvokeIdSet violates WITH COMPONENTS: Present must carry a constrained value")
+		}
+		if int64(*v.Present) < -128 || int64(*v.Present) > 127 {
+			return fmt.Errorf("decoded TCInvokeIdSet violates WITH COMPONENTS: Present violates its value range")
+		}
+	}
+	if v.Choice == TCInvokeIdSetChoiceAbsent {
+		return fmt.Errorf("decoded TCInvokeIdSet violates WITH COMPONENTS: Absent must be absent")
 	}
 	return nil
 }
@@ -1134,6 +1297,190 @@ func (v *AbortReason) UnmarshalBER(data []byte) error {
 		v.UAbortCause = &tmpRaw
 	} else {
 		return fmt.Errorf("unknown tag %s for AbortReason CHOICE", peekTag)
+	}
+	return nil
+}
+
+// MarshalBER encodes ComponentBasicROSInvokeLinkedId to BER format.
+func (v *ComponentBasicROSInvokeLinkedId) MarshalBER() ([]byte, error) {
+	switch v.Choice {
+	case ComponentBasicROSInvokeLinkedIdChoicePresent:
+		if v.Present == nil {
+			return nil, fmt.Errorf("choice ComponentBasicROSInvokeLinkedId: present is nil")
+		}
+		enc_0 := ber.EncodeBigInt(v.Present)
+		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
+		return enc_0, nil
+	case ComponentBasicROSInvokeLinkedIdChoiceAbsent:
+		enc_1 := ber.EncodeNull()
+		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
+		return enc_1, nil
+	default:
+		return nil, fmt.Errorf("unknown choice %d for ComponentBasicROSInvokeLinkedId", v.Choice)
+	}
+}
+
+// MarshalDER encodes ComponentBasicROSInvokeLinkedId to DER format.
+func (v *ComponentBasicROSInvokeLinkedId) MarshalDER() ([]byte, error) {
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ComponentBasicROSInvokeLinkedId from BER/DER format.
+func (v *ComponentBasicROSInvokeLinkedId) UnmarshalBER(data []byte) error {
+	if len(data) == 0 {
+		return fmt.Errorf("empty data for ComponentBasicROSInvokeLinkedId CHOICE")
+	}
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
+	if peekErr != nil {
+		return fmt.Errorf("peeking tag for ComponentBasicROSInvokeLinkedId: %w", peekErr)
+	}
+
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
+	if tlvErr != nil {
+		return fmt.Errorf("decoding ComponentBasicROSInvokeLinkedId CHOICE: %w", tlvErr)
+	}
+	if total != len(choiceData) {
+		return &ber.DecodeError{Offset: total, TypeName: "ComponentBasicROSInvokeLinkedId", Cause: ber.ErrExtraData}
+	}
+
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+		v.Choice = ComponentBasicROSInvokeLinkedIdChoicePresent
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding present: %w", tlvErr)
+		}
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
+		if intErr != nil {
+			return fmt.Errorf("decoding present: %w", intErr)
+		}
+		v.Present = decVal
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+		v.Choice = ComponentBasicROSInvokeLinkedIdChoiceAbsent
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding absent: %w", tlvErr)
+		}
+		_ = rawVal // NULL has no content
+		v.Absent = &struct{}{}
+	} else {
+		return fmt.Errorf("unknown tag %s for ComponentBasicROSInvokeLinkedId CHOICE", peekTag)
+	}
+	return nil
+}
+
+// MarshalBER encodes ComponentBasicROSReturnResultResult to BER format.
+func (v *ComponentBasicROSReturnResultResult) MarshalBER() ([]byte, error) {
+	var children []byte
+	enc_opcode, err := v.Opcode.MarshalBER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding opcode: %w", err)
+	}
+	children = append(children, enc_opcode...)
+	enc_result := v.Result.Bytes
+	children = append(children, enc_result...)
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes ComponentBasicROSReturnResultResult to DER format.
+func (v *ComponentBasicROSReturnResultResult) MarshalDER() ([]byte, error) {
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ComponentBasicROSReturnResultResult from BER/DER format.
+func (v *ComponentBasicROSReturnResultResult) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding ComponentBasicROSReturnResultResult SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "ComponentBasicROSReturnResultResult", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode opcode
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field opcode")
+	}
+	// Decode nested CHOICE (Code)
+	_, n_opcode, _, tlvErr_opcode := ber.DecodeTLV(content[offset:])
+	if tlvErr_opcode != nil {
+		return fmt.Errorf("decoding opcode: %w", tlvErr_opcode)
+	}
+	if unmErr := v.Opcode.UnmarshalBER(content[offset : offset+n_opcode]); unmErr != nil {
+		return fmt.Errorf("decoding opcode: %w", unmErr)
+	}
+	offset += n_opcode
+	// Decode result
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field result")
+	}
+	_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:])
+	if tlvErr_result != nil {
+		return fmt.Errorf("decoding result: %w", tlvErr_result)
+	}
+	v.Result = runtime.RawValue{Bytes: content[offset : offset+n_result]}
+	offset += n_result
+	if offset != len(content) {
+		return &ber.DecodeError{Offset: offset, TypeName: "ComponentBasicROSReturnResultResult", Cause: ber.ErrExtraData}
+	}
+	return nil
+}
+
+// MarshalBER encodes ComponentReturnResultNotLastResult to BER format.
+func (v *ComponentReturnResultNotLastResult) MarshalBER() ([]byte, error) {
+	var children []byte
+	enc_opcode, err := v.Opcode.MarshalBER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding opcode: %w", err)
+	}
+	children = append(children, enc_opcode...)
+	enc_result := v.Result.Bytes
+	children = append(children, enc_result...)
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes ComponentReturnResultNotLastResult to DER format.
+func (v *ComponentReturnResultNotLastResult) MarshalDER() ([]byte, error) {
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ComponentReturnResultNotLastResult from BER/DER format.
+func (v *ComponentReturnResultNotLastResult) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding ComponentReturnResultNotLastResult SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "ComponentReturnResultNotLastResult", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode opcode
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field opcode")
+	}
+	// Decode nested CHOICE (Code)
+	_, n_opcode, _, tlvErr_opcode := ber.DecodeTLV(content[offset:])
+	if tlvErr_opcode != nil {
+		return fmt.Errorf("decoding opcode: %w", tlvErr_opcode)
+	}
+	if unmErr := v.Opcode.UnmarshalBER(content[offset : offset+n_opcode]); unmErr != nil {
+		return fmt.Errorf("decoding opcode: %w", unmErr)
+	}
+	offset += n_opcode
+	// Decode result
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field result")
+	}
+	_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:])
+	if tlvErr_result != nil {
+		return fmt.Errorf("decoding result: %w", tlvErr_result)
+	}
+	v.Result = runtime.RawValue{Bytes: content[offset : offset+n_result]}
+	offset += n_result
+	if offset != len(content) {
+		return &ber.DecodeError{Offset: offset, TypeName: "ComponentReturnResultNotLastResult", Cause: ber.ErrExtraData}
 	}
 	return nil
 }

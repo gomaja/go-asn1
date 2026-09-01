@@ -19,56 +19,56 @@ var (
 
 const (
 
-	// MaxNameStringLength is the integer constant for maxNameStringLength.
+	// MaxNameStringLength is the integer constant for MaxNameStringLength.
 	MaxNameStringLength int64 = 63
 
-	// MaxRequestorIDStringLength is the integer constant for maxRequestorIDStringLength.
+	// MaxRequestorIDStringLength is the integer constant for MaxRequestorIDStringLength.
 	MaxRequestorIDStringLength int64 = 63
 
-	// MaxLCSCodewordStringLength is the integer constant for maxLCSCodewordStringLength.
+	// MaxLCSCodewordStringLength is the integer constant for MaxLCSCodewordStringLength.
 	MaxLCSCodewordStringLength int64 = 20
 
-	// MaxNumOfAreas is the integer constant for maxNumOfAreas.
+	// MaxNumOfAreas is the integer constant for MaxNumOfAreas.
 	MaxNumOfAreas int64 = 10
 
-	// MaxReportingAmount is the integer constant for maxReportingAmount.
+	// MaxReportingAmount is the integer constant for MaxReportingAmount.
 	MaxReportingAmount int64 = 8.639999e+06
 
-	// MaxReportingInterval is the integer constant for maxReportingInterval.
+	// MaxReportingInterval is the integer constant for MaxReportingInterval.
 	MaxReportingInterval int64 = 8.639999e+06
 
-	// MaxReportingAmountMilliseconds is the integer constant for maxReportingAmountMilliseconds.
+	// MaxReportingAmountMilliseconds is the integer constant for MaxReportingAmountMilliseconds.
 	MaxReportingAmountMilliseconds int64 = 8.639999e+09
 
-	// MaxReportingIntervalMilliseconds is the integer constant for maxReportingIntervalMilliseconds.
+	// MaxReportingIntervalMilliseconds is the integer constant for MaxReportingIntervalMilliseconds.
 	MaxReportingIntervalMilliseconds int64 = 999
 
-	// MaxNumOfReportingPLMN is the integer constant for maxNumOfReportingPLMN.
+	// MaxNumOfReportingPLMN is the integer constant for MaxNumOfReportingPLMN.
 	MaxNumOfReportingPLMN int64 = 20
 
-	// MaxExtGeographicalInformation is the integer constant for maxExt-GeographicalInformation.
+	// MaxExtGeographicalInformation is the integer constant for MaxExtGeographicalInformation.
 	MaxExtGeographicalInformation int64 = 20
 
-	// MaxPositioningDataInformation is the integer constant for maxPositioningDataInformation.
+	// MaxPositioningDataInformation is the integer constant for MaxPositioningDataInformation.
 	MaxPositioningDataInformation int64 = 10
 
-	// MaxUtranPositioningDataInfo is the integer constant for maxUtranPositioningDataInfo.
+	// MaxUtranPositioningDataInfo is the integer constant for MaxUtranPositioningDataInfo.
 	MaxUtranPositioningDataInfo int64 = 11
 
-	// MaxGeranGANSSpositioningData is the integer constant for maxGeranGANSSpositioningData.
+	// MaxGeranGANSSpositioningData is the integer constant for MaxGeranGANSSpositioningData.
 	MaxGeranGANSSpositioningData int64 = 10
 
-	// MaxUtranGANSSpositioningData is the integer constant for maxUtranGANSSpositioningData.
+	// MaxUtranGANSSpositioningData is the integer constant for MaxUtranGANSSpositioningData.
 	MaxUtranGANSSpositioningData int64 = 9
 
-	// MaxUtranAdditionalPositioningData is the integer constant for maxUtranAdditionalPositioningData.
+	// MaxUtranAdditionalPositioningData is the integer constant for MaxUtranAdditionalPositioningData.
 	MaxUtranAdditionalPositioningData int64 = 8
 
-	// MaxAddGeographicalInformation is the integer constant for maxAdd-GeographicalInformation.
+	// MaxAddGeographicalInformation is the integer constant for MaxAddGeographicalInformation.
 	MaxAddGeographicalInformation int64 = 91
 )
 
-// RoutingInfoForLCSArg represents the ASN.1 type RoutingInfoForLCS-Arg (SEQUENCE).
+// RoutingInfoForLCSArg represents the ASN.1 type RoutingInfoForLCSArg (SEQUENCE).
 type RoutingInfoForLCSArg struct {
 	MlcNumber          ISDNAddressString   `asn1:"tag:0,context,implicit"`
 	TargetMS           SubscriberIdentity  `asn1:"tag:1,context,explicit"`
@@ -78,7 +78,7 @@ type RoutingInfoForLCSArg struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// RoutingInfoForLCSRes represents the ASN.1 type RoutingInfoForLCS-Res (SEQUENCE).
+// RoutingInfoForLCSRes represents the ASN.1 type RoutingInfoForLCSRes (SEQUENCE).
 type RoutingInfoForLCSRes struct {
 	TargetMS               SubscriberIdentity  `asn1:"tag:0,context,explicit"`
 	LcsLocationInfo        LCSLocationInfo     `asn1:"tag:1,context,implicit"`
@@ -110,7 +110,7 @@ type LCSLocationInfo struct {
 	ExtData_                    [][]byte                    `asn1:"-" json:"-"`
 }
 
-// ProvideSubscriberLocationArg represents the ASN.1 type ProvideSubscriberLocation-Arg (SEQUENCE).
+// ProvideSubscriberLocationArg represents the ASN.1 type ProvideSubscriberLocationArg (SEQUENCE).
 type ProvideSubscriberLocationArg struct {
 	LocationType              LocationType        `asn1:""`
 	MlcNumber                 ISDNAddressString   `asn1:""`
@@ -181,7 +181,7 @@ func (v LocationEstimateType) String() string {
 // DeferredLocationEventType represents the ASN.1 type DeferredLocationEventType (BIT_STRING).
 type DeferredLocationEventType = runtime.BitString
 
-// LCSClientID represents the ASN.1 type LCS-ClientID (SEQUENCE).
+// LCSClientID represents the ASN.1 type LCSClientID (SEQUENCE).
 type LCSClientID struct {
 	LcsClientType       LCSClientType        `asn1:"tag:0,context,implicit"`
 	LcsClientExternalID *LCSClientExternalID `asn1:"tag:1,context,implicit,optional" json:"LcsClientExternalID,omitempty"`
@@ -246,7 +246,7 @@ type LCSRequestorID struct {
 // RequestorIDString represents the ASN.1 type RequestorIDString (OCTET_STRING).
 type RequestorIDString = USSDString
 
-// LCSFormatIndicator represents the ASN.1 ENUMERATED type LCS-FormatIndicator.
+// LCSFormatIndicator represents the ASN.1 ENUMERATED type LCSFormatIndicator.
 type LCSFormatIndicator int64
 
 const (
@@ -274,10 +274,10 @@ func (v LCSFormatIndicator) String() string {
 	}
 }
 
-// LCSPriority represents the ASN.1 type LCS-Priority (OCTET_STRING).
+// LCSPriority represents the ASN.1 type LCSPriority (OCTET_STRING).
 type LCSPriority = []byte
 
-// LCSQoS represents the ASN.1 type LCS-QoS (SEQUENCE).
+// LCSQoS represents the ASN.1 type LCSQoS (SEQUENCE).
 type LCSQoS struct {
 	HorizontalAccuracy        *HorizontalAccuracy `asn1:"tag:0,context,implicit,optional" json:"HorizontalAccuracy,omitempty"`
 	VerticalCoordinateRequest *struct{}           `asn1:"tag:1,context,implicit,optional" json:"VerticalCoordinateRequest,omitempty"`
@@ -291,10 +291,10 @@ type LCSQoS struct {
 	ExtData_                  [][]byte            `asn1:"-" json:"-"`
 }
 
-// HorizontalAccuracy represents the ASN.1 type Horizontal-Accuracy (OCTET_STRING).
+// HorizontalAccuracy represents the ASN.1 type HorizontalAccuracy (OCTET_STRING).
 type HorizontalAccuracy = []byte
 
-// VerticalAccuracy represents the ASN.1 type Vertical-Accuracy (OCTET_STRING).
+// VerticalAccuracy represents the ASN.1 type VerticalAccuracy (OCTET_STRING).
 type VerticalAccuracy = []byte
 
 // ResponseTime represents the ASN.1 type ResponseTime (SEQUENCE).
@@ -324,7 +324,7 @@ func (v ResponseTimeCategory) String() string {
 	}
 }
 
-// LCSQoSClass represents the ASN.1 ENUMERATED type LCS-QoS-Class.
+// LCSQoSClass represents the ASN.1 ENUMERATED type LCSQoSClass.
 type LCSQoSClass int64
 
 const (
@@ -346,7 +346,7 @@ func (v LCSQoSClass) String() string {
 // SupportedGADShapes represents the ASN.1 type SupportedGADShapes (BIT_STRING).
 type SupportedGADShapes = runtime.BitString
 
-// LCSReferenceNumber represents the ASN.1 type LCS-ReferenceNumber (OCTET_STRING).
+// LCSReferenceNumber represents the ASN.1 type LCSReferenceNumber (OCTET_STRING).
 type LCSReferenceNumber = []byte
 
 // LCSCodeword represents the ASN.1 type LCSCodeword (SEQUENCE).
@@ -361,7 +361,7 @@ type LCSCodeword struct {
 // LCSCodewordString represents the ASN.1 type LCSCodewordString (OCTET_STRING).
 type LCSCodewordString = USSDString
 
-// LCSPrivacyCheck represents the ASN.1 type LCS-PrivacyCheck (SEQUENCE).
+// LCSPrivacyCheck represents the ASN.1 type LCSPrivacyCheck (SEQUENCE).
 type LCSPrivacyCheck struct {
 	CallSessionUnrelated PrivacyCheckRelatedAction  `asn1:"tag:0,context,implicit"`
 	CallSessionRelated   *PrivacyCheckRelatedAction `asn1:"tag:1,context,implicit,optional" json:"CallSessionRelated,omitempty"`
@@ -539,7 +539,7 @@ type ReportingPLMN struct {
 	ExtData_                   [][]byte       `asn1:"-" json:"-"`
 }
 
-// RANTechnology represents the ASN.1 ENUMERATED type RAN-Technology.
+// RANTechnology represents the ASN.1 ENUMERATED type RANTechnology.
 type RANTechnology int64
 
 const (
@@ -558,7 +558,7 @@ func (v RANTechnology) String() string {
 	}
 }
 
-// ProvideSubscriberLocationRes represents the ASN.1 type ProvideSubscriberLocation-Res (SEQUENCE).
+// ProvideSubscriberLocationRes represents the ASN.1 type ProvideSubscriberLocationRes (SEQUENCE).
 type ProvideSubscriberLocationRes struct {
 	LocationEstimate               ExtGeographicalInformation        `asn1:""`
 	AgeOfLocationEstimate          *AgeOfLocationInformation         `asn1:"tag:0,context,implicit,optional" json:"AgeOfLocationEstimate,omitempty"`
@@ -602,7 +602,7 @@ func (v AccuracyFulfilmentIndicator) String() string {
 	}
 }
 
-// ExtGeographicalInformation represents the ASN.1 type Ext-GeographicalInformation (OCTET_STRING).
+// ExtGeographicalInformation represents the ASN.1 type ExtGeographicalInformation (OCTET_STRING).
 type ExtGeographicalInformation = []byte
 
 // VelocityEstimate represents the ASN.1 type VelocityEstimate (OCTET_STRING).
@@ -629,10 +629,10 @@ type UtranBaroPressureMeas = int64
 // UtranCivicAddress represents the ASN.1 type UtranCivicAddress (OCTET_STRING).
 type UtranCivicAddress = []byte
 
-// AddGeographicalInformation represents the ASN.1 type Add-GeographicalInformation (OCTET_STRING).
+// AddGeographicalInformation represents the ASN.1 type AddGeographicalInformation (OCTET_STRING).
 type AddGeographicalInformation = []byte
 
-// SubscriberLocationReportArg represents the ASN.1 type SubscriberLocationReport-Arg (SEQUENCE).
+// SubscriberLocationReportArg represents the ASN.1 type SubscriberLocationReportArg (SEQUENCE).
 type SubscriberLocationReportArg struct {
 	LcsEvent                       LCSEvent                          `asn1:""`
 	LcsClientID                    LCSClientID                       `asn1:""`
@@ -671,7 +671,7 @@ type SubscriberLocationReportArg struct {
 	ExtData_                       [][]byte                          `asn1:"-" json:"-"`
 }
 
-// DeferredmtLrData represents the ASN.1 type Deferredmt-lrData (SEQUENCE).
+// DeferredmtLrData represents the ASN.1 type DeferredmtLrData (SEQUENCE).
 type DeferredmtLrData struct {
 	DeferredLocationEventType DeferredLocationEventType `asn1:""`
 	TerminationCause          *TerminationCause         `asn1:"tag:0,context,implicit,optional" json:"TerminationCause,omitempty"`
@@ -681,7 +681,7 @@ type DeferredmtLrData struct {
 	ExtData_                  [][]byte                  `asn1:"-" json:"-"`
 }
 
-// LCSEvent represents the ASN.1 ENUMERATED type LCS-Event.
+// LCSEvent represents the ASN.1 ENUMERATED type LCSEvent.
 type LCSEvent int64
 
 const (
@@ -797,7 +797,7 @@ func NewServingNodeAddressMmeNumber(v DiameterIdentity) ServingNodeAddress {
 	}
 }
 
-// SubscriberLocationReportRes represents the ASN.1 type SubscriberLocationReport-Res (SEQUENCE).
+// SubscriberLocationReportRes represents the ASN.1 type SubscriberLocationReportRes (SEQUENCE).
 type SubscriberLocationReportRes struct {
 	ExtensionContainer        *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	NaESRK                    *ISDNAddressString  `asn1:"tag:0,context,implicit,optional" json:"NaESRK,omitempty"`

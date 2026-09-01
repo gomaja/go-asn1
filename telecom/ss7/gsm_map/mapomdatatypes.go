@@ -36,7 +36,7 @@ type ActivateTraceModeArg struct {
 	ExtData_              [][]byte            `asn1:"-" json:"-"`
 }
 
-// MDTConfiguration represents the ASN.1 type MDT-Configuration (SEQUENCE).
+// MDTConfiguration represents the ASN.1 type MDTConfiguration (SEQUENCE).
 type MDTConfiguration struct {
 	JobType                  JobType              `asn1:""`
 	AreaScope                *AreaScope           `asn1:",optional" json:"AreaScope,omitempty"`
@@ -64,7 +64,7 @@ type MDTConfiguration struct {
 	ExtData_                 [][]byte             `asn1:"-" json:"-"`
 }
 
-// MDTAllowedPLMNIdList represents the ASN.1 type MDT-Allowed-PLMNId-List (SEQUENCE_OF).
+// MDTAllowedPLMNIdList represents the ASN.1 type MDTAllowedPLMNIdList (SEQUENCE_OF).
 type MDTAllowedPLMNIdList = []PLMNId
 
 // PeriodUMTS represents the ASN.1 ENUMERATED type PeriodUMTS.
@@ -214,19 +214,19 @@ type AreaScope struct {
 	ExtData_                 [][]byte            `asn1:"-" json:"-"`
 }
 
-// CGIList represents the ASN.1 type CGI-List (SEQUENCE_OF).
+// CGIList represents the ASN.1 type CGIList (SEQUENCE_OF).
 type CGIList = []GlobalCellId
 
-// EUTRANCGIList represents the ASN.1 type E-UTRAN-CGI-List (SEQUENCE_OF).
+// EUTRANCGIList represents the ASN.1 type EUTRANCGIList (SEQUENCE_OF).
 type EUTRANCGIList = []EUTRANCGI
 
-// RoutingAreaIdList represents the ASN.1 type RoutingAreaId-List (SEQUENCE_OF).
+// RoutingAreaIdList represents the ASN.1 type RoutingAreaIdList (SEQUENCE_OF).
 type RoutingAreaIdList = []RAIdentity
 
-// LocationAreaIdList represents the ASN.1 type LocationAreaId-List (SEQUENCE_OF).
+// LocationAreaIdList represents the ASN.1 type LocationAreaIdList (SEQUENCE_OF).
 type LocationAreaIdList = []LAIFixedLength
 
-// TrackingAreaIdList represents the ASN.1 type TrackingAreaId-List (SEQUENCE_OF).
+// TrackingAreaIdList represents the ASN.1 type TrackingAreaIdList (SEQUENCE_OF).
 type TrackingAreaIdList = []TAId
 
 // ListOfMeasurements represents the ASN.1 type ListOfMeasurements (OCTET_STRING).
@@ -526,7 +526,7 @@ func (v TraceDepthExtension) String() string {
 	}
 }
 
-// TraceNETypeList represents the ASN.1 type TraceNE-TypeList (BIT_STRING).
+// TraceNETypeList represents the ASN.1 type TraceNETypeList (BIT_STRING).
 type TraceNETypeList = runtime.BitString
 
 // TraceInterfaceList represents the ASN.1 type TraceInterfaceList (SEQUENCE).
@@ -546,34 +546,34 @@ type TraceInterfaceList struct {
 	ExtData_    [][]byte           `asn1:"-" json:"-"`
 }
 
-// MSCSInterfaceList represents the ASN.1 type MSC-S-InterfaceList (BIT_STRING).
+// MSCSInterfaceList represents the ASN.1 type MSCSInterfaceList (BIT_STRING).
 type MSCSInterfaceList = runtime.BitString
 
-// MGWInterfaceList represents the ASN.1 type MGW-InterfaceList (BIT_STRING).
+// MGWInterfaceList represents the ASN.1 type MGWInterfaceList (BIT_STRING).
 type MGWInterfaceList = runtime.BitString
 
-// SGSNInterfaceList represents the ASN.1 type SGSN-InterfaceList (BIT_STRING).
+// SGSNInterfaceList represents the ASN.1 type SGSNInterfaceList (BIT_STRING).
 type SGSNInterfaceList = runtime.BitString
 
-// GGSNInterfaceList represents the ASN.1 type GGSN-InterfaceList (BIT_STRING).
+// GGSNInterfaceList represents the ASN.1 type GGSNInterfaceList (BIT_STRING).
 type GGSNInterfaceList = runtime.BitString
 
-// RNCInterfaceList represents the ASN.1 type RNC-InterfaceList (BIT_STRING).
+// RNCInterfaceList represents the ASN.1 type RNCInterfaceList (BIT_STRING).
 type RNCInterfaceList = runtime.BitString
 
-// BMSCInterfaceList represents the ASN.1 type BMSC-InterfaceList (BIT_STRING).
+// BMSCInterfaceList represents the ASN.1 type BMSCInterfaceList (BIT_STRING).
 type BMSCInterfaceList = runtime.BitString
 
-// MMEInterfaceList represents the ASN.1 type MME-InterfaceList (BIT_STRING).
+// MMEInterfaceList represents the ASN.1 type MMEInterfaceList (BIT_STRING).
 type MMEInterfaceList = runtime.BitString
 
-// SGWInterfaceList represents the ASN.1 type SGW-InterfaceList (BIT_STRING).
+// SGWInterfaceList represents the ASN.1 type SGWInterfaceList (BIT_STRING).
 type SGWInterfaceList = runtime.BitString
 
-// PGWInterfaceList represents the ASN.1 type PGW-InterfaceList (BIT_STRING).
+// PGWInterfaceList represents the ASN.1 type PGWInterfaceList (BIT_STRING).
 type PGWInterfaceList = runtime.BitString
 
-// ENBInterfaceList represents the ASN.1 type ENB-InterfaceList (BIT_STRING).
+// ENBInterfaceList represents the ASN.1 type ENBInterfaceList (BIT_STRING).
 type ENBInterfaceList = runtime.BitString
 
 // TraceEventList represents the ASN.1 type TraceEventList (SEQUENCE).
@@ -591,28 +591,28 @@ type TraceEventList struct {
 	ExtData_    [][]byte       `asn1:"-" json:"-"`
 }
 
-// MSCSEventList represents the ASN.1 type MSC-S-EventList (BIT_STRING).
+// MSCSEventList represents the ASN.1 type MSCSEventList (BIT_STRING).
 type MSCSEventList = runtime.BitString
 
-// MGWEventList represents the ASN.1 type MGW-EventList (BIT_STRING).
+// MGWEventList represents the ASN.1 type MGWEventList (BIT_STRING).
 type MGWEventList = runtime.BitString
 
-// SGSNEventList represents the ASN.1 type SGSN-EventList (BIT_STRING).
+// SGSNEventList represents the ASN.1 type SGSNEventList (BIT_STRING).
 type SGSNEventList = runtime.BitString
 
-// GGSNEventList represents the ASN.1 type GGSN-EventList (BIT_STRING).
+// GGSNEventList represents the ASN.1 type GGSNEventList (BIT_STRING).
 type GGSNEventList = runtime.BitString
 
-// BMSCEventList represents the ASN.1 type BMSC-EventList (BIT_STRING).
+// BMSCEventList represents the ASN.1 type BMSCEventList (BIT_STRING).
 type BMSCEventList = runtime.BitString
 
-// MMEEventList represents the ASN.1 type MME-EventList (BIT_STRING).
+// MMEEventList represents the ASN.1 type MMEEventList (BIT_STRING).
 type MMEEventList = runtime.BitString
 
-// SGWEventList represents the ASN.1 type SGW-EventList (BIT_STRING).
+// SGWEventList represents the ASN.1 type SGWEventList (BIT_STRING).
 type SGWEventList = runtime.BitString
 
-// PGWEventList represents the ASN.1 type PGW-EventList (BIT_STRING).
+// PGWEventList represents the ASN.1 type PGWEventList (BIT_STRING).
 type PGWEventList = runtime.BitString
 
 // TracePropagationList represents the ASN.1 type TracePropagationList (SEQUENCE).

@@ -9,7 +9,7 @@ import (
 // Per ITU-T X.691, APER differs from UPER in octet-alignment of certain fields.
 
 // EncodeConstrainedWholeNumberAligned encodes v in [lb..ub] using APER rules.
-// X.691 Section 12.2.2 (aligned variant).
+// ITU-T X.691 (02/2021), clauses 11.5.6-11.5.7.
 func EncodeConstrainedWholeNumberAligned(bb *BitBuffer, v, lb, ub int64) error {
 	rangeVal := ub - lb
 	if rangeVal < 0 {
@@ -23,7 +23,7 @@ func EncodeConstrainedWholeNumberAligned(bb *BitBuffer, v, lb, ub int64) error {
 	}
 	offset := v - lb
 	// rangeVal = ub - lb; number of values = rangeVal + 1.
-	// Per X.691 12.2.2 and 3GPP/free5gc APER behavior:
+	// Per ITU-T X.691 (02/2021), clauses 11.5.6-11.5.7:
 	//   numValues ≤ 255 (rangeVal ≤ 254): bit-field of minimum width, NOT aligned
 	//   numValues = 256 (rangeVal = 255):  8-bit field, octet-aligned
 	//   numValues 257..65536 (rangeVal 256..65535): 16-bit field, octet-aligned
@@ -43,7 +43,7 @@ func EncodeConstrainedWholeNumberAligned(bb *BitBuffer, v, lb, ub int64) error {
 		return bb.WriteBits(uint64(offset), 16)
 	default:
 		// Range > 65535: length-determinant (NOT aligned) + value bytes (octet-aligned).
-		// Per free5gc/3GPP: length bits are packed immediately, then align before value.
+		// The length determinant precedes octet alignment of the value.
 		n := (bits.Len64(uint64(offset)) + 7) / 8
 		if n == 0 {
 			n = 1
@@ -104,7 +104,7 @@ func DecodeConstrainedWholeNumberAligned(bb *BitBuffer, lb, ub int64) (int64, er
 		return lb + int64(offset), nil
 	default:
 		// Range > 65535: length-determinant (NOT aligned) + value bytes (octet-aligned).
-		// Per free5gc/3GPP: length bits are packed immediately, then align before value.
+		// The length determinant precedes octet alignment of the value.
 		maxBytes := (bits.Len64(uint64(rangeVal)) + 7) / 8
 		n, err := DecodeConstrainedWholeNumber(bb, 1, int64(maxBytes))
 		if err != nil {
@@ -528,7 +528,22 @@ func DecodeOctetStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, exten
 
 // EncodeKnownMultiplierStringAligned encodes a string with known char set (APER).
 func EncodeKnownMultiplierStringAligned(bb *BitBuffer, s string, bitsPerChar int, lb, ub int64, constrained bool) error {
+	return EncodeKnownMultiplierStringAlignedExt(bb, s, bitsPerChar, lb, ub, constrained, false)
+}
+
+// EncodeKnownMultiplierStringAlignedExt implements the size extension bit
+// required by ITU-T X.691 (02/2021) Section 30.4.
+func EncodeKnownMultiplierStringAlignedExt(bb *BitBuffer, s string, bitsPerChar int, lb, ub int64, constrained, extensible bool) error {
 	length := int64(len(s))
+	if extensible && constrained {
+		inRoot := length >= lb && length <= ub
+		if err := EncodeBoolean(bb, !inRoot); err != nil {
+			return err
+		}
+		if !inRoot {
+			return EncodeKnownMultiplierStringAligned(bb, s, bitsPerChar, 0, 0, false)
+		}
+	}
 	if constrained && lb == ub {
 		if length != lb {
 			return fmt.Errorf("%w: string length %d does not match fixed SIZE(%d)", ErrConstraintViolation, length, lb)
@@ -566,6 +581,21 @@ func EncodeKnownMultiplierStringAligned(bb *BitBuffer, s string, bitsPerChar int
 
 // DecodeKnownMultiplierStringAligned decodes a string with known char set (APER).
 func DecodeKnownMultiplierStringAligned(bb *BitBuffer, bitsPerChar int, lb, ub int64, constrained bool) (string, error) {
+	return DecodeKnownMultiplierStringAlignedExt(bb, bitsPerChar, lb, ub, constrained, false)
+}
+
+// DecodeKnownMultiplierStringAlignedExt implements the size extension bit
+// required by ITU-T X.691 (02/2021) Section 30.4.
+func DecodeKnownMultiplierStringAlignedExt(bb *BitBuffer, bitsPerChar int, lb, ub int64, constrained, extensible bool) (string, error) {
+	if extensible && constrained {
+		isExtension, err := DecodeBoolean(bb)
+		if err != nil {
+			return "", err
+		}
+		if isExtension {
+			return DecodeKnownMultiplierStringAligned(bb, bitsPerChar, 0, 0, false)
+		}
+	}
 	var length int64
 	var err error
 	if constrained && lb == ub {

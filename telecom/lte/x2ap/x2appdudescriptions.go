@@ -15,27 +15,6 @@ var (
 	_ = per.NewBitBuffer
 )
 
-// InitiatingMessage represents the ASN.1 type InitiatingMessage (SEQUENCE).
-type InitiatingMessage struct {
-	ProcedureCode int64            `asn1:"tag:0,context,implicit"`
-	Criticality   int64            `asn1:"tag:1,context,implicit"`
-	Value         runtime.RawValue `asn1:"tag:2,context,explicit"`
-}
-
-// SuccessfulOutcome represents the ASN.1 type SuccessfulOutcome (SEQUENCE).
-type SuccessfulOutcome struct {
-	ProcedureCode int64            `asn1:"tag:0,context,implicit"`
-	Criticality   int64            `asn1:"tag:1,context,implicit"`
-	Value         runtime.RawValue `asn1:"tag:2,context,explicit"`
-}
-
-// UnsuccessfulOutcome represents the ASN.1 type UnsuccessfulOutcome (SEQUENCE).
-type UnsuccessfulOutcome struct {
-	ProcedureCode int64            `asn1:"tag:0,context,implicit"`
-	Criticality   int64            `asn1:"tag:1,context,implicit"`
-	Value         runtime.RawValue `asn1:"tag:2,context,explicit"`
-}
-
 // X2APPDU choice constants.
 const (
 	X2APPDUChoiceInitiatingMessage   = 1
@@ -43,7 +22,7 @@ const (
 	X2APPDUChoiceUnsuccessfulOutcome = 3
 )
 
-// X2APPDU represents the ASN.1 CHOICE type X2AP-PDU.
+// X2APPDU represents the ASN.1 CHOICE type X2APPDU.
 type X2APPDU struct {
 	Choice              int
 	InitiatingMessage   *InitiatingMessage   `json:"InitiatingMessage,omitempty"`
@@ -51,7 +30,7 @@ type X2APPDU struct {
 	UnsuccessfulOutcome *UnsuccessfulOutcome `json:"UnsuccessfulOutcome,omitempty"`
 }
 
-// NewX2APPDUInitiatingMessage creates a X2AP-PDU with the initiatingMessage alternative.
+// NewX2APPDUInitiatingMessage creates a X2APPDU with the initiatingMessage alternative.
 func NewX2APPDUInitiatingMessage(v InitiatingMessage) X2APPDU {
 	return X2APPDU{
 		Choice:            X2APPDUChoiceInitiatingMessage,
@@ -59,7 +38,7 @@ func NewX2APPDUInitiatingMessage(v InitiatingMessage) X2APPDU {
 	}
 }
 
-// NewX2APPDUSuccessfulOutcome creates a X2AP-PDU with the successfulOutcome alternative.
+// NewX2APPDUSuccessfulOutcome creates a X2APPDU with the successfulOutcome alternative.
 func NewX2APPDUSuccessfulOutcome(v SuccessfulOutcome) X2APPDU {
 	return X2APPDU{
 		Choice:            X2APPDUChoiceSuccessfulOutcome,
@@ -67,7 +46,7 @@ func NewX2APPDUSuccessfulOutcome(v SuccessfulOutcome) X2APPDU {
 	}
 }
 
-// NewX2APPDUUnsuccessfulOutcome creates a X2AP-PDU with the unsuccessfulOutcome alternative.
+// NewX2APPDUUnsuccessfulOutcome creates a X2APPDU with the unsuccessfulOutcome alternative.
 func NewX2APPDUUnsuccessfulOutcome(v UnsuccessfulOutcome) X2APPDU {
 	return X2APPDU{
 		Choice:              X2APPDUChoiceUnsuccessfulOutcome,
@@ -75,145 +54,25 @@ func NewX2APPDUUnsuccessfulOutcome(v UnsuccessfulOutcome) X2APPDU {
 	}
 }
 
-// MarshalAPER encodes InitiatingMessage to APER format.
-func (v *InitiatingMessage) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
+// InitiatingMessage represents the ASN.1 type InitiatingMessage (SEQUENCE).
+type InitiatingMessage struct {
+	ProcedureCode ProcedureCode    `asn1:"tag:0,context,implicit"`
+	Criticality   Criticality      `asn1:"tag:1,context,implicit"`
+	Value         runtime.RawValue `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
 }
 
-func (v *InitiatingMessage) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.ProcedureCode), int64Ptr(0), int64Ptr(255), false); err != nil {
-		return fmt.Errorf("encoding procedureCode: %w", err)
-	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
-		return fmt.Errorf("encoding criticality: %w", err)
-	}
-	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
-		return fmt.Errorf("encoding value: %w", err)
-	}
-	return nil
+// SuccessfulOutcome represents the ASN.1 type SuccessfulOutcome (SEQUENCE).
+type SuccessfulOutcome struct {
+	ProcedureCode ProcedureCode    `asn1:"tag:0,context,implicit"`
+	Criticality   Criticality      `asn1:"tag:1,context,implicit"`
+	Value         runtime.RawValue `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
 }
 
-// UnmarshalAPER decodes InitiatingMessage from APER format.
-func (v *InitiatingMessage) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *InitiatingMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
-	if err != nil {
-		return fmt.Errorf("decoding procedureCode: %w", err)
-	}
-	v.ProcedureCode = val_procedurecode
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
-	if err != nil {
-		return fmt.Errorf("decoding criticality: %w", err)
-	}
-	v.Criticality = val_criticality
-	openData_value, err := per.DecodeOpenTypeAligned(bb)
-	if err != nil {
-		return fmt.Errorf("decoding value: %w", err)
-	}
-	v.Value = runtime.RawValue{Bytes: openData_value}
-	return nil
-}
-
-// MarshalAPER encodes SuccessfulOutcome to APER format.
-func (v *SuccessfulOutcome) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *SuccessfulOutcome) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.ProcedureCode), int64Ptr(0), int64Ptr(255), false); err != nil {
-		return fmt.Errorf("encoding procedureCode: %w", err)
-	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
-		return fmt.Errorf("encoding criticality: %w", err)
-	}
-	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
-		return fmt.Errorf("encoding value: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes SuccessfulOutcome from APER format.
-func (v *SuccessfulOutcome) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *SuccessfulOutcome) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
-	if err != nil {
-		return fmt.Errorf("decoding procedureCode: %w", err)
-	}
-	v.ProcedureCode = val_procedurecode
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
-	if err != nil {
-		return fmt.Errorf("decoding criticality: %w", err)
-	}
-	v.Criticality = val_criticality
-	openData_value, err := per.DecodeOpenTypeAligned(bb)
-	if err != nil {
-		return fmt.Errorf("decoding value: %w", err)
-	}
-	v.Value = runtime.RawValue{Bytes: openData_value}
-	return nil
-}
-
-// MarshalAPER encodes UnsuccessfulOutcome to APER format.
-func (v *UnsuccessfulOutcome) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UnsuccessfulOutcome) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.ProcedureCode), int64Ptr(0), int64Ptr(255), false); err != nil {
-		return fmt.Errorf("encoding procedureCode: %w", err)
-	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
-		return fmt.Errorf("encoding criticality: %w", err)
-	}
-	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
-		return fmt.Errorf("encoding value: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes UnsuccessfulOutcome from APER format.
-func (v *UnsuccessfulOutcome) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *UnsuccessfulOutcome) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
-	if err != nil {
-		return fmt.Errorf("decoding procedureCode: %w", err)
-	}
-	v.ProcedureCode = val_procedurecode
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
-	if err != nil {
-		return fmt.Errorf("decoding criticality: %w", err)
-	}
-	v.Criticality = val_criticality
-	openData_value, err := per.DecodeOpenTypeAligned(bb)
-	if err != nil {
-		return fmt.Errorf("decoding value: %w", err)
-	}
-	v.Value = runtime.RawValue{Bytes: openData_value}
-	return nil
+// UnsuccessfulOutcome represents the ASN.1 type UnsuccessfulOutcome (SEQUENCE).
+type UnsuccessfulOutcome struct {
+	ProcedureCode ProcedureCode    `asn1:"tag:0,context,implicit"`
+	Criticality   Criticality      `asn1:"tag:1,context,implicit"`
+	Value         runtime.RawValue `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
 }
 
 // MarshalAPER encodes X2APPDU to APER format.
@@ -298,5 +157,146 @@ func (v *X2APPDU) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		v.UnsuccessfulOutcome = &dec_unsuccessfuloutcome
 	}
+	return nil
+}
+
+// MarshalAPER encodes InitiatingMessage to APER format.
+func (v *InitiatingMessage) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *InitiatingMessage) MarshalAPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeIntegerAligned(bb, int64(v.ProcedureCode), int64Ptr(0), int64Ptr(255), false); err != nil {
+		return fmt.Errorf("encoding procedureCode: %w", err)
+	}
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+		return fmt.Errorf("encoding criticality: %w", err)
+	}
+	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes InitiatingMessage from APER format.
+func (v *InitiatingMessage) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *InitiatingMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+	if err != nil {
+		return fmt.Errorf("decoding procedureCode: %w", err)
+	}
+	v.ProcedureCode = ProcedureCode(val_procedurecode)
+	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
+	if err != nil {
+		return fmt.Errorf("decoding criticality: %w", err)
+	}
+	v.Criticality = Criticality(val_criticality)
+	openData_value, err := per.DecodeOpenTypeAligned(bb)
+	if err != nil {
+		return fmt.Errorf("decoding value: %w", err)
+	}
+	v.Value = runtime.RawValue{Bytes: openData_value}
+	return nil
+}
+
+// MarshalAPER encodes SuccessfulOutcome to APER format.
+func (v *SuccessfulOutcome) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *SuccessfulOutcome) MarshalAPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeIntegerAligned(bb, int64(v.ProcedureCode), int64Ptr(0), int64Ptr(255), false); err != nil {
+		return fmt.Errorf("encoding procedureCode: %w", err)
+	}
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+		return fmt.Errorf("encoding criticality: %w", err)
+	}
+	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes SuccessfulOutcome from APER format.
+func (v *SuccessfulOutcome) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *SuccessfulOutcome) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+	if err != nil {
+		return fmt.Errorf("decoding procedureCode: %w", err)
+	}
+	v.ProcedureCode = ProcedureCode(val_procedurecode)
+	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
+	if err != nil {
+		return fmt.Errorf("decoding criticality: %w", err)
+	}
+	v.Criticality = Criticality(val_criticality)
+	openData_value, err := per.DecodeOpenTypeAligned(bb)
+	if err != nil {
+		return fmt.Errorf("decoding value: %w", err)
+	}
+	v.Value = runtime.RawValue{Bytes: openData_value}
+	return nil
+}
+
+// MarshalAPER encodes UnsuccessfulOutcome to APER format.
+func (v *UnsuccessfulOutcome) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UnsuccessfulOutcome) MarshalAPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeIntegerAligned(bb, int64(v.ProcedureCode), int64Ptr(0), int64Ptr(255), false); err != nil {
+		return fmt.Errorf("encoding procedureCode: %w", err)
+	}
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+		return fmt.Errorf("encoding criticality: %w", err)
+	}
+	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes UnsuccessfulOutcome from APER format.
+func (v *UnsuccessfulOutcome) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *UnsuccessfulOutcome) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+	if err != nil {
+		return fmt.Errorf("decoding procedureCode: %w", err)
+	}
+	v.ProcedureCode = ProcedureCode(val_procedurecode)
+	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
+	if err != nil {
+		return fmt.Errorf("decoding criticality: %w", err)
+	}
+	v.Criticality = Criticality(val_criticality)
+	openData_value, err := per.DecodeOpenTypeAligned(bb)
+	if err != nil {
+		return fmt.Errorf("decoding value: %w", err)
+	}
+	v.Value = runtime.RawValue{Bytes: openData_value}
 	return nil
 }

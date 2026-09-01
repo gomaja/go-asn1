@@ -20,44 +20,44 @@ var (
 
 const (
 
-	// Max10TimesUnitsPerTime is the integer constant for max10TimesUnitsPerTime.
+	// Max10TimesUnitsPerTime is the integer constant for Max10TimesUnitsPerTime.
 	Max10TimesUnitsPerTime int64 = 8191
 
-	// Max10TimesTimeInterval is the integer constant for max10TimesTimeInterval.
+	// Max10TimesTimeInterval is the integer constant for Max10TimesTimeInterval.
 	Max10TimesTimeInterval int64 = 8191
 
-	// Max100TimesScalingFactor is the integer constant for max100TimesScalingFactor.
+	// Max100TimesScalingFactor is the integer constant for Max100TimesScalingFactor.
 	Max100TimesScalingFactor int64 = 8191
 
-	// Max10TimesIncrement is the integer constant for max10TimesIncrement.
+	// Max10TimesIncrement is the integer constant for Max10TimesIncrement.
 	Max10TimesIncrement int64 = 8191
 
-	// Max10TimesIncrementPerDataInterval is the integer constant for max10TimesIncrementPerDataInterval.
+	// Max10TimesIncrementPerDataInterval is the integer constant for Max10TimesIncrementPerDataInterval.
 	Max10TimesIncrementPerDataInterval int64 = 8191
 
-	// MaxNumberOfSegmentsPerDataInterval is the integer constant for maxNumberOfSegmentsPerDataInterval.
+	// MaxNumberOfSegmentsPerDataInterval is the integer constant for MaxNumberOfSegmentsPerDataInterval.
 	MaxNumberOfSegmentsPerDataInterval int64 = 8191
 
-	// Max10TimesInitialTime is the integer constant for max10TimesInitialTime.
+	// Max10TimesInitialTime is the integer constant for Max10TimesInitialTime.
 	Max10TimesInitialTime int64 = 8191
 
-	// MaxNumLPPMsg is the integer constant for maxNumLPPMsg.
+	// MaxNumLPPMsg is the integer constant for MaxNumLPPMsg.
 	MaxNumLPPMsg int64 = 3
 
-	// MaxRelatedUE is the integer constant for maxRelatedUE.
+	// MaxRelatedUE is the integer constant for MaxRelatedUE.
 	MaxRelatedUE int64 = 16
 
-	// MaxAreas is the integer constant for maxAreas.
+	// MaxAreas is the integer constant for MaxAreas.
 	MaxAreas int64 = 250
 
-	// MaxNumSLPPMsg is the integer constant for maxNumSLPPMsg.
+	// MaxNumSLPPMsg is the integer constant for MaxNumSLPPMsg.
 	MaxNumSLPPMsg int64 = 63
 )
 
-// SSUserData represents the ASN.1 type SS-UserData (IA5String).
+// SSUserData represents the ASN.1 type SSUserData (IA5String).
 type SSUserData = string
 
-// NotifySSArg represents the ASN.1 type NotifySS-Arg (SEQUENCE).
+// NotifySSArg represents the ASN.1 type NotifySSArg (SEQUENCE).
 type NotifySSArg struct {
 	SsCode                  *SSCode              `asn1:"tag:1,context,implicit,optional" json:"SsCode,omitempty"`
 	SsStatus                *SSStatus            `asn1:"tag:4,context,implicit,optional" json:"SsStatus,omitempty"`
@@ -77,7 +77,7 @@ type NotifySSArg struct {
 	ExtData_                [][]byte             `asn1:"-" json:"-"`
 }
 
-// MulticallIndicator represents the ASN.1 ENUMERATED type Multicall-Indicator.
+// MulticallIndicator represents the ASN.1 ENUMERATED type MulticallIndicator.
 type MulticallIndicator int64
 
 const (
@@ -105,7 +105,7 @@ type ForwardChargeAdviceArg struct {
 	ExtData_            [][]byte            `asn1:"-" json:"-"`
 }
 
-// SSNotification represents the ASN.1 type SS-Notification (OCTET_STRING).
+// SSNotification represents the ASN.1 type SSNotification (OCTET_STRING).
 type SSNotification = []byte
 
 // ChargingInformation represents the ASN.1 type ChargingInformation (SEQUENCE).
@@ -143,7 +143,7 @@ type E6 = int64
 // E7 represents the ASN.1 type E7 (INTEGER).
 type E7 = int64
 
-// CallOnHoldIndicator represents the ASN.1 ENUMERATED type CallOnHold-Indicator.
+// CallOnHoldIndicator represents the ASN.1 ENUMERATED type CallOnHoldIndicator.
 type CallOnHoldIndicator int64
 
 const (
@@ -162,7 +162,7 @@ func (v CallOnHoldIndicator) String() string {
 	}
 }
 
-// ForwardCUGInfoArg represents the ASN.1 type ForwardCUG-InfoArg (SEQUENCE).
+// ForwardCUGInfoArg represents the ASN.1 type ForwardCUGInfoArg (SEQUENCE).
 type ForwardCUGInfoArg struct {
 	CugIndex        *CUGIndex `asn1:"tag:0,context,implicit,optional" json:"CugIndex,omitempty"`
 	SuppressPrefCUG *struct{} `asn1:"tag:1,context,implicit,optional" json:"SuppressPrefCUG,omitempty"`
@@ -172,7 +172,7 @@ type ForwardCUGInfoArg struct {
 	ExtData_        [][]byte  `asn1:"-" json:"-"`
 }
 
-// ECTIndicator represents the ASN.1 type ECT-Indicator (SEQUENCE).
+// ECTIndicator represents the ASN.1 type ECTIndicator (SEQUENCE).
 type ECTIndicator struct {
 	EctCallState ECTCallState `asn1:"tag:0,context,implicit"`
 	Rdn          *RDN         `asn1:"tag:1,context,explicit,optional" json:"Rdn,omitempty"`
@@ -181,7 +181,7 @@ type ECTIndicator struct {
 	ExtData_     [][]byte     `asn1:"-" json:"-"`
 }
 
-// ECTCallState represents the ASN.1 ENUMERATED type ECT-CallState.
+// ECTCallState represents the ASN.1 ENUMERATED type ECTCallState.
 type ECTCallState int64
 
 const (
@@ -351,7 +351,7 @@ type UserUserServiceArg struct {
 	ExtData_        [][]byte   `asn1:"-" json:"-"`
 }
 
-// UUSService represents the ASN.1 ENUMERATED type UUS-Service.
+// UUSService represents the ASN.1 ENUMERATED type UUSService.
 type UUSService int64
 
 const (
@@ -424,7 +424,7 @@ func (v VerificationResponse) String() string {
 	}
 }
 
-// LCSMOLRArg represents the ASN.1 type LCS-MOLRArg (SEQUENCE).
+// LCSMOLRArg represents the ASN.1 type LCSMOLRArg (SEQUENCE).
 type LCSMOLRArg struct {
 	MolrType                              MOLRType                        `asn1:"tag:0,context,implicit"`
 	LocationMethod                        *LocationMethod                 `asn1:"tag:1,context,implicit,optional" json:"LocationMethod,omitempty"`
@@ -456,7 +456,7 @@ type LCSMOLRArg struct {
 	ExtData_                              [][]byte                        `asn1:"-" json:"-"`
 }
 
-// MOLRType represents the ASN.1 ENUMERATED type MOLR-Type.
+// MOLRType represents the ASN.1 ENUMERATED type MOLRType.
 type MOLRType int64
 
 const (
@@ -576,7 +576,7 @@ type MultiplePositioningProtocolPDUs = []PositioningProtocolPDU
 // PositioningProtocolPDU represents the ASN.1 type PositioningProtocolPDU (OCTET_STRING).
 type PositioningProtocolPDU = []byte
 
-// LCSMOLRRes represents the ASN.1 type LCS-MOLRRes (SEQUENCE).
+// LCSMOLRRes represents the ASN.1 type LCSMOLRRes (SEQUENCE).
 type LCSMOLRRes struct {
 	LocationEstimate            *ExtGeographicalInformation `asn1:"tag:0,context,implicit,optional" json:"LocationEstimate,omitempty"`
 	DecipheringKeys             *DecipheringKeys            `asn1:"tag:1,context,implicit,optional" json:"DecipheringKeys,omitempty"`
@@ -595,7 +595,7 @@ type LCSMOLRRes struct {
 // DecipheringKeys represents the ASN.1 type DecipheringKeys (OCTET_STRING).
 type DecipheringKeys = []byte
 
-// LCSAreaEventRequestArg represents the ASN.1 type LCS-AreaEventRequestArg (SEQUENCE).
+// LCSAreaEventRequestArg represents the ASN.1 type LCSAreaEventRequestArg (SEQUENCE).
 type LCSAreaEventRequestArg struct {
 	ReferenceNumber           LCSReferenceNumber        `asn1:"tag:0,context,implicit"`
 	HGmlcAddress              GSNAddress                `asn1:"tag:1,context,implicit"`
@@ -606,7 +606,7 @@ type LCSAreaEventRequestArg struct {
 	ExtData_                  [][]byte                  `asn1:"-" json:"-"`
 }
 
-// SLMOLRType represents the ASN.1 ENUMERATED type SLMOLR-Type.
+// SLMOLRType represents the ASN.1 ENUMERATED type SLMOLRType.
 type SLMOLRType int64
 
 const (
@@ -622,7 +622,7 @@ func (v SLMOLRType) String() string {
 	}
 }
 
-// LCSSLMOLRArg represents the ASN.1 type LCS-SLMOLRArg (SEQUENCE).
+// LCSSLMOLRArg represents the ASN.1 type LCSSLMOLRArg (SEQUENCE).
 type LCSSLMOLRArg struct {
 	SlmolrType                     SLMOLRType              `asn1:"tag:0,context,implicit"`
 	LcsQoS                         *LCSQoS                 `asn1:"tag:1,context,implicit,optional" json:"LcsQoS,omitempty"`
@@ -699,7 +699,7 @@ func (v RangingRole) String() string {
 	}
 }
 
-// LCSSLMOLRRes represents the ASN.1 type LCS-SLMOLRRes (SEQUENCE).
+// LCSSLMOLRRes represents the ASN.1 type LCSSLMOLRRes (SEQUENCE).
 type LCSSLMOLRRes struct {
 	AbsoluteLocation     *ExtGeographicalInformation `asn1:"tag:0,context,implicit,optional" json:"AbsoluteLocation,omitempty"`
 	AbsoluteVelocity     *VelocityEstimate           `asn1:"tag:1,context,implicit,optional" json:"AbsoluteVelocity,omitempty"`
@@ -736,7 +736,7 @@ type RelativeLocationCoordinates struct {
 	ExtData_                                   [][]byte                                    `asn1:"-" json:"-"`
 }
 
-// Relative2DLocationWithUncertaintyEllipse represents the ASN.1 type Relative2D-LocationWithUncertaintyEllipse (SEQUENCE).
+// Relative2DLocationWithUncertaintyEllipse represents the ASN.1 type Relative2DLocationWithUncertaintyEllipse (SEQUENCE).
 type Relative2DLocationWithUncertaintyEllipse struct {
 	XCoordinates         RangeXYCoordinates   `asn1:"tag:0,context,implicit"`
 	YCoordinates         RangeXYCoordinates   `asn1:"tag:1,context,implicit"`
@@ -749,7 +749,7 @@ type Relative2DLocationWithUncertaintyEllipse struct {
 	ExtData_             [][]byte             `asn1:"-" json:"-"`
 }
 
-// Relative3DLocationWithUncertaintyEllipsoid represents the ASN.1 type Relative3D-LocationWithUncertaintyEllipsoid (SEQUENCE).
+// Relative3DLocationWithUncertaintyEllipsoid represents the ASN.1 type Relative3DLocationWithUncertaintyEllipsoid (SEQUENCE).
 type Relative3DLocationWithUncertaintyEllipsoid struct {
 	XCoordinates         RangeXYCoordinates   `asn1:"tag:0,context,implicit"`
 	YCoordinates         RangeXYCoordinates   `asn1:"tag:1,context,implicit"`
@@ -828,7 +828,7 @@ type AzimuthResult = int64
 // ElevationResult represents the ASN.1 type ElevationResult (INTEGER).
 type ElevationResult = int64
 
-// LCSAreaEventReportArg represents the ASN.1 type LCS-AreaEventReportArg (SEQUENCE).
+// LCSAreaEventReportArg represents the ASN.1 type LCSAreaEventReportArg (SEQUENCE).
 type LCSAreaEventReportArg struct {
 	ReferenceNumber LCSReferenceNumber `asn1:"tag:0,context,implicit"`
 	HGmlcAddress    GSNAddress         `asn1:"tag:1,context,implicit"`
@@ -837,7 +837,7 @@ type LCSAreaEventReportArg struct {
 	ExtData_        [][]byte           `asn1:"-" json:"-"`
 }
 
-// LCSAreaEventCancellationArg represents the ASN.1 type LCS-AreaEventCancellationArg (SEQUENCE).
+// LCSAreaEventCancellationArg represents the ASN.1 type LCSAreaEventCancellationArg (SEQUENCE).
 type LCSAreaEventCancellationArg struct {
 	ReferenceNumber LCSReferenceNumber `asn1:"tag:0,context,implicit"`
 	HGmlcAddress    GSNAddress         `asn1:"tag:1,context,implicit"`
@@ -846,7 +846,7 @@ type LCSAreaEventCancellationArg struct {
 	ExtData_        [][]byte           `asn1:"-" json:"-"`
 }
 
-// LCSPeriodicLocationRequestArg represents the ASN.1 type LCS-PeriodicLocationRequestArg (SEQUENCE).
+// LCSPeriodicLocationRequestArg represents the ASN.1 type LCSPeriodicLocationRequestArg (SEQUENCE).
 type LCSPeriodicLocationRequestArg struct {
 	ReferenceNumber     LCSReferenceNumber  `asn1:"tag:0,context,implicit"`
 	PeriodicLDRInfo     PeriodicLDRInfo     `asn1:"tag:1,context,implicit"`
@@ -860,7 +860,7 @@ type LCSPeriodicLocationRequestArg struct {
 	ExtData_            [][]byte            `asn1:"-" json:"-"`
 }
 
-// LCSPeriodicLocationRequestRes represents the ASN.1 type LCS-PeriodicLocationRequestRes (SEQUENCE).
+// LCSPeriodicLocationRequestRes represents the ASN.1 type LCSPeriodicLocationRequestRes (SEQUENCE).
 type LCSPeriodicLocationRequestRes struct {
 	MoLrShortCircuit *struct{} `asn1:"tag:0,context,implicit,optional" json:"MoLrShortCircuit,omitempty"`
 	ExtCount_        int64     `asn1:"-" json:"-"`
@@ -868,7 +868,7 @@ type LCSPeriodicLocationRequestRes struct {
 	ExtData_         [][]byte  `asn1:"-" json:"-"`
 }
 
-// LCSLocationUpdateArg represents the ASN.1 type LCS-LocationUpdateArg (SEQUENCE).
+// LCSLocationUpdateArg represents the ASN.1 type LCSLocationUpdateArg (SEQUENCE).
 type LCSLocationUpdateArg struct {
 	ReferenceNumber     *LCSReferenceNumber         `asn1:"tag:0,context,implicit,optional" json:"ReferenceNumber,omitempty"`
 	AddLocationEstimate *AddGeographicalInformation `asn1:"tag:1,context,implicit,optional" json:"AddLocationEstimate,omitempty"`
@@ -879,7 +879,7 @@ type LCSLocationUpdateArg struct {
 	ExtData_            [][]byte                    `asn1:"-" json:"-"`
 }
 
-// LCSLocationUpdateRes represents the ASN.1 type LCS-LocationUpdateRes (SEQUENCE).
+// LCSLocationUpdateRes represents the ASN.1 type LCSLocationUpdateRes (SEQUENCE).
 type LCSLocationUpdateRes struct {
 	TerminationCause *DataTypesTerminationCause `asn1:"tag:0,context,implicit,optional" json:"TerminationCause,omitempty"`
 	ExtCount_        int64                      `asn1:"-" json:"-"`
@@ -887,7 +887,7 @@ type LCSLocationUpdateRes struct {
 	ExtData_         [][]byte                   `asn1:"-" json:"-"`
 }
 
-// LCSPeriodicLocationCancellationArg represents the ASN.1 type LCS-PeriodicLocationCancellationArg (SEQUENCE).
+// LCSPeriodicLocationCancellationArg represents the ASN.1 type LCSPeriodicLocationCancellationArg (SEQUENCE).
 type LCSPeriodicLocationCancellationArg struct {
 	ReferenceNumber LCSReferenceNumber `asn1:"tag:0,context,implicit"`
 	HGmlcAddress    *GSNAddress        `asn1:"tag:1,context,implicit,optional" json:"HGmlcAddress,omitempty"`
@@ -896,7 +896,7 @@ type LCSPeriodicLocationCancellationArg struct {
 	ExtData_        [][]byte           `asn1:"-" json:"-"`
 }
 
-// LCSPeriodicTriggeredInvokeArg represents the ASN.1 type LCS-PeriodicTriggeredInvokeArg (SEQUENCE).
+// LCSPeriodicTriggeredInvokeArg represents the ASN.1 type LCSPeriodicTriggeredInvokeArg (SEQUENCE).
 type LCSPeriodicTriggeredInvokeArg struct {
 	ReferenceNumber                       LCSReferenceNumber               `asn1:"tag:0,context,implicit"`
 	HGmlcAddress                          GSNAddress                       `asn1:"tag:1,context,implicit"`
@@ -1041,7 +1041,7 @@ type MotionEventReporting struct {
 // LinearDistance represents the ASN.1 type LinearDistance (INTEGER).
 type LinearDistance = int64
 
-// LCSReferenceNumberExt represents the ASN.1 type LCS-ReferenceNumberExt (OCTET_STRING).
+// LCSReferenceNumberExt represents the ASN.1 type LCSReferenceNumberExt (OCTET_STRING).
 type LCSReferenceNumberExt = []byte
 
 // ReportingAccessTypes represents the ASN.1 type ReportingAccessTypes (BIT_STRING).
@@ -1066,14 +1066,14 @@ func (v ReportingInd) String() string {
 	}
 }
 
-// LCSPeriodicTriggeredInvokeRes represents the ASN.1 type LCS-PeriodicTriggeredInvokeRes (SEQUENCE).
+// LCSPeriodicTriggeredInvokeRes represents the ASN.1 type LCSPeriodicTriggeredInvokeRes (SEQUENCE).
 type LCSPeriodicTriggeredInvokeRes struct {
 	ExtCount_   int64    `asn1:"-" json:"-"`
 	ExtPresent_ []bool   `asn1:"-" json:"-"`
 	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// LCSEventReportArg represents the ASN.1 type LCS-EventReportArg (SEQUENCE).
+// LCSEventReportArg represents the ASN.1 type LCSEventReportArg (SEQUENCE).
 type LCSEventReportArg struct {
 	EventType                             EventType                       `asn1:"tag:0,context,implicit"`
 	ReferenceNumberExt                    LCSReferenceNumberExt           `asn1:"tag:1,context,implicit"`
@@ -1127,7 +1127,7 @@ func (v EventType) String() string {
 	}
 }
 
-// ControlPlaneCIoT5GSOptimisation represents the ASN.1 type ControlPlane-CIoT-5GS-Optimisation (SEQUENCE).
+// ControlPlaneCIoT5GSOptimisation represents the ASN.1 type ControlPlaneCIoT5GSOptimisation (SEQUENCE).
 type ControlPlaneCIoT5GSOptimisation struct {
 	MaximumDuration                *MaximumDuration                `asn1:"tag:0,context,implicit,optional" json:"MaximumDuration,omitempty"`
 	MaximumConsecutiveEventReports *MaximumConsecutiveEventReports `asn1:"tag:1,context,implicit,optional" json:"MaximumConsecutiveEventReports,omitempty"`
@@ -1142,10 +1142,10 @@ type MaximumDuration = int64
 // MaximumConsecutiveEventReports represents the ASN.1 type MaximumConsecutiveEventReports (INTEGER).
 type MaximumConsecutiveEventReports = int64
 
-// LCSUserPlaneEventReportStat represents the ASN.1 type LCS-UserPlaneEventReportStat (INTEGER).
+// LCSUserPlaneEventReportStat represents the ASN.1 type LCSUserPlaneEventReportStat (INTEGER).
 type LCSUserPlaneEventReportStat = int64
 
-// LCSUserPlaneReportAFAddr represents the ASN.1 type LCS-UserPlaneReportAFAddr (SEQUENCE).
+// LCSUserPlaneReportAFAddr represents the ASN.1 type LCSUserPlaneReportAFAddr (SEQUENCE).
 type LCSUserPlaneReportAFAddr struct {
 	AfIpv4Addrs       Ipv4Addrs      `asn1:"tag:0,context,implicit,optional" json:"AfIpv4Addrs,omitempty"`
 	AfIpv4AddrsIndef_ bool           `asn1:"-" json:"-"`
@@ -1166,22 +1166,22 @@ type Ipv4Addr = []byte
 // Ipv6Addr represents the ASN.1 type Ipv6Addr (OCTET_STRING).
 type Ipv6Addr = []byte
 
-// LCSCumulativeReportCriteria represents the ASN.1 type LCS-CumulativeReportCriteria (SEQUENCE).
+// LCSCumulativeReportCriteria represents the ASN.1 type LCSCumulativeReportCriteria (SEQUENCE).
 type LCSCumulativeReportCriteria struct {
 	TimerCriteria   *LCSCumulativeReportTimerCriteria   `asn1:"tag:0,context,implicit,optional" json:"TimerCriteria,omitempty"`
 	CounterCriteria *LCSCumulativeReportCounterCriteria `asn1:"tag:1,context,implicit,optional" json:"CounterCriteria,omitempty"`
 }
 
-// LCSCumulativeReportTimerCriteria represents the ASN.1 type LCS-CumulativeReportTimerCriteria (INTEGER).
+// LCSCumulativeReportTimerCriteria represents the ASN.1 type LCSCumulativeReportTimerCriteria (INTEGER).
 type LCSCumulativeReportTimerCriteria = int64
 
-// LCSCumulativeReportCounterCriteria represents the ASN.1 type LCS-CumulativeReportCounterCriteria (INTEGER).
+// LCSCumulativeReportCounterCriteria represents the ASN.1 type LCSCumulativeReportCounterCriteria (INTEGER).
 type LCSCumulativeReportCounterCriteria = int64
 
 // DataTypesFQDN represents the ASN.1 type DataTypesFQDN (OCTET_STRING).
 type DataTypesFQDN = []byte
 
-// LCSEventReportRes represents the ASN.1 type LCS-EventReportRes (SEQUENCE).
+// LCSEventReportRes represents the ASN.1 type LCSEventReportRes (SEQUENCE).
 type LCSEventReportRes struct {
 	DeferredRoutingIdentifier []byte                     `asn1:"tag:0,context,implicit,optional" json:"DeferredRoutingIdentifier,omitempty"`
 	TerminationCause          *DataTypesTerminationCause `asn1:"tag:1,context,implicit,optional" json:"TerminationCause,omitempty"`
@@ -1190,7 +1190,7 @@ type LCSEventReportRes struct {
 	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
 }
 
-// LCSCancelDeferredLocationArg represents the ASN.1 type LCS-CancelDeferredLocationArg (SEQUENCE).
+// LCSCancelDeferredLocationArg represents the ASN.1 type LCSCancelDeferredLocationArg (SEQUENCE).
 type LCSCancelDeferredLocationArg struct {
 	ReferenceNumberExt LCSReferenceNumberExt `asn1:"tag:0,context,implicit"`
 	HGmlcCallBackUri   string                `asn1:"tag:2,context,implicit"`
@@ -1199,7 +1199,7 @@ type LCSCancelDeferredLocationArg struct {
 	ExtData_           [][]byte              `asn1:"-" json:"-"`
 }
 
-// LCSLocationPrivacySettingArg represents the ASN.1 type LCS-LocationPrivacySettingArg (SEQUENCE).
+// LCSLocationPrivacySettingArg represents the ASN.1 type LCSLocationPrivacySettingArg (SEQUENCE).
 type LCSLocationPrivacySettingArg struct {
 	LocationPrivacyIndication LCSLocationPrivacyIndication `asn1:"tag:0,context,implicit"`
 	ValidTimePeriod           *LCSValidTimePeriod          `asn1:"tag:1,context,implicit,optional" json:"ValidTimePeriod,omitempty"`
@@ -1210,7 +1210,7 @@ type LCSLocationPrivacySettingArg struct {
 	ExtData_                  [][]byte                     `asn1:"-" json:"-"`
 }
 
-// LCSLocationPrivacyIndication represents the ASN.1 ENUMERATED type LCS-LocationPrivacyIndication.
+// LCSLocationPrivacyIndication represents the ASN.1 ENUMERATED type LCSLocationPrivacyIndication.
 type LCSLocationPrivacyIndication int64
 
 const (
@@ -1235,7 +1235,7 @@ func (v LCSLocationPrivacyIndication) String() string {
 	}
 }
 
-// LCSValidTimePeriod represents the ASN.1 type LCS-ValidTimePeriod (SEQUENCE).
+// LCSValidTimePeriod represents the ASN.1 type LCSValidTimePeriod (SEQUENCE).
 type LCSValidTimePeriod struct {
 	StartTime   *DateTime `asn1:"tag:0,context,implicit,optional" json:"StartTime,omitempty"`
 	EndTime     *DateTime `asn1:"tag:1,context,implicit,optional" json:"EndTime,omitempty"`
@@ -1247,7 +1247,7 @@ type LCSValidTimePeriod struct {
 // DateTime represents the ASN.1 type DateTime (OCTET_STRING).
 type DateTime = []byte
 
-// LCSPruAssociationArg represents the ASN.1 type LCS-PruAssociationArg (SEQUENCE).
+// LCSPruAssociationArg represents the ASN.1 type LCSPruAssociationArg (SEQUENCE).
 type LCSPruAssociationArg struct {
 	AssociationType         LCSAssociationType          `asn1:"tag:0,context,implicit"`
 	PositioningCapabilities []byte                      `asn1:"tag:1,context,implicit"`
@@ -1258,7 +1258,7 @@ type LCSPruAssociationArg struct {
 	ExtData_                [][]byte                    `asn1:"-" json:"-"`
 }
 
-// LCSAssociationType represents the ASN.1 ENUMERATED type LCS-AssociationType.
+// LCSAssociationType represents the ASN.1 ENUMERATED type LCSAssociationType.
 type LCSAssociationType int64
 
 const (
@@ -1277,7 +1277,7 @@ func (v LCSAssociationType) String() string {
 	}
 }
 
-// LCSStateOfPru represents the ASN.1 ENUMERATED type LCS-StateOfPru.
+// LCSStateOfPru represents the ASN.1 ENUMERATED type LCSStateOfPru.
 type LCSStateOfPru int64
 
 const (
@@ -1296,7 +1296,7 @@ func (v LCSStateOfPru) String() string {
 	}
 }
 
-// LCSPruAssociationRes represents the ASN.1 type LCS-PruAssociationRes (SEQUENCE).
+// LCSPruAssociationRes represents the ASN.1 type LCSPruAssociationRes (SEQUENCE).
 type LCSPruAssociationRes struct {
 	PeriodicUpdateTimer *LCSPeriodicUpdateTimer `asn1:"tag:0,context,implicit,optional" json:"PeriodicUpdateTimer,omitempty"`
 	UpdateTrigger       *LCSPruUpdateTrigger    `asn1:"tag:1,context,implicit,optional" json:"UpdateTrigger,omitempty"`
@@ -1305,13 +1305,13 @@ type LCSPruAssociationRes struct {
 	ExtData_            [][]byte                `asn1:"-" json:"-"`
 }
 
-// LCSPeriodicUpdateTimer represents the ASN.1 type LCS-PeriodicUpdateTimer (INTEGER).
+// LCSPeriodicUpdateTimer represents the ASN.1 type LCSPeriodicUpdateTimer (INTEGER).
 type LCSPeriodicUpdateTimer = int64
 
-// LCSPruUpdateTrigger represents the ASN.1 type LCS-PruUpdateTrigger (BIT_STRING).
+// LCSPruUpdateTrigger represents the ASN.1 type LCSPruUpdateTrigger (BIT_STRING).
 type LCSPruUpdateTrigger = runtime.BitString
 
-// LCSPruDisassociationArg represents the ASN.1 type LCS-PruDisassociationArg (SEQUENCE).
+// LCSPruDisassociationArg represents the ASN.1 type LCSPruDisassociationArg (SEQUENCE).
 type LCSPruDisassociationArg struct {
 	AckIndication     *bool    `asn1:"tag:0,context,implicit,optional" json:"AckIndication,omitempty"`
 	AckIndicationRaw_ byte     `asn1:"-" json:"-"`
@@ -1321,7 +1321,7 @@ type LCSPruDisassociationArg struct {
 	ExtData_          [][]byte `asn1:"-" json:"-"`
 }
 
-// SLMTLRType represents the ASN.1 ENUMERATED type SLMTLR-Type.
+// SLMTLRType represents the ASN.1 ENUMERATED type SLMTLRType.
 type SLMTLRType int64
 
 const (
@@ -1337,7 +1337,7 @@ func (v SLMTLRType) String() string {
 	}
 }
 
-// LCSSLMTLRArg represents the ASN.1 type LCS-SLMTLRArg (SEQUENCE).
+// LCSSLMTLRArg represents the ASN.1 type LCSSLMTLRArg (SEQUENCE).
 type LCSSLMTLRArg struct {
 	SlmtlrType          SLMTLRType          `asn1:"tag:0,context,implicit"`
 	SupportedGADShapes  *SupportedGADShapes `asn1:"tag:1,context,implicit,optional" json:"SupportedGADShapes,omitempty"`
@@ -1372,7 +1372,7 @@ func (v LocatedUEselect) String() string {
 // CoordinateID represents the ASN.1 type CoordinateID (INTEGER).
 type CoordinateID = int64
 
-// LCSSLMTLRRes represents the ASN.1 type LCS-SLMTLRRes (SEQUENCE).
+// LCSSLMTLRRes represents the ASN.1 type LCSSLMTLRRes (SEQUENCE).
 type LCSSLMTLRRes struct {
 	RelatedUEInfo         RelatedUEInfo   `asn1:"tag:0,context,implicit"`
 	RelatedUEInfoIndef_   bool            `asn1:"-" json:"-"`
@@ -1414,7 +1414,7 @@ func (v UEBased) String() string {
 	}
 }
 
-// LCSDLRSPPTransportArg represents the ASN.1 type LCS-DLRSPPTransportArg (SEQUENCE).
+// LCSDLRSPPTransportArg represents the ASN.1 type LCSDLRSPPTransportArg (SEQUENCE).
 type LCSDLRSPPTransportArg struct {
 	RangingSLPPList       RangingSLPPList `asn1:"tag:0,context,implicit,optional" json:"RangingSLPPList,omitempty"`
 	RangingSLPPListIndef_ bool            `asn1:"-" json:"-"`
@@ -1427,11 +1427,11 @@ type LCSDLRSPPTransportArg struct {
 	ExtData_              [][]byte        `asn1:"-" json:"-"`
 }
 
-// LCSDLRSPPTransportRes represents the ASN.1 type LCS-DLRSPPTransportRes (SEQUENCE).
+// LCSDLRSPPTransportRes represents the ASN.1 type LCSDLRSPPTransportRes (SEQUENCE).
 type LCSDLRSPPTransportRes struct {
 }
 
-// LCSULRSPPTransportArg represents the ASN.1 type LCS-ULRSPPTransportArg (SEQUENCE).
+// LCSULRSPPTransportArg represents the ASN.1 type LCSULRSPPTransportArg (SEQUENCE).
 type LCSULRSPPTransportArg struct {
 	RangingSLPPList       RangingSLPPList `asn1:"tag:0,context,implicit,optional" json:"RangingSLPPList,omitempty"`
 	RangingSLPPListIndef_ bool            `asn1:"-" json:"-"`
@@ -1440,7 +1440,7 @@ type LCSULRSPPTransportArg struct {
 	ExtData_              [][]byte        `asn1:"-" json:"-"`
 }
 
-// LCSULRSPPTransportRes represents the ASN.1 type LCS-ULRSPPTransportRes (SEQUENCE).
+// LCSULRSPPTransportRes represents the ASN.1 type LCSULRSPPTransportRes (SEQUENCE).
 type LCSULRSPPTransportRes struct {
 }
 

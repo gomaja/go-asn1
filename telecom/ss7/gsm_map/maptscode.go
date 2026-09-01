@@ -17,105 +17,105 @@ var (
 
 const (
 
-	// AllTeleservices is the octet string constant for allTeleservices.
+	// AllTeleservices is the octet string constant for AllTeleservices.
 	AllTeleservices = "\x00"
 
-	// AllSpeechTransmissionServices is the octet string constant for allSpeechTransmissionServices.
+	// AllSpeechTransmissionServices is the octet string constant for AllSpeechTransmissionServices.
 	AllSpeechTransmissionServices = "\x10"
 
-	// Telephony is the octet string constant for telephony.
+	// Telephony is the octet string constant for Telephony.
 	Telephony = "\x11"
 
-	// EmergencyCalls is the octet string constant for emergencyCalls.
+	// EmergencyCalls is the octet string constant for EmergencyCalls.
 	EmergencyCalls = "\x12"
 
-	// AllShortMessageServices is the octet string constant for allShortMessageServices.
+	// AllShortMessageServices is the octet string constant for AllShortMessageServices.
 	AllShortMessageServices = "\x20"
 
-	// ShortMessageMTPP is the octet string constant for shortMessageMT-PP.
+	// ShortMessageMTPP is the octet string constant for ShortMessageMTPP.
 	ShortMessageMTPP = "\x21"
 
-	// ShortMessageMOPP is the octet string constant for shortMessageMO-PP.
+	// ShortMessageMOPP is the octet string constant for ShortMessageMOPP.
 	ShortMessageMOPP = "\x22"
 
-	// AllFacsimileTransmissionServices is the octet string constant for allFacsimileTransmissionServices.
+	// AllFacsimileTransmissionServices is the octet string constant for AllFacsimileTransmissionServices.
 	AllFacsimileTransmissionServices = "\x60"
 
-	// FacsimileGroup3AndAlterSpeech is the octet string constant for facsimileGroup3AndAlterSpeech.
+	// FacsimileGroup3AndAlterSpeech is the octet string constant for FacsimileGroup3AndAlterSpeech.
 	FacsimileGroup3AndAlterSpeech = "\x61"
 
-	// AutomaticFacsimileGroup3 is the octet string constant for automaticFacsimileGroup3.
+	// AutomaticFacsimileGroup3 is the octet string constant for AutomaticFacsimileGroup3.
 	AutomaticFacsimileGroup3 = "\x62"
 
-	// FacsimileGroup4 is the octet string constant for facsimileGroup4.
+	// FacsimileGroup4 is the octet string constant for FacsimileGroup4.
 	FacsimileGroup4 = "\x63"
 
-	// AllDataTeleservices is the octet string constant for allDataTeleservices.
+	// AllDataTeleservices is the octet string constant for AllDataTeleservices.
 	AllDataTeleservices = "\x70"
 
-	// AllTeleservicesExeptSMS is the octet string constant for allTeleservices-ExeptSMS.
+	// AllTeleservicesExeptSMS is the octet string constant for AllTeleservicesExeptSMS.
 	AllTeleservicesExeptSMS = "\x80"
 
-	// AllVoiceGroupCallServices is the octet string constant for allVoiceGroupCallServices.
+	// AllVoiceGroupCallServices is the octet string constant for AllVoiceGroupCallServices.
 	AllVoiceGroupCallServices = "\x90"
 
-	// VoiceGroupCall is the octet string constant for voiceGroupCall.
+	// VoiceGroupCall is the octet string constant for VoiceGroupCall.
 	VoiceGroupCall = "\x91"
 
-	// VoiceBroadcastCall is the octet string constant for voiceBroadcastCall.
+	// VoiceBroadcastCall is the octet string constant for VoiceBroadcastCall.
 	VoiceBroadcastCall = "\x92"
 
-	// AllPLMNSpecificTS is the octet string constant for allPLMN-specificTS.
+	// AllPLMNSpecificTS is the octet string constant for AllPLMNSpecificTS.
 	AllPLMNSpecificTS = "\xd0"
 
-	// PlmnSpecificTS1 is the octet string constant for plmn-specificTS-1.
+	// PlmnSpecificTS1 is the octet string constant for PlmnSpecificTS1.
 	PlmnSpecificTS1 = "\xd1"
 
-	// PlmnSpecificTS2 is the octet string constant for plmn-specificTS-2.
+	// PlmnSpecificTS2 is the octet string constant for PlmnSpecificTS2.
 	PlmnSpecificTS2 = "\xd2"
 
-	// PlmnSpecificTS3 is the octet string constant for plmn-specificTS-3.
+	// PlmnSpecificTS3 is the octet string constant for PlmnSpecificTS3.
 	PlmnSpecificTS3 = "\xd3"
 
-	// PlmnSpecificTS4 is the octet string constant for plmn-specificTS-4.
+	// PlmnSpecificTS4 is the octet string constant for PlmnSpecificTS4.
 	PlmnSpecificTS4 = "\xd4"
 
-	// PlmnSpecificTS5 is the octet string constant for plmn-specificTS-5.
+	// PlmnSpecificTS5 is the octet string constant for PlmnSpecificTS5.
 	PlmnSpecificTS5 = "\xd5"
 
-	// PlmnSpecificTS6 is the octet string constant for plmn-specificTS-6.
+	// PlmnSpecificTS6 is the octet string constant for PlmnSpecificTS6.
 	PlmnSpecificTS6 = "\xd6"
 
-	// PlmnSpecificTS7 is the octet string constant for plmn-specificTS-7.
+	// PlmnSpecificTS7 is the octet string constant for PlmnSpecificTS7.
 	PlmnSpecificTS7 = "\xd7"
 
-	// PlmnSpecificTS8 is the octet string constant for plmn-specificTS-8.
+	// PlmnSpecificTS8 is the octet string constant for PlmnSpecificTS8.
 	PlmnSpecificTS8 = "\xd8"
 
-	// PlmnSpecificTS9 is the octet string constant for plmn-specificTS-9.
+	// PlmnSpecificTS9 is the octet string constant for PlmnSpecificTS9.
 	PlmnSpecificTS9 = "\xd9"
 
-	// PlmnSpecificTSA is the octet string constant for plmn-specificTS-A.
+	// PlmnSpecificTSA is the octet string constant for PlmnSpecificTSA.
 	PlmnSpecificTSA = "\xda"
 
-	// PlmnSpecificTSB is the octet string constant for plmn-specificTS-B.
+	// PlmnSpecificTSB is the octet string constant for PlmnSpecificTSB.
 	PlmnSpecificTSB = "\xdb"
 
-	// PlmnSpecificTSC is the octet string constant for plmn-specificTS-C.
+	// PlmnSpecificTSC is the octet string constant for PlmnSpecificTSC.
 	PlmnSpecificTSC = "\xdc"
 
-	// PlmnSpecificTSD is the octet string constant for plmn-specificTS-D.
+	// PlmnSpecificTSD is the octet string constant for PlmnSpecificTSD.
 	PlmnSpecificTSD = "\xdd"
 
-	// PlmnSpecificTSE is the octet string constant for plmn-specificTS-E.
+	// PlmnSpecificTSE is the octet string constant for PlmnSpecificTSE.
 	PlmnSpecificTSE = "\xde"
 
-	// PlmnSpecificTSF is the octet string constant for plmn-specificTS-F.
+	// PlmnSpecificTSF is the octet string constant for PlmnSpecificTSF.
 	PlmnSpecificTSF = "\xdf"
 )
 
 // TeleserviceCode represents the ASN.1 type TeleserviceCode (OCTET_STRING).
 type TeleserviceCode = []byte
 
-// ExtTeleserviceCode represents the ASN.1 type Ext-TeleserviceCode (OCTET_STRING).
+// ExtTeleserviceCode represents the ASN.1 type ExtTeleserviceCode (OCTET_STRING).
 type ExtTeleserviceCode = []byte

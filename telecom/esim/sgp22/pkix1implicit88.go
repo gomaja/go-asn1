@@ -19,156 +19,156 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// IdCe returns the OID value for id-ce.
+// IdCe returns the OID value for IdCe.
 func IdCe() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29} }
 
-// IdCeAuthorityKeyIdentifier returns the OID value for id-ce-authorityKeyIdentifier.
+// IdCeAuthorityKeyIdentifier returns the OID value for IdCeAuthorityKeyIdentifier.
 func IdCeAuthorityKeyIdentifier() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 5, 29, 35}
 }
 
-// IdCeSubjectKeyIdentifier returns the OID value for id-ce-subjectKeyIdentifier.
+// IdCeSubjectKeyIdentifier returns the OID value for IdCeSubjectKeyIdentifier.
 func IdCeSubjectKeyIdentifier() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 5, 29, 14}
 }
 
-// IdCeKeyUsage returns the OID value for id-ce-keyUsage.
+// IdCeKeyUsage returns the OID value for IdCeKeyUsage.
 func IdCeKeyUsage() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 15} }
 
-// IdCePrivateKeyUsagePeriod returns the OID value for id-ce-privateKeyUsagePeriod.
+// IdCePrivateKeyUsagePeriod returns the OID value for IdCePrivateKeyUsagePeriod.
 func IdCePrivateKeyUsagePeriod() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 5, 29, 16}
 }
 
-// IdCeCertificatePolicies returns the OID value for id-ce-certificatePolicies.
+// IdCeCertificatePolicies returns the OID value for IdCeCertificatePolicies.
 func IdCeCertificatePolicies() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 5, 29, 32}
 }
 
-// AnyPolicy returns the OID value for anyPolicy.
+// AnyPolicy returns the OID value for AnyPolicy.
 func AnyPolicy() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 32, 0} }
 
-// IdCePolicyMappings returns the OID value for id-ce-policyMappings.
+// IdCePolicyMappings returns the OID value for IdCePolicyMappings.
 func IdCePolicyMappings() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 33} }
 
-// IdCeSubjectAltName returns the OID value for id-ce-subjectAltName.
+// IdCeSubjectAltName returns the OID value for IdCeSubjectAltName.
 func IdCeSubjectAltName() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 17} }
 
-// IdCeIssuerAltName returns the OID value for id-ce-issuerAltName.
+// IdCeIssuerAltName returns the OID value for IdCeIssuerAltName.
 func IdCeIssuerAltName() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 18} }
 
-// IdCeSubjectDirectoryAttributes returns the OID value for id-ce-subjectDirectoryAttributes.
+// IdCeSubjectDirectoryAttributes returns the OID value for IdCeSubjectDirectoryAttributes.
 func IdCeSubjectDirectoryAttributes() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 5, 29, 9}
 }
 
-// IdCeBasicConstraints returns the OID value for id-ce-basicConstraints.
+// IdCeBasicConstraints returns the OID value for IdCeBasicConstraints.
 func IdCeBasicConstraints() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 19} }
 
-// IdCeNameConstraints returns the OID value for id-ce-nameConstraints.
+// IdCeNameConstraints returns the OID value for IdCeNameConstraints.
 func IdCeNameConstraints() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 30} }
 
-// IdCePolicyConstraints returns the OID value for id-ce-policyConstraints.
+// IdCePolicyConstraints returns the OID value for IdCePolicyConstraints.
 func IdCePolicyConstraints() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 36} }
 
-// IdCeCRLDistributionPoints returns the OID value for id-ce-cRLDistributionPoints.
+// IdCeCRLDistributionPoints returns the OID value for IdCeCRLDistributionPoints.
 func IdCeCRLDistributionPoints() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 5, 29, 31}
 }
 
-// IdCeExtKeyUsage returns the OID value for id-ce-extKeyUsage.
+// IdCeExtKeyUsage returns the OID value for IdCeExtKeyUsage.
 func IdCeExtKeyUsage() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 37} }
 
-// AnyExtendedKeyUsage returns the OID value for anyExtendedKeyUsage.
+// AnyExtendedKeyUsage returns the OID value for AnyExtendedKeyUsage.
 func AnyExtendedKeyUsage() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 37, 0} }
 
-// IdKpServerAuth returns the OID value for id-kp-serverAuth.
+// IdKpServerAuth returns the OID value for IdKpServerAuth.
 func IdKpServerAuth() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 3, 1}
 }
 
-// IdKpClientAuth returns the OID value for id-kp-clientAuth.
+// IdKpClientAuth returns the OID value for IdKpClientAuth.
 func IdKpClientAuth() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 3, 2}
 }
 
-// IdKpCodeSigning returns the OID value for id-kp-codeSigning.
+// IdKpCodeSigning returns the OID value for IdKpCodeSigning.
 func IdKpCodeSigning() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 3, 3}
 }
 
-// IdKpEmailProtection returns the OID value for id-kp-emailProtection.
+// IdKpEmailProtection returns the OID value for IdKpEmailProtection.
 func IdKpEmailProtection() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 3, 4}
 }
 
-// IdKpTimeStamping returns the OID value for id-kp-timeStamping.
+// IdKpTimeStamping returns the OID value for IdKpTimeStamping.
 func IdKpTimeStamping() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 3, 8}
 }
 
-// IdKpOCSPSigning returns the OID value for id-kp-OCSPSigning.
+// IdKpOCSPSigning returns the OID value for IdKpOCSPSigning.
 func IdKpOCSPSigning() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 3, 9}
 }
 
-// IdCeInhibitAnyPolicy returns the OID value for id-ce-inhibitAnyPolicy.
+// IdCeInhibitAnyPolicy returns the OID value for IdCeInhibitAnyPolicy.
 func IdCeInhibitAnyPolicy() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 54} }
 
-// IdCeFreshestCRL returns the OID value for id-ce-freshestCRL.
+// IdCeFreshestCRL returns the OID value for IdCeFreshestCRL.
 func IdCeFreshestCRL() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 46} }
 
-// IdPeAuthorityInfoAccess returns the OID value for id-pe-authorityInfoAccess.
+// IdPeAuthorityInfoAccess returns the OID value for IdPeAuthorityInfoAccess.
 func IdPeAuthorityInfoAccess() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 1}
 }
 
-// IdPeSubjectInfoAccess returns the OID value for id-pe-subjectInfoAccess.
+// IdPeSubjectInfoAccess returns the OID value for IdPeSubjectInfoAccess.
 func IdPeSubjectInfoAccess() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 11}
 }
 
-// IdCeCRLNumber returns the OID value for id-ce-cRLNumber.
+// IdCeCRLNumber returns the OID value for IdCeCRLNumber.
 func IdCeCRLNumber() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 20} }
 
-// IdCeIssuingDistributionPoint returns the OID value for id-ce-issuingDistributionPoint.
+// IdCeIssuingDistributionPoint returns the OID value for IdCeIssuingDistributionPoint.
 func IdCeIssuingDistributionPoint() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 5, 29, 28}
 }
 
-// IdCeDeltaCRLIndicator returns the OID value for id-ce-deltaCRLIndicator.
+// IdCeDeltaCRLIndicator returns the OID value for IdCeDeltaCRLIndicator.
 func IdCeDeltaCRLIndicator() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 27} }
 
-// IdCeCRLReasons returns the OID value for id-ce-cRLReasons.
+// IdCeCRLReasons returns the OID value for IdCeCRLReasons.
 func IdCeCRLReasons() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 21} }
 
-// IdCeCertificateIssuer returns the OID value for id-ce-certificateIssuer.
+// IdCeCertificateIssuer returns the OID value for IdCeCertificateIssuer.
 func IdCeCertificateIssuer() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 29} }
 
-// IdCeHoldInstructionCode returns the OID value for id-ce-holdInstructionCode.
+// IdCeHoldInstructionCode returns the OID value for IdCeHoldInstructionCode.
 func IdCeHoldInstructionCode() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 5, 29, 23}
 }
 
-// HoldInstruction returns the OID value for holdInstruction.
+// HoldInstruction returns the OID value for HoldInstruction.
 func HoldInstruction() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 2, 840, 10040, 2} }
 
-// IdHoldinstructionNone returns the OID value for id-holdinstruction-none.
+// IdHoldinstructionNone returns the OID value for IdHoldinstructionNone.
 func IdHoldinstructionNone() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 2, 840, 10040, 2, 1}
 }
 
-// IdHoldinstructionCallissuer returns the OID value for id-holdinstruction-callissuer.
+// IdHoldinstructionCallissuer returns the OID value for IdHoldinstructionCallissuer.
 func IdHoldinstructionCallissuer() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 2, 840, 10040, 2, 2}
 }
 
-// IdHoldinstructionReject returns the OID value for id-holdinstruction-reject.
+// IdHoldinstructionReject returns the OID value for IdHoldinstructionReject.
 func IdHoldinstructionReject() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 2, 840, 10040, 2, 3}
 }
 
-// IdCeInvalidityDate returns the OID value for id-ce-invalidityDate.
+// IdCeInvalidityDate returns the OID value for IdCeInvalidityDate.
 func IdCeInvalidityDate() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 24} }
 
 // AuthorityKeyIdentifier represents the ASN.1 type AuthorityKeyIdentifier (SEQUENCE).
@@ -210,7 +210,7 @@ type CertPolicyId = runtime.ObjectIdentifier
 // PolicyQualifierInfo represents the ASN.1 type PolicyQualifierInfo (SEQUENCE).
 type PolicyQualifierInfo struct {
 	PolicyQualifierId PolicyQualifierId `asn1:""`
-	Qualifier         runtime.RawValue  `asn1:""`
+	Qualifier         runtime.RawValue  `asn1:"" asn1c:"raw-preserve"`
 }
 
 // PolicyQualifierId represents the ASN.1 type PolicyQualifierId (OBJECT_IDENTIFIER).
@@ -392,7 +392,7 @@ func NewGeneralNameRegisteredID(v runtime.ObjectIdentifier) GeneralName {
 // AnotherName represents the ASN.1 type AnotherName (SEQUENCE).
 type AnotherName struct {
 	TypeId runtime.ObjectIdentifier `asn1:""`
-	Value  runtime.RawValue         `asn1:"tag:0,context,explicit"`
+	Value  runtime.RawValue         `asn1:"tag:0,context,explicit" asn1c:"raw-preserve"`
 }
 
 // EDIPartyName represents the ASN.1 type EDIPartyName (SEQUENCE).
@@ -583,13 +583,13 @@ type HoldInstructionCode = runtime.ObjectIdentifier
 // InvalidityDate represents the ASN.1 type InvalidityDate (GeneralizedTime).
 type InvalidityDate = time.Time
 
-// PolicyInformationPolicyQualifiers represents the ASN.1 type PolicyInformation-policyQualifiers (SEQUENCE_OF).
+// PolicyInformationPolicyQualifiers represents the ASN.1 type PolicyInformationPolicyQualifiers (SEQUENCE_OF).
 type PolicyInformationPolicyQualifiers = []PolicyQualifierInfo
 
-// NoticeReferenceNoticeNumbers represents the ASN.1 type NoticeReference-noticeNumbers (SEQUENCE_OF).
+// NoticeReferenceNoticeNumbers represents the ASN.1 type NoticeReferenceNoticeNumbers (SEQUENCE_OF).
 type NoticeReferenceNoticeNumbers = []*big.Int
 
-// PolicyMappingsElem represents the ASN.1 type PolicyMappings-Elem (SEQUENCE).
+// PolicyMappingsElem represents the ASN.1 type PolicyMappingsElem (SEQUENCE).
 type PolicyMappingsElem struct {
 	IssuerDomainPolicy  CertPolicyId `asn1:""`
 	SubjectDomainPolicy CertPolicyId `asn1:""`
@@ -2745,7 +2745,10 @@ func UnmarshalBERPolicyInformationPolicyQualifiers(data []byte) (PolicyInformati
 // MarshalBERNoticeReferenceNoticeNumbers encodes a NoticeReferenceNoticeNumbers list to BER.
 func MarshalBERNoticeReferenceNoticeNumbers(list NoticeReferenceNoticeNumbers) ([]byte, error) {
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if elem == nil {
+			return nil, fmt.Errorf("encoding NoticeReferenceNoticeNumbers[%d]: required INTEGER is nil", elemIndex)
+		}
 		children = append(children, ber.EncodeBigInt(elem)...)
 	}
 	return ber.EncodeSequence(children), nil

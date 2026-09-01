@@ -19,332 +19,332 @@ var (
 
 const (
 
-	// MaxAddressLength is the integer constant for maxAddressLength.
+	// MaxAddressLength is the integer constant for MaxAddressLength.
 	MaxAddressLength int64 = 20
 
-	// MaxISDNAddressLength is the integer constant for maxISDN-AddressLength.
+	// MaxISDNAddressLength is the integer constant for MaxISDNAddressLength.
 	MaxISDNAddressLength int64 = 9
 
-	// MaxFTNAddressLength is the integer constant for maxFTN-AddressLength.
+	// MaxFTNAddressLength is the integer constant for MaxFTNAddressLength.
 	MaxFTNAddressLength int64 = 15
 
-	// MaxISDNSubaddressLength is the integer constant for maxISDN-SubaddressLength.
+	// MaxISDNSubaddressLength is the integer constant for MaxISDNSubaddressLength.
 	MaxISDNSubaddressLength int64 = 21
 
-	// MaxSignalInfoLength is the integer constant for maxSignalInfoLength.
+	// MaxSignalInfoLength is the integer constant for MaxSignalInfoLength.
 	MaxSignalInfoLength int64 = 200
 
-	// MaxLongSignalInfoLength is the integer constant for maxLongSignalInfoLength.
+	// MaxLongSignalInfoLength is the integer constant for MaxLongSignalInfoLength.
 	MaxLongSignalInfoLength int64 = 2560
 
-	// AlertingLevel0 is the octet string constant for alertingLevel-0.
+	// AlertingLevel0 is the octet string constant for AlertingLevel0.
 	AlertingLevel0 = "\x00"
 
-	// AlertingLevel1 is the octet string constant for alertingLevel-1.
+	// AlertingLevel1 is the octet string constant for AlertingLevel1.
 	AlertingLevel1 = "\x01"
 
-	// AlertingLevel2 is the octet string constant for alertingLevel-2.
+	// AlertingLevel2 is the octet string constant for AlertingLevel2.
 	AlertingLevel2 = "\x02"
 
-	// AlertingCategory1 is the octet string constant for alertingCategory-1.
+	// AlertingCategory1 is the octet string constant for AlertingCategory1.
 	AlertingCategory1 = "\x04"
 
-	// AlertingCategory2 is the octet string constant for alertingCategory-2.
+	// AlertingCategory2 is the octet string constant for AlertingCategory2.
 	AlertingCategory2 = "\x05"
 
-	// AlertingCategory3 is the octet string constant for alertingCategory-3.
+	// AlertingCategory3 is the octet string constant for AlertingCategory3.
 	AlertingCategory3 = "\x06"
 
-	// AlertingCategory4 is the octet string constant for alertingCategory-4.
+	// AlertingCategory4 is the octet string constant for AlertingCategory4.
 	AlertingCategory4 = "\x07"
 
-	// AlertingCategory5 is the octet string constant for alertingCategory-5.
+	// AlertingCategory5 is the octet string constant for AlertingCategory5.
 	AlertingCategory5 = "\x08"
 
-	// MaxNumOfHLRId is the integer constant for maxNumOfHLR-Id.
+	// MaxNumOfHLRId is the integer constant for MaxNumOfHLRId.
 	MaxNumOfHLRId int64 = 50
 
-	// EmergencyServices is the integer constant for emergencyServices.
+	// EmergencyServices is the integer constant for EmergencyServices.
 	EmergencyServices int64 = 0
 
-	// EmergencyAlertServices is the integer constant for emergencyAlertServices.
+	// EmergencyAlertServices is the integer constant for EmergencyAlertServices.
 	EmergencyAlertServices int64 = 1
 
-	// PersonTracking is the integer constant for personTracking.
+	// PersonTracking is the integer constant for PersonTracking.
 	PersonTracking int64 = 2
 
-	// FleetManagement is the integer constant for fleetManagement.
+	// FleetManagement is the integer constant for FleetManagement.
 	FleetManagement int64 = 3
 
-	// AssetManagement is the integer constant for assetManagement.
+	// AssetManagement is the integer constant for AssetManagement.
 	AssetManagement int64 = 4
 
-	// TrafficCongestionReporting is the integer constant for trafficCongestionReporting.
+	// TrafficCongestionReporting is the integer constant for TrafficCongestionReporting.
 	TrafficCongestionReporting int64 = 5
 
-	// RoadsideAssistance is the integer constant for roadsideAssistance.
+	// RoadsideAssistance is the integer constant for RoadsideAssistance.
 	RoadsideAssistance int64 = 6
 
-	// RoutingToNearestCommercialEnterprise is the integer constant for routingToNearestCommercialEnterprise.
+	// RoutingToNearestCommercialEnterprise is the integer constant for RoutingToNearestCommercialEnterprise.
 	RoutingToNearestCommercialEnterprise int64 = 7
 
-	// Navigation is the integer constant for navigation.
+	// Navigation is the integer constant for Navigation.
 	Navigation int64 = 8
 
-	// CitySightseeing is the integer constant for citySightseeing.
+	// CitySightseeing is the integer constant for CitySightseeing.
 	CitySightseeing int64 = 9
 
-	// LocalizedAdvertising is the integer constant for localizedAdvertising.
+	// LocalizedAdvertising is the integer constant for LocalizedAdvertising.
 	LocalizedAdvertising int64 = 10
 
-	// MobileYellowPages is the integer constant for mobileYellowPages.
+	// MobileYellowPages is the integer constant for MobileYellowPages.
 	MobileYellowPages int64 = 11
 
-	// TrafficAndPublicTransportationInfo is the integer constant for trafficAndPublicTransportationInfo.
+	// TrafficAndPublicTransportationInfo is the integer constant for TrafficAndPublicTransportationInfo.
 	TrafficAndPublicTransportationInfo int64 = 12
 
-	// Weather is the integer constant for weather.
+	// Weather is the integer constant for Weather.
 	Weather int64 = 13
 
-	// AssetAndServiceFinding is the integer constant for assetAndServiceFinding.
+	// AssetAndServiceFinding is the integer constant for AssetAndServiceFinding.
 	AssetAndServiceFinding int64 = 14
 
-	// Gaming is the integer constant for gaming.
+	// Gaming is the integer constant for Gaming.
 	Gaming int64 = 15
 
-	// FindYourFriend is the integer constant for findYourFriend.
+	// FindYourFriend is the integer constant for FindYourFriend.
 	FindYourFriend int64 = 16
 
-	// Dating is the integer constant for dating.
+	// Dating is the integer constant for Dating.
 	Dating int64 = 17
 
-	// Chatting is the integer constant for chatting.
+	// Chatting is the integer constant for Chatting.
 	Chatting int64 = 18
 
-	// RouteFinding is the integer constant for routeFinding.
+	// RouteFinding is the integer constant for RouteFinding.
 	RouteFinding int64 = 19
 
-	// WhereAmI is the integer constant for whereAmI.
+	// WhereAmI is the integer constant for WhereAmI.
 	WhereAmI int64 = 20
 
-	// Serv64 is the integer constant for serv64.
+	// Serv64 is the integer constant for Serv64.
 	Serv64 int64 = 64
 
-	// Serv65 is the integer constant for serv65.
+	// Serv65 is the integer constant for Serv65.
 	Serv65 int64 = 65
 
-	// Serv66 is the integer constant for serv66.
+	// Serv66 is the integer constant for Serv66.
 	Serv66 int64 = 66
 
-	// Serv67 is the integer constant for serv67.
+	// Serv67 is the integer constant for Serv67.
 	Serv67 int64 = 67
 
-	// Serv68 is the integer constant for serv68.
+	// Serv68 is the integer constant for Serv68.
 	Serv68 int64 = 68
 
-	// Serv69 is the integer constant for serv69.
+	// Serv69 is the integer constant for Serv69.
 	Serv69 int64 = 69
 
-	// Serv70 is the integer constant for serv70.
+	// Serv70 is the integer constant for Serv70.
 	Serv70 int64 = 70
 
-	// Serv71 is the integer constant for serv71.
+	// Serv71 is the integer constant for Serv71.
 	Serv71 int64 = 71
 
-	// Serv72 is the integer constant for serv72.
+	// Serv72 is the integer constant for Serv72.
 	Serv72 int64 = 72
 
-	// Serv73 is the integer constant for serv73.
+	// Serv73 is the integer constant for Serv73.
 	Serv73 int64 = 73
 
-	// Serv74 is the integer constant for serv74.
+	// Serv74 is the integer constant for Serv74.
 	Serv74 int64 = 74
 
-	// Serv75 is the integer constant for serv75.
+	// Serv75 is the integer constant for Serv75.
 	Serv75 int64 = 75
 
-	// Serv76 is the integer constant for serv76.
+	// Serv76 is the integer constant for Serv76.
 	Serv76 int64 = 76
 
-	// Serv77 is the integer constant for serv77.
+	// Serv77 is the integer constant for Serv77.
 	Serv77 int64 = 77
 
-	// Serv78 is the integer constant for serv78.
+	// Serv78 is the integer constant for Serv78.
 	Serv78 int64 = 78
 
-	// Serv79 is the integer constant for serv79.
+	// Serv79 is the integer constant for Serv79.
 	Serv79 int64 = 79
 
-	// Serv80 is the integer constant for serv80.
+	// Serv80 is the integer constant for Serv80.
 	Serv80 int64 = 80
 
-	// Serv81 is the integer constant for serv81.
+	// Serv81 is the integer constant for Serv81.
 	Serv81 int64 = 81
 
-	// Serv82 is the integer constant for serv82.
+	// Serv82 is the integer constant for Serv82.
 	Serv82 int64 = 82
 
-	// Serv83 is the integer constant for serv83.
+	// Serv83 is the integer constant for Serv83.
 	Serv83 int64 = 83
 
-	// Serv84 is the integer constant for serv84.
+	// Serv84 is the integer constant for Serv84.
 	Serv84 int64 = 84
 
-	// Serv85 is the integer constant for serv85.
+	// Serv85 is the integer constant for Serv85.
 	Serv85 int64 = 85
 
-	// Serv86 is the integer constant for serv86.
+	// Serv86 is the integer constant for Serv86.
 	Serv86 int64 = 86
 
-	// Serv87 is the integer constant for serv87.
+	// Serv87 is the integer constant for Serv87.
 	Serv87 int64 = 87
 
-	// Serv88 is the integer constant for serv88.
+	// Serv88 is the integer constant for Serv88.
 	Serv88 int64 = 88
 
-	// Serv89 is the integer constant for serv89.
+	// Serv89 is the integer constant for Serv89.
 	Serv89 int64 = 89
 
-	// Serv90 is the integer constant for serv90.
+	// Serv90 is the integer constant for Serv90.
 	Serv90 int64 = 90
 
-	// Serv91 is the integer constant for serv91.
+	// Serv91 is the integer constant for Serv91.
 	Serv91 int64 = 91
 
-	// Serv92 is the integer constant for serv92.
+	// Serv92 is the integer constant for Serv92.
 	Serv92 int64 = 92
 
-	// Serv93 is the integer constant for serv93.
+	// Serv93 is the integer constant for Serv93.
 	Serv93 int64 = 93
 
-	// Serv94 is the integer constant for serv94.
+	// Serv94 is the integer constant for Serv94.
 	Serv94 int64 = 94
 
-	// Serv95 is the integer constant for serv95.
+	// Serv95 is the integer constant for Serv95.
 	Serv95 int64 = 95
 
-	// Serv96 is the integer constant for serv96.
+	// Serv96 is the integer constant for Serv96.
 	Serv96 int64 = 96
 
-	// Serv97 is the integer constant for serv97.
+	// Serv97 is the integer constant for Serv97.
 	Serv97 int64 = 97
 
-	// Serv98 is the integer constant for serv98.
+	// Serv98 is the integer constant for Serv98.
 	Serv98 int64 = 98
 
-	// Serv99 is the integer constant for serv99.
+	// Serv99 is the integer constant for Serv99.
 	Serv99 int64 = 99
 
-	// Serv100 is the integer constant for serv100.
+	// Serv100 is the integer constant for Serv100.
 	Serv100 int64 = 100
 
-	// Serv101 is the integer constant for serv101.
+	// Serv101 is the integer constant for Serv101.
 	Serv101 int64 = 101
 
-	// Serv102 is the integer constant for serv102.
+	// Serv102 is the integer constant for Serv102.
 	Serv102 int64 = 102
 
-	// Serv103 is the integer constant for serv103.
+	// Serv103 is the integer constant for Serv103.
 	Serv103 int64 = 103
 
-	// Serv104 is the integer constant for serv104.
+	// Serv104 is the integer constant for Serv104.
 	Serv104 int64 = 104
 
-	// Serv105 is the integer constant for serv105.
+	// Serv105 is the integer constant for Serv105.
 	Serv105 int64 = 105
 
-	// Serv106 is the integer constant for serv106.
+	// Serv106 is the integer constant for Serv106.
 	Serv106 int64 = 106
 
-	// Serv107 is the integer constant for serv107.
+	// Serv107 is the integer constant for Serv107.
 	Serv107 int64 = 107
 
-	// Serv108 is the integer constant for serv108.
+	// Serv108 is the integer constant for Serv108.
 	Serv108 int64 = 108
 
-	// Serv109 is the integer constant for serv109.
+	// Serv109 is the integer constant for Serv109.
 	Serv109 int64 = 109
 
-	// Serv110 is the integer constant for serv110.
+	// Serv110 is the integer constant for Serv110.
 	Serv110 int64 = 110
 
-	// Serv111 is the integer constant for serv111.
+	// Serv111 is the integer constant for Serv111.
 	Serv111 int64 = 111
 
-	// Serv112 is the integer constant for serv112.
+	// Serv112 is the integer constant for Serv112.
 	Serv112 int64 = 112
 
-	// Serv113 is the integer constant for serv113.
+	// Serv113 is the integer constant for Serv113.
 	Serv113 int64 = 113
 
-	// Serv114 is the integer constant for serv114.
+	// Serv114 is the integer constant for Serv114.
 	Serv114 int64 = 114
 
-	// Serv115 is the integer constant for serv115.
+	// Serv115 is the integer constant for Serv115.
 	Serv115 int64 = 115
 
-	// Serv116 is the integer constant for serv116.
+	// Serv116 is the integer constant for Serv116.
 	Serv116 int64 = 116
 
-	// Serv117 is the integer constant for serv117.
+	// Serv117 is the integer constant for Serv117.
 	Serv117 int64 = 117
 
-	// Serv118 is the integer constant for serv118.
+	// Serv118 is the integer constant for Serv118.
 	Serv118 int64 = 118
 
-	// Serv119 is the integer constant for serv119.
+	// Serv119 is the integer constant for Serv119.
 	Serv119 int64 = 119
 
-	// Serv120 is the integer constant for serv120.
+	// Serv120 is the integer constant for Serv120.
 	Serv120 int64 = 120
 
-	// Serv121 is the integer constant for serv121.
+	// Serv121 is the integer constant for Serv121.
 	Serv121 int64 = 121
 
-	// Serv122 is the integer constant for serv122.
+	// Serv122 is the integer constant for Serv122.
 	Serv122 int64 = 122
 
-	// Serv123 is the integer constant for serv123.
+	// Serv123 is the integer constant for Serv123.
 	Serv123 int64 = 123
 
-	// Serv124 is the integer constant for serv124.
+	// Serv124 is the integer constant for Serv124.
 	Serv124 int64 = 124
 
-	// Serv125 is the integer constant for serv125.
+	// Serv125 is the integer constant for Serv125.
 	Serv125 int64 = 125
 
-	// Serv126 is the integer constant for serv126.
+	// Serv126 is the integer constant for Serv126.
 	Serv126 int64 = 126
 
-	// Serv127 is the integer constant for serv127.
+	// Serv127 is the integer constant for Serv127.
 	Serv127 int64 = 127
 
-	// PriorityLevelA is the integer constant for priorityLevelA.
+	// PriorityLevelA is the integer constant for PriorityLevelA.
 	PriorityLevelA int64 = 6
 
-	// PriorityLevelB is the integer constant for priorityLevelB.
+	// PriorityLevelB is the integer constant for PriorityLevelB.
 	PriorityLevelB int64 = 5
 
-	// PriorityLevel0 is the integer constant for priorityLevel0.
+	// PriorityLevel0 is the integer constant for PriorityLevel0.
 	PriorityLevel0 int64 = 0
 
-	// PriorityLevel1 is the integer constant for priorityLevel1.
+	// PriorityLevel1 is the integer constant for PriorityLevel1.
 	PriorityLevel1 int64 = 1
 
-	// PriorityLevel2 is the integer constant for priorityLevel2.
+	// PriorityLevel2 is the integer constant for PriorityLevel2.
 	PriorityLevel2 int64 = 2
 
-	// PriorityLevel3 is the integer constant for priorityLevel3.
+	// PriorityLevel3 is the integer constant for PriorityLevel3.
 	PriorityLevel3 int64 = 3
 
-	// PriorityLevel4 is the integer constant for priorityLevel4.
+	// PriorityLevel4 is the integer constant for PriorityLevel4.
 	PriorityLevel4 int64 = 4
 
-	// MaxNumOfMCBearers is the integer constant for maxNumOfMC-Bearers.
+	// MaxNumOfMCBearers is the integer constant for MaxNumOfMCBearers.
 	MaxNumOfMCBearers int64 = 7
 )
 
-// TBCDSTRING represents the ASN.1 type TBCD-STRING (OCTET_STRING).
+// TBCDSTRING represents the ASN.1 type TBCDSTRING (OCTET_STRING).
 type TBCDSTRING = []byte
 
 // DiameterIdentity represents the ASN.1 type DiameterIdentity (OCTET_STRING).
@@ -353,13 +353,13 @@ type DiameterIdentity = []byte
 // AddressString represents the ASN.1 type AddressString (OCTET_STRING).
 type AddressString = []byte
 
-// ISDNAddressString represents the ASN.1 type ISDN-AddressString (OCTET_STRING).
+// ISDNAddressString represents the ASN.1 type ISDNAddressString (OCTET_STRING).
 type ISDNAddressString = AddressString
 
-// FTNAddressString represents the ASN.1 type FTN-AddressString (OCTET_STRING).
+// FTNAddressString represents the ASN.1 type FTNAddressString (OCTET_STRING).
 type FTNAddressString = AddressString
 
-// ISDNSubaddressString represents the ASN.1 type ISDN-SubaddressString (OCTET_STRING).
+// ISDNSubaddressString represents the ASN.1 type ISDNSubaddressString (OCTET_STRING).
 type ISDNSubaddressString = []byte
 
 // ExternalSignalInfo represents the ASN.1 type ExternalSignalInfo (SEQUENCE).
@@ -400,7 +400,7 @@ func (v ProtocolId) String() string {
 	}
 }
 
-// ExtExternalSignalInfo represents the ASN.1 type Ext-ExternalSignalInfo (SEQUENCE).
+// ExtExternalSignalInfo represents the ASN.1 type ExtExternalSignalInfo (SEQUENCE).
 type ExtExternalSignalInfo struct {
 	ExtProtocolId      ExtProtocolId       `asn1:""`
 	SignalInfo         SignalInfo          `asn1:""`
@@ -410,7 +410,7 @@ type ExtExternalSignalInfo struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// ExtProtocolId represents the ASN.1 ENUMERATED type Ext-ProtocolId.
+// ExtProtocolId represents the ASN.1 ENUMERATED type ExtProtocolId.
 type ExtProtocolId int64
 
 const (
@@ -461,7 +461,7 @@ func (v AccessNetworkProtocolId) String() string {
 // AlertingPattern represents the ASN.1 type AlertingPattern (OCTET_STRING).
 type AlertingPattern = []byte
 
-// GSNAddress represents the ASN.1 type GSN-Address (OCTET_STRING).
+// GSNAddress represents the ASN.1 type GSNAddress (OCTET_STRING).
 type GSNAddress = []byte
 
 // Time represents the ASN.1 type Time (OCTET_STRING).
@@ -499,7 +499,7 @@ func NewIdentityImsiWithLMSI(v IMSIWithLMSI) Identity {
 	}
 }
 
-// IMSIWithLMSI represents the ASN.1 type IMSI-WithLMSI (SEQUENCE).
+// IMSIWithLMSI represents the ASN.1 type IMSIWithLMSI (SEQUENCE).
 type IMSIWithLMSI struct {
 	Imsi        IMSI     `asn1:""`
 	Lmsi        LMSI     `asn1:""`
@@ -508,7 +508,7 @@ type IMSIWithLMSI struct {
 	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// ASCICallReference represents the ASN.1 type ASCI-CallReference (OCTET_STRING).
+// ASCICallReference represents the ASN.1 type ASCICallReference (OCTET_STRING).
 type ASCICallReference = TBCDSTRING
 
 // TMSI represents the ASN.1 type TMSI (OCTET_STRING).
@@ -546,10 +546,10 @@ func NewSubscriberIdTmsi(v TMSI) SubscriberId {
 // IMEI represents the ASN.1 type IMEI (OCTET_STRING).
 type IMEI = TBCDSTRING
 
-// HLRId represents the ASN.1 type HLR-Id (OCTET_STRING).
+// HLRId represents the ASN.1 type HLRId (OCTET_STRING).
 type HLRId = IMSI
 
-// HLRList represents the ASN.1 type HLR-List (SEQUENCE_OF).
+// HLRList represents the ASN.1 type HLRList (SEQUENCE_OF).
 type HLRList = []HLRId
 
 // LMSI represents the ASN.1 type LMSI (OCTET_STRING).
@@ -632,7 +632,7 @@ func (v AdditionalNetworkResource) String() string {
 	}
 }
 
-// NAEAPreferredCI represents the ASN.1 type NAEA-PreferredCI (SEQUENCE).
+// NAEAPreferredCI represents the ASN.1 type NAEAPreferredCI (SEQUENCE).
 type NAEAPreferredCI struct {
 	NaeaPreferredCIC   NAEACIC             `asn1:"tag:0,context,implicit"`
 	ExtensionContainer *ExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
@@ -641,7 +641,7 @@ type NAEAPreferredCI struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// NAEACIC represents the ASN.1 type NAEA-CIC (OCTET_STRING).
+// NAEACIC represents the ASN.1 type NAEACIC (OCTET_STRING).
 type NAEACIC = []byte
 
 // SubscriberIdentity choice constants.
@@ -713,19 +713,19 @@ func (v LCSClientInternalID) String() string {
 // LCSServiceTypeID represents the ASN.1 type LCSServiceTypeID (INTEGER).
 type LCSServiceTypeID = int64
 
-// PLMNId represents the ASN.1 type PLMN-Id (OCTET_STRING).
+// PLMNId represents the ASN.1 type PLMNId (OCTET_STRING).
 type PLMNId = []byte
 
-// EUTRANCGI represents the ASN.1 type E-UTRAN-CGI (OCTET_STRING).
+// EUTRANCGI represents the ASN.1 type EUTRANCGI (OCTET_STRING).
 type EUTRANCGI = []byte
 
-// NRCGI represents the ASN.1 type NR-CGI (OCTET_STRING).
+// NRCGI represents the ASN.1 type NRCGI (OCTET_STRING).
 type NRCGI = []byte
 
-// TAId represents the ASN.1 type TA-Id (OCTET_STRING).
+// TAId represents the ASN.1 type TAId (OCTET_STRING).
 type TAId = []byte
 
-// NRTAId represents the ASN.1 type NR-TA-Id (OCTET_STRING).
+// NRTAId represents the ASN.1 type NRTAId (OCTET_STRING).
 type NRTAId = []byte
 
 // RAIdentity represents the ASN.1 type RAIdentity (OCTET_STRING).
@@ -807,14 +807,14 @@ const (
 	ExtBasicServiceCodeChoiceExtTeleservice   = 2
 )
 
-// ExtBasicServiceCode represents the ASN.1 CHOICE type Ext-BasicServiceCode.
+// ExtBasicServiceCode represents the ASN.1 CHOICE type ExtBasicServiceCode.
 type ExtBasicServiceCode struct {
 	Choice           int
 	ExtBearerService *ExtBearerServiceCode `json:"ExtBearerService,omitempty"`
 	ExtTeleservice   *ExtTeleserviceCode   `json:"ExtTeleservice,omitempty"`
 }
 
-// NewExtBasicServiceCodeExtBearerService creates a Ext-BasicServiceCode with the ext-BearerService alternative.
+// NewExtBasicServiceCodeExtBearerService creates a ExtBasicServiceCode with the ext-BearerService alternative.
 func NewExtBasicServiceCodeExtBearerService(v ExtBearerServiceCode) ExtBasicServiceCode {
 	return ExtBasicServiceCode{
 		Choice:           ExtBasicServiceCodeChoiceExtBearerService,
@@ -822,7 +822,7 @@ func NewExtBasicServiceCodeExtBearerService(v ExtBearerServiceCode) ExtBasicServ
 	}
 }
 
-// NewExtBasicServiceCodeExtTeleservice creates a Ext-BasicServiceCode with the ext-Teleservice alternative.
+// NewExtBasicServiceCodeExtTeleservice creates a ExtBasicServiceCode with the ext-Teleservice alternative.
 func NewExtBasicServiceCodeExtTeleservice(v ExtTeleserviceCode) ExtBasicServiceCode {
 	return ExtBasicServiceCode{
 		Choice:         ExtBasicServiceCodeChoiceExtTeleservice,
@@ -830,7 +830,7 @@ func NewExtBasicServiceCodeExtTeleservice(v ExtTeleserviceCode) ExtBasicServiceC
 	}
 }
 
-// EMLPPInfo represents the ASN.1 type EMLPP-Info (SEQUENCE).
+// EMLPPInfo represents the ASN.1 type EMLPPInfo (SEQUENCE).
 type EMLPPInfo struct {
 	MaximumentitledPriority EMLPPPriority       `asn1:""`
 	DefaultPriority         EMLPPPriority       `asn1:""`
@@ -840,10 +840,10 @@ type EMLPPInfo struct {
 	ExtData_                [][]byte            `asn1:"-" json:"-"`
 }
 
-// EMLPPPriority represents the ASN.1 type EMLPP-Priority (INTEGER).
+// EMLPPPriority represents the ASN.1 type EMLPPPriority (INTEGER).
 type EMLPPPriority = int64
 
-// MCSSInfo represents the ASN.1 type MC-SS-Info (SEQUENCE).
+// MCSSInfo represents the ASN.1 type MCSSInfo (SEQUENCE).
 type MCSSInfo struct {
 	SsCode             SSCode              `asn1:"tag:0,context,implicit"`
 	SsStatus           ExtSSStatus         `asn1:"tag:1,context,implicit"`
@@ -855,13 +855,13 @@ type MCSSInfo struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// MaxMCBearers represents the ASN.1 type MaxMC-Bearers (INTEGER).
+// MaxMCBearers represents the ASN.1 type MaxMCBearers (INTEGER).
 type MaxMCBearers = int64
 
-// MCBearers represents the ASN.1 type MC-Bearers (INTEGER).
+// MCBearers represents the ASN.1 type MCBearers (INTEGER).
 type MCBearers = int64
 
-// ExtSSStatus represents the ASN.1 type Ext-SS-Status (OCTET_STRING).
+// ExtSSStatus represents the ASN.1 type ExtSSStatus (OCTET_STRING).
 type ExtSSStatus = []byte
 
 // AgeOfLocationInformation represents the ASN.1 type AgeOfLocationInformation (INTEGER).

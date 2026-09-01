@@ -4,6 +4,7 @@ package gsm_map
 
 import (
 	"fmt"
+	"math/big"
 
 	"github.com/gomaja/go-asn1/runtime"
 	"github.com/gomaja/go-asn1/runtime/ber"
@@ -25,7 +26,7 @@ const (
 	ROSSingleASChoiceReject       = 4
 )
 
-// ROSSingleAS represents the ASN.1 CHOICE type ROS-SingleAS.
+// ROSSingleAS represents the ASN.1 CHOICE type ROSSingleAS.
 type ROSSingleAS struct {
 	Choice       int
 	Invoke       *Invoke       `json:"Invoke,omitempty"`
@@ -34,7 +35,7 @@ type ROSSingleAS struct {
 	Reject       *Reject       `json:"Reject,omitempty"`
 }
 
-// NewROSSingleASInvoke creates a ROS-SingleAS with the invoke alternative.
+// NewROSSingleASInvoke creates a ROSSingleAS with the invoke alternative.
 func NewROSSingleASInvoke(v Invoke) ROSSingleAS {
 	return ROSSingleAS{
 		Choice: ROSSingleASChoiceInvoke,
@@ -42,7 +43,7 @@ func NewROSSingleASInvoke(v Invoke) ROSSingleAS {
 	}
 }
 
-// NewROSSingleASReturnResult creates a ROS-SingleAS with the returnResult alternative.
+// NewROSSingleASReturnResult creates a ROSSingleAS with the returnResult alternative.
 func NewROSSingleASReturnResult(v ReturnResult) ROSSingleAS {
 	return ROSSingleAS{
 		Choice:       ROSSingleASChoiceReturnResult,
@@ -50,7 +51,7 @@ func NewROSSingleASReturnResult(v ReturnResult) ROSSingleAS {
 	}
 }
 
-// NewROSSingleASReturnError creates a ROS-SingleAS with the returnError alternative.
+// NewROSSingleASReturnError creates a ROSSingleAS with the returnError alternative.
 func NewROSSingleASReturnError(v ReturnError) ROSSingleAS {
 	return ROSSingleAS{
 		Choice:      ROSSingleASChoiceReturnError,
@@ -58,7 +59,7 @@ func NewROSSingleASReturnError(v ReturnError) ROSSingleAS {
 	}
 }
 
-// NewROSSingleASReject creates a ROS-SingleAS with the reject alternative.
+// NewROSSingleASReject creates a ROSSingleAS with the reject alternative.
 func NewROSSingleASReject(v Reject) ROSSingleAS {
 	return ROSSingleAS{
 		Choice: ROSSingleASChoiceReject,
@@ -74,7 +75,7 @@ const (
 	ROSConsumerASChoiceReject       = 4
 )
 
-// ROSConsumerAS represents the ASN.1 CHOICE type ROS-ConsumerAS.
+// ROSConsumerAS represents the ASN.1 CHOICE type ROSConsumerAS.
 type ROSConsumerAS struct {
 	Choice       int
 	Invoke       *Invoke       `json:"Invoke,omitempty"`
@@ -83,7 +84,7 @@ type ROSConsumerAS struct {
 	Reject       *Reject       `json:"Reject,omitempty"`
 }
 
-// NewROSConsumerASInvoke creates a ROS-ConsumerAS with the invoke alternative.
+// NewROSConsumerASInvoke creates a ROSConsumerAS with the invoke alternative.
 func NewROSConsumerASInvoke(v Invoke) ROSConsumerAS {
 	return ROSConsumerAS{
 		Choice: ROSConsumerASChoiceInvoke,
@@ -91,7 +92,7 @@ func NewROSConsumerASInvoke(v Invoke) ROSConsumerAS {
 	}
 }
 
-// NewROSConsumerASReturnResult creates a ROS-ConsumerAS with the returnResult alternative.
+// NewROSConsumerASReturnResult creates a ROSConsumerAS with the returnResult alternative.
 func NewROSConsumerASReturnResult(v ReturnResult) ROSConsumerAS {
 	return ROSConsumerAS{
 		Choice:       ROSConsumerASChoiceReturnResult,
@@ -99,7 +100,7 @@ func NewROSConsumerASReturnResult(v ReturnResult) ROSConsumerAS {
 	}
 }
 
-// NewROSConsumerASReturnError creates a ROS-ConsumerAS with the returnError alternative.
+// NewROSConsumerASReturnError creates a ROSConsumerAS with the returnError alternative.
 func NewROSConsumerASReturnError(v ReturnError) ROSConsumerAS {
 	return ROSConsumerAS{
 		Choice:      ROSConsumerASChoiceReturnError,
@@ -107,7 +108,7 @@ func NewROSConsumerASReturnError(v ReturnError) ROSConsumerAS {
 	}
 }
 
-// NewROSConsumerASReject creates a ROS-ConsumerAS with the reject alternative.
+// NewROSConsumerASReject creates a ROSConsumerAS with the reject alternative.
 func NewROSConsumerASReject(v Reject) ROSConsumerAS {
 	return ROSConsumerAS{
 		Choice: ROSConsumerASChoiceReject,
@@ -123,7 +124,7 @@ const (
 	ROSSupplierASChoiceReject       = 4
 )
 
-// ROSSupplierAS represents the ASN.1 CHOICE type ROS-SupplierAS.
+// ROSSupplierAS represents the ASN.1 CHOICE type ROSSupplierAS.
 type ROSSupplierAS struct {
 	Choice       int
 	Invoke       *Invoke       `json:"Invoke,omitempty"`
@@ -132,7 +133,7 @@ type ROSSupplierAS struct {
 	Reject       *Reject       `json:"Reject,omitempty"`
 }
 
-// NewROSSupplierASInvoke creates a ROS-SupplierAS with the invoke alternative.
+// NewROSSupplierASInvoke creates a ROSSupplierAS with the invoke alternative.
 func NewROSSupplierASInvoke(v Invoke) ROSSupplierAS {
 	return ROSSupplierAS{
 		Choice: ROSSupplierASChoiceInvoke,
@@ -140,7 +141,7 @@ func NewROSSupplierASInvoke(v Invoke) ROSSupplierAS {
 	}
 }
 
-// NewROSSupplierASReturnResult creates a ROS-SupplierAS with the returnResult alternative.
+// NewROSSupplierASReturnResult creates a ROSSupplierAS with the returnResult alternative.
 func NewROSSupplierASReturnResult(v ReturnResult) ROSSupplierAS {
 	return ROSSupplierAS{
 		Choice:       ROSSupplierASChoiceReturnResult,
@@ -148,7 +149,7 @@ func NewROSSupplierASReturnResult(v ReturnResult) ROSSupplierAS {
 	}
 }
 
-// NewROSSupplierASReturnError creates a ROS-SupplierAS with the returnError alternative.
+// NewROSSupplierASReturnError creates a ROSSupplierAS with the returnError alternative.
 func NewROSSupplierASReturnError(v ReturnError) ROSSupplierAS {
 	return ROSSupplierAS{
 		Choice:      ROSSupplierASChoiceReturnError,
@@ -156,12 +157,117 @@ func NewROSSupplierASReturnError(v ReturnError) ROSSupplierAS {
 	}
 }
 
-// NewROSSupplierASReject creates a ROS-SupplierAS with the reject alternative.
+// NewROSSupplierASReject creates a ROSSupplierAS with the reject alternative.
 func NewROSSupplierASReject(v Reject) ROSSupplierAS {
 	return ROSSupplierAS{
 		Choice: ROSSupplierASChoiceReject,
 		Reject: &v,
 	}
+}
+
+// ROSSingleASInvokeLinkedId choice constants.
+const (
+	ROSSingleASInvokeLinkedIdChoicePresent = 1
+	ROSSingleASInvokeLinkedIdChoiceAbsent  = 2
+)
+
+// ROSSingleASInvokeLinkedId represents the ASN.1 CHOICE type ROSSingleASInvokeLinkedId.
+type ROSSingleASInvokeLinkedId struct {
+	Choice  int
+	Present *big.Int  `json:"Present,omitempty"`
+	Absent  *struct{} `json:"Absent,omitempty"`
+}
+
+// NewROSSingleASInvokeLinkedIdPresent creates a ROSSingleASInvokeLinkedId with the present alternative.
+func NewROSSingleASInvokeLinkedIdPresent(v *big.Int) ROSSingleASInvokeLinkedId {
+	return ROSSingleASInvokeLinkedId{
+		Choice:  ROSSingleASInvokeLinkedIdChoicePresent,
+		Present: v,
+	}
+}
+
+// NewROSSingleASInvokeLinkedIdAbsent creates a ROSSingleASInvokeLinkedId with the absent alternative.
+func NewROSSingleASInvokeLinkedIdAbsent(v struct{}) ROSSingleASInvokeLinkedId {
+	return ROSSingleASInvokeLinkedId{
+		Choice: ROSSingleASInvokeLinkedIdChoiceAbsent,
+		Absent: &v,
+	}
+}
+
+// ROSSingleASReturnResultResult represents the ASN.1 type ROSSingleASReturnResultResult (SEQUENCE).
+type ROSSingleASReturnResultResult struct {
+	Opcode Code             `asn1:""`
+	Result runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
+}
+
+// ROSConsumerASInvokeLinkedId choice constants.
+const (
+	ROSConsumerASInvokeLinkedIdChoicePresent = 1
+	ROSConsumerASInvokeLinkedIdChoiceAbsent  = 2
+)
+
+// ROSConsumerASInvokeLinkedId represents the ASN.1 CHOICE type ROSConsumerASInvokeLinkedId.
+type ROSConsumerASInvokeLinkedId struct {
+	Choice  int
+	Present *big.Int  `json:"Present,omitempty"`
+	Absent  *struct{} `json:"Absent,omitempty"`
+}
+
+// NewROSConsumerASInvokeLinkedIdPresent creates a ROSConsumerASInvokeLinkedId with the present alternative.
+func NewROSConsumerASInvokeLinkedIdPresent(v *big.Int) ROSConsumerASInvokeLinkedId {
+	return ROSConsumerASInvokeLinkedId{
+		Choice:  ROSConsumerASInvokeLinkedIdChoicePresent,
+		Present: v,
+	}
+}
+
+// NewROSConsumerASInvokeLinkedIdAbsent creates a ROSConsumerASInvokeLinkedId with the absent alternative.
+func NewROSConsumerASInvokeLinkedIdAbsent(v struct{}) ROSConsumerASInvokeLinkedId {
+	return ROSConsumerASInvokeLinkedId{
+		Choice: ROSConsumerASInvokeLinkedIdChoiceAbsent,
+		Absent: &v,
+	}
+}
+
+// ROSConsumerASReturnResultResult represents the ASN.1 type ROSConsumerASReturnResultResult (SEQUENCE).
+type ROSConsumerASReturnResultResult struct {
+	Opcode Code             `asn1:""`
+	Result runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
+}
+
+// ROSSupplierASInvokeLinkedId choice constants.
+const (
+	ROSSupplierASInvokeLinkedIdChoicePresent = 1
+	ROSSupplierASInvokeLinkedIdChoiceAbsent  = 2
+)
+
+// ROSSupplierASInvokeLinkedId represents the ASN.1 CHOICE type ROSSupplierASInvokeLinkedId.
+type ROSSupplierASInvokeLinkedId struct {
+	Choice  int
+	Present *big.Int  `json:"Present,omitempty"`
+	Absent  *struct{} `json:"Absent,omitempty"`
+}
+
+// NewROSSupplierASInvokeLinkedIdPresent creates a ROSSupplierASInvokeLinkedId with the present alternative.
+func NewROSSupplierASInvokeLinkedIdPresent(v *big.Int) ROSSupplierASInvokeLinkedId {
+	return ROSSupplierASInvokeLinkedId{
+		Choice:  ROSSupplierASInvokeLinkedIdChoicePresent,
+		Present: v,
+	}
+}
+
+// NewROSSupplierASInvokeLinkedIdAbsent creates a ROSSupplierASInvokeLinkedId with the absent alternative.
+func NewROSSupplierASInvokeLinkedIdAbsent(v struct{}) ROSSupplierASInvokeLinkedId {
+	return ROSSupplierASInvokeLinkedId{
+		Choice: ROSSupplierASInvokeLinkedIdChoiceAbsent,
+		Absent: &v,
+	}
+}
+
+// ROSSupplierASReturnResultResult represents the ASN.1 type ROSSupplierASReturnResultResult (SEQUENCE).
+type ROSSupplierASReturnResultResult struct {
+	Opcode Code             `asn1:""`
+	Result runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
 }
 
 // MarshalBER encodes ROSSingleAS to BER format.
@@ -174,6 +280,9 @@ func (v *ROSSingleAS) MarshalBER() ([]byte, error) {
 		enc_0, err := v.Invoke.MarshalBER()
 		if err != nil {
 			return nil, fmt.Errorf("encoding invoke: %w", err)
+		}
+		if v.Invoke.LinkedId != nil {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
 		}
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_0)
 		return enc_0, nil
@@ -222,6 +331,9 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 		enc_der_0, err := v.Invoke.MarshalDER()
 		if err != nil {
 			return nil, fmt.Errorf("encoding invoke: %w", err)
+		}
+		if v.Invoke.LinkedId != nil {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
 		}
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_0)
 		return enc_der_0, nil
@@ -290,6 +402,9 @@ func (v *ROSSingleAS) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding invoke: %w", unmErr)
 		}
 		v.Invoke = &dec
+		if v.Invoke.LinkedId != nil {
+			return fmt.Errorf("decoded Invoke violates WITH COMPONENTS: LinkedId must be absent")
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
 		v.Choice = ROSSingleASChoiceReturnResult
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
@@ -343,6 +458,9 @@ func (v *ROSConsumerAS) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding invoke: %w", err)
 		}
+		if v.Invoke.LinkedId != nil {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
+		}
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_0)
 		return enc_0, nil
 	case ROSConsumerASChoiceReturnResult:
@@ -390,6 +508,9 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 		enc_der_0, err := v.Invoke.MarshalDER()
 		if err != nil {
 			return nil, fmt.Errorf("encoding invoke: %w", err)
+		}
+		if v.Invoke.LinkedId != nil {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
 		}
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_0)
 		return enc_der_0, nil
@@ -458,6 +579,9 @@ func (v *ROSConsumerAS) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding invoke: %w", unmErr)
 		}
 		v.Invoke = &dec
+		if v.Invoke.LinkedId != nil {
+			return fmt.Errorf("decoded Invoke violates WITH COMPONENTS: LinkedId must be absent")
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
 		v.Choice = ROSConsumerASChoiceReturnResult
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
@@ -511,6 +635,9 @@ func (v *ROSSupplierAS) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding invoke: %w", err)
 		}
+		if v.Invoke.LinkedId != nil {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
+		}
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_0)
 		return enc_0, nil
 	case ROSSupplierASChoiceReturnResult:
@@ -558,6 +685,9 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 		enc_der_0, err := v.Invoke.MarshalDER()
 		if err != nil {
 			return nil, fmt.Errorf("encoding invoke: %w", err)
+		}
+		if v.Invoke.LinkedId != nil {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
 		}
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_0)
 		return enc_der_0, nil
@@ -626,6 +756,9 @@ func (v *ROSSupplierAS) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding invoke: %w", unmErr)
 		}
 		v.Invoke = &dec
+		if v.Invoke.LinkedId != nil {
+			return fmt.Errorf("decoded Invoke violates WITH COMPONENTS: LinkedId must be absent")
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
 		v.Choice = ROSSupplierASChoiceReturnResult
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
@@ -664,6 +797,384 @@ func (v *ROSSupplierAS) UnmarshalBER(data []byte) error {
 		v.Reject = &dec
 	} else {
 		return fmt.Errorf("unknown tag %s for ROSSupplierAS CHOICE", peekTag)
+	}
+	return nil
+}
+
+// MarshalBER encodes ROSSingleASInvokeLinkedId to BER format.
+func (v *ROSSingleASInvokeLinkedId) MarshalBER() ([]byte, error) {
+	switch v.Choice {
+	case ROSSingleASInvokeLinkedIdChoicePresent:
+		if v.Present == nil {
+			return nil, fmt.Errorf("choice ROSSingleASInvokeLinkedId: present is nil")
+		}
+		enc_0 := ber.EncodeBigInt(v.Present)
+		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
+		return enc_0, nil
+	case ROSSingleASInvokeLinkedIdChoiceAbsent:
+		enc_1 := ber.EncodeNull()
+		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
+		return enc_1, nil
+	default:
+		return nil, fmt.Errorf("unknown choice %d for ROSSingleASInvokeLinkedId", v.Choice)
+	}
+}
+
+// MarshalDER encodes ROSSingleASInvokeLinkedId to DER format.
+func (v *ROSSingleASInvokeLinkedId) MarshalDER() ([]byte, error) {
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ROSSingleASInvokeLinkedId from BER/DER format.
+func (v *ROSSingleASInvokeLinkedId) UnmarshalBER(data []byte) error {
+	if len(data) == 0 {
+		return fmt.Errorf("empty data for ROSSingleASInvokeLinkedId CHOICE")
+	}
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
+	if peekErr != nil {
+		return fmt.Errorf("peeking tag for ROSSingleASInvokeLinkedId: %w", peekErr)
+	}
+
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
+	if tlvErr != nil {
+		return fmt.Errorf("decoding ROSSingleASInvokeLinkedId CHOICE: %w", tlvErr)
+	}
+	if total != len(choiceData) {
+		return &ber.DecodeError{Offset: total, TypeName: "ROSSingleASInvokeLinkedId", Cause: ber.ErrExtraData}
+	}
+
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+		v.Choice = ROSSingleASInvokeLinkedIdChoicePresent
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding present: %w", tlvErr)
+		}
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
+		if intErr != nil {
+			return fmt.Errorf("decoding present: %w", intErr)
+		}
+		v.Present = decVal
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+		v.Choice = ROSSingleASInvokeLinkedIdChoiceAbsent
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding absent: %w", tlvErr)
+		}
+		_ = rawVal // NULL has no content
+		v.Absent = &struct{}{}
+	} else {
+		return fmt.Errorf("unknown tag %s for ROSSingleASInvokeLinkedId CHOICE", peekTag)
+	}
+	return nil
+}
+
+// MarshalBER encodes ROSSingleASReturnResultResult to BER format.
+func (v *ROSSingleASReturnResultResult) MarshalBER() ([]byte, error) {
+	var children []byte
+	enc_opcode, err := v.Opcode.MarshalBER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding opcode: %w", err)
+	}
+	children = append(children, enc_opcode...)
+	enc_result := v.Result.Bytes
+	children = append(children, enc_result...)
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes ROSSingleASReturnResultResult to DER format.
+func (v *ROSSingleASReturnResultResult) MarshalDER() ([]byte, error) {
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ROSSingleASReturnResultResult from BER/DER format.
+func (v *ROSSingleASReturnResultResult) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding ROSSingleASReturnResultResult SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "ROSSingleASReturnResultResult", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode opcode
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field opcode")
+	}
+	// Decode nested CHOICE (Code)
+	_, n_opcode, _, tlvErr_opcode := ber.DecodeTLV(content[offset:])
+	if tlvErr_opcode != nil {
+		return fmt.Errorf("decoding opcode: %w", tlvErr_opcode)
+	}
+	if unmErr := v.Opcode.UnmarshalBER(content[offset : offset+n_opcode]); unmErr != nil {
+		return fmt.Errorf("decoding opcode: %w", unmErr)
+	}
+	offset += n_opcode
+	// Decode result
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field result")
+	}
+	_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:])
+	if tlvErr_result != nil {
+		return fmt.Errorf("decoding result: %w", tlvErr_result)
+	}
+	v.Result = runtime.RawValue{Bytes: content[offset : offset+n_result]}
+	offset += n_result
+	if offset != len(content) {
+		return &ber.DecodeError{Offset: offset, TypeName: "ROSSingleASReturnResultResult", Cause: ber.ErrExtraData}
+	}
+	return nil
+}
+
+// MarshalBER encodes ROSConsumerASInvokeLinkedId to BER format.
+func (v *ROSConsumerASInvokeLinkedId) MarshalBER() ([]byte, error) {
+	switch v.Choice {
+	case ROSConsumerASInvokeLinkedIdChoicePresent:
+		if v.Present == nil {
+			return nil, fmt.Errorf("choice ROSConsumerASInvokeLinkedId: present is nil")
+		}
+		enc_0 := ber.EncodeBigInt(v.Present)
+		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
+		return enc_0, nil
+	case ROSConsumerASInvokeLinkedIdChoiceAbsent:
+		enc_1 := ber.EncodeNull()
+		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
+		return enc_1, nil
+	default:
+		return nil, fmt.Errorf("unknown choice %d for ROSConsumerASInvokeLinkedId", v.Choice)
+	}
+}
+
+// MarshalDER encodes ROSConsumerASInvokeLinkedId to DER format.
+func (v *ROSConsumerASInvokeLinkedId) MarshalDER() ([]byte, error) {
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ROSConsumerASInvokeLinkedId from BER/DER format.
+func (v *ROSConsumerASInvokeLinkedId) UnmarshalBER(data []byte) error {
+	if len(data) == 0 {
+		return fmt.Errorf("empty data for ROSConsumerASInvokeLinkedId CHOICE")
+	}
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
+	if peekErr != nil {
+		return fmt.Errorf("peeking tag for ROSConsumerASInvokeLinkedId: %w", peekErr)
+	}
+
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
+	if tlvErr != nil {
+		return fmt.Errorf("decoding ROSConsumerASInvokeLinkedId CHOICE: %w", tlvErr)
+	}
+	if total != len(choiceData) {
+		return &ber.DecodeError{Offset: total, TypeName: "ROSConsumerASInvokeLinkedId", Cause: ber.ErrExtraData}
+	}
+
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+		v.Choice = ROSConsumerASInvokeLinkedIdChoicePresent
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding present: %w", tlvErr)
+		}
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
+		if intErr != nil {
+			return fmt.Errorf("decoding present: %w", intErr)
+		}
+		v.Present = decVal
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+		v.Choice = ROSConsumerASInvokeLinkedIdChoiceAbsent
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding absent: %w", tlvErr)
+		}
+		_ = rawVal // NULL has no content
+		v.Absent = &struct{}{}
+	} else {
+		return fmt.Errorf("unknown tag %s for ROSConsumerASInvokeLinkedId CHOICE", peekTag)
+	}
+	return nil
+}
+
+// MarshalBER encodes ROSConsumerASReturnResultResult to BER format.
+func (v *ROSConsumerASReturnResultResult) MarshalBER() ([]byte, error) {
+	var children []byte
+	enc_opcode, err := v.Opcode.MarshalBER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding opcode: %w", err)
+	}
+	children = append(children, enc_opcode...)
+	enc_result := v.Result.Bytes
+	children = append(children, enc_result...)
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes ROSConsumerASReturnResultResult to DER format.
+func (v *ROSConsumerASReturnResultResult) MarshalDER() ([]byte, error) {
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ROSConsumerASReturnResultResult from BER/DER format.
+func (v *ROSConsumerASReturnResultResult) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding ROSConsumerASReturnResultResult SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "ROSConsumerASReturnResultResult", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode opcode
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field opcode")
+	}
+	// Decode nested CHOICE (Code)
+	_, n_opcode, _, tlvErr_opcode := ber.DecodeTLV(content[offset:])
+	if tlvErr_opcode != nil {
+		return fmt.Errorf("decoding opcode: %w", tlvErr_opcode)
+	}
+	if unmErr := v.Opcode.UnmarshalBER(content[offset : offset+n_opcode]); unmErr != nil {
+		return fmt.Errorf("decoding opcode: %w", unmErr)
+	}
+	offset += n_opcode
+	// Decode result
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field result")
+	}
+	_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:])
+	if tlvErr_result != nil {
+		return fmt.Errorf("decoding result: %w", tlvErr_result)
+	}
+	v.Result = runtime.RawValue{Bytes: content[offset : offset+n_result]}
+	offset += n_result
+	if offset != len(content) {
+		return &ber.DecodeError{Offset: offset, TypeName: "ROSConsumerASReturnResultResult", Cause: ber.ErrExtraData}
+	}
+	return nil
+}
+
+// MarshalBER encodes ROSSupplierASInvokeLinkedId to BER format.
+func (v *ROSSupplierASInvokeLinkedId) MarshalBER() ([]byte, error) {
+	switch v.Choice {
+	case ROSSupplierASInvokeLinkedIdChoicePresent:
+		if v.Present == nil {
+			return nil, fmt.Errorf("choice ROSSupplierASInvokeLinkedId: present is nil")
+		}
+		enc_0 := ber.EncodeBigInt(v.Present)
+		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
+		return enc_0, nil
+	case ROSSupplierASInvokeLinkedIdChoiceAbsent:
+		enc_1 := ber.EncodeNull()
+		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
+		return enc_1, nil
+	default:
+		return nil, fmt.Errorf("unknown choice %d for ROSSupplierASInvokeLinkedId", v.Choice)
+	}
+}
+
+// MarshalDER encodes ROSSupplierASInvokeLinkedId to DER format.
+func (v *ROSSupplierASInvokeLinkedId) MarshalDER() ([]byte, error) {
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ROSSupplierASInvokeLinkedId from BER/DER format.
+func (v *ROSSupplierASInvokeLinkedId) UnmarshalBER(data []byte) error {
+	if len(data) == 0 {
+		return fmt.Errorf("empty data for ROSSupplierASInvokeLinkedId CHOICE")
+	}
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
+	if peekErr != nil {
+		return fmt.Errorf("peeking tag for ROSSupplierASInvokeLinkedId: %w", peekErr)
+	}
+
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
+	if tlvErr != nil {
+		return fmt.Errorf("decoding ROSSupplierASInvokeLinkedId CHOICE: %w", tlvErr)
+	}
+	if total != len(choiceData) {
+		return &ber.DecodeError{Offset: total, TypeName: "ROSSupplierASInvokeLinkedId", Cause: ber.ErrExtraData}
+	}
+
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+		v.Choice = ROSSupplierASInvokeLinkedIdChoicePresent
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding present: %w", tlvErr)
+		}
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
+		if intErr != nil {
+			return fmt.Errorf("decoding present: %w", intErr)
+		}
+		v.Present = decVal
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+		v.Choice = ROSSupplierASInvokeLinkedIdChoiceAbsent
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding absent: %w", tlvErr)
+		}
+		_ = rawVal // NULL has no content
+		v.Absent = &struct{}{}
+	} else {
+		return fmt.Errorf("unknown tag %s for ROSSupplierASInvokeLinkedId CHOICE", peekTag)
+	}
+	return nil
+}
+
+// MarshalBER encodes ROSSupplierASReturnResultResult to BER format.
+func (v *ROSSupplierASReturnResultResult) MarshalBER() ([]byte, error) {
+	var children []byte
+	enc_opcode, err := v.Opcode.MarshalBER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding opcode: %w", err)
+	}
+	children = append(children, enc_opcode...)
+	enc_result := v.Result.Bytes
+	children = append(children, enc_result...)
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes ROSSupplierASReturnResultResult to DER format.
+func (v *ROSSupplierASReturnResultResult) MarshalDER() ([]byte, error) {
+	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
+	return v.MarshalBER()
+}
+
+// UnmarshalBER decodes ROSSupplierASReturnResultResult from BER/DER format.
+func (v *ROSSupplierASReturnResultResult) UnmarshalBER(data []byte) error {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding ROSSupplierASReturnResultResult SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "ROSSupplierASReturnResultResult", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode opcode
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field opcode")
+	}
+	// Decode nested CHOICE (Code)
+	_, n_opcode, _, tlvErr_opcode := ber.DecodeTLV(content[offset:])
+	if tlvErr_opcode != nil {
+		return fmt.Errorf("decoding opcode: %w", tlvErr_opcode)
+	}
+	if unmErr := v.Opcode.UnmarshalBER(content[offset : offset+n_opcode]); unmErr != nil {
+		return fmt.Errorf("decoding opcode: %w", unmErr)
+	}
+	offset += n_opcode
+	// Decode result
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field result")
+	}
+	_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:])
+	if tlvErr_result != nil {
+		return fmt.Errorf("decoding result: %w", tlvErr_result)
+	}
+	v.Result = runtime.RawValue{Bytes: content[offset : offset+n_result]}
+	offset += n_result
+	if offset != len(content) {
+		return &ber.DecodeError{Offset: offset, TypeName: "ROSSupplierASReturnResultResult", Cause: ber.ErrExtraData}
 	}
 	return nil
 }

@@ -121,7 +121,7 @@ type ExtensibleCallBarredParam struct {
 	ExtData_                      [][]byte            `asn1:"-" json:"-"`
 }
 
-// CUGRejectParam represents the ASN.1 type CUG-RejectParam (SEQUENCE).
+// CUGRejectParam represents the ASN.1 type CUGRejectParam (SEQUENCE).
 type CUGRejectParam struct {
 	CugRejectCause     *CUGRejectCause     `asn1:",optional" json:"CugRejectCause,omitempty"`
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
@@ -130,7 +130,7 @@ type CUGRejectParam struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// CUGRejectCause represents the ASN.1 ENUMERATED type CUG-RejectCause.
+// CUGRejectCause represents the ASN.1 ENUMERATED type CUGRejectCause.
 type CUGRejectCause int64
 
 const (
@@ -155,7 +155,7 @@ func (v CUGRejectCause) String() string {
 	}
 }
 
-// SSIncompatibilityCause represents the ASN.1 type SS-IncompatibilityCause (SEQUENCE).
+// SSIncompatibilityCause represents the ASN.1 type SSIncompatibilityCause (SEQUENCE).
 type SSIncompatibilityCause struct {
 	SsCode       *SSCode           `asn1:"tag:1,context,implicit,optional" json:"SsCode,omitempty"`
 	BasicService *BasicServiceCode `asn1:",optional" json:"BasicService,omitempty"`
@@ -165,7 +165,7 @@ type SSIncompatibilityCause struct {
 	ExtData_     [][]byte          `asn1:"-" json:"-"`
 }
 
-// PWRegistrationFailureCause represents the ASN.1 ENUMERATED type PW-RegistrationFailureCause.
+// PWRegistrationFailureCause represents the ASN.1 ENUMERATED type PWRegistrationFailureCause.
 type PWRegistrationFailureCause int64
 
 const (
@@ -187,7 +187,7 @@ func (v PWRegistrationFailureCause) String() string {
 	}
 }
 
-// SMEnumeratedDeliveryFailureCause represents the ASN.1 ENUMERATED type SM-EnumeratedDeliveryFailureCause.
+// SMEnumeratedDeliveryFailureCause represents the ASN.1 ENUMERATED type SMEnumeratedDeliveryFailureCause.
 type SMEnumeratedDeliveryFailureCause int64
 
 const (
@@ -221,7 +221,7 @@ func (v SMEnumeratedDeliveryFailureCause) String() string {
 	}
 }
 
-// SMDeliveryFailureCause represents the ASN.1 type SM-DeliveryFailureCause (SEQUENCE).
+// SMDeliveryFailureCause represents the ASN.1 type SMDeliveryFailureCause (SEQUENCE).
 type SMDeliveryFailureCause struct {
 	SmEnumeratedDeliveryFailureCause SMEnumeratedDeliveryFailureCause `asn1:""`
 	DiagnosticInfo                   *SignalInfo                      `asn1:",optional" json:"DiagnosticInfo,omitempty"`
@@ -231,7 +231,7 @@ type SMDeliveryFailureCause struct {
 	ExtData_                         [][]byte                         `asn1:"-" json:"-"`
 }
 
-// AbsentSubscriberSMParam represents the ASN.1 type AbsentSubscriberSM-Param (SEQUENCE).
+// AbsentSubscriberSMParam represents the ASN.1 type AbsentSubscriberSMParam (SEQUENCE).
 type AbsentSubscriberSMParam struct {
 	AbsentSubscriberDiagnosticSM           *AbsentSubscriberDiagnosticSM `asn1:",optional" json:"AbsentSubscriberDiagnosticSM,omitempty"`
 	ExtensionContainer                     *ExtensionContainer           `asn1:",optional" json:"ExtensionContainer,omitempty"`
@@ -330,7 +330,7 @@ type FacilityNotSupParam struct {
 	ExtData_                                     [][]byte            `asn1:"-" json:"-"`
 }
 
-// ORNotAllowedParam represents the ASN.1 type OR-NotAllowedParam (SEQUENCE).
+// ORNotAllowedParam represents the ASN.1 type ORNotAllowedParam (SEQUENCE).
 type ORNotAllowedParam struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -507,7 +507,7 @@ type ForwardingFailedParam struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// ATINotAllowedParam represents the ASN.1 type ATI-NotAllowedParam (SEQUENCE).
+// ATINotAllowedParam represents the ASN.1 type ATINotAllowedParam (SEQUENCE).
 type ATINotAllowedParam struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -515,7 +515,7 @@ type ATINotAllowedParam struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// ATSINotAllowedParam represents the ASN.1 type ATSI-NotAllowedParam (SEQUENCE).
+// ATSINotAllowedParam represents the ASN.1 type ATSINotAllowedParam (SEQUENCE).
 type ATSINotAllowedParam struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -523,7 +523,7 @@ type ATSINotAllowedParam struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// ATMNotAllowedParam represents the ASN.1 type ATM-NotAllowedParam (SEQUENCE).
+// ATMNotAllowedParam represents the ASN.1 type ATMNotAllowedParam (SEQUENCE).
 type ATMNotAllowedParam struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -531,7 +531,7 @@ type ATMNotAllowedParam struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// IllegalSSOperationParam represents the ASN.1 type IllegalSS-OperationParam (SEQUENCE).
+// IllegalSSOperationParam represents the ASN.1 type IllegalSSOperationParam (SEQUENCE).
 type IllegalSSOperationParam struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -539,7 +539,7 @@ type IllegalSSOperationParam struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// SSNotAvailableParam represents the ASN.1 type SS-NotAvailableParam (SEQUENCE).
+// SSNotAvailableParam represents the ASN.1 type SSNotAvailableParam (SEQUENCE).
 type SSNotAvailableParam struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -547,7 +547,7 @@ type SSNotAvailableParam struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// SSSubscriptionViolationParam represents the ASN.1 type SS-SubscriptionViolationParam (SEQUENCE).
+// SSSubscriptionViolationParam represents the ASN.1 type SSSubscriptionViolationParam (SEQUENCE).
 type SSSubscriptionViolationParam struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -563,7 +563,7 @@ type InformationNotAvailableParam struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// SubBusyForMTSMSParam represents the ASN.1 type SubBusyForMT-SMS-Param (SEQUENCE).
+// SubBusyForMTSMSParam represents the ASN.1 type SubBusyForMTSMSParam (SEQUENCE).
 type SubBusyForMTSMSParam struct {
 	ExtensionContainer      *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	GprsConnectionSuspended *struct{}           `asn1:",optional" json:"GprsConnectionSuspended,omitempty"`
@@ -618,7 +618,7 @@ type LongTermDenialParam struct {
 	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// UnauthorizedRequestingNetworkParam represents the ASN.1 type UnauthorizedRequestingNetwork-Param (SEQUENCE).
+// UnauthorizedRequestingNetworkParam represents the ASN.1 type UnauthorizedRequestingNetworkParam (SEQUENCE).
 type UnauthorizedRequestingNetworkParam struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -626,7 +626,7 @@ type UnauthorizedRequestingNetworkParam struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// UnauthorizedLCSClientParam represents the ASN.1 type UnauthorizedLCSClient-Param (SEQUENCE).
+// UnauthorizedLCSClientParam represents the ASN.1 type UnauthorizedLCSClientParam (SEQUENCE).
 type UnauthorizedLCSClientParam struct {
 	UnauthorizedLCSClientDiagnostic *UnauthorizedLCSClientDiagnostic `asn1:"tag:0,context,implicit,optional" json:"UnauthorizedLCSClientDiagnostic,omitempty"`
 	ExtensionContainer              *ExtensionContainer              `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
@@ -635,7 +635,7 @@ type UnauthorizedLCSClientParam struct {
 	ExtData_                        [][]byte                         `asn1:"-" json:"-"`
 }
 
-// UnauthorizedLCSClientDiagnostic represents the ASN.1 ENUMERATED type UnauthorizedLCSClient-Diagnostic.
+// UnauthorizedLCSClientDiagnostic represents the ASN.1 ENUMERATED type UnauthorizedLCSClientDiagnostic.
 type UnauthorizedLCSClientDiagnostic int64
 
 const (
@@ -672,7 +672,7 @@ func (v UnauthorizedLCSClientDiagnostic) String() string {
 	}
 }
 
-// PositionMethodFailureParam represents the ASN.1 type PositionMethodFailure-Param (SEQUENCE).
+// PositionMethodFailureParam represents the ASN.1 type PositionMethodFailureParam (SEQUENCE).
 type PositionMethodFailureParam struct {
 	PositionMethodFailureDiagnostic *PositionMethodFailureDiagnostic `asn1:"tag:0,context,implicit,optional" json:"PositionMethodFailureDiagnostic,omitempty"`
 	ExtensionContainer              *ExtensionContainer              `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
@@ -681,7 +681,7 @@ type PositionMethodFailureParam struct {
 	ExtData_                        [][]byte                         `asn1:"-" json:"-"`
 }
 
-// PositionMethodFailureDiagnostic represents the ASN.1 ENUMERATED type PositionMethodFailure-Diagnostic.
+// PositionMethodFailureDiagnostic represents the ASN.1 ENUMERATED type PositionMethodFailureDiagnostic.
 type PositionMethodFailureDiagnostic int64
 
 const (
@@ -721,7 +721,7 @@ func (v PositionMethodFailureDiagnostic) String() string {
 	}
 }
 
-// UnknownOrUnreachableLCSClientParam represents the ASN.1 type UnknownOrUnreachableLCSClient-Param (SEQUENCE).
+// UnknownOrUnreachableLCSClientParam represents the ASN.1 type UnknownOrUnreachableLCSClientParam (SEQUENCE).
 type UnknownOrUnreachableLCSClientParam struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -729,7 +729,7 @@ type UnknownOrUnreachableLCSClientParam struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// MMEventNotSupportedParam represents the ASN.1 type MM-EventNotSupported-Param (SEQUENCE).
+// MMEventNotSupportedParam represents the ASN.1 type MMEventNotSupportedParam (SEQUENCE).
 type MMEventNotSupportedParam struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -737,7 +737,7 @@ type MMEventNotSupportedParam struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// TargetCellOutsideGCAParam represents the ASN.1 type TargetCellOutsideGCA-Param (SEQUENCE).
+// TargetCellOutsideGCAParam represents the ASN.1 type TargetCellOutsideGCAParam (SEQUENCE).
 type TargetCellOutsideGCAParam struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
