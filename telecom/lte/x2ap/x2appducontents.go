@@ -3686,9 +3686,17 @@ func (v *HandoverRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -3865,9 +3873,17 @@ func (v *UEContextInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		tmp_subscriberprofileidforrfp := SubscriberProfileIDforRFP(val_subscriberprofileidforrfp)
 		v.SubscriberProfileIDforRFP = &tmp_subscriberprofileidforrfp
 	}
-	seqLen_erabstobesetuplist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding e-RABs-ToBeSetup-List length: %w", err)
+	var seqLen_erabstobesetuplist int64
+	var errLength_erabstobesetuplist error
+	seqLen_erabstobesetuplist, errLength_erabstobesetuplist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_erabstobesetuplist != nil {
+		return fmt.Errorf("decoding e-RABs-ToBeSetup-List length: %w", errLength_erabstobesetuplist)
+	}
+	if seqLen_erabstobesetuplist < 1 {
+		return fmt.Errorf("decoding e-RABs-ToBeSetup-List length %d below lower bound 1", seqLen_erabstobesetuplist)
+	}
+	if seqLen_erabstobesetuplist > 256 {
+		return fmt.Errorf("decoding e-RABs-ToBeSetup-List length %d above upper bound 256", seqLen_erabstobesetuplist)
 	}
 	v.ERABsToBeSetupList = make(ERABsToBeSetupList, seqLen_erabstobesetuplist)
 	for i := int64(0); i < seqLen_erabstobesetuplist; i++ {
@@ -3895,9 +3911,17 @@ func (v *UEContextInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.LocationReportingInformation = &dec_locationreportinginformation
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -3933,13 +3957,14 @@ type asn1cAPERERABsToBeSetupListListValue struct{ Value ERABsToBeSetupList }
 // MarshalAPERERABsToBeSetupList encodes a ERABsToBeSetupList list to APER.
 func MarshalAPERERABsToBeSetupList(list ERABsToBeSetupList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsToBeSetupListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsToBeSetupListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsToBeSetupListTo(list ERABsToBeSetupList, bb *per.BitBuffer) error {
+// MarshalAPERERABsToBeSetupListTo appends a ERABsToBeSetupList list to bb.
+func MarshalAPERERABsToBeSetupListTo(list ERABsToBeSetupList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeSetupListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -3955,10 +3980,11 @@ func marshalAPERERABsToBeSetupListTo(list ERABsToBeSetupList, bb *per.BitBuffer)
 // UnmarshalAPERERABsToBeSetupList decodes a ERABsToBeSetupList list from APER.
 func UnmarshalAPERERABsToBeSetupList(data []byte) (ERABsToBeSetupList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsToBeSetupListFrom(bb)
+	return UnmarshalAPERERABsToBeSetupListFrom(bb)
 }
 
-func unmarshalAPERERABsToBeSetupListFrom(bb *per.BitBuffer) (ERABsToBeSetupList, error) {
+// UnmarshalAPERERABsToBeSetupListFrom decodes a ERABsToBeSetupList list from bb.
+func UnmarshalAPERERABsToBeSetupListFrom(bb *per.BitBuffer) (ERABsToBeSetupList, error) {
 	var v asn1cAPERERABsToBeSetupListListValue
 	if err := unmarshalAPERERABsToBeSetupListInto(&v, bb); err != nil {
 		return nil, err
@@ -3967,9 +3993,17 @@ func unmarshalAPERERABsToBeSetupListFrom(bb *per.BitBuffer) (ERABsToBeSetupList,
 }
 
 func unmarshalAPERERABsToBeSetupListInto(v *asn1cAPERERABsToBeSetupListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsToBeSetupList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -4088,9 +4122,17 @@ func (v *ERABsToBeSetupItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding uL-GTPtunnelEndpoint: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -4211,9 +4253,17 @@ func (v *UEContextReferenceAtSeNB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SeNBUEX2APIDExtension = val_senbuex2apidextension
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -4326,9 +4376,17 @@ func (v *UEContextReferenceAtWT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.WTUEXwAPID = WTUEXwAPID(val_wtuexwapid)
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -4441,9 +4499,17 @@ func (v *UEContextReferenceAtSgNB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SgNBUEX2APID = SgNBUEX2APID(val_sgnbuex2apid)
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -4530,9 +4596,17 @@ func (v *HandoverRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -4566,13 +4640,14 @@ type asn1cAPERERABsAdmittedListListValue struct{ Value ERABsAdmittedList }
 // MarshalAPERERABsAdmittedList encodes a ERABsAdmittedList list to APER.
 func MarshalAPERERABsAdmittedList(list ERABsAdmittedList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsAdmittedListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsAdmittedListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsAdmittedListTo(list ERABsAdmittedList, bb *per.BitBuffer) error {
+// MarshalAPERERABsAdmittedListTo appends a ERABsAdmittedList list to bb.
+func MarshalAPERERABsAdmittedListTo(list ERABsAdmittedList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -4588,10 +4663,11 @@ func marshalAPERERABsAdmittedListTo(list ERABsAdmittedList, bb *per.BitBuffer) e
 // UnmarshalAPERERABsAdmittedList decodes a ERABsAdmittedList list from APER.
 func UnmarshalAPERERABsAdmittedList(data []byte) (ERABsAdmittedList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsAdmittedListFrom(bb)
+	return UnmarshalAPERERABsAdmittedListFrom(bb)
 }
 
-func unmarshalAPERERABsAdmittedListFrom(bb *per.BitBuffer) (ERABsAdmittedList, error) {
+// UnmarshalAPERERABsAdmittedListFrom decodes a ERABsAdmittedList list from bb.
+func UnmarshalAPERERABsAdmittedListFrom(bb *per.BitBuffer) (ERABsAdmittedList, error) {
 	var v asn1cAPERERABsAdmittedListListValue
 	if err := unmarshalAPERERABsAdmittedListInto(&v, bb); err != nil {
 		return nil, err
@@ -4600,9 +4676,17 @@ func unmarshalAPERERABsAdmittedListFrom(bb *per.BitBuffer) (ERABsAdmittedList, e
 }
 
 func unmarshalAPERERABsAdmittedListInto(v *asn1cAPERERABsAdmittedListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsAdmittedList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -4727,9 +4811,17 @@ func (v *ERABsAdmittedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.DLGTPTunnelEndpoint = &dec_dlgtptunnelendpoint
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -4816,9 +4908,17 @@ func (v *HandoverPreparationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -4903,9 +5003,17 @@ func (v *HandoverReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -4990,9 +5098,17 @@ func (v *EarlyStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -5163,9 +5279,17 @@ func (v *FirstDLCount) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_erabssubjecttoearlystatustransfer, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding e-RABsSubjectToEarlyStatusTransfer length: %w", err)
+	var seqLen_erabssubjecttoearlystatustransfer int64
+	var errLength_erabssubjecttoearlystatustransfer error
+	seqLen_erabssubjecttoearlystatustransfer, errLength_erabssubjecttoearlystatustransfer = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_erabssubjecttoearlystatustransfer != nil {
+		return fmt.Errorf("decoding e-RABsSubjectToEarlyStatusTransfer length: %w", errLength_erabssubjecttoearlystatustransfer)
+	}
+	if seqLen_erabssubjecttoearlystatustransfer < 1 {
+		return fmt.Errorf("decoding e-RABsSubjectToEarlyStatusTransfer length %d below lower bound 1", seqLen_erabssubjecttoearlystatustransfer)
+	}
+	if seqLen_erabssubjecttoearlystatustransfer > 256 {
+		return fmt.Errorf("decoding e-RABsSubjectToEarlyStatusTransfer length %d above upper bound 256", seqLen_erabssubjecttoearlystatustransfer)
 	}
 	v.ERABsSubjectToEarlyStatusTransfer = make(ERABsSubjectToEarlyStatusTransferList, seqLen_erabssubjecttoearlystatustransfer)
 	for i := int64(0); i < seqLen_erabssubjecttoearlystatustransfer; i++ {
@@ -5174,9 +5298,17 @@ func (v *FirstDLCount) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 	}
 	if opt_ieextension {
-		seqLen_ieextension, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extension length: %w", err)
+		var seqLen_ieextension int64
+		var errLength_ieextension error
+		seqLen_ieextension, errLength_ieextension = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextension != nil {
+			return fmt.Errorf("decoding iE-Extension length: %w", errLength_ieextension)
+		}
+		if seqLen_ieextension < 1 {
+			return fmt.Errorf("decoding iE-Extension length %d below lower bound 1", seqLen_ieextension)
+		}
+		if seqLen_ieextension > 65535 {
+			return fmt.Errorf("decoding iE-Extension length %d above upper bound 65535", seqLen_ieextension)
 		}
 		tmp_ieextension := make(ProtocolExtensionContainer, seqLen_ieextension)
 		for i := int64(0); i < seqLen_ieextension; i++ {
@@ -5282,9 +5414,17 @@ func (v *DLDiscarding) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_erabssubjecttodldiscardinglist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding e-RABsSubjectToDLDiscarding-List length: %w", err)
+	var seqLen_erabssubjecttodldiscardinglist int64
+	var errLength_erabssubjecttodldiscardinglist error
+	seqLen_erabssubjecttodldiscardinglist, errLength_erabssubjecttodldiscardinglist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_erabssubjecttodldiscardinglist != nil {
+		return fmt.Errorf("decoding e-RABsSubjectToDLDiscarding-List length: %w", errLength_erabssubjecttodldiscardinglist)
+	}
+	if seqLen_erabssubjecttodldiscardinglist < 1 {
+		return fmt.Errorf("decoding e-RABsSubjectToDLDiscarding-List length %d below lower bound 1", seqLen_erabssubjecttodldiscardinglist)
+	}
+	if seqLen_erabssubjecttodldiscardinglist > 256 {
+		return fmt.Errorf("decoding e-RABsSubjectToDLDiscarding-List length %d above upper bound 256", seqLen_erabssubjecttodldiscardinglist)
 	}
 	v.ERABsSubjectToDLDiscardingList = make(ERABsSubjectToDLDiscardingList, seqLen_erabssubjecttodldiscardinglist)
 	for i := int64(0); i < seqLen_erabssubjecttodldiscardinglist; i++ {
@@ -5293,9 +5433,17 @@ func (v *DLDiscarding) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 	}
 	if opt_ieextension {
-		seqLen_ieextension, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extension length: %w", err)
+		var seqLen_ieextension int64
+		var errLength_ieextension error
+		seqLen_ieextension, errLength_ieextension = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextension != nil {
+			return fmt.Errorf("decoding iE-Extension length: %w", errLength_ieextension)
+		}
+		if seqLen_ieextension < 1 {
+			return fmt.Errorf("decoding iE-Extension length %d below lower bound 1", seqLen_ieextension)
+		}
+		if seqLen_ieextension > 65535 {
+			return fmt.Errorf("decoding iE-Extension length %d above upper bound 65535", seqLen_ieextension)
 		}
 		tmp_ieextension := make(ProtocolExtensionContainer, seqLen_ieextension)
 		for i := int64(0); i < seqLen_ieextension; i++ {
@@ -5382,9 +5530,17 @@ func (v *SNStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -5420,13 +5576,14 @@ type asn1cAPERERABsSubjectToStatusTransferListListValue struct {
 // MarshalAPERERABsSubjectToStatusTransferList encodes a ERABsSubjectToStatusTransferList list to APER.
 func MarshalAPERERABsSubjectToStatusTransferList(list ERABsSubjectToStatusTransferList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsSubjectToStatusTransferListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsSubjectToStatusTransferListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsSubjectToStatusTransferListTo(list ERABsSubjectToStatusTransferList, bb *per.BitBuffer) error {
+// MarshalAPERERABsSubjectToStatusTransferListTo appends a ERABsSubjectToStatusTransferList list to bb.
+func MarshalAPERERABsSubjectToStatusTransferListTo(list ERABsSubjectToStatusTransferList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsSubjectToStatusTransferListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -5442,10 +5599,11 @@ func marshalAPERERABsSubjectToStatusTransferListTo(list ERABsSubjectToStatusTran
 // UnmarshalAPERERABsSubjectToStatusTransferList decodes a ERABsSubjectToStatusTransferList list from APER.
 func UnmarshalAPERERABsSubjectToStatusTransferList(data []byte) (ERABsSubjectToStatusTransferList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsSubjectToStatusTransferListFrom(bb)
+	return UnmarshalAPERERABsSubjectToStatusTransferListFrom(bb)
 }
 
-func unmarshalAPERERABsSubjectToStatusTransferListFrom(bb *per.BitBuffer) (ERABsSubjectToStatusTransferList, error) {
+// UnmarshalAPERERABsSubjectToStatusTransferListFrom decodes a ERABsSubjectToStatusTransferList list from bb.
+func UnmarshalAPERERABsSubjectToStatusTransferListFrom(bb *per.BitBuffer) (ERABsSubjectToStatusTransferList, error) {
 	var v asn1cAPERERABsSubjectToStatusTransferListListValue
 	if err := unmarshalAPERERABsSubjectToStatusTransferListInto(&v, bb); err != nil {
 		return nil, err
@@ -5454,9 +5612,17 @@ func unmarshalAPERERABsSubjectToStatusTransferListFrom(bb *per.BitBuffer) (ERABs
 }
 
 func unmarshalAPERERABsSubjectToStatusTransferListInto(v *asn1cAPERERABsSubjectToStatusTransferListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsSubjectToStatusTransferList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -5575,9 +5741,17 @@ func (v *ERABsSubjectToStatusTransferItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		return fmt.Errorf("decoding dL-COUNTvalue: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -5664,9 +5838,17 @@ func (v *UEContextRelease) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -5751,9 +5933,17 @@ func (v *HandoverCancel) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -5838,9 +6028,17 @@ func (v *HandoverSuccess) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -5925,9 +6123,17 @@ func (v *ConditionalHandoverCancel) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -6012,9 +6218,17 @@ func (v *ErrorIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -6099,9 +6313,17 @@ func (v *ResetRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -6186,9 +6408,17 @@ func (v *ResetResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -6273,9 +6503,17 @@ func (v *X2SetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -6360,9 +6598,17 @@ func (v *X2SetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -6447,9 +6693,17 @@ func (v *X2SetupFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -6534,9 +6788,17 @@ func (v *LoadInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -6570,13 +6832,14 @@ type asn1cAPERCellInformationListListValue struct{ Value CellInformationList }
 // MarshalAPERCellInformationList encodes a CellInformationList list to APER.
 func MarshalAPERCellInformationList(list CellInformationList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERCellInformationListTo(list, bb); err != nil {
+	if err := MarshalAPERCellInformationListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERCellInformationListTo(list CellInformationList, bb *per.BitBuffer) error {
+// MarshalAPERCellInformationListTo appends a CellInformationList list to bb.
+func MarshalAPERCellInformationListTo(list CellInformationList, bb *per.BitBuffer) error {
 	v := asn1cAPERCellInformationListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -6592,10 +6855,11 @@ func marshalAPERCellInformationListTo(list CellInformationList, bb *per.BitBuffe
 // UnmarshalAPERCellInformationList decodes a CellInformationList list from APER.
 func UnmarshalAPERCellInformationList(data []byte) (CellInformationList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERCellInformationListFrom(bb)
+	return UnmarshalAPERCellInformationListFrom(bb)
 }
 
-func unmarshalAPERCellInformationListFrom(bb *per.BitBuffer) (CellInformationList, error) {
+// UnmarshalAPERCellInformationListFrom decodes a CellInformationList list from bb.
+func UnmarshalAPERCellInformationListFrom(bb *per.BitBuffer) (CellInformationList, error) {
 	var v asn1cAPERCellInformationListListValue
 	if err := unmarshalAPERCellInformationListInto(&v, bb); err != nil {
 		return nil, err
@@ -6604,9 +6868,17 @@ func unmarshalAPERCellInformationListFrom(bb *per.BitBuffer) (CellInformationLis
 }
 
 func unmarshalAPERCellInformationListInto(v *asn1cAPERCellInformationListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(CellInformationList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -6737,9 +7009,17 @@ func (v *CellInformationItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding cell-ID: %w", err)
 	}
 	if opt_ulinterferenceoverloadindication {
-		seqLen_ulinterferenceoverloadindication, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 110)
-		if err != nil {
-			return fmt.Errorf("decoding ul-InterferenceOverloadIndication length: %w", err)
+		var seqLen_ulinterferenceoverloadindication int64
+		var errLength_ulinterferenceoverloadindication error
+		seqLen_ulinterferenceoverloadindication, errLength_ulinterferenceoverloadindication = per.DecodeConstrainedWholeNumberAligned(bb, 1, 110)
+		if errLength_ulinterferenceoverloadindication != nil {
+			return fmt.Errorf("decoding ul-InterferenceOverloadIndication length: %w", errLength_ulinterferenceoverloadindication)
+		}
+		if seqLen_ulinterferenceoverloadindication < 1 {
+			return fmt.Errorf("decoding ul-InterferenceOverloadIndication length %d below lower bound 1", seqLen_ulinterferenceoverloadindication)
+		}
+		if seqLen_ulinterferenceoverloadindication > 110 {
+			return fmt.Errorf("decoding ul-InterferenceOverloadIndication length %d above upper bound 110", seqLen_ulinterferenceoverloadindication)
 		}
 		tmp_ulinterferenceoverloadindication := make(ULInterferenceOverloadIndication, seqLen_ulinterferenceoverloadindication)
 		for i := int64(0); i < seqLen_ulinterferenceoverloadindication; i++ {
@@ -6752,9 +7032,17 @@ func (v *CellInformationItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.UlInterferenceOverloadIndication = tmp_ulinterferenceoverloadindication
 	}
 	if opt_ulhighinterferenceindicationinfo {
-		seqLen_ulhighinterferenceindicationinfo, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-		if err != nil {
-			return fmt.Errorf("decoding ul-HighInterferenceIndicationInfo length: %w", err)
+		var seqLen_ulhighinterferenceindicationinfo int64
+		var errLength_ulhighinterferenceindicationinfo error
+		seqLen_ulhighinterferenceindicationinfo, errLength_ulhighinterferenceindicationinfo = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+		if errLength_ulhighinterferenceindicationinfo != nil {
+			return fmt.Errorf("decoding ul-HighInterferenceIndicationInfo length: %w", errLength_ulhighinterferenceindicationinfo)
+		}
+		if seqLen_ulhighinterferenceindicationinfo < 1 {
+			return fmt.Errorf("decoding ul-HighInterferenceIndicationInfo length %d below lower bound 1", seqLen_ulhighinterferenceindicationinfo)
+		}
+		if seqLen_ulhighinterferenceindicationinfo > 256 {
+			return fmt.Errorf("decoding ul-HighInterferenceIndicationInfo length %d above upper bound 256", seqLen_ulhighinterferenceindicationinfo)
 		}
 		tmp_ulhighinterferenceindicationinfo := make(ULHighInterferenceIndicationInfo, seqLen_ulhighinterferenceindicationinfo)
 		for i := int64(0); i < seqLen_ulhighinterferenceindicationinfo; i++ {
@@ -6772,9 +7060,17 @@ func (v *CellInformationItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.RelativeNarrowbandTxPower = &dec_relativenarrowbandtxpower
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -6861,9 +7157,17 @@ func (v *ENBConfigurationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -6897,13 +7201,14 @@ type asn1cAPERServedCellsToModifyListValue struct{ Value ServedCellsToModify }
 // MarshalAPERServedCellsToModify encodes a ServedCellsToModify list to APER.
 func MarshalAPERServedCellsToModify(list ServedCellsToModify) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERServedCellsToModifyTo(list, bb); err != nil {
+	if err := MarshalAPERServedCellsToModifyTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERServedCellsToModifyTo(list ServedCellsToModify, bb *per.BitBuffer) error {
+// MarshalAPERServedCellsToModifyTo appends a ServedCellsToModify list to bb.
+func MarshalAPERServedCellsToModifyTo(list ServedCellsToModify, bb *per.BitBuffer) error {
 	v := asn1cAPERServedCellsToModifyListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -6919,10 +7224,11 @@ func marshalAPERServedCellsToModifyTo(list ServedCellsToModify, bb *per.BitBuffe
 // UnmarshalAPERServedCellsToModify decodes a ServedCellsToModify list from APER.
 func UnmarshalAPERServedCellsToModify(data []byte) (ServedCellsToModify, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERServedCellsToModifyFrom(bb)
+	return UnmarshalAPERServedCellsToModifyFrom(bb)
 }
 
-func unmarshalAPERServedCellsToModifyFrom(bb *per.BitBuffer) (ServedCellsToModify, error) {
+// UnmarshalAPERServedCellsToModifyFrom decodes a ServedCellsToModify list from bb.
+func UnmarshalAPERServedCellsToModifyFrom(bb *per.BitBuffer) (ServedCellsToModify, error) {
 	var v asn1cAPERServedCellsToModifyListValue
 	if err := unmarshalAPERServedCellsToModifyInto(&v, bb); err != nil {
 		return nil, err
@@ -6931,9 +7237,17 @@ func unmarshalAPERServedCellsToModifyFrom(bb *per.BitBuffer) (ServedCellsToModif
 }
 
 func unmarshalAPERServedCellsToModifyInto(v *asn1cAPERServedCellsToModifyListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ServedCellsToModify, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -7041,9 +7355,17 @@ func (v *ServedCellsToModifyItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding servedCellInfo: %w", err)
 	}
 	if opt_neighbourinfo {
-		seqLen_neighbourinfo, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 512)
-		if err != nil {
-			return fmt.Errorf("decoding neighbour-Info length: %w", err)
+		var seqLen_neighbourinfo int64
+		var errLength_neighbourinfo error
+		seqLen_neighbourinfo, errLength_neighbourinfo = per.DecodeConstrainedWholeNumberAligned(bb, 0, 512)
+		if errLength_neighbourinfo != nil {
+			return fmt.Errorf("decoding neighbour-Info length: %w", errLength_neighbourinfo)
+		}
+		if seqLen_neighbourinfo < 0 {
+			return fmt.Errorf("decoding neighbour-Info length %d below lower bound 0", seqLen_neighbourinfo)
+		}
+		if seqLen_neighbourinfo > 512 {
+			return fmt.Errorf("decoding neighbour-Info length %d above upper bound 512", seqLen_neighbourinfo)
 		}
 		tmp_neighbourinfo := make(NeighbourInformation, seqLen_neighbourinfo)
 		for i := int64(0); i < seqLen_neighbourinfo; i++ {
@@ -7054,9 +7376,17 @@ func (v *ServedCellsToModifyItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.NeighbourInfo = tmp_neighbourinfo
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -7092,13 +7422,14 @@ type asn1cAPEROldECGIsListValue struct{ Value OldECGIs }
 // MarshalAPEROldECGIs encodes a OldECGIs list to APER.
 func MarshalAPEROldECGIs(list OldECGIs) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPEROldECGIsTo(list, bb); err != nil {
+	if err := MarshalAPEROldECGIsTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPEROldECGIsTo(list OldECGIs, bb *per.BitBuffer) error {
+// MarshalAPEROldECGIsTo appends a OldECGIs list to bb.
+func MarshalAPEROldECGIsTo(list OldECGIs, bb *per.BitBuffer) error {
 	v := asn1cAPEROldECGIsListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -7114,10 +7445,11 @@ func marshalAPEROldECGIsTo(list OldECGIs, bb *per.BitBuffer) error {
 // UnmarshalAPEROldECGIs decodes a OldECGIs list from APER.
 func UnmarshalAPEROldECGIs(data []byte) (OldECGIs, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPEROldECGIsFrom(bb)
+	return UnmarshalAPEROldECGIsFrom(bb)
 }
 
-func unmarshalAPEROldECGIsFrom(bb *per.BitBuffer) (OldECGIs, error) {
+// UnmarshalAPEROldECGIsFrom decodes a OldECGIs list from bb.
+func UnmarshalAPEROldECGIsFrom(bb *per.BitBuffer) (OldECGIs, error) {
 	var v asn1cAPEROldECGIsListValue
 	if err := unmarshalAPEROldECGIsInto(&v, bb); err != nil {
 		return nil, err
@@ -7126,9 +7458,17 @@ func unmarshalAPEROldECGIsFrom(bb *per.BitBuffer) (OldECGIs, error) {
 }
 
 func unmarshalAPEROldECGIsInto(v *asn1cAPEROldECGIsListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(OldECGIs, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -7195,9 +7535,17 @@ func (v *ENBConfigurationUpdateAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer)
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -7282,9 +7630,17 @@ func (v *ENBConfigurationUpdateFailure) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -7369,9 +7725,17 @@ func (v *ResourceStatusRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -7405,13 +7769,14 @@ type asn1cAPERCellToReportListListValue struct{ Value CellToReportList }
 // MarshalAPERCellToReportList encodes a CellToReportList list to APER.
 func MarshalAPERCellToReportList(list CellToReportList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERCellToReportListTo(list, bb); err != nil {
+	if err := MarshalAPERCellToReportListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERCellToReportListTo(list CellToReportList, bb *per.BitBuffer) error {
+// MarshalAPERCellToReportListTo appends a CellToReportList list to bb.
+func MarshalAPERCellToReportListTo(list CellToReportList, bb *per.BitBuffer) error {
 	v := asn1cAPERCellToReportListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -7427,10 +7792,11 @@ func marshalAPERCellToReportListTo(list CellToReportList, bb *per.BitBuffer) err
 // UnmarshalAPERCellToReportList decodes a CellToReportList list from APER.
 func UnmarshalAPERCellToReportList(data []byte) (CellToReportList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERCellToReportListFrom(bb)
+	return UnmarshalAPERCellToReportListFrom(bb)
 }
 
-func unmarshalAPERCellToReportListFrom(bb *per.BitBuffer) (CellToReportList, error) {
+// UnmarshalAPERCellToReportListFrom decodes a CellToReportList list from bb.
+func UnmarshalAPERCellToReportListFrom(bb *per.BitBuffer) (CellToReportList, error) {
 	var v asn1cAPERCellToReportListListValue
 	if err := unmarshalAPERCellToReportListInto(&v, bb); err != nil {
 		return nil, err
@@ -7439,9 +7805,17 @@ func unmarshalAPERCellToReportListFrom(bb *per.BitBuffer) (CellToReportList, err
 }
 
 func unmarshalAPERCellToReportListInto(v *asn1cAPERCellToReportListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(CellToReportList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -7526,9 +7900,17 @@ func (v *CellToReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding cell-ID: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -7615,9 +7997,17 @@ func (v *ResourceStatusResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -7653,13 +8043,14 @@ type asn1cAPERMeasurementInitiationResultListListValue struct {
 // MarshalAPERMeasurementInitiationResultList encodes a MeasurementInitiationResultList list to APER.
 func MarshalAPERMeasurementInitiationResultList(list MeasurementInitiationResultList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERMeasurementInitiationResultListTo(list, bb); err != nil {
+	if err := MarshalAPERMeasurementInitiationResultListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERMeasurementInitiationResultListTo(list MeasurementInitiationResultList, bb *per.BitBuffer) error {
+// MarshalAPERMeasurementInitiationResultListTo appends a MeasurementInitiationResultList list to bb.
+func MarshalAPERMeasurementInitiationResultListTo(list MeasurementInitiationResultList, bb *per.BitBuffer) error {
 	v := asn1cAPERMeasurementInitiationResultListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -7675,10 +8066,11 @@ func marshalAPERMeasurementInitiationResultListTo(list MeasurementInitiationResu
 // UnmarshalAPERMeasurementInitiationResultList decodes a MeasurementInitiationResultList list from APER.
 func UnmarshalAPERMeasurementInitiationResultList(data []byte) (MeasurementInitiationResultList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERMeasurementInitiationResultListFrom(bb)
+	return UnmarshalAPERMeasurementInitiationResultListFrom(bb)
 }
 
-func unmarshalAPERMeasurementInitiationResultListFrom(bb *per.BitBuffer) (MeasurementInitiationResultList, error) {
+// UnmarshalAPERMeasurementInitiationResultListFrom decodes a MeasurementInitiationResultList list from bb.
+func UnmarshalAPERMeasurementInitiationResultListFrom(bb *per.BitBuffer) (MeasurementInitiationResultList, error) {
 	var v asn1cAPERMeasurementInitiationResultListListValue
 	if err := unmarshalAPERMeasurementInitiationResultListInto(&v, bb); err != nil {
 		return nil, err
@@ -7687,9 +8079,17 @@ func unmarshalAPERMeasurementInitiationResultListFrom(bb *per.BitBuffer) (Measur
 }
 
 func unmarshalAPERMeasurementInitiationResultListInto(v *asn1cAPERMeasurementInitiationResultListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(MeasurementInitiationResultList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -7791,9 +8191,17 @@ func (v *MeasurementInitiationResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		return fmt.Errorf("decoding cell-ID: %w", err)
 	}
 	if opt_measurementfailurecauselist {
-		seqLen_measurementfailurecauselist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 32)
-		if err != nil {
-			return fmt.Errorf("decoding measurementFailureCause-List length: %w", err)
+		var seqLen_measurementfailurecauselist int64
+		var errLength_measurementfailurecauselist error
+		seqLen_measurementfailurecauselist, errLength_measurementfailurecauselist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 32)
+		if errLength_measurementfailurecauselist != nil {
+			return fmt.Errorf("decoding measurementFailureCause-List length: %w", errLength_measurementfailurecauselist)
+		}
+		if seqLen_measurementfailurecauselist < 1 {
+			return fmt.Errorf("decoding measurementFailureCause-List length %d below lower bound 1", seqLen_measurementfailurecauselist)
+		}
+		if seqLen_measurementfailurecauselist > 32 {
+			return fmt.Errorf("decoding measurementFailureCause-List length %d above upper bound 32", seqLen_measurementfailurecauselist)
 		}
 		tmp_measurementfailurecauselist := make(MeasurementFailureCauseList, seqLen_measurementfailurecauselist)
 		for i := int64(0); i < seqLen_measurementfailurecauselist; i++ {
@@ -7804,9 +8212,17 @@ func (v *MeasurementInitiationResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		v.MeasurementFailureCauseList = tmp_measurementfailurecauselist
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -7842,13 +8258,14 @@ type asn1cAPERMeasurementFailureCauseListListValue struct{ Value MeasurementFail
 // MarshalAPERMeasurementFailureCauseList encodes a MeasurementFailureCauseList list to APER.
 func MarshalAPERMeasurementFailureCauseList(list MeasurementFailureCauseList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERMeasurementFailureCauseListTo(list, bb); err != nil {
+	if err := MarshalAPERMeasurementFailureCauseListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERMeasurementFailureCauseListTo(list MeasurementFailureCauseList, bb *per.BitBuffer) error {
+// MarshalAPERMeasurementFailureCauseListTo appends a MeasurementFailureCauseList list to bb.
+func MarshalAPERMeasurementFailureCauseListTo(list MeasurementFailureCauseList, bb *per.BitBuffer) error {
 	v := asn1cAPERMeasurementFailureCauseListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 32); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -7864,10 +8281,11 @@ func marshalAPERMeasurementFailureCauseListTo(list MeasurementFailureCauseList, 
 // UnmarshalAPERMeasurementFailureCauseList decodes a MeasurementFailureCauseList list from APER.
 func UnmarshalAPERMeasurementFailureCauseList(data []byte) (MeasurementFailureCauseList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERMeasurementFailureCauseListFrom(bb)
+	return UnmarshalAPERMeasurementFailureCauseListFrom(bb)
 }
 
-func unmarshalAPERMeasurementFailureCauseListFrom(bb *per.BitBuffer) (MeasurementFailureCauseList, error) {
+// UnmarshalAPERMeasurementFailureCauseListFrom decodes a MeasurementFailureCauseList list from bb.
+func UnmarshalAPERMeasurementFailureCauseListFrom(bb *per.BitBuffer) (MeasurementFailureCauseList, error) {
 	var v asn1cAPERMeasurementFailureCauseListListValue
 	if err := unmarshalAPERMeasurementFailureCauseListInto(&v, bb); err != nil {
 		return nil, err
@@ -7876,9 +8294,17 @@ func unmarshalAPERMeasurementFailureCauseListFrom(bb *per.BitBuffer) (Measuremen
 }
 
 func unmarshalAPERMeasurementFailureCauseListInto(v *asn1cAPERMeasurementFailureCauseListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 32)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 32)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 32 {
+		return fmt.Errorf("decoding value length %d above upper bound 32", seqLen_value)
 	}
 	v.Value = make(MeasurementFailureCauseList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -7971,9 +8397,17 @@ func (v *MeasurementFailureCauseItem) UnmarshalAPERFrom(bb *per.BitBuffer) error
 		return fmt.Errorf("decoding cause: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -8060,9 +8494,17 @@ func (v *ResourceStatusFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -8098,13 +8540,14 @@ type asn1cAPERCompleteFailureCauseInformationListListValue struct {
 // MarshalAPERCompleteFailureCauseInformationList encodes a CompleteFailureCauseInformationList list to APER.
 func MarshalAPERCompleteFailureCauseInformationList(list CompleteFailureCauseInformationList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERCompleteFailureCauseInformationListTo(list, bb); err != nil {
+	if err := MarshalAPERCompleteFailureCauseInformationListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERCompleteFailureCauseInformationListTo(list CompleteFailureCauseInformationList, bb *per.BitBuffer) error {
+// MarshalAPERCompleteFailureCauseInformationListTo appends a CompleteFailureCauseInformationList list to bb.
+func MarshalAPERCompleteFailureCauseInformationListTo(list CompleteFailureCauseInformationList, bb *per.BitBuffer) error {
 	v := asn1cAPERCompleteFailureCauseInformationListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -8120,10 +8563,11 @@ func marshalAPERCompleteFailureCauseInformationListTo(list CompleteFailureCauseI
 // UnmarshalAPERCompleteFailureCauseInformationList decodes a CompleteFailureCauseInformationList list from APER.
 func UnmarshalAPERCompleteFailureCauseInformationList(data []byte) (CompleteFailureCauseInformationList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERCompleteFailureCauseInformationListFrom(bb)
+	return UnmarshalAPERCompleteFailureCauseInformationListFrom(bb)
 }
 
-func unmarshalAPERCompleteFailureCauseInformationListFrom(bb *per.BitBuffer) (CompleteFailureCauseInformationList, error) {
+// UnmarshalAPERCompleteFailureCauseInformationListFrom decodes a CompleteFailureCauseInformationList list from bb.
+func UnmarshalAPERCompleteFailureCauseInformationListFrom(bb *per.BitBuffer) (CompleteFailureCauseInformationList, error) {
 	var v asn1cAPERCompleteFailureCauseInformationListListValue
 	if err := unmarshalAPERCompleteFailureCauseInformationListInto(&v, bb); err != nil {
 		return nil, err
@@ -8132,9 +8576,17 @@ func unmarshalAPERCompleteFailureCauseInformationListFrom(bb *per.BitBuffer) (Co
 }
 
 func unmarshalAPERCompleteFailureCauseInformationListInto(v *asn1cAPERCompleteFailureCauseInformationListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(CompleteFailureCauseInformationList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -8226,9 +8678,17 @@ func (v *CompleteFailureCauseInformationItem) UnmarshalAPERFrom(bb *per.BitBuffe
 	if err := v.CellID.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding cell-ID: %w", err)
 	}
-	seqLen_measurementfailurecauselist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 32)
-	if err != nil {
-		return fmt.Errorf("decoding measurementFailureCause-List length: %w", err)
+	var seqLen_measurementfailurecauselist int64
+	var errLength_measurementfailurecauselist error
+	seqLen_measurementfailurecauselist, errLength_measurementfailurecauselist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 32)
+	if errLength_measurementfailurecauselist != nil {
+		return fmt.Errorf("decoding measurementFailureCause-List length: %w", errLength_measurementfailurecauselist)
+	}
+	if seqLen_measurementfailurecauselist < 1 {
+		return fmt.Errorf("decoding measurementFailureCause-List length %d below lower bound 1", seqLen_measurementfailurecauselist)
+	}
+	if seqLen_measurementfailurecauselist > 32 {
+		return fmt.Errorf("decoding measurementFailureCause-List length %d above upper bound 32", seqLen_measurementfailurecauselist)
 	}
 	v.MeasurementFailureCauseList = make(MeasurementFailureCauseList, seqLen_measurementfailurecauselist)
 	for i := int64(0); i < seqLen_measurementfailurecauselist; i++ {
@@ -8237,9 +8697,17 @@ func (v *CompleteFailureCauseInformationItem) UnmarshalAPERFrom(bb *per.BitBuffe
 		}
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -8326,9 +8794,17 @@ func (v *ResourceStatusUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -8362,13 +8838,14 @@ type asn1cAPERCellMeasurementResultListListValue struct{ Value CellMeasurementRe
 // MarshalAPERCellMeasurementResultList encodes a CellMeasurementResultList list to APER.
 func MarshalAPERCellMeasurementResultList(list CellMeasurementResultList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERCellMeasurementResultListTo(list, bb); err != nil {
+	if err := MarshalAPERCellMeasurementResultListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERCellMeasurementResultListTo(list CellMeasurementResultList, bb *per.BitBuffer) error {
+// MarshalAPERCellMeasurementResultListTo appends a CellMeasurementResultList list to bb.
+func MarshalAPERCellMeasurementResultListTo(list CellMeasurementResultList, bb *per.BitBuffer) error {
 	v := asn1cAPERCellMeasurementResultListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -8384,10 +8861,11 @@ func marshalAPERCellMeasurementResultListTo(list CellMeasurementResultList, bb *
 // UnmarshalAPERCellMeasurementResultList decodes a CellMeasurementResultList list from APER.
 func UnmarshalAPERCellMeasurementResultList(data []byte) (CellMeasurementResultList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERCellMeasurementResultListFrom(bb)
+	return UnmarshalAPERCellMeasurementResultListFrom(bb)
 }
 
-func unmarshalAPERCellMeasurementResultListFrom(bb *per.BitBuffer) (CellMeasurementResultList, error) {
+// UnmarshalAPERCellMeasurementResultListFrom decodes a CellMeasurementResultList list from bb.
+func UnmarshalAPERCellMeasurementResultListFrom(bb *per.BitBuffer) (CellMeasurementResultList, error) {
 	var v asn1cAPERCellMeasurementResultListListValue
 	if err := unmarshalAPERCellMeasurementResultListInto(&v, bb); err != nil {
 		return nil, err
@@ -8396,9 +8874,17 @@ func unmarshalAPERCellMeasurementResultListFrom(bb *per.BitBuffer) (CellMeasurem
 }
 
 func unmarshalAPERCellMeasurementResultListInto(v *asn1cAPERCellMeasurementResultListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(CellMeasurementResultList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -8540,9 +9026,17 @@ func (v *CellMeasurementResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.RadioResourceStatus = &dec_radioresourcestatus
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -8629,9 +9123,17 @@ func (v *PrivateMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_privateies, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding privateIEs length: %w", err)
+	var seqLen_privateies int64
+	var errLength_privateies error
+	seqLen_privateies, errLength_privateies = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+	if errLength_privateies != nil {
+		return fmt.Errorf("decoding privateIEs length: %w", errLength_privateies)
+	}
+	if seqLen_privateies < 1 {
+		return fmt.Errorf("decoding privateIEs length %d below lower bound 1", seqLen_privateies)
+	}
+	if seqLen_privateies > 65535 {
+		return fmt.Errorf("decoding privateIEs length %d above upper bound 65535", seqLen_privateies)
 	}
 	v.PrivateIEs = make(PrivateIEContainer, seqLen_privateies)
 	for i := int64(0); i < seqLen_privateies; i++ {
@@ -8716,9 +9218,17 @@ func (v *MobilityChangeRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -8803,9 +9313,17 @@ func (v *MobilityChangeAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -8890,9 +9408,17 @@ func (v *MobilityChangeFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -8977,9 +9503,17 @@ func (v *RLFIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -9064,9 +9598,17 @@ func (v *CellActivationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -9100,13 +9642,14 @@ type asn1cAPERServedCellsToActivateListValue struct{ Value ServedCellsToActivate
 // MarshalAPERServedCellsToActivate encodes a ServedCellsToActivate list to APER.
 func MarshalAPERServedCellsToActivate(list ServedCellsToActivate) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERServedCellsToActivateTo(list, bb); err != nil {
+	if err := MarshalAPERServedCellsToActivateTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERServedCellsToActivateTo(list ServedCellsToActivate, bb *per.BitBuffer) error {
+// MarshalAPERServedCellsToActivateTo appends a ServedCellsToActivate list to bb.
+func MarshalAPERServedCellsToActivateTo(list ServedCellsToActivate, bb *per.BitBuffer) error {
 	v := asn1cAPERServedCellsToActivateListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -9122,10 +9665,11 @@ func marshalAPERServedCellsToActivateTo(list ServedCellsToActivate, bb *per.BitB
 // UnmarshalAPERServedCellsToActivate decodes a ServedCellsToActivate list from APER.
 func UnmarshalAPERServedCellsToActivate(data []byte) (ServedCellsToActivate, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERServedCellsToActivateFrom(bb)
+	return UnmarshalAPERServedCellsToActivateFrom(bb)
 }
 
-func unmarshalAPERServedCellsToActivateFrom(bb *per.BitBuffer) (ServedCellsToActivate, error) {
+// UnmarshalAPERServedCellsToActivateFrom decodes a ServedCellsToActivate list from bb.
+func UnmarshalAPERServedCellsToActivateFrom(bb *per.BitBuffer) (ServedCellsToActivate, error) {
 	var v asn1cAPERServedCellsToActivateListValue
 	if err := unmarshalAPERServedCellsToActivateInto(&v, bb); err != nil {
 		return nil, err
@@ -9134,9 +9678,17 @@ func unmarshalAPERServedCellsToActivateFrom(bb *per.BitBuffer) (ServedCellsToAct
 }
 
 func unmarshalAPERServedCellsToActivateInto(v *asn1cAPERServedCellsToActivateListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ServedCellsToActivate, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -9221,9 +9773,17 @@ func (v *ServedCellsToActivateItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding ecgi: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -9310,9 +9870,17 @@ func (v *CellActivationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -9346,13 +9914,14 @@ type asn1cAPERActivatedCellListListValue struct{ Value ActivatedCellList }
 // MarshalAPERActivatedCellList encodes a ActivatedCellList list to APER.
 func MarshalAPERActivatedCellList(list ActivatedCellList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERActivatedCellListTo(list, bb); err != nil {
+	if err := MarshalAPERActivatedCellListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERActivatedCellListTo(list ActivatedCellList, bb *per.BitBuffer) error {
+// MarshalAPERActivatedCellListTo appends a ActivatedCellList list to bb.
+func MarshalAPERActivatedCellListTo(list ActivatedCellList, bb *per.BitBuffer) error {
 	v := asn1cAPERActivatedCellListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -9368,10 +9937,11 @@ func marshalAPERActivatedCellListTo(list ActivatedCellList, bb *per.BitBuffer) e
 // UnmarshalAPERActivatedCellList decodes a ActivatedCellList list from APER.
 func UnmarshalAPERActivatedCellList(data []byte) (ActivatedCellList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERActivatedCellListFrom(bb)
+	return UnmarshalAPERActivatedCellListFrom(bb)
 }
 
-func unmarshalAPERActivatedCellListFrom(bb *per.BitBuffer) (ActivatedCellList, error) {
+// UnmarshalAPERActivatedCellListFrom decodes a ActivatedCellList list from bb.
+func UnmarshalAPERActivatedCellListFrom(bb *per.BitBuffer) (ActivatedCellList, error) {
 	var v asn1cAPERActivatedCellListListValue
 	if err := unmarshalAPERActivatedCellListInto(&v, bb); err != nil {
 		return nil, err
@@ -9380,9 +9950,17 @@ func unmarshalAPERActivatedCellListFrom(bb *per.BitBuffer) (ActivatedCellList, e
 }
 
 func unmarshalAPERActivatedCellListInto(v *asn1cAPERActivatedCellListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ActivatedCellList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -9467,9 +10045,17 @@ func (v *ActivatedCellListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding ecgi: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -9556,9 +10142,17 @@ func (v *CellActivationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -9643,9 +10237,17 @@ func (v *X2Release) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -9730,9 +10332,17 @@ func (v *X2APMessageTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -9854,9 +10464,17 @@ func (v *RNLHeader) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.TargetGlobalENBID = &dec_targetglobalenbid
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -9943,9 +10561,17 @@ func (v *SeNBAdditionRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -9979,13 +10605,14 @@ type asn1cAPERERABsToBeAddedListListValue struct{ Value ERABsToBeAddedList }
 // MarshalAPERERABsToBeAddedList encodes a ERABsToBeAddedList list to APER.
 func MarshalAPERERABsToBeAddedList(list ERABsToBeAddedList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsToBeAddedListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsToBeAddedListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsToBeAddedListTo(list ERABsToBeAddedList, bb *per.BitBuffer) error {
+// MarshalAPERERABsToBeAddedListTo appends a ERABsToBeAddedList list to bb.
+func MarshalAPERERABsToBeAddedListTo(list ERABsToBeAddedList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeAddedListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -10001,10 +10628,11 @@ func marshalAPERERABsToBeAddedListTo(list ERABsToBeAddedList, bb *per.BitBuffer)
 // UnmarshalAPERERABsToBeAddedList decodes a ERABsToBeAddedList list from APER.
 func UnmarshalAPERERABsToBeAddedList(data []byte) (ERABsToBeAddedList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsToBeAddedListFrom(bb)
+	return UnmarshalAPERERABsToBeAddedListFrom(bb)
 }
 
-func unmarshalAPERERABsToBeAddedListFrom(bb *per.BitBuffer) (ERABsToBeAddedList, error) {
+// UnmarshalAPERERABsToBeAddedListFrom decodes a ERABsToBeAddedList list from bb.
+func UnmarshalAPERERABsToBeAddedListFrom(bb *per.BitBuffer) (ERABsToBeAddedList, error) {
 	var v asn1cAPERERABsToBeAddedListListValue
 	if err := unmarshalAPERERABsToBeAddedListInto(&v, bb); err != nil {
 		return nil, err
@@ -10013,9 +10641,17 @@ func unmarshalAPERERABsToBeAddedListFrom(bb *per.BitBuffer) (ERABsToBeAddedList,
 }
 
 func unmarshalAPERERABsToBeAddedListInto(v *asn1cAPERERABsToBeAddedListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsToBeAddedList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -10209,9 +10845,17 @@ func (v *ERABsToBeAddedItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error
 		return fmt.Errorf("decoding s1-UL-GTPtunnelEndpoint: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -10330,9 +10974,17 @@ func (v *ERABsToBeAddedItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuffer) err
 		return fmt.Errorf("decoding meNB-GTPtunnelEndpoint: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -10419,9 +11071,17 @@ func (v *SeNBAdditionRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) er
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -10455,13 +11115,14 @@ type asn1cAPERERABsAdmittedToBeAddedListListValue struct{ Value ERABsAdmittedToB
 // MarshalAPERERABsAdmittedToBeAddedList encodes a ERABsAdmittedToBeAddedList list to APER.
 func MarshalAPERERABsAdmittedToBeAddedList(list ERABsAdmittedToBeAddedList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsAdmittedToBeAddedListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsAdmittedToBeAddedListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsAdmittedToBeAddedListTo(list ERABsAdmittedToBeAddedList, bb *per.BitBuffer) error {
+// MarshalAPERERABsAdmittedToBeAddedListTo appends a ERABsAdmittedToBeAddedList list to bb.
+func MarshalAPERERABsAdmittedToBeAddedListTo(list ERABsAdmittedToBeAddedList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedToBeAddedListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -10477,10 +11138,11 @@ func marshalAPERERABsAdmittedToBeAddedListTo(list ERABsAdmittedToBeAddedList, bb
 // UnmarshalAPERERABsAdmittedToBeAddedList decodes a ERABsAdmittedToBeAddedList list from APER.
 func UnmarshalAPERERABsAdmittedToBeAddedList(data []byte) (ERABsAdmittedToBeAddedList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsAdmittedToBeAddedListFrom(bb)
+	return UnmarshalAPERERABsAdmittedToBeAddedListFrom(bb)
 }
 
-func unmarshalAPERERABsAdmittedToBeAddedListFrom(bb *per.BitBuffer) (ERABsAdmittedToBeAddedList, error) {
+// UnmarshalAPERERABsAdmittedToBeAddedListFrom decodes a ERABsAdmittedToBeAddedList list from bb.
+func UnmarshalAPERERABsAdmittedToBeAddedListFrom(bb *per.BitBuffer) (ERABsAdmittedToBeAddedList, error) {
 	var v asn1cAPERERABsAdmittedToBeAddedListListValue
 	if err := unmarshalAPERERABsAdmittedToBeAddedListInto(&v, bb); err != nil {
 		return nil, err
@@ -10489,9 +11151,17 @@ func unmarshalAPERERABsAdmittedToBeAddedListFrom(bb *per.BitBuffer) (ERABsAdmitt
 }
 
 func unmarshalAPERERABsAdmittedToBeAddedListInto(v *asn1cAPERERABsAdmittedToBeAddedListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsAdmittedToBeAddedList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -10697,9 +11367,17 @@ func (v *ERABsAdmittedToBeAddedItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffe
 		v.ULForwardingGTPtunnelEndpoint = &dec_ulforwardinggtptunnelendpoint
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -10812,9 +11490,17 @@ func (v *ERABsAdmittedToBeAddedItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuf
 		return fmt.Errorf("decoding seNB-GTPtunnelEndpoint: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -10901,9 +11587,17 @@ func (v *SeNBAdditionRequestReject) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -10988,9 +11682,17 @@ func (v *SeNBReconfigurationComplete) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -11182,9 +11884,17 @@ func (v *ResponseInformationSeNBReconfCompSuccessItem) UnmarshalAPERFrom(bb *per
 		v.MeNBtoSeNBContainer = &tmp_menbtosenbcontainer
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -11309,9 +12019,17 @@ func (v *ResponseInformationSeNBReconfCompRejectByMeNBItem) UnmarshalAPERFrom(bb
 		v.MeNBtoSeNBContainer = &tmp_menbtosenbcontainer
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -11398,9 +12116,17 @@ func (v *SeNBModificationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -11606,9 +12332,17 @@ func (v *UEContextInformationSeNBModReq) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		v.SeNBUEAggregateMaximumBitRate = &dec_senbueaggregatemaximumbitrate
 	}
 	if opt_erabstobeadded {
-		seqLen_erabstobeadded, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-		if err != nil {
-			return fmt.Errorf("decoding e-RABs-ToBeAdded length: %w", err)
+		var seqLen_erabstobeadded int64
+		var errLength_erabstobeadded error
+		seqLen_erabstobeadded, errLength_erabstobeadded = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+		if errLength_erabstobeadded != nil {
+			return fmt.Errorf("decoding e-RABs-ToBeAdded length: %w", errLength_erabstobeadded)
+		}
+		if seqLen_erabstobeadded < 1 {
+			return fmt.Errorf("decoding e-RABs-ToBeAdded length %d below lower bound 1", seqLen_erabstobeadded)
+		}
+		if seqLen_erabstobeadded > 256 {
+			return fmt.Errorf("decoding e-RABs-ToBeAdded length %d above upper bound 256", seqLen_erabstobeadded)
 		}
 		tmp_erabstobeadded := make(ERABsToBeAddedListModReq, seqLen_erabstobeadded)
 		for i := int64(0); i < seqLen_erabstobeadded; i++ {
@@ -11619,9 +12353,17 @@ func (v *UEContextInformationSeNBModReq) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		v.ERABsToBeAdded = tmp_erabstobeadded
 	}
 	if opt_erabstobemodified {
-		seqLen_erabstobemodified, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-		if err != nil {
-			return fmt.Errorf("decoding e-RABs-ToBeModified length: %w", err)
+		var seqLen_erabstobemodified int64
+		var errLength_erabstobemodified error
+		seqLen_erabstobemodified, errLength_erabstobemodified = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+		if errLength_erabstobemodified != nil {
+			return fmt.Errorf("decoding e-RABs-ToBeModified length: %w", errLength_erabstobemodified)
+		}
+		if seqLen_erabstobemodified < 1 {
+			return fmt.Errorf("decoding e-RABs-ToBeModified length %d below lower bound 1", seqLen_erabstobemodified)
+		}
+		if seqLen_erabstobemodified > 256 {
+			return fmt.Errorf("decoding e-RABs-ToBeModified length %d above upper bound 256", seqLen_erabstobemodified)
 		}
 		tmp_erabstobemodified := make(ERABsToBeModifiedListModReq, seqLen_erabstobemodified)
 		for i := int64(0); i < seqLen_erabstobemodified; i++ {
@@ -11632,9 +12374,17 @@ func (v *UEContextInformationSeNBModReq) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		v.ERABsToBeModified = tmp_erabstobemodified
 	}
 	if opt_erabstobereleased {
-		seqLen_erabstobereleased, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-		if err != nil {
-			return fmt.Errorf("decoding e-RABs-ToBeReleased length: %w", err)
+		var seqLen_erabstobereleased int64
+		var errLength_erabstobereleased error
+		seqLen_erabstobereleased, errLength_erabstobereleased = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+		if errLength_erabstobereleased != nil {
+			return fmt.Errorf("decoding e-RABs-ToBeReleased length: %w", errLength_erabstobereleased)
+		}
+		if seqLen_erabstobereleased < 1 {
+			return fmt.Errorf("decoding e-RABs-ToBeReleased length %d below lower bound 1", seqLen_erabstobereleased)
+		}
+		if seqLen_erabstobereleased > 256 {
+			return fmt.Errorf("decoding e-RABs-ToBeReleased length %d above upper bound 256", seqLen_erabstobereleased)
 		}
 		tmp_erabstobereleased := make(ERABsToBeReleasedListModReq, seqLen_erabstobereleased)
 		for i := int64(0); i < seqLen_erabstobereleased; i++ {
@@ -11645,9 +12395,17 @@ func (v *UEContextInformationSeNBModReq) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		v.ERABsToBeReleased = tmp_erabstobereleased
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -11683,13 +12441,14 @@ type asn1cAPERERABsToBeAddedListModReqListValue struct{ Value ERABsToBeAddedList
 // MarshalAPERERABsToBeAddedListModReq encodes a ERABsToBeAddedListModReq list to APER.
 func MarshalAPERERABsToBeAddedListModReq(list ERABsToBeAddedListModReq) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsToBeAddedListModReqTo(list, bb); err != nil {
+	if err := MarshalAPERERABsToBeAddedListModReqTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsToBeAddedListModReqTo(list ERABsToBeAddedListModReq, bb *per.BitBuffer) error {
+// MarshalAPERERABsToBeAddedListModReqTo appends a ERABsToBeAddedListModReq list to bb.
+func MarshalAPERERABsToBeAddedListModReqTo(list ERABsToBeAddedListModReq, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeAddedListModReqListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -11705,10 +12464,11 @@ func marshalAPERERABsToBeAddedListModReqTo(list ERABsToBeAddedListModReq, bb *pe
 // UnmarshalAPERERABsToBeAddedListModReq decodes a ERABsToBeAddedListModReq list from APER.
 func UnmarshalAPERERABsToBeAddedListModReq(data []byte) (ERABsToBeAddedListModReq, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsToBeAddedListModReqFrom(bb)
+	return UnmarshalAPERERABsToBeAddedListModReqFrom(bb)
 }
 
-func unmarshalAPERERABsToBeAddedListModReqFrom(bb *per.BitBuffer) (ERABsToBeAddedListModReq, error) {
+// UnmarshalAPERERABsToBeAddedListModReqFrom decodes a ERABsToBeAddedListModReq list from bb.
+func UnmarshalAPERERABsToBeAddedListModReqFrom(bb *per.BitBuffer) (ERABsToBeAddedListModReq, error) {
 	var v asn1cAPERERABsToBeAddedListModReqListValue
 	if err := unmarshalAPERERABsToBeAddedListModReqInto(&v, bb); err != nil {
 		return nil, err
@@ -11717,9 +12477,17 @@ func unmarshalAPERERABsToBeAddedListModReqFrom(bb *per.BitBuffer) (ERABsToBeAdde
 }
 
 func unmarshalAPERERABsToBeAddedListModReqInto(v *asn1cAPERERABsToBeAddedListModReqListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsToBeAddedListModReq, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -11913,9 +12681,17 @@ func (v *ERABsToBeAddedModReqItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffer)
 		return fmt.Errorf("decoding s1-UL-GTPtunnelEndpoint: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -12034,9 +12810,17 @@ func (v *ERABsToBeAddedModReqItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuffe
 		return fmt.Errorf("decoding meNB-GTPtunnelEndpoint: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -12072,13 +12856,14 @@ type asn1cAPERERABsToBeModifiedListModReqListValue struct{ Value ERABsToBeModifi
 // MarshalAPERERABsToBeModifiedListModReq encodes a ERABsToBeModifiedListModReq list to APER.
 func MarshalAPERERABsToBeModifiedListModReq(list ERABsToBeModifiedListModReq) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsToBeModifiedListModReqTo(list, bb); err != nil {
+	if err := MarshalAPERERABsToBeModifiedListModReqTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsToBeModifiedListModReqTo(list ERABsToBeModifiedListModReq, bb *per.BitBuffer) error {
+// MarshalAPERERABsToBeModifiedListModReqTo appends a ERABsToBeModifiedListModReq list to bb.
+func MarshalAPERERABsToBeModifiedListModReqTo(list ERABsToBeModifiedListModReq, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeModifiedListModReqListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -12094,10 +12879,11 @@ func marshalAPERERABsToBeModifiedListModReqTo(list ERABsToBeModifiedListModReq, 
 // UnmarshalAPERERABsToBeModifiedListModReq decodes a ERABsToBeModifiedListModReq list from APER.
 func UnmarshalAPERERABsToBeModifiedListModReq(data []byte) (ERABsToBeModifiedListModReq, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsToBeModifiedListModReqFrom(bb)
+	return UnmarshalAPERERABsToBeModifiedListModReqFrom(bb)
 }
 
-func unmarshalAPERERABsToBeModifiedListModReqFrom(bb *per.BitBuffer) (ERABsToBeModifiedListModReq, error) {
+// UnmarshalAPERERABsToBeModifiedListModReqFrom decodes a ERABsToBeModifiedListModReq list from bb.
+func UnmarshalAPERERABsToBeModifiedListModReqFrom(bb *per.BitBuffer) (ERABsToBeModifiedListModReq, error) {
 	var v asn1cAPERERABsToBeModifiedListModReqListValue
 	if err := unmarshalAPERERABsToBeModifiedListModReqInto(&v, bb); err != nil {
 		return nil, err
@@ -12106,9 +12892,17 @@ func unmarshalAPERERABsToBeModifiedListModReqFrom(bb *per.BitBuffer) (ERABsToBeM
 }
 
 func unmarshalAPERERABsToBeModifiedListModReqInto(v *asn1cAPERERABsToBeModifiedListModReqListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsToBeModifiedListModReq, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -12308,9 +13102,17 @@ func (v *ERABsToBeModifiedModReqItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuff
 		v.S1ULGTPtunnelEndpoint = &dec_s1ulgtptunnelendpoint
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -12455,9 +13257,17 @@ func (v *ERABsToBeModifiedModReqItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBu
 		v.MeNBGTPtunnelEndpoint = &dec_menbgtptunnelendpoint
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -12493,13 +13303,14 @@ type asn1cAPERERABsToBeReleasedListModReqListValue struct{ Value ERABsToBeReleas
 // MarshalAPERERABsToBeReleasedListModReq encodes a ERABsToBeReleasedListModReq list to APER.
 func MarshalAPERERABsToBeReleasedListModReq(list ERABsToBeReleasedListModReq) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsToBeReleasedListModReqTo(list, bb); err != nil {
+	if err := MarshalAPERERABsToBeReleasedListModReqTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsToBeReleasedListModReqTo(list ERABsToBeReleasedListModReq, bb *per.BitBuffer) error {
+// MarshalAPERERABsToBeReleasedListModReqTo appends a ERABsToBeReleasedListModReq list to bb.
+func MarshalAPERERABsToBeReleasedListModReqTo(list ERABsToBeReleasedListModReq, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeReleasedListModReqListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -12515,10 +13326,11 @@ func marshalAPERERABsToBeReleasedListModReqTo(list ERABsToBeReleasedListModReq, 
 // UnmarshalAPERERABsToBeReleasedListModReq decodes a ERABsToBeReleasedListModReq list from APER.
 func UnmarshalAPERERABsToBeReleasedListModReq(data []byte) (ERABsToBeReleasedListModReq, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsToBeReleasedListModReqFrom(bb)
+	return UnmarshalAPERERABsToBeReleasedListModReqFrom(bb)
 }
 
-func unmarshalAPERERABsToBeReleasedListModReqFrom(bb *per.BitBuffer) (ERABsToBeReleasedListModReq, error) {
+// UnmarshalAPERERABsToBeReleasedListModReqFrom decodes a ERABsToBeReleasedListModReq list from bb.
+func UnmarshalAPERERABsToBeReleasedListModReqFrom(bb *per.BitBuffer) (ERABsToBeReleasedListModReq, error) {
 	var v asn1cAPERERABsToBeReleasedListModReqListValue
 	if err := unmarshalAPERERABsToBeReleasedListModReqInto(&v, bb); err != nil {
 		return nil, err
@@ -12527,9 +13339,17 @@ func unmarshalAPERERABsToBeReleasedListModReqFrom(bb *per.BitBuffer) (ERABsToBeR
 }
 
 func unmarshalAPERERABsToBeReleasedListModReqInto(v *asn1cAPERERABsToBeReleasedListModReqListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsToBeReleasedListModReq, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -12729,9 +13549,17 @@ func (v *ERABsToBeReleasedModReqItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuff
 		v.ULForwardingGTPtunnelEndpoint = &dec_ulforwardinggtptunnelendpoint
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -12857,9 +13685,17 @@ func (v *ERABsToBeReleasedModReqItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBu
 		v.DLForwardingGTPtunnelEndpoint = &dec_dlforwardinggtptunnelendpoint
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -12946,9 +13782,17 @@ func (v *SeNBModificationRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -12984,13 +13828,14 @@ type asn1cAPERERABsAdmittedToBeAddedModAckListListValue struct {
 // MarshalAPERERABsAdmittedToBeAddedModAckList encodes a ERABsAdmittedToBeAddedModAckList list to APER.
 func MarshalAPERERABsAdmittedToBeAddedModAckList(list ERABsAdmittedToBeAddedModAckList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsAdmittedToBeAddedModAckListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsAdmittedToBeAddedModAckListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsAdmittedToBeAddedModAckListTo(list ERABsAdmittedToBeAddedModAckList, bb *per.BitBuffer) error {
+// MarshalAPERERABsAdmittedToBeAddedModAckListTo appends a ERABsAdmittedToBeAddedModAckList list to bb.
+func MarshalAPERERABsAdmittedToBeAddedModAckListTo(list ERABsAdmittedToBeAddedModAckList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedToBeAddedModAckListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -13006,10 +13851,11 @@ func marshalAPERERABsAdmittedToBeAddedModAckListTo(list ERABsAdmittedToBeAddedMo
 // UnmarshalAPERERABsAdmittedToBeAddedModAckList decodes a ERABsAdmittedToBeAddedModAckList list from APER.
 func UnmarshalAPERERABsAdmittedToBeAddedModAckList(data []byte) (ERABsAdmittedToBeAddedModAckList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsAdmittedToBeAddedModAckListFrom(bb)
+	return UnmarshalAPERERABsAdmittedToBeAddedModAckListFrom(bb)
 }
 
-func unmarshalAPERERABsAdmittedToBeAddedModAckListFrom(bb *per.BitBuffer) (ERABsAdmittedToBeAddedModAckList, error) {
+// UnmarshalAPERERABsAdmittedToBeAddedModAckListFrom decodes a ERABsAdmittedToBeAddedModAckList list from bb.
+func UnmarshalAPERERABsAdmittedToBeAddedModAckListFrom(bb *per.BitBuffer) (ERABsAdmittedToBeAddedModAckList, error) {
 	var v asn1cAPERERABsAdmittedToBeAddedModAckListListValue
 	if err := unmarshalAPERERABsAdmittedToBeAddedModAckListInto(&v, bb); err != nil {
 		return nil, err
@@ -13018,9 +13864,17 @@ func unmarshalAPERERABsAdmittedToBeAddedModAckListFrom(bb *per.BitBuffer) (ERABs
 }
 
 func unmarshalAPERERABsAdmittedToBeAddedModAckListInto(v *asn1cAPERERABsAdmittedToBeAddedModAckListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsAdmittedToBeAddedModAckList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -13226,9 +14080,17 @@ func (v *ERABsAdmittedToBeAddedModAckItemSCGBearer) UnmarshalAPERFrom(bb *per.Bi
 		v.ULForwardingGTPtunnelEndpoint = &dec_ulforwardinggtptunnelendpoint
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -13341,9 +14203,17 @@ func (v *ERABsAdmittedToBeAddedModAckItemSplitBearer) UnmarshalAPERFrom(bb *per.
 		return fmt.Errorf("decoding seNB-GTPtunnelEndpoint: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -13381,13 +14251,14 @@ type asn1cAPERERABsAdmittedToBeModifiedModAckListListValue struct {
 // MarshalAPERERABsAdmittedToBeModifiedModAckList encodes a ERABsAdmittedToBeModifiedModAckList list to APER.
 func MarshalAPERERABsAdmittedToBeModifiedModAckList(list ERABsAdmittedToBeModifiedModAckList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsAdmittedToBeModifiedModAckListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsAdmittedToBeModifiedModAckListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsAdmittedToBeModifiedModAckListTo(list ERABsAdmittedToBeModifiedModAckList, bb *per.BitBuffer) error {
+// MarshalAPERERABsAdmittedToBeModifiedModAckListTo appends a ERABsAdmittedToBeModifiedModAckList list to bb.
+func MarshalAPERERABsAdmittedToBeModifiedModAckListTo(list ERABsAdmittedToBeModifiedModAckList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedToBeModifiedModAckListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -13403,10 +14274,11 @@ func marshalAPERERABsAdmittedToBeModifiedModAckListTo(list ERABsAdmittedToBeModi
 // UnmarshalAPERERABsAdmittedToBeModifiedModAckList decodes a ERABsAdmittedToBeModifiedModAckList list from APER.
 func UnmarshalAPERERABsAdmittedToBeModifiedModAckList(data []byte) (ERABsAdmittedToBeModifiedModAckList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsAdmittedToBeModifiedModAckListFrom(bb)
+	return UnmarshalAPERERABsAdmittedToBeModifiedModAckListFrom(bb)
 }
 
-func unmarshalAPERERABsAdmittedToBeModifiedModAckListFrom(bb *per.BitBuffer) (ERABsAdmittedToBeModifiedModAckList, error) {
+// UnmarshalAPERERABsAdmittedToBeModifiedModAckListFrom decodes a ERABsAdmittedToBeModifiedModAckList list from bb.
+func UnmarshalAPERERABsAdmittedToBeModifiedModAckListFrom(bb *per.BitBuffer) (ERABsAdmittedToBeModifiedModAckList, error) {
 	var v asn1cAPERERABsAdmittedToBeModifiedModAckListListValue
 	if err := unmarshalAPERERABsAdmittedToBeModifiedModAckListInto(&v, bb); err != nil {
 		return nil, err
@@ -13415,9 +14287,17 @@ func unmarshalAPERERABsAdmittedToBeModifiedModAckListFrom(bb *per.BitBuffer) (ER
 }
 
 func unmarshalAPERERABsAdmittedToBeModifiedModAckListInto(v *asn1cAPERERABsAdmittedToBeModifiedModAckListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsAdmittedToBeModifiedModAckList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -13598,9 +14478,17 @@ func (v *ERABsAdmittedToBeModifiedModAckItemSCGBearer) UnmarshalAPERFrom(bb *per
 		v.S1DLGTPtunnelEndpoint = &dec_s1dlgtptunnelendpoint
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -13726,9 +14614,17 @@ func (v *ERABsAdmittedToBeModifiedModAckItemSplitBearer) UnmarshalAPERFrom(bb *p
 		v.SeNBGTPtunnelEndpoint = &dec_senbgtptunnelendpoint
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -13766,13 +14662,14 @@ type asn1cAPERERABsAdmittedToBeReleasedModAckListListValue struct {
 // MarshalAPERERABsAdmittedToBeReleasedModAckList encodes a ERABsAdmittedToBeReleasedModAckList list to APER.
 func MarshalAPERERABsAdmittedToBeReleasedModAckList(list ERABsAdmittedToBeReleasedModAckList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsAdmittedToBeReleasedModAckListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsAdmittedToBeReleasedModAckListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsAdmittedToBeReleasedModAckListTo(list ERABsAdmittedToBeReleasedModAckList, bb *per.BitBuffer) error {
+// MarshalAPERERABsAdmittedToBeReleasedModAckListTo appends a ERABsAdmittedToBeReleasedModAckList list to bb.
+func MarshalAPERERABsAdmittedToBeReleasedModAckListTo(list ERABsAdmittedToBeReleasedModAckList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedToBeReleasedModAckListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -13788,10 +14685,11 @@ func marshalAPERERABsAdmittedToBeReleasedModAckListTo(list ERABsAdmittedToBeRele
 // UnmarshalAPERERABsAdmittedToBeReleasedModAckList decodes a ERABsAdmittedToBeReleasedModAckList list from APER.
 func UnmarshalAPERERABsAdmittedToBeReleasedModAckList(data []byte) (ERABsAdmittedToBeReleasedModAckList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsAdmittedToBeReleasedModAckListFrom(bb)
+	return UnmarshalAPERERABsAdmittedToBeReleasedModAckListFrom(bb)
 }
 
-func unmarshalAPERERABsAdmittedToBeReleasedModAckListFrom(bb *per.BitBuffer) (ERABsAdmittedToBeReleasedModAckList, error) {
+// UnmarshalAPERERABsAdmittedToBeReleasedModAckListFrom decodes a ERABsAdmittedToBeReleasedModAckList list from bb.
+func UnmarshalAPERERABsAdmittedToBeReleasedModAckListFrom(bb *per.BitBuffer) (ERABsAdmittedToBeReleasedModAckList, error) {
 	var v asn1cAPERERABsAdmittedToBeReleasedModAckListListValue
 	if err := unmarshalAPERERABsAdmittedToBeReleasedModAckListInto(&v, bb); err != nil {
 		return nil, err
@@ -13800,9 +14698,17 @@ func unmarshalAPERERABsAdmittedToBeReleasedModAckListFrom(bb *per.BitBuffer) (ER
 }
 
 func unmarshalAPERERABsAdmittedToBeReleasedModAckListInto(v *asn1cAPERERABsAdmittedToBeReleasedModAckListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsAdmittedToBeReleasedModAckList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -13964,9 +14870,17 @@ func (v *ERABsAdmittedToBeReleasedModAckItemSCGBearer) UnmarshalAPERFrom(bb *per
 	}
 	v.ERABID = val_erabid
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -14073,9 +14987,17 @@ func (v *ERABsAdmittedToBeReleasedModAckItemSplitBearer) UnmarshalAPERFrom(bb *p
 	}
 	v.ERABID = val_erabid
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -14162,9 +15084,17 @@ func (v *SeNBModificationRequestReject) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -14249,9 +15179,17 @@ func (v *SeNBModificationRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -14285,13 +15223,14 @@ type asn1cAPERERABsToBeReleasedModReqdListValue struct{ Value ERABsToBeReleasedM
 // MarshalAPERERABsToBeReleasedModReqd encodes a ERABsToBeReleasedModReqd list to APER.
 func MarshalAPERERABsToBeReleasedModReqd(list ERABsToBeReleasedModReqd) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsToBeReleasedModReqdTo(list, bb); err != nil {
+	if err := MarshalAPERERABsToBeReleasedModReqdTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsToBeReleasedModReqdTo(list ERABsToBeReleasedModReqd, bb *per.BitBuffer) error {
+// MarshalAPERERABsToBeReleasedModReqdTo appends a ERABsToBeReleasedModReqd list to bb.
+func MarshalAPERERABsToBeReleasedModReqdTo(list ERABsToBeReleasedModReqd, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeReleasedModReqdListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -14307,10 +15246,11 @@ func marshalAPERERABsToBeReleasedModReqdTo(list ERABsToBeReleasedModReqd, bb *pe
 // UnmarshalAPERERABsToBeReleasedModReqd decodes a ERABsToBeReleasedModReqd list from APER.
 func UnmarshalAPERERABsToBeReleasedModReqd(data []byte) (ERABsToBeReleasedModReqd, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsToBeReleasedModReqdFrom(bb)
+	return UnmarshalAPERERABsToBeReleasedModReqdFrom(bb)
 }
 
-func unmarshalAPERERABsToBeReleasedModReqdFrom(bb *per.BitBuffer) (ERABsToBeReleasedModReqd, error) {
+// UnmarshalAPERERABsToBeReleasedModReqdFrom decodes a ERABsToBeReleasedModReqd list from bb.
+func UnmarshalAPERERABsToBeReleasedModReqdFrom(bb *per.BitBuffer) (ERABsToBeReleasedModReqd, error) {
 	var v asn1cAPERERABsToBeReleasedModReqdListValue
 	if err := unmarshalAPERERABsToBeReleasedModReqdInto(&v, bb); err != nil {
 		return nil, err
@@ -14319,9 +15259,17 @@ func unmarshalAPERERABsToBeReleasedModReqdFrom(bb *per.BitBuffer) (ERABsToBeRele
 }
 
 func unmarshalAPERERABsToBeReleasedModReqdInto(v *asn1cAPERERABsToBeReleasedModReqdListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsToBeReleasedModReqd, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -14414,9 +15362,17 @@ func (v *ERABsToBeReleasedModReqdItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		return fmt.Errorf("decoding cause: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -14503,9 +15459,17 @@ func (v *SeNBModificationConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -14590,9 +15554,17 @@ func (v *SeNBModificationRefuse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -14677,9 +15649,17 @@ func (v *SeNBReleaseRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -14713,13 +15693,14 @@ type asn1cAPERERABsToBeReleasedListRelReqListValue struct{ Value ERABsToBeReleas
 // MarshalAPERERABsToBeReleasedListRelReq encodes a ERABsToBeReleasedListRelReq list to APER.
 func MarshalAPERERABsToBeReleasedListRelReq(list ERABsToBeReleasedListRelReq) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsToBeReleasedListRelReqTo(list, bb); err != nil {
+	if err := MarshalAPERERABsToBeReleasedListRelReqTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsToBeReleasedListRelReqTo(list ERABsToBeReleasedListRelReq, bb *per.BitBuffer) error {
+// MarshalAPERERABsToBeReleasedListRelReqTo appends a ERABsToBeReleasedListRelReq list to bb.
+func MarshalAPERERABsToBeReleasedListRelReqTo(list ERABsToBeReleasedListRelReq, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeReleasedListRelReqListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -14735,10 +15716,11 @@ func marshalAPERERABsToBeReleasedListRelReqTo(list ERABsToBeReleasedListRelReq, 
 // UnmarshalAPERERABsToBeReleasedListRelReq decodes a ERABsToBeReleasedListRelReq list from APER.
 func UnmarshalAPERERABsToBeReleasedListRelReq(data []byte) (ERABsToBeReleasedListRelReq, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsToBeReleasedListRelReqFrom(bb)
+	return UnmarshalAPERERABsToBeReleasedListRelReqFrom(bb)
 }
 
-func unmarshalAPERERABsToBeReleasedListRelReqFrom(bb *per.BitBuffer) (ERABsToBeReleasedListRelReq, error) {
+// UnmarshalAPERERABsToBeReleasedListRelReqFrom decodes a ERABsToBeReleasedListRelReq list from bb.
+func UnmarshalAPERERABsToBeReleasedListRelReqFrom(bb *per.BitBuffer) (ERABsToBeReleasedListRelReq, error) {
 	var v asn1cAPERERABsToBeReleasedListRelReqListValue
 	if err := unmarshalAPERERABsToBeReleasedListRelReqInto(&v, bb); err != nil {
 		return nil, err
@@ -14747,9 +15729,17 @@ func unmarshalAPERERABsToBeReleasedListRelReqFrom(bb *per.BitBuffer) (ERABsToBeR
 }
 
 func unmarshalAPERERABsToBeReleasedListRelReqInto(v *asn1cAPERERABsToBeReleasedListRelReqListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsToBeReleasedListRelReq, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -14949,9 +15939,17 @@ func (v *ERABsToBeReleasedRelReqItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuff
 		v.DLForwardingGTPtunnelEndpoint = &dec_dlforwardinggtptunnelendpoint
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -15077,9 +16075,17 @@ func (v *ERABsToBeReleasedRelReqItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBu
 		v.DLForwardingGTPtunnelEndpoint = &dec_dlforwardinggtptunnelendpoint
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -15166,9 +16172,17 @@ func (v *SeNBReleaseRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -15253,9 +16267,17 @@ func (v *SeNBReleaseConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -15289,13 +16311,14 @@ type asn1cAPERERABsToBeReleasedListRelConfListValue struct{ Value ERABsToBeRelea
 // MarshalAPERERABsToBeReleasedListRelConf encodes a ERABsToBeReleasedListRelConf list to APER.
 func MarshalAPERERABsToBeReleasedListRelConf(list ERABsToBeReleasedListRelConf) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsToBeReleasedListRelConfTo(list, bb); err != nil {
+	if err := MarshalAPERERABsToBeReleasedListRelConfTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsToBeReleasedListRelConfTo(list ERABsToBeReleasedListRelConf, bb *per.BitBuffer) error {
+// MarshalAPERERABsToBeReleasedListRelConfTo appends a ERABsToBeReleasedListRelConf list to bb.
+func MarshalAPERERABsToBeReleasedListRelConfTo(list ERABsToBeReleasedListRelConf, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeReleasedListRelConfListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -15311,10 +16334,11 @@ func marshalAPERERABsToBeReleasedListRelConfTo(list ERABsToBeReleasedListRelConf
 // UnmarshalAPERERABsToBeReleasedListRelConf decodes a ERABsToBeReleasedListRelConf list from APER.
 func UnmarshalAPERERABsToBeReleasedListRelConf(data []byte) (ERABsToBeReleasedListRelConf, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsToBeReleasedListRelConfFrom(bb)
+	return UnmarshalAPERERABsToBeReleasedListRelConfFrom(bb)
 }
 
-func unmarshalAPERERABsToBeReleasedListRelConfFrom(bb *per.BitBuffer) (ERABsToBeReleasedListRelConf, error) {
+// UnmarshalAPERERABsToBeReleasedListRelConfFrom decodes a ERABsToBeReleasedListRelConf list from bb.
+func UnmarshalAPERERABsToBeReleasedListRelConfFrom(bb *per.BitBuffer) (ERABsToBeReleasedListRelConf, error) {
 	var v asn1cAPERERABsToBeReleasedListRelConfListValue
 	if err := unmarshalAPERERABsToBeReleasedListRelConfInto(&v, bb); err != nil {
 		return nil, err
@@ -15323,9 +16347,17 @@ func unmarshalAPERERABsToBeReleasedListRelConfFrom(bb *per.BitBuffer) (ERABsToBe
 }
 
 func unmarshalAPERERABsToBeReleasedListRelConfInto(v *asn1cAPERERABsToBeReleasedListRelConfListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsToBeReleasedListRelConf, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -15525,9 +16557,17 @@ func (v *ERABsToBeReleasedRelConfItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuf
 		v.DLForwardingGTPtunnelEndpoint = &dec_dlforwardinggtptunnelendpoint
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -15653,9 +16693,17 @@ func (v *ERABsToBeReleasedRelConfItemSplitBearer) UnmarshalAPERFrom(bb *per.BitB
 		v.DLForwardingGTPtunnelEndpoint = &dec_dlforwardinggtptunnelendpoint
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -15742,9 +16790,17 @@ func (v *SeNBCounterCheckRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -15780,13 +16836,14 @@ type asn1cAPERERABsSubjectToCounterCheckListListValue struct {
 // MarshalAPERERABsSubjectToCounterCheckList encodes a ERABsSubjectToCounterCheckList list to APER.
 func MarshalAPERERABsSubjectToCounterCheckList(list ERABsSubjectToCounterCheckList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsSubjectToCounterCheckListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsSubjectToCounterCheckListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsSubjectToCounterCheckListTo(list ERABsSubjectToCounterCheckList, bb *per.BitBuffer) error {
+// MarshalAPERERABsSubjectToCounterCheckListTo appends a ERABsSubjectToCounterCheckList list to bb.
+func MarshalAPERERABsSubjectToCounterCheckListTo(list ERABsSubjectToCounterCheckList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsSubjectToCounterCheckListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -15802,10 +16859,11 @@ func marshalAPERERABsSubjectToCounterCheckListTo(list ERABsSubjectToCounterCheck
 // UnmarshalAPERERABsSubjectToCounterCheckList decodes a ERABsSubjectToCounterCheckList list from APER.
 func UnmarshalAPERERABsSubjectToCounterCheckList(data []byte) (ERABsSubjectToCounterCheckList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsSubjectToCounterCheckListFrom(bb)
+	return UnmarshalAPERERABsSubjectToCounterCheckListFrom(bb)
 }
 
-func unmarshalAPERERABsSubjectToCounterCheckListFrom(bb *per.BitBuffer) (ERABsSubjectToCounterCheckList, error) {
+// UnmarshalAPERERABsSubjectToCounterCheckListFrom decodes a ERABsSubjectToCounterCheckList list from bb.
+func UnmarshalAPERERABsSubjectToCounterCheckListFrom(bb *per.BitBuffer) (ERABsSubjectToCounterCheckList, error) {
 	var v asn1cAPERERABsSubjectToCounterCheckListListValue
 	if err := unmarshalAPERERABsSubjectToCounterCheckListInto(&v, bb); err != nil {
 		return nil, err
@@ -15814,9 +16872,17 @@ func unmarshalAPERERABsSubjectToCounterCheckListFrom(bb *per.BitBuffer) (ERABsSu
 }
 
 func unmarshalAPERERABsSubjectToCounterCheckListInto(v *asn1cAPERERABsSubjectToCounterCheckListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsSubjectToCounterCheckList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -15919,9 +16985,17 @@ func (v *ERABsSubjectToCounterCheckItem) UnmarshalAPERFrom(bb *per.BitBuffer) er
 	}
 	v.DLCount = val_dlcount
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -16008,9 +17082,17 @@ func (v *X2RemovalRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -16095,9 +17177,17 @@ func (v *X2RemovalResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -16182,9 +17272,17 @@ func (v *X2RemovalFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -16269,9 +17367,17 @@ func (v *RetrieveUEContextRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -16356,9 +17462,17 @@ func (v *RetrieveUEContextResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -16564,9 +17678,17 @@ func (v *UEContextInformationRetrieve) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		tmp_subscriberprofileidforrfp := SubscriberProfileIDforRFP(val_subscriberprofileidforrfp)
 		v.SubscriberProfileIDforRFP = &tmp_subscriberprofileidforrfp
 	}
-	seqLen_erabstobesetuplistretrieve, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding e-RABs-ToBeSetup-ListRetrieve length: %w", err)
+	var seqLen_erabstobesetuplistretrieve int64
+	var errLength_erabstobesetuplistretrieve error
+	seqLen_erabstobesetuplistretrieve, errLength_erabstobesetuplistretrieve = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_erabstobesetuplistretrieve != nil {
+		return fmt.Errorf("decoding e-RABs-ToBeSetup-ListRetrieve length: %w", errLength_erabstobesetuplistretrieve)
+	}
+	if seqLen_erabstobesetuplistretrieve < 1 {
+		return fmt.Errorf("decoding e-RABs-ToBeSetup-ListRetrieve length %d below lower bound 1", seqLen_erabstobesetuplistretrieve)
+	}
+	if seqLen_erabstobesetuplistretrieve > 256 {
+		return fmt.Errorf("decoding e-RABs-ToBeSetup-ListRetrieve length %d above upper bound 256", seqLen_erabstobesetuplistretrieve)
 	}
 	v.ERABsToBeSetupListRetrieve = make(ERABsToBeSetupListRetrieve, seqLen_erabstobesetuplistretrieve)
 	for i := int64(0); i < seqLen_erabstobesetuplistretrieve; i++ {
@@ -16602,9 +17724,17 @@ func (v *UEContextInformationRetrieve) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		v.ManagBasedMDTallowed = &tmp_managbasedmdtallowed
 	}
 	if opt_managbasedmdtplmnlist {
-		seqLen_managbasedmdtplmnlist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
-		if err != nil {
-			return fmt.Errorf("decoding managBasedMDTPLMNList length: %w", err)
+		var seqLen_managbasedmdtplmnlist int64
+		var errLength_managbasedmdtplmnlist error
+		seqLen_managbasedmdtplmnlist, errLength_managbasedmdtplmnlist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
+		if errLength_managbasedmdtplmnlist != nil {
+			return fmt.Errorf("decoding managBasedMDTPLMNList length: %w", errLength_managbasedmdtplmnlist)
+		}
+		if seqLen_managbasedmdtplmnlist < 1 {
+			return fmt.Errorf("decoding managBasedMDTPLMNList length %d below lower bound 1", seqLen_managbasedmdtplmnlist)
+		}
+		if seqLen_managbasedmdtplmnlist > 16 {
+			return fmt.Errorf("decoding managBasedMDTPLMNList length %d above upper bound 16", seqLen_managbasedmdtplmnlist)
 		}
 		tmp_managbasedmdtplmnlist := make(MDTPLMNList, seqLen_managbasedmdtplmnlist)
 		for i := int64(0); i < seqLen_managbasedmdtplmnlist; i++ {
@@ -16617,9 +17747,17 @@ func (v *UEContextInformationRetrieve) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		v.ManagBasedMDTPLMNList = tmp_managbasedmdtplmnlist
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -16655,13 +17793,14 @@ type asn1cAPERERABsToBeSetupListRetrieveListValue struct{ Value ERABsToBeSetupLi
 // MarshalAPERERABsToBeSetupListRetrieve encodes a ERABsToBeSetupListRetrieve list to APER.
 func MarshalAPERERABsToBeSetupListRetrieve(list ERABsToBeSetupListRetrieve) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsToBeSetupListRetrieveTo(list, bb); err != nil {
+	if err := MarshalAPERERABsToBeSetupListRetrieveTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsToBeSetupListRetrieveTo(list ERABsToBeSetupListRetrieve, bb *per.BitBuffer) error {
+// MarshalAPERERABsToBeSetupListRetrieveTo appends a ERABsToBeSetupListRetrieve list to bb.
+func MarshalAPERERABsToBeSetupListRetrieveTo(list ERABsToBeSetupListRetrieve, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeSetupListRetrieveListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -16677,10 +17816,11 @@ func marshalAPERERABsToBeSetupListRetrieveTo(list ERABsToBeSetupListRetrieve, bb
 // UnmarshalAPERERABsToBeSetupListRetrieve decodes a ERABsToBeSetupListRetrieve list from APER.
 func UnmarshalAPERERABsToBeSetupListRetrieve(data []byte) (ERABsToBeSetupListRetrieve, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsToBeSetupListRetrieveFrom(bb)
+	return UnmarshalAPERERABsToBeSetupListRetrieveFrom(bb)
 }
 
-func unmarshalAPERERABsToBeSetupListRetrieveFrom(bb *per.BitBuffer) (ERABsToBeSetupListRetrieve, error) {
+// UnmarshalAPERERABsToBeSetupListRetrieveFrom decodes a ERABsToBeSetupListRetrieve list from bb.
+func UnmarshalAPERERABsToBeSetupListRetrieveFrom(bb *per.BitBuffer) (ERABsToBeSetupListRetrieve, error) {
 	var v asn1cAPERERABsToBeSetupListRetrieveListValue
 	if err := unmarshalAPERERABsToBeSetupListRetrieveInto(&v, bb); err != nil {
 		return nil, err
@@ -16689,9 +17829,17 @@ func unmarshalAPERERABsToBeSetupListRetrieveFrom(bb *per.BitBuffer) (ERABsToBeSe
 }
 
 func unmarshalAPERERABsToBeSetupListRetrieveInto(v *asn1cAPERERABsToBeSetupListRetrieveListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsToBeSetupListRetrieve, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -16804,9 +17952,17 @@ func (v *ERABsToBeSetupRetrieveItem) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 		v.BearerType = &tmp_bearertype
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -16893,9 +18049,17 @@ func (v *RetrieveUEContextFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -16980,9 +18144,17 @@ func (v *SgNBAdditionRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -17016,13 +18188,14 @@ type asn1cAPERERABsToBeAddedSgNBAddReqListListValue struct{ Value ERABsToBeAdded
 // MarshalAPERERABsToBeAddedSgNBAddReqList encodes a ERABsToBeAddedSgNBAddReqList list to APER.
 func MarshalAPERERABsToBeAddedSgNBAddReqList(list ERABsToBeAddedSgNBAddReqList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsToBeAddedSgNBAddReqListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsToBeAddedSgNBAddReqListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsToBeAddedSgNBAddReqListTo(list ERABsToBeAddedSgNBAddReqList, bb *per.BitBuffer) error {
+// MarshalAPERERABsToBeAddedSgNBAddReqListTo appends a ERABsToBeAddedSgNBAddReqList list to bb.
+func MarshalAPERERABsToBeAddedSgNBAddReqListTo(list ERABsToBeAddedSgNBAddReqList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeAddedSgNBAddReqListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -17038,10 +18211,11 @@ func marshalAPERERABsToBeAddedSgNBAddReqListTo(list ERABsToBeAddedSgNBAddReqList
 // UnmarshalAPERERABsToBeAddedSgNBAddReqList decodes a ERABsToBeAddedSgNBAddReqList list from APER.
 func UnmarshalAPERERABsToBeAddedSgNBAddReqList(data []byte) (ERABsToBeAddedSgNBAddReqList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsToBeAddedSgNBAddReqListFrom(bb)
+	return UnmarshalAPERERABsToBeAddedSgNBAddReqListFrom(bb)
 }
 
-func unmarshalAPERERABsToBeAddedSgNBAddReqListFrom(bb *per.BitBuffer) (ERABsToBeAddedSgNBAddReqList, error) {
+// UnmarshalAPERERABsToBeAddedSgNBAddReqListFrom decodes a ERABsToBeAddedSgNBAddReqList list from bb.
+func UnmarshalAPERERABsToBeAddedSgNBAddReqListFrom(bb *per.BitBuffer) (ERABsToBeAddedSgNBAddReqList, error) {
 	var v asn1cAPERERABsToBeAddedSgNBAddReqListListValue
 	if err := unmarshalAPERERABsToBeAddedSgNBAddReqListInto(&v, bb); err != nil {
 		return nil, err
@@ -17050,9 +18224,17 @@ func unmarshalAPERERABsToBeAddedSgNBAddReqListFrom(bb *per.BitBuffer) (ERABsToBe
 }
 
 func unmarshalAPERERABsToBeAddedSgNBAddReqListInto(v *asn1cAPERERABsToBeAddedSgNBAddReqListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsToBeAddedSgNBAddReqList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -17159,9 +18341,17 @@ func (v *ERABsToBeAddedSgNBAddReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -17330,9 +18520,17 @@ func (v *ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *per.
 		return fmt.Errorf("decoding s1-UL-GTPtunnelEndpoint: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -17489,9 +18687,17 @@ func (v *ERABsToBeAddedSgNBAddReqItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb *p
 		v.ULConfiguration = &dec_ulconfiguration
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -17578,9 +18784,17 @@ func (v *SgNBAdditionRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) er
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -17616,13 +18830,14 @@ type asn1cAPERERABsAdmittedToBeAddedSgNBAddReqAckListListValue struct {
 // MarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckList encodes a ERABsAdmittedToBeAddedSgNBAddReqAckList list to APER.
 func MarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckList(list ERABsAdmittedToBeAddedSgNBAddReqAckList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListTo(list ERABsAdmittedToBeAddedSgNBAddReqAckList, bb *per.BitBuffer) error {
+// MarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListTo appends a ERABsAdmittedToBeAddedSgNBAddReqAckList list to bb.
+func MarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListTo(list ERABsAdmittedToBeAddedSgNBAddReqAckList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedToBeAddedSgNBAddReqAckListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -17638,10 +18853,11 @@ func marshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListTo(list ERABsAdmittedToBe
 // UnmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckList decodes a ERABsAdmittedToBeAddedSgNBAddReqAckList list from APER.
 func UnmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckList(data []byte) (ERABsAdmittedToBeAddedSgNBAddReqAckList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListFrom(bb)
+	return UnmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListFrom(bb)
 }
 
-func unmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListFrom(bb *per.BitBuffer) (ERABsAdmittedToBeAddedSgNBAddReqAckList, error) {
+// UnmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListFrom decodes a ERABsAdmittedToBeAddedSgNBAddReqAckList list from bb.
+func UnmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListFrom(bb *per.BitBuffer) (ERABsAdmittedToBeAddedSgNBAddReqAckList, error) {
 	var v asn1cAPERERABsAdmittedToBeAddedSgNBAddReqAckListListValue
 	if err := unmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListInto(&v, bb); err != nil {
 		return nil, err
@@ -17650,9 +18866,17 @@ func unmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListFrom(bb *per.BitBuffer)
 }
 
 func unmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListInto(v *asn1cAPERERABsAdmittedToBeAddedSgNBAddReqAckListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsAdmittedToBeAddedSgNBAddReqAckList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -17751,9 +18975,17 @@ func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItem) UnmarshalAPERFrom(bb *per.BitB
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -17973,9 +19205,17 @@ func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresent) UnmarshalAPERFr
 		v.ULConfiguration = &dec_ulconfiguration
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -18099,9 +19339,17 @@ func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresent) UnmarshalAPE
 		v.SecondarySgNBDLGTPTEIDatSCG = &dec_secondarysgnbdlgtpteidatscg
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -18188,9 +19436,17 @@ func (v *SgNBAdditionRequestReject) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -18275,9 +19531,17 @@ func (v *SgNBReconfigurationComplete) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -18469,9 +19733,17 @@ func (v *ResponseInformationSgNBReconfCompSuccessItem) UnmarshalAPERFrom(bb *per
 		v.MeNBtoSgNBContainer = &tmp_menbtosgnbcontainer
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -18576,9 +19848,17 @@ func (v *ResponseInformationSgNBReconfCompRejectByMeNBItem) UnmarshalAPERFrom(bb
 		return fmt.Errorf("decoding cause: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -18665,9 +19945,17 @@ func (v *SgNBModificationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -18873,9 +20161,17 @@ func (v *UEContextInformationSgNBModReq) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		v.SgNBUEAggregateMaximumBitRate = &dec_sgnbueaggregatemaximumbitrate
 	}
 	if opt_erabstobeadded {
-		seqLen_erabstobeadded, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-		if err != nil {
-			return fmt.Errorf("decoding e-RABs-ToBeAdded length: %w", err)
+		var seqLen_erabstobeadded int64
+		var errLength_erabstobeadded error
+		seqLen_erabstobeadded, errLength_erabstobeadded = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+		if errLength_erabstobeadded != nil {
+			return fmt.Errorf("decoding e-RABs-ToBeAdded length: %w", errLength_erabstobeadded)
+		}
+		if seqLen_erabstobeadded < 1 {
+			return fmt.Errorf("decoding e-RABs-ToBeAdded length %d below lower bound 1", seqLen_erabstobeadded)
+		}
+		if seqLen_erabstobeadded > 256 {
+			return fmt.Errorf("decoding e-RABs-ToBeAdded length %d above upper bound 256", seqLen_erabstobeadded)
 		}
 		tmp_erabstobeadded := make(ERABsToBeAddedSgNBModReqList, seqLen_erabstobeadded)
 		for i := int64(0); i < seqLen_erabstobeadded; i++ {
@@ -18886,9 +20182,17 @@ func (v *UEContextInformationSgNBModReq) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		v.ERABsToBeAdded = tmp_erabstobeadded
 	}
 	if opt_erabstobemodified {
-		seqLen_erabstobemodified, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-		if err != nil {
-			return fmt.Errorf("decoding e-RABs-ToBeModified length: %w", err)
+		var seqLen_erabstobemodified int64
+		var errLength_erabstobemodified error
+		seqLen_erabstobemodified, errLength_erabstobemodified = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+		if errLength_erabstobemodified != nil {
+			return fmt.Errorf("decoding e-RABs-ToBeModified length: %w", errLength_erabstobemodified)
+		}
+		if seqLen_erabstobemodified < 1 {
+			return fmt.Errorf("decoding e-RABs-ToBeModified length %d below lower bound 1", seqLen_erabstobemodified)
+		}
+		if seqLen_erabstobemodified > 256 {
+			return fmt.Errorf("decoding e-RABs-ToBeModified length %d above upper bound 256", seqLen_erabstobemodified)
 		}
 		tmp_erabstobemodified := make(ERABsToBeModifiedSgNBModReqList, seqLen_erabstobemodified)
 		for i := int64(0); i < seqLen_erabstobemodified; i++ {
@@ -18899,9 +20203,17 @@ func (v *UEContextInformationSgNBModReq) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		v.ERABsToBeModified = tmp_erabstobemodified
 	}
 	if opt_erabstobereleased {
-		seqLen_erabstobereleased, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-		if err != nil {
-			return fmt.Errorf("decoding e-RABs-ToBeReleased length: %w", err)
+		var seqLen_erabstobereleased int64
+		var errLength_erabstobereleased error
+		seqLen_erabstobereleased, errLength_erabstobereleased = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+		if errLength_erabstobereleased != nil {
+			return fmt.Errorf("decoding e-RABs-ToBeReleased length: %w", errLength_erabstobereleased)
+		}
+		if seqLen_erabstobereleased < 1 {
+			return fmt.Errorf("decoding e-RABs-ToBeReleased length %d below lower bound 1", seqLen_erabstobereleased)
+		}
+		if seqLen_erabstobereleased > 256 {
+			return fmt.Errorf("decoding e-RABs-ToBeReleased length %d above upper bound 256", seqLen_erabstobereleased)
 		}
 		tmp_erabstobereleased := make(ERABsToBeReleasedSgNBModReqList, seqLen_erabstobereleased)
 		for i := int64(0); i < seqLen_erabstobereleased; i++ {
@@ -18912,9 +20224,17 @@ func (v *UEContextInformationSgNBModReq) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		v.ERABsToBeReleased = tmp_erabstobereleased
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -18950,13 +20270,14 @@ type asn1cAPERERABsToBeAddedSgNBModReqListListValue struct{ Value ERABsToBeAdded
 // MarshalAPERERABsToBeAddedSgNBModReqList encodes a ERABsToBeAddedSgNBModReqList list to APER.
 func MarshalAPERERABsToBeAddedSgNBModReqList(list ERABsToBeAddedSgNBModReqList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsToBeAddedSgNBModReqListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsToBeAddedSgNBModReqListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsToBeAddedSgNBModReqListTo(list ERABsToBeAddedSgNBModReqList, bb *per.BitBuffer) error {
+// MarshalAPERERABsToBeAddedSgNBModReqListTo appends a ERABsToBeAddedSgNBModReqList list to bb.
+func MarshalAPERERABsToBeAddedSgNBModReqListTo(list ERABsToBeAddedSgNBModReqList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeAddedSgNBModReqListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -18972,10 +20293,11 @@ func marshalAPERERABsToBeAddedSgNBModReqListTo(list ERABsToBeAddedSgNBModReqList
 // UnmarshalAPERERABsToBeAddedSgNBModReqList decodes a ERABsToBeAddedSgNBModReqList list from APER.
 func UnmarshalAPERERABsToBeAddedSgNBModReqList(data []byte) (ERABsToBeAddedSgNBModReqList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsToBeAddedSgNBModReqListFrom(bb)
+	return UnmarshalAPERERABsToBeAddedSgNBModReqListFrom(bb)
 }
 
-func unmarshalAPERERABsToBeAddedSgNBModReqListFrom(bb *per.BitBuffer) (ERABsToBeAddedSgNBModReqList, error) {
+// UnmarshalAPERERABsToBeAddedSgNBModReqListFrom decodes a ERABsToBeAddedSgNBModReqList list from bb.
+func UnmarshalAPERERABsToBeAddedSgNBModReqListFrom(bb *per.BitBuffer) (ERABsToBeAddedSgNBModReqList, error) {
 	var v asn1cAPERERABsToBeAddedSgNBModReqListListValue
 	if err := unmarshalAPERERABsToBeAddedSgNBModReqListInto(&v, bb); err != nil {
 		return nil, err
@@ -18984,9 +20306,17 @@ func unmarshalAPERERABsToBeAddedSgNBModReqListFrom(bb *per.BitBuffer) (ERABsToBe
 }
 
 func unmarshalAPERERABsToBeAddedSgNBModReqListInto(v *asn1cAPERERABsToBeAddedSgNBModReqListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsToBeAddedSgNBModReqList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -19093,9 +20423,17 @@ func (v *ERABsToBeAddedSgNBModReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -19264,9 +20602,17 @@ func (v *ERABsToBeAddedSgNBModReqItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *per.
 		return fmt.Errorf("decoding s1-UL-GTPtunnelEndpoint: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -19423,9 +20769,17 @@ func (v *ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb *p
 		v.ULConfiguration = &dec_ulconfiguration
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -19463,13 +20817,14 @@ type asn1cAPERERABsToBeModifiedSgNBModReqListListValue struct {
 // MarshalAPERERABsToBeModifiedSgNBModReqList encodes a ERABsToBeModifiedSgNBModReqList list to APER.
 func MarshalAPERERABsToBeModifiedSgNBModReqList(list ERABsToBeModifiedSgNBModReqList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsToBeModifiedSgNBModReqListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsToBeModifiedSgNBModReqListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsToBeModifiedSgNBModReqListTo(list ERABsToBeModifiedSgNBModReqList, bb *per.BitBuffer) error {
+// MarshalAPERERABsToBeModifiedSgNBModReqListTo appends a ERABsToBeModifiedSgNBModReqList list to bb.
+func MarshalAPERERABsToBeModifiedSgNBModReqListTo(list ERABsToBeModifiedSgNBModReqList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeModifiedSgNBModReqListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -19485,10 +20840,11 @@ func marshalAPERERABsToBeModifiedSgNBModReqListTo(list ERABsToBeModifiedSgNBModR
 // UnmarshalAPERERABsToBeModifiedSgNBModReqList decodes a ERABsToBeModifiedSgNBModReqList list from APER.
 func UnmarshalAPERERABsToBeModifiedSgNBModReqList(data []byte) (ERABsToBeModifiedSgNBModReqList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsToBeModifiedSgNBModReqListFrom(bb)
+	return UnmarshalAPERERABsToBeModifiedSgNBModReqListFrom(bb)
 }
 
-func unmarshalAPERERABsToBeModifiedSgNBModReqListFrom(bb *per.BitBuffer) (ERABsToBeModifiedSgNBModReqList, error) {
+// UnmarshalAPERERABsToBeModifiedSgNBModReqListFrom decodes a ERABsToBeModifiedSgNBModReqList list from bb.
+func UnmarshalAPERERABsToBeModifiedSgNBModReqListFrom(bb *per.BitBuffer) (ERABsToBeModifiedSgNBModReqList, error) {
 	var v asn1cAPERERABsToBeModifiedSgNBModReqListListValue
 	if err := unmarshalAPERERABsToBeModifiedSgNBModReqListInto(&v, bb); err != nil {
 		return nil, err
@@ -19497,9 +20853,17 @@ func unmarshalAPERERABsToBeModifiedSgNBModReqListFrom(bb *per.BitBuffer) (ERABsT
 }
 
 func unmarshalAPERERABsToBeModifiedSgNBModReqListInto(v *asn1cAPERERABsToBeModifiedSgNBModReqListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsToBeModifiedSgNBModReqList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -19598,9 +20962,17 @@ func (v *ERABsToBeModifiedSgNBModReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -19775,9 +21147,17 @@ func (v *ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *p
 		v.S1ULGTPtunnelEndpoint = &dec_s1ulgtptunnelendpoint
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -19933,9 +21313,17 @@ func (v *ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb
 		v.ULConfiguration = &dec_ulconfiguration
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -19973,13 +21361,14 @@ type asn1cAPERERABsToBeReleasedSgNBModReqListListValue struct {
 // MarshalAPERERABsToBeReleasedSgNBModReqList encodes a ERABsToBeReleasedSgNBModReqList list to APER.
 func MarshalAPERERABsToBeReleasedSgNBModReqList(list ERABsToBeReleasedSgNBModReqList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsToBeReleasedSgNBModReqListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsToBeReleasedSgNBModReqListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsToBeReleasedSgNBModReqListTo(list ERABsToBeReleasedSgNBModReqList, bb *per.BitBuffer) error {
+// MarshalAPERERABsToBeReleasedSgNBModReqListTo appends a ERABsToBeReleasedSgNBModReqList list to bb.
+func MarshalAPERERABsToBeReleasedSgNBModReqListTo(list ERABsToBeReleasedSgNBModReqList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeReleasedSgNBModReqListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -19995,10 +21384,11 @@ func marshalAPERERABsToBeReleasedSgNBModReqListTo(list ERABsToBeReleasedSgNBModR
 // UnmarshalAPERERABsToBeReleasedSgNBModReqList decodes a ERABsToBeReleasedSgNBModReqList list from APER.
 func UnmarshalAPERERABsToBeReleasedSgNBModReqList(data []byte) (ERABsToBeReleasedSgNBModReqList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsToBeReleasedSgNBModReqListFrom(bb)
+	return UnmarshalAPERERABsToBeReleasedSgNBModReqListFrom(bb)
 }
 
-func unmarshalAPERERABsToBeReleasedSgNBModReqListFrom(bb *per.BitBuffer) (ERABsToBeReleasedSgNBModReqList, error) {
+// UnmarshalAPERERABsToBeReleasedSgNBModReqListFrom decodes a ERABsToBeReleasedSgNBModReqList list from bb.
+func UnmarshalAPERERABsToBeReleasedSgNBModReqListFrom(bb *per.BitBuffer) (ERABsToBeReleasedSgNBModReqList, error) {
 	var v asn1cAPERERABsToBeReleasedSgNBModReqListListValue
 	if err := unmarshalAPERERABsToBeReleasedSgNBModReqListInto(&v, bb); err != nil {
 		return nil, err
@@ -20007,9 +21397,17 @@ func unmarshalAPERERABsToBeReleasedSgNBModReqListFrom(bb *per.BitBuffer) (ERABsT
 }
 
 func unmarshalAPERERABsToBeReleasedSgNBModReqListInto(v *asn1cAPERERABsToBeReleasedSgNBModReqListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsToBeReleasedSgNBModReqList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -20108,9 +21506,17 @@ func (v *ERABsToBeReleasedSgNBModReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -20247,9 +21653,17 @@ func (v *ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *p
 		v.ULGTPtunnelEndpoint = &dec_ulgtptunnelendpoint
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -20348,9 +21762,17 @@ func (v *ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb
 		return err
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -20437,9 +21859,17 @@ func (v *SgNBModificationRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -20475,13 +21905,14 @@ type asn1cAPERERABsAdmittedToBeAddedSgNBModAckListListValue struct {
 // MarshalAPERERABsAdmittedToBeAddedSgNBModAckList encodes a ERABsAdmittedToBeAddedSgNBModAckList list to APER.
 func MarshalAPERERABsAdmittedToBeAddedSgNBModAckList(list ERABsAdmittedToBeAddedSgNBModAckList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsAdmittedToBeAddedSgNBModAckListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsAdmittedToBeAddedSgNBModAckListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsAdmittedToBeAddedSgNBModAckListTo(list ERABsAdmittedToBeAddedSgNBModAckList, bb *per.BitBuffer) error {
+// MarshalAPERERABsAdmittedToBeAddedSgNBModAckListTo appends a ERABsAdmittedToBeAddedSgNBModAckList list to bb.
+func MarshalAPERERABsAdmittedToBeAddedSgNBModAckListTo(list ERABsAdmittedToBeAddedSgNBModAckList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedToBeAddedSgNBModAckListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -20497,10 +21928,11 @@ func marshalAPERERABsAdmittedToBeAddedSgNBModAckListTo(list ERABsAdmittedToBeAdd
 // UnmarshalAPERERABsAdmittedToBeAddedSgNBModAckList decodes a ERABsAdmittedToBeAddedSgNBModAckList list from APER.
 func UnmarshalAPERERABsAdmittedToBeAddedSgNBModAckList(data []byte) (ERABsAdmittedToBeAddedSgNBModAckList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsAdmittedToBeAddedSgNBModAckListFrom(bb)
+	return UnmarshalAPERERABsAdmittedToBeAddedSgNBModAckListFrom(bb)
 }
 
-func unmarshalAPERERABsAdmittedToBeAddedSgNBModAckListFrom(bb *per.BitBuffer) (ERABsAdmittedToBeAddedSgNBModAckList, error) {
+// UnmarshalAPERERABsAdmittedToBeAddedSgNBModAckListFrom decodes a ERABsAdmittedToBeAddedSgNBModAckList list from bb.
+func UnmarshalAPERERABsAdmittedToBeAddedSgNBModAckListFrom(bb *per.BitBuffer) (ERABsAdmittedToBeAddedSgNBModAckList, error) {
 	var v asn1cAPERERABsAdmittedToBeAddedSgNBModAckListListValue
 	if err := unmarshalAPERERABsAdmittedToBeAddedSgNBModAckListInto(&v, bb); err != nil {
 		return nil, err
@@ -20509,9 +21941,17 @@ func unmarshalAPERERABsAdmittedToBeAddedSgNBModAckListFrom(bb *per.BitBuffer) (E
 }
 
 func unmarshalAPERERABsAdmittedToBeAddedSgNBModAckListInto(v *asn1cAPERERABsAdmittedToBeAddedSgNBModAckListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsAdmittedToBeAddedSgNBModAckList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -20610,9 +22050,17 @@ func (v *ERABsAdmittedToBeAddedSgNBModAckItem) UnmarshalAPERFrom(bb *per.BitBuff
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -20832,9 +22280,17 @@ func (v *ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresent) UnmarshalAPERFrom(
 		v.ULConfiguration = &dec_ulconfiguration
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -20958,9 +22414,17 @@ func (v *ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresent) UnmarshalAPERFr
 		v.SecondarySgNBDLGTPTEIDatSCG = &dec_secondarysgnbdlgtpteidatscg
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -20998,13 +22462,14 @@ type asn1cAPERERABsAdmittedToBeModifiedSgNBModAckListListValue struct {
 // MarshalAPERERABsAdmittedToBeModifiedSgNBModAckList encodes a ERABsAdmittedToBeModifiedSgNBModAckList list to APER.
 func MarshalAPERERABsAdmittedToBeModifiedSgNBModAckList(list ERABsAdmittedToBeModifiedSgNBModAckList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsAdmittedToBeModifiedSgNBModAckListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsAdmittedToBeModifiedSgNBModAckListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsAdmittedToBeModifiedSgNBModAckListTo(list ERABsAdmittedToBeModifiedSgNBModAckList, bb *per.BitBuffer) error {
+// MarshalAPERERABsAdmittedToBeModifiedSgNBModAckListTo appends a ERABsAdmittedToBeModifiedSgNBModAckList list to bb.
+func MarshalAPERERABsAdmittedToBeModifiedSgNBModAckListTo(list ERABsAdmittedToBeModifiedSgNBModAckList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedToBeModifiedSgNBModAckListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -21020,10 +22485,11 @@ func marshalAPERERABsAdmittedToBeModifiedSgNBModAckListTo(list ERABsAdmittedToBe
 // UnmarshalAPERERABsAdmittedToBeModifiedSgNBModAckList decodes a ERABsAdmittedToBeModifiedSgNBModAckList list from APER.
 func UnmarshalAPERERABsAdmittedToBeModifiedSgNBModAckList(data []byte) (ERABsAdmittedToBeModifiedSgNBModAckList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsAdmittedToBeModifiedSgNBModAckListFrom(bb)
+	return UnmarshalAPERERABsAdmittedToBeModifiedSgNBModAckListFrom(bb)
 }
 
-func unmarshalAPERERABsAdmittedToBeModifiedSgNBModAckListFrom(bb *per.BitBuffer) (ERABsAdmittedToBeModifiedSgNBModAckList, error) {
+// UnmarshalAPERERABsAdmittedToBeModifiedSgNBModAckListFrom decodes a ERABsAdmittedToBeModifiedSgNBModAckList list from bb.
+func UnmarshalAPERERABsAdmittedToBeModifiedSgNBModAckListFrom(bb *per.BitBuffer) (ERABsAdmittedToBeModifiedSgNBModAckList, error) {
 	var v asn1cAPERERABsAdmittedToBeModifiedSgNBModAckListListValue
 	if err := unmarshalAPERERABsAdmittedToBeModifiedSgNBModAckListInto(&v, bb); err != nil {
 		return nil, err
@@ -21032,9 +22498,17 @@ func unmarshalAPERERABsAdmittedToBeModifiedSgNBModAckListFrom(bb *per.BitBuffer)
 }
 
 func unmarshalAPERERABsAdmittedToBeModifiedSgNBModAckListInto(v *asn1cAPERERABsAdmittedToBeModifiedSgNBModAckListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsAdmittedToBeModifiedSgNBModAckList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -21133,9 +22607,17 @@ func (v *ERABsAdmittedToBeModifiedSgNBModAckItem) UnmarshalAPERFrom(bb *per.BitB
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -21310,9 +22792,17 @@ func (v *ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresent) UnmarshalAPERFr
 		v.ULConfiguration = &dec_ulconfiguration
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -21430,9 +22920,17 @@ func (v *ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresent) UnmarshalAPE
 		v.SgNBDLGTPTEIDatSCG = &dec_sgnbdlgtpteidatscg
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -21470,13 +22968,14 @@ type asn1cAPERERABsAdmittedToBeReleasedSgNBModAckListListValue struct {
 // MarshalAPERERABsAdmittedToBeReleasedSgNBModAckList encodes a ERABsAdmittedToBeReleasedSgNBModAckList list to APER.
 func MarshalAPERERABsAdmittedToBeReleasedSgNBModAckList(list ERABsAdmittedToBeReleasedSgNBModAckList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsAdmittedToBeReleasedSgNBModAckListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsAdmittedToBeReleasedSgNBModAckListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsAdmittedToBeReleasedSgNBModAckListTo(list ERABsAdmittedToBeReleasedSgNBModAckList, bb *per.BitBuffer) error {
+// MarshalAPERERABsAdmittedToBeReleasedSgNBModAckListTo appends a ERABsAdmittedToBeReleasedSgNBModAckList list to bb.
+func MarshalAPERERABsAdmittedToBeReleasedSgNBModAckListTo(list ERABsAdmittedToBeReleasedSgNBModAckList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedToBeReleasedSgNBModAckListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -21492,10 +22991,11 @@ func marshalAPERERABsAdmittedToBeReleasedSgNBModAckListTo(list ERABsAdmittedToBe
 // UnmarshalAPERERABsAdmittedToBeReleasedSgNBModAckList decodes a ERABsAdmittedToBeReleasedSgNBModAckList list from APER.
 func UnmarshalAPERERABsAdmittedToBeReleasedSgNBModAckList(data []byte) (ERABsAdmittedToBeReleasedSgNBModAckList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsAdmittedToBeReleasedSgNBModAckListFrom(bb)
+	return UnmarshalAPERERABsAdmittedToBeReleasedSgNBModAckListFrom(bb)
 }
 
-func unmarshalAPERERABsAdmittedToBeReleasedSgNBModAckListFrom(bb *per.BitBuffer) (ERABsAdmittedToBeReleasedSgNBModAckList, error) {
+// UnmarshalAPERERABsAdmittedToBeReleasedSgNBModAckListFrom decodes a ERABsAdmittedToBeReleasedSgNBModAckList list from bb.
+func UnmarshalAPERERABsAdmittedToBeReleasedSgNBModAckListFrom(bb *per.BitBuffer) (ERABsAdmittedToBeReleasedSgNBModAckList, error) {
 	var v asn1cAPERERABsAdmittedToBeReleasedSgNBModAckListListValue
 	if err := unmarshalAPERERABsAdmittedToBeReleasedSgNBModAckListInto(&v, bb); err != nil {
 		return nil, err
@@ -21504,9 +23004,17 @@ func unmarshalAPERERABsAdmittedToBeReleasedSgNBModAckListFrom(bb *per.BitBuffer)
 }
 
 func unmarshalAPERERABsAdmittedToBeReleasedSgNBModAckListInto(v *asn1cAPERERABsAdmittedToBeReleasedSgNBModAckListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsAdmittedToBeReleasedSgNBModAckList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -21605,9 +23113,17 @@ func (v *ERABsAdmittedToReleasedSgNBModAckItem) UnmarshalAPERFrom(bb *per.BitBuf
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -21706,9 +23222,17 @@ func (v *ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresent) UnmarshalAPERFr
 		return err
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -21807,9 +23331,17 @@ func (v *ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent) UnmarshalAPE
 		return err
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -21896,9 +23428,17 @@ func (v *SgNBModificationRequestReject) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -21983,9 +23523,17 @@ func (v *SgNBModificationRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -22021,13 +23569,14 @@ type asn1cAPERERABsToBeReleasedSgNBModReqdListListValue struct {
 // MarshalAPERERABsToBeReleasedSgNBModReqdList encodes a ERABsToBeReleasedSgNBModReqdList list to APER.
 func MarshalAPERERABsToBeReleasedSgNBModReqdList(list ERABsToBeReleasedSgNBModReqdList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsToBeReleasedSgNBModReqdListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsToBeReleasedSgNBModReqdListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsToBeReleasedSgNBModReqdListTo(list ERABsToBeReleasedSgNBModReqdList, bb *per.BitBuffer) error {
+// MarshalAPERERABsToBeReleasedSgNBModReqdListTo appends a ERABsToBeReleasedSgNBModReqdList list to bb.
+func MarshalAPERERABsToBeReleasedSgNBModReqdListTo(list ERABsToBeReleasedSgNBModReqdList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeReleasedSgNBModReqdListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -22043,10 +23592,11 @@ func marshalAPERERABsToBeReleasedSgNBModReqdListTo(list ERABsToBeReleasedSgNBMod
 // UnmarshalAPERERABsToBeReleasedSgNBModReqdList decodes a ERABsToBeReleasedSgNBModReqdList list from APER.
 func UnmarshalAPERERABsToBeReleasedSgNBModReqdList(data []byte) (ERABsToBeReleasedSgNBModReqdList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsToBeReleasedSgNBModReqdListFrom(bb)
+	return UnmarshalAPERERABsToBeReleasedSgNBModReqdListFrom(bb)
 }
 
-func unmarshalAPERERABsToBeReleasedSgNBModReqdListFrom(bb *per.BitBuffer) (ERABsToBeReleasedSgNBModReqdList, error) {
+// UnmarshalAPERERABsToBeReleasedSgNBModReqdListFrom decodes a ERABsToBeReleasedSgNBModReqdList list from bb.
+func UnmarshalAPERERABsToBeReleasedSgNBModReqdListFrom(bb *per.BitBuffer) (ERABsToBeReleasedSgNBModReqdList, error) {
 	var v asn1cAPERERABsToBeReleasedSgNBModReqdListListValue
 	if err := unmarshalAPERERABsToBeReleasedSgNBModReqdListInto(&v, bb); err != nil {
 		return nil, err
@@ -22055,9 +23605,17 @@ func unmarshalAPERERABsToBeReleasedSgNBModReqdListFrom(bb *per.BitBuffer) (ERABs
 }
 
 func unmarshalAPERERABsToBeReleasedSgNBModReqdListInto(v *asn1cAPERERABsToBeReleasedSgNBModReqdListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsToBeReleasedSgNBModReqdList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -22150,9 +23708,17 @@ func (v *ERABsToBeReleasedSgNBModReqdItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		return fmt.Errorf("decoding cause: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -22190,13 +23756,14 @@ type asn1cAPERERABsToBeModifiedSgNBModReqdListListValue struct {
 // MarshalAPERERABsToBeModifiedSgNBModReqdList encodes a ERABsToBeModifiedSgNBModReqdList list to APER.
 func MarshalAPERERABsToBeModifiedSgNBModReqdList(list ERABsToBeModifiedSgNBModReqdList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsToBeModifiedSgNBModReqdListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsToBeModifiedSgNBModReqdListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsToBeModifiedSgNBModReqdListTo(list ERABsToBeModifiedSgNBModReqdList, bb *per.BitBuffer) error {
+// MarshalAPERERABsToBeModifiedSgNBModReqdListTo appends a ERABsToBeModifiedSgNBModReqdList list to bb.
+func MarshalAPERERABsToBeModifiedSgNBModReqdListTo(list ERABsToBeModifiedSgNBModReqdList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeModifiedSgNBModReqdListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -22212,10 +23779,11 @@ func marshalAPERERABsToBeModifiedSgNBModReqdListTo(list ERABsToBeModifiedSgNBMod
 // UnmarshalAPERERABsToBeModifiedSgNBModReqdList decodes a ERABsToBeModifiedSgNBModReqdList list from APER.
 func UnmarshalAPERERABsToBeModifiedSgNBModReqdList(data []byte) (ERABsToBeModifiedSgNBModReqdList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsToBeModifiedSgNBModReqdListFrom(bb)
+	return UnmarshalAPERERABsToBeModifiedSgNBModReqdListFrom(bb)
 }
 
-func unmarshalAPERERABsToBeModifiedSgNBModReqdListFrom(bb *per.BitBuffer) (ERABsToBeModifiedSgNBModReqdList, error) {
+// UnmarshalAPERERABsToBeModifiedSgNBModReqdListFrom decodes a ERABsToBeModifiedSgNBModReqdList list from bb.
+func UnmarshalAPERERABsToBeModifiedSgNBModReqdListFrom(bb *per.BitBuffer) (ERABsToBeModifiedSgNBModReqdList, error) {
 	var v asn1cAPERERABsToBeModifiedSgNBModReqdListListValue
 	if err := unmarshalAPERERABsToBeModifiedSgNBModReqdListInto(&v, bb); err != nil {
 		return nil, err
@@ -22224,9 +23792,17 @@ func unmarshalAPERERABsToBeModifiedSgNBModReqdListFrom(bb *per.BitBuffer) (ERABs
 }
 
 func unmarshalAPERERABsToBeModifiedSgNBModReqdListInto(v *asn1cAPERERABsToBeModifiedSgNBModReqdListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsToBeModifiedSgNBModReqdList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -22325,9 +23901,17 @@ func (v *ERABsToBeModifiedSgNBModReqdItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -22502,9 +24086,17 @@ func (v *ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *
 		v.S1DLGTPTEIDatSgNB = &dec_s1dlgtpteidatsgnb
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -22641,9 +24233,17 @@ func (v *ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent) UnmarshalAPERFrom(b
 		v.SecondarySgNBDLGTPTEIDatSCG = &dec_secondarysgnbdlgtpteidatscg
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -22730,9 +24330,17 @@ func (v *SgNBModificationConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -22768,13 +24376,14 @@ type asn1cAPERERABsAdmittedToBeModifiedSgNBModConfListListValue struct {
 // MarshalAPERERABsAdmittedToBeModifiedSgNBModConfList encodes a ERABsAdmittedToBeModifiedSgNBModConfList list to APER.
 func MarshalAPERERABsAdmittedToBeModifiedSgNBModConfList(list ERABsAdmittedToBeModifiedSgNBModConfList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsAdmittedToBeModifiedSgNBModConfListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsAdmittedToBeModifiedSgNBModConfListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsAdmittedToBeModifiedSgNBModConfListTo(list ERABsAdmittedToBeModifiedSgNBModConfList, bb *per.BitBuffer) error {
+// MarshalAPERERABsAdmittedToBeModifiedSgNBModConfListTo appends a ERABsAdmittedToBeModifiedSgNBModConfList list to bb.
+func MarshalAPERERABsAdmittedToBeModifiedSgNBModConfListTo(list ERABsAdmittedToBeModifiedSgNBModConfList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedToBeModifiedSgNBModConfListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -22790,10 +24399,11 @@ func marshalAPERERABsAdmittedToBeModifiedSgNBModConfListTo(list ERABsAdmittedToB
 // UnmarshalAPERERABsAdmittedToBeModifiedSgNBModConfList decodes a ERABsAdmittedToBeModifiedSgNBModConfList list from APER.
 func UnmarshalAPERERABsAdmittedToBeModifiedSgNBModConfList(data []byte) (ERABsAdmittedToBeModifiedSgNBModConfList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsAdmittedToBeModifiedSgNBModConfListFrom(bb)
+	return UnmarshalAPERERABsAdmittedToBeModifiedSgNBModConfListFrom(bb)
 }
 
-func unmarshalAPERERABsAdmittedToBeModifiedSgNBModConfListFrom(bb *per.BitBuffer) (ERABsAdmittedToBeModifiedSgNBModConfList, error) {
+// UnmarshalAPERERABsAdmittedToBeModifiedSgNBModConfListFrom decodes a ERABsAdmittedToBeModifiedSgNBModConfList list from bb.
+func UnmarshalAPERERABsAdmittedToBeModifiedSgNBModConfListFrom(bb *per.BitBuffer) (ERABsAdmittedToBeModifiedSgNBModConfList, error) {
 	var v asn1cAPERERABsAdmittedToBeModifiedSgNBModConfListListValue
 	if err := unmarshalAPERERABsAdmittedToBeModifiedSgNBModConfListInto(&v, bb); err != nil {
 		return nil, err
@@ -22802,9 +24412,17 @@ func unmarshalAPERERABsAdmittedToBeModifiedSgNBModConfListFrom(bb *per.BitBuffer
 }
 
 func unmarshalAPERERABsAdmittedToBeModifiedSgNBModConfListInto(v *asn1cAPERERABsAdmittedToBeModifiedSgNBModConfListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsAdmittedToBeModifiedSgNBModConfList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -22903,9 +24521,17 @@ func (v *ERABsAdmittedToBeModifiedSgNBModConfItem) UnmarshalAPERFrom(bb *per.Bit
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -23004,9 +24630,17 @@ func (v *ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresent) UnmarshalAPERF
 		return err
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -23124,9 +24758,17 @@ func (v *ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresent) UnmarshalAP
 		v.SecondaryMeNBULGTPTEIDatPDCP = &dec_secondarymenbulgtpteidatpdcp
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -23213,9 +24855,17 @@ func (v *SgNBModificationRefuse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -23300,9 +24950,17 @@ func (v *SgNBReleaseRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -23338,13 +24996,14 @@ type asn1cAPERERABsToBeReleasedSgNBRelReqListListValue struct {
 // MarshalAPERERABsToBeReleasedSgNBRelReqList encodes a ERABsToBeReleasedSgNBRelReqList list to APER.
 func MarshalAPERERABsToBeReleasedSgNBRelReqList(list ERABsToBeReleasedSgNBRelReqList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsToBeReleasedSgNBRelReqListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsToBeReleasedSgNBRelReqListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsToBeReleasedSgNBRelReqListTo(list ERABsToBeReleasedSgNBRelReqList, bb *per.BitBuffer) error {
+// MarshalAPERERABsToBeReleasedSgNBRelReqListTo appends a ERABsToBeReleasedSgNBRelReqList list to bb.
+func MarshalAPERERABsToBeReleasedSgNBRelReqListTo(list ERABsToBeReleasedSgNBRelReqList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeReleasedSgNBRelReqListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -23360,10 +25019,11 @@ func marshalAPERERABsToBeReleasedSgNBRelReqListTo(list ERABsToBeReleasedSgNBRelR
 // UnmarshalAPERERABsToBeReleasedSgNBRelReqList decodes a ERABsToBeReleasedSgNBRelReqList list from APER.
 func UnmarshalAPERERABsToBeReleasedSgNBRelReqList(data []byte) (ERABsToBeReleasedSgNBRelReqList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsToBeReleasedSgNBRelReqListFrom(bb)
+	return UnmarshalAPERERABsToBeReleasedSgNBRelReqListFrom(bb)
 }
 
-func unmarshalAPERERABsToBeReleasedSgNBRelReqListFrom(bb *per.BitBuffer) (ERABsToBeReleasedSgNBRelReqList, error) {
+// UnmarshalAPERERABsToBeReleasedSgNBRelReqListFrom decodes a ERABsToBeReleasedSgNBRelReqList list from bb.
+func UnmarshalAPERERABsToBeReleasedSgNBRelReqListFrom(bb *per.BitBuffer) (ERABsToBeReleasedSgNBRelReqList, error) {
 	var v asn1cAPERERABsToBeReleasedSgNBRelReqListListValue
 	if err := unmarshalAPERERABsToBeReleasedSgNBRelReqListInto(&v, bb); err != nil {
 		return nil, err
@@ -23372,9 +25032,17 @@ func unmarshalAPERERABsToBeReleasedSgNBRelReqListFrom(bb *per.BitBuffer) (ERABsT
 }
 
 func unmarshalAPERERABsToBeReleasedSgNBRelReqListInto(v *asn1cAPERERABsToBeReleasedSgNBRelReqListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsToBeReleasedSgNBRelReqList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -23473,9 +25141,17 @@ func (v *ERABsToBeReleasedSgNBRelReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -23612,9 +25288,17 @@ func (v *ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *p
 		v.DLGTPtunnelEndpoint = &dec_dlgtptunnelendpoint
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -23713,9 +25397,17 @@ func (v *ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb
 		return err
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -23802,9 +25494,17 @@ func (v *SgNBReleaseRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -23840,13 +25540,14 @@ type asn1cAPERERABsAdmittedToBeReleasedSgNBRelReqAckListListValue struct {
 // MarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckList encodes a ERABsAdmittedToBeReleasedSgNBRelReqAckList list to APER.
 func MarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckList(list ERABsAdmittedToBeReleasedSgNBRelReqAckList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListTo(list ERABsAdmittedToBeReleasedSgNBRelReqAckList, bb *per.BitBuffer) error {
+// MarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListTo appends a ERABsAdmittedToBeReleasedSgNBRelReqAckList list to bb.
+func MarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListTo(list ERABsAdmittedToBeReleasedSgNBRelReqAckList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedToBeReleasedSgNBRelReqAckListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -23862,10 +25563,11 @@ func marshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListTo(list ERABsAdmittedT
 // UnmarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckList decodes a ERABsAdmittedToBeReleasedSgNBRelReqAckList list from APER.
 func UnmarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckList(data []byte) (ERABsAdmittedToBeReleasedSgNBRelReqAckList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListFrom(bb)
+	return UnmarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListFrom(bb)
 }
 
-func unmarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListFrom(bb *per.BitBuffer) (ERABsAdmittedToBeReleasedSgNBRelReqAckList, error) {
+// UnmarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListFrom decodes a ERABsAdmittedToBeReleasedSgNBRelReqAckList list from bb.
+func UnmarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListFrom(bb *per.BitBuffer) (ERABsAdmittedToBeReleasedSgNBRelReqAckList, error) {
 	var v asn1cAPERERABsAdmittedToBeReleasedSgNBRelReqAckListListValue
 	if err := unmarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListInto(&v, bb); err != nil {
 		return nil, err
@@ -23874,9 +25576,17 @@ func unmarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListFrom(bb *per.BitBuff
 }
 
 func unmarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListInto(v *asn1cAPERERABsAdmittedToBeReleasedSgNBRelReqAckListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsAdmittedToBeReleasedSgNBRelReqAckList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -23971,9 +25681,17 @@ func (v *ERABsAdmittedToBeReleasedSgNBRelReqAckItem) UnmarshalAPERFrom(bb *per.B
 	}
 	v.RlcModeTransferred = RLCMode(val_rlcmodetransferred)
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -24060,9 +25778,17 @@ func (v *SgNBReleaseRequestReject) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -24147,9 +25873,17 @@ func (v *SgNBReleaseRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -24185,13 +25919,14 @@ type asn1cAPERERABsToBeReleasedSgNBRelReqdListListValue struct {
 // MarshalAPERERABsToBeReleasedSgNBRelReqdList encodes a ERABsToBeReleasedSgNBRelReqdList list to APER.
 func MarshalAPERERABsToBeReleasedSgNBRelReqdList(list ERABsToBeReleasedSgNBRelReqdList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsToBeReleasedSgNBRelReqdListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsToBeReleasedSgNBRelReqdListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsToBeReleasedSgNBRelReqdListTo(list ERABsToBeReleasedSgNBRelReqdList, bb *per.BitBuffer) error {
+// MarshalAPERERABsToBeReleasedSgNBRelReqdListTo appends a ERABsToBeReleasedSgNBRelReqdList list to bb.
+func MarshalAPERERABsToBeReleasedSgNBRelReqdListTo(list ERABsToBeReleasedSgNBRelReqdList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeReleasedSgNBRelReqdListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -24207,10 +25942,11 @@ func marshalAPERERABsToBeReleasedSgNBRelReqdListTo(list ERABsToBeReleasedSgNBRel
 // UnmarshalAPERERABsToBeReleasedSgNBRelReqdList decodes a ERABsToBeReleasedSgNBRelReqdList list from APER.
 func UnmarshalAPERERABsToBeReleasedSgNBRelReqdList(data []byte) (ERABsToBeReleasedSgNBRelReqdList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsToBeReleasedSgNBRelReqdListFrom(bb)
+	return UnmarshalAPERERABsToBeReleasedSgNBRelReqdListFrom(bb)
 }
 
-func unmarshalAPERERABsToBeReleasedSgNBRelReqdListFrom(bb *per.BitBuffer) (ERABsToBeReleasedSgNBRelReqdList, error) {
+// UnmarshalAPERERABsToBeReleasedSgNBRelReqdListFrom decodes a ERABsToBeReleasedSgNBRelReqdList list from bb.
+func UnmarshalAPERERABsToBeReleasedSgNBRelReqdListFrom(bb *per.BitBuffer) (ERABsToBeReleasedSgNBRelReqdList, error) {
 	var v asn1cAPERERABsToBeReleasedSgNBRelReqdListListValue
 	if err := unmarshalAPERERABsToBeReleasedSgNBRelReqdListInto(&v, bb); err != nil {
 		return nil, err
@@ -24219,9 +25955,17 @@ func unmarshalAPERERABsToBeReleasedSgNBRelReqdListFrom(bb *per.BitBuffer) (ERABs
 }
 
 func unmarshalAPERERABsToBeReleasedSgNBRelReqdListInto(v *asn1cAPERERABsToBeReleasedSgNBRelReqdListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsToBeReleasedSgNBRelReqdList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -24316,9 +26060,17 @@ func (v *ERABsToBeReleasedSgNBRelReqdItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	}
 	v.RlcModeTransferred = RLCMode(val_rlcmodetransferred)
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -24405,9 +26157,17 @@ func (v *SgNBReleaseConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -24443,13 +26203,14 @@ type asn1cAPERERABsToBeReleasedSgNBRelConfListListValue struct {
 // MarshalAPERERABsToBeReleasedSgNBRelConfList encodes a ERABsToBeReleasedSgNBRelConfList list to APER.
 func MarshalAPERERABsToBeReleasedSgNBRelConfList(list ERABsToBeReleasedSgNBRelConfList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsToBeReleasedSgNBRelConfListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsToBeReleasedSgNBRelConfListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsToBeReleasedSgNBRelConfListTo(list ERABsToBeReleasedSgNBRelConfList, bb *per.BitBuffer) error {
+// MarshalAPERERABsToBeReleasedSgNBRelConfListTo appends a ERABsToBeReleasedSgNBRelConfList list to bb.
+func MarshalAPERERABsToBeReleasedSgNBRelConfListTo(list ERABsToBeReleasedSgNBRelConfList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeReleasedSgNBRelConfListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -24465,10 +26226,11 @@ func marshalAPERERABsToBeReleasedSgNBRelConfListTo(list ERABsToBeReleasedSgNBRel
 // UnmarshalAPERERABsToBeReleasedSgNBRelConfList decodes a ERABsToBeReleasedSgNBRelConfList list from APER.
 func UnmarshalAPERERABsToBeReleasedSgNBRelConfList(data []byte) (ERABsToBeReleasedSgNBRelConfList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsToBeReleasedSgNBRelConfListFrom(bb)
+	return UnmarshalAPERERABsToBeReleasedSgNBRelConfListFrom(bb)
 }
 
-func unmarshalAPERERABsToBeReleasedSgNBRelConfListFrom(bb *per.BitBuffer) (ERABsToBeReleasedSgNBRelConfList, error) {
+// UnmarshalAPERERABsToBeReleasedSgNBRelConfListFrom decodes a ERABsToBeReleasedSgNBRelConfList list from bb.
+func UnmarshalAPERERABsToBeReleasedSgNBRelConfListFrom(bb *per.BitBuffer) (ERABsToBeReleasedSgNBRelConfList, error) {
 	var v asn1cAPERERABsToBeReleasedSgNBRelConfListListValue
 	if err := unmarshalAPERERABsToBeReleasedSgNBRelConfListInto(&v, bb); err != nil {
 		return nil, err
@@ -24477,9 +26239,17 @@ func unmarshalAPERERABsToBeReleasedSgNBRelConfListFrom(bb *per.BitBuffer) (ERABs
 }
 
 func unmarshalAPERERABsToBeReleasedSgNBRelConfListInto(v *asn1cAPERERABsToBeReleasedSgNBRelConfListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsToBeReleasedSgNBRelConfList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -24578,9 +26348,17 @@ func (v *ERABsToBeReleasedSgNBRelConfItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -24717,9 +26495,17 @@ func (v *ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *
 		v.DLGTPtunnelEndpoint = &dec_dlgtptunnelendpoint
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -24818,9 +26604,17 @@ func (v *ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresent) UnmarshalAPERFrom(b
 		return err
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -24907,9 +26701,17 @@ func (v *SgNBCounterCheckRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -24945,13 +26747,14 @@ type asn1cAPERERABsSubjectToSgNBCounterCheckListListValue struct {
 // MarshalAPERERABsSubjectToSgNBCounterCheckList encodes a ERABsSubjectToSgNBCounterCheckList list to APER.
 func MarshalAPERERABsSubjectToSgNBCounterCheckList(list ERABsSubjectToSgNBCounterCheckList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsSubjectToSgNBCounterCheckListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsSubjectToSgNBCounterCheckListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsSubjectToSgNBCounterCheckListTo(list ERABsSubjectToSgNBCounterCheckList, bb *per.BitBuffer) error {
+// MarshalAPERERABsSubjectToSgNBCounterCheckListTo appends a ERABsSubjectToSgNBCounterCheckList list to bb.
+func MarshalAPERERABsSubjectToSgNBCounterCheckListTo(list ERABsSubjectToSgNBCounterCheckList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsSubjectToSgNBCounterCheckListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -24967,10 +26770,11 @@ func marshalAPERERABsSubjectToSgNBCounterCheckListTo(list ERABsSubjectToSgNBCoun
 // UnmarshalAPERERABsSubjectToSgNBCounterCheckList decodes a ERABsSubjectToSgNBCounterCheckList list from APER.
 func UnmarshalAPERERABsSubjectToSgNBCounterCheckList(data []byte) (ERABsSubjectToSgNBCounterCheckList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsSubjectToSgNBCounterCheckListFrom(bb)
+	return UnmarshalAPERERABsSubjectToSgNBCounterCheckListFrom(bb)
 }
 
-func unmarshalAPERERABsSubjectToSgNBCounterCheckListFrom(bb *per.BitBuffer) (ERABsSubjectToSgNBCounterCheckList, error) {
+// UnmarshalAPERERABsSubjectToSgNBCounterCheckListFrom decodes a ERABsSubjectToSgNBCounterCheckList list from bb.
+func UnmarshalAPERERABsSubjectToSgNBCounterCheckListFrom(bb *per.BitBuffer) (ERABsSubjectToSgNBCounterCheckList, error) {
 	var v asn1cAPERERABsSubjectToSgNBCounterCheckListListValue
 	if err := unmarshalAPERERABsSubjectToSgNBCounterCheckListInto(&v, bb); err != nil {
 		return nil, err
@@ -24979,9 +26783,17 @@ func unmarshalAPERERABsSubjectToSgNBCounterCheckListFrom(bb *per.BitBuffer) (ERA
 }
 
 func unmarshalAPERERABsSubjectToSgNBCounterCheckListInto(v *asn1cAPERERABsSubjectToSgNBCounterCheckListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsSubjectToSgNBCounterCheckList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -25084,9 +26896,17 @@ func (v *ERABsSubjectToSgNBCounterCheckItem) UnmarshalAPERFrom(bb *per.BitBuffer
 	}
 	v.DLCount = val_dlcount
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -25173,9 +26993,17 @@ func (v *SgNBChangeRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -25260,9 +27088,17 @@ func (v *AccessAndMobilityIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -25347,9 +27183,17 @@ func (v *SgNBChangeConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -25385,13 +27229,14 @@ type asn1cAPERERABsToBeReleasedSgNBChaConfListListValue struct {
 // MarshalAPERERABsToBeReleasedSgNBChaConfList encodes a ERABsToBeReleasedSgNBChaConfList list to APER.
 func MarshalAPERERABsToBeReleasedSgNBChaConfList(list ERABsToBeReleasedSgNBChaConfList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsToBeReleasedSgNBChaConfListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsToBeReleasedSgNBChaConfListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsToBeReleasedSgNBChaConfListTo(list ERABsToBeReleasedSgNBChaConfList, bb *per.BitBuffer) error {
+// MarshalAPERERABsToBeReleasedSgNBChaConfListTo appends a ERABsToBeReleasedSgNBChaConfList list to bb.
+func MarshalAPERERABsToBeReleasedSgNBChaConfListTo(list ERABsToBeReleasedSgNBChaConfList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeReleasedSgNBChaConfListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -25407,10 +27252,11 @@ func marshalAPERERABsToBeReleasedSgNBChaConfListTo(list ERABsToBeReleasedSgNBCha
 // UnmarshalAPERERABsToBeReleasedSgNBChaConfList decodes a ERABsToBeReleasedSgNBChaConfList list from APER.
 func UnmarshalAPERERABsToBeReleasedSgNBChaConfList(data []byte) (ERABsToBeReleasedSgNBChaConfList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsToBeReleasedSgNBChaConfListFrom(bb)
+	return UnmarshalAPERERABsToBeReleasedSgNBChaConfListFrom(bb)
 }
 
-func unmarshalAPERERABsToBeReleasedSgNBChaConfListFrom(bb *per.BitBuffer) (ERABsToBeReleasedSgNBChaConfList, error) {
+// UnmarshalAPERERABsToBeReleasedSgNBChaConfListFrom decodes a ERABsToBeReleasedSgNBChaConfList list from bb.
+func UnmarshalAPERERABsToBeReleasedSgNBChaConfListFrom(bb *per.BitBuffer) (ERABsToBeReleasedSgNBChaConfList, error) {
 	var v asn1cAPERERABsToBeReleasedSgNBChaConfListListValue
 	if err := unmarshalAPERERABsToBeReleasedSgNBChaConfListInto(&v, bb); err != nil {
 		return nil, err
@@ -25419,9 +27265,17 @@ func unmarshalAPERERABsToBeReleasedSgNBChaConfListFrom(bb *per.BitBuffer) (ERABs
 }
 
 func unmarshalAPERERABsToBeReleasedSgNBChaConfListInto(v *asn1cAPERERABsToBeReleasedSgNBChaConfListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsToBeReleasedSgNBChaConfList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -25520,9 +27374,17 @@ func (v *ERABsToBeReleasedSgNBChaConfItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -25659,9 +27521,17 @@ func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *
 		v.DLGTPtunnelEndpoint = &dec_dlgtptunnelendpoint
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -25760,9 +27630,17 @@ func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent) UnmarshalAPERFrom(b
 		return err
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -25849,9 +27727,17 @@ func (v *RRCTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -25936,9 +27822,17 @@ func (v *SgNBChangeRefuse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -26023,9 +27917,17 @@ func (v *ENDCX2SetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -26124,9 +28026,17 @@ func (v *InitiatingNodeTypeEndcX2Setup) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case InitiatingNodeTypeEndcX2SetupChoiceInitENB:
-		seqLen_initenb, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding init-eNB length: %w", err)
+		var seqLen_initenb int64
+		var errLength_initenb error
+		seqLen_initenb, errLength_initenb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+		if errLength_initenb != nil {
+			return fmt.Errorf("decoding init-eNB length: %w", errLength_initenb)
+		}
+		if seqLen_initenb < 0 {
+			return fmt.Errorf("decoding init-eNB length %d below lower bound 0", seqLen_initenb)
+		}
+		if seqLen_initenb > 65535 {
+			return fmt.Errorf("decoding init-eNB length %d above upper bound 65535", seqLen_initenb)
 		}
 		tmp_initenb := make(ProtocolIEContainer, seqLen_initenb)
 		for i := int64(0); i < seqLen_initenb; i++ {
@@ -26136,9 +28046,17 @@ func (v *InitiatingNodeTypeEndcX2Setup) UnmarshalAPERFrom(bb *per.BitBuffer) err
 		}
 		v.InitENB = tmp_initenb
 	case InitiatingNodeTypeEndcX2SetupChoiceInitEnGNB:
-		seqLen_initengnb, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding init-en-gNB length: %w", err)
+		var seqLen_initengnb int64
+		var errLength_initengnb error
+		seqLen_initengnb, errLength_initengnb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+		if errLength_initengnb != nil {
+			return fmt.Errorf("decoding init-en-gNB length: %w", errLength_initengnb)
+		}
+		if seqLen_initengnb < 0 {
+			return fmt.Errorf("decoding init-en-gNB length %d below lower bound 0", seqLen_initengnb)
+		}
+		if seqLen_initengnb > 65535 {
+			return fmt.Errorf("decoding init-en-gNB length %d above upper bound 65535", seqLen_initengnb)
 		}
 		tmp_initengnb := make(ProtocolIEContainer, seqLen_initengnb)
 		for i := int64(0); i < seqLen_initengnb; i++ {
@@ -26158,13 +28076,14 @@ type asn1cAPERServedEUTRAcellsENDCX2ManagementListListValue struct {
 // MarshalAPERServedEUTRAcellsENDCX2ManagementList encodes a ServedEUTRAcellsENDCX2ManagementList list to APER.
 func MarshalAPERServedEUTRAcellsENDCX2ManagementList(list ServedEUTRAcellsENDCX2ManagementList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERServedEUTRAcellsENDCX2ManagementListTo(list, bb); err != nil {
+	if err := MarshalAPERServedEUTRAcellsENDCX2ManagementListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERServedEUTRAcellsENDCX2ManagementListTo(list ServedEUTRAcellsENDCX2ManagementList, bb *per.BitBuffer) error {
+// MarshalAPERServedEUTRAcellsENDCX2ManagementListTo appends a ServedEUTRAcellsENDCX2ManagementList list to bb.
+func MarshalAPERServedEUTRAcellsENDCX2ManagementListTo(list ServedEUTRAcellsENDCX2ManagementList, bb *per.BitBuffer) error {
 	v := asn1cAPERServedEUTRAcellsENDCX2ManagementListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -26180,10 +28099,11 @@ func marshalAPERServedEUTRAcellsENDCX2ManagementListTo(list ServedEUTRAcellsENDC
 // UnmarshalAPERServedEUTRAcellsENDCX2ManagementList decodes a ServedEUTRAcellsENDCX2ManagementList list from APER.
 func UnmarshalAPERServedEUTRAcellsENDCX2ManagementList(data []byte) (ServedEUTRAcellsENDCX2ManagementList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERServedEUTRAcellsENDCX2ManagementListFrom(bb)
+	return UnmarshalAPERServedEUTRAcellsENDCX2ManagementListFrom(bb)
 }
 
-func unmarshalAPERServedEUTRAcellsENDCX2ManagementListFrom(bb *per.BitBuffer) (ServedEUTRAcellsENDCX2ManagementList, error) {
+// UnmarshalAPERServedEUTRAcellsENDCX2ManagementListFrom decodes a ServedEUTRAcellsENDCX2ManagementList list from bb.
+func UnmarshalAPERServedEUTRAcellsENDCX2ManagementListFrom(bb *per.BitBuffer) (ServedEUTRAcellsENDCX2ManagementList, error) {
 	var v asn1cAPERServedEUTRAcellsENDCX2ManagementListListValue
 	if err := unmarshalAPERServedEUTRAcellsENDCX2ManagementListInto(&v, bb); err != nil {
 		return nil, err
@@ -26192,9 +28112,17 @@ func unmarshalAPERServedEUTRAcellsENDCX2ManagementListFrom(bb *per.BitBuffer) (S
 }
 
 func unmarshalAPERServedEUTRAcellsENDCX2ManagementListInto(v *asn1cAPERServedEUTRAcellsENDCX2ManagementListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ServedEUTRAcellsENDCX2ManagementList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -26212,13 +28140,14 @@ type asn1cAPERServedNRcellsENDCX2ManagementListListValue struct {
 // MarshalAPERServedNRcellsENDCX2ManagementList encodes a ServedNRcellsENDCX2ManagementList list to APER.
 func MarshalAPERServedNRcellsENDCX2ManagementList(list ServedNRcellsENDCX2ManagementList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERServedNRcellsENDCX2ManagementListTo(list, bb); err != nil {
+	if err := MarshalAPERServedNRcellsENDCX2ManagementListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERServedNRcellsENDCX2ManagementListTo(list ServedNRcellsENDCX2ManagementList, bb *per.BitBuffer) error {
+// MarshalAPERServedNRcellsENDCX2ManagementListTo appends a ServedNRcellsENDCX2ManagementList list to bb.
+func MarshalAPERServedNRcellsENDCX2ManagementListTo(list ServedNRcellsENDCX2ManagementList, bb *per.BitBuffer) error {
 	v := asn1cAPERServedNRcellsENDCX2ManagementListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 16384); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -26234,10 +28163,11 @@ func marshalAPERServedNRcellsENDCX2ManagementListTo(list ServedNRcellsENDCX2Mana
 // UnmarshalAPERServedNRcellsENDCX2ManagementList decodes a ServedNRcellsENDCX2ManagementList list from APER.
 func UnmarshalAPERServedNRcellsENDCX2ManagementList(data []byte) (ServedNRcellsENDCX2ManagementList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERServedNRcellsENDCX2ManagementListFrom(bb)
+	return UnmarshalAPERServedNRcellsENDCX2ManagementListFrom(bb)
 }
 
-func unmarshalAPERServedNRcellsENDCX2ManagementListFrom(bb *per.BitBuffer) (ServedNRcellsENDCX2ManagementList, error) {
+// UnmarshalAPERServedNRcellsENDCX2ManagementListFrom decodes a ServedNRcellsENDCX2ManagementList list from bb.
+func UnmarshalAPERServedNRcellsENDCX2ManagementListFrom(bb *per.BitBuffer) (ServedNRcellsENDCX2ManagementList, error) {
 	var v asn1cAPERServedNRcellsENDCX2ManagementListListValue
 	if err := unmarshalAPERServedNRcellsENDCX2ManagementListInto(&v, bb); err != nil {
 		return nil, err
@@ -26246,9 +28176,17 @@ func unmarshalAPERServedNRcellsENDCX2ManagementListFrom(bb *per.BitBuffer) (Serv
 }
 
 func unmarshalAPERServedNRcellsENDCX2ManagementListInto(v *asn1cAPERServedNRcellsENDCX2ManagementListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 16384 {
+		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
 	}
 	v.Value = make(ServedNRcellsENDCX2ManagementList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -26394,9 +28332,17 @@ func (v *ServedNRCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		tmp_configuredtac := TAC(val_configuredtac)
 		v.ConfiguredTAC = &tmp_configuredtac
 	}
-	seqLen_broadcastplmns, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 6)
-	if err != nil {
-		return fmt.Errorf("decoding broadcastPLMNs length: %w", err)
+	var seqLen_broadcastplmns int64
+	var errLength_broadcastplmns error
+	seqLen_broadcastplmns, errLength_broadcastplmns = per.DecodeConstrainedWholeNumberAligned(bb, 1, 6)
+	if errLength_broadcastplmns != nil {
+		return fmt.Errorf("decoding broadcastPLMNs length: %w", errLength_broadcastplmns)
+	}
+	if seqLen_broadcastplmns < 1 {
+		return fmt.Errorf("decoding broadcastPLMNs length %d below lower bound 1", seqLen_broadcastplmns)
+	}
+	if seqLen_broadcastplmns > 6 {
+		return fmt.Errorf("decoding broadcastPLMNs length %d above upper bound 6", seqLen_broadcastplmns)
 	}
 	v.BroadcastPLMNs = make(BroadcastPLMNsItem, seqLen_broadcastplmns)
 	for i := int64(0); i < seqLen_broadcastplmns; i++ {
@@ -26415,9 +28361,17 @@ func (v *ServedNRCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.MeasurementTimingConfiguration = val_measurementtimingconfiguration
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -26540,9 +28494,17 @@ func (v *FDDInfoServedNRCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		return fmt.Errorf("decoding dl-NR-TxBW: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -26653,9 +28615,17 @@ func (v *TDDInfoServedNRCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		return fmt.Errorf("decoding nR-TxBW: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -26792,9 +28762,17 @@ func (v *CellandCapacityAssistInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.CellAssistanceInformation = &dec_cellassistanceinformation
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -26890,9 +28868,17 @@ func (v *CellAssistanceInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case CellAssistanceInformationChoiceLimitedList:
-		seqLen_limitedlist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
-		if err != nil {
-			return fmt.Errorf("decoding limited-list length: %w", err)
+		var seqLen_limitedlist int64
+		var errLength_limitedlist error
+		seqLen_limitedlist, errLength_limitedlist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
+		if errLength_limitedlist != nil {
+			return fmt.Errorf("decoding limited-list length: %w", errLength_limitedlist)
+		}
+		if seqLen_limitedlist < 1 {
+			return fmt.Errorf("decoding limited-list length %d below lower bound 1", seqLen_limitedlist)
+		}
+		if seqLen_limitedlist > 16384 {
+			return fmt.Errorf("decoding limited-list length %d above upper bound 16384", seqLen_limitedlist)
 		}
 		tmp_limitedlist := make(LimitedList, seqLen_limitedlist)
 		for i := int64(0); i < seqLen_limitedlist; i++ {
@@ -26916,13 +28902,14 @@ type asn1cAPERLimitedListListValue struct{ Value LimitedList }
 // MarshalAPERLimitedList encodes a LimitedList list to APER.
 func MarshalAPERLimitedList(list LimitedList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERLimitedListTo(list, bb); err != nil {
+	if err := MarshalAPERLimitedListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERLimitedListTo(list LimitedList, bb *per.BitBuffer) error {
+// MarshalAPERLimitedListTo appends a LimitedList list to bb.
+func MarshalAPERLimitedListTo(list LimitedList, bb *per.BitBuffer) error {
 	v := asn1cAPERLimitedListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 16384); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -26938,10 +28925,11 @@ func marshalAPERLimitedListTo(list LimitedList, bb *per.BitBuffer) error {
 // UnmarshalAPERLimitedList decodes a LimitedList list from APER.
 func UnmarshalAPERLimitedList(data []byte) (LimitedList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERLimitedListFrom(bb)
+	return UnmarshalAPERLimitedListFrom(bb)
 }
 
-func unmarshalAPERLimitedListFrom(bb *per.BitBuffer) (LimitedList, error) {
+// UnmarshalAPERLimitedListFrom decodes a LimitedList list from bb.
+func UnmarshalAPERLimitedListFrom(bb *per.BitBuffer) (LimitedList, error) {
 	var v asn1cAPERLimitedListListValue
 	if err := unmarshalAPERLimitedListInto(&v, bb); err != nil {
 		return nil, err
@@ -26950,9 +28938,17 @@ func unmarshalAPERLimitedListFrom(bb *per.BitBuffer) (LimitedList, error) {
 }
 
 func unmarshalAPERLimitedListInto(v *asn1cAPERLimitedListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 16384 {
+		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
 	}
 	v.Value = make(LimitedList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -27019,9 +29015,17 @@ func (v *ENDCX2SetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -27120,9 +29124,17 @@ func (v *RespondingNodeTypeEndcX2Setup) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case RespondingNodeTypeEndcX2SetupChoiceRespondENB:
-		seqLen_respondenb, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding respond-eNB length: %w", err)
+		var seqLen_respondenb int64
+		var errLength_respondenb error
+		seqLen_respondenb, errLength_respondenb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+		if errLength_respondenb != nil {
+			return fmt.Errorf("decoding respond-eNB length: %w", errLength_respondenb)
+		}
+		if seqLen_respondenb < 0 {
+			return fmt.Errorf("decoding respond-eNB length %d below lower bound 0", seqLen_respondenb)
+		}
+		if seqLen_respondenb > 65535 {
+			return fmt.Errorf("decoding respond-eNB length %d above upper bound 65535", seqLen_respondenb)
 		}
 		tmp_respondenb := make(ProtocolIEContainer, seqLen_respondenb)
 		for i := int64(0); i < seqLen_respondenb; i++ {
@@ -27132,9 +29144,17 @@ func (v *RespondingNodeTypeEndcX2Setup) UnmarshalAPERFrom(bb *per.BitBuffer) err
 		}
 		v.RespondENB = tmp_respondenb
 	case RespondingNodeTypeEndcX2SetupChoiceRespondEnGNB:
-		seqLen_respondengnb, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding respond-en-gNB length: %w", err)
+		var seqLen_respondengnb int64
+		var errLength_respondengnb error
+		seqLen_respondengnb, errLength_respondengnb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+		if errLength_respondengnb != nil {
+			return fmt.Errorf("decoding respond-en-gNB length: %w", errLength_respondengnb)
+		}
+		if seqLen_respondengnb < 0 {
+			return fmt.Errorf("decoding respond-en-gNB length %d below lower bound 0", seqLen_respondengnb)
+		}
+		if seqLen_respondengnb > 65535 {
+			return fmt.Errorf("decoding respond-en-gNB length %d above upper bound 65535", seqLen_respondengnb)
 		}
 		tmp_respondengnb := make(ProtocolIEContainer, seqLen_respondengnb)
 		for i := int64(0); i < seqLen_respondengnb; i++ {
@@ -27203,9 +29223,17 @@ func (v *ENDCX2SetupFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -27290,9 +29318,17 @@ func (v *ENDCConfigurationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -27391,9 +29427,17 @@ func (v *InitiatingNodeTypeEndcConfigUpdate) UnmarshalAPERFrom(bb *per.BitBuffer
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case InitiatingNodeTypeEndcConfigUpdateChoiceInitENB:
-		seqLen_initenb, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding init-eNB length: %w", err)
+		var seqLen_initenb int64
+		var errLength_initenb error
+		seqLen_initenb, errLength_initenb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+		if errLength_initenb != nil {
+			return fmt.Errorf("decoding init-eNB length: %w", errLength_initenb)
+		}
+		if seqLen_initenb < 0 {
+			return fmt.Errorf("decoding init-eNB length %d below lower bound 0", seqLen_initenb)
+		}
+		if seqLen_initenb > 65535 {
+			return fmt.Errorf("decoding init-eNB length %d above upper bound 65535", seqLen_initenb)
 		}
 		tmp_initenb := make(ProtocolIEContainer, seqLen_initenb)
 		for i := int64(0); i < seqLen_initenb; i++ {
@@ -27403,9 +29447,17 @@ func (v *InitiatingNodeTypeEndcConfigUpdate) UnmarshalAPERFrom(bb *per.BitBuffer
 		}
 		v.InitENB = tmp_initenb
 	case InitiatingNodeTypeEndcConfigUpdateChoiceInitEnGNB:
-		seqLen_initengnb, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding init-en-gNB length: %w", err)
+		var seqLen_initengnb int64
+		var errLength_initengnb error
+		seqLen_initengnb, errLength_initengnb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+		if errLength_initengnb != nil {
+			return fmt.Errorf("decoding init-en-gNB length: %w", errLength_initengnb)
+		}
+		if seqLen_initengnb < 0 {
+			return fmt.Errorf("decoding init-en-gNB length %d below lower bound 0", seqLen_initengnb)
+		}
+		if seqLen_initengnb > 65535 {
+			return fmt.Errorf("decoding init-en-gNB length %d above upper bound 65535", seqLen_initengnb)
 		}
 		tmp_initengnb := make(ProtocolIEContainer, seqLen_initengnb)
 		for i := int64(0); i < seqLen_initengnb; i++ {
@@ -27425,13 +29477,14 @@ type asn1cAPERServedEUTRAcellsToModifyListENDCConfUpdListValue struct {
 // MarshalAPERServedEUTRAcellsToModifyListENDCConfUpd encodes a ServedEUTRAcellsToModifyListENDCConfUpd list to APER.
 func MarshalAPERServedEUTRAcellsToModifyListENDCConfUpd(list ServedEUTRAcellsToModifyListENDCConfUpd) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERServedEUTRAcellsToModifyListENDCConfUpdTo(list, bb); err != nil {
+	if err := MarshalAPERServedEUTRAcellsToModifyListENDCConfUpdTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERServedEUTRAcellsToModifyListENDCConfUpdTo(list ServedEUTRAcellsToModifyListENDCConfUpd, bb *per.BitBuffer) error {
+// MarshalAPERServedEUTRAcellsToModifyListENDCConfUpdTo appends a ServedEUTRAcellsToModifyListENDCConfUpd list to bb.
+func MarshalAPERServedEUTRAcellsToModifyListENDCConfUpdTo(list ServedEUTRAcellsToModifyListENDCConfUpd, bb *per.BitBuffer) error {
 	v := asn1cAPERServedEUTRAcellsToModifyListENDCConfUpdListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -27447,10 +29500,11 @@ func marshalAPERServedEUTRAcellsToModifyListENDCConfUpdTo(list ServedEUTRAcellsT
 // UnmarshalAPERServedEUTRAcellsToModifyListENDCConfUpd decodes a ServedEUTRAcellsToModifyListENDCConfUpd list from APER.
 func UnmarshalAPERServedEUTRAcellsToModifyListENDCConfUpd(data []byte) (ServedEUTRAcellsToModifyListENDCConfUpd, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERServedEUTRAcellsToModifyListENDCConfUpdFrom(bb)
+	return UnmarshalAPERServedEUTRAcellsToModifyListENDCConfUpdFrom(bb)
 }
 
-func unmarshalAPERServedEUTRAcellsToModifyListENDCConfUpdFrom(bb *per.BitBuffer) (ServedEUTRAcellsToModifyListENDCConfUpd, error) {
+// UnmarshalAPERServedEUTRAcellsToModifyListENDCConfUpdFrom decodes a ServedEUTRAcellsToModifyListENDCConfUpd list from bb.
+func UnmarshalAPERServedEUTRAcellsToModifyListENDCConfUpdFrom(bb *per.BitBuffer) (ServedEUTRAcellsToModifyListENDCConfUpd, error) {
 	var v asn1cAPERServedEUTRAcellsToModifyListENDCConfUpdListValue
 	if err := unmarshalAPERServedEUTRAcellsToModifyListENDCConfUpdInto(&v, bb); err != nil {
 		return nil, err
@@ -27459,9 +29513,17 @@ func unmarshalAPERServedEUTRAcellsToModifyListENDCConfUpdFrom(bb *per.BitBuffer)
 }
 
 func unmarshalAPERServedEUTRAcellsToModifyListENDCConfUpdInto(v *asn1cAPERServedEUTRAcellsToModifyListENDCConfUpdListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ServedEUTRAcellsToModifyListENDCConfUpd, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -27479,13 +29541,14 @@ type asn1cAPERServedEUTRAcellsToDeleteListENDCConfUpdListValue struct {
 // MarshalAPERServedEUTRAcellsToDeleteListENDCConfUpd encodes a ServedEUTRAcellsToDeleteListENDCConfUpd list to APER.
 func MarshalAPERServedEUTRAcellsToDeleteListENDCConfUpd(list ServedEUTRAcellsToDeleteListENDCConfUpd) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERServedEUTRAcellsToDeleteListENDCConfUpdTo(list, bb); err != nil {
+	if err := MarshalAPERServedEUTRAcellsToDeleteListENDCConfUpdTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERServedEUTRAcellsToDeleteListENDCConfUpdTo(list ServedEUTRAcellsToDeleteListENDCConfUpd, bb *per.BitBuffer) error {
+// MarshalAPERServedEUTRAcellsToDeleteListENDCConfUpdTo appends a ServedEUTRAcellsToDeleteListENDCConfUpd list to bb.
+func MarshalAPERServedEUTRAcellsToDeleteListENDCConfUpdTo(list ServedEUTRAcellsToDeleteListENDCConfUpd, bb *per.BitBuffer) error {
 	v := asn1cAPERServedEUTRAcellsToDeleteListENDCConfUpdListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -27501,10 +29564,11 @@ func marshalAPERServedEUTRAcellsToDeleteListENDCConfUpdTo(list ServedEUTRAcellsT
 // UnmarshalAPERServedEUTRAcellsToDeleteListENDCConfUpd decodes a ServedEUTRAcellsToDeleteListENDCConfUpd list from APER.
 func UnmarshalAPERServedEUTRAcellsToDeleteListENDCConfUpd(data []byte) (ServedEUTRAcellsToDeleteListENDCConfUpd, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERServedEUTRAcellsToDeleteListENDCConfUpdFrom(bb)
+	return UnmarshalAPERServedEUTRAcellsToDeleteListENDCConfUpdFrom(bb)
 }
 
-func unmarshalAPERServedEUTRAcellsToDeleteListENDCConfUpdFrom(bb *per.BitBuffer) (ServedEUTRAcellsToDeleteListENDCConfUpd, error) {
+// UnmarshalAPERServedEUTRAcellsToDeleteListENDCConfUpdFrom decodes a ServedEUTRAcellsToDeleteListENDCConfUpd list from bb.
+func UnmarshalAPERServedEUTRAcellsToDeleteListENDCConfUpdFrom(bb *per.BitBuffer) (ServedEUTRAcellsToDeleteListENDCConfUpd, error) {
 	var v asn1cAPERServedEUTRAcellsToDeleteListENDCConfUpdListValue
 	if err := unmarshalAPERServedEUTRAcellsToDeleteListENDCConfUpdInto(&v, bb); err != nil {
 		return nil, err
@@ -27513,9 +29577,17 @@ func unmarshalAPERServedEUTRAcellsToDeleteListENDCConfUpdFrom(bb *per.BitBuffer)
 }
 
 func unmarshalAPERServedEUTRAcellsToDeleteListENDCConfUpdInto(v *asn1cAPERServedEUTRAcellsToDeleteListENDCConfUpdListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ServedEUTRAcellsToDeleteListENDCConfUpd, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -27533,13 +29605,14 @@ type asn1cAPERServedNRcellsToModifyENDCConfUpdListListValue struct {
 // MarshalAPERServedNRcellsToModifyENDCConfUpdList encodes a ServedNRcellsToModifyENDCConfUpdList list to APER.
 func MarshalAPERServedNRcellsToModifyENDCConfUpdList(list ServedNRcellsToModifyENDCConfUpdList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERServedNRcellsToModifyENDCConfUpdListTo(list, bb); err != nil {
+	if err := MarshalAPERServedNRcellsToModifyENDCConfUpdListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERServedNRcellsToModifyENDCConfUpdListTo(list ServedNRcellsToModifyENDCConfUpdList, bb *per.BitBuffer) error {
+// MarshalAPERServedNRcellsToModifyENDCConfUpdListTo appends a ServedNRcellsToModifyENDCConfUpdList list to bb.
+func MarshalAPERServedNRcellsToModifyENDCConfUpdListTo(list ServedNRcellsToModifyENDCConfUpdList, bb *per.BitBuffer) error {
 	v := asn1cAPERServedNRcellsToModifyENDCConfUpdListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 16384); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -27555,10 +29628,11 @@ func marshalAPERServedNRcellsToModifyENDCConfUpdListTo(list ServedNRcellsToModif
 // UnmarshalAPERServedNRcellsToModifyENDCConfUpdList decodes a ServedNRcellsToModifyENDCConfUpdList list from APER.
 func UnmarshalAPERServedNRcellsToModifyENDCConfUpdList(data []byte) (ServedNRcellsToModifyENDCConfUpdList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERServedNRcellsToModifyENDCConfUpdListFrom(bb)
+	return UnmarshalAPERServedNRcellsToModifyENDCConfUpdListFrom(bb)
 }
 
-func unmarshalAPERServedNRcellsToModifyENDCConfUpdListFrom(bb *per.BitBuffer) (ServedNRcellsToModifyENDCConfUpdList, error) {
+// UnmarshalAPERServedNRcellsToModifyENDCConfUpdListFrom decodes a ServedNRcellsToModifyENDCConfUpdList list from bb.
+func UnmarshalAPERServedNRcellsToModifyENDCConfUpdListFrom(bb *per.BitBuffer) (ServedNRcellsToModifyENDCConfUpdList, error) {
 	var v asn1cAPERServedNRcellsToModifyENDCConfUpdListListValue
 	if err := unmarshalAPERServedNRcellsToModifyENDCConfUpdListInto(&v, bb); err != nil {
 		return nil, err
@@ -27567,9 +29641,17 @@ func unmarshalAPERServedNRcellsToModifyENDCConfUpdListFrom(bb *per.BitBuffer) (S
 }
 
 func unmarshalAPERServedNRcellsToModifyENDCConfUpdListInto(v *asn1cAPERServedNRcellsToModifyENDCConfUpdListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 16384 {
+		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
 	}
 	v.Value = make(ServedNRcellsToModifyENDCConfUpdList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -27689,9 +29771,17 @@ func (v *ServedNRCellsToModifyItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding servedNRCellInformation: %w", err)
 	}
 	if opt_nrneighbourinformation {
-		seqLen_nrneighbourinformation, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 1024)
-		if err != nil {
-			return fmt.Errorf("decoding nrNeighbourInformation length: %w", err)
+		var seqLen_nrneighbourinformation int64
+		var errLength_nrneighbourinformation error
+		seqLen_nrneighbourinformation, errLength_nrneighbourinformation = per.DecodeConstrainedWholeNumberAligned(bb, 1, 1024)
+		if errLength_nrneighbourinformation != nil {
+			return fmt.Errorf("decoding nrNeighbourInformation length: %w", errLength_nrneighbourinformation)
+		}
+		if seqLen_nrneighbourinformation < 1 {
+			return fmt.Errorf("decoding nrNeighbourInformation length %d below lower bound 1", seqLen_nrneighbourinformation)
+		}
+		if seqLen_nrneighbourinformation > 1024 {
+			return fmt.Errorf("decoding nrNeighbourInformation length %d above upper bound 1024", seqLen_nrneighbourinformation)
 		}
 		tmp_nrneighbourinformation := make(NRNeighbourInformation, seqLen_nrneighbourinformation)
 		for i := int64(0); i < seqLen_nrneighbourinformation; i++ {
@@ -27710,9 +29800,17 @@ func (v *ServedNRCellsToModifyItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.NrDeactivationIndication = &tmp_nrdeactivationindication
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -27750,13 +29848,14 @@ type asn1cAPERServedNRcellsToDeleteENDCConfUpdListListValue struct {
 // MarshalAPERServedNRcellsToDeleteENDCConfUpdList encodes a ServedNRcellsToDeleteENDCConfUpdList list to APER.
 func MarshalAPERServedNRcellsToDeleteENDCConfUpdList(list ServedNRcellsToDeleteENDCConfUpdList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERServedNRcellsToDeleteENDCConfUpdListTo(list, bb); err != nil {
+	if err := MarshalAPERServedNRcellsToDeleteENDCConfUpdListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERServedNRcellsToDeleteENDCConfUpdListTo(list ServedNRcellsToDeleteENDCConfUpdList, bb *per.BitBuffer) error {
+// MarshalAPERServedNRcellsToDeleteENDCConfUpdListTo appends a ServedNRcellsToDeleteENDCConfUpdList list to bb.
+func MarshalAPERServedNRcellsToDeleteENDCConfUpdListTo(list ServedNRcellsToDeleteENDCConfUpdList, bb *per.BitBuffer) error {
 	v := asn1cAPERServedNRcellsToDeleteENDCConfUpdListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 16384); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -27772,10 +29871,11 @@ func marshalAPERServedNRcellsToDeleteENDCConfUpdListTo(list ServedNRcellsToDelet
 // UnmarshalAPERServedNRcellsToDeleteENDCConfUpdList decodes a ServedNRcellsToDeleteENDCConfUpdList list from APER.
 func UnmarshalAPERServedNRcellsToDeleteENDCConfUpdList(data []byte) (ServedNRcellsToDeleteENDCConfUpdList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERServedNRcellsToDeleteENDCConfUpdListFrom(bb)
+	return UnmarshalAPERServedNRcellsToDeleteENDCConfUpdListFrom(bb)
 }
 
-func unmarshalAPERServedNRcellsToDeleteENDCConfUpdListFrom(bb *per.BitBuffer) (ServedNRcellsToDeleteENDCConfUpdList, error) {
+// UnmarshalAPERServedNRcellsToDeleteENDCConfUpdListFrom decodes a ServedNRcellsToDeleteENDCConfUpdList list from bb.
+func UnmarshalAPERServedNRcellsToDeleteENDCConfUpdListFrom(bb *per.BitBuffer) (ServedNRcellsToDeleteENDCConfUpdList, error) {
 	var v asn1cAPERServedNRcellsToDeleteENDCConfUpdListListValue
 	if err := unmarshalAPERServedNRcellsToDeleteENDCConfUpdListInto(&v, bb); err != nil {
 		return nil, err
@@ -27784,9 +29884,17 @@ func unmarshalAPERServedNRcellsToDeleteENDCConfUpdListFrom(bb *per.BitBuffer) (S
 }
 
 func unmarshalAPERServedNRcellsToDeleteENDCConfUpdListInto(v *asn1cAPERServedNRcellsToDeleteENDCConfUpdListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 16384 {
+		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
 	}
 	v.Value = make(ServedNRcellsToDeleteENDCConfUpdList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -27853,9 +29961,17 @@ func (v *ENDCConfigurationUpdateAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -27954,9 +30070,17 @@ func (v *RespondingNodeTypeEndcConfigUpdate) UnmarshalAPERFrom(bb *per.BitBuffer
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case RespondingNodeTypeEndcConfigUpdateChoiceRespondENB:
-		seqLen_respondenb, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding respond-eNB length: %w", err)
+		var seqLen_respondenb int64
+		var errLength_respondenb error
+		seqLen_respondenb, errLength_respondenb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+		if errLength_respondenb != nil {
+			return fmt.Errorf("decoding respond-eNB length: %w", errLength_respondenb)
+		}
+		if seqLen_respondenb < 0 {
+			return fmt.Errorf("decoding respond-eNB length %d below lower bound 0", seqLen_respondenb)
+		}
+		if seqLen_respondenb > 65535 {
+			return fmt.Errorf("decoding respond-eNB length %d above upper bound 65535", seqLen_respondenb)
 		}
 		tmp_respondenb := make(ProtocolIEContainer, seqLen_respondenb)
 		for i := int64(0); i < seqLen_respondenb; i++ {
@@ -27966,9 +30090,17 @@ func (v *RespondingNodeTypeEndcConfigUpdate) UnmarshalAPERFrom(bb *per.BitBuffer
 		}
 		v.RespondENB = tmp_respondenb
 	case RespondingNodeTypeEndcConfigUpdateChoiceRespondEnGNB:
-		seqLen_respondengnb, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding respond-en-gNB length: %w", err)
+		var seqLen_respondengnb int64
+		var errLength_respondengnb error
+		seqLen_respondengnb, errLength_respondengnb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+		if errLength_respondengnb != nil {
+			return fmt.Errorf("decoding respond-en-gNB length: %w", errLength_respondengnb)
+		}
+		if seqLen_respondengnb < 0 {
+			return fmt.Errorf("decoding respond-en-gNB length %d below lower bound 0", seqLen_respondengnb)
+		}
+		if seqLen_respondengnb > 65535 {
+			return fmt.Errorf("decoding respond-en-gNB length %d above upper bound 65535", seqLen_respondengnb)
 		}
 		tmp_respondengnb := make(ProtocolIEContainer, seqLen_respondengnb)
 		for i := int64(0); i < seqLen_respondengnb; i++ {
@@ -28037,9 +30169,17 @@ func (v *ENDCConfigurationUpdateFailure) UnmarshalAPERFrom(bb *per.BitBuffer) er
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -28124,9 +30264,17 @@ func (v *ENDCCellActivationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -28160,13 +30308,14 @@ type asn1cAPERServedNRCellsToActivateListValue struct{ Value ServedNRCellsToActi
 // MarshalAPERServedNRCellsToActivate encodes a ServedNRCellsToActivate list to APER.
 func MarshalAPERServedNRCellsToActivate(list ServedNRCellsToActivate) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERServedNRCellsToActivateTo(list, bb); err != nil {
+	if err := MarshalAPERServedNRCellsToActivateTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERServedNRCellsToActivateTo(list ServedNRCellsToActivate, bb *per.BitBuffer) error {
+// MarshalAPERServedNRCellsToActivateTo appends a ServedNRCellsToActivate list to bb.
+func MarshalAPERServedNRCellsToActivateTo(list ServedNRCellsToActivate, bb *per.BitBuffer) error {
 	v := asn1cAPERServedNRCellsToActivateListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 16384); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -28182,10 +30331,11 @@ func marshalAPERServedNRCellsToActivateTo(list ServedNRCellsToActivate, bb *per.
 // UnmarshalAPERServedNRCellsToActivate decodes a ServedNRCellsToActivate list from APER.
 func UnmarshalAPERServedNRCellsToActivate(data []byte) (ServedNRCellsToActivate, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERServedNRCellsToActivateFrom(bb)
+	return UnmarshalAPERServedNRCellsToActivateFrom(bb)
 }
 
-func unmarshalAPERServedNRCellsToActivateFrom(bb *per.BitBuffer) (ServedNRCellsToActivate, error) {
+// UnmarshalAPERServedNRCellsToActivateFrom decodes a ServedNRCellsToActivate list from bb.
+func UnmarshalAPERServedNRCellsToActivateFrom(bb *per.BitBuffer) (ServedNRCellsToActivate, error) {
 	var v asn1cAPERServedNRCellsToActivateListValue
 	if err := unmarshalAPERServedNRCellsToActivateInto(&v, bb); err != nil {
 		return nil, err
@@ -28194,9 +30344,17 @@ func unmarshalAPERServedNRCellsToActivateFrom(bb *per.BitBuffer) (ServedNRCellsT
 }
 
 func unmarshalAPERServedNRCellsToActivateInto(v *asn1cAPERServedNRCellsToActivateListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 16384 {
+		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
 	}
 	v.Value = make(ServedNRCellsToActivate, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -28281,9 +30439,17 @@ func (v *ServedNRCellsToActivateItem) UnmarshalAPERFrom(bb *per.BitBuffer) error
 		return fmt.Errorf("decoding nrCellID: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -28370,9 +30536,17 @@ func (v *ENDCCellActivationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -28406,13 +30580,14 @@ type asn1cAPERActivatedNRCellListListValue struct{ Value ActivatedNRCellList }
 // MarshalAPERActivatedNRCellList encodes a ActivatedNRCellList list to APER.
 func MarshalAPERActivatedNRCellList(list ActivatedNRCellList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERActivatedNRCellListTo(list, bb); err != nil {
+	if err := MarshalAPERActivatedNRCellListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERActivatedNRCellListTo(list ActivatedNRCellList, bb *per.BitBuffer) error {
+// MarshalAPERActivatedNRCellListTo appends a ActivatedNRCellList list to bb.
+func MarshalAPERActivatedNRCellListTo(list ActivatedNRCellList, bb *per.BitBuffer) error {
 	v := asn1cAPERActivatedNRCellListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 16384); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -28428,10 +30603,11 @@ func marshalAPERActivatedNRCellListTo(list ActivatedNRCellList, bb *per.BitBuffe
 // UnmarshalAPERActivatedNRCellList decodes a ActivatedNRCellList list from APER.
 func UnmarshalAPERActivatedNRCellList(data []byte) (ActivatedNRCellList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERActivatedNRCellListFrom(bb)
+	return UnmarshalAPERActivatedNRCellListFrom(bb)
 }
 
-func unmarshalAPERActivatedNRCellListFrom(bb *per.BitBuffer) (ActivatedNRCellList, error) {
+// UnmarshalAPERActivatedNRCellListFrom decodes a ActivatedNRCellList list from bb.
+func UnmarshalAPERActivatedNRCellListFrom(bb *per.BitBuffer) (ActivatedNRCellList, error) {
 	var v asn1cAPERActivatedNRCellListListValue
 	if err := unmarshalAPERActivatedNRCellListInto(&v, bb); err != nil {
 		return nil, err
@@ -28440,9 +30616,17 @@ func unmarshalAPERActivatedNRCellListFrom(bb *per.BitBuffer) (ActivatedNRCellLis
 }
 
 func unmarshalAPERActivatedNRCellListInto(v *asn1cAPERActivatedNRCellListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 16384 {
+		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
 	}
 	v.Value = make(ActivatedNRCellList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -28527,9 +30711,17 @@ func (v *ActivatedNRCellListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding nrCellID: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -28616,9 +30808,17 @@ func (v *ENDCCellActivationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -28703,9 +30903,17 @@ func (v *ENDCResourceStatusRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -28739,13 +30947,14 @@ type asn1cAPERCellToReportNRENDCListListValue struct{ Value CellToReportNRENDCLi
 // MarshalAPERCellToReportNRENDCList encodes a CellToReportNRENDCList list to APER.
 func MarshalAPERCellToReportNRENDCList(list CellToReportNRENDCList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERCellToReportNRENDCListTo(list, bb); err != nil {
+	if err := MarshalAPERCellToReportNRENDCListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERCellToReportNRENDCListTo(list CellToReportNRENDCList, bb *per.BitBuffer) error {
+// MarshalAPERCellToReportNRENDCListTo appends a CellToReportNRENDCList list to bb.
+func MarshalAPERCellToReportNRENDCListTo(list CellToReportNRENDCList, bb *per.BitBuffer) error {
 	v := asn1cAPERCellToReportNRENDCListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 16384); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -28761,10 +30970,11 @@ func marshalAPERCellToReportNRENDCListTo(list CellToReportNRENDCList, bb *per.Bi
 // UnmarshalAPERCellToReportNRENDCList decodes a CellToReportNRENDCList list from APER.
 func UnmarshalAPERCellToReportNRENDCList(data []byte) (CellToReportNRENDCList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERCellToReportNRENDCListFrom(bb)
+	return UnmarshalAPERCellToReportNRENDCListFrom(bb)
 }
 
-func unmarshalAPERCellToReportNRENDCListFrom(bb *per.BitBuffer) (CellToReportNRENDCList, error) {
+// UnmarshalAPERCellToReportNRENDCListFrom decodes a CellToReportNRENDCList list from bb.
+func UnmarshalAPERCellToReportNRENDCListFrom(bb *per.BitBuffer) (CellToReportNRENDCList, error) {
 	var v asn1cAPERCellToReportNRENDCListListValue
 	if err := unmarshalAPERCellToReportNRENDCListInto(&v, bb); err != nil {
 		return nil, err
@@ -28773,9 +30983,17 @@ func unmarshalAPERCellToReportNRENDCListFrom(bb *per.BitBuffer) (CellToReportNRE
 }
 
 func unmarshalAPERCellToReportNRENDCListInto(v *asn1cAPERCellToReportNRENDCListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 16384 {
+		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
 	}
 	v.Value = make(CellToReportNRENDCList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -28877,9 +31095,17 @@ func (v *CellToReportNRENDCItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding nr-cell-ID: %w", err)
 	}
 	if opt_ssbtoreportlist {
-		seqLen_ssbtoreportlist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 64)
-		if err != nil {
-			return fmt.Errorf("decoding ssbToReport-List length: %w", err)
+		var seqLen_ssbtoreportlist int64
+		var errLength_ssbtoreportlist error
+		seqLen_ssbtoreportlist, errLength_ssbtoreportlist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 64)
+		if errLength_ssbtoreportlist != nil {
+			return fmt.Errorf("decoding ssbToReport-List length: %w", errLength_ssbtoreportlist)
+		}
+		if seqLen_ssbtoreportlist < 1 {
+			return fmt.Errorf("decoding ssbToReport-List length %d below lower bound 1", seqLen_ssbtoreportlist)
+		}
+		if seqLen_ssbtoreportlist > 64 {
+			return fmt.Errorf("decoding ssbToReport-List length %d above upper bound 64", seqLen_ssbtoreportlist)
 		}
 		tmp_ssbtoreportlist := make(SSBToReportList, seqLen_ssbtoreportlist)
 		for i := int64(0); i < seqLen_ssbtoreportlist; i++ {
@@ -28890,9 +31116,17 @@ func (v *CellToReportNRENDCItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.SsbToReportList = tmp_ssbtoreportlist
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -28928,13 +31162,14 @@ type asn1cAPERCellToReportEUTRAENDCListListValue struct{ Value CellToReportEUTRA
 // MarshalAPERCellToReportEUTRAENDCList encodes a CellToReportEUTRAENDCList list to APER.
 func MarshalAPERCellToReportEUTRAENDCList(list CellToReportEUTRAENDCList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERCellToReportEUTRAENDCListTo(list, bb); err != nil {
+	if err := MarshalAPERCellToReportEUTRAENDCListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERCellToReportEUTRAENDCListTo(list CellToReportEUTRAENDCList, bb *per.BitBuffer) error {
+// MarshalAPERCellToReportEUTRAENDCListTo appends a CellToReportEUTRAENDCList list to bb.
+func MarshalAPERCellToReportEUTRAENDCListTo(list CellToReportEUTRAENDCList, bb *per.BitBuffer) error {
 	v := asn1cAPERCellToReportEUTRAENDCListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -28950,10 +31185,11 @@ func marshalAPERCellToReportEUTRAENDCListTo(list CellToReportEUTRAENDCList, bb *
 // UnmarshalAPERCellToReportEUTRAENDCList decodes a CellToReportEUTRAENDCList list from APER.
 func UnmarshalAPERCellToReportEUTRAENDCList(data []byte) (CellToReportEUTRAENDCList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERCellToReportEUTRAENDCListFrom(bb)
+	return UnmarshalAPERCellToReportEUTRAENDCListFrom(bb)
 }
 
-func unmarshalAPERCellToReportEUTRAENDCListFrom(bb *per.BitBuffer) (CellToReportEUTRAENDCList, error) {
+// UnmarshalAPERCellToReportEUTRAENDCListFrom decodes a CellToReportEUTRAENDCList list from bb.
+func UnmarshalAPERCellToReportEUTRAENDCListFrom(bb *per.BitBuffer) (CellToReportEUTRAENDCList, error) {
 	var v asn1cAPERCellToReportEUTRAENDCListListValue
 	if err := unmarshalAPERCellToReportEUTRAENDCListInto(&v, bb); err != nil {
 		return nil, err
@@ -28962,9 +31198,17 @@ func unmarshalAPERCellToReportEUTRAENDCListFrom(bb *per.BitBuffer) (CellToReport
 }
 
 func unmarshalAPERCellToReportEUTRAENDCListInto(v *asn1cAPERCellToReportEUTRAENDCListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(CellToReportEUTRAENDCList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -29049,9 +31293,17 @@ func (v *CellToReportEUTRAENDCItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding e-utra-cell-ID: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -29087,13 +31339,14 @@ type asn1cAPERSSBToReportListListValue struct{ Value SSBToReportList }
 // MarshalAPERSSBToReportList encodes a SSBToReportList list to APER.
 func MarshalAPERSSBToReportList(list SSBToReportList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERSSBToReportListTo(list, bb); err != nil {
+	if err := MarshalAPERSSBToReportListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERSSBToReportListTo(list SSBToReportList, bb *per.BitBuffer) error {
+// MarshalAPERSSBToReportListTo appends a SSBToReportList list to bb.
+func MarshalAPERSSBToReportListTo(list SSBToReportList, bb *per.BitBuffer) error {
 	v := asn1cAPERSSBToReportListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 64); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -29109,10 +31362,11 @@ func marshalAPERSSBToReportListTo(list SSBToReportList, bb *per.BitBuffer) error
 // UnmarshalAPERSSBToReportList decodes a SSBToReportList list from APER.
 func UnmarshalAPERSSBToReportList(data []byte) (SSBToReportList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERSSBToReportListFrom(bb)
+	return UnmarshalAPERSSBToReportListFrom(bb)
 }
 
-func unmarshalAPERSSBToReportListFrom(bb *per.BitBuffer) (SSBToReportList, error) {
+// UnmarshalAPERSSBToReportListFrom decodes a SSBToReportList list from bb.
+func UnmarshalAPERSSBToReportListFrom(bb *per.BitBuffer) (SSBToReportList, error) {
 	var v asn1cAPERSSBToReportListListValue
 	if err := unmarshalAPERSSBToReportListInto(&v, bb); err != nil {
 		return nil, err
@@ -29121,9 +31375,17 @@ func unmarshalAPERSSBToReportListFrom(bb *per.BitBuffer) (SSBToReportList, error
 }
 
 func unmarshalAPERSSBToReportListInto(v *asn1cAPERSSBToReportListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 64)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 64)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 64 {
+		return fmt.Errorf("decoding value length %d above upper bound 64", seqLen_value)
 	}
 	v.Value = make(SSBToReportList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -29210,9 +31472,17 @@ func (v *SSBToReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SsbIndex = SSBIndex(val_ssbindex)
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -29299,9 +31569,17 @@ func (v *ENDCResourceStatusResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -29386,9 +31664,17 @@ func (v *ENDCResourceStatusFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -29473,9 +31759,17 @@ func (v *ENDCResourceStatusUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -29511,13 +31805,14 @@ type asn1cAPERCellMeasurementResultNRENDCListListValue struct {
 // MarshalAPERCellMeasurementResultNRENDCList encodes a CellMeasurementResultNRENDCList list to APER.
 func MarshalAPERCellMeasurementResultNRENDCList(list CellMeasurementResultNRENDCList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERCellMeasurementResultNRENDCListTo(list, bb); err != nil {
+	if err := MarshalAPERCellMeasurementResultNRENDCListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERCellMeasurementResultNRENDCListTo(list CellMeasurementResultNRENDCList, bb *per.BitBuffer) error {
+// MarshalAPERCellMeasurementResultNRENDCListTo appends a CellMeasurementResultNRENDCList list to bb.
+func MarshalAPERCellMeasurementResultNRENDCListTo(list CellMeasurementResultNRENDCList, bb *per.BitBuffer) error {
 	v := asn1cAPERCellMeasurementResultNRENDCListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 16384); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -29533,10 +31828,11 @@ func marshalAPERCellMeasurementResultNRENDCListTo(list CellMeasurementResultNREN
 // UnmarshalAPERCellMeasurementResultNRENDCList decodes a CellMeasurementResultNRENDCList list from APER.
 func UnmarshalAPERCellMeasurementResultNRENDCList(data []byte) (CellMeasurementResultNRENDCList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERCellMeasurementResultNRENDCListFrom(bb)
+	return UnmarshalAPERCellMeasurementResultNRENDCListFrom(bb)
 }
 
-func unmarshalAPERCellMeasurementResultNRENDCListFrom(bb *per.BitBuffer) (CellMeasurementResultNRENDCList, error) {
+// UnmarshalAPERCellMeasurementResultNRENDCListFrom decodes a CellMeasurementResultNRENDCList list from bb.
+func UnmarshalAPERCellMeasurementResultNRENDCListFrom(bb *per.BitBuffer) (CellMeasurementResultNRENDCList, error) {
 	var v asn1cAPERCellMeasurementResultNRENDCListListValue
 	if err := unmarshalAPERCellMeasurementResultNRENDCListInto(&v, bb); err != nil {
 		return nil, err
@@ -29545,9 +31841,17 @@ func unmarshalAPERCellMeasurementResultNRENDCListFrom(bb *per.BitBuffer) (CellMe
 }
 
 func unmarshalAPERCellMeasurementResultNRENDCListInto(v *asn1cAPERCellMeasurementResultNRENDCListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 16384 {
+		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
 	}
 	v.Value = make(CellMeasurementResultNRENDCList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -29708,9 +32012,17 @@ func (v *CellMeasurementResultNRENDCItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		v.NumberofActiveUEs = val_numberofactiveues
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -29748,13 +32060,14 @@ type asn1cAPERCellMeasurementResultEUTRAENDCListListValue struct {
 // MarshalAPERCellMeasurementResultEUTRAENDCList encodes a CellMeasurementResultEUTRAENDCList list to APER.
 func MarshalAPERCellMeasurementResultEUTRAENDCList(list CellMeasurementResultEUTRAENDCList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERCellMeasurementResultEUTRAENDCListTo(list, bb); err != nil {
+	if err := MarshalAPERCellMeasurementResultEUTRAENDCListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERCellMeasurementResultEUTRAENDCListTo(list CellMeasurementResultEUTRAENDCList, bb *per.BitBuffer) error {
+// MarshalAPERCellMeasurementResultEUTRAENDCListTo appends a CellMeasurementResultEUTRAENDCList list to bb.
+func MarshalAPERCellMeasurementResultEUTRAENDCListTo(list CellMeasurementResultEUTRAENDCList, bb *per.BitBuffer) error {
 	v := asn1cAPERCellMeasurementResultEUTRAENDCListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -29770,10 +32083,11 @@ func marshalAPERCellMeasurementResultEUTRAENDCListTo(list CellMeasurementResultE
 // UnmarshalAPERCellMeasurementResultEUTRAENDCList decodes a CellMeasurementResultEUTRAENDCList list from APER.
 func UnmarshalAPERCellMeasurementResultEUTRAENDCList(data []byte) (CellMeasurementResultEUTRAENDCList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERCellMeasurementResultEUTRAENDCListFrom(bb)
+	return UnmarshalAPERCellMeasurementResultEUTRAENDCListFrom(bb)
 }
 
-func unmarshalAPERCellMeasurementResultEUTRAENDCListFrom(bb *per.BitBuffer) (CellMeasurementResultEUTRAENDCList, error) {
+// UnmarshalAPERCellMeasurementResultEUTRAENDCListFrom decodes a CellMeasurementResultEUTRAENDCList list from bb.
+func UnmarshalAPERCellMeasurementResultEUTRAENDCListFrom(bb *per.BitBuffer) (CellMeasurementResultEUTRAENDCList, error) {
 	var v asn1cAPERCellMeasurementResultEUTRAENDCListListValue
 	if err := unmarshalAPERCellMeasurementResultEUTRAENDCListInto(&v, bb); err != nil {
 		return nil, err
@@ -29782,9 +32096,17 @@ func unmarshalAPERCellMeasurementResultEUTRAENDCListFrom(bb *per.BitBuffer) (Cel
 }
 
 func unmarshalAPERCellMeasurementResultEUTRAENDCListInto(v *asn1cAPERCellMeasurementResultEUTRAENDCListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(CellMeasurementResultEUTRAENDCList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -29945,9 +32267,17 @@ func (v *CellMeasurementResultEUTRAENDCItem) UnmarshalAPERFrom(bb *per.BitBuffer
 		v.CompositeAvailableCapacityGroup = &dec_compositeavailablecapacitygroup
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -30034,9 +32364,17 @@ func (v *SecondaryRATDataUsageReport) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -30121,9 +32459,17 @@ func (v *SgNBActivityNotification) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -30208,9 +32554,17 @@ func (v *ENDCPartialResetRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -30295,9 +32649,17 @@ func (v *ENDCPartialResetConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -30382,9 +32744,17 @@ func (v *EUTRANRCellResourceCoordinationRequest) UnmarshalAPERFrom(bb *per.BitBu
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -30483,9 +32853,17 @@ func (v *InitiatingNodeTypeEutranrCellResourceCoordination) UnmarshalAPERFrom(bb
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case InitiatingNodeTypeEutranrCellResourceCoordinationChoiceInitiateENB:
-		seqLen_initiateenb, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding initiate-eNB length: %w", err)
+		var seqLen_initiateenb int64
+		var errLength_initiateenb error
+		seqLen_initiateenb, errLength_initiateenb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+		if errLength_initiateenb != nil {
+			return fmt.Errorf("decoding initiate-eNB length: %w", errLength_initiateenb)
+		}
+		if seqLen_initiateenb < 0 {
+			return fmt.Errorf("decoding initiate-eNB length %d below lower bound 0", seqLen_initiateenb)
+		}
+		if seqLen_initiateenb > 65535 {
+			return fmt.Errorf("decoding initiate-eNB length %d above upper bound 65535", seqLen_initiateenb)
 		}
 		tmp_initiateenb := make(ProtocolIEContainer, seqLen_initiateenb)
 		for i := int64(0); i < seqLen_initiateenb; i++ {
@@ -30495,9 +32873,17 @@ func (v *InitiatingNodeTypeEutranrCellResourceCoordination) UnmarshalAPERFrom(bb
 		}
 		v.InitiateENB = tmp_initiateenb
 	case InitiatingNodeTypeEutranrCellResourceCoordinationChoiceInitiateEnGNB:
-		seqLen_initiateengnb, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding initiate-en-gNB length: %w", err)
+		var seqLen_initiateengnb int64
+		var errLength_initiateengnb error
+		seqLen_initiateengnb, errLength_initiateengnb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+		if errLength_initiateengnb != nil {
+			return fmt.Errorf("decoding initiate-en-gNB length: %w", errLength_initiateengnb)
+		}
+		if seqLen_initiateengnb < 0 {
+			return fmt.Errorf("decoding initiate-en-gNB length %d below lower bound 0", seqLen_initiateengnb)
+		}
+		if seqLen_initiateengnb > 65535 {
+			return fmt.Errorf("decoding initiate-en-gNB length %d above upper bound 65535", seqLen_initiateengnb)
 		}
 		tmp_initiateengnb := make(ProtocolIEContainer, seqLen_initiateengnb)
 		for i := int64(0); i < seqLen_initiateengnb; i++ {
@@ -30517,13 +32903,14 @@ type asn1cAPERListofEUTRACellsinEUTRACoordinationReqListValue struct {
 // MarshalAPERListofEUTRACellsinEUTRACoordinationReq encodes a ListofEUTRACellsinEUTRACoordinationReq list to APER.
 func MarshalAPERListofEUTRACellsinEUTRACoordinationReq(list ListofEUTRACellsinEUTRACoordinationReq) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERListofEUTRACellsinEUTRACoordinationReqTo(list, bb); err != nil {
+	if err := MarshalAPERListofEUTRACellsinEUTRACoordinationReqTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERListofEUTRACellsinEUTRACoordinationReqTo(list ListofEUTRACellsinEUTRACoordinationReq, bb *per.BitBuffer) error {
+// MarshalAPERListofEUTRACellsinEUTRACoordinationReqTo appends a ListofEUTRACellsinEUTRACoordinationReq list to bb.
+func MarshalAPERListofEUTRACellsinEUTRACoordinationReqTo(list ListofEUTRACellsinEUTRACoordinationReq, bb *per.BitBuffer) error {
 	v := asn1cAPERListofEUTRACellsinEUTRACoordinationReqListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 0, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -30539,10 +32926,11 @@ func marshalAPERListofEUTRACellsinEUTRACoordinationReqTo(list ListofEUTRACellsin
 // UnmarshalAPERListofEUTRACellsinEUTRACoordinationReq decodes a ListofEUTRACellsinEUTRACoordinationReq list from APER.
 func UnmarshalAPERListofEUTRACellsinEUTRACoordinationReq(data []byte) (ListofEUTRACellsinEUTRACoordinationReq, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERListofEUTRACellsinEUTRACoordinationReqFrom(bb)
+	return UnmarshalAPERListofEUTRACellsinEUTRACoordinationReqFrom(bb)
 }
 
-func unmarshalAPERListofEUTRACellsinEUTRACoordinationReqFrom(bb *per.BitBuffer) (ListofEUTRACellsinEUTRACoordinationReq, error) {
+// UnmarshalAPERListofEUTRACellsinEUTRACoordinationReqFrom decodes a ListofEUTRACellsinEUTRACoordinationReq list from bb.
+func UnmarshalAPERListofEUTRACellsinEUTRACoordinationReqFrom(bb *per.BitBuffer) (ListofEUTRACellsinEUTRACoordinationReq, error) {
 	var v asn1cAPERListofEUTRACellsinEUTRACoordinationReqListValue
 	if err := unmarshalAPERListofEUTRACellsinEUTRACoordinationReqInto(&v, bb); err != nil {
 		return nil, err
@@ -30551,9 +32939,17 @@ func unmarshalAPERListofEUTRACellsinEUTRACoordinationReqFrom(bb *per.BitBuffer) 
 }
 
 func unmarshalAPERListofEUTRACellsinEUTRACoordinationReqInto(v *asn1cAPERListofEUTRACellsinEUTRACoordinationReqListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 0, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 0 {
+		return fmt.Errorf("decoding value length %d below lower bound 0", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ListofEUTRACellsinEUTRACoordinationReq, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -30571,13 +32967,14 @@ type asn1cAPERListofEUTRACellsinNRCoordinationReqListValue struct {
 // MarshalAPERListofEUTRACellsinNRCoordinationReq encodes a ListofEUTRACellsinNRCoordinationReq list to APER.
 func MarshalAPERListofEUTRACellsinNRCoordinationReq(list ListofEUTRACellsinNRCoordinationReq) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERListofEUTRACellsinNRCoordinationReqTo(list, bb); err != nil {
+	if err := MarshalAPERListofEUTRACellsinNRCoordinationReqTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERListofEUTRACellsinNRCoordinationReqTo(list ListofEUTRACellsinNRCoordinationReq, bb *per.BitBuffer) error {
+// MarshalAPERListofEUTRACellsinNRCoordinationReqTo appends a ListofEUTRACellsinNRCoordinationReq list to bb.
+func MarshalAPERListofEUTRACellsinNRCoordinationReqTo(list ListofEUTRACellsinNRCoordinationReq, bb *per.BitBuffer) error {
 	v := asn1cAPERListofEUTRACellsinNRCoordinationReqListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -30593,10 +32990,11 @@ func marshalAPERListofEUTRACellsinNRCoordinationReqTo(list ListofEUTRACellsinNRC
 // UnmarshalAPERListofEUTRACellsinNRCoordinationReq decodes a ListofEUTRACellsinNRCoordinationReq list from APER.
 func UnmarshalAPERListofEUTRACellsinNRCoordinationReq(data []byte) (ListofEUTRACellsinNRCoordinationReq, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERListofEUTRACellsinNRCoordinationReqFrom(bb)
+	return UnmarshalAPERListofEUTRACellsinNRCoordinationReqFrom(bb)
 }
 
-func unmarshalAPERListofEUTRACellsinNRCoordinationReqFrom(bb *per.BitBuffer) (ListofEUTRACellsinNRCoordinationReq, error) {
+// UnmarshalAPERListofEUTRACellsinNRCoordinationReqFrom decodes a ListofEUTRACellsinNRCoordinationReq list from bb.
+func UnmarshalAPERListofEUTRACellsinNRCoordinationReqFrom(bb *per.BitBuffer) (ListofEUTRACellsinNRCoordinationReq, error) {
 	var v asn1cAPERListofEUTRACellsinNRCoordinationReqListValue
 	if err := unmarshalAPERListofEUTRACellsinNRCoordinationReqInto(&v, bb); err != nil {
 		return nil, err
@@ -30605,9 +33003,17 @@ func unmarshalAPERListofEUTRACellsinNRCoordinationReqFrom(bb *per.BitBuffer) (Li
 }
 
 func unmarshalAPERListofEUTRACellsinNRCoordinationReqInto(v *asn1cAPERListofEUTRACellsinNRCoordinationReqListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ListofEUTRACellsinNRCoordinationReq, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -30625,13 +33031,14 @@ type asn1cAPERListofNRCellsinNRCoordinationReqListValue struct {
 // MarshalAPERListofNRCellsinNRCoordinationReq encodes a ListofNRCellsinNRCoordinationReq list to APER.
 func MarshalAPERListofNRCellsinNRCoordinationReq(list ListofNRCellsinNRCoordinationReq) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERListofNRCellsinNRCoordinationReqTo(list, bb); err != nil {
+	if err := MarshalAPERListofNRCellsinNRCoordinationReqTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERListofNRCellsinNRCoordinationReqTo(list ListofNRCellsinNRCoordinationReq, bb *per.BitBuffer) error {
+// MarshalAPERListofNRCellsinNRCoordinationReqTo appends a ListofNRCellsinNRCoordinationReq list to bb.
+func MarshalAPERListofNRCellsinNRCoordinationReqTo(list ListofNRCellsinNRCoordinationReq, bb *per.BitBuffer) error {
 	v := asn1cAPERListofNRCellsinNRCoordinationReqListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 0, 64); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -30647,10 +33054,11 @@ func marshalAPERListofNRCellsinNRCoordinationReqTo(list ListofNRCellsinNRCoordin
 // UnmarshalAPERListofNRCellsinNRCoordinationReq decodes a ListofNRCellsinNRCoordinationReq list from APER.
 func UnmarshalAPERListofNRCellsinNRCoordinationReq(data []byte) (ListofNRCellsinNRCoordinationReq, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERListofNRCellsinNRCoordinationReqFrom(bb)
+	return UnmarshalAPERListofNRCellsinNRCoordinationReqFrom(bb)
 }
 
-func unmarshalAPERListofNRCellsinNRCoordinationReqFrom(bb *per.BitBuffer) (ListofNRCellsinNRCoordinationReq, error) {
+// UnmarshalAPERListofNRCellsinNRCoordinationReqFrom decodes a ListofNRCellsinNRCoordinationReq list from bb.
+func UnmarshalAPERListofNRCellsinNRCoordinationReqFrom(bb *per.BitBuffer) (ListofNRCellsinNRCoordinationReq, error) {
 	var v asn1cAPERListofNRCellsinNRCoordinationReqListValue
 	if err := unmarshalAPERListofNRCellsinNRCoordinationReqInto(&v, bb); err != nil {
 		return nil, err
@@ -30659,9 +33067,17 @@ func unmarshalAPERListofNRCellsinNRCoordinationReqFrom(bb *per.BitBuffer) (Listo
 }
 
 func unmarshalAPERListofNRCellsinNRCoordinationReqInto(v *asn1cAPERListofNRCellsinNRCoordinationReqListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 64)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 0, 64)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 0 {
+		return fmt.Errorf("decoding value length %d below lower bound 0", seqLen_value)
+	}
+	if seqLen_value > 64 {
+		return fmt.Errorf("decoding value length %d above upper bound 64", seqLen_value)
 	}
 	v.Value = make(ListofNRCellsinNRCoordinationReq, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -30728,9 +33144,17 @@ func (v *EUTRANRCellResourceCoordinationResponse) UnmarshalAPERFrom(bb *per.BitB
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -30829,9 +33253,17 @@ func (v *RespondingNodeTypeEutranrCellResourceCoordination) UnmarshalAPERFrom(bb
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case RespondingNodeTypeEutranrCellResourceCoordinationChoiceRespondENB:
-		seqLen_respondenb, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding respond-eNB length: %w", err)
+		var seqLen_respondenb int64
+		var errLength_respondenb error
+		seqLen_respondenb, errLength_respondenb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+		if errLength_respondenb != nil {
+			return fmt.Errorf("decoding respond-eNB length: %w", errLength_respondenb)
+		}
+		if seqLen_respondenb < 0 {
+			return fmt.Errorf("decoding respond-eNB length %d below lower bound 0", seqLen_respondenb)
+		}
+		if seqLen_respondenb > 65535 {
+			return fmt.Errorf("decoding respond-eNB length %d above upper bound 65535", seqLen_respondenb)
 		}
 		tmp_respondenb := make(ProtocolIEContainer, seqLen_respondenb)
 		for i := int64(0); i < seqLen_respondenb; i++ {
@@ -30841,9 +33273,17 @@ func (v *RespondingNodeTypeEutranrCellResourceCoordination) UnmarshalAPERFrom(bb
 		}
 		v.RespondENB = tmp_respondenb
 	case RespondingNodeTypeEutranrCellResourceCoordinationChoiceRespondEnGNB:
-		seqLen_respondengnb, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding respond-en-gNB length: %w", err)
+		var seqLen_respondengnb int64
+		var errLength_respondengnb error
+		seqLen_respondengnb, errLength_respondengnb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+		if errLength_respondengnb != nil {
+			return fmt.Errorf("decoding respond-en-gNB length: %w", errLength_respondengnb)
+		}
+		if seqLen_respondengnb < 0 {
+			return fmt.Errorf("decoding respond-en-gNB length %d below lower bound 0", seqLen_respondengnb)
+		}
+		if seqLen_respondengnb > 65535 {
+			return fmt.Errorf("decoding respond-en-gNB length %d above upper bound 65535", seqLen_respondengnb)
 		}
 		tmp_respondengnb := make(ProtocolIEContainer, seqLen_respondengnb)
 		for i := int64(0); i < seqLen_respondengnb; i++ {
@@ -30863,13 +33303,14 @@ type asn1cAPERListofEUTRACellsinEUTRACoordinationRespListValue struct {
 // MarshalAPERListofEUTRACellsinEUTRACoordinationResp encodes a ListofEUTRACellsinEUTRACoordinationResp list to APER.
 func MarshalAPERListofEUTRACellsinEUTRACoordinationResp(list ListofEUTRACellsinEUTRACoordinationResp) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERListofEUTRACellsinEUTRACoordinationRespTo(list, bb); err != nil {
+	if err := MarshalAPERListofEUTRACellsinEUTRACoordinationRespTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERListofEUTRACellsinEUTRACoordinationRespTo(list ListofEUTRACellsinEUTRACoordinationResp, bb *per.BitBuffer) error {
+// MarshalAPERListofEUTRACellsinEUTRACoordinationRespTo appends a ListofEUTRACellsinEUTRACoordinationResp list to bb.
+func MarshalAPERListofEUTRACellsinEUTRACoordinationRespTo(list ListofEUTRACellsinEUTRACoordinationResp, bb *per.BitBuffer) error {
 	v := asn1cAPERListofEUTRACellsinEUTRACoordinationRespListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 0, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -30885,10 +33326,11 @@ func marshalAPERListofEUTRACellsinEUTRACoordinationRespTo(list ListofEUTRACellsi
 // UnmarshalAPERListofEUTRACellsinEUTRACoordinationResp decodes a ListofEUTRACellsinEUTRACoordinationResp list from APER.
 func UnmarshalAPERListofEUTRACellsinEUTRACoordinationResp(data []byte) (ListofEUTRACellsinEUTRACoordinationResp, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERListofEUTRACellsinEUTRACoordinationRespFrom(bb)
+	return UnmarshalAPERListofEUTRACellsinEUTRACoordinationRespFrom(bb)
 }
 
-func unmarshalAPERListofEUTRACellsinEUTRACoordinationRespFrom(bb *per.BitBuffer) (ListofEUTRACellsinEUTRACoordinationResp, error) {
+// UnmarshalAPERListofEUTRACellsinEUTRACoordinationRespFrom decodes a ListofEUTRACellsinEUTRACoordinationResp list from bb.
+func UnmarshalAPERListofEUTRACellsinEUTRACoordinationRespFrom(bb *per.BitBuffer) (ListofEUTRACellsinEUTRACoordinationResp, error) {
 	var v asn1cAPERListofEUTRACellsinEUTRACoordinationRespListValue
 	if err := unmarshalAPERListofEUTRACellsinEUTRACoordinationRespInto(&v, bb); err != nil {
 		return nil, err
@@ -30897,9 +33339,17 @@ func unmarshalAPERListofEUTRACellsinEUTRACoordinationRespFrom(bb *per.BitBuffer)
 }
 
 func unmarshalAPERListofEUTRACellsinEUTRACoordinationRespInto(v *asn1cAPERListofEUTRACellsinEUTRACoordinationRespListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 0, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 0 {
+		return fmt.Errorf("decoding value length %d below lower bound 0", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ListofEUTRACellsinEUTRACoordinationResp, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -30917,13 +33367,14 @@ type asn1cAPERListofNRCellsinNRCoordinationRespListValue struct {
 // MarshalAPERListofNRCellsinNRCoordinationResp encodes a ListofNRCellsinNRCoordinationResp list to APER.
 func MarshalAPERListofNRCellsinNRCoordinationResp(list ListofNRCellsinNRCoordinationResp) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERListofNRCellsinNRCoordinationRespTo(list, bb); err != nil {
+	if err := MarshalAPERListofNRCellsinNRCoordinationRespTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERListofNRCellsinNRCoordinationRespTo(list ListofNRCellsinNRCoordinationResp, bb *per.BitBuffer) error {
+// MarshalAPERListofNRCellsinNRCoordinationRespTo appends a ListofNRCellsinNRCoordinationResp list to bb.
+func MarshalAPERListofNRCellsinNRCoordinationRespTo(list ListofNRCellsinNRCoordinationResp, bb *per.BitBuffer) error {
 	v := asn1cAPERListofNRCellsinNRCoordinationRespListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 0, 64); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -30939,10 +33390,11 @@ func marshalAPERListofNRCellsinNRCoordinationRespTo(list ListofNRCellsinNRCoordi
 // UnmarshalAPERListofNRCellsinNRCoordinationResp decodes a ListofNRCellsinNRCoordinationResp list from APER.
 func UnmarshalAPERListofNRCellsinNRCoordinationResp(data []byte) (ListofNRCellsinNRCoordinationResp, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERListofNRCellsinNRCoordinationRespFrom(bb)
+	return UnmarshalAPERListofNRCellsinNRCoordinationRespFrom(bb)
 }
 
-func unmarshalAPERListofNRCellsinNRCoordinationRespFrom(bb *per.BitBuffer) (ListofNRCellsinNRCoordinationResp, error) {
+// UnmarshalAPERListofNRCellsinNRCoordinationRespFrom decodes a ListofNRCellsinNRCoordinationResp list from bb.
+func UnmarshalAPERListofNRCellsinNRCoordinationRespFrom(bb *per.BitBuffer) (ListofNRCellsinNRCoordinationResp, error) {
 	var v asn1cAPERListofNRCellsinNRCoordinationRespListValue
 	if err := unmarshalAPERListofNRCellsinNRCoordinationRespInto(&v, bb); err != nil {
 		return nil, err
@@ -30951,9 +33403,17 @@ func unmarshalAPERListofNRCellsinNRCoordinationRespFrom(bb *per.BitBuffer) (List
 }
 
 func unmarshalAPERListofNRCellsinNRCoordinationRespInto(v *asn1cAPERListofNRCellsinNRCoordinationRespListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 64)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 0, 64)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 0 {
+		return fmt.Errorf("decoding value length %d below lower bound 0", seqLen_value)
+	}
+	if seqLen_value > 64 {
+		return fmt.Errorf("decoding value length %d above upper bound 64", seqLen_value)
 	}
 	v.Value = make(ListofNRCellsinNRCoordinationResp, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -31020,9 +33480,17 @@ func (v *ENDCX2RemovalRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -31121,9 +33589,17 @@ func (v *InitiatingNodeTypeEndcX2Removal) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case InitiatingNodeTypeEndcX2RemovalChoiceInitENB:
-		seqLen_initenb, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding init-eNB length: %w", err)
+		var seqLen_initenb int64
+		var errLength_initenb error
+		seqLen_initenb, errLength_initenb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+		if errLength_initenb != nil {
+			return fmt.Errorf("decoding init-eNB length: %w", errLength_initenb)
+		}
+		if seqLen_initenb < 0 {
+			return fmt.Errorf("decoding init-eNB length %d below lower bound 0", seqLen_initenb)
+		}
+		if seqLen_initenb > 65535 {
+			return fmt.Errorf("decoding init-eNB length %d above upper bound 65535", seqLen_initenb)
 		}
 		tmp_initenb := make(ProtocolIEContainer, seqLen_initenb)
 		for i := int64(0); i < seqLen_initenb; i++ {
@@ -31133,9 +33609,17 @@ func (v *InitiatingNodeTypeEndcX2Removal) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		}
 		v.InitENB = tmp_initenb
 	case InitiatingNodeTypeEndcX2RemovalChoiceInitEnGNB:
-		seqLen_initengnb, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding init-en-gNB length: %w", err)
+		var seqLen_initengnb int64
+		var errLength_initengnb error
+		seqLen_initengnb, errLength_initengnb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+		if errLength_initengnb != nil {
+			return fmt.Errorf("decoding init-en-gNB length: %w", errLength_initengnb)
+		}
+		if seqLen_initengnb < 0 {
+			return fmt.Errorf("decoding init-en-gNB length %d below lower bound 0", seqLen_initengnb)
+		}
+		if seqLen_initengnb > 65535 {
+			return fmt.Errorf("decoding init-en-gNB length %d above upper bound 65535", seqLen_initengnb)
 		}
 		tmp_initengnb := make(ProtocolIEContainer, seqLen_initengnb)
 		for i := int64(0); i < seqLen_initengnb; i++ {
@@ -31204,9 +33688,17 @@ func (v *ENDCX2RemovalResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -31305,9 +33797,17 @@ func (v *RespondingNodeTypeEndcX2Removal) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case RespondingNodeTypeEndcX2RemovalChoiceRespondENB:
-		seqLen_respondenb, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding respond-eNB length: %w", err)
+		var seqLen_respondenb int64
+		var errLength_respondenb error
+		seqLen_respondenb, errLength_respondenb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+		if errLength_respondenb != nil {
+			return fmt.Errorf("decoding respond-eNB length: %w", errLength_respondenb)
+		}
+		if seqLen_respondenb < 0 {
+			return fmt.Errorf("decoding respond-eNB length %d below lower bound 0", seqLen_respondenb)
+		}
+		if seqLen_respondenb > 65535 {
+			return fmt.Errorf("decoding respond-eNB length %d above upper bound 65535", seqLen_respondenb)
 		}
 		tmp_respondenb := make(ProtocolIEContainer, seqLen_respondenb)
 		for i := int64(0); i < seqLen_respondenb; i++ {
@@ -31317,9 +33817,17 @@ func (v *RespondingNodeTypeEndcX2Removal) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		}
 		v.RespondENB = tmp_respondenb
 	case RespondingNodeTypeEndcX2RemovalChoiceRespondEnGNB:
-		seqLen_respondengnb, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding respond-en-gNB length: %w", err)
+		var seqLen_respondengnb int64
+		var errLength_respondengnb error
+		seqLen_respondengnb, errLength_respondengnb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+		if errLength_respondengnb != nil {
+			return fmt.Errorf("decoding respond-en-gNB length: %w", errLength_respondengnb)
+		}
+		if seqLen_respondengnb < 0 {
+			return fmt.Errorf("decoding respond-en-gNB length %d below lower bound 0", seqLen_respondengnb)
+		}
+		if seqLen_respondengnb > 65535 {
+			return fmt.Errorf("decoding respond-en-gNB length %d above upper bound 65535", seqLen_respondengnb)
 		}
 		tmp_respondengnb := make(ProtocolIEContainer, seqLen_respondengnb)
 		for i := int64(0); i < seqLen_respondengnb; i++ {
@@ -31388,9 +33896,17 @@ func (v *ENDCX2RemovalFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -31475,9 +33991,17 @@ func (v *DataForwardingAddressIndication) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -31513,13 +34037,14 @@ type asn1cAPERERABsDataForwardingAddressListListValue struct {
 // MarshalAPERERABsDataForwardingAddressList encodes a ERABsDataForwardingAddressList list to APER.
 func MarshalAPERERABsDataForwardingAddressList(list ERABsDataForwardingAddressList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERERABsDataForwardingAddressListTo(list, bb); err != nil {
+	if err := MarshalAPERERABsDataForwardingAddressListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERERABsDataForwardingAddressListTo(list ERABsDataForwardingAddressList, bb *per.BitBuffer) error {
+// MarshalAPERERABsDataForwardingAddressListTo appends a ERABsDataForwardingAddressList list to bb.
+func MarshalAPERERABsDataForwardingAddressListTo(list ERABsDataForwardingAddressList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsDataForwardingAddressListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -31535,10 +34060,11 @@ func marshalAPERERABsDataForwardingAddressListTo(list ERABsDataForwardingAddress
 // UnmarshalAPERERABsDataForwardingAddressList decodes a ERABsDataForwardingAddressList list from APER.
 func UnmarshalAPERERABsDataForwardingAddressList(data []byte) (ERABsDataForwardingAddressList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERERABsDataForwardingAddressListFrom(bb)
+	return UnmarshalAPERERABsDataForwardingAddressListFrom(bb)
 }
 
-func unmarshalAPERERABsDataForwardingAddressListFrom(bb *per.BitBuffer) (ERABsDataForwardingAddressList, error) {
+// UnmarshalAPERERABsDataForwardingAddressListFrom decodes a ERABsDataForwardingAddressList list from bb.
+func UnmarshalAPERERABsDataForwardingAddressListFrom(bb *per.BitBuffer) (ERABsDataForwardingAddressList, error) {
 	var v asn1cAPERERABsDataForwardingAddressListListValue
 	if err := unmarshalAPERERABsDataForwardingAddressListInto(&v, bb); err != nil {
 		return nil, err
@@ -31547,9 +34073,17 @@ func unmarshalAPERERABsDataForwardingAddressListFrom(bb *per.BitBuffer) (ERABsDa
 }
 
 func unmarshalAPERERABsDataForwardingAddressListInto(v *asn1cAPERERABsDataForwardingAddressListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ERABsDataForwardingAddressList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -31642,9 +34176,17 @@ func (v *ERABsDataForwardingAddressItem) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		return fmt.Errorf("decoding dl-GTPtunnelEndpoint: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -31731,9 +34273,17 @@ func (v *GNBStatusIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -31818,9 +34368,17 @@ func (v *ENDCConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -31905,9 +34463,17 @@ func (v *TraceStart) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -31992,9 +34558,17 @@ func (v *DeactivateTrace) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -32079,9 +34653,17 @@ func (v *CellTrafficTrace) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -32166,9 +34748,17 @@ func (v *F1CTrafficTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -32253,9 +34843,17 @@ func (v *UERadioCapabilityIDMappingRequest) UnmarshalAPERFrom(bb *per.BitBuffer)
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -32340,9 +34938,17 @@ func (v *UERadioCapabilityIDMappingResponse) UnmarshalAPERFrom(bb *per.BitBuffer
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -32427,9 +35033,17 @@ func (v *CPCCancel) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -32514,9 +35128,17 @@ func (v *RachIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -32601,9 +35223,17 @@ func (v *SCGFailureInformationReport) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -32688,9 +35318,17 @@ func (v *SCGFailureTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_protocolies, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if err != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", err)
+	var seqLen_protocolies int64
+	var errLength_protocolies error
+	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
+	if errLength_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
+	}
+	if seqLen_protocolies < 0 {
+		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
+	}
+	if seqLen_protocolies > 65535 {
+		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
 	for i := int64(0); i < seqLen_protocolies; i++ {
@@ -33785,9 +36423,17 @@ func (v *ServedEUTRAcellsENDCX2ManagementListElem) UnmarshalAPERFrom(bb *per.Bit
 		return fmt.Errorf("decoding servedEUTRACellInfo: %w", err)
 	}
 	if opt_nrneighbourinfo {
-		seqLen_nrneighbourinfo, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 1024)
-		if err != nil {
-			return fmt.Errorf("decoding nrNeighbourInfo length: %w", err)
+		var seqLen_nrneighbourinfo int64
+		var errLength_nrneighbourinfo error
+		seqLen_nrneighbourinfo, errLength_nrneighbourinfo = per.DecodeConstrainedWholeNumberAligned(bb, 1, 1024)
+		if errLength_nrneighbourinfo != nil {
+			return fmt.Errorf("decoding nrNeighbourInfo length: %w", errLength_nrneighbourinfo)
+		}
+		if seqLen_nrneighbourinfo < 1 {
+			return fmt.Errorf("decoding nrNeighbourInfo length %d below lower bound 1", seqLen_nrneighbourinfo)
+		}
+		if seqLen_nrneighbourinfo > 1024 {
+			return fmt.Errorf("decoding nrNeighbourInfo length %d above upper bound 1024", seqLen_nrneighbourinfo)
 		}
 		tmp_nrneighbourinfo := make(NRNeighbourInformation, seqLen_nrneighbourinfo)
 		for i := int64(0); i < seqLen_nrneighbourinfo; i++ {
@@ -33798,9 +36444,17 @@ func (v *ServedEUTRAcellsENDCX2ManagementListElem) UnmarshalAPERFrom(bb *per.Bit
 		v.NrNeighbourInfo = tmp_nrneighbourinfo
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -33922,9 +36576,17 @@ func (v *ServedNRcellsENDCX2ManagementListElem) UnmarshalAPERFrom(bb *per.BitBuf
 		return fmt.Errorf("decoding servedNRCellInfo: %w", err)
 	}
 	if opt_nrneighbourinfo {
-		seqLen_nrneighbourinfo, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 1024)
-		if err != nil {
-			return fmt.Errorf("decoding nRNeighbourInfo length: %w", err)
+		var seqLen_nrneighbourinfo int64
+		var errLength_nrneighbourinfo error
+		seqLen_nrneighbourinfo, errLength_nrneighbourinfo = per.DecodeConstrainedWholeNumberAligned(bb, 1, 1024)
+		if errLength_nrneighbourinfo != nil {
+			return fmt.Errorf("decoding nRNeighbourInfo length: %w", errLength_nrneighbourinfo)
+		}
+		if seqLen_nrneighbourinfo < 1 {
+			return fmt.Errorf("decoding nRNeighbourInfo length %d below lower bound 1", seqLen_nrneighbourinfo)
+		}
+		if seqLen_nrneighbourinfo > 1024 {
+			return fmt.Errorf("decoding nRNeighbourInfo length %d above upper bound 1024", seqLen_nrneighbourinfo)
 		}
 		tmp_nrneighbourinfo := make(NRNeighbourInformation, seqLen_nrneighbourinfo)
 		for i := int64(0); i < seqLen_nrneighbourinfo; i++ {
@@ -33935,9 +36597,17 @@ func (v *ServedNRcellsENDCX2ManagementListElem) UnmarshalAPERFrom(bb *per.BitBuf
 		v.NRNeighbourInfo = tmp_nrneighbourinfo
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -34117,9 +36787,17 @@ func (v *LimitedListElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding nrCellID: %w", err)
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
@@ -34247,9 +36925,17 @@ func (v *ServedEUTRAcellsToModifyListENDCConfUpdElem) UnmarshalAPERFrom(bb *per.
 		return fmt.Errorf("decoding servedEUTRACellInfo: %w", err)
 	}
 	if opt_nrneighbourinfo {
-		seqLen_nrneighbourinfo, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 1024)
-		if err != nil {
-			return fmt.Errorf("decoding nrNeighbourInfo length: %w", err)
+		var seqLen_nrneighbourinfo int64
+		var errLength_nrneighbourinfo error
+		seqLen_nrneighbourinfo, errLength_nrneighbourinfo = per.DecodeConstrainedWholeNumberAligned(bb, 1, 1024)
+		if errLength_nrneighbourinfo != nil {
+			return fmt.Errorf("decoding nrNeighbourInfo length: %w", errLength_nrneighbourinfo)
+		}
+		if seqLen_nrneighbourinfo < 1 {
+			return fmt.Errorf("decoding nrNeighbourInfo length %d below lower bound 1", seqLen_nrneighbourinfo)
+		}
+		if seqLen_nrneighbourinfo > 1024 {
+			return fmt.Errorf("decoding nrNeighbourInfo length %d above upper bound 1024", seqLen_nrneighbourinfo)
 		}
 		tmp_nrneighbourinfo := make(NRNeighbourInformation, seqLen_nrneighbourinfo)
 		for i := int64(0); i < seqLen_nrneighbourinfo; i++ {
@@ -34260,9 +36946,17 @@ func (v *ServedEUTRAcellsToModifyListENDCConfUpdElem) UnmarshalAPERFrom(bb *per.
 		v.NrNeighbourInfo = tmp_nrneighbourinfo
 	}
 	if opt_ieextensions {
-		seqLen_ieextensions, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if err != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", err)
+		var seqLen_ieextensions int64
+		var errLength_ieextensions error
+		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
+		if errLength_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
+		}
+		if seqLen_ieextensions < 1 {
+			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
+		}
+		if seqLen_ieextensions > 65535 {
+			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
 		for i := int64(0); i < seqLen_ieextensions; i++ {

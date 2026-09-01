@@ -1517,9 +1517,17 @@ func (v *ReestablishmentInfoNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.TargetCellShortMACIR13 = runtime.BitString{Bytes: bsBytes_targetcellshortmacir13, BitLength: bsBitLen_targetcellshortmacir13}
 	if opt_additionalreestabinfolistr13 {
-		seqLen_additionalreestabinfolistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
-		if err != nil {
-			return fmt.Errorf("decoding additionalReestabInfoList-r13 length: %w", err)
+		var seqLen_additionalreestabinfolistr13 int64
+		var errLength_additionalreestabinfolistr13 error
+		seqLen_additionalreestabinfolistr13, errLength_additionalreestabinfolistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 32)
+		if errLength_additionalreestabinfolistr13 != nil {
+			return fmt.Errorf("decoding additionalReestabInfoList-r13 length: %w", errLength_additionalreestabinfolistr13)
+		}
+		if seqLen_additionalreestabinfolistr13 < 1 {
+			return fmt.Errorf("decoding additionalReestabInfoList-r13 length %d below lower bound 1", seqLen_additionalreestabinfolistr13)
+		}
+		if seqLen_additionalreestabinfolistr13 > 32 {
+			return fmt.Errorf("decoding additionalReestabInfoList-r13 length %d above upper bound 32", seqLen_additionalreestabinfolistr13)
 		}
 		tmp_additionalreestabinfolistr13 := make(AdditionalReestabInfoList, seqLen_additionalreestabinfolistr13)
 		for i := int64(0); i < seqLen_additionalreestabinfolistr13; i++ {

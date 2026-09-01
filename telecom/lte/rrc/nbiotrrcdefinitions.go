@@ -9898,9 +9898,17 @@ func (v *PagingNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_pagingrecordlistr13 {
-		seqLen_pagingrecordlistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 16)
-		if err != nil {
-			return fmt.Errorf("decoding pagingRecordList-r13 length: %w", err)
+		var seqLen_pagingrecordlistr13 int64
+		var errLength_pagingrecordlistr13 error
+		seqLen_pagingrecordlistr13, errLength_pagingrecordlistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 16)
+		if errLength_pagingrecordlistr13 != nil {
+			return fmt.Errorf("decoding pagingRecordList-r13 length: %w", errLength_pagingrecordlistr13)
+		}
+		if seqLen_pagingrecordlistr13 < 1 {
+			return fmt.Errorf("decoding pagingRecordList-r13 length %d below lower bound 1", seqLen_pagingrecordlistr13)
+		}
+		if seqLen_pagingrecordlistr13 > 16 {
+			return fmt.Errorf("decoding pagingRecordList-r13 length %d above upper bound 16", seqLen_pagingrecordlistr13)
 		}
 		tmp_pagingrecordlistr13 := make(PagingRecordListNBR13, seqLen_pagingrecordlistr13)
 		for i := int64(0); i < seqLen_pagingrecordlistr13; i++ {
@@ -9986,9 +9994,17 @@ func (v *PagingNBV1610IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_pagingrecordlistv1610 {
-		seqLen_pagingrecordlistv1610, err := per.DecodeConstrainedWholeNumber(bb, 1, 16)
-		if err != nil {
-			return fmt.Errorf("decoding pagingRecordList-v1610 length: %w", err)
+		var seqLen_pagingrecordlistv1610 int64
+		var errLength_pagingrecordlistv1610 error
+		seqLen_pagingrecordlistv1610, errLength_pagingrecordlistv1610 = per.DecodeConstrainedWholeNumber(bb, 1, 16)
+		if errLength_pagingrecordlistv1610 != nil {
+			return fmt.Errorf("decoding pagingRecordList-v1610 length: %w", errLength_pagingrecordlistv1610)
+		}
+		if seqLen_pagingrecordlistv1610 < 1 {
+			return fmt.Errorf("decoding pagingRecordList-v1610 length %d below lower bound 1", seqLen_pagingrecordlistv1610)
+		}
+		if seqLen_pagingrecordlistv1610 > 16 {
+			return fmt.Errorf("decoding pagingRecordList-v1610 length %d above upper bound 16", seqLen_pagingrecordlistv1610)
 		}
 		tmp_pagingrecordlistv1610 := make(PagingRecordListNBV1610, seqLen_pagingrecordlistv1610)
 		for i := int64(0); i < seqLen_pagingrecordlistv1610; i++ {
@@ -10095,13 +10111,14 @@ type asn1cUPERPagingRecordListNBR13ListValue struct{ Value PagingRecordListNBR13
 // MarshalUPERPagingRecordListNBR13 encodes a PagingRecordListNBR13 list to UPER.
 func MarshalUPERPagingRecordListNBR13(list PagingRecordListNBR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERPagingRecordListNBR13To(list, bb); err != nil {
+	if err := MarshalUPERPagingRecordListNBR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERPagingRecordListNBR13To(list PagingRecordListNBR13, bb *per.BitBuffer) error {
+// MarshalUPERPagingRecordListNBR13To appends a PagingRecordListNBR13 list to bb.
+func MarshalUPERPagingRecordListNBR13To(list PagingRecordListNBR13, bb *per.BitBuffer) error {
 	v := asn1cUPERPagingRecordListNBR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 16); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -10117,10 +10134,11 @@ func marshalUPERPagingRecordListNBR13To(list PagingRecordListNBR13, bb *per.BitB
 // UnmarshalUPERPagingRecordListNBR13 decodes a PagingRecordListNBR13 list from UPER.
 func UnmarshalUPERPagingRecordListNBR13(data []byte) (PagingRecordListNBR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERPagingRecordListNBR13From(bb)
+	return UnmarshalUPERPagingRecordListNBR13From(bb)
 }
 
-func unmarshalUPERPagingRecordListNBR13From(bb *per.BitBuffer) (PagingRecordListNBR13, error) {
+// UnmarshalUPERPagingRecordListNBR13From decodes a PagingRecordListNBR13 list from bb.
+func UnmarshalUPERPagingRecordListNBR13From(bb *per.BitBuffer) (PagingRecordListNBR13, error) {
 	var v asn1cUPERPagingRecordListNBR13ListValue
 	if err := unmarshalUPERPagingRecordListNBR13Into(&v, bb); err != nil {
 		return nil, err
@@ -10129,9 +10147,17 @@ func unmarshalUPERPagingRecordListNBR13From(bb *per.BitBuffer) (PagingRecordList
 }
 
 func unmarshalUPERPagingRecordListNBR13Into(v *asn1cUPERPagingRecordListNBR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 16)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 16)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 16 {
+		return fmt.Errorf("decoding value length %d above upper bound 16", seqLen_value)
 	}
 	v.Value = make(PagingRecordListNBR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -10147,13 +10173,14 @@ type asn1cUPERPagingRecordListNBV1610ListValue struct{ Value PagingRecordListNBV
 // MarshalUPERPagingRecordListNBV1610 encodes a PagingRecordListNBV1610 list to UPER.
 func MarshalUPERPagingRecordListNBV1610(list PagingRecordListNBV1610) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERPagingRecordListNBV1610To(list, bb); err != nil {
+	if err := MarshalUPERPagingRecordListNBV1610To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERPagingRecordListNBV1610To(list PagingRecordListNBV1610, bb *per.BitBuffer) error {
+// MarshalUPERPagingRecordListNBV1610To appends a PagingRecordListNBV1610 list to bb.
+func MarshalUPERPagingRecordListNBV1610To(list PagingRecordListNBV1610, bb *per.BitBuffer) error {
 	v := asn1cUPERPagingRecordListNBV1610ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 16); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -10169,10 +10196,11 @@ func marshalUPERPagingRecordListNBV1610To(list PagingRecordListNBV1610, bb *per.
 // UnmarshalUPERPagingRecordListNBV1610 decodes a PagingRecordListNBV1610 list from UPER.
 func UnmarshalUPERPagingRecordListNBV1610(data []byte) (PagingRecordListNBV1610, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERPagingRecordListNBV1610From(bb)
+	return UnmarshalUPERPagingRecordListNBV1610From(bb)
 }
 
-func unmarshalUPERPagingRecordListNBV1610From(bb *per.BitBuffer) (PagingRecordListNBV1610, error) {
+// UnmarshalUPERPagingRecordListNBV1610From decodes a PagingRecordListNBV1610 list from bb.
+func UnmarshalUPERPagingRecordListNBV1610From(bb *per.BitBuffer) (PagingRecordListNBV1610, error) {
 	var v asn1cUPERPagingRecordListNBV1610ListValue
 	if err := unmarshalUPERPagingRecordListNBV1610Into(&v, bb); err != nil {
 		return nil, err
@@ -10181,9 +10209,17 @@ func unmarshalUPERPagingRecordListNBV1610From(bb *per.BitBuffer) (PagingRecordLi
 }
 
 func unmarshalUPERPagingRecordListNBV1610Into(v *asn1cUPERPagingRecordListNBV1610ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 16)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 16)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 16 {
+		return fmt.Errorf("decoding value length %d above upper bound 16", seqLen_value)
 	}
 	v.Value = make(PagingRecordListNBV1610, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -10599,9 +10635,17 @@ func (v *RRCConnectionReconfigurationNBR13IEs) UnmarshalUPERFrom(bb *per.BitBuff
 		return err
 	}
 	if opt_dedicatedinfonaslistr13 {
-		seqLen_dedicatedinfonaslistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
-		if err != nil {
-			return fmt.Errorf("decoding dedicatedInfoNASList-r13 length: %w", err)
+		var seqLen_dedicatedinfonaslistr13 int64
+		var errLength_dedicatedinfonaslistr13 error
+		seqLen_dedicatedinfonaslistr13, errLength_dedicatedinfonaslistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 2)
+		if errLength_dedicatedinfonaslistr13 != nil {
+			return fmt.Errorf("decoding dedicatedInfoNASList-r13 length: %w", errLength_dedicatedinfonaslistr13)
+		}
+		if seqLen_dedicatedinfonaslistr13 < 1 {
+			return fmt.Errorf("decoding dedicatedInfoNASList-r13 length %d below lower bound 1", seqLen_dedicatedinfonaslistr13)
+		}
+		if seqLen_dedicatedinfonaslistr13 > 2 {
+			return fmt.Errorf("decoding dedicatedInfoNASList-r13 length %d above upper bound 2", seqLen_dedicatedinfonaslistr13)
 		}
 		tmp_dedicatedinfonaslistr13 := make(RRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13, seqLen_dedicatedinfonaslistr13)
 		for i := int64(0); i < seqLen_dedicatedinfonaslistr13; i++ {
@@ -12537,9 +12581,17 @@ func (v *RedirectedCarrierInfoNBV1900) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if err := v.CarrierFreqV1900.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding carrierFreq-v1900: %w", err)
 	}
-	seqLen_satassistanceinfolistr19, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
-	if err != nil {
-		return fmt.Errorf("decoding satAssistanceInfoList-r19 length: %w", err)
+	var seqLen_satassistanceinfolistr19 int64
+	var errLength_satassistanceinfolistr19 error
+	seqLen_satassistanceinfolistr19, errLength_satassistanceinfolistr19 = per.DecodeConstrainedWholeNumber(bb, 1, 4)
+	if errLength_satassistanceinfolistr19 != nil {
+		return fmt.Errorf("decoding satAssistanceInfoList-r19 length: %w", errLength_satassistanceinfolistr19)
+	}
+	if seqLen_satassistanceinfolistr19 < 1 {
+		return fmt.Errorf("decoding satAssistanceInfoList-r19 length %d below lower bound 1", seqLen_satassistanceinfolistr19)
+	}
+	if seqLen_satassistanceinfolistr19 > 4 {
+		return fmt.Errorf("decoding satAssistanceInfoList-r19 length %d above upper bound 4", seqLen_satassistanceinfolistr19)
 	}
 	v.SatAssistanceInfoListR19 = make(RedirectedCarrierInfoNBV1900SatAssistanceInfoListR19, seqLen_satassistanceinfolistr19)
 	for i := int64(0); i < seqLen_satassistanceinfolistr19; i++ {
@@ -14349,9 +14401,17 @@ func (v *RRCConnectionSetupCompleteNBV1610IEs) UnmarshalUPERFrom(bb *per.BitBuff
 		v.GuamiTypeR16 = &val_guamityper16
 	}
 	if opt_snssailistr16 {
-		seqLen_snssailistr16, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-		if err != nil {
-			return fmt.Errorf("decoding s-NSSAI-list-r16 length: %w", err)
+		var seqLen_snssailistr16 int64
+		var errLength_snssailistr16 error
+		seqLen_snssailistr16, errLength_snssailistr16 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+		if errLength_snssailistr16 != nil {
+			return fmt.Errorf("decoding s-NSSAI-list-r16 length: %w", errLength_snssailistr16)
+		}
+		if seqLen_snssailistr16 < 1 {
+			return fmt.Errorf("decoding s-NSSAI-list-r16 length %d below lower bound 1", seqLen_snssailistr16)
+		}
+		if seqLen_snssailistr16 > 8 {
+			return fmt.Errorf("decoding s-NSSAI-list-r16 length %d above upper bound 8", seqLen_snssailistr16)
 		}
 		tmp_snssailistr16 := make(RRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16, seqLen_snssailistr16)
 		for i := int64(0); i < seqLen_snssailistr16; i++ {
@@ -15170,9 +15230,17 @@ func (v *SCPTMConfigurationNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_scmtchinfolistr14, err := per.DecodeConstrainedWholeNumber(bb, 0, 64)
-	if err != nil {
-		return fmt.Errorf("decoding sc-mtch-InfoList-r14 length: %w", err)
+	var seqLen_scmtchinfolistr14 int64
+	var errLength_scmtchinfolistr14 error
+	seqLen_scmtchinfolistr14, errLength_scmtchinfolistr14 = per.DecodeConstrainedWholeNumber(bb, 0, 64)
+	if errLength_scmtchinfolistr14 != nil {
+		return fmt.Errorf("decoding sc-mtch-InfoList-r14 length: %w", errLength_scmtchinfolistr14)
+	}
+	if seqLen_scmtchinfolistr14 < 0 {
+		return fmt.Errorf("decoding sc-mtch-InfoList-r14 length %d below lower bound 0", seqLen_scmtchinfolistr14)
+	}
+	if seqLen_scmtchinfolistr14 > 64 {
+		return fmt.Errorf("decoding sc-mtch-InfoList-r14 length %d above upper bound 64", seqLen_scmtchinfolistr14)
 	}
 	v.ScMtchInfoListR14 = make(SCMTCHInfoListNBR14, seqLen_scmtchinfolistr14)
 	for i := int64(0); i < seqLen_scmtchinfolistr14; i++ {
@@ -15181,9 +15249,17 @@ func (v *SCPTMConfigurationNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 	}
 	if opt_scptmneighbourcelllistr14 {
-		seqLen_scptmneighbourcelllistr14, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-		if err != nil {
-			return fmt.Errorf("decoding scptm-NeighbourCellList-r14 length: %w", err)
+		var seqLen_scptmneighbourcelllistr14 int64
+		var errLength_scptmneighbourcelllistr14 error
+		seqLen_scptmneighbourcelllistr14, errLength_scptmneighbourcelllistr14 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+		if errLength_scptmneighbourcelllistr14 != nil {
+			return fmt.Errorf("decoding scptm-NeighbourCellList-r14 length: %w", errLength_scptmneighbourcelllistr14)
+		}
+		if seqLen_scptmneighbourcelllistr14 < 1 {
+			return fmt.Errorf("decoding scptm-NeighbourCellList-r14 length %d below lower bound 1", seqLen_scptmneighbourcelllistr14)
+		}
+		if seqLen_scptmneighbourcelllistr14 > 8 {
+			return fmt.Errorf("decoding scptm-NeighbourCellList-r14 length %d above upper bound 8", seqLen_scptmneighbourcelllistr14)
 		}
 		tmp_scptmneighbourcelllistr14 := make(SCPTMNeighbourCellListNBR14, seqLen_scptmneighbourcelllistr14)
 		for i := int64(0); i < seqLen_scptmneighbourcelllistr14; i++ {
@@ -15265,9 +15341,17 @@ func (v *SCPTMConfigurationNBV1610) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_scmtchinfolistmultitbr16, err := per.DecodeConstrainedWholeNumber(bb, 0, 64)
-	if err != nil {
-		return fmt.Errorf("decoding sc-mtch-InfoListMultiTB-r16 length: %w", err)
+	var seqLen_scmtchinfolistmultitbr16 int64
+	var errLength_scmtchinfolistmultitbr16 error
+	seqLen_scmtchinfolistmultitbr16, errLength_scmtchinfolistmultitbr16 = per.DecodeConstrainedWholeNumber(bb, 0, 64)
+	if errLength_scmtchinfolistmultitbr16 != nil {
+		return fmt.Errorf("decoding sc-mtch-InfoListMultiTB-r16 length: %w", errLength_scmtchinfolistmultitbr16)
+	}
+	if seqLen_scmtchinfolistmultitbr16 < 0 {
+		return fmt.Errorf("decoding sc-mtch-InfoListMultiTB-r16 length %d below lower bound 0", seqLen_scmtchinfolistmultitbr16)
+	}
+	if seqLen_scmtchinfolistmultitbr16 > 64 {
+		return fmt.Errorf("decoding sc-mtch-InfoListMultiTB-r16 length %d above upper bound 64", seqLen_scmtchinfolistmultitbr16)
 	}
 	v.ScMtchInfoListMultiTBR16 = make(SCMTCHInfoListNBR14, seqLen_scmtchinfolistmultitbr16)
 	for i := int64(0); i < seqLen_scmtchinfolistmultitbr16; i++ {
@@ -15375,9 +15459,17 @@ func (v *SystemInformationNBR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_sibtypeandinfor13, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
-	if err != nil {
-		return fmt.Errorf("decoding sib-TypeAndInfo-r13 length: %w", err)
+	var seqLen_sibtypeandinfor13 int64
+	var errLength_sibtypeandinfor13 error
+	seqLen_sibtypeandinfor13, errLength_sibtypeandinfor13 = per.DecodeConstrainedWholeNumber(bb, 1, 32)
+	if errLength_sibtypeandinfor13 != nil {
+		return fmt.Errorf("decoding sib-TypeAndInfo-r13 length: %w", errLength_sibtypeandinfor13)
+	}
+	if seqLen_sibtypeandinfor13 < 1 {
+		return fmt.Errorf("decoding sib-TypeAndInfo-r13 length %d below lower bound 1", seqLen_sibtypeandinfor13)
+	}
+	if seqLen_sibtypeandinfor13 > 32 {
+		return fmt.Errorf("decoding sib-TypeAndInfo-r13 length %d above upper bound 32", seqLen_sibtypeandinfor13)
 	}
 	v.SibTypeAndInfoR13 = make(SystemInformationNBR13IEsSibTypeAndInfoR13, seqLen_sibtypeandinfor13)
 	for i := int64(0); i < seqLen_sibtypeandinfor13; i++ {
@@ -15608,9 +15700,17 @@ func (v *SystemInformationBlockType1NB) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	}
 	v.FreqBandIndicatorR13 = FreqBandIndicatorNBR13(val_freqbandindicatorr13)
 	if opt_freqbandinfor13 {
-		seqLen_freqbandinfor13, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
-		if err != nil {
-			return fmt.Errorf("decoding freqBandInfo-r13 length: %w", err)
+		var seqLen_freqbandinfor13 int64
+		var errLength_freqbandinfor13 error
+		seqLen_freqbandinfor13, errLength_freqbandinfor13 = per.DecodeConstrainedWholeNumber(bb, 1, 4)
+		if errLength_freqbandinfor13 != nil {
+			return fmt.Errorf("decoding freqBandInfo-r13 length: %w", errLength_freqbandinfor13)
+		}
+		if seqLen_freqbandinfor13 < 1 {
+			return fmt.Errorf("decoding freqBandInfo-r13 length %d below lower bound 1", seqLen_freqbandinfor13)
+		}
+		if seqLen_freqbandinfor13 > 4 {
+			return fmt.Errorf("decoding freqBandInfo-r13 length %d above upper bound 4", seqLen_freqbandinfor13)
 		}
 		tmp_freqbandinfor13 := make(NSPmaxListNBR13, seqLen_freqbandinfor13)
 		for i := int64(0); i < seqLen_freqbandinfor13; i++ {
@@ -15621,9 +15721,17 @@ func (v *SystemInformationBlockType1NB) UnmarshalUPERFrom(bb *per.BitBuffer) err
 		v.FreqBandInfoR13 = tmp_freqbandinfor13
 	}
 	if opt_multibandinfolistr13 {
-		seqLen_multibandinfolistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-		if err != nil {
-			return fmt.Errorf("decoding multiBandInfoList-r13 length: %w", err)
+		var seqLen_multibandinfolistr13 int64
+		var errLength_multibandinfolistr13 error
+		seqLen_multibandinfolistr13, errLength_multibandinfolistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+		if errLength_multibandinfolistr13 != nil {
+			return fmt.Errorf("decoding multiBandInfoList-r13 length: %w", errLength_multibandinfolistr13)
+		}
+		if seqLen_multibandinfolistr13 < 1 {
+			return fmt.Errorf("decoding multiBandInfoList-r13 length %d below lower bound 1", seqLen_multibandinfolistr13)
+		}
+		if seqLen_multibandinfolistr13 > 8 {
+			return fmt.Errorf("decoding multiBandInfoList-r13 length %d above upper bound 8", seqLen_multibandinfolistr13)
 		}
 		tmp_multibandinfolistr13 := make(MultiBandInfoListNBR13, seqLen_multibandinfolistr13)
 		for i := int64(0); i < seqLen_multibandinfolistr13; i++ {
@@ -15654,9 +15762,17 @@ func (v *SystemInformationBlockType1NB) UnmarshalUPERFrom(bb *per.BitBuffer) err
 		}
 		v.NrsCRSPowerOffsetR13 = &val_nrscrspoweroffsetr13
 	}
-	seqLen_schedulinginfolistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding schedulingInfoList-r13 length: %w", err)
+	var seqLen_schedulinginfolistr13 int64
+	var errLength_schedulinginfolistr13 error
+	seqLen_schedulinginfolistr13, errLength_schedulinginfolistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+	if errLength_schedulinginfolistr13 != nil {
+		return fmt.Errorf("decoding schedulingInfoList-r13 length: %w", errLength_schedulinginfolistr13)
+	}
+	if seqLen_schedulinginfolistr13 < 1 {
+		return fmt.Errorf("decoding schedulingInfoList-r13 length %d below lower bound 1", seqLen_schedulinginfolistr13)
+	}
+	if seqLen_schedulinginfolistr13 > 8 {
+		return fmt.Errorf("decoding schedulingInfoList-r13 length %d above upper bound 8", seqLen_schedulinginfolistr13)
 	}
 	v.SchedulingInfoListR13 = make(SchedulingInfoListNBR13, seqLen_schedulinginfolistr13)
 	for i := int64(0); i < seqLen_schedulinginfolistr13; i++ {
@@ -15677,9 +15793,17 @@ func (v *SystemInformationBlockType1NB) UnmarshalUPERFrom(bb *per.BitBuffer) err
 		v.SiRadioFrameOffsetR13 = &val_siradioframeoffsetr13
 	}
 	if opt_systeminfovaluetaglistr13 {
-		seqLen_systeminfovaluetaglistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-		if err != nil {
-			return fmt.Errorf("decoding systemInfoValueTagList-r13 length: %w", err)
+		var seqLen_systeminfovaluetaglistr13 int64
+		var errLength_systeminfovaluetaglistr13 error
+		seqLen_systeminfovaluetaglistr13, errLength_systeminfovaluetaglistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+		if errLength_systeminfovaluetaglistr13 != nil {
+			return fmt.Errorf("decoding systemInfoValueTagList-r13 length: %w", errLength_systeminfovaluetaglistr13)
+		}
+		if seqLen_systeminfovaluetaglistr13 < 1 {
+			return fmt.Errorf("decoding systemInfoValueTagList-r13 length %d below lower bound 1", seqLen_systeminfovaluetaglistr13)
+		}
+		if seqLen_systeminfovaluetaglistr13 > 8 {
+			return fmt.Errorf("decoding systemInfoValueTagList-r13 length %d above upper bound 8", seqLen_systeminfovaluetaglistr13)
 		}
 		tmp_systeminfovaluetaglistr13 := make(SystemInfoValueTagListNBR13, seqLen_systeminfovaluetaglistr13)
 		for i := int64(0); i < seqLen_systeminfovaluetaglistr13; i++ {
@@ -15969,9 +16093,17 @@ func (v *SystemInformationBlockType1NBV1530) UnmarshalUPERFrom(bb *per.BitBuffer
 		v.TddParametersR15 = &dec_tddparametersr15
 	}
 	if opt_schedulinginfolistv1530 {
-		seqLen_schedulinginfolistv1530, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-		if err != nil {
-			return fmt.Errorf("decoding schedulingInfoList-v1530 length: %w", err)
+		var seqLen_schedulinginfolistv1530 int64
+		var errLength_schedulinginfolistv1530 error
+		seqLen_schedulinginfolistv1530, errLength_schedulinginfolistv1530 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+		if errLength_schedulinginfolistv1530 != nil {
+			return fmt.Errorf("decoding schedulingInfoList-v1530 length: %w", errLength_schedulinginfolistv1530)
+		}
+		if seqLen_schedulinginfolistv1530 < 1 {
+			return fmt.Errorf("decoding schedulingInfoList-v1530 length %d below lower bound 1", seqLen_schedulinginfolistv1530)
+		}
+		if seqLen_schedulinginfolistv1530 > 8 {
+			return fmt.Errorf("decoding schedulingInfoList-v1530 length %d above upper bound 8", seqLen_schedulinginfolistv1530)
 		}
 		tmp_schedulinginfolistv1530 := make(SchedulingInfoListNBV1530, seqLen_schedulinginfolistv1530)
 		for i := int64(0); i < seqLen_schedulinginfolistv1530; i++ {
@@ -16248,13 +16380,14 @@ type asn1cUPERPLMNIdentityListNBR13ListValue struct{ Value PLMNIdentityListNBR13
 // MarshalUPERPLMNIdentityListNBR13 encodes a PLMNIdentityListNBR13 list to UPER.
 func MarshalUPERPLMNIdentityListNBR13(list PLMNIdentityListNBR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERPLMNIdentityListNBR13To(list, bb); err != nil {
+	if err := MarshalUPERPLMNIdentityListNBR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERPLMNIdentityListNBR13To(list PLMNIdentityListNBR13, bb *per.BitBuffer) error {
+// MarshalUPERPLMNIdentityListNBR13To appends a PLMNIdentityListNBR13 list to bb.
+func MarshalUPERPLMNIdentityListNBR13To(list PLMNIdentityListNBR13, bb *per.BitBuffer) error {
 	v := asn1cUPERPLMNIdentityListNBR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 6); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -16270,10 +16403,11 @@ func marshalUPERPLMNIdentityListNBR13To(list PLMNIdentityListNBR13, bb *per.BitB
 // UnmarshalUPERPLMNIdentityListNBR13 decodes a PLMNIdentityListNBR13 list from UPER.
 func UnmarshalUPERPLMNIdentityListNBR13(data []byte) (PLMNIdentityListNBR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERPLMNIdentityListNBR13From(bb)
+	return UnmarshalUPERPLMNIdentityListNBR13From(bb)
 }
 
-func unmarshalUPERPLMNIdentityListNBR13From(bb *per.BitBuffer) (PLMNIdentityListNBR13, error) {
+// UnmarshalUPERPLMNIdentityListNBR13From decodes a PLMNIdentityListNBR13 list from bb.
+func UnmarshalUPERPLMNIdentityListNBR13From(bb *per.BitBuffer) (PLMNIdentityListNBR13, error) {
 	var v asn1cUPERPLMNIdentityListNBR13ListValue
 	if err := unmarshalUPERPLMNIdentityListNBR13Into(&v, bb); err != nil {
 		return nil, err
@@ -16282,9 +16416,17 @@ func unmarshalUPERPLMNIdentityListNBR13From(bb *per.BitBuffer) (PLMNIdentityList
 }
 
 func unmarshalUPERPLMNIdentityListNBR13Into(v *asn1cUPERPLMNIdentityListNBR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 6)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 6)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 6 {
+		return fmt.Errorf("decoding value length %d above upper bound 6", seqLen_value)
 	}
 	v.Value = make(PLMNIdentityListNBR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -16300,13 +16442,14 @@ type asn1cUPERPLMNIdentityList5GCNBR16ListValue struct{ Value PLMNIdentityList5G
 // MarshalUPERPLMNIdentityList5GCNBR16 encodes a PLMNIdentityList5GCNBR16 list to UPER.
 func MarshalUPERPLMNIdentityList5GCNBR16(list PLMNIdentityList5GCNBR16) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERPLMNIdentityList5GCNBR16To(list, bb); err != nil {
+	if err := MarshalUPERPLMNIdentityList5GCNBR16To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERPLMNIdentityList5GCNBR16To(list PLMNIdentityList5GCNBR16, bb *per.BitBuffer) error {
+// MarshalUPERPLMNIdentityList5GCNBR16To appends a PLMNIdentityList5GCNBR16 list to bb.
+func MarshalUPERPLMNIdentityList5GCNBR16To(list PLMNIdentityList5GCNBR16, bb *per.BitBuffer) error {
 	v := asn1cUPERPLMNIdentityList5GCNBR16ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 6); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -16322,10 +16465,11 @@ func marshalUPERPLMNIdentityList5GCNBR16To(list PLMNIdentityList5GCNBR16, bb *pe
 // UnmarshalUPERPLMNIdentityList5GCNBR16 decodes a PLMNIdentityList5GCNBR16 list from UPER.
 func UnmarshalUPERPLMNIdentityList5GCNBR16(data []byte) (PLMNIdentityList5GCNBR16, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERPLMNIdentityList5GCNBR16From(bb)
+	return UnmarshalUPERPLMNIdentityList5GCNBR16From(bb)
 }
 
-func unmarshalUPERPLMNIdentityList5GCNBR16From(bb *per.BitBuffer) (PLMNIdentityList5GCNBR16, error) {
+// UnmarshalUPERPLMNIdentityList5GCNBR16From decodes a PLMNIdentityList5GCNBR16 list from bb.
+func UnmarshalUPERPLMNIdentityList5GCNBR16From(bb *per.BitBuffer) (PLMNIdentityList5GCNBR16, error) {
 	var v asn1cUPERPLMNIdentityList5GCNBR16ListValue
 	if err := unmarshalUPERPLMNIdentityList5GCNBR16Into(&v, bb); err != nil {
 		return nil, err
@@ -16334,9 +16478,17 @@ func unmarshalUPERPLMNIdentityList5GCNBR16From(bb *per.BitBuffer) (PLMNIdentityL
 }
 
 func unmarshalUPERPLMNIdentityList5GCNBR16Into(v *asn1cUPERPLMNIdentityList5GCNBR16ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 6)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 6)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 6 {
+		return fmt.Errorf("decoding value length %d above upper bound 6", seqLen_value)
 	}
 	v.Value = make(PLMNIdentityList5GCNBR16, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -16352,13 +16504,14 @@ type asn1cUPERPLMNIdentityListNBV1700ListValue struct{ Value PLMNIdentityListNBV
 // MarshalUPERPLMNIdentityListNBV1700 encodes a PLMNIdentityListNBV1700 list to UPER.
 func MarshalUPERPLMNIdentityListNBV1700(list PLMNIdentityListNBV1700) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERPLMNIdentityListNBV1700To(list, bb); err != nil {
+	if err := MarshalUPERPLMNIdentityListNBV1700To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERPLMNIdentityListNBV1700To(list PLMNIdentityListNBV1700, bb *per.BitBuffer) error {
+// MarshalUPERPLMNIdentityListNBV1700To appends a PLMNIdentityListNBV1700 list to bb.
+func MarshalUPERPLMNIdentityListNBV1700To(list PLMNIdentityListNBV1700, bb *per.BitBuffer) error {
 	v := asn1cUPERPLMNIdentityListNBV1700ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 6); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -16374,10 +16527,11 @@ func marshalUPERPLMNIdentityListNBV1700To(list PLMNIdentityListNBV1700, bb *per.
 // UnmarshalUPERPLMNIdentityListNBV1700 decodes a PLMNIdentityListNBV1700 list from UPER.
 func UnmarshalUPERPLMNIdentityListNBV1700(data []byte) (PLMNIdentityListNBV1700, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERPLMNIdentityListNBV1700From(bb)
+	return UnmarshalUPERPLMNIdentityListNBV1700From(bb)
 }
 
-func unmarshalUPERPLMNIdentityListNBV1700From(bb *per.BitBuffer) (PLMNIdentityListNBV1700, error) {
+// UnmarshalUPERPLMNIdentityListNBV1700From decodes a PLMNIdentityListNBV1700 list from bb.
+func UnmarshalUPERPLMNIdentityListNBV1700From(bb *per.BitBuffer) (PLMNIdentityListNBV1700, error) {
 	var v asn1cUPERPLMNIdentityListNBV1700ListValue
 	if err := unmarshalUPERPLMNIdentityListNBV1700Into(&v, bb); err != nil {
 		return nil, err
@@ -16386,9 +16540,17 @@ func unmarshalUPERPLMNIdentityListNBV1700From(bb *per.BitBuffer) (PLMNIdentityLi
 }
 
 func unmarshalUPERPLMNIdentityListNBV1700Into(v *asn1cUPERPLMNIdentityListNBV1700ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 6)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 6)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 6 {
+		return fmt.Errorf("decoding value length %d above upper bound 6", seqLen_value)
 	}
 	v.Value = make(PLMNIdentityListNBV1700, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -16574,9 +16736,17 @@ func (v *PLMNIdentityInfoNBV1700) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_trackingarealistr17 {
-		seqLen_trackingarealistr17, err := per.DecodeConstrainedWholeNumber(bb, 1, 12)
-		if err != nil {
-			return fmt.Errorf("decoding trackingAreaList-r17 length: %w", err)
+		var seqLen_trackingarealistr17 int64
+		var errLength_trackingarealistr17 error
+		seqLen_trackingarealistr17, errLength_trackingarealistr17 = per.DecodeConstrainedWholeNumber(bb, 1, 12)
+		if errLength_trackingarealistr17 != nil {
+			return fmt.Errorf("decoding trackingAreaList-r17 length: %w", errLength_trackingarealistr17)
+		}
+		if seqLen_trackingarealistr17 < 1 {
+			return fmt.Errorf("decoding trackingAreaList-r17 length %d below lower bound 1", seqLen_trackingarealistr17)
+		}
+		if seqLen_trackingarealistr17 > 12 {
+			return fmt.Errorf("decoding trackingAreaList-r17 length %d above upper bound 12", seqLen_trackingarealistr17)
 		}
 		tmp_trackingarealistr17 := make(TrackingAreaListNBR17, seqLen_trackingarealistr17)
 		for i := int64(0); i < seqLen_trackingarealistr17; i++ {
@@ -16596,13 +16766,14 @@ type asn1cUPERTrackingAreaListNBR17ListValue struct{ Value TrackingAreaListNBR17
 // MarshalUPERTrackingAreaListNBR17 encodes a TrackingAreaListNBR17 list to UPER.
 func MarshalUPERTrackingAreaListNBR17(list TrackingAreaListNBR17) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERTrackingAreaListNBR17To(list, bb); err != nil {
+	if err := MarshalUPERTrackingAreaListNBR17To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERTrackingAreaListNBR17To(list TrackingAreaListNBR17, bb *per.BitBuffer) error {
+// MarshalUPERTrackingAreaListNBR17To appends a TrackingAreaListNBR17 list to bb.
+func MarshalUPERTrackingAreaListNBR17To(list TrackingAreaListNBR17, bb *per.BitBuffer) error {
 	v := asn1cUPERTrackingAreaListNBR17ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 12); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -16618,10 +16789,11 @@ func marshalUPERTrackingAreaListNBR17To(list TrackingAreaListNBR17, bb *per.BitB
 // UnmarshalUPERTrackingAreaListNBR17 decodes a TrackingAreaListNBR17 list from UPER.
 func UnmarshalUPERTrackingAreaListNBR17(data []byte) (TrackingAreaListNBR17, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERTrackingAreaListNBR17From(bb)
+	return UnmarshalUPERTrackingAreaListNBR17From(bb)
 }
 
-func unmarshalUPERTrackingAreaListNBR17From(bb *per.BitBuffer) (TrackingAreaListNBR17, error) {
+// UnmarshalUPERTrackingAreaListNBR17From decodes a TrackingAreaListNBR17 list from bb.
+func UnmarshalUPERTrackingAreaListNBR17From(bb *per.BitBuffer) (TrackingAreaListNBR17, error) {
 	var v asn1cUPERTrackingAreaListNBR17ListValue
 	if err := unmarshalUPERTrackingAreaListNBR17Into(&v, bb); err != nil {
 		return nil, err
@@ -16630,9 +16802,17 @@ func unmarshalUPERTrackingAreaListNBR17From(bb *per.BitBuffer) (TrackingAreaList
 }
 
 func unmarshalUPERTrackingAreaListNBR17Into(v *asn1cUPERTrackingAreaListNBR17ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 12)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 12)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 12 {
+		return fmt.Errorf("decoding value length %d above upper bound 12", seqLen_value)
 	}
 	v.Value = make(TrackingAreaListNBR17, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -16650,13 +16830,14 @@ type asn1cUPERSchedulingInfoListNBR13ListValue struct{ Value SchedulingInfoListN
 // MarshalUPERSchedulingInfoListNBR13 encodes a SchedulingInfoListNBR13 list to UPER.
 func MarshalUPERSchedulingInfoListNBR13(list SchedulingInfoListNBR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERSchedulingInfoListNBR13To(list, bb); err != nil {
+	if err := MarshalUPERSchedulingInfoListNBR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERSchedulingInfoListNBR13To(list SchedulingInfoListNBR13, bb *per.BitBuffer) error {
+// MarshalUPERSchedulingInfoListNBR13To appends a SchedulingInfoListNBR13 list to bb.
+func MarshalUPERSchedulingInfoListNBR13To(list SchedulingInfoListNBR13, bb *per.BitBuffer) error {
 	v := asn1cUPERSchedulingInfoListNBR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 8); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -16672,10 +16853,11 @@ func marshalUPERSchedulingInfoListNBR13To(list SchedulingInfoListNBR13, bb *per.
 // UnmarshalUPERSchedulingInfoListNBR13 decodes a SchedulingInfoListNBR13 list from UPER.
 func UnmarshalUPERSchedulingInfoListNBR13(data []byte) (SchedulingInfoListNBR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERSchedulingInfoListNBR13From(bb)
+	return UnmarshalUPERSchedulingInfoListNBR13From(bb)
 }
 
-func unmarshalUPERSchedulingInfoListNBR13From(bb *per.BitBuffer) (SchedulingInfoListNBR13, error) {
+// UnmarshalUPERSchedulingInfoListNBR13From decodes a SchedulingInfoListNBR13 list from bb.
+func UnmarshalUPERSchedulingInfoListNBR13From(bb *per.BitBuffer) (SchedulingInfoListNBR13, error) {
 	var v asn1cUPERSchedulingInfoListNBR13ListValue
 	if err := unmarshalUPERSchedulingInfoListNBR13Into(&v, bb); err != nil {
 		return nil, err
@@ -16684,9 +16866,17 @@ func unmarshalUPERSchedulingInfoListNBR13From(bb *per.BitBuffer) (SchedulingInfo
 }
 
 func unmarshalUPERSchedulingInfoListNBR13Into(v *asn1cUPERSchedulingInfoListNBR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 8 {
+		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
 	v.Value = make(SchedulingInfoListNBR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -16702,13 +16892,14 @@ type asn1cUPERSchedulingInfoListNBV1530ListValue struct{ Value SchedulingInfoLis
 // MarshalUPERSchedulingInfoListNBV1530 encodes a SchedulingInfoListNBV1530 list to UPER.
 func MarshalUPERSchedulingInfoListNBV1530(list SchedulingInfoListNBV1530) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERSchedulingInfoListNBV1530To(list, bb); err != nil {
+	if err := MarshalUPERSchedulingInfoListNBV1530To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERSchedulingInfoListNBV1530To(list SchedulingInfoListNBV1530, bb *per.BitBuffer) error {
+// MarshalUPERSchedulingInfoListNBV1530To appends a SchedulingInfoListNBV1530 list to bb.
+func MarshalUPERSchedulingInfoListNBV1530To(list SchedulingInfoListNBV1530, bb *per.BitBuffer) error {
 	v := asn1cUPERSchedulingInfoListNBV1530ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 8); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -16724,10 +16915,11 @@ func marshalUPERSchedulingInfoListNBV1530To(list SchedulingInfoListNBV1530, bb *
 // UnmarshalUPERSchedulingInfoListNBV1530 decodes a SchedulingInfoListNBV1530 list from UPER.
 func UnmarshalUPERSchedulingInfoListNBV1530(data []byte) (SchedulingInfoListNBV1530, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERSchedulingInfoListNBV1530From(bb)
+	return UnmarshalUPERSchedulingInfoListNBV1530From(bb)
 }
 
-func unmarshalUPERSchedulingInfoListNBV1530From(bb *per.BitBuffer) (SchedulingInfoListNBV1530, error) {
+// UnmarshalUPERSchedulingInfoListNBV1530From decodes a SchedulingInfoListNBV1530 list from bb.
+func UnmarshalUPERSchedulingInfoListNBV1530From(bb *per.BitBuffer) (SchedulingInfoListNBV1530, error) {
 	var v asn1cUPERSchedulingInfoListNBV1530ListValue
 	if err := unmarshalUPERSchedulingInfoListNBV1530Into(&v, bb); err != nil {
 		return nil, err
@@ -16736,9 +16928,17 @@ func unmarshalUPERSchedulingInfoListNBV1530From(bb *per.BitBuffer) (SchedulingIn
 }
 
 func unmarshalUPERSchedulingInfoListNBV1530Into(v *asn1cUPERSchedulingInfoListNBV1530ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 8 {
+		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
 	v.Value = make(SchedulingInfoListNBV1530, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -16796,9 +16996,17 @@ func (v *SchedulingInfoNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding si-RepetitionPattern-r13: %w", err)
 	}
 	v.SiRepetitionPatternR13 = val_sirepetitionpatternr13
-	seqLen_sibmappinginfor13, err := per.DecodeConstrainedWholeNumber(bb, 0, 31)
-	if err != nil {
-		return fmt.Errorf("decoding sib-MappingInfo-r13 length: %w", err)
+	var seqLen_sibmappinginfor13 int64
+	var errLength_sibmappinginfor13 error
+	seqLen_sibmappinginfor13, errLength_sibmappinginfor13 = per.DecodeConstrainedWholeNumber(bb, 0, 31)
+	if errLength_sibmappinginfor13 != nil {
+		return fmt.Errorf("decoding sib-MappingInfo-r13 length: %w", errLength_sibmappinginfor13)
+	}
+	if seqLen_sibmappinginfor13 < 0 {
+		return fmt.Errorf("decoding sib-MappingInfo-r13 length %d below lower bound 0", seqLen_sibmappinginfor13)
+	}
+	if seqLen_sibmappinginfor13 > 31 {
+		return fmt.Errorf("decoding sib-MappingInfo-r13 length %d above upper bound 31", seqLen_sibmappinginfor13)
 	}
 	v.SibMappingInfoR13 = make(SIBMappingInfoNBR13, seqLen_sibmappinginfor13)
 	for i := int64(0); i < seqLen_sibmappinginfor13; i++ {
@@ -16856,9 +17064,17 @@ func (v *SchedulingInfoNBV1530) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_sibmappinginfov1530 {
-		seqLen_sibmappinginfov1530, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-		if err != nil {
-			return fmt.Errorf("decoding sib-MappingInfo-v1530 length: %w", err)
+		var seqLen_sibmappinginfov1530 int64
+		var errLength_sibmappinginfov1530 error
+		seqLen_sibmappinginfov1530, errLength_sibmappinginfov1530 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+		if errLength_sibmappinginfov1530 != nil {
+			return fmt.Errorf("decoding sib-MappingInfo-v1530 length: %w", errLength_sibmappinginfov1530)
+		}
+		if seqLen_sibmappinginfov1530 < 1 {
+			return fmt.Errorf("decoding sib-MappingInfo-v1530 length %d below lower bound 1", seqLen_sibmappinginfov1530)
+		}
+		if seqLen_sibmappinginfov1530 > 8 {
+			return fmt.Errorf("decoding sib-MappingInfo-v1530 length %d above upper bound 8", seqLen_sibmappinginfov1530)
 		}
 		tmp_sibmappinginfov1530 := make(SIBMappingInfoNBV1530, seqLen_sibmappinginfov1530)
 		for i := int64(0); i < seqLen_sibmappinginfov1530; i++ {
@@ -16878,13 +17094,14 @@ type asn1cUPERSystemInfoValueTagListNBR13ListValue struct{ Value SystemInfoValue
 // MarshalUPERSystemInfoValueTagListNBR13 encodes a SystemInfoValueTagListNBR13 list to UPER.
 func MarshalUPERSystemInfoValueTagListNBR13(list SystemInfoValueTagListNBR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERSystemInfoValueTagListNBR13To(list, bb); err != nil {
+	if err := MarshalUPERSystemInfoValueTagListNBR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERSystemInfoValueTagListNBR13To(list SystemInfoValueTagListNBR13, bb *per.BitBuffer) error {
+// MarshalUPERSystemInfoValueTagListNBR13To appends a SystemInfoValueTagListNBR13 list to bb.
+func MarshalUPERSystemInfoValueTagListNBR13To(list SystemInfoValueTagListNBR13, bb *per.BitBuffer) error {
 	v := asn1cUPERSystemInfoValueTagListNBR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 8); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -16900,10 +17117,11 @@ func marshalUPERSystemInfoValueTagListNBR13To(list SystemInfoValueTagListNBR13, 
 // UnmarshalUPERSystemInfoValueTagListNBR13 decodes a SystemInfoValueTagListNBR13 list from UPER.
 func UnmarshalUPERSystemInfoValueTagListNBR13(data []byte) (SystemInfoValueTagListNBR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERSystemInfoValueTagListNBR13From(bb)
+	return UnmarshalUPERSystemInfoValueTagListNBR13From(bb)
 }
 
-func unmarshalUPERSystemInfoValueTagListNBR13From(bb *per.BitBuffer) (SystemInfoValueTagListNBR13, error) {
+// UnmarshalUPERSystemInfoValueTagListNBR13From decodes a SystemInfoValueTagListNBR13 list from bb.
+func UnmarshalUPERSystemInfoValueTagListNBR13From(bb *per.BitBuffer) (SystemInfoValueTagListNBR13, error) {
 	var v asn1cUPERSystemInfoValueTagListNBR13ListValue
 	if err := unmarshalUPERSystemInfoValueTagListNBR13Into(&v, bb); err != nil {
 		return nil, err
@@ -16912,9 +17130,17 @@ func unmarshalUPERSystemInfoValueTagListNBR13From(bb *per.BitBuffer) (SystemInfo
 }
 
 func unmarshalUPERSystemInfoValueTagListNBR13Into(v *asn1cUPERSystemInfoValueTagListNBR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 8 {
+		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
 	v.Value = make(SystemInfoValueTagListNBR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -16932,13 +17158,14 @@ type asn1cUPERSIBMappingInfoNBR13ListValue struct{ Value SIBMappingInfoNBR13 }
 // MarshalUPERSIBMappingInfoNBR13 encodes a SIBMappingInfoNBR13 list to UPER.
 func MarshalUPERSIBMappingInfoNBR13(list SIBMappingInfoNBR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERSIBMappingInfoNBR13To(list, bb); err != nil {
+	if err := MarshalUPERSIBMappingInfoNBR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERSIBMappingInfoNBR13To(list SIBMappingInfoNBR13, bb *per.BitBuffer) error {
+// MarshalUPERSIBMappingInfoNBR13To appends a SIBMappingInfoNBR13 list to bb.
+func MarshalUPERSIBMappingInfoNBR13To(list SIBMappingInfoNBR13, bb *per.BitBuffer) error {
 	v := asn1cUPERSIBMappingInfoNBR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 0, 31); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -16954,10 +17181,11 @@ func marshalUPERSIBMappingInfoNBR13To(list SIBMappingInfoNBR13, bb *per.BitBuffe
 // UnmarshalUPERSIBMappingInfoNBR13 decodes a SIBMappingInfoNBR13 list from UPER.
 func UnmarshalUPERSIBMappingInfoNBR13(data []byte) (SIBMappingInfoNBR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERSIBMappingInfoNBR13From(bb)
+	return UnmarshalUPERSIBMappingInfoNBR13From(bb)
 }
 
-func unmarshalUPERSIBMappingInfoNBR13From(bb *per.BitBuffer) (SIBMappingInfoNBR13, error) {
+// UnmarshalUPERSIBMappingInfoNBR13From decodes a SIBMappingInfoNBR13 list from bb.
+func UnmarshalUPERSIBMappingInfoNBR13From(bb *per.BitBuffer) (SIBMappingInfoNBR13, error) {
 	var v asn1cUPERSIBMappingInfoNBR13ListValue
 	if err := unmarshalUPERSIBMappingInfoNBR13Into(&v, bb); err != nil {
 		return nil, err
@@ -16966,9 +17194,17 @@ func unmarshalUPERSIBMappingInfoNBR13From(bb *per.BitBuffer) (SIBMappingInfoNBR1
 }
 
 func unmarshalUPERSIBMappingInfoNBR13Into(v *asn1cUPERSIBMappingInfoNBR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 0, 31)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 0, 31)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 0 {
+		return fmt.Errorf("decoding value length %d below lower bound 0", seqLen_value)
+	}
+	if seqLen_value > 31 {
+		return fmt.Errorf("decoding value length %d above upper bound 31", seqLen_value)
 	}
 	v.Value = make(SIBMappingInfoNBR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -16986,13 +17222,14 @@ type asn1cUPERSIBMappingInfoNBV1530ListValue struct{ Value SIBMappingInfoNBV1530
 // MarshalUPERSIBMappingInfoNBV1530 encodes a SIBMappingInfoNBV1530 list to UPER.
 func MarshalUPERSIBMappingInfoNBV1530(list SIBMappingInfoNBV1530) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERSIBMappingInfoNBV1530To(list, bb); err != nil {
+	if err := MarshalUPERSIBMappingInfoNBV1530To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERSIBMappingInfoNBV1530To(list SIBMappingInfoNBV1530, bb *per.BitBuffer) error {
+// MarshalUPERSIBMappingInfoNBV1530To appends a SIBMappingInfoNBV1530 list to bb.
+func MarshalUPERSIBMappingInfoNBV1530To(list SIBMappingInfoNBV1530, bb *per.BitBuffer) error {
 	v := asn1cUPERSIBMappingInfoNBV1530ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 8); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -17008,10 +17245,11 @@ func marshalUPERSIBMappingInfoNBV1530To(list SIBMappingInfoNBV1530, bb *per.BitB
 // UnmarshalUPERSIBMappingInfoNBV1530 decodes a SIBMappingInfoNBV1530 list from UPER.
 func UnmarshalUPERSIBMappingInfoNBV1530(data []byte) (SIBMappingInfoNBV1530, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERSIBMappingInfoNBV1530From(bb)
+	return UnmarshalUPERSIBMappingInfoNBV1530From(bb)
 }
 
-func unmarshalUPERSIBMappingInfoNBV1530From(bb *per.BitBuffer) (SIBMappingInfoNBV1530, error) {
+// UnmarshalUPERSIBMappingInfoNBV1530From decodes a SIBMappingInfoNBV1530 list from bb.
+func UnmarshalUPERSIBMappingInfoNBV1530From(bb *per.BitBuffer) (SIBMappingInfoNBV1530, error) {
 	var v asn1cUPERSIBMappingInfoNBV1530ListValue
 	if err := unmarshalUPERSIBMappingInfoNBV1530Into(&v, bb); err != nil {
 		return nil, err
@@ -17020,9 +17258,17 @@ func unmarshalUPERSIBMappingInfoNBV1530From(bb *per.BitBuffer) (SIBMappingInfoNB
 }
 
 func unmarshalUPERSIBMappingInfoNBV1530Into(v *asn1cUPERSIBMappingInfoNBV1530ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 8 {
+		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
 	v.Value = make(SIBMappingInfoNBV1530, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -18282,9 +18528,17 @@ func (v *SystemInformationBlockType2NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	}
 	v.TimeAlignmentTimerCommonR13 = TimeAlignmentTimer(val_timealignmenttimercommonr13)
 	if opt_multibandinfolistr13 {
-		seqLen_multibandinfolistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-		if err != nil {
-			return fmt.Errorf("decoding multiBandInfoList-r13 length: %w", err)
+		var seqLen_multibandinfolistr13 int64
+		var errLength_multibandinfolistr13 error
+		seqLen_multibandinfolistr13, errLength_multibandinfolistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+		if errLength_multibandinfolistr13 != nil {
+			return fmt.Errorf("decoding multiBandInfoList-r13 length: %w", errLength_multibandinfolistr13)
+		}
+		if seqLen_multibandinfolistr13 < 1 {
+			return fmt.Errorf("decoding multiBandInfoList-r13 length %d below lower bound 1", seqLen_multibandinfolistr13)
+		}
+		if seqLen_multibandinfolistr13 > 8 {
+			return fmt.Errorf("decoding multiBandInfoList-r13 length %d above upper bound 8", seqLen_multibandinfolistr13)
 		}
 		tmp_multibandinfolistr13 := make(SystemInformationBlockType2NBR13MultiBandInfoListR13, seqLen_multibandinfolistr13)
 		for i := int64(0); i < seqLen_multibandinfolistr13; i++ {
@@ -18619,7 +18873,7 @@ func (v *SystemInformationBlockType3NBR13) MarshalUPERTo(bb *per.BitBuffer) erro
 			return fmt.Errorf("encoding multiBandInfoList-r13 length: %w", err)
 		}
 		for _, outerElem := range v.MultiBandInfoListR13 {
-			if err := marshalUPERNSPmaxListNBR13To(outerElem, bb); err != nil {
+			if err := MarshalUPERNSPmaxListNBR13To(outerElem, bb); err != nil {
 				return fmt.Errorf("encoding multiBandInfoList-r13 element: %w", err)
 			}
 		}
@@ -18873,9 +19127,17 @@ func (v *SystemInformationBlockType3NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 		return fmt.Errorf("decoding intraFreqCellReselectionInfo-r13: %w", err)
 	}
 	if opt_freqbandinfor13 {
-		seqLen_freqbandinfor13, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
-		if err != nil {
-			return fmt.Errorf("decoding freqBandInfo-r13 length: %w", err)
+		var seqLen_freqbandinfor13 int64
+		var errLength_freqbandinfor13 error
+		seqLen_freqbandinfor13, errLength_freqbandinfor13 = per.DecodeConstrainedWholeNumber(bb, 1, 4)
+		if errLength_freqbandinfor13 != nil {
+			return fmt.Errorf("decoding freqBandInfo-r13 length: %w", errLength_freqbandinfor13)
+		}
+		if seqLen_freqbandinfor13 < 1 {
+			return fmt.Errorf("decoding freqBandInfo-r13 length %d below lower bound 1", seqLen_freqbandinfor13)
+		}
+		if seqLen_freqbandinfor13 > 4 {
+			return fmt.Errorf("decoding freqBandInfo-r13 length %d above upper bound 4", seqLen_freqbandinfor13)
 		}
 		tmp_freqbandinfor13 := make(NSPmaxListNBR13, seqLen_freqbandinfor13)
 		for i := int64(0); i < seqLen_freqbandinfor13; i++ {
@@ -18886,13 +19148,21 @@ func (v *SystemInformationBlockType3NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 		v.FreqBandInfoR13 = tmp_freqbandinfor13
 	}
 	if opt_multibandinfolistr13 {
-		seqLen_multibandinfolistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-		if err != nil {
-			return fmt.Errorf("decoding multiBandInfoList-r13 length: %w", err)
+		var seqLen_multibandinfolistr13 int64
+		var errLength_multibandinfolistr13 error
+		seqLen_multibandinfolistr13, errLength_multibandinfolistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+		if errLength_multibandinfolistr13 != nil {
+			return fmt.Errorf("decoding multiBandInfoList-r13 length: %w", errLength_multibandinfolistr13)
+		}
+		if seqLen_multibandinfolistr13 < 1 {
+			return fmt.Errorf("decoding multiBandInfoList-r13 length %d below lower bound 1", seqLen_multibandinfolistr13)
+		}
+		if seqLen_multibandinfolistr13 > 8 {
+			return fmt.Errorf("decoding multiBandInfoList-r13 length %d above upper bound 8", seqLen_multibandinfolistr13)
 		}
 		tmp_multibandinfolistr13 := make(SystemInformationBlockType3NBR13MultiBandInfoListR13, seqLen_multibandinfolistr13)
 		for i_multibandinfolistr13 := int64(0); i_multibandinfolistr13 < seqLen_multibandinfolistr13; i_multibandinfolistr13++ {
-			elem, err := unmarshalUPERNSPmaxListNBR13From(bb)
+			elem, err := UnmarshalUPERNSPmaxListNBR13From(bb)
 			if err != nil {
 				return fmt.Errorf("decoding multiBandInfoList-r13 element: %w", err)
 			}
@@ -19064,9 +19334,17 @@ func (v *SystemInformationBlockType3NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 				return err
 			}
 			if ext_opt_satelliteassistanceinfor18 {
-				seqLen_satelliteassistanceinfor18, err := per.DecodeConstrainedWholeNumber(extBB, 1, 4)
-				if err != nil {
-					return fmt.Errorf("decoding satelliteAssistanceInfo-r18 length: %w", err)
+				var seqLen_satelliteassistanceinfor18 int64
+				var errLength_satelliteassistanceinfor18 error
+				seqLen_satelliteassistanceinfor18, errLength_satelliteassistanceinfor18 = per.DecodeConstrainedWholeNumber(extBB, 1, 4)
+				if errLength_satelliteassistanceinfor18 != nil {
+					return fmt.Errorf("decoding satelliteAssistanceInfo-r18 length: %w", errLength_satelliteassistanceinfor18)
+				}
+				if seqLen_satelliteassistanceinfor18 < 1 {
+					return fmt.Errorf("decoding satelliteAssistanceInfo-r18 length %d below lower bound 1", seqLen_satelliteassistanceinfor18)
+				}
+				if seqLen_satelliteassistanceinfor18 > 4 {
+					return fmt.Errorf("decoding satelliteAssistanceInfo-r18 length %d above upper bound 4", seqLen_satelliteassistanceinfor18)
 				}
 				tmp_satelliteassistanceinfor18 := make(SystemInformationBlockType3NBR13SatelliteAssistanceInfoR18, seqLen_satelliteassistanceinfor18)
 				for i := int64(0); i < seqLen_satelliteassistanceinfor18; i++ {
@@ -19487,9 +19765,17 @@ func (v *SystemInformationBlockType4NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 		return err
 	}
 	if opt_intrafreqneighcelllistr13 {
-		seqLen_intrafreqneighcelllistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 16)
-		if err != nil {
-			return fmt.Errorf("decoding intraFreqNeighCellList-r13 length: %w", err)
+		var seqLen_intrafreqneighcelllistr13 int64
+		var errLength_intrafreqneighcelllistr13 error
+		seqLen_intrafreqneighcelllistr13, errLength_intrafreqneighcelllistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 16)
+		if errLength_intrafreqneighcelllistr13 != nil {
+			return fmt.Errorf("decoding intraFreqNeighCellList-r13 length: %w", errLength_intrafreqneighcelllistr13)
+		}
+		if seqLen_intrafreqneighcelllistr13 < 1 {
+			return fmt.Errorf("decoding intraFreqNeighCellList-r13 length %d below lower bound 1", seqLen_intrafreqneighcelllistr13)
+		}
+		if seqLen_intrafreqneighcelllistr13 > 16 {
+			return fmt.Errorf("decoding intraFreqNeighCellList-r13 length %d above upper bound 16", seqLen_intrafreqneighcelllistr13)
 		}
 		tmp_intrafreqneighcelllistr13 := make(IntraFreqNeighCellList, seqLen_intrafreqneighcelllistr13)
 		for i := int64(0); i < seqLen_intrafreqneighcelllistr13; i++ {
@@ -19500,9 +19786,17 @@ func (v *SystemInformationBlockType4NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 		v.IntraFreqNeighCellListR13 = tmp_intrafreqneighcelllistr13
 	}
 	if opt_intrafreqexcludedcelllistr13 {
-		seqLen_intrafreqexcludedcelllistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 16)
-		if err != nil {
-			return fmt.Errorf("decoding intraFreqExcludedCellList-r13 length: %w", err)
+		var seqLen_intrafreqexcludedcelllistr13 int64
+		var errLength_intrafreqexcludedcelllistr13 error
+		seqLen_intrafreqexcludedcelllistr13, errLength_intrafreqexcludedcelllistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 16)
+		if errLength_intrafreqexcludedcelllistr13 != nil {
+			return fmt.Errorf("decoding intraFreqExcludedCellList-r13 length: %w", errLength_intrafreqexcludedcelllistr13)
+		}
+		if seqLen_intrafreqexcludedcelllistr13 < 1 {
+			return fmt.Errorf("decoding intraFreqExcludedCellList-r13 length %d below lower bound 1", seqLen_intrafreqexcludedcelllistr13)
+		}
+		if seqLen_intrafreqexcludedcelllistr13 > 16 {
+			return fmt.Errorf("decoding intraFreqExcludedCellList-r13 length %d above upper bound 16", seqLen_intrafreqexcludedcelllistr13)
 		}
 		tmp_intrafreqexcludedcelllistr13 := make(IntraFreqExcludedCellList, seqLen_intrafreqexcludedcelllistr13)
 		for i := int64(0); i < seqLen_intrafreqexcludedcelllistr13; i++ {
@@ -19550,9 +19844,17 @@ func (v *SystemInformationBlockType4NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 				v.NsssRRMConfigR15 = &dec_nsssrrmconfigr15
 			}
 			if ext_opt_intrafreqneighcelllistv1530 {
-				seqLen_intrafreqneighcelllistv1530, err := per.DecodeConstrainedWholeNumber(extBB, 1, 16)
-				if err != nil {
-					return fmt.Errorf("decoding intraFreqNeighCellList-v1530 length: %w", err)
+				var seqLen_intrafreqneighcelllistv1530 int64
+				var errLength_intrafreqneighcelllistv1530 error
+				seqLen_intrafreqneighcelllistv1530, errLength_intrafreqneighcelllistv1530 = per.DecodeConstrainedWholeNumber(extBB, 1, 16)
+				if errLength_intrafreqneighcelllistv1530 != nil {
+					return fmt.Errorf("decoding intraFreqNeighCellList-v1530 length: %w", errLength_intrafreqneighcelllistv1530)
+				}
+				if seqLen_intrafreqneighcelllistv1530 < 1 {
+					return fmt.Errorf("decoding intraFreqNeighCellList-v1530 length %d below lower bound 1", seqLen_intrafreqneighcelllistv1530)
+				}
+				if seqLen_intrafreqneighcelllistv1530 > 16 {
+					return fmt.Errorf("decoding intraFreqNeighCellList-v1530 length %d above upper bound 16", seqLen_intrafreqneighcelllistv1530)
 				}
 				tmp_intrafreqneighcelllistv1530 := make(IntraFreqNeighCellListNBV1530, seqLen_intrafreqneighcelllistv1530)
 				for i := int64(0); i < seqLen_intrafreqneighcelllistv1530; i++ {
@@ -19575,9 +19877,17 @@ func (v *SystemInformationBlockType4NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 				return err
 			}
 			if ext_opt_intrafreqneighcelllistv1910 {
-				seqLen_intrafreqneighcelllistv1910, err := per.DecodeConstrainedWholeNumber(extBB, 1, 16)
-				if err != nil {
-					return fmt.Errorf("decoding intraFreqNeighCellList-v1910 length: %w", err)
+				var seqLen_intrafreqneighcelllistv1910 int64
+				var errLength_intrafreqneighcelllistv1910 error
+				seqLen_intrafreqneighcelllistv1910, errLength_intrafreqneighcelllistv1910 = per.DecodeConstrainedWholeNumber(extBB, 1, 16)
+				if errLength_intrafreqneighcelllistv1910 != nil {
+					return fmt.Errorf("decoding intraFreqNeighCellList-v1910 length: %w", errLength_intrafreqneighcelllistv1910)
+				}
+				if seqLen_intrafreqneighcelllistv1910 < 1 {
+					return fmt.Errorf("decoding intraFreqNeighCellList-v1910 length %d below lower bound 1", seqLen_intrafreqneighcelllistv1910)
+				}
+				if seqLen_intrafreqneighcelllistv1910 > 16 {
+					return fmt.Errorf("decoding intraFreqNeighCellList-v1910 length %d above upper bound 16", seqLen_intrafreqneighcelllistv1910)
 				}
 				tmp_intrafreqneighcelllistv1910 := make(IntraFreqNeighCellListNBV1910, seqLen_intrafreqneighcelllistv1910)
 				for i := int64(0); i < seqLen_intrafreqneighcelllistv1910; i++ {
@@ -19607,13 +19917,14 @@ type asn1cUPERIntraFreqNeighCellListNBV1530ListValue struct{ Value IntraFreqNeig
 // MarshalUPERIntraFreqNeighCellListNBV1530 encodes a IntraFreqNeighCellListNBV1530 list to UPER.
 func MarshalUPERIntraFreqNeighCellListNBV1530(list IntraFreqNeighCellListNBV1530) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERIntraFreqNeighCellListNBV1530To(list, bb); err != nil {
+	if err := MarshalUPERIntraFreqNeighCellListNBV1530To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERIntraFreqNeighCellListNBV1530To(list IntraFreqNeighCellListNBV1530, bb *per.BitBuffer) error {
+// MarshalUPERIntraFreqNeighCellListNBV1530To appends a IntraFreqNeighCellListNBV1530 list to bb.
+func MarshalUPERIntraFreqNeighCellListNBV1530To(list IntraFreqNeighCellListNBV1530, bb *per.BitBuffer) error {
 	v := asn1cUPERIntraFreqNeighCellListNBV1530ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 16); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -19629,10 +19940,11 @@ func marshalUPERIntraFreqNeighCellListNBV1530To(list IntraFreqNeighCellListNBV15
 // UnmarshalUPERIntraFreqNeighCellListNBV1530 decodes a IntraFreqNeighCellListNBV1530 list from UPER.
 func UnmarshalUPERIntraFreqNeighCellListNBV1530(data []byte) (IntraFreqNeighCellListNBV1530, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERIntraFreqNeighCellListNBV1530From(bb)
+	return UnmarshalUPERIntraFreqNeighCellListNBV1530From(bb)
 }
 
-func unmarshalUPERIntraFreqNeighCellListNBV1530From(bb *per.BitBuffer) (IntraFreqNeighCellListNBV1530, error) {
+// UnmarshalUPERIntraFreqNeighCellListNBV1530From decodes a IntraFreqNeighCellListNBV1530 list from bb.
+func UnmarshalUPERIntraFreqNeighCellListNBV1530From(bb *per.BitBuffer) (IntraFreqNeighCellListNBV1530, error) {
 	var v asn1cUPERIntraFreqNeighCellListNBV1530ListValue
 	if err := unmarshalUPERIntraFreqNeighCellListNBV1530Into(&v, bb); err != nil {
 		return nil, err
@@ -19641,9 +19953,17 @@ func unmarshalUPERIntraFreqNeighCellListNBV1530From(bb *per.BitBuffer) (IntraFre
 }
 
 func unmarshalUPERIntraFreqNeighCellListNBV1530Into(v *asn1cUPERIntraFreqNeighCellListNBV1530ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 16)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 16)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 16 {
+		return fmt.Errorf("decoding value length %d above upper bound 16", seqLen_value)
 	}
 	v.Value = make(IntraFreqNeighCellListNBV1530, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -19659,13 +19979,14 @@ type asn1cUPERIntraFreqNeighCellListNBV1910ListValue struct{ Value IntraFreqNeig
 // MarshalUPERIntraFreqNeighCellListNBV1910 encodes a IntraFreqNeighCellListNBV1910 list to UPER.
 func MarshalUPERIntraFreqNeighCellListNBV1910(list IntraFreqNeighCellListNBV1910) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERIntraFreqNeighCellListNBV1910To(list, bb); err != nil {
+	if err := MarshalUPERIntraFreqNeighCellListNBV1910To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERIntraFreqNeighCellListNBV1910To(list IntraFreqNeighCellListNBV1910, bb *per.BitBuffer) error {
+// MarshalUPERIntraFreqNeighCellListNBV1910To appends a IntraFreqNeighCellListNBV1910 list to bb.
+func MarshalUPERIntraFreqNeighCellListNBV1910To(list IntraFreqNeighCellListNBV1910, bb *per.BitBuffer) error {
 	v := asn1cUPERIntraFreqNeighCellListNBV1910ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 16); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -19681,10 +20002,11 @@ func marshalUPERIntraFreqNeighCellListNBV1910To(list IntraFreqNeighCellListNBV19
 // UnmarshalUPERIntraFreqNeighCellListNBV1910 decodes a IntraFreqNeighCellListNBV1910 list from UPER.
 func UnmarshalUPERIntraFreqNeighCellListNBV1910(data []byte) (IntraFreqNeighCellListNBV1910, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERIntraFreqNeighCellListNBV1910From(bb)
+	return UnmarshalUPERIntraFreqNeighCellListNBV1910From(bb)
 }
 
-func unmarshalUPERIntraFreqNeighCellListNBV1910From(bb *per.BitBuffer) (IntraFreqNeighCellListNBV1910, error) {
+// UnmarshalUPERIntraFreqNeighCellListNBV1910From decodes a IntraFreqNeighCellListNBV1910 list from bb.
+func UnmarshalUPERIntraFreqNeighCellListNBV1910From(bb *per.BitBuffer) (IntraFreqNeighCellListNBV1910, error) {
 	var v asn1cUPERIntraFreqNeighCellListNBV1910ListValue
 	if err := unmarshalUPERIntraFreqNeighCellListNBV1910Into(&v, bb); err != nil {
 		return nil, err
@@ -19693,9 +20015,17 @@ func unmarshalUPERIntraFreqNeighCellListNBV1910From(bb *per.BitBuffer) (IntraFre
 }
 
 func unmarshalUPERIntraFreqNeighCellListNBV1910Into(v *asn1cUPERIntraFreqNeighCellListNBV1910ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 16)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 16)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 16 {
+		return fmt.Errorf("decoding value length %d above upper bound 16", seqLen_value)
 	}
 	v.Value = make(IntraFreqNeighCellListNBV1910, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -19943,9 +20273,17 @@ func (v *SystemInformationBlockType5NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if err != nil {
 		return err
 	}
-	seqLen_interfreqcarrierfreqlistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding interFreqCarrierFreqList-r13 length: %w", err)
+	var seqLen_interfreqcarrierfreqlistr13 int64
+	var errLength_interfreqcarrierfreqlistr13 error
+	seqLen_interfreqcarrierfreqlistr13, errLength_interfreqcarrierfreqlistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+	if errLength_interfreqcarrierfreqlistr13 != nil {
+		return fmt.Errorf("decoding interFreqCarrierFreqList-r13 length: %w", errLength_interfreqcarrierfreqlistr13)
+	}
+	if seqLen_interfreqcarrierfreqlistr13 < 1 {
+		return fmt.Errorf("decoding interFreqCarrierFreqList-r13 length %d below lower bound 1", seqLen_interfreqcarrierfreqlistr13)
+	}
+	if seqLen_interfreqcarrierfreqlistr13 > 8 {
+		return fmt.Errorf("decoding interFreqCarrierFreqList-r13 length %d above upper bound 8", seqLen_interfreqcarrierfreqlistr13)
 	}
 	v.InterFreqCarrierFreqListR13 = make(InterFreqCarrierFreqListNBR13, seqLen_interfreqcarrierfreqlistr13)
 	for i := int64(0); i < seqLen_interfreqcarrierfreqlistr13; i++ {
@@ -20004,9 +20342,17 @@ func (v *SystemInformationBlockType5NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 				return err
 			}
 			if ext_opt_interfreqcarrierfreqlistv1820 {
-				seqLen_interfreqcarrierfreqlistv1820, err := per.DecodeConstrainedWholeNumber(extBB, 1, 8)
-				if err != nil {
-					return fmt.Errorf("decoding interFreqCarrierFreqList-v1820 length: %w", err)
+				var seqLen_interfreqcarrierfreqlistv1820 int64
+				var errLength_interfreqcarrierfreqlistv1820 error
+				seqLen_interfreqcarrierfreqlistv1820, errLength_interfreqcarrierfreqlistv1820 = per.DecodeConstrainedWholeNumber(extBB, 1, 8)
+				if errLength_interfreqcarrierfreqlistv1820 != nil {
+					return fmt.Errorf("decoding interFreqCarrierFreqList-v1820 length: %w", errLength_interfreqcarrierfreqlistv1820)
+				}
+				if seqLen_interfreqcarrierfreqlistv1820 < 1 {
+					return fmt.Errorf("decoding interFreqCarrierFreqList-v1820 length %d below lower bound 1", seqLen_interfreqcarrierfreqlistv1820)
+				}
+				if seqLen_interfreqcarrierfreqlistv1820 > 8 {
+					return fmt.Errorf("decoding interFreqCarrierFreqList-v1820 length %d above upper bound 8", seqLen_interfreqcarrierfreqlistv1820)
 				}
 				tmp_interfreqcarrierfreqlistv1820 := make(InterFreqCarrierFreqListNBV1820, seqLen_interfreqcarrierfreqlistv1820)
 				for i := int64(0); i < seqLen_interfreqcarrierfreqlistv1820; i++ {
@@ -20036,13 +20382,14 @@ type asn1cUPERInterFreqCarrierFreqListNBR13ListValue struct{ Value InterFreqCarr
 // MarshalUPERInterFreqCarrierFreqListNBR13 encodes a InterFreqCarrierFreqListNBR13 list to UPER.
 func MarshalUPERInterFreqCarrierFreqListNBR13(list InterFreqCarrierFreqListNBR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERInterFreqCarrierFreqListNBR13To(list, bb); err != nil {
+	if err := MarshalUPERInterFreqCarrierFreqListNBR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERInterFreqCarrierFreqListNBR13To(list InterFreqCarrierFreqListNBR13, bb *per.BitBuffer) error {
+// MarshalUPERInterFreqCarrierFreqListNBR13To appends a InterFreqCarrierFreqListNBR13 list to bb.
+func MarshalUPERInterFreqCarrierFreqListNBR13To(list InterFreqCarrierFreqListNBR13, bb *per.BitBuffer) error {
 	v := asn1cUPERInterFreqCarrierFreqListNBR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 8); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -20058,10 +20405,11 @@ func marshalUPERInterFreqCarrierFreqListNBR13To(list InterFreqCarrierFreqListNBR
 // UnmarshalUPERInterFreqCarrierFreqListNBR13 decodes a InterFreqCarrierFreqListNBR13 list from UPER.
 func UnmarshalUPERInterFreqCarrierFreqListNBR13(data []byte) (InterFreqCarrierFreqListNBR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERInterFreqCarrierFreqListNBR13From(bb)
+	return UnmarshalUPERInterFreqCarrierFreqListNBR13From(bb)
 }
 
-func unmarshalUPERInterFreqCarrierFreqListNBR13From(bb *per.BitBuffer) (InterFreqCarrierFreqListNBR13, error) {
+// UnmarshalUPERInterFreqCarrierFreqListNBR13From decodes a InterFreqCarrierFreqListNBR13 list from bb.
+func UnmarshalUPERInterFreqCarrierFreqListNBR13From(bb *per.BitBuffer) (InterFreqCarrierFreqListNBR13, error) {
 	var v asn1cUPERInterFreqCarrierFreqListNBR13ListValue
 	if err := unmarshalUPERInterFreqCarrierFreqListNBR13Into(&v, bb); err != nil {
 		return nil, err
@@ -20070,9 +20418,17 @@ func unmarshalUPERInterFreqCarrierFreqListNBR13From(bb *per.BitBuffer) (InterFre
 }
 
 func unmarshalUPERInterFreqCarrierFreqListNBR13Into(v *asn1cUPERInterFreqCarrierFreqListNBR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 8 {
+		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
 	v.Value = make(InterFreqCarrierFreqListNBR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -20090,13 +20446,14 @@ type asn1cUPERInterFreqCarrierFreqListNBV1820ListValue struct {
 // MarshalUPERInterFreqCarrierFreqListNBV1820 encodes a InterFreqCarrierFreqListNBV1820 list to UPER.
 func MarshalUPERInterFreqCarrierFreqListNBV1820(list InterFreqCarrierFreqListNBV1820) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERInterFreqCarrierFreqListNBV1820To(list, bb); err != nil {
+	if err := MarshalUPERInterFreqCarrierFreqListNBV1820To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERInterFreqCarrierFreqListNBV1820To(list InterFreqCarrierFreqListNBV1820, bb *per.BitBuffer) error {
+// MarshalUPERInterFreqCarrierFreqListNBV1820To appends a InterFreqCarrierFreqListNBV1820 list to bb.
+func MarshalUPERInterFreqCarrierFreqListNBV1820To(list InterFreqCarrierFreqListNBV1820, bb *per.BitBuffer) error {
 	v := asn1cUPERInterFreqCarrierFreqListNBV1820ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 8); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -20112,10 +20469,11 @@ func marshalUPERInterFreqCarrierFreqListNBV1820To(list InterFreqCarrierFreqListN
 // UnmarshalUPERInterFreqCarrierFreqListNBV1820 decodes a InterFreqCarrierFreqListNBV1820 list from UPER.
 func UnmarshalUPERInterFreqCarrierFreqListNBV1820(data []byte) (InterFreqCarrierFreqListNBV1820, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERInterFreqCarrierFreqListNBV1820From(bb)
+	return UnmarshalUPERInterFreqCarrierFreqListNBV1820From(bb)
 }
 
-func unmarshalUPERInterFreqCarrierFreqListNBV1820From(bb *per.BitBuffer) (InterFreqCarrierFreqListNBV1820, error) {
+// UnmarshalUPERInterFreqCarrierFreqListNBV1820From decodes a InterFreqCarrierFreqListNBV1820 list from bb.
+func UnmarshalUPERInterFreqCarrierFreqListNBV1820From(bb *per.BitBuffer) (InterFreqCarrierFreqListNBV1820, error) {
 	var v asn1cUPERInterFreqCarrierFreqListNBV1820ListValue
 	if err := unmarshalUPERInterFreqCarrierFreqListNBV1820Into(&v, bb); err != nil {
 		return nil, err
@@ -20124,9 +20482,17 @@ func unmarshalUPERInterFreqCarrierFreqListNBV1820From(bb *per.BitBuffer) (InterF
 }
 
 func unmarshalUPERInterFreqCarrierFreqListNBV1820Into(v *asn1cUPERInterFreqCarrierFreqListNBV1820ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 8 {
+		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
 	v.Value = make(InterFreqCarrierFreqListNBV1820, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -20459,9 +20825,17 @@ func (v *InterFreqCarrierFreqInfoNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) err
 		v.QOffsetFreqR13 = &tmp_qoffsetfreqr13
 	}
 	if opt_interfreqneighcelllistr13 {
-		seqLen_interfreqneighcelllistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 16)
-		if err != nil {
-			return fmt.Errorf("decoding interFreqNeighCellList-r13 length: %w", err)
+		var seqLen_interfreqneighcelllistr13 int64
+		var errLength_interfreqneighcelllistr13 error
+		seqLen_interfreqneighcelllistr13, errLength_interfreqneighcelllistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 16)
+		if errLength_interfreqneighcelllistr13 != nil {
+			return fmt.Errorf("decoding interFreqNeighCellList-r13 length: %w", errLength_interfreqneighcelllistr13)
+		}
+		if seqLen_interfreqneighcelllistr13 < 1 {
+			return fmt.Errorf("decoding interFreqNeighCellList-r13 length %d below lower bound 1", seqLen_interfreqneighcelllistr13)
+		}
+		if seqLen_interfreqneighcelllistr13 > 16 {
+			return fmt.Errorf("decoding interFreqNeighCellList-r13 length %d above upper bound 16", seqLen_interfreqneighcelllistr13)
 		}
 		tmp_interfreqneighcelllistr13 := make(InterFreqNeighCellListNBR13, seqLen_interfreqneighcelllistr13)
 		for i := int64(0); i < seqLen_interfreqneighcelllistr13; i++ {
@@ -20474,9 +20848,17 @@ func (v *InterFreqCarrierFreqInfoNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) err
 		v.InterFreqNeighCellListR13 = tmp_interfreqneighcelllistr13
 	}
 	if opt_interfreqexcludedcelllistr13 {
-		seqLen_interfreqexcludedcelllistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 16)
-		if err != nil {
-			return fmt.Errorf("decoding interFreqExcludedCellList-r13 length: %w", err)
+		var seqLen_interfreqexcludedcelllistr13 int64
+		var errLength_interfreqexcludedcelllistr13 error
+		seqLen_interfreqexcludedcelllistr13, errLength_interfreqexcludedcelllistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 16)
+		if errLength_interfreqexcludedcelllistr13 != nil {
+			return fmt.Errorf("decoding interFreqExcludedCellList-r13 length: %w", errLength_interfreqexcludedcelllistr13)
+		}
+		if seqLen_interfreqexcludedcelllistr13 < 1 {
+			return fmt.Errorf("decoding interFreqExcludedCellList-r13 length %d below lower bound 1", seqLen_interfreqexcludedcelllistr13)
+		}
+		if seqLen_interfreqexcludedcelllistr13 > 16 {
+			return fmt.Errorf("decoding interFreqExcludedCellList-r13 length %d above upper bound 16", seqLen_interfreqexcludedcelllistr13)
 		}
 		tmp_interfreqexcludedcelllistr13 := make(InterFreqExcludedCellListNBR13, seqLen_interfreqexcludedcelllistr13)
 		for i := int64(0); i < seqLen_interfreqexcludedcelllistr13; i++ {
@@ -20489,9 +20871,17 @@ func (v *InterFreqCarrierFreqInfoNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) err
 		v.InterFreqExcludedCellListR13 = tmp_interfreqexcludedcelllistr13
 	}
 	if opt_multibandinfolistr13 {
-		seqLen_multibandinfolistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-		if err != nil {
-			return fmt.Errorf("decoding multiBandInfoList-r13 length: %w", err)
+		var seqLen_multibandinfolistr13 int64
+		var errLength_multibandinfolistr13 error
+		seqLen_multibandinfolistr13, errLength_multibandinfolistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+		if errLength_multibandinfolistr13 != nil {
+			return fmt.Errorf("decoding multiBandInfoList-r13 length: %w", errLength_multibandinfolistr13)
+		}
+		if seqLen_multibandinfolistr13 < 1 {
+			return fmt.Errorf("decoding multiBandInfoList-r13 length %d below lower bound 1", seqLen_multibandinfolistr13)
+		}
+		if seqLen_multibandinfolistr13 > 8 {
+			return fmt.Errorf("decoding multiBandInfoList-r13 length %d above upper bound 8", seqLen_multibandinfolistr13)
 		}
 		tmp_multibandinfolistr13 := make(MultiBandInfoListNBR13, seqLen_multibandinfolistr13)
 		for i := int64(0); i < seqLen_multibandinfolistr13; i++ {
@@ -20580,9 +20970,17 @@ func (v *InterFreqCarrierFreqInfoNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) err
 				v.NsssRRMConfigR15 = &dec_nsssrrmconfigr15
 			}
 			if ext_opt_interfreqneighcelllistv1530 {
-				seqLen_interfreqneighcelllistv1530, err := per.DecodeConstrainedWholeNumber(extBB, 1, 16)
-				if err != nil {
-					return fmt.Errorf("decoding interFreqNeighCellList-v1530 length: %w", err)
+				var seqLen_interfreqneighcelllistv1530 int64
+				var errLength_interfreqneighcelllistv1530 error
+				seqLen_interfreqneighcelllistv1530, errLength_interfreqneighcelllistv1530 = per.DecodeConstrainedWholeNumber(extBB, 1, 16)
+				if errLength_interfreqneighcelllistv1530 != nil {
+					return fmt.Errorf("decoding interFreqNeighCellList-v1530 length: %w", errLength_interfreqneighcelllistv1530)
+				}
+				if seqLen_interfreqneighcelllistv1530 < 1 {
+					return fmt.Errorf("decoding interFreqNeighCellList-v1530 length %d below lower bound 1", seqLen_interfreqneighcelllistv1530)
+				}
+				if seqLen_interfreqneighcelllistv1530 > 16 {
+					return fmt.Errorf("decoding interFreqNeighCellList-v1530 length %d above upper bound 16", seqLen_interfreqneighcelllistv1530)
 				}
 				tmp_interfreqneighcelllistv1530 := make(InterFreqNeighCellListNBV1530, seqLen_interfreqneighcelllistv1530)
 				for i := int64(0); i < seqLen_interfreqneighcelllistv1530; i++ {
@@ -20624,9 +21022,17 @@ func (v *InterFreqCarrierFreqInfoNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) err
 				return err
 			}
 			if ext_opt_interfreqneighcelllistv1910 {
-				seqLen_interfreqneighcelllistv1910, err := per.DecodeConstrainedWholeNumber(extBB, 1, 16)
-				if err != nil {
-					return fmt.Errorf("decoding interFreqNeighCellList-v1910 length: %w", err)
+				var seqLen_interfreqneighcelllistv1910 int64
+				var errLength_interfreqneighcelllistv1910 error
+				seqLen_interfreqneighcelllistv1910, errLength_interfreqneighcelllistv1910 = per.DecodeConstrainedWholeNumber(extBB, 1, 16)
+				if errLength_interfreqneighcelllistv1910 != nil {
+					return fmt.Errorf("decoding interFreqNeighCellList-v1910 length: %w", errLength_interfreqneighcelllistv1910)
+				}
+				if seqLen_interfreqneighcelllistv1910 < 1 {
+					return fmt.Errorf("decoding interFreqNeighCellList-v1910 length %d below lower bound 1", seqLen_interfreqneighcelllistv1910)
+				}
+				if seqLen_interfreqneighcelllistv1910 > 16 {
+					return fmt.Errorf("decoding interFreqNeighCellList-v1910 length %d above upper bound 16", seqLen_interfreqneighcelllistv1910)
 				}
 				tmp_interfreqneighcelllistv1910 := make(InterFreqNeighCellListNBV1910, seqLen_interfreqneighcelllistv1910)
 				for i := int64(0); i < seqLen_interfreqneighcelllistv1910; i++ {
@@ -20691,9 +21097,17 @@ func (v *InterFreqCarrierFreqInfoNBV1820) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		return err
 	}
 	if opt_satelliteassistanceinfor18 {
-		seqLen_satelliteassistanceinfor18, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
-		if err != nil {
-			return fmt.Errorf("decoding satelliteAssistanceInfo-r18 length: %w", err)
+		var seqLen_satelliteassistanceinfor18 int64
+		var errLength_satelliteassistanceinfor18 error
+		seqLen_satelliteassistanceinfor18, errLength_satelliteassistanceinfor18 = per.DecodeConstrainedWholeNumber(bb, 1, 4)
+		if errLength_satelliteassistanceinfor18 != nil {
+			return fmt.Errorf("decoding satelliteAssistanceInfo-r18 length: %w", errLength_satelliteassistanceinfor18)
+		}
+		if seqLen_satelliteassistanceinfor18 < 1 {
+			return fmt.Errorf("decoding satelliteAssistanceInfo-r18 length %d below lower bound 1", seqLen_satelliteassistanceinfor18)
+		}
+		if seqLen_satelliteassistanceinfor18 > 4 {
+			return fmt.Errorf("decoding satelliteAssistanceInfo-r18 length %d above upper bound 4", seqLen_satelliteassistanceinfor18)
 		}
 		tmp_satelliteassistanceinfor18 := make(InterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18, seqLen_satelliteassistanceinfor18)
 		for i := int64(0); i < seqLen_satelliteassistanceinfor18; i++ {
@@ -20713,13 +21127,14 @@ type asn1cUPERInterFreqNeighCellListNBR13ListValue struct{ Value InterFreqNeighC
 // MarshalUPERInterFreqNeighCellListNBR13 encodes a InterFreqNeighCellListNBR13 list to UPER.
 func MarshalUPERInterFreqNeighCellListNBR13(list InterFreqNeighCellListNBR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERInterFreqNeighCellListNBR13To(list, bb); err != nil {
+	if err := MarshalUPERInterFreqNeighCellListNBR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERInterFreqNeighCellListNBR13To(list InterFreqNeighCellListNBR13, bb *per.BitBuffer) error {
+// MarshalUPERInterFreqNeighCellListNBR13To appends a InterFreqNeighCellListNBR13 list to bb.
+func MarshalUPERInterFreqNeighCellListNBR13To(list InterFreqNeighCellListNBR13, bb *per.BitBuffer) error {
 	v := asn1cUPERInterFreqNeighCellListNBR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 16); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -20735,10 +21150,11 @@ func marshalUPERInterFreqNeighCellListNBR13To(list InterFreqNeighCellListNBR13, 
 // UnmarshalUPERInterFreqNeighCellListNBR13 decodes a InterFreqNeighCellListNBR13 list from UPER.
 func UnmarshalUPERInterFreqNeighCellListNBR13(data []byte) (InterFreqNeighCellListNBR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERInterFreqNeighCellListNBR13From(bb)
+	return UnmarshalUPERInterFreqNeighCellListNBR13From(bb)
 }
 
-func unmarshalUPERInterFreqNeighCellListNBR13From(bb *per.BitBuffer) (InterFreqNeighCellListNBR13, error) {
+// UnmarshalUPERInterFreqNeighCellListNBR13From decodes a InterFreqNeighCellListNBR13 list from bb.
+func UnmarshalUPERInterFreqNeighCellListNBR13From(bb *per.BitBuffer) (InterFreqNeighCellListNBR13, error) {
 	var v asn1cUPERInterFreqNeighCellListNBR13ListValue
 	if err := unmarshalUPERInterFreqNeighCellListNBR13Into(&v, bb); err != nil {
 		return nil, err
@@ -20747,9 +21163,17 @@ func unmarshalUPERInterFreqNeighCellListNBR13From(bb *per.BitBuffer) (InterFreqN
 }
 
 func unmarshalUPERInterFreqNeighCellListNBR13Into(v *asn1cUPERInterFreqNeighCellListNBR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 16)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 16)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 16 {
+		return fmt.Errorf("decoding value length %d above upper bound 16", seqLen_value)
 	}
 	v.Value = make(InterFreqNeighCellListNBR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -20767,13 +21191,14 @@ type asn1cUPERInterFreqNeighCellListNBV1530ListValue struct{ Value InterFreqNeig
 // MarshalUPERInterFreqNeighCellListNBV1530 encodes a InterFreqNeighCellListNBV1530 list to UPER.
 func MarshalUPERInterFreqNeighCellListNBV1530(list InterFreqNeighCellListNBV1530) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERInterFreqNeighCellListNBV1530To(list, bb); err != nil {
+	if err := MarshalUPERInterFreqNeighCellListNBV1530To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERInterFreqNeighCellListNBV1530To(list InterFreqNeighCellListNBV1530, bb *per.BitBuffer) error {
+// MarshalUPERInterFreqNeighCellListNBV1530To appends a InterFreqNeighCellListNBV1530 list to bb.
+func MarshalUPERInterFreqNeighCellListNBV1530To(list InterFreqNeighCellListNBV1530, bb *per.BitBuffer) error {
 	v := asn1cUPERInterFreqNeighCellListNBV1530ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 16); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -20789,10 +21214,11 @@ func marshalUPERInterFreqNeighCellListNBV1530To(list InterFreqNeighCellListNBV15
 // UnmarshalUPERInterFreqNeighCellListNBV1530 decodes a InterFreqNeighCellListNBV1530 list from UPER.
 func UnmarshalUPERInterFreqNeighCellListNBV1530(data []byte) (InterFreqNeighCellListNBV1530, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERInterFreqNeighCellListNBV1530From(bb)
+	return UnmarshalUPERInterFreqNeighCellListNBV1530From(bb)
 }
 
-func unmarshalUPERInterFreqNeighCellListNBV1530From(bb *per.BitBuffer) (InterFreqNeighCellListNBV1530, error) {
+// UnmarshalUPERInterFreqNeighCellListNBV1530From decodes a InterFreqNeighCellListNBV1530 list from bb.
+func UnmarshalUPERInterFreqNeighCellListNBV1530From(bb *per.BitBuffer) (InterFreqNeighCellListNBV1530, error) {
 	var v asn1cUPERInterFreqNeighCellListNBV1530ListValue
 	if err := unmarshalUPERInterFreqNeighCellListNBV1530Into(&v, bb); err != nil {
 		return nil, err
@@ -20801,9 +21227,17 @@ func unmarshalUPERInterFreqNeighCellListNBV1530From(bb *per.BitBuffer) (InterFre
 }
 
 func unmarshalUPERInterFreqNeighCellListNBV1530Into(v *asn1cUPERInterFreqNeighCellListNBV1530ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 16)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 16)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 16 {
+		return fmt.Errorf("decoding value length %d above upper bound 16", seqLen_value)
 	}
 	v.Value = make(InterFreqNeighCellListNBV1530, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -20863,13 +21297,14 @@ type asn1cUPERInterFreqNeighCellListNBV1910ListValue struct{ Value InterFreqNeig
 // MarshalUPERInterFreqNeighCellListNBV1910 encodes a InterFreqNeighCellListNBV1910 list to UPER.
 func MarshalUPERInterFreqNeighCellListNBV1910(list InterFreqNeighCellListNBV1910) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERInterFreqNeighCellListNBV1910To(list, bb); err != nil {
+	if err := MarshalUPERInterFreqNeighCellListNBV1910To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERInterFreqNeighCellListNBV1910To(list InterFreqNeighCellListNBV1910, bb *per.BitBuffer) error {
+// MarshalUPERInterFreqNeighCellListNBV1910To appends a InterFreqNeighCellListNBV1910 list to bb.
+func MarshalUPERInterFreqNeighCellListNBV1910To(list InterFreqNeighCellListNBV1910, bb *per.BitBuffer) error {
 	v := asn1cUPERInterFreqNeighCellListNBV1910ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 16); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -20885,10 +21320,11 @@ func marshalUPERInterFreqNeighCellListNBV1910To(list InterFreqNeighCellListNBV19
 // UnmarshalUPERInterFreqNeighCellListNBV1910 decodes a InterFreqNeighCellListNBV1910 list from UPER.
 func UnmarshalUPERInterFreqNeighCellListNBV1910(data []byte) (InterFreqNeighCellListNBV1910, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERInterFreqNeighCellListNBV1910From(bb)
+	return UnmarshalUPERInterFreqNeighCellListNBV1910From(bb)
 }
 
-func unmarshalUPERInterFreqNeighCellListNBV1910From(bb *per.BitBuffer) (InterFreqNeighCellListNBV1910, error) {
+// UnmarshalUPERInterFreqNeighCellListNBV1910From decodes a InterFreqNeighCellListNBV1910 list from bb.
+func UnmarshalUPERInterFreqNeighCellListNBV1910From(bb *per.BitBuffer) (InterFreqNeighCellListNBV1910, error) {
 	var v asn1cUPERInterFreqNeighCellListNBV1910ListValue
 	if err := unmarshalUPERInterFreqNeighCellListNBV1910Into(&v, bb); err != nil {
 		return nil, err
@@ -20897,9 +21333,17 @@ func unmarshalUPERInterFreqNeighCellListNBV1910From(bb *per.BitBuffer) (InterFre
 }
 
 func unmarshalUPERInterFreqNeighCellListNBV1910Into(v *asn1cUPERInterFreqNeighCellListNBV1910ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 16)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 16)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 16 {
+		return fmt.Errorf("decoding value length %d above upper bound 16", seqLen_value)
 	}
 	v.Value = make(InterFreqNeighCellListNBV1910, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -20981,13 +21425,14 @@ type asn1cUPERInterFreqExcludedCellListNBR13ListValue struct {
 // MarshalUPERInterFreqExcludedCellListNBR13 encodes a InterFreqExcludedCellListNBR13 list to UPER.
 func MarshalUPERInterFreqExcludedCellListNBR13(list InterFreqExcludedCellListNBR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERInterFreqExcludedCellListNBR13To(list, bb); err != nil {
+	if err := MarshalUPERInterFreqExcludedCellListNBR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERInterFreqExcludedCellListNBR13To(list InterFreqExcludedCellListNBR13, bb *per.BitBuffer) error {
+// MarshalUPERInterFreqExcludedCellListNBR13To appends a InterFreqExcludedCellListNBR13 list to bb.
+func MarshalUPERInterFreqExcludedCellListNBR13To(list InterFreqExcludedCellListNBR13, bb *per.BitBuffer) error {
 	v := asn1cUPERInterFreqExcludedCellListNBR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 16); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -21003,10 +21448,11 @@ func marshalUPERInterFreqExcludedCellListNBR13To(list InterFreqExcludedCellListN
 // UnmarshalUPERInterFreqExcludedCellListNBR13 decodes a InterFreqExcludedCellListNBR13 list from UPER.
 func UnmarshalUPERInterFreqExcludedCellListNBR13(data []byte) (InterFreqExcludedCellListNBR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERInterFreqExcludedCellListNBR13From(bb)
+	return UnmarshalUPERInterFreqExcludedCellListNBR13From(bb)
 }
 
-func unmarshalUPERInterFreqExcludedCellListNBR13From(bb *per.BitBuffer) (InterFreqExcludedCellListNBR13, error) {
+// UnmarshalUPERInterFreqExcludedCellListNBR13From decodes a InterFreqExcludedCellListNBR13 list from bb.
+func UnmarshalUPERInterFreqExcludedCellListNBR13From(bb *per.BitBuffer) (InterFreqExcludedCellListNBR13, error) {
 	var v asn1cUPERInterFreqExcludedCellListNBR13ListValue
 	if err := unmarshalUPERInterFreqExcludedCellListNBR13Into(&v, bb); err != nil {
 		return nil, err
@@ -21015,9 +21461,17 @@ func unmarshalUPERInterFreqExcludedCellListNBR13From(bb *per.BitBuffer) (InterFr
 }
 
 func unmarshalUPERInterFreqExcludedCellListNBR13Into(v *asn1cUPERInterFreqExcludedCellListNBR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 16)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 16)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 16 {
+		return fmt.Errorf("decoding value length %d above upper bound 16", seqLen_value)
 	}
 	v.Value = make(InterFreqExcludedCellListNBR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -21871,9 +22325,17 @@ func (v *UACParamNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.UacBarringCommon = &dec_uacbarringcommon
 	case UACParamNBR16ChoiceUacBarringPerPLMNList:
-		seqLen_uacbarringperplmnlist, err := per.DecodeConstrainedWholeNumber(bb, 1, 6)
-		if err != nil {
-			return fmt.Errorf("decoding uac-BarringPerPLMN-List length: %w", err)
+		var seqLen_uacbarringperplmnlist int64
+		var errLength_uacbarringperplmnlist error
+		seqLen_uacbarringperplmnlist, errLength_uacbarringperplmnlist = per.DecodeConstrainedWholeNumber(bb, 1, 6)
+		if errLength_uacbarringperplmnlist != nil {
+			return fmt.Errorf("decoding uac-BarringPerPLMN-List length: %w", errLength_uacbarringperplmnlist)
+		}
+		if seqLen_uacbarringperplmnlist < 1 {
+			return fmt.Errorf("decoding uac-BarringPerPLMN-List length %d below lower bound 1", seqLen_uacbarringperplmnlist)
+		}
+		if seqLen_uacbarringperplmnlist > 6 {
+			return fmt.Errorf("decoding uac-BarringPerPLMN-List length %d above upper bound 6", seqLen_uacbarringperplmnlist)
 		}
 		tmp_uacbarringperplmnlist := make(UACParamNBR16UacBarringPerPLMNList, seqLen_uacbarringperplmnlist)
 		for i := int64(0); i < seqLen_uacbarringperplmnlist; i++ {
@@ -21941,9 +22403,17 @@ func (v *UACBarringNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_uacbarringpercatlistr16 {
-		seqLen_uacbarringpercatlistr16, err := per.DecodeConstrainedWholeNumber(bb, 1, 63)
-		if err != nil {
-			return fmt.Errorf("decoding uac-BarringPerCatList-r16 length: %w", err)
+		var seqLen_uacbarringpercatlistr16 int64
+		var errLength_uacbarringpercatlistr16 error
+		seqLen_uacbarringpercatlistr16, errLength_uacbarringpercatlistr16 = per.DecodeConstrainedWholeNumber(bb, 1, 63)
+		if errLength_uacbarringpercatlistr16 != nil {
+			return fmt.Errorf("decoding uac-BarringPerCatList-r16 length: %w", errLength_uacbarringpercatlistr16)
+		}
+		if seqLen_uacbarringpercatlistr16 < 1 {
+			return fmt.Errorf("decoding uac-BarringPerCatList-r16 length %d below lower bound 1", seqLen_uacbarringpercatlistr16)
+		}
+		if seqLen_uacbarringpercatlistr16 > 63 {
+			return fmt.Errorf("decoding uac-BarringPerCatList-r16 length %d above upper bound 63", seqLen_uacbarringpercatlistr16)
 		}
 		tmp_uacbarringpercatlistr16 := make(UACBarringPerCatListNBR16, seqLen_uacbarringpercatlistr16)
 		for i := int64(0); i < seqLen_uacbarringpercatlistr16; i++ {
@@ -21974,13 +22444,14 @@ type asn1cUPERUACBarringPerCatListNBR16ListValue struct{ Value UACBarringPerCatL
 // MarshalUPERUACBarringPerCatListNBR16 encodes a UACBarringPerCatListNBR16 list to UPER.
 func MarshalUPERUACBarringPerCatListNBR16(list UACBarringPerCatListNBR16) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERUACBarringPerCatListNBR16To(list, bb); err != nil {
+	if err := MarshalUPERUACBarringPerCatListNBR16To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERUACBarringPerCatListNBR16To(list UACBarringPerCatListNBR16, bb *per.BitBuffer) error {
+// MarshalUPERUACBarringPerCatListNBR16To appends a UACBarringPerCatListNBR16 list to bb.
+func MarshalUPERUACBarringPerCatListNBR16To(list UACBarringPerCatListNBR16, bb *per.BitBuffer) error {
 	v := asn1cUPERUACBarringPerCatListNBR16ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 63); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -21996,10 +22467,11 @@ func marshalUPERUACBarringPerCatListNBR16To(list UACBarringPerCatListNBR16, bb *
 // UnmarshalUPERUACBarringPerCatListNBR16 decodes a UACBarringPerCatListNBR16 list from UPER.
 func UnmarshalUPERUACBarringPerCatListNBR16(data []byte) (UACBarringPerCatListNBR16, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERUACBarringPerCatListNBR16From(bb)
+	return UnmarshalUPERUACBarringPerCatListNBR16From(bb)
 }
 
-func unmarshalUPERUACBarringPerCatListNBR16From(bb *per.BitBuffer) (UACBarringPerCatListNBR16, error) {
+// UnmarshalUPERUACBarringPerCatListNBR16From decodes a UACBarringPerCatListNBR16 list from bb.
+func UnmarshalUPERUACBarringPerCatListNBR16From(bb *per.BitBuffer) (UACBarringPerCatListNBR16, error) {
 	var v asn1cUPERUACBarringPerCatListNBR16ListValue
 	if err := unmarshalUPERUACBarringPerCatListNBR16Into(&v, bb); err != nil {
 		return nil, err
@@ -22008,9 +22480,17 @@ func unmarshalUPERUACBarringPerCatListNBR16From(bb *per.BitBuffer) (UACBarringPe
 }
 
 func unmarshalUPERUACBarringPerCatListNBR16Into(v *asn1cUPERUACBarringPerCatListNBR16ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 63)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 63)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 63 {
+		return fmt.Errorf("decoding value length %d above upper bound 63", seqLen_value)
 	}
 	v.Value = make(UACBarringPerCatListNBR16, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -22165,9 +22645,17 @@ func (v *SystemInformationBlockType15NBR14) UnmarshalUPERFrom(bb *per.BitBuffer)
 		return err
 	}
 	if opt_mbmssaiintrafreqr14 {
-		seqLen_mbmssaiintrafreqr14, err := per.DecodeConstrainedWholeNumber(bb, 1, 64)
-		if err != nil {
-			return fmt.Errorf("decoding mbms-SAI-IntraFreq-r14 length: %w", err)
+		var seqLen_mbmssaiintrafreqr14 int64
+		var errLength_mbmssaiintrafreqr14 error
+		seqLen_mbmssaiintrafreqr14, errLength_mbmssaiintrafreqr14 = per.DecodeConstrainedWholeNumber(bb, 1, 64)
+		if errLength_mbmssaiintrafreqr14 != nil {
+			return fmt.Errorf("decoding mbms-SAI-IntraFreq-r14 length: %w", errLength_mbmssaiintrafreqr14)
+		}
+		if seqLen_mbmssaiintrafreqr14 < 1 {
+			return fmt.Errorf("decoding mbms-SAI-IntraFreq-r14 length %d below lower bound 1", seqLen_mbmssaiintrafreqr14)
+		}
+		if seqLen_mbmssaiintrafreqr14 > 64 {
+			return fmt.Errorf("decoding mbms-SAI-IntraFreq-r14 length %d above upper bound 64", seqLen_mbmssaiintrafreqr14)
 		}
 		tmp_mbmssaiintrafreqr14 := make(MBMSSAIListR11, seqLen_mbmssaiintrafreqr14)
 		for i := int64(0); i < seqLen_mbmssaiintrafreqr14; i++ {
@@ -22180,9 +22668,17 @@ func (v *SystemInformationBlockType15NBR14) UnmarshalUPERFrom(bb *per.BitBuffer)
 		v.MbmsSAIIntraFreqR14 = tmp_mbmssaiintrafreqr14
 	}
 	if opt_mbmssaiinterfreqlistr14 {
-		seqLen_mbmssaiinterfreqlistr14, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-		if err != nil {
-			return fmt.Errorf("decoding mbms-SAI-InterFreqList-r14 length: %w", err)
+		var seqLen_mbmssaiinterfreqlistr14 int64
+		var errLength_mbmssaiinterfreqlistr14 error
+		seqLen_mbmssaiinterfreqlistr14, errLength_mbmssaiinterfreqlistr14 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+		if errLength_mbmssaiinterfreqlistr14 != nil {
+			return fmt.Errorf("decoding mbms-SAI-InterFreqList-r14 length: %w", errLength_mbmssaiinterfreqlistr14)
+		}
+		if seqLen_mbmssaiinterfreqlistr14 < 1 {
+			return fmt.Errorf("decoding mbms-SAI-InterFreqList-r14 length %d below lower bound 1", seqLen_mbmssaiinterfreqlistr14)
+		}
+		if seqLen_mbmssaiinterfreqlistr14 > 8 {
+			return fmt.Errorf("decoding mbms-SAI-InterFreqList-r14 length %d above upper bound 8", seqLen_mbmssaiinterfreqlistr14)
 		}
 		tmp_mbmssaiinterfreqlistr14 := make(MBMSSAIInterFreqListNBR14, seqLen_mbmssaiinterfreqlistr14)
 		for i := int64(0); i < seqLen_mbmssaiinterfreqlistr14; i++ {
@@ -22226,13 +22722,14 @@ type asn1cUPERMBMSSAIInterFreqListNBR14ListValue struct{ Value MBMSSAIInterFreqL
 // MarshalUPERMBMSSAIInterFreqListNBR14 encodes a MBMSSAIInterFreqListNBR14 list to UPER.
 func MarshalUPERMBMSSAIInterFreqListNBR14(list MBMSSAIInterFreqListNBR14) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERMBMSSAIInterFreqListNBR14To(list, bb); err != nil {
+	if err := MarshalUPERMBMSSAIInterFreqListNBR14To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERMBMSSAIInterFreqListNBR14To(list MBMSSAIInterFreqListNBR14, bb *per.BitBuffer) error {
+// MarshalUPERMBMSSAIInterFreqListNBR14To appends a MBMSSAIInterFreqListNBR14 list to bb.
+func MarshalUPERMBMSSAIInterFreqListNBR14To(list MBMSSAIInterFreqListNBR14, bb *per.BitBuffer) error {
 	v := asn1cUPERMBMSSAIInterFreqListNBR14ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 8); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -22248,10 +22745,11 @@ func marshalUPERMBMSSAIInterFreqListNBR14To(list MBMSSAIInterFreqListNBR14, bb *
 // UnmarshalUPERMBMSSAIInterFreqListNBR14 decodes a MBMSSAIInterFreqListNBR14 list from UPER.
 func UnmarshalUPERMBMSSAIInterFreqListNBR14(data []byte) (MBMSSAIInterFreqListNBR14, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERMBMSSAIInterFreqListNBR14From(bb)
+	return UnmarshalUPERMBMSSAIInterFreqListNBR14From(bb)
 }
 
-func unmarshalUPERMBMSSAIInterFreqListNBR14From(bb *per.BitBuffer) (MBMSSAIInterFreqListNBR14, error) {
+// UnmarshalUPERMBMSSAIInterFreqListNBR14From decodes a MBMSSAIInterFreqListNBR14 list from bb.
+func UnmarshalUPERMBMSSAIInterFreqListNBR14From(bb *per.BitBuffer) (MBMSSAIInterFreqListNBR14, error) {
 	var v asn1cUPERMBMSSAIInterFreqListNBR14ListValue
 	if err := unmarshalUPERMBMSSAIInterFreqListNBR14Into(&v, bb); err != nil {
 		return nil, err
@@ -22260,9 +22758,17 @@ func unmarshalUPERMBMSSAIInterFreqListNBR14From(bb *per.BitBuffer) (MBMSSAIInter
 }
 
 func unmarshalUPERMBMSSAIInterFreqListNBR14Into(v *asn1cUPERMBMSSAIInterFreqListNBR14ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 8 {
+		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
 	v.Value = make(MBMSSAIInterFreqListNBR14, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -22326,9 +22832,17 @@ func (v *MBMSSAIInterFreqNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err := v.DlCarrierFreqR14.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding dl-CarrierFreq-r14: %w", err)
 	}
-	seqLen_mbmssailistr14, err := per.DecodeConstrainedWholeNumber(bb, 1, 64)
-	if err != nil {
-		return fmt.Errorf("decoding mbms-SAI-List-r14 length: %w", err)
+	var seqLen_mbmssailistr14 int64
+	var errLength_mbmssailistr14 error
+	seqLen_mbmssailistr14, errLength_mbmssailistr14 = per.DecodeConstrainedWholeNumber(bb, 1, 64)
+	if errLength_mbmssailistr14 != nil {
+		return fmt.Errorf("decoding mbms-SAI-List-r14 length: %w", errLength_mbmssailistr14)
+	}
+	if seqLen_mbmssailistr14 < 1 {
+		return fmt.Errorf("decoding mbms-SAI-List-r14 length %d below lower bound 1", seqLen_mbmssailistr14)
+	}
+	if seqLen_mbmssailistr14 > 64 {
+		return fmt.Errorf("decoding mbms-SAI-List-r14 length %d above upper bound 64", seqLen_mbmssailistr14)
 	}
 	v.MbmsSAIListR14 = make(MBMSSAIListR11, seqLen_mbmssailistr14)
 	for i := int64(0); i < seqLen_mbmssailistr14; i++ {
@@ -22339,9 +22853,17 @@ func (v *MBMSSAIInterFreqNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MbmsSAIListR14[i] = MBMSSAIR11(val)
 	}
 	if opt_multibandinfolistr14 {
-		seqLen_multibandinfolistr14, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-		if err != nil {
-			return fmt.Errorf("decoding multiBandInfoList-r14 length: %w", err)
+		var seqLen_multibandinfolistr14 int64
+		var errLength_multibandinfolistr14 error
+		seqLen_multibandinfolistr14, errLength_multibandinfolistr14 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+		if errLength_multibandinfolistr14 != nil {
+			return fmt.Errorf("decoding multiBandInfoList-r14 length: %w", errLength_multibandinfolistr14)
+		}
+		if seqLen_multibandinfolistr14 < 1 {
+			return fmt.Errorf("decoding multiBandInfoList-r14 length %d below lower bound 1", seqLen_multibandinfolistr14)
+		}
+		if seqLen_multibandinfolistr14 > 8 {
+			return fmt.Errorf("decoding multiBandInfoList-r14 length %d above upper bound 8", seqLen_multibandinfolistr14)
 		}
 		tmp_multibandinfolistr14 := make(AdditionalBandInfoListNBR14, seqLen_multibandinfolistr14)
 		for i := int64(0); i < seqLen_multibandinfolistr14; i++ {
@@ -22858,9 +23380,17 @@ func (v *SystemInformationBlockType22NBR14) UnmarshalUPERFrom(bb *per.BitBuffer)
 		return err
 	}
 	if opt_dlconfiglistr14 {
-		seqLen_dlconfiglistr14, err := per.DecodeConstrainedWholeNumber(bb, 1, 15)
-		if err != nil {
-			return fmt.Errorf("decoding dl-ConfigList-r14 length: %w", err)
+		var seqLen_dlconfiglistr14 int64
+		var errLength_dlconfiglistr14 error
+		seqLen_dlconfiglistr14, errLength_dlconfiglistr14 = per.DecodeConstrainedWholeNumber(bb, 1, 15)
+		if errLength_dlconfiglistr14 != nil {
+			return fmt.Errorf("decoding dl-ConfigList-r14 length: %w", errLength_dlconfiglistr14)
+		}
+		if seqLen_dlconfiglistr14 < 1 {
+			return fmt.Errorf("decoding dl-ConfigList-r14 length %d below lower bound 1", seqLen_dlconfiglistr14)
+		}
+		if seqLen_dlconfiglistr14 > 15 {
+			return fmt.Errorf("decoding dl-ConfigList-r14 length %d above upper bound 15", seqLen_dlconfiglistr14)
 		}
 		tmp_dlconfiglistr14 := make(DLConfigCommonListNBR14, seqLen_dlconfiglistr14)
 		for i := int64(0); i < seqLen_dlconfiglistr14; i++ {
@@ -22871,9 +23401,17 @@ func (v *SystemInformationBlockType22NBR14) UnmarshalUPERFrom(bb *per.BitBuffer)
 		v.DlConfigListR14 = tmp_dlconfiglistr14
 	}
 	if opt_ulconfiglistr14 {
-		seqLen_ulconfiglistr14, err := per.DecodeConstrainedWholeNumber(bb, 1, 15)
-		if err != nil {
-			return fmt.Errorf("decoding ul-ConfigList-r14 length: %w", err)
+		var seqLen_ulconfiglistr14 int64
+		var errLength_ulconfiglistr14 error
+		seqLen_ulconfiglistr14, errLength_ulconfiglistr14 = per.DecodeConstrainedWholeNumber(bb, 1, 15)
+		if errLength_ulconfiglistr14 != nil {
+			return fmt.Errorf("decoding ul-ConfigList-r14 length: %w", errLength_ulconfiglistr14)
+		}
+		if seqLen_ulconfiglistr14 < 1 {
+			return fmt.Errorf("decoding ul-ConfigList-r14 length %d below lower bound 1", seqLen_ulconfiglistr14)
+		}
+		if seqLen_ulconfiglistr14 > 15 {
+			return fmt.Errorf("decoding ul-ConfigList-r14 length %d above upper bound 15", seqLen_ulconfiglistr14)
 		}
 		tmp_ulconfiglistr14 := make(ULConfigCommonListNBR14, seqLen_ulconfiglistr14)
 		for i := int64(0); i < seqLen_ulconfiglistr14; i++ {
@@ -22892,9 +23430,17 @@ func (v *SystemInformationBlockType22NBR14) UnmarshalUPERFrom(bb *per.BitBuffer)
 		v.PagingWeightAnchorR14 = &tmp_pagingweightanchorr14
 	}
 	if opt_nprachprobabilityanchorlistr14 {
-		seqLen_nprachprobabilityanchorlistr14, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-		if err != nil {
-			return fmt.Errorf("decoding nprach-ProbabilityAnchorList-r14 length: %w", err)
+		var seqLen_nprachprobabilityanchorlistr14 int64
+		var errLength_nprachprobabilityanchorlistr14 error
+		seqLen_nprachprobabilityanchorlistr14, errLength_nprachprobabilityanchorlistr14 = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+		if errLength_nprachprobabilityanchorlistr14 != nil {
+			return fmt.Errorf("decoding nprach-ProbabilityAnchorList-r14 length: %w", errLength_nprachprobabilityanchorlistr14)
+		}
+		if seqLen_nprachprobabilityanchorlistr14 < 1 {
+			return fmt.Errorf("decoding nprach-ProbabilityAnchorList-r14 length %d below lower bound 1", seqLen_nprachprobabilityanchorlistr14)
+		}
+		if seqLen_nprachprobabilityanchorlistr14 > 3 {
+			return fmt.Errorf("decoding nprach-ProbabilityAnchorList-r14 length %d above upper bound 3", seqLen_nprachprobabilityanchorlistr14)
 		}
 		tmp_nprachprobabilityanchorlistr14 := make(NPRACHProbabilityAnchorListNBR14, seqLen_nprachprobabilityanchorlistr14)
 		for i := int64(0); i < seqLen_nprachprobabilityanchorlistr14; i++ {
@@ -22942,9 +23488,17 @@ func (v *SystemInformationBlockType22NBR14) UnmarshalUPERFrom(bb *per.BitBuffer)
 				v.MixedOperationModeConfigR15 = &dec_mixedoperationmodeconfigr15
 			}
 			if ext_opt_ulconfiglistr15 {
-				seqLen_ulconfiglistr15, err := per.DecodeConstrainedWholeNumber(extBB, 1, 15)
-				if err != nil {
-					return fmt.Errorf("decoding ul-ConfigList-r15 length: %w", err)
+				var seqLen_ulconfiglistr15 int64
+				var errLength_ulconfiglistr15 error
+				seqLen_ulconfiglistr15, errLength_ulconfiglistr15 = per.DecodeConstrainedWholeNumber(extBB, 1, 15)
+				if errLength_ulconfiglistr15 != nil {
+					return fmt.Errorf("decoding ul-ConfigList-r15 length: %w", errLength_ulconfiglistr15)
+				}
+				if seqLen_ulconfiglistr15 < 1 {
+					return fmt.Errorf("decoding ul-ConfigList-r15 length %d below lower bound 1", seqLen_ulconfiglistr15)
+				}
+				if seqLen_ulconfiglistr15 > 15 {
+					return fmt.Errorf("decoding ul-ConfigList-r15 length %d above upper bound 15", seqLen_ulconfiglistr15)
 				}
 				tmp_ulconfiglistr15 := make(ULConfigCommonListTDDNBR15, seqLen_ulconfiglistr15)
 				for i := int64(0); i < seqLen_ulconfiglistr15; i++ {
@@ -22986,9 +23540,17 @@ func (v *SystemInformationBlockType22NBR14) UnmarshalUPERFrom(bb *per.BitBuffer)
 				return err
 			}
 			if ext_opt_cbmsg3probabilityanchorlistnbr19 {
-				seqLen_cbmsg3probabilityanchorlistnbr19, err := per.DecodeConstrainedWholeNumber(extBB, 1, 3)
-				if err != nil {
-					return fmt.Errorf("decoding cb-Msg3-ProbabilityAnchorList-NB-r19 length: %w", err)
+				var seqLen_cbmsg3probabilityanchorlistnbr19 int64
+				var errLength_cbmsg3probabilityanchorlistnbr19 error
+				seqLen_cbmsg3probabilityanchorlistnbr19, errLength_cbmsg3probabilityanchorlistnbr19 = per.DecodeConstrainedWholeNumber(extBB, 1, 3)
+				if errLength_cbmsg3probabilityanchorlistnbr19 != nil {
+					return fmt.Errorf("decoding cb-Msg3-ProbabilityAnchorList-NB-r19 length: %w", errLength_cbmsg3probabilityanchorlistnbr19)
+				}
+				if seqLen_cbmsg3probabilityanchorlistnbr19 < 1 {
+					return fmt.Errorf("decoding cb-Msg3-ProbabilityAnchorList-NB-r19 length %d below lower bound 1", seqLen_cbmsg3probabilityanchorlistnbr19)
+				}
+				if seqLen_cbmsg3probabilityanchorlistnbr19 > 3 {
+					return fmt.Errorf("decoding cb-Msg3-ProbabilityAnchorList-NB-r19 length %d above upper bound 3", seqLen_cbmsg3probabilityanchorlistnbr19)
 				}
 				tmp_cbmsg3probabilityanchorlistnbr19 := make(CBMsg3ProbabilityAnchorListNBR19, seqLen_cbmsg3probabilityanchorlistnbr19)
 				for i := int64(0); i < seqLen_cbmsg3probabilityanchorlistnbr19; i++ {
@@ -23018,13 +23580,14 @@ type asn1cUPERDLConfigCommonListNBR14ListValue struct{ Value DLConfigCommonListN
 // MarshalUPERDLConfigCommonListNBR14 encodes a DLConfigCommonListNBR14 list to UPER.
 func MarshalUPERDLConfigCommonListNBR14(list DLConfigCommonListNBR14) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERDLConfigCommonListNBR14To(list, bb); err != nil {
+	if err := MarshalUPERDLConfigCommonListNBR14To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERDLConfigCommonListNBR14To(list DLConfigCommonListNBR14, bb *per.BitBuffer) error {
+// MarshalUPERDLConfigCommonListNBR14To appends a DLConfigCommonListNBR14 list to bb.
+func MarshalUPERDLConfigCommonListNBR14To(list DLConfigCommonListNBR14, bb *per.BitBuffer) error {
 	v := asn1cUPERDLConfigCommonListNBR14ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 15); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -23040,10 +23603,11 @@ func marshalUPERDLConfigCommonListNBR14To(list DLConfigCommonListNBR14, bb *per.
 // UnmarshalUPERDLConfigCommonListNBR14 decodes a DLConfigCommonListNBR14 list from UPER.
 func UnmarshalUPERDLConfigCommonListNBR14(data []byte) (DLConfigCommonListNBR14, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERDLConfigCommonListNBR14From(bb)
+	return UnmarshalUPERDLConfigCommonListNBR14From(bb)
 }
 
-func unmarshalUPERDLConfigCommonListNBR14From(bb *per.BitBuffer) (DLConfigCommonListNBR14, error) {
+// UnmarshalUPERDLConfigCommonListNBR14From decodes a DLConfigCommonListNBR14 list from bb.
+func UnmarshalUPERDLConfigCommonListNBR14From(bb *per.BitBuffer) (DLConfigCommonListNBR14, error) {
 	var v asn1cUPERDLConfigCommonListNBR14ListValue
 	if err := unmarshalUPERDLConfigCommonListNBR14Into(&v, bb); err != nil {
 		return nil, err
@@ -23052,9 +23616,17 @@ func unmarshalUPERDLConfigCommonListNBR14From(bb *per.BitBuffer) (DLConfigCommon
 }
 
 func unmarshalUPERDLConfigCommonListNBR14Into(v *asn1cUPERDLConfigCommonListNBR14ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 15)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 15)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 15 {
+		return fmt.Errorf("decoding value length %d above upper bound 15", seqLen_value)
 	}
 	v.Value = make(DLConfigCommonListNBR14, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -23070,13 +23642,14 @@ type asn1cUPERULConfigCommonListNBR14ListValue struct{ Value ULConfigCommonListN
 // MarshalUPERULConfigCommonListNBR14 encodes a ULConfigCommonListNBR14 list to UPER.
 func MarshalUPERULConfigCommonListNBR14(list ULConfigCommonListNBR14) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERULConfigCommonListNBR14To(list, bb); err != nil {
+	if err := MarshalUPERULConfigCommonListNBR14To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERULConfigCommonListNBR14To(list ULConfigCommonListNBR14, bb *per.BitBuffer) error {
+// MarshalUPERULConfigCommonListNBR14To appends a ULConfigCommonListNBR14 list to bb.
+func MarshalUPERULConfigCommonListNBR14To(list ULConfigCommonListNBR14, bb *per.BitBuffer) error {
 	v := asn1cUPERULConfigCommonListNBR14ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 15); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -23092,10 +23665,11 @@ func marshalUPERULConfigCommonListNBR14To(list ULConfigCommonListNBR14, bb *per.
 // UnmarshalUPERULConfigCommonListNBR14 decodes a ULConfigCommonListNBR14 list from UPER.
 func UnmarshalUPERULConfigCommonListNBR14(data []byte) (ULConfigCommonListNBR14, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERULConfigCommonListNBR14From(bb)
+	return UnmarshalUPERULConfigCommonListNBR14From(bb)
 }
 
-func unmarshalUPERULConfigCommonListNBR14From(bb *per.BitBuffer) (ULConfigCommonListNBR14, error) {
+// UnmarshalUPERULConfigCommonListNBR14From decodes a ULConfigCommonListNBR14 list from bb.
+func UnmarshalUPERULConfigCommonListNBR14From(bb *per.BitBuffer) (ULConfigCommonListNBR14, error) {
 	var v asn1cUPERULConfigCommonListNBR14ListValue
 	if err := unmarshalUPERULConfigCommonListNBR14Into(&v, bb); err != nil {
 		return nil, err
@@ -23104,9 +23678,17 @@ func unmarshalUPERULConfigCommonListNBR14From(bb *per.BitBuffer) (ULConfigCommon
 }
 
 func unmarshalUPERULConfigCommonListNBR14Into(v *asn1cUPERULConfigCommonListNBR14ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 15)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 15)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 15 {
+		return fmt.Errorf("decoding value length %d above upper bound 15", seqLen_value)
 	}
 	v.Value = make(ULConfigCommonListNBR14, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -23122,13 +23704,14 @@ type asn1cUPERULConfigCommonListTDDNBR15ListValue struct{ Value ULConfigCommonLi
 // MarshalUPERULConfigCommonListTDDNBR15 encodes a ULConfigCommonListTDDNBR15 list to UPER.
 func MarshalUPERULConfigCommonListTDDNBR15(list ULConfigCommonListTDDNBR15) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERULConfigCommonListTDDNBR15To(list, bb); err != nil {
+	if err := MarshalUPERULConfigCommonListTDDNBR15To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERULConfigCommonListTDDNBR15To(list ULConfigCommonListTDDNBR15, bb *per.BitBuffer) error {
+// MarshalUPERULConfigCommonListTDDNBR15To appends a ULConfigCommonListTDDNBR15 list to bb.
+func MarshalUPERULConfigCommonListTDDNBR15To(list ULConfigCommonListTDDNBR15, bb *per.BitBuffer) error {
 	v := asn1cUPERULConfigCommonListTDDNBR15ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 15); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -23144,10 +23727,11 @@ func marshalUPERULConfigCommonListTDDNBR15To(list ULConfigCommonListTDDNBR15, bb
 // UnmarshalUPERULConfigCommonListTDDNBR15 decodes a ULConfigCommonListTDDNBR15 list from UPER.
 func UnmarshalUPERULConfigCommonListTDDNBR15(data []byte) (ULConfigCommonListTDDNBR15, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERULConfigCommonListTDDNBR15From(bb)
+	return UnmarshalUPERULConfigCommonListTDDNBR15From(bb)
 }
 
-func unmarshalUPERULConfigCommonListTDDNBR15From(bb *per.BitBuffer) (ULConfigCommonListTDDNBR15, error) {
+// UnmarshalUPERULConfigCommonListTDDNBR15From decodes a ULConfigCommonListTDDNBR15 list from bb.
+func UnmarshalUPERULConfigCommonListTDDNBR15From(bb *per.BitBuffer) (ULConfigCommonListTDDNBR15, error) {
 	var v asn1cUPERULConfigCommonListTDDNBR15ListValue
 	if err := unmarshalUPERULConfigCommonListTDDNBR15Into(&v, bb); err != nil {
 		return nil, err
@@ -23156,9 +23740,17 @@ func unmarshalUPERULConfigCommonListTDDNBR15From(bb *per.BitBuffer) (ULConfigCom
 }
 
 func unmarshalUPERULConfigCommonListTDDNBR15Into(v *asn1cUPERULConfigCommonListTDDNBR15ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 15)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 15)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 15 {
+		return fmt.Errorf("decoding value length %d above upper bound 15", seqLen_value)
 	}
 	v.Value = make(ULConfigCommonListTDDNBR15, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -23205,9 +23797,17 @@ func (v *CoverageBasedPagingConfigNBR17) UnmarshalUPERFrom(bb *per.BitBuffer) er
 		return fmt.Errorf("decoding cbp-HystTimer-r17: %w", err)
 	}
 	v.CbpHystTimerR17 = val_cbphysttimerr17
-	seqLen_cbpconfiglistr17, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
-	if err != nil {
-		return fmt.Errorf("decoding cbp-ConfigList-r17 length: %w", err)
+	var seqLen_cbpconfiglistr17 int64
+	var errLength_cbpconfiglistr17 error
+	seqLen_cbpconfiglistr17, errLength_cbpconfiglistr17 = per.DecodeConstrainedWholeNumber(bb, 1, 2)
+	if errLength_cbpconfiglistr17 != nil {
+		return fmt.Errorf("decoding cbp-ConfigList-r17 length: %w", errLength_cbpconfiglistr17)
+	}
+	if seqLen_cbpconfiglistr17 < 1 {
+		return fmt.Errorf("decoding cbp-ConfigList-r17 length %d below lower bound 1", seqLen_cbpconfiglistr17)
+	}
+	if seqLen_cbpconfiglistr17 > 2 {
+		return fmt.Errorf("decoding cbp-ConfigList-r17 length %d above upper bound 2", seqLen_cbpconfiglistr17)
 	}
 	v.CbpConfigListR17 = make(CoverageBasedPagingConfigNBR17CbpConfigListR17, seqLen_cbpconfiglistr17)
 	for i := int64(0); i < seqLen_cbpconfiglistr17; i++ {
@@ -23891,9 +24491,17 @@ func (v *ULConfigCommonNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding ul-CarrierFreq-r14: %w", err)
 	}
 	if opt_nprachparameterslistr14 {
-		seqLen_nprachparameterslistr14, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-		if err != nil {
-			return fmt.Errorf("decoding nprach-ParametersList-r14 length: %w", err)
+		var seqLen_nprachparameterslistr14 int64
+		var errLength_nprachparameterslistr14 error
+		seqLen_nprachparameterslistr14, errLength_nprachparameterslistr14 = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+		if errLength_nprachparameterslistr14 != nil {
+			return fmt.Errorf("decoding nprach-ParametersList-r14 length: %w", errLength_nprachparameterslistr14)
+		}
+		if seqLen_nprachparameterslistr14 < 1 {
+			return fmt.Errorf("decoding nprach-ParametersList-r14 length %d below lower bound 1", seqLen_nprachparameterslistr14)
+		}
+		if seqLen_nprachparameterslistr14 > 3 {
+			return fmt.Errorf("decoding nprach-ParametersList-r14 length %d above upper bound 3", seqLen_nprachparameterslistr14)
 		}
 		tmp_nprachparameterslistr14 := make(NPRACHParametersListNBR14, seqLen_nprachparameterslistr14)
 		for i := int64(0); i < seqLen_nprachparameterslistr14; i++ {
@@ -23922,9 +24530,17 @@ func (v *ULConfigCommonNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				return err
 			}
 			if ext_opt_nprachparameterslistedtr15 {
-				seqLen_nprachparameterslistedtr15, err := per.DecodeConstrainedWholeNumber(extBB, 1, 3)
-				if err != nil {
-					return fmt.Errorf("decoding nprach-ParametersListEDT-r15 length: %w", err)
+				var seqLen_nprachparameterslistedtr15 int64
+				var errLength_nprachparameterslistedtr15 error
+				seqLen_nprachparameterslistedtr15, errLength_nprachparameterslistedtr15 = per.DecodeConstrainedWholeNumber(extBB, 1, 3)
+				if errLength_nprachparameterslistedtr15 != nil {
+					return fmt.Errorf("decoding nprach-ParametersListEDT-r15 length: %w", errLength_nprachparameterslistedtr15)
+				}
+				if seqLen_nprachparameterslistedtr15 < 1 {
+					return fmt.Errorf("decoding nprach-ParametersListEDT-r15 length %d below lower bound 1", seqLen_nprachparameterslistedtr15)
+				}
+				if seqLen_nprachparameterslistedtr15 > 3 {
+					return fmt.Errorf("decoding nprach-ParametersListEDT-r15 length %d above upper bound 3", seqLen_nprachparameterslistedtr15)
 				}
 				tmp_nprachparameterslistedtr15 := make(NPRACHParametersListNBR14, seqLen_nprachparameterslistedtr15)
 				for i := int64(0); i < seqLen_nprachparameterslistedtr15; i++ {
@@ -23947,9 +24563,17 @@ func (v *ULConfigCommonNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				return err
 			}
 			if ext_opt_rsrpthresholdsprachinfolistr16 {
-				seqLen_rsrpthresholdsprachinfolistr16, err := per.DecodeConstrainedWholeNumber(extBB, 1, 2)
-				if err != nil {
-					return fmt.Errorf("decoding rsrp-ThresholdsPrachInfoList-r16 length: %w", err)
+				var seqLen_rsrpthresholdsprachinfolistr16 int64
+				var errLength_rsrpthresholdsprachinfolistr16 error
+				seqLen_rsrpthresholdsprachinfolistr16, errLength_rsrpthresholdsprachinfolistr16 = per.DecodeConstrainedWholeNumber(extBB, 1, 2)
+				if errLength_rsrpthresholdsprachinfolistr16 != nil {
+					return fmt.Errorf("decoding rsrp-ThresholdsPrachInfoList-r16 length: %w", errLength_rsrpthresholdsprachinfolistr16)
+				}
+				if seqLen_rsrpthresholdsprachinfolistr16 < 1 {
+					return fmt.Errorf("decoding rsrp-ThresholdsPrachInfoList-r16 length %d below lower bound 1", seqLen_rsrpthresholdsprachinfolistr16)
+				}
+				if seqLen_rsrpthresholdsprachinfolistr16 > 2 {
+					return fmt.Errorf("decoding rsrp-ThresholdsPrachInfoList-r16 length %d above upper bound 2", seqLen_rsrpthresholdsprachinfolistr16)
 				}
 				tmp_rsrpthresholdsprachinfolistr16 := make(RSRPThresholdsNPRACHInfoListNBR13, seqLen_rsrpthresholdsprachinfolistr16)
 				for i := int64(0); i < seqLen_rsrpthresholdsprachinfolistr16; i++ {
@@ -24071,9 +24695,17 @@ func (v *ULConfigCommonTDDNBR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.TddULDLAlignmentOffsetR15 = TDDULDLAlignmentOffsetNBR15(val_tdduldlalignmentoffsetr15)
 	if opt_nprachparameterslisttddr15 {
-		seqLen_nprachparameterslisttddr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-		if err != nil {
-			return fmt.Errorf("decoding nprach-ParametersListTDD-r15 length: %w", err)
+		var seqLen_nprachparameterslisttddr15 int64
+		var errLength_nprachparameterslisttddr15 error
+		seqLen_nprachparameterslisttddr15, errLength_nprachparameterslisttddr15 = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+		if errLength_nprachparameterslisttddr15 != nil {
+			return fmt.Errorf("decoding nprach-ParametersListTDD-r15 length: %w", errLength_nprachparameterslisttddr15)
+		}
+		if seqLen_nprachparameterslisttddr15 < 1 {
+			return fmt.Errorf("decoding nprach-ParametersListTDD-r15 length %d below lower bound 1", seqLen_nprachparameterslisttddr15)
+		}
+		if seqLen_nprachparameterslisttddr15 > 3 {
+			return fmt.Errorf("decoding nprach-ParametersListTDD-r15 length %d above upper bound 3", seqLen_nprachparameterslisttddr15)
 		}
 		tmp_nprachparameterslisttddr15 := make(NPRACHParametersListTDDNBR15, seqLen_nprachparameterslisttddr15)
 		for i := int64(0); i < seqLen_nprachparameterslisttddr15; i++ {
@@ -24111,13 +24743,14 @@ type asn1cUPERNPRACHProbabilityAnchorListNBR14ListValue struct {
 // MarshalUPERNPRACHProbabilityAnchorListNBR14 encodes a NPRACHProbabilityAnchorListNBR14 list to UPER.
 func MarshalUPERNPRACHProbabilityAnchorListNBR14(list NPRACHProbabilityAnchorListNBR14) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERNPRACHProbabilityAnchorListNBR14To(list, bb); err != nil {
+	if err := MarshalUPERNPRACHProbabilityAnchorListNBR14To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERNPRACHProbabilityAnchorListNBR14To(list NPRACHProbabilityAnchorListNBR14, bb *per.BitBuffer) error {
+// MarshalUPERNPRACHProbabilityAnchorListNBR14To appends a NPRACHProbabilityAnchorListNBR14 list to bb.
+func MarshalUPERNPRACHProbabilityAnchorListNBR14To(list NPRACHProbabilityAnchorListNBR14, bb *per.BitBuffer) error {
 	v := asn1cUPERNPRACHProbabilityAnchorListNBR14ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 3); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -24133,10 +24766,11 @@ func marshalUPERNPRACHProbabilityAnchorListNBR14To(list NPRACHProbabilityAnchorL
 // UnmarshalUPERNPRACHProbabilityAnchorListNBR14 decodes a NPRACHProbabilityAnchorListNBR14 list from UPER.
 func UnmarshalUPERNPRACHProbabilityAnchorListNBR14(data []byte) (NPRACHProbabilityAnchorListNBR14, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERNPRACHProbabilityAnchorListNBR14From(bb)
+	return UnmarshalUPERNPRACHProbabilityAnchorListNBR14From(bb)
 }
 
-func unmarshalUPERNPRACHProbabilityAnchorListNBR14From(bb *per.BitBuffer) (NPRACHProbabilityAnchorListNBR14, error) {
+// UnmarshalUPERNPRACHProbabilityAnchorListNBR14From decodes a NPRACHProbabilityAnchorListNBR14 list from bb.
+func UnmarshalUPERNPRACHProbabilityAnchorListNBR14From(bb *per.BitBuffer) (NPRACHProbabilityAnchorListNBR14, error) {
 	var v asn1cUPERNPRACHProbabilityAnchorListNBR14ListValue
 	if err := unmarshalUPERNPRACHProbabilityAnchorListNBR14Into(&v, bb); err != nil {
 		return nil, err
@@ -24145,9 +24779,17 @@ func unmarshalUPERNPRACHProbabilityAnchorListNBR14From(bb *per.BitBuffer) (NPRAC
 }
 
 func unmarshalUPERNPRACHProbabilityAnchorListNBR14Into(v *asn1cUPERNPRACHProbabilityAnchorListNBR14ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 3 {
+		return fmt.Errorf("decoding value length %d above upper bound 3", seqLen_value)
 	}
 	v.Value = make(NPRACHProbabilityAnchorListNBR14, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -24209,13 +24851,14 @@ type asn1cUPERCBMsg3ProbabilityAnchorListNBR19ListValue struct {
 // MarshalUPERCBMsg3ProbabilityAnchorListNBR19 encodes a CBMsg3ProbabilityAnchorListNBR19 list to UPER.
 func MarshalUPERCBMsg3ProbabilityAnchorListNBR19(list CBMsg3ProbabilityAnchorListNBR19) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERCBMsg3ProbabilityAnchorListNBR19To(list, bb); err != nil {
+	if err := MarshalUPERCBMsg3ProbabilityAnchorListNBR19To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERCBMsg3ProbabilityAnchorListNBR19To(list CBMsg3ProbabilityAnchorListNBR19, bb *per.BitBuffer) error {
+// MarshalUPERCBMsg3ProbabilityAnchorListNBR19To appends a CBMsg3ProbabilityAnchorListNBR19 list to bb.
+func MarshalUPERCBMsg3ProbabilityAnchorListNBR19To(list CBMsg3ProbabilityAnchorListNBR19, bb *per.BitBuffer) error {
 	v := asn1cUPERCBMsg3ProbabilityAnchorListNBR19ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 3); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -24231,10 +24874,11 @@ func marshalUPERCBMsg3ProbabilityAnchorListNBR19To(list CBMsg3ProbabilityAnchorL
 // UnmarshalUPERCBMsg3ProbabilityAnchorListNBR19 decodes a CBMsg3ProbabilityAnchorListNBR19 list from UPER.
 func UnmarshalUPERCBMsg3ProbabilityAnchorListNBR19(data []byte) (CBMsg3ProbabilityAnchorListNBR19, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERCBMsg3ProbabilityAnchorListNBR19From(bb)
+	return UnmarshalUPERCBMsg3ProbabilityAnchorListNBR19From(bb)
 }
 
-func unmarshalUPERCBMsg3ProbabilityAnchorListNBR19From(bb *per.BitBuffer) (CBMsg3ProbabilityAnchorListNBR19, error) {
+// UnmarshalUPERCBMsg3ProbabilityAnchorListNBR19From decodes a CBMsg3ProbabilityAnchorListNBR19 list from bb.
+func UnmarshalUPERCBMsg3ProbabilityAnchorListNBR19From(bb *per.BitBuffer) (CBMsg3ProbabilityAnchorListNBR19, error) {
 	var v asn1cUPERCBMsg3ProbabilityAnchorListNBR19ListValue
 	if err := unmarshalUPERCBMsg3ProbabilityAnchorListNBR19Into(&v, bb); err != nil {
 		return nil, err
@@ -24243,9 +24887,17 @@ func unmarshalUPERCBMsg3ProbabilityAnchorListNBR19From(bb *per.BitBuffer) (CBMsg
 }
 
 func unmarshalUPERCBMsg3ProbabilityAnchorListNBR19Into(v *asn1cUPERCBMsg3ProbabilityAnchorListNBR19ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 3 {
+		return fmt.Errorf("decoding value length %d above upper bound 3", seqLen_value)
 	}
 	v.Value = make(CBMsg3ProbabilityAnchorListNBR19, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -24397,9 +25049,17 @@ func (v *SystemInformationBlockType23NBR15) UnmarshalUPERFrom(bb *per.BitBuffer)
 		return err
 	}
 	if opt_ulconfiglistv1530 {
-		seqLen_ulconfiglistv1530, err := per.DecodeConstrainedWholeNumber(bb, 1, 15)
-		if err != nil {
-			return fmt.Errorf("decoding ul-ConfigList-v1530 length: %w", err)
+		var seqLen_ulconfiglistv1530 int64
+		var errLength_ulconfiglistv1530 error
+		seqLen_ulconfiglistv1530, errLength_ulconfiglistv1530 = per.DecodeConstrainedWholeNumber(bb, 1, 15)
+		if errLength_ulconfiglistv1530 != nil {
+			return fmt.Errorf("decoding ul-ConfigList-v1530 length: %w", errLength_ulconfiglistv1530)
+		}
+		if seqLen_ulconfiglistv1530 < 1 {
+			return fmt.Errorf("decoding ul-ConfigList-v1530 length %d below lower bound 1", seqLen_ulconfiglistv1530)
+		}
+		if seqLen_ulconfiglistv1530 > 15 {
+			return fmt.Errorf("decoding ul-ConfigList-v1530 length %d above upper bound 15", seqLen_ulconfiglistv1530)
 		}
 		tmp_ulconfiglistv1530 := make(ULConfigCommonListNBV1530, seqLen_ulconfiglistv1530)
 		for i := int64(0); i < seqLen_ulconfiglistv1530; i++ {
@@ -24410,9 +25070,17 @@ func (v *SystemInformationBlockType23NBR15) UnmarshalUPERFrom(bb *per.BitBuffer)
 		v.UlConfigListV1530 = tmp_ulconfiglistv1530
 	}
 	if opt_ulconfiglistmixedv1530 {
-		seqLen_ulconfiglistmixedv1530, err := per.DecodeConstrainedWholeNumber(bb, 1, 15)
-		if err != nil {
-			return fmt.Errorf("decoding ul-ConfigListMixed-v1530 length: %w", err)
+		var seqLen_ulconfiglistmixedv1530 int64
+		var errLength_ulconfiglistmixedv1530 error
+		seqLen_ulconfiglistmixedv1530, errLength_ulconfiglistmixedv1530 = per.DecodeConstrainedWholeNumber(bb, 1, 15)
+		if errLength_ulconfiglistmixedv1530 != nil {
+			return fmt.Errorf("decoding ul-ConfigListMixed-v1530 length: %w", errLength_ulconfiglistmixedv1530)
+		}
+		if seqLen_ulconfiglistmixedv1530 < 1 {
+			return fmt.Errorf("decoding ul-ConfigListMixed-v1530 length %d below lower bound 1", seqLen_ulconfiglistmixedv1530)
+		}
+		if seqLen_ulconfiglistmixedv1530 > 15 {
+			return fmt.Errorf("decoding ul-ConfigListMixed-v1530 length %d above upper bound 15", seqLen_ulconfiglistmixedv1530)
 		}
 		tmp_ulconfiglistmixedv1530 := make(ULConfigCommonListNBV1530, seqLen_ulconfiglistmixedv1530)
 		for i := int64(0); i < seqLen_ulconfiglistmixedv1530; i++ {
@@ -24456,13 +25124,14 @@ type asn1cUPERULConfigCommonListNBV1530ListValue struct{ Value ULConfigCommonLis
 // MarshalUPERULConfigCommonListNBV1530 encodes a ULConfigCommonListNBV1530 list to UPER.
 func MarshalUPERULConfigCommonListNBV1530(list ULConfigCommonListNBV1530) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERULConfigCommonListNBV1530To(list, bb); err != nil {
+	if err := MarshalUPERULConfigCommonListNBV1530To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERULConfigCommonListNBV1530To(list ULConfigCommonListNBV1530, bb *per.BitBuffer) error {
+// MarshalUPERULConfigCommonListNBV1530To appends a ULConfigCommonListNBV1530 list to bb.
+func MarshalUPERULConfigCommonListNBV1530To(list ULConfigCommonListNBV1530, bb *per.BitBuffer) error {
 	v := asn1cUPERULConfigCommonListNBV1530ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 15); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -24478,10 +25147,11 @@ func marshalUPERULConfigCommonListNBV1530To(list ULConfigCommonListNBV1530, bb *
 // UnmarshalUPERULConfigCommonListNBV1530 decodes a ULConfigCommonListNBV1530 list from UPER.
 func UnmarshalUPERULConfigCommonListNBV1530(data []byte) (ULConfigCommonListNBV1530, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERULConfigCommonListNBV1530From(bb)
+	return UnmarshalUPERULConfigCommonListNBV1530From(bb)
 }
 
-func unmarshalUPERULConfigCommonListNBV1530From(bb *per.BitBuffer) (ULConfigCommonListNBV1530, error) {
+// UnmarshalUPERULConfigCommonListNBV1530From decodes a ULConfigCommonListNBV1530 list from bb.
+func UnmarshalUPERULConfigCommonListNBV1530From(bb *per.BitBuffer) (ULConfigCommonListNBV1530, error) {
 	var v asn1cUPERULConfigCommonListNBV1530ListValue
 	if err := unmarshalUPERULConfigCommonListNBV1530Into(&v, bb); err != nil {
 		return nil, err
@@ -24490,9 +25160,17 @@ func unmarshalUPERULConfigCommonListNBV1530From(bb *per.BitBuffer) (ULConfigComm
 }
 
 func unmarshalUPERULConfigCommonListNBV1530Into(v *asn1cUPERULConfigCommonListNBV1530ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 15)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 15)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 15 {
+		return fmt.Errorf("decoding value length %d above upper bound 15", seqLen_value)
 	}
 	v.Value = make(ULConfigCommonListNBV1530, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -24588,9 +25266,17 @@ func (v *ULConfigCommonNBV1530) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_nprachparameterslistfmt2r15 {
-		seqLen_nprachparameterslistfmt2r15, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-		if err != nil {
-			return fmt.Errorf("decoding nprach-ParametersListFmt2-r15 length: %w", err)
+		var seqLen_nprachparameterslistfmt2r15 int64
+		var errLength_nprachparameterslistfmt2r15 error
+		seqLen_nprachparameterslistfmt2r15, errLength_nprachparameterslistfmt2r15 = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+		if errLength_nprachparameterslistfmt2r15 != nil {
+			return fmt.Errorf("decoding nprach-ParametersListFmt2-r15 length: %w", errLength_nprachparameterslistfmt2r15)
+		}
+		if seqLen_nprachparameterslistfmt2r15 < 1 {
+			return fmt.Errorf("decoding nprach-ParametersListFmt2-r15 length %d below lower bound 1", seqLen_nprachparameterslistfmt2r15)
+		}
+		if seqLen_nprachparameterslistfmt2r15 > 3 {
+			return fmt.Errorf("decoding nprach-ParametersListFmt2-r15 length %d above upper bound 3", seqLen_nprachparameterslistfmt2r15)
 		}
 		tmp_nprachparameterslistfmt2r15 := make(NPRACHParametersListFmt2NBR15, seqLen_nprachparameterslistfmt2r15)
 		for i := int64(0); i < seqLen_nprachparameterslistfmt2r15; i++ {
@@ -24601,9 +25287,17 @@ func (v *ULConfigCommonNBV1530) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.NprachParametersListFmt2R15 = tmp_nprachparameterslistfmt2r15
 	}
 	if opt_nprachparameterslistfmt2edtr15 {
-		seqLen_nprachparameterslistfmt2edtr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-		if err != nil {
-			return fmt.Errorf("decoding nprach-ParametersListFmt2EDT-r15 length: %w", err)
+		var seqLen_nprachparameterslistfmt2edtr15 int64
+		var errLength_nprachparameterslistfmt2edtr15 error
+		seqLen_nprachparameterslistfmt2edtr15, errLength_nprachparameterslistfmt2edtr15 = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+		if errLength_nprachparameterslistfmt2edtr15 != nil {
+			return fmt.Errorf("decoding nprach-ParametersListFmt2EDT-r15 length: %w", errLength_nprachparameterslistfmt2edtr15)
+		}
+		if seqLen_nprachparameterslistfmt2edtr15 < 1 {
+			return fmt.Errorf("decoding nprach-ParametersListFmt2EDT-r15 length %d below lower bound 1", seqLen_nprachparameterslistfmt2edtr15)
+		}
+		if seqLen_nprachparameterslistfmt2edtr15 > 3 {
+			return fmt.Errorf("decoding nprach-ParametersListFmt2EDT-r15 length %d above upper bound 3", seqLen_nprachparameterslistfmt2edtr15)
 		}
 		tmp_nprachparameterslistfmt2edtr15 := make(NPRACHParametersListFmt2NBR15, seqLen_nprachparameterslistfmt2edtr15)
 		for i := int64(0); i < seqLen_nprachparameterslistfmt2edtr15; i++ {
@@ -24764,9 +25458,17 @@ func (v *SystemInformationBlockType27NBR16) UnmarshalUPERFrom(bb *per.BitBuffer)
 		return err
 	}
 	if opt_carrierfreqlisteutrar16 {
-		seqLen_carrierfreqlisteutrar16, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-		if err != nil {
-			return fmt.Errorf("decoding carrierFreqListEUTRA-r16 length: %w", err)
+		var seqLen_carrierfreqlisteutrar16 int64
+		var errLength_carrierfreqlisteutrar16 error
+		seqLen_carrierfreqlisteutrar16, errLength_carrierfreqlisteutrar16 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+		if errLength_carrierfreqlisteutrar16 != nil {
+			return fmt.Errorf("decoding carrierFreqListEUTRA-r16 length: %w", errLength_carrierfreqlisteutrar16)
+		}
+		if seqLen_carrierfreqlisteutrar16 < 1 {
+			return fmt.Errorf("decoding carrierFreqListEUTRA-r16 length %d below lower bound 1", seqLen_carrierfreqlisteutrar16)
+		}
+		if seqLen_carrierfreqlisteutrar16 > 8 {
+			return fmt.Errorf("decoding carrierFreqListEUTRA-r16 length %d above upper bound 8", seqLen_carrierfreqlisteutrar16)
 		}
 		tmp_carrierfreqlisteutrar16 := make(CarrierFreqListEUTRANBR16, seqLen_carrierfreqlisteutrar16)
 		for i := int64(0); i < seqLen_carrierfreqlisteutrar16; i++ {
@@ -24777,9 +25479,17 @@ func (v *SystemInformationBlockType27NBR16) UnmarshalUPERFrom(bb *per.BitBuffer)
 		v.CarrierFreqListEUTRAR16 = tmp_carrierfreqlisteutrar16
 	}
 	if opt_carrierfreqslistgeranr16 {
-		seqLen_carrierfreqslistgeranr16, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-		if err != nil {
-			return fmt.Errorf("decoding carrierFreqsListGERAN-r16 length: %w", err)
+		var seqLen_carrierfreqslistgeranr16 int64
+		var errLength_carrierfreqslistgeranr16 error
+		seqLen_carrierfreqslistgeranr16, errLength_carrierfreqslistgeranr16 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+		if errLength_carrierfreqslistgeranr16 != nil {
+			return fmt.Errorf("decoding carrierFreqsListGERAN-r16 length: %w", errLength_carrierfreqslistgeranr16)
+		}
+		if seqLen_carrierfreqslistgeranr16 < 1 {
+			return fmt.Errorf("decoding carrierFreqsListGERAN-r16 length %d below lower bound 1", seqLen_carrierfreqslistgeranr16)
+		}
+		if seqLen_carrierfreqslistgeranr16 > 8 {
+			return fmt.Errorf("decoding carrierFreqsListGERAN-r16 length %d above upper bound 8", seqLen_carrierfreqslistgeranr16)
 		}
 		tmp_carrierfreqslistgeranr16 := make(CarrierFreqsListGERANNBR16, seqLen_carrierfreqslistgeranr16)
 		for i := int64(0); i < seqLen_carrierfreqslistgeranr16; i++ {
@@ -24816,9 +25526,17 @@ func (v *SystemInformationBlockType27NBR16) UnmarshalUPERFrom(bb *per.BitBuffer)
 				return err
 			}
 			if ext_opt_carrierfreqlistnrr19 {
-				seqLen_carrierfreqlistnrr19, err := per.DecodeConstrainedWholeNumber(extBB, 1, 8)
-				if err != nil {
-					return fmt.Errorf("decoding carrierFreqListNR-r19 length: %w", err)
+				var seqLen_carrierfreqlistnrr19 int64
+				var errLength_carrierfreqlistnrr19 error
+				seqLen_carrierfreqlistnrr19, errLength_carrierfreqlistnrr19 = per.DecodeConstrainedWholeNumber(extBB, 1, 8)
+				if errLength_carrierfreqlistnrr19 != nil {
+					return fmt.Errorf("decoding carrierFreqListNR-r19 length: %w", errLength_carrierfreqlistnrr19)
+				}
+				if seqLen_carrierfreqlistnrr19 < 1 {
+					return fmt.Errorf("decoding carrierFreqListNR-r19 length %d below lower bound 1", seqLen_carrierfreqlistnrr19)
+				}
+				if seqLen_carrierfreqlistnrr19 > 8 {
+					return fmt.Errorf("decoding carrierFreqListNR-r19 length %d above upper bound 8", seqLen_carrierfreqlistnrr19)
 				}
 				tmp_carrierfreqlistnrr19 := make(CarrierFreqListNRR19, seqLen_carrierfreqlistnrr19)
 				for i := int64(0); i < seqLen_carrierfreqlistnrr19; i++ {
@@ -24848,13 +25566,14 @@ type asn1cUPERCarrierFreqListEUTRANBR16ListValue struct{ Value CarrierFreqListEU
 // MarshalUPERCarrierFreqListEUTRANBR16 encodes a CarrierFreqListEUTRANBR16 list to UPER.
 func MarshalUPERCarrierFreqListEUTRANBR16(list CarrierFreqListEUTRANBR16) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERCarrierFreqListEUTRANBR16To(list, bb); err != nil {
+	if err := MarshalUPERCarrierFreqListEUTRANBR16To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERCarrierFreqListEUTRANBR16To(list CarrierFreqListEUTRANBR16, bb *per.BitBuffer) error {
+// MarshalUPERCarrierFreqListEUTRANBR16To appends a CarrierFreqListEUTRANBR16 list to bb.
+func MarshalUPERCarrierFreqListEUTRANBR16To(list CarrierFreqListEUTRANBR16, bb *per.BitBuffer) error {
 	v := asn1cUPERCarrierFreqListEUTRANBR16ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 8); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -24870,10 +25589,11 @@ func marshalUPERCarrierFreqListEUTRANBR16To(list CarrierFreqListEUTRANBR16, bb *
 // UnmarshalUPERCarrierFreqListEUTRANBR16 decodes a CarrierFreqListEUTRANBR16 list from UPER.
 func UnmarshalUPERCarrierFreqListEUTRANBR16(data []byte) (CarrierFreqListEUTRANBR16, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERCarrierFreqListEUTRANBR16From(bb)
+	return UnmarshalUPERCarrierFreqListEUTRANBR16From(bb)
 }
 
-func unmarshalUPERCarrierFreqListEUTRANBR16From(bb *per.BitBuffer) (CarrierFreqListEUTRANBR16, error) {
+// UnmarshalUPERCarrierFreqListEUTRANBR16From decodes a CarrierFreqListEUTRANBR16 list from bb.
+func UnmarshalUPERCarrierFreqListEUTRANBR16From(bb *per.BitBuffer) (CarrierFreqListEUTRANBR16, error) {
 	var v asn1cUPERCarrierFreqListEUTRANBR16ListValue
 	if err := unmarshalUPERCarrierFreqListEUTRANBR16Into(&v, bb); err != nil {
 		return nil, err
@@ -24882,9 +25602,17 @@ func unmarshalUPERCarrierFreqListEUTRANBR16From(bb *per.BitBuffer) (CarrierFreqL
 }
 
 func unmarshalUPERCarrierFreqListEUTRANBR16Into(v *asn1cUPERCarrierFreqListEUTRANBR16ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 8 {
+		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
 	v.Value = make(CarrierFreqListEUTRANBR16, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -24900,13 +25628,14 @@ type asn1cUPERCarrierFreqsListGERANNBR16ListValue struct{ Value CarrierFreqsList
 // MarshalUPERCarrierFreqsListGERANNBR16 encodes a CarrierFreqsListGERANNBR16 list to UPER.
 func MarshalUPERCarrierFreqsListGERANNBR16(list CarrierFreqsListGERANNBR16) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERCarrierFreqsListGERANNBR16To(list, bb); err != nil {
+	if err := MarshalUPERCarrierFreqsListGERANNBR16To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERCarrierFreqsListGERANNBR16To(list CarrierFreqsListGERANNBR16, bb *per.BitBuffer) error {
+// MarshalUPERCarrierFreqsListGERANNBR16To appends a CarrierFreqsListGERANNBR16 list to bb.
+func MarshalUPERCarrierFreqsListGERANNBR16To(list CarrierFreqsListGERANNBR16, bb *per.BitBuffer) error {
 	v := asn1cUPERCarrierFreqsListGERANNBR16ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 8); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -24922,10 +25651,11 @@ func marshalUPERCarrierFreqsListGERANNBR16To(list CarrierFreqsListGERANNBR16, bb
 // UnmarshalUPERCarrierFreqsListGERANNBR16 decodes a CarrierFreqsListGERANNBR16 list from UPER.
 func UnmarshalUPERCarrierFreqsListGERANNBR16(data []byte) (CarrierFreqsListGERANNBR16, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERCarrierFreqsListGERANNBR16From(bb)
+	return UnmarshalUPERCarrierFreqsListGERANNBR16From(bb)
 }
 
-func unmarshalUPERCarrierFreqsListGERANNBR16From(bb *per.BitBuffer) (CarrierFreqsListGERANNBR16, error) {
+// UnmarshalUPERCarrierFreqsListGERANNBR16From decodes a CarrierFreqsListGERANNBR16 list from bb.
+func UnmarshalUPERCarrierFreqsListGERANNBR16From(bb *per.BitBuffer) (CarrierFreqsListGERANNBR16, error) {
 	var v asn1cUPERCarrierFreqsListGERANNBR16ListValue
 	if err := unmarshalUPERCarrierFreqsListGERANNBR16Into(&v, bb); err != nil {
 		return nil, err
@@ -24934,9 +25664,17 @@ func unmarshalUPERCarrierFreqsListGERANNBR16From(bb *per.BitBuffer) (CarrierFreq
 }
 
 func unmarshalUPERCarrierFreqsListGERANNBR16Into(v *asn1cUPERCarrierFreqsListGERANNBR16ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 8 {
+		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
 	v.Value = make(CarrierFreqsListGERANNBR16, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -25508,7 +26246,7 @@ func (v *SystemInformationBlockType32NBR17) MarshalUPERTo(bb *per.BitBuffer) err
 					return fmt.Errorf("encoding satelliteInfoList-v1800 length: %w", err)
 				}
 				for _, outerElem := range v.SatelliteInfoListV1800 {
-					if err := marshalUPERCarrierFreqListV1800To(outerElem, extBuf); err != nil {
+					if err := MarshalUPERCarrierFreqListV1800To(outerElem, extBuf); err != nil {
 						return fmt.Errorf("encoding satelliteInfoList-v1800 element: %w", err)
 					}
 				}
@@ -25570,9 +26308,17 @@ func (v *SystemInformationBlockType32NBR17) UnmarshalUPERFrom(bb *per.BitBuffer)
 		return err
 	}
 	if opt_satelliteinfolistr17 {
-		seqLen_satelliteinfolistr17, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
-		if err != nil {
-			return fmt.Errorf("decoding satelliteInfoList-r17 length: %w", err)
+		var seqLen_satelliteinfolistr17 int64
+		var errLength_satelliteinfolistr17 error
+		seqLen_satelliteinfolistr17, errLength_satelliteinfolistr17 = per.DecodeConstrainedWholeNumber(bb, 1, 4)
+		if errLength_satelliteinfolistr17 != nil {
+			return fmt.Errorf("decoding satelliteInfoList-r17 length: %w", errLength_satelliteinfolistr17)
+		}
+		if seqLen_satelliteinfolistr17 < 1 {
+			return fmt.Errorf("decoding satelliteInfoList-r17 length %d below lower bound 1", seqLen_satelliteinfolistr17)
+		}
+		if seqLen_satelliteinfolistr17 > 4 {
+			return fmt.Errorf("decoding satelliteInfoList-r17 length %d above upper bound 4", seqLen_satelliteinfolistr17)
 		}
 		tmp_satelliteinfolistr17 := make(SatelliteInfoListR17, seqLen_satelliteinfolistr17)
 		for i := int64(0); i < seqLen_satelliteinfolistr17; i++ {
@@ -25609,13 +26355,21 @@ func (v *SystemInformationBlockType32NBR17) UnmarshalUPERFrom(bb *per.BitBuffer)
 				return err
 			}
 			if ext_opt_satelliteinfolistv1800 {
-				seqLen_satelliteinfolistv1800, err := per.DecodeConstrainedWholeNumber(extBB, 1, 4)
-				if err != nil {
-					return fmt.Errorf("decoding satelliteInfoList-v1800 length: %w", err)
+				var seqLen_satelliteinfolistv1800 int64
+				var errLength_satelliteinfolistv1800 error
+				seqLen_satelliteinfolistv1800, errLength_satelliteinfolistv1800 = per.DecodeConstrainedWholeNumber(extBB, 1, 4)
+				if errLength_satelliteinfolistv1800 != nil {
+					return fmt.Errorf("decoding satelliteInfoList-v1800 length: %w", errLength_satelliteinfolistv1800)
+				}
+				if seqLen_satelliteinfolistv1800 < 1 {
+					return fmt.Errorf("decoding satelliteInfoList-v1800 length %d below lower bound 1", seqLen_satelliteinfolistv1800)
+				}
+				if seqLen_satelliteinfolistv1800 > 4 {
+					return fmt.Errorf("decoding satelliteInfoList-v1800 length %d above upper bound 4", seqLen_satelliteinfolistv1800)
 				}
 				tmp_satelliteinfolistv1800 := make(SatelliteInfoListV1800, seqLen_satelliteinfolistv1800)
 				for i_satelliteinfolistv1800 := int64(0); i_satelliteinfolistv1800 < seqLen_satelliteinfolistv1800; i_satelliteinfolistv1800++ {
-					elem, err := unmarshalUPERCarrierFreqListV1800From(extBB)
+					elem, err := UnmarshalUPERCarrierFreqListV1800From(extBB)
 					if err != nil {
 						return fmt.Errorf("decoding satelliteInfoList-v1800 element: %w", err)
 					}
@@ -25636,9 +26390,17 @@ func (v *SystemInformationBlockType32NBR17) UnmarshalUPERFrom(bb *per.BitBuffer)
 				return err
 			}
 			if ext_opt_satelliteinfolistv1830 {
-				seqLen_satelliteinfolistv1830, err := per.DecodeConstrainedWholeNumber(extBB, 1, 4)
-				if err != nil {
-					return fmt.Errorf("decoding satelliteInfoList-v1830 length: %w", err)
+				var seqLen_satelliteinfolistv1830 int64
+				var errLength_satelliteinfolistv1830 error
+				seqLen_satelliteinfolistv1830, errLength_satelliteinfolistv1830 = per.DecodeConstrainedWholeNumber(extBB, 1, 4)
+				if errLength_satelliteinfolistv1830 != nil {
+					return fmt.Errorf("decoding satelliteInfoList-v1830 length: %w", errLength_satelliteinfolistv1830)
+				}
+				if seqLen_satelliteinfolistv1830 < 1 {
+					return fmt.Errorf("decoding satelliteInfoList-v1830 length %d below lower bound 1", seqLen_satelliteinfolistv1830)
+				}
+				if seqLen_satelliteinfolistv1830 > 4 {
+					return fmt.Errorf("decoding satelliteInfoList-v1830 length %d above upper bound 4", seqLen_satelliteinfolistv1830)
 				}
 				tmp_satelliteinfolistv1830 := make(SatelliteInfoListNBV1830, seqLen_satelliteinfolistv1830)
 				for i := int64(0); i < seqLen_satelliteinfolistv1830; i++ {
@@ -25668,13 +26430,14 @@ type asn1cUPERSatelliteInfoListNBV1830ListValue struct{ Value SatelliteInfoListN
 // MarshalUPERSatelliteInfoListNBV1830 encodes a SatelliteInfoListNBV1830 list to UPER.
 func MarshalUPERSatelliteInfoListNBV1830(list SatelliteInfoListNBV1830) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERSatelliteInfoListNBV1830To(list, bb); err != nil {
+	if err := MarshalUPERSatelliteInfoListNBV1830To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERSatelliteInfoListNBV1830To(list SatelliteInfoListNBV1830, bb *per.BitBuffer) error {
+// MarshalUPERSatelliteInfoListNBV1830To appends a SatelliteInfoListNBV1830 list to bb.
+func MarshalUPERSatelliteInfoListNBV1830To(list SatelliteInfoListNBV1830, bb *per.BitBuffer) error {
 	v := asn1cUPERSatelliteInfoListNBV1830ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 4); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -25690,10 +26453,11 @@ func marshalUPERSatelliteInfoListNBV1830To(list SatelliteInfoListNBV1830, bb *pe
 // UnmarshalUPERSatelliteInfoListNBV1830 decodes a SatelliteInfoListNBV1830 list from UPER.
 func UnmarshalUPERSatelliteInfoListNBV1830(data []byte) (SatelliteInfoListNBV1830, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERSatelliteInfoListNBV1830From(bb)
+	return UnmarshalUPERSatelliteInfoListNBV1830From(bb)
 }
 
-func unmarshalUPERSatelliteInfoListNBV1830From(bb *per.BitBuffer) (SatelliteInfoListNBV1830, error) {
+// UnmarshalUPERSatelliteInfoListNBV1830From decodes a SatelliteInfoListNBV1830 list from bb.
+func UnmarshalUPERSatelliteInfoListNBV1830From(bb *per.BitBuffer) (SatelliteInfoListNBV1830, error) {
 	var v asn1cUPERSatelliteInfoListNBV1830ListValue
 	if err := unmarshalUPERSatelliteInfoListNBV1830Into(&v, bb); err != nil {
 		return nil, err
@@ -25702,9 +26466,17 @@ func unmarshalUPERSatelliteInfoListNBV1830From(bb *per.BitBuffer) (SatelliteInfo
 }
 
 func unmarshalUPERSatelliteInfoListNBV1830Into(v *asn1cUPERSatelliteInfoListNBV1830ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 4)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 4 {
+		return fmt.Errorf("decoding value length %d above upper bound 4", seqLen_value)
 	}
 	v.Value = make(SatelliteInfoListNBV1830, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -25743,9 +26515,17 @@ func (v *CarrierFreqListNBR18) UnmarshalUPER(data []byte) error {
 }
 
 func (v *CarrierFreqListNBR18) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	seqLen_carrierfreqlistr18, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding carrierFreqList-r18 length: %w", err)
+	var seqLen_carrierfreqlistr18 int64
+	var errLength_carrierfreqlistr18 error
+	seqLen_carrierfreqlistr18, errLength_carrierfreqlistr18 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+	if errLength_carrierfreqlistr18 != nil {
+		return fmt.Errorf("decoding carrierFreqList-r18 length: %w", errLength_carrierfreqlistr18)
+	}
+	if seqLen_carrierfreqlistr18 < 1 {
+		return fmt.Errorf("decoding carrierFreqList-r18 length %d below lower bound 1", seqLen_carrierfreqlistr18)
+	}
+	if seqLen_carrierfreqlistr18 > 8 {
+		return fmt.Errorf("decoding carrierFreqList-r18 length %d above upper bound 8", seqLen_carrierfreqlistr18)
 	}
 	v.CarrierFreqListR18 = make(CarrierFreqListNBR18CarrierFreqListR18, seqLen_carrierfreqlistr18)
 	for i := int64(0); i < seqLen_carrierfreqlistr18; i++ {
@@ -25907,9 +26687,17 @@ func (v *SystemInformationBlockType33NBR18) UnmarshalUPERFrom(bb *per.BitBuffer)
 		return err
 	}
 	if opt_neighsatelliteinfolistr18 {
-		seqLen_neighsatelliteinfolistr18, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
-		if err != nil {
-			return fmt.Errorf("decoding neighSatelliteInfoList-r18 length: %w", err)
+		var seqLen_neighsatelliteinfolistr18 int64
+		var errLength_neighsatelliteinfolistr18 error
+		seqLen_neighsatelliteinfolistr18, errLength_neighsatelliteinfolistr18 = per.DecodeConstrainedWholeNumber(bb, 1, 4)
+		if errLength_neighsatelliteinfolistr18 != nil {
+			return fmt.Errorf("decoding neighSatelliteInfoList-r18 length: %w", errLength_neighsatelliteinfolistr18)
+		}
+		if seqLen_neighsatelliteinfolistr18 < 1 {
+			return fmt.Errorf("decoding neighSatelliteInfoList-r18 length %d below lower bound 1", seqLen_neighsatelliteinfolistr18)
+		}
+		if seqLen_neighsatelliteinfolistr18 > 4 {
+			return fmt.Errorf("decoding neighSatelliteInfoList-r18 length %d above upper bound 4", seqLen_neighsatelliteinfolistr18)
 		}
 		tmp_neighsatelliteinfolistr18 := make(NeighSatelliteInfoListR18, seqLen_neighsatelliteinfolistr18)
 		for i := int64(0); i < seqLen_neighsatelliteinfolistr18; i++ {
@@ -25961,9 +26749,17 @@ func (v *SystemInformationBlockType33NBR18) UnmarshalUPERFrom(bb *per.BitBuffer)
 				return err
 			}
 			if ext_opt_neighsatelliteinfolistiottddv1900 {
-				seqLen_neighsatelliteinfolistiottddv1900, err := per.DecodeConstrainedWholeNumber(extBB, 1, 4)
-				if err != nil {
-					return fmt.Errorf("decoding neighSatelliteInfoList-IoT-TDD-v1900 length: %w", err)
+				var seqLen_neighsatelliteinfolistiottddv1900 int64
+				var errLength_neighsatelliteinfolistiottddv1900 error
+				seqLen_neighsatelliteinfolistiottddv1900, errLength_neighsatelliteinfolistiottddv1900 = per.DecodeConstrainedWholeNumber(extBB, 1, 4)
+				if errLength_neighsatelliteinfolistiottddv1900 != nil {
+					return fmt.Errorf("decoding neighSatelliteInfoList-IoT-TDD-v1900 length: %w", errLength_neighsatelliteinfolistiottddv1900)
+				}
+				if seqLen_neighsatelliteinfolistiottddv1900 < 1 {
+					return fmt.Errorf("decoding neighSatelliteInfoList-IoT-TDD-v1900 length %d below lower bound 1", seqLen_neighsatelliteinfolistiottddv1900)
+				}
+				if seqLen_neighsatelliteinfolistiottddv1900 > 4 {
+					return fmt.Errorf("decoding neighSatelliteInfoList-IoT-TDD-v1900 length %d above upper bound 4", seqLen_neighsatelliteinfolistiottddv1900)
 				}
 				tmp_neighsatelliteinfolistiottddv1900 := make(NeighSatelliteInfoListIoTTDDV1900, seqLen_neighsatelliteinfolistiottddv1900)
 				for i := int64(0); i < seqLen_neighsatelliteinfolistiottddv1900; i++ {
@@ -25974,9 +26770,17 @@ func (v *SystemInformationBlockType33NBR18) UnmarshalUPERFrom(bb *per.BitBuffer)
 				v.NeighSatelliteInfoListIoTTDDV1900 = tmp_neighsatelliteinfolistiottddv1900
 			}
 			if ext_opt_neighsatelliteinfolistv1910 {
-				seqLen_neighsatelliteinfolistv1910, err := per.DecodeConstrainedWholeNumber(extBB, 1, 4)
-				if err != nil {
-					return fmt.Errorf("decoding neighSatelliteInfoList-v1910 length: %w", err)
+				var seqLen_neighsatelliteinfolistv1910 int64
+				var errLength_neighsatelliteinfolistv1910 error
+				seqLen_neighsatelliteinfolistv1910, errLength_neighsatelliteinfolistv1910 = per.DecodeConstrainedWholeNumber(extBB, 1, 4)
+				if errLength_neighsatelliteinfolistv1910 != nil {
+					return fmt.Errorf("decoding neighSatelliteInfoList-v1910 length: %w", errLength_neighsatelliteinfolistv1910)
+				}
+				if seqLen_neighsatelliteinfolistv1910 < 1 {
+					return fmt.Errorf("decoding neighSatelliteInfoList-v1910 length %d below lower bound 1", seqLen_neighsatelliteinfolistv1910)
+				}
+				if seqLen_neighsatelliteinfolistv1910 > 4 {
+					return fmt.Errorf("decoding neighSatelliteInfoList-v1910 length %d above upper bound 4", seqLen_neighsatelliteinfolistv1910)
 				}
 				tmp_neighsatelliteinfolistv1910 := make(NeighSatelliteInfoListV1900, seqLen_neighsatelliteinfolistv1910)
 				for i := int64(0); i < seqLen_neighsatelliteinfolistv1910; i++ {
@@ -25987,9 +26791,17 @@ func (v *SystemInformationBlockType33NBR18) UnmarshalUPERFrom(bb *per.BitBuffer)
 				v.NeighSatelliteInfoListV1910 = tmp_neighsatelliteinfolistv1910
 			}
 			if ext_opt_neighsatelliteinfolistnrr19 {
-				seqLen_neighsatelliteinfolistnrr19, err := per.DecodeConstrainedWholeNumber(extBB, 1, 4)
-				if err != nil {
-					return fmt.Errorf("decoding neighSatelliteInfoListNR-r19 length: %w", err)
+				var seqLen_neighsatelliteinfolistnrr19 int64
+				var errLength_neighsatelliteinfolistnrr19 error
+				seqLen_neighsatelliteinfolistnrr19, errLength_neighsatelliteinfolistnrr19 = per.DecodeConstrainedWholeNumber(extBB, 1, 4)
+				if errLength_neighsatelliteinfolistnrr19 != nil {
+					return fmt.Errorf("decoding neighSatelliteInfoListNR-r19 length: %w", errLength_neighsatelliteinfolistnrr19)
+				}
+				if seqLen_neighsatelliteinfolistnrr19 < 1 {
+					return fmt.Errorf("decoding neighSatelliteInfoListNR-r19 length %d below lower bound 1", seqLen_neighsatelliteinfolistnrr19)
+				}
+				if seqLen_neighsatelliteinfolistnrr19 > 4 {
+					return fmt.Errorf("decoding neighSatelliteInfoListNR-r19 length %d above upper bound 4", seqLen_neighsatelliteinfolistnrr19)
 				}
 				tmp_neighsatelliteinfolistnrr19 := make(NeighSatelliteInfoListNRR19, seqLen_neighsatelliteinfolistnrr19)
 				for i := int64(0); i < seqLen_neighsatelliteinfolistnrr19; i++ {
@@ -26021,13 +26833,14 @@ type asn1cUPERNeighSatelliteInfoListIoTTDDV1900ListValue struct {
 // MarshalUPERNeighSatelliteInfoListIoTTDDV1900 encodes a NeighSatelliteInfoListIoTTDDV1900 list to UPER.
 func MarshalUPERNeighSatelliteInfoListIoTTDDV1900(list NeighSatelliteInfoListIoTTDDV1900) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERNeighSatelliteInfoListIoTTDDV1900To(list, bb); err != nil {
+	if err := MarshalUPERNeighSatelliteInfoListIoTTDDV1900To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERNeighSatelliteInfoListIoTTDDV1900To(list NeighSatelliteInfoListIoTTDDV1900, bb *per.BitBuffer) error {
+// MarshalUPERNeighSatelliteInfoListIoTTDDV1900To appends a NeighSatelliteInfoListIoTTDDV1900 list to bb.
+func MarshalUPERNeighSatelliteInfoListIoTTDDV1900To(list NeighSatelliteInfoListIoTTDDV1900, bb *per.BitBuffer) error {
 	v := asn1cUPERNeighSatelliteInfoListIoTTDDV1900ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 4); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -26043,10 +26856,11 @@ func marshalUPERNeighSatelliteInfoListIoTTDDV1900To(list NeighSatelliteInfoListI
 // UnmarshalUPERNeighSatelliteInfoListIoTTDDV1900 decodes a NeighSatelliteInfoListIoTTDDV1900 list from UPER.
 func UnmarshalUPERNeighSatelliteInfoListIoTTDDV1900(data []byte) (NeighSatelliteInfoListIoTTDDV1900, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERNeighSatelliteInfoListIoTTDDV1900From(bb)
+	return UnmarshalUPERNeighSatelliteInfoListIoTTDDV1900From(bb)
 }
 
-func unmarshalUPERNeighSatelliteInfoListIoTTDDV1900From(bb *per.BitBuffer) (NeighSatelliteInfoListIoTTDDV1900, error) {
+// UnmarshalUPERNeighSatelliteInfoListIoTTDDV1900From decodes a NeighSatelliteInfoListIoTTDDV1900 list from bb.
+func UnmarshalUPERNeighSatelliteInfoListIoTTDDV1900From(bb *per.BitBuffer) (NeighSatelliteInfoListIoTTDDV1900, error) {
 	var v asn1cUPERNeighSatelliteInfoListIoTTDDV1900ListValue
 	if err := unmarshalUPERNeighSatelliteInfoListIoTTDDV1900Into(&v, bb); err != nil {
 		return nil, err
@@ -26055,9 +26869,17 @@ func unmarshalUPERNeighSatelliteInfoListIoTTDDV1900From(bb *per.BitBuffer) (Neig
 }
 
 func unmarshalUPERNeighSatelliteInfoListIoTTDDV1900Into(v *asn1cUPERNeighSatelliteInfoListIoTTDDV1900ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 4)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 4 {
+		return fmt.Errorf("decoding value length %d above upper bound 4", seqLen_value)
 	}
 	v.Value = make(NeighSatelliteInfoListIoTTDDV1900, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -26732,9 +27554,17 @@ func (v *CBMsg3ConfigSIBNBR19) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.CbMsg3MinRSRPThresholdNBR19 = &tmp_cbmsg3minrsrpthresholdnbr19
 	}
 	if opt_cbmsg3rsrpcelevelsnbr19 {
-		seqLen_cbmsg3rsrpcelevelsnbr19, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
-		if err != nil {
-			return fmt.Errorf("decoding cb-Msg3-RSRP-CE-Levels-NB-r19 length: %w", err)
+		var seqLen_cbmsg3rsrpcelevelsnbr19 int64
+		var errLength_cbmsg3rsrpcelevelsnbr19 error
+		seqLen_cbmsg3rsrpcelevelsnbr19, errLength_cbmsg3rsrpcelevelsnbr19 = per.DecodeConstrainedWholeNumber(bb, 1, 2)
+		if errLength_cbmsg3rsrpcelevelsnbr19 != nil {
+			return fmt.Errorf("decoding cb-Msg3-RSRP-CE-Levels-NB-r19 length: %w", errLength_cbmsg3rsrpcelevelsnbr19)
+		}
+		if seqLen_cbmsg3rsrpcelevelsnbr19 < 1 {
+			return fmt.Errorf("decoding cb-Msg3-RSRP-CE-Levels-NB-r19 length %d below lower bound 1", seqLen_cbmsg3rsrpcelevelsnbr19)
+		}
+		if seqLen_cbmsg3rsrpcelevelsnbr19 > 2 {
+			return fmt.Errorf("decoding cb-Msg3-RSRP-CE-Levels-NB-r19 length %d above upper bound 2", seqLen_cbmsg3rsrpcelevelsnbr19)
 		}
 		tmp_cbmsg3rsrpcelevelsnbr19 := make(CBMsg3RSRPCELevelsNBR19, seqLen_cbmsg3rsrpcelevelsnbr19)
 		for i := int64(0); i < seqLen_cbmsg3rsrpcelevelsnbr19; i++ {
@@ -26746,9 +27576,17 @@ func (v *CBMsg3ConfigSIBNBR19) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.CbMsg3RSRPCELevelsNBR19 = tmp_cbmsg3rsrpcelevelsnbr19
 	}
-	seqLen_cbmsg3configlistnbr19, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding cb-Msg3-ConfigList-NB-r19 length: %w", err)
+	var seqLen_cbmsg3configlistnbr19 int64
+	var errLength_cbmsg3configlistnbr19 error
+	seqLen_cbmsg3configlistnbr19, errLength_cbmsg3configlistnbr19 = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_cbmsg3configlistnbr19 != nil {
+		return fmt.Errorf("decoding cb-Msg3-ConfigList-NB-r19 length: %w", errLength_cbmsg3configlistnbr19)
+	}
+	if seqLen_cbmsg3configlistnbr19 < 1 {
+		return fmt.Errorf("decoding cb-Msg3-ConfigList-NB-r19 length %d below lower bound 1", seqLen_cbmsg3configlistnbr19)
+	}
+	if seqLen_cbmsg3configlistnbr19 > 3 {
+		return fmt.Errorf("decoding cb-Msg3-ConfigList-NB-r19 length %d above upper bound 3", seqLen_cbmsg3configlistnbr19)
 	}
 	v.CbMsg3ConfigListNBR19 = make(CBMsg3ConfigListNBR19, seqLen_cbmsg3configlistnbr19)
 	for i := int64(0); i < seqLen_cbmsg3configlistnbr19; i++ {
@@ -26785,13 +27623,14 @@ type asn1cUPERCBMsg3ConfigListNBR19ListValue struct{ Value CBMsg3ConfigListNBR19
 // MarshalUPERCBMsg3ConfigListNBR19 encodes a CBMsg3ConfigListNBR19 list to UPER.
 func MarshalUPERCBMsg3ConfigListNBR19(list CBMsg3ConfigListNBR19) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERCBMsg3ConfigListNBR19To(list, bb); err != nil {
+	if err := MarshalUPERCBMsg3ConfigListNBR19To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERCBMsg3ConfigListNBR19To(list CBMsg3ConfigListNBR19, bb *per.BitBuffer) error {
+// MarshalUPERCBMsg3ConfigListNBR19To appends a CBMsg3ConfigListNBR19 list to bb.
+func MarshalUPERCBMsg3ConfigListNBR19To(list CBMsg3ConfigListNBR19, bb *per.BitBuffer) error {
 	v := asn1cUPERCBMsg3ConfigListNBR19ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 3); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -26807,10 +27646,11 @@ func marshalUPERCBMsg3ConfigListNBR19To(list CBMsg3ConfigListNBR19, bb *per.BitB
 // UnmarshalUPERCBMsg3ConfigListNBR19 decodes a CBMsg3ConfigListNBR19 list from UPER.
 func UnmarshalUPERCBMsg3ConfigListNBR19(data []byte) (CBMsg3ConfigListNBR19, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERCBMsg3ConfigListNBR19From(bb)
+	return UnmarshalUPERCBMsg3ConfigListNBR19From(bb)
 }
 
-func unmarshalUPERCBMsg3ConfigListNBR19From(bb *per.BitBuffer) (CBMsg3ConfigListNBR19, error) {
+// UnmarshalUPERCBMsg3ConfigListNBR19From decodes a CBMsg3ConfigListNBR19 list from bb.
+func UnmarshalUPERCBMsg3ConfigListNBR19From(bb *per.BitBuffer) (CBMsg3ConfigListNBR19, error) {
 	var v asn1cUPERCBMsg3ConfigListNBR19ListValue
 	if err := unmarshalUPERCBMsg3ConfigListNBR19Into(&v, bb); err != nil {
 		return nil, err
@@ -26819,9 +27659,17 @@ func unmarshalUPERCBMsg3ConfigListNBR19From(bb *per.BitBuffer) (CBMsg3ConfigList
 }
 
 func unmarshalUPERCBMsg3ConfigListNBR19Into(v *asn1cUPERCBMsg3ConfigListNBR19ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 3 {
+		return fmt.Errorf("decoding value length %d above upper bound 3", seqLen_value)
 	}
 	v.Value = make(CBMsg3ConfigListNBR19, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -26963,13 +27811,14 @@ type asn1cUPERCBMsg3RSRPCELevelsNBR19ListValue struct{ Value CBMsg3RSRPCELevelsN
 // MarshalUPERCBMsg3RSRPCELevelsNBR19 encodes a CBMsg3RSRPCELevelsNBR19 list to UPER.
 func MarshalUPERCBMsg3RSRPCELevelsNBR19(list CBMsg3RSRPCELevelsNBR19) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERCBMsg3RSRPCELevelsNBR19To(list, bb); err != nil {
+	if err := MarshalUPERCBMsg3RSRPCELevelsNBR19To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERCBMsg3RSRPCELevelsNBR19To(list CBMsg3RSRPCELevelsNBR19, bb *per.BitBuffer) error {
+// MarshalUPERCBMsg3RSRPCELevelsNBR19To appends a CBMsg3RSRPCELevelsNBR19 list to bb.
+func MarshalUPERCBMsg3RSRPCELevelsNBR19To(list CBMsg3RSRPCELevelsNBR19, bb *per.BitBuffer) error {
 	v := asn1cUPERCBMsg3RSRPCELevelsNBR19ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 2); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -26985,10 +27834,11 @@ func marshalUPERCBMsg3RSRPCELevelsNBR19To(list CBMsg3RSRPCELevelsNBR19, bb *per.
 // UnmarshalUPERCBMsg3RSRPCELevelsNBR19 decodes a CBMsg3RSRPCELevelsNBR19 list from UPER.
 func UnmarshalUPERCBMsg3RSRPCELevelsNBR19(data []byte) (CBMsg3RSRPCELevelsNBR19, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERCBMsg3RSRPCELevelsNBR19From(bb)
+	return UnmarshalUPERCBMsg3RSRPCELevelsNBR19From(bb)
 }
 
-func unmarshalUPERCBMsg3RSRPCELevelsNBR19From(bb *per.BitBuffer) (CBMsg3RSRPCELevelsNBR19, error) {
+// UnmarshalUPERCBMsg3RSRPCELevelsNBR19From decodes a CBMsg3RSRPCELevelsNBR19 list from bb.
+func UnmarshalUPERCBMsg3RSRPCELevelsNBR19From(bb *per.BitBuffer) (CBMsg3RSRPCELevelsNBR19, error) {
 	var v asn1cUPERCBMsg3RSRPCELevelsNBR19ListValue
 	if err := unmarshalUPERCBMsg3RSRPCELevelsNBR19Into(&v, bb); err != nil {
 		return nil, err
@@ -26997,9 +27847,17 @@ func unmarshalUPERCBMsg3RSRPCELevelsNBR19From(bb *per.BitBuffer) (CBMsg3RSRPCELe
 }
 
 func unmarshalUPERCBMsg3RSRPCELevelsNBR19Into(v *asn1cUPERCBMsg3RSRPCELevelsNBR19ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 2)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 2 {
+		return fmt.Errorf("decoding value length %d above upper bound 2", seqLen_value)
 	}
 	v.Value = make(CBMsg3RSRPCELevelsNBR19, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -27630,9 +28488,17 @@ func (v *GWUSConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.ResourceConfigEDRXLongR16 = &dec_resourceconfigedrxlongr16
 	}
 	if opt_probthreshlistr16 {
-		seqLen_probthreshlistr16, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-		if err != nil {
-			return fmt.Errorf("decoding probThreshList-r16 length: %w", err)
+		var seqLen_probthreshlistr16 int64
+		var errLength_probthreshlistr16 error
+		seqLen_probthreshlistr16, errLength_probthreshlistr16 = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+		if errLength_probthreshlistr16 != nil {
+			return fmt.Errorf("decoding probThreshList-r16 length: %w", errLength_probthreshlistr16)
+		}
+		if seqLen_probthreshlistr16 < 1 {
+			return fmt.Errorf("decoding probThreshList-r16 length %d below lower bound 1", seqLen_probthreshlistr16)
+		}
+		if seqLen_probthreshlistr16 > 3 {
+			return fmt.Errorf("decoding probThreshList-r16 length %d above upper bound 3", seqLen_probthreshlistr16)
 		}
 		tmp_probthreshlistr16 := make(GWUSProbThreshListNBR16, seqLen_probthreshlistr16)
 		for i := int64(0); i < seqLen_probthreshlistr16; i++ {
@@ -27730,9 +28596,17 @@ func (v *GWUSResourceConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ResourcePositionR16 = val_resourcepositionr16
 	if opt_numgroupslistr16 {
-		seqLen_numgroupslistr16, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
-		if err != nil {
-			return fmt.Errorf("decoding numGroupsList-r16 length: %w", err)
+		var seqLen_numgroupslistr16 int64
+		var errLength_numgroupslistr16 error
+		seqLen_numgroupslistr16, errLength_numgroupslistr16 = per.DecodeConstrainedWholeNumber(bb, 1, 2)
+		if errLength_numgroupslistr16 != nil {
+			return fmt.Errorf("decoding numGroupsList-r16 length: %w", errLength_numgroupslistr16)
+		}
+		if seqLen_numgroupslistr16 < 1 {
+			return fmt.Errorf("decoding numGroupsList-r16 length %d below lower bound 1", seqLen_numgroupslistr16)
+		}
+		if seqLen_numgroupslistr16 > 2 {
+			return fmt.Errorf("decoding numGroupsList-r16 length %d above upper bound 2", seqLen_numgroupslistr16)
 		}
 		tmp_numgroupslistr16 := make(GWUSNumGroupsListNBR16, seqLen_numgroupslistr16)
 		for i := int64(0); i < seqLen_numgroupslistr16; i++ {
@@ -27745,9 +28619,17 @@ func (v *GWUSResourceConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.NumGroupsListR16 = tmp_numgroupslistr16
 	}
 	if opt_groupsforservicelistr16 {
-		seqLen_groupsforservicelistr16, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-		if err != nil {
-			return fmt.Errorf("decoding groupsForServiceList-r16 length: %w", err)
+		var seqLen_groupsforservicelistr16 int64
+		var errLength_groupsforservicelistr16 error
+		seqLen_groupsforservicelistr16, errLength_groupsforservicelistr16 = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+		if errLength_groupsforservicelistr16 != nil {
+			return fmt.Errorf("decoding groupsForServiceList-r16 length: %w", errLength_groupsforservicelistr16)
+		}
+		if seqLen_groupsforservicelistr16 < 1 {
+			return fmt.Errorf("decoding groupsForServiceList-r16 length %d below lower bound 1", seqLen_groupsforservicelistr16)
+		}
+		if seqLen_groupsforservicelistr16 > 3 {
+			return fmt.Errorf("decoding groupsForServiceList-r16 length %d above upper bound 3", seqLen_groupsforservicelistr16)
 		}
 		tmp_groupsforservicelistr16 := make(GWUSGroupsForServiceListNBR16, seqLen_groupsforservicelistr16)
 		for i := int64(0); i < seqLen_groupsforservicelistr16; i++ {
@@ -27767,13 +28649,14 @@ type asn1cUPERGWUSProbThreshListNBR16ListValue struct{ Value GWUSProbThreshListN
 // MarshalUPERGWUSProbThreshListNBR16 encodes a GWUSProbThreshListNBR16 list to UPER.
 func MarshalUPERGWUSProbThreshListNBR16(list GWUSProbThreshListNBR16) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERGWUSProbThreshListNBR16To(list, bb); err != nil {
+	if err := MarshalUPERGWUSProbThreshListNBR16To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERGWUSProbThreshListNBR16To(list GWUSProbThreshListNBR16, bb *per.BitBuffer) error {
+// MarshalUPERGWUSProbThreshListNBR16To appends a GWUSProbThreshListNBR16 list to bb.
+func MarshalUPERGWUSProbThreshListNBR16To(list GWUSProbThreshListNBR16, bb *per.BitBuffer) error {
 	v := asn1cUPERGWUSProbThreshListNBR16ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 3); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -27789,10 +28672,11 @@ func marshalUPERGWUSProbThreshListNBR16To(list GWUSProbThreshListNBR16, bb *per.
 // UnmarshalUPERGWUSProbThreshListNBR16 decodes a GWUSProbThreshListNBR16 list from UPER.
 func UnmarshalUPERGWUSProbThreshListNBR16(data []byte) (GWUSProbThreshListNBR16, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERGWUSProbThreshListNBR16From(bb)
+	return UnmarshalUPERGWUSProbThreshListNBR16From(bb)
 }
 
-func unmarshalUPERGWUSProbThreshListNBR16From(bb *per.BitBuffer) (GWUSProbThreshListNBR16, error) {
+// UnmarshalUPERGWUSProbThreshListNBR16From decodes a GWUSProbThreshListNBR16 list from bb.
+func UnmarshalUPERGWUSProbThreshListNBR16From(bb *per.BitBuffer) (GWUSProbThreshListNBR16, error) {
 	var v asn1cUPERGWUSProbThreshListNBR16ListValue
 	if err := unmarshalUPERGWUSProbThreshListNBR16Into(&v, bb); err != nil {
 		return nil, err
@@ -27801,9 +28685,17 @@ func unmarshalUPERGWUSProbThreshListNBR16From(bb *per.BitBuffer) (GWUSProbThresh
 }
 
 func unmarshalUPERGWUSProbThreshListNBR16Into(v *asn1cUPERGWUSProbThreshListNBR16ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 3 {
+		return fmt.Errorf("decoding value length %d above upper bound 3", seqLen_value)
 	}
 	v.Value = make(GWUSProbThreshListNBR16, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -27821,13 +28713,14 @@ type asn1cUPERGWUSNumGroupsListNBR16ListValue struct{ Value GWUSNumGroupsListNBR
 // MarshalUPERGWUSNumGroupsListNBR16 encodes a GWUSNumGroupsListNBR16 list to UPER.
 func MarshalUPERGWUSNumGroupsListNBR16(list GWUSNumGroupsListNBR16) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERGWUSNumGroupsListNBR16To(list, bb); err != nil {
+	if err := MarshalUPERGWUSNumGroupsListNBR16To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERGWUSNumGroupsListNBR16To(list GWUSNumGroupsListNBR16, bb *per.BitBuffer) error {
+// MarshalUPERGWUSNumGroupsListNBR16To appends a GWUSNumGroupsListNBR16 list to bb.
+func MarshalUPERGWUSNumGroupsListNBR16To(list GWUSNumGroupsListNBR16, bb *per.BitBuffer) error {
 	v := asn1cUPERGWUSNumGroupsListNBR16ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 2); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -27843,10 +28736,11 @@ func marshalUPERGWUSNumGroupsListNBR16To(list GWUSNumGroupsListNBR16, bb *per.Bi
 // UnmarshalUPERGWUSNumGroupsListNBR16 decodes a GWUSNumGroupsListNBR16 list from UPER.
 func UnmarshalUPERGWUSNumGroupsListNBR16(data []byte) (GWUSNumGroupsListNBR16, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERGWUSNumGroupsListNBR16From(bb)
+	return UnmarshalUPERGWUSNumGroupsListNBR16From(bb)
 }
 
-func unmarshalUPERGWUSNumGroupsListNBR16From(bb *per.BitBuffer) (GWUSNumGroupsListNBR16, error) {
+// UnmarshalUPERGWUSNumGroupsListNBR16From decodes a GWUSNumGroupsListNBR16 list from bb.
+func UnmarshalUPERGWUSNumGroupsListNBR16From(bb *per.BitBuffer) (GWUSNumGroupsListNBR16, error) {
 	var v asn1cUPERGWUSNumGroupsListNBR16ListValue
 	if err := unmarshalUPERGWUSNumGroupsListNBR16Into(&v, bb); err != nil {
 		return nil, err
@@ -27855,9 +28749,17 @@ func unmarshalUPERGWUSNumGroupsListNBR16From(bb *per.BitBuffer) (GWUSNumGroupsLi
 }
 
 func unmarshalUPERGWUSNumGroupsListNBR16Into(v *asn1cUPERGWUSNumGroupsListNBR16ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 2)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 2 {
+		return fmt.Errorf("decoding value length %d above upper bound 2", seqLen_value)
 	}
 	v.Value = make(GWUSNumGroupsListNBR16, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -27875,13 +28777,14 @@ type asn1cUPERGWUSGroupsForServiceListNBR16ListValue struct{ Value GWUSGroupsFor
 // MarshalUPERGWUSGroupsForServiceListNBR16 encodes a GWUSGroupsForServiceListNBR16 list to UPER.
 func MarshalUPERGWUSGroupsForServiceListNBR16(list GWUSGroupsForServiceListNBR16) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERGWUSGroupsForServiceListNBR16To(list, bb); err != nil {
+	if err := MarshalUPERGWUSGroupsForServiceListNBR16To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERGWUSGroupsForServiceListNBR16To(list GWUSGroupsForServiceListNBR16, bb *per.BitBuffer) error {
+// MarshalUPERGWUSGroupsForServiceListNBR16To appends a GWUSGroupsForServiceListNBR16 list to bb.
+func MarshalUPERGWUSGroupsForServiceListNBR16To(list GWUSGroupsForServiceListNBR16, bb *per.BitBuffer) error {
 	v := asn1cUPERGWUSGroupsForServiceListNBR16ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 3); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -27897,10 +28800,11 @@ func marshalUPERGWUSGroupsForServiceListNBR16To(list GWUSGroupsForServiceListNBR
 // UnmarshalUPERGWUSGroupsForServiceListNBR16 decodes a GWUSGroupsForServiceListNBR16 list from UPER.
 func UnmarshalUPERGWUSGroupsForServiceListNBR16(data []byte) (GWUSGroupsForServiceListNBR16, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERGWUSGroupsForServiceListNBR16From(bb)
+	return UnmarshalUPERGWUSGroupsForServiceListNBR16From(bb)
 }
 
-func unmarshalUPERGWUSGroupsForServiceListNBR16From(bb *per.BitBuffer) (GWUSGroupsForServiceListNBR16, error) {
+// UnmarshalUPERGWUSGroupsForServiceListNBR16From decodes a GWUSGroupsForServiceListNBR16 list from bb.
+func UnmarshalUPERGWUSGroupsForServiceListNBR16From(bb *per.BitBuffer) (GWUSGroupsForServiceListNBR16, error) {
 	var v asn1cUPERGWUSGroupsForServiceListNBR16ListValue
 	if err := unmarshalUPERGWUSGroupsForServiceListNBR16Into(&v, bb); err != nil {
 		return nil, err
@@ -27909,9 +28813,17 @@ func unmarshalUPERGWUSGroupsForServiceListNBR16From(bb *per.BitBuffer) (GWUSGrou
 }
 
 func unmarshalUPERGWUSGroupsForServiceListNBR16Into(v *asn1cUPERGWUSGroupsForServiceListNBR16ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 3 {
+		return fmt.Errorf("decoding value length %d above upper bound 3", seqLen_value)
 	}
 	v.Value = make(GWUSGroupsForServiceListNBR16, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -28826,9 +29738,17 @@ func (v *NPRACHConfigSIBNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.NprachCPLengthR13 = val_nprachcplengthr13
 	if opt_rsrpthresholdsprachinfolistr13 {
-		seqLen_rsrpthresholdsprachinfolistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
-		if err != nil {
-			return fmt.Errorf("decoding rsrp-ThresholdsPrachInfoList-r13 length: %w", err)
+		var seqLen_rsrpthresholdsprachinfolistr13 int64
+		var errLength_rsrpthresholdsprachinfolistr13 error
+		seqLen_rsrpthresholdsprachinfolistr13, errLength_rsrpthresholdsprachinfolistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 2)
+		if errLength_rsrpthresholdsprachinfolistr13 != nil {
+			return fmt.Errorf("decoding rsrp-ThresholdsPrachInfoList-r13 length: %w", errLength_rsrpthresholdsprachinfolistr13)
+		}
+		if seqLen_rsrpthresholdsprachinfolistr13 < 1 {
+			return fmt.Errorf("decoding rsrp-ThresholdsPrachInfoList-r13 length %d below lower bound 1", seqLen_rsrpthresholdsprachinfolistr13)
+		}
+		if seqLen_rsrpthresholdsprachinfolistr13 > 2 {
+			return fmt.Errorf("decoding rsrp-ThresholdsPrachInfoList-r13 length %d above upper bound 2", seqLen_rsrpthresholdsprachinfolistr13)
 		}
 		tmp_rsrpthresholdsprachinfolistr13 := make(RSRPThresholdsNPRACHInfoListNBR13, seqLen_rsrpthresholdsprachinfolistr13)
 		for i := int64(0); i < seqLen_rsrpthresholdsprachinfolistr13; i++ {
@@ -28840,9 +29760,17 @@ func (v *NPRACHConfigSIBNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.RsrpThresholdsPrachInfoListR13 = tmp_rsrpthresholdsprachinfolistr13
 	}
-	seqLen_nprachparameterslistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding nprach-ParametersList-r13 length: %w", err)
+	var seqLen_nprachparameterslistr13 int64
+	var errLength_nprachparameterslistr13 error
+	seqLen_nprachparameterslistr13, errLength_nprachparameterslistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_nprachparameterslistr13 != nil {
+		return fmt.Errorf("decoding nprach-ParametersList-r13 length: %w", errLength_nprachparameterslistr13)
+	}
+	if seqLen_nprachparameterslistr13 < 1 {
+		return fmt.Errorf("decoding nprach-ParametersList-r13 length %d below lower bound 1", seqLen_nprachparameterslistr13)
+	}
+	if seqLen_nprachparameterslistr13 > 3 {
+		return fmt.Errorf("decoding nprach-ParametersList-r13 length %d above upper bound 3", seqLen_nprachparameterslistr13)
 	}
 	v.NprachParametersListR13 = make(NPRACHParametersListNBR13, seqLen_nprachparameterslistr13)
 	for i := int64(0); i < seqLen_nprachparameterslistr13; i++ {
@@ -28881,9 +29809,17 @@ func (v *NPRACHConfigSIBNBV1330) UnmarshalUPER(data []byte) error {
 }
 
 func (v *NPRACHConfigSIBNBV1330) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	seqLen_nprachparameterslistv1330, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding nprach-ParametersList-v1330 length: %w", err)
+	var seqLen_nprachparameterslistv1330 int64
+	var errLength_nprachparameterslistv1330 error
+	seqLen_nprachparameterslistv1330, errLength_nprachparameterslistv1330 = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_nprachparameterslistv1330 != nil {
+		return fmt.Errorf("decoding nprach-ParametersList-v1330 length: %w", errLength_nprachparameterslistv1330)
+	}
+	if seqLen_nprachparameterslistv1330 < 1 {
+		return fmt.Errorf("decoding nprach-ParametersList-v1330 length %d below lower bound 1", seqLen_nprachparameterslistv1330)
+	}
+	if seqLen_nprachparameterslistv1330 > 3 {
+		return fmt.Errorf("decoding nprach-ParametersList-v1330 length %d above upper bound 3", seqLen_nprachparameterslistv1330)
 	}
 	v.NprachParametersListV1330 = make(NPRACHParametersListNBV1330, seqLen_nprachparameterslistv1330)
 	for i := int64(0); i < seqLen_nprachparameterslistv1330; i++ {
@@ -29041,13 +29977,14 @@ type asn1cUPERNPRACHParametersListNBR13ListValue struct{ Value NPRACHParametersL
 // MarshalUPERNPRACHParametersListNBR13 encodes a NPRACHParametersListNBR13 list to UPER.
 func MarshalUPERNPRACHParametersListNBR13(list NPRACHParametersListNBR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERNPRACHParametersListNBR13To(list, bb); err != nil {
+	if err := MarshalUPERNPRACHParametersListNBR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERNPRACHParametersListNBR13To(list NPRACHParametersListNBR13, bb *per.BitBuffer) error {
+// MarshalUPERNPRACHParametersListNBR13To appends a NPRACHParametersListNBR13 list to bb.
+func MarshalUPERNPRACHParametersListNBR13To(list NPRACHParametersListNBR13, bb *per.BitBuffer) error {
 	v := asn1cUPERNPRACHParametersListNBR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 3); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -29063,10 +30000,11 @@ func marshalUPERNPRACHParametersListNBR13To(list NPRACHParametersListNBR13, bb *
 // UnmarshalUPERNPRACHParametersListNBR13 decodes a NPRACHParametersListNBR13 list from UPER.
 func UnmarshalUPERNPRACHParametersListNBR13(data []byte) (NPRACHParametersListNBR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERNPRACHParametersListNBR13From(bb)
+	return UnmarshalUPERNPRACHParametersListNBR13From(bb)
 }
 
-func unmarshalUPERNPRACHParametersListNBR13From(bb *per.BitBuffer) (NPRACHParametersListNBR13, error) {
+// UnmarshalUPERNPRACHParametersListNBR13From decodes a NPRACHParametersListNBR13 list from bb.
+func UnmarshalUPERNPRACHParametersListNBR13From(bb *per.BitBuffer) (NPRACHParametersListNBR13, error) {
 	var v asn1cUPERNPRACHParametersListNBR13ListValue
 	if err := unmarshalUPERNPRACHParametersListNBR13Into(&v, bb); err != nil {
 		return nil, err
@@ -29075,9 +30013,17 @@ func unmarshalUPERNPRACHParametersListNBR13From(bb *per.BitBuffer) (NPRACHParame
 }
 
 func unmarshalUPERNPRACHParametersListNBR13Into(v *asn1cUPERNPRACHParametersListNBR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 3 {
+		return fmt.Errorf("decoding value length %d above upper bound 3", seqLen_value)
 	}
 	v.Value = make(NPRACHParametersListNBR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -29093,13 +30039,14 @@ type asn1cUPERNPRACHParametersListNBV1330ListValue struct{ Value NPRACHParameter
 // MarshalUPERNPRACHParametersListNBV1330 encodes a NPRACHParametersListNBV1330 list to UPER.
 func MarshalUPERNPRACHParametersListNBV1330(list NPRACHParametersListNBV1330) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERNPRACHParametersListNBV1330To(list, bb); err != nil {
+	if err := MarshalUPERNPRACHParametersListNBV1330To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERNPRACHParametersListNBV1330To(list NPRACHParametersListNBV1330, bb *per.BitBuffer) error {
+// MarshalUPERNPRACHParametersListNBV1330To appends a NPRACHParametersListNBV1330 list to bb.
+func MarshalUPERNPRACHParametersListNBV1330To(list NPRACHParametersListNBV1330, bb *per.BitBuffer) error {
 	v := asn1cUPERNPRACHParametersListNBV1330ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 3); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -29115,10 +30062,11 @@ func marshalUPERNPRACHParametersListNBV1330To(list NPRACHParametersListNBV1330, 
 // UnmarshalUPERNPRACHParametersListNBV1330 decodes a NPRACHParametersListNBV1330 list from UPER.
 func UnmarshalUPERNPRACHParametersListNBV1330(data []byte) (NPRACHParametersListNBV1330, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERNPRACHParametersListNBV1330From(bb)
+	return UnmarshalUPERNPRACHParametersListNBV1330From(bb)
 }
 
-func unmarshalUPERNPRACHParametersListNBV1330From(bb *per.BitBuffer) (NPRACHParametersListNBV1330, error) {
+// UnmarshalUPERNPRACHParametersListNBV1330From decodes a NPRACHParametersListNBV1330 list from bb.
+func UnmarshalUPERNPRACHParametersListNBV1330From(bb *per.BitBuffer) (NPRACHParametersListNBV1330, error) {
 	var v asn1cUPERNPRACHParametersListNBV1330ListValue
 	if err := unmarshalUPERNPRACHParametersListNBV1330Into(&v, bb); err != nil {
 		return nil, err
@@ -29127,9 +30075,17 @@ func unmarshalUPERNPRACHParametersListNBV1330From(bb *per.BitBuffer) (NPRACHPara
 }
 
 func unmarshalUPERNPRACHParametersListNBV1330Into(v *asn1cUPERNPRACHParametersListNBV1330ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 3 {
+		return fmt.Errorf("decoding value length %d above upper bound 3", seqLen_value)
 	}
 	v.Value = make(NPRACHParametersListNBV1330, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -29279,13 +30235,14 @@ type asn1cUPERNPRACHParametersListNBR14ListValue struct{ Value NPRACHParametersL
 // MarshalUPERNPRACHParametersListNBR14 encodes a NPRACHParametersListNBR14 list to UPER.
 func MarshalUPERNPRACHParametersListNBR14(list NPRACHParametersListNBR14) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERNPRACHParametersListNBR14To(list, bb); err != nil {
+	if err := MarshalUPERNPRACHParametersListNBR14To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERNPRACHParametersListNBR14To(list NPRACHParametersListNBR14, bb *per.BitBuffer) error {
+// MarshalUPERNPRACHParametersListNBR14To appends a NPRACHParametersListNBR14 list to bb.
+func MarshalUPERNPRACHParametersListNBR14To(list NPRACHParametersListNBR14, bb *per.BitBuffer) error {
 	v := asn1cUPERNPRACHParametersListNBR14ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 3); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -29301,10 +30258,11 @@ func marshalUPERNPRACHParametersListNBR14To(list NPRACHParametersListNBR14, bb *
 // UnmarshalUPERNPRACHParametersListNBR14 decodes a NPRACHParametersListNBR14 list from UPER.
 func UnmarshalUPERNPRACHParametersListNBR14(data []byte) (NPRACHParametersListNBR14, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERNPRACHParametersListNBR14From(bb)
+	return UnmarshalUPERNPRACHParametersListNBR14From(bb)
 }
 
-func unmarshalUPERNPRACHParametersListNBR14From(bb *per.BitBuffer) (NPRACHParametersListNBR14, error) {
+// UnmarshalUPERNPRACHParametersListNBR14From decodes a NPRACHParametersListNBR14 list from bb.
+func UnmarshalUPERNPRACHParametersListNBR14From(bb *per.BitBuffer) (NPRACHParametersListNBR14, error) {
 	var v asn1cUPERNPRACHParametersListNBR14ListValue
 	if err := unmarshalUPERNPRACHParametersListNBR14Into(&v, bb); err != nil {
 		return nil, err
@@ -29313,9 +30271,17 @@ func unmarshalUPERNPRACHParametersListNBR14From(bb *per.BitBuffer) (NPRACHParame
 }
 
 func unmarshalUPERNPRACHParametersListNBR14Into(v *asn1cUPERNPRACHParametersListNBR14ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 3 {
+		return fmt.Errorf("decoding value length %d above upper bound 3", seqLen_value)
 	}
 	v.Value = make(NPRACHParametersListNBR14, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -29375,13 +30341,14 @@ type asn1cUPERNPRACHParametersListTDDNBR15ListValue struct{ Value NPRACHParamete
 // MarshalUPERNPRACHParametersListTDDNBR15 encodes a NPRACHParametersListTDDNBR15 list to UPER.
 func MarshalUPERNPRACHParametersListTDDNBR15(list NPRACHParametersListTDDNBR15) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERNPRACHParametersListTDDNBR15To(list, bb); err != nil {
+	if err := MarshalUPERNPRACHParametersListTDDNBR15To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERNPRACHParametersListTDDNBR15To(list NPRACHParametersListTDDNBR15, bb *per.BitBuffer) error {
+// MarshalUPERNPRACHParametersListTDDNBR15To appends a NPRACHParametersListTDDNBR15 list to bb.
+func MarshalUPERNPRACHParametersListTDDNBR15To(list NPRACHParametersListTDDNBR15, bb *per.BitBuffer) error {
 	v := asn1cUPERNPRACHParametersListTDDNBR15ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 3); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -29397,10 +30364,11 @@ func marshalUPERNPRACHParametersListTDDNBR15To(list NPRACHParametersListTDDNBR15
 // UnmarshalUPERNPRACHParametersListTDDNBR15 decodes a NPRACHParametersListTDDNBR15 list from UPER.
 func UnmarshalUPERNPRACHParametersListTDDNBR15(data []byte) (NPRACHParametersListTDDNBR15, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERNPRACHParametersListTDDNBR15From(bb)
+	return UnmarshalUPERNPRACHParametersListTDDNBR15From(bb)
 }
 
-func unmarshalUPERNPRACHParametersListTDDNBR15From(bb *per.BitBuffer) (NPRACHParametersListTDDNBR15, error) {
+// UnmarshalUPERNPRACHParametersListTDDNBR15From decodes a NPRACHParametersListTDDNBR15 list from bb.
+func UnmarshalUPERNPRACHParametersListTDDNBR15From(bb *per.BitBuffer) (NPRACHParametersListTDDNBR15, error) {
 	var v asn1cUPERNPRACHParametersListTDDNBR15ListValue
 	if err := unmarshalUPERNPRACHParametersListTDDNBR15Into(&v, bb); err != nil {
 		return nil, err
@@ -29409,9 +30377,17 @@ func unmarshalUPERNPRACHParametersListTDDNBR15From(bb *per.BitBuffer) (NPRACHPar
 }
 
 func unmarshalUPERNPRACHParametersListTDDNBR15Into(v *asn1cUPERNPRACHParametersListTDDNBR15ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 3 {
+		return fmt.Errorf("decoding value length %d above upper bound 3", seqLen_value)
 	}
 	v.Value = make(NPRACHParametersListTDDNBR15, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -29473,13 +30449,14 @@ type asn1cUPERNPRACHParametersListTDDNBV1550ListValue struct {
 // MarshalUPERNPRACHParametersListTDDNBV1550 encodes a NPRACHParametersListTDDNBV1550 list to UPER.
 func MarshalUPERNPRACHParametersListTDDNBV1550(list NPRACHParametersListTDDNBV1550) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERNPRACHParametersListTDDNBV1550To(list, bb); err != nil {
+	if err := MarshalUPERNPRACHParametersListTDDNBV1550To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERNPRACHParametersListTDDNBV1550To(list NPRACHParametersListTDDNBV1550, bb *per.BitBuffer) error {
+// MarshalUPERNPRACHParametersListTDDNBV1550To appends a NPRACHParametersListTDDNBV1550 list to bb.
+func MarshalUPERNPRACHParametersListTDDNBV1550To(list NPRACHParametersListTDDNBV1550, bb *per.BitBuffer) error {
 	v := asn1cUPERNPRACHParametersListTDDNBV1550ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 3); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -29495,10 +30472,11 @@ func marshalUPERNPRACHParametersListTDDNBV1550To(list NPRACHParametersListTDDNBV
 // UnmarshalUPERNPRACHParametersListTDDNBV1550 decodes a NPRACHParametersListTDDNBV1550 list from UPER.
 func UnmarshalUPERNPRACHParametersListTDDNBV1550(data []byte) (NPRACHParametersListTDDNBV1550, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERNPRACHParametersListTDDNBV1550From(bb)
+	return UnmarshalUPERNPRACHParametersListTDDNBV1550From(bb)
 }
 
-func unmarshalUPERNPRACHParametersListTDDNBV1550From(bb *per.BitBuffer) (NPRACHParametersListTDDNBV1550, error) {
+// UnmarshalUPERNPRACHParametersListTDDNBV1550From decodes a NPRACHParametersListTDDNBV1550 list from bb.
+func UnmarshalUPERNPRACHParametersListTDDNBV1550From(bb *per.BitBuffer) (NPRACHParametersListTDDNBV1550, error) {
 	var v asn1cUPERNPRACHParametersListTDDNBV1550ListValue
 	if err := unmarshalUPERNPRACHParametersListTDDNBV1550Into(&v, bb); err != nil {
 		return nil, err
@@ -29507,9 +30485,17 @@ func unmarshalUPERNPRACHParametersListTDDNBV1550From(bb *per.BitBuffer) (NPRACHP
 }
 
 func unmarshalUPERNPRACHParametersListTDDNBV1550Into(v *asn1cUPERNPRACHParametersListTDDNBV1550ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 3 {
+		return fmt.Errorf("decoding value length %d above upper bound 3", seqLen_value)
 	}
 	v.Value = make(NPRACHParametersListTDDNBV1550, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -29564,13 +30550,14 @@ type asn1cUPERNPRACHParametersListFmt2NBR15ListValue struct{ Value NPRACHParamet
 // MarshalUPERNPRACHParametersListFmt2NBR15 encodes a NPRACHParametersListFmt2NBR15 list to UPER.
 func MarshalUPERNPRACHParametersListFmt2NBR15(list NPRACHParametersListFmt2NBR15) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERNPRACHParametersListFmt2NBR15To(list, bb); err != nil {
+	if err := MarshalUPERNPRACHParametersListFmt2NBR15To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERNPRACHParametersListFmt2NBR15To(list NPRACHParametersListFmt2NBR15, bb *per.BitBuffer) error {
+// MarshalUPERNPRACHParametersListFmt2NBR15To appends a NPRACHParametersListFmt2NBR15 list to bb.
+func MarshalUPERNPRACHParametersListFmt2NBR15To(list NPRACHParametersListFmt2NBR15, bb *per.BitBuffer) error {
 	v := asn1cUPERNPRACHParametersListFmt2NBR15ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 3); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -29586,10 +30573,11 @@ func marshalUPERNPRACHParametersListFmt2NBR15To(list NPRACHParametersListFmt2NBR
 // UnmarshalUPERNPRACHParametersListFmt2NBR15 decodes a NPRACHParametersListFmt2NBR15 list from UPER.
 func UnmarshalUPERNPRACHParametersListFmt2NBR15(data []byte) (NPRACHParametersListFmt2NBR15, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERNPRACHParametersListFmt2NBR15From(bb)
+	return UnmarshalUPERNPRACHParametersListFmt2NBR15From(bb)
 }
 
-func unmarshalUPERNPRACHParametersListFmt2NBR15From(bb *per.BitBuffer) (NPRACHParametersListFmt2NBR15, error) {
+// UnmarshalUPERNPRACHParametersListFmt2NBR15From decodes a NPRACHParametersListFmt2NBR15 list from bb.
+func UnmarshalUPERNPRACHParametersListFmt2NBR15From(bb *per.BitBuffer) (NPRACHParametersListFmt2NBR15, error) {
 	var v asn1cUPERNPRACHParametersListFmt2NBR15ListValue
 	if err := unmarshalUPERNPRACHParametersListFmt2NBR15Into(&v, bb); err != nil {
 		return nil, err
@@ -29598,9 +30586,17 @@ func unmarshalUPERNPRACHParametersListFmt2NBR15From(bb *per.BitBuffer) (NPRACHPa
 }
 
 func unmarshalUPERNPRACHParametersListFmt2NBR15Into(v *asn1cUPERNPRACHParametersListFmt2NBR15ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 3 {
+		return fmt.Errorf("decoding value length %d above upper bound 3", seqLen_value)
 	}
 	v.Value = make(NPRACHParametersListFmt2NBR15, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -29724,13 +30720,14 @@ type asn1cUPERRSRPThresholdsNPRACHInfoListNBR13ListValue struct {
 // MarshalUPERRSRPThresholdsNPRACHInfoListNBR13 encodes a RSRPThresholdsNPRACHInfoListNBR13 list to UPER.
 func MarshalUPERRSRPThresholdsNPRACHInfoListNBR13(list RSRPThresholdsNPRACHInfoListNBR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERRSRPThresholdsNPRACHInfoListNBR13To(list, bb); err != nil {
+	if err := MarshalUPERRSRPThresholdsNPRACHInfoListNBR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERRSRPThresholdsNPRACHInfoListNBR13To(list RSRPThresholdsNPRACHInfoListNBR13, bb *per.BitBuffer) error {
+// MarshalUPERRSRPThresholdsNPRACHInfoListNBR13To appends a RSRPThresholdsNPRACHInfoListNBR13 list to bb.
+func MarshalUPERRSRPThresholdsNPRACHInfoListNBR13To(list RSRPThresholdsNPRACHInfoListNBR13, bb *per.BitBuffer) error {
 	v := asn1cUPERRSRPThresholdsNPRACHInfoListNBR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 2); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -29746,10 +30743,11 @@ func marshalUPERRSRPThresholdsNPRACHInfoListNBR13To(list RSRPThresholdsNPRACHInf
 // UnmarshalUPERRSRPThresholdsNPRACHInfoListNBR13 decodes a RSRPThresholdsNPRACHInfoListNBR13 list from UPER.
 func UnmarshalUPERRSRPThresholdsNPRACHInfoListNBR13(data []byte) (RSRPThresholdsNPRACHInfoListNBR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERRSRPThresholdsNPRACHInfoListNBR13From(bb)
+	return UnmarshalUPERRSRPThresholdsNPRACHInfoListNBR13From(bb)
 }
 
-func unmarshalUPERRSRPThresholdsNPRACHInfoListNBR13From(bb *per.BitBuffer) (RSRPThresholdsNPRACHInfoListNBR13, error) {
+// UnmarshalUPERRSRPThresholdsNPRACHInfoListNBR13From decodes a RSRPThresholdsNPRACHInfoListNBR13 list from bb.
+func UnmarshalUPERRSRPThresholdsNPRACHInfoListNBR13From(bb *per.BitBuffer) (RSRPThresholdsNPRACHInfoListNBR13, error) {
 	var v asn1cUPERRSRPThresholdsNPRACHInfoListNBR13ListValue
 	if err := unmarshalUPERRSRPThresholdsNPRACHInfoListNBR13Into(&v, bb); err != nil {
 		return nil, err
@@ -29758,9 +30756,17 @@ func unmarshalUPERRSRPThresholdsNPRACHInfoListNBR13From(bb *per.BitBuffer) (RSRP
 }
 
 func unmarshalUPERRSRPThresholdsNPRACHInfoListNBR13Into(v *asn1cUPERRSRPThresholdsNPRACHInfoListNBR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 2)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 2 {
+		return fmt.Errorf("decoding value length %d above upper bound 2", seqLen_value)
 	}
 	v.Value = make(RSRPThresholdsNPRACHInfoListNBR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -29778,13 +30784,14 @@ type asn1cUPEREDTTBSInfoListNBR15ListValue struct{ Value EDTTBSInfoListNBR15 }
 // MarshalUPEREDTTBSInfoListNBR15 encodes a EDTTBSInfoListNBR15 list to UPER.
 func MarshalUPEREDTTBSInfoListNBR15(list EDTTBSInfoListNBR15) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPEREDTTBSInfoListNBR15To(list, bb); err != nil {
+	if err := MarshalUPEREDTTBSInfoListNBR15To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPEREDTTBSInfoListNBR15To(list EDTTBSInfoListNBR15, bb *per.BitBuffer) error {
+// MarshalUPEREDTTBSInfoListNBR15To appends a EDTTBSInfoListNBR15 list to bb.
+func MarshalUPEREDTTBSInfoListNBR15To(list EDTTBSInfoListNBR15, bb *per.BitBuffer) error {
 	v := asn1cUPEREDTTBSInfoListNBR15ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 3); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -29800,10 +30807,11 @@ func marshalUPEREDTTBSInfoListNBR15To(list EDTTBSInfoListNBR15, bb *per.BitBuffe
 // UnmarshalUPEREDTTBSInfoListNBR15 decodes a EDTTBSInfoListNBR15 list from UPER.
 func UnmarshalUPEREDTTBSInfoListNBR15(data []byte) (EDTTBSInfoListNBR15, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPEREDTTBSInfoListNBR15From(bb)
+	return UnmarshalUPEREDTTBSInfoListNBR15From(bb)
 }
 
-func unmarshalUPEREDTTBSInfoListNBR15From(bb *per.BitBuffer) (EDTTBSInfoListNBR15, error) {
+// UnmarshalUPEREDTTBSInfoListNBR15From decodes a EDTTBSInfoListNBR15 list from bb.
+func UnmarshalUPEREDTTBSInfoListNBR15From(bb *per.BitBuffer) (EDTTBSInfoListNBR15, error) {
 	var v asn1cUPEREDTTBSInfoListNBR15ListValue
 	if err := unmarshalUPEREDTTBSInfoListNBR15Into(&v, bb); err != nil {
 		return nil, err
@@ -29812,9 +30820,17 @@ func unmarshalUPEREDTTBSInfoListNBR15From(bb *per.BitBuffer) (EDTTBSInfoListNBR1
 }
 
 func unmarshalUPEREDTTBSInfoListNBR15Into(v *asn1cUPEREDTTBSInfoListNBR15ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 3 {
+		return fmt.Errorf("decoding value length %d above upper bound 3", seqLen_value)
 	}
 	v.Value = make(EDTTBSInfoListNBR15, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -29921,9 +30937,17 @@ func (v *NPUSCHConfigCommonNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_acknacknumrepetitionsmsg4r13, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding ack-NACK-NumRepetitions-Msg4-r13 length: %w", err)
+	var seqLen_acknacknumrepetitionsmsg4r13 int64
+	var errLength_acknacknumrepetitionsmsg4r13 error
+	seqLen_acknacknumrepetitionsmsg4r13, errLength_acknacknumrepetitionsmsg4r13 = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_acknacknumrepetitionsmsg4r13 != nil {
+		return fmt.Errorf("decoding ack-NACK-NumRepetitions-Msg4-r13 length: %w", errLength_acknacknumrepetitionsmsg4r13)
+	}
+	if seqLen_acknacknumrepetitionsmsg4r13 < 1 {
+		return fmt.Errorf("decoding ack-NACK-NumRepetitions-Msg4-r13 length %d below lower bound 1", seqLen_acknacknumrepetitionsmsg4r13)
+	}
+	if seqLen_acknacknumrepetitionsmsg4r13 > 3 {
+		return fmt.Errorf("decoding ack-NACK-NumRepetitions-Msg4-r13 length %d above upper bound 3", seqLen_acknacknumrepetitionsmsg4r13)
 	}
 	v.AckNACKNumRepetitionsMsg4R13 = make(NPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13, seqLen_acknacknumrepetitionsmsg4r13)
 	for i := int64(0); i < seqLen_acknacknumrepetitionsmsg4r13; i++ {
@@ -31816,9 +32840,17 @@ func (v *RACHConfigCommonNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err := v.PowerRampingParametersR13.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding powerRampingParameters-r13: %w", err)
 	}
-	seqLen_rachinfolistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding rach-InfoList-r13 length: %w", err)
+	var seqLen_rachinfolistr13 int64
+	var errLength_rachinfolistr13 error
+	seqLen_rachinfolistr13, errLength_rachinfolistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_rachinfolistr13 != nil {
+		return fmt.Errorf("decoding rach-InfoList-r13 length: %w", errLength_rachinfolistr13)
+	}
+	if seqLen_rachinfolistr13 < 1 {
+		return fmt.Errorf("decoding rach-InfoList-r13 length %d below lower bound 1", seqLen_rachinfolistr13)
+	}
+	if seqLen_rachinfolistr13 > 3 {
+		return fmt.Errorf("decoding rach-InfoList-r13 length %d above upper bound 3", seqLen_rachinfolistr13)
 	}
 	v.RachInfoListR13 = make(RACHInfoListNBR13, seqLen_rachinfolistr13)
 	for i := int64(0); i < seqLen_rachinfolistr13; i++ {
@@ -31871,9 +32903,17 @@ func (v *RACHConfigCommonNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				return err
 			}
 			if ext_opt_rachinfolistv1530 {
-				seqLen_rachinfolistv1530, err := per.DecodeConstrainedWholeNumber(extBB, 1, 3)
-				if err != nil {
-					return fmt.Errorf("decoding rach-InfoList-v1530 length: %w", err)
+				var seqLen_rachinfolistv1530 int64
+				var errLength_rachinfolistv1530 error
+				seqLen_rachinfolistv1530, errLength_rachinfolistv1530 = per.DecodeConstrainedWholeNumber(extBB, 1, 3)
+				if errLength_rachinfolistv1530 != nil {
+					return fmt.Errorf("decoding rach-InfoList-v1530 length: %w", errLength_rachinfolistv1530)
+				}
+				if seqLen_rachinfolistv1530 < 1 {
+					return fmt.Errorf("decoding rach-InfoList-v1530 length %d below lower bound 1", seqLen_rachinfolistv1530)
+				}
+				if seqLen_rachinfolistv1530 > 3 {
+					return fmt.Errorf("decoding rach-InfoList-v1530 length %d above upper bound 3", seqLen_rachinfolistv1530)
 				}
 				tmp_rachinfolistv1530 := make(RACHInfoListNBV1530, seqLen_rachinfolistv1530)
 				for i := int64(0); i < seqLen_rachinfolistv1530; i++ {
@@ -31903,13 +32943,14 @@ type asn1cUPERRACHInfoListNBR13ListValue struct{ Value RACHInfoListNBR13 }
 // MarshalUPERRACHInfoListNBR13 encodes a RACHInfoListNBR13 list to UPER.
 func MarshalUPERRACHInfoListNBR13(list RACHInfoListNBR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERRACHInfoListNBR13To(list, bb); err != nil {
+	if err := MarshalUPERRACHInfoListNBR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERRACHInfoListNBR13To(list RACHInfoListNBR13, bb *per.BitBuffer) error {
+// MarshalUPERRACHInfoListNBR13To appends a RACHInfoListNBR13 list to bb.
+func MarshalUPERRACHInfoListNBR13To(list RACHInfoListNBR13, bb *per.BitBuffer) error {
 	v := asn1cUPERRACHInfoListNBR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 3); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -31925,10 +32966,11 @@ func marshalUPERRACHInfoListNBR13To(list RACHInfoListNBR13, bb *per.BitBuffer) e
 // UnmarshalUPERRACHInfoListNBR13 decodes a RACHInfoListNBR13 list from UPER.
 func UnmarshalUPERRACHInfoListNBR13(data []byte) (RACHInfoListNBR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERRACHInfoListNBR13From(bb)
+	return UnmarshalUPERRACHInfoListNBR13From(bb)
 }
 
-func unmarshalUPERRACHInfoListNBR13From(bb *per.BitBuffer) (RACHInfoListNBR13, error) {
+// UnmarshalUPERRACHInfoListNBR13From decodes a RACHInfoListNBR13 list from bb.
+func UnmarshalUPERRACHInfoListNBR13From(bb *per.BitBuffer) (RACHInfoListNBR13, error) {
 	var v asn1cUPERRACHInfoListNBR13ListValue
 	if err := unmarshalUPERRACHInfoListNBR13Into(&v, bb); err != nil {
 		return nil, err
@@ -31937,9 +32979,17 @@ func unmarshalUPERRACHInfoListNBR13From(bb *per.BitBuffer) (RACHInfoListNBR13, e
 }
 
 func unmarshalUPERRACHInfoListNBR13Into(v *asn1cUPERRACHInfoListNBR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 3 {
+		return fmt.Errorf("decoding value length %d above upper bound 3", seqLen_value)
 	}
 	v.Value = make(RACHInfoListNBR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -31955,13 +33005,14 @@ type asn1cUPERRACHInfoListNBV1530ListValue struct{ Value RACHInfoListNBV1530 }
 // MarshalUPERRACHInfoListNBV1530 encodes a RACHInfoListNBV1530 list to UPER.
 func MarshalUPERRACHInfoListNBV1530(list RACHInfoListNBV1530) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERRACHInfoListNBV1530To(list, bb); err != nil {
+	if err := MarshalUPERRACHInfoListNBV1530To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERRACHInfoListNBV1530To(list RACHInfoListNBV1530, bb *per.BitBuffer) error {
+// MarshalUPERRACHInfoListNBV1530To appends a RACHInfoListNBV1530 list to bb.
+func MarshalUPERRACHInfoListNBV1530To(list RACHInfoListNBV1530, bb *per.BitBuffer) error {
 	v := asn1cUPERRACHInfoListNBV1530ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 3); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -31977,10 +33028,11 @@ func marshalUPERRACHInfoListNBV1530To(list RACHInfoListNBV1530, bb *per.BitBuffe
 // UnmarshalUPERRACHInfoListNBV1530 decodes a RACHInfoListNBV1530 list from UPER.
 func UnmarshalUPERRACHInfoListNBV1530(data []byte) (RACHInfoListNBV1530, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERRACHInfoListNBV1530From(bb)
+	return UnmarshalUPERRACHInfoListNBV1530From(bb)
 }
 
-func unmarshalUPERRACHInfoListNBV1530From(bb *per.BitBuffer) (RACHInfoListNBV1530, error) {
+// UnmarshalUPERRACHInfoListNBV1530From decodes a RACHInfoListNBV1530 list from bb.
+func UnmarshalUPERRACHInfoListNBV1530From(bb *per.BitBuffer) (RACHInfoListNBV1530, error) {
 	var v asn1cUPERRACHInfoListNBV1530ListValue
 	if err := unmarshalUPERRACHInfoListNBV1530Into(&v, bb); err != nil {
 		return nil, err
@@ -31989,9 +33041,17 @@ func unmarshalUPERRACHInfoListNBV1530From(bb *per.BitBuffer) (RACHInfoListNBV153
 }
 
 func unmarshalUPERRACHInfoListNBV1530Into(v *asn1cUPERRACHInfoListNBV1530ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 3 {
+		return fmt.Errorf("decoding value length %d above upper bound 3", seqLen_value)
 	}
 	v.Value = make(RACHInfoListNBV1530, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -32948,9 +34008,17 @@ func (v *RadioResourceConfigDedicatedNBR13) UnmarshalUPERFrom(bb *per.BitBuffer)
 		return err
 	}
 	if opt_srbtoaddmodlistr13 {
-		seqLen_srbtoaddmodlistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 1)
-		if err != nil {
-			return fmt.Errorf("decoding srb-ToAddModList-r13 length: %w", err)
+		var seqLen_srbtoaddmodlistr13 int64
+		var errLength_srbtoaddmodlistr13 error
+		seqLen_srbtoaddmodlistr13, errLength_srbtoaddmodlistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 1)
+		if errLength_srbtoaddmodlistr13 != nil {
+			return fmt.Errorf("decoding srb-ToAddModList-r13 length: %w", errLength_srbtoaddmodlistr13)
+		}
+		if seqLen_srbtoaddmodlistr13 < 1 {
+			return fmt.Errorf("decoding srb-ToAddModList-r13 length %d below lower bound 1", seqLen_srbtoaddmodlistr13)
+		}
+		if seqLen_srbtoaddmodlistr13 > 1 {
+			return fmt.Errorf("decoding srb-ToAddModList-r13 length %d above upper bound 1", seqLen_srbtoaddmodlistr13)
 		}
 		tmp_srbtoaddmodlistr13 := make(SRBToAddModListNBR13, seqLen_srbtoaddmodlistr13)
 		for i := int64(0); i < seqLen_srbtoaddmodlistr13; i++ {
@@ -32961,9 +34029,17 @@ func (v *RadioResourceConfigDedicatedNBR13) UnmarshalUPERFrom(bb *per.BitBuffer)
 		v.SrbToAddModListR13 = tmp_srbtoaddmodlistr13
 	}
 	if opt_drbtoaddmodlistr13 {
-		seqLen_drbtoaddmodlistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
-		if err != nil {
-			return fmt.Errorf("decoding drb-ToAddModList-r13 length: %w", err)
+		var seqLen_drbtoaddmodlistr13 int64
+		var errLength_drbtoaddmodlistr13 error
+		seqLen_drbtoaddmodlistr13, errLength_drbtoaddmodlistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 2)
+		if errLength_drbtoaddmodlistr13 != nil {
+			return fmt.Errorf("decoding drb-ToAddModList-r13 length: %w", errLength_drbtoaddmodlistr13)
+		}
+		if seqLen_drbtoaddmodlistr13 < 1 {
+			return fmt.Errorf("decoding drb-ToAddModList-r13 length %d below lower bound 1", seqLen_drbtoaddmodlistr13)
+		}
+		if seqLen_drbtoaddmodlistr13 > 2 {
+			return fmt.Errorf("decoding drb-ToAddModList-r13 length %d above upper bound 2", seqLen_drbtoaddmodlistr13)
 		}
 		tmp_drbtoaddmodlistr13 := make(DRBToAddModListNBR13, seqLen_drbtoaddmodlistr13)
 		for i := int64(0); i < seqLen_drbtoaddmodlistr13; i++ {
@@ -32974,9 +34050,17 @@ func (v *RadioResourceConfigDedicatedNBR13) UnmarshalUPERFrom(bb *per.BitBuffer)
 		v.DrbToAddModListR13 = tmp_drbtoaddmodlistr13
 	}
 	if opt_drbtoreleaselistr13 {
-		seqLen_drbtoreleaselistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
-		if err != nil {
-			return fmt.Errorf("decoding drb-ToReleaseList-r13 length: %w", err)
+		var seqLen_drbtoreleaselistr13 int64
+		var errLength_drbtoreleaselistr13 error
+		seqLen_drbtoreleaselistr13, errLength_drbtoreleaselistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 2)
+		if errLength_drbtoreleaselistr13 != nil {
+			return fmt.Errorf("decoding drb-ToReleaseList-r13 length: %w", errLength_drbtoreleaselistr13)
+		}
+		if seqLen_drbtoreleaselistr13 < 1 {
+			return fmt.Errorf("decoding drb-ToReleaseList-r13 length %d below lower bound 1", seqLen_drbtoreleaselistr13)
+		}
+		if seqLen_drbtoreleaselistr13 > 2 {
+			return fmt.Errorf("decoding drb-ToReleaseList-r13 length %d above upper bound 2", seqLen_drbtoreleaselistr13)
 		}
 		tmp_drbtoreleaselistr13 := make(DRBToReleaseListNBR13, seqLen_drbtoreleaselistr13)
 		for i := int64(0); i < seqLen_drbtoreleaselistr13; i++ {
@@ -33115,13 +34199,14 @@ type asn1cUPERSRBToAddModListNBR13ListValue struct{ Value SRBToAddModListNBR13 }
 // MarshalUPERSRBToAddModListNBR13 encodes a SRBToAddModListNBR13 list to UPER.
 func MarshalUPERSRBToAddModListNBR13(list SRBToAddModListNBR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERSRBToAddModListNBR13To(list, bb); err != nil {
+	if err := MarshalUPERSRBToAddModListNBR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERSRBToAddModListNBR13To(list SRBToAddModListNBR13, bb *per.BitBuffer) error {
+// MarshalUPERSRBToAddModListNBR13To appends a SRBToAddModListNBR13 list to bb.
+func MarshalUPERSRBToAddModListNBR13To(list SRBToAddModListNBR13, bb *per.BitBuffer) error {
 	v := asn1cUPERSRBToAddModListNBR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 1); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -33137,10 +34222,11 @@ func marshalUPERSRBToAddModListNBR13To(list SRBToAddModListNBR13, bb *per.BitBuf
 // UnmarshalUPERSRBToAddModListNBR13 decodes a SRBToAddModListNBR13 list from UPER.
 func UnmarshalUPERSRBToAddModListNBR13(data []byte) (SRBToAddModListNBR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERSRBToAddModListNBR13From(bb)
+	return UnmarshalUPERSRBToAddModListNBR13From(bb)
 }
 
-func unmarshalUPERSRBToAddModListNBR13From(bb *per.BitBuffer) (SRBToAddModListNBR13, error) {
+// UnmarshalUPERSRBToAddModListNBR13From decodes a SRBToAddModListNBR13 list from bb.
+func UnmarshalUPERSRBToAddModListNBR13From(bb *per.BitBuffer) (SRBToAddModListNBR13, error) {
 	var v asn1cUPERSRBToAddModListNBR13ListValue
 	if err := unmarshalUPERSRBToAddModListNBR13Into(&v, bb); err != nil {
 		return nil, err
@@ -33149,9 +34235,17 @@ func unmarshalUPERSRBToAddModListNBR13From(bb *per.BitBuffer) (SRBToAddModListNB
 }
 
 func unmarshalUPERSRBToAddModListNBR13Into(v *asn1cUPERSRBToAddModListNBR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 1)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 1)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 1 {
+		return fmt.Errorf("decoding value length %d above upper bound 1", seqLen_value)
 	}
 	v.Value = make(SRBToAddModListNBR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -33365,13 +34459,14 @@ type asn1cUPERDRBToAddModListNBR13ListValue struct{ Value DRBToAddModListNBR13 }
 // MarshalUPERDRBToAddModListNBR13 encodes a DRBToAddModListNBR13 list to UPER.
 func MarshalUPERDRBToAddModListNBR13(list DRBToAddModListNBR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERDRBToAddModListNBR13To(list, bb); err != nil {
+	if err := MarshalUPERDRBToAddModListNBR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERDRBToAddModListNBR13To(list DRBToAddModListNBR13, bb *per.BitBuffer) error {
+// MarshalUPERDRBToAddModListNBR13To appends a DRBToAddModListNBR13 list to bb.
+func MarshalUPERDRBToAddModListNBR13To(list DRBToAddModListNBR13, bb *per.BitBuffer) error {
 	v := asn1cUPERDRBToAddModListNBR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 2); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -33387,10 +34482,11 @@ func marshalUPERDRBToAddModListNBR13To(list DRBToAddModListNBR13, bb *per.BitBuf
 // UnmarshalUPERDRBToAddModListNBR13 decodes a DRBToAddModListNBR13 list from UPER.
 func UnmarshalUPERDRBToAddModListNBR13(data []byte) (DRBToAddModListNBR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERDRBToAddModListNBR13From(bb)
+	return UnmarshalUPERDRBToAddModListNBR13From(bb)
 }
 
-func unmarshalUPERDRBToAddModListNBR13From(bb *per.BitBuffer) (DRBToAddModListNBR13, error) {
+// UnmarshalUPERDRBToAddModListNBR13From decodes a DRBToAddModListNBR13 list from bb.
+func UnmarshalUPERDRBToAddModListNBR13From(bb *per.BitBuffer) (DRBToAddModListNBR13, error) {
 	var v asn1cUPERDRBToAddModListNBR13ListValue
 	if err := unmarshalUPERDRBToAddModListNBR13Into(&v, bb); err != nil {
 		return nil, err
@@ -33399,9 +34495,17 @@ func unmarshalUPERDRBToAddModListNBR13From(bb *per.BitBuffer) (DRBToAddModListNB
 }
 
 func unmarshalUPERDRBToAddModListNBR13Into(v *asn1cUPERDRBToAddModListNBR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 2)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 2 {
+		return fmt.Errorf("decoding value length %d above upper bound 2", seqLen_value)
 	}
 	v.Value = make(DRBToAddModListNBR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -33723,13 +34827,14 @@ type asn1cUPERDRBToReleaseListNBR13ListValue struct{ Value DRBToReleaseListNBR13
 // MarshalUPERDRBToReleaseListNBR13 encodes a DRBToReleaseListNBR13 list to UPER.
 func MarshalUPERDRBToReleaseListNBR13(list DRBToReleaseListNBR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERDRBToReleaseListNBR13To(list, bb); err != nil {
+	if err := MarshalUPERDRBToReleaseListNBR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERDRBToReleaseListNBR13To(list DRBToReleaseListNBR13, bb *per.BitBuffer) error {
+// MarshalUPERDRBToReleaseListNBR13To appends a DRBToReleaseListNBR13 list to bb.
+func MarshalUPERDRBToReleaseListNBR13To(list DRBToReleaseListNBR13, bb *per.BitBuffer) error {
 	v := asn1cUPERDRBToReleaseListNBR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 2); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -33745,10 +34850,11 @@ func marshalUPERDRBToReleaseListNBR13To(list DRBToReleaseListNBR13, bb *per.BitB
 // UnmarshalUPERDRBToReleaseListNBR13 decodes a DRBToReleaseListNBR13 list from UPER.
 func UnmarshalUPERDRBToReleaseListNBR13(data []byte) (DRBToReleaseListNBR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERDRBToReleaseListNBR13From(bb)
+	return UnmarshalUPERDRBToReleaseListNBR13From(bb)
 }
 
-func unmarshalUPERDRBToReleaseListNBR13From(bb *per.BitBuffer) (DRBToReleaseListNBR13, error) {
+// UnmarshalUPERDRBToReleaseListNBR13From decodes a DRBToReleaseListNBR13 list from bb.
+func UnmarshalUPERDRBToReleaseListNBR13From(bb *per.BitBuffer) (DRBToReleaseListNBR13, error) {
 	var v asn1cUPERDRBToReleaseListNBR13ListValue
 	if err := unmarshalUPERDRBToReleaseListNBR13Into(&v, bb); err != nil {
 		return nil, err
@@ -33757,9 +34863,17 @@ func unmarshalUPERDRBToReleaseListNBR13From(bb *per.BitBuffer) (DRBToReleaseList
 }
 
 func unmarshalUPERDRBToReleaseListNBR13Into(v *asn1cUPERDRBToReleaseListNBR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 2)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 2 {
+		return fmt.Errorf("decoding value length %d above upper bound 2", seqLen_value)
 	}
 	v.Value = make(DRBToReleaseListNBR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -34889,13 +36003,14 @@ type asn1cUPERAdditionalBandInfoListNBR14ListValue struct{ Value AdditionalBandI
 // MarshalUPERAdditionalBandInfoListNBR14 encodes a AdditionalBandInfoListNBR14 list to UPER.
 func MarshalUPERAdditionalBandInfoListNBR14(list AdditionalBandInfoListNBR14) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERAdditionalBandInfoListNBR14To(list, bb); err != nil {
+	if err := MarshalUPERAdditionalBandInfoListNBR14To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERAdditionalBandInfoListNBR14To(list AdditionalBandInfoListNBR14, bb *per.BitBuffer) error {
+// MarshalUPERAdditionalBandInfoListNBR14To appends a AdditionalBandInfoListNBR14 list to bb.
+func MarshalUPERAdditionalBandInfoListNBR14To(list AdditionalBandInfoListNBR14, bb *per.BitBuffer) error {
 	v := asn1cUPERAdditionalBandInfoListNBR14ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 8); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -34911,10 +36026,11 @@ func marshalUPERAdditionalBandInfoListNBR14To(list AdditionalBandInfoListNBR14, 
 // UnmarshalUPERAdditionalBandInfoListNBR14 decodes a AdditionalBandInfoListNBR14 list from UPER.
 func UnmarshalUPERAdditionalBandInfoListNBR14(data []byte) (AdditionalBandInfoListNBR14, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERAdditionalBandInfoListNBR14From(bb)
+	return UnmarshalUPERAdditionalBandInfoListNBR14From(bb)
 }
 
-func unmarshalUPERAdditionalBandInfoListNBR14From(bb *per.BitBuffer) (AdditionalBandInfoListNBR14, error) {
+// UnmarshalUPERAdditionalBandInfoListNBR14From decodes a AdditionalBandInfoListNBR14 list from bb.
+func UnmarshalUPERAdditionalBandInfoListNBR14From(bb *per.BitBuffer) (AdditionalBandInfoListNBR14, error) {
 	var v asn1cUPERAdditionalBandInfoListNBR14ListValue
 	if err := unmarshalUPERAdditionalBandInfoListNBR14Into(&v, bb); err != nil {
 		return nil, err
@@ -34923,9 +36039,17 @@ func unmarshalUPERAdditionalBandInfoListNBR14From(bb *per.BitBuffer) (Additional
 }
 
 func unmarshalUPERAdditionalBandInfoListNBR14Into(v *asn1cUPERAdditionalBandInfoListNBR14ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 8 {
+		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
 	v.Value = make(AdditionalBandInfoListNBR14, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -34943,13 +36067,14 @@ type asn1cUPERMultiBandInfoListNBR13ListValue struct{ Value MultiBandInfoListNBR
 // MarshalUPERMultiBandInfoListNBR13 encodes a MultiBandInfoListNBR13 list to UPER.
 func MarshalUPERMultiBandInfoListNBR13(list MultiBandInfoListNBR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERMultiBandInfoListNBR13To(list, bb); err != nil {
+	if err := MarshalUPERMultiBandInfoListNBR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERMultiBandInfoListNBR13To(list MultiBandInfoListNBR13, bb *per.BitBuffer) error {
+// MarshalUPERMultiBandInfoListNBR13To appends a MultiBandInfoListNBR13 list to bb.
+func MarshalUPERMultiBandInfoListNBR13To(list MultiBandInfoListNBR13, bb *per.BitBuffer) error {
 	v := asn1cUPERMultiBandInfoListNBR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 8); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -34965,10 +36090,11 @@ func marshalUPERMultiBandInfoListNBR13To(list MultiBandInfoListNBR13, bb *per.Bi
 // UnmarshalUPERMultiBandInfoListNBR13 decodes a MultiBandInfoListNBR13 list from UPER.
 func UnmarshalUPERMultiBandInfoListNBR13(data []byte) (MultiBandInfoListNBR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERMultiBandInfoListNBR13From(bb)
+	return UnmarshalUPERMultiBandInfoListNBR13From(bb)
 }
 
-func unmarshalUPERMultiBandInfoListNBR13From(bb *per.BitBuffer) (MultiBandInfoListNBR13, error) {
+// UnmarshalUPERMultiBandInfoListNBR13From decodes a MultiBandInfoListNBR13 list from bb.
+func UnmarshalUPERMultiBandInfoListNBR13From(bb *per.BitBuffer) (MultiBandInfoListNBR13, error) {
 	var v asn1cUPERMultiBandInfoListNBR13ListValue
 	if err := unmarshalUPERMultiBandInfoListNBR13Into(&v, bb); err != nil {
 		return nil, err
@@ -34977,9 +36103,17 @@ func unmarshalUPERMultiBandInfoListNBR13From(bb *per.BitBuffer) (MultiBandInfoLi
 }
 
 func unmarshalUPERMultiBandInfoListNBR13Into(v *asn1cUPERMultiBandInfoListNBR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 8 {
+		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
 	v.Value = make(MultiBandInfoListNBR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -35050,9 +36184,17 @@ func (v *MultiBandInfoNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.FreqBandIndicatorR13 = &tmp_freqbandindicatorr13
 	}
 	if opt_freqbandinfor13 {
-		seqLen_freqbandinfor13, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
-		if err != nil {
-			return fmt.Errorf("decoding freqBandInfo-r13 length: %w", err)
+		var seqLen_freqbandinfor13 int64
+		var errLength_freqbandinfor13 error
+		seqLen_freqbandinfor13, errLength_freqbandinfor13 = per.DecodeConstrainedWholeNumber(bb, 1, 4)
+		if errLength_freqbandinfor13 != nil {
+			return fmt.Errorf("decoding freqBandInfo-r13 length: %w", errLength_freqbandinfor13)
+		}
+		if seqLen_freqbandinfor13 < 1 {
+			return fmt.Errorf("decoding freqBandInfo-r13 length %d below lower bound 1", seqLen_freqbandinfor13)
+		}
+		if seqLen_freqbandinfor13 > 4 {
+			return fmt.Errorf("decoding freqBandInfo-r13 length %d above upper bound 4", seqLen_freqbandinfor13)
 		}
 		tmp_freqbandinfor13 := make(NSPmaxListNBR13, seqLen_freqbandinfor13)
 		for i := int64(0); i < seqLen_freqbandinfor13; i++ {
@@ -35070,13 +36212,14 @@ type asn1cUPERNSPmaxListNBR13ListValue struct{ Value NSPmaxListNBR13 }
 // MarshalUPERNSPmaxListNBR13 encodes a NSPmaxListNBR13 list to UPER.
 func MarshalUPERNSPmaxListNBR13(list NSPmaxListNBR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERNSPmaxListNBR13To(list, bb); err != nil {
+	if err := MarshalUPERNSPmaxListNBR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERNSPmaxListNBR13To(list NSPmaxListNBR13, bb *per.BitBuffer) error {
+// MarshalUPERNSPmaxListNBR13To appends a NSPmaxListNBR13 list to bb.
+func MarshalUPERNSPmaxListNBR13To(list NSPmaxListNBR13, bb *per.BitBuffer) error {
 	v := asn1cUPERNSPmaxListNBR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 4); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -35092,10 +36235,11 @@ func marshalUPERNSPmaxListNBR13To(list NSPmaxListNBR13, bb *per.BitBuffer) error
 // UnmarshalUPERNSPmaxListNBR13 decodes a NSPmaxListNBR13 list from UPER.
 func UnmarshalUPERNSPmaxListNBR13(data []byte) (NSPmaxListNBR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERNSPmaxListNBR13From(bb)
+	return UnmarshalUPERNSPmaxListNBR13From(bb)
 }
 
-func unmarshalUPERNSPmaxListNBR13From(bb *per.BitBuffer) (NSPmaxListNBR13, error) {
+// UnmarshalUPERNSPmaxListNBR13From decodes a NSPmaxListNBR13 list from bb.
+func UnmarshalUPERNSPmaxListNBR13From(bb *per.BitBuffer) (NSPmaxListNBR13, error) {
 	var v asn1cUPERNSPmaxListNBR13ListValue
 	if err := unmarshalUPERNSPmaxListNBR13Into(&v, bb); err != nil {
 		return nil, err
@@ -35104,9 +36248,17 @@ func unmarshalUPERNSPmaxListNBR13From(bb *per.BitBuffer) (NSPmaxListNBR13, error
 }
 
 func unmarshalUPERNSPmaxListNBR13Into(v *asn1cUPERNSPmaxListNBR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 4)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 4 {
+		return fmt.Errorf("decoding value length %d above upper bound 4", seqLen_value)
 	}
 	v.Value = make(NSPmaxListNBR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -35234,9 +36386,17 @@ func (v *ANRMeasConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding anr-QualityThreshold-r16: %w", err)
 	}
 	v.AnrQualityThresholdR16 = NRSRPRangeNBR14(val_anrqualitythresholdr16)
-	seqLen_anrcarrierlistr16, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
-	if err != nil {
-		return fmt.Errorf("decoding anr-CarrierList-r16 length: %w", err)
+	var seqLen_anrcarrierlistr16 int64
+	var errLength_anrcarrierlistr16 error
+	seqLen_anrcarrierlistr16, errLength_anrcarrierlistr16 = per.DecodeConstrainedWholeNumber(bb, 1, 2)
+	if errLength_anrcarrierlistr16 != nil {
+		return fmt.Errorf("decoding anr-CarrierList-r16 length: %w", errLength_anrcarrierlistr16)
+	}
+	if seqLen_anrcarrierlistr16 < 1 {
+		return fmt.Errorf("decoding anr-CarrierList-r16 length %d below lower bound 1", seqLen_anrcarrierlistr16)
+	}
+	if seqLen_anrcarrierlistr16 > 2 {
+		return fmt.Errorf("decoding anr-CarrierList-r16 length %d above upper bound 2", seqLen_anrcarrierlistr16)
 	}
 	v.AnrCarrierListR16 = make(ANRCarrierListNBR16, seqLen_anrcarrierlistr16)
 	for i := int64(0); i < seqLen_anrcarrierlistr16; i++ {
@@ -35270,13 +36430,14 @@ type asn1cUPERANRCarrierListNBR16ListValue struct{ Value ANRCarrierListNBR16 }
 // MarshalUPERANRCarrierListNBR16 encodes a ANRCarrierListNBR16 list to UPER.
 func MarshalUPERANRCarrierListNBR16(list ANRCarrierListNBR16) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERANRCarrierListNBR16To(list, bb); err != nil {
+	if err := MarshalUPERANRCarrierListNBR16To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERANRCarrierListNBR16To(list ANRCarrierListNBR16, bb *per.BitBuffer) error {
+// MarshalUPERANRCarrierListNBR16To appends a ANRCarrierListNBR16 list to bb.
+func MarshalUPERANRCarrierListNBR16To(list ANRCarrierListNBR16, bb *per.BitBuffer) error {
 	v := asn1cUPERANRCarrierListNBR16ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 2); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -35292,10 +36453,11 @@ func marshalUPERANRCarrierListNBR16To(list ANRCarrierListNBR16, bb *per.BitBuffe
 // UnmarshalUPERANRCarrierListNBR16 decodes a ANRCarrierListNBR16 list from UPER.
 func UnmarshalUPERANRCarrierListNBR16(data []byte) (ANRCarrierListNBR16, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERANRCarrierListNBR16From(bb)
+	return UnmarshalUPERANRCarrierListNBR16From(bb)
 }
 
-func unmarshalUPERANRCarrierListNBR16From(bb *per.BitBuffer) (ANRCarrierListNBR16, error) {
+// UnmarshalUPERANRCarrierListNBR16From decodes a ANRCarrierListNBR16 list from bb.
+func UnmarshalUPERANRCarrierListNBR16From(bb *per.BitBuffer) (ANRCarrierListNBR16, error) {
 	var v asn1cUPERANRCarrierListNBR16ListValue
 	if err := unmarshalUPERANRCarrierListNBR16Into(&v, bb); err != nil {
 		return nil, err
@@ -35304,9 +36466,17 @@ func unmarshalUPERANRCarrierListNBR16From(bb *per.BitBuffer) (ANRCarrierListNBR1
 }
 
 func unmarshalUPERANRCarrierListNBR16Into(v *asn1cUPERANRCarrierListNBR16ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 2)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 2 {
+		return fmt.Errorf("decoding value length %d above upper bound 2", seqLen_value)
 	}
 	v.Value = make(ANRCarrierListNBR16, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -35393,9 +36563,17 @@ func (v *ANRCarrierNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.CarrierFreqIndexR16 = val_carrierfreqindexr16
 	if opt_excludedcelllistr16 {
-		seqLen_excludedcelllistr16, err := per.DecodeConstrainedWholeNumber(bb, 1, 16)
-		if err != nil {
-			return fmt.Errorf("decoding excludedCellList-r16 length: %w", err)
+		var seqLen_excludedcelllistr16 int64
+		var errLength_excludedcelllistr16 error
+		seqLen_excludedcelllistr16, errLength_excludedcelllistr16 = per.DecodeConstrainedWholeNumber(bb, 1, 16)
+		if errLength_excludedcelllistr16 != nil {
+			return fmt.Errorf("decoding excludedCellList-r16 length: %w", errLength_excludedcelllistr16)
+		}
+		if seqLen_excludedcelllistr16 < 1 {
+			return fmt.Errorf("decoding excludedCellList-r16 length %d below lower bound 1", seqLen_excludedcelllistr16)
+		}
+		if seqLen_excludedcelllistr16 > 16 {
+			return fmt.Errorf("decoding excludedCellList-r16 length %d above upper bound 16", seqLen_excludedcelllistr16)
 		}
 		tmp_excludedcelllistr16 := make(ANRExcludedCellListNBR16, seqLen_excludedcelllistr16)
 		for i := int64(0); i < seqLen_excludedcelllistr16; i++ {
@@ -35433,13 +36611,14 @@ type asn1cUPERANRExcludedCellListNBR16ListValue struct{ Value ANRExcludedCellLis
 // MarshalUPERANRExcludedCellListNBR16 encodes a ANRExcludedCellListNBR16 list to UPER.
 func MarshalUPERANRExcludedCellListNBR16(list ANRExcludedCellListNBR16) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERANRExcludedCellListNBR16To(list, bb); err != nil {
+	if err := MarshalUPERANRExcludedCellListNBR16To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERANRExcludedCellListNBR16To(list ANRExcludedCellListNBR16, bb *per.BitBuffer) error {
+// MarshalUPERANRExcludedCellListNBR16To appends a ANRExcludedCellListNBR16 list to bb.
+func MarshalUPERANRExcludedCellListNBR16To(list ANRExcludedCellListNBR16, bb *per.BitBuffer) error {
 	v := asn1cUPERANRExcludedCellListNBR16ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 16); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -35455,10 +36634,11 @@ func marshalUPERANRExcludedCellListNBR16To(list ANRExcludedCellListNBR16, bb *pe
 // UnmarshalUPERANRExcludedCellListNBR16 decodes a ANRExcludedCellListNBR16 list from UPER.
 func UnmarshalUPERANRExcludedCellListNBR16(data []byte) (ANRExcludedCellListNBR16, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERANRExcludedCellListNBR16From(bb)
+	return UnmarshalUPERANRExcludedCellListNBR16From(bb)
 }
 
-func unmarshalUPERANRExcludedCellListNBR16From(bb *per.BitBuffer) (ANRExcludedCellListNBR16, error) {
+// UnmarshalUPERANRExcludedCellListNBR16From decodes a ANRExcludedCellListNBR16 list from bb.
+func UnmarshalUPERANRExcludedCellListNBR16From(bb *per.BitBuffer) (ANRExcludedCellListNBR16, error) {
 	var v asn1cUPERANRExcludedCellListNBR16ListValue
 	if err := unmarshalUPERANRExcludedCellListNBR16Into(&v, bb); err != nil {
 		return nil, err
@@ -35467,9 +36647,17 @@ func unmarshalUPERANRExcludedCellListNBR16From(bb *per.BitBuffer) (ANRExcludedCe
 }
 
 func unmarshalUPERANRExcludedCellListNBR16Into(v *asn1cUPERANRExcludedCellListNBR16ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 16)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 16)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 16 {
+		return fmt.Errorf("decoding value length %d above upper bound 16", seqLen_value)
 	}
 	v.Value = make(ANRExcludedCellListNBR16, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -35573,9 +36761,17 @@ func (v *ANRMeasReportNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding relativeTimeStamp-r16: %w", err)
 	}
 	v.RelativeTimeStampR16 = val_relativetimestampr16
-	seqLen_measresultlistr16, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
-	if err != nil {
-		return fmt.Errorf("decoding measResultList-r16 length: %w", err)
+	var seqLen_measresultlistr16 int64
+	var errLength_measresultlistr16 error
+	seqLen_measresultlistr16, errLength_measresultlistr16 = per.DecodeConstrainedWholeNumber(bb, 1, 2)
+	if errLength_measresultlistr16 != nil {
+		return fmt.Errorf("decoding measResultList-r16 length: %w", errLength_measresultlistr16)
+	}
+	if seqLen_measresultlistr16 < 1 {
+		return fmt.Errorf("decoding measResultList-r16 length %d below lower bound 1", seqLen_measresultlistr16)
+	}
+	if seqLen_measresultlistr16 > 2 {
+		return fmt.Errorf("decoding measResultList-r16 length %d above upper bound 2", seqLen_measresultlistr16)
 	}
 	v.MeasResultListR16 = make(ANRMeasReportNBR16MeasResultListR16, seqLen_measresultlistr16)
 	for i := int64(0); i < seqLen_measresultlistr16; i++ {
@@ -39155,9 +40351,17 @@ func (v *RFParametersNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_supportedbandlistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 64)
-	if err != nil {
-		return fmt.Errorf("decoding supportedBandList-r13 length: %w", err)
+	var seqLen_supportedbandlistr13 int64
+	var errLength_supportedbandlistr13 error
+	seqLen_supportedbandlistr13, errLength_supportedbandlistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 64)
+	if errLength_supportedbandlistr13 != nil {
+		return fmt.Errorf("decoding supportedBandList-r13 length: %w", errLength_supportedbandlistr13)
+	}
+	if seqLen_supportedbandlistr13 < 1 {
+		return fmt.Errorf("decoding supportedBandList-r13 length %d below lower bound 1", seqLen_supportedbandlistr13)
+	}
+	if seqLen_supportedbandlistr13 > 64 {
+		return fmt.Errorf("decoding supportedBandList-r13 length %d above upper bound 64", seqLen_supportedbandlistr13)
 	}
 	v.SupportedBandListR13 = make(SupportedBandListNBR13, seqLen_supportedbandlistr13)
 	for i := int64(0); i < seqLen_supportedbandlistr13; i++ {
@@ -39259,9 +40463,17 @@ func (v *RFParametersNBV1710) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_supportedbandlistv1710 {
-		seqLen_supportedbandlistv1710, err := per.DecodeConstrainedWholeNumber(bb, 1, 64)
-		if err != nil {
-			return fmt.Errorf("decoding supportedBandList-v1710 length: %w", err)
+		var seqLen_supportedbandlistv1710 int64
+		var errLength_supportedbandlistv1710 error
+		seqLen_supportedbandlistv1710, errLength_supportedbandlistv1710 = per.DecodeConstrainedWholeNumber(bb, 1, 64)
+		if errLength_supportedbandlistv1710 != nil {
+			return fmt.Errorf("decoding supportedBandList-v1710 length: %w", errLength_supportedbandlistv1710)
+		}
+		if seqLen_supportedbandlistv1710 < 1 {
+			return fmt.Errorf("decoding supportedBandList-v1710 length %d below lower bound 1", seqLen_supportedbandlistv1710)
+		}
+		if seqLen_supportedbandlistv1710 > 64 {
+			return fmt.Errorf("decoding supportedBandList-v1710 length %d above upper bound 64", seqLen_supportedbandlistv1710)
 		}
 		tmp_supportedbandlistv1710 := make(SupportedBandListNBV1710, seqLen_supportedbandlistv1710)
 		for i := int64(0); i < seqLen_supportedbandlistv1710; i++ {
@@ -39314,9 +40526,17 @@ func (v *RFParametersNBV1920) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_supportedbandlistv1920 {
-		seqLen_supportedbandlistv1920, err := per.DecodeConstrainedWholeNumber(bb, 1, 64)
-		if err != nil {
-			return fmt.Errorf("decoding supportedBandList-v1920 length: %w", err)
+		var seqLen_supportedbandlistv1920 int64
+		var errLength_supportedbandlistv1920 error
+		seqLen_supportedbandlistv1920, errLength_supportedbandlistv1920 = per.DecodeConstrainedWholeNumber(bb, 1, 64)
+		if errLength_supportedbandlistv1920 != nil {
+			return fmt.Errorf("decoding supportedBandList-v1920 length: %w", errLength_supportedbandlistv1920)
+		}
+		if seqLen_supportedbandlistv1920 < 1 {
+			return fmt.Errorf("decoding supportedBandList-v1920 length %d below lower bound 1", seqLen_supportedbandlistv1920)
+		}
+		if seqLen_supportedbandlistv1920 > 64 {
+			return fmt.Errorf("decoding supportedBandList-v1920 length %d above upper bound 64", seqLen_supportedbandlistv1920)
 		}
 		tmp_supportedbandlistv1920 := make(SupportedBandListNBV1920, seqLen_supportedbandlistv1920)
 		for i := int64(0); i < seqLen_supportedbandlistv1920; i++ {
@@ -39369,9 +40589,17 @@ func (v *RFParametersNBV1930) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_supportedbandlistv1930 {
-		seqLen_supportedbandlistv1930, err := per.DecodeConstrainedWholeNumber(bb, 1, 64)
-		if err != nil {
-			return fmt.Errorf("decoding supportedBandList-v1930 length: %w", err)
+		var seqLen_supportedbandlistv1930 int64
+		var errLength_supportedbandlistv1930 error
+		seqLen_supportedbandlistv1930, errLength_supportedbandlistv1930 = per.DecodeConstrainedWholeNumber(bb, 1, 64)
+		if errLength_supportedbandlistv1930 != nil {
+			return fmt.Errorf("decoding supportedBandList-v1930 length: %w", errLength_supportedbandlistv1930)
+		}
+		if seqLen_supportedbandlistv1930 < 1 {
+			return fmt.Errorf("decoding supportedBandList-v1930 length %d below lower bound 1", seqLen_supportedbandlistv1930)
+		}
+		if seqLen_supportedbandlistv1930 > 64 {
+			return fmt.Errorf("decoding supportedBandList-v1930 length %d above upper bound 64", seqLen_supportedbandlistv1930)
 		}
 		tmp_supportedbandlistv1930 := make(SupportedBandListNBV1930, seqLen_supportedbandlistv1930)
 		for i := int64(0); i < seqLen_supportedbandlistv1930; i++ {
@@ -39389,13 +40617,14 @@ type asn1cUPERSupportedBandListNBR13ListValue struct{ Value SupportedBandListNBR
 // MarshalUPERSupportedBandListNBR13 encodes a SupportedBandListNBR13 list to UPER.
 func MarshalUPERSupportedBandListNBR13(list SupportedBandListNBR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERSupportedBandListNBR13To(list, bb); err != nil {
+	if err := MarshalUPERSupportedBandListNBR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERSupportedBandListNBR13To(list SupportedBandListNBR13, bb *per.BitBuffer) error {
+// MarshalUPERSupportedBandListNBR13To appends a SupportedBandListNBR13 list to bb.
+func MarshalUPERSupportedBandListNBR13To(list SupportedBandListNBR13, bb *per.BitBuffer) error {
 	v := asn1cUPERSupportedBandListNBR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 64); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -39411,10 +40640,11 @@ func marshalUPERSupportedBandListNBR13To(list SupportedBandListNBR13, bb *per.Bi
 // UnmarshalUPERSupportedBandListNBR13 decodes a SupportedBandListNBR13 list from UPER.
 func UnmarshalUPERSupportedBandListNBR13(data []byte) (SupportedBandListNBR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERSupportedBandListNBR13From(bb)
+	return UnmarshalUPERSupportedBandListNBR13From(bb)
 }
 
-func unmarshalUPERSupportedBandListNBR13From(bb *per.BitBuffer) (SupportedBandListNBR13, error) {
+// UnmarshalUPERSupportedBandListNBR13From decodes a SupportedBandListNBR13 list from bb.
+func UnmarshalUPERSupportedBandListNBR13From(bb *per.BitBuffer) (SupportedBandListNBR13, error) {
 	var v asn1cUPERSupportedBandListNBR13ListValue
 	if err := unmarshalUPERSupportedBandListNBR13Into(&v, bb); err != nil {
 		return nil, err
@@ -39423,9 +40653,17 @@ func unmarshalUPERSupportedBandListNBR13From(bb *per.BitBuffer) (SupportedBandLi
 }
 
 func unmarshalUPERSupportedBandListNBR13Into(v *asn1cUPERSupportedBandListNBR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 64)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 64)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 64 {
+		return fmt.Errorf("decoding value length %d above upper bound 64", seqLen_value)
 	}
 	v.Value = make(SupportedBandListNBR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -39441,13 +40679,14 @@ type asn1cUPERSupportedBandListNBV1710ListValue struct{ Value SupportedBandListN
 // MarshalUPERSupportedBandListNBV1710 encodes a SupportedBandListNBV1710 list to UPER.
 func MarshalUPERSupportedBandListNBV1710(list SupportedBandListNBV1710) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERSupportedBandListNBV1710To(list, bb); err != nil {
+	if err := MarshalUPERSupportedBandListNBV1710To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERSupportedBandListNBV1710To(list SupportedBandListNBV1710, bb *per.BitBuffer) error {
+// MarshalUPERSupportedBandListNBV1710To appends a SupportedBandListNBV1710 list to bb.
+func MarshalUPERSupportedBandListNBV1710To(list SupportedBandListNBV1710, bb *per.BitBuffer) error {
 	v := asn1cUPERSupportedBandListNBV1710ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 64); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -39463,10 +40702,11 @@ func marshalUPERSupportedBandListNBV1710To(list SupportedBandListNBV1710, bb *pe
 // UnmarshalUPERSupportedBandListNBV1710 decodes a SupportedBandListNBV1710 list from UPER.
 func UnmarshalUPERSupportedBandListNBV1710(data []byte) (SupportedBandListNBV1710, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERSupportedBandListNBV1710From(bb)
+	return UnmarshalUPERSupportedBandListNBV1710From(bb)
 }
 
-func unmarshalUPERSupportedBandListNBV1710From(bb *per.BitBuffer) (SupportedBandListNBV1710, error) {
+// UnmarshalUPERSupportedBandListNBV1710From decodes a SupportedBandListNBV1710 list from bb.
+func UnmarshalUPERSupportedBandListNBV1710From(bb *per.BitBuffer) (SupportedBandListNBV1710, error) {
 	var v asn1cUPERSupportedBandListNBV1710ListValue
 	if err := unmarshalUPERSupportedBandListNBV1710Into(&v, bb); err != nil {
 		return nil, err
@@ -39475,9 +40715,17 @@ func unmarshalUPERSupportedBandListNBV1710From(bb *per.BitBuffer) (SupportedBand
 }
 
 func unmarshalUPERSupportedBandListNBV1710Into(v *asn1cUPERSupportedBandListNBV1710ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 64)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 64)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 64 {
+		return fmt.Errorf("decoding value length %d above upper bound 64", seqLen_value)
 	}
 	v.Value = make(SupportedBandListNBV1710, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -39493,13 +40741,14 @@ type asn1cUPERSupportedBandListNBV1920ListValue struct{ Value SupportedBandListN
 // MarshalUPERSupportedBandListNBV1920 encodes a SupportedBandListNBV1920 list to UPER.
 func MarshalUPERSupportedBandListNBV1920(list SupportedBandListNBV1920) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERSupportedBandListNBV1920To(list, bb); err != nil {
+	if err := MarshalUPERSupportedBandListNBV1920To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERSupportedBandListNBV1920To(list SupportedBandListNBV1920, bb *per.BitBuffer) error {
+// MarshalUPERSupportedBandListNBV1920To appends a SupportedBandListNBV1920 list to bb.
+func MarshalUPERSupportedBandListNBV1920To(list SupportedBandListNBV1920, bb *per.BitBuffer) error {
 	v := asn1cUPERSupportedBandListNBV1920ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 64); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -39515,10 +40764,11 @@ func marshalUPERSupportedBandListNBV1920To(list SupportedBandListNBV1920, bb *pe
 // UnmarshalUPERSupportedBandListNBV1920 decodes a SupportedBandListNBV1920 list from UPER.
 func UnmarshalUPERSupportedBandListNBV1920(data []byte) (SupportedBandListNBV1920, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERSupportedBandListNBV1920From(bb)
+	return UnmarshalUPERSupportedBandListNBV1920From(bb)
 }
 
-func unmarshalUPERSupportedBandListNBV1920From(bb *per.BitBuffer) (SupportedBandListNBV1920, error) {
+// UnmarshalUPERSupportedBandListNBV1920From decodes a SupportedBandListNBV1920 list from bb.
+func UnmarshalUPERSupportedBandListNBV1920From(bb *per.BitBuffer) (SupportedBandListNBV1920, error) {
 	var v asn1cUPERSupportedBandListNBV1920ListValue
 	if err := unmarshalUPERSupportedBandListNBV1920Into(&v, bb); err != nil {
 		return nil, err
@@ -39527,9 +40777,17 @@ func unmarshalUPERSupportedBandListNBV1920From(bb *per.BitBuffer) (SupportedBand
 }
 
 func unmarshalUPERSupportedBandListNBV1920Into(v *asn1cUPERSupportedBandListNBV1920ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 64)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 64)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 64 {
+		return fmt.Errorf("decoding value length %d above upper bound 64", seqLen_value)
 	}
 	v.Value = make(SupportedBandListNBV1920, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -39545,13 +40803,14 @@ type asn1cUPERSupportedBandListNBV1930ListValue struct{ Value SupportedBandListN
 // MarshalUPERSupportedBandListNBV1930 encodes a SupportedBandListNBV1930 list to UPER.
 func MarshalUPERSupportedBandListNBV1930(list SupportedBandListNBV1930) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERSupportedBandListNBV1930To(list, bb); err != nil {
+	if err := MarshalUPERSupportedBandListNBV1930To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERSupportedBandListNBV1930To(list SupportedBandListNBV1930, bb *per.BitBuffer) error {
+// MarshalUPERSupportedBandListNBV1930To appends a SupportedBandListNBV1930 list to bb.
+func MarshalUPERSupportedBandListNBV1930To(list SupportedBandListNBV1930, bb *per.BitBuffer) error {
 	v := asn1cUPERSupportedBandListNBV1930ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 64); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -39567,10 +40826,11 @@ func marshalUPERSupportedBandListNBV1930To(list SupportedBandListNBV1930, bb *pe
 // UnmarshalUPERSupportedBandListNBV1930 decodes a SupportedBandListNBV1930 list from UPER.
 func UnmarshalUPERSupportedBandListNBV1930(data []byte) (SupportedBandListNBV1930, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERSupportedBandListNBV1930From(bb)
+	return UnmarshalUPERSupportedBandListNBV1930From(bb)
 }
 
-func unmarshalUPERSupportedBandListNBV1930From(bb *per.BitBuffer) (SupportedBandListNBV1930, error) {
+// UnmarshalUPERSupportedBandListNBV1930From decodes a SupportedBandListNBV1930 list from bb.
+func UnmarshalUPERSupportedBandListNBV1930From(bb *per.BitBuffer) (SupportedBandListNBV1930, error) {
 	var v asn1cUPERSupportedBandListNBV1930ListValue
 	if err := unmarshalUPERSupportedBandListNBV1930Into(&v, bb); err != nil {
 		return nil, err
@@ -39579,9 +40839,17 @@ func unmarshalUPERSupportedBandListNBV1930From(bb *per.BitBuffer) (SupportedBand
 }
 
 func unmarshalUPERSupportedBandListNBV1930Into(v *asn1cUPERSupportedBandListNBV1930ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 64)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 64)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 64 {
+		return fmt.Errorf("decoding value length %d above upper bound 64", seqLen_value)
 	}
 	v.Value = make(SupportedBandListNBV1930, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -40467,13 +41735,14 @@ type asn1cUPERSCMTCHInfoListNBR14ListValue struct{ Value SCMTCHInfoListNBR14 }
 // MarshalUPERSCMTCHInfoListNBR14 encodes a SCMTCHInfoListNBR14 list to UPER.
 func MarshalUPERSCMTCHInfoListNBR14(list SCMTCHInfoListNBR14) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERSCMTCHInfoListNBR14To(list, bb); err != nil {
+	if err := MarshalUPERSCMTCHInfoListNBR14To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERSCMTCHInfoListNBR14To(list SCMTCHInfoListNBR14, bb *per.BitBuffer) error {
+// MarshalUPERSCMTCHInfoListNBR14To appends a SCMTCHInfoListNBR14 list to bb.
+func MarshalUPERSCMTCHInfoListNBR14To(list SCMTCHInfoListNBR14, bb *per.BitBuffer) error {
 	v := asn1cUPERSCMTCHInfoListNBR14ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 0, 64); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -40489,10 +41758,11 @@ func marshalUPERSCMTCHInfoListNBR14To(list SCMTCHInfoListNBR14, bb *per.BitBuffe
 // UnmarshalUPERSCMTCHInfoListNBR14 decodes a SCMTCHInfoListNBR14 list from UPER.
 func UnmarshalUPERSCMTCHInfoListNBR14(data []byte) (SCMTCHInfoListNBR14, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERSCMTCHInfoListNBR14From(bb)
+	return UnmarshalUPERSCMTCHInfoListNBR14From(bb)
 }
 
-func unmarshalUPERSCMTCHInfoListNBR14From(bb *per.BitBuffer) (SCMTCHInfoListNBR14, error) {
+// UnmarshalUPERSCMTCHInfoListNBR14From decodes a SCMTCHInfoListNBR14 list from bb.
+func UnmarshalUPERSCMTCHInfoListNBR14From(bb *per.BitBuffer) (SCMTCHInfoListNBR14, error) {
 	var v asn1cUPERSCMTCHInfoListNBR14ListValue
 	if err := unmarshalUPERSCMTCHInfoListNBR14Into(&v, bb); err != nil {
 		return nil, err
@@ -40501,9 +41771,17 @@ func unmarshalUPERSCMTCHInfoListNBR14From(bb *per.BitBuffer) (SCMTCHInfoListNBR1
 }
 
 func unmarshalUPERSCMTCHInfoListNBR14Into(v *asn1cUPERSCMTCHInfoListNBR14ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 0, 64)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 0, 64)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 0 {
+		return fmt.Errorf("decoding value length %d below lower bound 0", seqLen_value)
+	}
+	if seqLen_value > 64 {
+		return fmt.Errorf("decoding value length %d above upper bound 64", seqLen_value)
 	}
 	v.Value = make(SCMTCHInfoListNBR14, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -40772,13 +42050,14 @@ type asn1cUPERSCPTMNeighbourCellListNBR14ListValue struct{ Value SCPTMNeighbourC
 // MarshalUPERSCPTMNeighbourCellListNBR14 encodes a SCPTMNeighbourCellListNBR14 list to UPER.
 func MarshalUPERSCPTMNeighbourCellListNBR14(list SCPTMNeighbourCellListNBR14) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERSCPTMNeighbourCellListNBR14To(list, bb); err != nil {
+	if err := MarshalUPERSCPTMNeighbourCellListNBR14To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERSCPTMNeighbourCellListNBR14To(list SCPTMNeighbourCellListNBR14, bb *per.BitBuffer) error {
+// MarshalUPERSCPTMNeighbourCellListNBR14To appends a SCPTMNeighbourCellListNBR14 list to bb.
+func MarshalUPERSCPTMNeighbourCellListNBR14To(list SCPTMNeighbourCellListNBR14, bb *per.BitBuffer) error {
 	v := asn1cUPERSCPTMNeighbourCellListNBR14ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 8); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -40794,10 +42073,11 @@ func marshalUPERSCPTMNeighbourCellListNBR14To(list SCPTMNeighbourCellListNBR14, 
 // UnmarshalUPERSCPTMNeighbourCellListNBR14 decodes a SCPTMNeighbourCellListNBR14 list from UPER.
 func UnmarshalUPERSCPTMNeighbourCellListNBR14(data []byte) (SCPTMNeighbourCellListNBR14, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERSCPTMNeighbourCellListNBR14From(bb)
+	return UnmarshalUPERSCPTMNeighbourCellListNBR14From(bb)
 }
 
-func unmarshalUPERSCPTMNeighbourCellListNBR14From(bb *per.BitBuffer) (SCPTMNeighbourCellListNBR14, error) {
+// UnmarshalUPERSCPTMNeighbourCellListNBR14From decodes a SCPTMNeighbourCellListNBR14 list from bb.
+func UnmarshalUPERSCPTMNeighbourCellListNBR14From(bb *per.BitBuffer) (SCPTMNeighbourCellListNBR14, error) {
 	var v asn1cUPERSCPTMNeighbourCellListNBR14ListValue
 	if err := unmarshalUPERSCPTMNeighbourCellListNBR14Into(&v, bb); err != nil {
 		return nil, err
@@ -40806,9 +42086,17 @@ func unmarshalUPERSCPTMNeighbourCellListNBR14From(bb *per.BitBuffer) (SCPTMNeigh
 }
 
 func unmarshalUPERSCPTMNeighbourCellListNBR14Into(v *asn1cUPERSCPTMNeighbourCellListNBR14ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 8 {
+		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
 	v.Value = make(SCPTMNeighbourCellListNBR14, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -42367,13 +43655,14 @@ type asn1cUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13ListVal
 // MarshalUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13 encodes a RRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13 list to UPER.
 func MarshalUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13(list RRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13To(list, bb); err != nil {
+	if err := MarshalUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13To(list RRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13, bb *per.BitBuffer) error {
+// MarshalUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13To appends a RRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13 list to bb.
+func MarshalUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13To(list RRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13, bb *per.BitBuffer) error {
 	v := asn1cUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 2); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -42389,10 +43678,11 @@ func marshalUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13To(li
 // UnmarshalUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13 decodes a RRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13 list from UPER.
 func UnmarshalUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13(data []byte) (RRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13From(bb)
+	return UnmarshalUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13From(bb)
 }
 
-func unmarshalUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13From(bb *per.BitBuffer) (RRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13, error) {
+// UnmarshalUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13From decodes a RRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13 list from bb.
+func UnmarshalUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13From(bb *per.BitBuffer) (RRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13, error) {
 	var v asn1cUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13ListValue
 	if err := unmarshalUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13Into(&v, bb); err != nil {
 		return nil, err
@@ -42401,9 +43691,17 @@ func unmarshalUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13Fro
 }
 
 func unmarshalUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13Into(v *asn1cUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 2)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 2 {
+		return fmt.Errorf("decoding value length %d above upper bound 2", seqLen_value)
 	}
 	v.Value = make(RRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -43351,13 +44649,14 @@ type asn1cUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19ListValue stru
 // MarshalUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19 encodes a RedirectedCarrierInfoNBV1900SatAssistanceInfoListR19 list to UPER.
 func MarshalUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19(list RedirectedCarrierInfoNBV1900SatAssistanceInfoListR19) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19To(list, bb); err != nil {
+	if err := MarshalUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19To(list RedirectedCarrierInfoNBV1900SatAssistanceInfoListR19, bb *per.BitBuffer) error {
+// MarshalUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19To appends a RedirectedCarrierInfoNBV1900SatAssistanceInfoListR19 list to bb.
+func MarshalUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19To(list RedirectedCarrierInfoNBV1900SatAssistanceInfoListR19, bb *per.BitBuffer) error {
 	v := asn1cUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 4); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -43373,10 +44672,11 @@ func marshalUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19To(list Redi
 // UnmarshalUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19 decodes a RedirectedCarrierInfoNBV1900SatAssistanceInfoListR19 list from UPER.
 func UnmarshalUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19(data []byte) (RedirectedCarrierInfoNBV1900SatAssistanceInfoListR19, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19From(bb)
+	return UnmarshalUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19From(bb)
 }
 
-func unmarshalUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19From(bb *per.BitBuffer) (RedirectedCarrierInfoNBV1900SatAssistanceInfoListR19, error) {
+// UnmarshalUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19From decodes a RedirectedCarrierInfoNBV1900SatAssistanceInfoListR19 list from bb.
+func UnmarshalUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19From(bb *per.BitBuffer) (RedirectedCarrierInfoNBV1900SatAssistanceInfoListR19, error) {
 	var v asn1cUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19ListValue
 	if err := unmarshalUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19Into(&v, bb); err != nil {
 		return nil, err
@@ -43385,9 +44685,17 @@ func unmarshalUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19From(bb *p
 }
 
 func unmarshalUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19Into(v *asn1cUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 4)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 4 {
+		return fmt.Errorf("decoding value length %d above upper bound 4", seqLen_value)
 	}
 	v.Value = make(RedirectedCarrierInfoNBV1900SatAssistanceInfoListR19, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -44168,13 +45476,14 @@ type asn1cUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16ListValue struct 
 // MarshalUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16 encodes a RRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16 list to UPER.
 func MarshalUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16(list RRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16To(list, bb); err != nil {
+	if err := MarshalUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16To(list RRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16, bb *per.BitBuffer) error {
+// MarshalUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16To appends a RRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16 list to bb.
+func MarshalUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16To(list RRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16, bb *per.BitBuffer) error {
 	v := asn1cUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 8); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -44190,10 +45499,11 @@ func marshalUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16To(list RRCConn
 // UnmarshalUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16 decodes a RRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16 list from UPER.
 func UnmarshalUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16(data []byte) (RRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16From(bb)
+	return UnmarshalUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16From(bb)
 }
 
-func unmarshalUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16From(bb *per.BitBuffer) (RRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16, error) {
+// UnmarshalUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16From decodes a RRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16 list from bb.
+func UnmarshalUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16From(bb *per.BitBuffer) (RRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16, error) {
 	var v asn1cUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16ListValue
 	if err := unmarshalUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16Into(&v, bb); err != nil {
 		return nil, err
@@ -44202,9 +45512,17 @@ func unmarshalUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16From(bb *per.
 }
 
 func unmarshalUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16Into(v *asn1cUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 8 {
+		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
 	v.Value = make(RRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -44881,13 +46199,14 @@ type asn1cUPERSystemInformationNBR13IEsSibTypeAndInfoR13ListValue struct {
 // MarshalUPERSystemInformationNBR13IEsSibTypeAndInfoR13 encodes a SystemInformationNBR13IEsSibTypeAndInfoR13 list to UPER.
 func MarshalUPERSystemInformationNBR13IEsSibTypeAndInfoR13(list SystemInformationNBR13IEsSibTypeAndInfoR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERSystemInformationNBR13IEsSibTypeAndInfoR13To(list, bb); err != nil {
+	if err := MarshalUPERSystemInformationNBR13IEsSibTypeAndInfoR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERSystemInformationNBR13IEsSibTypeAndInfoR13To(list SystemInformationNBR13IEsSibTypeAndInfoR13, bb *per.BitBuffer) error {
+// MarshalUPERSystemInformationNBR13IEsSibTypeAndInfoR13To appends a SystemInformationNBR13IEsSibTypeAndInfoR13 list to bb.
+func MarshalUPERSystemInformationNBR13IEsSibTypeAndInfoR13To(list SystemInformationNBR13IEsSibTypeAndInfoR13, bb *per.BitBuffer) error {
 	v := asn1cUPERSystemInformationNBR13IEsSibTypeAndInfoR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 32); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -44903,10 +46222,11 @@ func marshalUPERSystemInformationNBR13IEsSibTypeAndInfoR13To(list SystemInformat
 // UnmarshalUPERSystemInformationNBR13IEsSibTypeAndInfoR13 decodes a SystemInformationNBR13IEsSibTypeAndInfoR13 list from UPER.
 func UnmarshalUPERSystemInformationNBR13IEsSibTypeAndInfoR13(data []byte) (SystemInformationNBR13IEsSibTypeAndInfoR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERSystemInformationNBR13IEsSibTypeAndInfoR13From(bb)
+	return UnmarshalUPERSystemInformationNBR13IEsSibTypeAndInfoR13From(bb)
 }
 
-func unmarshalUPERSystemInformationNBR13IEsSibTypeAndInfoR13From(bb *per.BitBuffer) (SystemInformationNBR13IEsSibTypeAndInfoR13, error) {
+// UnmarshalUPERSystemInformationNBR13IEsSibTypeAndInfoR13From decodes a SystemInformationNBR13IEsSibTypeAndInfoR13 list from bb.
+func UnmarshalUPERSystemInformationNBR13IEsSibTypeAndInfoR13From(bb *per.BitBuffer) (SystemInformationNBR13IEsSibTypeAndInfoR13, error) {
 	var v asn1cUPERSystemInformationNBR13IEsSibTypeAndInfoR13ListValue
 	if err := unmarshalUPERSystemInformationNBR13IEsSibTypeAndInfoR13Into(&v, bb); err != nil {
 		return nil, err
@@ -44915,9 +46235,17 @@ func unmarshalUPERSystemInformationNBR13IEsSibTypeAndInfoR13From(bb *per.BitBuff
 }
 
 func unmarshalUPERSystemInformationNBR13IEsSibTypeAndInfoR13Into(v *asn1cUPERSystemInformationNBR13IEsSibTypeAndInfoR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 32)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 32 {
+		return fmt.Errorf("decoding value length %d above upper bound 32", seqLen_value)
 	}
 	v.Value = make(SystemInformationNBR13IEsSibTypeAndInfoR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -44991,9 +46319,17 @@ func (v *SystemInformationBlockType1NBCellAccessRelatedInfoR13) UnmarshalUPER(da
 }
 
 func (v *SystemInformationBlockType1NBCellAccessRelatedInfoR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	seqLen_plmnidentitylistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 6)
-	if err != nil {
-		return fmt.Errorf("decoding plmn-IdentityList-r13 length: %w", err)
+	var seqLen_plmnidentitylistr13 int64
+	var errLength_plmnidentitylistr13 error
+	seqLen_plmnidentitylistr13, errLength_plmnidentitylistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 6)
+	if errLength_plmnidentitylistr13 != nil {
+		return fmt.Errorf("decoding plmn-IdentityList-r13 length: %w", errLength_plmnidentitylistr13)
+	}
+	if seqLen_plmnidentitylistr13 < 1 {
+		return fmt.Errorf("decoding plmn-IdentityList-r13 length %d below lower bound 1", seqLen_plmnidentitylistr13)
+	}
+	if seqLen_plmnidentitylistr13 > 6 {
+		return fmt.Errorf("decoding plmn-IdentityList-r13 length %d above upper bound 6", seqLen_plmnidentitylistr13)
 	}
 	v.PlmnIdentityListR13 = make(PLMNIdentityListNBR13, seqLen_plmnidentitylistr13)
 	for i := int64(0); i < seqLen_plmnidentitylistr13; i++ {
@@ -45169,9 +46505,17 @@ func (v *SystemInformationBlockType1NBV1610CellAccessRelatedInfo5GCR16) Unmarsha
 	if err != nil {
 		return err
 	}
-	seqLen_plmnidentitylistr16, err := per.DecodeConstrainedWholeNumber(bb, 1, 6)
-	if err != nil {
-		return fmt.Errorf("decoding plmn-IdentityList-r16 length: %w", err)
+	var seqLen_plmnidentitylistr16 int64
+	var errLength_plmnidentitylistr16 error
+	seqLen_plmnidentitylistr16, errLength_plmnidentitylistr16 = per.DecodeConstrainedWholeNumber(bb, 1, 6)
+	if errLength_plmnidentitylistr16 != nil {
+		return fmt.Errorf("decoding plmn-IdentityList-r16 length: %w", errLength_plmnidentitylistr16)
+	}
+	if seqLen_plmnidentitylistr16 < 1 {
+		return fmt.Errorf("decoding plmn-IdentityList-r16 length %d below lower bound 1", seqLen_plmnidentitylistr16)
+	}
+	if seqLen_plmnidentitylistr16 > 6 {
+		return fmt.Errorf("decoding plmn-IdentityList-r16 length %d above upper bound 6", seqLen_plmnidentitylistr16)
 	}
 	v.PlmnIdentityListR16 = make(PLMNIdentityList5GCNBR16, seqLen_plmnidentitylistr16)
 	for i := int64(0); i < seqLen_plmnidentitylistr16; i++ {
@@ -45248,9 +46592,17 @@ func (v *SystemInformationBlockType1NBV1700CellAccessRelatedInfoNTNR17) Unmarsha
 	}
 	v.CellBarredNTNR17 = val_cellbarredntnr17
 	if opt_plmnidentitylistv1700 {
-		seqLen_plmnidentitylistv1700, err := per.DecodeConstrainedWholeNumber(bb, 1, 6)
-		if err != nil {
-			return fmt.Errorf("decoding plmn-IdentityList-v1700 length: %w", err)
+		var seqLen_plmnidentitylistv1700 int64
+		var errLength_plmnidentitylistv1700 error
+		seqLen_plmnidentitylistv1700, errLength_plmnidentitylistv1700 = per.DecodeConstrainedWholeNumber(bb, 1, 6)
+		if errLength_plmnidentitylistv1700 != nil {
+			return fmt.Errorf("decoding plmn-IdentityList-v1700 length: %w", errLength_plmnidentitylistv1700)
+		}
+		if seqLen_plmnidentitylistv1700 < 1 {
+			return fmt.Errorf("decoding plmn-IdentityList-v1700 length %d below lower bound 1", seqLen_plmnidentitylistv1700)
+		}
+		if seqLen_plmnidentitylistv1700 > 6 {
+			return fmt.Errorf("decoding plmn-IdentityList-v1700 length %d above upper bound 6", seqLen_plmnidentitylistv1700)
 		}
 		tmp_plmnidentitylistv1700 := make(PLMNIdentityListNBV1700, seqLen_plmnidentitylistv1700)
 		for i := int64(0); i < seqLen_plmnidentitylistv1700; i++ {
@@ -46019,13 +47371,14 @@ type asn1cUPERSystemInformationBlockType2NBR13MultiBandInfoListR13ListValue stru
 // MarshalUPERSystemInformationBlockType2NBR13MultiBandInfoListR13 encodes a SystemInformationBlockType2NBR13MultiBandInfoListR13 list to UPER.
 func MarshalUPERSystemInformationBlockType2NBR13MultiBandInfoListR13(list SystemInformationBlockType2NBR13MultiBandInfoListR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERSystemInformationBlockType2NBR13MultiBandInfoListR13To(list, bb); err != nil {
+	if err := MarshalUPERSystemInformationBlockType2NBR13MultiBandInfoListR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERSystemInformationBlockType2NBR13MultiBandInfoListR13To(list SystemInformationBlockType2NBR13MultiBandInfoListR13, bb *per.BitBuffer) error {
+// MarshalUPERSystemInformationBlockType2NBR13MultiBandInfoListR13To appends a SystemInformationBlockType2NBR13MultiBandInfoListR13 list to bb.
+func MarshalUPERSystemInformationBlockType2NBR13MultiBandInfoListR13To(list SystemInformationBlockType2NBR13MultiBandInfoListR13, bb *per.BitBuffer) error {
 	v := asn1cUPERSystemInformationBlockType2NBR13MultiBandInfoListR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 8); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -46041,10 +47394,11 @@ func marshalUPERSystemInformationBlockType2NBR13MultiBandInfoListR13To(list Syst
 // UnmarshalUPERSystemInformationBlockType2NBR13MultiBandInfoListR13 decodes a SystemInformationBlockType2NBR13MultiBandInfoListR13 list from UPER.
 func UnmarshalUPERSystemInformationBlockType2NBR13MultiBandInfoListR13(data []byte) (SystemInformationBlockType2NBR13MultiBandInfoListR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERSystemInformationBlockType2NBR13MultiBandInfoListR13From(bb)
+	return UnmarshalUPERSystemInformationBlockType2NBR13MultiBandInfoListR13From(bb)
 }
 
-func unmarshalUPERSystemInformationBlockType2NBR13MultiBandInfoListR13From(bb *per.BitBuffer) (SystemInformationBlockType2NBR13MultiBandInfoListR13, error) {
+// UnmarshalUPERSystemInformationBlockType2NBR13MultiBandInfoListR13From decodes a SystemInformationBlockType2NBR13MultiBandInfoListR13 list from bb.
+func UnmarshalUPERSystemInformationBlockType2NBR13MultiBandInfoListR13From(bb *per.BitBuffer) (SystemInformationBlockType2NBR13MultiBandInfoListR13, error) {
 	var v asn1cUPERSystemInformationBlockType2NBR13MultiBandInfoListR13ListValue
 	if err := unmarshalUPERSystemInformationBlockType2NBR13MultiBandInfoListR13Into(&v, bb); err != nil {
 		return nil, err
@@ -46053,9 +47407,17 @@ func unmarshalUPERSystemInformationBlockType2NBR13MultiBandInfoListR13From(bb *p
 }
 
 func unmarshalUPERSystemInformationBlockType2NBR13MultiBandInfoListR13Into(v *asn1cUPERSystemInformationBlockType2NBR13MultiBandInfoListR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 8 {
+		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
 	v.Value = make(SystemInformationBlockType2NBR13MultiBandInfoListR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -46257,19 +47619,20 @@ type asn1cUPERSystemInformationBlockType3NBR13MultiBandInfoListR13ListValue stru
 // MarshalUPERSystemInformationBlockType3NBR13MultiBandInfoListR13 encodes a SystemInformationBlockType3NBR13MultiBandInfoListR13 list to UPER.
 func MarshalUPERSystemInformationBlockType3NBR13MultiBandInfoListR13(list SystemInformationBlockType3NBR13MultiBandInfoListR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERSystemInformationBlockType3NBR13MultiBandInfoListR13To(list, bb); err != nil {
+	if err := MarshalUPERSystemInformationBlockType3NBR13MultiBandInfoListR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERSystemInformationBlockType3NBR13MultiBandInfoListR13To(list SystemInformationBlockType3NBR13MultiBandInfoListR13, bb *per.BitBuffer) error {
+// MarshalUPERSystemInformationBlockType3NBR13MultiBandInfoListR13To appends a SystemInformationBlockType3NBR13MultiBandInfoListR13 list to bb.
+func MarshalUPERSystemInformationBlockType3NBR13MultiBandInfoListR13To(list SystemInformationBlockType3NBR13MultiBandInfoListR13, bb *per.BitBuffer) error {
 	v := asn1cUPERSystemInformationBlockType3NBR13MultiBandInfoListR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 8); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
 	}
 	for _, outerElem := range v.Value {
-		if err := marshalUPERNSPmaxListNBR13To(outerElem, bb); err != nil {
+		if err := MarshalUPERNSPmaxListNBR13To(outerElem, bb); err != nil {
 			return fmt.Errorf("encoding value element: %w", err)
 		}
 	}
@@ -46279,10 +47642,11 @@ func marshalUPERSystemInformationBlockType3NBR13MultiBandInfoListR13To(list Syst
 // UnmarshalUPERSystemInformationBlockType3NBR13MultiBandInfoListR13 decodes a SystemInformationBlockType3NBR13MultiBandInfoListR13 list from UPER.
 func UnmarshalUPERSystemInformationBlockType3NBR13MultiBandInfoListR13(data []byte) (SystemInformationBlockType3NBR13MultiBandInfoListR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERSystemInformationBlockType3NBR13MultiBandInfoListR13From(bb)
+	return UnmarshalUPERSystemInformationBlockType3NBR13MultiBandInfoListR13From(bb)
 }
 
-func unmarshalUPERSystemInformationBlockType3NBR13MultiBandInfoListR13From(bb *per.BitBuffer) (SystemInformationBlockType3NBR13MultiBandInfoListR13, error) {
+// UnmarshalUPERSystemInformationBlockType3NBR13MultiBandInfoListR13From decodes a SystemInformationBlockType3NBR13MultiBandInfoListR13 list from bb.
+func UnmarshalUPERSystemInformationBlockType3NBR13MultiBandInfoListR13From(bb *per.BitBuffer) (SystemInformationBlockType3NBR13MultiBandInfoListR13, error) {
 	var v asn1cUPERSystemInformationBlockType3NBR13MultiBandInfoListR13ListValue
 	if err := unmarshalUPERSystemInformationBlockType3NBR13MultiBandInfoListR13Into(&v, bb); err != nil {
 		return nil, err
@@ -46291,13 +47655,21 @@ func unmarshalUPERSystemInformationBlockType3NBR13MultiBandInfoListR13From(bb *p
 }
 
 func unmarshalUPERSystemInformationBlockType3NBR13MultiBandInfoListR13Into(v *asn1cUPERSystemInformationBlockType3NBR13MultiBandInfoListR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 8 {
+		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
 	v.Value = make(SystemInformationBlockType3NBR13MultiBandInfoListR13, seqLen_value)
 	for i_value := int64(0); i_value < seqLen_value; i_value++ {
-		elem, err := unmarshalUPERNSPmaxListNBR13From(bb)
+		elem, err := UnmarshalUPERNSPmaxListNBR13From(bb)
 		if err != nil {
 			return fmt.Errorf("decoding value element: %w", err)
 		}
@@ -46313,13 +47685,14 @@ type asn1cUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18ListValu
 // MarshalUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18 encodes a SystemInformationBlockType3NBR13SatelliteAssistanceInfoR18 list to UPER.
 func MarshalUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18(list SystemInformationBlockType3NBR13SatelliteAssistanceInfoR18) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18To(list, bb); err != nil {
+	if err := MarshalUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18To(list SystemInformationBlockType3NBR13SatelliteAssistanceInfoR18, bb *per.BitBuffer) error {
+// MarshalUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18To appends a SystemInformationBlockType3NBR13SatelliteAssistanceInfoR18 list to bb.
+func MarshalUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18To(list SystemInformationBlockType3NBR13SatelliteAssistanceInfoR18, bb *per.BitBuffer) error {
 	v := asn1cUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 4); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -46335,10 +47708,11 @@ func marshalUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18To(lis
 // UnmarshalUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18 decodes a SystemInformationBlockType3NBR13SatelliteAssistanceInfoR18 list from UPER.
 func UnmarshalUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18(data []byte) (SystemInformationBlockType3NBR13SatelliteAssistanceInfoR18, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18From(bb)
+	return UnmarshalUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18From(bb)
 }
 
-func unmarshalUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18From(bb *per.BitBuffer) (SystemInformationBlockType3NBR13SatelliteAssistanceInfoR18, error) {
+// UnmarshalUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18From decodes a SystemInformationBlockType3NBR13SatelliteAssistanceInfoR18 list from bb.
+func UnmarshalUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18From(bb *per.BitBuffer) (SystemInformationBlockType3NBR13SatelliteAssistanceInfoR18, error) {
 	var v asn1cUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18ListValue
 	if err := unmarshalUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18Into(&v, bb); err != nil {
 		return nil, err
@@ -46347,9 +47721,17 @@ func unmarshalUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18From
 }
 
 func unmarshalUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18Into(v *asn1cUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 4)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 4 {
+		return fmt.Errorf("decoding value length %d above upper bound 4", seqLen_value)
 	}
 	v.Value = make(SystemInformationBlockType3NBR13SatelliteAssistanceInfoR18, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -46408,13 +47790,14 @@ type asn1cUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18ListValue
 // MarshalUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18 encodes a InterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18 list to UPER.
 func MarshalUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18(list InterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18To(list, bb); err != nil {
+	if err := MarshalUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18To(list InterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18, bb *per.BitBuffer) error {
+// MarshalUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18To appends a InterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18 list to bb.
+func MarshalUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18To(list InterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18, bb *per.BitBuffer) error {
 	v := asn1cUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 4); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -46430,10 +47813,11 @@ func marshalUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18To(list
 // UnmarshalUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18 decodes a InterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18 list from UPER.
 func UnmarshalUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18(data []byte) (InterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18From(bb)
+	return UnmarshalUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18From(bb)
 }
 
-func unmarshalUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18From(bb *per.BitBuffer) (InterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18, error) {
+// UnmarshalUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18From decodes a InterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18 list from bb.
+func UnmarshalUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18From(bb *per.BitBuffer) (InterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18, error) {
 	var v asn1cUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18ListValue
 	if err := unmarshalUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18Into(&v, bb); err != nil {
 		return nil, err
@@ -46442,9 +47826,17 @@ func unmarshalUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18From(
 }
 
 func unmarshalUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18Into(v *asn1cUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 4)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 4)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 4 {
+		return fmt.Errorf("decoding value length %d above upper bound 4", seqLen_value)
 	}
 	v.Value = make(InterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -46510,9 +47902,17 @@ func (v *SystemInformationBlockType14NBR13AbParamR13) UnmarshalUPERFrom(bb *per.
 		}
 		v.AbCommonR13 = &dec_abcommonr13
 	case SystemInformationBlockType14NBR13AbParamR13ChoiceAbPerPLMNListR13:
-		seqLen_abperplmnlistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 6)
-		if err != nil {
-			return fmt.Errorf("decoding ab-PerPLMN-List-r13 length: %w", err)
+		var seqLen_abperplmnlistr13 int64
+		var errLength_abperplmnlistr13 error
+		seqLen_abperplmnlistr13, errLength_abperplmnlistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 6)
+		if errLength_abperplmnlistr13 != nil {
+			return fmt.Errorf("decoding ab-PerPLMN-List-r13 length: %w", errLength_abperplmnlistr13)
+		}
+		if seqLen_abperplmnlistr13 < 1 {
+			return fmt.Errorf("decoding ab-PerPLMN-List-r13 length %d below lower bound 1", seqLen_abperplmnlistr13)
+		}
+		if seqLen_abperplmnlistr13 > 6 {
+			return fmt.Errorf("decoding ab-PerPLMN-List-r13 length %d above upper bound 6", seqLen_abperplmnlistr13)
 		}
 		tmp_abperplmnlistr13 := make(SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13, seqLen_abperplmnlistr13)
 		for i := int64(0); i < seqLen_abperplmnlistr13; i++ {
@@ -46532,13 +47932,14 @@ type asn1cUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13ListVal
 // MarshalUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13 encodes a SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13 list to UPER.
 func MarshalUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13(list SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13To(list, bb); err != nil {
+	if err := MarshalUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13To(list SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13, bb *per.BitBuffer) error {
+// MarshalUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13To appends a SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13 list to bb.
+func MarshalUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13To(list SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13, bb *per.BitBuffer) error {
 	v := asn1cUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 6); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -46554,10 +47955,11 @@ func marshalUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13To(li
 // UnmarshalUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13 decodes a SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13 list from UPER.
 func UnmarshalUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13(data []byte) (SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13From(bb)
+	return UnmarshalUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13From(bb)
 }
 
-func unmarshalUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13From(bb *per.BitBuffer) (SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13, error) {
+// UnmarshalUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13From decodes a SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13 list from bb.
+func UnmarshalUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13From(bb *per.BitBuffer) (SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13, error) {
 	var v asn1cUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13ListValue
 	if err := unmarshalUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13Into(&v, bb); err != nil {
 		return nil, err
@@ -46566,9 +47968,17 @@ func unmarshalUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13Fro
 }
 
 func unmarshalUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13Into(v *asn1cUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 6)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 6)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 6 {
+		return fmt.Errorf("decoding value length %d above upper bound 6", seqLen_value)
 	}
 	v.Value = make(SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -46586,13 +47996,14 @@ type asn1cUPERUACParamNBR16UacBarringPerPLMNListListValue struct {
 // MarshalUPERUACParamNBR16UacBarringPerPLMNList encodes a UACParamNBR16UacBarringPerPLMNList list to UPER.
 func MarshalUPERUACParamNBR16UacBarringPerPLMNList(list UACParamNBR16UacBarringPerPLMNList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERUACParamNBR16UacBarringPerPLMNListTo(list, bb); err != nil {
+	if err := MarshalUPERUACParamNBR16UacBarringPerPLMNListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERUACParamNBR16UacBarringPerPLMNListTo(list UACParamNBR16UacBarringPerPLMNList, bb *per.BitBuffer) error {
+// MarshalUPERUACParamNBR16UacBarringPerPLMNListTo appends a UACParamNBR16UacBarringPerPLMNList list to bb.
+func MarshalUPERUACParamNBR16UacBarringPerPLMNListTo(list UACParamNBR16UacBarringPerPLMNList, bb *per.BitBuffer) error {
 	v := asn1cUPERUACParamNBR16UacBarringPerPLMNListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 6); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -46608,10 +48019,11 @@ func marshalUPERUACParamNBR16UacBarringPerPLMNListTo(list UACParamNBR16UacBarrin
 // UnmarshalUPERUACParamNBR16UacBarringPerPLMNList decodes a UACParamNBR16UacBarringPerPLMNList list from UPER.
 func UnmarshalUPERUACParamNBR16UacBarringPerPLMNList(data []byte) (UACParamNBR16UacBarringPerPLMNList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERUACParamNBR16UacBarringPerPLMNListFrom(bb)
+	return UnmarshalUPERUACParamNBR16UacBarringPerPLMNListFrom(bb)
 }
 
-func unmarshalUPERUACParamNBR16UacBarringPerPLMNListFrom(bb *per.BitBuffer) (UACParamNBR16UacBarringPerPLMNList, error) {
+// UnmarshalUPERUACParamNBR16UacBarringPerPLMNListFrom decodes a UACParamNBR16UacBarringPerPLMNList list from bb.
+func UnmarshalUPERUACParamNBR16UacBarringPerPLMNListFrom(bb *per.BitBuffer) (UACParamNBR16UacBarringPerPLMNList, error) {
 	var v asn1cUPERUACParamNBR16UacBarringPerPLMNListListValue
 	if err := unmarshalUPERUACParamNBR16UacBarringPerPLMNListInto(&v, bb); err != nil {
 		return nil, err
@@ -46620,9 +48032,17 @@ func unmarshalUPERUACParamNBR16UacBarringPerPLMNListFrom(bb *per.BitBuffer) (UAC
 }
 
 func unmarshalUPERUACParamNBR16UacBarringPerPLMNListInto(v *asn1cUPERUACParamNBR16UacBarringPerPLMNListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 6)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 6)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 6 {
+		return fmt.Errorf("decoding value length %d above upper bound 6", seqLen_value)
 	}
 	v.Value = make(UACParamNBR16UacBarringPerPLMNList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -46968,9 +48388,17 @@ func (v *SystemInformationBlockType22NBR14MixedOperationModeConfigR15) Unmarshal
 		return err
 	}
 	if opt_dlconfiglistmixedr15 {
-		seqLen_dlconfiglistmixedr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 15)
-		if err != nil {
-			return fmt.Errorf("decoding dl-ConfigListMixed-r15 length: %w", err)
+		var seqLen_dlconfiglistmixedr15 int64
+		var errLength_dlconfiglistmixedr15 error
+		seqLen_dlconfiglistmixedr15, errLength_dlconfiglistmixedr15 = per.DecodeConstrainedWholeNumber(bb, 1, 15)
+		if errLength_dlconfiglistmixedr15 != nil {
+			return fmt.Errorf("decoding dl-ConfigListMixed-r15 length: %w", errLength_dlconfiglistmixedr15)
+		}
+		if seqLen_dlconfiglistmixedr15 < 1 {
+			return fmt.Errorf("decoding dl-ConfigListMixed-r15 length %d below lower bound 1", seqLen_dlconfiglistmixedr15)
+		}
+		if seqLen_dlconfiglistmixedr15 > 15 {
+			return fmt.Errorf("decoding dl-ConfigListMixed-r15 length %d above upper bound 15", seqLen_dlconfiglistmixedr15)
 		}
 		tmp_dlconfiglistmixedr15 := make(DLConfigCommonListNBR14, seqLen_dlconfiglistmixedr15)
 		for i := int64(0); i < seqLen_dlconfiglistmixedr15; i++ {
@@ -46981,9 +48409,17 @@ func (v *SystemInformationBlockType22NBR14MixedOperationModeConfigR15) Unmarshal
 		v.DlConfigListMixedR15 = tmp_dlconfiglistmixedr15
 	}
 	if opt_ulconfiglistmixedr15 {
-		seqLen_ulconfiglistmixedr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 15)
-		if err != nil {
-			return fmt.Errorf("decoding ul-ConfigListMixed-r15 length: %w", err)
+		var seqLen_ulconfiglistmixedr15 int64
+		var errLength_ulconfiglistmixedr15 error
+		seqLen_ulconfiglistmixedr15, errLength_ulconfiglistmixedr15 = per.DecodeConstrainedWholeNumber(bb, 1, 15)
+		if errLength_ulconfiglistmixedr15 != nil {
+			return fmt.Errorf("decoding ul-ConfigListMixed-r15 length: %w", errLength_ulconfiglistmixedr15)
+		}
+		if seqLen_ulconfiglistmixedr15 < 1 {
+			return fmt.Errorf("decoding ul-ConfigListMixed-r15 length %d below lower bound 1", seqLen_ulconfiglistmixedr15)
+		}
+		if seqLen_ulconfiglistmixedr15 > 15 {
+			return fmt.Errorf("decoding ul-ConfigListMixed-r15 length %d above upper bound 15", seqLen_ulconfiglistmixedr15)
 		}
 		tmp_ulconfiglistmixedr15 := make(ULConfigCommonListNBR14, seqLen_ulconfiglistmixedr15)
 		for i := int64(0); i < seqLen_ulconfiglistmixedr15; i++ {
@@ -47017,13 +48453,14 @@ type asn1cUPERCoverageBasedPagingConfigNBR17CbpConfigListR17ListValue struct {
 // MarshalUPERCoverageBasedPagingConfigNBR17CbpConfigListR17 encodes a CoverageBasedPagingConfigNBR17CbpConfigListR17 list to UPER.
 func MarshalUPERCoverageBasedPagingConfigNBR17CbpConfigListR17(list CoverageBasedPagingConfigNBR17CbpConfigListR17) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERCoverageBasedPagingConfigNBR17CbpConfigListR17To(list, bb); err != nil {
+	if err := MarshalUPERCoverageBasedPagingConfigNBR17CbpConfigListR17To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERCoverageBasedPagingConfigNBR17CbpConfigListR17To(list CoverageBasedPagingConfigNBR17CbpConfigListR17, bb *per.BitBuffer) error {
+// MarshalUPERCoverageBasedPagingConfigNBR17CbpConfigListR17To appends a CoverageBasedPagingConfigNBR17CbpConfigListR17 list to bb.
+func MarshalUPERCoverageBasedPagingConfigNBR17CbpConfigListR17To(list CoverageBasedPagingConfigNBR17CbpConfigListR17, bb *per.BitBuffer) error {
 	v := asn1cUPERCoverageBasedPagingConfigNBR17CbpConfigListR17ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 2); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -47039,10 +48476,11 @@ func marshalUPERCoverageBasedPagingConfigNBR17CbpConfigListR17To(list CoverageBa
 // UnmarshalUPERCoverageBasedPagingConfigNBR17CbpConfigListR17 decodes a CoverageBasedPagingConfigNBR17CbpConfigListR17 list from UPER.
 func UnmarshalUPERCoverageBasedPagingConfigNBR17CbpConfigListR17(data []byte) (CoverageBasedPagingConfigNBR17CbpConfigListR17, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERCoverageBasedPagingConfigNBR17CbpConfigListR17From(bb)
+	return UnmarshalUPERCoverageBasedPagingConfigNBR17CbpConfigListR17From(bb)
 }
 
-func unmarshalUPERCoverageBasedPagingConfigNBR17CbpConfigListR17From(bb *per.BitBuffer) (CoverageBasedPagingConfigNBR17CbpConfigListR17, error) {
+// UnmarshalUPERCoverageBasedPagingConfigNBR17CbpConfigListR17From decodes a CoverageBasedPagingConfigNBR17CbpConfigListR17 list from bb.
+func UnmarshalUPERCoverageBasedPagingConfigNBR17CbpConfigListR17From(bb *per.BitBuffer) (CoverageBasedPagingConfigNBR17CbpConfigListR17, error) {
 	var v asn1cUPERCoverageBasedPagingConfigNBR17CbpConfigListR17ListValue
 	if err := unmarshalUPERCoverageBasedPagingConfigNBR17CbpConfigListR17Into(&v, bb); err != nil {
 		return nil, err
@@ -47051,9 +48489,17 @@ func unmarshalUPERCoverageBasedPagingConfigNBR17CbpConfigListR17From(bb *per.Bit
 }
 
 func unmarshalUPERCoverageBasedPagingConfigNBR17CbpConfigListR17Into(v *asn1cUPERCoverageBasedPagingConfigNBR17CbpConfigListR17ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 2)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 2 {
+		return fmt.Errorf("decoding value length %d above upper bound 2", seqLen_value)
 	}
 	v.Value = make(CoverageBasedPagingConfigNBR17CbpConfigListR17, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -47071,13 +48517,14 @@ type asn1cUPERCarrierFreqListNBR18CarrierFreqListR18ListValue struct {
 // MarshalUPERCarrierFreqListNBR18CarrierFreqListR18 encodes a CarrierFreqListNBR18CarrierFreqListR18 list to UPER.
 func MarshalUPERCarrierFreqListNBR18CarrierFreqListR18(list CarrierFreqListNBR18CarrierFreqListR18) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERCarrierFreqListNBR18CarrierFreqListR18To(list, bb); err != nil {
+	if err := MarshalUPERCarrierFreqListNBR18CarrierFreqListR18To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERCarrierFreqListNBR18CarrierFreqListR18To(list CarrierFreqListNBR18CarrierFreqListR18, bb *per.BitBuffer) error {
+// MarshalUPERCarrierFreqListNBR18CarrierFreqListR18To appends a CarrierFreqListNBR18CarrierFreqListR18 list to bb.
+func MarshalUPERCarrierFreqListNBR18CarrierFreqListR18To(list CarrierFreqListNBR18CarrierFreqListR18, bb *per.BitBuffer) error {
 	v := asn1cUPERCarrierFreqListNBR18CarrierFreqListR18ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 8); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -47093,10 +48540,11 @@ func marshalUPERCarrierFreqListNBR18CarrierFreqListR18To(list CarrierFreqListNBR
 // UnmarshalUPERCarrierFreqListNBR18CarrierFreqListR18 decodes a CarrierFreqListNBR18CarrierFreqListR18 list from UPER.
 func UnmarshalUPERCarrierFreqListNBR18CarrierFreqListR18(data []byte) (CarrierFreqListNBR18CarrierFreqListR18, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERCarrierFreqListNBR18CarrierFreqListR18From(bb)
+	return UnmarshalUPERCarrierFreqListNBR18CarrierFreqListR18From(bb)
 }
 
-func unmarshalUPERCarrierFreqListNBR18CarrierFreqListR18From(bb *per.BitBuffer) (CarrierFreqListNBR18CarrierFreqListR18, error) {
+// UnmarshalUPERCarrierFreqListNBR18CarrierFreqListR18From decodes a CarrierFreqListNBR18CarrierFreqListR18 list from bb.
+func UnmarshalUPERCarrierFreqListNBR18CarrierFreqListR18From(bb *per.BitBuffer) (CarrierFreqListNBR18CarrierFreqListR18, error) {
 	var v asn1cUPERCarrierFreqListNBR18CarrierFreqListR18ListValue
 	if err := unmarshalUPERCarrierFreqListNBR18CarrierFreqListR18Into(&v, bb); err != nil {
 		return nil, err
@@ -47105,9 +48553,17 @@ func unmarshalUPERCarrierFreqListNBR18CarrierFreqListR18From(bb *per.BitBuffer) 
 }
 
 func unmarshalUPERCarrierFreqListNBR18CarrierFreqListR18Into(v *asn1cUPERCarrierFreqListNBR18CarrierFreqListR18ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 8)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 8)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 8 {
+		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
 	v.Value = make(CarrierFreqListNBR18CarrierFreqListR18, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -47765,9 +49221,17 @@ func (v *CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19) Unm
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19ChoiceNpuschSubCarrierSetListKhz15:
-		seqLen_npuschsubcarriersetlistkhz15, err := per.DecodeConstrainedWholeNumber(bb, 1, 12)
-		if err != nil {
-			return fmt.Errorf("decoding npusch-SubCarrierSetList-khz15 length: %w", err)
+		var seqLen_npuschsubcarriersetlistkhz15 int64
+		var errLength_npuschsubcarriersetlistkhz15 error
+		seqLen_npuschsubcarriersetlistkhz15, errLength_npuschsubcarriersetlistkhz15 = per.DecodeConstrainedWholeNumber(bb, 1, 12)
+		if errLength_npuschsubcarriersetlistkhz15 != nil {
+			return fmt.Errorf("decoding npusch-SubCarrierSetList-khz15 length: %w", errLength_npuschsubcarriersetlistkhz15)
+		}
+		if seqLen_npuschsubcarriersetlistkhz15 < 1 {
+			return fmt.Errorf("decoding npusch-SubCarrierSetList-khz15 length %d below lower bound 1", seqLen_npuschsubcarriersetlistkhz15)
+		}
+		if seqLen_npuschsubcarriersetlistkhz15 > 12 {
+			return fmt.Errorf("decoding npusch-SubCarrierSetList-khz15 length %d above upper bound 12", seqLen_npuschsubcarriersetlistkhz15)
 		}
 		tmp_npuschsubcarriersetlistkhz15 := make(CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15, seqLen_npuschsubcarriersetlistkhz15)
 		for i := int64(0); i < seqLen_npuschsubcarriersetlistkhz15; i++ {
@@ -47779,9 +49243,17 @@ func (v *CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19) Unm
 		}
 		v.NpuschSubCarrierSetListKhz15 = tmp_npuschsubcarriersetlistkhz15
 	case CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19ChoiceNpuschSubCarrierSetListKhz3dot75:
-		seqLen_npuschsubcarriersetlistkhz3dot75, err := per.DecodeConstrainedWholeNumber(bb, 1, 48)
-		if err != nil {
-			return fmt.Errorf("decoding npusch-SubCarrierSetList-khz3dot75 length: %w", err)
+		var seqLen_npuschsubcarriersetlistkhz3dot75 int64
+		var errLength_npuschsubcarriersetlistkhz3dot75 error
+		seqLen_npuschsubcarriersetlistkhz3dot75, errLength_npuschsubcarriersetlistkhz3dot75 = per.DecodeConstrainedWholeNumber(bb, 1, 48)
+		if errLength_npuschsubcarriersetlistkhz3dot75 != nil {
+			return fmt.Errorf("decoding npusch-SubCarrierSetList-khz3dot75 length: %w", errLength_npuschsubcarriersetlistkhz3dot75)
+		}
+		if seqLen_npuschsubcarriersetlistkhz3dot75 < 1 {
+			return fmt.Errorf("decoding npusch-SubCarrierSetList-khz3dot75 length %d below lower bound 1", seqLen_npuschsubcarriersetlistkhz3dot75)
+		}
+		if seqLen_npuschsubcarriersetlistkhz3dot75 > 48 {
+			return fmt.Errorf("decoding npusch-SubCarrierSetList-khz3dot75 length %d above upper bound 48", seqLen_npuschsubcarriersetlistkhz3dot75)
 		}
 		tmp_npuschsubcarriersetlistkhz3dot75 := make(CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75, seqLen_npuschsubcarriersetlistkhz3dot75)
 		for i := int64(0); i < seqLen_npuschsubcarriersetlistkhz3dot75; i++ {
@@ -47803,13 +49275,14 @@ type asn1cUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19
 // MarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15 encodes a CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15 list to UPER.
 func MarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15(list CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15To(list, bb); err != nil {
+	if err := MarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15To(list CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15, bb *per.BitBuffer) error {
+// MarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15To appends a CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15 list to bb.
+func MarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15To(list CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15, bb *per.BitBuffer) error {
 	v := asn1cUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 12); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -47825,10 +49298,11 @@ func marshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR
 // UnmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15 decodes a CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15 list from UPER.
 func UnmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15(data []byte) (CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15From(bb)
+	return UnmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15From(bb)
 }
 
-func unmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15From(bb *per.BitBuffer) (CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15, error) {
+// UnmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15From decodes a CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15 list from bb.
+func UnmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15From(bb *per.BitBuffer) (CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15, error) {
 	var v asn1cUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15ListValue
 	if err := unmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15Into(&v, bb); err != nil {
 		return nil, err
@@ -47837,9 +49311,17 @@ func unmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetLis
 }
 
 func unmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15Into(v *asn1cUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 12)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 12)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 12 {
+		return fmt.Errorf("decoding value length %d above upper bound 12", seqLen_value)
 	}
 	v.Value = make(CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -47859,13 +49341,14 @@ type asn1cUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19
 // MarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75 encodes a CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75 list to UPER.
 func MarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75(list CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75To(list, bb); err != nil {
+	if err := MarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75To(list CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75, bb *per.BitBuffer) error {
+// MarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75To appends a CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75 list to bb.
+func MarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75To(list CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75, bb *per.BitBuffer) error {
 	v := asn1cUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 48); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -47881,10 +49364,11 @@ func marshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR
 // UnmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75 decodes a CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75 list from UPER.
 func UnmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75(data []byte) (CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75From(bb)
+	return UnmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75From(bb)
 }
 
-func unmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75From(bb *per.BitBuffer) (CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75, error) {
+// UnmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75From decodes a CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75 list from bb.
+func UnmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75From(bb *per.BitBuffer) (CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75, error) {
 	var v asn1cUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75ListValue
 	if err := unmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75Into(&v, bb); err != nil {
 		return nil, err
@@ -47893,9 +49377,17 @@ func unmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetLis
 }
 
 func unmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75Into(v *asn1cUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 48)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 48)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 48 {
+		return fmt.Errorf("decoding value length %d above upper bound 48", seqLen_value)
 	}
 	v.Value = make(CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -48754,9 +50246,17 @@ func (v *NPRACHConfigSIBNBV1530TddParametersR15) UnmarshalUPERFrom(bb *per.BitBu
 		return fmt.Errorf("decoding dummy: %w", err)
 	}
 	v.Dummy = val_dummy
-	seqLen_nprachparameterslisttddr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding nprach-ParametersListTDD-r15 length: %w", err)
+	var seqLen_nprachparameterslisttddr15 int64
+	var errLength_nprachparameterslisttddr15 error
+	seqLen_nprachparameterslisttddr15, errLength_nprachparameterslisttddr15 = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_nprachparameterslisttddr15 != nil {
+		return fmt.Errorf("decoding nprach-ParametersListTDD-r15 length: %w", errLength_nprachparameterslisttddr15)
+	}
+	if seqLen_nprachparameterslisttddr15 < 1 {
+		return fmt.Errorf("decoding nprach-ParametersListTDD-r15 length %d below lower bound 1", seqLen_nprachparameterslisttddr15)
+	}
+	if seqLen_nprachparameterslisttddr15 > 3 {
+		return fmt.Errorf("decoding nprach-ParametersListTDD-r15 length %d above upper bound 3", seqLen_nprachparameterslisttddr15)
 	}
 	v.NprachParametersListTDDR15 = make(NPRACHParametersListTDDNBR15, seqLen_nprachparameterslisttddr15)
 	for i := int64(0); i < seqLen_nprachparameterslisttddr15; i++ {
@@ -48824,9 +50324,17 @@ func (v *NPRACHConfigSIBNBV1530Fmt2ParametersR15) UnmarshalUPERFrom(bb *per.BitB
 		return err
 	}
 	if opt_nprachparameterslistfmt2r15 {
-		seqLen_nprachparameterslistfmt2r15, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-		if err != nil {
-			return fmt.Errorf("decoding nprach-ParametersListFmt2-r15 length: %w", err)
+		var seqLen_nprachparameterslistfmt2r15 int64
+		var errLength_nprachparameterslistfmt2r15 error
+		seqLen_nprachparameterslistfmt2r15, errLength_nprachparameterslistfmt2r15 = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+		if errLength_nprachparameterslistfmt2r15 != nil {
+			return fmt.Errorf("decoding nprach-ParametersListFmt2-r15 length: %w", errLength_nprachparameterslistfmt2r15)
+		}
+		if seqLen_nprachparameterslistfmt2r15 < 1 {
+			return fmt.Errorf("decoding nprach-ParametersListFmt2-r15 length %d below lower bound 1", seqLen_nprachparameterslistfmt2r15)
+		}
+		if seqLen_nprachparameterslistfmt2r15 > 3 {
+			return fmt.Errorf("decoding nprach-ParametersListFmt2-r15 length %d above upper bound 3", seqLen_nprachparameterslistfmt2r15)
 		}
 		tmp_nprachparameterslistfmt2r15 := make(NPRACHParametersListFmt2NBR15, seqLen_nprachparameterslistfmt2r15)
 		for i := int64(0); i < seqLen_nprachparameterslistfmt2r15; i++ {
@@ -48837,9 +50345,17 @@ func (v *NPRACHConfigSIBNBV1530Fmt2ParametersR15) UnmarshalUPERFrom(bb *per.BitB
 		v.NprachParametersListFmt2R15 = tmp_nprachparameterslistfmt2r15
 	}
 	if opt_nprachparameterslistfmt2edtr15 {
-		seqLen_nprachparameterslistfmt2edtr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-		if err != nil {
-			return fmt.Errorf("decoding nprach-ParametersListFmt2EDT-r15 length: %w", err)
+		var seqLen_nprachparameterslistfmt2edtr15 int64
+		var errLength_nprachparameterslistfmt2edtr15 error
+		seqLen_nprachparameterslistfmt2edtr15, errLength_nprachparameterslistfmt2edtr15 = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+		if errLength_nprachparameterslistfmt2edtr15 != nil {
+			return fmt.Errorf("decoding nprach-ParametersListFmt2EDT-r15 length: %w", errLength_nprachparameterslistfmt2edtr15)
+		}
+		if seqLen_nprachparameterslistfmt2edtr15 < 1 {
+			return fmt.Errorf("decoding nprach-ParametersListFmt2EDT-r15 length %d below lower bound 1", seqLen_nprachparameterslistfmt2edtr15)
+		}
+		if seqLen_nprachparameterslistfmt2edtr15 > 3 {
+			return fmt.Errorf("decoding nprach-ParametersListFmt2EDT-r15 length %d above upper bound 3", seqLen_nprachparameterslistfmt2edtr15)
 		}
 		tmp_nprachparameterslistfmt2edtr15 := make(NPRACHParametersListFmt2NBR15, seqLen_nprachparameterslistfmt2edtr15)
 		for i := int64(0); i < seqLen_nprachparameterslistfmt2edtr15; i++ {
@@ -48918,9 +50434,17 @@ func (v *NPRACHConfigSIBNBV1530EdtParametersR15) UnmarshalUPERFrom(bb *per.BitBu
 		}
 		v.EdtSmallTBSSubsetR15 = &val_edtsmalltbssubsetr15
 	}
-	seqLen_edttbsinfolistr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding edt-TBS-InfoList-r15 length: %w", err)
+	var seqLen_edttbsinfolistr15 int64
+	var errLength_edttbsinfolistr15 error
+	seqLen_edttbsinfolistr15, errLength_edttbsinfolistr15 = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_edttbsinfolistr15 != nil {
+		return fmt.Errorf("decoding edt-TBS-InfoList-r15 length: %w", errLength_edttbsinfolistr15)
+	}
+	if seqLen_edttbsinfolistr15 < 1 {
+		return fmt.Errorf("decoding edt-TBS-InfoList-r15 length %d below lower bound 1", seqLen_edttbsinfolistr15)
+	}
+	if seqLen_edttbsinfolistr15 > 3 {
+		return fmt.Errorf("decoding edt-TBS-InfoList-r15 length %d above upper bound 3", seqLen_edttbsinfolistr15)
 	}
 	v.EdtTBSInfoListR15 = make(EDTTBSInfoListNBR15, seqLen_edttbsinfolistr15)
 	for i := int64(0); i < seqLen_edttbsinfolistr15; i++ {
@@ -48929,9 +50453,17 @@ func (v *NPRACHConfigSIBNBV1530EdtParametersR15) UnmarshalUPERFrom(bb *per.BitBu
 		}
 	}
 	if opt_nprachparameterslistedtr15 {
-		seqLen_nprachparameterslistedtr15, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-		if err != nil {
-			return fmt.Errorf("decoding nprach-ParametersListEDT-r15 length: %w", err)
+		var seqLen_nprachparameterslistedtr15 int64
+		var errLength_nprachparameterslistedtr15 error
+		seqLen_nprachparameterslistedtr15, errLength_nprachparameterslistedtr15 = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+		if errLength_nprachparameterslistedtr15 != nil {
+			return fmt.Errorf("decoding nprach-ParametersListEDT-r15 length: %w", errLength_nprachparameterslistedtr15)
+		}
+		if seqLen_nprachparameterslistedtr15 < 1 {
+			return fmt.Errorf("decoding nprach-ParametersListEDT-r15 length %d below lower bound 1", seqLen_nprachparameterslistedtr15)
+		}
+		if seqLen_nprachparameterslistedtr15 > 3 {
+			return fmt.Errorf("decoding nprach-ParametersListEDT-r15 length %d above upper bound 3", seqLen_nprachparameterslistedtr15)
 		}
 		tmp_nprachparameterslistedtr15 := make(NPRACHParametersListNBR14, seqLen_nprachparameterslistedtr15)
 		for i := int64(0); i < seqLen_nprachparameterslistedtr15; i++ {
@@ -48972,9 +50504,17 @@ func (v *NPRACHConfigSIBNBV1550TddParametersV1550) UnmarshalUPER(data []byte) er
 }
 
 func (v *NPRACHConfigSIBNBV1550TddParametersV1550) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	seqLen_nprachparameterslisttddv1550, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding nprach-ParametersListTDD-v1550 length: %w", err)
+	var seqLen_nprachparameterslisttddv1550 int64
+	var errLength_nprachparameterslisttddv1550 error
+	seqLen_nprachparameterslisttddv1550, errLength_nprachparameterslisttddv1550 = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_nprachparameterslisttddv1550 != nil {
+		return fmt.Errorf("decoding nprach-ParametersListTDD-v1550 length: %w", errLength_nprachparameterslisttddv1550)
+	}
+	if seqLen_nprachparameterslisttddv1550 < 1 {
+		return fmt.Errorf("decoding nprach-ParametersListTDD-v1550 length %d below lower bound 1", seqLen_nprachparameterslisttddv1550)
+	}
+	if seqLen_nprachparameterslisttddv1550 > 3 {
+		return fmt.Errorf("decoding nprach-ParametersListTDD-v1550 length %d above upper bound 3", seqLen_nprachparameterslisttddv1550)
 	}
 	v.NprachParametersListTDDV1550 = make(NPRACHParametersListTDDNBV1550, seqLen_nprachparameterslisttddv1550)
 	for i := int64(0); i < seqLen_nprachparameterslisttddv1550; i++ {
@@ -49756,13 +51296,14 @@ type asn1cUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13ListValue struc
 // MarshalUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13 encodes a NPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13 list to UPER.
 func MarshalUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13(list NPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13To(list, bb); err != nil {
+	if err := MarshalUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13To(list NPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13, bb *per.BitBuffer) error {
+// MarshalUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13To appends a NPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13 list to bb.
+func MarshalUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13To(list NPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13, bb *per.BitBuffer) error {
 	v := asn1cUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 3); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -49778,10 +51319,11 @@ func marshalUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13To(list NPUSC
 // UnmarshalUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13 decodes a NPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13 list from UPER.
 func UnmarshalUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13(data []byte) (NPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13From(bb)
+	return UnmarshalUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13From(bb)
 }
 
-func unmarshalUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13From(bb *per.BitBuffer) (NPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13, error) {
+// UnmarshalUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13From decodes a NPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13 list from bb.
+func UnmarshalUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13From(bb *per.BitBuffer) (NPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13, error) {
 	var v asn1cUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13ListValue
 	if err := unmarshalUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13Into(&v, bb); err != nil {
 		return nil, err
@@ -49790,9 +51332,17 @@ func unmarshalUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13From(bb *pe
 }
 
 func unmarshalUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13Into(v *asn1cUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 3)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 3 {
+		return fmt.Errorf("decoding value length %d above upper bound 3", seqLen_value)
 	}
 	v.Value = make(NPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -52058,13 +53608,14 @@ type asn1cUPERANRMeasReportNBR16MeasResultListR16ListValue struct {
 // MarshalUPERANRMeasReportNBR16MeasResultListR16 encodes a ANRMeasReportNBR16MeasResultListR16 list to UPER.
 func MarshalUPERANRMeasReportNBR16MeasResultListR16(list ANRMeasReportNBR16MeasResultListR16) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalUPERANRMeasReportNBR16MeasResultListR16To(list, bb); err != nil {
+	if err := MarshalUPERANRMeasReportNBR16MeasResultListR16To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalUPERANRMeasReportNBR16MeasResultListR16To(list ANRMeasReportNBR16MeasResultListR16, bb *per.BitBuffer) error {
+// MarshalUPERANRMeasReportNBR16MeasResultListR16To appends a ANRMeasReportNBR16MeasResultListR16 list to bb.
+func MarshalUPERANRMeasReportNBR16MeasResultListR16To(list ANRMeasReportNBR16MeasResultListR16, bb *per.BitBuffer) error {
 	v := asn1cUPERANRMeasReportNBR16MeasResultListR16ListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 2); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -52080,10 +53631,11 @@ func marshalUPERANRMeasReportNBR16MeasResultListR16To(list ANRMeasReportNBR16Mea
 // UnmarshalUPERANRMeasReportNBR16MeasResultListR16 decodes a ANRMeasReportNBR16MeasResultListR16 list from UPER.
 func UnmarshalUPERANRMeasReportNBR16MeasResultListR16(data []byte) (ANRMeasReportNBR16MeasResultListR16, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalUPERANRMeasReportNBR16MeasResultListR16From(bb)
+	return UnmarshalUPERANRMeasReportNBR16MeasResultListR16From(bb)
 }
 
-func unmarshalUPERANRMeasReportNBR16MeasResultListR16From(bb *per.BitBuffer) (ANRMeasReportNBR16MeasResultListR16, error) {
+// UnmarshalUPERANRMeasReportNBR16MeasResultListR16From decodes a ANRMeasReportNBR16MeasResultListR16 list from bb.
+func UnmarshalUPERANRMeasReportNBR16MeasResultListR16From(bb *per.BitBuffer) (ANRMeasReportNBR16MeasResultListR16, error) {
 	var v asn1cUPERANRMeasReportNBR16MeasResultListR16ListValue
 	if err := unmarshalUPERANRMeasReportNBR16MeasResultListR16Into(&v, bb); err != nil {
 		return nil, err
@@ -52092,9 +53644,17 @@ func unmarshalUPERANRMeasReportNBR16MeasResultListR16From(bb *per.BitBuffer) (AN
 }
 
 func unmarshalUPERANRMeasReportNBR16MeasResultListR16Into(v *asn1cUPERANRMeasReportNBR16MeasResultListR16ListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 2)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 2 {
+		return fmt.Errorf("decoding value length %d above upper bound 2", seqLen_value)
 	}
 	v.Value = make(ANRMeasReportNBR16MeasResultListR16, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -52159,9 +53719,17 @@ func (v *ANRMeasResultNBR16CgiInfoR16) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	}
 	v.TrackingAreaCodeR16 = runtime.BitString{Bytes: bsBytes_trackingareacoder16, BitLength: bsBitLen_trackingareacoder16}
 	if opt_plmnidentitylistr16 {
-		seqLen_plmnidentitylistr16, err := per.DecodeConstrainedWholeNumber(bb, 1, 5)
-		if err != nil {
-			return fmt.Errorf("decoding plmn-IdentityList-r16 length: %w", err)
+		var seqLen_plmnidentitylistr16 int64
+		var errLength_plmnidentitylistr16 error
+		seqLen_plmnidentitylistr16, errLength_plmnidentitylistr16 = per.DecodeConstrainedWholeNumber(bb, 1, 5)
+		if errLength_plmnidentitylistr16 != nil {
+			return fmt.Errorf("decoding plmn-IdentityList-r16 length: %w", errLength_plmnidentitylistr16)
+		}
+		if seqLen_plmnidentitylistr16 < 1 {
+			return fmt.Errorf("decoding plmn-IdentityList-r16 length %d below lower bound 1", seqLen_plmnidentitylistr16)
+		}
+		if seqLen_plmnidentitylistr16 > 5 {
+			return fmt.Errorf("decoding plmn-IdentityList-r16 length %d above upper bound 5", seqLen_plmnidentitylistr16)
 		}
 		tmp_plmnidentitylistr16 := make(PLMNIdentityList2, seqLen_plmnidentitylistr16)
 		for i := int64(0); i < seqLen_plmnidentitylistr16; i++ {

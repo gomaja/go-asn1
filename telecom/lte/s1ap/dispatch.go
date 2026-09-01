@@ -1104,7 +1104,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := ManagementBasedMDTAllowed(v)
 			return &result, nil
 		case 177: // id-ManagementBasedMDTPLMNList -> MDTPLMNList (SEQUENCE_OF)
-			v, err := unmarshalAPERMDTPLMNListFrom(bb)
+			v, err := UnmarshalAPERMDTPLMNListFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MDTPLMNList (%d): %w", ieId, err)
 			}
@@ -2292,7 +2292,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := ManagementBasedMDTAllowed(v)
 			return &result, nil
 		case 177: // id-ManagementBasedMDTPLMNList -> MDTPLMNList (SEQUENCE_OF)
-			v, err := unmarshalAPERMDTPLMNListFrom(bb)
+			v, err := UnmarshalAPERMDTPLMNListFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MDTPLMNList (%d): %w", ieId, err)
 			}
@@ -2554,7 +2554,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 128: // id-CSG-IdList -> CSGIdList (SEQUENCE_OF)
-			v, err := unmarshalAPERCSGIdListFrom(bb)
+			v, err := UnmarshalAPERCSGIdListFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGIdList (%d): %w", ieId, err)
 			}
@@ -3598,7 +3598,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := ENBname(v)
 			return &result, nil
 		case 64: // id-SupportedTAs -> SupportedTAs (SEQUENCE_OF)
-			v, err := unmarshalAPERSupportedTAsFrom(bb)
+			v, err := UnmarshalAPERSupportedTAsFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SupportedTAs (%d): %w", ieId, err)
 			}
@@ -3611,7 +3611,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := PagingDRX(v)
 			return &result, nil
 		case 128: // id-CSG-IdList -> CSGIdList (SEQUENCE_OF)
-			v, err := unmarshalAPERCSGIdListFrom(bb)
+			v, err := UnmarshalAPERCSGIdListFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGIdList (%d): %w", ieId, err)
 			}
@@ -3631,7 +3631,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := NBIoTDefaultPagingDRX(v)
 			return &result, nil
 		case 291: // id-ConnectedengNBList -> ConnectedengNBList (SEQUENCE_OF)
-			v, err := unmarshalAPERConnectedengNBListFrom(bb)
+			v, err := UnmarshalAPERConnectedengNBListFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ConnectedengNBList (%d): %w", ieId, err)
 			}
@@ -3647,7 +3647,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := MMEname(v)
 			return &result, nil
 		case 105: // id-ServedGUMMEIs -> ServedGUMMEIs (SEQUENCE_OF)
-			v, err := unmarshalAPERServedGUMMEIsFrom(bb)
+			v, err := UnmarshalAPERServedGUMMEIsFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedGUMMEIs (%d): %w", ieId, err)
 			}
@@ -3680,7 +3680,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UERetentionInformation(v)
 			return &result, nil
 		case 247: // id-ServedDCNs -> ServedDCNs (SEQUENCE_OF)
-			v, err := unmarshalAPERServedDCNsFrom(bb)
+			v, err := UnmarshalAPERServedDCNsFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedDCNs (%d): %w", ieId, err)
 			}
@@ -3725,13 +3725,13 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := ENBname(v)
 			return &result, nil
 		case 64: // id-SupportedTAs -> SupportedTAs (SEQUENCE_OF)
-			v, err := unmarshalAPERSupportedTAsFrom(bb)
+			v, err := UnmarshalAPERSupportedTAsFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SupportedTAs (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 128: // id-CSG-IdList -> CSGIdList (SEQUENCE_OF)
-			v, err := unmarshalAPERCSGIdListFrom(bb)
+			v, err := UnmarshalAPERCSGIdListFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGIdList (%d): %w", ieId, err)
 			}
@@ -3751,13 +3751,13 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := NBIoTDefaultPagingDRX(v)
 			return &result, nil
 		case 292: // id-ConnectedengNBToAddList -> ConnectedengNBList (SEQUENCE_OF)
-			v, err := unmarshalAPERConnectedengNBListFrom(bb)
+			v, err := UnmarshalAPERConnectedengNBListFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ConnectedengNBList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 293: // id-ConnectedengNBToRemoveList -> ConnectedengNBList (SEQUENCE_OF)
-			v, err := unmarshalAPERConnectedengNBListFrom(bb)
+			v, err := UnmarshalAPERConnectedengNBListFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ConnectedengNBList (%d): %w", ieId, err)
 			}
@@ -3804,7 +3804,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := MMEname(v)
 			return &result, nil
 		case 105: // id-ServedGUMMEIs -> ServedGUMMEIs (SEQUENCE_OF)
-			v, err := unmarshalAPERServedGUMMEIsFrom(bb)
+			v, err := UnmarshalAPERServedGUMMEIsFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedGUMMEIs (%d): %w", ieId, err)
 			}
@@ -3817,7 +3817,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := RelativeMMECapacity(v)
 			return &result, nil
 		case 247: // id-ServedDCNs -> ServedDCNs (SEQUENCE_OF)
-			v, err := unmarshalAPERServedDCNsFrom(bb)
+			v, err := UnmarshalAPERServedDCNsFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedDCNs (%d): %w", ieId, err)
 			}
@@ -4291,7 +4291,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 154: // id-GUMMEIList -> GUMMEIList (SEQUENCE_OF)
-			v, err := unmarshalAPERGUMMEIListFrom(bb)
+			v, err := UnmarshalAPERGUMMEIListFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE GUMMEIList (%d): %w", ieId, err)
 			}
@@ -4307,7 +4307,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 	case "OverloadStop", "OverloadStopIEs":
 		switch ieId {
 		case 154: // id-GUMMEIList -> GUMMEIList (SEQUENCE_OF)
-			v, err := unmarshalAPERGUMMEIListFrom(bb)
+			v, err := UnmarshalAPERGUMMEIListFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE GUMMEIList (%d): %w", ieId, err)
 			}
@@ -4552,7 +4552,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 	case "PWSRestartIndication", "PWSRestartIndicationIEs":
 		switch ieId {
 		case 182: // id-ECGIListForRestart -> ECGIListForRestart (SEQUENCE_OF)
-			v, err := unmarshalAPERECGIListForRestartFrom(bb)
+			v, err := UnmarshalAPERECGIListForRestartFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ECGIListForRestart (%d): %w", ieId, err)
 			}
@@ -4564,13 +4564,13 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		case 188: // id-TAIListForRestart -> TAIListForRestart (SEQUENCE_OF)
-			v, err := unmarshalAPERTAIListForRestartFrom(bb)
+			v, err := UnmarshalAPERTAIListForRestartFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TAIListForRestart (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 190: // id-EmergencyAreaIDListForRestart -> EmergencyAreaIDListForRestart (SEQUENCE_OF)
-			v, err := unmarshalAPEREmergencyAreaIDListForRestartFrom(bb)
+			v, err := UnmarshalAPEREmergencyAreaIDListForRestartFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE EmergencyAreaIDListForRestart (%d): %w", ieId, err)
 			}
@@ -4579,7 +4579,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 	case "PWSFailureIndication", "PWSFailureIndicationIEs":
 		switch ieId {
 		case 222: // id-PWSfailedECGIList -> PWSfailedECGIList (SEQUENCE_OF)
-			v, err := unmarshalAPERPWSfailedECGIListFrom(bb)
+			v, err := UnmarshalAPERPWSfailedECGIListFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PWSfailedECGIList (%d): %w", ieId, err)
 			}
@@ -5537,7 +5537,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := UnlicensedSpectrumRestriction(v)
 			return &result, nil
 		case 282: // id-CNTypeRestrictions -> CNTypeRestrictions (SEQUENCE_OF)
-			v, err := unmarshalAPERCNTypeRestrictionsFrom(bb)
+			v, err := UnmarshalAPERCNTypeRestrictionsFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension CNTypeRestrictions (%d): %w", extensionId, err)
 			}
@@ -5557,7 +5557,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := PLMNidentity(v)
 			return &result, nil
 		case 336: // id-RAT-Restrictions -> RATRestrictions (SEQUENCE_OF)
-			v, err := unmarshalAPERRATRestrictionsFrom(bb)
+			v, err := UnmarshalAPERRATRestrictionsFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension RATRestrictions (%d): %w", extensionId, err)
 			}
@@ -5637,7 +5637,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		case 329: // id-lastVisitedPSCellList -> LastVisitedPSCellList (SEQUENCE_OF)
-			v, err := unmarshalAPERLastVisitedPSCellListFrom(bb)
+			v, err := UnmarshalAPERLastVisitedPSCellListFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension LastVisitedPSCellList (%d): %w", extensionId, err)
 			}
@@ -5713,7 +5713,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 	case "MDTConfigurationExtIEs", "MDT-Configuration-ExtIEs":
 		switch extensionId {
 		case 178: // id-SignallingBasedMDTPLMNList -> MDTPLMNList (SEQUENCE_OF)
-			v, err := unmarshalAPERMDTPLMNListFrom(bb)
+			v, err := UnmarshalAPERMDTPLMNListFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension MDTPLMNList (%d): %w", extensionId, err)
 			}
@@ -5998,13 +5998,13 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 	case "X2TNLConfigurationInfoExtIEs", "X2TNLConfigurationInfo-ExtIEs":
 		switch extensionId {
 		case 153: // id-eNBX2ExtendedTransportLayerAddresses -> ENBX2ExtTLAs (SEQUENCE_OF)
-			v, err := unmarshalAPERENBX2ExtTLAsFrom(bb)
+			v, err := UnmarshalAPERENBX2ExtTLAsFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ENBX2ExtTLAs (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 193: // id-eNBIndirectX2TransportLayerAddresses -> ENBIndirectX2TransportLayerAddresses (SEQUENCE_OF)
-			v, err := unmarshalAPERENBIndirectX2TransportLayerAddressesFrom(bb)
+			v, err := UnmarshalAPERENBIndirectX2TransportLayerAddressesFrom(bb)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ENBIndirectX2TransportLayerAddresses (%d): %w", extensionId, err)
 			}

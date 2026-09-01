@@ -1092,9 +1092,17 @@ func (v *SONtransferResponseContainer) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		v.Choice = int(extIdx) + 1 + 1
 		switch v.Choice {
 		case SONtransferResponseContainerChoiceMultiCellLoadReporting:
-			seqLen_multicellloadreporting, err := per.DecodeConstrainedWholeNumberAligned(inner, 1, 128)
-			if err != nil {
-				return fmt.Errorf("decoding multiCellLoadReporting length: %w", err)
+			var seqLen_multicellloadreporting int64
+			var errLength_multicellloadreporting error
+			seqLen_multicellloadreporting, errLength_multicellloadreporting = per.DecodeConstrainedWholeNumberAligned(inner, 1, 128)
+			if errLength_multicellloadreporting != nil {
+				return fmt.Errorf("decoding multiCellLoadReporting length: %w", errLength_multicellloadreporting)
+			}
+			if seqLen_multicellloadreporting < 1 {
+				return fmt.Errorf("decoding multiCellLoadReporting length %d below lower bound 1", seqLen_multicellloadreporting)
+			}
+			if seqLen_multicellloadreporting > 128 {
+				return fmt.Errorf("decoding multiCellLoadReporting length %d above upper bound 128", seqLen_multicellloadreporting)
 			}
 			tmp_multicellloadreporting := make(MultiCellLoadReportingResponse, seqLen_multicellloadreporting)
 			for i := int64(0); i < seqLen_multicellloadreporting; i++ {
@@ -1687,13 +1695,14 @@ type asn1cAPERRequestedCellListListValue struct{ Value RequestedCellList }
 // MarshalAPERRequestedCellList encodes a RequestedCellList list to APER.
 func MarshalAPERRequestedCellList(list RequestedCellList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERRequestedCellListTo(list, bb); err != nil {
+	if err := MarshalAPERRequestedCellListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERRequestedCellListTo(list RequestedCellList, bb *per.BitBuffer) error {
+// MarshalAPERRequestedCellListTo appends a RequestedCellList list to bb.
+func MarshalAPERRequestedCellListTo(list RequestedCellList, bb *per.BitBuffer) error {
 	v := asn1cAPERRequestedCellListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 128); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -1709,10 +1718,11 @@ func marshalAPERRequestedCellListTo(list RequestedCellList, bb *per.BitBuffer) e
 // UnmarshalAPERRequestedCellList decodes a RequestedCellList list from APER.
 func UnmarshalAPERRequestedCellList(data []byte) (RequestedCellList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERRequestedCellListFrom(bb)
+	return UnmarshalAPERRequestedCellListFrom(bb)
 }
 
-func unmarshalAPERRequestedCellListFrom(bb *per.BitBuffer) (RequestedCellList, error) {
+// UnmarshalAPERRequestedCellListFrom decodes a RequestedCellList list from bb.
+func UnmarshalAPERRequestedCellListFrom(bb *per.BitBuffer) (RequestedCellList, error) {
 	var v asn1cAPERRequestedCellListListValue
 	if err := unmarshalAPERRequestedCellListInto(&v, bb); err != nil {
 		return nil, err
@@ -1721,9 +1731,17 @@ func unmarshalAPERRequestedCellListFrom(bb *per.BitBuffer) (RequestedCellList, e
 }
 
 func unmarshalAPERRequestedCellListInto(v *asn1cAPERRequestedCellListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 128)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 128)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 128 {
+		return fmt.Errorf("decoding value length %d above upper bound 128", seqLen_value)
 	}
 	v.Value = make(RequestedCellList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -1790,9 +1808,17 @@ func (v *MultiCellLoadReportingRequest) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	if err != nil {
 		return err
 	}
-	seqLen_requestedcelllist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 128)
-	if err != nil {
-		return fmt.Errorf("decoding requestedCellList length: %w", err)
+	var seqLen_requestedcelllist int64
+	var errLength_requestedcelllist error
+	seqLen_requestedcelllist, errLength_requestedcelllist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 128)
+	if errLength_requestedcelllist != nil {
+		return fmt.Errorf("decoding requestedCellList length: %w", errLength_requestedcelllist)
+	}
+	if seqLen_requestedcelllist < 1 {
+		return fmt.Errorf("decoding requestedCellList length %d below lower bound 1", seqLen_requestedcelllist)
+	}
+	if seqLen_requestedcelllist > 128 {
+		return fmt.Errorf("decoding requestedCellList length %d above upper bound 128", seqLen_requestedcelllist)
 	}
 	v.RequestedCellList = make(RequestedCellList, seqLen_requestedcelllist)
 	for i := int64(0); i < seqLen_requestedcelllist; i++ {
@@ -1901,13 +1927,14 @@ type asn1cAPERReportingCellListListValue struct{ Value ReportingCellList }
 // MarshalAPERReportingCellList encodes a ReportingCellList list to APER.
 func MarshalAPERReportingCellList(list ReportingCellList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERReportingCellListTo(list, bb); err != nil {
+	if err := MarshalAPERReportingCellListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERReportingCellListTo(list ReportingCellList, bb *per.BitBuffer) error {
+// MarshalAPERReportingCellListTo appends a ReportingCellList list to bb.
+func MarshalAPERReportingCellListTo(list ReportingCellList, bb *per.BitBuffer) error {
 	v := asn1cAPERReportingCellListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 128); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -1923,10 +1950,11 @@ func marshalAPERReportingCellListTo(list ReportingCellList, bb *per.BitBuffer) e
 // UnmarshalAPERReportingCellList decodes a ReportingCellList list from APER.
 func UnmarshalAPERReportingCellList(data []byte) (ReportingCellList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERReportingCellListFrom(bb)
+	return UnmarshalAPERReportingCellListFrom(bb)
 }
 
-func unmarshalAPERReportingCellListFrom(bb *per.BitBuffer) (ReportingCellList, error) {
+// UnmarshalAPERReportingCellListFrom decodes a ReportingCellList list from bb.
+func UnmarshalAPERReportingCellListFrom(bb *per.BitBuffer) (ReportingCellList, error) {
 	var v asn1cAPERReportingCellListListValue
 	if err := unmarshalAPERReportingCellListInto(&v, bb); err != nil {
 		return nil, err
@@ -1935,9 +1963,17 @@ func unmarshalAPERReportingCellListFrom(bb *per.BitBuffer) (ReportingCellList, e
 }
 
 func unmarshalAPERReportingCellListInto(v *asn1cAPERReportingCellListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 128)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 128)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 128 {
+		return fmt.Errorf("decoding value length %d above upper bound 128", seqLen_value)
 	}
 	v.Value = make(ReportingCellList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -1955,13 +1991,14 @@ type asn1cAPERMultiCellLoadReportingResponseListValue struct {
 // MarshalAPERMultiCellLoadReportingResponse encodes a MultiCellLoadReportingResponse list to APER.
 func MarshalAPERMultiCellLoadReportingResponse(list MultiCellLoadReportingResponse) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERMultiCellLoadReportingResponseTo(list, bb); err != nil {
+	if err := MarshalAPERMultiCellLoadReportingResponseTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERMultiCellLoadReportingResponseTo(list MultiCellLoadReportingResponse, bb *per.BitBuffer) error {
+// MarshalAPERMultiCellLoadReportingResponseTo appends a MultiCellLoadReportingResponse list to bb.
+func MarshalAPERMultiCellLoadReportingResponseTo(list MultiCellLoadReportingResponse, bb *per.BitBuffer) error {
 	v := asn1cAPERMultiCellLoadReportingResponseListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 128); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -1977,10 +2014,11 @@ func marshalAPERMultiCellLoadReportingResponseTo(list MultiCellLoadReportingResp
 // UnmarshalAPERMultiCellLoadReportingResponse decodes a MultiCellLoadReportingResponse list from APER.
 func UnmarshalAPERMultiCellLoadReportingResponse(data []byte) (MultiCellLoadReportingResponse, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERMultiCellLoadReportingResponseFrom(bb)
+	return UnmarshalAPERMultiCellLoadReportingResponseFrom(bb)
 }
 
-func unmarshalAPERMultiCellLoadReportingResponseFrom(bb *per.BitBuffer) (MultiCellLoadReportingResponse, error) {
+// UnmarshalAPERMultiCellLoadReportingResponseFrom decodes a MultiCellLoadReportingResponse list from bb.
+func UnmarshalAPERMultiCellLoadReportingResponseFrom(bb *per.BitBuffer) (MultiCellLoadReportingResponse, error) {
 	var v asn1cAPERMultiCellLoadReportingResponseListValue
 	if err := unmarshalAPERMultiCellLoadReportingResponseInto(&v, bb); err != nil {
 		return nil, err
@@ -1989,9 +2027,17 @@ func unmarshalAPERMultiCellLoadReportingResponseFrom(bb *per.BitBuffer) (MultiCe
 }
 
 func unmarshalAPERMultiCellLoadReportingResponseInto(v *asn1cAPERMultiCellLoadReportingResponseListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 128)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 128)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 128 {
+		return fmt.Errorf("decoding value length %d above upper bound 128", seqLen_value)
 	}
 	v.Value = make(MultiCellLoadReportingResponse, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -2412,9 +2458,17 @@ func (v *HOReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err := v.HoTargetID.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding hoTargetID: %w", err)
 	}
-	seqLen_candidatecelllist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
-	if err != nil {
-		return fmt.Errorf("decoding candidateCellList length: %w", err)
+	var seqLen_candidatecelllist int64
+	var errLength_candidatecelllist error
+	seqLen_candidatecelllist, errLength_candidatecelllist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
+	if errLength_candidatecelllist != nil {
+		return fmt.Errorf("decoding candidateCellList length: %w", errLength_candidatecelllist)
+	}
+	if seqLen_candidatecelllist < 1 {
+		return fmt.Errorf("decoding candidateCellList length %d below lower bound 1", seqLen_candidatecelllist)
+	}
+	if seqLen_candidatecelllist > 16 {
+		return fmt.Errorf("decoding candidateCellList length %d above upper bound 16", seqLen_candidatecelllist)
 	}
 	v.CandidateCellList = make(CandidateCellList, seqLen_candidatecelllist)
 	for i := int64(0); i < seqLen_candidatecelllist; i++ {
@@ -2441,9 +2495,17 @@ func (v *HOReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				return err
 			}
 			if ext_opt_candidatepcilist {
-				seqLen_candidatepcilist, err := per.DecodeConstrainedWholeNumberAligned(extBB, 1, 16)
-				if err != nil {
-					return fmt.Errorf("decoding candidatePCIList length: %w", err)
+				var seqLen_candidatepcilist int64
+				var errLength_candidatepcilist error
+				seqLen_candidatepcilist, errLength_candidatepcilist = per.DecodeConstrainedWholeNumberAligned(extBB, 1, 16)
+				if errLength_candidatepcilist != nil {
+					return fmt.Errorf("decoding candidatePCIList length: %w", errLength_candidatepcilist)
+				}
+				if seqLen_candidatepcilist < 1 {
+					return fmt.Errorf("decoding candidatePCIList length %d below lower bound 1", seqLen_candidatepcilist)
+				}
+				if seqLen_candidatepcilist > 16 {
+					return fmt.Errorf("decoding candidatePCIList length %d above upper bound 16", seqLen_candidatepcilist)
 				}
 				tmp_candidatepcilist := make(CandidatePCIList, seqLen_candidatepcilist)
 				for i := int64(0); i < seqLen_candidatepcilist; i++ {
@@ -2473,13 +2535,14 @@ type asn1cAPERCandidateCellListListValue struct{ Value CandidateCellList }
 // MarshalAPERCandidateCellList encodes a CandidateCellList list to APER.
 func MarshalAPERCandidateCellList(list CandidateCellList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERCandidateCellListTo(list, bb); err != nil {
+	if err := MarshalAPERCandidateCellListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERCandidateCellListTo(list CandidateCellList, bb *per.BitBuffer) error {
+// MarshalAPERCandidateCellListTo appends a CandidateCellList list to bb.
+func MarshalAPERCandidateCellListTo(list CandidateCellList, bb *per.BitBuffer) error {
 	v := asn1cAPERCandidateCellListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 16); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -2495,10 +2558,11 @@ func marshalAPERCandidateCellListTo(list CandidateCellList, bb *per.BitBuffer) e
 // UnmarshalAPERCandidateCellList decodes a CandidateCellList list from APER.
 func UnmarshalAPERCandidateCellList(data []byte) (CandidateCellList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERCandidateCellListFrom(bb)
+	return UnmarshalAPERCandidateCellListFrom(bb)
 }
 
-func unmarshalAPERCandidateCellListFrom(bb *per.BitBuffer) (CandidateCellList, error) {
+// UnmarshalAPERCandidateCellListFrom decodes a CandidateCellList list from bb.
+func UnmarshalAPERCandidateCellListFrom(bb *per.BitBuffer) (CandidateCellList, error) {
 	var v asn1cAPERCandidateCellListListValue
 	if err := unmarshalAPERCandidateCellListInto(&v, bb); err != nil {
 		return nil, err
@@ -2507,9 +2571,17 @@ func unmarshalAPERCandidateCellListFrom(bb *per.BitBuffer) (CandidateCellList, e
 }
 
 func unmarshalAPERCandidateCellListInto(v *asn1cAPERCandidateCellListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 16 {
+		return fmt.Errorf("decoding value length %d above upper bound 16", seqLen_value)
 	}
 	v.Value = make(CandidateCellList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -2525,13 +2597,14 @@ type asn1cAPERCandidatePCIListListValue struct{ Value CandidatePCIList }
 // MarshalAPERCandidatePCIList encodes a CandidatePCIList list to APER.
 func MarshalAPERCandidatePCIList(list CandidatePCIList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERCandidatePCIListTo(list, bb); err != nil {
+	if err := MarshalAPERCandidatePCIListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERCandidatePCIListTo(list CandidatePCIList, bb *per.BitBuffer) error {
+// MarshalAPERCandidatePCIListTo appends a CandidatePCIList list to bb.
+func MarshalAPERCandidatePCIListTo(list CandidatePCIList, bb *per.BitBuffer) error {
 	v := asn1cAPERCandidatePCIListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 16); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -2547,10 +2620,11 @@ func marshalAPERCandidatePCIListTo(list CandidatePCIList, bb *per.BitBuffer) err
 // UnmarshalAPERCandidatePCIList decodes a CandidatePCIList list from APER.
 func UnmarshalAPERCandidatePCIList(data []byte) (CandidatePCIList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERCandidatePCIListFrom(bb)
+	return UnmarshalAPERCandidatePCIListFrom(bb)
 }
 
-func unmarshalAPERCandidatePCIListFrom(bb *per.BitBuffer) (CandidatePCIList, error) {
+// UnmarshalAPERCandidatePCIListFrom decodes a CandidatePCIList list from bb.
+func UnmarshalAPERCandidatePCIListFrom(bb *per.BitBuffer) (CandidatePCIList, error) {
 	var v asn1cAPERCandidatePCIListListValue
 	if err := unmarshalAPERCandidatePCIListInto(&v, bb); err != nil {
 		return nil, err
@@ -2559,9 +2633,17 @@ func unmarshalAPERCandidatePCIListFrom(bb *per.BitBuffer) (CandidatePCIList, err
 }
 
 func unmarshalAPERCandidatePCIListInto(v *asn1cAPERCandidatePCIListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 16 {
+		return fmt.Errorf("decoding value length %d above upper bound 16", seqLen_value)
 	}
 	v.Value = make(CandidatePCIList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -2727,9 +2809,17 @@ func (v *CellActivationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_cellstoactivatelist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding cellsToActivateList length: %w", err)
+	var seqLen_cellstoactivatelist int64
+	var errLength_cellstoactivatelist error
+	seqLen_cellstoactivatelist, errLength_cellstoactivatelist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_cellstoactivatelist != nil {
+		return fmt.Errorf("decoding cellsToActivateList length: %w", errLength_cellstoactivatelist)
+	}
+	if seqLen_cellstoactivatelist < 1 {
+		return fmt.Errorf("decoding cellsToActivateList length %d below lower bound 1", seqLen_cellstoactivatelist)
+	}
+	if seqLen_cellstoactivatelist > 256 {
+		return fmt.Errorf("decoding cellsToActivateList length %d above upper bound 256", seqLen_cellstoactivatelist)
 	}
 	v.CellsToActivateList = make(CellsToActivateList, seqLen_cellstoactivatelist)
 	for i := int64(0); i < seqLen_cellstoactivatelist; i++ {
@@ -2770,13 +2860,14 @@ type asn1cAPERCellsToActivateListListValue struct{ Value CellsToActivateList }
 // MarshalAPERCellsToActivateList encodes a CellsToActivateList list to APER.
 func MarshalAPERCellsToActivateList(list CellsToActivateList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERCellsToActivateListTo(list, bb); err != nil {
+	if err := MarshalAPERCellsToActivateListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERCellsToActivateListTo(list CellsToActivateList, bb *per.BitBuffer) error {
+// MarshalAPERCellsToActivateListTo appends a CellsToActivateList list to bb.
+func MarshalAPERCellsToActivateListTo(list CellsToActivateList, bb *per.BitBuffer) error {
 	v := asn1cAPERCellsToActivateListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -2792,10 +2883,11 @@ func marshalAPERCellsToActivateListTo(list CellsToActivateList, bb *per.BitBuffe
 // UnmarshalAPERCellsToActivateList decodes a CellsToActivateList list from APER.
 func UnmarshalAPERCellsToActivateList(data []byte) (CellsToActivateList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERCellsToActivateListFrom(bb)
+	return UnmarshalAPERCellsToActivateListFrom(bb)
 }
 
-func unmarshalAPERCellsToActivateListFrom(bb *per.BitBuffer) (CellsToActivateList, error) {
+// UnmarshalAPERCellsToActivateListFrom decodes a CellsToActivateList list from bb.
+func UnmarshalAPERCellsToActivateListFrom(bb *per.BitBuffer) (CellsToActivateList, error) {
 	var v asn1cAPERCellsToActivateListListValue
 	if err := unmarshalAPERCellsToActivateListInto(&v, bb); err != nil {
 		return nil, err
@@ -2804,9 +2896,17 @@ func unmarshalAPERCellsToActivateListFrom(bb *per.BitBuffer) (CellsToActivateLis
 }
 
 func unmarshalAPERCellsToActivateListInto(v *asn1cAPERCellsToActivateListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(CellsToActivateList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -2950,9 +3050,17 @@ func (v *CellActivationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_activatedcellslist, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 256)
-	if err != nil {
-		return fmt.Errorf("decoding activatedCellsList length: %w", err)
+	var seqLen_activatedcellslist int64
+	var errLength_activatedcellslist error
+	seqLen_activatedcellslist, errLength_activatedcellslist = per.DecodeConstrainedWholeNumberAligned(bb, 0, 256)
+	if errLength_activatedcellslist != nil {
+		return fmt.Errorf("decoding activatedCellsList length: %w", errLength_activatedcellslist)
+	}
+	if seqLen_activatedcellslist < 0 {
+		return fmt.Errorf("decoding activatedCellsList length %d below lower bound 0", seqLen_activatedcellslist)
+	}
+	if seqLen_activatedcellslist > 256 {
+		return fmt.Errorf("decoding activatedCellsList length %d above upper bound 256", seqLen_activatedcellslist)
 	}
 	v.ActivatedCellsList = make(ActivatedCellsList, seqLen_activatedcellslist)
 	for i := int64(0); i < seqLen_activatedcellslist; i++ {
@@ -2986,13 +3094,14 @@ type asn1cAPERActivatedCellsListListValue struct{ Value ActivatedCellsList }
 // MarshalAPERActivatedCellsList encodes a ActivatedCellsList list to APER.
 func MarshalAPERActivatedCellsList(list ActivatedCellsList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERActivatedCellsListTo(list, bb); err != nil {
+	if err := MarshalAPERActivatedCellsListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERActivatedCellsListTo(list ActivatedCellsList, bb *per.BitBuffer) error {
+// MarshalAPERActivatedCellsListTo appends a ActivatedCellsList list to bb.
+func MarshalAPERActivatedCellsListTo(list ActivatedCellsList, bb *per.BitBuffer) error {
 	v := asn1cAPERActivatedCellsListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 0, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -3008,10 +3117,11 @@ func marshalAPERActivatedCellsListTo(list ActivatedCellsList, bb *per.BitBuffer)
 // UnmarshalAPERActivatedCellsList decodes a ActivatedCellsList list from APER.
 func UnmarshalAPERActivatedCellsList(data []byte) (ActivatedCellsList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERActivatedCellsListFrom(bb)
+	return UnmarshalAPERActivatedCellsListFrom(bb)
 }
 
-func unmarshalAPERActivatedCellsListFrom(bb *per.BitBuffer) (ActivatedCellsList, error) {
+// UnmarshalAPERActivatedCellsListFrom decodes a ActivatedCellsList list from bb.
+func UnmarshalAPERActivatedCellsListFrom(bb *per.BitBuffer) (ActivatedCellsList, error) {
 	var v asn1cAPERActivatedCellsListListValue
 	if err := unmarshalAPERActivatedCellsListInto(&v, bb); err != nil {
 		return nil, err
@@ -3020,9 +3130,17 @@ func unmarshalAPERActivatedCellsListFrom(bb *per.BitBuffer) (ActivatedCellsList,
 }
 
 func unmarshalAPERActivatedCellsListInto(v *asn1cAPERActivatedCellsListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 0, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 0 {
+		return fmt.Errorf("decoding value length %d below lower bound 0", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(ActivatedCellsList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
@@ -3166,9 +3284,17 @@ func (v *CellStateIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	seqLen_notificationcelllist, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding notificationCellList length: %w", err)
+	var seqLen_notificationcelllist int64
+	var errLength_notificationcelllist error
+	seqLen_notificationcelllist, errLength_notificationcelllist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_notificationcelllist != nil {
+		return fmt.Errorf("decoding notificationCellList length: %w", errLength_notificationcelllist)
+	}
+	if seqLen_notificationcelllist < 1 {
+		return fmt.Errorf("decoding notificationCellList length %d below lower bound 1", seqLen_notificationcelllist)
+	}
+	if seqLen_notificationcelllist > 256 {
+		return fmt.Errorf("decoding notificationCellList length %d above upper bound 256", seqLen_notificationcelllist)
 	}
 	v.NotificationCellList = make(NotificationCellList, seqLen_notificationcelllist)
 	for i := int64(0); i < seqLen_notificationcelllist; i++ {
@@ -3202,13 +3328,14 @@ type asn1cAPERNotificationCellListListValue struct{ Value NotificationCellList }
 // MarshalAPERNotificationCellList encodes a NotificationCellList list to APER.
 func MarshalAPERNotificationCellList(list NotificationCellList) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := marshalAPERNotificationCellListTo(list, bb); err != nil {
+	if err := MarshalAPERNotificationCellListTo(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func marshalAPERNotificationCellListTo(list NotificationCellList, bb *per.BitBuffer) error {
+// MarshalAPERNotificationCellListTo appends a NotificationCellList list to bb.
+func MarshalAPERNotificationCellListTo(list NotificationCellList, bb *per.BitBuffer) error {
 	v := asn1cAPERNotificationCellListListValue{Value: list}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
 		return fmt.Errorf("encoding value length: %w", err)
@@ -3224,10 +3351,11 @@ func marshalAPERNotificationCellListTo(list NotificationCellList, bb *per.BitBuf
 // UnmarshalAPERNotificationCellList decodes a NotificationCellList list from APER.
 func UnmarshalAPERNotificationCellList(data []byte) (NotificationCellList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return unmarshalAPERNotificationCellListFrom(bb)
+	return UnmarshalAPERNotificationCellListFrom(bb)
 }
 
-func unmarshalAPERNotificationCellListFrom(bb *per.BitBuffer) (NotificationCellList, error) {
+// UnmarshalAPERNotificationCellListFrom decodes a NotificationCellList list from bb.
+func UnmarshalAPERNotificationCellListFrom(bb *per.BitBuffer) (NotificationCellList, error) {
 	var v asn1cAPERNotificationCellListListValue
 	if err := unmarshalAPERNotificationCellListInto(&v, bb); err != nil {
 		return nil, err
@@ -3236,9 +3364,17 @@ func unmarshalAPERNotificationCellListFrom(bb *per.BitBuffer) (NotificationCellL
 }
 
 func unmarshalAPERNotificationCellListInto(v *asn1cAPERNotificationCellListListValue, bb *per.BitBuffer) error {
-	seqLen_value, err := per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if err != nil {
-		return fmt.Errorf("decoding value length: %w", err)
+	var seqLen_value int64
+	var errLength_value error
+	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
+	if errLength_value != nil {
+		return fmt.Errorf("decoding value length: %w", errLength_value)
+	}
+	if seqLen_value < 1 {
+		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
+	}
+	if seqLen_value > 256 {
+		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
 	v.Value = make(NotificationCellList, seqLen_value)
 	for i := int64(0); i < seqLen_value; i++ {
