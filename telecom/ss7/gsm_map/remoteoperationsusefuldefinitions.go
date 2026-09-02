@@ -284,7 +284,11 @@ func (v *ROSSingleAS) MarshalBER() ([]byte, error) {
 		if v.Invoke.LinkedId != nil {
 			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
 		}
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_0)
+		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_0)
+		if tagErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding invoke: %w", tagErr_enc_0)
+		}
+		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case ROSSingleASChoiceReturnResult:
 		if v.ReturnResult == nil {
@@ -294,7 +298,11 @@ func (v *ROSSingleAS) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnResult: %w", err)
 		}
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_1)
+		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_1)
+		if tagErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding returnResult: %w", tagErr_enc_1)
+		}
+		enc_1 = retagged_enc_1
 		return enc_1, nil
 	case ROSSingleASChoiceReturnError:
 		if v.ReturnError == nil {
@@ -304,7 +312,11 @@ func (v *ROSSingleAS) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnError: %w", err)
 		}
-		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_2)
+		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_2)
+		if tagErr_enc_2 != nil {
+			return nil, fmt.Errorf("encoding returnError: %w", tagErr_enc_2)
+		}
+		enc_2 = retagged_enc_2
 		return enc_2, nil
 	case ROSSingleASChoiceReject:
 		if v.Reject == nil {
@@ -314,7 +326,11 @@ func (v *ROSSingleAS) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding reject: %w", err)
 		}
-		enc_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_3)
+		retagged_enc_3, tagErr_enc_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_3)
+		if tagErr_enc_3 != nil {
+			return nil, fmt.Errorf("encoding reject: %w", tagErr_enc_3)
+		}
+		enc_3 = retagged_enc_3
 		return enc_3, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for ROSSingleAS", v.Choice)
@@ -335,7 +351,11 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 		if v.Invoke.LinkedId != nil {
 			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
 		}
-		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_0)
+		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_der_0)
+		if tagErr_enc_der_0 != nil {
+			return nil, fmt.Errorf("encoding invoke: %w", tagErr_enc_der_0)
+		}
+		enc_der_0 = retagged_enc_der_0
 		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
 			return nil, fmt.Errorf("encoding invoke as DER: %w", derErr)
 		}
@@ -348,7 +368,11 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnResult: %w", err)
 		}
-		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_der_1)
+		retagged_enc_der_1, tagErr_enc_der_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_1)
+		if tagErr_enc_der_1 != nil {
+			return nil, fmt.Errorf("encoding returnResult: %w", tagErr_enc_der_1)
+		}
+		enc_der_1 = retagged_enc_der_1
 		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
 			return nil, fmt.Errorf("encoding returnResult as DER: %w", derErr)
 		}
@@ -361,7 +385,11 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnError: %w", err)
 		}
-		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_der_2)
+		retagged_enc_der_2, tagErr_enc_der_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_der_2)
+		if tagErr_enc_der_2 != nil {
+			return nil, fmt.Errorf("encoding returnError: %w", tagErr_enc_der_2)
+		}
+		enc_der_2 = retagged_enc_der_2
 		if derErr := ber.ValidateDERElement(enc_der_2); derErr != nil {
 			return nil, fmt.Errorf("encoding returnError as DER: %w", derErr)
 		}
@@ -374,7 +402,11 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding reject: %w", err)
 		}
-		enc_der_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_der_3)
+		retagged_enc_der_3, tagErr_enc_der_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_der_3)
+		if tagErr_enc_der_3 != nil {
+			return nil, fmt.Errorf("encoding reject: %w", tagErr_enc_der_3)
+		}
+		enc_der_3 = retagged_enc_der_3
 		if derErr := ber.ValidateDERElement(enc_der_3); derErr != nil {
 			return nil, fmt.Errorf("encoding reject as DER: %w", derErr)
 		}
@@ -480,7 +512,11 @@ func (v *ROSConsumerAS) MarshalBER() ([]byte, error) {
 		if v.Invoke.LinkedId != nil {
 			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
 		}
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_0)
+		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_0)
+		if tagErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding invoke: %w", tagErr_enc_0)
+		}
+		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case ROSConsumerASChoiceReturnResult:
 		if v.ReturnResult == nil {
@@ -490,7 +526,11 @@ func (v *ROSConsumerAS) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnResult: %w", err)
 		}
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_1)
+		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_1)
+		if tagErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding returnResult: %w", tagErr_enc_1)
+		}
+		enc_1 = retagged_enc_1
 		return enc_1, nil
 	case ROSConsumerASChoiceReturnError:
 		if v.ReturnError == nil {
@@ -500,7 +540,11 @@ func (v *ROSConsumerAS) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnError: %w", err)
 		}
-		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_2)
+		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_2)
+		if tagErr_enc_2 != nil {
+			return nil, fmt.Errorf("encoding returnError: %w", tagErr_enc_2)
+		}
+		enc_2 = retagged_enc_2
 		return enc_2, nil
 	case ROSConsumerASChoiceReject:
 		if v.Reject == nil {
@@ -510,7 +554,11 @@ func (v *ROSConsumerAS) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding reject: %w", err)
 		}
-		enc_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_3)
+		retagged_enc_3, tagErr_enc_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_3)
+		if tagErr_enc_3 != nil {
+			return nil, fmt.Errorf("encoding reject: %w", tagErr_enc_3)
+		}
+		enc_3 = retagged_enc_3
 		return enc_3, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for ROSConsumerAS", v.Choice)
@@ -531,7 +579,11 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 		if v.Invoke.LinkedId != nil {
 			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
 		}
-		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_0)
+		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_der_0)
+		if tagErr_enc_der_0 != nil {
+			return nil, fmt.Errorf("encoding invoke: %w", tagErr_enc_der_0)
+		}
+		enc_der_0 = retagged_enc_der_0
 		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
 			return nil, fmt.Errorf("encoding invoke as DER: %w", derErr)
 		}
@@ -544,7 +596,11 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnResult: %w", err)
 		}
-		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_der_1)
+		retagged_enc_der_1, tagErr_enc_der_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_1)
+		if tagErr_enc_der_1 != nil {
+			return nil, fmt.Errorf("encoding returnResult: %w", tagErr_enc_der_1)
+		}
+		enc_der_1 = retagged_enc_der_1
 		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
 			return nil, fmt.Errorf("encoding returnResult as DER: %w", derErr)
 		}
@@ -557,7 +613,11 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnError: %w", err)
 		}
-		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_der_2)
+		retagged_enc_der_2, tagErr_enc_der_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_der_2)
+		if tagErr_enc_der_2 != nil {
+			return nil, fmt.Errorf("encoding returnError: %w", tagErr_enc_der_2)
+		}
+		enc_der_2 = retagged_enc_der_2
 		if derErr := ber.ValidateDERElement(enc_der_2); derErr != nil {
 			return nil, fmt.Errorf("encoding returnError as DER: %w", derErr)
 		}
@@ -570,7 +630,11 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding reject: %w", err)
 		}
-		enc_der_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_der_3)
+		retagged_enc_der_3, tagErr_enc_der_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_der_3)
+		if tagErr_enc_der_3 != nil {
+			return nil, fmt.Errorf("encoding reject: %w", tagErr_enc_der_3)
+		}
+		enc_der_3 = retagged_enc_der_3
 		if derErr := ber.ValidateDERElement(enc_der_3); derErr != nil {
 			return nil, fmt.Errorf("encoding reject as DER: %w", derErr)
 		}
@@ -676,7 +740,11 @@ func (v *ROSSupplierAS) MarshalBER() ([]byte, error) {
 		if v.Invoke.LinkedId != nil {
 			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
 		}
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_0)
+		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_0)
+		if tagErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding invoke: %w", tagErr_enc_0)
+		}
+		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case ROSSupplierASChoiceReturnResult:
 		if v.ReturnResult == nil {
@@ -686,7 +754,11 @@ func (v *ROSSupplierAS) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnResult: %w", err)
 		}
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_1)
+		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_1)
+		if tagErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding returnResult: %w", tagErr_enc_1)
+		}
+		enc_1 = retagged_enc_1
 		return enc_1, nil
 	case ROSSupplierASChoiceReturnError:
 		if v.ReturnError == nil {
@@ -696,7 +768,11 @@ func (v *ROSSupplierAS) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnError: %w", err)
 		}
-		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_2)
+		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_2)
+		if tagErr_enc_2 != nil {
+			return nil, fmt.Errorf("encoding returnError: %w", tagErr_enc_2)
+		}
+		enc_2 = retagged_enc_2
 		return enc_2, nil
 	case ROSSupplierASChoiceReject:
 		if v.Reject == nil {
@@ -706,7 +782,11 @@ func (v *ROSSupplierAS) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding reject: %w", err)
 		}
-		enc_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_3)
+		retagged_enc_3, tagErr_enc_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_3)
+		if tagErr_enc_3 != nil {
+			return nil, fmt.Errorf("encoding reject: %w", tagErr_enc_3)
+		}
+		enc_3 = retagged_enc_3
 		return enc_3, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for ROSSupplierAS", v.Choice)
@@ -727,7 +807,11 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 		if v.Invoke.LinkedId != nil {
 			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
 		}
-		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_0)
+		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_der_0)
+		if tagErr_enc_der_0 != nil {
+			return nil, fmt.Errorf("encoding invoke: %w", tagErr_enc_der_0)
+		}
+		enc_der_0 = retagged_enc_der_0
 		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
 			return nil, fmt.Errorf("encoding invoke as DER: %w", derErr)
 		}
@@ -740,7 +824,11 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnResult: %w", err)
 		}
-		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_der_1)
+		retagged_enc_der_1, tagErr_enc_der_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_1)
+		if tagErr_enc_der_1 != nil {
+			return nil, fmt.Errorf("encoding returnResult: %w", tagErr_enc_der_1)
+		}
+		enc_der_1 = retagged_enc_der_1
 		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
 			return nil, fmt.Errorf("encoding returnResult as DER: %w", derErr)
 		}
@@ -753,7 +841,11 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnError: %w", err)
 		}
-		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_der_2)
+		retagged_enc_der_2, tagErr_enc_der_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_der_2)
+		if tagErr_enc_der_2 != nil {
+			return nil, fmt.Errorf("encoding returnError: %w", tagErr_enc_der_2)
+		}
+		enc_der_2 = retagged_enc_der_2
 		if derErr := ber.ValidateDERElement(enc_der_2); derErr != nil {
 			return nil, fmt.Errorf("encoding returnError as DER: %w", derErr)
 		}
@@ -766,7 +858,11 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding reject: %w", err)
 		}
-		enc_der_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_der_3)
+		retagged_enc_der_3, tagErr_enc_der_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_der_3)
+		if tagErr_enc_der_3 != nil {
+			return nil, fmt.Errorf("encoding reject: %w", tagErr_enc_der_3)
+		}
+		enc_der_3 = retagged_enc_der_3
 		if derErr := ber.ValidateDERElement(enc_der_3); derErr != nil {
 			return nil, fmt.Errorf("encoding reject as DER: %w", derErr)
 		}
@@ -866,11 +962,19 @@ func (v *ROSSingleASInvokeLinkedId) MarshalBER() ([]byte, error) {
 			return nil, fmt.Errorf("choice ROSSingleASInvokeLinkedId: present is nil")
 		}
 		enc_0 := ber.EncodeBigInt(v.Present)
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
+		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
+		if tagErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding present: %w", tagErr_enc_0)
+		}
+		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case ROSSingleASInvokeLinkedIdChoiceAbsent:
 		enc_1 := ber.EncodeNull()
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
+		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
+		if tagErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding absent: %w", tagErr_enc_1)
+		}
+		enc_1 = retagged_enc_1
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for ROSSingleASInvokeLinkedId", v.Choice)
@@ -1008,11 +1112,19 @@ func (v *ROSConsumerASInvokeLinkedId) MarshalBER() ([]byte, error) {
 			return nil, fmt.Errorf("choice ROSConsumerASInvokeLinkedId: present is nil")
 		}
 		enc_0 := ber.EncodeBigInt(v.Present)
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
+		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
+		if tagErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding present: %w", tagErr_enc_0)
+		}
+		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case ROSConsumerASInvokeLinkedIdChoiceAbsent:
 		enc_1 := ber.EncodeNull()
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
+		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
+		if tagErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding absent: %w", tagErr_enc_1)
+		}
+		enc_1 = retagged_enc_1
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for ROSConsumerASInvokeLinkedId", v.Choice)
@@ -1150,11 +1262,19 @@ func (v *ROSSupplierASInvokeLinkedId) MarshalBER() ([]byte, error) {
 			return nil, fmt.Errorf("choice ROSSupplierASInvokeLinkedId: present is nil")
 		}
 		enc_0 := ber.EncodeBigInt(v.Present)
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
+		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
+		if tagErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding present: %w", tagErr_enc_0)
+		}
+		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case ROSSupplierASInvokeLinkedIdChoiceAbsent:
 		enc_1 := ber.EncodeNull()
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
+		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
+		if tagErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding absent: %w", tagErr_enc_1)
+		}
+		enc_1 = retagged_enc_1
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for ROSSupplierASInvokeLinkedId", v.Choice)

@@ -97,6 +97,41 @@ func TestBitBufferRejectsImpossibleReadsBeforeAllocation(t *testing.T) {
 	}
 }
 
+func TestConstrainedSizeRejectsNegativeBoundsBeforeBufferAccess(t *testing.T) {
+	tests := []struct {
+		name string
+		run  func(*BitBuffer) error
+	}{
+		{name: "UPER encode bit string", run: func(bb *BitBuffer) error { return EncodeBitString(bb, nil, 0, -1, 1, true) }},
+		{name: "UPER decode bit string", run: func(bb *BitBuffer) error { _, _, err := DecodeBitString(bb, -1, 1, true); return err }},
+		{name: "UPER encode octet string", run: func(bb *BitBuffer) error { return EncodeOctetString(bb, nil, -1, 1, true) }},
+		{name: "UPER decode octet string", run: func(bb *BitBuffer) error { _, err := DecodeOctetString(bb, -1, 1, true); return err }},
+		{name: "UPER encode known multiplier string", run: func(bb *BitBuffer) error { return EncodeKnownMultiplierString(bb, "", 7, -1, 1, true) }},
+		{name: "UPER decode known multiplier string", run: func(bb *BitBuffer) error { _, err := DecodeKnownMultiplierString(bb, 7, -1, 1, true); return err }},
+		{name: "APER encode bit string", run: func(bb *BitBuffer) error { return EncodeBitStringAligned(bb, nil, 0, -1, 1, true) }},
+		{name: "APER decode bit string", run: func(bb *BitBuffer) error { _, _, err := DecodeBitStringAligned(bb, -1, 1, true); return err }},
+		{name: "APER encode octet string", run: func(bb *BitBuffer) error { return EncodeOctetStringAligned(bb, nil, -1, 1, true) }},
+		{name: "APER decode octet string", run: func(bb *BitBuffer) error { _, err := DecodeOctetStringAligned(bb, -1, 1, true); return err }},
+		{name: "APER encode known multiplier string", run: func(bb *BitBuffer) error { return EncodeKnownMultiplierStringAligned(bb, "", 7, -1, 1, true) }},
+		{name: "APER decode known multiplier string", run: func(bb *BitBuffer) error {
+			_, err := DecodeKnownMultiplierStringAligned(bb, 7, -1, 1, true)
+			return err
+		}},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			bb := NewBitBufferFromBytes([]byte{0xff})
+			before := bb.bitPos
+			if err := test.run(bb); !errors.Is(err, ErrInvalidValue) {
+				t.Fatalf("error = %v, want ErrInvalidValue", err)
+			}
+			if bb.bitPos != before {
+				t.Fatalf("buffer position = %d, want unchanged %d", bb.bitPos, before)
+			}
+		})
+	}
+}
+
 func TestDecodeExtensionBitmapRejectsCountBeyondInput(t *testing.T) {
 	for _, tc := range []struct {
 		name    string

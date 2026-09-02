@@ -64,7 +64,11 @@ func (v *UniDialoguePDU) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding unidialoguePDU: %w", err)
 		}
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 0, true, enc_0)
+		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 0, enc_0)
+		if tagErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding unidialoguePDU: %w", tagErr_enc_0)
+		}
+		enc_0 = retagged_enc_0
 		return enc_0, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for UniDialoguePDU", v.Choice)
@@ -82,7 +86,11 @@ func (v *UniDialoguePDU) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding unidialoguePDU: %w", err)
 		}
-		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 0, true, enc_der_0)
+		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 0, enc_der_0)
+		if tagErr_enc_der_0 != nil {
+			return nil, fmt.Errorf("encoding unidialoguePDU: %w", tagErr_enc_der_0)
+		}
+		enc_der_0 = retagged_enc_der_0
 		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
 			return nil, fmt.Errorf("encoding unidialoguePDU as DER: %w", derErr)
 		}
@@ -140,7 +148,11 @@ func (v *AUDTApdu) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.ProtocolVersion != nil {
 		enc_protocolversion := ber.EncodeBitString(v.ProtocolVersion.Bytes, (8-(v.ProtocolVersion.BitLength%8))%8)
-		enc_protocolversion = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_protocolversion)
+		retagged_enc_protocolversion, tagErr_enc_protocolversion := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_protocolversion)
+		if tagErr_enc_protocolversion != nil {
+			return nil, fmt.Errorf("encoding protocol-version: %w", tagErr_enc_protocolversion)
+		}
+		enc_protocolversion = retagged_enc_protocolversion
 		children = append(children, enc_protocolversion...)
 	}
 	enc_applicationcontextname, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.ApplicationContextName))
@@ -162,7 +174,11 @@ func (v *AUDTApdu) MarshalBER() ([]byte, error) {
 			}
 			enc_userinformation = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 30}, seqContent_)
 		} else {
-			enc_userinformation = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, true, enc_userinformation)
+			retagged_enc_userinformation, tagErr_enc_userinformation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, enc_userinformation)
+			if tagErr_enc_userinformation != nil {
+				return nil, fmt.Errorf("encoding user-information: %w", tagErr_enc_userinformation)
+			}
+			enc_userinformation = retagged_enc_userinformation
 		}
 		children = append(children, enc_userinformation...)
 	}

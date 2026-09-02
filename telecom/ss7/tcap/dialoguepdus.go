@@ -807,7 +807,11 @@ func (v *DialoguePDU) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding dialogueRequest: %w", err)
 		}
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 0, true, enc_0)
+		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 0, enc_0)
+		if tagErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding dialogueRequest: %w", tagErr_enc_0)
+		}
+		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case DialoguePDUChoiceDialogueResponse:
 		if v.DialogueResponse == nil {
@@ -817,7 +821,11 @@ func (v *DialoguePDU) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding dialogueResponse: %w", err)
 		}
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 1, true, enc_1)
+		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 1, enc_1)
+		if tagErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding dialogueResponse: %w", tagErr_enc_1)
+		}
+		enc_1 = retagged_enc_1
 		return enc_1, nil
 	case DialoguePDUChoiceDialogueAbort:
 		if v.DialogueAbort == nil {
@@ -827,7 +835,11 @@ func (v *DialoguePDU) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding dialogueAbort: %w", err)
 		}
-		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 4, true, enc_2)
+		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 4, enc_2)
+		if tagErr_enc_2 != nil {
+			return nil, fmt.Errorf("encoding dialogueAbort: %w", tagErr_enc_2)
+		}
+		enc_2 = retagged_enc_2
 		return enc_2, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for DialoguePDU", v.Choice)
@@ -845,7 +857,11 @@ func (v *DialoguePDU) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding dialogueRequest: %w", err)
 		}
-		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 0, true, enc_der_0)
+		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 0, enc_der_0)
+		if tagErr_enc_der_0 != nil {
+			return nil, fmt.Errorf("encoding dialogueRequest: %w", tagErr_enc_der_0)
+		}
+		enc_der_0 = retagged_enc_der_0
 		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
 			return nil, fmt.Errorf("encoding dialogueRequest as DER: %w", derErr)
 		}
@@ -858,7 +874,11 @@ func (v *DialoguePDU) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding dialogueResponse: %w", err)
 		}
-		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 1, true, enc_der_1)
+		retagged_enc_der_1, tagErr_enc_der_1 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 1, enc_der_1)
+		if tagErr_enc_der_1 != nil {
+			return nil, fmt.Errorf("encoding dialogueResponse: %w", tagErr_enc_der_1)
+		}
+		enc_der_1 = retagged_enc_der_1
 		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
 			return nil, fmt.Errorf("encoding dialogueResponse as DER: %w", derErr)
 		}
@@ -871,7 +891,11 @@ func (v *DialoguePDU) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding dialogueAbort: %w", err)
 		}
-		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 4, true, enc_der_2)
+		retagged_enc_der_2, tagErr_enc_der_2 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 4, enc_der_2)
+		if tagErr_enc_der_2 != nil {
+			return nil, fmt.Errorf("encoding dialogueAbort: %w", tagErr_enc_der_2)
+		}
+		enc_der_2 = retagged_enc_der_2
 		if derErr := ber.ValidateDERElement(enc_der_2); derErr != nil {
 			return nil, fmt.Errorf("encoding dialogueAbort as DER: %w", derErr)
 		}
@@ -953,7 +977,11 @@ func (v *AARQApdu) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.ProtocolVersion != nil {
 		enc_protocolversion := ber.EncodeBitString(v.ProtocolVersion.Bytes, (8-(v.ProtocolVersion.BitLength%8))%8)
-		enc_protocolversion = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_protocolversion)
+		retagged_enc_protocolversion, tagErr_enc_protocolversion := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_protocolversion)
+		if tagErr_enc_protocolversion != nil {
+			return nil, fmt.Errorf("encoding protocol-version: %w", tagErr_enc_protocolversion)
+		}
+		enc_protocolversion = retagged_enc_protocolversion
 		children = append(children, enc_protocolversion...)
 	}
 	enc_applicationcontextname, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.ApplicationContextName))
@@ -975,7 +1003,11 @@ func (v *AARQApdu) MarshalBER() ([]byte, error) {
 			}
 			enc_userinformation = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 30}, seqContent_)
 		} else {
-			enc_userinformation = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, true, enc_userinformation)
+			retagged_enc_userinformation, tagErr_enc_userinformation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, enc_userinformation)
+			if tagErr_enc_userinformation != nil {
+				return nil, fmt.Errorf("encoding user-information: %w", tagErr_enc_userinformation)
+			}
+			enc_userinformation = retagged_enc_userinformation
 		}
 		children = append(children, enc_userinformation...)
 	}
@@ -1096,7 +1128,11 @@ func (v *AAREApdu) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.ProtocolVersion != nil {
 		enc_protocolversion := ber.EncodeBitString(v.ProtocolVersion.Bytes, (8-(v.ProtocolVersion.BitLength%8))%8)
-		enc_protocolversion = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_protocolversion)
+		retagged_enc_protocolversion, tagErr_enc_protocolversion := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_protocolversion)
+		if tagErr_enc_protocolversion != nil {
+			return nil, fmt.Errorf("encoding protocol-version: %w", tagErr_enc_protocolversion)
+		}
+		enc_protocolversion = retagged_enc_protocolversion
 		children = append(children, enc_protocolversion...)
 	}
 	enc_applicationcontextname, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.ApplicationContextName))
@@ -1127,7 +1163,11 @@ func (v *AAREApdu) MarshalBER() ([]byte, error) {
 			}
 			enc_userinformation = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 30}, seqContent_)
 		} else {
-			enc_userinformation = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, true, enc_userinformation)
+			retagged_enc_userinformation, tagErr_enc_userinformation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, enc_userinformation)
+			if tagErr_enc_userinformation != nil {
+				return nil, fmt.Errorf("encoding user-information: %w", tagErr_enc_userinformation)
+			}
+			enc_userinformation = retagged_enc_userinformation
 		}
 		children = append(children, enc_userinformation...)
 	}
@@ -1296,7 +1336,11 @@ func (v *RLRQApdu) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.Reason != nil {
 		enc_reason := ber.EncodeBigInt((*v.Reason).BigInt())
-		enc_reason = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_reason)
+		retagged_enc_reason, tagErr_enc_reason := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_reason)
+		if tagErr_enc_reason != nil {
+			return nil, fmt.Errorf("encoding reason: %w", tagErr_enc_reason)
+		}
+		enc_reason = retagged_enc_reason
 		children = append(children, enc_reason...)
 	}
 	if v.UserInformation != nil {
@@ -1312,7 +1356,11 @@ func (v *RLRQApdu) MarshalBER() ([]byte, error) {
 			}
 			enc_userinformation = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 30}, seqContent_)
 		} else {
-			enc_userinformation = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, true, enc_userinformation)
+			retagged_enc_userinformation, tagErr_enc_userinformation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, enc_userinformation)
+			if tagErr_enc_userinformation != nil {
+				return nil, fmt.Errorf("encoding user-information: %w", tagErr_enc_userinformation)
+			}
+			enc_userinformation = retagged_enc_userinformation
 		}
 		children = append(children, enc_userinformation...)
 	}
@@ -1413,7 +1461,11 @@ func (v *RLREApdu) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.Reason != nil {
 		enc_reason := ber.EncodeBigInt((*v.Reason).BigInt())
-		enc_reason = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_reason)
+		retagged_enc_reason, tagErr_enc_reason := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_reason)
+		if tagErr_enc_reason != nil {
+			return nil, fmt.Errorf("encoding reason: %w", tagErr_enc_reason)
+		}
+		enc_reason = retagged_enc_reason
 		children = append(children, enc_reason...)
 	}
 	if v.UserInformation != nil {
@@ -1429,7 +1481,11 @@ func (v *RLREApdu) MarshalBER() ([]byte, error) {
 			}
 			enc_userinformation = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 30}, seqContent_)
 		} else {
-			enc_userinformation = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, true, enc_userinformation)
+			retagged_enc_userinformation, tagErr_enc_userinformation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, enc_userinformation)
+			if tagErr_enc_userinformation != nil {
+				return nil, fmt.Errorf("encoding user-information: %w", tagErr_enc_userinformation)
+			}
+			enc_userinformation = retagged_enc_userinformation
 		}
 		children = append(children, enc_userinformation...)
 	}
@@ -1529,7 +1585,11 @@ func (v *RLREApdu) UnmarshalBER(data []byte) error {
 func (v *ABRTApdu) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_abortsource := ber.EncodeBigInt((v.AbortSource).BigInt())
-	enc_abortsource = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_abortsource)
+	retagged_enc_abortsource, tagErr_enc_abortsource := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_abortsource)
+	if tagErr_enc_abortsource != nil {
+		return nil, fmt.Errorf("encoding abort-source: %w", tagErr_enc_abortsource)
+	}
+	enc_abortsource = retagged_enc_abortsource
 	children = append(children, enc_abortsource...)
 	if v.UserInformation != nil {
 		enc_userinformation, err := MarshalBERABRTApduUserInformation(v.UserInformation)
@@ -1544,7 +1604,11 @@ func (v *ABRTApdu) MarshalBER() ([]byte, error) {
 			}
 			enc_userinformation = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 30}, seqContent_)
 		} else {
-			enc_userinformation = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, true, enc_userinformation)
+			retagged_enc_userinformation, tagErr_enc_userinformation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, enc_userinformation)
+			if tagErr_enc_userinformation != nil {
+				return nil, fmt.Errorf("encoding user-information: %w", tagErr_enc_userinformation)
+			}
+			enc_userinformation = retagged_enc_userinformation
 		}
 		children = append(children, enc_userinformation...)
 	}

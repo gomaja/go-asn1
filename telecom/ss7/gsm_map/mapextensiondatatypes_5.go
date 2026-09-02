@@ -83,7 +83,11 @@ func (v *ExtensionContainer5) MarshalBER() ([]byte, error) {
 			}
 			enc_privateextensionlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 0}, seqContent_)
 		} else {
-			enc_privateextensionlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_privateextensionlist)
+			retagged_enc_privateextensionlist, tagErr_enc_privateextensionlist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_privateextensionlist)
+			if tagErr_enc_privateextensionlist != nil {
+				return nil, fmt.Errorf("encoding privateExtensionList: %w", tagErr_enc_privateextensionlist)
+			}
+			enc_privateextensionlist = retagged_enc_privateextensionlist
 		}
 		children = append(children, enc_privateextensionlist...)
 	}
@@ -92,7 +96,11 @@ func (v *ExtensionContainer5) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding pcs-Extensions: %w", err)
 		}
-		enc_pcsextensions = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_pcsextensions)
+		retagged_enc_pcsextensions, tagErr_enc_pcsextensions := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_pcsextensions)
+		if tagErr_enc_pcsextensions != nil {
+			return nil, fmt.Errorf("encoding pcs-Extensions: %w", tagErr_enc_pcsextensions)
+		}
+		enc_pcsextensions = retagged_enc_pcsextensions
 		children = append(children, enc_pcsextensions...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -222,7 +230,11 @@ func (v *SLRArgExtensionContainer5) MarshalBER() ([]byte, error) {
 			}
 			enc_privateextensionlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 0}, seqContent_)
 		} else {
-			enc_privateextensionlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_privateextensionlist)
+			retagged_enc_privateextensionlist, tagErr_enc_privateextensionlist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_privateextensionlist)
+			if tagErr_enc_privateextensionlist != nil {
+				return nil, fmt.Errorf("encoding privateExtensionList: %w", tagErr_enc_privateextensionlist)
+			}
+			enc_privateextensionlist = retagged_enc_privateextensionlist
 		}
 		children = append(children, enc_privateextensionlist...)
 	}
@@ -231,7 +243,11 @@ func (v *SLRArgExtensionContainer5) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding slr-Arg-PCS-Extensions: %w", err)
 		}
-		enc_slrargpcsextensions = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_slrargpcsextensions)
+		retagged_enc_slrargpcsextensions, tagErr_enc_slrargpcsextensions := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_slrargpcsextensions)
+		if tagErr_enc_slrargpcsextensions != nil {
+			return nil, fmt.Errorf("encoding slr-Arg-PCS-Extensions: %w", tagErr_enc_slrargpcsextensions)
+		}
+		enc_slrargpcsextensions = retagged_enc_slrargpcsextensions
 		children = append(children, enc_slrargpcsextensions...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -513,7 +529,11 @@ func (v *SLRArgPCSExtensions5) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.NaESRKRequest != nil {
 		enc_naesrkrequest := ber.EncodeNull()
-		enc_naesrkrequest = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_naesrkrequest)
+		retagged_enc_naesrkrequest, tagErr_enc_naesrkrequest := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_naesrkrequest)
+		if tagErr_enc_naesrkrequest != nil {
+			return nil, fmt.Errorf("encoding na-ESRK-Request: %w", tagErr_enc_naesrkrequest)
+		}
+		enc_naesrkrequest = retagged_enc_naesrkrequest
 		children = append(children, enc_naesrkrequest...)
 	}
 	for i, ext := range v.ExtData_ {

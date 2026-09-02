@@ -419,36 +419,34 @@ func EncodeExplicitTagWithClass(tagClass tag.Class, tagNum int, content []byte) 
 	)
 }
 
-// EncodeImplicitTag re-tags encoded content with an implicit context-specific tag.
-// It replaces the outermost tag but keeps the original constructed flag.
-func EncodeImplicitTag(tagNum int, constructed bool, content []byte) []byte {
-	// Parse existing TLV to get the value.
-	if len(content) == 0 {
-		return nil
-	}
-	_, _, valueBytes, err := DecodeTLV(content)
-	if err != nil {
-		return nil
-	}
-	return EncodeTLV(
-		tag.Tag{Class: tag.ClassContextSpecific, Number: tagNum, Constructed: constructed},
-		valueBytes,
-	)
+// EncodeImplicitTag replaces the outer tag with a context-specific tag while
+// preserving the encoded value's primitive or constructed form and length.
+func EncodeImplicitTag(tagNum int, content []byte) ([]byte, error) {
+	return EncodeImplicitTagWithClass(tag.ClassContextSpecific, tagNum, content)
 }
 
-// EncodeImplicitTagWithClass re-tags encoded content with an implicit tag of the given class.
-func EncodeImplicitTagWithClass(tagClass tag.Class, tagNum int, constructed bool, content []byte) []byte {
-	if len(content) == 0 {
-		return nil
+// EncodeImplicitTagWithClass replaces the outer tag while preserving the
+// encoded value's primitive or constructed form and original length encoding.
+func EncodeImplicitTagWithClass(tagClass tag.Class, tagNum int, content []byte) ([]byte, error) {
+	if tagClass > tag.ClassPrivate || tagNum < 0 {
+		return nil, fmt.Errorf("%w: invalid implicit tag class %d number %d", ErrInvalidTag, tagClass, tagNum)
 	}
-	_, _, valueBytes, err := DecodeTLV(content)
+	decodedTag, tagLength, err := DecodeTag(content)
 	if err != nil {
-		return nil
+		return nil, fmt.Errorf("retag implicit value: %w", err)
 	}
-	return EncodeTLV(
-		tag.Tag{Class: tagClass, Number: tagNum, Constructed: constructed},
-		valueBytes,
-	)
+	_, total, _, err := DecodeTLV(content)
+	if err != nil {
+		return nil, fmt.Errorf("retag implicit value: %w", err)
+	}
+	if total != len(content) {
+		return nil, fmt.Errorf("%w: implicit value has %d trailing octets", ErrInvalidValue, len(content)-total)
+	}
+	replacement := tag.Tag{Class: tagClass, Number: tagNum, Constructed: decodedTag.Constructed}.Encode()
+	encoded := make([]byte, 0, len(replacement)+len(content)-tagLength)
+	encoded = append(encoded, replacement...)
+	encoded = append(encoded, content[tagLength:]...)
+	return encoded, nil
 }
 
 // EncodeConstructed encodes a constructed TLV with a custom tag.

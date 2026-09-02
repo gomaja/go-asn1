@@ -565,7 +565,10 @@ func TestExplicitTag(t *testing.T) {
 func TestImplicitTag(t *testing.T) {
 	// Encode OCTET STRING, then re-tag as IMPLICIT [1].
 	inner := EncodeOctetString([]byte("hello"))
-	retagged := EncodeImplicitTag(1, false, inner)
+	retagged, err := EncodeImplicitTag(1, inner)
+	if err != nil {
+		t.Fatalf("EncodeImplicitTag: %v", err)
+	}
 
 	// Decode outer tag.
 	outerTag, _, value, err := DecodeTLV(retagged)
@@ -577,6 +580,28 @@ func TestImplicitTag(t *testing.T) {
 	}
 	if string(value) != "hello" {
 		t.Errorf("got %q, want %q", string(value), "hello")
+	}
+}
+
+func TestImplicitTagPreservesFormAndLength(t *testing.T) {
+	indefinite := EncodeConstructedIndefinite(
+		tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence},
+		EncodeNull(),
+	)
+	got, err := EncodeImplicitTagWithClass(tag.ClassApplication, 12, indefinite)
+	if err != nil {
+		t.Fatalf("EncodeImplicitTagWithClass: %v", err)
+	}
+	want := append([]byte{0x6c}, indefinite[1:]...)
+	if !bytes.Equal(got, want) {
+		t.Fatalf("retagged value = %x, want %x", got, want)
+	}
+}
+
+func TestImplicitTagRejectsTrailingData(t *testing.T) {
+	input := append(EncodeInteger(1), EncodeNull()...)
+	if _, err := EncodeImplicitTag(1, input); !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("EncodeImplicitTag trailing data error = %v, want ErrInvalidValue", err)
 	}
 }
 

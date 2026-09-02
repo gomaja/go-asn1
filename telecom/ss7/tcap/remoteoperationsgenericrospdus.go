@@ -1096,7 +1096,11 @@ func (v *ROS) MarshalBER() ([]byte, error) {
 		if v.Invoke.LinkedId != nil {
 			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
 		}
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_0)
+		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_0)
+		if tagErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding invoke: %w", tagErr_enc_0)
+		}
+		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case ROSChoiceReturnResult:
 		if v.ReturnResult == nil {
@@ -1106,7 +1110,11 @@ func (v *ROS) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnResult: %w", err)
 		}
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_1)
+		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_1)
+		if tagErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding returnResult: %w", tagErr_enc_1)
+		}
+		enc_1 = retagged_enc_1
 		return enc_1, nil
 	case ROSChoiceReturnError:
 		if v.ReturnError == nil {
@@ -1116,7 +1124,11 @@ func (v *ROS) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnError: %w", err)
 		}
-		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_2)
+		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_2)
+		if tagErr_enc_2 != nil {
+			return nil, fmt.Errorf("encoding returnError: %w", tagErr_enc_2)
+		}
+		enc_2 = retagged_enc_2
 		return enc_2, nil
 	case ROSChoiceReject:
 		if v.Reject == nil {
@@ -1126,7 +1138,11 @@ func (v *ROS) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding reject: %w", err)
 		}
-		enc_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_3)
+		retagged_enc_3, tagErr_enc_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_3)
+		if tagErr_enc_3 != nil {
+			return nil, fmt.Errorf("encoding reject: %w", tagErr_enc_3)
+		}
+		enc_3 = retagged_enc_3
 		return enc_3, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for ROS", v.Choice)
@@ -1147,7 +1163,11 @@ func (v *ROS) MarshalDER() ([]byte, error) {
 		if v.Invoke.LinkedId != nil {
 			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
 		}
-		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_0)
+		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_der_0)
+		if tagErr_enc_der_0 != nil {
+			return nil, fmt.Errorf("encoding invoke: %w", tagErr_enc_der_0)
+		}
+		enc_der_0 = retagged_enc_der_0
 		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
 			return nil, fmt.Errorf("encoding invoke as DER: %w", derErr)
 		}
@@ -1160,7 +1180,11 @@ func (v *ROS) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnResult: %w", err)
 		}
-		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_der_1)
+		retagged_enc_der_1, tagErr_enc_der_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_1)
+		if tagErr_enc_der_1 != nil {
+			return nil, fmt.Errorf("encoding returnResult: %w", tagErr_enc_der_1)
+		}
+		enc_der_1 = retagged_enc_der_1
 		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
 			return nil, fmt.Errorf("encoding returnResult as DER: %w", derErr)
 		}
@@ -1173,7 +1197,11 @@ func (v *ROS) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnError: %w", err)
 		}
-		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_der_2)
+		retagged_enc_der_2, tagErr_enc_der_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_der_2)
+		if tagErr_enc_der_2 != nil {
+			return nil, fmt.Errorf("encoding returnError: %w", tagErr_enc_der_2)
+		}
+		enc_der_2 = retagged_enc_der_2
 		if derErr := ber.ValidateDERElement(enc_der_2); derErr != nil {
 			return nil, fmt.Errorf("encoding returnError as DER: %w", derErr)
 		}
@@ -1186,7 +1214,11 @@ func (v *ROS) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding reject: %w", err)
 		}
-		enc_der_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_der_3)
+		retagged_enc_der_3, tagErr_enc_der_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_der_3)
+		if tagErr_enc_der_3 != nil {
+			return nil, fmt.Errorf("encoding reject: %w", tagErr_enc_der_3)
+		}
+		enc_der_3 = retagged_enc_der_3
 		if derErr := ber.ValidateDERElement(enc_der_3); derErr != nil {
 			return nil, fmt.Errorf("encoding reject as DER: %w", derErr)
 		}
@@ -1705,21 +1737,33 @@ func (v *Bind) MarshalBER() ([]byte, error) {
 			return nil, fmt.Errorf("choice Bind: bind-invoke is nil")
 		}
 		enc_0 := v.BindInvoke.Bytes
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, true, enc_0)
+		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, enc_0)
+		if tagErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding bind-invoke: %w", tagErr_enc_0)
+		}
+		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case BindChoiceBindResult:
 		if v.BindResult == nil {
 			return nil, fmt.Errorf("choice Bind: bind-result is nil")
 		}
 		enc_1 := v.BindResult.Bytes
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 17, true, enc_1)
+		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 17, enc_1)
+		if tagErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding bind-result: %w", tagErr_enc_1)
+		}
+		enc_1 = retagged_enc_1
 		return enc_1, nil
 	case BindChoiceBindError:
 		if v.BindError == nil {
 			return nil, fmt.Errorf("choice Bind: bind-error is nil")
 		}
 		enc_2 := v.BindError.Bytes
-		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, true, enc_2)
+		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, enc_2)
+		if tagErr_enc_2 != nil {
+			return nil, fmt.Errorf("encoding bind-error: %w", tagErr_enc_2)
+		}
+		enc_2 = retagged_enc_2
 		return enc_2, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for Bind", v.Choice)
@@ -1757,15 +1801,15 @@ func (v *Bind) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "Bind", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 && peekTag.Constructed == false {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 {
 		v.Choice = BindChoiceBindInvoke
 		tmpRaw := runtime.RawValue{Bytes: choiceData}
 		v.BindInvoke = &tmpRaw
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17 && peekTag.Constructed == false {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17 {
 		v.Choice = BindChoiceBindResult
 		tmpRaw := runtime.RawValue{Bytes: choiceData}
 		v.BindResult = &tmpRaw
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18 && peekTag.Constructed == false {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18 {
 		v.Choice = BindChoiceBindError
 		tmpRaw := runtime.RawValue{Bytes: choiceData}
 		v.BindError = &tmpRaw
@@ -1783,21 +1827,33 @@ func (v *Unbind) MarshalBER() ([]byte, error) {
 			return nil, fmt.Errorf("choice Unbind: unbind-invoke is nil")
 		}
 		enc_0 := v.UnbindInvoke.Bytes
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, true, enc_0)
+		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, enc_0)
+		if tagErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding unbind-invoke: %w", tagErr_enc_0)
+		}
+		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case UnbindChoiceUnbindResult:
 		if v.UnbindResult == nil {
 			return nil, fmt.Errorf("choice Unbind: unbind-result is nil")
 		}
 		enc_1 := v.UnbindResult.Bytes
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 20, true, enc_1)
+		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 20, enc_1)
+		if tagErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding unbind-result: %w", tagErr_enc_1)
+		}
+		enc_1 = retagged_enc_1
 		return enc_1, nil
 	case UnbindChoiceUnbindError:
 		if v.UnbindError == nil {
 			return nil, fmt.Errorf("choice Unbind: unbind-error is nil")
 		}
 		enc_2 := v.UnbindError.Bytes
-		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 21, true, enc_2)
+		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 21, enc_2)
+		if tagErr_enc_2 != nil {
+			return nil, fmt.Errorf("encoding unbind-error: %w", tagErr_enc_2)
+		}
+		enc_2 = retagged_enc_2
 		return enc_2, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for Unbind", v.Choice)
@@ -1835,15 +1891,15 @@ func (v *Unbind) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "Unbind", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19 && peekTag.Constructed == false {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19 {
 		v.Choice = UnbindChoiceUnbindInvoke
 		tmpRaw := runtime.RawValue{Bytes: choiceData}
 		v.UnbindInvoke = &tmpRaw
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20 && peekTag.Constructed == false {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20 {
 		v.Choice = UnbindChoiceUnbindResult
 		tmpRaw := runtime.RawValue{Bytes: choiceData}
 		v.UnbindResult = &tmpRaw
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21 && peekTag.Constructed == false {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21 {
 		v.Choice = UnbindChoiceUnbindError
 		tmpRaw := runtime.RawValue{Bytes: choiceData}
 		v.UnbindError = &tmpRaw
@@ -1861,11 +1917,19 @@ func (v *ROSInvokeLinkedId) MarshalBER() ([]byte, error) {
 			return nil, fmt.Errorf("choice ROSInvokeLinkedId: present is nil")
 		}
 		enc_0 := ber.EncodeBigInt(v.Present)
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
+		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
+		if tagErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding present: %w", tagErr_enc_0)
+		}
+		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case ROSInvokeLinkedIdChoiceAbsent:
 		enc_1 := ber.EncodeNull()
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
+		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
+		if tagErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding absent: %w", tagErr_enc_1)
+		}
+		enc_1 = retagged_enc_1
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for ROSInvokeLinkedId", v.Choice)
@@ -2003,11 +2067,19 @@ func (v *InvokeLinkedId) MarshalBER() ([]byte, error) {
 			return nil, fmt.Errorf("choice InvokeLinkedId: present is nil")
 		}
 		enc_0 := ber.EncodeBigInt(v.Present)
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
+		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
+		if tagErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding present: %w", tagErr_enc_0)
+		}
+		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case InvokeLinkedIdChoiceAbsent:
 		enc_1 := ber.EncodeNull()
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
+		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
+		if tagErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding absent: %w", tagErr_enc_1)
+		}
+		enc_1 = retagged_enc_1
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for InvokeLinkedId", v.Choice)
@@ -2145,28 +2217,44 @@ func (v *OperationsRejectProblem) MarshalBER() ([]byte, error) {
 			return nil, fmt.Errorf("choice OperationsRejectProblem: general is nil")
 		}
 		enc_0 := ber.EncodeBigInt(v.General.BigInt())
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
+		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
+		if tagErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding general: %w", tagErr_enc_0)
+		}
+		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case OperationsRejectProblemChoiceInvoke:
 		if v.Invoke == nil {
 			return nil, fmt.Errorf("choice OperationsRejectProblem: invoke is nil")
 		}
 		enc_1 := ber.EncodeBigInt(v.Invoke.BigInt())
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
+		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
+		if tagErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding invoke: %w", tagErr_enc_1)
+		}
+		enc_1 = retagged_enc_1
 		return enc_1, nil
 	case OperationsRejectProblemChoiceReturnResult:
 		if v.ReturnResult == nil {
 			return nil, fmt.Errorf("choice OperationsRejectProblem: returnResult is nil")
 		}
 		enc_2 := ber.EncodeBigInt(v.ReturnResult.BigInt())
-		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_2)
+		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_2)
+		if tagErr_enc_2 != nil {
+			return nil, fmt.Errorf("encoding returnResult: %w", tagErr_enc_2)
+		}
+		enc_2 = retagged_enc_2
 		return enc_2, nil
 	case OperationsRejectProblemChoiceReturnError:
 		if v.ReturnError == nil {
 			return nil, fmt.Errorf("choice OperationsRejectProblem: returnError is nil")
 		}
 		enc_3 := ber.EncodeBigInt(v.ReturnError.BigInt())
-		enc_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_3)
+		retagged_enc_3, tagErr_enc_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_3)
+		if tagErr_enc_3 != nil {
+			return nil, fmt.Errorf("encoding returnError: %w", tagErr_enc_3)
+		}
+		enc_3 = retagged_enc_3
 		return enc_3, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for OperationsRejectProblem", v.Choice)

@@ -733,7 +733,7 @@ func addNonNegativeOffset(lb int64, offset uint64) (int64, error) {
 }
 
 func validateSizeBounds(lb, ub int64, constrained bool) error {
-	if constrained && lb > ub {
+	if constrained && (lb < 0 || ub < 0 || lb > ub) {
 		return fmt.Errorf("%w: invalid SIZE range [%d..%d]", ErrInvalidValue, lb, ub)
 	}
 	return nil

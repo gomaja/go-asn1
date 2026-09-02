@@ -767,7 +767,11 @@ func (v *RoamingNotAllowedParam) MarshalBER() ([]byte, error) {
 	}
 	if v.AdditionalRoamingNotAllowedCause != nil {
 		enc_additionalroamingnotallowedcause := ber.EncodeEnumerated(int64(*v.AdditionalRoamingNotAllowedCause))
-		enc_additionalroamingnotallowedcause = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_additionalroamingnotallowedcause)
+		retagged_enc_additionalroamingnotallowedcause, tagErr_enc_additionalroamingnotallowedcause := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_additionalroamingnotallowedcause)
+		if tagErr_enc_additionalroamingnotallowedcause != nil {
+			return nil, fmt.Errorf("encoding additionalRoamingNotAllowedCause: %w", tagErr_enc_additionalroamingnotallowedcause)
+		}
+		enc_additionalroamingnotallowedcause = retagged_enc_additionalroamingnotallowedcause
 		children = append(children, enc_additionalroamingnotallowedcause...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -983,12 +987,20 @@ func (v *ExtensibleCallBarredParam) MarshalBER() ([]byte, error) {
 	}
 	if v.UnauthorisedMessageOriginator != nil {
 		enc_unauthorisedmessageoriginator := ber.EncodeNull()
-		enc_unauthorisedmessageoriginator = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_unauthorisedmessageoriginator)
+		retagged_enc_unauthorisedmessageoriginator, tagErr_enc_unauthorisedmessageoriginator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_unauthorisedmessageoriginator)
+		if tagErr_enc_unauthorisedmessageoriginator != nil {
+			return nil, fmt.Errorf("encoding unauthorisedMessageOriginator: %w", tagErr_enc_unauthorisedmessageoriginator)
+		}
+		enc_unauthorisedmessageoriginator = retagged_enc_unauthorisedmessageoriginator
 		children = append(children, enc_unauthorisedmessageoriginator...)
 	}
 	if v.AnonymousCallRejection != nil {
 		enc_anonymouscallrejection := ber.EncodeNull()
-		enc_anonymouscallrejection = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_anonymouscallrejection)
+		retagged_enc_anonymouscallrejection, tagErr_enc_anonymouscallrejection := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_anonymouscallrejection)
+		if tagErr_enc_anonymouscallrejection != nil {
+			return nil, fmt.Errorf("encoding anonymousCallRejection: %w", tagErr_enc_anonymouscallrejection)
+		}
+		enc_anonymouscallrejection = retagged_enc_anonymouscallrejection
 		children = append(children, enc_anonymouscallrejection...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -1232,7 +1244,11 @@ func (v *SSIncompatibilityCause) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.SsCode != nil {
 		enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
-		enc_sscode = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_sscode)
+		retagged_enc_sscode, tagErr_enc_sscode := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_sscode)
+		if tagErr_enc_sscode != nil {
+			return nil, fmt.Errorf("encoding ss-Code: %w", tagErr_enc_sscode)
+		}
+		enc_sscode = retagged_enc_sscode
 		children = append(children, enc_sscode...)
 	}
 	if v.BasicService != nil {
@@ -1244,7 +1260,11 @@ func (v *SSIncompatibilityCause) MarshalBER() ([]byte, error) {
 	}
 	if v.SsStatus != nil {
 		enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
-		enc_ssstatus = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_ssstatus)
+		retagged_enc_ssstatus, tagErr_enc_ssstatus := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_ssstatus)
+		if tagErr_enc_ssstatus != nil {
+			return nil, fmt.Errorf("encoding ss-Status: %w", tagErr_enc_ssstatus)
+		}
+		enc_ssstatus = retagged_enc_ssstatus
 		children = append(children, enc_ssstatus...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -1492,22 +1512,38 @@ func (v *AbsentSubscriberSMParam) MarshalBER() ([]byte, error) {
 	}
 	if v.AdditionalAbsentSubscriberDiagnosticSM != nil {
 		enc_additionalabsentsubscriberdiagnosticsm := ber.EncodeInteger(int64(*v.AdditionalAbsentSubscriberDiagnosticSM))
-		enc_additionalabsentsubscriberdiagnosticsm = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_additionalabsentsubscriberdiagnosticsm)
+		retagged_enc_additionalabsentsubscriberdiagnosticsm, tagErr_enc_additionalabsentsubscriberdiagnosticsm := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_additionalabsentsubscriberdiagnosticsm)
+		if tagErr_enc_additionalabsentsubscriberdiagnosticsm != nil {
+			return nil, fmt.Errorf("encoding additionalAbsentSubscriberDiagnosticSM: %w", tagErr_enc_additionalabsentsubscriberdiagnosticsm)
+		}
+		enc_additionalabsentsubscriberdiagnosticsm = retagged_enc_additionalabsentsubscriberdiagnosticsm
 		children = append(children, enc_additionalabsentsubscriberdiagnosticsm...)
 	}
 	if v.Imsi != nil {
 		enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
-		enc_imsi = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_imsi)
+		retagged_enc_imsi, tagErr_enc_imsi := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_imsi)
+		if tagErr_enc_imsi != nil {
+			return nil, fmt.Errorf("encoding imsi: %w", tagErr_enc_imsi)
+		}
+		enc_imsi = retagged_enc_imsi
 		children = append(children, enc_imsi...)
 	}
 	if v.RequestedRetransmissionTime != nil {
 		enc_requestedretransmissiontime := ber.EncodeOctetString([]byte(*v.RequestedRetransmissionTime))
-		enc_requestedretransmissiontime = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_requestedretransmissiontime)
+		retagged_enc_requestedretransmissiontime, tagErr_enc_requestedretransmissiontime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_requestedretransmissiontime)
+		if tagErr_enc_requestedretransmissiontime != nil {
+			return nil, fmt.Errorf("encoding requestedRetransmissionTime: %w", tagErr_enc_requestedretransmissiontime)
+		}
+		enc_requestedretransmissiontime = retagged_enc_requestedretransmissiontime
 		children = append(children, enc_requestedretransmissiontime...)
 	}
 	if v.UserIdentifierAlert != nil {
 		enc_useridentifieralert := ber.EncodeOctetString([]byte(*v.UserIdentifierAlert))
-		enc_useridentifieralert = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_useridentifieralert)
+		retagged_enc_useridentifieralert, tagErr_enc_useridentifieralert := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_useridentifieralert)
+		if tagErr_enc_useridentifieralert != nil {
+			return nil, fmt.Errorf("encoding userIdentifierAlert: %w", tagErr_enc_useridentifieralert)
+		}
+		enc_useridentifieralert = retagged_enc_useridentifieralert
 		children = append(children, enc_useridentifieralert...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -1782,12 +1818,20 @@ func (v *ExtensibleSystemFailureParam) MarshalBER() ([]byte, error) {
 	}
 	if v.AdditionalNetworkResource != nil {
 		enc_additionalnetworkresource := ber.EncodeEnumerated(int64(*v.AdditionalNetworkResource))
-		enc_additionalnetworkresource = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_additionalnetworkresource)
+		retagged_enc_additionalnetworkresource, tagErr_enc_additionalnetworkresource := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_additionalnetworkresource)
+		if tagErr_enc_additionalnetworkresource != nil {
+			return nil, fmt.Errorf("encoding additionalNetworkResource: %w", tagErr_enc_additionalnetworkresource)
+		}
+		enc_additionalnetworkresource = retagged_enc_additionalnetworkresource
 		children = append(children, enc_additionalnetworkresource...)
 	}
 	if v.FailureCauseParam != nil {
 		enc_failurecauseparam := ber.EncodeEnumerated(int64(*v.FailureCauseParam))
-		enc_failurecauseparam = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_failurecauseparam)
+		retagged_enc_failurecauseparam, tagErr_enc_failurecauseparam := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_failurecauseparam)
+		if tagErr_enc_failurecauseparam != nil {
+			return nil, fmt.Errorf("encoding failureCauseParam: %w", tagErr_enc_failurecauseparam)
+		}
+		enc_failurecauseparam = retagged_enc_failurecauseparam
 		children = append(children, enc_failurecauseparam...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -2023,7 +2067,11 @@ func (v *UnexpectedDataParam) MarshalBER() ([]byte, error) {
 	}
 	if v.UnexpectedSubscriber != nil {
 		enc_unexpectedsubscriber := ber.EncodeNull()
-		enc_unexpectedsubscriber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_unexpectedsubscriber)
+		retagged_enc_unexpectedsubscriber, tagErr_enc_unexpectedsubscriber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_unexpectedsubscriber)
+		if tagErr_enc_unexpectedsubscriber != nil {
+			return nil, fmt.Errorf("encoding unexpectedSubscriber: %w", tagErr_enc_unexpectedsubscriber)
+		}
+		enc_unexpectedsubscriber = retagged_enc_unexpectedsubscriber
 		children = append(children, enc_unexpectedsubscriber...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -2134,12 +2182,20 @@ func (v *FacilityNotSupParam) MarshalBER() ([]byte, error) {
 	}
 	if v.ShapeOfLocationEstimateNotSupported != nil {
 		enc_shapeoflocationestimatenotsupported := ber.EncodeNull()
-		enc_shapeoflocationestimatenotsupported = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_shapeoflocationestimatenotsupported)
+		retagged_enc_shapeoflocationestimatenotsupported, tagErr_enc_shapeoflocationestimatenotsupported := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_shapeoflocationestimatenotsupported)
+		if tagErr_enc_shapeoflocationestimatenotsupported != nil {
+			return nil, fmt.Errorf("encoding shapeOfLocationEstimateNotSupported: %w", tagErr_enc_shapeoflocationestimatenotsupported)
+		}
+		enc_shapeoflocationestimatenotsupported = retagged_enc_shapeoflocationestimatenotsupported
 		children = append(children, enc_shapeoflocationestimatenotsupported...)
 	}
 	if v.NeededLcsCapabilityNotSupportedInServingNode != nil {
 		enc_neededlcscapabilitynotsupportedinservingnode := ber.EncodeNull()
-		enc_neededlcscapabilitynotsupportedinservingnode = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_neededlcscapabilitynotsupportedinservingnode)
+		retagged_enc_neededlcscapabilitynotsupportedinservingnode, tagErr_enc_neededlcscapabilitynotsupportedinservingnode := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_neededlcscapabilitynotsupportedinservingnode)
+		if tagErr_enc_neededlcscapabilitynotsupportedinservingnode != nil {
+			return nil, fmt.Errorf("encoding neededLcsCapabilityNotSupportedInServingNode: %w", tagErr_enc_neededlcscapabilitynotsupportedinservingnode)
+		}
+		enc_neededlcscapabilitynotsupportedinservingnode = retagged_enc_neededlcscapabilitynotsupportedinservingnode
 		children = append(children, enc_neededlcscapabilitynotsupportedinservingnode...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -3149,7 +3205,11 @@ func (v *AbsentSubscriberParam) MarshalBER() ([]byte, error) {
 	}
 	if v.AbsentSubscriberReason != nil {
 		enc_absentsubscriberreason := ber.EncodeEnumerated(int64(*v.AbsentSubscriberReason))
-		enc_absentsubscriberreason = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_absentsubscriberreason)
+		retagged_enc_absentsubscriberreason, tagErr_enc_absentsubscriberreason := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_absentsubscriberreason)
+		if tagErr_enc_absentsubscriberreason != nil {
+			return nil, fmt.Errorf("encoding absentSubscriberReason: %w", tagErr_enc_absentsubscriberreason)
+		}
+		enc_absentsubscriberreason = retagged_enc_absentsubscriberreason
 		children = append(children, enc_absentsubscriberreason...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -3262,12 +3322,20 @@ func (v *BusySubscriberParam) MarshalBER() ([]byte, error) {
 	}
 	if v.CcbsPossible != nil {
 		enc_ccbspossible := ber.EncodeNull()
-		enc_ccbspossible = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_ccbspossible)
+		retagged_enc_ccbspossible, tagErr_enc_ccbspossible := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_ccbspossible)
+		if tagErr_enc_ccbspossible != nil {
+			return nil, fmt.Errorf("encoding ccbs-Possible: %w", tagErr_enc_ccbspossible)
+		}
+		enc_ccbspossible = retagged_enc_ccbspossible
 		children = append(children, enc_ccbspossible...)
 	}
 	if v.CcbsBusy != nil {
 		enc_ccbsbusy := ber.EncodeNull()
-		enc_ccbsbusy = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_ccbsbusy)
+		retagged_enc_ccbsbusy, tagErr_enc_ccbsbusy := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_ccbsbusy)
+		if tagErr_enc_ccbsbusy != nil {
+			return nil, fmt.Errorf("encoding ccbs-Busy: %w", tagErr_enc_ccbsbusy)
+		}
+		enc_ccbsbusy = retagged_enc_ccbsbusy
 		children = append(children, enc_ccbsbusy...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -4905,7 +4973,11 @@ func (v *UnauthorizedLCSClientParam) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.UnauthorizedLCSClientDiagnostic != nil {
 		enc_unauthorizedlcsclientdiagnostic := ber.EncodeEnumerated(int64(*v.UnauthorizedLCSClientDiagnostic))
-		enc_unauthorizedlcsclientdiagnostic = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_unauthorizedlcsclientdiagnostic)
+		retagged_enc_unauthorizedlcsclientdiagnostic, tagErr_enc_unauthorizedlcsclientdiagnostic := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_unauthorizedlcsclientdiagnostic)
+		if tagErr_enc_unauthorizedlcsclientdiagnostic != nil {
+			return nil, fmt.Errorf("encoding unauthorizedLCSClient-Diagnostic: %w", tagErr_enc_unauthorizedlcsclientdiagnostic)
+		}
+		enc_unauthorizedlcsclientdiagnostic = retagged_enc_unauthorizedlcsclientdiagnostic
 		children = append(children, enc_unauthorizedlcsclientdiagnostic...)
 	}
 	if v.ExtensionContainer != nil {
@@ -4913,7 +4985,11 @@ func (v *UnauthorizedLCSClientParam) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
-		enc_extensioncontainer = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_extensioncontainer)
+		retagged_enc_extensioncontainer, tagErr_enc_extensioncontainer := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_extensioncontainer)
+		if tagErr_enc_extensioncontainer != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", tagErr_enc_extensioncontainer)
+		}
+		enc_extensioncontainer = retagged_enc_extensioncontainer
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -5022,7 +5098,11 @@ func (v *PositionMethodFailureParam) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.PositionMethodFailureDiagnostic != nil {
 		enc_positionmethodfailurediagnostic := ber.EncodeEnumerated(int64(*v.PositionMethodFailureDiagnostic))
-		enc_positionmethodfailurediagnostic = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_positionmethodfailurediagnostic)
+		retagged_enc_positionmethodfailurediagnostic, tagErr_enc_positionmethodfailurediagnostic := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_positionmethodfailurediagnostic)
+		if tagErr_enc_positionmethodfailurediagnostic != nil {
+			return nil, fmt.Errorf("encoding positionMethodFailure-Diagnostic: %w", tagErr_enc_positionmethodfailurediagnostic)
+		}
+		enc_positionmethodfailurediagnostic = retagged_enc_positionmethodfailurediagnostic
 		children = append(children, enc_positionmethodfailurediagnostic...)
 	}
 	if v.ExtensionContainer != nil {
@@ -5030,7 +5110,11 @@ func (v *PositionMethodFailureParam) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
-		enc_extensioncontainer = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_extensioncontainer)
+		retagged_enc_extensioncontainer, tagErr_enc_extensioncontainer := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_extensioncontainer)
+		if tagErr_enc_extensioncontainer != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", tagErr_enc_extensioncontainer)
+		}
+		enc_extensioncontainer = retagged_enc_extensioncontainer
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
