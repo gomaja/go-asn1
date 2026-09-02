@@ -17,7 +17,7 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// EnhancedCheckIMEIArg represents the ASN.1 type EnhancedCheckIMEIArg (SEQUENCE).
+// EnhancedCheckIMEIArg represents the ASN.1 type EnhancedCheckIMEI-Arg (SEQUENCE).
 type EnhancedCheckIMEIArg struct {
 	Imei                   IMEI4                    `asn1:""`
 	RequestedEquipmentInfo *RequestedEquipmentInfo4 `asn1:",optional" json:"RequestedEquipmentInfo,omitempty"`
@@ -427,7 +427,14 @@ func (v *EnhancedCheckIMEIArg) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding EnhancedCheckIMEIArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes EnhancedCheckIMEIArg from BER/DER format.
@@ -470,9 +477,12 @@ func (v *EnhancedCheckIMEIArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassPrivate && peekTag.Number == 1 {
-				_, n_imsi, rawVal_imsi, err := ber.DecodeTLV(content[offset:])
+				decodedTag_imsi, n_imsi, rawVal_imsi, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding imsi: %w", err)
+				}
+				if decodedTag_imsi.Class != tag.ClassPrivate || decodedTag_imsi.Number != 1 {
+					return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 				}
 				tmp_imsi := IMSI4(rawVal_imsi)
 				v.Imsi = &tmp_imsi
@@ -485,9 +495,12 @@ func (v *EnhancedCheckIMEIArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassPrivate && peekTag.Number == 3 {
-				_, n_locationinformation, rawVal_locationinformation, err := ber.DecodeTLV(content[offset:])
+				decodedTag_locationinformation, n_locationinformation, rawVal_locationinformation, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding locationInformation: %w", err)
+				}
+				if decodedTag_locationinformation.Class != tag.ClassPrivate || decodedTag_locationinformation.Number != 3 {
+					return fmt.Errorf("decoding locationInformation: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationinformation)
 				}
 				tmp_locationinformation := rawVal_locationinformation
 				v.LocationInformation = tmp_locationinformation
@@ -534,9 +547,6 @@ func (v *EnhancedCheckIMEIArg) UnmarshalBER(data []byte) error {
 func (v *ExtensionType) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case ExtensionTypeChoiceIsdArgType:
-		if v.IsdArgType == nil {
-			return nil, fmt.Errorf("choice ExtensionType: isdArgType is nil")
-		}
 		enc_0, err := MarshalBERIsdArgType(v.IsdArgType)
 		if err != nil {
 			return nil, fmt.Errorf("encoding isdArgType: %w", err)
@@ -544,9 +554,6 @@ func (v *ExtensionType) MarshalBER() ([]byte, error) {
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_0)
 		return enc_0, nil
 	case ExtensionTypeChoiceIsdResType:
-		if v.IsdResType == nil {
-			return nil, fmt.Errorf("choice ExtensionType: isdResType is nil")
-		}
 		enc_1, err := MarshalBERIsdResType(v.IsdResType)
 		if err != nil {
 			return nil, fmt.Errorf("encoding isdResType: %w", err)
@@ -554,9 +561,6 @@ func (v *ExtensionType) MarshalBER() ([]byte, error) {
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_1)
 		return enc_1, nil
 	case ExtensionTypeChoiceDsdArgType:
-		if v.DsdArgType == nil {
-			return nil, fmt.Errorf("choice ExtensionType: dsdArgType is nil")
-		}
 		enc_2, err := MarshalBERDsdArgType(v.DsdArgType)
 		if err != nil {
 			return nil, fmt.Errorf("encoding dsdArgType: %w", err)
@@ -564,9 +568,6 @@ func (v *ExtensionType) MarshalBER() ([]byte, error) {
 		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_2)
 		return enc_2, nil
 	case ExtensionTypeChoiceSriArgType:
-		if v.SriArgType == nil {
-			return nil, fmt.Errorf("choice ExtensionType: sriArgType is nil")
-		}
 		enc_3, err := MarshalBERSRIArgType(v.SriArgType)
 		if err != nil {
 			return nil, fmt.Errorf("encoding sriArgType: %w", err)
@@ -574,9 +575,6 @@ func (v *ExtensionType) MarshalBER() ([]byte, error) {
 		enc_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_3)
 		return enc_3, nil
 	case ExtensionTypeChoiceSriResType:
-		if v.SriResType == nil {
-			return nil, fmt.Errorf("choice ExtensionType: sriResType is nil")
-		}
 		enc_4, err := MarshalBERSRIResType(v.SriResType)
 		if err != nil {
 			return nil, fmt.Errorf("encoding sriResType: %w", err)
@@ -584,9 +582,6 @@ func (v *ExtensionType) MarshalBER() ([]byte, error) {
 		enc_4 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, true, enc_4)
 		return enc_4, nil
 	case ExtensionTypeChoicePrnArgType:
-		if v.PrnArgType == nil {
-			return nil, fmt.Errorf("choice ExtensionType: prnArgType is nil")
-		}
 		enc_5, err := MarshalBERPrnArgType(v.PrnArgType)
 		if err != nil {
 			return nil, fmt.Errorf("encoding prnArgType: %w", err)
@@ -594,9 +589,6 @@ func (v *ExtensionType) MarshalBER() ([]byte, error) {
 		enc_5 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, true, enc_5)
 		return enc_5, nil
 	case ExtensionTypeChoiceUlArgType:
-		if v.UlArgType == nil {
-			return nil, fmt.Errorf("choice ExtensionType: ulArgType is nil")
-		}
 		enc_6, err := MarshalBERUlArgType(v.UlArgType)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ulArgType: %w", err)
@@ -654,9 +646,6 @@ func (v *ExtensionType) MarshalBER() ([]byte, error) {
 		enc_11 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, true, enc_11)
 		return enc_11, nil
 	case ExtensionTypeChoiceExtAtiArgType:
-		if v.ExtAtiArgType == nil {
-			return nil, fmt.Errorf("choice ExtensionType: extAtiArgType is nil")
-		}
 		enc_12, err := MarshalBERExtAtiArgType(v.ExtAtiArgType)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extAtiArgType: %w", err)
@@ -680,6 +669,9 @@ func (v *ExtensionType) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding rdArgType: %w", err)
 		}
 		enc_der_7 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, true, enc_der_7)
+		if derErr := ber.ValidateDERElement(enc_der_7); derErr != nil {
+			return nil, fmt.Errorf("encoding rdArgType as DER: %w", derErr)
+		}
 		return enc_der_7, nil
 	case ExtensionTypeChoiceSaiArgType:
 		if v.SaiArgType == nil {
@@ -690,6 +682,9 @@ func (v *ExtensionType) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding saiArgType: %w", err)
 		}
 		enc_der_8 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, true, enc_der_8)
+		if derErr := ber.ValidateDERElement(enc_der_8); derErr != nil {
+			return nil, fmt.Errorf("encoding saiArgType as DER: %w", derErr)
+		}
 		return enc_der_8, nil
 	case ExtensionTypeChoiceSaiResType:
 		if v.SaiResType == nil {
@@ -700,6 +695,9 @@ func (v *ExtensionType) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding saiResType: %w", err)
 		}
 		enc_der_9 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, true, enc_der_9)
+		if derErr := ber.ValidateDERElement(enc_der_9); derErr != nil {
+			return nil, fmt.Errorf("encoding saiResType as DER: %w", derErr)
+		}
 		return enc_der_9, nil
 	case ExtensionTypeChoiceAtiArgType:
 		if v.AtiArgType == nil {
@@ -710,6 +708,9 @@ func (v *ExtensionType) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding atiArgType: %w", err)
 		}
 		enc_der_10 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, true, enc_der_10)
+		if derErr := ber.ValidateDERElement(enc_der_10); derErr != nil {
+			return nil, fmt.Errorf("encoding atiArgType as DER: %w", derErr)
+		}
 		return enc_der_10, nil
 	case ExtensionTypeChoiceAtiResType:
 		if v.AtiResType == nil {
@@ -720,9 +721,19 @@ func (v *ExtensionType) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding atiResType: %w", err)
 		}
 		enc_der_11 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, true, enc_der_11)
+		if derErr := ber.ValidateDERElement(enc_der_11); derErr != nil {
+			return nil, fmt.Errorf("encoding atiResType as DER: %w", derErr)
+		}
 		return enc_der_11, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ExtensionType as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ExtensionType from BER/DER format.
@@ -744,7 +755,7 @@ func (v *ExtensionType) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "ExtensionType", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == true {
 		v.Choice = ExtensionTypeChoiceIsdArgType
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -756,7 +767,7 @@ func (v *ExtensionType) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding isdArgType: %w", unmErr)
 		}
 		v.IsdArgType = dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 && peekTag.Constructed == true {
 		v.Choice = ExtensionTypeChoiceIsdResType
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -768,7 +779,7 @@ func (v *ExtensionType) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding isdResType: %w", unmErr)
 		}
 		v.IsdResType = dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 && peekTag.Constructed == true {
 		v.Choice = ExtensionTypeChoiceDsdArgType
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -780,7 +791,7 @@ func (v *ExtensionType) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding dsdArgType: %w", unmErr)
 		}
 		v.DsdArgType = dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 && peekTag.Constructed == true {
 		v.Choice = ExtensionTypeChoiceSriArgType
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -792,7 +803,7 @@ func (v *ExtensionType) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding sriArgType: %w", unmErr)
 		}
 		v.SriArgType = dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 && peekTag.Constructed == true {
 		v.Choice = ExtensionTypeChoiceSriResType
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -804,7 +815,7 @@ func (v *ExtensionType) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding sriResType: %w", unmErr)
 		}
 		v.SriResType = dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 && peekTag.Constructed == true {
 		v.Choice = ExtensionTypeChoicePrnArgType
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -816,7 +827,7 @@ func (v *ExtensionType) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding prnArgType: %w", unmErr)
 		}
 		v.PrnArgType = dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 && peekTag.Constructed == true {
 		v.Choice = ExtensionTypeChoiceUlArgType
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -828,7 +839,7 @@ func (v *ExtensionType) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding ulArgType: %w", unmErr)
 		}
 		v.UlArgType = dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 && peekTag.Constructed == true {
 		v.Choice = ExtensionTypeChoiceRdArgType
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -840,7 +851,7 @@ func (v *ExtensionType) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding rdArgType: %w", unmErr)
 		}
 		v.RdArgType = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 && peekTag.Constructed == true {
 		v.Choice = ExtensionTypeChoiceSaiArgType
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -852,7 +863,7 @@ func (v *ExtensionType) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding saiArgType: %w", unmErr)
 		}
 		v.SaiArgType = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 && peekTag.Constructed == true {
 		v.Choice = ExtensionTypeChoiceSaiResType
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -864,7 +875,7 @@ func (v *ExtensionType) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding saiResType: %w", unmErr)
 		}
 		v.SaiResType = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 && peekTag.Constructed == true {
 		v.Choice = ExtensionTypeChoiceAtiArgType
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -876,7 +887,7 @@ func (v *ExtensionType) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding atiArgType: %w", unmErr)
 		}
 		v.AtiArgType = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12 && peekTag.Constructed == true {
 		v.Choice = ExtensionTypeChoiceAtiResType
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -888,7 +899,7 @@ func (v *ExtensionType) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding atiResType: %w", unmErr)
 		}
 		v.AtiResType = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13 && peekTag.Constructed == true {
 		v.Choice = ExtensionTypeChoiceExtAtiArgType
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -981,7 +992,14 @@ func (v *IsdArgData) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding IsdArgData as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes IsdArgData from BER/DER format.
@@ -999,9 +1017,12 @@ func (v *IsdArgData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_privatefeaturecode, rawVal_privatefeaturecode, err := ber.DecodeTLV(content[offset:])
+				decodedTag_privatefeaturecode, n_privatefeaturecode, rawVal_privatefeaturecode, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding privateFeatureCode: %w", err)
+				}
+				if decodedTag_privatefeaturecode.Class != tag.ClassContextSpecific || decodedTag_privatefeaturecode.Number != 1 {
+					return fmt.Errorf("decoding privateFeatureCode: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_privatefeaturecode)
 				}
 				tmp_privatefeaturecode := PrivateFeatureCode(rawVal_privatefeaturecode)
 				v.PrivateFeatureCode = &tmp_privatefeaturecode
@@ -1084,6 +1105,9 @@ func (v *PrivateFeatureData) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding subscriptionTypeInfo: %w", err)
 		}
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_der_0)
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding subscriptionTypeInfo as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	case PrivateFeatureDataChoiceOickInfo:
 		if v.OickInfo == nil {
@@ -1094,9 +1118,19 @@ func (v *PrivateFeatureData) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding oickInfo: %w", err)
 		}
 		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, true, enc_der_1)
+		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
+			return nil, fmt.Errorf("encoding oickInfo as DER: %w", derErr)
+		}
 		return enc_der_1, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding PrivateFeatureData as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes PrivateFeatureData from BER/DER format.
@@ -1118,7 +1152,7 @@ func (v *PrivateFeatureData) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "PrivateFeatureData", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 && peekTag.Constructed == true {
 		v.Choice = PrivateFeatureDataChoiceSubscriptionTypeInfo
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -1130,7 +1164,7 @@ func (v *PrivateFeatureData) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding subscriptionTypeInfo: %w", unmErr)
 		}
 		v.SubscriptionTypeInfo = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 && peekTag.Constructed == true {
 		v.Choice = PrivateFeatureDataChoiceOickInfo
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -1161,7 +1195,14 @@ func (v *OickInfo) MarshalBER() ([]byte, error) {
 // MarshalDER encodes OickInfo to DER format.
 func (v *OickInfo) MarshalDER() ([]byte, error) {
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding OickInfo as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes OickInfo from BER/DER format.
@@ -1211,7 +1252,14 @@ func (v *SubscriptionTypeInfo) MarshalBER() ([]byte, error) {
 // MarshalDER encodes SubscriptionTypeInfo to DER format.
 func (v *SubscriptionTypeInfo) MarshalDER() ([]byte, error) {
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SubscriptionTypeInfo as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SubscriptionTypeInfo from BER/DER format.
@@ -1308,7 +1356,14 @@ func (v *IsdResData) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding IsdResData as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes IsdResData from BER/DER format.
@@ -1326,9 +1381,12 @@ func (v *IsdResData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_supportedprivatefeature, rawVal_supportedprivatefeature, err := ber.DecodeTLV(content[offset:])
+				decodedTag_supportedprivatefeature, n_supportedprivatefeature, rawVal_supportedprivatefeature, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding supportedPrivateFeature: %w", err)
+				}
+				if decodedTag_supportedprivatefeature.Class != tag.ClassContextSpecific || decodedTag_supportedprivatefeature.Number != 1 {
+					return fmt.Errorf("decoding supportedPrivateFeature: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedprivatefeature)
 				}
 				tmp_supportedprivatefeature := PrivateFeatureCode(rawVal_supportedprivatefeature)
 				v.SupportedPrivateFeature = &tmp_supportedprivatefeature
@@ -1402,7 +1460,14 @@ func (v *DsdArgData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes DsdArgData to DER format.
 func (v *DsdArgData) MarshalDER() ([]byte, error) {
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding DsdArgData as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes DsdArgData from BER/DER format.
@@ -1507,7 +1572,14 @@ func (v *SriArgData) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SriArgData as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SriArgData from BER/DER format.
@@ -1525,9 +1597,12 @@ func (v *SriArgData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_privatefeaturecode, rawVal_privatefeaturecode, err := ber.DecodeTLV(content[offset:])
+				decodedTag_privatefeaturecode, n_privatefeaturecode, rawVal_privatefeaturecode, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding privateFeatureCode: %w", err)
+				}
+				if decodedTag_privatefeaturecode.Class != tag.ClassContextSpecific || decodedTag_privatefeaturecode.Number != 1 {
+					return fmt.Errorf("decoding privateFeatureCode: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_privatefeaturecode)
 				}
 				tmp_privatefeaturecode := PrivateFeatureCode(rawVal_privatefeaturecode)
 				v.PrivateFeatureCode = &tmp_privatefeaturecode
@@ -1540,11 +1615,14 @@ func (v *SriArgData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_extranetworkinfo, rawVal_extranetworkinfo, err := ber.DecodeTLV(content[offset:])
+				decodedTag_extranetworkinfo, n_extranetworkinfo, rawVal_extranetworkinfo, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding extraNetworkInfo: %w", err)
 				}
-				reconstructed_extranetworkinfo := ber.EncodeSequence(rawVal_extranetworkinfo)
+				if decodedTag_extranetworkinfo.Class != tag.ClassContextSpecific || decodedTag_extranetworkinfo.Number != 2 || decodedTag_extranetworkinfo.Constructed != true {
+					return fmt.Errorf("decoding extraNetworkInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extranetworkinfo)
+				}
+				reconstructed_extranetworkinfo := ber.EncodeConstructed(tag.Tag{Class: tag.ClassPrivate, Number: 1, Constructed: true}, rawVal_extranetworkinfo)
 				var dec_extranetworkinfo ExtraSignalInfo
 				if unmErr := dec_extranetworkinfo.UnmarshalBER(reconstructed_extranetworkinfo); unmErr != nil {
 					return fmt.Errorf("decoding extraNetworkInfo: %w", unmErr)
@@ -1648,7 +1726,14 @@ func (v *SriResData) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SriResData as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SriResData from BER/DER format.
@@ -1666,9 +1751,12 @@ func (v *SriResData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_privatefeaturecode, rawVal_privatefeaturecode, err := ber.DecodeTLV(content[offset:])
+				decodedTag_privatefeaturecode, n_privatefeaturecode, rawVal_privatefeaturecode, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding privateFeatureCode: %w", err)
+				}
+				if decodedTag_privatefeaturecode.Class != tag.ClassContextSpecific || decodedTag_privatefeaturecode.Number != 1 {
+					return fmt.Errorf("decoding privateFeatureCode: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_privatefeaturecode)
 				}
 				tmp_privatefeaturecode := PrivateFeatureCode(rawVal_privatefeaturecode)
 				v.PrivateFeatureCode = &tmp_privatefeaturecode
@@ -1681,9 +1769,12 @@ func (v *SriResData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_incategorykey, rawVal_incategorykey, err := ber.DecodeTLV(content[offset:])
+				decodedTag_incategorykey, n_incategorykey, rawVal_incategorykey, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding inCategoryKey: %w", err)
+				}
+				if decodedTag_incategorykey.Class != tag.ClassContextSpecific || decodedTag_incategorykey.Number != 2 {
+					return fmt.Errorf("decoding inCategoryKey: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_incategorykey)
 				}
 				tmp_incategorykey := INCategoryKey(rawVal_incategorykey)
 				v.InCategoryKey = &tmp_incategorykey
@@ -1696,9 +1787,12 @@ func (v *SriResData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_subscriptiontype, rawVal_subscriptiontype, err := ber.DecodeTLV(content[offset:])
+				decodedTag_subscriptiontype, n_subscriptiontype, rawVal_subscriptiontype, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding subscriptionType: %w", err)
+				}
+				if decodedTag_subscriptiontype.Class != tag.ClassContextSpecific || decodedTag_subscriptiontype.Number != 5 {
+					return fmt.Errorf("decoding subscriptionType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_subscriptiontype)
 				}
 				tmp_subscriptiontype := SubscriptionType(rawVal_subscriptiontype)
 				v.SubscriptionType = &tmp_subscriptiontype
@@ -1798,7 +1892,14 @@ func (v *PrnArgData) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding PrnArgData as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes PrnArgData from BER/DER format.
@@ -1816,9 +1917,12 @@ func (v *PrnArgData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_privatefeaturecode, rawVal_privatefeaturecode, err := ber.DecodeTLV(content[offset:])
+				decodedTag_privatefeaturecode, n_privatefeaturecode, rawVal_privatefeaturecode, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding privateFeatureCode: %w", err)
+				}
+				if decodedTag_privatefeaturecode.Class != tag.ClassContextSpecific || decodedTag_privatefeaturecode.Number != 1 {
+					return fmt.Errorf("decoding privateFeatureCode: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_privatefeaturecode)
 				}
 				tmp_privatefeaturecode := PrivateFeatureCode(rawVal_privatefeaturecode)
 				v.PrivateFeatureCode = &tmp_privatefeaturecode
@@ -1831,11 +1935,14 @@ func (v *PrnArgData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_extranetworkinfo, rawVal_extranetworkinfo, err := ber.DecodeTLV(content[offset:])
+				decodedTag_extranetworkinfo, n_extranetworkinfo, rawVal_extranetworkinfo, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding extraNetworkInfo: %w", err)
 				}
-				reconstructed_extranetworkinfo := ber.EncodeSequence(rawVal_extranetworkinfo)
+				if decodedTag_extranetworkinfo.Class != tag.ClassContextSpecific || decodedTag_extranetworkinfo.Number != 2 || decodedTag_extranetworkinfo.Constructed != true {
+					return fmt.Errorf("decoding extraNetworkInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extranetworkinfo)
+				}
+				reconstructed_extranetworkinfo := ber.EncodeConstructed(tag.Tag{Class: tag.ClassPrivate, Number: 1, Constructed: true}, rawVal_extranetworkinfo)
 				var dec_extranetworkinfo ExtraSignalInfo
 				if unmErr := dec_extranetworkinfo.UnmarshalBER(reconstructed_extranetworkinfo); unmErr != nil {
 					return fmt.Errorf("decoding extraNetworkInfo: %w", unmErr)
@@ -1936,7 +2043,14 @@ func (v *UlArgData) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding UlArgData as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes UlArgData from BER/DER format.
@@ -1954,9 +2068,12 @@ func (v *UlArgData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_privatefeaturecode, rawVal_privatefeaturecode, err := ber.DecodeTLV(content[offset:])
+				decodedTag_privatefeaturecode, n_privatefeaturecode, rawVal_privatefeaturecode, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding privateFeatureCode: %w", err)
+				}
+				if decodedTag_privatefeaturecode.Class != tag.ClassContextSpecific || decodedTag_privatefeaturecode.Number != 1 {
+					return fmt.Errorf("decoding privateFeatureCode: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_privatefeaturecode)
 				}
 				tmp_privatefeaturecode := PrivateFeatureCode(rawVal_privatefeaturecode)
 				v.PrivateFeatureCode = &tmp_privatefeaturecode
@@ -2003,6 +2120,9 @@ func (v *UlArgData) UnmarshalBER(data []byte) error {
 func (v *PrivateFeatureUlArgData) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case PrivateFeatureUlArgDataChoiceAdc:
+		if v.Adc == nil {
+			return nil, fmt.Errorf("choice PrivateFeatureUlArgData: adc is nil")
+		}
 		enc_0 := ber.EncodeOctetString([]byte(*v.Adc))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_0)
 		return enc_0, nil
@@ -2013,7 +2133,14 @@ func (v *PrivateFeatureUlArgData) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes PrivateFeatureUlArgData to DER format.
 func (v *PrivateFeatureUlArgData) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding PrivateFeatureUlArgData as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes PrivateFeatureUlArgData from BER/DER format.
@@ -2062,7 +2189,14 @@ func (v *ExtraSignalInfo) MarshalBER() ([]byte, error) {
 // MarshalDER encodes ExtraSignalInfo to DER format.
 func (v *ExtraSignalInfo) MarshalDER() ([]byte, error) {
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ExtraSignalInfo as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ExtraSignalInfo from BER/DER format.
@@ -2123,7 +2257,14 @@ func (v *SaiArgType) MarshalBER() ([]byte, error) {
 // MarshalDER encodes SaiArgType to DER format.
 func (v *SaiArgType) MarshalDER() ([]byte, error) {
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SaiArgType as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SaiArgType from BER/DER format.
@@ -2141,11 +2282,16 @@ func (v *SaiArgType) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_msisdn, rawVal_msisdn, err := ber.DecodeTLV(content[offset:])
+				decodedTag_msisdn, n_msisdn, rawVal_msisdn, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding msisdn: %w", err)
 				}
-				_ = rawVal_msisdn
+				if decodedTag_msisdn.Class != tag.ClassContextSpecific || decodedTag_msisdn.Number != 1 || decodedTag_msisdn.Constructed != false {
+					return fmt.Errorf("decoding msisdn: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_msisdn)
+				}
+				if len(rawVal_msisdn) != 0 {
+					return fmt.Errorf("decoding msisdn: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_msisdn))
+				}
 				v.Msisdn = &struct{}{}
 				offset += n_msisdn
 			}
@@ -2156,11 +2302,16 @@ func (v *SaiArgType) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_noauthenvectorsrequested, rawVal_noauthenvectorsrequested, err := ber.DecodeTLV(content[offset:])
+				decodedTag_noauthenvectorsrequested, n_noauthenvectorsrequested, rawVal_noauthenvectorsrequested, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding noAuthenVectorsRequested: %w", err)
 				}
-				_ = rawVal_noauthenvectorsrequested
+				if decodedTag_noauthenvectorsrequested.Class != tag.ClassContextSpecific || decodedTag_noauthenvectorsrequested.Number != 2 || decodedTag_noauthenvectorsrequested.Constructed != false {
+					return fmt.Errorf("decoding noAuthenVectorsRequested: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_noauthenvectorsrequested)
+				}
+				if len(rawVal_noauthenvectorsrequested) != 0 {
+					return fmt.Errorf("decoding noAuthenVectorsRequested: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_noauthenvectorsrequested))
+				}
 				v.NoAuthenVectorsRequested = &struct{}{}
 				offset += n_noauthenvectorsrequested
 			}
@@ -2186,7 +2337,14 @@ func (v *SaiResType) MarshalBER() ([]byte, error) {
 // MarshalDER encodes SaiResType to DER format.
 func (v *SaiResType) MarshalDER() ([]byte, error) {
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SaiResType as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SaiResType from BER/DER format.
@@ -2204,9 +2362,12 @@ func (v *SaiResType) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_msisdn, rawVal_msisdn, err := ber.DecodeTLV(content[offset:])
+				decodedTag_msisdn, n_msisdn, rawVal_msisdn, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding msIsdn: %w", err)
+				}
+				if decodedTag_msisdn.Class != tag.ClassContextSpecific || decodedTag_msisdn.Number != 1 {
+					return fmt.Errorf("decoding msIsdn: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_msisdn)
 				}
 				tmp_msisdn := ISDNAddressString4(rawVal_msisdn)
 				v.MsIsdn = &tmp_msisdn
@@ -2237,7 +2398,14 @@ func (v *AtiArgType) MarshalBER() ([]byte, error) {
 // MarshalDER encodes AtiArgType to DER format.
 func (v *AtiArgType) MarshalDER() ([]byte, error) {
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AtiArgType as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AtiArgType from BER/DER format.
@@ -2255,9 +2423,12 @@ func (v *AtiArgType) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_requestedinfotype, rawVal_requestedinfotype, err := ber.DecodeTLV(content[offset:])
+				decodedTag_requestedinfotype, n_requestedinfotype, rawVal_requestedinfotype, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding requestedInfoType: %w", err)
+				}
+				if decodedTag_requestedinfotype.Class != tag.ClassContextSpecific || decodedTag_requestedinfotype.Number != 0 || decodedTag_requestedinfotype.Constructed != true {
+					return fmt.Errorf("decoding requestedInfoType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_requestedinfotype)
 				}
 				reconstructed_requestedinfotype := ber.EncodeSequence(rawVal_requestedinfotype)
 				var dec_requestedinfotype RequestedInfoType
@@ -2289,7 +2460,14 @@ func (v *AtiResType) MarshalBER() ([]byte, error) {
 // MarshalDER encodes AtiResType to DER format.
 func (v *AtiResType) MarshalDER() ([]byte, error) {
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AtiResType as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AtiResType from BER/DER format.
@@ -2307,11 +2485,16 @@ func (v *AtiResType) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_tobedecided, rawVal_tobedecided, err := ber.DecodeTLV(content[offset:])
+				decodedTag_tobedecided, n_tobedecided, rawVal_tobedecided, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding toBeDecided: %w", err)
 				}
-				_ = rawVal_tobedecided
+				if decodedTag_tobedecided.Class != tag.ClassContextSpecific || decodedTag_tobedecided.Number != 1 || decodedTag_tobedecided.Constructed != false {
+					return fmt.Errorf("decoding toBeDecided: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_tobedecided)
+				}
+				if len(rawVal_tobedecided) != 0 {
+					return fmt.Errorf("decoding toBeDecided: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_tobedecided))
+				}
 				v.ToBeDecided = &struct{}{}
 				offset += n_tobedecided
 			}
@@ -2337,7 +2520,14 @@ func (v *RdArgType) MarshalBER() ([]byte, error) {
 // MarshalDER encodes RdArgType to DER format.
 func (v *RdArgType) MarshalDER() ([]byte, error) {
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RdArgType as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes RdArgType from BER/DER format.
@@ -2355,11 +2545,16 @@ func (v *RdArgType) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_tobedecidedone, rawVal_tobedecidedone, err := ber.DecodeTLV(content[offset:])
+				decodedTag_tobedecidedone, n_tobedecidedone, rawVal_tobedecidedone, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding toBeDecidedOne: %w", err)
 				}
-				_ = rawVal_tobedecidedone
+				if decodedTag_tobedecidedone.Class != tag.ClassContextSpecific || decodedTag_tobedecidedone.Number != 1 || decodedTag_tobedecidedone.Constructed != false {
+					return fmt.Errorf("decoding toBeDecidedOne: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_tobedecidedone)
+				}
+				if len(rawVal_tobedecidedone) != 0 {
+					return fmt.Errorf("decoding toBeDecidedOne: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_tobedecidedone))
+				}
 				v.ToBeDecidedOne = &struct{}{}
 				offset += n_tobedecidedone
 			}
@@ -2385,7 +2580,14 @@ func (v *RequestedInfoType) MarshalBER() ([]byte, error) {
 // MarshalDER encodes RequestedInfoType to DER format.
 func (v *RequestedInfoType) MarshalDER() ([]byte, error) {
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RequestedInfoType as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes RequestedInfoType from BER/DER format.
@@ -2403,11 +2605,16 @@ func (v *RequestedInfoType) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_sgsnnumber, rawVal_sgsnnumber, err := ber.DecodeTLV(content[offset:])
+				decodedTag_sgsnnumber, n_sgsnnumber, rawVal_sgsnnumber, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding sgsnNumber: %w", err)
 				}
-				_ = rawVal_sgsnnumber
+				if decodedTag_sgsnnumber.Class != tag.ClassContextSpecific || decodedTag_sgsnnumber.Number != 0 || decodedTag_sgsnnumber.Constructed != false {
+					return fmt.Errorf("decoding sgsnNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sgsnnumber)
+				}
+				if len(rawVal_sgsnnumber) != 0 {
+					return fmt.Errorf("decoding sgsnNumber: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_sgsnnumber))
+				}
 				v.SgsnNumber = &struct{}{}
 				offset += n_sgsnnumber
 			}
@@ -2487,7 +2694,14 @@ func (v *AtiArgData) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AtiArgData as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AtiArgData from BER/DER format.
@@ -2505,9 +2719,12 @@ func (v *AtiArgData) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_privatefeaturecode, rawVal_privatefeaturecode, err := ber.DecodeTLV(content[offset:])
+				decodedTag_privatefeaturecode, n_privatefeaturecode, rawVal_privatefeaturecode, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding privateFeatureCode: %w", err)
+				}
+				if decodedTag_privatefeaturecode.Class != tag.ClassContextSpecific || decodedTag_privatefeaturecode.Number != 1 {
+					return fmt.Errorf("decoding privateFeatureCode: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_privatefeaturecode)
 				}
 				tmp_privatefeaturecode := PrivateFeatureCode(rawVal_privatefeaturecode)
 				v.PrivateFeatureCode = &tmp_privatefeaturecode

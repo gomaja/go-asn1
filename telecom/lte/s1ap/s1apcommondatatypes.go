@@ -65,7 +65,7 @@ const (
 	PrivateIEIDChoiceGlobal = 2
 )
 
-// PrivateIEID represents the ASN.1 CHOICE type PrivateIEID.
+// PrivateIEID represents the ASN.1 CHOICE type PrivateIE-ID.
 type PrivateIEID struct {
 	Choice int
 	Local  *int64                   `json:"Local,omitempty"`
@@ -94,7 +94,7 @@ type ProcedureCode = int64
 // ProtocolExtensionID represents the ASN.1 type ProtocolExtensionID (INTEGER).
 type ProtocolExtensionID = int64
 
-// ProtocolIEID represents the ASN.1 type ProtocolIEID (INTEGER).
+// ProtocolIEID represents the ASN.1 type ProtocolIE-ID (INTEGER).
 type ProtocolIEID = int64
 
 // TriggeringMessage represents the ASN.1 ENUMERATED type TriggeringMessage.
@@ -134,6 +134,9 @@ func (v *PrivateIEID) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case PrivateIEIDChoiceLocal:
+		if v.Local == nil {
+			return fmt.Errorf("choice alternative local is nil")
+		}
 		if err := per.EncodeIntegerAligned(bb, int64(*v.Local), int64Ptr(0), int64Ptr(65535), false); err != nil {
 			return fmt.Errorf("encoding local: %w", err)
 		}

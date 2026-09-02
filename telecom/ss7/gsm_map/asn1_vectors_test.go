@@ -89,7 +89,10 @@ func asn1VectorValueAtPath(current reflect.Value, path string) (any, error) {
 			if current.Kind() != reflect.Array && current.Kind() != reflect.Slice {
 				return nil, fmt.Errorf("path %s: indexed value is not a list", path)
 			}
-			if index < 0 || index >= current.Len() {
+			if index < 0 {
+				return nil, fmt.Errorf("path %s: index %d is negative", path, index)
+			}
+			if index >= current.Len() {
 				return nil, fmt.Errorf("path %s: index %d exceeds length %d", path, index, current.Len())
 			}
 			current = current.Index(index)

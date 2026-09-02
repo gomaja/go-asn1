@@ -72,7 +72,14 @@ func (v *Code) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Code to DER format.
 func (v *Code) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding Code as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes Code from BER/DER format.
@@ -94,14 +101,14 @@ func (v *Code) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "Code", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 {
+	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 && peekTag.Constructed == false {
 		v.Choice = CodeChoiceLocal
 		decVal, _, intErr := ber.DecodeBigInt(choiceData)
 		if intErr != nil {
 			return fmt.Errorf("decoding local: %w", intErr)
 		}
 		v.Local = decVal
-	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 6 {
+	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 6 && peekTag.Constructed == false {
 		v.Choice = CodeChoiceGlobal
 		decVal, _, oidErr := ber.DecodeObjectIdentifier(choiceData)
 		if oidErr != nil {

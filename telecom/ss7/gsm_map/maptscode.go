@@ -117,5 +117,5 @@ const (
 // TeleserviceCode represents the ASN.1 type TeleserviceCode (OCTET_STRING).
 type TeleserviceCode = []byte
 
-// ExtTeleserviceCode represents the ASN.1 type ExtTeleserviceCode (OCTET_STRING).
+// ExtTeleserviceCode represents the ASN.1 type Ext-TeleserviceCode (OCTET_STRING).
 type ExtTeleserviceCode = []byte

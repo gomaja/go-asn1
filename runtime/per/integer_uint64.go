@@ -190,6 +190,9 @@ func decodeUnconstrainedUint64(bb *BitBuffer, aligned bool) (uint64, error) {
 	if data[0]&0x80 != 0 || len(data) == 9 && data[0] != 0 {
 		return 0, fmt.Errorf("%w: INTEGER is negative or exceeds uint64", ErrInvalidValue)
 	}
+	if len(data) > 1 && data[0] == 0 && data[1]&0x80 == 0 {
+		return 0, fmt.Errorf("%w: INTEGER has redundant leading zero octet", ErrInvalidValue)
+	}
 	if len(data) == 9 {
 		data = data[1:]
 	}

@@ -453,14 +453,14 @@ func TestEncodeDecodeGeneralizedTimeValue(t *testing.T) {
 }
 
 func TestDecodeUTCTimeValueInvalid(t *testing.T) {
-	if _, err := DecodeUTCTimeValue([]byte("not-a-time")); err == nil {
-		t.Fatal("expected error for malformed UTCTime value")
+	if _, err := DecodeUTCTimeValue([]byte("not-a-time")); !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("DecodeUTCTimeValue() error = %v, want %v", err, ErrInvalidValue)
 	}
 }
 
 func TestDecodeGeneralizedTimeValueInvalid(t *testing.T) {
-	if _, err := DecodeGeneralizedTimeValue([]byte("not-a-time")); err == nil {
-		t.Fatal("expected error for malformed GeneralizedTime value")
+	if _, err := DecodeGeneralizedTimeValue([]byte("not-a-time")); !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("DecodeGeneralizedTimeValue() error = %v, want %v", err, ErrInvalidValue)
 	}
 }
 

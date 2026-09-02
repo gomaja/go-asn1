@@ -28,20 +28,20 @@ type VarConditionalReconfiguration struct {
 	CondReconfigurationListR16Indef_ bool                               `asn1:"-" json:"-"`
 }
 
-// VarConnEstFailReportR11 represents the ASN.1 type VarConnEstFailReportR11 (SEQUENCE).
+// VarConnEstFailReportR11 represents the ASN.1 type VarConnEstFailReport-r11 (SEQUENCE).
 type VarConnEstFailReportR11 struct {
 	ConnEstFailReportR11 ConnEstFailReportR11 `asn1:"tag:0,context,implicit"`
 	PlmnIdentityR11      PLMNIdentity         `asn1:"tag:1,context,implicit"`
 }
 
-// VarLogMeasConfigR10 represents the ASN.1 type VarLogMeasConfigR10 (SEQUENCE).
+// VarLogMeasConfigR10 represents the ASN.1 type VarLogMeasConfig-r10 (SEQUENCE).
 type VarLogMeasConfigR10 struct {
 	AreaConfigurationR10 *AreaConfigurationR10 `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
 	LoggingDurationR10   LoggingDurationR10    `asn1:"tag:1,context,implicit"`
 	LoggingIntervalR10   LoggingIntervalR10    `asn1:"tag:2,context,implicit"`
 }
 
-// VarLogMeasConfigR11 represents the ASN.1 type VarLogMeasConfigR11 (SEQUENCE).
+// VarLogMeasConfigR11 represents the ASN.1 type VarLogMeasConfig-r11 (SEQUENCE).
 type VarLogMeasConfigR11 struct {
 	AreaConfigurationR10   *AreaConfigurationR10   `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
 	AreaConfigurationV1130 *AreaConfigurationV1130 `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
@@ -49,7 +49,7 @@ type VarLogMeasConfigR11 struct {
 	LoggingIntervalR10     LoggingIntervalR10      `asn1:"tag:3,context,implicit"`
 }
 
-// VarLogMeasConfigR12 represents the ASN.1 type VarLogMeasConfigR12 (SEQUENCE).
+// VarLogMeasConfigR12 represents the ASN.1 type VarLogMeasConfig-r12 (SEQUENCE).
 type VarLogMeasConfigR12 struct {
 	AreaConfigurationR10         *AreaConfigurationR10   `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
 	AreaConfigurationV1130       *AreaConfigurationV1130 `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
@@ -59,7 +59,7 @@ type VarLogMeasConfigR12 struct {
 	TargetMBSFNAreaListR12Indef_ bool                    `asn1:"-" json:"-"`
 }
 
-// VarLogMeasConfigR15 represents the ASN.1 type VarLogMeasConfigR15 (SEQUENCE).
+// VarLogMeasConfigR15 represents the ASN.1 type VarLogMeasConfig-r15 (SEQUENCE).
 type VarLogMeasConfigR15 struct {
 	AreaConfigurationR10         *AreaConfigurationR10   `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
 	AreaConfigurationV1130       *AreaConfigurationV1130 `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
@@ -73,7 +73,7 @@ type VarLogMeasConfigR15 struct {
 	WlanNameListR15Indef_        bool                    `asn1:"-" json:"-"`
 }
 
-// VarLogMeasConfigR17 represents the ASN.1 type VarLogMeasConfigR17 (SEQUENCE).
+// VarLogMeasConfigR17 represents the ASN.1 type VarLogMeasConfig-r17 (SEQUENCE).
 type VarLogMeasConfigR17 struct {
 	AreaConfigurationR10         *AreaConfigurationR10        `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
 	AreaConfigurationV1130       *AreaConfigurationV1130      `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
@@ -89,7 +89,7 @@ type VarLogMeasConfigR17 struct {
 	MeasUncomBarPreR17           *int64                       `asn1:"tag:8,context,implicit,optional" json:"MeasUncomBarPreR17,omitempty"`
 }
 
-// VarLogMeasReportR10 represents the ASN.1 type VarLogMeasReportR10 (SEQUENCE).
+// VarLogMeasReportR10 represents the ASN.1 type VarLogMeasReport-r10 (SEQUENCE).
 type VarLogMeasReportR10 struct {
 	TraceReferenceR10           TraceReferenceR10   `asn1:"tag:0,context,implicit"`
 	TraceRecordingSessionRefR10 []byte              `asn1:"tag:1,context,implicit"`
@@ -100,7 +100,7 @@ type VarLogMeasReportR10 struct {
 	LogMeasInfoListR10Indef_    bool                `asn1:"-" json:"-"`
 }
 
-// VarLogMeasReportR11 represents the ASN.1 type VarLogMeasReportR11 (SEQUENCE).
+// VarLogMeasReportR11 represents the ASN.1 type VarLogMeasReport-r11 (SEQUENCE).
 type VarLogMeasReportR11 struct {
 	TraceReferenceR10           TraceReferenceR10    `asn1:"tag:0,context,implicit"`
 	TraceRecordingSessionRefR10 []byte               `asn1:"tag:1,context,implicit"`
@@ -113,7 +113,7 @@ type VarLogMeasReportR11 struct {
 	SigLoggedMeasTypeR18        int64                `asn1:"tag:6,context,implicit"`
 }
 
-// LogMeasInfoList2R10 represents the ASN.1 type LogMeasInfoList2R10 (SEQUENCE_OF).
+// LogMeasInfoList2R10 represents the ASN.1 type LogMeasInfoList2-r10 (SEQUENCE_OF).
 type LogMeasInfoList2R10 = []LogMeasInfoR10
 
 // VarMeasConfig represents the ASN.1 type VarMeasConfig (SEQUENCE).
@@ -142,14 +142,14 @@ type VarMeasConfig struct {
 	AllowInterruptionsR11Raw_  byte                         `asn1:"-" json:"-"`
 }
 
-// VarMeasIdleConfigR15 represents the ASN.1 type VarMeasIdleConfigR15 (SEQUENCE).
+// VarMeasIdleConfigR15 represents the ASN.1 type VarMeasIdleConfig-r15 (SEQUENCE).
 type VarMeasIdleConfigR15 struct {
 	MeasIdleCarrierListEUTRAR15       EUTRACarrierListR15 `asn1:"tag:0,context,implicit,optional" json:"MeasIdleCarrierListEUTRAR15,omitempty"`
 	MeasIdleCarrierListEUTRAR15Indef_ bool                `asn1:"-" json:"-"`
 	MeasIdleDurationR15               int64               `asn1:"tag:1,context,implicit"`
 }
 
-// VarMeasIdleConfigR16 represents the ASN.1 type VarMeasIdleConfigR16 (SEQUENCE).
+// VarMeasIdleConfigR16 represents the ASN.1 type VarMeasIdleConfig-r16 (SEQUENCE).
 type VarMeasIdleConfigR16 struct {
 	MeasIdleCarrierListNRR16       NRCarrierListR16    `asn1:"tag:0,context,implicit,optional" json:"MeasIdleCarrierListNRR16,omitempty"`
 	MeasIdleCarrierListNRR16Indef_ bool                `asn1:"-" json:"-"`
@@ -157,13 +157,13 @@ type VarMeasIdleConfigR16 struct {
 	ValidityAreaListR16Indef_      bool                `asn1:"-" json:"-"`
 }
 
-// VarMeasIdleReportR15 represents the ASN.1 type VarMeasIdleReportR15 (SEQUENCE).
+// VarMeasIdleReportR15 represents the ASN.1 type VarMeasIdleReport-r15 (SEQUENCE).
 type VarMeasIdleReportR15 struct {
 	MeasReportIdleR15       MeasResultListIdleR15 `asn1:"tag:0,context,implicit"`
 	MeasReportIdleR15Indef_ bool                  `asn1:"-" json:"-"`
 }
 
-// VarMeasIdleReportR16 represents the ASN.1 type VarMeasIdleReportR16 (SEQUENCE).
+// VarMeasIdleReportR16 represents the ASN.1 type VarMeasIdleReport-r16 (SEQUENCE).
 type VarMeasIdleReportR16 struct {
 	MeasReportIdleR16         MeasResultListExtIdleR16 `asn1:"tag:0,context,implicit,optional" json:"MeasReportIdleR16,omitempty"`
 	MeasReportIdleR16Indef_   bool                     `asn1:"-" json:"-"`
@@ -174,7 +174,7 @@ type VarMeasIdleReportR16 struct {
 // VarMeasReportList represents the ASN.1 type VarMeasReportList (SEQUENCE_OF).
 type VarMeasReportList = []VarMeasReport
 
-// VarMeasReportListR12 represents the ASN.1 type VarMeasReportListR12 (SEQUENCE_OF).
+// VarMeasReportListR12 represents the ASN.1 type VarMeasReportList-r12 (SEQUENCE_OF).
 type VarMeasReportListR12 = []VarMeasReport
 
 // VarMeasReport represents the ASN.1 type VarMeasReport (SEQUENCE).
@@ -193,49 +193,49 @@ type VarMeasReport struct {
 // CellsTriggeredList represents the ASN.1 type CellsTriggeredList (SEQUENCE_OF).
 type CellsTriggeredList = []CellsTriggeredListElem
 
-// CSIRSTriggeredListR12 represents the ASN.1 type CSIRSTriggeredListR12 (SEQUENCE_OF).
+// CSIRSTriggeredListR12 represents the ASN.1 type CSI-RS-TriggeredList-r12 (SEQUENCE_OF).
 type CSIRSTriggeredListR12 = []MeasCSIRSIdR12
 
-// SSBIndexListR15 represents the ASN.1 type SSBIndexListR15 (SEQUENCE_OF).
+// SSBIndexListR15 represents the ASN.1 type SSB-IndexList-r15 (SEQUENCE_OF).
 type SSBIndexListR15 = []RSIndexNRR15
 
-// VarMobilityHistoryReportR12 represents the ASN.1 type VarMobilityHistoryReportR12 (SEQUENCE_OF).
+// VarMobilityHistoryReportR12 represents the ASN.1 type VarMobilityHistoryReport-r12 (SEQUENCE_OF).
 type VarMobilityHistoryReportR12 = VisitedCellInfoListR12
 
-// VarPendingRnaUpdateR15 represents the ASN.1 type VarPendingRnaUpdateR15 (SEQUENCE).
+// VarPendingRnaUpdateR15 represents the ASN.1 type VarPendingRnaUpdate-r15 (SEQUENCE).
 type VarPendingRnaUpdateR15 struct {
 	PendingRnaUpdate     *bool `asn1:"tag:0,context,implicit,optional" json:"PendingRnaUpdate,omitempty"`
 	PendingRnaUpdateRaw_ byte  `asn1:"-" json:"-"`
 }
 
-// VarRLFReportR10 represents the ASN.1 type VarRLFReportR10 (SEQUENCE).
+// VarRLFReportR10 represents the ASN.1 type VarRLF-Report-r10 (SEQUENCE).
 type VarRLFReportR10 struct {
 	RlfReportR10    RLFReportR9  `asn1:"tag:0,context,implicit"`
 	PlmnIdentityR10 PLMNIdentity `asn1:"tag:1,context,implicit"`
 }
 
-// VarRLFReportR11 represents the ASN.1 type VarRLFReportR11 (SEQUENCE).
+// VarRLFReportR11 represents the ASN.1 type VarRLF-Report-r11 (SEQUENCE).
 type VarRLFReportR11 struct {
 	RlfReportR10              RLFReportR9          `asn1:"tag:0,context,implicit"`
 	PlmnIdentityListR11       PLMNIdentityList3R11 `asn1:"tag:1,context,implicit"`
 	PlmnIdentityListR11Indef_ bool                 `asn1:"-" json:"-"`
 }
 
-// VarShortINACTIVEMACInputR15 represents the ASN.1 type VarShortINACTIVEMACInputR15 (SEQUENCE).
+// VarShortINACTIVEMACInputR15 represents the ASN.1 type VarShortINACTIVE-MAC-Input-r15 (SEQUENCE).
 type VarShortINACTIVEMACInputR15 struct {
 	CellIdentityR15 CellIdentity `asn1:"tag:0,context,implicit"`
 	PhysCellIdR15   PhysCellId   `asn1:"tag:1,context,implicit"`
 	CRNTIR15        CRNTI        `asn1:"tag:2,context,implicit"`
 }
 
-// VarShortMACInput represents the ASN.1 type VarShortMACInput (SEQUENCE).
+// VarShortMACInput represents the ASN.1 type VarShortMAC-Input (SEQUENCE).
 type VarShortMACInput struct {
 	CellIdentity CellIdentity `asn1:"tag:0,context,implicit"`
 	PhysCellId   PhysCellId   `asn1:"tag:1,context,implicit"`
 	CRNTI        CRNTI        `asn1:"tag:2,context,implicit"`
 }
 
-// VarShortResumeMACInputR13 represents the ASN.1 type VarShortResumeMACInputR13 (SEQUENCE).
+// VarShortResumeMACInputR13 represents the ASN.1 type VarShortResumeMAC-Input-r13 (SEQUENCE).
 type VarShortResumeMACInputR13 struct {
 	CellIdentityR13        CellIdentity      `asn1:"tag:0,context,implicit"`
 	PhysCellIdR13          PhysCellId        `asn1:"tag:1,context,implicit"`
@@ -243,7 +243,7 @@ type VarShortResumeMACInputR13 struct {
 	ResumeDiscriminatorR13 runtime.BitString `asn1:"tag:3,context,implicit"`
 }
 
-// VarWLANMobilityConfig represents the ASN.1 type VarWLANMobilityConfig (SEQUENCE).
+// VarWLANMobilityConfig represents the ASN.1 type VarWLAN-MobilityConfig (SEQUENCE).
 type VarWLANMobilityConfig struct {
 	WlanMobilitySetR13       WLANIdListR13         `asn1:"tag:0,context,implicit,optional" json:"WlanMobilitySetR13,omitempty"`
 	WlanMobilitySetR13Indef_ bool                  `asn1:"-" json:"-"`
@@ -251,7 +251,7 @@ type VarWLANMobilityConfig struct {
 	WlanSuspendConfigR14     *WLANSuspendConfigR14 `asn1:"tag:2,context,implicit,optional" json:"WlanSuspendConfigR14,omitempty"`
 }
 
-// VarWLANStatusR13 represents the ASN.1 type VarWLANStatusR13 (SEQUENCE).
+// VarWLANStatusR13 represents the ASN.1 type VarWLAN-Status-r13 (SEQUENCE).
 type VarWLANStatusR13 struct {
 	StatusR13 WLANStatusR13    `asn1:"tag:0,context,implicit"`
 	StatusR14 *WLANStatusV1430 `asn1:"tag:1,context,implicit,optional" json:"StatusR14,omitempty"`
@@ -263,7 +263,7 @@ const (
 	VarMeasConfigSpeedStateParsChoiceSetup   = 2
 )
 
-// VarMeasConfigSpeedStatePars represents the ASN.1 CHOICE type VarMeasConfigSpeedStatePars.
+// VarMeasConfigSpeedStatePars represents the ASN.1 CHOICE type VarMeasConfig-speedStatePars.
 type VarMeasConfigSpeedStatePars struct {
 	Choice  int
 	Release *struct{}                         `json:"Release,omitempty"`
@@ -286,7 +286,7 @@ func NewVarMeasConfigSpeedStateParsSetup(v VarMeasConfigSpeedStateParsSetup) Var
 	}
 }
 
-// VarMeasConfigSpeedStateParsSetup represents the ASN.1 type VarMeasConfigSpeedStateParsSetup (SEQUENCE).
+// VarMeasConfigSpeedStateParsSetup represents the ASN.1 type VarMeasConfig-speedStatePars-setup (SEQUENCE).
 type VarMeasConfigSpeedStateParsSetup struct {
 	MobilityStateParameters MobilityStateParameters `asn1:"tag:0,context,implicit"`
 	TimeToTriggerSF         SpeedStateScaleFactors  `asn1:"tag:1,context,implicit"`
@@ -302,7 +302,7 @@ const (
 	CellsTriggeredListElemChoicePhysCellIdNRR15    = 6
 )
 
-// CellsTriggeredListElem represents the ASN.1 CHOICE type CellsTriggeredListElem.
+// CellsTriggeredListElem represents the ASN.1 CHOICE type CellsTriggeredList-Elem.
 type CellsTriggeredListElem struct {
 	Choice             int
 	PhysCellIdEUTRA    *PhysCellId                            `json:"PhysCellIdEUTRA,omitempty"`
@@ -367,7 +367,7 @@ const (
 	CellsTriggeredListElemPhysCellIdUTRAChoiceTdd = 2
 )
 
-// CellsTriggeredListElemPhysCellIdUTRA represents the ASN.1 CHOICE type CellsTriggeredListElemPhysCellIdUTRA.
+// CellsTriggeredListElemPhysCellIdUTRA represents the ASN.1 CHOICE type CellsTriggeredList-Elem-physCellIdUTRA.
 type CellsTriggeredListElemPhysCellIdUTRA struct {
 	Choice int
 	Fdd    *PhysCellIdUTRAFDD `json:"Fdd,omitempty"`
@@ -390,13 +390,13 @@ func NewCellsTriggeredListElemPhysCellIdUTRATdd(v PhysCellIdUTRATDD) CellsTrigge
 	}
 }
 
-// CellsTriggeredListElemPhysCellIdGERAN represents the ASN.1 type CellsTriggeredListElemPhysCellIdGERAN (SEQUENCE).
+// CellsTriggeredListElemPhysCellIdGERAN represents the ASN.1 type CellsTriggeredList-Elem-physCellIdGERAN (SEQUENCE).
 type CellsTriggeredListElemPhysCellIdGERAN struct {
 	CarrierFreq CarrierFreqGERAN `asn1:"tag:0,context,implicit"`
 	PhysCellId  PhysCellIdGERAN  `asn1:"tag:1,context,implicit"`
 }
 
-// CellsTriggeredListElemPhysCellIdNRR15 represents the ASN.1 type CellsTriggeredListElemPhysCellIdNRR15 (SEQUENCE).
+// CellsTriggeredListElemPhysCellIdNRR15 represents the ASN.1 type CellsTriggeredList-Elem-physCellIdNR-r15 (SEQUENCE).
 type CellsTriggeredListElemPhysCellIdNRR15 struct {
 	CarrierFreq          ARFCNValueNRR15 `asn1:"tag:0,context,implicit"`
 	PhysCellId           PhysCellIdNRR15 `asn1:"tag:1,context,implicit"`
@@ -456,11 +456,13 @@ func (v *VarConditionalReconfiguration) UnmarshalUPERFrom(bb *per.BitBuffer) err
 		if seqLen_condreconfigurationlistr16 > 8 {
 			return fmt.Errorf("decoding condReconfigurationList-r16 length %d above upper bound 8", seqLen_condreconfigurationlistr16)
 		}
-		tmp_condreconfigurationlistr16 := make(CondReconfigurationToAddModListR16, seqLen_condreconfigurationlistr16)
+		tmp_condreconfigurationlistr16 := make(CondReconfigurationToAddModListR16, 0)
 		for i := int64(0); i < seqLen_condreconfigurationlistr16; i++ {
-			if err := tmp_condreconfigurationlistr16[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding condReconfigurationList-r16 element: %w", err)
+			var elem CondReconfigurationAddModR16
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding condReconfigurationList-r16 element %d: %w", i, err)
 			}
+			tmp_condreconfigurationlistr16 = append(tmp_condreconfigurationlistr16, elem)
 		}
 		v.CondReconfigurationListR16 = tmp_condreconfigurationlistr16
 	}
@@ -747,11 +749,13 @@ func (v *VarLogMeasConfigR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_targetmbsfnarealistr12 > 8 {
 			return fmt.Errorf("decoding targetMBSFN-AreaList-r12 length %d above upper bound 8", seqLen_targetmbsfnarealistr12)
 		}
-		tmp_targetmbsfnarealistr12 := make(TargetMBSFNAreaListR12, seqLen_targetmbsfnarealistr12)
+		tmp_targetmbsfnarealistr12 := make(TargetMBSFNAreaListR12, 0)
 		for i := int64(0); i < seqLen_targetmbsfnarealistr12; i++ {
-			if err := tmp_targetmbsfnarealistr12[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding targetMBSFN-AreaList-r12 element: %w", err)
+			var elem TargetMBSFNAreaR12
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding targetMBSFN-AreaList-r12 element %d: %w", i, err)
 			}
+			tmp_targetmbsfnarealistr12 = append(tmp_targetmbsfnarealistr12, elem)
 		}
 		v.TargetMBSFNAreaListR12 = tmp_targetmbsfnarealistr12
 	}
@@ -898,11 +902,13 @@ func (v *VarLogMeasConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_targetmbsfnarealistr12 > 8 {
 			return fmt.Errorf("decoding targetMBSFN-AreaList-r12 length %d above upper bound 8", seqLen_targetmbsfnarealistr12)
 		}
-		tmp_targetmbsfnarealistr12 := make(TargetMBSFNAreaListR12, seqLen_targetmbsfnarealistr12)
+		tmp_targetmbsfnarealistr12 := make(TargetMBSFNAreaListR12, 0)
 		for i := int64(0); i < seqLen_targetmbsfnarealistr12; i++ {
-			if err := tmp_targetmbsfnarealistr12[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding targetMBSFN-AreaList-r12 element: %w", err)
+			var elem TargetMBSFNAreaR12
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding targetMBSFN-AreaList-r12 element %d: %w", i, err)
 			}
+			tmp_targetmbsfnarealistr12 = append(tmp_targetmbsfnarealistr12, elem)
 		}
 		v.TargetMBSFNAreaListR12 = tmp_targetmbsfnarealistr12
 	}
@@ -919,13 +925,13 @@ func (v *VarLogMeasConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_btnamelistr15 > 4 {
 			return fmt.Errorf("decoding bt-NameList-r15 length %d above upper bound 4", seqLen_btnamelistr15)
 		}
-		tmp_btnamelistr15 := make(BTNameListR15, seqLen_btnamelistr15)
+		tmp_btnamelistr15 := make(BTNameListR15, 0)
 		for i := int64(0); i < seqLen_btnamelistr15; i++ {
 			val, err := per.DecodeOctetString(bb, 1, 248, true)
 			if err != nil {
 				return fmt.Errorf("decoding bt-NameList-r15 element: %w", err)
 			}
-			tmp_btnamelistr15[i] = val
+			tmp_btnamelistr15 = append(tmp_btnamelistr15, val)
 		}
 		v.BtNameListR15 = tmp_btnamelistr15
 	}
@@ -942,13 +948,13 @@ func (v *VarLogMeasConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_wlannamelistr15 > 4 {
 			return fmt.Errorf("decoding wlan-NameList-r15 length %d above upper bound 4", seqLen_wlannamelistr15)
 		}
-		tmp_wlannamelistr15 := make(WLANNameListR15, seqLen_wlannamelistr15)
+		tmp_wlannamelistr15 := make(WLANNameListR15, 0)
 		for i := int64(0); i < seqLen_wlannamelistr15; i++ {
 			val, err := per.DecodeOctetString(bb, 1, 32, true)
 			if err != nil {
 				return fmt.Errorf("decoding wlan-NameList-r15 element: %w", err)
 			}
-			tmp_wlannamelistr15[i] = val
+			tmp_wlannamelistr15 = append(tmp_wlannamelistr15, val)
 		}
 		v.WlanNameListR15 = tmp_wlannamelistr15
 	}
@@ -1119,11 +1125,13 @@ func (v *VarLogMeasConfigR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_targetmbsfnarealistr12 > 8 {
 			return fmt.Errorf("decoding targetMBSFN-AreaList-r12 length %d above upper bound 8", seqLen_targetmbsfnarealistr12)
 		}
-		tmp_targetmbsfnarealistr12 := make(TargetMBSFNAreaListR12, seqLen_targetmbsfnarealistr12)
+		tmp_targetmbsfnarealistr12 := make(TargetMBSFNAreaListR12, 0)
 		for i := int64(0); i < seqLen_targetmbsfnarealistr12; i++ {
-			if err := tmp_targetmbsfnarealistr12[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding targetMBSFN-AreaList-r12 element: %w", err)
+			var elem TargetMBSFNAreaR12
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding targetMBSFN-AreaList-r12 element %d: %w", i, err)
 			}
+			tmp_targetmbsfnarealistr12 = append(tmp_targetmbsfnarealistr12, elem)
 		}
 		v.TargetMBSFNAreaListR12 = tmp_targetmbsfnarealistr12
 	}
@@ -1140,13 +1148,13 @@ func (v *VarLogMeasConfigR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_btnamelistr15 > 4 {
 			return fmt.Errorf("decoding bt-NameList-r15 length %d above upper bound 4", seqLen_btnamelistr15)
 		}
-		tmp_btnamelistr15 := make(BTNameListR15, seqLen_btnamelistr15)
+		tmp_btnamelistr15 := make(BTNameListR15, 0)
 		for i := int64(0); i < seqLen_btnamelistr15; i++ {
 			val, err := per.DecodeOctetString(bb, 1, 248, true)
 			if err != nil {
 				return fmt.Errorf("decoding bt-NameList-r15 element: %w", err)
 			}
-			tmp_btnamelistr15[i] = val
+			tmp_btnamelistr15 = append(tmp_btnamelistr15, val)
 		}
 		v.BtNameListR15 = tmp_btnamelistr15
 	}
@@ -1163,13 +1171,13 @@ func (v *VarLogMeasConfigR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_wlannamelistr15 > 4 {
 			return fmt.Errorf("decoding wlan-NameList-r15 length %d above upper bound 4", seqLen_wlannamelistr15)
 		}
-		tmp_wlannamelistr15 := make(WLANNameListR15, seqLen_wlannamelistr15)
+		tmp_wlannamelistr15 := make(WLANNameListR15, 0)
 		for i := int64(0); i < seqLen_wlannamelistr15; i++ {
 			val, err := per.DecodeOctetString(bb, 1, 32, true)
 			if err != nil {
 				return fmt.Errorf("decoding wlan-NameList-r15 element: %w", err)
 			}
-			tmp_wlannamelistr15[i] = val
+			tmp_wlannamelistr15 = append(tmp_wlannamelistr15, val)
 		}
 		v.WlanNameListR15 = tmp_wlannamelistr15
 	}
@@ -1266,11 +1274,13 @@ func (v *VarLogMeasReportR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if seqLen_logmeasinfolistr10 > 4060 {
 		return fmt.Errorf("decoding logMeasInfoList-r10 length %d above upper bound 4060", seqLen_logmeasinfolistr10)
 	}
-	v.LogMeasInfoListR10 = make(LogMeasInfoList2R10, seqLen_logmeasinfolistr10)
+	v.LogMeasInfoListR10 = make(LogMeasInfoList2R10, 0)
 	for i := int64(0); i < seqLen_logmeasinfolistr10; i++ {
-		if err := v.LogMeasInfoListR10[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding logMeasInfoList-r10 element: %w", err)
+		var elem LogMeasInfoR10
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding logMeasInfoList-r10 element %d: %w", i, err)
 		}
+		v.LogMeasInfoListR10 = append(v.LogMeasInfoListR10, elem)
 	}
 	return nil
 }
@@ -1351,11 +1361,13 @@ func (v *VarLogMeasReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if seqLen_plmnidentitylistr11 > 16 {
 		return fmt.Errorf("decoding plmn-IdentityList-r11 length %d above upper bound 16", seqLen_plmnidentitylistr11)
 	}
-	v.PlmnIdentityListR11 = make(PLMNIdentityList3R11, seqLen_plmnidentitylistr11)
+	v.PlmnIdentityListR11 = make(PLMNIdentityList3R11, 0)
 	for i := int64(0); i < seqLen_plmnidentitylistr11; i++ {
-		if err := v.PlmnIdentityListR11[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding plmn-IdentityList-r11 element: %w", err)
+		var elem PLMNIdentity
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding plmn-IdentityList-r11 element %d: %w", i, err)
 		}
+		v.PlmnIdentityListR11 = append(v.PlmnIdentityListR11, elem)
 	}
 	bsBytes_absolutetimeinfor10, bsBitLen_absolutetimeinfor10, err := per.DecodeBitStringExt(bb, 48, 48, true, false)
 	if err != nil {
@@ -1374,11 +1386,13 @@ func (v *VarLogMeasReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if seqLen_logmeasinfolistr10 > 4060 {
 		return fmt.Errorf("decoding logMeasInfoList-r10 length %d above upper bound 4060", seqLen_logmeasinfolistr10)
 	}
-	v.LogMeasInfoListR10 = make(LogMeasInfoList2R10, seqLen_logmeasinfolistr10)
+	v.LogMeasInfoListR10 = make(LogMeasInfoList2R10, 0)
 	for i := int64(0); i < seqLen_logmeasinfolistr10; i++ {
-		if err := v.LogMeasInfoListR10[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding logMeasInfoList-r10 element: %w", err)
+		var elem LogMeasInfoR10
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding logMeasInfoList-r10 element %d: %w", i, err)
 		}
+		v.LogMeasInfoListR10 = append(v.LogMeasInfoListR10, elem)
 	}
 	val_sigloggedmeastyper18, err := per.DecodeEnumerated(bb, 1, false)
 	if err != nil {
@@ -1441,11 +1455,13 @@ func unmarshalUPERLogMeasInfoList2R10Into(v *asn1cUPERLogMeasInfoList2R10ListVal
 	if seqLen_value > 4060 {
 		return fmt.Errorf("decoding value length %d above upper bound 4060", seqLen_value)
 	}
-	v.Value = make(LogMeasInfoList2R10, seqLen_value)
+	v.Value = make(LogMeasInfoList2R10, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem LogMeasInfoR10
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -1681,11 +1697,13 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_measidlist > 32 {
 			return fmt.Errorf("decoding measIdList length %d above upper bound 32", seqLen_measidlist)
 		}
-		tmp_measidlist := make(MeasIdToAddModList, seqLen_measidlist)
+		tmp_measidlist := make(MeasIdToAddModList, 0)
 		for i := int64(0); i < seqLen_measidlist; i++ {
-			if err := tmp_measidlist[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measIdList element: %w", err)
+			var elem MeasIdToAddMod
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding measIdList element %d: %w", i, err)
 			}
+			tmp_measidlist = append(tmp_measidlist, elem)
 		}
 		v.MeasIdList = tmp_measidlist
 	}
@@ -1702,11 +1720,13 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_measidlistextr12 > 32 {
 			return fmt.Errorf("decoding measIdListExt-r12 length %d above upper bound 32", seqLen_measidlistextr12)
 		}
-		tmp_measidlistextr12 := make(MeasIdToAddModListExtR12, seqLen_measidlistextr12)
+		tmp_measidlistextr12 := make(MeasIdToAddModListExtR12, 0)
 		for i := int64(0); i < seqLen_measidlistextr12; i++ {
-			if err := tmp_measidlistextr12[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measIdListExt-r12 element: %w", err)
+			var elem MeasIdToAddModExtR12
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding measIdListExt-r12 element %d: %w", i, err)
 			}
+			tmp_measidlistextr12 = append(tmp_measidlistextr12, elem)
 		}
 		v.MeasIdListExtR12 = tmp_measidlistextr12
 	}
@@ -1723,11 +1743,13 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_measidlistv1310 > 32 {
 			return fmt.Errorf("decoding measIdList-v1310 length %d above upper bound 32", seqLen_measidlistv1310)
 		}
-		tmp_measidlistv1310 := make(MeasIdToAddModListV1310, seqLen_measidlistv1310)
+		tmp_measidlistv1310 := make(MeasIdToAddModListV1310, 0)
 		for i := int64(0); i < seqLen_measidlistv1310; i++ {
-			if err := tmp_measidlistv1310[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measIdList-v1310 element: %w", err)
+			var elem MeasIdToAddModV1310
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding measIdList-v1310 element %d: %w", i, err)
 			}
+			tmp_measidlistv1310 = append(tmp_measidlistv1310, elem)
 		}
 		v.MeasIdListV1310 = tmp_measidlistv1310
 	}
@@ -1744,11 +1766,13 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_measidlistextv1310 > 32 {
 			return fmt.Errorf("decoding measIdListExt-v1310 length %d above upper bound 32", seqLen_measidlistextv1310)
 		}
-		tmp_measidlistextv1310 := make(MeasIdToAddModListExtV1310, seqLen_measidlistextv1310)
+		tmp_measidlistextv1310 := make(MeasIdToAddModListExtV1310, 0)
 		for i := int64(0); i < seqLen_measidlistextv1310; i++ {
-			if err := tmp_measidlistextv1310[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measIdListExt-v1310 element: %w", err)
+			var elem MeasIdToAddModV1310
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding measIdListExt-v1310 element %d: %w", i, err)
 			}
+			tmp_measidlistextv1310 = append(tmp_measidlistextv1310, elem)
 		}
 		v.MeasIdListExtV1310 = tmp_measidlistextv1310
 	}
@@ -1765,11 +1789,13 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_measobjectlist > 32 {
 			return fmt.Errorf("decoding measObjectList length %d above upper bound 32", seqLen_measobjectlist)
 		}
-		tmp_measobjectlist := make(MeasObjectToAddModList, seqLen_measobjectlist)
+		tmp_measobjectlist := make(MeasObjectToAddModList, 0)
 		for i := int64(0); i < seqLen_measobjectlist; i++ {
-			if err := tmp_measobjectlist[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measObjectList element: %w", err)
+			var elem MeasObjectToAddMod
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding measObjectList element %d: %w", i, err)
 			}
+			tmp_measobjectlist = append(tmp_measobjectlist, elem)
 		}
 		v.MeasObjectList = tmp_measobjectlist
 	}
@@ -1786,11 +1812,13 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_measobjectlistextr13 > 32 {
 			return fmt.Errorf("decoding measObjectListExt-r13 length %d above upper bound 32", seqLen_measobjectlistextr13)
 		}
-		tmp_measobjectlistextr13 := make(MeasObjectToAddModListExtR13, seqLen_measobjectlistextr13)
+		tmp_measobjectlistextr13 := make(MeasObjectToAddModListExtR13, 0)
 		for i := int64(0); i < seqLen_measobjectlistextr13; i++ {
-			if err := tmp_measobjectlistextr13[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measObjectListExt-r13 element: %w", err)
+			var elem MeasObjectToAddModExtR13
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding measObjectListExt-r13 element %d: %w", i, err)
 			}
+			tmp_measobjectlistextr13 = append(tmp_measobjectlistextr13, elem)
 		}
 		v.MeasObjectListExtR13 = tmp_measobjectlistextr13
 	}
@@ -1807,11 +1835,13 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_measobjectlistv9i0 > 32 {
 			return fmt.Errorf("decoding measObjectList-v9i0 length %d above upper bound 32", seqLen_measobjectlistv9i0)
 		}
-		tmp_measobjectlistv9i0 := make(MeasObjectToAddModListV9e0, seqLen_measobjectlistv9i0)
+		tmp_measobjectlistv9i0 := make(MeasObjectToAddModListV9e0, 0)
 		for i := int64(0); i < seqLen_measobjectlistv9i0; i++ {
-			if err := tmp_measobjectlistv9i0[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measObjectList-v9i0 element: %w", err)
+			var elem MeasObjectToAddModV9e0
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding measObjectList-v9i0 element %d: %w", i, err)
 			}
+			tmp_measobjectlistv9i0 = append(tmp_measobjectlistv9i0, elem)
 		}
 		v.MeasObjectListV9i0 = tmp_measobjectlistv9i0
 	}
@@ -1828,11 +1858,13 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_reportconfiglist > 32 {
 			return fmt.Errorf("decoding reportConfigList length %d above upper bound 32", seqLen_reportconfiglist)
 		}
-		tmp_reportconfiglist := make(ReportConfigToAddModList, seqLen_reportconfiglist)
+		tmp_reportconfiglist := make(ReportConfigToAddModList, 0)
 		for i := int64(0); i < seqLen_reportconfiglist; i++ {
-			if err := tmp_reportconfiglist[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding reportConfigList element: %w", err)
+			var elem ReportConfigToAddMod
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding reportConfigList element %d: %w", i, err)
 			}
+			tmp_reportconfiglist = append(tmp_reportconfiglist, elem)
 		}
 		v.ReportConfigList = tmp_reportconfiglist
 	}
@@ -1930,11 +1962,13 @@ func (v *VarMeasIdleConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_measidlecarrierlisteutrar15 > 8 {
 			return fmt.Errorf("decoding measIdleCarrierListEUTRA-r15 length %d above upper bound 8", seqLen_measidlecarrierlisteutrar15)
 		}
-		tmp_measidlecarrierlisteutrar15 := make(EUTRACarrierListR15, seqLen_measidlecarrierlisteutrar15)
+		tmp_measidlecarrierlisteutrar15 := make(EUTRACarrierListR15, 0)
 		for i := int64(0); i < seqLen_measidlecarrierlisteutrar15; i++ {
-			if err := tmp_measidlecarrierlisteutrar15[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measIdleCarrierListEUTRA-r15 element: %w", err)
+			var elem MeasIdleCarrierEUTRAR15
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding measIdleCarrierListEUTRA-r15 element %d: %w", i, err)
 			}
+			tmp_measidlecarrierlisteutrar15 = append(tmp_measidlecarrierlisteutrar15, elem)
 		}
 		v.MeasIdleCarrierListEUTRAR15 = tmp_measidlecarrierlisteutrar15
 	}
@@ -2015,11 +2049,13 @@ func (v *VarMeasIdleConfigR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_measidlecarrierlistnrr16 > 8 {
 			return fmt.Errorf("decoding measIdleCarrierListNR-r16 length %d above upper bound 8", seqLen_measidlecarrierlistnrr16)
 		}
-		tmp_measidlecarrierlistnrr16 := make(NRCarrierListR16, seqLen_measidlecarrierlistnrr16)
+		tmp_measidlecarrierlistnrr16 := make(NRCarrierListR16, 0)
 		for i := int64(0); i < seqLen_measidlecarrierlistnrr16; i++ {
-			if err := tmp_measidlecarrierlistnrr16[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measIdleCarrierListNR-r16 element: %w", err)
+			var elem MeasIdleCarrierNRR16
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding measIdleCarrierListNR-r16 element %d: %w", i, err)
 			}
+			tmp_measidlecarrierlistnrr16 = append(tmp_measidlecarrierlistnrr16, elem)
 		}
 		v.MeasIdleCarrierListNRR16 = tmp_measidlecarrierlistnrr16
 	}
@@ -2036,11 +2072,13 @@ func (v *VarMeasIdleConfigR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_validityarealistr16 > 8 {
 			return fmt.Errorf("decoding validityAreaList-r16 length %d above upper bound 8", seqLen_validityarealistr16)
 		}
-		tmp_validityarealistr16 := make(ValidityAreaListR16, seqLen_validityarealistr16)
+		tmp_validityarealistr16 := make(ValidityAreaListR16, 0)
 		for i := int64(0); i < seqLen_validityarealistr16; i++ {
-			if err := tmp_validityarealistr16[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding validityAreaList-r16 element: %w", err)
+			var elem ValidityAreaR16
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding validityAreaList-r16 element %d: %w", i, err)
 			}
+			tmp_validityarealistr16 = append(tmp_validityarealistr16, elem)
 		}
 		v.ValidityAreaListR16 = tmp_validityarealistr16
 	}
@@ -2087,11 +2125,13 @@ func (v *VarMeasIdleReportR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if seqLen_measreportidler15 > 3 {
 		return fmt.Errorf("decoding measReportIdle-r15 length %d above upper bound 3", seqLen_measreportidler15)
 	}
-	v.MeasReportIdleR15 = make(MeasResultListIdleR15, seqLen_measreportidler15)
+	v.MeasReportIdleR15 = make(MeasResultListIdleR15, 0)
 	for i := int64(0); i < seqLen_measreportidler15; i++ {
-		if err := v.MeasReportIdleR15[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding measReportIdle-r15 element: %w", err)
+		var elem MeasResultIdleR15
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding measReportIdle-r15 element %d: %w", i, err)
 		}
+		v.MeasReportIdleR15 = append(v.MeasReportIdleR15, elem)
 	}
 	return nil
 }
@@ -2165,13 +2205,13 @@ func (v *VarMeasIdleReportR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_measreportidler16 > 5 {
 			return fmt.Errorf("decoding measReportIdle-r16 length %d above upper bound 5", seqLen_measreportidler16)
 		}
-		tmp_measreportidler16 := make(MeasResultListExtIdleR16, seqLen_measreportidler16)
+		tmp_measreportidler16 := make(MeasResultListExtIdleR16, 0)
 		for i_measreportidler16 := int64(0); i_measreportidler16 < seqLen_measreportidler16; i_measreportidler16++ {
 			elem, err := UnmarshalUPERMeasResultIdleListEUTRAR15From(bb)
 			if err != nil {
 				return fmt.Errorf("decoding measReportIdle-r16 element: %w", err)
 			}
-			tmp_measreportidler16[i_measreportidler16] = elem
+			tmp_measreportidler16 = append(tmp_measreportidler16, elem)
 		}
 		v.MeasReportIdleR16 = tmp_measreportidler16
 	}
@@ -2188,11 +2228,13 @@ func (v *VarMeasIdleReportR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_measreportidlenrr16 > 8 {
 			return fmt.Errorf("decoding measReportIdleNR-r16 length %d above upper bound 8", seqLen_measreportidlenrr16)
 		}
-		tmp_measreportidlenrr16 := make(MeasResultListIdleNRR16, seqLen_measreportidlenrr16)
+		tmp_measreportidlenrr16 := make(MeasResultListIdleNRR16, 0)
 		for i := int64(0); i < seqLen_measreportidlenrr16; i++ {
-			if err := tmp_measreportidlenrr16[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measReportIdleNR-r16 element: %w", err)
+			var elem MeasResultIdleNRR16
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding measReportIdleNR-r16 element %d: %w", i, err)
 			}
+			tmp_measreportidlenrr16 = append(tmp_measreportidlenrr16, elem)
 		}
 		v.MeasReportIdleNRR16 = tmp_measreportidlenrr16
 	}
@@ -2252,11 +2294,13 @@ func unmarshalUPERVarMeasReportListInto(v *asn1cUPERVarMeasReportListListValue, 
 	if seqLen_value > 32 {
 		return fmt.Errorf("decoding value length %d above upper bound 32", seqLen_value)
 	}
-	v.Value = make(VarMeasReportList, seqLen_value)
+	v.Value = make(VarMeasReportList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem VarMeasReport
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -2314,11 +2358,13 @@ func unmarshalUPERVarMeasReportListR12Into(v *asn1cUPERVarMeasReportListR12ListV
 	if seqLen_value > 64 {
 		return fmt.Errorf("decoding value length %d above upper bound 64", seqLen_value)
 	}
-	v.Value = make(VarMeasReportListR12, seqLen_value)
+	v.Value = make(VarMeasReportListR12, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem VarMeasReport
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -2440,11 +2486,13 @@ func (v *VarMeasReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_cellstriggeredlist > 32 {
 			return fmt.Errorf("decoding cellsTriggeredList length %d above upper bound 32", seqLen_cellstriggeredlist)
 		}
-		tmp_cellstriggeredlist := make(CellsTriggeredList, seqLen_cellstriggeredlist)
+		tmp_cellstriggeredlist := make(CellsTriggeredList, 0)
 		for i := int64(0); i < seqLen_cellstriggeredlist; i++ {
-			if err := tmp_cellstriggeredlist[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding cellsTriggeredList element: %w", err)
+			var elem CellsTriggeredListElem
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding cellsTriggeredList element %d: %w", i, err)
 			}
+			tmp_cellstriggeredlist = append(tmp_cellstriggeredlist, elem)
 		}
 		v.CellsTriggeredList = tmp_cellstriggeredlist
 	}
@@ -2461,13 +2509,13 @@ func (v *VarMeasReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_csirstriggeredlistr12 > 96 {
 			return fmt.Errorf("decoding csi-RS-TriggeredList-r12 length %d above upper bound 96", seqLen_csirstriggeredlistr12)
 		}
-		tmp_csirstriggeredlistr12 := make(CSIRSTriggeredListR12, seqLen_csirstriggeredlistr12)
+		tmp_csirstriggeredlistr12 := make(CSIRSTriggeredListR12, 0)
 		for i := int64(0); i < seqLen_csirstriggeredlistr12; i++ {
 			val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(96), false)
 			if err != nil {
-				return fmt.Errorf("decoding csi-RS-TriggeredList-r12 element: %w", err)
+				return fmt.Errorf("decoding csi-RS-TriggeredList-r12 element %d: %w", i, err)
 			}
-			tmp_csirstriggeredlistr12[i] = MeasCSIRSIdR12(val)
+			tmp_csirstriggeredlistr12 = append(tmp_csirstriggeredlistr12, MeasCSIRSIdR12(val))
 		}
 		v.CsiRSTriggeredListR12 = tmp_csirstriggeredlistr12
 	}
@@ -2484,13 +2532,13 @@ func (v *VarMeasReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_poolstriggeredlistr14 > 72 {
 			return fmt.Errorf("decoding poolsTriggeredList-r14 length %d above upper bound 72", seqLen_poolstriggeredlistr14)
 		}
-		tmp_poolstriggeredlistr14 := make(TxResourcePoolMeasListR14, seqLen_poolstriggeredlistr14)
+		tmp_poolstriggeredlistr14 := make(TxResourcePoolMeasListR14, 0)
 		for i := int64(0); i < seqLen_poolstriggeredlistr14; i++ {
 			val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(72), false)
 			if err != nil {
-				return fmt.Errorf("decoding poolsTriggeredList-r14 element: %w", err)
+				return fmt.Errorf("decoding poolsTriggeredList-r14 element %d: %w", i, err)
 			}
-			tmp_poolstriggeredlistr14[i] = SLV2XTxPoolReportIdentityR14(val)
+			tmp_poolstriggeredlistr14 = append(tmp_poolstriggeredlistr14, SLV2XTxPoolReportIdentityR14(val))
 		}
 		v.PoolsTriggeredListR14 = tmp_poolstriggeredlistr14
 	}
@@ -2555,11 +2603,13 @@ func unmarshalUPERCellsTriggeredListInto(v *asn1cUPERCellsTriggeredListListValue
 	if seqLen_value > 32 {
 		return fmt.Errorf("decoding value length %d above upper bound 32", seqLen_value)
 	}
-	v.Value = make(CellsTriggeredList, seqLen_value)
+	v.Value = make(CellsTriggeredList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem CellsTriggeredListElem
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -2617,13 +2667,13 @@ func unmarshalUPERCSIRSTriggeredListR12Into(v *asn1cUPERCSIRSTriggeredListR12Lis
 	if seqLen_value > 96 {
 		return fmt.Errorf("decoding value length %d above upper bound 96", seqLen_value)
 	}
-	v.Value = make(CSIRSTriggeredListR12, seqLen_value)
+	v.Value = make(CSIRSTriggeredListR12, 0)
 	for i := int64(0); i < seqLen_value; i++ {
 		val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(96), false)
 		if err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
-		v.Value[i] = MeasCSIRSIdR12(val)
+		v.Value = append(v.Value, MeasCSIRSIdR12(val))
 	}
 	return nil
 }
@@ -2681,13 +2731,13 @@ func unmarshalUPERSSBIndexListR15Into(v *asn1cUPERSSBIndexListR15ListValue, bb *
 	if seqLen_value > 64 {
 		return fmt.Errorf("decoding value length %d above upper bound 64", seqLen_value)
 	}
-	v.Value = make(SSBIndexListR15, seqLen_value)
+	v.Value = make(SSBIndexListR15, 0)
 	for i := int64(0); i < seqLen_value; i++ {
 		val, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(63), false)
 		if err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
-		v.Value[i] = RSIndexNRR15(val)
+		v.Value = append(v.Value, RSIndexNRR15(val))
 	}
 	return nil
 }
@@ -2817,11 +2867,13 @@ func (v *VarRLFReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if seqLen_plmnidentitylistr11 > 16 {
 		return fmt.Errorf("decoding plmn-IdentityList-r11 length %d above upper bound 16", seqLen_plmnidentitylistr11)
 	}
-	v.PlmnIdentityListR11 = make(PLMNIdentityList3R11, seqLen_plmnidentitylistr11)
+	v.PlmnIdentityListR11 = make(PLMNIdentityList3R11, 0)
 	for i := int64(0); i < seqLen_plmnidentitylistr11; i++ {
-		if err := v.PlmnIdentityListR11[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding plmn-IdentityList-r11 element: %w", err)
+		var elem PLMNIdentity
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding plmn-IdentityList-r11 element %d: %w", i, err)
 		}
+		v.PlmnIdentityListR11 = append(v.PlmnIdentityListR11, elem)
 	}
 	return nil
 }
@@ -3051,11 +3103,13 @@ func (v *VarWLANMobilityConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_wlanmobilitysetr13 > 32 {
 			return fmt.Errorf("decoding wlan-MobilitySet-r13 length %d above upper bound 32", seqLen_wlanmobilitysetr13)
 		}
-		tmp_wlanmobilitysetr13 := make(WLANIdListR13, seqLen_wlanmobilitysetr13)
+		tmp_wlanmobilitysetr13 := make(WLANIdListR13, 0)
 		for i := int64(0); i < seqLen_wlanmobilitysetr13; i++ {
-			if err := tmp_wlanmobilitysetr13[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding wlan-MobilitySet-r13 element: %w", err)
+			var elem WLANIdentifiersR12
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding wlan-MobilitySet-r13 element %d: %w", i, err)
 			}
+			tmp_wlanmobilitysetr13 = append(tmp_wlanmobilitysetr13, elem)
 		}
 		v.WlanMobilitySetR13 = tmp_wlanmobilitysetr13
 	}
@@ -3145,6 +3199,9 @@ func (v *VarMeasConfigSpeedStatePars) MarshalUPERTo(bb *per.BitBuffer) error {
 	switch v.Choice {
 	case VarMeasConfigSpeedStateParsChoiceRelease:
 	case VarMeasConfigSpeedStateParsChoiceSetup:
+		if v.Setup == nil {
+			return fmt.Errorf("choice alternative setup is nil")
+		}
 		if err := v.Setup.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding setup: %w", err)
 		}
@@ -3228,26 +3285,44 @@ func (v *CellsTriggeredListElem) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case CellsTriggeredListElemChoicePhysCellIdEUTRA:
+		if v.PhysCellIdEUTRA == nil {
+			return fmt.Errorf("choice alternative physCellIdEUTRA is nil")
+		}
 		if err := per.EncodeInteger(bb, int64(*v.PhysCellIdEUTRA), int64Ptr(0), int64Ptr(503), false); err != nil {
 			return fmt.Errorf("encoding physCellIdEUTRA: %w", err)
 		}
 	case CellsTriggeredListElemChoicePhysCellIdUTRA:
+		if v.PhysCellIdUTRA == nil {
+			return fmt.Errorf("choice alternative physCellIdUTRA is nil")
+		}
 		if err := v.PhysCellIdUTRA.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding physCellIdUTRA: %w", err)
 		}
 	case CellsTriggeredListElemChoicePhysCellIdGERAN:
+		if v.PhysCellIdGERAN == nil {
+			return fmt.Errorf("choice alternative physCellIdGERAN is nil")
+		}
 		if err := v.PhysCellIdGERAN.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding physCellIdGERAN: %w", err)
 		}
 	case CellsTriggeredListElemChoicePhysCellIdCDMA2000:
+		if v.PhysCellIdCDMA2000 == nil {
+			return fmt.Errorf("choice alternative physCellIdCDMA2000 is nil")
+		}
 		if err := per.EncodeInteger(bb, int64(*v.PhysCellIdCDMA2000), int64Ptr(0), int64Ptr(511), false); err != nil {
 			return fmt.Errorf("encoding physCellIdCDMA2000: %w", err)
 		}
 	case CellsTriggeredListElemChoiceWlanIdentifiersR13:
+		if v.WlanIdentifiersR13 == nil {
+			return fmt.Errorf("choice alternative wlan-Identifiers-r13 is nil")
+		}
 		if err := v.WlanIdentifiersR13.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding wlan-Identifiers-r13: %w", err)
 		}
 	case CellsTriggeredListElemChoicePhysCellIdNRR15:
+		if v.PhysCellIdNRR15 == nil {
+			return fmt.Errorf("choice alternative physCellIdNR-r15 is nil")
+		}
 		if err := v.PhysCellIdNRR15.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding physCellIdNR-r15: %w", err)
 		}
@@ -3327,10 +3402,16 @@ func (v *CellsTriggeredListElemPhysCellIdUTRA) MarshalUPERTo(bb *per.BitBuffer) 
 	}
 	switch v.Choice {
 	case CellsTriggeredListElemPhysCellIdUTRAChoiceFdd:
+		if v.Fdd == nil {
+			return fmt.Errorf("choice alternative fdd is nil")
+		}
 		if err := per.EncodeInteger(bb, int64(*v.Fdd), int64Ptr(0), int64Ptr(511), false); err != nil {
 			return fmt.Errorf("encoding fdd: %w", err)
 		}
 	case CellsTriggeredListElemPhysCellIdUTRAChoiceTdd:
+		if v.Tdd == nil {
+			return fmt.Errorf("choice alternative tdd is nil")
+		}
 		if err := per.EncodeInteger(bb, int64(*v.Tdd), int64Ptr(0), int64Ptr(127), false); err != nil {
 			return fmt.Errorf("encoding tdd: %w", err)
 		}
@@ -3474,13 +3555,13 @@ func (v *CellsTriggeredListElemPhysCellIdNRR15) UnmarshalUPERFrom(bb *per.BitBuf
 		if seqLen_rsindexlistr15 > 64 {
 			return fmt.Errorf("decoding rs-IndexList-r15 length %d above upper bound 64", seqLen_rsindexlistr15)
 		}
-		tmp_rsindexlistr15 := make(SSBIndexListR15, seqLen_rsindexlistr15)
+		tmp_rsindexlistr15 := make(SSBIndexListR15, 0)
 		for i := int64(0); i < seqLen_rsindexlistr15; i++ {
 			val, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(63), false)
 			if err != nil {
-				return fmt.Errorf("decoding rs-IndexList-r15 element: %w", err)
+				return fmt.Errorf("decoding rs-IndexList-r15 element %d: %w", i, err)
 			}
-			tmp_rsindexlistr15[i] = RSIndexNRR15(val)
+			tmp_rsindexlistr15 = append(tmp_rsindexlistr15, RSIndexNRR15(val))
 		}
 		v.RsIndexListR15 = tmp_rsindexlistr15
 	}

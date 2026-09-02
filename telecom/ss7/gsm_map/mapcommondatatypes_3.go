@@ -344,25 +344,25 @@ const (
 	MaxNumOfMCBearers3 int64 = 7
 )
 
-// TBCDSTRING3 represents the ASN.1 type TBCDSTRING3 (OCTET_STRING).
+// TBCDSTRING3 represents the ASN.1 type TBCD-STRING (OCTET_STRING).
 type TBCDSTRING3 = []byte
 
-// CommonDataTypesDiameterIdentity represents the ASN.1 type CommonDataTypesDiameterIdentity (OCTET_STRING).
+// CommonDataTypesDiameterIdentity represents the ASN.1 type DiameterIdentity (OCTET_STRING).
 type CommonDataTypesDiameterIdentity = []byte
 
-// AddressString3 represents the ASN.1 type AddressString3 (OCTET_STRING).
+// AddressString3 represents the ASN.1 type AddressString (OCTET_STRING).
 type AddressString3 = []byte
 
-// ISDNAddressString3 represents the ASN.1 type ISDNAddressString3 (OCTET_STRING).
+// ISDNAddressString3 represents the ASN.1 type ISDN-AddressString (OCTET_STRING).
 type ISDNAddressString3 = AddressString3
 
-// FTNAddressString3 represents the ASN.1 type FTNAddressString3 (OCTET_STRING).
+// FTNAddressString3 represents the ASN.1 type FTN-AddressString (OCTET_STRING).
 type FTNAddressString3 = AddressString3
 
-// ISDNSubaddressString3 represents the ASN.1 type ISDNSubaddressString3 (OCTET_STRING).
+// ISDNSubaddressString3 represents the ASN.1 type ISDN-SubaddressString (OCTET_STRING).
 type ISDNSubaddressString3 = []byte
 
-// ExternalSignalInfo3 represents the ASN.1 type ExternalSignalInfo3 (SEQUENCE).
+// ExternalSignalInfo3 represents the ASN.1 type ExternalSignalInfo (SEQUENCE).
 type ExternalSignalInfo3 struct {
 	ProtocolId         ProtocolId3          `asn1:""`
 	SignalInfo         SignalInfo3          `asn1:""`
@@ -372,10 +372,10 @@ type ExternalSignalInfo3 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// SignalInfo3 represents the ASN.1 type SignalInfo3 (OCTET_STRING).
+// SignalInfo3 represents the ASN.1 type SignalInfo (OCTET_STRING).
 type SignalInfo3 = []byte
 
-// ProtocolId3 represents the ASN.1 ENUMERATED type ProtocolId3.
+// ProtocolId3 represents the ASN.1 ENUMERATED type ProtocolId.
 type ProtocolId3 int64
 
 const (
@@ -400,7 +400,7 @@ func (v ProtocolId3) String() string {
 	}
 }
 
-// ExtExternalSignalInfo3 represents the ASN.1 type ExtExternalSignalInfo3 (SEQUENCE).
+// ExtExternalSignalInfo3 represents the ASN.1 type Ext-ExternalSignalInfo (SEQUENCE).
 type ExtExternalSignalInfo3 struct {
 	ExtProtocolId      ExtProtocolId3       `asn1:""`
 	SignalInfo         SignalInfo3          `asn1:""`
@@ -410,7 +410,7 @@ type ExtExternalSignalInfo3 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// ExtProtocolId3 represents the ASN.1 ENUMERATED type ExtProtocolId3.
+// ExtProtocolId3 represents the ASN.1 ENUMERATED type Ext-ProtocolId.
 type ExtProtocolId3 int64
 
 const (
@@ -426,7 +426,7 @@ func (v ExtProtocolId3) String() string {
 	}
 }
 
-// AccessNetworkSignalInfo3 represents the ASN.1 type AccessNetworkSignalInfo3 (SEQUENCE).
+// AccessNetworkSignalInfo3 represents the ASN.1 type AccessNetworkSignalInfo (SEQUENCE).
 type AccessNetworkSignalInfo3 struct {
 	AccessNetworkProtocolId AccessNetworkProtocolId3 `asn1:""`
 	SignalInfo              LongSignalInfo3          `asn1:""`
@@ -436,10 +436,10 @@ type AccessNetworkSignalInfo3 struct {
 	ExtData_                [][]byte                 `asn1:"-" json:"-"`
 }
 
-// LongSignalInfo3 represents the ASN.1 type LongSignalInfo3 (OCTET_STRING).
+// LongSignalInfo3 represents the ASN.1 type LongSignalInfo (OCTET_STRING).
 type LongSignalInfo3 = []byte
 
-// AccessNetworkProtocolId3 represents the ASN.1 ENUMERATED type AccessNetworkProtocolId3.
+// AccessNetworkProtocolId3 represents the ASN.1 ENUMERATED type AccessNetworkProtocolId.
 type AccessNetworkProtocolId3 int64
 
 const (
@@ -458,16 +458,16 @@ func (v AccessNetworkProtocolId3) String() string {
 	}
 }
 
-// AlertingPattern3 represents the ASN.1 type AlertingPattern3 (OCTET_STRING).
+// AlertingPattern3 represents the ASN.1 type AlertingPattern (OCTET_STRING).
 type AlertingPattern3 = []byte
 
-// CommonDataTypesGSNAddress represents the ASN.1 type CommonDataTypesGSNAddress (OCTET_STRING).
+// CommonDataTypesGSNAddress represents the ASN.1 type GSN-Address (OCTET_STRING).
 type CommonDataTypesGSNAddress = []byte
 
-// CommonDataTypesTime represents the ASN.1 type CommonDataTypesTime (OCTET_STRING).
+// CommonDataTypesTime represents the ASN.1 type Time (OCTET_STRING).
 type CommonDataTypesTime = []byte
 
-// IMSI3 represents the ASN.1 type IMSI3 (OCTET_STRING).
+// IMSI3 represents the ASN.1 type IMSI (OCTET_STRING).
 type IMSI3 = TBCDSTRING3
 
 // Identity3 choice constants.
@@ -476,7 +476,7 @@ const (
 	Identity3ChoiceImsiWithLMSI = 2
 )
 
-// Identity3 represents the ASN.1 CHOICE type Identity3.
+// Identity3 represents the ASN.1 CHOICE type Identity.
 type Identity3 struct {
 	Choice       int
 	Imsi         *IMSI3         `json:"Imsi,omitempty"`
@@ -499,7 +499,7 @@ func NewIdentity3ImsiWithLMSI(v IMSIWithLMSI3) Identity3 {
 	}
 }
 
-// IMSIWithLMSI3 represents the ASN.1 type IMSIWithLMSI3 (SEQUENCE).
+// IMSIWithLMSI3 represents the ASN.1 type IMSI-WithLMSI (SEQUENCE).
 type IMSIWithLMSI3 struct {
 	Imsi        IMSI3    `asn1:""`
 	Lmsi        LMSI3    `asn1:""`
@@ -508,10 +508,10 @@ type IMSIWithLMSI3 struct {
 	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// ASCICallReference3 represents the ASN.1 type ASCICallReference3 (OCTET_STRING).
+// ASCICallReference3 represents the ASN.1 type ASCI-CallReference (OCTET_STRING).
 type ASCICallReference3 = TBCDSTRING3
 
-// TMSI3 represents the ASN.1 type TMSI3 (OCTET_STRING).
+// TMSI3 represents the ASN.1 type TMSI (OCTET_STRING).
 type TMSI3 = []byte
 
 // SubscriberId3 choice constants.
@@ -520,7 +520,7 @@ const (
 	SubscriberId3ChoiceTmsi = 2
 )
 
-// SubscriberId3 represents the ASN.1 CHOICE type SubscriberId3.
+// SubscriberId3 represents the ASN.1 CHOICE type SubscriberId.
 type SubscriberId3 struct {
 	Choice int
 	Imsi   *IMSI3 `json:"Imsi,omitempty"`
@@ -543,22 +543,22 @@ func NewSubscriberId3Tmsi(v TMSI3) SubscriberId3 {
 	}
 }
 
-// IMEI3 represents the ASN.1 type IMEI3 (OCTET_STRING).
+// IMEI3 represents the ASN.1 type IMEI (OCTET_STRING).
 type IMEI3 = TBCDSTRING3
 
-// HLRId3 represents the ASN.1 type HLRId3 (OCTET_STRING).
+// HLRId3 represents the ASN.1 type HLR-Id (OCTET_STRING).
 type HLRId3 = IMSI3
 
-// HLRList3 represents the ASN.1 type HLRList3 (SEQUENCE_OF).
+// HLRList3 represents the ASN.1 type HLR-List (SEQUENCE_OF).
 type HLRList3 = []HLRId3
 
-// LMSI3 represents the ASN.1 type LMSI3 (OCTET_STRING).
+// LMSI3 represents the ASN.1 type LMSI (OCTET_STRING).
 type LMSI3 = []byte
 
-// GlobalCellId3 represents the ASN.1 type GlobalCellId3 (OCTET_STRING).
+// GlobalCellId3 represents the ASN.1 type GlobalCellId (OCTET_STRING).
 type GlobalCellId3 = []byte
 
-// NetworkResource3 represents the ASN.1 ENUMERATED type NetworkResource3.
+// NetworkResource3 represents the ASN.1 ENUMERATED type NetworkResource.
 type NetworkResource3 int64
 
 const (
@@ -595,7 +595,7 @@ func (v NetworkResource3) String() string {
 	}
 }
 
-// AdditionalNetworkResource3 represents the ASN.1 ENUMERATED type AdditionalNetworkResource3.
+// AdditionalNetworkResource3 represents the ASN.1 ENUMERATED type AdditionalNetworkResource.
 type AdditionalNetworkResource3 int64
 
 const (
@@ -632,7 +632,7 @@ func (v AdditionalNetworkResource3) String() string {
 	}
 }
 
-// NAEAPreferredCI3 represents the ASN.1 type NAEAPreferredCI3 (SEQUENCE).
+// NAEAPreferredCI3 represents the ASN.1 type NAEA-PreferredCI (SEQUENCE).
 type NAEAPreferredCI3 struct {
 	NaeaPreferredCIC   NAEACIC3             `asn1:"tag:0,context,implicit"`
 	ExtensionContainer *ExtensionContainer3 `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
@@ -641,7 +641,7 @@ type NAEAPreferredCI3 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// NAEACIC3 represents the ASN.1 type NAEACIC3 (OCTET_STRING).
+// NAEACIC3 represents the ASN.1 type NAEA-CIC (OCTET_STRING).
 type NAEACIC3 = []byte
 
 // SubscriberIdentity3 choice constants.
@@ -650,7 +650,7 @@ const (
 	SubscriberIdentity3ChoiceMsisdn = 2
 )
 
-// SubscriberIdentity3 represents the ASN.1 CHOICE type SubscriberIdentity3.
+// SubscriberIdentity3 represents the ASN.1 CHOICE type SubscriberIdentity.
 type SubscriberIdentity3 struct {
 	Choice int
 	Imsi   *IMSI3              `json:"Imsi,omitempty"`
@@ -673,7 +673,7 @@ func NewSubscriberIdentity3Msisdn(v ISDNAddressString3) SubscriberIdentity3 {
 	}
 }
 
-// LCSClientExternalID3 represents the ASN.1 type LCSClientExternalID3 (SEQUENCE).
+// LCSClientExternalID3 represents the ASN.1 type LCSClientExternalID (SEQUENCE).
 type LCSClientExternalID3 struct {
 	ExternalAddress    *ISDNAddressString3  `asn1:"tag:0,context,implicit,optional" json:"ExternalAddress,omitempty"`
 	ExtensionContainer *ExtensionContainer3 `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
@@ -682,7 +682,7 @@ type LCSClientExternalID3 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// LCSClientInternalID3 represents the ASN.1 ENUMERATED type LCSClientInternalID3.
+// LCSClientInternalID3 represents the ASN.1 ENUMERATED type LCSClientInternalID.
 type LCSClientInternalID3 int64
 
 const (
@@ -710,22 +710,22 @@ func (v LCSClientInternalID3) String() string {
 	}
 }
 
-// LCSServiceTypeID3 represents the ASN.1 type LCSServiceTypeID3 (INTEGER).
+// LCSServiceTypeID3 represents the ASN.1 type LCSServiceTypeID (INTEGER).
 type LCSServiceTypeID3 = int64
 
-// PLMNId3 represents the ASN.1 type PLMNId3 (OCTET_STRING).
+// PLMNId3 represents the ASN.1 type PLMN-Id (OCTET_STRING).
 type PLMNId3 = []byte
 
-// CommonDataTypesEUTRANCGI represents the ASN.1 type CommonDataTypesEUTRANCGI (OCTET_STRING).
+// CommonDataTypesEUTRANCGI represents the ASN.1 type E-UTRAN-CGI (OCTET_STRING).
 type CommonDataTypesEUTRANCGI = []byte
 
-// CommonDataTypesTAId represents the ASN.1 type CommonDataTypesTAId (OCTET_STRING).
+// CommonDataTypesTAId represents the ASN.1 type TA-Id (OCTET_STRING).
 type CommonDataTypesTAId = []byte
 
-// CommonDataTypesRAIdentity represents the ASN.1 type CommonDataTypesRAIdentity (OCTET_STRING).
+// CommonDataTypesRAIdentity represents the ASN.1 type RAIdentity (OCTET_STRING).
 type CommonDataTypesRAIdentity = []byte
 
-// CommonDataTypesNetworkNodeDiameterAddress represents the ASN.1 type CommonDataTypesNetworkNodeDiameterAddress (SEQUENCE).
+// CommonDataTypesNetworkNodeDiameterAddress represents the ASN.1 type NetworkNodeDiameterAddress (SEQUENCE).
 type CommonDataTypesNetworkNodeDiameterAddress struct {
 	DiameterName  CommonDataTypesDiameterIdentity `asn1:"tag:0,context,implicit"`
 	DiameterRealm CommonDataTypesDiameterIdentity `asn1:"tag:1,context,implicit"`
@@ -737,7 +737,7 @@ const (
 	CellGlobalIdOrServiceAreaIdOrLAI3ChoiceLaiFixedLength                         = 2
 )
 
-// CellGlobalIdOrServiceAreaIdOrLAI3 represents the ASN.1 CHOICE type CellGlobalIdOrServiceAreaIdOrLAI3.
+// CellGlobalIdOrServiceAreaIdOrLAI3 represents the ASN.1 CHOICE type CellGlobalIdOrServiceAreaIdOrLAI.
 type CellGlobalIdOrServiceAreaIdOrLAI3 struct {
 	Choice                                 int
 	CellGlobalIdOrServiceAreaIdFixedLength *CellGlobalIdOrServiceAreaIdFixedLength3 `json:"CellGlobalIdOrServiceAreaIdFixedLength,omitempty"`
@@ -760,10 +760,10 @@ func NewCellGlobalIdOrServiceAreaIdOrLAI3LaiFixedLength(v LAIFixedLength3) CellG
 	}
 }
 
-// CellGlobalIdOrServiceAreaIdFixedLength3 represents the ASN.1 type CellGlobalIdOrServiceAreaIdFixedLength3 (OCTET_STRING).
+// CellGlobalIdOrServiceAreaIdFixedLength3 represents the ASN.1 type CellGlobalIdOrServiceAreaIdFixedLength (OCTET_STRING).
 type CellGlobalIdOrServiceAreaIdFixedLength3 = []byte
 
-// LAIFixedLength3 represents the ASN.1 type LAIFixedLength3 (OCTET_STRING).
+// LAIFixedLength3 represents the ASN.1 type LAIFixedLength (OCTET_STRING).
 type LAIFixedLength3 = []byte
 
 // BasicServiceCode3 choice constants.
@@ -772,7 +772,7 @@ const (
 	BasicServiceCode3ChoiceTeleservice   = 2
 )
 
-// BasicServiceCode3 represents the ASN.1 CHOICE type BasicServiceCode3.
+// BasicServiceCode3 represents the ASN.1 CHOICE type BasicServiceCode.
 type BasicServiceCode3 struct {
 	Choice        int
 	BearerService *BearerServiceCode3 `json:"BearerService,omitempty"`
@@ -801,7 +801,7 @@ const (
 	ExtBasicServiceCode3ChoiceExtTeleservice   = 2
 )
 
-// ExtBasicServiceCode3 represents the ASN.1 CHOICE type ExtBasicServiceCode3.
+// ExtBasicServiceCode3 represents the ASN.1 CHOICE type Ext-BasicServiceCode.
 type ExtBasicServiceCode3 struct {
 	Choice           int
 	ExtBearerService *ExtBearerServiceCode3 `json:"ExtBearerService,omitempty"`
@@ -824,7 +824,7 @@ func NewExtBasicServiceCode3ExtTeleservice(v ExtTeleserviceCode3) ExtBasicServic
 	}
 }
 
-// EMLPPInfo3 represents the ASN.1 type EMLPPInfo3 (SEQUENCE).
+// EMLPPInfo3 represents the ASN.1 type EMLPP-Info (SEQUENCE).
 type EMLPPInfo3 struct {
 	MaximumentitledPriority EMLPPPriority3       `asn1:""`
 	DefaultPriority         EMLPPPriority3       `asn1:""`
@@ -834,10 +834,10 @@ type EMLPPInfo3 struct {
 	ExtData_                [][]byte             `asn1:"-" json:"-"`
 }
 
-// EMLPPPriority3 represents the ASN.1 type EMLPPPriority3 (INTEGER).
+// EMLPPPriority3 represents the ASN.1 type EMLPP-Priority (INTEGER).
 type EMLPPPriority3 = int64
 
-// MCSSInfo3 represents the ASN.1 type MCSSInfo3 (SEQUENCE).
+// MCSSInfo3 represents the ASN.1 type MC-SS-Info (SEQUENCE).
 type MCSSInfo3 struct {
 	SsCode             SSCode3              `asn1:"tag:0,context,implicit"`
 	SsStatus           ExtSSStatus3         `asn1:"tag:1,context,implicit"`
@@ -849,16 +849,16 @@ type MCSSInfo3 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// MaxMCBearers3 represents the ASN.1 type MaxMCBearers3 (INTEGER).
+// MaxMCBearers3 represents the ASN.1 type MaxMC-Bearers (INTEGER).
 type MaxMCBearers3 = int64
 
-// MCBearers3 represents the ASN.1 type MCBearers3 (INTEGER).
+// MCBearers3 represents the ASN.1 type MC-Bearers (INTEGER).
 type MCBearers3 = int64
 
-// ExtSSStatus3 represents the ASN.1 type ExtSSStatus3 (OCTET_STRING).
+// ExtSSStatus3 represents the ASN.1 type Ext-SS-Status (OCTET_STRING).
 type ExtSSStatus3 = []byte
 
-// AgeOfLocationInformation3 represents the ASN.1 type AgeOfLocationInformation3 (INTEGER).
+// AgeOfLocationInformation3 represents the ASN.1 type AgeOfLocationInformation (INTEGER).
 type AgeOfLocationInformation3 = int64
 
 // MarshalBER encodes ExternalSignalInfo3 to BER format.
@@ -896,7 +896,14 @@ func (v *ExternalSignalInfo3) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ExternalSignalInfo3 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ExternalSignalInfo3 from BER/DER format.
@@ -999,7 +1006,14 @@ func (v *ExtExternalSignalInfo3) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ExtExternalSignalInfo3 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ExtExternalSignalInfo3 from BER/DER format.
@@ -1102,7 +1116,14 @@ func (v *AccessNetworkSignalInfo3) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AccessNetworkSignalInfo3 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AccessNetworkSignalInfo3 from BER/DER format.
@@ -1174,6 +1195,9 @@ func (v *AccessNetworkSignalInfo3) UnmarshalBER(data []byte) error {
 func (v *Identity3) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case Identity3ChoiceImsi:
+		if v.Imsi == nil {
+			return nil, fmt.Errorf("choice Identity3: imsi is nil")
+		}
 		enc_0 := ber.EncodeOctetString([]byte(*v.Imsi))
 		return enc_0, nil
 	case Identity3ChoiceImsiWithLMSI:
@@ -1201,9 +1225,19 @@ func (v *Identity3) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding imsi-WithLMSI: %w", err)
 		}
+		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
+			return nil, fmt.Errorf("encoding imsi-WithLMSI as DER: %w", derErr)
+		}
 		return enc_der_1, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding Identity3 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes Identity3 from BER/DER format.
@@ -1233,7 +1267,7 @@ func (v *Identity3) UnmarshalBER(data []byte) error {
 		}
 		tmp := IMSI3(decVal)
 		v.Imsi = &tmp
-	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 && peekTag.Constructed == true {
 		v.Choice = Identity3ChoiceImsiWithLMSI
 		var dec IMSIWithLMSI3
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
@@ -1274,7 +1308,14 @@ func (v *IMSIWithLMSI3) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding IMSIWithLMSI3 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes IMSIWithLMSI3 from BER/DER format.
@@ -1327,10 +1368,16 @@ func (v *IMSIWithLMSI3) UnmarshalBER(data []byte) error {
 func (v *SubscriberId3) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case SubscriberId3ChoiceImsi:
+		if v.Imsi == nil {
+			return nil, fmt.Errorf("choice SubscriberId3: imsi is nil")
+		}
 		enc_0 := ber.EncodeOctetString([]byte(*v.Imsi))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
 		return enc_0, nil
 	case SubscriberId3ChoiceTmsi:
+		if v.Tmsi == nil {
+			return nil, fmt.Errorf("choice SubscriberId3: tmsi is nil")
+		}
 		enc_1 := ber.EncodeOctetString([]byte(*v.Tmsi))
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		return enc_1, nil
@@ -1341,7 +1388,14 @@ func (v *SubscriberId3) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SubscriberId3 to DER format.
 func (v *SubscriberId3) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SubscriberId3 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SubscriberId3 from BER/DER format.
@@ -1451,7 +1505,14 @@ func (v *NAEAPreferredCI3) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding NAEAPreferredCI3 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes NAEAPreferredCI3 from BER/DER format.
@@ -1473,9 +1534,12 @@ func (v *NAEAPreferredCI3) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for naea-PreferredCIC, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_naeapreferredcic, rawVal_naeapreferredcic, err := ber.DecodeTLV(content[offset:])
+	decodedTag_naeapreferredcic, n_naeapreferredcic, rawVal_naeapreferredcic, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding naea-PreferredCIC: %w", err)
+	}
+	if decodedTag_naeapreferredcic.Class != tag.ClassContextSpecific || decodedTag_naeapreferredcic.Number != 0 {
+		return fmt.Errorf("decoding naea-PreferredCIC: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_naeapreferredcic)
 	}
 	v.NaeaPreferredCIC = NAEACIC3(rawVal_naeapreferredcic)
 	offset += n_naeapreferredcic
@@ -1484,9 +1548,12 @@ func (v *NAEAPreferredCI3) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
+				decodedTag_extensioncontainer, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", err)
+				}
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 || decodedTag_extensioncontainer.Constructed != true {
+					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
 				var dec_extensioncontainer ExtensionContainer3
@@ -1518,10 +1585,16 @@ func (v *NAEAPreferredCI3) UnmarshalBER(data []byte) error {
 func (v *SubscriberIdentity3) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case SubscriberIdentity3ChoiceImsi:
+		if v.Imsi == nil {
+			return nil, fmt.Errorf("choice SubscriberIdentity3: imsi is nil")
+		}
 		enc_0 := ber.EncodeOctetString([]byte(*v.Imsi))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
 		return enc_0, nil
 	case SubscriberIdentity3ChoiceMsisdn:
+		if v.Msisdn == nil {
+			return nil, fmt.Errorf("choice SubscriberIdentity3: msisdn is nil")
+		}
 		enc_1 := ber.EncodeOctetString([]byte(*v.Msisdn))
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		return enc_1, nil
@@ -1532,7 +1605,14 @@ func (v *SubscriberIdentity3) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SubscriberIdentity3 to DER format.
 func (v *SubscriberIdentity3) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SubscriberIdentity3 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SubscriberIdentity3 from BER/DER format.
@@ -1613,7 +1693,14 @@ func (v *LCSClientExternalID3) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSClientExternalID3 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSClientExternalID3 from BER/DER format.
@@ -1631,9 +1718,12 @@ func (v *LCSClientExternalID3) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_externaladdress, rawVal_externaladdress, err := ber.DecodeTLV(content[offset:])
+				decodedTag_externaladdress, n_externaladdress, rawVal_externaladdress, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding externalAddress: %w", err)
+				}
+				if decodedTag_externaladdress.Class != tag.ClassContextSpecific || decodedTag_externaladdress.Number != 0 {
+					return fmt.Errorf("decoding externalAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_externaladdress)
 				}
 				tmp_externaladdress := ISDNAddressString3(rawVal_externaladdress)
 				v.ExternalAddress = &tmp_externaladdress
@@ -1646,9 +1736,12 @@ func (v *LCSClientExternalID3) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
+				decodedTag_extensioncontainer, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", err)
+				}
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 || decodedTag_extensioncontainer.Constructed != true {
+					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
 				var dec_extensioncontainer ExtensionContainer3
@@ -1691,7 +1784,14 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) MarshalBER() ([]byte, error)
 // MarshalDER encodes CommonDataTypesNetworkNodeDiameterAddress to DER format.
 func (v *CommonDataTypesNetworkNodeDiameterAddress) MarshalDER() ([]byte, error) {
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding CommonDataTypesNetworkNodeDiameterAddress as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes CommonDataTypesNetworkNodeDiameterAddress from BER/DER format.
@@ -1713,9 +1813,12 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) UnmarshalBER(data []byte) er
 			return fmt.Errorf("expected tag [%s %d] for diameter-Name, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_diametername, rawVal_diametername, err := ber.DecodeTLV(content[offset:])
+	decodedTag_diametername, n_diametername, rawVal_diametername, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding diameter-Name: %w", err)
+	}
+	if decodedTag_diametername.Class != tag.ClassContextSpecific || decodedTag_diametername.Number != 0 {
+		return fmt.Errorf("decoding diameter-Name: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_diametername)
 	}
 	v.DiameterName = CommonDataTypesDiameterIdentity(rawVal_diametername)
 	offset += n_diametername
@@ -1728,9 +1831,12 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) UnmarshalBER(data []byte) er
 			return fmt.Errorf("expected tag [%s %d] for diameter-Realm, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_diameterrealm, rawVal_diameterrealm, err := ber.DecodeTLV(content[offset:])
+	decodedTag_diameterrealm, n_diameterrealm, rawVal_diameterrealm, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding diameter-Realm: %w", err)
+	}
+	if decodedTag_diameterrealm.Class != tag.ClassContextSpecific || decodedTag_diameterrealm.Number != 1 {
+		return fmt.Errorf("decoding diameter-Realm: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_diameterrealm)
 	}
 	v.DiameterRealm = CommonDataTypesDiameterIdentity(rawVal_diameterrealm)
 	offset += n_diameterrealm
@@ -1744,10 +1850,16 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) UnmarshalBER(data []byte) er
 func (v *CellGlobalIdOrServiceAreaIdOrLAI3) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case CellGlobalIdOrServiceAreaIdOrLAI3ChoiceCellGlobalIdOrServiceAreaIdFixedLength:
+		if v.CellGlobalIdOrServiceAreaIdFixedLength == nil {
+			return nil, fmt.Errorf("choice CellGlobalIdOrServiceAreaIdOrLAI3: cellGlobalIdOrServiceAreaIdFixedLength is nil")
+		}
 		enc_0 := ber.EncodeOctetString([]byte(*v.CellGlobalIdOrServiceAreaIdFixedLength))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
 		return enc_0, nil
 	case CellGlobalIdOrServiceAreaIdOrLAI3ChoiceLaiFixedLength:
+		if v.LaiFixedLength == nil {
+			return nil, fmt.Errorf("choice CellGlobalIdOrServiceAreaIdOrLAI3: laiFixedLength is nil")
+		}
 		enc_1 := ber.EncodeOctetString([]byte(*v.LaiFixedLength))
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		return enc_1, nil
@@ -1758,7 +1870,14 @@ func (v *CellGlobalIdOrServiceAreaIdOrLAI3) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CellGlobalIdOrServiceAreaIdOrLAI3 to DER format.
 func (v *CellGlobalIdOrServiceAreaIdOrLAI3) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding CellGlobalIdOrServiceAreaIdOrLAI3 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes CellGlobalIdOrServiceAreaIdOrLAI3 from BER/DER format.
@@ -1806,10 +1925,16 @@ func (v *CellGlobalIdOrServiceAreaIdOrLAI3) UnmarshalBER(data []byte) error {
 func (v *BasicServiceCode3) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case BasicServiceCode3ChoiceBearerService:
+		if v.BearerService == nil {
+			return nil, fmt.Errorf("choice BasicServiceCode3: bearerService is nil")
+		}
 		enc_0 := ber.EncodeOctetString([]byte(*v.BearerService))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_0)
 		return enc_0, nil
 	case BasicServiceCode3ChoiceTeleservice:
+		if v.Teleservice == nil {
+			return nil, fmt.Errorf("choice BasicServiceCode3: teleservice is nil")
+		}
 		enc_1 := ber.EncodeOctetString([]byte(*v.Teleservice))
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_1)
 		return enc_1, nil
@@ -1820,7 +1945,14 @@ func (v *BasicServiceCode3) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes BasicServiceCode3 to DER format.
 func (v *BasicServiceCode3) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding BasicServiceCode3 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes BasicServiceCode3 from BER/DER format.
@@ -1868,10 +2000,16 @@ func (v *BasicServiceCode3) UnmarshalBER(data []byte) error {
 func (v *ExtBasicServiceCode3) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case ExtBasicServiceCode3ChoiceExtBearerService:
+		if v.ExtBearerService == nil {
+			return nil, fmt.Errorf("choice ExtBasicServiceCode3: ext-BearerService is nil")
+		}
 		enc_0 := ber.EncodeOctetString([]byte(*v.ExtBearerService))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_0)
 		return enc_0, nil
 	case ExtBasicServiceCode3ChoiceExtTeleservice:
+		if v.ExtTeleservice == nil {
+			return nil, fmt.Errorf("choice ExtBasicServiceCode3: ext-Teleservice is nil")
+		}
 		enc_1 := ber.EncodeOctetString([]byte(*v.ExtTeleservice))
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_1)
 		return enc_1, nil
@@ -1882,7 +2020,14 @@ func (v *ExtBasicServiceCode3) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ExtBasicServiceCode3 to DER format.
 func (v *ExtBasicServiceCode3) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ExtBasicServiceCode3 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ExtBasicServiceCode3 from BER/DER format.
@@ -1961,7 +2106,14 @@ func (v *EMLPPInfo3) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding EMLPPInfo3 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes EMLPPInfo3 from BER/DER format.
@@ -2073,7 +2225,14 @@ func (v *MCSSInfo3) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding MCSSInfo3 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes MCSSInfo3 from BER/DER format.
@@ -2095,9 +2254,12 @@ func (v *MCSSInfo3) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for ss-Code, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_sscode, rawVal_sscode, err := ber.DecodeTLV(content[offset:])
+	decodedTag_sscode, n_sscode, rawVal_sscode, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding ss-Code: %w", err)
+	}
+	if decodedTag_sscode.Class != tag.ClassContextSpecific || decodedTag_sscode.Number != 0 {
+		return fmt.Errorf("decoding ss-Code: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sscode)
 	}
 	v.SsCode = SSCode3(rawVal_sscode)
 	offset += n_sscode
@@ -2110,9 +2272,12 @@ func (v *MCSSInfo3) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for ss-Status, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_ssstatus, rawVal_ssstatus, err := ber.DecodeTLV(content[offset:])
+	decodedTag_ssstatus, n_ssstatus, rawVal_ssstatus, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding ss-Status: %w", err)
+	}
+	if decodedTag_ssstatus.Class != tag.ClassContextSpecific || decodedTag_ssstatus.Number != 1 {
+		return fmt.Errorf("decoding ss-Status: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ssstatus)
 	}
 	v.SsStatus = ExtSSStatus3(rawVal_ssstatus)
 	offset += n_ssstatus
@@ -2125,9 +2290,12 @@ func (v *MCSSInfo3) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for nbrSB, got %s", "CONTEXT", 2, reqTag_)
 		}
 	}
-	_, n_nbrsb, rawVal_nbrsb, err := ber.DecodeTLV(content[offset:])
+	decodedTag_nbrsb, n_nbrsb, rawVal_nbrsb, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding nbrSB: %w", err)
+	}
+	if decodedTag_nbrsb.Class != tag.ClassContextSpecific || decodedTag_nbrsb.Number != 2 || decodedTag_nbrsb.Constructed != false {
+		return fmt.Errorf("decoding nbrSB: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_nbrsb)
 	}
 	decVal_nbrsb, intErr := ber.DecodeIntegerValue(rawVal_nbrsb)
 	if intErr != nil {
@@ -2144,9 +2312,12 @@ func (v *MCSSInfo3) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for nbrUser, got %s", "CONTEXT", 3, reqTag_)
 		}
 	}
-	_, n_nbruser, rawVal_nbruser, err := ber.DecodeTLV(content[offset:])
+	decodedTag_nbruser, n_nbruser, rawVal_nbruser, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding nbrUser: %w", err)
+	}
+	if decodedTag_nbruser.Class != tag.ClassContextSpecific || decodedTag_nbruser.Number != 3 || decodedTag_nbruser.Constructed != false {
+		return fmt.Errorf("decoding nbrUser: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_nbruser)
 	}
 	decVal_nbruser, intErr := ber.DecodeIntegerValue(rawVal_nbruser)
 	if intErr != nil {
@@ -2159,9 +2330,12 @@ func (v *MCSSInfo3) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
+				decodedTag_extensioncontainer, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", err)
+				}
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 4 || decodedTag_extensioncontainer.Constructed != true {
+					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
 				var dec_extensioncontainer ExtensionContainer3

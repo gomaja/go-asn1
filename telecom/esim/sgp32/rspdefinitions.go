@@ -3073,16 +3073,16 @@ type EventEntries struct {
 	ExtData_         [][]byte `asn1:"-" json:"-"`
 }
 
-// BoundProfilePackageFirstSequenceOf87 represents the ASN.1 type BoundProfilePackageFirstSequenceOf87 (SEQUENCE_OF).
+// BoundProfilePackageFirstSequenceOf87 represents the ASN.1 type BoundProfilePackage-firstSequenceOf87 (SEQUENCE_OF).
 type BoundProfilePackageFirstSequenceOf87 = [][]byte
 
-// BoundProfilePackageSequenceOf88 represents the ASN.1 type BoundProfilePackageSequenceOf88 (SEQUENCE_OF).
+// BoundProfilePackageSequenceOf88 represents the ASN.1 type BoundProfilePackage-sequenceOf88 (SEQUENCE_OF).
 type BoundProfilePackageSequenceOf88 = [][]byte
 
-// BoundProfilePackageSecondSequenceOf87 represents the ASN.1 type BoundProfilePackageSecondSequenceOf87 (SEQUENCE_OF).
+// BoundProfilePackageSecondSequenceOf87 represents the ASN.1 type BoundProfilePackage-secondSequenceOf87 (SEQUENCE_OF).
 type BoundProfilePackageSecondSequenceOf87 = [][]byte
 
-// BoundProfilePackageSequenceOf86 represents the ASN.1 type BoundProfilePackageSequenceOf86 (SEQUENCE_OF).
+// BoundProfilePackageSequenceOf86 represents the ASN.1 type BoundProfilePackage-sequenceOf86 (SEQUENCE_OF).
 type BoundProfilePackageSequenceOf86 = [][]byte
 
 // ProfileInstallationResultDataFinalResult choice constants.
@@ -3091,7 +3091,7 @@ const (
 	ProfileInstallationResultDataFinalResultChoiceErrorResult   = 2
 )
 
-// ProfileInstallationResultDataFinalResult represents the ASN.1 CHOICE type ProfileInstallationResultDataFinalResult.
+// ProfileInstallationResultDataFinalResult represents the ASN.1 CHOICE type ProfileInstallationResultData-finalResult.
 type ProfileInstallationResultDataFinalResult struct {
 	Choice        int
 	SuccessResult *SuccessResult `json:"SuccessResult,omitempty"`
@@ -3114,17 +3114,17 @@ func NewProfileInstallationResultDataFinalResultErrorResult(v ErrorResult) Profi
 	}
 }
 
-// StoreMetadataRequestNotificationConfigurationInfo represents the ASN.1 type StoreMetadataRequestNotificationConfigurationInfo (SEQUENCE_OF).
+// StoreMetadataRequestNotificationConfigurationInfo represents the ASN.1 type StoreMetadataRequest-notificationConfigurationInfo (SEQUENCE_OF).
 type StoreMetadataRequestNotificationConfigurationInfo = []NotificationConfigurationInformation
 
-// StoreMetadataRequestIotSpecificMetadata represents the ASN.1 type StoreMetadataRequestIotSpecificMetadata (SEQUENCE).
+// StoreMetadataRequestIotSpecificMetadata represents the ASN.1 type StoreMetadataRequest-iotSpecificMetadata (SEQUENCE).
 type StoreMetadataRequestIotSpecificMetadata struct {
 	ExtCount_   int64    `asn1:"-" json:"-"`
 	ExtPresent_ []bool   `asn1:"-" json:"-"`
 	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// VendorSpecificExtensionElem represents the ASN.1 type VendorSpecificExtensionElem (SEQUENCE).
+// VendorSpecificExtensionElem represents the ASN.1 type VendorSpecificExtension-Elem (SEQUENCE).
 type VendorSpecificExtensionElem struct {
 	VendorOid          runtime.ObjectIdentifier `asn1:"tag:0,context,implicit"`
 	VendorSpecificData runtime.RawValue         `asn1:"tag:1,context,implicit" asn1c:"raw-preserve"`
@@ -3133,7 +3133,7 @@ type VendorSpecificExtensionElem struct {
 	ExtData_           [][]byte                 `asn1:"-" json:"-"`
 }
 
-// LpaeActivationResponseLpaeActivationResultValue represents the arbitrary-width ASN.1 INTEGER type LpaeActivationResponseLpaeActivationResultValue with named numbers.
+// LpaeActivationResponseLpaeActivationResultValue represents the arbitrary-width ASN.1 INTEGER type LpaeActivationResponse-lpaeActivationResult-Value with named numbers.
 type LpaeActivationResponseLpaeActivationResultValue struct {
 	noCompare [0]func()
 	value     *big.Int
@@ -3235,7 +3235,7 @@ func (v *LpaeActivationResponseLpaeActivationResultValue) UnmarshalJSON(data []b
 	return nil
 }
 
-// SetDefaultDpAddressResponseSetDefaultDpAddressResultValue represents the arbitrary-width ASN.1 INTEGER type SetDefaultDpAddressResponseSetDefaultDpAddressResultValue with named numbers.
+// SetDefaultDpAddressResponseSetDefaultDpAddressResultValue represents the arbitrary-width ASN.1 INTEGER type SetDefaultDpAddressResponse-setDefaultDpAddressResult-Value with named numbers.
 type SetDefaultDpAddressResponseSetDefaultDpAddressResultValue struct {
 	noCompare [0]func()
 	value     *big.Int
@@ -3337,19 +3337,19 @@ func (v *SetDefaultDpAddressResponseSetDefaultDpAddressResultValue) UnmarshalJSO
 	return nil
 }
 
-// EUICCInfo1EuiccCiPKIdListForVerification represents the ASN.1 type EUICCInfo1EuiccCiPKIdListForVerification (SEQUENCE_OF).
+// EUICCInfo1EuiccCiPKIdListForVerification represents the ASN.1 type EUICCInfo1-euiccCiPKIdListForVerification (SEQUENCE_OF).
 type EUICCInfo1EuiccCiPKIdListForVerification = []SubjectKeyIdentifier
 
-// EUICCInfo1EuiccCiPKIdListForSigning represents the ASN.1 type EUICCInfo1EuiccCiPKIdListForSigning (SEQUENCE_OF).
+// EUICCInfo1EuiccCiPKIdListForSigning represents the ASN.1 type EUICCInfo1-euiccCiPKIdListForSigning (SEQUENCE_OF).
 type EUICCInfo1EuiccCiPKIdListForSigning = []SubjectKeyIdentifier
 
-// EUICCInfo2EuiccCiPKIdListForVerification represents the ASN.1 type EUICCInfo2EuiccCiPKIdListForVerification (SEQUENCE_OF).
+// EUICCInfo2EuiccCiPKIdListForVerification represents the ASN.1 type EUICCInfo2-euiccCiPKIdListForVerification (SEQUENCE_OF).
 type EUICCInfo2EuiccCiPKIdListForVerification = []SubjectKeyIdentifier
 
-// EUICCInfo2EuiccCiPKIdListForSigning represents the ASN.1 type EUICCInfo2EuiccCiPKIdListForSigning (SEQUENCE_OF).
+// EUICCInfo2EuiccCiPKIdListForSigning represents the ASN.1 type EUICCInfo2-euiccCiPKIdListForSigning (SEQUENCE_OF).
 type EUICCInfo2EuiccCiPKIdListForSigning = []SubjectKeyIdentifier
 
-// EUICCInfo2EuiccCategoryValue represents the arbitrary-width ASN.1 INTEGER type EUICCInfo2EuiccCategoryValue with named numbers.
+// EUICCInfo2EuiccCategoryValue represents the arbitrary-width ASN.1 INTEGER type EUICCInfo2-euiccCategory-Value with named numbers.
 type EUICCInfo2EuiccCategoryValue struct {
 	noCompare [0]func()
 	value     *big.Int
@@ -3469,16 +3469,16 @@ func (v *EUICCInfo2EuiccCategoryValue) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// EUICCInfo2AdditionalEuiccProfilePackageVersions represents the ASN.1 type EUICCInfo2AdditionalEuiccProfilePackageVersions (SEQUENCE_OF).
+// EUICCInfo2AdditionalEuiccProfilePackageVersions represents the ASN.1 type EUICCInfo2-additionalEuiccProfilePackageVersions (SEQUENCE_OF).
 type EUICCInfo2AdditionalEuiccProfilePackageVersions = []VersionType
 
-// EUICCInfo2EuiccCiPKIdListForSigningV3 represents the ASN.1 type EUICCInfo2EuiccCiPKIdListForSigningV3 (SEQUENCE_OF).
+// EUICCInfo2EuiccCiPKIdListForSigningV3 represents the ASN.1 type EUICCInfo2-euiccCiPKIdListForSigningV3 (SEQUENCE_OF).
 type EUICCInfo2EuiccCiPKIdListForSigningV3 = []SubjectKeyIdentifier
 
-// ListNotificationResponseNotificationMetadataList represents the ASN.1 type ListNotificationResponseNotificationMetadataList (SEQUENCE_OF).
+// ListNotificationResponseNotificationMetadataList represents the ASN.1 type ListNotificationResponse-notificationMetadataList (SEQUENCE_OF).
 type ListNotificationResponseNotificationMetadataList = []NotificationMetadata
 
-// ListNotificationResponseListNotificationsResultErrorValue represents the arbitrary-width ASN.1 INTEGER type ListNotificationResponseListNotificationsResultErrorValue with named numbers.
+// ListNotificationResponseListNotificationsResultErrorValue represents the arbitrary-width ASN.1 INTEGER type ListNotificationResponse-listNotificationsResultError-Value with named numbers.
 type ListNotificationResponseListNotificationsResultErrorValue struct {
 	noCompare [0]func()
 	value     *big.Int
@@ -3577,7 +3577,7 @@ const (
 	RetrieveNotificationsListRequestSearchCriteriaChoiceProfileManagementOperation = 2
 )
 
-// RetrieveNotificationsListRequestSearchCriteria represents the ASN.1 CHOICE type RetrieveNotificationsListRequestSearchCriteria.
+// RetrieveNotificationsListRequestSearchCriteria represents the ASN.1 CHOICE type RetrieveNotificationsListRequest-searchCriteria.
 type RetrieveNotificationsListRequestSearchCriteria struct {
 	Choice                     int
 	SeqNumber                  *big.Int           `json:"SeqNumber,omitempty"`
@@ -3600,10 +3600,10 @@ func NewRetrieveNotificationsListRequestSearchCriteriaProfileManagementOperation
 	}
 }
 
-// RetrieveNotificationsListResponseNotificationList represents the ASN.1 type RetrieveNotificationsListResponseNotificationList (SEQUENCE_OF).
+// RetrieveNotificationsListResponseNotificationList represents the ASN.1 type RetrieveNotificationsListResponse-notificationList (SEQUENCE_OF).
 type RetrieveNotificationsListResponseNotificationList = []PendingNotification
 
-// RetrieveNotificationsListResponseNotificationsListResultErrorValue represents the arbitrary-width ASN.1 INTEGER type RetrieveNotificationsListResponseNotificationsListResultErrorValue with named numbers.
+// RetrieveNotificationsListResponseNotificationsListResultErrorValue represents the arbitrary-width ASN.1 INTEGER type RetrieveNotificationsListResponse-notificationsListResultError-Value with named numbers.
 type RetrieveNotificationsListResponseNotificationsListResultErrorValue struct {
 	noCompare [0]func()
 	value     *big.Int
@@ -3696,7 +3696,7 @@ func (v *RetrieveNotificationsListResponseNotificationsListResultErrorValue) Unm
 	return nil
 }
 
-// NotificationSentResponseDeleteNotificationStatusValue represents the arbitrary-width ASN.1 INTEGER type NotificationSentResponseDeleteNotificationStatusValue with named numbers.
+// NotificationSentResponseDeleteNotificationStatusValue represents the arbitrary-width ASN.1 INTEGER type NotificationSentResponse-deleteNotificationStatus-Value with named numbers.
 type NotificationSentResponseDeleteNotificationStatusValue struct {
 	noCompare [0]func()
 	value     *big.Int
@@ -3807,10 +3807,10 @@ func (v *NotificationSentResponseDeleteNotificationStatusValue) UnmarshalJSON(da
 	return nil
 }
 
-// LoadCRLResponseOkMissingParts represents the ASN.1 type LoadCRLResponseOkMissingParts (SEQUENCE_OF).
+// LoadCRLResponseOkMissingParts represents the ASN.1 type LoadCRLResponseOk-missingParts (SEQUENCE_OF).
 type LoadCRLResponseOkMissingParts = []*big.Int
 
-// CancelSessionResponseCancelSessionResponseErrorValue represents the arbitrary-width ASN.1 INTEGER type CancelSessionResponseCancelSessionResponseErrorValue with named numbers.
+// CancelSessionResponseCancelSessionResponseErrorValue represents the arbitrary-width ASN.1 INTEGER type CancelSessionResponse-cancelSessionResponseError-Value with named numbers.
 type CancelSessionResponseCancelSessionResponseErrorValue struct {
 	noCompare [0]func()
 	value     *big.Int
@@ -3919,7 +3919,7 @@ const (
 	ProfileInfoListRequestSearchCriteriaChoiceProfileClass = 3
 )
 
-// ProfileInfoListRequestSearchCriteria represents the ASN.1 CHOICE type ProfileInfoListRequestSearchCriteria.
+// ProfileInfoListRequestSearchCriteria represents the ASN.1 CHOICE type ProfileInfoListRequest-searchCriteria.
 type ProfileInfoListRequestSearchCriteria struct {
 	Choice       int
 	IsdpAid      *OctetTo16    `json:"IsdpAid,omitempty"`
@@ -3951,13 +3951,13 @@ func NewProfileInfoListRequestSearchCriteriaProfileClass(v ProfileClass) Profile
 	}
 }
 
-// ProfileInfoListResponseProfileInfoListOk represents the ASN.1 type ProfileInfoListResponseProfileInfoListOk (SEQUENCE_OF).
+// ProfileInfoListResponseProfileInfoListOk represents the ASN.1 type ProfileInfoListResponse-profileInfoListOk (SEQUENCE_OF).
 type ProfileInfoListResponseProfileInfoListOk = []ProfileInfo
 
-// ProfileInfoNotificationConfigurationInfo represents the ASN.1 type ProfileInfoNotificationConfigurationInfo (SEQUENCE_OF).
+// ProfileInfoNotificationConfigurationInfo represents the ASN.1 type ProfileInfo-notificationConfigurationInfo (SEQUENCE_OF).
 type ProfileInfoNotificationConfigurationInfo = []NotificationConfigurationInformation
 
-// ProfileInfoIotSpecificProfileInfo represents the ASN.1 type ProfileInfoIotSpecificProfileInfo (SEQUENCE).
+// ProfileInfoIotSpecificProfileInfo represents the ASN.1 type ProfileInfo-iotSpecificProfileInfo (SEQUENCE).
 type ProfileInfoIotSpecificProfileInfo struct {
 	ExtCount_   int64    `asn1:"-" json:"-"`
 	ExtPresent_ []bool   `asn1:"-" json:"-"`
@@ -3970,7 +3970,7 @@ const (
 	EnableProfileRequestProfileIdentifierChoiceIccid   = 2
 )
 
-// EnableProfileRequestProfileIdentifier represents the ASN.1 CHOICE type EnableProfileRequestProfileIdentifier.
+// EnableProfileRequestProfileIdentifier represents the ASN.1 CHOICE type EnableProfileRequest-profileIdentifier.
 type EnableProfileRequestProfileIdentifier struct {
 	Choice  int
 	IsdpAid *OctetTo16 `json:"IsdpAid,omitempty"`
@@ -3993,7 +3993,7 @@ func NewEnableProfileRequestProfileIdentifierIccid(v Iccid) EnableProfileRequest
 	}
 }
 
-// EnableProfileResponseEnableResultValue represents the arbitrary-width ASN.1 INTEGER type EnableProfileResponseEnableResultValue with named numbers.
+// EnableProfileResponseEnableResultValue represents the arbitrary-width ASN.1 INTEGER type EnableProfileResponse-enableResult-Value with named numbers.
 type EnableProfileResponseEnableResultValue struct {
 	noCompare [0]func()
 	value     *big.Int
@@ -4146,7 +4146,7 @@ const (
 	DisableProfileRequestProfileIdentifierChoiceIccid   = 2
 )
 
-// DisableProfileRequestProfileIdentifier represents the ASN.1 CHOICE type DisableProfileRequestProfileIdentifier.
+// DisableProfileRequestProfileIdentifier represents the ASN.1 CHOICE type DisableProfileRequest-profileIdentifier.
 type DisableProfileRequestProfileIdentifier struct {
 	Choice  int
 	IsdpAid *OctetTo16 `json:"IsdpAid,omitempty"`
@@ -4169,7 +4169,7 @@ func NewDisableProfileRequestProfileIdentifierIccid(v Iccid) DisableProfileReque
 	}
 }
 
-// DisableProfileResponseDisableResultValue represents the arbitrary-width ASN.1 INTEGER type DisableProfileResponseDisableResultValue with named numbers.
+// DisableProfileResponseDisableResultValue represents the arbitrary-width ASN.1 INTEGER type DisableProfileResponse-disableResult-Value with named numbers.
 type DisableProfileResponseDisableResultValue struct {
 	noCompare [0]func()
 	value     *big.Int
@@ -4307,7 +4307,7 @@ func (v *DisableProfileResponseDisableResultValue) UnmarshalJSON(data []byte) er
 	return nil
 }
 
-// DeleteProfileResponseDeleteResultValue represents the arbitrary-width ASN.1 INTEGER type DeleteProfileResponseDeleteResultValue with named numbers.
+// DeleteProfileResponseDeleteResultValue represents the arbitrary-width ASN.1 INTEGER type DeleteProfileResponse-deleteResult-Value with named numbers.
 type DeleteProfileResponseDeleteResultValue struct {
 	noCompare [0]func()
 	value     *big.Int
@@ -4436,7 +4436,7 @@ func (v *DeleteProfileResponseDeleteResultValue) UnmarshalJSON(data []byte) erro
 	return nil
 }
 
-// EuiccMemoryResetResponseResetResultValue represents the arbitrary-width ASN.1 INTEGER type EuiccMemoryResetResponseResetResultValue with named numbers.
+// EuiccMemoryResetResponseResetResultValue represents the arbitrary-width ASN.1 INTEGER type EuiccMemoryResetResponse-resetResult-Value with named numbers.
 type EuiccMemoryResetResponseResetResultValue struct {
 	noCompare [0]func()
 	value     *big.Int
@@ -4556,7 +4556,7 @@ func (v *EuiccMemoryResetResponseResetResultValue) UnmarshalJSON(data []byte) er
 	return nil
 }
 
-// SetNicknameResponseSetNicknameResultValue represents the arbitrary-width ASN.1 INTEGER type SetNicknameResponseSetNicknameResultValue with named numbers.
+// SetNicknameResponseSetNicknameResultValue represents the arbitrary-width ASN.1 INTEGER type SetNicknameResponse-setNicknameResult-Value with named numbers.
 type SetNicknameResponseSetNicknameResultValue struct {
 	noCompare [0]func()
 	value     *big.Int
@@ -4667,10 +4667,10 @@ func (v *SetNicknameResponseSetNicknameResultValue) UnmarshalJSON(data []byte) e
 	return nil
 }
 
-// ProfilePolicyAuthorisationRuleAllowedOperators represents the ASN.1 type ProfilePolicyAuthorisationRuleAllowedOperators (SEQUENCE_OF).
+// ProfilePolicyAuthorisationRuleAllowedOperators represents the ASN.1 type ProfilePolicyAuthorisationRule-allowedOperators (SEQUENCE_OF).
 type ProfilePolicyAuthorisationRuleAllowedOperators = []OperatorId
 
-// InitiateAuthenticationResponseInitiateAuthenticationErrorValue represents the arbitrary-width ASN.1 INTEGER type InitiateAuthenticationResponseInitiateAuthenticationErrorValue with named numbers.
+// InitiateAuthenticationResponseInitiateAuthenticationErrorValue represents the arbitrary-width ASN.1 INTEGER type InitiateAuthenticationResponse-initiateAuthenticationError-Value with named numbers.
 type InitiateAuthenticationResponseInitiateAuthenticationErrorValue struct {
 	noCompare [0]func()
 	value     *big.Int
@@ -4781,7 +4781,7 @@ func (v *InitiateAuthenticationResponseInitiateAuthenticationErrorValue) Unmarsh
 	return nil
 }
 
-// AuthenticateClientResponseEs9AuthenticateClientErrorValue represents the arbitrary-width ASN.1 INTEGER type AuthenticateClientResponseEs9AuthenticateClientErrorValue with named numbers.
+// AuthenticateClientResponseEs9AuthenticateClientErrorValue represents the arbitrary-width ASN.1 INTEGER type AuthenticateClientResponseEs9-authenticateClientError-Value with named numbers.
 type AuthenticateClientResponseEs9AuthenticateClientErrorValue struct {
 	noCompare [0]func()
 	value     *big.Int
@@ -4982,7 +4982,7 @@ func (v *AuthenticateClientResponseEs9AuthenticateClientErrorValue) UnmarshalJSO
 	return nil
 }
 
-// GetBoundProfilePackageResponseGetBoundProfilePackageErrorValue represents the arbitrary-width ASN.1 INTEGER type GetBoundProfilePackageResponseGetBoundProfilePackageErrorValue with named numbers.
+// GetBoundProfilePackageResponseGetBoundProfilePackageErrorValue represents the arbitrary-width ASN.1 INTEGER type GetBoundProfilePackageResponse-getBoundProfilePackageError-Value with named numbers.
 type GetBoundProfilePackageResponseGetBoundProfilePackageErrorValue struct {
 	noCompare [0]func()
 	value     *big.Int
@@ -5138,7 +5138,7 @@ func (v *GetBoundProfilePackageResponseGetBoundProfilePackageErrorValue) Unmarsh
 	return nil
 }
 
-// CancelSessionResponseEs9CancelSessionErrorValue represents the arbitrary-width ASN.1 INTEGER type CancelSessionResponseEs9CancelSessionErrorValue with named numbers.
+// CancelSessionResponseEs9CancelSessionErrorValue represents the arbitrary-width ASN.1 INTEGER type CancelSessionResponseEs9-cancelSessionError-Value with named numbers.
 type CancelSessionResponseEs9CancelSessionErrorValue struct {
 	noCompare [0]func()
 	value     *big.Int
@@ -5249,7 +5249,7 @@ func (v *CancelSessionResponseEs9CancelSessionErrorValue) UnmarshalJSON(data []b
 	return nil
 }
 
-// AuthenticateClientResponseEs11AuthenticateClientErrorValue represents the arbitrary-width ASN.1 INTEGER type AuthenticateClientResponseEs11AuthenticateClientErrorValue with named numbers.
+// AuthenticateClientResponseEs11AuthenticateClientErrorValue represents the arbitrary-width ASN.1 INTEGER type AuthenticateClientResponseEs11-authenticateClientError-Value with named numbers.
 type AuthenticateClientResponseEs11AuthenticateClientErrorValue struct {
 	noCompare [0]func()
 	value     *big.Int
@@ -5405,7 +5405,7 @@ func (v *AuthenticateClientResponseEs11AuthenticateClientErrorValue) UnmarshalJS
 	return nil
 }
 
-// AuthenticateClientOkEs11EventEntries represents the ASN.1 type AuthenticateClientOkEs11EventEntries (SEQUENCE_OF).
+// AuthenticateClientOkEs11EventEntries represents the ASN.1 type AuthenticateClientOkEs11-eventEntries (SEQUENCE_OF).
 type AuthenticateClientOkEs11EventEntries = []EventEntries
 
 // MarshalBER encodes OperatorId to BER format.
@@ -5445,7 +5445,14 @@ func (v *OperatorId) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding OperatorId as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes OperatorId from BER/DER format.
@@ -5467,9 +5474,12 @@ func (v *OperatorId) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for mccMnc, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_mccmnc, rawVal_mccmnc, err := ber.DecodeTLV(content[offset:])
+	decodedTag_mccmnc, n_mccmnc, rawVal_mccmnc, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding mccMnc: %w", err)
+	}
+	if decodedTag_mccmnc.Class != tag.ClassContextSpecific || decodedTag_mccmnc.Number != 0 {
+		return fmt.Errorf("decoding mccMnc: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mccmnc)
 	}
 	v.MccMnc = rawVal_mccmnc
 	offset += n_mccmnc
@@ -5478,9 +5488,12 @@ func (v *OperatorId) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_gid1, rawVal_gid1, err := ber.DecodeTLV(content[offset:])
+				decodedTag_gid1, n_gid1, rawVal_gid1, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding gid1: %w", err)
+				}
+				if decodedTag_gid1.Class != tag.ClassContextSpecific || decodedTag_gid1.Number != 1 {
+					return fmt.Errorf("decoding gid1: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gid1)
 				}
 				tmp_gid1 := rawVal_gid1
 				v.Gid1 = tmp_gid1
@@ -5493,9 +5506,12 @@ func (v *OperatorId) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_gid2, rawVal_gid2, err := ber.DecodeTLV(content[offset:])
+				decodedTag_gid2, n_gid2, rawVal_gid2, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding gid2: %w", err)
+				}
+				if decodedTag_gid2.Class != tag.ClassContextSpecific || decodedTag_gid2.Number != 2 {
+					return fmt.Errorf("decoding gid2: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gid2)
 				}
 				tmp_gid2 := rawVal_gid2
 				v.Gid2 = tmp_gid2
@@ -5616,7 +5632,14 @@ func (v *BoundProfilePackage) MarshalDER() ([]byte, error) {
 	derValue.SecondSequenceOf87Indef_ = false
 	derValue.SequenceOf86Indef_ = false
 	v = &derValue
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding BoundProfilePackage as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes BoundProfilePackage from BER/DER format.
@@ -5660,9 +5683,12 @@ func (v *BoundProfilePackage) UnmarshalBER(data []byte) error {
 		}
 	}
 	v.FirstSequenceOf87Indef_ = false
-	_, n_firstsequenceof87, rawVal_firstsequenceof87, err := ber.DecodeTLV(content[offset:])
+	decodedTag_firstsequenceof87, n_firstsequenceof87, rawVal_firstsequenceof87, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding firstSequenceOf87: %w", err)
+	}
+	if decodedTag_firstsequenceof87.Class != tag.ClassContextSpecific || decodedTag_firstsequenceof87.Number != 0 || decodedTag_firstsequenceof87.Constructed != true {
+		return fmt.Errorf("decoding firstSequenceOf87: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_firstsequenceof87)
 	}
 	reconstructed_firstsequenceof87 := ber.EncodeSequence(rawVal_firstsequenceof87)
 	dec_firstsequenceof87, unmErr := UnmarshalBERBoundProfilePackageFirstSequenceOf87(reconstructed_firstsequenceof87)
@@ -5687,9 +5713,12 @@ func (v *BoundProfilePackage) UnmarshalBER(data []byte) error {
 		}
 	}
 	v.SequenceOf88Indef_ = false
-	_, n_sequenceof88, rawVal_sequenceof88, err := ber.DecodeTLV(content[offset:])
+	decodedTag_sequenceof88, n_sequenceof88, rawVal_sequenceof88, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding sequenceOf88: %w", err)
+	}
+	if decodedTag_sequenceof88.Class != tag.ClassContextSpecific || decodedTag_sequenceof88.Number != 1 || decodedTag_sequenceof88.Constructed != true {
+		return fmt.Errorf("decoding sequenceOf88: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sequenceof88)
 	}
 	reconstructed_sequenceof88 := ber.EncodeSequence(rawVal_sequenceof88)
 	dec_sequenceof88, unmErr := UnmarshalBERBoundProfilePackageSequenceOf88(reconstructed_sequenceof88)
@@ -5710,9 +5739,12 @@ func (v *BoundProfilePackage) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_secondsequenceof87, rawVal_secondsequenceof87, err := ber.DecodeTLV(content[offset:])
+				decodedTag_secondsequenceof87, n_secondsequenceof87, rawVal_secondsequenceof87, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding secondSequenceOf87: %w", err)
+				}
+				if decodedTag_secondsequenceof87.Class != tag.ClassContextSpecific || decodedTag_secondsequenceof87.Number != 2 || decodedTag_secondsequenceof87.Constructed != true {
+					return fmt.Errorf("decoding secondSequenceOf87: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_secondsequenceof87)
 				}
 				reconstructed_secondsequenceof87 := ber.EncodeSequence(rawVal_secondsequenceof87)
 				dec_secondsequenceof87, unmErr := UnmarshalBERBoundProfilePackageSecondSequenceOf87(reconstructed_secondsequenceof87)
@@ -5740,9 +5772,12 @@ func (v *BoundProfilePackage) UnmarshalBER(data []byte) error {
 		}
 	}
 	v.SequenceOf86Indef_ = false
-	_, n_sequenceof86, rawVal_sequenceof86, err := ber.DecodeTLV(content[offset:])
+	decodedTag_sequenceof86, n_sequenceof86, rawVal_sequenceof86, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding sequenceOf86: %w", err)
+	}
+	if decodedTag_sequenceof86.Class != tag.ClassContextSpecific || decodedTag_sequenceof86.Number != 3 || decodedTag_sequenceof86.Constructed != true {
+		return fmt.Errorf("decoding sequenceOf86: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sequenceof86)
 	}
 	reconstructed_sequenceof86 := ber.EncodeSequence(rawVal_sequenceof86)
 	dec_sequenceof86, unmErr := UnmarshalBERBoundProfilePackageSequenceOf86(reconstructed_sequenceof86)
@@ -5805,7 +5840,14 @@ func (v *ProfileInstallationResult) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ProfileInstallationResult as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ProfileInstallationResult from BER/DER format.
@@ -5848,9 +5890,12 @@ func (v *ProfileInstallationResult) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for euiccSignPIR, got %s", "APPLICATION", 55, reqTag_)
 		}
 	}
-	_, n_euiccsignpir, rawVal_euiccsignpir, err := ber.DecodeTLV(content[offset:])
+	decodedTag_euiccsignpir, n_euiccsignpir, rawVal_euiccsignpir, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding euiccSignPIR: %w", err)
+	}
+	if decodedTag_euiccsignpir.Class != tag.ClassApplication || decodedTag_euiccsignpir.Number != 55 {
+		return fmt.Errorf("decoding euiccSignPIR: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_euiccsignpir)
 	}
 	v.EuiccSignPIR = EuiccSignPIR(rawVal_euiccsignpir)
 	offset += n_euiccsignpir
@@ -5913,7 +5958,14 @@ func (v *ProfileInstallationResultData) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ProfileInstallationResultData as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ProfileInstallationResultData from BER/DER format.
@@ -5938,9 +5990,12 @@ func (v *ProfileInstallationResultData) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for transactionId, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_transactionid, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
+	}
+	if decodedTag_transactionid.Class != tag.ClassContextSpecific || decodedTag_transactionid.Number != 0 {
+		return fmt.Errorf("decoding transactionId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_transactionid)
 	}
 	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
@@ -5981,9 +6036,12 @@ func (v *ProfileInstallationResultData) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for finalResult, got %s", "CONTEXT", 2, reqTag_)
 		}
 	}
-	_, n_finalresult, innerData_finalresult, err := ber.DecodeTLV(content[offset:])
+	decodedTag_finalresult, n_finalresult, innerData_finalresult, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding finalResult: %w", err)
+	}
+	if decodedTag_finalresult.Class != tag.ClassContextSpecific || decodedTag_finalresult.Number != 2 || decodedTag_finalresult.Constructed != true {
+		return fmt.Errorf("decoding finalResult: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_finalresult)
 	}
 	// Decode inner value from explicit tag wrapper
 	if unmErr := v.FinalResult.UnmarshalBER(innerData_finalresult); unmErr != nil {
@@ -6035,7 +6093,14 @@ func (v *SuccessResult) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SuccessResult as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SuccessResult from BER/DER format.
@@ -6057,9 +6122,12 @@ func (v *SuccessResult) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for aid, got %s", "APPLICATION", 15, reqTag_)
 		}
 	}
-	_, n_aid, rawVal_aid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_aid, n_aid, rawVal_aid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding aid: %w", err)
+	}
+	if decodedTag_aid.Class != tag.ClassApplication || decodedTag_aid.Number != 15 {
+		return fmt.Errorf("decoding aid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_aid)
 	}
 	v.Aid = rawVal_aid
 	offset += n_aid
@@ -6124,7 +6192,14 @@ func (v *ErrorResult) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ErrorResult as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ErrorResult from BER/DER format.
@@ -6146,9 +6221,12 @@ func (v *ErrorResult) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for bppCommandId, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_bppcommandid, rawVal_bppcommandid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_bppcommandid, n_bppcommandid, rawVal_bppcommandid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding bppCommandId: %w", err)
+	}
+	if decodedTag_bppcommandid.Class != tag.ClassContextSpecific || decodedTag_bppcommandid.Number != 0 || decodedTag_bppcommandid.Constructed != false {
+		return fmt.Errorf("decoding bppCommandId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_bppcommandid)
 	}
 	decVal_bppcommandid, intErr := ber.DecodeBigIntValue(rawVal_bppcommandid)
 	if intErr != nil {
@@ -6169,9 +6247,12 @@ func (v *ErrorResult) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for errorReason, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_errorreason, rawVal_errorreason, err := ber.DecodeTLV(content[offset:])
+	decodedTag_errorreason, n_errorreason, rawVal_errorreason, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding errorReason: %w", err)
+	}
+	if decodedTag_errorreason.Class != tag.ClassContextSpecific || decodedTag_errorreason.Number != 1 || decodedTag_errorreason.Constructed != false {
+		return fmt.Errorf("decoding errorReason: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_errorreason)
 	}
 	decVal_errorreason, intErr := ber.DecodeBigIntValue(rawVal_errorreason)
 	if intErr != nil {
@@ -6188,9 +6269,12 @@ func (v *ErrorResult) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_simaresponse, rawVal_simaresponse, err := ber.DecodeTLV(content[offset:])
+				decodedTag_simaresponse, n_simaresponse, rawVal_simaresponse, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding simaResponse: %w", err)
+				}
+				if decodedTag_simaresponse.Class != tag.ClassContextSpecific || decodedTag_simaresponse.Number != 2 {
+					return fmt.Errorf("decoding simaResponse: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_simaresponse)
 				}
 				tmp_simaresponse := rawVal_simaresponse
 				v.SimaResponse = tmp_simaresponse
@@ -6252,7 +6336,14 @@ func (v *DeviceInfo) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding DeviceInfo as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes DeviceInfo from BER/DER format.
@@ -6274,9 +6365,12 @@ func (v *DeviceInfo) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for tac, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_tac, rawVal_tac, err := ber.DecodeTLV(content[offset:])
+	decodedTag_tac, n_tac, rawVal_tac, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding tac: %w", err)
+	}
+	if decodedTag_tac.Class != tag.ClassContextSpecific || decodedTag_tac.Number != 0 {
+		return fmt.Errorf("decoding tac: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_tac)
 	}
 	v.Tac = Octet4(rawVal_tac)
 	offset += n_tac
@@ -6289,9 +6383,12 @@ func (v *DeviceInfo) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for deviceCapabilities, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_devicecapabilities, rawVal_devicecapabilities, err := ber.DecodeTLV(content[offset:])
+	decodedTag_devicecapabilities, n_devicecapabilities, rawVal_devicecapabilities, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding deviceCapabilities: %w", err)
+	}
+	if decodedTag_devicecapabilities.Class != tag.ClassContextSpecific || decodedTag_devicecapabilities.Number != 1 || decodedTag_devicecapabilities.Constructed != true {
+		return fmt.Errorf("decoding deviceCapabilities: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_devicecapabilities)
 	}
 	reconstructed_devicecapabilities := ber.EncodeSequence(rawVal_devicecapabilities)
 	if unmErr := v.DeviceCapabilities.UnmarshalBER(reconstructed_devicecapabilities); unmErr != nil {
@@ -6303,9 +6400,12 @@ func (v *DeviceInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_imei, rawVal_imei, err := ber.DecodeTLV(content[offset:])
+				decodedTag_imei, n_imei, rawVal_imei, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding imei: %w", err)
+				}
+				if decodedTag_imei.Class != tag.ClassContextSpecific || decodedTag_imei.Number != 2 {
+					return fmt.Errorf("decoding imei: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imei)
 				}
 				tmp_imei := Octet8(rawVal_imei)
 				v.Imei = &tmp_imei
@@ -6431,7 +6531,14 @@ func (v *DeviceCapabilities) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding DeviceCapabilities as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes DeviceCapabilities from BER/DER format.
@@ -6449,9 +6556,12 @@ func (v *DeviceCapabilities) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_gsmsupportedrelease, rawVal_gsmsupportedrelease, err := ber.DecodeTLV(content[offset:])
+				decodedTag_gsmsupportedrelease, n_gsmsupportedrelease, rawVal_gsmsupportedrelease, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding gsmSupportedRelease: %w", err)
+				}
+				if decodedTag_gsmsupportedrelease.Class != tag.ClassContextSpecific || decodedTag_gsmsupportedrelease.Number != 0 {
+					return fmt.Errorf("decoding gsmSupportedRelease: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gsmsupportedrelease)
 				}
 				tmp_gsmsupportedrelease := VersionType(rawVal_gsmsupportedrelease)
 				v.GsmSupportedRelease = &tmp_gsmsupportedrelease
@@ -6464,9 +6574,12 @@ func (v *DeviceCapabilities) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_utransupportedrelease, rawVal_utransupportedrelease, err := ber.DecodeTLV(content[offset:])
+				decodedTag_utransupportedrelease, n_utransupportedrelease, rawVal_utransupportedrelease, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding utranSupportedRelease: %w", err)
+				}
+				if decodedTag_utransupportedrelease.Class != tag.ClassContextSpecific || decodedTag_utransupportedrelease.Number != 1 {
+					return fmt.Errorf("decoding utranSupportedRelease: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_utransupportedrelease)
 				}
 				tmp_utransupportedrelease := VersionType(rawVal_utransupportedrelease)
 				v.UtranSupportedRelease = &tmp_utransupportedrelease
@@ -6479,9 +6592,12 @@ func (v *DeviceCapabilities) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_cdma2000onexsupportedrelease, rawVal_cdma2000onexsupportedrelease, err := ber.DecodeTLV(content[offset:])
+				decodedTag_cdma2000onexsupportedrelease, n_cdma2000onexsupportedrelease, rawVal_cdma2000onexsupportedrelease, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding cdma2000onexSupportedRelease: %w", err)
+				}
+				if decodedTag_cdma2000onexsupportedrelease.Class != tag.ClassContextSpecific || decodedTag_cdma2000onexsupportedrelease.Number != 2 {
+					return fmt.Errorf("decoding cdma2000onexSupportedRelease: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_cdma2000onexsupportedrelease)
 				}
 				tmp_cdma2000onexsupportedrelease := VersionType(rawVal_cdma2000onexsupportedrelease)
 				v.Cdma2000onexSupportedRelease = &tmp_cdma2000onexsupportedrelease
@@ -6494,9 +6610,12 @@ func (v *DeviceCapabilities) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_cdma2000hrpdsupportedrelease, rawVal_cdma2000hrpdsupportedrelease, err := ber.DecodeTLV(content[offset:])
+				decodedTag_cdma2000hrpdsupportedrelease, n_cdma2000hrpdsupportedrelease, rawVal_cdma2000hrpdsupportedrelease, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding cdma2000hrpdSupportedRelease: %w", err)
+				}
+				if decodedTag_cdma2000hrpdsupportedrelease.Class != tag.ClassContextSpecific || decodedTag_cdma2000hrpdsupportedrelease.Number != 3 {
+					return fmt.Errorf("decoding cdma2000hrpdSupportedRelease: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_cdma2000hrpdsupportedrelease)
 				}
 				tmp_cdma2000hrpdsupportedrelease := VersionType(rawVal_cdma2000hrpdsupportedrelease)
 				v.Cdma2000hrpdSupportedRelease = &tmp_cdma2000hrpdsupportedrelease
@@ -6509,9 +6628,12 @@ func (v *DeviceCapabilities) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_cdma2000ehrpdsupportedrelease, rawVal_cdma2000ehrpdsupportedrelease, err := ber.DecodeTLV(content[offset:])
+				decodedTag_cdma2000ehrpdsupportedrelease, n_cdma2000ehrpdsupportedrelease, rawVal_cdma2000ehrpdsupportedrelease, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding cdma2000ehrpdSupportedRelease: %w", err)
+				}
+				if decodedTag_cdma2000ehrpdsupportedrelease.Class != tag.ClassContextSpecific || decodedTag_cdma2000ehrpdsupportedrelease.Number != 4 {
+					return fmt.Errorf("decoding cdma2000ehrpdSupportedRelease: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_cdma2000ehrpdsupportedrelease)
 				}
 				tmp_cdma2000ehrpdsupportedrelease := VersionType(rawVal_cdma2000ehrpdsupportedrelease)
 				v.Cdma2000ehrpdSupportedRelease = &tmp_cdma2000ehrpdsupportedrelease
@@ -6524,9 +6646,12 @@ func (v *DeviceCapabilities) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_eutranepcsupportedrelease, rawVal_eutranepcsupportedrelease, err := ber.DecodeTLV(content[offset:])
+				decodedTag_eutranepcsupportedrelease, n_eutranepcsupportedrelease, rawVal_eutranepcsupportedrelease, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding eutranEpcSupportedRelease: %w", err)
+				}
+				if decodedTag_eutranepcsupportedrelease.Class != tag.ClassContextSpecific || decodedTag_eutranepcsupportedrelease.Number != 5 {
+					return fmt.Errorf("decoding eutranEpcSupportedRelease: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_eutranepcsupportedrelease)
 				}
 				tmp_eutranepcsupportedrelease := VersionType(rawVal_eutranepcsupportedrelease)
 				v.EutranEpcSupportedRelease = &tmp_eutranepcsupportedrelease
@@ -6539,9 +6664,12 @@ func (v *DeviceCapabilities) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_contactlesssupportedrelease, rawVal_contactlesssupportedrelease, err := ber.DecodeTLV(content[offset:])
+				decodedTag_contactlesssupportedrelease, n_contactlesssupportedrelease, rawVal_contactlesssupportedrelease, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding contactlessSupportedRelease: %w", err)
+				}
+				if decodedTag_contactlesssupportedrelease.Class != tag.ClassContextSpecific || decodedTag_contactlesssupportedrelease.Number != 6 {
+					return fmt.Errorf("decoding contactlessSupportedRelease: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_contactlesssupportedrelease)
 				}
 				tmp_contactlesssupportedrelease := VersionType(rawVal_contactlesssupportedrelease)
 				v.ContactlessSupportedRelease = &tmp_contactlesssupportedrelease
@@ -6554,9 +6682,12 @@ func (v *DeviceCapabilities) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_rspcrlsupportedversion, rawVal_rspcrlsupportedversion, err := ber.DecodeTLV(content[offset:])
+				decodedTag_rspcrlsupportedversion, n_rspcrlsupportedversion, rawVal_rspcrlsupportedversion, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding rspCrlSupportedVersion: %w", err)
+				}
+				if decodedTag_rspcrlsupportedversion.Class != tag.ClassContextSpecific || decodedTag_rspcrlsupportedversion.Number != 7 {
+					return fmt.Errorf("decoding rspCrlSupportedVersion: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rspcrlsupportedversion)
 				}
 				tmp_rspcrlsupportedversion := VersionType(rawVal_rspcrlsupportedversion)
 				v.RspCrlSupportedVersion = &tmp_rspcrlsupportedversion
@@ -6569,9 +6700,12 @@ func (v *DeviceCapabilities) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_nrepcsupportedrelease, rawVal_nrepcsupportedrelease, err := ber.DecodeTLV(content[offset:])
+				decodedTag_nrepcsupportedrelease, n_nrepcsupportedrelease, rawVal_nrepcsupportedrelease, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding nrEpcSupportedRelease: %w", err)
+				}
+				if decodedTag_nrepcsupportedrelease.Class != tag.ClassContextSpecific || decodedTag_nrepcsupportedrelease.Number != 8 {
+					return fmt.Errorf("decoding nrEpcSupportedRelease: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_nrepcsupportedrelease)
 				}
 				tmp_nrepcsupportedrelease := VersionType(rawVal_nrepcsupportedrelease)
 				v.NrEpcSupportedRelease = &tmp_nrepcsupportedrelease
@@ -6584,9 +6718,12 @@ func (v *DeviceCapabilities) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
-				_, n_nr5gcsupportedrelease, rawVal_nr5gcsupportedrelease, err := ber.DecodeTLV(content[offset:])
+				decodedTag_nr5gcsupportedrelease, n_nr5gcsupportedrelease, rawVal_nr5gcsupportedrelease, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding nr5gcSupportedRelease: %w", err)
+				}
+				if decodedTag_nr5gcsupportedrelease.Class != tag.ClassContextSpecific || decodedTag_nr5gcsupportedrelease.Number != 9 {
+					return fmt.Errorf("decoding nr5gcSupportedRelease: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_nr5gcsupportedrelease)
 				}
 				tmp_nr5gcsupportedrelease := VersionType(rawVal_nr5gcsupportedrelease)
 				v.Nr5gcSupportedRelease = &tmp_nr5gcsupportedrelease
@@ -6599,9 +6736,12 @@ func (v *DeviceCapabilities) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
-				_, n_eutran5gcsupportedrelease, rawVal_eutran5gcsupportedrelease, err := ber.DecodeTLV(content[offset:])
+				decodedTag_eutran5gcsupportedrelease, n_eutran5gcsupportedrelease, rawVal_eutran5gcsupportedrelease, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding eutran5gcSupportedRelease: %w", err)
+				}
+				if decodedTag_eutran5gcsupportedrelease.Class != tag.ClassContextSpecific || decodedTag_eutran5gcsupportedrelease.Number != 10 {
+					return fmt.Errorf("decoding eutran5gcSupportedRelease: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_eutran5gcsupportedrelease)
 				}
 				tmp_eutran5gcsupportedrelease := VersionType(rawVal_eutran5gcsupportedrelease)
 				v.Eutran5gcSupportedRelease = &tmp_eutran5gcsupportedrelease
@@ -6614,9 +6754,12 @@ func (v *DeviceCapabilities) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
-				_, n_lpasvn, rawVal_lpasvn, err := ber.DecodeTLV(content[offset:])
+				decodedTag_lpasvn, n_lpasvn, rawVal_lpasvn, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding lpaSvn: %w", err)
+				}
+				if decodedTag_lpasvn.Class != tag.ClassContextSpecific || decodedTag_lpasvn.Number != 11 {
+					return fmt.Errorf("decoding lpaSvn: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lpasvn)
 				}
 				tmp_lpasvn := VersionType(rawVal_lpasvn)
 				v.LpaSvn = &tmp_lpasvn
@@ -6629,9 +6772,12 @@ func (v *DeviceCapabilities) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12 {
-				_, n_catsupportedclasses, rawVal_catsupportedclasses, err := ber.DecodeTLV(content[offset:])
+				decodedTag_catsupportedclasses, n_catsupportedclasses, rawVal_catsupportedclasses, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding catSupportedClasses: %w", err)
+				}
+				if decodedTag_catsupportedclasses.Class != tag.ClassContextSpecific || decodedTag_catsupportedclasses.Number != 12 {
+					return fmt.Errorf("decoding catSupportedClasses: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_catsupportedclasses)
 				}
 				bsBytes_catsupportedclasses, bsUnused_catsupportedclasses, bsErr := ber.DecodeBitStringValue(rawVal_catsupportedclasses)
 				if bsErr != nil {
@@ -6648,9 +6794,12 @@ func (v *DeviceCapabilities) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13 {
-				_, n_euiccformfactortype, rawVal_euiccformfactortype, err := ber.DecodeTLV(content[offset:])
+				decodedTag_euiccformfactortype, n_euiccformfactortype, rawVal_euiccformfactortype, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding euiccFormFactorType: %w", err)
+				}
+				if decodedTag_euiccformfactortype.Class != tag.ClassContextSpecific || decodedTag_euiccformfactortype.Number != 13 || decodedTag_euiccformfactortype.Constructed != false {
+					return fmt.Errorf("decoding euiccFormFactorType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_euiccformfactortype)
 				}
 				decVal_euiccformfactortype, intErr := ber.DecodeBigIntValue(rawVal_euiccformfactortype)
 				if intErr != nil {
@@ -6666,9 +6815,12 @@ func (v *DeviceCapabilities) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14 {
-				_, n_deviceadditionalfeaturesupport, rawVal_deviceadditionalfeaturesupport, err := ber.DecodeTLV(content[offset:])
+				decodedTag_deviceadditionalfeaturesupport, n_deviceadditionalfeaturesupport, rawVal_deviceadditionalfeaturesupport, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding deviceAdditionalFeatureSupport: %w", err)
+				}
+				if decodedTag_deviceadditionalfeaturesupport.Class != tag.ClassContextSpecific || decodedTag_deviceadditionalfeaturesupport.Number != 14 || decodedTag_deviceadditionalfeaturesupport.Constructed != true {
+					return fmt.Errorf("decoding deviceAdditionalFeatureSupport: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_deviceadditionalfeaturesupport)
 				}
 				reconstructed_deviceadditionalfeaturesupport := ber.EncodeSequence(rawVal_deviceadditionalfeaturesupport)
 				var dec_deviceadditionalfeaturesupport DeviceAdditionalFeatureSupport
@@ -6733,7 +6885,14 @@ func (v *DeviceAdditionalFeatureSupport) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding DeviceAdditionalFeatureSupport as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes DeviceAdditionalFeatureSupport from BER/DER format.
@@ -6751,9 +6910,12 @@ func (v *DeviceAdditionalFeatureSupport) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_naisupport, rawVal_naisupport, err := ber.DecodeTLV(content[offset:])
+				decodedTag_naisupport, n_naisupport, rawVal_naisupport, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding naiSupport: %w", err)
+				}
+				if decodedTag_naisupport.Class != tag.ClassContextSpecific || decodedTag_naisupport.Number != 0 {
+					return fmt.Errorf("decoding naiSupport: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_naisupport)
 				}
 				tmp_naisupport := VersionType(rawVal_naisupport)
 				v.NaiSupport = &tmp_naisupport
@@ -6766,9 +6928,12 @@ func (v *DeviceAdditionalFeatureSupport) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_groupofdevicemanufactureroid, rawVal_groupofdevicemanufactureroid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_groupofdevicemanufactureroid, n_groupofdevicemanufactureroid, rawVal_groupofdevicemanufactureroid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding groupOfDeviceManufacturerOid: %w", err)
+				}
+				if decodedTag_groupofdevicemanufactureroid.Class != tag.ClassContextSpecific || decodedTag_groupofdevicemanufactureroid.Number != 1 || decodedTag_groupofdevicemanufactureroid.Constructed != false {
+					return fmt.Errorf("decoding groupOfDeviceManufacturerOid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_groupofdevicemanufactureroid)
 				}
 				decVal_groupofdevicemanufactureroid, oidErr := ber.DecodeOIDValue(rawVal_groupofdevicemanufactureroid)
 				if oidErr != nil {
@@ -6869,7 +7034,14 @@ func (v *ActivationCodeRetrievalInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ActivationCodeRetrievalInfo to DER format.
 func (v *ActivationCodeRetrievalInfo) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ActivationCodeRetrievalInfo as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ActivationCodeRetrievalInfo from BER/DER format.
@@ -6902,7 +7074,7 @@ func (v *ActivationCodeRetrievalInfo) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding activationCodeForProfileRedownload: %w", stringErr)
 		}
 		v.ActivationCodeForProfileRedownload = &decVal
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 && peekTag.Constructed == false {
 		v.Choice = ActivationCodeRetrievalInfoChoiceActivationCodeRetrievalAvailable
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -6913,7 +7085,7 @@ func (v *ActivationCodeRetrievalInfo) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding activationCodeRetrievalAvailable: %w", boolErr)
 		}
 		v.ActivationCodeRetrievalAvailable = &decVal
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 && peekTag.Constructed == false {
 		v.Choice = ActivationCodeRetrievalInfoChoiceRetryDelay
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -7015,7 +7187,14 @@ func (v *UpdateMetadataRequest) MarshalDER() ([]byte, error) {
 	derValue := *v
 	derValue.ServiceSpecificDataStoredInEuiccIndef_ = false
 	v = &derValue
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding UpdateMetadataRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes UpdateMetadataRequest from BER/DER format.
@@ -7036,9 +7215,12 @@ func (v *UpdateMetadataRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17 {
-				_, n_serviceprovidername, rawVal_serviceprovidername, err := ber.DecodeTLV(content[offset:])
+				decodedTag_serviceprovidername, n_serviceprovidername, rawVal_serviceprovidername, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding serviceProviderName: %w", err)
+				}
+				if decodedTag_serviceprovidername.Class != tag.ClassContextSpecific || decodedTag_serviceprovidername.Number != 17 {
+					return fmt.Errorf("decoding serviceProviderName: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_serviceprovidername)
 				}
 				decVal_serviceprovidername, stringErr := ber.DecodeStringValueTag(12, rawVal_serviceprovidername)
 				if stringErr != nil {
@@ -7054,9 +7236,12 @@ func (v *UpdateMetadataRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18 {
-				_, n_profilename, rawVal_profilename, err := ber.DecodeTLV(content[offset:])
+				decodedTag_profilename, n_profilename, rawVal_profilename, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding profileName: %w", err)
+				}
+				if decodedTag_profilename.Class != tag.ClassContextSpecific || decodedTag_profilename.Number != 18 {
+					return fmt.Errorf("decoding profileName: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profilename)
 				}
 				decVal_profilename, stringErr := ber.DecodeStringValueTag(12, rawVal_profilename)
 				if stringErr != nil {
@@ -7072,9 +7257,12 @@ func (v *UpdateMetadataRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19 {
-				_, n_icontype, rawVal_icontype, err := ber.DecodeTLV(content[offset:])
+				decodedTag_icontype, n_icontype, rawVal_icontype, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding iconType: %w", err)
+				}
+				if decodedTag_icontype.Class != tag.ClassContextSpecific || decodedTag_icontype.Number != 19 || decodedTag_icontype.Constructed != false {
+					return fmt.Errorf("decoding iconType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_icontype)
 				}
 				decVal_icontype, intErr := ber.DecodeBigIntValue(rawVal_icontype)
 				if intErr != nil {
@@ -7094,9 +7282,12 @@ func (v *UpdateMetadataRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20 {
-				_, n_icon, rawVal_icon, err := ber.DecodeTLV(content[offset:])
+				decodedTag_icon, n_icon, rawVal_icon, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding icon: %w", err)
+				}
+				if decodedTag_icon.Class != tag.ClassContextSpecific || decodedTag_icon.Number != 20 {
+					return fmt.Errorf("decoding icon: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_icon)
 				}
 				tmp_icon := rawVal_icon
 				v.Icon = tmp_icon
@@ -7109,9 +7300,12 @@ func (v *UpdateMetadataRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 25 {
-				_, n_profilepolicyrules, rawVal_profilepolicyrules, err := ber.DecodeTLV(content[offset:])
+				decodedTag_profilepolicyrules, n_profilepolicyrules, rawVal_profilepolicyrules, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding profilePolicyRules: %w", err)
+				}
+				if decodedTag_profilepolicyrules.Class != tag.ClassContextSpecific || decodedTag_profilepolicyrules.Number != 25 {
+					return fmt.Errorf("decoding profilePolicyRules: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profilepolicyrules)
 				}
 				bsBytes_profilepolicyrules, bsUnused_profilepolicyrules, bsErr := ber.DecodeBitStringValue(rawVal_profilepolicyrules)
 				if bsErr != nil {
@@ -7129,9 +7323,12 @@ func (v *UpdateMetadataRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 34 {
-				_, n_servicespecificdatastoredineuicc, rawVal_servicespecificdatastoredineuicc, err := ber.DecodeTLV(content[offset:])
+				decodedTag_servicespecificdatastoredineuicc, n_servicespecificdatastoredineuicc, rawVal_servicespecificdatastoredineuicc, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding serviceSpecificDataStoredInEuicc: %w", err)
+				}
+				if decodedTag_servicespecificdatastoredineuicc.Class != tag.ClassContextSpecific || decodedTag_servicespecificdatastoredineuicc.Number != 34 || decodedTag_servicespecificdatastoredineuicc.Constructed != true {
+					return fmt.Errorf("decoding serviceSpecificDataStoredInEuicc: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_servicespecificdatastoredineuicc)
 				}
 				reconstructed_servicespecificdatastoredineuicc := ber.EncodeSequence(rawVal_servicespecificdatastoredineuicc)
 				dec_servicespecificdatastoredineuicc, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_servicespecificdatastoredineuicc)
@@ -7154,9 +7351,12 @@ func (v *UpdateMetadataRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 103 {
-				_, n_reserved103, rawVal_reserved103, err := ber.DecodeTLV(content[offset:])
+				decodedTag_reserved103, n_reserved103, rawVal_reserved103, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding reserved103: %w", err)
+				}
+				if decodedTag_reserved103.Class != tag.ClassContextSpecific || decodedTag_reserved103.Number != 103 || decodedTag_reserved103.Constructed != false {
+					return fmt.Errorf("decoding reserved103: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_reserved103)
 				}
 				decVal_reserved103, boolErr := ber.DecodeBooleanValue(rawVal_reserved103)
 				if boolErr != nil {
@@ -7228,7 +7428,14 @@ func (v *InitialiseSecureChannelRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding InitialiseSecureChannelRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes InitialiseSecureChannelRequest from BER/DER format.
@@ -7253,9 +7460,12 @@ func (v *InitialiseSecureChannelRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for remoteOpId, got %s", "CONTEXT", 2, reqTag_)
 		}
 	}
-	_, n_remoteopid, rawVal_remoteopid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_remoteopid, n_remoteopid, rawVal_remoteopid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding remoteOpId: %w", err)
+	}
+	if decodedTag_remoteopid.Class != tag.ClassContextSpecific || decodedTag_remoteopid.Number != 2 || decodedTag_remoteopid.Constructed != false {
+		return fmt.Errorf("decoding remoteOpId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_remoteopid)
 	}
 	decVal_remoteopid, intErr := ber.DecodeBigIntValue(rawVal_remoteopid)
 	if intErr != nil {
@@ -7276,9 +7486,12 @@ func (v *InitialiseSecureChannelRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for transactionId, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_transactionid, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
+	}
+	if decodedTag_transactionid.Class != tag.ClassContextSpecific || decodedTag_transactionid.Number != 0 {
+		return fmt.Errorf("decoding transactionId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_transactionid)
 	}
 	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
@@ -7291,9 +7504,12 @@ func (v *InitialiseSecureChannelRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for controlRefTemplate, got %s", "CONTEXT", 6, reqTag_)
 		}
 	}
-	_, n_controlreftemplate, rawVal_controlreftemplate, err := ber.DecodeTLV(content[offset:])
+	decodedTag_controlreftemplate, n_controlreftemplate, rawVal_controlreftemplate, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding controlRefTemplate: %w", err)
+	}
+	if decodedTag_controlreftemplate.Class != tag.ClassContextSpecific || decodedTag_controlreftemplate.Number != 6 || decodedTag_controlreftemplate.Constructed != true {
+		return fmt.Errorf("decoding controlRefTemplate: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_controlreftemplate)
 	}
 	reconstructed_controlreftemplate := ber.EncodeSequence(rawVal_controlreftemplate)
 	if unmErr := v.ControlRefTemplate.UnmarshalBER(reconstructed_controlreftemplate); unmErr != nil {
@@ -7309,9 +7525,12 @@ func (v *InitialiseSecureChannelRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for smdpOtpk, got %s", "APPLICATION", 73, reqTag_)
 		}
 	}
-	_, n_smdpotpk, rawVal_smdpotpk, err := ber.DecodeTLV(content[offset:])
+	decodedTag_smdpotpk, n_smdpotpk, rawVal_smdpotpk, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding smdpOtpk: %w", err)
+	}
+	if decodedTag_smdpotpk.Class != tag.ClassApplication || decodedTag_smdpotpk.Number != 73 {
+		return fmt.Errorf("decoding smdpOtpk: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smdpotpk)
 	}
 	v.SmdpOtpk = rawVal_smdpotpk
 	offset += n_smdpotpk
@@ -7324,9 +7543,12 @@ func (v *InitialiseSecureChannelRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for smdpSign, got %s", "APPLICATION", 55, reqTag_)
 		}
 	}
-	_, n_smdpsign, rawVal_smdpsign, err := ber.DecodeTLV(content[offset:])
+	decodedTag_smdpsign, n_smdpsign, rawVal_smdpsign, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding smdpSign: %w", err)
+	}
+	if decodedTag_smdpsign.Class != tag.ClassApplication || decodedTag_smdpsign.Number != 55 {
+		return fmt.Errorf("decoding smdpSign: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smdpsign)
 	}
 	v.SmdpSign = rawVal_smdpsign
 	offset += n_smdpsign
@@ -7379,7 +7601,14 @@ func (v *ControlRefTemplate) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ControlRefTemplate as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ControlRefTemplate from BER/DER format.
@@ -7401,9 +7630,12 @@ func (v *ControlRefTemplate) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for keyType, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_keytype, rawVal_keytype, err := ber.DecodeTLV(content[offset:])
+	decodedTag_keytype, n_keytype, rawVal_keytype, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding keyType: %w", err)
+	}
+	if decodedTag_keytype.Class != tag.ClassContextSpecific || decodedTag_keytype.Number != 0 {
+		return fmt.Errorf("decoding keyType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_keytype)
 	}
 	v.KeyType = Octet1(rawVal_keytype)
 	offset += n_keytype
@@ -7416,9 +7648,12 @@ func (v *ControlRefTemplate) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for keyLen, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_keylen, rawVal_keylen, err := ber.DecodeTLV(content[offset:])
+	decodedTag_keylen, n_keylen, rawVal_keylen, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding keyLen: %w", err)
+	}
+	if decodedTag_keylen.Class != tag.ClassContextSpecific || decodedTag_keylen.Number != 1 {
+		return fmt.Errorf("decoding keyLen: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_keylen)
 	}
 	v.KeyLen = Octet1(rawVal_keylen)
 	offset += n_keylen
@@ -7431,9 +7666,12 @@ func (v *ControlRefTemplate) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for hostId, got %s", "CONTEXT", 4, reqTag_)
 		}
 	}
-	_, n_hostid, rawVal_hostid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_hostid, n_hostid, rawVal_hostid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding hostId: %w", err)
+	}
+	if decodedTag_hostid.Class != tag.ClassContextSpecific || decodedTag_hostid.Number != 4 {
+		return fmt.Errorf("decoding hostId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hostid)
 	}
 	v.HostId = OctetTo16(rawVal_hostid)
 	offset += n_hostid
@@ -7485,7 +7723,14 @@ func (v *ConfigureISDPRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ConfigureISDPRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ConfigureISDPRequest from BER/DER format.
@@ -7506,9 +7751,12 @@ func (v *ConfigureISDPRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 24 {
-				_, n_dpproprietarydata, rawVal_dpproprietarydata, err := ber.DecodeTLV(content[offset:])
+				decodedTag_dpproprietarydata, n_dpproprietarydata, rawVal_dpproprietarydata, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding dpProprietaryData: %w", err)
+				}
+				if decodedTag_dpproprietarydata.Class != tag.ClassContextSpecific || decodedTag_dpproprietarydata.Number != 24 || decodedTag_dpproprietarydata.Constructed != true {
+					return fmt.Errorf("decoding dpProprietaryData: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dpproprietarydata)
 				}
 				reconstructed_dpproprietarydata := ber.EncodeSequence(rawVal_dpproprietarydata)
 				var dec_dpproprietarydata DpProprietaryData
@@ -7566,7 +7814,14 @@ func (v *DpProprietaryData) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding DpProprietaryData as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes DpProprietaryData from BER/DER format.
@@ -7588,9 +7843,12 @@ func (v *DpProprietaryData) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for dpOid, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_dpoid, rawVal_dpoid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_dpoid, n_dpoid, rawVal_dpoid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding dpOid: %w", err)
+	}
+	if decodedTag_dpoid.Class != tag.ClassContextSpecific || decodedTag_dpoid.Number != 0 || decodedTag_dpoid.Constructed != false {
+		return fmt.Errorf("decoding dpOid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dpoid)
 	}
 	decVal_dpoid, oidErr := ber.DecodeOIDValue(rawVal_dpoid)
 	if oidErr != nil {
@@ -7765,7 +8023,14 @@ func (v *StoreMetadataRequest) MarshalDER() ([]byte, error) {
 	derValue.ServiceSpecificDataStoredInEuiccIndef_ = false
 	derValue.ServiceSpecificDataNotStoredInEuiccIndef_ = false
 	v = &derValue
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding StoreMetadataRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes StoreMetadataRequest from BER/DER format.
@@ -7790,9 +8055,12 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for iccid, got %s", "APPLICATION", 26, reqTag_)
 		}
 	}
-	_, n_iccid, rawVal_iccid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_iccid, n_iccid, rawVal_iccid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding iccid: %w", err)
+	}
+	if decodedTag_iccid.Class != tag.ClassApplication || decodedTag_iccid.Number != 26 {
+		return fmt.Errorf("decoding iccid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_iccid)
 	}
 	v.Iccid = Iccid(rawVal_iccid)
 	offset += n_iccid
@@ -7805,9 +8073,12 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for serviceProviderName, got %s", "CONTEXT", 17, reqTag_)
 		}
 	}
-	_, n_serviceprovidername, rawVal_serviceprovidername, err := ber.DecodeTLV(content[offset:])
+	decodedTag_serviceprovidername, n_serviceprovidername, rawVal_serviceprovidername, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding serviceProviderName: %w", err)
+	}
+	if decodedTag_serviceprovidername.Class != tag.ClassContextSpecific || decodedTag_serviceprovidername.Number != 17 {
+		return fmt.Errorf("decoding serviceProviderName: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_serviceprovidername)
 	}
 	decVal_serviceprovidername, stringErr := ber.DecodeStringValueTag(12, rawVal_serviceprovidername)
 	if stringErr != nil {
@@ -7824,9 +8095,12 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for profileName, got %s", "CONTEXT", 18, reqTag_)
 		}
 	}
-	_, n_profilename, rawVal_profilename, err := ber.DecodeTLV(content[offset:])
+	decodedTag_profilename, n_profilename, rawVal_profilename, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding profileName: %w", err)
+	}
+	if decodedTag_profilename.Class != tag.ClassContextSpecific || decodedTag_profilename.Number != 18 {
+		return fmt.Errorf("decoding profileName: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profilename)
 	}
 	decVal_profilename, stringErr := ber.DecodeStringValueTag(12, rawVal_profilename)
 	if stringErr != nil {
@@ -7839,9 +8113,12 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19 {
-				_, n_icontype, rawVal_icontype, err := ber.DecodeTLV(content[offset:])
+				decodedTag_icontype, n_icontype, rawVal_icontype, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding iconType: %w", err)
+				}
+				if decodedTag_icontype.Class != tag.ClassContextSpecific || decodedTag_icontype.Number != 19 || decodedTag_icontype.Constructed != false {
+					return fmt.Errorf("decoding iconType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_icontype)
 				}
 				decVal_icontype, intErr := ber.DecodeBigIntValue(rawVal_icontype)
 				if intErr != nil {
@@ -7861,9 +8138,12 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20 {
-				_, n_icon, rawVal_icon, err := ber.DecodeTLV(content[offset:])
+				decodedTag_icon, n_icon, rawVal_icon, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding icon: %w", err)
+				}
+				if decodedTag_icon.Class != tag.ClassContextSpecific || decodedTag_icon.Number != 20 {
+					return fmt.Errorf("decoding icon: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_icon)
 				}
 				tmp_icon := rawVal_icon
 				v.Icon = tmp_icon
@@ -7876,9 +8156,12 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21 {
-				_, n_profileclass, rawVal_profileclass, err := ber.DecodeTLV(content[offset:])
+				decodedTag_profileclass, n_profileclass, rawVal_profileclass, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding profileClass: %w", err)
+				}
+				if decodedTag_profileclass.Class != tag.ClassContextSpecific || decodedTag_profileclass.Number != 21 || decodedTag_profileclass.Constructed != false {
+					return fmt.Errorf("decoding profileClass: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profileclass)
 				}
 				decVal_profileclass, intErr := ber.DecodeBigIntValue(rawVal_profileclass)
 				if intErr != nil {
@@ -7899,9 +8182,12 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22 {
-				_, n_notificationconfigurationinfo, rawVal_notificationconfigurationinfo, err := ber.DecodeTLV(content[offset:])
+				decodedTag_notificationconfigurationinfo, n_notificationconfigurationinfo, rawVal_notificationconfigurationinfo, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding notificationConfigurationInfo: %w", err)
+				}
+				if decodedTag_notificationconfigurationinfo.Class != tag.ClassContextSpecific || decodedTag_notificationconfigurationinfo.Number != 22 || decodedTag_notificationconfigurationinfo.Constructed != true {
+					return fmt.Errorf("decoding notificationConfigurationInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_notificationconfigurationinfo)
 				}
 				reconstructed_notificationconfigurationinfo := ber.EncodeSequence(rawVal_notificationconfigurationinfo)
 				dec_notificationconfigurationinfo, unmErr := UnmarshalBERStoreMetadataRequestNotificationConfigurationInfo(reconstructed_notificationconfigurationinfo)
@@ -7924,9 +8210,12 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 23 {
-				_, n_profileowner, rawVal_profileowner, err := ber.DecodeTLV(content[offset:])
+				decodedTag_profileowner, n_profileowner, rawVal_profileowner, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding profileOwner: %w", err)
+				}
+				if decodedTag_profileowner.Class != tag.ClassContextSpecific || decodedTag_profileowner.Number != 23 || decodedTag_profileowner.Constructed != true {
+					return fmt.Errorf("decoding profileOwner: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profileowner)
 				}
 				reconstructed_profileowner := ber.EncodeSequence(rawVal_profileowner)
 				var dec_profileowner OperatorId
@@ -7943,9 +8232,12 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 25 {
-				_, n_profilepolicyrules, rawVal_profilepolicyrules, err := ber.DecodeTLV(content[offset:])
+				decodedTag_profilepolicyrules, n_profilepolicyrules, rawVal_profilepolicyrules, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding profilePolicyRules: %w", err)
+				}
+				if decodedTag_profilepolicyrules.Class != tag.ClassContextSpecific || decodedTag_profilepolicyrules.Number != 25 {
+					return fmt.Errorf("decoding profilePolicyRules: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profilepolicyrules)
 				}
 				bsBytes_profilepolicyrules, bsUnused_profilepolicyrules, bsErr := ber.DecodeBitStringValue(rawVal_profilepolicyrules)
 				if bsErr != nil {
@@ -7963,9 +8255,12 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 34 {
-				_, n_servicespecificdatastoredineuicc, rawVal_servicespecificdatastoredineuicc, err := ber.DecodeTLV(content[offset:])
+				decodedTag_servicespecificdatastoredineuicc, n_servicespecificdatastoredineuicc, rawVal_servicespecificdatastoredineuicc, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding serviceSpecificDataStoredInEuicc: %w", err)
+				}
+				if decodedTag_servicespecificdatastoredineuicc.Class != tag.ClassContextSpecific || decodedTag_servicespecificdatastoredineuicc.Number != 34 || decodedTag_servicespecificdatastoredineuicc.Constructed != true {
+					return fmt.Errorf("decoding serviceSpecificDataStoredInEuicc: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_servicespecificdatastoredineuicc)
 				}
 				reconstructed_servicespecificdatastoredineuicc := ber.EncodeSequence(rawVal_servicespecificdatastoredineuicc)
 				dec_servicespecificdatastoredineuicc, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_servicespecificdatastoredineuicc)
@@ -7989,9 +8284,12 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 35 {
-				_, n_servicespecificdatanotstoredineuicc, rawVal_servicespecificdatanotstoredineuicc, err := ber.DecodeTLV(content[offset:])
+				decodedTag_servicespecificdatanotstoredineuicc, n_servicespecificdatanotstoredineuicc, rawVal_servicespecificdatanotstoredineuicc, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding serviceSpecificDataNotStoredInEuicc: %w", err)
+				}
+				if decodedTag_servicespecificdatanotstoredineuicc.Class != tag.ClassContextSpecific || decodedTag_servicespecificdatanotstoredineuicc.Number != 35 || decodedTag_servicespecificdatanotstoredineuicc.Constructed != true {
+					return fmt.Errorf("decoding serviceSpecificDataNotStoredInEuicc: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_servicespecificdatanotstoredineuicc)
 				}
 				reconstructed_servicespecificdatanotstoredineuicc := ber.EncodeSequence(rawVal_servicespecificdatanotstoredineuicc)
 				dec_servicespecificdatanotstoredineuicc, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_servicespecificdatanotstoredineuicc)
@@ -8014,9 +8312,12 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 123 {
-				_, n_ecallindication, rawVal_ecallindication, err := ber.DecodeTLV(content[offset:])
+				decodedTag_ecallindication, n_ecallindication, rawVal_ecallindication, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ecallIndication: %w", err)
+				}
+				if decodedTag_ecallindication.Class != tag.ClassContextSpecific || decodedTag_ecallindication.Number != 123 || decodedTag_ecallindication.Constructed != false {
+					return fmt.Errorf("decoding ecallIndication: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ecallindication)
 				}
 				decVal_ecallindication, boolErr := ber.DecodeBooleanValue(rawVal_ecallindication)
 				if boolErr != nil {
@@ -8035,9 +8336,12 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 103 {
-				_, n_fallbackallowed, rawVal_fallbackallowed, err := ber.DecodeTLV(content[offset:])
+				decodedTag_fallbackallowed, n_fallbackallowed, rawVal_fallbackallowed, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding fallbackAllowed: %w", err)
+				}
+				if decodedTag_fallbackallowed.Class != tag.ClassContextSpecific || decodedTag_fallbackallowed.Number != 103 || decodedTag_fallbackallowed.Constructed != false {
+					return fmt.Errorf("decoding fallbackAllowed: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_fallbackallowed)
 				}
 				decVal_fallbackallowed, boolErr := ber.DecodeBooleanValue(rawVal_fallbackallowed)
 				if boolErr != nil {
@@ -8056,9 +8360,12 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 100 {
-				_, n_iotspecificmetadata, rawVal_iotspecificmetadata, err := ber.DecodeTLV(content[offset:])
+				decodedTag_iotspecificmetadata, n_iotspecificmetadata, rawVal_iotspecificmetadata, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding iotSpecificMetadata: %w", err)
+				}
+				if decodedTag_iotspecificmetadata.Class != tag.ClassContextSpecific || decodedTag_iotspecificmetadata.Number != 100 || decodedTag_iotspecificmetadata.Constructed != true {
+					return fmt.Errorf("decoding iotSpecificMetadata: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_iotspecificmetadata)
 				}
 				reconstructed_iotspecificmetadata := ber.EncodeSequence(rawVal_iotspecificmetadata)
 				var dec_iotspecificmetadata StoreMetadataRequestIotSpecificMetadata
@@ -8119,7 +8426,14 @@ func (v *NotificationConfigurationInformation) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding NotificationConfigurationInformation as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes NotificationConfigurationInformation from BER/DER format.
@@ -8141,9 +8455,12 @@ func (v *NotificationConfigurationInformation) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for profileManagementOperation, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_profilemanagementoperation, rawVal_profilemanagementoperation, err := ber.DecodeTLV(content[offset:])
+	decodedTag_profilemanagementoperation, n_profilemanagementoperation, rawVal_profilemanagementoperation, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding profileManagementOperation: %w", err)
+	}
+	if decodedTag_profilemanagementoperation.Class != tag.ClassContextSpecific || decodedTag_profilemanagementoperation.Number != 0 {
+		return fmt.Errorf("decoding profileManagementOperation: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profilemanagementoperation)
 	}
 	bsBytes_profilemanagementoperation, bsUnused_profilemanagementoperation, bsErr := ber.DecodeBitStringValue(rawVal_profilemanagementoperation)
 	if bsErr != nil {
@@ -8160,9 +8477,12 @@ func (v *NotificationConfigurationInformation) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for notificationAddress, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_notificationaddress, rawVal_notificationaddress, err := ber.DecodeTLV(content[offset:])
+	decodedTag_notificationaddress, n_notificationaddress, rawVal_notificationaddress, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding notificationAddress: %w", err)
+	}
+	if decodedTag_notificationaddress.Class != tag.ClassContextSpecific || decodedTag_notificationaddress.Number != 1 {
+		return fmt.Errorf("decoding notificationAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_notificationaddress)
 	}
 	decVal_notificationaddress, stringErr := ber.DecodeStringValueTag(12, rawVal_notificationaddress)
 	if stringErr != nil {
@@ -8258,7 +8578,14 @@ func (v *ReplaceSessionKeysRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ReplaceSessionKeysRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ReplaceSessionKeysRequest from BER/DER format.
@@ -8283,9 +8610,12 @@ func (v *ReplaceSessionKeysRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for initialMacChainingValue, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_initialmacchainingvalue, rawVal_initialmacchainingvalue, err := ber.DecodeTLV(content[offset:])
+	decodedTag_initialmacchainingvalue, n_initialmacchainingvalue, rawVal_initialmacchainingvalue, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding initialMacChainingValue: %w", err)
+	}
+	if decodedTag_initialmacchainingvalue.Class != tag.ClassContextSpecific || decodedTag_initialmacchainingvalue.Number != 0 {
+		return fmt.Errorf("decoding initialMacChainingValue: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_initialmacchainingvalue)
 	}
 	v.InitialMacChainingValue = rawVal_initialmacchainingvalue
 	offset += n_initialmacchainingvalue
@@ -8298,9 +8628,12 @@ func (v *ReplaceSessionKeysRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for ppkEnc, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_ppkenc, rawVal_ppkenc, err := ber.DecodeTLV(content[offset:])
+	decodedTag_ppkenc, n_ppkenc, rawVal_ppkenc, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding ppkEnc: %w", err)
+	}
+	if decodedTag_ppkenc.Class != tag.ClassContextSpecific || decodedTag_ppkenc.Number != 1 {
+		return fmt.Errorf("decoding ppkEnc: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ppkenc)
 	}
 	v.PpkEnc = rawVal_ppkenc
 	offset += n_ppkenc
@@ -8313,9 +8646,12 @@ func (v *ReplaceSessionKeysRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for ppkCmac, got %s", "CONTEXT", 2, reqTag_)
 		}
 	}
-	_, n_ppkcmac, rawVal_ppkcmac, err := ber.DecodeTLV(content[offset:])
+	decodedTag_ppkcmac, n_ppkcmac, rawVal_ppkcmac, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding ppkCmac: %w", err)
+	}
+	if decodedTag_ppkcmac.Class != tag.ClassContextSpecific || decodedTag_ppkcmac.Number != 2 {
+		return fmt.Errorf("decoding ppkCmac: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ppkcmac)
 	}
 	v.PpkCmac = rawVal_ppkcmac
 	offset += n_ppkcmac
@@ -8366,7 +8702,14 @@ func (v *ISDRProprietaryApplicationTemplate) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ISDRProprietaryApplicationTemplate as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ISDRProprietaryApplicationTemplate from BER/DER format.
@@ -8391,9 +8734,12 @@ func (v *ISDRProprietaryApplicationTemplate) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for svn, got %s", "CONTEXT", 2, reqTag_)
 		}
 	}
-	_, n_svn, rawVal_svn, err := ber.DecodeTLV(content[offset:])
+	decodedTag_svn, n_svn, rawVal_svn, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding svn: %w", err)
+	}
+	if decodedTag_svn.Class != tag.ClassContextSpecific || decodedTag_svn.Number != 2 {
+		return fmt.Errorf("decoding svn: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_svn)
 	}
 	v.Svn = VersionType(rawVal_svn)
 	offset += n_svn
@@ -8455,7 +8801,14 @@ func (v *LpaeActivationRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LpaeActivationRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LpaeActivationRequest from BER/DER format.
@@ -8480,9 +8833,12 @@ func (v *LpaeActivationRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for lpaeOption, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_lpaeoption, rawVal_lpaeoption, err := ber.DecodeTLV(content[offset:])
+	decodedTag_lpaeoption, n_lpaeoption, rawVal_lpaeoption, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding lpaeOption: %w", err)
+	}
+	if decodedTag_lpaeoption.Class != tag.ClassContextSpecific || decodedTag_lpaeoption.Number != 0 {
+		return fmt.Errorf("decoding lpaeOption: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lpaeoption)
 	}
 	bsBytes_lpaeoption, bsUnused_lpaeoption, bsErr := ber.DecodeBitStringValue(rawVal_lpaeoption)
 	if bsErr != nil {
@@ -8533,7 +8889,14 @@ func (v *LpaeActivationResponse) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LpaeActivationResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LpaeActivationResponse from BER/DER format.
@@ -8558,9 +8921,12 @@ func (v *LpaeActivationResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for lpaeActivationResult, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_lpaeactivationresult, rawVal_lpaeactivationresult, err := ber.DecodeTLV(content[offset:])
+	decodedTag_lpaeactivationresult, n_lpaeactivationresult, rawVal_lpaeactivationresult, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding lpaeActivationResult: %w", err)
+	}
+	if decodedTag_lpaeactivationresult.Class != tag.ClassContextSpecific || decodedTag_lpaeactivationresult.Number != 0 || decodedTag_lpaeactivationresult.Constructed != false {
+		return fmt.Errorf("decoding lpaeActivationResult: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lpaeactivationresult)
 	}
 	decVal_lpaeactivationresult, intErr := ber.DecodeBigIntValue(rawVal_lpaeactivationresult)
 	if intErr != nil {
@@ -8612,7 +8978,14 @@ func (v *EuiccConfiguredAddressesRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding EuiccConfiguredAddressesRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes EuiccConfiguredAddressesRequest from BER/DER format.
@@ -8682,7 +9055,14 @@ func (v *EuiccConfiguredAddressesResponse) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding EuiccConfiguredAddressesResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes EuiccConfiguredAddressesResponse from BER/DER format.
@@ -8703,9 +9083,12 @@ func (v *EuiccConfiguredAddressesResponse) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_defaultdpaddress, rawVal_defaultdpaddress, err := ber.DecodeTLV(content[offset:])
+				decodedTag_defaultdpaddress, n_defaultdpaddress, rawVal_defaultdpaddress, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding defaultDpAddress: %w", err)
+				}
+				if decodedTag_defaultdpaddress.Class != tag.ClassContextSpecific || decodedTag_defaultdpaddress.Number != 0 {
+					return fmt.Errorf("decoding defaultDpAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_defaultdpaddress)
 				}
 				decVal_defaultdpaddress, stringErr := ber.DecodeStringValueTag(12, rawVal_defaultdpaddress)
 				if stringErr != nil {
@@ -8725,9 +9108,12 @@ func (v *EuiccConfiguredAddressesResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for rootDsAddress, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_rootdsaddress, rawVal_rootdsaddress, err := ber.DecodeTLV(content[offset:])
+	decodedTag_rootdsaddress, n_rootdsaddress, rawVal_rootdsaddress, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding rootDsAddress: %w", err)
+	}
+	if decodedTag_rootdsaddress.Class != tag.ClassContextSpecific || decodedTag_rootdsaddress.Number != 1 {
+		return fmt.Errorf("decoding rootDsAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rootdsaddress)
 	}
 	decVal_rootdsaddress, stringErr := ber.DecodeStringValueTag(12, rawVal_rootdsaddress)
 	if stringErr != nil {
@@ -8781,7 +9167,14 @@ func (v *SetDefaultDpAddressRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SetDefaultDpAddressRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SetDefaultDpAddressRequest from BER/DER format.
@@ -8806,9 +9199,12 @@ func (v *SetDefaultDpAddressRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for defaultDpAddress, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_defaultdpaddress, rawVal_defaultdpaddress, err := ber.DecodeTLV(content[offset:])
+	decodedTag_defaultdpaddress, n_defaultdpaddress, rawVal_defaultdpaddress, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding defaultDpAddress: %w", err)
+	}
+	if decodedTag_defaultdpaddress.Class != tag.ClassContextSpecific || decodedTag_defaultdpaddress.Number != 0 {
+		return fmt.Errorf("decoding defaultDpAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_defaultdpaddress)
 	}
 	decVal_defaultdpaddress, stringErr := ber.DecodeStringValueTag(12, rawVal_defaultdpaddress)
 	if stringErr != nil {
@@ -8859,7 +9255,14 @@ func (v *SetDefaultDpAddressResponse) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SetDefaultDpAddressResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SetDefaultDpAddressResponse from BER/DER format.
@@ -8884,9 +9287,12 @@ func (v *SetDefaultDpAddressResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for setDefaultDpAddressResult, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_setdefaultdpaddressresult, rawVal_setdefaultdpaddressresult, err := ber.DecodeTLV(content[offset:])
+	decodedTag_setdefaultdpaddressresult, n_setdefaultdpaddressresult, rawVal_setdefaultdpaddressresult, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding setDefaultDpAddressResult: %w", err)
+	}
+	if decodedTag_setdefaultdpaddressresult.Class != tag.ClassContextSpecific || decodedTag_setdefaultdpaddressresult.Number != 0 || decodedTag_setdefaultdpaddressresult.Constructed != false {
+		return fmt.Errorf("decoding setDefaultDpAddressResult: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_setdefaultdpaddressresult)
 	}
 	decVal_setdefaultdpaddressresult, intErr := ber.DecodeBigIntValue(rawVal_setdefaultdpaddressresult)
 	if intErr != nil {
@@ -8955,7 +9361,14 @@ func (v *PrepareDownloadRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding PrepareDownloadRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes PrepareDownloadRequest from BER/DER format.
@@ -8993,9 +9406,12 @@ func (v *PrepareDownloadRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for smdpSignature2, got %s", "APPLICATION", 55, reqTag_)
 		}
 	}
-	_, n_smdpsignature2, rawVal_smdpsignature2, err := ber.DecodeTLV(content[offset:])
+	decodedTag_smdpsignature2, n_smdpsignature2, rawVal_smdpsignature2, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding smdpSignature2: %w", err)
+	}
+	if decodedTag_smdpsignature2.Class != tag.ClassApplication || decodedTag_smdpsignature2.Number != 55 {
+		return fmt.Errorf("decoding smdpSignature2: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smdpsignature2)
 	}
 	v.SmdpSignature2 = rawVal_smdpsignature2
 	offset += n_smdpsignature2
@@ -9082,7 +9498,14 @@ func (v *SmdpSigned2) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SmdpSigned2 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SmdpSigned2 from BER/DER format.
@@ -9104,9 +9527,12 @@ func (v *SmdpSigned2) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for transactionId, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_transactionid, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
+	}
+	if decodedTag_transactionid.Class != tag.ClassContextSpecific || decodedTag_transactionid.Number != 0 {
+		return fmt.Errorf("decoding transactionId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_transactionid)
 	}
 	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
@@ -9126,9 +9552,12 @@ func (v *SmdpSigned2) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassApplication && peekTag.Number == 73 {
-				_, n_bppeuiccotpk, rawVal_bppeuiccotpk, err := ber.DecodeTLV(content[offset:])
+				decodedTag_bppeuiccotpk, n_bppeuiccotpk, rawVal_bppeuiccotpk, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding bppEuiccOtpk: %w", err)
+				}
+				if decodedTag_bppeuiccotpk.Class != tag.ClassApplication || decodedTag_bppeuiccotpk.Number != 73 {
+					return fmt.Errorf("decoding bppEuiccOtpk: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_bppeuiccotpk)
 				}
 				tmp_bppeuiccotpk := rawVal_bppeuiccotpk
 				v.BppEuiccOtpk = tmp_bppeuiccotpk
@@ -9195,6 +9624,9 @@ func (v *PrepareDownloadResponse) MarshalDER() ([]byte, error) {
 		}
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
 		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 33, enc_der_0)
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding downloadResponseOk as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	case PrepareDownloadResponseChoiceDownloadResponseError:
 		if v.DownloadResponseError == nil {
@@ -9206,9 +9638,19 @@ func (v *PrepareDownloadResponse) MarshalDER() ([]byte, error) {
 		}
 		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_1)
 		enc_der_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 33, enc_der_1)
+		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
+			return nil, fmt.Errorf("encoding downloadResponseError as DER: %w", derErr)
+		}
 		return enc_der_1, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding PrepareDownloadResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes PrepareDownloadResponse from BER/DER format.
@@ -9243,7 +9685,7 @@ func (v *PrepareDownloadResponse) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "PrepareDownloadResponse", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == true {
 		v.Choice = PrepareDownloadResponseChoiceDownloadResponseOk
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -9255,7 +9697,7 @@ func (v *PrepareDownloadResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding downloadResponseOk: %w", unmErr)
 		}
 		v.DownloadResponseOk = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == true {
 		v.Choice = PrepareDownloadResponseChoiceDownloadResponseError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -9305,7 +9747,14 @@ func (v *PrepareDownloadResponseOk) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding PrepareDownloadResponseOk as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes PrepareDownloadResponseOk from BER/DER format.
@@ -9340,9 +9789,12 @@ func (v *PrepareDownloadResponseOk) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for euiccSignature2, got %s", "APPLICATION", 55, reqTag_)
 		}
 	}
-	_, n_euiccsignature2, rawVal_euiccsignature2, err := ber.DecodeTLV(content[offset:])
+	decodedTag_euiccsignature2, n_euiccsignature2, rawVal_euiccsignature2, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding euiccSignature2: %w", err)
+	}
+	if decodedTag_euiccsignature2.Class != tag.ClassApplication || decodedTag_euiccsignature2.Number != 55 {
+		return fmt.Errorf("decoding euiccSignature2: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_euiccsignature2)
 	}
 	v.EuiccSignature2 = rawVal_euiccsignature2
 	offset += n_euiccsignature2
@@ -9396,7 +9848,14 @@ func (v *EUICCSigned2) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding EUICCSigned2 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes EUICCSigned2 from BER/DER format.
@@ -9418,9 +9877,12 @@ func (v *EUICCSigned2) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for transactionId, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_transactionid, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
+	}
+	if decodedTag_transactionid.Class != tag.ClassContextSpecific || decodedTag_transactionid.Number != 0 {
+		return fmt.Errorf("decoding transactionId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_transactionid)
 	}
 	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
@@ -9433,9 +9895,12 @@ func (v *EUICCSigned2) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for euiccOtpk, got %s", "APPLICATION", 73, reqTag_)
 		}
 	}
-	_, n_euiccotpk, rawVal_euiccotpk, err := ber.DecodeTLV(content[offset:])
+	decodedTag_euiccotpk, n_euiccotpk, rawVal_euiccotpk, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding euiccOtpk: %w", err)
+	}
+	if decodedTag_euiccotpk.Class != tag.ClassApplication || decodedTag_euiccotpk.Number != 73 {
+		return fmt.Errorf("decoding euiccOtpk: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_euiccotpk)
 	}
 	v.EuiccOtpk = rawVal_euiccotpk
 	offset += n_euiccotpk
@@ -9499,7 +9964,14 @@ func (v *PrepareDownloadResponseError) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding PrepareDownloadResponseError as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes PrepareDownloadResponseError from BER/DER format.
@@ -9521,9 +9993,12 @@ func (v *PrepareDownloadResponseError) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for transactionId, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_transactionid, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
+	}
+	if decodedTag_transactionid.Class != tag.ClassContextSpecific || decodedTag_transactionid.Number != 0 {
+		return fmt.Errorf("decoding transactionId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_transactionid)
 	}
 	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
@@ -9581,7 +10056,14 @@ func (v *GetEuiccChallengeRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding GetEuiccChallengeRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes GetEuiccChallengeRequest from BER/DER format.
@@ -9640,7 +10122,14 @@ func (v *GetEuiccChallengeResponse) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding GetEuiccChallengeResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes GetEuiccChallengeResponse from BER/DER format.
@@ -9665,9 +10154,12 @@ func (v *GetEuiccChallengeResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for euiccChallenge, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_euiccchallenge, rawVal_euiccchallenge, err := ber.DecodeTLV(content[offset:])
+	decodedTag_euiccchallenge, n_euiccchallenge, rawVal_euiccchallenge, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding euiccChallenge: %w", err)
+	}
+	if decodedTag_euiccchallenge.Class != tag.ClassContextSpecific || decodedTag_euiccchallenge.Number != 0 {
+		return fmt.Errorf("decoding euiccChallenge: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_euiccchallenge)
 	}
 	v.EuiccChallenge = Octet16(rawVal_euiccchallenge)
 	offset += n_euiccchallenge
@@ -9711,7 +10203,14 @@ func (v *GetEuiccInfo1Request) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding GetEuiccInfo1Request as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes GetEuiccInfo1Request from BER/DER format.
@@ -9767,7 +10266,14 @@ func (v *GetEuiccInfo2Request) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding GetEuiccInfo2Request as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes GetEuiccInfo2Request from BER/DER format.
@@ -9860,7 +10366,14 @@ func (v *EUICCInfo1) MarshalDER() ([]byte, error) {
 	derValue.EuiccCiPKIdListForVerificationIndef_ = false
 	derValue.EuiccCiPKIdListForSigningIndef_ = false
 	v = &derValue
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding EUICCInfo1 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes EUICCInfo1 from BER/DER format.
@@ -9885,9 +10398,12 @@ func (v *EUICCInfo1) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for svn, got %s", "CONTEXT", 2, reqTag_)
 		}
 	}
-	_, n_svn, rawVal_svn, err := ber.DecodeTLV(content[offset:])
+	decodedTag_svn, n_svn, rawVal_svn, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding svn: %w", err)
+	}
+	if decodedTag_svn.Class != tag.ClassContextSpecific || decodedTag_svn.Number != 2 {
+		return fmt.Errorf("decoding svn: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_svn)
 	}
 	v.Svn = VersionType(rawVal_svn)
 	offset += n_svn
@@ -9901,9 +10417,12 @@ func (v *EUICCInfo1) UnmarshalBER(data []byte) error {
 		}
 	}
 	v.EuiccCiPKIdListForVerificationIndef_ = false
-	_, n_euicccipkidlistforverification, rawVal_euicccipkidlistforverification, err := ber.DecodeTLV(content[offset:])
+	decodedTag_euicccipkidlistforverification, n_euicccipkidlistforverification, rawVal_euicccipkidlistforverification, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding euiccCiPKIdListForVerification: %w", err)
+	}
+	if decodedTag_euicccipkidlistforverification.Class != tag.ClassContextSpecific || decodedTag_euicccipkidlistforverification.Number != 9 || decodedTag_euicccipkidlistforverification.Constructed != true {
+		return fmt.Errorf("decoding euiccCiPKIdListForVerification: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_euicccipkidlistforverification)
 	}
 	reconstructed_euicccipkidlistforverification := ber.EncodeSequence(rawVal_euicccipkidlistforverification)
 	dec_euicccipkidlistforverification, unmErr := UnmarshalBEREUICCInfo1EuiccCiPKIdListForVerification(reconstructed_euicccipkidlistforverification)
@@ -9928,9 +10447,12 @@ func (v *EUICCInfo1) UnmarshalBER(data []byte) error {
 		}
 	}
 	v.EuiccCiPKIdListForSigningIndef_ = false
-	_, n_euicccipkidlistforsigning, rawVal_euicccipkidlistforsigning, err := ber.DecodeTLV(content[offset:])
+	decodedTag_euicccipkidlistforsigning, n_euicccipkidlistforsigning, rawVal_euicccipkidlistforsigning, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding euiccCiPKIdListForSigning: %w", err)
+	}
+	if decodedTag_euicccipkidlistforsigning.Class != tag.ClassContextSpecific || decodedTag_euicccipkidlistforsigning.Number != 10 || decodedTag_euicccipkidlistforsigning.Constructed != true {
+		return fmt.Errorf("decoding euiccCiPKIdListForSigning: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_euicccipkidlistforsigning)
 	}
 	reconstructed_euicccipkidlistforsigning := ber.EncodeSequence(rawVal_euicccipkidlistforsigning)
 	dec_euicccipkidlistforsigning, unmErr := UnmarshalBEREUICCInfo1EuiccCiPKIdListForSigning(reconstructed_euicccipkidlistforsigning)
@@ -10149,7 +10671,14 @@ func (v *EUICCInfo2) MarshalDER() ([]byte, error) {
 	derValue.AdditionalEuiccProfilePackageVersionsIndef_ = false
 	derValue.EuiccCiPKIdListForSigningV3Indef_ = false
 	v = &derValue
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding EUICCInfo2 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes EUICCInfo2 from BER/DER format.
@@ -10174,9 +10703,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for profileVersion, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_profileversion, rawVal_profileversion, err := ber.DecodeTLV(content[offset:])
+	decodedTag_profileversion, n_profileversion, rawVal_profileversion, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding profileVersion: %w", err)
+	}
+	if decodedTag_profileversion.Class != tag.ClassContextSpecific || decodedTag_profileversion.Number != 1 {
+		return fmt.Errorf("decoding profileVersion: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profileversion)
 	}
 	v.ProfileVersion = VersionType(rawVal_profileversion)
 	offset += n_profileversion
@@ -10189,9 +10721,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for svn, got %s", "CONTEXT", 2, reqTag_)
 		}
 	}
-	_, n_svn, rawVal_svn, err := ber.DecodeTLV(content[offset:])
+	decodedTag_svn, n_svn, rawVal_svn, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding svn: %w", err)
+	}
+	if decodedTag_svn.Class != tag.ClassContextSpecific || decodedTag_svn.Number != 2 {
+		return fmt.Errorf("decoding svn: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_svn)
 	}
 	v.Svn = VersionType(rawVal_svn)
 	offset += n_svn
@@ -10204,9 +10739,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for euiccFirmwareVer, got %s", "CONTEXT", 3, reqTag_)
 		}
 	}
-	_, n_euiccfirmwarever, rawVal_euiccfirmwarever, err := ber.DecodeTLV(content[offset:])
+	decodedTag_euiccfirmwarever, n_euiccfirmwarever, rawVal_euiccfirmwarever, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding euiccFirmwareVer: %w", err)
+	}
+	if decodedTag_euiccfirmwarever.Class != tag.ClassContextSpecific || decodedTag_euiccfirmwarever.Number != 3 {
+		return fmt.Errorf("decoding euiccFirmwareVer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_euiccfirmwarever)
 	}
 	v.EuiccFirmwareVer = VersionType(rawVal_euiccfirmwarever)
 	offset += n_euiccfirmwarever
@@ -10219,9 +10757,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for extCardResource, got %s", "CONTEXT", 4, reqTag_)
 		}
 	}
-	_, n_extcardresource, rawVal_extcardresource, err := ber.DecodeTLV(content[offset:])
+	decodedTag_extcardresource, n_extcardresource, rawVal_extcardresource, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding extCardResource: %w", err)
+	}
+	if decodedTag_extcardresource.Class != tag.ClassContextSpecific || decodedTag_extcardresource.Number != 4 {
+		return fmt.Errorf("decoding extCardResource: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extcardresource)
 	}
 	v.ExtCardResource = rawVal_extcardresource
 	offset += n_extcardresource
@@ -10234,9 +10775,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for uiccCapability, got %s", "CONTEXT", 5, reqTag_)
 		}
 	}
-	_, n_uicccapability, rawVal_uicccapability, err := ber.DecodeTLV(content[offset:])
+	decodedTag_uicccapability, n_uicccapability, rawVal_uicccapability, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding uiccCapability: %w", err)
+	}
+	if decodedTag_uicccapability.Class != tag.ClassContextSpecific || decodedTag_uicccapability.Number != 5 {
+		return fmt.Errorf("decoding uiccCapability: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uicccapability)
 	}
 	bsBytes_uicccapability, bsUnused_uicccapability, bsErr := ber.DecodeBitStringValue(rawVal_uicccapability)
 	if bsErr != nil {
@@ -10249,9 +10793,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_ts102241version, rawVal_ts102241version, err := ber.DecodeTLV(content[offset:])
+				decodedTag_ts102241version, n_ts102241version, rawVal_ts102241version, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ts102241Version: %w", err)
+				}
+				if decodedTag_ts102241version.Class != tag.ClassContextSpecific || decodedTag_ts102241version.Number != 6 {
+					return fmt.Errorf("decoding ts102241Version: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ts102241version)
 				}
 				tmp_ts102241version := VersionType(rawVal_ts102241version)
 				v.Ts102241Version = &tmp_ts102241version
@@ -10264,9 +10811,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_globalplatformversion, rawVal_globalplatformversion, err := ber.DecodeTLV(content[offset:])
+				decodedTag_globalplatformversion, n_globalplatformversion, rawVal_globalplatformversion, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding globalplatformVersion: %w", err)
+				}
+				if decodedTag_globalplatformversion.Class != tag.ClassContextSpecific || decodedTag_globalplatformversion.Number != 7 {
+					return fmt.Errorf("decoding globalplatformVersion: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_globalplatformversion)
 				}
 				tmp_globalplatformversion := VersionType(rawVal_globalplatformversion)
 				v.GlobalplatformVersion = &tmp_globalplatformversion
@@ -10283,9 +10833,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for rspCapability, got %s", "CONTEXT", 8, reqTag_)
 		}
 	}
-	_, n_rspcapability, rawVal_rspcapability, err := ber.DecodeTLV(content[offset:])
+	decodedTag_rspcapability, n_rspcapability, rawVal_rspcapability, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding rspCapability: %w", err)
+	}
+	if decodedTag_rspcapability.Class != tag.ClassContextSpecific || decodedTag_rspcapability.Number != 8 {
+		return fmt.Errorf("decoding rspCapability: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rspcapability)
 	}
 	bsBytes_rspcapability, bsUnused_rspcapability, bsErr := ber.DecodeBitStringValue(rawVal_rspcapability)
 	if bsErr != nil {
@@ -10303,9 +10856,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 		}
 	}
 	v.EuiccCiPKIdListForVerificationIndef_ = false
-	_, n_euicccipkidlistforverification, rawVal_euicccipkidlistforverification, err := ber.DecodeTLV(content[offset:])
+	decodedTag_euicccipkidlistforverification, n_euicccipkidlistforverification, rawVal_euicccipkidlistforverification, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding euiccCiPKIdListForVerification: %w", err)
+	}
+	if decodedTag_euicccipkidlistforverification.Class != tag.ClassContextSpecific || decodedTag_euicccipkidlistforverification.Number != 9 || decodedTag_euicccipkidlistforverification.Constructed != true {
+		return fmt.Errorf("decoding euiccCiPKIdListForVerification: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_euicccipkidlistforverification)
 	}
 	reconstructed_euicccipkidlistforverification := ber.EncodeSequence(rawVal_euicccipkidlistforverification)
 	dec_euicccipkidlistforverification, unmErr := UnmarshalBEREUICCInfo2EuiccCiPKIdListForVerification(reconstructed_euicccipkidlistforverification)
@@ -10330,9 +10886,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 		}
 	}
 	v.EuiccCiPKIdListForSigningIndef_ = false
-	_, n_euicccipkidlistforsigning, rawVal_euicccipkidlistforsigning, err := ber.DecodeTLV(content[offset:])
+	decodedTag_euicccipkidlistforsigning, n_euicccipkidlistforsigning, rawVal_euicccipkidlistforsigning, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding euiccCiPKIdListForSigning: %w", err)
+	}
+	if decodedTag_euicccipkidlistforsigning.Class != tag.ClassContextSpecific || decodedTag_euicccipkidlistforsigning.Number != 10 || decodedTag_euicccipkidlistforsigning.Constructed != true {
+		return fmt.Errorf("decoding euiccCiPKIdListForSigning: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_euicccipkidlistforsigning)
 	}
 	reconstructed_euicccipkidlistforsigning := ber.EncodeSequence(rawVal_euicccipkidlistforsigning)
 	dec_euicccipkidlistforsigning, unmErr := UnmarshalBEREUICCInfo2EuiccCiPKIdListForSigning(reconstructed_euicccipkidlistforsigning)
@@ -10352,9 +10911,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
-				_, n_euicccategory, rawVal_euicccategory, err := ber.DecodeTLV(content[offset:])
+				decodedTag_euicccategory, n_euicccategory, rawVal_euicccategory, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding euiccCategory: %w", err)
+				}
+				if decodedTag_euicccategory.Class != tag.ClassContextSpecific || decodedTag_euicccategory.Number != 11 || decodedTag_euicccategory.Constructed != false {
+					return fmt.Errorf("decoding euiccCategory: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_euicccategory)
 				}
 				decVal_euicccategory, intErr := ber.DecodeBigIntValue(rawVal_euicccategory)
 				if intErr != nil {
@@ -10374,9 +10936,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 25 {
-				_, n_forbiddenprofilepolicyrules, rawVal_forbiddenprofilepolicyrules, err := ber.DecodeTLV(content[offset:])
+				decodedTag_forbiddenprofilepolicyrules, n_forbiddenprofilepolicyrules, rawVal_forbiddenprofilepolicyrules, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding forbiddenProfilePolicyRules: %w", err)
+				}
+				if decodedTag_forbiddenprofilepolicyrules.Class != tag.ClassContextSpecific || decodedTag_forbiddenprofilepolicyrules.Number != 25 {
+					return fmt.Errorf("decoding forbiddenProfilePolicyRules: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_forbiddenprofilepolicyrules)
 				}
 				bsBytes_forbiddenprofilepolicyrules, bsUnused_forbiddenprofilepolicyrules, bsErr := ber.DecodeBitStringValue(rawVal_forbiddenprofilepolicyrules)
 				if bsErr != nil {
@@ -10413,9 +10978,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12 {
-				_, n_certificationdataobject, rawVal_certificationdataobject, err := ber.DecodeTLV(content[offset:])
+				decodedTag_certificationdataobject, n_certificationdataobject, rawVal_certificationdataobject, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding certificationDataObject: %w", err)
+				}
+				if decodedTag_certificationdataobject.Class != tag.ClassContextSpecific || decodedTag_certificationdataobject.Number != 12 || decodedTag_certificationdataobject.Constructed != true {
+					return fmt.Errorf("decoding certificationDataObject: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_certificationdataobject)
 				}
 				reconstructed_certificationdataobject := ber.EncodeSequence(rawVal_certificationdataobject)
 				var dec_certificationdataobject CertificationDataObject
@@ -10432,9 +11000,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13 {
-				_, n_treproperties, rawVal_treproperties, err := ber.DecodeTLV(content[offset:])
+				decodedTag_treproperties, n_treproperties, rawVal_treproperties, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding treProperties: %w", err)
+				}
+				if decodedTag_treproperties.Class != tag.ClassContextSpecific || decodedTag_treproperties.Number != 13 {
+					return fmt.Errorf("decoding treProperties: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_treproperties)
 				}
 				bsBytes_treproperties, bsUnused_treproperties, bsErr := ber.DecodeBitStringValue(rawVal_treproperties)
 				if bsErr != nil {
@@ -10451,9 +11022,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14 {
-				_, n_treproductreference, rawVal_treproductreference, err := ber.DecodeTLV(content[offset:])
+				decodedTag_treproductreference, n_treproductreference, rawVal_treproductreference, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding treProductReference: %w", err)
+				}
+				if decodedTag_treproductreference.Class != tag.ClassContextSpecific || decodedTag_treproductreference.Number != 14 {
+					return fmt.Errorf("decoding treProductReference: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_treproductreference)
 				}
 				decVal_treproductreference, stringErr := ber.DecodeStringValueTag(12, rawVal_treproductreference)
 				if stringErr != nil {
@@ -10470,9 +11044,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15 {
-				_, n_additionaleuiccprofilepackageversions, rawVal_additionaleuiccprofilepackageversions, err := ber.DecodeTLV(content[offset:])
+				decodedTag_additionaleuiccprofilepackageversions, n_additionaleuiccprofilepackageversions, rawVal_additionaleuiccprofilepackageversions, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding additionalEuiccProfilePackageVersions: %w", err)
+				}
+				if decodedTag_additionaleuiccprofilepackageversions.Class != tag.ClassContextSpecific || decodedTag_additionaleuiccprofilepackageversions.Number != 15 || decodedTag_additionaleuiccprofilepackageversions.Constructed != true {
+					return fmt.Errorf("decoding additionalEuiccProfilePackageVersions: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionaleuiccprofilepackageversions)
 				}
 				reconstructed_additionaleuiccprofilepackageversions := ber.EncodeSequence(rawVal_additionaleuiccprofilepackageversions)
 				dec_additionaleuiccprofilepackageversions, unmErr := UnmarshalBEREUICCInfo2AdditionalEuiccProfilePackageVersions(reconstructed_additionaleuiccprofilepackageversions)
@@ -10495,9 +11072,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 {
-				_, n_lpamode, rawVal_lpamode, err := ber.DecodeTLV(content[offset:])
+				decodedTag_lpamode, n_lpamode, rawVal_lpamode, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding lpaMode: %w", err)
+				}
+				if decodedTag_lpamode.Class != tag.ClassContextSpecific || decodedTag_lpamode.Number != 16 || decodedTag_lpamode.Constructed != false {
+					return fmt.Errorf("decoding lpaMode: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lpamode)
 				}
 				decVal_lpamode, intErr := ber.DecodeBigIntValue(rawVal_lpamode)
 				if intErr != nil {
@@ -10514,9 +11094,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17 {
-				_, n_euicccipkidlistforsigningv3, rawVal_euicccipkidlistforsigningv3, err := ber.DecodeTLV(content[offset:])
+				decodedTag_euicccipkidlistforsigningv3, n_euicccipkidlistforsigningv3, rawVal_euicccipkidlistforsigningv3, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding euiccCiPKIdListForSigningV3: %w", err)
+				}
+				if decodedTag_euicccipkidlistforsigningv3.Class != tag.ClassContextSpecific || decodedTag_euicccipkidlistforsigningv3.Number != 17 || decodedTag_euicccipkidlistforsigningv3.Constructed != true {
+					return fmt.Errorf("decoding euiccCiPKIdListForSigningV3: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_euicccipkidlistforsigningv3)
 				}
 				reconstructed_euicccipkidlistforsigningv3 := ber.EncodeSequence(rawVal_euicccipkidlistforsigningv3)
 				dec_euicccipkidlistforsigningv3, unmErr := UnmarshalBEREUICCInfo2EuiccCiPKIdListForSigningV3(reconstructed_euicccipkidlistforsigningv3)
@@ -10539,9 +11122,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18 {
-				_, n_additionaleuiccinfo, rawVal_additionaleuiccinfo, err := ber.DecodeTLV(content[offset:])
+				decodedTag_additionaleuiccinfo, n_additionaleuiccinfo, rawVal_additionaleuiccinfo, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding additionalEuiccInfo: %w", err)
+				}
+				if decodedTag_additionaleuiccinfo.Class != tag.ClassContextSpecific || decodedTag_additionaleuiccinfo.Number != 18 {
+					return fmt.Errorf("decoding additionalEuiccInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionaleuiccinfo)
 				}
 				tmp_additionaleuiccinfo := rawVal_additionaleuiccinfo
 				v.AdditionalEuiccInfo = tmp_additionaleuiccinfo
@@ -10554,9 +11140,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19 {
-				_, n_highestsvn, rawVal_highestsvn, err := ber.DecodeTLV(content[offset:])
+				decodedTag_highestsvn, n_highestsvn, rawVal_highestsvn, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding highestSvn: %w", err)
+				}
+				if decodedTag_highestsvn.Class != tag.ClassContextSpecific || decodedTag_highestsvn.Number != 19 {
+					return fmt.Errorf("decoding highestSvn: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_highestsvn)
 				}
 				tmp_highestsvn := VersionType(rawVal_highestsvn)
 				v.HighestSvn = &tmp_highestsvn
@@ -10569,9 +11158,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20 {
-				_, n_iotspecificinfo, rawVal_iotspecificinfo, err := ber.DecodeTLV(content[offset:])
+				decodedTag_iotspecificinfo, n_iotspecificinfo, rawVal_iotspecificinfo, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding iotSpecificInfo: %w", err)
+				}
+				if decodedTag_iotspecificinfo.Class != tag.ClassContextSpecific || decodedTag_iotspecificinfo.Number != 20 || decodedTag_iotspecificinfo.Constructed != true {
+					return fmt.Errorf("decoding iotSpecificInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_iotspecificinfo)
 				}
 				reconstructed_iotspecificinfo := ber.EncodeSequence(rawVal_iotspecificinfo)
 				var dec_iotspecificinfo IoTSpecificInfo
@@ -10588,9 +11180,12 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21 {
-				_, n_euiccminimumsecuritylevel, rawVal_euiccminimumsecuritylevel, err := ber.DecodeTLV(content[offset:])
+				decodedTag_euiccminimumsecuritylevel, n_euiccminimumsecuritylevel, rawVal_euiccminimumsecuritylevel, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding euiccMinimumSecurityLevel: %w", err)
+				}
+				if decodedTag_euiccminimumsecuritylevel.Class != tag.ClassContextSpecific || decodedTag_euiccminimumsecuritylevel.Number != 21 {
+					return fmt.Errorf("decoding euiccMinimumSecurityLevel: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_euiccminimumsecuritylevel)
 				}
 				tmp_euiccminimumsecuritylevel := rawVal_euiccminimumsecuritylevel
 				v.EuiccMinimumSecurityLevel = tmp_euiccminimumsecuritylevel
@@ -10650,7 +11245,14 @@ func (v *CertificationDataObject) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding CertificationDataObject as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes CertificationDataObject from BER/DER format.
@@ -10672,9 +11274,12 @@ func (v *CertificationDataObject) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for platformLabel, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_platformlabel, rawVal_platformlabel, err := ber.DecodeTLV(content[offset:])
+	decodedTag_platformlabel, n_platformlabel, rawVal_platformlabel, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding platformLabel: %w", err)
+	}
+	if decodedTag_platformlabel.Class != tag.ClassContextSpecific || decodedTag_platformlabel.Number != 0 {
+		return fmt.Errorf("decoding platformLabel: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_platformlabel)
 	}
 	decVal_platformlabel, stringErr := ber.DecodeStringValueTag(12, rawVal_platformlabel)
 	if stringErr != nil {
@@ -10691,9 +11296,12 @@ func (v *CertificationDataObject) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for discoveryBaseURL, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_discoverybaseurl, rawVal_discoverybaseurl, err := ber.DecodeTLV(content[offset:])
+	decodedTag_discoverybaseurl, n_discoverybaseurl, rawVal_discoverybaseurl, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding discoveryBaseURL: %w", err)
+	}
+	if decodedTag_discoverybaseurl.Class != tag.ClassContextSpecific || decodedTag_discoverybaseurl.Number != 1 {
+		return fmt.Errorf("decoding discoveryBaseURL: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_discoverybaseurl)
 	}
 	decVal_discoverybaseurl, stringErr := ber.DecodeStringValueTag(12, rawVal_discoverybaseurl)
 	if stringErr != nil {
@@ -10741,7 +11349,14 @@ func (v *IoTSpecificInfo) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding IoTSpecificInfo as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes IoTSpecificInfo from BER/DER format.
@@ -10799,7 +11414,14 @@ func (v *ListNotificationRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ListNotificationRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ListNotificationRequest from BER/DER format.
@@ -10820,9 +11442,12 @@ func (v *ListNotificationRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_profilemanagementoperation, rawVal_profilemanagementoperation, err := ber.DecodeTLV(content[offset:])
+				decodedTag_profilemanagementoperation, n_profilemanagementoperation, rawVal_profilemanagementoperation, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding profileManagementOperation: %w", err)
+				}
+				if decodedTag_profilemanagementoperation.Class != tag.ClassContextSpecific || decodedTag_profilemanagementoperation.Number != 1 {
+					return fmt.Errorf("decoding profileManagementOperation: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profilemanagementoperation)
 				}
 				bsBytes_profilemanagementoperation, bsUnused_profilemanagementoperation, bsErr := ber.DecodeBitStringValue(rawVal_profilemanagementoperation)
 				if bsErr != nil {
@@ -10854,9 +11479,6 @@ func (v *ListNotificationRequest) UnmarshalBER(data []byte) error {
 func (v *ListNotificationResponse) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case ListNotificationResponseChoiceNotificationMetadataList:
-		if v.NotificationMetadataList == nil {
-			return nil, fmt.Errorf("choice ListNotificationResponse: notificationMetadataList is nil")
-		}
 		enc_0, err := MarshalBERListNotificationResponseNotificationMetadataList(v.NotificationMetadataList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding notificationMetadataList: %w", err)
@@ -10879,7 +11501,14 @@ func (v *ListNotificationResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ListNotificationResponse to DER format.
 func (v *ListNotificationResponse) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ListNotificationResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ListNotificationResponse from BER/DER format.
@@ -10914,7 +11543,7 @@ func (v *ListNotificationResponse) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "ListNotificationResponse", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == true {
 		v.Choice = ListNotificationResponseChoiceNotificationMetadataList
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -10926,7 +11555,7 @@ func (v *ListNotificationResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding notificationMetadataList: %w", unmErr)
 		}
 		v.NotificationMetadataList = dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = ListNotificationResponseChoiceListNotificationsResultError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -10990,7 +11619,14 @@ func (v *NotificationMetadata) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding NotificationMetadata as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes NotificationMetadata from BER/DER format.
@@ -11015,9 +11651,12 @@ func (v *NotificationMetadata) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for seqNumber, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_seqnumber, rawVal_seqnumber, err := ber.DecodeTLV(content[offset:])
+	decodedTag_seqnumber, n_seqnumber, rawVal_seqnumber, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding seqNumber: %w", err)
+	}
+	if decodedTag_seqnumber.Class != tag.ClassContextSpecific || decodedTag_seqnumber.Number != 0 || decodedTag_seqnumber.Constructed != false {
+		return fmt.Errorf("decoding seqNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_seqnumber)
 	}
 	decVal_seqnumber, intErr := ber.DecodeBigIntValue(rawVal_seqnumber)
 	if intErr != nil {
@@ -11034,9 +11673,12 @@ func (v *NotificationMetadata) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for profileManagementOperation, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_profilemanagementoperation, rawVal_profilemanagementoperation, err := ber.DecodeTLV(content[offset:])
+	decodedTag_profilemanagementoperation, n_profilemanagementoperation, rawVal_profilemanagementoperation, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding profileManagementOperation: %w", err)
+	}
+	if decodedTag_profilemanagementoperation.Class != tag.ClassContextSpecific || decodedTag_profilemanagementoperation.Number != 1 {
+		return fmt.Errorf("decoding profileManagementOperation: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profilemanagementoperation)
 	}
 	bsBytes_profilemanagementoperation, bsUnused_profilemanagementoperation, bsErr := ber.DecodeBitStringValue(rawVal_profilemanagementoperation)
 	if bsErr != nil {
@@ -11059,9 +11701,12 @@ func (v *NotificationMetadata) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassApplication && peekTag.Number == 26 {
-				_, n_iccid, rawVal_iccid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_iccid, n_iccid, rawVal_iccid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding iccid: %w", err)
+				}
+				if decodedTag_iccid.Class != tag.ClassApplication || decodedTag_iccid.Number != 26 {
+					return fmt.Errorf("decoding iccid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_iccid)
 				}
 				tmp_iccid := Iccid(rawVal_iccid)
 				v.Iccid = &tmp_iccid
@@ -11117,7 +11762,14 @@ func (v *RetrieveNotificationsListRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RetrieveNotificationsListRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes RetrieveNotificationsListRequest from BER/DER format.
@@ -11138,9 +11790,12 @@ func (v *RetrieveNotificationsListRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_searchcriteria, innerData_searchcriteria, err := ber.DecodeTLV(content[offset:])
+				decodedTag_searchcriteria, n_searchcriteria, innerData_searchcriteria, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding searchCriteria: %w", err)
+				}
+				if decodedTag_searchcriteria.Class != tag.ClassContextSpecific || decodedTag_searchcriteria.Number != 0 || decodedTag_searchcriteria.Constructed != true {
+					return fmt.Errorf("decoding searchCriteria: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_searchcriteria)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_searchcriteria RetrieveNotificationsListRequestSearchCriteria
@@ -11172,9 +11827,6 @@ func (v *RetrieveNotificationsListRequest) UnmarshalBER(data []byte) error {
 func (v *RetrieveNotificationsListResponse) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case RetrieveNotificationsListResponseChoiceNotificationList:
-		if v.NotificationList == nil {
-			return nil, fmt.Errorf("choice RetrieveNotificationsListResponse: notificationList is nil")
-		}
 		enc_0, err := MarshalBERRetrieveNotificationsListResponseNotificationList(v.NotificationList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding notificationList: %w", err)
@@ -11197,7 +11849,14 @@ func (v *RetrieveNotificationsListResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RetrieveNotificationsListResponse to DER format.
 func (v *RetrieveNotificationsListResponse) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RetrieveNotificationsListResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes RetrieveNotificationsListResponse from BER/DER format.
@@ -11232,7 +11891,7 @@ func (v *RetrieveNotificationsListResponse) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "RetrieveNotificationsListResponse", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == true {
 		v.Choice = RetrieveNotificationsListResponseChoiceNotificationList
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -11244,7 +11903,7 @@ func (v *RetrieveNotificationsListResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding notificationList: %w", unmErr)
 		}
 		v.NotificationList = dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = RetrieveNotificationsListResponseChoiceNotificationsListResultError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -11302,6 +11961,9 @@ func (v *PendingNotification) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileInstallationResult: %w", err)
 		}
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding profileInstallationResult as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	case PendingNotificationChoiceOtherSignedNotification:
 		if v.OtherSignedNotification == nil {
@@ -11311,9 +11973,19 @@ func (v *PendingNotification) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding otherSignedNotification: %w", err)
 		}
+		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
+			return nil, fmt.Errorf("encoding otherSignedNotification as DER: %w", derErr)
+		}
 		return enc_der_1, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding PendingNotification as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes PendingNotification from BER/DER format.
@@ -11335,14 +12007,14 @@ func (v *PendingNotification) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "PendingNotification", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 55 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 55 && peekTag.Constructed == true {
 		v.Choice = PendingNotificationChoiceProfileInstallationResult
 		var dec ProfileInstallationResult
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
 			return fmt.Errorf("decoding profileInstallationResult: %w", unmErr)
 		}
 		v.ProfileInstallationResult = &dec
-	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 && peekTag.Constructed == true {
 		v.Choice = PendingNotificationChoiceOtherSignedNotification
 		var dec OtherSignedNotification
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
@@ -11397,7 +12069,14 @@ func (v *OtherSignedNotification) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding OtherSignedNotification as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes OtherSignedNotification from BER/DER format.
@@ -11432,9 +12111,12 @@ func (v *OtherSignedNotification) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for euiccNotificationSignature, got %s", "APPLICATION", 55, reqTag_)
 		}
 	}
-	_, n_euiccnotificationsignature, rawVal_euiccnotificationsignature, err := ber.DecodeTLV(content[offset:])
+	decodedTag_euiccnotificationsignature, n_euiccnotificationsignature, rawVal_euiccnotificationsignature, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding euiccNotificationSignature: %w", err)
+	}
+	if decodedTag_euiccnotificationsignature.Class != tag.ClassApplication || decodedTag_euiccnotificationsignature.Number != 55 {
+		return fmt.Errorf("decoding euiccNotificationSignature: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_euiccnotificationsignature)
 	}
 	v.EuiccNotificationSignature = rawVal_euiccnotificationsignature
 	offset += n_euiccnotificationsignature
@@ -11510,7 +12192,14 @@ func (v *NotificationSentRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding NotificationSentRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes NotificationSentRequest from BER/DER format.
@@ -11535,9 +12224,12 @@ func (v *NotificationSentRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for seqNumber, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_seqnumber, rawVal_seqnumber, err := ber.DecodeTLV(content[offset:])
+	decodedTag_seqnumber, n_seqnumber, rawVal_seqnumber, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding seqNumber: %w", err)
+	}
+	if decodedTag_seqnumber.Class != tag.ClassContextSpecific || decodedTag_seqnumber.Number != 0 || decodedTag_seqnumber.Constructed != false {
+		return fmt.Errorf("decoding seqNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_seqnumber)
 	}
 	decVal_seqnumber, intErr := ber.DecodeBigIntValue(rawVal_seqnumber)
 	if intErr != nil {
@@ -11588,7 +12280,14 @@ func (v *NotificationSentResponse) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding NotificationSentResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes NotificationSentResponse from BER/DER format.
@@ -11613,9 +12312,12 @@ func (v *NotificationSentResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for deleteNotificationStatus, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_deletenotificationstatus, rawVal_deletenotificationstatus, err := ber.DecodeTLV(content[offset:])
+	decodedTag_deletenotificationstatus, n_deletenotificationstatus, rawVal_deletenotificationstatus, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding deleteNotificationStatus: %w", err)
+	}
+	if decodedTag_deletenotificationstatus.Class != tag.ClassContextSpecific || decodedTag_deletenotificationstatus.Number != 0 || decodedTag_deletenotificationstatus.Constructed != false {
+		return fmt.Errorf("decoding deleteNotificationStatus: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_deletenotificationstatus)
 	}
 	decVal_deletenotificationstatus, intErr := ber.DecodeBigIntValue(rawVal_deletenotificationstatus)
 	if intErr != nil {
@@ -11673,7 +12375,14 @@ func (v *LoadCRLRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LoadCRLRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LoadCRLRequest from BER/DER format.
@@ -11698,9 +12407,12 @@ func (v *LoadCRLRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for crl, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_crl, rawVal_crl, err := ber.DecodeTLV(content[offset:])
+	decodedTag_crl, n_crl, rawVal_crl, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding crl: %w", err)
+	}
+	if decodedTag_crl.Class != tag.ClassContextSpecific || decodedTag_crl.Number != 0 || decodedTag_crl.Constructed != true {
+		return fmt.Errorf("decoding crl: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_crl)
 	}
 	reconstructed_crl := ber.EncodeSequence(rawVal_crl)
 	if unmErr := v.Crl.UnmarshalBER(reconstructed_crl); unmErr != nil {
@@ -11763,9 +12475,19 @@ func (v *LoadCRLResponse) MarshalDER() ([]byte, error) {
 		}
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
 		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 53, enc_der_0)
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding loadCRLResponseOk as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LoadCRLResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LoadCRLResponse from BER/DER format.
@@ -11800,7 +12522,7 @@ func (v *LoadCRLResponse) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "LoadCRLResponse", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == true {
 		v.Choice = LoadCRLResponseChoiceLoadCRLResponseOk
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -11812,7 +12534,7 @@ func (v *LoadCRLResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding loadCRLResponseOk: %w", unmErr)
 		}
 		v.LoadCRLResponseOk = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = LoadCRLResponseChoiceLoadCRLResponseError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -11877,7 +12599,14 @@ func (v *LoadCRLResponseOk) MarshalDER() ([]byte, error) {
 	derValue := *v
 	derValue.MissingPartsIndef_ = false
 	v = &derValue
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LoadCRLResponseOk as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LoadCRLResponseOk from BER/DER format.
@@ -11896,9 +12625,12 @@ func (v *LoadCRLResponseOk) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_missingparts, rawVal_missingparts, err := ber.DecodeTLV(content[offset:])
+				decodedTag_missingparts, n_missingparts, rawVal_missingparts, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding missingParts: %w", err)
+				}
+				if decodedTag_missingparts.Class != tag.ClassContextSpecific || decodedTag_missingparts.Number != 0 || decodedTag_missingparts.Constructed != true {
+					return fmt.Errorf("decoding missingParts: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_missingparts)
 				}
 				reconstructed_missingparts := ber.EncodeSequence(rawVal_missingparts)
 				dec_missingparts, unmErr := UnmarshalBERLoadCRLResponseOkMissingParts(reconstructed_missingparts)
@@ -11976,7 +12708,14 @@ func (v *AuthenticateServerRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AuthenticateServerRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AuthenticateServerRequest from BER/DER format.
@@ -12014,9 +12753,12 @@ func (v *AuthenticateServerRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for serverSignature1, got %s", "APPLICATION", 55, reqTag_)
 		}
 	}
-	_, n_serversignature1, rawVal_serversignature1, err := ber.DecodeTLV(content[offset:])
+	decodedTag_serversignature1, n_serversignature1, rawVal_serversignature1, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding serverSignature1: %w", err)
+	}
+	if decodedTag_serversignature1.Class != tag.ClassApplication || decodedTag_serversignature1.Number != 55 {
+		return fmt.Errorf("decoding serverSignature1: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_serversignature1)
 	}
 	v.ServerSignature1 = rawVal_serversignature1
 	offset += n_serversignature1
@@ -12111,7 +12853,14 @@ func (v *ServerSigned1) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ServerSigned1 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ServerSigned1 from BER/DER format.
@@ -12133,9 +12882,12 @@ func (v *ServerSigned1) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for transactionId, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_transactionid, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
+	}
+	if decodedTag_transactionid.Class != tag.ClassContextSpecific || decodedTag_transactionid.Number != 0 {
+		return fmt.Errorf("decoding transactionId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_transactionid)
 	}
 	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
@@ -12148,9 +12900,12 @@ func (v *ServerSigned1) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for euiccChallenge, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_euiccchallenge, rawVal_euiccchallenge, err := ber.DecodeTLV(content[offset:])
+	decodedTag_euiccchallenge, n_euiccchallenge, rawVal_euiccchallenge, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding euiccChallenge: %w", err)
+	}
+	if decodedTag_euiccchallenge.Class != tag.ClassContextSpecific || decodedTag_euiccchallenge.Number != 1 {
+		return fmt.Errorf("decoding euiccChallenge: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_euiccchallenge)
 	}
 	v.EuiccChallenge = Octet16(rawVal_euiccchallenge)
 	offset += n_euiccchallenge
@@ -12163,9 +12918,12 @@ func (v *ServerSigned1) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for serverAddress, got %s", "CONTEXT", 3, reqTag_)
 		}
 	}
-	_, n_serveraddress, rawVal_serveraddress, err := ber.DecodeTLV(content[offset:])
+	decodedTag_serveraddress, n_serveraddress, rawVal_serveraddress, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding serverAddress: %w", err)
+	}
+	if decodedTag_serveraddress.Class != tag.ClassContextSpecific || decodedTag_serveraddress.Number != 3 {
+		return fmt.Errorf("decoding serverAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_serveraddress)
 	}
 	decVal_serveraddress, stringErr := ber.DecodeStringValueTag(12, rawVal_serveraddress)
 	if stringErr != nil {
@@ -12182,9 +12940,12 @@ func (v *ServerSigned1) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for serverChallenge, got %s", "CONTEXT", 4, reqTag_)
 		}
 	}
-	_, n_serverchallenge, rawVal_serverchallenge, err := ber.DecodeTLV(content[offset:])
+	decodedTag_serverchallenge, n_serverchallenge, rawVal_serverchallenge, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding serverChallenge: %w", err)
+	}
+	if decodedTag_serverchallenge.Class != tag.ClassContextSpecific || decodedTag_serverchallenge.Number != 4 {
+		return fmt.Errorf("decoding serverChallenge: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_serverchallenge)
 	}
 	v.ServerChallenge = Octet16(rawVal_serverchallenge)
 	offset += n_serverchallenge
@@ -12234,9 +12995,19 @@ func (v *CtxParams1) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding ctxParamsForCommonAuthentication: %w", err)
 		}
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding ctxParamsForCommonAuthentication as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding CtxParams1 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes CtxParams1 from BER/DER format.
@@ -12258,7 +13029,7 @@ func (v *CtxParams1) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "CtxParams1", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == true {
 		v.Choice = CtxParams1ChoiceCtxParamsForCommonAuthentication
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -12314,7 +13085,14 @@ func (v *CtxParamsForCommonAuthentication) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding CtxParamsForCommonAuthentication as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes CtxParamsForCommonAuthentication from BER/DER format.
@@ -12332,9 +13110,12 @@ func (v *CtxParamsForCommonAuthentication) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_matchingid, rawVal_matchingid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_matchingid, n_matchingid, rawVal_matchingid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding matchingId: %w", err)
+				}
+				if decodedTag_matchingid.Class != tag.ClassContextSpecific || decodedTag_matchingid.Number != 0 {
+					return fmt.Errorf("decoding matchingId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_matchingid)
 				}
 				decVal_matchingid, stringErr := ber.DecodeStringValueTag(12, rawVal_matchingid)
 				if stringErr != nil {
@@ -12354,9 +13135,12 @@ func (v *CtxParamsForCommonAuthentication) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for deviceInfo, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_deviceinfo, rawVal_deviceinfo, err := ber.DecodeTLV(content[offset:])
+	decodedTag_deviceinfo, n_deviceinfo, rawVal_deviceinfo, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding deviceInfo: %w", err)
+	}
+	if decodedTag_deviceinfo.Class != tag.ClassContextSpecific || decodedTag_deviceinfo.Number != 1 || decodedTag_deviceinfo.Constructed != true {
+		return fmt.Errorf("decoding deviceInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_deviceinfo)
 	}
 	reconstructed_deviceinfo := ber.EncodeSequence(rawVal_deviceinfo)
 	if unmErr := v.DeviceInfo.UnmarshalBER(reconstructed_deviceinfo); unmErr != nil {
@@ -12422,6 +13206,9 @@ func (v *AuthenticateServerResponse) MarshalDER() ([]byte, error) {
 		}
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
 		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 56, enc_der_0)
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding authenticateResponseOk as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	case AuthenticateServerResponseChoiceAuthenticateResponseError:
 		if v.AuthenticateResponseError == nil {
@@ -12433,9 +13220,19 @@ func (v *AuthenticateServerResponse) MarshalDER() ([]byte, error) {
 		}
 		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_1)
 		enc_der_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 56, enc_der_1)
+		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
+			return nil, fmt.Errorf("encoding authenticateResponseError as DER: %w", derErr)
+		}
 		return enc_der_1, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AuthenticateServerResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AuthenticateServerResponse from BER/DER format.
@@ -12470,7 +13267,7 @@ func (v *AuthenticateServerResponse) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "AuthenticateServerResponse", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == true {
 		v.Choice = AuthenticateServerResponseChoiceAuthenticateResponseOk
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -12482,7 +13279,7 @@ func (v *AuthenticateServerResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding authenticateResponseOk: %w", unmErr)
 		}
 		v.AuthenticateResponseOk = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == true {
 		v.Choice = AuthenticateServerResponseChoiceAuthenticateResponseError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -12542,7 +13339,14 @@ func (v *AuthenticateResponseOk) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AuthenticateResponseOk as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AuthenticateResponseOk from BER/DER format.
@@ -12577,9 +13381,12 @@ func (v *AuthenticateResponseOk) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for euiccSignature1, got %s", "APPLICATION", 55, reqTag_)
 		}
 	}
-	_, n_euiccsignature1, rawVal_euiccsignature1, err := ber.DecodeTLV(content[offset:])
+	decodedTag_euiccsignature1, n_euiccsignature1, rawVal_euiccsignature1, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding euiccSignature1: %w", err)
+	}
+	if decodedTag_euiccsignature1.Class != tag.ClassApplication || decodedTag_euiccsignature1.Number != 55 {
+		return fmt.Errorf("decoding euiccSignature1: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_euiccsignature1)
 	}
 	v.EuiccSignature1 = rawVal_euiccsignature1
 	offset += n_euiccsignature1
@@ -12671,7 +13478,14 @@ func (v *EuiccSigned1) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding EuiccSigned1 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes EuiccSigned1 from BER/DER format.
@@ -12693,9 +13507,12 @@ func (v *EuiccSigned1) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for transactionId, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_transactionid, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
+	}
+	if decodedTag_transactionid.Class != tag.ClassContextSpecific || decodedTag_transactionid.Number != 0 {
+		return fmt.Errorf("decoding transactionId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_transactionid)
 	}
 	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
@@ -12708,9 +13525,12 @@ func (v *EuiccSigned1) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for serverAddress, got %s", "CONTEXT", 3, reqTag_)
 		}
 	}
-	_, n_serveraddress, rawVal_serveraddress, err := ber.DecodeTLV(content[offset:])
+	decodedTag_serveraddress, n_serveraddress, rawVal_serveraddress, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding serverAddress: %w", err)
+	}
+	if decodedTag_serveraddress.Class != tag.ClassContextSpecific || decodedTag_serveraddress.Number != 3 {
+		return fmt.Errorf("decoding serverAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_serveraddress)
 	}
 	decVal_serveraddress, stringErr := ber.DecodeStringValueTag(12, rawVal_serveraddress)
 	if stringErr != nil {
@@ -12727,9 +13547,12 @@ func (v *EuiccSigned1) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for serverChallenge, got %s", "CONTEXT", 4, reqTag_)
 		}
 	}
-	_, n_serverchallenge, rawVal_serverchallenge, err := ber.DecodeTLV(content[offset:])
+	decodedTag_serverchallenge, n_serverchallenge, rawVal_serverchallenge, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding serverChallenge: %w", err)
+	}
+	if decodedTag_serverchallenge.Class != tag.ClassContextSpecific || decodedTag_serverchallenge.Number != 4 {
+		return fmt.Errorf("decoding serverChallenge: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_serverchallenge)
 	}
 	v.ServerChallenge = Octet16(rawVal_serverchallenge)
 	offset += n_serverchallenge
@@ -12809,7 +13632,14 @@ func (v *AuthenticateResponseError) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AuthenticateResponseError as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AuthenticateResponseError from BER/DER format.
@@ -12831,9 +13661,12 @@ func (v *AuthenticateResponseError) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for transactionId, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_transactionid, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
+	}
+	if decodedTag_transactionid.Class != tag.ClassContextSpecific || decodedTag_transactionid.Number != 0 {
+		return fmt.Errorf("decoding transactionId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_transactionid)
 	}
 	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
@@ -12897,7 +13730,14 @@ func (v *CancelSessionRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding CancelSessionRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes CancelSessionRequest from BER/DER format.
@@ -12922,9 +13762,12 @@ func (v *CancelSessionRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for transactionId, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_transactionid, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
+	}
+	if decodedTag_transactionid.Class != tag.ClassContextSpecific || decodedTag_transactionid.Number != 0 {
+		return fmt.Errorf("decoding transactionId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_transactionid)
 	}
 	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
@@ -12937,9 +13780,12 @@ func (v *CancelSessionRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for reason, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_reason, rawVal_reason, err := ber.DecodeTLV(content[offset:])
+	decodedTag_reason, n_reason, rawVal_reason, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding reason: %w", err)
+	}
+	if decodedTag_reason.Class != tag.ClassContextSpecific || decodedTag_reason.Number != 1 || decodedTag_reason.Constructed != false {
+		return fmt.Errorf("decoding reason: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_reason)
 	}
 	decVal_reason, intErr := ber.DecodeBigIntValue(rawVal_reason)
 	if intErr != nil {
@@ -13007,9 +13853,19 @@ func (v *CancelSessionResponse) MarshalDER() ([]byte, error) {
 		}
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
 		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 65, enc_der_0)
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding cancelSessionResponseOk as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding CancelSessionResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes CancelSessionResponse from BER/DER format.
@@ -13044,7 +13900,7 @@ func (v *CancelSessionResponse) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "CancelSessionResponse", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == true {
 		v.Choice = CancelSessionResponseChoiceCancelSessionResponseOk
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -13056,7 +13912,7 @@ func (v *CancelSessionResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding cancelSessionResponseOk: %w", unmErr)
 		}
 		v.CancelSessionResponseOk = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = CancelSessionResponseChoiceCancelSessionResponseError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -13109,7 +13965,14 @@ func (v *CancelSessionResponseOk) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding CancelSessionResponseOk as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes CancelSessionResponseOk from BER/DER format.
@@ -13144,9 +14007,12 @@ func (v *CancelSessionResponseOk) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for euiccCancelSessionSignature, got %s", "APPLICATION", 55, reqTag_)
 		}
 	}
-	_, n_euicccancelsessionsignature, rawVal_euicccancelsessionsignature, err := ber.DecodeTLV(content[offset:])
+	decodedTag_euicccancelsessionsignature, n_euicccancelsessionsignature, rawVal_euicccancelsessionsignature, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding euiccCancelSessionSignature: %w", err)
+	}
+	if decodedTag_euicccancelsessionsignature.Class != tag.ClassApplication || decodedTag_euicccancelsessionsignature.Number != 55 {
+		return fmt.Errorf("decoding euiccCancelSessionSignature: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_euicccancelsessionsignature)
 	}
 	v.EuiccCancelSessionSignature = rawVal_euicccancelsessionsignature
 	offset += n_euicccancelsessionsignature
@@ -13202,7 +14068,14 @@ func (v *EuiccCancelSessionSigned) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding EuiccCancelSessionSigned as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes EuiccCancelSessionSigned from BER/DER format.
@@ -13224,9 +14097,12 @@ func (v *EuiccCancelSessionSigned) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for transactionId, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_transactionid, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
+	}
+	if decodedTag_transactionid.Class != tag.ClassContextSpecific || decodedTag_transactionid.Number != 0 {
+		return fmt.Errorf("decoding transactionId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_transactionid)
 	}
 	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
@@ -13239,9 +14115,12 @@ func (v *EuiccCancelSessionSigned) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for smdpOid, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_smdpoid, rawVal_smdpoid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_smdpoid, n_smdpoid, rawVal_smdpoid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding smdpOid: %w", err)
+	}
+	if decodedTag_smdpoid.Class != tag.ClassContextSpecific || decodedTag_smdpoid.Number != 1 || decodedTag_smdpoid.Constructed != false {
+		return fmt.Errorf("decoding smdpOid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smdpoid)
 	}
 	decVal_smdpoid, oidErr := ber.DecodeOIDValue(rawVal_smdpoid)
 	if oidErr != nil {
@@ -13258,9 +14137,12 @@ func (v *EuiccCancelSessionSigned) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for reason, got %s", "CONTEXT", 2, reqTag_)
 		}
 	}
-	_, n_reason, rawVal_reason, err := ber.DecodeTLV(content[offset:])
+	decodedTag_reason, n_reason, rawVal_reason, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding reason: %w", err)
+	}
+	if decodedTag_reason.Class != tag.ClassContextSpecific || decodedTag_reason.Number != 2 || decodedTag_reason.Constructed != false {
+		return fmt.Errorf("decoding reason: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_reason)
 	}
 	decVal_reason, intErr := ber.DecodeBigIntValue(rawVal_reason)
 	if intErr != nil {
@@ -13330,7 +14212,14 @@ func (v *ProfileInfoListRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ProfileInfoListRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ProfileInfoListRequest from BER/DER format.
@@ -13351,9 +14240,12 @@ func (v *ProfileInfoListRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_searchcriteria, innerData_searchcriteria, err := ber.DecodeTLV(content[offset:])
+				decodedTag_searchcriteria, n_searchcriteria, innerData_searchcriteria, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding searchCriteria: %w", err)
+				}
+				if decodedTag_searchcriteria.Class != tag.ClassContextSpecific || decodedTag_searchcriteria.Number != 0 || decodedTag_searchcriteria.Constructed != true {
+					return fmt.Errorf("decoding searchCriteria: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_searchcriteria)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_searchcriteria ProfileInfoListRequestSearchCriteria
@@ -13370,9 +14262,12 @@ func (v *ProfileInfoListRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassApplication && peekTag.Number == 28 {
-				_, n_taglist, rawVal_taglist, err := ber.DecodeTLV(content[offset:])
+				decodedTag_taglist, n_taglist, rawVal_taglist, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding tagList: %w", err)
+				}
+				if decodedTag_taglist.Class != tag.ClassApplication || decodedTag_taglist.Number != 28 {
+					return fmt.Errorf("decoding tagList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_taglist)
 				}
 				tmp_taglist := rawVal_taglist
 				v.TagList = tmp_taglist
@@ -13385,9 +14280,12 @@ func (v *ProfileInfoListRequest) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassApplication && peekTag.Number == 29 {
-				_, n_iotspecifictaglist, rawVal_iotspecifictaglist, err := ber.DecodeTLV(content[offset:])
+				decodedTag_iotspecifictaglist, n_iotspecifictaglist, rawVal_iotspecifictaglist, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding iotSpecificTagList: %w", err)
+				}
+				if decodedTag_iotspecifictaglist.Class != tag.ClassApplication || decodedTag_iotspecifictaglist.Number != 29 {
+					return fmt.Errorf("decoding iotSpecificTagList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_iotspecifictaglist)
 				}
 				tmp_iotspecifictaglist := rawVal_iotspecifictaglist
 				v.IotSpecificTagList = tmp_iotspecifictaglist
@@ -13415,9 +14313,6 @@ func (v *ProfileInfoListRequest) UnmarshalBER(data []byte) error {
 func (v *ProfileInfoListResponse) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case ProfileInfoListResponseChoiceProfileInfoListOk:
-		if v.ProfileInfoListOk == nil {
-			return nil, fmt.Errorf("choice ProfileInfoListResponse: profileInfoListOk is nil")
-		}
 		enc_0, err := MarshalBERProfileInfoListResponseProfileInfoListOk(v.ProfileInfoListOk)
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileInfoListOk: %w", err)
@@ -13440,7 +14335,14 @@ func (v *ProfileInfoListResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ProfileInfoListResponse to DER format.
 func (v *ProfileInfoListResponse) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ProfileInfoListResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ProfileInfoListResponse from BER/DER format.
@@ -13475,7 +14377,7 @@ func (v *ProfileInfoListResponse) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "ProfileInfoListResponse", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == true {
 		v.Choice = ProfileInfoListResponseChoiceProfileInfoListOk
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -13487,7 +14389,7 @@ func (v *ProfileInfoListResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding profileInfoListOk: %w", unmErr)
 		}
 		v.ProfileInfoListOk = dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = ProfileInfoListResponseChoiceProfileInfoListError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -13683,7 +14585,14 @@ func (v *ProfileInfo) MarshalDER() ([]byte, error) {
 	derValue.NotificationConfigurationInfoIndef_ = false
 	derValue.ServiceSpecificDataStoredInEuiccIndef_ = false
 	v = &derValue
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ProfileInfo as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ProfileInfo from BER/DER format.
@@ -13704,9 +14613,12 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassApplication && peekTag.Number == 26 {
-				_, n_iccid, rawVal_iccid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_iccid, n_iccid, rawVal_iccid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding iccid: %w", err)
+				}
+				if decodedTag_iccid.Class != tag.ClassApplication || decodedTag_iccid.Number != 26 {
+					return fmt.Errorf("decoding iccid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_iccid)
 				}
 				tmp_iccid := Iccid(rawVal_iccid)
 				v.Iccid = &tmp_iccid
@@ -13719,9 +14631,12 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassApplication && peekTag.Number == 15 {
-				_, n_isdpaid, rawVal_isdpaid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_isdpaid, n_isdpaid, rawVal_isdpaid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding isdpAid: %w", err)
+				}
+				if decodedTag_isdpaid.Class != tag.ClassApplication || decodedTag_isdpaid.Number != 15 {
+					return fmt.Errorf("decoding isdpAid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_isdpaid)
 				}
 				tmp_isdpaid := OctetTo16(rawVal_isdpaid)
 				v.IsdpAid = &tmp_isdpaid
@@ -13734,9 +14649,12 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 112 {
-				_, n_profilestate, rawVal_profilestate, err := ber.DecodeTLV(content[offset:])
+				decodedTag_profilestate, n_profilestate, rawVal_profilestate, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding profileState: %w", err)
+				}
+				if decodedTag_profilestate.Class != tag.ClassContextSpecific || decodedTag_profilestate.Number != 112 || decodedTag_profilestate.Constructed != false {
+					return fmt.Errorf("decoding profileState: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profilestate)
 				}
 				decVal_profilestate, intErr := ber.DecodeBigIntValue(rawVal_profilestate)
 				if intErr != nil {
@@ -13756,9 +14674,12 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 {
-				_, n_profilenickname, rawVal_profilenickname, err := ber.DecodeTLV(content[offset:])
+				decodedTag_profilenickname, n_profilenickname, rawVal_profilenickname, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding profileNickname: %w", err)
+				}
+				if decodedTag_profilenickname.Class != tag.ClassContextSpecific || decodedTag_profilenickname.Number != 16 {
+					return fmt.Errorf("decoding profileNickname: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profilenickname)
 				}
 				decVal_profilenickname, stringErr := ber.DecodeStringValueTag(12, rawVal_profilenickname)
 				if stringErr != nil {
@@ -13774,9 +14695,12 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17 {
-				_, n_serviceprovidername, rawVal_serviceprovidername, err := ber.DecodeTLV(content[offset:])
+				decodedTag_serviceprovidername, n_serviceprovidername, rawVal_serviceprovidername, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding serviceProviderName: %w", err)
+				}
+				if decodedTag_serviceprovidername.Class != tag.ClassContextSpecific || decodedTag_serviceprovidername.Number != 17 {
+					return fmt.Errorf("decoding serviceProviderName: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_serviceprovidername)
 				}
 				decVal_serviceprovidername, stringErr := ber.DecodeStringValueTag(12, rawVal_serviceprovidername)
 				if stringErr != nil {
@@ -13792,9 +14716,12 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18 {
-				_, n_profilename, rawVal_profilename, err := ber.DecodeTLV(content[offset:])
+				decodedTag_profilename, n_profilename, rawVal_profilename, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding profileName: %w", err)
+				}
+				if decodedTag_profilename.Class != tag.ClassContextSpecific || decodedTag_profilename.Number != 18 {
+					return fmt.Errorf("decoding profileName: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profilename)
 				}
 				decVal_profilename, stringErr := ber.DecodeStringValueTag(12, rawVal_profilename)
 				if stringErr != nil {
@@ -13810,9 +14737,12 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19 {
-				_, n_icontype, rawVal_icontype, err := ber.DecodeTLV(content[offset:])
+				decodedTag_icontype, n_icontype, rawVal_icontype, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding iconType: %w", err)
+				}
+				if decodedTag_icontype.Class != tag.ClassContextSpecific || decodedTag_icontype.Number != 19 || decodedTag_icontype.Constructed != false {
+					return fmt.Errorf("decoding iconType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_icontype)
 				}
 				decVal_icontype, intErr := ber.DecodeBigIntValue(rawVal_icontype)
 				if intErr != nil {
@@ -13832,9 +14762,12 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20 {
-				_, n_icon, rawVal_icon, err := ber.DecodeTLV(content[offset:])
+				decodedTag_icon, n_icon, rawVal_icon, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding icon: %w", err)
+				}
+				if decodedTag_icon.Class != tag.ClassContextSpecific || decodedTag_icon.Number != 20 {
+					return fmt.Errorf("decoding icon: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_icon)
 				}
 				tmp_icon := rawVal_icon
 				v.Icon = tmp_icon
@@ -13847,9 +14780,12 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21 {
-				_, n_profileclass, rawVal_profileclass, err := ber.DecodeTLV(content[offset:])
+				decodedTag_profileclass, n_profileclass, rawVal_profileclass, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding profileClass: %w", err)
+				}
+				if decodedTag_profileclass.Class != tag.ClassContextSpecific || decodedTag_profileclass.Number != 21 || decodedTag_profileclass.Constructed != false {
+					return fmt.Errorf("decoding profileClass: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profileclass)
 				}
 				decVal_profileclass, intErr := ber.DecodeBigIntValue(rawVal_profileclass)
 				if intErr != nil {
@@ -13870,9 +14806,12 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22 {
-				_, n_notificationconfigurationinfo, rawVal_notificationconfigurationinfo, err := ber.DecodeTLV(content[offset:])
+				decodedTag_notificationconfigurationinfo, n_notificationconfigurationinfo, rawVal_notificationconfigurationinfo, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding notificationConfigurationInfo: %w", err)
+				}
+				if decodedTag_notificationconfigurationinfo.Class != tag.ClassContextSpecific || decodedTag_notificationconfigurationinfo.Number != 22 || decodedTag_notificationconfigurationinfo.Constructed != true {
+					return fmt.Errorf("decoding notificationConfigurationInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_notificationconfigurationinfo)
 				}
 				reconstructed_notificationconfigurationinfo := ber.EncodeSequence(rawVal_notificationconfigurationinfo)
 				dec_notificationconfigurationinfo, unmErr := UnmarshalBERProfileInfoNotificationConfigurationInfo(reconstructed_notificationconfigurationinfo)
@@ -13895,9 +14834,12 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 23 {
-				_, n_profileowner, rawVal_profileowner, err := ber.DecodeTLV(content[offset:])
+				decodedTag_profileowner, n_profileowner, rawVal_profileowner, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding profileOwner: %w", err)
+				}
+				if decodedTag_profileowner.Class != tag.ClassContextSpecific || decodedTag_profileowner.Number != 23 || decodedTag_profileowner.Constructed != true {
+					return fmt.Errorf("decoding profileOwner: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profileowner)
 				}
 				reconstructed_profileowner := ber.EncodeSequence(rawVal_profileowner)
 				var dec_profileowner OperatorId
@@ -13914,9 +14856,12 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 24 {
-				_, n_dpproprietarydata, rawVal_dpproprietarydata, err := ber.DecodeTLV(content[offset:])
+				decodedTag_dpproprietarydata, n_dpproprietarydata, rawVal_dpproprietarydata, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding dpProprietaryData: %w", err)
+				}
+				if decodedTag_dpproprietarydata.Class != tag.ClassContextSpecific || decodedTag_dpproprietarydata.Number != 24 || decodedTag_dpproprietarydata.Constructed != true {
+					return fmt.Errorf("decoding dpProprietaryData: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dpproprietarydata)
 				}
 				reconstructed_dpproprietarydata := ber.EncodeSequence(rawVal_dpproprietarydata)
 				var dec_dpproprietarydata DpProprietaryData
@@ -13933,9 +14878,12 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 25 {
-				_, n_profilepolicyrules, rawVal_profilepolicyrules, err := ber.DecodeTLV(content[offset:])
+				decodedTag_profilepolicyrules, n_profilepolicyrules, rawVal_profilepolicyrules, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding profilePolicyRules: %w", err)
+				}
+				if decodedTag_profilepolicyrules.Class != tag.ClassContextSpecific || decodedTag_profilepolicyrules.Number != 25 {
+					return fmt.Errorf("decoding profilePolicyRules: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profilepolicyrules)
 				}
 				bsBytes_profilepolicyrules, bsUnused_profilepolicyrules, bsErr := ber.DecodeBitStringValue(rawVal_profilepolicyrules)
 				if bsErr != nil {
@@ -13953,9 +14901,12 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 34 {
-				_, n_servicespecificdatastoredineuicc, rawVal_servicespecificdatastoredineuicc, err := ber.DecodeTLV(content[offset:])
+				decodedTag_servicespecificdatastoredineuicc, n_servicespecificdatastoredineuicc, rawVal_servicespecificdatastoredineuicc, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding serviceSpecificDataStoredInEuicc: %w", err)
+				}
+				if decodedTag_servicespecificdatastoredineuicc.Class != tag.ClassContextSpecific || decodedTag_servicespecificdatastoredineuicc.Number != 34 || decodedTag_servicespecificdatastoredineuicc.Constructed != true {
+					return fmt.Errorf("decoding serviceSpecificDataStoredInEuicc: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_servicespecificdatastoredineuicc)
 				}
 				reconstructed_servicespecificdatastoredineuicc := ber.EncodeSequence(rawVal_servicespecificdatastoredineuicc)
 				dec_servicespecificdatastoredineuicc, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_servicespecificdatastoredineuicc)
@@ -13978,9 +14929,12 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 123 {
-				_, n_ecallindication, rawVal_ecallindication, err := ber.DecodeTLV(content[offset:])
+				decodedTag_ecallindication, n_ecallindication, rawVal_ecallindication, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ecallIndication: %w", err)
+				}
+				if decodedTag_ecallindication.Class != tag.ClassContextSpecific || decodedTag_ecallindication.Number != 123 || decodedTag_ecallindication.Constructed != false {
+					return fmt.Errorf("decoding ecallIndication: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ecallindication)
 				}
 				decVal_ecallindication, boolErr := ber.DecodeBooleanValue(rawVal_ecallindication)
 				if boolErr != nil {
@@ -13999,9 +14953,12 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 38 {
-				_, n_fallbackattribute, rawVal_fallbackattribute, err := ber.DecodeTLV(content[offset:])
+				decodedTag_fallbackattribute, n_fallbackattribute, rawVal_fallbackattribute, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding fallbackAttribute: %w", err)
+				}
+				if decodedTag_fallbackattribute.Class != tag.ClassContextSpecific || decodedTag_fallbackattribute.Number != 38 || decodedTag_fallbackattribute.Constructed != false {
+					return fmt.Errorf("decoding fallbackAttribute: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_fallbackattribute)
 				}
 				decVal_fallbackattribute, boolErr := ber.DecodeBooleanValue(rawVal_fallbackattribute)
 				if boolErr != nil {
@@ -14020,9 +14977,12 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 103 {
-				_, n_fallbackallowed, rawVal_fallbackallowed, err := ber.DecodeTLV(content[offset:])
+				decodedTag_fallbackallowed, n_fallbackallowed, rawVal_fallbackallowed, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding fallbackAllowed: %w", err)
+				}
+				if decodedTag_fallbackallowed.Class != tag.ClassContextSpecific || decodedTag_fallbackallowed.Number != 103 || decodedTag_fallbackallowed.Constructed != false {
+					return fmt.Errorf("decoding fallbackAllowed: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_fallbackallowed)
 				}
 				decVal_fallbackallowed, boolErr := ber.DecodeBooleanValue(rawVal_fallbackallowed)
 				if boolErr != nil {
@@ -14041,9 +15001,12 @@ func (v *ProfileInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 100 {
-				_, n_iotspecificprofileinfo, rawVal_iotspecificprofileinfo, err := ber.DecodeTLV(content[offset:])
+				decodedTag_iotspecificprofileinfo, n_iotspecificprofileinfo, rawVal_iotspecificprofileinfo, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding iotSpecificProfileInfo: %w", err)
+				}
+				if decodedTag_iotspecificprofileinfo.Class != tag.ClassContextSpecific || decodedTag_iotspecificprofileinfo.Number != 100 || decodedTag_iotspecificprofileinfo.Constructed != true {
+					return fmt.Errorf("decoding iotSpecificProfileInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_iotspecificprofileinfo)
 				}
 				reconstructed_iotspecificprofileinfo := ber.EncodeSequence(rawVal_iotspecificprofileinfo)
 				var dec_iotspecificprofileinfo ProfileInfoIotSpecificProfileInfo
@@ -14109,7 +15072,14 @@ func (v *EnableProfileRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding EnableProfileRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes EnableProfileRequest from BER/DER format.
@@ -14134,9 +15104,12 @@ func (v *EnableProfileRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for profileIdentifier, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_profileidentifier, innerData_profileidentifier, err := ber.DecodeTLV(content[offset:])
+	decodedTag_profileidentifier, n_profileidentifier, innerData_profileidentifier, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding profileIdentifier: %w", err)
+	}
+	if decodedTag_profileidentifier.Class != tag.ClassContextSpecific || decodedTag_profileidentifier.Number != 0 || decodedTag_profileidentifier.Constructed != true {
+		return fmt.Errorf("decoding profileIdentifier: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profileidentifier)
 	}
 	// Decode inner value from explicit tag wrapper
 	if unmErr := v.ProfileIdentifier.UnmarshalBER(innerData_profileidentifier); unmErr != nil {
@@ -14152,9 +15125,12 @@ func (v *EnableProfileRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for refreshFlag, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_refreshflag, rawVal_refreshflag, err := ber.DecodeTLV(content[offset:])
+	decodedTag_refreshflag, n_refreshflag, rawVal_refreshflag, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding refreshFlag: %w", err)
+	}
+	if decodedTag_refreshflag.Class != tag.ClassContextSpecific || decodedTag_refreshflag.Number != 1 || decodedTag_refreshflag.Constructed != false {
+		return fmt.Errorf("decoding refreshFlag: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_refreshflag)
 	}
 	decVal_refreshflag, boolErr := ber.DecodeBooleanValue(rawVal_refreshflag)
 	if boolErr != nil {
@@ -14208,7 +15184,14 @@ func (v *EnableProfileResponse) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding EnableProfileResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes EnableProfileResponse from BER/DER format.
@@ -14233,9 +15216,12 @@ func (v *EnableProfileResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for enableResult, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_enableresult, rawVal_enableresult, err := ber.DecodeTLV(content[offset:])
+	decodedTag_enableresult, n_enableresult, rawVal_enableresult, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding enableResult: %w", err)
+	}
+	if decodedTag_enableresult.Class != tag.ClassContextSpecific || decodedTag_enableresult.Number != 0 || decodedTag_enableresult.Constructed != false {
+		return fmt.Errorf("decoding enableResult: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_enableresult)
 	}
 	decVal_enableresult, intErr := ber.DecodeBigIntValue(rawVal_enableresult)
 	if intErr != nil {
@@ -14301,7 +15287,14 @@ func (v *DisableProfileRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding DisableProfileRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes DisableProfileRequest from BER/DER format.
@@ -14326,9 +15319,12 @@ func (v *DisableProfileRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for profileIdentifier, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_profileidentifier, innerData_profileidentifier, err := ber.DecodeTLV(content[offset:])
+	decodedTag_profileidentifier, n_profileidentifier, innerData_profileidentifier, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding profileIdentifier: %w", err)
+	}
+	if decodedTag_profileidentifier.Class != tag.ClassContextSpecific || decodedTag_profileidentifier.Number != 0 || decodedTag_profileidentifier.Constructed != true {
+		return fmt.Errorf("decoding profileIdentifier: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profileidentifier)
 	}
 	// Decode inner value from explicit tag wrapper
 	if unmErr := v.ProfileIdentifier.UnmarshalBER(innerData_profileidentifier); unmErr != nil {
@@ -14344,9 +15340,12 @@ func (v *DisableProfileRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for refreshFlag, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_refreshflag, rawVal_refreshflag, err := ber.DecodeTLV(content[offset:])
+	decodedTag_refreshflag, n_refreshflag, rawVal_refreshflag, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding refreshFlag: %w", err)
+	}
+	if decodedTag_refreshflag.Class != tag.ClassContextSpecific || decodedTag_refreshflag.Number != 1 || decodedTag_refreshflag.Constructed != false {
+		return fmt.Errorf("decoding refreshFlag: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_refreshflag)
 	}
 	decVal_refreshflag, boolErr := ber.DecodeBooleanValue(rawVal_refreshflag)
 	if boolErr != nil {
@@ -14400,7 +15399,14 @@ func (v *DisableProfileResponse) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding DisableProfileResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes DisableProfileResponse from BER/DER format.
@@ -14425,9 +15431,12 @@ func (v *DisableProfileResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for disableResult, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_disableresult, rawVal_disableresult, err := ber.DecodeTLV(content[offset:])
+	decodedTag_disableresult, n_disableresult, rawVal_disableresult, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding disableResult: %w", err)
+	}
+	if decodedTag_disableresult.Class != tag.ClassContextSpecific || decodedTag_disableresult.Number != 0 || decodedTag_disableresult.Constructed != false {
+		return fmt.Errorf("decoding disableResult: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_disableresult)
 	}
 	decVal_disableresult, intErr := ber.DecodeBigIntValue(rawVal_disableresult)
 	if intErr != nil {
@@ -14459,11 +15468,17 @@ func (v *DisableProfileResponse) UnmarshalBER(data []byte) error {
 func (v *DeleteProfileRequest) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case DeleteProfileRequestChoiceIsdpAid:
+		if v.IsdpAid == nil {
+			return nil, fmt.Errorf("choice DeleteProfileRequest: isdpAid is nil")
+		}
 		enc_0 := ber.EncodeOctetString([]byte(*v.IsdpAid))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 15, false, enc_0)
 		enc_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 51, enc_0)
 		return enc_0, nil
 	case DeleteProfileRequestChoiceIccid:
+		if v.Iccid == nil {
+			return nil, fmt.Errorf("choice DeleteProfileRequest: iccid is nil")
+		}
 		enc_1 := ber.EncodeOctetString([]byte(*v.Iccid))
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 26, false, enc_1)
 		enc_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 51, enc_1)
@@ -14475,7 +15490,14 @@ func (v *DeleteProfileRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes DeleteProfileRequest to DER format.
 func (v *DeleteProfileRequest) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding DeleteProfileRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes DeleteProfileRequest from BER/DER format.
@@ -14559,7 +15581,14 @@ func (v *DeleteProfileResponse) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding DeleteProfileResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes DeleteProfileResponse from BER/DER format.
@@ -14584,9 +15613,12 @@ func (v *DeleteProfileResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for deleteResult, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_deleteresult, rawVal_deleteresult, err := ber.DecodeTLV(content[offset:])
+	decodedTag_deleteresult, n_deleteresult, rawVal_deleteresult, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding deleteResult: %w", err)
+	}
+	if decodedTag_deleteresult.Class != tag.ClassContextSpecific || decodedTag_deleteresult.Number != 0 || decodedTag_deleteresult.Constructed != false {
+		return fmt.Errorf("decoding deleteResult: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_deleteresult)
 	}
 	decVal_deleteresult, intErr := ber.DecodeBigIntValue(rawVal_deleteresult)
 	if intErr != nil {
@@ -14641,7 +15673,14 @@ func (v *EuiccMemoryResetRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding EuiccMemoryResetRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes EuiccMemoryResetRequest from BER/DER format.
@@ -14666,9 +15705,12 @@ func (v *EuiccMemoryResetRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for resetOptions, got %s", "CONTEXT", 2, reqTag_)
 		}
 	}
-	_, n_resetoptions, rawVal_resetoptions, err := ber.DecodeTLV(content[offset:])
+	decodedTag_resetoptions, n_resetoptions, rawVal_resetoptions, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding resetOptions: %w", err)
+	}
+	if decodedTag_resetoptions.Class != tag.ClassContextSpecific || decodedTag_resetoptions.Number != 2 {
+		return fmt.Errorf("decoding resetOptions: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_resetoptions)
 	}
 	bsBytes_resetoptions, bsUnused_resetoptions, bsErr := ber.DecodeBitStringValue(rawVal_resetoptions)
 	if bsErr != nil {
@@ -14719,7 +15761,14 @@ func (v *EuiccMemoryResetResponse) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding EuiccMemoryResetResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes EuiccMemoryResetResponse from BER/DER format.
@@ -14744,9 +15793,12 @@ func (v *EuiccMemoryResetResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for resetResult, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_resetresult, rawVal_resetresult, err := ber.DecodeTLV(content[offset:])
+	decodedTag_resetresult, n_resetresult, rawVal_resetresult, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding resetResult: %w", err)
+	}
+	if decodedTag_resetresult.Class != tag.ClassContextSpecific || decodedTag_resetresult.Number != 0 || decodedTag_resetresult.Constructed != false {
+		return fmt.Errorf("decoding resetResult: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_resetresult)
 	}
 	decVal_resetresult, intErr := ber.DecodeBigIntValue(rawVal_resetresult)
 	if intErr != nil {
@@ -14801,7 +15853,14 @@ func (v *GetEuiccDataRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding GetEuiccDataRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes GetEuiccDataRequest from BER/DER format.
@@ -14826,9 +15885,12 @@ func (v *GetEuiccDataRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for tagList, got %s", "APPLICATION", 28, reqTag_)
 		}
 	}
-	_, n_taglist, rawVal_taglist, err := ber.DecodeTLV(content[offset:])
+	decodedTag_taglist, n_taglist, rawVal_taglist, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding tagList: %w", err)
+	}
+	if decodedTag_taglist.Class != tag.ClassApplication || decodedTag_taglist.Number != 28 {
+		return fmt.Errorf("decoding tagList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_taglist)
 	}
 	v.TagList = Octet1(rawVal_taglist)
 	offset += n_taglist
@@ -14875,7 +15937,14 @@ func (v *GetEuiccDataResponse) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding GetEuiccDataResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes GetEuiccDataResponse from BER/DER format.
@@ -14900,9 +15969,12 @@ func (v *GetEuiccDataResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for eidValue, got %s", "APPLICATION", 26, reqTag_)
 		}
 	}
-	_, n_eidvalue, rawVal_eidvalue, err := ber.DecodeTLV(content[offset:])
+	decodedTag_eidvalue, n_eidvalue, rawVal_eidvalue, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding eidValue: %w", err)
+	}
+	if decodedTag_eidvalue.Class != tag.ClassApplication || decodedTag_eidvalue.Number != 26 {
+		return fmt.Errorf("decoding eidValue: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_eidvalue)
 	}
 	v.EidValue = Octet16(rawVal_eidvalue)
 	offset += n_eidvalue
@@ -14955,7 +16027,14 @@ func (v *SetNicknameRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SetNicknameRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SetNicknameRequest from BER/DER format.
@@ -14980,9 +16059,12 @@ func (v *SetNicknameRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for iccid, got %s", "APPLICATION", 26, reqTag_)
 		}
 	}
-	_, n_iccid, rawVal_iccid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_iccid, n_iccid, rawVal_iccid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding iccid: %w", err)
+	}
+	if decodedTag_iccid.Class != tag.ClassApplication || decodedTag_iccid.Number != 26 {
+		return fmt.Errorf("decoding iccid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_iccid)
 	}
 	v.Iccid = Iccid(rawVal_iccid)
 	offset += n_iccid
@@ -14995,9 +16077,12 @@ func (v *SetNicknameRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for profileNickname, got %s", "CONTEXT", 16, reqTag_)
 		}
 	}
-	_, n_profilenickname, rawVal_profilenickname, err := ber.DecodeTLV(content[offset:])
+	decodedTag_profilenickname, n_profilenickname, rawVal_profilenickname, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding profileNickname: %w", err)
+	}
+	if decodedTag_profilenickname.Class != tag.ClassContextSpecific || decodedTag_profilenickname.Number != 16 {
+		return fmt.Errorf("decoding profileNickname: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profilenickname)
 	}
 	decVal_profilenickname, stringErr := ber.DecodeStringValueTag(12, rawVal_profilenickname)
 	if stringErr != nil {
@@ -15048,7 +16133,14 @@ func (v *SetNicknameResponse) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SetNicknameResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SetNicknameResponse from BER/DER format.
@@ -15073,9 +16165,12 @@ func (v *SetNicknameResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for setNicknameResult, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_setnicknameresult, rawVal_setnicknameresult, err := ber.DecodeTLV(content[offset:])
+	decodedTag_setnicknameresult, n_setnicknameresult, rawVal_setnicknameresult, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding setNicknameResult: %w", err)
+	}
+	if decodedTag_setnicknameresult.Class != tag.ClassContextSpecific || decodedTag_setnicknameresult.Number != 0 || decodedTag_setnicknameresult.Constructed != false {
+		return fmt.Errorf("decoding setNicknameResult: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_setnicknameresult)
 	}
 	decVal_setnicknameresult, intErr := ber.DecodeBigIntValue(rawVal_setnicknameresult)
 	if intErr != nil {
@@ -15127,7 +16222,14 @@ func (v *GetRatRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding GetRatRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes GetRatRequest from BER/DER format.
@@ -15201,7 +16303,14 @@ func (v *GetRatResponse) MarshalDER() ([]byte, error) {
 	derValue := *v
 	derValue.RatIndef_ = false
 	v = &derValue
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding GetRatResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes GetRatResponse from BER/DER format.
@@ -15227,9 +16336,12 @@ func (v *GetRatResponse) UnmarshalBER(data []byte) error {
 		}
 	}
 	v.RatIndef_ = false
-	_, n_rat, rawVal_rat, err := ber.DecodeTLV(content[offset:])
+	decodedTag_rat, n_rat, rawVal_rat, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding rat: %w", err)
+	}
+	if decodedTag_rat.Class != tag.ClassContextSpecific || decodedTag_rat.Number != 0 || decodedTag_rat.Constructed != true {
+		return fmt.Errorf("decoding rat: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rat)
 	}
 	reconstructed_rat := ber.EncodeSequence(rawVal_rat)
 	dec_rat, unmErr := UnmarshalBERRulesAuthorisationTable(reconstructed_rat)
@@ -15347,7 +16459,14 @@ func (v *ProfilePolicyAuthorisationRule) MarshalDER() ([]byte, error) {
 	derValue := *v
 	derValue.AllowedOperatorsIndef_ = false
 	v = &derValue
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ProfilePolicyAuthorisationRule as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ProfilePolicyAuthorisationRule from BER/DER format.
@@ -15369,9 +16488,12 @@ func (v *ProfilePolicyAuthorisationRule) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for pprIds, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_pprids, rawVal_pprids, err := ber.DecodeTLV(content[offset:])
+	decodedTag_pprids, n_pprids, rawVal_pprids, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding pprIds: %w", err)
+	}
+	if decodedTag_pprids.Class != tag.ClassContextSpecific || decodedTag_pprids.Number != 0 {
+		return fmt.Errorf("decoding pprIds: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_pprids)
 	}
 	bsBytes_pprids, bsUnused_pprids, bsErr := ber.DecodeBitStringValue(rawVal_pprids)
 	if bsErr != nil {
@@ -15389,9 +16511,12 @@ func (v *ProfilePolicyAuthorisationRule) UnmarshalBER(data []byte) error {
 		}
 	}
 	v.AllowedOperatorsIndef_ = false
-	_, n_allowedoperators, rawVal_allowedoperators, err := ber.DecodeTLV(content[offset:])
+	decodedTag_allowedoperators, n_allowedoperators, rawVal_allowedoperators, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding allowedOperators: %w", err)
+	}
+	if decodedTag_allowedoperators.Class != tag.ClassContextSpecific || decodedTag_allowedoperators.Number != 1 || decodedTag_allowedoperators.Constructed != true {
+		return fmt.Errorf("decoding allowedOperators: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_allowedoperators)
 	}
 	reconstructed_allowedoperators := ber.EncodeSequence(rawVal_allowedoperators)
 	dec_allowedoperators, unmErr := UnmarshalBERProfilePolicyAuthorisationRuleAllowedOperators(reconstructed_allowedoperators)
@@ -15415,9 +16540,12 @@ func (v *ProfilePolicyAuthorisationRule) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for pprFlags, got %s", "CONTEXT", 2, reqTag_)
 		}
 	}
-	_, n_pprflags, rawVal_pprflags, err := ber.DecodeTLV(content[offset:])
+	decodedTag_pprflags, n_pprflags, rawVal_pprflags, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding pprFlags: %w", err)
+	}
+	if decodedTag_pprflags.Class != tag.ClassContextSpecific || decodedTag_pprflags.Number != 2 {
+		return fmt.Errorf("decoding pprFlags: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_pprflags)
 	}
 	bsBytes_pprflags, bsUnused_pprflags, bsErr := ber.DecodeBitStringValue(rawVal_pprflags)
 	if bsErr != nil {
@@ -15511,6 +16639,9 @@ func (v *RemoteProfileProvisioningRequest) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding initiateAuthenticationRequest: %w", err)
 		}
 		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_0)
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding initiateAuthenticationRequest as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	case RemoteProfileProvisioningRequestChoiceAuthenticateClientRequest:
 		if v.AuthenticateClientRequest == nil {
@@ -15521,6 +16652,9 @@ func (v *RemoteProfileProvisioningRequest) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding authenticateClientRequest: %w", err)
 		}
 		enc_der_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_1)
+		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
+			return nil, fmt.Errorf("encoding authenticateClientRequest as DER: %w", derErr)
+		}
 		return enc_der_1, nil
 	case RemoteProfileProvisioningRequestChoiceGetBoundProfilePackageRequest:
 		if v.GetBoundProfilePackageRequest == nil {
@@ -15531,6 +16665,9 @@ func (v *RemoteProfileProvisioningRequest) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding getBoundProfilePackageRequest: %w", err)
 		}
 		enc_der_2 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_2)
+		if derErr := ber.ValidateDERElement(enc_der_2); derErr != nil {
+			return nil, fmt.Errorf("encoding getBoundProfilePackageRequest as DER: %w", derErr)
+		}
 		return enc_der_2, nil
 	case RemoteProfileProvisioningRequestChoiceCancelSessionRequestEs9:
 		if v.CancelSessionRequestEs9 == nil {
@@ -15541,6 +16678,9 @@ func (v *RemoteProfileProvisioningRequest) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding cancelSessionRequestEs9: %w", err)
 		}
 		enc_der_3 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_3)
+		if derErr := ber.ValidateDERElement(enc_der_3); derErr != nil {
+			return nil, fmt.Errorf("encoding cancelSessionRequestEs9 as DER: %w", derErr)
+		}
 		return enc_der_3, nil
 	case RemoteProfileProvisioningRequestChoiceHandleNotification:
 		if v.HandleNotification == nil {
@@ -15551,9 +16691,19 @@ func (v *RemoteProfileProvisioningRequest) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding handleNotification: %w", err)
 		}
 		enc_der_4 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_4)
+		if derErr := ber.ValidateDERElement(enc_der_4); derErr != nil {
+			return nil, fmt.Errorf("encoding handleNotification as DER: %w", derErr)
+		}
 		return enc_der_4, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RemoteProfileProvisioningRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes RemoteProfileProvisioningRequest from BER/DER format.
@@ -15588,35 +16738,35 @@ func (v *RemoteProfileProvisioningRequest) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "RemoteProfileProvisioningRequest", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 57 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 57 && peekTag.Constructed == true {
 		v.Choice = RemoteProfileProvisioningRequestChoiceInitiateAuthenticationRequest
 		var dec InitiateAuthenticationRequest
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
 			return fmt.Errorf("decoding initiateAuthenticationRequest: %w", unmErr)
 		}
 		v.InitiateAuthenticationRequest = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 59 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 59 && peekTag.Constructed == true {
 		v.Choice = RemoteProfileProvisioningRequestChoiceAuthenticateClientRequest
 		var dec AuthenticateClientRequest
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
 			return fmt.Errorf("decoding authenticateClientRequest: %w", unmErr)
 		}
 		v.AuthenticateClientRequest = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 58 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 58 && peekTag.Constructed == true {
 		v.Choice = RemoteProfileProvisioningRequestChoiceGetBoundProfilePackageRequest
 		var dec GetBoundProfilePackageRequest
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
 			return fmt.Errorf("decoding getBoundProfilePackageRequest: %w", unmErr)
 		}
 		v.GetBoundProfilePackageRequest = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 65 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 65 && peekTag.Constructed == true {
 		v.Choice = RemoteProfileProvisioningRequestChoiceCancelSessionRequestEs9
 		var dec CancelSessionRequestEs9
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
 			return fmt.Errorf("decoding cancelSessionRequestEs9: %w", unmErr)
 		}
 		v.CancelSessionRequestEs9 = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 61 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 61 && peekTag.Constructed == true {
 		v.Choice = RemoteProfileProvisioningRequestChoiceHandleNotification
 		var dec HandleNotification
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
@@ -15699,6 +16849,9 @@ func (v *RemoteProfileProvisioningResponse) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding initiateAuthenticationResponse: %w", err)
 		}
 		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_0)
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding initiateAuthenticationResponse as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	case RemoteProfileProvisioningResponseChoiceAuthenticateClientResponseEs9:
 		if v.AuthenticateClientResponseEs9 == nil {
@@ -15709,6 +16862,9 @@ func (v *RemoteProfileProvisioningResponse) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding authenticateClientResponseEs9: %w", err)
 		}
 		enc_der_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_1)
+		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
+			return nil, fmt.Errorf("encoding authenticateClientResponseEs9 as DER: %w", derErr)
+		}
 		return enc_der_1, nil
 	case RemoteProfileProvisioningResponseChoiceGetBoundProfilePackageResponse:
 		if v.GetBoundProfilePackageResponse == nil {
@@ -15719,6 +16875,9 @@ func (v *RemoteProfileProvisioningResponse) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding getBoundProfilePackageResponse: %w", err)
 		}
 		enc_der_2 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_2)
+		if derErr := ber.ValidateDERElement(enc_der_2); derErr != nil {
+			return nil, fmt.Errorf("encoding getBoundProfilePackageResponse as DER: %w", derErr)
+		}
 		return enc_der_2, nil
 	case RemoteProfileProvisioningResponseChoiceCancelSessionResponseEs9:
 		if v.CancelSessionResponseEs9 == nil {
@@ -15729,6 +16888,9 @@ func (v *RemoteProfileProvisioningResponse) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding cancelSessionResponseEs9: %w", err)
 		}
 		enc_der_3 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_3)
+		if derErr := ber.ValidateDERElement(enc_der_3); derErr != nil {
+			return nil, fmt.Errorf("encoding cancelSessionResponseEs9 as DER: %w", derErr)
+		}
 		return enc_der_3, nil
 	case RemoteProfileProvisioningResponseChoiceAuthenticateClientResponseEs11:
 		if v.AuthenticateClientResponseEs11 == nil {
@@ -15739,9 +16901,19 @@ func (v *RemoteProfileProvisioningResponse) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding authenticateClientResponseEs11: %w", err)
 		}
 		enc_der_4 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_4)
+		if derErr := ber.ValidateDERElement(enc_der_4); derErr != nil {
+			return nil, fmt.Errorf("encoding authenticateClientResponseEs11 as DER: %w", derErr)
+		}
 		return enc_der_4, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RemoteProfileProvisioningResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes RemoteProfileProvisioningResponse from BER/DER format.
@@ -15776,35 +16948,35 @@ func (v *RemoteProfileProvisioningResponse) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "RemoteProfileProvisioningResponse", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 57 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 57 && peekTag.Constructed == true {
 		v.Choice = RemoteProfileProvisioningResponseChoiceInitiateAuthenticationResponse
 		var dec InitiateAuthenticationResponse
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
 			return fmt.Errorf("decoding initiateAuthenticationResponse: %w", unmErr)
 		}
 		v.InitiateAuthenticationResponse = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 59 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 59 && peekTag.Constructed == true {
 		v.Choice = RemoteProfileProvisioningResponseChoiceAuthenticateClientResponseEs9
 		var dec AuthenticateClientResponseEs9
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
 			return fmt.Errorf("decoding authenticateClientResponseEs9: %w", unmErr)
 		}
 		v.AuthenticateClientResponseEs9 = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 58 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 58 && peekTag.Constructed == true {
 		v.Choice = RemoteProfileProvisioningResponseChoiceGetBoundProfilePackageResponse
 		var dec GetBoundProfilePackageResponse
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
 			return fmt.Errorf("decoding getBoundProfilePackageResponse: %w", unmErr)
 		}
 		v.GetBoundProfilePackageResponse = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 65 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 65 && peekTag.Constructed == true {
 		v.Choice = RemoteProfileProvisioningResponseChoiceCancelSessionResponseEs9
 		var dec CancelSessionResponseEs9
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
 			return fmt.Errorf("decoding cancelSessionResponseEs9: %w", unmErr)
 		}
 		v.CancelSessionResponseEs9 = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 64 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 64 && peekTag.Constructed == true {
 		v.Choice = RemoteProfileProvisioningResponseChoiceAuthenticateClientResponseEs11
 		var dec AuthenticateClientResponseEs11
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
@@ -15855,7 +17027,14 @@ func (v *InitiateAuthenticationRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding InitiateAuthenticationRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes InitiateAuthenticationRequest from BER/DER format.
@@ -15880,9 +17059,12 @@ func (v *InitiateAuthenticationRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for euiccChallenge, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_euiccchallenge, rawVal_euiccchallenge, err := ber.DecodeTLV(content[offset:])
+	decodedTag_euiccchallenge, n_euiccchallenge, rawVal_euiccchallenge, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding euiccChallenge: %w", err)
+	}
+	if decodedTag_euiccchallenge.Class != tag.ClassContextSpecific || decodedTag_euiccchallenge.Number != 1 {
+		return fmt.Errorf("decoding euiccChallenge: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_euiccchallenge)
 	}
 	v.EuiccChallenge = Octet16(rawVal_euiccchallenge)
 	offset += n_euiccchallenge
@@ -15895,9 +17077,12 @@ func (v *InitiateAuthenticationRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for smdpAddress, got %s", "CONTEXT", 3, reqTag_)
 		}
 	}
-	_, n_smdpaddress, rawVal_smdpaddress, err := ber.DecodeTLV(content[offset:])
+	decodedTag_smdpaddress, n_smdpaddress, rawVal_smdpaddress, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding smdpAddress: %w", err)
+	}
+	if decodedTag_smdpaddress.Class != tag.ClassContextSpecific || decodedTag_smdpaddress.Number != 3 {
+		return fmt.Errorf("decoding smdpAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smdpaddress)
 	}
 	decVal_smdpaddress, stringErr := ber.DecodeStringValueTag(12, rawVal_smdpaddress)
 	if stringErr != nil {
@@ -15974,9 +17159,19 @@ func (v *InitiateAuthenticationResponse) MarshalDER() ([]byte, error) {
 		}
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
 		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 57, enc_der_0)
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding initiateAuthenticationOk as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding InitiateAuthenticationResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes InitiateAuthenticationResponse from BER/DER format.
@@ -16011,7 +17206,7 @@ func (v *InitiateAuthenticationResponse) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "InitiateAuthenticationResponse", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == true {
 		v.Choice = InitiateAuthenticationResponseChoiceInitiateAuthenticationOk
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -16023,7 +17218,7 @@ func (v *InitiateAuthenticationResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding initiateAuthenticationOk: %w", unmErr)
 		}
 		v.InitiateAuthenticationOk = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = InitiateAuthenticationResponseChoiceInitiateAuthenticationError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -16086,7 +17281,14 @@ func (v *InitiateAuthenticationOkEs9) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding InitiateAuthenticationOkEs9 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes InitiateAuthenticationOkEs9 from BER/DER format.
@@ -16108,9 +17310,12 @@ func (v *InitiateAuthenticationOkEs9) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for transactionId, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_transactionid, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
+	}
+	if decodedTag_transactionid.Class != tag.ClassContextSpecific || decodedTag_transactionid.Number != 0 {
+		return fmt.Errorf("decoding transactionId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_transactionid)
 	}
 	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
@@ -16136,9 +17341,12 @@ func (v *InitiateAuthenticationOkEs9) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for serverSignature1, got %s", "APPLICATION", 55, reqTag_)
 		}
 	}
-	_, n_serversignature1, rawVal_serversignature1, err := ber.DecodeTLV(content[offset:])
+	decodedTag_serversignature1, n_serversignature1, rawVal_serversignature1, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding serverSignature1: %w", err)
+	}
+	if decodedTag_serversignature1.Class != tag.ClassApplication || decodedTag_serversignature1.Number != 55 {
+		return fmt.Errorf("decoding serverSignature1: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_serversignature1)
 	}
 	v.ServerSignature1 = rawVal_serversignature1
 	offset += n_serversignature1
@@ -16217,7 +17425,14 @@ func (v *AuthenticateClientRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AuthenticateClientRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AuthenticateClientRequest from BER/DER format.
@@ -16242,9 +17457,12 @@ func (v *AuthenticateClientRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for transactionId, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_transactionid, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
+	}
+	if decodedTag_transactionid.Class != tag.ClassContextSpecific || decodedTag_transactionid.Number != 0 {
+		return fmt.Errorf("decoding transactionId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_transactionid)
 	}
 	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
@@ -16347,6 +17565,9 @@ func (v *AuthenticateClientResponseEs9) MarshalDER() ([]byte, error) {
 		}
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
 		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 59, enc_der_0)
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding authenticateClientOk as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	case AuthenticateClientResponseEs9ChoiceAuthenticateClientOkAcr:
 		if v.AuthenticateClientOkAcr == nil {
@@ -16358,9 +17579,19 @@ func (v *AuthenticateClientResponseEs9) MarshalDER() ([]byte, error) {
 		}
 		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, true, enc_der_2)
 		enc_der_2 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 59, enc_der_2)
+		if derErr := ber.ValidateDERElement(enc_der_2); derErr != nil {
+			return nil, fmt.Errorf("encoding authenticateClientOkAcr as DER: %w", derErr)
+		}
 		return enc_der_2, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AuthenticateClientResponseEs9 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AuthenticateClientResponseEs9 from BER/DER format.
@@ -16395,7 +17626,7 @@ func (v *AuthenticateClientResponseEs9) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "AuthenticateClientResponseEs9", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == true {
 		v.Choice = AuthenticateClientResponseEs9ChoiceAuthenticateClientOk
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -16407,7 +17638,7 @@ func (v *AuthenticateClientResponseEs9) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding authenticateClientOk: %w", unmErr)
 		}
 		v.AuthenticateClientOk = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = AuthenticateClientResponseEs9ChoiceAuthenticateClientError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -16422,7 +17653,7 @@ func (v *AuthenticateClientResponseEs9) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding authenticateClientError: %w", namedErr)
 		}
 		v.AuthenticateClientError = &named_authenticateclienterror
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 && peekTag.Constructed == true {
 		v.Choice = AuthenticateClientResponseEs9ChoiceAuthenticateClientOkAcr
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -16485,7 +17716,14 @@ func (v *AuthenticateClientOk) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AuthenticateClientOk as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AuthenticateClientOk from BER/DER format.
@@ -16507,9 +17745,12 @@ func (v *AuthenticateClientOk) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for transactionId, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_transactionid, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
+	}
+	if decodedTag_transactionid.Class != tag.ClassContextSpecific || decodedTag_transactionid.Number != 0 {
+		return fmt.Errorf("decoding transactionId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_transactionid)
 	}
 	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
@@ -16553,9 +17794,12 @@ func (v *AuthenticateClientOk) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for smdpSignature2, got %s", "APPLICATION", 55, reqTag_)
 		}
 	}
-	_, n_smdpsignature2, rawVal_smdpsignature2, err := ber.DecodeTLV(content[offset:])
+	decodedTag_smdpsignature2, n_smdpsignature2, rawVal_smdpsignature2, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding smdpSignature2: %w", err)
+	}
+	if decodedTag_smdpsignature2.Class != tag.ClassApplication || decodedTag_smdpsignature2.Number != 55 {
+		return fmt.Errorf("decoding smdpSignature2: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smdpsignature2)
 	}
 	v.SmdpSignature2 = rawVal_smdpsignature2
 	offset += n_smdpsignature2
@@ -16620,7 +17864,14 @@ func (v *AuthenticateClientOkAcr) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AuthenticateClientOkAcr as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AuthenticateClientOkAcr from BER/DER format.
@@ -16642,9 +17893,12 @@ func (v *AuthenticateClientOkAcr) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for transactionId, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_transactionid, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
+	}
+	if decodedTag_transactionid.Class != tag.ClassContextSpecific || decodedTag_transactionid.Number != 0 {
+		return fmt.Errorf("decoding transactionId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_transactionid)
 	}
 	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
@@ -16714,7 +17968,14 @@ func (v *GetBoundProfilePackageRequest) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding GetBoundProfilePackageRequest as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes GetBoundProfilePackageRequest from BER/DER format.
@@ -16739,9 +18000,12 @@ func (v *GetBoundProfilePackageRequest) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for transactionId, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_transactionid, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
+	}
+	if decodedTag_transactionid.Class != tag.ClassContextSpecific || decodedTag_transactionid.Number != 0 {
+		return fmt.Errorf("decoding transactionId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_transactionid)
 	}
 	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
@@ -16819,9 +18083,19 @@ func (v *GetBoundProfilePackageResponse) MarshalDER() ([]byte, error) {
 		}
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
 		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 58, enc_der_0)
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding getBoundProfilePackageOk as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding GetBoundProfilePackageResponse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes GetBoundProfilePackageResponse from BER/DER format.
@@ -16856,7 +18130,7 @@ func (v *GetBoundProfilePackageResponse) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "GetBoundProfilePackageResponse", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == true {
 		v.Choice = GetBoundProfilePackageResponseChoiceGetBoundProfilePackageOk
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -16868,7 +18142,7 @@ func (v *GetBoundProfilePackageResponse) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding getBoundProfilePackageOk: %w", unmErr)
 		}
 		v.GetBoundProfilePackageOk = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = GetBoundProfilePackageResponseChoiceGetBoundProfilePackageError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -16921,7 +18195,14 @@ func (v *GetBoundProfilePackageOk) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding GetBoundProfilePackageOk as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes GetBoundProfilePackageOk from BER/DER format.
@@ -16943,9 +18224,12 @@ func (v *GetBoundProfilePackageOk) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for transactionId, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_transactionid, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
+	}
+	if decodedTag_transactionid.Class != tag.ClassContextSpecific || decodedTag_transactionid.Number != 0 {
+		return fmt.Errorf("decoding transactionId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_transactionid)
 	}
 	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
@@ -17013,7 +18297,14 @@ func (v *HandleNotification) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding HandleNotification as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes HandleNotification from BER/DER format.
@@ -17038,9 +18329,12 @@ func (v *HandleNotification) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for pendingNotification, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_pendingnotification, innerData_pendingnotification, err := ber.DecodeTLV(content[offset:])
+	decodedTag_pendingnotification, n_pendingnotification, innerData_pendingnotification, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding pendingNotification: %w", err)
+	}
+	if decodedTag_pendingnotification.Class != tag.ClassContextSpecific || decodedTag_pendingnotification.Number != 0 || decodedTag_pendingnotification.Constructed != true {
+		return fmt.Errorf("decoding pendingNotification: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_pendingnotification)
 	}
 	// Decode inner value from explicit tag wrapper
 	if unmErr := v.PendingNotification.UnmarshalBER(innerData_pendingnotification); unmErr != nil {
@@ -17096,7 +18390,14 @@ func (v *CancelSessionRequestEs9) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding CancelSessionRequestEs9 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes CancelSessionRequestEs9 from BER/DER format.
@@ -17121,9 +18422,12 @@ func (v *CancelSessionRequestEs9) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for transactionId, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_transactionid, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
+	}
+	if decodedTag_transactionid.Class != tag.ClassContextSpecific || decodedTag_transactionid.Number != 0 {
+		return fmt.Errorf("decoding transactionId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_transactionid)
 	}
 	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
@@ -17136,9 +18440,12 @@ func (v *CancelSessionRequestEs9) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for cancelSessionResponse, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_cancelsessionresponse, innerData_cancelsessionresponse, err := ber.DecodeTLV(content[offset:])
+	decodedTag_cancelsessionresponse, n_cancelsessionresponse, innerData_cancelsessionresponse, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding cancelSessionResponse: %w", err)
+	}
+	if decodedTag_cancelsessionresponse.Class != tag.ClassContextSpecific || decodedTag_cancelsessionresponse.Number != 1 || decodedTag_cancelsessionresponse.Constructed != true {
+		return fmt.Errorf("decoding cancelSessionResponse: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_cancelsessionresponse)
 	}
 	// Decode inner value from explicit tag wrapper
 	if unmErr := v.CancelSessionResponse.UnmarshalBER(innerData_cancelsessionresponse); unmErr != nil {
@@ -17201,9 +18508,19 @@ func (v *CancelSessionResponseEs9) MarshalDER() ([]byte, error) {
 		}
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
 		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 65, enc_der_0)
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding cancelSessionOk as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding CancelSessionResponseEs9 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes CancelSessionResponseEs9 from BER/DER format.
@@ -17238,7 +18555,7 @@ func (v *CancelSessionResponseEs9) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "CancelSessionResponseEs9", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == true {
 		v.Choice = CancelSessionResponseEs9ChoiceCancelSessionOk
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -17250,7 +18567,7 @@ func (v *CancelSessionResponseEs9) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding cancelSessionOk: %w", unmErr)
 		}
 		v.CancelSessionOk = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = CancelSessionResponseEs9ChoiceCancelSessionError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -17295,7 +18612,14 @@ func (v *CancelSessionOk) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding CancelSessionOk as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes CancelSessionOk from BER/DER format.
@@ -17364,9 +18688,19 @@ func (v *AuthenticateClientResponseEs11) MarshalDER() ([]byte, error) {
 		}
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
 		enc_der_0 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 64, enc_der_0)
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding authenticateClientOk as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AuthenticateClientResponseEs11 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AuthenticateClientResponseEs11 from BER/DER format.
@@ -17401,7 +18735,7 @@ func (v *AuthenticateClientResponseEs11) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "AuthenticateClientResponseEs11", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == true {
 		v.Choice = AuthenticateClientResponseEs11ChoiceAuthenticateClientOk
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -17413,7 +18747,7 @@ func (v *AuthenticateClientResponseEs11) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding authenticateClientOk: %w", unmErr)
 		}
 		v.AuthenticateClientOk = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = AuthenticateClientResponseEs11ChoiceAuthenticateClientError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -17479,7 +18813,14 @@ func (v *AuthenticateClientOkEs11) MarshalDER() ([]byte, error) {
 	derValue := *v
 	derValue.EventEntriesIndef_ = false
 	v = &derValue
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AuthenticateClientOkEs11 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AuthenticateClientOkEs11 from BER/DER format.
@@ -17501,9 +18842,12 @@ func (v *AuthenticateClientOkEs11) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for transactionId, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_transactionid, n_transactionid, rawVal_transactionid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding transactionId: %w", err)
+	}
+	if decodedTag_transactionid.Class != tag.ClassContextSpecific || decodedTag_transactionid.Number != 0 {
+		return fmt.Errorf("decoding transactionId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_transactionid)
 	}
 	v.TransactionId = TransactionId(rawVal_transactionid)
 	offset += n_transactionid
@@ -17517,9 +18861,12 @@ func (v *AuthenticateClientOkEs11) UnmarshalBER(data []byte) error {
 		}
 	}
 	v.EventEntriesIndef_ = false
-	_, n_evententries, rawVal_evententries, err := ber.DecodeTLV(content[offset:])
+	decodedTag_evententries, n_evententries, rawVal_evententries, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding eventEntries: %w", err)
+	}
+	if decodedTag_evententries.Class != tag.ClassContextSpecific || decodedTag_evententries.Number != 1 || decodedTag_evententries.Constructed != true {
+		return fmt.Errorf("decoding eventEntries: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_evententries)
 	}
 	reconstructed_evententries := ber.EncodeSequence(rawVal_evententries)
 	dec_evententries, unmErr := UnmarshalBERAuthenticateClientOkEs11EventEntries(reconstructed_evententries)
@@ -17586,7 +18933,14 @@ func (v *EventEntries) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding EventEntries as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes EventEntries from BER/DER format.
@@ -17608,9 +18962,12 @@ func (v *EventEntries) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for eventId, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_eventid, rawVal_eventid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_eventid, n_eventid, rawVal_eventid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding eventId: %w", err)
+	}
+	if decodedTag_eventid.Class != tag.ClassContextSpecific || decodedTag_eventid.Number != 0 {
+		return fmt.Errorf("decoding eventId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_eventid)
 	}
 	decVal_eventid, stringErr := ber.DecodeStringValueTag(12, rawVal_eventid)
 	if stringErr != nil {
@@ -17627,9 +18984,12 @@ func (v *EventEntries) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for rspServerAddress, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_rspserveraddress, rawVal_rspserveraddress, err := ber.DecodeTLV(content[offset:])
+	decodedTag_rspserveraddress, n_rspserveraddress, rawVal_rspserveraddress, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding rspServerAddress: %w", err)
+	}
+	if decodedTag_rspserveraddress.Class != tag.ClassContextSpecific || decodedTag_rspserveraddress.Number != 1 {
+		return fmt.Errorf("decoding rspServerAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rspserveraddress)
 	}
 	decVal_rspserveraddress, stringErr := ber.DecodeStringValueTag(12, rawVal_rspserveraddress)
 	if stringErr != nil {
@@ -17817,6 +19177,9 @@ func (v *ProfileInstallationResultDataFinalResult) MarshalDER() ([]byte, error) 
 			return nil, fmt.Errorf("encoding successResult: %w", err)
 		}
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding successResult as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	case ProfileInstallationResultDataFinalResultChoiceErrorResult:
 		if v.ErrorResult == nil {
@@ -17827,9 +19190,19 @@ func (v *ProfileInstallationResultDataFinalResult) MarshalDER() ([]byte, error) 
 			return nil, fmt.Errorf("encoding errorResult: %w", err)
 		}
 		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_1)
+		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
+			return nil, fmt.Errorf("encoding errorResult as DER: %w", derErr)
+		}
 		return enc_der_1, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ProfileInstallationResultDataFinalResult as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ProfileInstallationResultDataFinalResult from BER/DER format.
@@ -17851,7 +19224,7 @@ func (v *ProfileInstallationResultDataFinalResult) UnmarshalBER(data []byte) err
 		return &ber.DecodeError{Offset: total, TypeName: "ProfileInstallationResultDataFinalResult", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == true {
 		v.Choice = ProfileInstallationResultDataFinalResultChoiceSuccessResult
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -17863,7 +19236,7 @@ func (v *ProfileInstallationResultDataFinalResult) UnmarshalBER(data []byte) err
 			return fmt.Errorf("decoding successResult: %w", unmErr)
 		}
 		v.SuccessResult = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == true {
 		v.Choice = ProfileInstallationResultDataFinalResultChoiceErrorResult
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -17944,7 +19317,14 @@ func (v *StoreMetadataRequestIotSpecificMetadata) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding StoreMetadataRequestIotSpecificMetadata as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes StoreMetadataRequestIotSpecificMetadata from BER/DER format.
@@ -18006,7 +19386,14 @@ func (v *VendorSpecificExtensionElem) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding VendorSpecificExtensionElem as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes VendorSpecificExtensionElem from BER/DER format.
@@ -18028,9 +19415,12 @@ func (v *VendorSpecificExtensionElem) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for vendorOid, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_vendoroid, rawVal_vendoroid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_vendoroid, n_vendoroid, rawVal_vendoroid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding vendorOid: %w", err)
+	}
+	if decodedTag_vendoroid.Class != tag.ClassContextSpecific || decodedTag_vendoroid.Number != 0 || decodedTag_vendoroid.Constructed != false {
+		return fmt.Errorf("decoding vendorOid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_vendoroid)
 	}
 	decVal_vendoroid, oidErr := ber.DecodeOIDValue(rawVal_vendoroid)
 	if oidErr != nil {
@@ -18047,9 +19437,12 @@ func (v *VendorSpecificExtensionElem) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for vendorSpecificData, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_vendorspecificdata, rawVal_vendorspecificdata, err := ber.DecodeTLV(content[offset:])
+	decodedTag_vendorspecificdata, n_vendorspecificdata, rawVal_vendorspecificdata, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding vendorSpecificData: %w", err)
+	}
+	if decodedTag_vendorspecificdata.Class != tag.ClassContextSpecific || decodedTag_vendorspecificdata.Number != 1 || decodedTag_vendorspecificdata.Constructed != false {
+		return fmt.Errorf("decoding vendorSpecificData: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_vendorspecificdata)
 	}
 	_ = rawVal_vendorspecificdata
 	v.VendorSpecificData = runtime.RawValue{Bytes: content[offset : offset+n_vendorspecificdata]}
@@ -18316,7 +19709,14 @@ func (v *RetrieveNotificationsListRequestSearchCriteria) MarshalBER() ([]byte, e
 
 // MarshalDER encodes RetrieveNotificationsListRequestSearchCriteria to DER format.
 func (v *RetrieveNotificationsListRequestSearchCriteria) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RetrieveNotificationsListRequestSearchCriteria as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes RetrieveNotificationsListRequestSearchCriteria from BER/DER format.
@@ -18338,7 +19738,7 @@ func (v *RetrieveNotificationsListRequestSearchCriteria) UnmarshalBER(data []byt
 		return &ber.DecodeError{Offset: total, TypeName: "RetrieveNotificationsListRequestSearchCriteria", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == false {
 		v.Choice = RetrieveNotificationsListRequestSearchCriteriaChoiceSeqNumber
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -18444,10 +19844,16 @@ func UnmarshalBERLoadCRLResponseOkMissingParts(data []byte) (LoadCRLResponseOkMi
 func (v *ProfileInfoListRequestSearchCriteria) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case ProfileInfoListRequestSearchCriteriaChoiceIsdpAid:
+		if v.IsdpAid == nil {
+			return nil, fmt.Errorf("choice ProfileInfoListRequestSearchCriteria: isdpAid is nil")
+		}
 		enc_0 := ber.EncodeOctetString([]byte(*v.IsdpAid))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 15, false, enc_0)
 		return enc_0, nil
 	case ProfileInfoListRequestSearchCriteriaChoiceIccid:
+		if v.Iccid == nil {
+			return nil, fmt.Errorf("choice ProfileInfoListRequestSearchCriteria: iccid is nil")
+		}
 		enc_1 := ber.EncodeOctetString([]byte(*v.Iccid))
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 26, false, enc_1)
 		return enc_1, nil
@@ -18465,7 +19871,14 @@ func (v *ProfileInfoListRequestSearchCriteria) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ProfileInfoListRequestSearchCriteria to DER format.
 func (v *ProfileInfoListRequestSearchCriteria) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ProfileInfoListRequestSearchCriteria as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ProfileInfoListRequestSearchCriteria from BER/DER format.
@@ -18503,7 +19916,7 @@ func (v *ProfileInfoListRequestSearchCriteria) UnmarshalBER(data []byte) error {
 		}
 		tmp := Iccid(rawVal)
 		v.Iccid = &tmp
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21 && peekTag.Constructed == false {
 		v.Choice = ProfileInfoListRequestSearchCriteriaChoiceProfileClass
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -18626,7 +20039,14 @@ func (v *ProfileInfoIotSpecificProfileInfo) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ProfileInfoIotSpecificProfileInfo as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ProfileInfoIotSpecificProfileInfo from BER/DER format.
@@ -18659,10 +20079,16 @@ func (v *ProfileInfoIotSpecificProfileInfo) UnmarshalBER(data []byte) error {
 func (v *EnableProfileRequestProfileIdentifier) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case EnableProfileRequestProfileIdentifierChoiceIsdpAid:
+		if v.IsdpAid == nil {
+			return nil, fmt.Errorf("choice EnableProfileRequestProfileIdentifier: isdpAid is nil")
+		}
 		enc_0 := ber.EncodeOctetString([]byte(*v.IsdpAid))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 15, false, enc_0)
 		return enc_0, nil
 	case EnableProfileRequestProfileIdentifierChoiceIccid:
+		if v.Iccid == nil {
+			return nil, fmt.Errorf("choice EnableProfileRequestProfileIdentifier: iccid is nil")
+		}
 		enc_1 := ber.EncodeOctetString([]byte(*v.Iccid))
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 26, false, enc_1)
 		return enc_1, nil
@@ -18673,7 +20099,14 @@ func (v *EnableProfileRequestProfileIdentifier) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EnableProfileRequestProfileIdentifier to DER format.
 func (v *EnableProfileRequestProfileIdentifier) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding EnableProfileRequestProfileIdentifier as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes EnableProfileRequestProfileIdentifier from BER/DER format.
@@ -18721,10 +20154,16 @@ func (v *EnableProfileRequestProfileIdentifier) UnmarshalBER(data []byte) error 
 func (v *DisableProfileRequestProfileIdentifier) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case DisableProfileRequestProfileIdentifierChoiceIsdpAid:
+		if v.IsdpAid == nil {
+			return nil, fmt.Errorf("choice DisableProfileRequestProfileIdentifier: isdpAid is nil")
+		}
 		enc_0 := ber.EncodeOctetString([]byte(*v.IsdpAid))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 15, false, enc_0)
 		return enc_0, nil
 	case DisableProfileRequestProfileIdentifierChoiceIccid:
+		if v.Iccid == nil {
+			return nil, fmt.Errorf("choice DisableProfileRequestProfileIdentifier: iccid is nil")
+		}
 		enc_1 := ber.EncodeOctetString([]byte(*v.Iccid))
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 26, false, enc_1)
 		return enc_1, nil
@@ -18735,7 +20174,14 @@ func (v *DisableProfileRequestProfileIdentifier) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes DisableProfileRequestProfileIdentifier to DER format.
 func (v *DisableProfileRequestProfileIdentifier) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding DisableProfileRequestProfileIdentifier as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes DisableProfileRequestProfileIdentifier from BER/DER format.

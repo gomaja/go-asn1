@@ -25,7 +25,7 @@ type HandoverRequest struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// UEContextInformation represents the ASN.1 type UEContextInformation (SEQUENCE).
+// UEContextInformation represents the ASN.1 type UE-ContextInformation (SEQUENCE).
 type UEContextInformation struct {
 	MMEUES1APID                  UES1APID                      `asn1:"tag:0,context,implicit"`
 	UESecurityCapabilities       UESecurityCapabilities        `asn1:"tag:1,context,implicit"`
@@ -44,10 +44,10 @@ type UEContextInformation struct {
 	ExtData_                     [][]byte                      `asn1:"-" json:"-"`
 }
 
-// ERABsToBeSetupList represents the ASN.1 type ERABsToBeSetupList (SEQUENCE_OF).
+// ERABsToBeSetupList represents the ASN.1 type E-RABs-ToBeSetup-List (SEQUENCE_OF).
 type ERABsToBeSetupList = []ProtocolIESingleContainer
 
-// ERABsToBeSetupItem represents the ASN.1 type ERABsToBeSetupItem (SEQUENCE).
+// ERABsToBeSetupItem represents the ASN.1 type E-RABs-ToBeSetup-Item (SEQUENCE).
 type ERABsToBeSetupItem struct {
 	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
 	ERABLevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
@@ -66,7 +66,7 @@ type MobilityInformation = runtime.BitString
 // SourceDLForwardingIPAddress represents the ASN.1 type SourceDLForwardingIPAddress (BIT_STRING).
 type SourceDLForwardingIPAddress = runtime.BitString
 
-// UEContextReferenceAtSeNB represents the ASN.1 type UEContextReferenceAtSeNB (SEQUENCE).
+// UEContextReferenceAtSeNB represents the ASN.1 type UE-ContextReferenceAtSeNB (SEQUENCE).
 type UEContextReferenceAtSeNB struct {
 	SourceGlobalSeNBID    GlobalENBID                `asn1:"tag:0,context,implicit"`
 	SeNBUEX2APID          UEX2APID                   `asn1:"tag:1,context,implicit"`
@@ -78,7 +78,7 @@ type UEContextReferenceAtSeNB struct {
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
-// UEContextReferenceAtWT represents the ASN.1 type UEContextReferenceAtWT (SEQUENCE).
+// UEContextReferenceAtWT represents the ASN.1 type UE-ContextReferenceAtWT (SEQUENCE).
 type UEContextReferenceAtWT struct {
 	WTID               WTID                       `asn1:"tag:0,context,explicit"`
 	WTUEXwAPID         WTUEXwAPID                 `asn1:"tag:1,context,implicit"`
@@ -89,7 +89,7 @@ type UEContextReferenceAtWT struct {
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// UEContextReferenceAtSgNB represents the ASN.1 type UEContextReferenceAtSgNB (SEQUENCE).
+// UEContextReferenceAtSgNB represents the ASN.1 type UE-ContextReferenceAtSgNB (SEQUENCE).
 type UEContextReferenceAtSgNB struct {
 	SourceGlobalSgNBID GlobalGNBID                `asn1:"tag:0,context,implicit"`
 	SgNBUEX2APID       SgNBUEX2APID               `asn1:"tag:1,context,implicit"`
@@ -109,10 +109,10 @@ type HandoverRequestAcknowledge struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedList represents the ASN.1 type ERABsAdmittedList (SEQUENCE_OF).
+// ERABsAdmittedList represents the ASN.1 type E-RABs-Admitted-List (SEQUENCE_OF).
 type ERABsAdmittedList = []ProtocolIESingleContainer
 
-// ERABsAdmittedItem represents the ASN.1 type ERABsAdmittedItem (SEQUENCE).
+// ERABsAdmittedItem represents the ASN.1 type E-RABs-Admitted-Item (SEQUENCE).
 type ERABsAdmittedItem struct {
 	ERABID              ERABID                     `asn1:"tag:0,context,implicit"`
 	ULGTPTunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"ULGTPTunnelEndpoint,omitempty"`
@@ -221,10 +221,10 @@ type SNStatusTransfer struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsSubjectToStatusTransferList represents the ASN.1 type ERABsSubjectToStatusTransferList (SEQUENCE_OF).
+// ERABsSubjectToStatusTransferList represents the ASN.1 type E-RABs-SubjectToStatusTransfer-List (SEQUENCE_OF).
 type ERABsSubjectToStatusTransferList = []ProtocolIESingleContainer
 
-// ERABsSubjectToStatusTransferItem represents the ASN.1 type ERABsSubjectToStatusTransferItem (SEQUENCE).
+// ERABsSubjectToStatusTransferItem represents the ASN.1 type E-RABs-SubjectToStatusTransfer-Item (SEQUENCE).
 type ERABsSubjectToStatusTransferItem struct {
 	ERABID                    ERABID                     `asn1:"tag:0,context,implicit"`
 	ReceiveStatusofULPDCPSDUs *ReceiveStatusofULPDCPSDUs `asn1:"tag:1,context,implicit,optional" json:"ReceiveStatusofULPDCPSDUs,omitempty"`
@@ -336,10 +336,10 @@ type LoadInformation struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// CellInformationList represents the ASN.1 type CellInformationList (SEQUENCE_OF).
+// CellInformationList represents the ASN.1 type CellInformation-List (SEQUENCE_OF).
 type CellInformationList = []ProtocolIESingleContainer
 
-// CellInformationItem represents the ASN.1 type CellInformationItem (SEQUENCE).
+// CellInformationItem represents the ASN.1 type CellInformation-Item (SEQUENCE).
 type CellInformationItem struct {
 	CellID                                 ECGI                             `asn1:"tag:0,context,implicit"`
 	UlInterferenceOverloadIndication       ULInterferenceOverloadIndication `asn1:"tag:1,context,implicit,optional" json:"UlInterferenceOverloadIndication,omitempty"`
@@ -366,7 +366,7 @@ type ENBConfigurationUpdate struct {
 // ServedCellsToModify represents the ASN.1 type ServedCellsToModify (SEQUENCE_OF).
 type ServedCellsToModify = []ServedCellsToModifyItem
 
-// ServedCellsToModifyItem represents the ASN.1 type ServedCellsToModifyItem (SEQUENCE).
+// ServedCellsToModifyItem represents the ASN.1 type ServedCellsToModify-Item (SEQUENCE).
 type ServedCellsToModifyItem struct {
 	OldEcgi             ECGI                       `asn1:"tag:0,context,implicit"`
 	ServedCellInfo      ServedCellInformation      `asn1:"tag:1,context,implicit"`
@@ -379,7 +379,7 @@ type ServedCellsToModifyItem struct {
 	ExtData_            [][]byte                   `asn1:"-" json:"-"`
 }
 
-// OldECGIs represents the ASN.1 type OldECGIs (SEQUENCE_OF).
+// OldECGIs represents the ASN.1 type Old-ECGIs (SEQUENCE_OF).
 type OldECGIs = []ECGI
 
 // ENBConfigurationUpdateAcknowledge represents the ASN.1 type ENBConfigurationUpdateAcknowledge (SEQUENCE).
@@ -409,10 +409,10 @@ type ResourceStatusRequest struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// CellToReportList represents the ASN.1 type CellToReportList (SEQUENCE_OF).
+// CellToReportList represents the ASN.1 type CellToReport-List (SEQUENCE_OF).
 type CellToReportList = []ProtocolIESingleContainer
 
-// CellToReportItem represents the ASN.1 type CellToReportItem (SEQUENCE).
+// CellToReportItem represents the ASN.1 type CellToReport-Item (SEQUENCE).
 type CellToReportItem struct {
 	CellID             ECGI                       `asn1:"tag:0,context,implicit"`
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
@@ -472,10 +472,10 @@ type ResourceStatusResponse struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// MeasurementInitiationResultList represents the ASN.1 type MeasurementInitiationResultList (SEQUENCE_OF).
+// MeasurementInitiationResultList represents the ASN.1 type MeasurementInitiationResult-List (SEQUENCE_OF).
 type MeasurementInitiationResultList = []ProtocolIESingleContainer
 
-// MeasurementInitiationResultItem represents the ASN.1 type MeasurementInitiationResultItem (SEQUENCE).
+// MeasurementInitiationResultItem represents the ASN.1 type MeasurementInitiationResult-Item (SEQUENCE).
 type MeasurementInitiationResultItem struct {
 	CellID                            ECGI                        `asn1:"tag:0,context,implicit"`
 	MeasurementFailureCauseList       MeasurementFailureCauseList `asn1:"tag:1,context,implicit,optional" json:"MeasurementFailureCauseList,omitempty"`
@@ -487,10 +487,10 @@ type MeasurementInitiationResultItem struct {
 	ExtData_                          [][]byte                    `asn1:"-" json:"-"`
 }
 
-// MeasurementFailureCauseList represents the ASN.1 type MeasurementFailureCauseList (SEQUENCE_OF).
+// MeasurementFailureCauseList represents the ASN.1 type MeasurementFailureCause-List (SEQUENCE_OF).
 type MeasurementFailureCauseList = []ProtocolIESingleContainer
 
-// MeasurementFailureCauseItem represents the ASN.1 type MeasurementFailureCauseItem (SEQUENCE).
+// MeasurementFailureCauseItem represents the ASN.1 type MeasurementFailureCause-Item (SEQUENCE).
 type MeasurementFailureCauseItem struct {
 	MeasurementFailedReportCharacteristics ReportCharacteristics      `asn1:"tag:0,context,implicit"`
 	Cause                                  Cause                      `asn1:"tag:1,context,explicit"`
@@ -510,10 +510,10 @@ type ResourceStatusFailure struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// CompleteFailureCauseInformationList represents the ASN.1 type CompleteFailureCauseInformationList (SEQUENCE_OF).
+// CompleteFailureCauseInformationList represents the ASN.1 type CompleteFailureCauseInformation-List (SEQUENCE_OF).
 type CompleteFailureCauseInformationList = []ProtocolIESingleContainer
 
-// CompleteFailureCauseInformationItem represents the ASN.1 type CompleteFailureCauseInformationItem (SEQUENCE).
+// CompleteFailureCauseInformationItem represents the ASN.1 type CompleteFailureCauseInformation-Item (SEQUENCE).
 type CompleteFailureCauseInformationItem struct {
 	CellID                            ECGI                        `asn1:"tag:0,context,implicit"`
 	MeasurementFailureCauseList       MeasurementFailureCauseList `asn1:"tag:1,context,implicit"`
@@ -534,10 +534,10 @@ type ResourceStatusUpdate struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// CellMeasurementResultList represents the ASN.1 type CellMeasurementResultList (SEQUENCE_OF).
+// CellMeasurementResultList represents the ASN.1 type CellMeasurementResult-List (SEQUENCE_OF).
 type CellMeasurementResultList = []ProtocolIESingleContainer
 
-// CellMeasurementResultItem represents the ASN.1 type CellMeasurementResultItem (SEQUENCE).
+// CellMeasurementResultItem represents the ASN.1 type CellMeasurementResult-Item (SEQUENCE).
 type CellMeasurementResultItem struct {
 	CellID              ECGI                       `asn1:"tag:0,context,implicit"`
 	HWLoadIndicator     *HWLoadIndicator           `asn1:"tag:1,context,implicit,optional" json:"HWLoadIndicator,omitempty"`
@@ -607,7 +607,7 @@ type CellActivationRequest struct {
 // ServedCellsToActivate represents the ASN.1 type ServedCellsToActivate (SEQUENCE_OF).
 type ServedCellsToActivate = []ServedCellsToActivateItem
 
-// ServedCellsToActivateItem represents the ASN.1 type ServedCellsToActivateItem (SEQUENCE).
+// ServedCellsToActivateItem represents the ASN.1 type ServedCellsToActivate-Item (SEQUENCE).
 type ServedCellsToActivateItem struct {
 	Ecgi               ECGI                       `asn1:"tag:0,context,implicit"`
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
@@ -629,7 +629,7 @@ type CellActivationResponse struct {
 // ActivatedCellList represents the ASN.1 type ActivatedCellList (SEQUENCE_OF).
 type ActivatedCellList = []ActivatedCellListItem
 
-// ActivatedCellListItem represents the ASN.1 type ActivatedCellListItem (SEQUENCE).
+// ActivatedCellListItem represents the ASN.1 type ActivatedCellList-Item (SEQUENCE).
 type ActivatedCellListItem struct {
 	Ecgi               ECGI                       `asn1:"tag:0,context,implicit"`
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
@@ -666,7 +666,7 @@ type X2APMessageTransfer struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// RNLHeader represents the ASN.1 type RNLHeader (SEQUENCE).
+// RNLHeader represents the ASN.1 type RNL-Header (SEQUENCE).
 type RNLHeader struct {
 	SourceGlobalENBID  GlobalENBID                `asn1:"tag:0,context,implicit"`
 	TargetGlobalENBID  *GlobalENBID               `asn1:"tag:1,context,implicit,optional" json:"TargetGlobalENBID,omitempty"`
@@ -677,7 +677,7 @@ type RNLHeader struct {
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// X2APMessage represents the ASN.1 type X2APMessage (OCTET_STRING).
+// X2APMessage represents the ASN.1 type X2AP-Message (OCTET_STRING).
 type X2APMessage = []byte
 
 // SeNBAdditionRequest represents the ASN.1 type SeNBAdditionRequest (SEQUENCE).
@@ -689,7 +689,7 @@ type SeNBAdditionRequest struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsToBeAddedList represents the ASN.1 type ERABsToBeAddedList (SEQUENCE_OF).
+// ERABsToBeAddedList represents the ASN.1 type E-RABs-ToBeAdded-List (SEQUENCE_OF).
 type ERABsToBeAddedList = []ProtocolIESingleContainer
 
 // ERABsToBeAddedItem choice constants.
@@ -698,7 +698,7 @@ const (
 	ERABsToBeAddedItemChoiceSplitBearer = 2
 )
 
-// ERABsToBeAddedItem represents the ASN.1 CHOICE type ERABsToBeAddedItem.
+// ERABsToBeAddedItem represents the ASN.1 CHOICE type E-RABs-ToBeAdded-Item.
 type ERABsToBeAddedItem struct {
 	Choice      int
 	SCGBearer   *ERABsToBeAddedItemSCGBearer   `json:"SCGBearer,omitempty"`
@@ -721,7 +721,7 @@ func NewERABsToBeAddedItemSplitBearer(v ERABsToBeAddedItemSplitBearer) ERABsToBe
 	}
 }
 
-// ERABsToBeAddedItemSCGBearer represents the ASN.1 type ERABsToBeAddedItemSCGBearer (SEQUENCE).
+// ERABsToBeAddedItemSCGBearer represents the ASN.1 type E-RABs-ToBeAdded-Item-SCG-Bearer (SEQUENCE).
 type ERABsToBeAddedItemSCGBearer struct {
 	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
 	ERABLevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
@@ -734,7 +734,7 @@ type ERABsToBeAddedItemSCGBearer struct {
 	ExtData_               [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsToBeAddedItemSplitBearer represents the ASN.1 type ERABsToBeAddedItemSplitBearer (SEQUENCE).
+// ERABsToBeAddedItemSplitBearer represents the ASN.1 type E-RABs-ToBeAdded-Item-Split-Bearer (SEQUENCE).
 type ERABsToBeAddedItemSplitBearer struct {
 	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
 	ERABLevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
@@ -755,7 +755,7 @@ type SeNBAdditionRequestAcknowledge struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeAddedList represents the ASN.1 type ERABsAdmittedToBeAddedList (SEQUENCE_OF).
+// ERABsAdmittedToBeAddedList represents the ASN.1 type E-RABs-Admitted-ToBeAdded-List (SEQUENCE_OF).
 type ERABsAdmittedToBeAddedList = []ProtocolIESingleContainer
 
 // ERABsAdmittedToBeAddedItem choice constants.
@@ -764,7 +764,7 @@ const (
 	ERABsAdmittedToBeAddedItemChoiceSplitBearer = 2
 )
 
-// ERABsAdmittedToBeAddedItem represents the ASN.1 CHOICE type ERABsAdmittedToBeAddedItem.
+// ERABsAdmittedToBeAddedItem represents the ASN.1 CHOICE type E-RABs-Admitted-ToBeAdded-Item.
 type ERABsAdmittedToBeAddedItem struct {
 	Choice      int
 	SCGBearer   *ERABsAdmittedToBeAddedItemSCGBearer   `json:"SCGBearer,omitempty"`
@@ -787,7 +787,7 @@ func NewERABsAdmittedToBeAddedItemSplitBearer(v ERABsAdmittedToBeAddedItemSplitB
 	}
 }
 
-// ERABsAdmittedToBeAddedItemSCGBearer represents the ASN.1 type ERABsAdmittedToBeAddedItemSCGBearer (SEQUENCE).
+// ERABsAdmittedToBeAddedItemSCGBearer represents the ASN.1 type E-RABs-Admitted-ToBeAdded-Item-SCG-Bearer (SEQUENCE).
 type ERABsAdmittedToBeAddedItemSCGBearer struct {
 	ERABID                        ERABID                     `asn1:"tag:0,context,implicit"`
 	S1DLGTPtunnelEndpoint         GTPtunnelEndpoint          `asn1:"tag:1,context,implicit"`
@@ -800,7 +800,7 @@ type ERABsAdmittedToBeAddedItemSCGBearer struct {
 	ExtData_                      [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeAddedItemSplitBearer represents the ASN.1 type ERABsAdmittedToBeAddedItemSplitBearer (SEQUENCE).
+// ERABsAdmittedToBeAddedItemSplitBearer represents the ASN.1 type E-RABs-Admitted-ToBeAdded-Item-Split-Bearer (SEQUENCE).
 type ERABsAdmittedToBeAddedItemSplitBearer struct {
 	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
 	SeNBGTPtunnelEndpoint GTPtunnelEndpoint          `asn1:"tag:1,context,implicit"`
@@ -858,7 +858,7 @@ func NewResponseInformationSeNBReconfCompRejectByMeNB(v ResponseInformationSeNBR
 	}
 }
 
-// ResponseInformationSeNBReconfCompSuccessItem represents the ASN.1 type ResponseInformationSeNBReconfCompSuccessItem (SEQUENCE).
+// ResponseInformationSeNBReconfCompSuccessItem represents the ASN.1 type ResponseInformationSeNBReconfComp-SuccessItem (SEQUENCE).
 type ResponseInformationSeNBReconfCompSuccessItem struct {
 	MeNBtoSeNBContainer *MeNBtoSeNBContainer       `asn1:"tag:0,context,implicit,optional" json:"MeNBtoSeNBContainer,omitempty"`
 	IEExtensions        ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
@@ -868,7 +868,7 @@ type ResponseInformationSeNBReconfCompSuccessItem struct {
 	ExtData_            [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ResponseInformationSeNBReconfCompRejectByMeNBItem represents the ASN.1 type ResponseInformationSeNBReconfCompRejectByMeNBItem (SEQUENCE).
+// ResponseInformationSeNBReconfCompRejectByMeNBItem represents the ASN.1 type ResponseInformationSeNBReconfComp-RejectByMeNBItem (SEQUENCE).
 type ResponseInformationSeNBReconfCompRejectByMeNBItem struct {
 	Cause               Cause                      `asn1:"tag:0,context,explicit"`
 	MeNBtoSeNBContainer *MeNBtoSeNBContainer       `asn1:"tag:1,context,implicit,optional" json:"MeNBtoSeNBContainer,omitempty"`
@@ -888,7 +888,7 @@ type SeNBModificationRequest struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// UEContextInformationSeNBModReq represents the ASN.1 type UEContextInformationSeNBModReq (SEQUENCE).
+// UEContextInformationSeNBModReq represents the ASN.1 type UE-ContextInformationSeNBModReq (SEQUENCE).
 type UEContextInformationSeNBModReq struct {
 	UESecurityCapabilities        *UESecurityCapabilities     `asn1:"tag:0,context,implicit,optional" json:"UESecurityCapabilities,omitempty"`
 	SeNBSecurityKey               *SeNBSecurityKey            `asn1:"tag:1,context,implicit,optional" json:"SeNBSecurityKey,omitempty"`
@@ -906,7 +906,7 @@ type UEContextInformationSeNBModReq struct {
 	ExtData_                      [][]byte                    `asn1:"-" json:"-"`
 }
 
-// ERABsToBeAddedListModReq represents the ASN.1 type ERABsToBeAddedListModReq (SEQUENCE_OF).
+// ERABsToBeAddedListModReq represents the ASN.1 type E-RABs-ToBeAdded-List-ModReq (SEQUENCE_OF).
 type ERABsToBeAddedListModReq = []ProtocolIESingleContainer
 
 // ERABsToBeAddedModReqItem choice constants.
@@ -915,7 +915,7 @@ const (
 	ERABsToBeAddedModReqItemChoiceSplitBearer = 2
 )
 
-// ERABsToBeAddedModReqItem represents the ASN.1 CHOICE type ERABsToBeAddedModReqItem.
+// ERABsToBeAddedModReqItem represents the ASN.1 CHOICE type E-RABs-ToBeAdded-ModReqItem.
 type ERABsToBeAddedModReqItem struct {
 	Choice      int
 	SCGBearer   *ERABsToBeAddedModReqItemSCGBearer   `json:"SCGBearer,omitempty"`
@@ -938,7 +938,7 @@ func NewERABsToBeAddedModReqItemSplitBearer(v ERABsToBeAddedModReqItemSplitBeare
 	}
 }
 
-// ERABsToBeAddedModReqItemSCGBearer represents the ASN.1 type ERABsToBeAddedModReqItemSCGBearer (SEQUENCE).
+// ERABsToBeAddedModReqItemSCGBearer represents the ASN.1 type E-RABs-ToBeAdded-ModReqItem-SCG-Bearer (SEQUENCE).
 type ERABsToBeAddedModReqItemSCGBearer struct {
 	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
 	ERABLevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
@@ -951,7 +951,7 @@ type ERABsToBeAddedModReqItemSCGBearer struct {
 	ExtData_               [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsToBeAddedModReqItemSplitBearer represents the ASN.1 type ERABsToBeAddedModReqItemSplitBearer (SEQUENCE).
+// ERABsToBeAddedModReqItemSplitBearer represents the ASN.1 type E-RABs-ToBeAdded-ModReqItem-Split-Bearer (SEQUENCE).
 type ERABsToBeAddedModReqItemSplitBearer struct {
 	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
 	ERABLevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
@@ -963,7 +963,7 @@ type ERABsToBeAddedModReqItemSplitBearer struct {
 	ExtData_               [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsToBeModifiedListModReq represents the ASN.1 type ERABsToBeModifiedListModReq (SEQUENCE_OF).
+// ERABsToBeModifiedListModReq represents the ASN.1 type E-RABs-ToBeModified-List-ModReq (SEQUENCE_OF).
 type ERABsToBeModifiedListModReq = []ProtocolIESingleContainer
 
 // ERABsToBeModifiedModReqItem choice constants.
@@ -972,7 +972,7 @@ const (
 	ERABsToBeModifiedModReqItemChoiceSplitBearer = 2
 )
 
-// ERABsToBeModifiedModReqItem represents the ASN.1 CHOICE type ERABsToBeModifiedModReqItem.
+// ERABsToBeModifiedModReqItem represents the ASN.1 CHOICE type E-RABs-ToBeModified-ModReqItem.
 type ERABsToBeModifiedModReqItem struct {
 	Choice      int
 	SCGBearer   *ERABsToBeModifiedModReqItemSCGBearer   `json:"SCGBearer,omitempty"`
@@ -995,7 +995,7 @@ func NewERABsToBeModifiedModReqItemSplitBearer(v ERABsToBeModifiedModReqItemSpli
 	}
 }
 
-// ERABsToBeModifiedModReqItemSCGBearer represents the ASN.1 type ERABsToBeModifiedModReqItemSCGBearer (SEQUENCE).
+// ERABsToBeModifiedModReqItemSCGBearer represents the ASN.1 type E-RABs-ToBeModified-ModReqItem-SCG-Bearer (SEQUENCE).
 type ERABsToBeModifiedModReqItemSCGBearer struct {
 	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
 	ERABLevelQoSParameters *ERABLevelQoSParameters    `asn1:"tag:1,context,implicit,optional" json:"ERABLevelQoSParameters,omitempty"`
@@ -1007,7 +1007,7 @@ type ERABsToBeModifiedModReqItemSCGBearer struct {
 	ExtData_               [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsToBeModifiedModReqItemSplitBearer represents the ASN.1 type ERABsToBeModifiedModReqItemSplitBearer (SEQUENCE).
+// ERABsToBeModifiedModReqItemSplitBearer represents the ASN.1 type E-RABs-ToBeModified-ModReqItem-Split-Bearer (SEQUENCE).
 type ERABsToBeModifiedModReqItemSplitBearer struct {
 	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
 	ERABLevelQoSParameters *ERABLevelQoSParameters    `asn1:"tag:1,context,implicit,optional" json:"ERABLevelQoSParameters,omitempty"`
@@ -1019,7 +1019,7 @@ type ERABsToBeModifiedModReqItemSplitBearer struct {
 	ExtData_               [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedListModReq represents the ASN.1 type ERABsToBeReleasedListModReq (SEQUENCE_OF).
+// ERABsToBeReleasedListModReq represents the ASN.1 type E-RABs-ToBeReleased-List-ModReq (SEQUENCE_OF).
 type ERABsToBeReleasedListModReq = []ProtocolIESingleContainer
 
 // ERABsToBeReleasedModReqItem choice constants.
@@ -1028,7 +1028,7 @@ const (
 	ERABsToBeReleasedModReqItemChoiceSplitBearer = 2
 )
 
-// ERABsToBeReleasedModReqItem represents the ASN.1 CHOICE type ERABsToBeReleasedModReqItem.
+// ERABsToBeReleasedModReqItem represents the ASN.1 CHOICE type E-RABs-ToBeReleased-ModReqItem.
 type ERABsToBeReleasedModReqItem struct {
 	Choice      int
 	SCGBearer   *ERABsToBeReleasedModReqItemSCGBearer   `json:"SCGBearer,omitempty"`
@@ -1051,7 +1051,7 @@ func NewERABsToBeReleasedModReqItemSplitBearer(v ERABsToBeReleasedModReqItemSpli
 	}
 }
 
-// ERABsToBeReleasedModReqItemSCGBearer represents the ASN.1 type ERABsToBeReleasedModReqItemSCGBearer (SEQUENCE).
+// ERABsToBeReleasedModReqItemSCGBearer represents the ASN.1 type E-RABs-ToBeReleased-ModReqItem-SCG-Bearer (SEQUENCE).
 type ERABsToBeReleasedModReqItemSCGBearer struct {
 	ERABID                        ERABID                     `asn1:"tag:0,context,implicit"`
 	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
@@ -1063,7 +1063,7 @@ type ERABsToBeReleasedModReqItemSCGBearer struct {
 	ExtData_                      [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedModReqItemSplitBearer represents the ASN.1 type ERABsToBeReleasedModReqItemSplitBearer (SEQUENCE).
+// ERABsToBeReleasedModReqItemSplitBearer represents the ASN.1 type E-RABs-ToBeReleased-ModReqItem-Split-Bearer (SEQUENCE).
 type ERABsToBeReleasedModReqItemSplitBearer struct {
 	ERABID                        ERABID                     `asn1:"tag:0,context,implicit"`
 	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
@@ -1083,7 +1083,7 @@ type SeNBModificationRequestAcknowledge struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeAddedModAckList represents the ASN.1 type ERABsAdmittedToBeAddedModAckList (SEQUENCE_OF).
+// ERABsAdmittedToBeAddedModAckList represents the ASN.1 type E-RABs-Admitted-ToBeAdded-ModAckList (SEQUENCE_OF).
 type ERABsAdmittedToBeAddedModAckList = []ProtocolIESingleContainer
 
 // ERABsAdmittedToBeAddedModAckItem choice constants.
@@ -1092,7 +1092,7 @@ const (
 	ERABsAdmittedToBeAddedModAckItemChoiceSplitBearer = 2
 )
 
-// ERABsAdmittedToBeAddedModAckItem represents the ASN.1 CHOICE type ERABsAdmittedToBeAddedModAckItem.
+// ERABsAdmittedToBeAddedModAckItem represents the ASN.1 CHOICE type E-RABs-Admitted-ToBeAdded-ModAckItem.
 type ERABsAdmittedToBeAddedModAckItem struct {
 	Choice      int
 	SCGBearer   *ERABsAdmittedToBeAddedModAckItemSCGBearer   `json:"SCGBearer,omitempty"`
@@ -1115,7 +1115,7 @@ func NewERABsAdmittedToBeAddedModAckItemSplitBearer(v ERABsAdmittedToBeAddedModA
 	}
 }
 
-// ERABsAdmittedToBeAddedModAckItemSCGBearer represents the ASN.1 type ERABsAdmittedToBeAddedModAckItemSCGBearer (SEQUENCE).
+// ERABsAdmittedToBeAddedModAckItemSCGBearer represents the ASN.1 type E-RABs-Admitted-ToBeAdded-ModAckItem-SCG-Bearer (SEQUENCE).
 type ERABsAdmittedToBeAddedModAckItemSCGBearer struct {
 	ERABID                        ERABID                     `asn1:"tag:0,context,implicit"`
 	S1DLGTPtunnelEndpoint         GTPtunnelEndpoint          `asn1:"tag:1,context,implicit"`
@@ -1128,7 +1128,7 @@ type ERABsAdmittedToBeAddedModAckItemSCGBearer struct {
 	ExtData_                      [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeAddedModAckItemSplitBearer represents the ASN.1 type ERABsAdmittedToBeAddedModAckItemSplitBearer (SEQUENCE).
+// ERABsAdmittedToBeAddedModAckItemSplitBearer represents the ASN.1 type E-RABs-Admitted-ToBeAdded-ModAckItem-Split-Bearer (SEQUENCE).
 type ERABsAdmittedToBeAddedModAckItemSplitBearer struct {
 	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
 	SeNBGTPtunnelEndpoint GTPtunnelEndpoint          `asn1:"tag:1,context,implicit"`
@@ -1139,7 +1139,7 @@ type ERABsAdmittedToBeAddedModAckItemSplitBearer struct {
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeModifiedModAckList represents the ASN.1 type ERABsAdmittedToBeModifiedModAckList (SEQUENCE_OF).
+// ERABsAdmittedToBeModifiedModAckList represents the ASN.1 type E-RABs-Admitted-ToBeModified-ModAckList (SEQUENCE_OF).
 type ERABsAdmittedToBeModifiedModAckList = []ProtocolIESingleContainer
 
 // ERABsAdmittedToBeModifiedModAckItem choice constants.
@@ -1148,7 +1148,7 @@ const (
 	ERABsAdmittedToBeModifiedModAckItemChoiceSplitBearer = 2
 )
 
-// ERABsAdmittedToBeModifiedModAckItem represents the ASN.1 CHOICE type ERABsAdmittedToBeModifiedModAckItem.
+// ERABsAdmittedToBeModifiedModAckItem represents the ASN.1 CHOICE type E-RABs-Admitted-ToBeModified-ModAckItem.
 type ERABsAdmittedToBeModifiedModAckItem struct {
 	Choice      int
 	SCGBearer   *ERABsAdmittedToBeModifiedModAckItemSCGBearer   `json:"SCGBearer,omitempty"`
@@ -1171,7 +1171,7 @@ func NewERABsAdmittedToBeModifiedModAckItemSplitBearer(v ERABsAdmittedToBeModifi
 	}
 }
 
-// ERABsAdmittedToBeModifiedModAckItemSCGBearer represents the ASN.1 type ERABsAdmittedToBeModifiedModAckItemSCGBearer (SEQUENCE).
+// ERABsAdmittedToBeModifiedModAckItemSCGBearer represents the ASN.1 type E-RABs-Admitted-ToBeModified-ModAckItem-SCG-Bearer (SEQUENCE).
 type ERABsAdmittedToBeModifiedModAckItemSCGBearer struct {
 	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
 	S1DLGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"S1DLGTPtunnelEndpoint,omitempty"`
@@ -1182,7 +1182,7 @@ type ERABsAdmittedToBeModifiedModAckItemSCGBearer struct {
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeModifiedModAckItemSplitBearer represents the ASN.1 type ERABsAdmittedToBeModifiedModAckItemSplitBearer (SEQUENCE).
+// ERABsAdmittedToBeModifiedModAckItemSplitBearer represents the ASN.1 type E-RABs-Admitted-ToBeModified-ModAckItem-Split-Bearer (SEQUENCE).
 type ERABsAdmittedToBeModifiedModAckItemSplitBearer struct {
 	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
 	SeNBGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"SeNBGTPtunnelEndpoint,omitempty"`
@@ -1193,7 +1193,7 @@ type ERABsAdmittedToBeModifiedModAckItemSplitBearer struct {
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeReleasedModAckList represents the ASN.1 type ERABsAdmittedToBeReleasedModAckList (SEQUENCE_OF).
+// ERABsAdmittedToBeReleasedModAckList represents the ASN.1 type E-RABs-Admitted-ToBeReleased-ModAckList (SEQUENCE_OF).
 type ERABsAdmittedToBeReleasedModAckList = []ProtocolIESingleContainer
 
 // ERABsAdmittedToReleasedModAckItem choice constants.
@@ -1202,7 +1202,7 @@ const (
 	ERABsAdmittedToReleasedModAckItemChoiceSplitBearer = 2
 )
 
-// ERABsAdmittedToReleasedModAckItem represents the ASN.1 CHOICE type ERABsAdmittedToReleasedModAckItem.
+// ERABsAdmittedToReleasedModAckItem represents the ASN.1 CHOICE type E-RABs-Admitted-ToReleased-ModAckItem.
 type ERABsAdmittedToReleasedModAckItem struct {
 	Choice      int
 	SCGBearer   *ERABsAdmittedToBeReleasedModAckItemSCGBearer   `json:"SCGBearer,omitempty"`
@@ -1225,7 +1225,7 @@ func NewERABsAdmittedToReleasedModAckItemSplitBearer(v ERABsAdmittedToBeReleased
 	}
 }
 
-// ERABsAdmittedToBeReleasedModAckItemSCGBearer represents the ASN.1 type ERABsAdmittedToBeReleasedModAckItemSCGBearer (SEQUENCE).
+// ERABsAdmittedToBeReleasedModAckItemSCGBearer represents the ASN.1 type E-RABs-Admitted-ToBeReleased-ModAckItem-SCG-Bearer (SEQUENCE).
 type ERABsAdmittedToBeReleasedModAckItemSCGBearer struct {
 	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
@@ -1235,7 +1235,7 @@ type ERABsAdmittedToBeReleasedModAckItemSCGBearer struct {
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeReleasedModAckItemSplitBearer represents the ASN.1 type ERABsAdmittedToBeReleasedModAckItemSplitBearer (SEQUENCE).
+// ERABsAdmittedToBeReleasedModAckItemSplitBearer represents the ASN.1 type E-RABs-Admitted-ToBeReleased-ModAckItem-Split-Bearer (SEQUENCE).
 type ERABsAdmittedToBeReleasedModAckItemSplitBearer struct {
 	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
@@ -1263,10 +1263,10 @@ type SeNBModificationRequired struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedModReqd represents the ASN.1 type ERABsToBeReleasedModReqd (SEQUENCE_OF).
+// ERABsToBeReleasedModReqd represents the ASN.1 type E-RABs-ToBeReleased-ModReqd (SEQUENCE_OF).
 type ERABsToBeReleasedModReqd = []ProtocolIESingleContainer
 
-// ERABsToBeReleasedModReqdItem represents the ASN.1 type ERABsToBeReleasedModReqdItem (SEQUENCE).
+// ERABsToBeReleasedModReqdItem represents the ASN.1 type E-RABs-ToBeReleased-ModReqdItem (SEQUENCE).
 type ERABsToBeReleasedModReqdItem struct {
 	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
 	Cause              Cause                      `asn1:"tag:1,context,explicit"`
@@ -1304,7 +1304,7 @@ type SeNBReleaseRequest struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedListRelReq represents the ASN.1 type ERABsToBeReleasedListRelReq (SEQUENCE_OF).
+// ERABsToBeReleasedListRelReq represents the ASN.1 type E-RABs-ToBeReleased-List-RelReq (SEQUENCE_OF).
 type ERABsToBeReleasedListRelReq = []ProtocolIESingleContainer
 
 // ERABsToBeReleasedRelReqItem choice constants.
@@ -1313,7 +1313,7 @@ const (
 	ERABsToBeReleasedRelReqItemChoiceSplitBearer = 2
 )
 
-// ERABsToBeReleasedRelReqItem represents the ASN.1 CHOICE type ERABsToBeReleasedRelReqItem.
+// ERABsToBeReleasedRelReqItem represents the ASN.1 CHOICE type E-RABs-ToBeReleased-RelReqItem.
 type ERABsToBeReleasedRelReqItem struct {
 	Choice      int
 	SCGBearer   *ERABsToBeReleasedRelReqItemSCGBearer   `json:"SCGBearer,omitempty"`
@@ -1336,7 +1336,7 @@ func NewERABsToBeReleasedRelReqItemSplitBearer(v ERABsToBeReleasedRelReqItemSpli
 	}
 }
 
-// ERABsToBeReleasedRelReqItemSCGBearer represents the ASN.1 type ERABsToBeReleasedRelReqItemSCGBearer (SEQUENCE).
+// ERABsToBeReleasedRelReqItemSCGBearer represents the ASN.1 type E-RABs-ToBeReleased-RelReqItem-SCG-Bearer (SEQUENCE).
 type ERABsToBeReleasedRelReqItemSCGBearer struct {
 	ERABID                        ERABID                     `asn1:"tag:0,context,implicit"`
 	ULForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"ULForwardingGTPtunnelEndpoint,omitempty"`
@@ -1348,7 +1348,7 @@ type ERABsToBeReleasedRelReqItemSCGBearer struct {
 	ExtData_                      [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedRelReqItemSplitBearer represents the ASN.1 type ERABsToBeReleasedRelReqItemSplitBearer (SEQUENCE).
+// ERABsToBeReleasedRelReqItemSplitBearer represents the ASN.1 type E-RABs-ToBeReleased-RelReqItem-Split-Bearer (SEQUENCE).
 type ERABsToBeReleasedRelReqItemSplitBearer struct {
 	ERABID                        ERABID                     `asn1:"tag:0,context,implicit"`
 	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
@@ -1377,7 +1377,7 @@ type SeNBReleaseConfirm struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedListRelConf represents the ASN.1 type ERABsToBeReleasedListRelConf (SEQUENCE_OF).
+// ERABsToBeReleasedListRelConf represents the ASN.1 type E-RABs-ToBeReleased-List-RelConf (SEQUENCE_OF).
 type ERABsToBeReleasedListRelConf = []ProtocolIESingleContainer
 
 // ERABsToBeReleasedRelConfItem choice constants.
@@ -1386,7 +1386,7 @@ const (
 	ERABsToBeReleasedRelConfItemChoiceSplitBearer = 2
 )
 
-// ERABsToBeReleasedRelConfItem represents the ASN.1 CHOICE type ERABsToBeReleasedRelConfItem.
+// ERABsToBeReleasedRelConfItem represents the ASN.1 CHOICE type E-RABs-ToBeReleased-RelConfItem.
 type ERABsToBeReleasedRelConfItem struct {
 	Choice      int
 	SCGBearer   *ERABsToBeReleasedRelConfItemSCGBearer   `json:"SCGBearer,omitempty"`
@@ -1409,7 +1409,7 @@ func NewERABsToBeReleasedRelConfItemSplitBearer(v ERABsToBeReleasedRelConfItemSp
 	}
 }
 
-// ERABsToBeReleasedRelConfItemSCGBearer represents the ASN.1 type ERABsToBeReleasedRelConfItemSCGBearer (SEQUENCE).
+// ERABsToBeReleasedRelConfItemSCGBearer represents the ASN.1 type E-RABs-ToBeReleased-RelConfItem-SCG-Bearer (SEQUENCE).
 type ERABsToBeReleasedRelConfItemSCGBearer struct {
 	ERABID                        ERABID                     `asn1:"tag:0,context,implicit"`
 	ULForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"ULForwardingGTPtunnelEndpoint,omitempty"`
@@ -1421,7 +1421,7 @@ type ERABsToBeReleasedRelConfItemSCGBearer struct {
 	ExtData_                      [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedRelConfItemSplitBearer represents the ASN.1 type ERABsToBeReleasedRelConfItemSplitBearer (SEQUENCE).
+// ERABsToBeReleasedRelConfItemSplitBearer represents the ASN.1 type E-RABs-ToBeReleased-RelConfItem-Split-Bearer (SEQUENCE).
 type ERABsToBeReleasedRelConfItemSplitBearer struct {
 	ERABID                        ERABID                     `asn1:"tag:0,context,implicit"`
 	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
@@ -1441,10 +1441,10 @@ type SeNBCounterCheckRequest struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsSubjectToCounterCheckList represents the ASN.1 type ERABsSubjectToCounterCheckList (SEQUENCE_OF).
+// ERABsSubjectToCounterCheckList represents the ASN.1 type E-RABs-SubjectToCounterCheck-List (SEQUENCE_OF).
 type ERABsSubjectToCounterCheckList = []ProtocolIESingleContainer
 
-// ERABsSubjectToCounterCheckItem represents the ASN.1 type ERABsSubjectToCounterCheckItem (SEQUENCE).
+// ERABsSubjectToCounterCheckItem represents the ASN.1 type E-RABs-SubjectToCounterCheckItem (SEQUENCE).
 type ERABsSubjectToCounterCheckItem struct {
 	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
 	ULCount            int64                      `asn1:"tag:1,context,implicit"`
@@ -1501,7 +1501,7 @@ type RetrieveUEContextResponse struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// UEContextInformationRetrieve represents the ASN.1 type UEContextInformationRetrieve (SEQUENCE).
+// UEContextInformationRetrieve represents the ASN.1 type UE-ContextInformationRetrieve (SEQUENCE).
 type UEContextInformationRetrieve struct {
 	MMEUES1APID                      UES1APID                      `asn1:"tag:0,context,implicit"`
 	UESecurityCapabilities           UESecurityCapabilities        `asn1:"tag:1,context,implicit"`
@@ -1523,10 +1523,10 @@ type UEContextInformationRetrieve struct {
 	ExtData_                         [][]byte                      `asn1:"-" json:"-"`
 }
 
-// ERABsToBeSetupListRetrieve represents the ASN.1 type ERABsToBeSetupListRetrieve (SEQUENCE_OF).
+// ERABsToBeSetupListRetrieve represents the ASN.1 type E-RABs-ToBeSetup-ListRetrieve (SEQUENCE_OF).
 type ERABsToBeSetupListRetrieve = []ProtocolIESingleContainer
 
-// ERABsToBeSetupRetrieveItem represents the ASN.1 type ERABsToBeSetupRetrieveItem (SEQUENCE).
+// ERABsToBeSetupRetrieveItem represents the ASN.1 type E-RABs-ToBeSetupRetrieve-Item (SEQUENCE).
 type ERABsToBeSetupRetrieveItem struct {
 	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
 	ERABLevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
@@ -1556,10 +1556,10 @@ type SgNBAdditionRequest struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsToBeAddedSgNBAddReqList represents the ASN.1 type ERABsToBeAddedSgNBAddReqList (SEQUENCE_OF).
+// ERABsToBeAddedSgNBAddReqList represents the ASN.1 type E-RABs-ToBeAdded-SgNBAddReqList (SEQUENCE_OF).
 type ERABsToBeAddedSgNBAddReqList = []ProtocolIESingleContainer
 
-// ERABsToBeAddedSgNBAddReqItem represents the ASN.1 type ERABsToBeAddedSgNBAddReqItem (SEQUENCE).
+// ERABsToBeAddedSgNBAddReqItem represents the ASN.1 type E-RABs-ToBeAdded-SgNBAddReq-Item (SEQUENCE).
 type ERABsToBeAddedSgNBAddReqItem struct {
 	ERABID                    ERABID                                            `asn1:"tag:0,context,implicit"`
 	DrbID                     DRBID                                             `asn1:"tag:1,context,implicit"`
@@ -1572,7 +1572,7 @@ type ERABsToBeAddedSgNBAddReqItem struct {
 	ExtData_                  [][]byte                                          `asn1:"-" json:"-"`
 }
 
-// ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresent represents the ASN.1 type ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresent (SEQUENCE).
+// ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresent represents the ASN.1 type E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresent struct {
 	FullERABLevelQoSParameters        ERABLevelQoSParameters     `asn1:"tag:0,context,implicit"`
 	MaxMCGAdmitERABLevelQoSParameters *GBRQosInformation         `asn1:"tag:1,context,implicit,optional" json:"MaxMCGAdmitERABLevelQoSParameters,omitempty"`
@@ -1586,7 +1586,7 @@ type ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresent struct {
 	ExtData_                          [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsToBeAddedSgNBAddReqItemSgNBPDCPnotpresent represents the ASN.1 type ERABsToBeAddedSgNBAddReqItemSgNBPDCPnotpresent (SEQUENCE).
+// ERABsToBeAddedSgNBAddReqItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsToBeAddedSgNBAddReqItemSgNBPDCPnotpresent struct {
 	RequestedSCGERABLevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:0,context,implicit"`
 	MeNBULGTPTEIDatPDCP                GTPtunnelEndpoint          `asn1:"tag:1,context,implicit"`
@@ -1609,10 +1609,10 @@ type SgNBAdditionRequestAcknowledge struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeAddedSgNBAddReqAckList represents the ASN.1 type ERABsAdmittedToBeAddedSgNBAddReqAckList (SEQUENCE_OF).
+// ERABsAdmittedToBeAddedSgNBAddReqAckList represents the ASN.1 type E-RABs-Admitted-ToBeAdded-SgNBAddReqAckList (SEQUENCE_OF).
 type ERABsAdmittedToBeAddedSgNBAddReqAckList = []ProtocolIESingleContainer
 
-// ERABsAdmittedToBeAddedSgNBAddReqAckItem represents the ASN.1 type ERABsAdmittedToBeAddedSgNBAddReqAckItem (SEQUENCE).
+// ERABsAdmittedToBeAddedSgNBAddReqAckItem represents the ASN.1 type E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item (SEQUENCE).
 type ERABsAdmittedToBeAddedSgNBAddReqAckItem struct {
 	ERABID                    ERABID                                                       `asn1:"tag:0,context,implicit"`
 	EnDCResourceConfiguration ENDCResourceConfiguration                                    `asn1:"tag:1,context,implicit"`
@@ -1624,7 +1624,7 @@ type ERABsAdmittedToBeAddedSgNBAddReqAckItem struct {
 	ExtData_                  [][]byte                                                     `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresent represents the ASN.1 type ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresent (SEQUENCE).
+// ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresent represents the ASN.1 type E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresent struct {
 	S1DLGTPtunnelEndpoint         GTPtunnelEndpoint          `asn1:"tag:0,context,implicit"`
 	SgNBULGTPTEIDatPDCP           *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"SgNBULGTPTEIDatPDCP,omitempty"`
@@ -1640,7 +1640,7 @@ type ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresent struct {
 	ExtData_                      [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresent represents the ASN.1 type ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresent (SEQUENCE).
+// ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresent struct {
 	SgNBDLGTPTEIDatSCG          GTPtunnelEndpoint          `asn1:"tag:0,context,implicit"`
 	SecondarySgNBDLGTPTEIDatSCG *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"SecondarySgNBDLGTPTEIDatSCG,omitempty"`
@@ -1698,7 +1698,7 @@ func NewResponseInformationSgNBReconfCompRejectByMeNBSgNBReconfComp(v ResponseIn
 	}
 }
 
-// ResponseInformationSgNBReconfCompSuccessItem represents the ASN.1 type ResponseInformationSgNBReconfCompSuccessItem (SEQUENCE).
+// ResponseInformationSgNBReconfCompSuccessItem represents the ASN.1 type ResponseInformationSgNBReconfComp-SuccessItem (SEQUENCE).
 type ResponseInformationSgNBReconfCompSuccessItem struct {
 	MeNBtoSgNBContainer *MeNBtoSgNBContainer       `asn1:"tag:0,context,implicit,optional" json:"MeNBtoSgNBContainer,omitempty"`
 	IEExtensions        ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
@@ -1708,7 +1708,7 @@ type ResponseInformationSgNBReconfCompSuccessItem struct {
 	ExtData_            [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ResponseInformationSgNBReconfCompRejectByMeNBItem represents the ASN.1 type ResponseInformationSgNBReconfCompRejectByMeNBItem (SEQUENCE).
+// ResponseInformationSgNBReconfCompRejectByMeNBItem represents the ASN.1 type ResponseInformationSgNBReconfComp-RejectByMeNBItem (SEQUENCE).
 type ResponseInformationSgNBReconfCompRejectByMeNBItem struct {
 	Cause              Cause                      `asn1:"tag:0,context,explicit"`
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
@@ -1727,7 +1727,7 @@ type SgNBModificationRequest struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// UEContextInformationSgNBModReq represents the ASN.1 type UEContextInformationSgNBModReq (SEQUENCE).
+// UEContextInformationSgNBModReq represents the ASN.1 type UE-ContextInformation-SgNBModReq (SEQUENCE).
 type UEContextInformationSgNBModReq struct {
 	NRUESecurityCapabilities      *NRUESecurityCapabilities       `asn1:"tag:0,context,implicit,optional" json:"NRUESecurityCapabilities,omitempty"`
 	SgNBSecurityKey               *SgNBSecurityKey                `asn1:"tag:1,context,implicit,optional" json:"SgNBSecurityKey,omitempty"`
@@ -1745,10 +1745,10 @@ type UEContextInformationSgNBModReq struct {
 	ExtData_                      [][]byte                        `asn1:"-" json:"-"`
 }
 
-// ERABsToBeAddedSgNBModReqList represents the ASN.1 type ERABsToBeAddedSgNBModReqList (SEQUENCE_OF).
+// ERABsToBeAddedSgNBModReqList represents the ASN.1 type E-RABs-ToBeAdded-SgNBModReq-List (SEQUENCE_OF).
 type ERABsToBeAddedSgNBModReqList = []ProtocolIESingleContainer
 
-// ERABsToBeAddedSgNBModReqItem represents the ASN.1 type ERABsToBeAddedSgNBModReqItem (SEQUENCE).
+// ERABsToBeAddedSgNBModReqItem represents the ASN.1 type E-RABs-ToBeAdded-SgNBModReq-Item (SEQUENCE).
 type ERABsToBeAddedSgNBModReqItem struct {
 	ERABID                    ERABID                                            `asn1:"tag:0,context,implicit"`
 	DrbID                     DRBID                                             `asn1:"tag:1,context,implicit"`
@@ -1761,7 +1761,7 @@ type ERABsToBeAddedSgNBModReqItem struct {
 	ExtData_                  [][]byte                                          `asn1:"-" json:"-"`
 }
 
-// ERABsToBeAddedSgNBModReqItemSgNBPDCPpresent represents the ASN.1 type ERABsToBeAddedSgNBModReqItemSgNBPDCPpresent (SEQUENCE).
+// ERABsToBeAddedSgNBModReqItemSgNBPDCPpresent represents the ASN.1 type E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsToBeAddedSgNBModReqItemSgNBPDCPpresent struct {
 	FullERABLevelQoSParameters       ERABLevelQoSParameters     `asn1:"tag:0,context,implicit"`
 	MaxMNAdmitERABLevelQoSParameters *GBRQosInformation         `asn1:"tag:1,context,implicit,optional" json:"MaxMNAdmitERABLevelQoSParameters,omitempty"`
@@ -1775,7 +1775,7 @@ type ERABsToBeAddedSgNBModReqItemSgNBPDCPpresent struct {
 	ExtData_                         [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresent represents the ASN.1 type ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresent (SEQUENCE).
+// ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresent struct {
 	RequestedSCGERABLevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:0,context,implicit"`
 	MeNBULGTPTEIDatPDCP                GTPtunnelEndpoint          `asn1:"tag:1,context,implicit"`
@@ -1789,10 +1789,10 @@ type ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresent struct {
 	ExtData_                           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsToBeModifiedSgNBModReqList represents the ASN.1 type ERABsToBeModifiedSgNBModReqList (SEQUENCE_OF).
+// ERABsToBeModifiedSgNBModReqList represents the ASN.1 type E-RABs-ToBeModified-SgNBModReq-List (SEQUENCE_OF).
 type ERABsToBeModifiedSgNBModReqList = []ProtocolIESingleContainer
 
-// ERABsToBeModifiedSgNBModReqItem represents the ASN.1 type ERABsToBeModifiedSgNBModReqItem (SEQUENCE).
+// ERABsToBeModifiedSgNBModReqItem represents the ASN.1 type E-RABs-ToBeModified-SgNBModReq-Item (SEQUENCE).
 type ERABsToBeModifiedSgNBModReqItem struct {
 	ERABID                    ERABID                                               `asn1:"tag:0,context,implicit"`
 	EnDCResourceConfiguration ENDCResourceConfiguration                            `asn1:"tag:1,context,implicit"`
@@ -1804,7 +1804,7 @@ type ERABsToBeModifiedSgNBModReqItem struct {
 	ExtData_                  [][]byte                                             `asn1:"-" json:"-"`
 }
 
-// ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent represents the ASN.1 type ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent (SEQUENCE).
+// ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent represents the ASN.1 type E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent struct {
 	FullERABLevelQoSParameters       *ERABLevelQoSParameters    `asn1:"tag:0,context,implicit,optional" json:"FullERABLevelQoSParameters,omitempty"`
 	MaxMNAdmitERABLevelQoSParameters *GBRQosInformation         `asn1:"tag:1,context,implicit,optional" json:"MaxMNAdmitERABLevelQoSParameters,omitempty"`
@@ -1817,7 +1817,7 @@ type ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent struct {
 	ExtData_                         [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent represents the ASN.1 type ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent (SEQUENCE).
+// ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent struct {
 	RequestedSCGERABLevelQoSParameters *ERABLevelQoSParameters    `asn1:"tag:0,context,implicit,optional" json:"RequestedSCGERABLevelQoSParameters,omitempty"`
 	MeNBULGTPTEIDatPDCP                *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"MeNBULGTPTEIDatPDCP,omitempty"`
@@ -1829,10 +1829,10 @@ type ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent struct {
 	ExtData_                           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedSgNBModReqList represents the ASN.1 type ERABsToBeReleasedSgNBModReqList (SEQUENCE_OF).
+// ERABsToBeReleasedSgNBModReqList represents the ASN.1 type E-RABs-ToBeReleased-SgNBModReq-List (SEQUENCE_OF).
 type ERABsToBeReleasedSgNBModReqList = []ProtocolIESingleContainer
 
-// ERABsToBeReleasedSgNBModReqItem represents the ASN.1 type ERABsToBeReleasedSgNBModReqItem (SEQUENCE).
+// ERABsToBeReleasedSgNBModReqItem represents the ASN.1 type E-RABs-ToBeReleased-SgNBModReq-Item (SEQUENCE).
 type ERABsToBeReleasedSgNBModReqItem struct {
 	ERABID                    ERABID                                               `asn1:"tag:0,context,implicit"`
 	EnDCResourceConfiguration ENDCResourceConfiguration                            `asn1:"tag:1,context,implicit"`
@@ -1844,7 +1844,7 @@ type ERABsToBeReleasedSgNBModReqItem struct {
 	ExtData_                  [][]byte                                             `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresent represents the ASN.1 type ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresent (SEQUENCE).
+// ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresent represents the ASN.1 type E-RABs-ToBeReleased-SgNBModReq-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresent struct {
 	DLGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:0,context,implicit,optional" json:"DLGTPtunnelEndpoint,omitempty"`
 	ULGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"ULGTPtunnelEndpoint,omitempty"`
@@ -1855,7 +1855,7 @@ type ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresent struct {
 	ExtData_            [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresent represents the ASN.1 type ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresent (SEQUENCE).
+// ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-ToBeReleased-SgNBModReq-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresent struct {
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
@@ -1873,10 +1873,10 @@ type SgNBModificationRequestAcknowledge struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeAddedSgNBModAckList represents the ASN.1 type ERABsAdmittedToBeAddedSgNBModAckList (SEQUENCE_OF).
+// ERABsAdmittedToBeAddedSgNBModAckList represents the ASN.1 type E-RABs-Admitted-ToBeAdded-SgNBModAckList (SEQUENCE_OF).
 type ERABsAdmittedToBeAddedSgNBModAckList = []ProtocolIESingleContainer
 
-// ERABsAdmittedToBeAddedSgNBModAckItem represents the ASN.1 type ERABsAdmittedToBeAddedSgNBModAckItem (SEQUENCE).
+// ERABsAdmittedToBeAddedSgNBModAckItem represents the ASN.1 type E-RABs-Admitted-ToBeAdded-SgNBModAck-Item (SEQUENCE).
 type ERABsAdmittedToBeAddedSgNBModAckItem struct {
 	ERABID                    ERABID                                                    `asn1:"tag:0,context,implicit"`
 	EnDCResourceConfiguration ENDCResourceConfiguration                                 `asn1:"tag:1,context,implicit"`
@@ -1888,7 +1888,7 @@ type ERABsAdmittedToBeAddedSgNBModAckItem struct {
 	ExtData_                  [][]byte                                                  `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresent represents the ASN.1 type ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresent (SEQUENCE).
+// ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresent represents the ASN.1 type E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresent struct {
 	S1DLGTPtunnelEndpoint         GTPtunnelEndpoint          `asn1:"tag:0,context,implicit"`
 	SgNBULGTPTEIDatPDCP           *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"SgNBULGTPTEIDatPDCP,omitempty"`
@@ -1904,7 +1904,7 @@ type ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresent struct {
 	ExtData_                      [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresent represents the ASN.1 type ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresent (SEQUENCE).
+// ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresent struct {
 	SgNBDLGTPTEIDatSCG          GTPtunnelEndpoint          `asn1:"tag:0,context,implicit"`
 	SecondarySgNBDLGTPTEIDatSCG *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"SecondarySgNBDLGTPTEIDatSCG,omitempty"`
@@ -1915,10 +1915,10 @@ type ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresent struct {
 	ExtData_                    [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeModifiedSgNBModAckList represents the ASN.1 type ERABsAdmittedToBeModifiedSgNBModAckList (SEQUENCE_OF).
+// ERABsAdmittedToBeModifiedSgNBModAckList represents the ASN.1 type E-RABs-Admitted-ToBeModified-SgNBModAckList (SEQUENCE_OF).
 type ERABsAdmittedToBeModifiedSgNBModAckList = []ProtocolIESingleContainer
 
-// ERABsAdmittedToBeModifiedSgNBModAckItem represents the ASN.1 type ERABsAdmittedToBeModifiedSgNBModAckItem (SEQUENCE).
+// ERABsAdmittedToBeModifiedSgNBModAckItem represents the ASN.1 type E-RABs-Admitted-ToBeModified-SgNBModAck-Item (SEQUENCE).
 type ERABsAdmittedToBeModifiedSgNBModAckItem struct {
 	ERABID                    ERABID                                                       `asn1:"tag:0,context,implicit"`
 	EnDCResourceConfiguration ENDCResourceConfiguration                                    `asn1:"tag:1,context,implicit"`
@@ -1930,7 +1930,7 @@ type ERABsAdmittedToBeModifiedSgNBModAckItem struct {
 	ExtData_                  [][]byte                                                     `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresent represents the ASN.1 type ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresent (SEQUENCE).
+// ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresent represents the ASN.1 type E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresent struct {
 	S1DLGTPtunnelEndpoint     *GTPtunnelEndpoint         `asn1:"tag:0,context,implicit,optional" json:"S1DLGTPtunnelEndpoint,omitempty"`
 	SgNBULGTPTEIDatPDCP       *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"SgNBULGTPTEIDatPDCP,omitempty"`
@@ -1943,7 +1943,7 @@ type ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresent struct {
 	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresent represents the ASN.1 type ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresent (SEQUENCE).
+// ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresent struct {
 	SgNBDLGTPTEIDatSCG *GTPtunnelEndpoint         `asn1:"tag:0,context,implicit,optional" json:"SgNBDLGTPTEIDatSCG,omitempty"`
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
@@ -1953,10 +1953,10 @@ type ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresent struct {
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeReleasedSgNBModAckList represents the ASN.1 type ERABsAdmittedToBeReleasedSgNBModAckList (SEQUENCE_OF).
+// ERABsAdmittedToBeReleasedSgNBModAckList represents the ASN.1 type E-RABs-Admitted-ToBeReleased-SgNBModAckList (SEQUENCE_OF).
 type ERABsAdmittedToBeReleasedSgNBModAckList = []ProtocolIESingleContainer
 
-// ERABsAdmittedToReleasedSgNBModAckItem represents the ASN.1 type ERABsAdmittedToReleasedSgNBModAckItem (SEQUENCE).
+// ERABsAdmittedToReleasedSgNBModAckItem represents the ASN.1 type E-RABs-Admitted-ToReleased-SgNBModAck-Item (SEQUENCE).
 type ERABsAdmittedToReleasedSgNBModAckItem struct {
 	ERABID                    ERABID                                                     `asn1:"tag:0,context,implicit"`
 	EnDCResourceConfiguration ENDCResourceConfiguration                                  `asn1:"tag:1,context,implicit"`
@@ -1968,7 +1968,7 @@ type ERABsAdmittedToReleasedSgNBModAckItem struct {
 	ExtData_                  [][]byte                                                   `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresent represents the ASN.1 type ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresent (SEQUENCE).
+// ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresent represents the ASN.1 type E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresent struct {
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
@@ -1977,7 +1977,7 @@ type ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresent struct {
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent represents the ASN.1 type ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent (SEQUENCE).
+// ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent struct {
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
@@ -2004,10 +2004,10 @@ type SgNBModificationRequired struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedSgNBModReqdList represents the ASN.1 type ERABsToBeReleasedSgNBModReqdList (SEQUENCE_OF).
+// ERABsToBeReleasedSgNBModReqdList represents the ASN.1 type E-RABs-ToBeReleased-SgNBModReqdList (SEQUENCE_OF).
 type ERABsToBeReleasedSgNBModReqdList = []ProtocolIESingleContainer
 
-// ERABsToBeReleasedSgNBModReqdItem represents the ASN.1 type ERABsToBeReleasedSgNBModReqdItem (SEQUENCE).
+// ERABsToBeReleasedSgNBModReqdItem represents the ASN.1 type E-RABs-ToBeReleased-SgNBModReqd-Item (SEQUENCE).
 type ERABsToBeReleasedSgNBModReqdItem struct {
 	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
 	Cause              Cause                      `asn1:"tag:1,context,explicit"`
@@ -2018,10 +2018,10 @@ type ERABsToBeReleasedSgNBModReqdItem struct {
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsToBeModifiedSgNBModReqdList represents the ASN.1 type ERABsToBeModifiedSgNBModReqdList (SEQUENCE_OF).
+// ERABsToBeModifiedSgNBModReqdList represents the ASN.1 type E-RABs-ToBeModified-SgNBModReqdList (SEQUENCE_OF).
 type ERABsToBeModifiedSgNBModReqdList = []ProtocolIESingleContainer
 
-// ERABsToBeModifiedSgNBModReqdItem represents the ASN.1 type ERABsToBeModifiedSgNBModReqdItem (SEQUENCE).
+// ERABsToBeModifiedSgNBModReqdItem represents the ASN.1 type E-RABs-ToBeModified-SgNBModReqd-Item (SEQUENCE).
 type ERABsToBeModifiedSgNBModReqdItem struct {
 	ERABID                    ERABID                                                `asn1:"tag:0,context,implicit"`
 	EnDCResourceConfiguration ENDCResourceConfiguration                             `asn1:"tag:1,context,implicit"`
@@ -2033,7 +2033,7 @@ type ERABsToBeModifiedSgNBModReqdItem struct {
 	ExtData_                  [][]byte                                              `asn1:"-" json:"-"`
 }
 
-// ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent represents the ASN.1 type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent (SEQUENCE).
+// ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent represents the ASN.1 type E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent struct {
 	RequestedMCGERABLevelQoSParameters *ERABLevelQoSParameters    `asn1:"tag:0,context,implicit,optional" json:"RequestedMCGERABLevelQoSParameters,omitempty"`
 	ULConfiguration                    *ULConfiguration           `asn1:"tag:1,context,implicit,optional" json:"ULConfiguration,omitempty"`
@@ -2046,7 +2046,7 @@ type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent struct {
 	ExtData_                           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent represents the ASN.1 type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent (SEQUENCE).
+// ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent struct {
 	SgNBDLGTPTEIDatSCG          *GTPtunnelEndpoint         `asn1:"tag:0,context,implicit,optional" json:"SgNBDLGTPTEIDatSCG,omitempty"`
 	SecondarySgNBDLGTPTEIDatSCG *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"SecondarySgNBDLGTPTEIDatSCG,omitempty"`
@@ -2066,10 +2066,10 @@ type SgNBModificationConfirm struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeModifiedSgNBModConfList represents the ASN.1 type ERABsAdmittedToBeModifiedSgNBModConfList (SEQUENCE_OF).
+// ERABsAdmittedToBeModifiedSgNBModConfList represents the ASN.1 type E-RABs-AdmittedToBeModified-SgNBModConfList (SEQUENCE_OF).
 type ERABsAdmittedToBeModifiedSgNBModConfList = []ProtocolIESingleContainer
 
-// ERABsAdmittedToBeModifiedSgNBModConfItem represents the ASN.1 type ERABsAdmittedToBeModifiedSgNBModConfItem (SEQUENCE).
+// ERABsAdmittedToBeModifiedSgNBModConfItem represents the ASN.1 type E-RABs-AdmittedToBeModified-SgNBModConf-Item (SEQUENCE).
 type ERABsAdmittedToBeModifiedSgNBModConfItem struct {
 	ERABID                    ERABID                                                        `asn1:"tag:0,context,implicit"`
 	EnDCResourceConfiguration ENDCResourceConfiguration                                     `asn1:"tag:1,context,implicit"`
@@ -2081,7 +2081,7 @@ type ERABsAdmittedToBeModifiedSgNBModConfItem struct {
 	ExtData_                  [][]byte                                                      `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresent represents the ASN.1 type ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresent (SEQUENCE).
+// ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresent represents the ASN.1 type E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresent struct {
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
@@ -2090,7 +2090,7 @@ type ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresent struct {
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresent represents the ASN.1 type ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresent (SEQUENCE).
+// ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresent struct {
 	SecondaryMeNBULGTPTEIDatPDCP *GTPtunnelEndpoint         `asn1:"tag:0,context,implicit,optional" json:"SecondaryMeNBULGTPTEIDatPDCP,omitempty"`
 	IEExtensions                 ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
@@ -2118,10 +2118,10 @@ type SgNBReleaseRequest struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedSgNBRelReqList represents the ASN.1 type ERABsToBeReleasedSgNBRelReqList (SEQUENCE_OF).
+// ERABsToBeReleasedSgNBRelReqList represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelReqList (SEQUENCE_OF).
 type ERABsToBeReleasedSgNBRelReqList = []ProtocolIESingleContainer
 
-// ERABsToBeReleasedSgNBRelReqItem represents the ASN.1 type ERABsToBeReleasedSgNBRelReqItem (SEQUENCE).
+// ERABsToBeReleasedSgNBRelReqItem represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelReq-Item (SEQUENCE).
 type ERABsToBeReleasedSgNBRelReqItem struct {
 	ERABID                    ERABID                                               `asn1:"tag:0,context,implicit"`
 	EnDCResourceConfiguration ENDCResourceConfiguration                            `asn1:"tag:1,context,implicit"`
@@ -2133,7 +2133,7 @@ type ERABsToBeReleasedSgNBRelReqItem struct {
 	ExtData_                  [][]byte                                             `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresent represents the ASN.1 type ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresent (SEQUENCE).
+// ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresent represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelReq-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresent struct {
 	ULGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:0,context,implicit,optional" json:"ULGTPtunnelEndpoint,omitempty"`
 	DLGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"DLGTPtunnelEndpoint,omitempty"`
@@ -2144,7 +2144,7 @@ type ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresent struct {
 	ExtData_            [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresent represents the ASN.1 type ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresent (SEQUENCE).
+// ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelReq-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresent struct {
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
@@ -2162,10 +2162,10 @@ type SgNBReleaseRequestAcknowledge struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsAdmittedToBeReleasedSgNBRelReqAckList represents the ASN.1 type ERABsAdmittedToBeReleasedSgNBRelReqAckList (SEQUENCE_OF).
+// ERABsAdmittedToBeReleasedSgNBRelReqAckList represents the ASN.1 type E-RABs-Admitted-ToBeReleased-SgNBRelReqAckList (SEQUENCE_OF).
 type ERABsAdmittedToBeReleasedSgNBRelReqAckList = []ProtocolIESingleContainer
 
-// ERABsAdmittedToBeReleasedSgNBRelReqAckItem represents the ASN.1 type ERABsAdmittedToBeReleasedSgNBRelReqAckItem (SEQUENCE).
+// ERABsAdmittedToBeReleasedSgNBRelReqAckItem represents the ASN.1 type E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-Item (SEQUENCE).
 type ERABsAdmittedToBeReleasedSgNBRelReqAckItem struct {
 	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
 	RlcModeTransferred RLCMode                    `asn1:"tag:1,context,implicit"`
@@ -2194,10 +2194,10 @@ type SgNBReleaseRequired struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedSgNBRelReqdList represents the ASN.1 type ERABsToBeReleasedSgNBRelReqdList (SEQUENCE_OF).
+// ERABsToBeReleasedSgNBRelReqdList represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelReqdList (SEQUENCE_OF).
 type ERABsToBeReleasedSgNBRelReqdList = []ProtocolIESingleContainer
 
-// ERABsToBeReleasedSgNBRelReqdItem represents the ASN.1 type ERABsToBeReleasedSgNBRelReqdItem (SEQUENCE).
+// ERABsToBeReleasedSgNBRelReqdItem represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelReqd-Item (SEQUENCE).
 type ERABsToBeReleasedSgNBRelReqdItem struct {
 	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
 	RlcModeTransferred RLCMode                    `asn1:"tag:1,context,implicit"`
@@ -2217,10 +2217,10 @@ type SgNBReleaseConfirm struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedSgNBRelConfList represents the ASN.1 type ERABsToBeReleasedSgNBRelConfList (SEQUENCE_OF).
+// ERABsToBeReleasedSgNBRelConfList represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelConfList (SEQUENCE_OF).
 type ERABsToBeReleasedSgNBRelConfList = []ProtocolIESingleContainer
 
-// ERABsToBeReleasedSgNBRelConfItem represents the ASN.1 type ERABsToBeReleasedSgNBRelConfItem (SEQUENCE).
+// ERABsToBeReleasedSgNBRelConfItem represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelConf-Item (SEQUENCE).
 type ERABsToBeReleasedSgNBRelConfItem struct {
 	ERABID                    ERABID                                                `asn1:"tag:0,context,implicit"`
 	EnDCResourceConfiguration ENDCResourceConfiguration                             `asn1:"tag:1,context,implicit"`
@@ -2232,7 +2232,7 @@ type ERABsToBeReleasedSgNBRelConfItem struct {
 	ExtData_                  [][]byte                                              `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresent represents the ASN.1 type ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresent (SEQUENCE).
+// ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresent represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelConf-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresent struct {
 	ULGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:0,context,implicit,optional" json:"ULGTPtunnelEndpoint,omitempty"`
 	DLGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"DLGTPtunnelEndpoint,omitempty"`
@@ -2243,7 +2243,7 @@ type ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresent struct {
 	ExtData_            [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresent represents the ASN.1 type ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresent (SEQUENCE).
+// ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelConf-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresent struct {
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
@@ -2261,10 +2261,10 @@ type SgNBCounterCheckRequest struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsSubjectToSgNBCounterCheckList represents the ASN.1 type ERABsSubjectToSgNBCounterCheckList (SEQUENCE_OF).
+// ERABsSubjectToSgNBCounterCheckList represents the ASN.1 type E-RABs-SubjectToSgNBCounterCheck-List (SEQUENCE_OF).
 type ERABsSubjectToSgNBCounterCheckList = []ProtocolIESingleContainer
 
-// ERABsSubjectToSgNBCounterCheckItem represents the ASN.1 type ERABsSubjectToSgNBCounterCheckItem (SEQUENCE).
+// ERABsSubjectToSgNBCounterCheckItem represents the ASN.1 type E-RABs-SubjectToSgNBCounterCheck-Item (SEQUENCE).
 type ERABsSubjectToSgNBCounterCheckItem struct {
 	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
 	ULCount            int64                      `asn1:"tag:1,context,implicit"`
@@ -2303,10 +2303,10 @@ type SgNBChangeConfirm struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedSgNBChaConfList represents the ASN.1 type ERABsToBeReleasedSgNBChaConfList (SEQUENCE_OF).
+// ERABsToBeReleasedSgNBChaConfList represents the ASN.1 type E-RABs-ToBeReleased-SgNBChaConfList (SEQUENCE_OF).
 type ERABsToBeReleasedSgNBChaConfList = []ProtocolIESingleContainer
 
-// ERABsToBeReleasedSgNBChaConfItem represents the ASN.1 type ERABsToBeReleasedSgNBChaConfItem (SEQUENCE).
+// ERABsToBeReleasedSgNBChaConfItem represents the ASN.1 type E-RABs-ToBeReleased-SgNBChaConf-Item (SEQUENCE).
 type ERABsToBeReleasedSgNBChaConfItem struct {
 	ERABID                    ERABID                                                `asn1:"tag:0,context,implicit"`
 	EnDCResourceConfiguration ENDCResourceConfiguration                             `asn1:"tag:1,context,implicit"`
@@ -2318,7 +2318,7 @@ type ERABsToBeReleasedSgNBChaConfItem struct {
 	ExtData_                  [][]byte                                              `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent represents the ASN.1 type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent (SEQUENCE).
+// ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent represents the ASN.1 type E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent struct {
 	ULGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:0,context,implicit,optional" json:"ULGTPtunnelEndpoint,omitempty"`
 	DLGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"DLGTPtunnelEndpoint,omitempty"`
@@ -2329,7 +2329,7 @@ type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent struct {
 	ExtData_            [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent represents the ASN.1 type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent (SEQUENCE).
+// ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent struct {
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
@@ -2371,7 +2371,7 @@ const (
 	InitiatingNodeTypeEndcX2SetupChoiceInitEnGNB = 2
 )
 
-// InitiatingNodeTypeEndcX2Setup represents the ASN.1 CHOICE type InitiatingNodeTypeEndcX2Setup.
+// InitiatingNodeTypeEndcX2Setup represents the ASN.1 CHOICE type InitiatingNodeType-EndcX2Setup.
 type InitiatingNodeTypeEndcX2Setup struct {
 	Choice    int
 	InitENB   ProtocolIEContainer `json:"InitENB,omitempty"`
@@ -2400,7 +2400,7 @@ type ServedEUTRAcellsENDCX2ManagementList = []ServedEUTRAcellsENDCX2ManagementLi
 // ServedNRcellsENDCX2ManagementList represents the ASN.1 type ServedNRcellsENDCX2ManagementList (SEQUENCE_OF).
 type ServedNRcellsENDCX2ManagementList = []ServedNRcellsENDCX2ManagementListElem
 
-// ServedNRCellInformation represents the ASN.1 type ServedNRCellInformation (SEQUENCE).
+// ServedNRCellInformation represents the ASN.1 type ServedNRCell-Information (SEQUENCE).
 type ServedNRCellInformation struct {
 	NrpCI                          NRPCI                             `asn1:"tag:0,context,implicit"`
 	NrCellID                       NRCGI                             `asn1:"tag:1,context,implicit"`
@@ -2417,7 +2417,7 @@ type ServedNRCellInformation struct {
 	ExtData_                       [][]byte                          `asn1:"-" json:"-"`
 }
 
-// FDDInfoServedNRCellInformation represents the ASN.1 type FDDInfoServedNRCellInformation (SEQUENCE).
+// FDDInfoServedNRCellInformation represents the ASN.1 type FDD-InfoServedNRCell-Information (SEQUENCE).
 type FDDInfoServedNRCellInformation struct {
 	UlNRFreqInfo       NRFreqInfo                 `asn1:"tag:0,context,implicit"`
 	DlNRFreqInfo       NRFreqInfo                 `asn1:"tag:1,context,implicit"`
@@ -2430,7 +2430,7 @@ type FDDInfoServedNRCellInformation struct {
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// TDDInfoServedNRCellInformation represents the ASN.1 type TDDInfoServedNRCellInformation (SEQUENCE).
+// TDDInfoServedNRCellInformation represents the ASN.1 type TDD-InfoServedNRCell-Information (SEQUENCE).
 type TDDInfoServedNRCellInformation struct {
 	NRFreqInfo         NRFreqInfo                 `asn1:"tag:0,context,implicit"`
 	NRTxBW             NRTxBW                     `asn1:"tag:1,context,implicit"`
@@ -2481,7 +2481,7 @@ func NewCellAssistanceInformationFullList(v int64) CellAssistanceInformation {
 	}
 }
 
-// LimitedList represents the ASN.1 type LimitedList (SEQUENCE_OF).
+// LimitedList represents the ASN.1 type Limited-list (SEQUENCE_OF).
 type LimitedList = []LimitedListElem
 
 // ENDCX2SetupResponse represents the ASN.1 type ENDCX2SetupResponse (SEQUENCE).
@@ -2499,7 +2499,7 @@ const (
 	RespondingNodeTypeEndcX2SetupChoiceRespondEnGNB = 2
 )
 
-// RespondingNodeTypeEndcX2Setup represents the ASN.1 CHOICE type RespondingNodeTypeEndcX2Setup.
+// RespondingNodeTypeEndcX2Setup represents the ASN.1 CHOICE type RespondingNodeType-EndcX2Setup.
 type RespondingNodeTypeEndcX2Setup struct {
 	Choice       int
 	RespondENB   ProtocolIEContainer `json:"RespondENB,omitempty"`
@@ -2546,7 +2546,7 @@ const (
 	InitiatingNodeTypeEndcConfigUpdateChoiceInitEnGNB = 2
 )
 
-// InitiatingNodeTypeEndcConfigUpdate represents the ASN.1 CHOICE type InitiatingNodeTypeEndcConfigUpdate.
+// InitiatingNodeTypeEndcConfigUpdate represents the ASN.1 CHOICE type InitiatingNodeType-EndcConfigUpdate.
 type InitiatingNodeTypeEndcConfigUpdate struct {
 	Choice    int
 	InitENB   ProtocolIEContainer `json:"InitENB,omitempty"`
@@ -2578,7 +2578,7 @@ type ServedEUTRAcellsToDeleteListENDCConfUpd = []ECGI
 // ServedNRcellsToModifyENDCConfUpdList represents the ASN.1 type ServedNRcellsToModifyENDCConfUpdList (SEQUENCE_OF).
 type ServedNRcellsToModifyENDCConfUpdList = []ServedNRCellsToModifyItem
 
-// ServedNRCellsToModifyItem represents the ASN.1 type ServedNRCellsToModifyItem (SEQUENCE).
+// ServedNRCellsToModifyItem represents the ASN.1 type ServedNRCellsToModify-Item (SEQUENCE).
 type ServedNRCellsToModifyItem struct {
 	OldNrcgi                     NRCGI                      `asn1:"tag:0,context,implicit"`
 	ServedNRCellInformation      ServedNRCellInformation    `asn1:"tag:1,context,implicit"`
@@ -2610,7 +2610,7 @@ const (
 	RespondingNodeTypeEndcConfigUpdateChoiceRespondEnGNB = 2
 )
 
-// RespondingNodeTypeEndcConfigUpdate represents the ASN.1 CHOICE type RespondingNodeTypeEndcConfigUpdate.
+// RespondingNodeTypeEndcConfigUpdate represents the ASN.1 CHOICE type RespondingNodeType-EndcConfigUpdate.
 type RespondingNodeTypeEndcConfigUpdate struct {
 	Choice       int
 	RespondENB   ProtocolIEContainer `json:"RespondENB,omitempty"`
@@ -2654,7 +2654,7 @@ type ENDCCellActivationRequest struct {
 // ServedNRCellsToActivate represents the ASN.1 type ServedNRCellsToActivate (SEQUENCE_OF).
 type ServedNRCellsToActivate = []ServedNRCellsToActivateItem
 
-// ServedNRCellsToActivateItem represents the ASN.1 type ServedNRCellsToActivateItem (SEQUENCE).
+// ServedNRCellsToActivateItem represents the ASN.1 type ServedNRCellsToActivate-Item (SEQUENCE).
 type ServedNRCellsToActivateItem struct {
 	NrCellID           NRCGI                      `asn1:"tag:0,context,implicit"`
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
@@ -2676,7 +2676,7 @@ type ENDCCellActivationResponse struct {
 // ActivatedNRCellList represents the ASN.1 type ActivatedNRCellList (SEQUENCE_OF).
 type ActivatedNRCellList = []ActivatedNRCellListItem
 
-// ActivatedNRCellListItem represents the ASN.1 type ActivatedNRCellListItem (SEQUENCE).
+// ActivatedNRCellListItem represents the ASN.1 type ActivatedNRCellList-Item (SEQUENCE).
 type ActivatedNRCellListItem struct {
 	NrCellID           NRCGI                      `asn1:"tag:0,context,implicit"`
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
@@ -2704,7 +2704,7 @@ type ENDCResourceStatusRequest struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ReportingPeriodicityENDC represents the ASN.1 ENUMERATED type ReportingPeriodicityENDC.
+// ReportingPeriodicityENDC represents the ASN.1 ENUMERATED type ReportingPeriodicity-ENDC.
 type ReportingPeriodicityENDC int64
 
 const (
@@ -2732,10 +2732,10 @@ func (v ReportingPeriodicityENDC) String() string {
 	}
 }
 
-// CellToReportNRENDCList represents the ASN.1 type CellToReportNRENDCList (SEQUENCE_OF).
+// CellToReportNRENDCList represents the ASN.1 type CellToReport-NR-ENDC-List (SEQUENCE_OF).
 type CellToReportNRENDCList = []ProtocolIESingleContainer
 
-// CellToReportNRENDCItem represents the ASN.1 type CellToReportNRENDCItem (SEQUENCE).
+// CellToReportNRENDCItem represents the ASN.1 type CellToReport-NR-ENDC-Item (SEQUENCE).
 type CellToReportNRENDCItem struct {
 	NrCellID              NRCGI                      `asn1:"tag:0,context,implicit"`
 	SsbToReportList       SSBToReportList            `asn1:"tag:1,context,implicit,optional" json:"SsbToReportList,omitempty"`
@@ -2747,10 +2747,10 @@ type CellToReportNRENDCItem struct {
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
-// CellToReportEUTRAENDCList represents the ASN.1 type CellToReportEUTRAENDCList (SEQUENCE_OF).
+// CellToReportEUTRAENDCList represents the ASN.1 type CellToReport-E-UTRA-ENDC-List (SEQUENCE_OF).
 type CellToReportEUTRAENDCList = []ProtocolIESingleContainer
 
-// CellToReportEUTRAENDCItem represents the ASN.1 type CellToReportEUTRAENDCItem (SEQUENCE).
+// CellToReportEUTRAENDCItem represents the ASN.1 type CellToReport-E-UTRA-ENDC-Item (SEQUENCE).
 type CellToReportEUTRAENDCItem struct {
 	EUtraCellID        ECGI                       `asn1:"tag:0,context,implicit"`
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
@@ -2760,10 +2760,10 @@ type CellToReportEUTRAENDCItem struct {
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// SSBToReportList represents the ASN.1 type SSBToReportList (SEQUENCE_OF).
+// SSBToReportList represents the ASN.1 type SSBToReport-List (SEQUENCE_OF).
 type SSBToReportList = []SSBToReportItem
 
-// SSBToReportItem represents the ASN.1 type SSBToReportItem (SEQUENCE).
+// SSBToReportItem represents the ASN.1 type SSBToReport-Item (SEQUENCE).
 type SSBToReportItem struct {
 	SsbIndex           SSBIndex                   `asn1:"tag:0,context,implicit"`
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
@@ -2800,10 +2800,10 @@ type ENDCResourceStatusUpdate struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// CellMeasurementResultNRENDCList represents the ASN.1 type CellMeasurementResultNRENDCList (SEQUENCE_OF).
+// CellMeasurementResultNRENDCList represents the ASN.1 type CellMeasurementResult-NR-ENDC-List (SEQUENCE_OF).
 type CellMeasurementResultNRENDCList = []ProtocolIESingleContainer
 
-// CellMeasurementResultNRENDCItem represents the ASN.1 type CellMeasurementResultNRENDCItem (SEQUENCE).
+// CellMeasurementResultNRENDCItem represents the ASN.1 type CellMeasurementResult-NR-ENDC-Item (SEQUENCE).
 type CellMeasurementResultNRENDCItem struct {
 	NrCellID                          NRCGI                              `asn1:"tag:0,context,implicit"`
 	NrRadioResourceStatus             *NRRadioResourceStatus             `asn1:"tag:1,context,implicit,optional" json:"NrRadioResourceStatus,omitempty"`
@@ -2817,10 +2817,10 @@ type CellMeasurementResultNRENDCItem struct {
 	ExtData_                          [][]byte                           `asn1:"-" json:"-"`
 }
 
-// CellMeasurementResultEUTRAENDCList represents the ASN.1 type CellMeasurementResultEUTRAENDCList (SEQUENCE_OF).
+// CellMeasurementResultEUTRAENDCList represents the ASN.1 type CellMeasurementResult-E-UTRA-ENDC-List (SEQUENCE_OF).
 type CellMeasurementResultEUTRAENDCList = []ProtocolIESingleContainer
 
-// CellMeasurementResultEUTRAENDCItem represents the ASN.1 type CellMeasurementResultEUTRAENDCItem (SEQUENCE).
+// CellMeasurementResultEUTRAENDCItem represents the ASN.1 type CellMeasurementResult-E-UTRA-ENDC-Item (SEQUENCE).
 type CellMeasurementResultEUTRAENDCItem struct {
 	EUtraCellID                     ECGI                             `asn1:"tag:0,context,implicit"`
 	HWLoadIndicator                 *HWLoadIndicator                 `asn1:"tag:1,context,implicit,optional" json:"HWLoadIndicator,omitempty"`
@@ -2885,7 +2885,7 @@ const (
 	InitiatingNodeTypeEutranrCellResourceCoordinationChoiceInitiateEnGNB = 2
 )
 
-// InitiatingNodeTypeEutranrCellResourceCoordination represents the ASN.1 CHOICE type InitiatingNodeTypeEutranrCellResourceCoordination.
+// InitiatingNodeTypeEutranrCellResourceCoordination represents the ASN.1 CHOICE type InitiatingNodeType-EutranrCellResourceCoordination.
 type InitiatingNodeTypeEutranrCellResourceCoordination struct {
 	Choice        int
 	InitiateENB   ProtocolIEContainer `json:"InitiateENB,omitempty"`
@@ -2932,7 +2932,7 @@ const (
 	RespondingNodeTypeEutranrCellResourceCoordinationChoiceRespondEnGNB = 2
 )
 
-// RespondingNodeTypeEutranrCellResourceCoordination represents the ASN.1 CHOICE type RespondingNodeTypeEutranrCellResourceCoordination.
+// RespondingNodeTypeEutranrCellResourceCoordination represents the ASN.1 CHOICE type RespondingNodeType-EutranrCellResourceCoordination.
 type RespondingNodeTypeEutranrCellResourceCoordination struct {
 	Choice       int
 	RespondENB   ProtocolIEContainer `json:"RespondENB,omitempty"`
@@ -2976,7 +2976,7 @@ const (
 	InitiatingNodeTypeEndcX2RemovalChoiceInitEnGNB = 2
 )
 
-// InitiatingNodeTypeEndcX2Removal represents the ASN.1 CHOICE type InitiatingNodeTypeEndcX2Removal.
+// InitiatingNodeTypeEndcX2Removal represents the ASN.1 CHOICE type InitiatingNodeType-EndcX2Removal.
 type InitiatingNodeTypeEndcX2Removal struct {
 	Choice    int
 	InitENB   ProtocolIEContainer `json:"InitENB,omitempty"`
@@ -3014,7 +3014,7 @@ const (
 	RespondingNodeTypeEndcX2RemovalChoiceRespondEnGNB = 2
 )
 
-// RespondingNodeTypeEndcX2Removal represents the ASN.1 CHOICE type RespondingNodeTypeEndcX2Removal.
+// RespondingNodeTypeEndcX2Removal represents the ASN.1 CHOICE type RespondingNodeType-EndcX2Removal.
 type RespondingNodeTypeEndcX2Removal struct {
 	Choice       int
 	RespondENB   ProtocolIEContainer `json:"RespondENB,omitempty"`
@@ -3055,10 +3055,10 @@ type DataForwardingAddressIndication struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// ERABsDataForwardingAddressList represents the ASN.1 type ERABsDataForwardingAddressList (SEQUENCE_OF).
+// ERABsDataForwardingAddressList represents the ASN.1 type E-RABs-DataForwardingAddress-List (SEQUENCE_OF).
 type ERABsDataForwardingAddressList = []ProtocolIESingleContainer
 
-// ERABsDataForwardingAddressItem represents the ASN.1 type ERABsDataForwardingAddressItem (SEQUENCE).
+// ERABsDataForwardingAddressItem represents the ASN.1 type E-RABs-DataForwardingAddress-Item (SEQUENCE).
 type ERABsDataForwardingAddressItem struct {
 	ERABID              ERABID                     `asn1:"tag:0,context,implicit"`
 	DlGTPtunnelEndpoint GTPtunnelEndpoint          `asn1:"tag:1,context,implicit"`
@@ -3141,7 +3141,7 @@ type UERadioCapabilityIDMappingResponse struct {
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
 }
 
-// CPCCancel represents the ASN.1 type CPCCancel (SEQUENCE).
+// CPCCancel represents the ASN.1 type CPC-cancel (SEQUENCE).
 type CPCCancel struct {
 	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
 	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
@@ -3183,7 +3183,7 @@ const (
 	ERABsToBeAddedSgNBAddReqItemResourceConfigurationChoiceSgNBPDCPnotpresent = 2
 )
 
-// ERABsToBeAddedSgNBAddReqItemResourceConfiguration represents the ASN.1 CHOICE type ERABsToBeAddedSgNBAddReqItemResourceConfiguration.
+// ERABsToBeAddedSgNBAddReqItemResourceConfiguration represents the ASN.1 CHOICE type E-RABs-ToBeAdded-SgNBAddReq-Item-resource-configuration.
 type ERABsToBeAddedSgNBAddReqItemResourceConfiguration struct {
 	Choice             int
 	SgNBPDCPpresent    *ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -3212,7 +3212,7 @@ const (
 	ERABsAdmittedToBeAddedSgNBAddReqAckItemResourceConfigurationChoiceSgNBPDCPnotpresent = 2
 )
 
-// ERABsAdmittedToBeAddedSgNBAddReqAckItemResourceConfiguration represents the ASN.1 CHOICE type ERABsAdmittedToBeAddedSgNBAddReqAckItemResourceConfiguration.
+// ERABsAdmittedToBeAddedSgNBAddReqAckItemResourceConfiguration represents the ASN.1 CHOICE type E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-resource-configuration.
 type ERABsAdmittedToBeAddedSgNBAddReqAckItemResourceConfiguration struct {
 	Choice             int
 	SgNBPDCPpresent    *ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -3241,7 +3241,7 @@ const (
 	ERABsToBeAddedSgNBModReqItemResourceConfigurationChoiceSgNBPDCPnotpresent = 2
 )
 
-// ERABsToBeAddedSgNBModReqItemResourceConfiguration represents the ASN.1 CHOICE type ERABsToBeAddedSgNBModReqItemResourceConfiguration.
+// ERABsToBeAddedSgNBModReqItemResourceConfiguration represents the ASN.1 CHOICE type E-RABs-ToBeAdded-SgNBModReq-Item-resource-configuration.
 type ERABsToBeAddedSgNBModReqItemResourceConfiguration struct {
 	Choice             int
 	SgNBPDCPpresent    *ERABsToBeAddedSgNBModReqItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -3270,7 +3270,7 @@ const (
 	ERABsToBeModifiedSgNBModReqItemResourceConfigurationChoiceSgNBPDCPnotpresent = 2
 )
 
-// ERABsToBeModifiedSgNBModReqItemResourceConfiguration represents the ASN.1 CHOICE type ERABsToBeModifiedSgNBModReqItemResourceConfiguration.
+// ERABsToBeModifiedSgNBModReqItemResourceConfiguration represents the ASN.1 CHOICE type E-RABs-ToBeModified-SgNBModReq-Item-resource-configuration.
 type ERABsToBeModifiedSgNBModReqItemResourceConfiguration struct {
 	Choice             int
 	SgNBPDCPpresent    *ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -3299,7 +3299,7 @@ const (
 	ERABsToBeReleasedSgNBModReqItemResourceConfigurationChoiceSgNBPDCPnotpresent = 2
 )
 
-// ERABsToBeReleasedSgNBModReqItemResourceConfiguration represents the ASN.1 CHOICE type ERABsToBeReleasedSgNBModReqItemResourceConfiguration.
+// ERABsToBeReleasedSgNBModReqItemResourceConfiguration represents the ASN.1 CHOICE type E-RABs-ToBeReleased-SgNBModReq-Item-resource-configuration.
 type ERABsToBeReleasedSgNBModReqItemResourceConfiguration struct {
 	Choice             int
 	SgNBPDCPpresent    *ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -3328,7 +3328,7 @@ const (
 	ERABsAdmittedToBeAddedSgNBModAckItemResourceConfigurationChoiceSgNBPDCPnotpresent = 2
 )
 
-// ERABsAdmittedToBeAddedSgNBModAckItemResourceConfiguration represents the ASN.1 CHOICE type ERABsAdmittedToBeAddedSgNBModAckItemResourceConfiguration.
+// ERABsAdmittedToBeAddedSgNBModAckItemResourceConfiguration represents the ASN.1 CHOICE type E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-resource-configuration.
 type ERABsAdmittedToBeAddedSgNBModAckItemResourceConfiguration struct {
 	Choice             int
 	SgNBPDCPpresent    *ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -3357,7 +3357,7 @@ const (
 	ERABsAdmittedToBeModifiedSgNBModAckItemResourceConfigurationChoiceSgNBPDCPnotpresent = 2
 )
 
-// ERABsAdmittedToBeModifiedSgNBModAckItemResourceConfiguration represents the ASN.1 CHOICE type ERABsAdmittedToBeModifiedSgNBModAckItemResourceConfiguration.
+// ERABsAdmittedToBeModifiedSgNBModAckItemResourceConfiguration represents the ASN.1 CHOICE type E-RABs-Admitted-ToBeModified-SgNBModAck-Item-resource-configuration.
 type ERABsAdmittedToBeModifiedSgNBModAckItemResourceConfiguration struct {
 	Choice             int
 	SgNBPDCPpresent    *ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -3386,7 +3386,7 @@ const (
 	ERABsAdmittedToReleasedSgNBModAckItemResourceConfigurationChoiceSgNBPDCPnotpresent = 2
 )
 
-// ERABsAdmittedToReleasedSgNBModAckItemResourceConfiguration represents the ASN.1 CHOICE type ERABsAdmittedToReleasedSgNBModAckItemResourceConfiguration.
+// ERABsAdmittedToReleasedSgNBModAckItemResourceConfiguration represents the ASN.1 CHOICE type E-RABs-Admitted-ToReleased-SgNBModAck-Item-resource-configuration.
 type ERABsAdmittedToReleasedSgNBModAckItemResourceConfiguration struct {
 	Choice             int
 	SgNBPDCPpresent    *ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -3415,7 +3415,7 @@ const (
 	ERABsToBeModifiedSgNBModReqdItemResourceConfigurationChoiceSgNBPDCPnotpresent = 2
 )
 
-// ERABsToBeModifiedSgNBModReqdItemResourceConfiguration represents the ASN.1 CHOICE type ERABsToBeModifiedSgNBModReqdItemResourceConfiguration.
+// ERABsToBeModifiedSgNBModReqdItemResourceConfiguration represents the ASN.1 CHOICE type E-RABs-ToBeModified-SgNBModReqd-Item-resource-configuration.
 type ERABsToBeModifiedSgNBModReqdItemResourceConfiguration struct {
 	Choice             int
 	SgNBPDCPpresent    *ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -3444,7 +3444,7 @@ const (
 	ERABsAdmittedToBeModifiedSgNBModConfItemResourceConfigurationChoiceSgNBPDCPnotpresent = 2
 )
 
-// ERABsAdmittedToBeModifiedSgNBModConfItemResourceConfiguration represents the ASN.1 CHOICE type ERABsAdmittedToBeModifiedSgNBModConfItemResourceConfiguration.
+// ERABsAdmittedToBeModifiedSgNBModConfItemResourceConfiguration represents the ASN.1 CHOICE type E-RABs-AdmittedToBeModified-SgNBModConf-Item-resource-configuration.
 type ERABsAdmittedToBeModifiedSgNBModConfItemResourceConfiguration struct {
 	Choice             int
 	SgNBPDCPpresent    *ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -3473,7 +3473,7 @@ const (
 	ERABsToBeReleasedSgNBRelReqItemResourceConfigurationChoiceSgNBPDCPnotpresent = 2
 )
 
-// ERABsToBeReleasedSgNBRelReqItemResourceConfiguration represents the ASN.1 CHOICE type ERABsToBeReleasedSgNBRelReqItemResourceConfiguration.
+// ERABsToBeReleasedSgNBRelReqItemResourceConfiguration represents the ASN.1 CHOICE type E-RABs-ToBeReleased-SgNBRelReq-Item-resource-configuration.
 type ERABsToBeReleasedSgNBRelReqItemResourceConfiguration struct {
 	Choice             int
 	SgNBPDCPpresent    *ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -3502,7 +3502,7 @@ const (
 	ERABsToBeReleasedSgNBRelConfItemResourceConfigurationChoiceSgNBPDCPnotpresent = 2
 )
 
-// ERABsToBeReleasedSgNBRelConfItemResourceConfiguration represents the ASN.1 CHOICE type ERABsToBeReleasedSgNBRelConfItemResourceConfiguration.
+// ERABsToBeReleasedSgNBRelConfItemResourceConfiguration represents the ASN.1 CHOICE type E-RABs-ToBeReleased-SgNBRelConf-Item-resource-configuration.
 type ERABsToBeReleasedSgNBRelConfItemResourceConfiguration struct {
 	Choice             int
 	SgNBPDCPpresent    *ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -3531,7 +3531,7 @@ const (
 	ERABsToBeReleasedSgNBChaConfItemResourceConfigurationChoiceSgNBPDCPnotpresent = 2
 )
 
-// ERABsToBeReleasedSgNBChaConfItemResourceConfiguration represents the ASN.1 CHOICE type ERABsToBeReleasedSgNBChaConfItemResourceConfiguration.
+// ERABsToBeReleasedSgNBChaConfItemResourceConfiguration represents the ASN.1 CHOICE type E-RABs-ToBeReleased-SgNBChaConf-Item-resource-configuration.
 type ERABsToBeReleasedSgNBChaConfItemResourceConfiguration struct {
 	Choice             int
 	SgNBPDCPpresent    *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -3554,7 +3554,7 @@ func NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPnotpresent(
 	}
 }
 
-// ServedEUTRAcellsENDCX2ManagementListElem represents the ASN.1 type ServedEUTRAcellsENDCX2ManagementListElem (SEQUENCE).
+// ServedEUTRAcellsENDCX2ManagementListElem represents the ASN.1 type ServedEUTRAcellsENDCX2ManagementList-Elem (SEQUENCE).
 type ServedEUTRAcellsENDCX2ManagementListElem struct {
 	ServedEUTRACellInfo   ServedCellInformation      `asn1:"tag:0,context,implicit"`
 	NrNeighbourInfo       NRNeighbourInformation     `asn1:"tag:1,context,implicit,optional" json:"NrNeighbourInfo,omitempty"`
@@ -3566,7 +3566,7 @@ type ServedEUTRAcellsENDCX2ManagementListElem struct {
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ServedNRcellsENDCX2ManagementListElem represents the ASN.1 type ServedNRcellsENDCX2ManagementListElem (SEQUENCE).
+// ServedNRcellsENDCX2ManagementListElem represents the ASN.1 type ServedNRcellsENDCX2ManagementList-Elem (SEQUENCE).
 type ServedNRcellsENDCX2ManagementListElem struct {
 	ServedNRCellInfo      ServedNRCellInformation    `asn1:"tag:0,context,implicit"`
 	NRNeighbourInfo       NRNeighbourInformation     `asn1:"tag:1,context,implicit,optional" json:"NRNeighbourInfo,omitempty"`
@@ -3584,7 +3584,7 @@ const (
 	ServedNRCellInformationNrModeInfoChoiceTdd = 2
 )
 
-// ServedNRCellInformationNrModeInfo represents the ASN.1 CHOICE type ServedNRCellInformationNrModeInfo.
+// ServedNRCellInformationNrModeInfo represents the ASN.1 CHOICE type ServedNRCell-Information-nrModeInfo.
 type ServedNRCellInformationNrModeInfo struct {
 	Choice int
 	Fdd    *FDDInfoServedNRCellInformation `json:"Fdd,omitempty"`
@@ -3607,7 +3607,7 @@ func NewServedNRCellInformationNrModeInfoTdd(v TDDInfoServedNRCellInformation) S
 	}
 }
 
-// LimitedListElem represents the ASN.1 type LimitedListElem (SEQUENCE).
+// LimitedListElem represents the ASN.1 type Limited-list-Elem (SEQUENCE).
 type LimitedListElem struct {
 	NrCellID           NRCGI                      `asn1:"tag:0,context,implicit"`
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
@@ -3617,7 +3617,7 @@ type LimitedListElem struct {
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
 }
 
-// ServedEUTRAcellsToModifyListENDCConfUpdElem represents the ASN.1 type ServedEUTRAcellsToModifyListENDCConfUpdElem (SEQUENCE).
+// ServedEUTRAcellsToModifyListENDCConfUpdElem represents the ASN.1 type ServedEUTRAcellsToModifyListENDCConfUpd-Elem (SEQUENCE).
 type ServedEUTRAcellsToModifyListENDCConfUpdElem struct {
 	OldECGI               ECGI                       `asn1:"tag:0,context,implicit"`
 	ServedEUTRACellInfo   ServedCellInformation      `asn1:"tag:1,context,implicit"`
@@ -3698,11 +3698,13 @@ func (v *HandoverRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -3885,11 +3887,13 @@ func (v *UEContextInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_erabstobesetuplist > 256 {
 		return fmt.Errorf("decoding e-RABs-ToBeSetup-List length %d above upper bound 256", seqLen_erabstobesetuplist)
 	}
-	v.ERABsToBeSetupList = make(ERABsToBeSetupList, seqLen_erabstobesetuplist)
+	v.ERABsToBeSetupList = make(ERABsToBeSetupList, 0)
 	for i := int64(0); i < seqLen_erabstobesetuplist; i++ {
-		if err := v.ERABsToBeSetupList[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding e-RABs-ToBeSetup-List element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding e-RABs-ToBeSetup-List element %d: %w", i, err)
 		}
+		v.ERABsToBeSetupList = append(v.ERABsToBeSetupList, elem)
 	}
 	val_rrccontext, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 	if err != nil {
@@ -3923,11 +3927,13 @@ func (v *UEContextInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -4005,11 +4011,13 @@ func unmarshalAPERERABsToBeSetupListInto(v *asn1cAPERERABsToBeSetupListListValue
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsToBeSetupList, seqLen_value)
+	v.Value = make(ERABsToBeSetupList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -4134,11 +4142,13 @@ func (v *ERABsToBeSetupItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -4265,11 +4275,13 @@ func (v *UEContextReferenceAtSeNB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -4388,11 +4400,13 @@ func (v *UEContextReferenceAtWT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -4511,11 +4525,13 @@ func (v *UEContextReferenceAtSgNB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -4608,11 +4624,13 @@ func (v *HandoverRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -4688,11 +4706,13 @@ func unmarshalAPERERABsAdmittedListInto(v *asn1cAPERERABsAdmittedListListValue, 
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsAdmittedList, seqLen_value)
+	v.Value = make(ERABsAdmittedList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -4823,11 +4843,13 @@ func (v *ERABsAdmittedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -4920,11 +4942,13 @@ func (v *HandoverPreparationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -5015,11 +5039,13 @@ func (v *HandoverReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -5110,11 +5136,13 @@ func (v *EarlyStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -5152,14 +5180,23 @@ func (v *ProcedureStageChoice) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case ProcedureStageChoiceChoiceFirstDlCount:
+		if v.FirstDlCount == nil {
+			return fmt.Errorf("choice alternative first-dl-count is nil")
+		}
 		if err := v.FirstDlCount.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding first-dl-count: %w", err)
 		}
 	case ProcedureStageChoiceChoiceDlDiscarding:
+		if v.DlDiscarding == nil {
+			return fmt.Errorf("choice alternative dl-discarding is nil")
+		}
 		if err := v.DlDiscarding.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding dl-discarding: %w", err)
 		}
 	case ProcedureStageChoiceChoiceChoiceExtension:
+		if v.ChoiceExtension == nil {
+			return fmt.Errorf("choice alternative choice-extension is nil")
+		}
 		if err := v.ChoiceExtension.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding choice-extension: %w", err)
 		}
@@ -5291,11 +5328,13 @@ func (v *FirstDLCount) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_erabssubjecttoearlystatustransfer > 256 {
 		return fmt.Errorf("decoding e-RABsSubjectToEarlyStatusTransfer length %d above upper bound 256", seqLen_erabssubjecttoearlystatustransfer)
 	}
-	v.ERABsSubjectToEarlyStatusTransfer = make(ERABsSubjectToEarlyStatusTransferList, seqLen_erabssubjecttoearlystatustransfer)
+	v.ERABsSubjectToEarlyStatusTransfer = make(ERABsSubjectToEarlyStatusTransferList, 0)
 	for i := int64(0); i < seqLen_erabssubjecttoearlystatustransfer; i++ {
-		if err := v.ERABsSubjectToEarlyStatusTransfer[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding e-RABsSubjectToEarlyStatusTransfer element: %w", err)
+		var elem ERABsSubjectToEarlyStatusTransferItem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding e-RABsSubjectToEarlyStatusTransfer element %d: %w", i, err)
 		}
+		v.ERABsSubjectToEarlyStatusTransfer = append(v.ERABsSubjectToEarlyStatusTransfer, elem)
 	}
 	if opt_ieextension {
 		var seqLen_ieextension int64
@@ -5310,11 +5349,13 @@ func (v *FirstDLCount) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextension > 65535 {
 			return fmt.Errorf("decoding iE-Extension length %d above upper bound 65535", seqLen_ieextension)
 		}
-		tmp_ieextension := make(ProtocolExtensionContainer, seqLen_ieextension)
+		tmp_ieextension := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextension; i++ {
-			if err := tmp_ieextension[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extension element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extension element %d: %w", i, err)
 			}
+			tmp_ieextension = append(tmp_ieextension, elem)
 		}
 		v.IEExtension = tmp_ieextension
 	}
@@ -5426,11 +5467,13 @@ func (v *DLDiscarding) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_erabssubjecttodldiscardinglist > 256 {
 		return fmt.Errorf("decoding e-RABsSubjectToDLDiscarding-List length %d above upper bound 256", seqLen_erabssubjecttodldiscardinglist)
 	}
-	v.ERABsSubjectToDLDiscardingList = make(ERABsSubjectToDLDiscardingList, seqLen_erabssubjecttodldiscardinglist)
+	v.ERABsSubjectToDLDiscardingList = make(ERABsSubjectToDLDiscardingList, 0)
 	for i := int64(0); i < seqLen_erabssubjecttodldiscardinglist; i++ {
-		if err := v.ERABsSubjectToDLDiscardingList[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding e-RABsSubjectToDLDiscarding-List element: %w", err)
+		var elem ERABsSubjectToDLDiscardingItem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding e-RABsSubjectToDLDiscarding-List element %d: %w", i, err)
 		}
+		v.ERABsSubjectToDLDiscardingList = append(v.ERABsSubjectToDLDiscardingList, elem)
 	}
 	if opt_ieextension {
 		var seqLen_ieextension int64
@@ -5445,11 +5488,13 @@ func (v *DLDiscarding) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextension > 65535 {
 			return fmt.Errorf("decoding iE-Extension length %d above upper bound 65535", seqLen_ieextension)
 		}
-		tmp_ieextension := make(ProtocolExtensionContainer, seqLen_ieextension)
+		tmp_ieextension := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextension; i++ {
-			if err := tmp_ieextension[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extension element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extension element %d: %w", i, err)
 			}
+			tmp_ieextension = append(tmp_ieextension, elem)
 		}
 		v.IEExtension = tmp_ieextension
 	}
@@ -5542,11 +5587,13 @@ func (v *SNStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -5624,11 +5671,13 @@ func unmarshalAPERERABsSubjectToStatusTransferListInto(v *asn1cAPERERABsSubjectT
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsSubjectToStatusTransferList, seqLen_value)
+	v.Value = make(ERABsSubjectToStatusTransferList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -5753,11 +5802,13 @@ func (v *ERABsSubjectToStatusTransferItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -5850,11 +5901,13 @@ func (v *UEContextRelease) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -5945,11 +5998,13 @@ func (v *HandoverCancel) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -6040,11 +6095,13 @@ func (v *HandoverSuccess) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -6135,11 +6192,13 @@ func (v *ConditionalHandoverCancel) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -6230,11 +6289,13 @@ func (v *ErrorIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -6325,11 +6386,13 @@ func (v *ResetRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -6420,11 +6483,13 @@ func (v *ResetResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -6515,11 +6580,13 @@ func (v *X2SetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -6610,11 +6677,13 @@ func (v *X2SetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -6705,11 +6774,13 @@ func (v *X2SetupFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -6800,11 +6871,13 @@ func (v *LoadInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -6880,11 +6953,13 @@ func unmarshalAPERCellInformationListInto(v *asn1cAPERCellInformationListListVal
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(CellInformationList, seqLen_value)
+	v.Value = make(CellInformationList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -7021,13 +7096,13 @@ func (v *CellInformationItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ulinterferenceoverloadindication > 110 {
 			return fmt.Errorf("decoding ul-InterferenceOverloadIndication length %d above upper bound 110", seqLen_ulinterferenceoverloadindication)
 		}
-		tmp_ulinterferenceoverloadindication := make(ULInterferenceOverloadIndication, seqLen_ulinterferenceoverloadindication)
+		tmp_ulinterferenceoverloadindication := make(ULInterferenceOverloadIndication, 0)
 		for i := int64(0); i < seqLen_ulinterferenceoverloadindication; i++ {
 			val, err := per.DecodeEnumeratedAligned(bb, 3, true)
 			if err != nil {
-				return fmt.Errorf("decoding ul-InterferenceOverloadIndication element: %w", err)
+				return fmt.Errorf("decoding ul-InterferenceOverloadIndication element %d: %w", i, err)
 			}
-			tmp_ulinterferenceoverloadindication[i] = ULInterferenceOverloadIndicationItem(val)
+			tmp_ulinterferenceoverloadindication = append(tmp_ulinterferenceoverloadindication, ULInterferenceOverloadIndicationItem(val))
 		}
 		v.UlInterferenceOverloadIndication = tmp_ulinterferenceoverloadindication
 	}
@@ -7044,11 +7119,13 @@ func (v *CellInformationItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ulhighinterferenceindicationinfo > 256 {
 			return fmt.Errorf("decoding ul-HighInterferenceIndicationInfo length %d above upper bound 256", seqLen_ulhighinterferenceindicationinfo)
 		}
-		tmp_ulhighinterferenceindicationinfo := make(ULHighInterferenceIndicationInfo, seqLen_ulhighinterferenceindicationinfo)
+		tmp_ulhighinterferenceindicationinfo := make(ULHighInterferenceIndicationInfo, 0)
 		for i := int64(0); i < seqLen_ulhighinterferenceindicationinfo; i++ {
-			if err := tmp_ulhighinterferenceindicationinfo[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding ul-HighInterferenceIndicationInfo element: %w", err)
+			var elem ULHighInterferenceIndicationInfoItem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding ul-HighInterferenceIndicationInfo element %d: %w", i, err)
 			}
+			tmp_ulhighinterferenceindicationinfo = append(tmp_ulhighinterferenceindicationinfo, elem)
 		}
 		v.UlHighInterferenceIndicationInfo = tmp_ulhighinterferenceindicationinfo
 	}
@@ -7072,11 +7149,13 @@ func (v *CellInformationItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -7169,11 +7248,13 @@ func (v *ENBConfigurationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -7249,11 +7330,13 @@ func unmarshalAPERServedCellsToModifyInto(v *asn1cAPERServedCellsToModifyListVal
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ServedCellsToModify, seqLen_value)
+	v.Value = make(ServedCellsToModify, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ServedCellsToModifyItem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -7367,11 +7450,13 @@ func (v *ServedCellsToModifyItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_neighbourinfo > 512 {
 			return fmt.Errorf("decoding neighbour-Info length %d above upper bound 512", seqLen_neighbourinfo)
 		}
-		tmp_neighbourinfo := make(NeighbourInformation, seqLen_neighbourinfo)
+		tmp_neighbourinfo := make(NeighbourInformation, 0)
 		for i := int64(0); i < seqLen_neighbourinfo; i++ {
-			if err := tmp_neighbourinfo[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding neighbour-Info element: %w", err)
+			var elem NeighbourInformationElem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding neighbour-Info element %d: %w", i, err)
 			}
+			tmp_neighbourinfo = append(tmp_neighbourinfo, elem)
 		}
 		v.NeighbourInfo = tmp_neighbourinfo
 	}
@@ -7388,11 +7473,13 @@ func (v *ServedCellsToModifyItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -7470,11 +7557,13 @@ func unmarshalAPEROldECGIsInto(v *asn1cAPEROldECGIsListValue, bb *per.BitBuffer)
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(OldECGIs, seqLen_value)
+	v.Value = make(OldECGIs, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ECGI
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -7547,11 +7636,13 @@ func (v *ENBConfigurationUpdateAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer)
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -7642,11 +7733,13 @@ func (v *ENBConfigurationUpdateFailure) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -7737,11 +7830,13 @@ func (v *ResourceStatusRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -7817,11 +7912,13 @@ func unmarshalAPERCellToReportListInto(v *asn1cAPERCellToReportListListValue, bb
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(CellToReportList, seqLen_value)
+	v.Value = make(CellToReportList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -7912,11 +8009,13 @@ func (v *CellToReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -8009,11 +8108,13 @@ func (v *ResourceStatusResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -8091,11 +8192,13 @@ func unmarshalAPERMeasurementInitiationResultListInto(v *asn1cAPERMeasurementIni
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(MeasurementInitiationResultList, seqLen_value)
+	v.Value = make(MeasurementInitiationResultList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -8203,11 +8306,13 @@ func (v *MeasurementInitiationResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		if seqLen_measurementfailurecauselist > 32 {
 			return fmt.Errorf("decoding measurementFailureCause-List length %d above upper bound 32", seqLen_measurementfailurecauselist)
 		}
-		tmp_measurementfailurecauselist := make(MeasurementFailureCauseList, seqLen_measurementfailurecauselist)
+		tmp_measurementfailurecauselist := make(MeasurementFailureCauseList, 0)
 		for i := int64(0); i < seqLen_measurementfailurecauselist; i++ {
-			if err := tmp_measurementfailurecauselist[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measurementFailureCause-List element: %w", err)
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding measurementFailureCause-List element %d: %w", i, err)
 			}
+			tmp_measurementfailurecauselist = append(tmp_measurementfailurecauselist, elem)
 		}
 		v.MeasurementFailureCauseList = tmp_measurementfailurecauselist
 	}
@@ -8224,11 +8329,13 @@ func (v *MeasurementInitiationResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -8306,11 +8413,13 @@ func unmarshalAPERMeasurementFailureCauseListInto(v *asn1cAPERMeasurementFailure
 	if seqLen_value > 32 {
 		return fmt.Errorf("decoding value length %d above upper bound 32", seqLen_value)
 	}
-	v.Value = make(MeasurementFailureCauseList, seqLen_value)
+	v.Value = make(MeasurementFailureCauseList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -8409,11 +8518,13 @@ func (v *MeasurementFailureCauseItem) UnmarshalAPERFrom(bb *per.BitBuffer) error
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -8506,11 +8617,13 @@ func (v *ResourceStatusFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -8588,11 +8701,13 @@ func unmarshalAPERCompleteFailureCauseInformationListInto(v *asn1cAPERCompleteFa
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(CompleteFailureCauseInformationList, seqLen_value)
+	v.Value = make(CompleteFailureCauseInformationList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -8690,11 +8805,13 @@ func (v *CompleteFailureCauseInformationItem) UnmarshalAPERFrom(bb *per.BitBuffe
 	if seqLen_measurementfailurecauselist > 32 {
 		return fmt.Errorf("decoding measurementFailureCause-List length %d above upper bound 32", seqLen_measurementfailurecauselist)
 	}
-	v.MeasurementFailureCauseList = make(MeasurementFailureCauseList, seqLen_measurementfailurecauselist)
+	v.MeasurementFailureCauseList = make(MeasurementFailureCauseList, 0)
 	for i := int64(0); i < seqLen_measurementfailurecauselist; i++ {
-		if err := v.MeasurementFailureCauseList[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding measurementFailureCause-List element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding measurementFailureCause-List element %d: %w", i, err)
 		}
+		v.MeasurementFailureCauseList = append(v.MeasurementFailureCauseList, elem)
 	}
 	if opt_ieextensions {
 		var seqLen_ieextensions int64
@@ -8709,11 +8826,13 @@ func (v *CompleteFailureCauseInformationItem) UnmarshalAPERFrom(bb *per.BitBuffe
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -8806,11 +8925,13 @@ func (v *ResourceStatusUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -8886,11 +9007,13 @@ func unmarshalAPERCellMeasurementResultListInto(v *asn1cAPERCellMeasurementResul
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(CellMeasurementResultList, seqLen_value)
+	v.Value = make(CellMeasurementResultList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -9038,11 +9161,13 @@ func (v *CellMeasurementResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -9135,11 +9260,13 @@ func (v *PrivateMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_privateies > 65535 {
 		return fmt.Errorf("decoding privateIEs length %d above upper bound 65535", seqLen_privateies)
 	}
-	v.PrivateIEs = make(PrivateIEContainer, seqLen_privateies)
+	v.PrivateIEs = make(PrivateIEContainer, 0)
 	for i := int64(0); i < seqLen_privateies; i++ {
-		if err := v.PrivateIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding privateIEs element: %w", err)
+		var elem PrivateIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding privateIEs element %d: %w", i, err)
 		}
+		v.PrivateIEs = append(v.PrivateIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -9230,11 +9357,13 @@ func (v *MobilityChangeRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -9325,11 +9454,13 @@ func (v *MobilityChangeAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -9420,11 +9551,13 @@ func (v *MobilityChangeFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -9515,11 +9648,13 @@ func (v *RLFIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -9610,11 +9745,13 @@ func (v *CellActivationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -9690,11 +9827,13 @@ func unmarshalAPERServedCellsToActivateInto(v *asn1cAPERServedCellsToActivateLis
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ServedCellsToActivate, seqLen_value)
+	v.Value = make(ServedCellsToActivate, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ServedCellsToActivateItem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -9785,11 +9924,13 @@ func (v *ServedCellsToActivateItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -9882,11 +10023,13 @@ func (v *CellActivationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -9962,11 +10105,13 @@ func unmarshalAPERActivatedCellListInto(v *asn1cAPERActivatedCellListListValue, 
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ActivatedCellList, seqLen_value)
+	v.Value = make(ActivatedCellList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ActivatedCellListItem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -10057,11 +10202,13 @@ func (v *ActivatedCellListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -10154,11 +10301,13 @@ func (v *CellActivationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -10249,11 +10398,13 @@ func (v *X2Release) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -10344,11 +10495,13 @@ func (v *X2APMessageTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -10476,11 +10629,13 @@ func (v *RNLHeader) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -10573,11 +10728,13 @@ func (v *SeNBAdditionRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -10653,11 +10810,13 @@ func unmarshalAPERERABsToBeAddedListInto(v *asn1cAPERERABsToBeAddedListListValue
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsToBeAddedList, seqLen_value)
+	v.Value = make(ERABsToBeAddedList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -10684,10 +10843,16 @@ func (v *ERABsToBeAddedItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case ERABsToBeAddedItemChoiceSCGBearer:
+		if v.SCGBearer == nil {
+			return fmt.Errorf("choice alternative sCG-Bearer is nil")
+		}
 		if err := v.SCGBearer.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sCG-Bearer: %w", err)
 		}
 	case ERABsToBeAddedItemChoiceSplitBearer:
+		if v.SplitBearer == nil {
+			return fmt.Errorf("choice alternative split-Bearer is nil")
+		}
 		if err := v.SplitBearer.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding split-Bearer: %w", err)
 		}
@@ -10857,11 +11022,13 @@ func (v *ERABsToBeAddedItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -10986,11 +11153,13 @@ func (v *ERABsToBeAddedItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuffer) err
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -11083,11 +11252,13 @@ func (v *SeNBAdditionRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) er
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -11163,11 +11334,13 @@ func unmarshalAPERERABsAdmittedToBeAddedListInto(v *asn1cAPERERABsAdmittedToBeAd
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsAdmittedToBeAddedList, seqLen_value)
+	v.Value = make(ERABsAdmittedToBeAddedList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -11194,10 +11367,16 @@ func (v *ERABsAdmittedToBeAddedItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case ERABsAdmittedToBeAddedItemChoiceSCGBearer:
+		if v.SCGBearer == nil {
+			return fmt.Errorf("choice alternative sCG-Bearer is nil")
+		}
 		if err := v.SCGBearer.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sCG-Bearer: %w", err)
 		}
 	case ERABsAdmittedToBeAddedItemChoiceSplitBearer:
+		if v.SplitBearer == nil {
+			return fmt.Errorf("choice alternative split-Bearer is nil")
+		}
 		if err := v.SplitBearer.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding split-Bearer: %w", err)
 		}
@@ -11379,11 +11558,13 @@ func (v *ERABsAdmittedToBeAddedItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffe
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -11502,11 +11683,13 @@ func (v *ERABsAdmittedToBeAddedItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuf
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -11599,11 +11782,13 @@ func (v *SeNBAdditionRequestReject) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -11694,11 +11879,13 @@ func (v *SeNBReconfigurationComplete) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -11743,10 +11930,16 @@ func (v *ResponseInformationSeNBReconfComp) MarshalAPERTo(bb *per.BitBuffer) err
 	}
 	switch v.Choice {
 	case ResponseInformationSeNBReconfCompChoiceSuccess:
+		if v.Success == nil {
+			return fmt.Errorf("choice alternative success is nil")
+		}
 		if err := v.Success.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding success: %w", err)
 		}
 	case ResponseInformationSeNBReconfCompChoiceRejectByMeNB:
+		if v.RejectByMeNB == nil {
+			return fmt.Errorf("choice alternative reject-by-MeNB is nil")
+		}
 		if err := v.RejectByMeNB.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding reject-by-MeNB: %w", err)
 		}
@@ -11896,11 +12089,13 @@ func (v *ResponseInformationSeNBReconfCompSuccessItem) UnmarshalAPERFrom(bb *per
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -12031,11 +12226,13 @@ func (v *ResponseInformationSeNBReconfCompRejectByMeNBItem) UnmarshalAPERFrom(bb
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -12128,11 +12325,13 @@ func (v *SeNBModificationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -12344,11 +12543,13 @@ func (v *UEContextInformationSeNBModReq) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		if seqLen_erabstobeadded > 256 {
 			return fmt.Errorf("decoding e-RABs-ToBeAdded length %d above upper bound 256", seqLen_erabstobeadded)
 		}
-		tmp_erabstobeadded := make(ERABsToBeAddedListModReq, seqLen_erabstobeadded)
+		tmp_erabstobeadded := make(ERABsToBeAddedListModReq, 0)
 		for i := int64(0); i < seqLen_erabstobeadded; i++ {
-			if err := tmp_erabstobeadded[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding e-RABs-ToBeAdded element: %w", err)
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding e-RABs-ToBeAdded element %d: %w", i, err)
 			}
+			tmp_erabstobeadded = append(tmp_erabstobeadded, elem)
 		}
 		v.ERABsToBeAdded = tmp_erabstobeadded
 	}
@@ -12365,11 +12566,13 @@ func (v *UEContextInformationSeNBModReq) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		if seqLen_erabstobemodified > 256 {
 			return fmt.Errorf("decoding e-RABs-ToBeModified length %d above upper bound 256", seqLen_erabstobemodified)
 		}
-		tmp_erabstobemodified := make(ERABsToBeModifiedListModReq, seqLen_erabstobemodified)
+		tmp_erabstobemodified := make(ERABsToBeModifiedListModReq, 0)
 		for i := int64(0); i < seqLen_erabstobemodified; i++ {
-			if err := tmp_erabstobemodified[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding e-RABs-ToBeModified element: %w", err)
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding e-RABs-ToBeModified element %d: %w", i, err)
 			}
+			tmp_erabstobemodified = append(tmp_erabstobemodified, elem)
 		}
 		v.ERABsToBeModified = tmp_erabstobemodified
 	}
@@ -12386,11 +12589,13 @@ func (v *UEContextInformationSeNBModReq) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		if seqLen_erabstobereleased > 256 {
 			return fmt.Errorf("decoding e-RABs-ToBeReleased length %d above upper bound 256", seqLen_erabstobereleased)
 		}
-		tmp_erabstobereleased := make(ERABsToBeReleasedListModReq, seqLen_erabstobereleased)
+		tmp_erabstobereleased := make(ERABsToBeReleasedListModReq, 0)
 		for i := int64(0); i < seqLen_erabstobereleased; i++ {
-			if err := tmp_erabstobereleased[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding e-RABs-ToBeReleased element: %w", err)
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding e-RABs-ToBeReleased element %d: %w", i, err)
 			}
+			tmp_erabstobereleased = append(tmp_erabstobereleased, elem)
 		}
 		v.ERABsToBeReleased = tmp_erabstobereleased
 	}
@@ -12407,11 +12612,13 @@ func (v *UEContextInformationSeNBModReq) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -12489,11 +12696,13 @@ func unmarshalAPERERABsToBeAddedListModReqInto(v *asn1cAPERERABsToBeAddedListMod
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsToBeAddedListModReq, seqLen_value)
+	v.Value = make(ERABsToBeAddedListModReq, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -12520,10 +12729,16 @@ func (v *ERABsToBeAddedModReqItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case ERABsToBeAddedModReqItemChoiceSCGBearer:
+		if v.SCGBearer == nil {
+			return fmt.Errorf("choice alternative sCG-Bearer is nil")
+		}
 		if err := v.SCGBearer.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sCG-Bearer: %w", err)
 		}
 	case ERABsToBeAddedModReqItemChoiceSplitBearer:
+		if v.SplitBearer == nil {
+			return fmt.Errorf("choice alternative split-Bearer is nil")
+		}
 		if err := v.SplitBearer.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding split-Bearer: %w", err)
 		}
@@ -12693,11 +12908,13 @@ func (v *ERABsToBeAddedModReqItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffer)
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -12822,11 +13039,13 @@ func (v *ERABsToBeAddedModReqItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuffe
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -12904,11 +13123,13 @@ func unmarshalAPERERABsToBeModifiedListModReqInto(v *asn1cAPERERABsToBeModifiedL
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsToBeModifiedListModReq, seqLen_value)
+	v.Value = make(ERABsToBeModifiedListModReq, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -12935,10 +13156,16 @@ func (v *ERABsToBeModifiedModReqItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case ERABsToBeModifiedModReqItemChoiceSCGBearer:
+		if v.SCGBearer == nil {
+			return fmt.Errorf("choice alternative sCG-Bearer is nil")
+		}
 		if err := v.SCGBearer.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sCG-Bearer: %w", err)
 		}
 	case ERABsToBeModifiedModReqItemChoiceSplitBearer:
+		if v.SplitBearer == nil {
+			return fmt.Errorf("choice alternative split-Bearer is nil")
+		}
 		if err := v.SplitBearer.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding split-Bearer: %w", err)
 		}
@@ -13114,11 +13341,13 @@ func (v *ERABsToBeModifiedModReqItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuff
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -13269,11 +13498,13 @@ func (v *ERABsToBeModifiedModReqItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBu
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -13351,11 +13582,13 @@ func unmarshalAPERERABsToBeReleasedListModReqInto(v *asn1cAPERERABsToBeReleasedL
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsToBeReleasedListModReq, seqLen_value)
+	v.Value = make(ERABsToBeReleasedListModReq, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -13382,10 +13615,16 @@ func (v *ERABsToBeReleasedModReqItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case ERABsToBeReleasedModReqItemChoiceSCGBearer:
+		if v.SCGBearer == nil {
+			return fmt.Errorf("choice alternative sCG-Bearer is nil")
+		}
 		if err := v.SCGBearer.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sCG-Bearer: %w", err)
 		}
 	case ERABsToBeReleasedModReqItemChoiceSplitBearer:
+		if v.SplitBearer == nil {
+			return fmt.Errorf("choice alternative split-Bearer is nil")
+		}
 		if err := v.SplitBearer.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding split-Bearer: %w", err)
 		}
@@ -13561,11 +13800,13 @@ func (v *ERABsToBeReleasedModReqItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuff
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -13697,11 +13938,13 @@ func (v *ERABsToBeReleasedModReqItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBu
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -13794,11 +14037,13 @@ func (v *SeNBModificationRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -13876,11 +14121,13 @@ func unmarshalAPERERABsAdmittedToBeAddedModAckListInto(v *asn1cAPERERABsAdmitted
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsAdmittedToBeAddedModAckList, seqLen_value)
+	v.Value = make(ERABsAdmittedToBeAddedModAckList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -13907,10 +14154,16 @@ func (v *ERABsAdmittedToBeAddedModAckItem) MarshalAPERTo(bb *per.BitBuffer) erro
 	}
 	switch v.Choice {
 	case ERABsAdmittedToBeAddedModAckItemChoiceSCGBearer:
+		if v.SCGBearer == nil {
+			return fmt.Errorf("choice alternative sCG-Bearer is nil")
+		}
 		if err := v.SCGBearer.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sCG-Bearer: %w", err)
 		}
 	case ERABsAdmittedToBeAddedModAckItemChoiceSplitBearer:
+		if v.SplitBearer == nil {
+			return fmt.Errorf("choice alternative split-Bearer is nil")
+		}
 		if err := v.SplitBearer.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding split-Bearer: %w", err)
 		}
@@ -14092,11 +14345,13 @@ func (v *ERABsAdmittedToBeAddedModAckItemSCGBearer) UnmarshalAPERFrom(bb *per.Bi
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -14215,11 +14470,13 @@ func (v *ERABsAdmittedToBeAddedModAckItemSplitBearer) UnmarshalAPERFrom(bb *per.
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -14299,11 +14556,13 @@ func unmarshalAPERERABsAdmittedToBeModifiedModAckListInto(v *asn1cAPERERABsAdmit
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsAdmittedToBeModifiedModAckList, seqLen_value)
+	v.Value = make(ERABsAdmittedToBeModifiedModAckList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -14330,10 +14589,16 @@ func (v *ERABsAdmittedToBeModifiedModAckItem) MarshalAPERTo(bb *per.BitBuffer) e
 	}
 	switch v.Choice {
 	case ERABsAdmittedToBeModifiedModAckItemChoiceSCGBearer:
+		if v.SCGBearer == nil {
+			return fmt.Errorf("choice alternative sCG-Bearer is nil")
+		}
 		if err := v.SCGBearer.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sCG-Bearer: %w", err)
 		}
 	case ERABsAdmittedToBeModifiedModAckItemChoiceSplitBearer:
+		if v.SplitBearer == nil {
+			return fmt.Errorf("choice alternative split-Bearer is nil")
+		}
 		if err := v.SplitBearer.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding split-Bearer: %w", err)
 		}
@@ -14490,11 +14755,13 @@ func (v *ERABsAdmittedToBeModifiedModAckItemSCGBearer) UnmarshalAPERFrom(bb *per
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -14626,11 +14893,13 @@ func (v *ERABsAdmittedToBeModifiedModAckItemSplitBearer) UnmarshalAPERFrom(bb *p
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -14710,11 +14979,13 @@ func unmarshalAPERERABsAdmittedToBeReleasedModAckListInto(v *asn1cAPERERABsAdmit
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsAdmittedToBeReleasedModAckList, seqLen_value)
+	v.Value = make(ERABsAdmittedToBeReleasedModAckList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -14741,10 +15012,16 @@ func (v *ERABsAdmittedToReleasedModAckItem) MarshalAPERTo(bb *per.BitBuffer) err
 	}
 	switch v.Choice {
 	case ERABsAdmittedToReleasedModAckItemChoiceSCGBearer:
+		if v.SCGBearer == nil {
+			return fmt.Errorf("choice alternative sCG-Bearer is nil")
+		}
 		if err := v.SCGBearer.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sCG-Bearer: %w", err)
 		}
 	case ERABsAdmittedToReleasedModAckItemChoiceSplitBearer:
+		if v.SplitBearer == nil {
+			return fmt.Errorf("choice alternative split-Bearer is nil")
+		}
 		if err := v.SplitBearer.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding split-Bearer: %w", err)
 		}
@@ -14882,11 +15159,13 @@ func (v *ERABsAdmittedToBeReleasedModAckItemSCGBearer) UnmarshalAPERFrom(bb *per
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -14999,11 +15278,13 @@ func (v *ERABsAdmittedToBeReleasedModAckItemSplitBearer) UnmarshalAPERFrom(bb *p
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -15096,11 +15377,13 @@ func (v *SeNBModificationRequestReject) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -15191,11 +15474,13 @@ func (v *SeNBModificationRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -15271,11 +15556,13 @@ func unmarshalAPERERABsToBeReleasedModReqdInto(v *asn1cAPERERABsToBeReleasedModR
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsToBeReleasedModReqd, seqLen_value)
+	v.Value = make(ERABsToBeReleasedModReqd, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -15374,11 +15661,13 @@ func (v *ERABsToBeReleasedModReqdItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -15471,11 +15760,13 @@ func (v *SeNBModificationConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -15566,11 +15857,13 @@ func (v *SeNBModificationRefuse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -15661,11 +15954,13 @@ func (v *SeNBReleaseRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -15741,11 +16036,13 @@ func unmarshalAPERERABsToBeReleasedListRelReqInto(v *asn1cAPERERABsToBeReleasedL
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsToBeReleasedListRelReq, seqLen_value)
+	v.Value = make(ERABsToBeReleasedListRelReq, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -15772,10 +16069,16 @@ func (v *ERABsToBeReleasedRelReqItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case ERABsToBeReleasedRelReqItemChoiceSCGBearer:
+		if v.SCGBearer == nil {
+			return fmt.Errorf("choice alternative sCG-Bearer is nil")
+		}
 		if err := v.SCGBearer.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sCG-Bearer: %w", err)
 		}
 	case ERABsToBeReleasedRelReqItemChoiceSplitBearer:
+		if v.SplitBearer == nil {
+			return fmt.Errorf("choice alternative split-Bearer is nil")
+		}
 		if err := v.SplitBearer.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding split-Bearer: %w", err)
 		}
@@ -15951,11 +16254,13 @@ func (v *ERABsToBeReleasedRelReqItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuff
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -16087,11 +16392,13 @@ func (v *ERABsToBeReleasedRelReqItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBu
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -16184,11 +16491,13 @@ func (v *SeNBReleaseRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -16279,11 +16588,13 @@ func (v *SeNBReleaseConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -16359,11 +16670,13 @@ func unmarshalAPERERABsToBeReleasedListRelConfInto(v *asn1cAPERERABsToBeReleased
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsToBeReleasedListRelConf, seqLen_value)
+	v.Value = make(ERABsToBeReleasedListRelConf, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -16390,10 +16703,16 @@ func (v *ERABsToBeReleasedRelConfItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case ERABsToBeReleasedRelConfItemChoiceSCGBearer:
+		if v.SCGBearer == nil {
+			return fmt.Errorf("choice alternative sCG-Bearer is nil")
+		}
 		if err := v.SCGBearer.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sCG-Bearer: %w", err)
 		}
 	case ERABsToBeReleasedRelConfItemChoiceSplitBearer:
+		if v.SplitBearer == nil {
+			return fmt.Errorf("choice alternative split-Bearer is nil")
+		}
 		if err := v.SplitBearer.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding split-Bearer: %w", err)
 		}
@@ -16569,11 +16888,13 @@ func (v *ERABsToBeReleasedRelConfItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuf
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -16705,11 +17026,13 @@ func (v *ERABsToBeReleasedRelConfItemSplitBearer) UnmarshalAPERFrom(bb *per.BitB
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -16802,11 +17125,13 @@ func (v *SeNBCounterCheckRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -16884,11 +17209,13 @@ func unmarshalAPERERABsSubjectToCounterCheckListInto(v *asn1cAPERERABsSubjectToC
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsSubjectToCounterCheckList, seqLen_value)
+	v.Value = make(ERABsSubjectToCounterCheckList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -16997,11 +17324,13 @@ func (v *ERABsSubjectToCounterCheckItem) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -17094,11 +17423,13 @@ func (v *X2RemovalRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -17189,11 +17520,13 @@ func (v *X2RemovalResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -17284,11 +17617,13 @@ func (v *X2RemovalFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -17379,11 +17714,13 @@ func (v *RetrieveUEContextRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -17474,11 +17811,13 @@ func (v *RetrieveUEContextResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -17690,11 +18029,13 @@ func (v *UEContextInformationRetrieve) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if seqLen_erabstobesetuplistretrieve > 256 {
 		return fmt.Errorf("decoding e-RABs-ToBeSetup-ListRetrieve length %d above upper bound 256", seqLen_erabstobesetuplistretrieve)
 	}
-	v.ERABsToBeSetupListRetrieve = make(ERABsToBeSetupListRetrieve, seqLen_erabstobesetuplistretrieve)
+	v.ERABsToBeSetupListRetrieve = make(ERABsToBeSetupListRetrieve, 0)
 	for i := int64(0); i < seqLen_erabstobesetuplistretrieve; i++ {
-		if err := v.ERABsToBeSetupListRetrieve[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding e-RABs-ToBeSetup-ListRetrieve element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding e-RABs-ToBeSetup-ListRetrieve element %d: %w", i, err)
 		}
+		v.ERABsToBeSetupListRetrieve = append(v.ERABsToBeSetupListRetrieve, elem)
 	}
 	val_rrccontext, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 	if err != nil {
@@ -17736,13 +18077,13 @@ func (v *UEContextInformationRetrieve) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		if seqLen_managbasedmdtplmnlist > 16 {
 			return fmt.Errorf("decoding managBasedMDTPLMNList length %d above upper bound 16", seqLen_managbasedmdtplmnlist)
 		}
-		tmp_managbasedmdtplmnlist := make(MDTPLMNList, seqLen_managbasedmdtplmnlist)
+		tmp_managbasedmdtplmnlist := make(MDTPLMNList, 0)
 		for i := int64(0); i < seqLen_managbasedmdtplmnlist; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
 				return fmt.Errorf("decoding managBasedMDTPLMNList element: %w", err)
 			}
-			tmp_managbasedmdtplmnlist[i] = val
+			tmp_managbasedmdtplmnlist = append(tmp_managbasedmdtplmnlist, val)
 		}
 		v.ManagBasedMDTPLMNList = tmp_managbasedmdtplmnlist
 	}
@@ -17759,11 +18100,13 @@ func (v *UEContextInformationRetrieve) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -17841,11 +18184,13 @@ func unmarshalAPERERABsToBeSetupListRetrieveInto(v *asn1cAPERERABsToBeSetupListR
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsToBeSetupListRetrieve, seqLen_value)
+	v.Value = make(ERABsToBeSetupListRetrieve, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -17964,11 +18309,13 @@ func (v *ERABsToBeSetupRetrieveItem) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -18061,11 +18408,13 @@ func (v *RetrieveUEContextFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -18156,11 +18505,13 @@ func (v *SgNBAdditionRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -18236,11 +18587,13 @@ func unmarshalAPERERABsToBeAddedSgNBAddReqListInto(v *asn1cAPERERABsToBeAddedSgN
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsToBeAddedSgNBAddReqList, seqLen_value)
+	v.Value = make(ERABsToBeAddedSgNBAddReqList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -18353,11 +18706,13 @@ func (v *ERABsToBeAddedSgNBAddReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -18532,11 +18887,13 @@ func (v *ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *per.
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -18699,11 +19056,13 @@ func (v *ERABsToBeAddedSgNBAddReqItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb *p
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -18796,11 +19155,13 @@ func (v *SgNBAdditionRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) er
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -18878,11 +19239,13 @@ func unmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListInto(v *asn1cAPERERABsA
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsAdmittedToBeAddedSgNBAddReqAckList, seqLen_value)
+	v.Value = make(ERABsAdmittedToBeAddedSgNBAddReqAckList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -18987,11 +19350,13 @@ func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItem) UnmarshalAPERFrom(bb *per.BitB
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -19217,11 +19582,13 @@ func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresent) UnmarshalAPERFr
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -19351,11 +19718,13 @@ func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresent) UnmarshalAPE
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -19448,11 +19817,13 @@ func (v *SgNBAdditionRequestReject) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -19543,11 +19914,13 @@ func (v *SgNBReconfigurationComplete) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -19592,10 +19965,16 @@ func (v *ResponseInformationSgNBReconfComp) MarshalAPERTo(bb *per.BitBuffer) err
 	}
 	switch v.Choice {
 	case ResponseInformationSgNBReconfCompChoiceSuccessSgNBReconfComp:
+		if v.SuccessSgNBReconfComp == nil {
+			return fmt.Errorf("choice alternative success-SgNBReconfComp is nil")
+		}
 		if err := v.SuccessSgNBReconfComp.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding success-SgNBReconfComp: %w", err)
 		}
 	case ResponseInformationSgNBReconfCompChoiceRejectByMeNBSgNBReconfComp:
+		if v.RejectByMeNBSgNBReconfComp == nil {
+			return fmt.Errorf("choice alternative reject-by-MeNB-SgNBReconfComp is nil")
+		}
 		if err := v.RejectByMeNBSgNBReconfComp.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding reject-by-MeNB-SgNBReconfComp: %w", err)
 		}
@@ -19745,11 +20124,13 @@ func (v *ResponseInformationSgNBReconfCompSuccessItem) UnmarshalAPERFrom(bb *per
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -19860,11 +20241,13 @@ func (v *ResponseInformationSgNBReconfCompRejectByMeNBItem) UnmarshalAPERFrom(bb
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -19957,11 +20340,13 @@ func (v *SgNBModificationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -20173,11 +20558,13 @@ func (v *UEContextInformationSgNBModReq) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		if seqLen_erabstobeadded > 256 {
 			return fmt.Errorf("decoding e-RABs-ToBeAdded length %d above upper bound 256", seqLen_erabstobeadded)
 		}
-		tmp_erabstobeadded := make(ERABsToBeAddedSgNBModReqList, seqLen_erabstobeadded)
+		tmp_erabstobeadded := make(ERABsToBeAddedSgNBModReqList, 0)
 		for i := int64(0); i < seqLen_erabstobeadded; i++ {
-			if err := tmp_erabstobeadded[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding e-RABs-ToBeAdded element: %w", err)
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding e-RABs-ToBeAdded element %d: %w", i, err)
 			}
+			tmp_erabstobeadded = append(tmp_erabstobeadded, elem)
 		}
 		v.ERABsToBeAdded = tmp_erabstobeadded
 	}
@@ -20194,11 +20581,13 @@ func (v *UEContextInformationSgNBModReq) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		if seqLen_erabstobemodified > 256 {
 			return fmt.Errorf("decoding e-RABs-ToBeModified length %d above upper bound 256", seqLen_erabstobemodified)
 		}
-		tmp_erabstobemodified := make(ERABsToBeModifiedSgNBModReqList, seqLen_erabstobemodified)
+		tmp_erabstobemodified := make(ERABsToBeModifiedSgNBModReqList, 0)
 		for i := int64(0); i < seqLen_erabstobemodified; i++ {
-			if err := tmp_erabstobemodified[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding e-RABs-ToBeModified element: %w", err)
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding e-RABs-ToBeModified element %d: %w", i, err)
 			}
+			tmp_erabstobemodified = append(tmp_erabstobemodified, elem)
 		}
 		v.ERABsToBeModified = tmp_erabstobemodified
 	}
@@ -20215,11 +20604,13 @@ func (v *UEContextInformationSgNBModReq) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		if seqLen_erabstobereleased > 256 {
 			return fmt.Errorf("decoding e-RABs-ToBeReleased length %d above upper bound 256", seqLen_erabstobereleased)
 		}
-		tmp_erabstobereleased := make(ERABsToBeReleasedSgNBModReqList, seqLen_erabstobereleased)
+		tmp_erabstobereleased := make(ERABsToBeReleasedSgNBModReqList, 0)
 		for i := int64(0); i < seqLen_erabstobereleased; i++ {
-			if err := tmp_erabstobereleased[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding e-RABs-ToBeReleased element: %w", err)
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding e-RABs-ToBeReleased element %d: %w", i, err)
 			}
+			tmp_erabstobereleased = append(tmp_erabstobereleased, elem)
 		}
 		v.ERABsToBeReleased = tmp_erabstobereleased
 	}
@@ -20236,11 +20627,13 @@ func (v *UEContextInformationSgNBModReq) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -20318,11 +20711,13 @@ func unmarshalAPERERABsToBeAddedSgNBModReqListInto(v *asn1cAPERERABsToBeAddedSgN
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsToBeAddedSgNBModReqList, seqLen_value)
+	v.Value = make(ERABsToBeAddedSgNBModReqList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -20435,11 +20830,13 @@ func (v *ERABsToBeAddedSgNBModReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -20614,11 +21011,13 @@ func (v *ERABsToBeAddedSgNBModReqItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *per.
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -20781,11 +21180,13 @@ func (v *ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb *p
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -20865,11 +21266,13 @@ func unmarshalAPERERABsToBeModifiedSgNBModReqListInto(v *asn1cAPERERABsToBeModif
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsToBeModifiedSgNBModReqList, seqLen_value)
+	v.Value = make(ERABsToBeModifiedSgNBModReqList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -20974,11 +21377,13 @@ func (v *ERABsToBeModifiedSgNBModReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -21159,11 +21564,13 @@ func (v *ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *p
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -21325,11 +21732,13 @@ func (v *ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -21409,11 +21818,13 @@ func unmarshalAPERERABsToBeReleasedSgNBModReqListInto(v *asn1cAPERERABsToBeRelea
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsToBeReleasedSgNBModReqList, seqLen_value)
+	v.Value = make(ERABsToBeReleasedSgNBModReqList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -21518,11 +21929,13 @@ func (v *ERABsToBeReleasedSgNBModReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -21665,11 +22078,13 @@ func (v *ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *p
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -21774,11 +22189,13 @@ func (v *ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -21871,11 +22288,13 @@ func (v *SgNBModificationRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -21953,11 +22372,13 @@ func unmarshalAPERERABsAdmittedToBeAddedSgNBModAckListInto(v *asn1cAPERERABsAdmi
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsAdmittedToBeAddedSgNBModAckList, seqLen_value)
+	v.Value = make(ERABsAdmittedToBeAddedSgNBModAckList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -22062,11 +22483,13 @@ func (v *ERABsAdmittedToBeAddedSgNBModAckItem) UnmarshalAPERFrom(bb *per.BitBuff
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -22292,11 +22715,13 @@ func (v *ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresent) UnmarshalAPERFrom(
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -22426,11 +22851,13 @@ func (v *ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresent) UnmarshalAPERFr
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -22510,11 +22937,13 @@ func unmarshalAPERERABsAdmittedToBeModifiedSgNBModAckListInto(v *asn1cAPERERABsA
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsAdmittedToBeModifiedSgNBModAckList, seqLen_value)
+	v.Value = make(ERABsAdmittedToBeModifiedSgNBModAckList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -22619,11 +23048,13 @@ func (v *ERABsAdmittedToBeModifiedSgNBModAckItem) UnmarshalAPERFrom(bb *per.BitB
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -22804,11 +23235,13 @@ func (v *ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresent) UnmarshalAPERFr
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -22932,11 +23365,13 @@ func (v *ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresent) UnmarshalAPE
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -23016,11 +23451,13 @@ func unmarshalAPERERABsAdmittedToBeReleasedSgNBModAckListInto(v *asn1cAPERERABsA
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsAdmittedToBeReleasedSgNBModAckList, seqLen_value)
+	v.Value = make(ERABsAdmittedToBeReleasedSgNBModAckList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -23125,11 +23562,13 @@ func (v *ERABsAdmittedToReleasedSgNBModAckItem) UnmarshalAPERFrom(bb *per.BitBuf
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -23234,11 +23673,13 @@ func (v *ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresent) UnmarshalAPERFr
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -23343,11 +23784,13 @@ func (v *ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent) UnmarshalAPE
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -23440,11 +23883,13 @@ func (v *SgNBModificationRequestReject) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -23535,11 +23980,13 @@ func (v *SgNBModificationRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -23617,11 +24064,13 @@ func unmarshalAPERERABsToBeReleasedSgNBModReqdListInto(v *asn1cAPERERABsToBeRele
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsToBeReleasedSgNBModReqdList, seqLen_value)
+	v.Value = make(ERABsToBeReleasedSgNBModReqdList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -23720,11 +24169,13 @@ func (v *ERABsToBeReleasedSgNBModReqdItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -23804,11 +24255,13 @@ func unmarshalAPERERABsToBeModifiedSgNBModReqdListInto(v *asn1cAPERERABsToBeModi
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsToBeModifiedSgNBModReqdList, seqLen_value)
+	v.Value = make(ERABsToBeModifiedSgNBModReqdList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -23913,11 +24366,13 @@ func (v *ERABsToBeModifiedSgNBModReqdItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -24098,11 +24553,13 @@ func (v *ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -24245,11 +24702,13 @@ func (v *ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent) UnmarshalAPERFrom(b
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -24342,11 +24801,13 @@ func (v *SgNBModificationConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -24424,11 +24885,13 @@ func unmarshalAPERERABsAdmittedToBeModifiedSgNBModConfListInto(v *asn1cAPERERABs
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsAdmittedToBeModifiedSgNBModConfList, seqLen_value)
+	v.Value = make(ERABsAdmittedToBeModifiedSgNBModConfList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -24533,11 +24996,13 @@ func (v *ERABsAdmittedToBeModifiedSgNBModConfItem) UnmarshalAPERFrom(bb *per.Bit
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -24642,11 +25107,13 @@ func (v *ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresent) UnmarshalAPERF
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -24770,11 +25237,13 @@ func (v *ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresent) UnmarshalAP
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -24867,11 +25336,13 @@ func (v *SgNBModificationRefuse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -24962,11 +25433,13 @@ func (v *SgNBReleaseRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -25044,11 +25517,13 @@ func unmarshalAPERERABsToBeReleasedSgNBRelReqListInto(v *asn1cAPERERABsToBeRelea
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsToBeReleasedSgNBRelReqList, seqLen_value)
+	v.Value = make(ERABsToBeReleasedSgNBRelReqList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -25153,11 +25628,13 @@ func (v *ERABsToBeReleasedSgNBRelReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -25300,11 +25777,13 @@ func (v *ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *p
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -25409,11 +25888,13 @@ func (v *ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -25506,11 +25987,13 @@ func (v *SgNBReleaseRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -25588,11 +26071,13 @@ func unmarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListInto(v *asn1cAPERERA
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsAdmittedToBeReleasedSgNBRelReqAckList, seqLen_value)
+	v.Value = make(ERABsAdmittedToBeReleasedSgNBRelReqAckList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -25693,11 +26178,13 @@ func (v *ERABsAdmittedToBeReleasedSgNBRelReqAckItem) UnmarshalAPERFrom(bb *per.B
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -25790,11 +26277,13 @@ func (v *SgNBReleaseRequestReject) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -25885,11 +26374,13 @@ func (v *SgNBReleaseRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -25967,11 +26458,13 @@ func unmarshalAPERERABsToBeReleasedSgNBRelReqdListInto(v *asn1cAPERERABsToBeRele
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsToBeReleasedSgNBRelReqdList, seqLen_value)
+	v.Value = make(ERABsToBeReleasedSgNBRelReqdList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -26072,11 +26565,13 @@ func (v *ERABsToBeReleasedSgNBRelReqdItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -26169,11 +26664,13 @@ func (v *SgNBReleaseConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -26251,11 +26748,13 @@ func unmarshalAPERERABsToBeReleasedSgNBRelConfListInto(v *asn1cAPERERABsToBeRele
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsToBeReleasedSgNBRelConfList, seqLen_value)
+	v.Value = make(ERABsToBeReleasedSgNBRelConfList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -26360,11 +26859,13 @@ func (v *ERABsToBeReleasedSgNBRelConfItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -26507,11 +27008,13 @@ func (v *ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -26616,11 +27119,13 @@ func (v *ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresent) UnmarshalAPERFrom(b
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -26713,11 +27218,13 @@ func (v *SgNBCounterCheckRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -26795,11 +27302,13 @@ func unmarshalAPERERABsSubjectToSgNBCounterCheckListInto(v *asn1cAPERERABsSubjec
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsSubjectToSgNBCounterCheckList, seqLen_value)
+	v.Value = make(ERABsSubjectToSgNBCounterCheckList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -26908,11 +27417,13 @@ func (v *ERABsSubjectToSgNBCounterCheckItem) UnmarshalAPERFrom(bb *per.BitBuffer
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -27005,11 +27516,13 @@ func (v *SgNBChangeRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -27100,11 +27613,13 @@ func (v *AccessAndMobilityIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -27195,11 +27710,13 @@ func (v *SgNBChangeConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -27277,11 +27794,13 @@ func unmarshalAPERERABsToBeReleasedSgNBChaConfListInto(v *asn1cAPERERABsToBeRele
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsToBeReleasedSgNBChaConfList, seqLen_value)
+	v.Value = make(ERABsToBeReleasedSgNBChaConfList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -27386,11 +27905,13 @@ func (v *ERABsToBeReleasedSgNBChaConfItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -27533,11 +28054,13 @@ func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -27642,11 +28165,13 @@ func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent) UnmarshalAPERFrom(b
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -27739,11 +28264,13 @@ func (v *RRCTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -27834,11 +28361,13 @@ func (v *SgNBChangeRefuse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -27929,11 +28458,13 @@ func (v *ENDCX2SetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -28038,11 +28569,13 @@ func (v *InitiatingNodeTypeEndcX2Setup) UnmarshalAPERFrom(bb *per.BitBuffer) err
 		if seqLen_initenb > 65535 {
 			return fmt.Errorf("decoding init-eNB length %d above upper bound 65535", seqLen_initenb)
 		}
-		tmp_initenb := make(ProtocolIEContainer, seqLen_initenb)
+		tmp_initenb := make(ProtocolIEContainer, 0)
 		for i := int64(0); i < seqLen_initenb; i++ {
-			if err := tmp_initenb[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding init-eNB element: %w", err)
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding init-eNB element %d: %w", i, err)
 			}
+			tmp_initenb = append(tmp_initenb, elem)
 		}
 		v.InitENB = tmp_initenb
 	case InitiatingNodeTypeEndcX2SetupChoiceInitEnGNB:
@@ -28058,11 +28591,13 @@ func (v *InitiatingNodeTypeEndcX2Setup) UnmarshalAPERFrom(bb *per.BitBuffer) err
 		if seqLen_initengnb > 65535 {
 			return fmt.Errorf("decoding init-en-gNB length %d above upper bound 65535", seqLen_initengnb)
 		}
-		tmp_initengnb := make(ProtocolIEContainer, seqLen_initengnb)
+		tmp_initengnb := make(ProtocolIEContainer, 0)
 		for i := int64(0); i < seqLen_initengnb; i++ {
-			if err := tmp_initengnb[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding init-en-gNB element: %w", err)
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding init-en-gNB element %d: %w", i, err)
 			}
+			tmp_initengnb = append(tmp_initengnb, elem)
 		}
 		v.InitEnGNB = tmp_initengnb
 	}
@@ -28124,11 +28659,13 @@ func unmarshalAPERServedEUTRAcellsENDCX2ManagementListInto(v *asn1cAPERServedEUT
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ServedEUTRAcellsENDCX2ManagementList, seqLen_value)
+	v.Value = make(ServedEUTRAcellsENDCX2ManagementList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ServedEUTRAcellsENDCX2ManagementListElem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -28188,11 +28725,13 @@ func unmarshalAPERServedNRcellsENDCX2ManagementListInto(v *asn1cAPERServedNRcell
 	if seqLen_value > 16384 {
 		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
 	}
-	v.Value = make(ServedNRcellsENDCX2ManagementList, seqLen_value)
+	v.Value = make(ServedNRcellsENDCX2ManagementList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ServedNRcellsENDCX2ManagementListElem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -28344,13 +28883,13 @@ func (v *ServedNRCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_broadcastplmns > 6 {
 		return fmt.Errorf("decoding broadcastPLMNs length %d above upper bound 6", seqLen_broadcastplmns)
 	}
-	v.BroadcastPLMNs = make(BroadcastPLMNsItem, seqLen_broadcastplmns)
+	v.BroadcastPLMNs = make(BroadcastPLMNsItem, 0)
 	for i := int64(0); i < seqLen_broadcastplmns; i++ {
 		val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 		if err != nil {
 			return fmt.Errorf("decoding broadcastPLMNs element: %w", err)
 		}
-		v.BroadcastPLMNs[i] = val
+		v.BroadcastPLMNs = append(v.BroadcastPLMNs, val)
 	}
 	if err := v.NrModeInfo.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding nrModeInfo: %w", err)
@@ -28373,11 +28912,13 @@ func (v *ServedNRCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -28506,11 +29047,13 @@ func (v *FDDInfoServedNRCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -28627,11 +29170,13 @@ func (v *TDDInfoServedNRCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -28774,11 +29319,13 @@ func (v *CellandCapacityAssistInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -28834,6 +29381,9 @@ func (v *CellAssistanceInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	case CellAssistanceInformationChoiceFullList:
+		if v.FullList == nil {
+			return fmt.Errorf("choice alternative full-list is nil")
+		}
 		if err := per.EncodeEnumeratedAligned(bb, int64(*v.FullList), 1, true); err != nil {
 			return fmt.Errorf("encoding full-list: %w", err)
 		}
@@ -28880,11 +29430,13 @@ func (v *CellAssistanceInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_limitedlist > 16384 {
 			return fmt.Errorf("decoding limited-list length %d above upper bound 16384", seqLen_limitedlist)
 		}
-		tmp_limitedlist := make(LimitedList, seqLen_limitedlist)
+		tmp_limitedlist := make(LimitedList, 0)
 		for i := int64(0); i < seqLen_limitedlist; i++ {
-			if err := tmp_limitedlist[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding limited-list element: %w", err)
+			var elem LimitedListElem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding limited-list element %d: %w", i, err)
 			}
+			tmp_limitedlist = append(tmp_limitedlist, elem)
 		}
 		v.LimitedList = tmp_limitedlist
 	case CellAssistanceInformationChoiceFullList:
@@ -28950,11 +29502,13 @@ func unmarshalAPERLimitedListInto(v *asn1cAPERLimitedListListValue, bb *per.BitB
 	if seqLen_value > 16384 {
 		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
 	}
-	v.Value = make(LimitedList, seqLen_value)
+	v.Value = make(LimitedList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem LimitedListElem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -29027,11 +29581,13 @@ func (v *ENDCX2SetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -29136,11 +29692,13 @@ func (v *RespondingNodeTypeEndcX2Setup) UnmarshalAPERFrom(bb *per.BitBuffer) err
 		if seqLen_respondenb > 65535 {
 			return fmt.Errorf("decoding respond-eNB length %d above upper bound 65535", seqLen_respondenb)
 		}
-		tmp_respondenb := make(ProtocolIEContainer, seqLen_respondenb)
+		tmp_respondenb := make(ProtocolIEContainer, 0)
 		for i := int64(0); i < seqLen_respondenb; i++ {
-			if err := tmp_respondenb[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding respond-eNB element: %w", err)
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding respond-eNB element %d: %w", i, err)
 			}
+			tmp_respondenb = append(tmp_respondenb, elem)
 		}
 		v.RespondENB = tmp_respondenb
 	case RespondingNodeTypeEndcX2SetupChoiceRespondEnGNB:
@@ -29156,11 +29714,13 @@ func (v *RespondingNodeTypeEndcX2Setup) UnmarshalAPERFrom(bb *per.BitBuffer) err
 		if seqLen_respondengnb > 65535 {
 			return fmt.Errorf("decoding respond-en-gNB length %d above upper bound 65535", seqLen_respondengnb)
 		}
-		tmp_respondengnb := make(ProtocolIEContainer, seqLen_respondengnb)
+		tmp_respondengnb := make(ProtocolIEContainer, 0)
 		for i := int64(0); i < seqLen_respondengnb; i++ {
-			if err := tmp_respondengnb[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding respond-en-gNB element: %w", err)
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding respond-en-gNB element %d: %w", i, err)
 			}
+			tmp_respondengnb = append(tmp_respondengnb, elem)
 		}
 		v.RespondEnGNB = tmp_respondengnb
 	}
@@ -29235,11 +29795,13 @@ func (v *ENDCX2SetupFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -29330,11 +29892,13 @@ func (v *ENDCConfigurationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -29439,11 +30003,13 @@ func (v *InitiatingNodeTypeEndcConfigUpdate) UnmarshalAPERFrom(bb *per.BitBuffer
 		if seqLen_initenb > 65535 {
 			return fmt.Errorf("decoding init-eNB length %d above upper bound 65535", seqLen_initenb)
 		}
-		tmp_initenb := make(ProtocolIEContainer, seqLen_initenb)
+		tmp_initenb := make(ProtocolIEContainer, 0)
 		for i := int64(0); i < seqLen_initenb; i++ {
-			if err := tmp_initenb[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding init-eNB element: %w", err)
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding init-eNB element %d: %w", i, err)
 			}
+			tmp_initenb = append(tmp_initenb, elem)
 		}
 		v.InitENB = tmp_initenb
 	case InitiatingNodeTypeEndcConfigUpdateChoiceInitEnGNB:
@@ -29459,11 +30025,13 @@ func (v *InitiatingNodeTypeEndcConfigUpdate) UnmarshalAPERFrom(bb *per.BitBuffer
 		if seqLen_initengnb > 65535 {
 			return fmt.Errorf("decoding init-en-gNB length %d above upper bound 65535", seqLen_initengnb)
 		}
-		tmp_initengnb := make(ProtocolIEContainer, seqLen_initengnb)
+		tmp_initengnb := make(ProtocolIEContainer, 0)
 		for i := int64(0); i < seqLen_initengnb; i++ {
-			if err := tmp_initengnb[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding init-en-gNB element: %w", err)
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding init-en-gNB element %d: %w", i, err)
 			}
+			tmp_initengnb = append(tmp_initengnb, elem)
 		}
 		v.InitEnGNB = tmp_initengnb
 	}
@@ -29525,11 +30093,13 @@ func unmarshalAPERServedEUTRAcellsToModifyListENDCConfUpdInto(v *asn1cAPERServed
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ServedEUTRAcellsToModifyListENDCConfUpd, seqLen_value)
+	v.Value = make(ServedEUTRAcellsToModifyListENDCConfUpd, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ServedEUTRAcellsToModifyListENDCConfUpdElem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -29589,11 +30159,13 @@ func unmarshalAPERServedEUTRAcellsToDeleteListENDCConfUpdInto(v *asn1cAPERServed
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ServedEUTRAcellsToDeleteListENDCConfUpd, seqLen_value)
+	v.Value = make(ServedEUTRAcellsToDeleteListENDCConfUpd, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ECGI
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -29653,11 +30225,13 @@ func unmarshalAPERServedNRcellsToModifyENDCConfUpdListInto(v *asn1cAPERServedNRc
 	if seqLen_value > 16384 {
 		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
 	}
-	v.Value = make(ServedNRcellsToModifyENDCConfUpdList, seqLen_value)
+	v.Value = make(ServedNRcellsToModifyENDCConfUpdList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ServedNRCellsToModifyItem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -29783,11 +30357,13 @@ func (v *ServedNRCellsToModifyItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_nrneighbourinformation > 1024 {
 			return fmt.Errorf("decoding nrNeighbourInformation length %d above upper bound 1024", seqLen_nrneighbourinformation)
 		}
-		tmp_nrneighbourinformation := make(NRNeighbourInformation, seqLen_nrneighbourinformation)
+		tmp_nrneighbourinformation := make(NRNeighbourInformation, 0)
 		for i := int64(0); i < seqLen_nrneighbourinformation; i++ {
-			if err := tmp_nrneighbourinformation[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding nrNeighbourInformation element: %w", err)
+			var elem NRNeighbourInformationElem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding nrNeighbourInformation element %d: %w", i, err)
 			}
+			tmp_nrneighbourinformation = append(tmp_nrneighbourinformation, elem)
 		}
 		v.NrNeighbourInformation = tmp_nrneighbourinformation
 	}
@@ -29812,11 +30388,13 @@ func (v *ServedNRCellsToModifyItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -29896,11 +30474,13 @@ func unmarshalAPERServedNRcellsToDeleteENDCConfUpdListInto(v *asn1cAPERServedNRc
 	if seqLen_value > 16384 {
 		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
 	}
-	v.Value = make(ServedNRcellsToDeleteENDCConfUpdList, seqLen_value)
+	v.Value = make(ServedNRcellsToDeleteENDCConfUpdList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem NRCGI
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -29973,11 +30553,13 @@ func (v *ENDCConfigurationUpdateAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -30082,11 +30664,13 @@ func (v *RespondingNodeTypeEndcConfigUpdate) UnmarshalAPERFrom(bb *per.BitBuffer
 		if seqLen_respondenb > 65535 {
 			return fmt.Errorf("decoding respond-eNB length %d above upper bound 65535", seqLen_respondenb)
 		}
-		tmp_respondenb := make(ProtocolIEContainer, seqLen_respondenb)
+		tmp_respondenb := make(ProtocolIEContainer, 0)
 		for i := int64(0); i < seqLen_respondenb; i++ {
-			if err := tmp_respondenb[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding respond-eNB element: %w", err)
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding respond-eNB element %d: %w", i, err)
 			}
+			tmp_respondenb = append(tmp_respondenb, elem)
 		}
 		v.RespondENB = tmp_respondenb
 	case RespondingNodeTypeEndcConfigUpdateChoiceRespondEnGNB:
@@ -30102,11 +30686,13 @@ func (v *RespondingNodeTypeEndcConfigUpdate) UnmarshalAPERFrom(bb *per.BitBuffer
 		if seqLen_respondengnb > 65535 {
 			return fmt.Errorf("decoding respond-en-gNB length %d above upper bound 65535", seqLen_respondengnb)
 		}
-		tmp_respondengnb := make(ProtocolIEContainer, seqLen_respondengnb)
+		tmp_respondengnb := make(ProtocolIEContainer, 0)
 		for i := int64(0); i < seqLen_respondengnb; i++ {
-			if err := tmp_respondengnb[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding respond-en-gNB element: %w", err)
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding respond-en-gNB element %d: %w", i, err)
 			}
+			tmp_respondengnb = append(tmp_respondengnb, elem)
 		}
 		v.RespondEnGNB = tmp_respondengnb
 	}
@@ -30181,11 +30767,13 @@ func (v *ENDCConfigurationUpdateFailure) UnmarshalAPERFrom(bb *per.BitBuffer) er
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -30276,11 +30864,13 @@ func (v *ENDCCellActivationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -30356,11 +30946,13 @@ func unmarshalAPERServedNRCellsToActivateInto(v *asn1cAPERServedNRCellsToActivat
 	if seqLen_value > 16384 {
 		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
 	}
-	v.Value = make(ServedNRCellsToActivate, seqLen_value)
+	v.Value = make(ServedNRCellsToActivate, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ServedNRCellsToActivateItem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -30451,11 +31043,13 @@ func (v *ServedNRCellsToActivateItem) UnmarshalAPERFrom(bb *per.BitBuffer) error
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -30548,11 +31142,13 @@ func (v *ENDCCellActivationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -30628,11 +31224,13 @@ func unmarshalAPERActivatedNRCellListInto(v *asn1cAPERActivatedNRCellListListVal
 	if seqLen_value > 16384 {
 		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
 	}
-	v.Value = make(ActivatedNRCellList, seqLen_value)
+	v.Value = make(ActivatedNRCellList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ActivatedNRCellListItem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -30723,11 +31321,13 @@ func (v *ActivatedNRCellListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -30820,11 +31420,13 @@ func (v *ENDCCellActivationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -30915,11 +31517,13 @@ func (v *ENDCResourceStatusRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -30995,11 +31599,13 @@ func unmarshalAPERCellToReportNRENDCListInto(v *asn1cAPERCellToReportNRENDCListL
 	if seqLen_value > 16384 {
 		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
 	}
-	v.Value = make(CellToReportNRENDCList, seqLen_value)
+	v.Value = make(CellToReportNRENDCList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -31107,11 +31713,13 @@ func (v *CellToReportNRENDCItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ssbtoreportlist > 64 {
 			return fmt.Errorf("decoding ssbToReport-List length %d above upper bound 64", seqLen_ssbtoreportlist)
 		}
-		tmp_ssbtoreportlist := make(SSBToReportList, seqLen_ssbtoreportlist)
+		tmp_ssbtoreportlist := make(SSBToReportList, 0)
 		for i := int64(0); i < seqLen_ssbtoreportlist; i++ {
-			if err := tmp_ssbtoreportlist[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding ssbToReport-List element: %w", err)
+			var elem SSBToReportItem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding ssbToReport-List element %d: %w", i, err)
 			}
+			tmp_ssbtoreportlist = append(tmp_ssbtoreportlist, elem)
 		}
 		v.SsbToReportList = tmp_ssbtoreportlist
 	}
@@ -31128,11 +31736,13 @@ func (v *CellToReportNRENDCItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -31210,11 +31820,13 @@ func unmarshalAPERCellToReportEUTRAENDCListInto(v *asn1cAPERCellToReportEUTRAEND
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(CellToReportEUTRAENDCList, seqLen_value)
+	v.Value = make(CellToReportEUTRAENDCList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -31305,11 +31917,13 @@ func (v *CellToReportEUTRAENDCItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -31387,11 +32001,13 @@ func unmarshalAPERSSBToReportListInto(v *asn1cAPERSSBToReportListListValue, bb *
 	if seqLen_value > 64 {
 		return fmt.Errorf("decoding value length %d above upper bound 64", seqLen_value)
 	}
-	v.Value = make(SSBToReportList, seqLen_value)
+	v.Value = make(SSBToReportList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem SSBToReportItem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -31484,11 +32100,13 @@ func (v *SSBToReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -31581,11 +32199,13 @@ func (v *ENDCResourceStatusResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -31676,11 +32296,13 @@ func (v *ENDCResourceStatusFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -31771,11 +32393,13 @@ func (v *ENDCResourceStatusUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -31853,11 +32477,13 @@ func unmarshalAPERCellMeasurementResultNRENDCListInto(v *asn1cAPERCellMeasuremen
 	if seqLen_value > 16384 {
 		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
 	}
-	v.Value = make(CellMeasurementResultNRENDCList, seqLen_value)
+	v.Value = make(CellMeasurementResultNRENDCList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -32024,11 +32650,13 @@ func (v *CellMeasurementResultNRENDCItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -32108,11 +32736,13 @@ func unmarshalAPERCellMeasurementResultEUTRAENDCListInto(v *asn1cAPERCellMeasure
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(CellMeasurementResultEUTRAENDCList, seqLen_value)
+	v.Value = make(CellMeasurementResultEUTRAENDCList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -32279,11 +32909,13 @@ func (v *CellMeasurementResultEUTRAENDCItem) UnmarshalAPERFrom(bb *per.BitBuffer
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -32376,11 +33008,13 @@ func (v *SecondaryRATDataUsageReport) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -32471,11 +33105,13 @@ func (v *SgNBActivityNotification) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -32566,11 +33202,13 @@ func (v *ENDCPartialResetRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -32661,11 +33299,13 @@ func (v *ENDCPartialResetConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -32756,11 +33396,13 @@ func (v *EUTRANRCellResourceCoordinationRequest) UnmarshalAPERFrom(bb *per.BitBu
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -32865,11 +33507,13 @@ func (v *InitiatingNodeTypeEutranrCellResourceCoordination) UnmarshalAPERFrom(bb
 		if seqLen_initiateenb > 65535 {
 			return fmt.Errorf("decoding initiate-eNB length %d above upper bound 65535", seqLen_initiateenb)
 		}
-		tmp_initiateenb := make(ProtocolIEContainer, seqLen_initiateenb)
+		tmp_initiateenb := make(ProtocolIEContainer, 0)
 		for i := int64(0); i < seqLen_initiateenb; i++ {
-			if err := tmp_initiateenb[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding initiate-eNB element: %w", err)
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding initiate-eNB element %d: %w", i, err)
 			}
+			tmp_initiateenb = append(tmp_initiateenb, elem)
 		}
 		v.InitiateENB = tmp_initiateenb
 	case InitiatingNodeTypeEutranrCellResourceCoordinationChoiceInitiateEnGNB:
@@ -32885,11 +33529,13 @@ func (v *InitiatingNodeTypeEutranrCellResourceCoordination) UnmarshalAPERFrom(bb
 		if seqLen_initiateengnb > 65535 {
 			return fmt.Errorf("decoding initiate-en-gNB length %d above upper bound 65535", seqLen_initiateengnb)
 		}
-		tmp_initiateengnb := make(ProtocolIEContainer, seqLen_initiateengnb)
+		tmp_initiateengnb := make(ProtocolIEContainer, 0)
 		for i := int64(0); i < seqLen_initiateengnb; i++ {
-			if err := tmp_initiateengnb[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding initiate-en-gNB element: %w", err)
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding initiate-en-gNB element %d: %w", i, err)
 			}
+			tmp_initiateengnb = append(tmp_initiateengnb, elem)
 		}
 		v.InitiateEnGNB = tmp_initiateengnb
 	}
@@ -32951,11 +33597,13 @@ func unmarshalAPERListofEUTRACellsinEUTRACoordinationReqInto(v *asn1cAPERListofE
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ListofEUTRACellsinEUTRACoordinationReq, seqLen_value)
+	v.Value = make(ListofEUTRACellsinEUTRACoordinationReq, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ECGI
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -33015,11 +33663,13 @@ func unmarshalAPERListofEUTRACellsinNRCoordinationReqInto(v *asn1cAPERListofEUTR
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ListofEUTRACellsinNRCoordinationReq, seqLen_value)
+	v.Value = make(ListofEUTRACellsinNRCoordinationReq, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ECGI
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -33079,11 +33729,13 @@ func unmarshalAPERListofNRCellsinNRCoordinationReqInto(v *asn1cAPERListofNRCells
 	if seqLen_value > 64 {
 		return fmt.Errorf("decoding value length %d above upper bound 64", seqLen_value)
 	}
-	v.Value = make(ListofNRCellsinNRCoordinationReq, seqLen_value)
+	v.Value = make(ListofNRCellsinNRCoordinationReq, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem NRCGI
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -33156,11 +33808,13 @@ func (v *EUTRANRCellResourceCoordinationResponse) UnmarshalAPERFrom(bb *per.BitB
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -33265,11 +33919,13 @@ func (v *RespondingNodeTypeEutranrCellResourceCoordination) UnmarshalAPERFrom(bb
 		if seqLen_respondenb > 65535 {
 			return fmt.Errorf("decoding respond-eNB length %d above upper bound 65535", seqLen_respondenb)
 		}
-		tmp_respondenb := make(ProtocolIEContainer, seqLen_respondenb)
+		tmp_respondenb := make(ProtocolIEContainer, 0)
 		for i := int64(0); i < seqLen_respondenb; i++ {
-			if err := tmp_respondenb[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding respond-eNB element: %w", err)
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding respond-eNB element %d: %w", i, err)
 			}
+			tmp_respondenb = append(tmp_respondenb, elem)
 		}
 		v.RespondENB = tmp_respondenb
 	case RespondingNodeTypeEutranrCellResourceCoordinationChoiceRespondEnGNB:
@@ -33285,11 +33941,13 @@ func (v *RespondingNodeTypeEutranrCellResourceCoordination) UnmarshalAPERFrom(bb
 		if seqLen_respondengnb > 65535 {
 			return fmt.Errorf("decoding respond-en-gNB length %d above upper bound 65535", seqLen_respondengnb)
 		}
-		tmp_respondengnb := make(ProtocolIEContainer, seqLen_respondengnb)
+		tmp_respondengnb := make(ProtocolIEContainer, 0)
 		for i := int64(0); i < seqLen_respondengnb; i++ {
-			if err := tmp_respondengnb[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding respond-en-gNB element: %w", err)
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding respond-en-gNB element %d: %w", i, err)
 			}
+			tmp_respondengnb = append(tmp_respondengnb, elem)
 		}
 		v.RespondEnGNB = tmp_respondengnb
 	}
@@ -33351,11 +34009,13 @@ func unmarshalAPERListofEUTRACellsinEUTRACoordinationRespInto(v *asn1cAPERListof
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ListofEUTRACellsinEUTRACoordinationResp, seqLen_value)
+	v.Value = make(ListofEUTRACellsinEUTRACoordinationResp, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ECGI
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -33415,11 +34075,13 @@ func unmarshalAPERListofNRCellsinNRCoordinationRespInto(v *asn1cAPERListofNRCell
 	if seqLen_value > 64 {
 		return fmt.Errorf("decoding value length %d above upper bound 64", seqLen_value)
 	}
-	v.Value = make(ListofNRCellsinNRCoordinationResp, seqLen_value)
+	v.Value = make(ListofNRCellsinNRCoordinationResp, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem NRCGI
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -33492,11 +34154,13 @@ func (v *ENDCX2RemovalRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -33601,11 +34265,13 @@ func (v *InitiatingNodeTypeEndcX2Removal) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		if seqLen_initenb > 65535 {
 			return fmt.Errorf("decoding init-eNB length %d above upper bound 65535", seqLen_initenb)
 		}
-		tmp_initenb := make(ProtocolIEContainer, seqLen_initenb)
+		tmp_initenb := make(ProtocolIEContainer, 0)
 		for i := int64(0); i < seqLen_initenb; i++ {
-			if err := tmp_initenb[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding init-eNB element: %w", err)
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding init-eNB element %d: %w", i, err)
 			}
+			tmp_initenb = append(tmp_initenb, elem)
 		}
 		v.InitENB = tmp_initenb
 	case InitiatingNodeTypeEndcX2RemovalChoiceInitEnGNB:
@@ -33621,11 +34287,13 @@ func (v *InitiatingNodeTypeEndcX2Removal) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		if seqLen_initengnb > 65535 {
 			return fmt.Errorf("decoding init-en-gNB length %d above upper bound 65535", seqLen_initengnb)
 		}
-		tmp_initengnb := make(ProtocolIEContainer, seqLen_initengnb)
+		tmp_initengnb := make(ProtocolIEContainer, 0)
 		for i := int64(0); i < seqLen_initengnb; i++ {
-			if err := tmp_initengnb[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding init-en-gNB element: %w", err)
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding init-en-gNB element %d: %w", i, err)
 			}
+			tmp_initengnb = append(tmp_initengnb, elem)
 		}
 		v.InitEnGNB = tmp_initengnb
 	}
@@ -33700,11 +34368,13 @@ func (v *ENDCX2RemovalResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -33809,11 +34479,13 @@ func (v *RespondingNodeTypeEndcX2Removal) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		if seqLen_respondenb > 65535 {
 			return fmt.Errorf("decoding respond-eNB length %d above upper bound 65535", seqLen_respondenb)
 		}
-		tmp_respondenb := make(ProtocolIEContainer, seqLen_respondenb)
+		tmp_respondenb := make(ProtocolIEContainer, 0)
 		for i := int64(0); i < seqLen_respondenb; i++ {
-			if err := tmp_respondenb[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding respond-eNB element: %w", err)
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding respond-eNB element %d: %w", i, err)
 			}
+			tmp_respondenb = append(tmp_respondenb, elem)
 		}
 		v.RespondENB = tmp_respondenb
 	case RespondingNodeTypeEndcX2RemovalChoiceRespondEnGNB:
@@ -33829,11 +34501,13 @@ func (v *RespondingNodeTypeEndcX2Removal) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		if seqLen_respondengnb > 65535 {
 			return fmt.Errorf("decoding respond-en-gNB length %d above upper bound 65535", seqLen_respondengnb)
 		}
-		tmp_respondengnb := make(ProtocolIEContainer, seqLen_respondengnb)
+		tmp_respondengnb := make(ProtocolIEContainer, 0)
 		for i := int64(0); i < seqLen_respondengnb; i++ {
-			if err := tmp_respondengnb[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding respond-en-gNB element: %w", err)
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding respond-en-gNB element %d: %w", i, err)
 			}
+			tmp_respondengnb = append(tmp_respondengnb, elem)
 		}
 		v.RespondEnGNB = tmp_respondengnb
 	}
@@ -33908,11 +34582,13 @@ func (v *ENDCX2RemovalFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -34003,11 +34679,13 @@ func (v *DataForwardingAddressIndication) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -34085,11 +34763,13 @@ func unmarshalAPERERABsDataForwardingAddressListInto(v *asn1cAPERERABsDataForwar
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ERABsDataForwardingAddressList, seqLen_value)
+	v.Value = make(ERABsDataForwardingAddressList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIESingleContainer
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -34188,11 +34868,13 @@ func (v *ERABsDataForwardingAddressItem) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -34285,11 +34967,13 @@ func (v *GNBStatusIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -34380,11 +35064,13 @@ func (v *ENDCConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -34475,11 +35161,13 @@ func (v *TraceStart) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -34570,11 +35258,13 @@ func (v *DeactivateTrace) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -34665,11 +35355,13 @@ func (v *CellTrafficTrace) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -34760,11 +35452,13 @@ func (v *F1CTrafficTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -34855,11 +35549,13 @@ func (v *UERadioCapabilityIDMappingRequest) UnmarshalAPERFrom(bb *per.BitBuffer)
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -34950,11 +35646,13 @@ func (v *UERadioCapabilityIDMappingResponse) UnmarshalAPERFrom(bb *per.BitBuffer
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -35045,11 +35743,13 @@ func (v *CPCCancel) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -35140,11 +35840,13 @@ func (v *RachIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -35235,11 +35937,13 @@ func (v *SCGFailureInformationReport) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -35330,11 +36034,13 @@ func (v *SCGFailureTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_protocolies > 65535 {
 		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
 	}
-	v.ProtocolIEs = make(ProtocolIEContainer, seqLen_protocolies)
+	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_protocolies; i++ {
-		if err := v.ProtocolIEs[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
 		}
+		v.ProtocolIEs = append(v.ProtocolIEs, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -35379,10 +36085,16 @@ func (v *ERABsToBeAddedSgNBAddReqItemResourceConfiguration) MarshalAPERTo(bb *pe
 	}
 	switch v.Choice {
 	case ERABsToBeAddedSgNBAddReqItemResourceConfigurationChoiceSgNBPDCPpresent:
+		if v.SgNBPDCPpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPpresent is nil")
+		}
 		if err := v.SgNBPDCPpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPpresent: %w", err)
 		}
 	case ERABsToBeAddedSgNBAddReqItemResourceConfigurationChoiceSgNBPDCPnotpresent:
+		if v.SgNBPDCPnotpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPnotpresent is nil")
+		}
 		if err := v.SgNBPDCPnotpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPnotpresent: %w", err)
 		}
@@ -35454,10 +36166,16 @@ func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemResourceConfiguration) MarshalAP
 	}
 	switch v.Choice {
 	case ERABsAdmittedToBeAddedSgNBAddReqAckItemResourceConfigurationChoiceSgNBPDCPpresent:
+		if v.SgNBPDCPpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPpresent is nil")
+		}
 		if err := v.SgNBPDCPpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPpresent: %w", err)
 		}
 	case ERABsAdmittedToBeAddedSgNBAddReqAckItemResourceConfigurationChoiceSgNBPDCPnotpresent:
+		if v.SgNBPDCPnotpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPnotpresent is nil")
+		}
 		if err := v.SgNBPDCPnotpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPnotpresent: %w", err)
 		}
@@ -35529,10 +36247,16 @@ func (v *ERABsToBeAddedSgNBModReqItemResourceConfiguration) MarshalAPERTo(bb *pe
 	}
 	switch v.Choice {
 	case ERABsToBeAddedSgNBModReqItemResourceConfigurationChoiceSgNBPDCPpresent:
+		if v.SgNBPDCPpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPpresent is nil")
+		}
 		if err := v.SgNBPDCPpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPpresent: %w", err)
 		}
 	case ERABsToBeAddedSgNBModReqItemResourceConfigurationChoiceSgNBPDCPnotpresent:
+		if v.SgNBPDCPnotpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPnotpresent is nil")
+		}
 		if err := v.SgNBPDCPnotpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPnotpresent: %w", err)
 		}
@@ -35604,10 +36328,16 @@ func (v *ERABsToBeModifiedSgNBModReqItemResourceConfiguration) MarshalAPERTo(bb 
 	}
 	switch v.Choice {
 	case ERABsToBeModifiedSgNBModReqItemResourceConfigurationChoiceSgNBPDCPpresent:
+		if v.SgNBPDCPpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPpresent is nil")
+		}
 		if err := v.SgNBPDCPpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPpresent: %w", err)
 		}
 	case ERABsToBeModifiedSgNBModReqItemResourceConfigurationChoiceSgNBPDCPnotpresent:
+		if v.SgNBPDCPnotpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPnotpresent is nil")
+		}
 		if err := v.SgNBPDCPnotpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPnotpresent: %w", err)
 		}
@@ -35679,10 +36409,16 @@ func (v *ERABsToBeReleasedSgNBModReqItemResourceConfiguration) MarshalAPERTo(bb 
 	}
 	switch v.Choice {
 	case ERABsToBeReleasedSgNBModReqItemResourceConfigurationChoiceSgNBPDCPpresent:
+		if v.SgNBPDCPpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPpresent is nil")
+		}
 		if err := v.SgNBPDCPpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPpresent: %w", err)
 		}
 	case ERABsToBeReleasedSgNBModReqItemResourceConfigurationChoiceSgNBPDCPnotpresent:
+		if v.SgNBPDCPnotpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPnotpresent is nil")
+		}
 		if err := v.SgNBPDCPnotpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPnotpresent: %w", err)
 		}
@@ -35754,10 +36490,16 @@ func (v *ERABsAdmittedToBeAddedSgNBModAckItemResourceConfiguration) MarshalAPERT
 	}
 	switch v.Choice {
 	case ERABsAdmittedToBeAddedSgNBModAckItemResourceConfigurationChoiceSgNBPDCPpresent:
+		if v.SgNBPDCPpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPpresent is nil")
+		}
 		if err := v.SgNBPDCPpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPpresent: %w", err)
 		}
 	case ERABsAdmittedToBeAddedSgNBModAckItemResourceConfigurationChoiceSgNBPDCPnotpresent:
+		if v.SgNBPDCPnotpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPnotpresent is nil")
+		}
 		if err := v.SgNBPDCPnotpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPnotpresent: %w", err)
 		}
@@ -35829,10 +36571,16 @@ func (v *ERABsAdmittedToBeModifiedSgNBModAckItemResourceConfiguration) MarshalAP
 	}
 	switch v.Choice {
 	case ERABsAdmittedToBeModifiedSgNBModAckItemResourceConfigurationChoiceSgNBPDCPpresent:
+		if v.SgNBPDCPpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPpresent is nil")
+		}
 		if err := v.SgNBPDCPpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPpresent: %w", err)
 		}
 	case ERABsAdmittedToBeModifiedSgNBModAckItemResourceConfigurationChoiceSgNBPDCPnotpresent:
+		if v.SgNBPDCPnotpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPnotpresent is nil")
+		}
 		if err := v.SgNBPDCPnotpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPnotpresent: %w", err)
 		}
@@ -35904,10 +36652,16 @@ func (v *ERABsAdmittedToReleasedSgNBModAckItemResourceConfiguration) MarshalAPER
 	}
 	switch v.Choice {
 	case ERABsAdmittedToReleasedSgNBModAckItemResourceConfigurationChoiceSgNBPDCPpresent:
+		if v.SgNBPDCPpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPpresent is nil")
+		}
 		if err := v.SgNBPDCPpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPpresent: %w", err)
 		}
 	case ERABsAdmittedToReleasedSgNBModAckItemResourceConfigurationChoiceSgNBPDCPnotpresent:
+		if v.SgNBPDCPnotpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPnotpresent is nil")
+		}
 		if err := v.SgNBPDCPnotpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPnotpresent: %w", err)
 		}
@@ -35979,10 +36733,16 @@ func (v *ERABsToBeModifiedSgNBModReqdItemResourceConfiguration) MarshalAPERTo(bb
 	}
 	switch v.Choice {
 	case ERABsToBeModifiedSgNBModReqdItemResourceConfigurationChoiceSgNBPDCPpresent:
+		if v.SgNBPDCPpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPpresent is nil")
+		}
 		if err := v.SgNBPDCPpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPpresent: %w", err)
 		}
 	case ERABsToBeModifiedSgNBModReqdItemResourceConfigurationChoiceSgNBPDCPnotpresent:
+		if v.SgNBPDCPnotpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPnotpresent is nil")
+		}
 		if err := v.SgNBPDCPnotpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPnotpresent: %w", err)
 		}
@@ -36054,10 +36814,16 @@ func (v *ERABsAdmittedToBeModifiedSgNBModConfItemResourceConfiguration) MarshalA
 	}
 	switch v.Choice {
 	case ERABsAdmittedToBeModifiedSgNBModConfItemResourceConfigurationChoiceSgNBPDCPpresent:
+		if v.SgNBPDCPpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPpresent is nil")
+		}
 		if err := v.SgNBPDCPpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPpresent: %w", err)
 		}
 	case ERABsAdmittedToBeModifiedSgNBModConfItemResourceConfigurationChoiceSgNBPDCPnotpresent:
+		if v.SgNBPDCPnotpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPnotpresent is nil")
+		}
 		if err := v.SgNBPDCPnotpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPnotpresent: %w", err)
 		}
@@ -36129,10 +36895,16 @@ func (v *ERABsToBeReleasedSgNBRelReqItemResourceConfiguration) MarshalAPERTo(bb 
 	}
 	switch v.Choice {
 	case ERABsToBeReleasedSgNBRelReqItemResourceConfigurationChoiceSgNBPDCPpresent:
+		if v.SgNBPDCPpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPpresent is nil")
+		}
 		if err := v.SgNBPDCPpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPpresent: %w", err)
 		}
 	case ERABsToBeReleasedSgNBRelReqItemResourceConfigurationChoiceSgNBPDCPnotpresent:
+		if v.SgNBPDCPnotpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPnotpresent is nil")
+		}
 		if err := v.SgNBPDCPnotpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPnotpresent: %w", err)
 		}
@@ -36204,10 +36976,16 @@ func (v *ERABsToBeReleasedSgNBRelConfItemResourceConfiguration) MarshalAPERTo(bb
 	}
 	switch v.Choice {
 	case ERABsToBeReleasedSgNBRelConfItemResourceConfigurationChoiceSgNBPDCPpresent:
+		if v.SgNBPDCPpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPpresent is nil")
+		}
 		if err := v.SgNBPDCPpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPpresent: %w", err)
 		}
 	case ERABsToBeReleasedSgNBRelConfItemResourceConfigurationChoiceSgNBPDCPnotpresent:
+		if v.SgNBPDCPnotpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPnotpresent is nil")
+		}
 		if err := v.SgNBPDCPnotpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPnotpresent: %w", err)
 		}
@@ -36279,10 +37057,16 @@ func (v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration) MarshalAPERTo(bb
 	}
 	switch v.Choice {
 	case ERABsToBeReleasedSgNBChaConfItemResourceConfigurationChoiceSgNBPDCPpresent:
+		if v.SgNBPDCPpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPpresent is nil")
+		}
 		if err := v.SgNBPDCPpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPpresent: %w", err)
 		}
 	case ERABsToBeReleasedSgNBChaConfItemResourceConfigurationChoiceSgNBPDCPnotpresent:
+		if v.SgNBPDCPnotpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPnotpresent is nil")
+		}
 		if err := v.SgNBPDCPnotpresent.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding sgNBPDCPnotpresent: %w", err)
 		}
@@ -36435,11 +37219,13 @@ func (v *ServedEUTRAcellsENDCX2ManagementListElem) UnmarshalAPERFrom(bb *per.Bit
 		if seqLen_nrneighbourinfo > 1024 {
 			return fmt.Errorf("decoding nrNeighbourInfo length %d above upper bound 1024", seqLen_nrneighbourinfo)
 		}
-		tmp_nrneighbourinfo := make(NRNeighbourInformation, seqLen_nrneighbourinfo)
+		tmp_nrneighbourinfo := make(NRNeighbourInformation, 0)
 		for i := int64(0); i < seqLen_nrneighbourinfo; i++ {
-			if err := tmp_nrneighbourinfo[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding nrNeighbourInfo element: %w", err)
+			var elem NRNeighbourInformationElem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding nrNeighbourInfo element %d: %w", i, err)
 			}
+			tmp_nrneighbourinfo = append(tmp_nrneighbourinfo, elem)
 		}
 		v.NrNeighbourInfo = tmp_nrneighbourinfo
 	}
@@ -36456,11 +37242,13 @@ func (v *ServedEUTRAcellsENDCX2ManagementListElem) UnmarshalAPERFrom(bb *per.Bit
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -36588,11 +37376,13 @@ func (v *ServedNRcellsENDCX2ManagementListElem) UnmarshalAPERFrom(bb *per.BitBuf
 		if seqLen_nrneighbourinfo > 1024 {
 			return fmt.Errorf("decoding nRNeighbourInfo length %d above upper bound 1024", seqLen_nrneighbourinfo)
 		}
-		tmp_nrneighbourinfo := make(NRNeighbourInformation, seqLen_nrneighbourinfo)
+		tmp_nrneighbourinfo := make(NRNeighbourInformation, 0)
 		for i := int64(0); i < seqLen_nrneighbourinfo; i++ {
-			if err := tmp_nrneighbourinfo[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding nRNeighbourInfo element: %w", err)
+			var elem NRNeighbourInformationElem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding nRNeighbourInfo element %d: %w", i, err)
 			}
+			tmp_nrneighbourinfo = append(tmp_nrneighbourinfo, elem)
 		}
 		v.NRNeighbourInfo = tmp_nrneighbourinfo
 	}
@@ -36609,11 +37399,13 @@ func (v *ServedNRcellsENDCX2ManagementListElem) UnmarshalAPERFrom(bb *per.BitBuf
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -36660,10 +37452,16 @@ func (v *ServedNRCellInformationNrModeInfo) MarshalAPERTo(bb *per.BitBuffer) err
 	}
 	switch v.Choice {
 	case ServedNRCellInformationNrModeInfoChoiceFdd:
+		if v.Fdd == nil {
+			return fmt.Errorf("choice alternative fdd is nil")
+		}
 		if err := v.Fdd.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding fdd: %w", err)
 		}
 	case ServedNRCellInformationNrModeInfoChoiceTdd:
+		if v.Tdd == nil {
+			return fmt.Errorf("choice alternative tdd is nil")
+		}
 		if err := v.Tdd.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding tdd: %w", err)
 		}
@@ -36799,11 +37597,13 @@ func (v *LimitedListElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -36937,11 +37737,13 @@ func (v *ServedEUTRAcellsToModifyListENDCConfUpdElem) UnmarshalAPERFrom(bb *per.
 		if seqLen_nrneighbourinfo > 1024 {
 			return fmt.Errorf("decoding nrNeighbourInfo length %d above upper bound 1024", seqLen_nrneighbourinfo)
 		}
-		tmp_nrneighbourinfo := make(NRNeighbourInformation, seqLen_nrneighbourinfo)
+		tmp_nrneighbourinfo := make(NRNeighbourInformation, 0)
 		for i := int64(0); i < seqLen_nrneighbourinfo; i++ {
-			if err := tmp_nrneighbourinfo[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding nrNeighbourInfo element: %w", err)
+			var elem NRNeighbourInformationElem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding nrNeighbourInfo element %d: %w", i, err)
 			}
+			tmp_nrneighbourinfo = append(tmp_nrneighbourinfo, elem)
 		}
 		v.NrNeighbourInfo = tmp_nrneighbourinfo
 	}
@@ -36958,11 +37760,13 @@ func (v *ServedEUTRAcellsToModifyListENDCConfUpdElem) UnmarshalAPERFrom(bb *per.
 		if seqLen_ieextensions > 65535 {
 			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
 		}
-		tmp_ieextensions := make(ProtocolExtensionContainer, seqLen_ieextensions)
+		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		for i := int64(0); i < seqLen_ieextensions; i++ {
-			if err := tmp_ieextensions[i].UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element: %w", err)
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
 			}
+			tmp_ieextensions = append(tmp_ieextensions, elem)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}

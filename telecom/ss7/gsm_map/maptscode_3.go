@@ -114,8 +114,8 @@ const (
 	PlmnSpecificTSF3 = "\xdf"
 )
 
-// TeleserviceCode3 represents the ASN.1 type TeleserviceCode3 (OCTET_STRING).
+// TeleserviceCode3 represents the ASN.1 type TeleserviceCode (OCTET_STRING).
 type TeleserviceCode3 = []byte
 
-// ExtTeleserviceCode3 represents the ASN.1 type ExtTeleserviceCode3 (OCTET_STRING).
+// ExtTeleserviceCode3 represents the ASN.1 type Ext-TeleserviceCode (OCTET_STRING).
 type ExtTeleserviceCode3 = []byte

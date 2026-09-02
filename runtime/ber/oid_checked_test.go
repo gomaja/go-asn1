@@ -2,6 +2,7 @@ package ber
 
 import (
 	"bytes"
+	"errors"
 	"math"
 	"reflect"
 	"testing"
@@ -87,5 +88,13 @@ func TestOIDDecoderRejectsNonCanonicalOrOverflowingSubidentifiers(t *testing.T) 
 		if decoded, err := DecodeOIDValue(value); err == nil || decoded != nil {
 			t.Fatalf("DecodeOIDValue(%x) = %v, %v, want rejection", value, decoded, err)
 		}
+	}
+}
+
+func TestOIDDecoderClassifiesLoneContinuationAsTruncated(t *testing.T) {
+	t.Parallel()
+
+	if _, err := DecodeOIDValue([]byte{0x2a, 0x80}); !errors.Is(err, ErrTruncated) {
+		t.Fatalf("DecodeOIDValue() error = %v, want %v", err, ErrTruncated)
 	}
 }

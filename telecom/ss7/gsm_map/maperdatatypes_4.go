@@ -17,7 +17,7 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// RoamingNotAllowedParam4 represents the ASN.1 type RoamingNotAllowedParam4 (SEQUENCE).
+// RoamingNotAllowedParam4 represents the ASN.1 type RoamingNotAllowedParam (SEQUENCE).
 type RoamingNotAllowedParam4 struct {
 	RoamingNotAllowedCause           RoamingNotAllowedCause4            `asn1:""`
 	ExtensionContainer               *ExtensionContainer4               `asn1:",optional" json:"ExtensionContainer,omitempty"`
@@ -27,7 +27,7 @@ type RoamingNotAllowedParam4 struct {
 	ExtData_                         [][]byte                           `asn1:"-" json:"-"`
 }
 
-// AdditionalRoamingNotAllowedCause4 represents the ASN.1 ENUMERATED type AdditionalRoamingNotAllowedCause4.
+// AdditionalRoamingNotAllowedCause4 represents the ASN.1 ENUMERATED type AdditionalRoamingNotAllowedCause.
 type AdditionalRoamingNotAllowedCause4 int64
 
 const (
@@ -43,7 +43,7 @@ func (v AdditionalRoamingNotAllowedCause4) String() string {
 	}
 }
 
-// RoamingNotAllowedCause4 represents the ASN.1 ENUMERATED type RoamingNotAllowedCause4.
+// RoamingNotAllowedCause4 represents the ASN.1 ENUMERATED type RoamingNotAllowedCause.
 type RoamingNotAllowedCause4 int64
 
 const (
@@ -68,7 +68,7 @@ const (
 	CallBarredParam4ChoiceExtensibleCallBarredParam = 2
 )
 
-// CallBarredParam4 represents the ASN.1 CHOICE type CallBarredParam4.
+// CallBarredParam4 represents the ASN.1 CHOICE type CallBarredParam.
 type CallBarredParam4 struct {
 	Choice                    int
 	CallBarringCause          *CallBarringCause4          `json:"CallBarringCause,omitempty"`
@@ -91,7 +91,7 @@ func NewCallBarredParam4ExtensibleCallBarredParam(v ExtensibleCallBarredParam4) 
 	}
 }
 
-// CallBarringCause4 represents the ASN.1 ENUMERATED type CallBarringCause4.
+// CallBarringCause4 represents the ASN.1 ENUMERATED type CallBarringCause.
 type CallBarringCause4 int64
 
 const (
@@ -110,7 +110,7 @@ func (v CallBarringCause4) String() string {
 	}
 }
 
-// ExtensibleCallBarredParam4 represents the ASN.1 type ExtensibleCallBarredParam4 (SEQUENCE).
+// ExtensibleCallBarredParam4 represents the ASN.1 type ExtensibleCallBarredParam (SEQUENCE).
 type ExtensibleCallBarredParam4 struct {
 	CallBarringCause              *CallBarringCause4   `asn1:",optional" json:"CallBarringCause,omitempty"`
 	ExtensionContainer            *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
@@ -120,7 +120,7 @@ type ExtensibleCallBarredParam4 struct {
 	ExtData_                      [][]byte             `asn1:"-" json:"-"`
 }
 
-// CUGRejectParam4 represents the ASN.1 type CUGRejectParam4 (SEQUENCE).
+// CUGRejectParam4 represents the ASN.1 type CUG-RejectParam (SEQUENCE).
 type CUGRejectParam4 struct {
 	CugRejectCause     *CUGRejectCause4     `asn1:",optional" json:"CugRejectCause,omitempty"`
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
@@ -129,7 +129,7 @@ type CUGRejectParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// CUGRejectCause4 represents the ASN.1 ENUMERATED type CUGRejectCause4.
+// CUGRejectCause4 represents the ASN.1 ENUMERATED type CUG-RejectCause.
 type CUGRejectCause4 int64
 
 const (
@@ -154,7 +154,7 @@ func (v CUGRejectCause4) String() string {
 	}
 }
 
-// SSIncompatibilityCause4 represents the ASN.1 type SSIncompatibilityCause4 (SEQUENCE).
+// SSIncompatibilityCause4 represents the ASN.1 type SS-IncompatibilityCause (SEQUENCE).
 type SSIncompatibilityCause4 struct {
 	SsCode       *SSCode4           `asn1:"tag:1,context,implicit,optional" json:"SsCode,omitempty"`
 	BasicService *BasicServiceCode4 `asn1:",optional" json:"BasicService,omitempty"`
@@ -164,7 +164,7 @@ type SSIncompatibilityCause4 struct {
 	ExtData_     [][]byte           `asn1:"-" json:"-"`
 }
 
-// PWRegistrationFailureCause4 represents the ASN.1 ENUMERATED type PWRegistrationFailureCause4.
+// PWRegistrationFailureCause4 represents the ASN.1 ENUMERATED type PW-RegistrationFailureCause.
 type PWRegistrationFailureCause4 int64
 
 const (
@@ -186,7 +186,7 @@ func (v PWRegistrationFailureCause4) String() string {
 	}
 }
 
-// SMEnumeratedDeliveryFailureCause4 represents the ASN.1 ENUMERATED type SMEnumeratedDeliveryFailureCause4.
+// SMEnumeratedDeliveryFailureCause4 represents the ASN.1 ENUMERATED type SM-EnumeratedDeliveryFailureCause.
 type SMEnumeratedDeliveryFailureCause4 int64
 
 const (
@@ -220,7 +220,7 @@ func (v SMEnumeratedDeliveryFailureCause4) String() string {
 	}
 }
 
-// SMDeliveryFailureCause4 represents the ASN.1 type SMDeliveryFailureCause4 (SEQUENCE).
+// SMDeliveryFailureCause4 represents the ASN.1 type SM-DeliveryFailureCause (SEQUENCE).
 type SMDeliveryFailureCause4 struct {
 	SmEnumeratedDeliveryFailureCause SMEnumeratedDeliveryFailureCause4 `asn1:""`
 	DiagnosticInfo                   *SignalInfo4                      `asn1:",optional" json:"DiagnosticInfo,omitempty"`
@@ -230,7 +230,7 @@ type SMDeliveryFailureCause4 struct {
 	ExtData_                         [][]byte                          `asn1:"-" json:"-"`
 }
 
-// AbsentSubscriberSMParam4 represents the ASN.1 type AbsentSubscriberSMParam4 (SEQUENCE).
+// AbsentSubscriberSMParam4 represents the ASN.1 type AbsentSubscriberSM-Param (SEQUENCE).
 type AbsentSubscriberSMParam4 struct {
 	AbsentSubscriberDiagnosticSM           *AbsentSubscriberDiagnosticSM4 `asn1:",optional" json:"AbsentSubscriberDiagnosticSM,omitempty"`
 	ExtensionContainer                     *ExtensionContainer4           `asn1:",optional" json:"ExtensionContainer,omitempty"`
@@ -240,7 +240,7 @@ type AbsentSubscriberSMParam4 struct {
 	ExtData_                               [][]byte                       `asn1:"-" json:"-"`
 }
 
-// AbsentSubscriberDiagnosticSM4 represents the ASN.1 type AbsentSubscriberDiagnosticSM4 (INTEGER).
+// AbsentSubscriberDiagnosticSM4 represents the ASN.1 type AbsentSubscriberDiagnosticSM (INTEGER).
 type AbsentSubscriberDiagnosticSM4 = int64
 
 // SystemFailureParam4 choice constants.
@@ -249,7 +249,7 @@ const (
 	SystemFailureParam4ChoiceExtensibleSystemFailureParam = 2
 )
 
-// SystemFailureParam4 represents the ASN.1 CHOICE type SystemFailureParam4.
+// SystemFailureParam4 represents the ASN.1 CHOICE type SystemFailureParam.
 type SystemFailureParam4 struct {
 	Choice                       int
 	NetworkResource              *NetworkResource4              `json:"NetworkResource,omitempty"`
@@ -272,7 +272,7 @@ func NewSystemFailureParam4ExtensibleSystemFailureParam(v ExtensibleSystemFailur
 	}
 }
 
-// ExtensibleSystemFailureParam4 represents the ASN.1 type ExtensibleSystemFailureParam4 (SEQUENCE).
+// ExtensibleSystemFailureParam4 represents the ASN.1 type ExtensibleSystemFailureParam (SEQUENCE).
 type ExtensibleSystemFailureParam4 struct {
 	NetworkResource           *NetworkResource4           `asn1:",optional" json:"NetworkResource,omitempty"`
 	ExtensionContainer        *ExtensionContainer4        `asn1:",optional" json:"ExtensionContainer,omitempty"`
@@ -283,7 +283,7 @@ type ExtensibleSystemFailureParam4 struct {
 	ExtData_                  [][]byte                    `asn1:"-" json:"-"`
 }
 
-// FailureCauseParam3 represents the ASN.1 ENUMERATED type FailureCauseParam3.
+// FailureCauseParam3 represents the ASN.1 ENUMERATED type FailureCauseParam.
 type FailureCauseParam3 int64
 
 const (
@@ -299,7 +299,7 @@ func (v FailureCauseParam3) String() string {
 	}
 }
 
-// DataMissingParam4 represents the ASN.1 type DataMissingParam4 (SEQUENCE).
+// DataMissingParam4 represents the ASN.1 type DataMissingParam (SEQUENCE).
 type DataMissingParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -307,7 +307,7 @@ type DataMissingParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// UnexpectedDataParam4 represents the ASN.1 type UnexpectedDataParam4 (SEQUENCE).
+// UnexpectedDataParam4 represents the ASN.1 type UnexpectedDataParam (SEQUENCE).
 type UnexpectedDataParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -315,7 +315,7 @@ type UnexpectedDataParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// FacilityNotSupParam4 represents the ASN.1 type FacilityNotSupParam4 (SEQUENCE).
+// FacilityNotSupParam4 represents the ASN.1 type FacilityNotSupParam (SEQUENCE).
 type FacilityNotSupParam4 struct {
 	ExtensionContainer                           *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ShapeOfLocationEstimateNotSupported          *struct{}            `asn1:"tag:0,context,implicit,optional" json:"ShapeOfLocationEstimateNotSupported,omitempty"`
@@ -325,7 +325,7 @@ type FacilityNotSupParam4 struct {
 	ExtData_                                     [][]byte             `asn1:"-" json:"-"`
 }
 
-// ORNotAllowedParam4 represents the ASN.1 type ORNotAllowedParam4 (SEQUENCE).
+// ORNotAllowedParam4 represents the ASN.1 type OR-NotAllowedParam (SEQUENCE).
 type ORNotAllowedParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -333,7 +333,7 @@ type ORNotAllowedParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// UnknownSubscriberParam4 represents the ASN.1 type UnknownSubscriberParam4 (SEQUENCE).
+// UnknownSubscriberParam4 represents the ASN.1 type UnknownSubscriberParam (SEQUENCE).
 type UnknownSubscriberParam4 struct {
 	ExtensionContainer          *ExtensionContainer4          `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	UnknownSubscriberDiagnostic *UnknownSubscriberDiagnostic4 `asn1:",optional" json:"UnknownSubscriberDiagnostic,omitempty"`
@@ -342,7 +342,7 @@ type UnknownSubscriberParam4 struct {
 	ExtData_                    [][]byte                      `asn1:"-" json:"-"`
 }
 
-// UnknownSubscriberDiagnostic4 represents the ASN.1 ENUMERATED type UnknownSubscriberDiagnostic4.
+// UnknownSubscriberDiagnostic4 represents the ASN.1 ENUMERATED type UnknownSubscriberDiagnostic.
 type UnknownSubscriberDiagnostic4 int64
 
 const (
@@ -364,7 +364,7 @@ func (v UnknownSubscriberDiagnostic4) String() string {
 	}
 }
 
-// NumberChangedParam4 represents the ASN.1 type NumberChangedParam4 (SEQUENCE).
+// NumberChangedParam4 represents the ASN.1 type NumberChangedParam (SEQUENCE).
 type NumberChangedParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -372,7 +372,7 @@ type NumberChangedParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// UnidentifiedSubParam4 represents the ASN.1 type UnidentifiedSubParam4 (SEQUENCE).
+// UnidentifiedSubParam4 represents the ASN.1 type UnidentifiedSubParam (SEQUENCE).
 type UnidentifiedSubParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -380,7 +380,7 @@ type UnidentifiedSubParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// IllegalSubscriberParam4 represents the ASN.1 type IllegalSubscriberParam4 (SEQUENCE).
+// IllegalSubscriberParam4 represents the ASN.1 type IllegalSubscriberParam (SEQUENCE).
 type IllegalSubscriberParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -388,7 +388,7 @@ type IllegalSubscriberParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// IllegalEquipmentParam4 represents the ASN.1 type IllegalEquipmentParam4 (SEQUENCE).
+// IllegalEquipmentParam4 represents the ASN.1 type IllegalEquipmentParam (SEQUENCE).
 type IllegalEquipmentParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -396,7 +396,7 @@ type IllegalEquipmentParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// BearerServNotProvParam4 represents the ASN.1 type BearerServNotProvParam4 (SEQUENCE).
+// BearerServNotProvParam4 represents the ASN.1 type BearerServNotProvParam (SEQUENCE).
 type BearerServNotProvParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -404,7 +404,7 @@ type BearerServNotProvParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// TeleservNotProvParam4 represents the ASN.1 type TeleservNotProvParam4 (SEQUENCE).
+// TeleservNotProvParam4 represents the ASN.1 type TeleservNotProvParam (SEQUENCE).
 type TeleservNotProvParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -412,7 +412,7 @@ type TeleservNotProvParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// TracingBufferFullParam4 represents the ASN.1 type TracingBufferFullParam4 (SEQUENCE).
+// TracingBufferFullParam4 represents the ASN.1 type TracingBufferFullParam (SEQUENCE).
 type TracingBufferFullParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -420,7 +420,7 @@ type TracingBufferFullParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// NoRoamingNbParam4 represents the ASN.1 type NoRoamingNbParam4 (SEQUENCE).
+// NoRoamingNbParam4 represents the ASN.1 type NoRoamingNbParam (SEQUENCE).
 type NoRoamingNbParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -428,7 +428,7 @@ type NoRoamingNbParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// AbsentSubscriberParam4 represents the ASN.1 type AbsentSubscriberParam4 (SEQUENCE).
+// AbsentSubscriberParam4 represents the ASN.1 type AbsentSubscriberParam (SEQUENCE).
 type AbsentSubscriberParam4 struct {
 	ExtensionContainer     *ExtensionContainer4     `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	AbsentSubscriberReason *AbsentSubscriberReason4 `asn1:"tag:0,context,implicit,optional" json:"AbsentSubscriberReason,omitempty"`
@@ -437,7 +437,7 @@ type AbsentSubscriberParam4 struct {
 	ExtData_               [][]byte                 `asn1:"-" json:"-"`
 }
 
-// AbsentSubscriberReason4 represents the ASN.1 ENUMERATED type AbsentSubscriberReason4.
+// AbsentSubscriberReason4 represents the ASN.1 ENUMERATED type AbsentSubscriberReason.
 type AbsentSubscriberReason4 int64
 
 const (
@@ -468,7 +468,7 @@ func (v AbsentSubscriberReason4) String() string {
 	}
 }
 
-// BusySubscriberParam4 represents the ASN.1 type BusySubscriberParam4 (SEQUENCE).
+// BusySubscriberParam4 represents the ASN.1 type BusySubscriberParam (SEQUENCE).
 type BusySubscriberParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	CcbsPossible       *struct{}            `asn1:"tag:0,context,implicit,optional" json:"CcbsPossible,omitempty"`
@@ -478,7 +478,7 @@ type BusySubscriberParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// NoSubscriberReplyParam4 represents the ASN.1 type NoSubscriberReplyParam4 (SEQUENCE).
+// NoSubscriberReplyParam4 represents the ASN.1 type NoSubscriberReplyParam (SEQUENCE).
 type NoSubscriberReplyParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -486,7 +486,7 @@ type NoSubscriberReplyParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// ForwardingViolationParam4 represents the ASN.1 type ForwardingViolationParam4 (SEQUENCE).
+// ForwardingViolationParam4 represents the ASN.1 type ForwardingViolationParam (SEQUENCE).
 type ForwardingViolationParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -494,7 +494,7 @@ type ForwardingViolationParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// ForwardingFailedParam4 represents the ASN.1 type ForwardingFailedParam4 (SEQUENCE).
+// ForwardingFailedParam4 represents the ASN.1 type ForwardingFailedParam (SEQUENCE).
 type ForwardingFailedParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -502,7 +502,7 @@ type ForwardingFailedParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// ATINotAllowedParam4 represents the ASN.1 type ATINotAllowedParam4 (SEQUENCE).
+// ATINotAllowedParam4 represents the ASN.1 type ATI-NotAllowedParam (SEQUENCE).
 type ATINotAllowedParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -510,7 +510,7 @@ type ATINotAllowedParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// ATSINotAllowedParam4 represents the ASN.1 type ATSINotAllowedParam4 (SEQUENCE).
+// ATSINotAllowedParam4 represents the ASN.1 type ATSI-NotAllowedParam (SEQUENCE).
 type ATSINotAllowedParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -518,7 +518,7 @@ type ATSINotAllowedParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// ATMNotAllowedParam4 represents the ASN.1 type ATMNotAllowedParam4 (SEQUENCE).
+// ATMNotAllowedParam4 represents the ASN.1 type ATM-NotAllowedParam (SEQUENCE).
 type ATMNotAllowedParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -526,7 +526,7 @@ type ATMNotAllowedParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// IllegalSSOperationParam4 represents the ASN.1 type IllegalSSOperationParam4 (SEQUENCE).
+// IllegalSSOperationParam4 represents the ASN.1 type IllegalSS-OperationParam (SEQUENCE).
 type IllegalSSOperationParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -534,7 +534,7 @@ type IllegalSSOperationParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// SSNotAvailableParam4 represents the ASN.1 type SSNotAvailableParam4 (SEQUENCE).
+// SSNotAvailableParam4 represents the ASN.1 type SS-NotAvailableParam (SEQUENCE).
 type SSNotAvailableParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -542,7 +542,7 @@ type SSNotAvailableParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// SSSubscriptionViolationParam4 represents the ASN.1 type SSSubscriptionViolationParam4 (SEQUENCE).
+// SSSubscriptionViolationParam4 represents the ASN.1 type SS-SubscriptionViolationParam (SEQUENCE).
 type SSSubscriptionViolationParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -550,7 +550,7 @@ type SSSubscriptionViolationParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// InformationNotAvailableParam4 represents the ASN.1 type InformationNotAvailableParam4 (SEQUENCE).
+// InformationNotAvailableParam4 represents the ASN.1 type InformationNotAvailableParam (SEQUENCE).
 type InformationNotAvailableParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -558,7 +558,7 @@ type InformationNotAvailableParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// SubBusyForMTSMSParam4 represents the ASN.1 type SubBusyForMTSMSParam4 (SEQUENCE).
+// SubBusyForMTSMSParam4 represents the ASN.1 type SubBusyForMT-SMS-Param (SEQUENCE).
 type SubBusyForMTSMSParam4 struct {
 	ExtensionContainer      *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	GprsConnectionSuspended *struct{}            `asn1:",optional" json:"GprsConnectionSuspended,omitempty"`
@@ -567,7 +567,7 @@ type SubBusyForMTSMSParam4 struct {
 	ExtData_                [][]byte             `asn1:"-" json:"-"`
 }
 
-// MessageWaitListFullParam4 represents the ASN.1 type MessageWaitListFullParam4 (SEQUENCE).
+// MessageWaitListFullParam4 represents the ASN.1 type MessageWaitListFullParam (SEQUENCE).
 type MessageWaitListFullParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -575,7 +575,7 @@ type MessageWaitListFullParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// ResourceLimitationParam4 represents the ASN.1 type ResourceLimitationParam4 (SEQUENCE).
+// ResourceLimitationParam4 represents the ASN.1 type ResourceLimitationParam (SEQUENCE).
 type ResourceLimitationParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -583,7 +583,7 @@ type ResourceLimitationParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// NoGroupCallNbParam4 represents the ASN.1 type NoGroupCallNbParam4 (SEQUENCE).
+// NoGroupCallNbParam4 represents the ASN.1 type NoGroupCallNbParam (SEQUENCE).
 type NoGroupCallNbParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -591,7 +591,7 @@ type NoGroupCallNbParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// IncompatibleTerminalParam4 represents the ASN.1 type IncompatibleTerminalParam4 (SEQUENCE).
+// IncompatibleTerminalParam4 represents the ASN.1 type IncompatibleTerminalParam (SEQUENCE).
 type IncompatibleTerminalParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -599,21 +599,21 @@ type IncompatibleTerminalParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// ShortTermDenialParam4 represents the ASN.1 type ShortTermDenialParam4 (SEQUENCE).
+// ShortTermDenialParam4 represents the ASN.1 type ShortTermDenialParam (SEQUENCE).
 type ShortTermDenialParam4 struct {
 	ExtCount_   int64    `asn1:"-" json:"-"`
 	ExtPresent_ []bool   `asn1:"-" json:"-"`
 	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// LongTermDenialParam4 represents the ASN.1 type LongTermDenialParam4 (SEQUENCE).
+// LongTermDenialParam4 represents the ASN.1 type LongTermDenialParam (SEQUENCE).
 type LongTermDenialParam4 struct {
 	ExtCount_   int64    `asn1:"-" json:"-"`
 	ExtPresent_ []bool   `asn1:"-" json:"-"`
 	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// UnauthorizedRequestingNetworkParam4 represents the ASN.1 type UnauthorizedRequestingNetworkParam4 (SEQUENCE).
+// UnauthorizedRequestingNetworkParam4 represents the ASN.1 type UnauthorizedRequestingNetwork-Param (SEQUENCE).
 type UnauthorizedRequestingNetworkParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -621,7 +621,7 @@ type UnauthorizedRequestingNetworkParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// UnauthorizedLCSClientParam4 represents the ASN.1 type UnauthorizedLCSClientParam4 (SEQUENCE).
+// UnauthorizedLCSClientParam4 represents the ASN.1 type UnauthorizedLCSClient-Param (SEQUENCE).
 type UnauthorizedLCSClientParam4 struct {
 	UnauthorizedLCSClientDiagnostic *UnauthorizedLCSClientDiagnostic4 `asn1:"tag:0,context,implicit,optional" json:"UnauthorizedLCSClientDiagnostic,omitempty"`
 	ExtensionContainer              *ExtensionContainer4              `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
@@ -630,7 +630,7 @@ type UnauthorizedLCSClientParam4 struct {
 	ExtData_                        [][]byte                          `asn1:"-" json:"-"`
 }
 
-// UnauthorizedLCSClientDiagnostic4 represents the ASN.1 ENUMERATED type UnauthorizedLCSClientDiagnostic4.
+// UnauthorizedLCSClientDiagnostic4 represents the ASN.1 ENUMERATED type UnauthorizedLCSClient-Diagnostic.
 type UnauthorizedLCSClientDiagnostic4 int64
 
 const (
@@ -667,7 +667,7 @@ func (v UnauthorizedLCSClientDiagnostic4) String() string {
 	}
 }
 
-// PositionMethodFailureParam4 represents the ASN.1 type PositionMethodFailureParam4 (SEQUENCE).
+// PositionMethodFailureParam4 represents the ASN.1 type PositionMethodFailure-Param (SEQUENCE).
 type PositionMethodFailureParam4 struct {
 	PositionMethodFailureDiagnostic *PositionMethodFailureDiagnostic4 `asn1:"tag:0,context,implicit,optional" json:"PositionMethodFailureDiagnostic,omitempty"`
 	ExtensionContainer              *ExtensionContainer4              `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
@@ -676,7 +676,7 @@ type PositionMethodFailureParam4 struct {
 	ExtData_                        [][]byte                          `asn1:"-" json:"-"`
 }
 
-// PositionMethodFailureDiagnostic4 represents the ASN.1 ENUMERATED type PositionMethodFailureDiagnostic4.
+// PositionMethodFailureDiagnostic4 represents the ASN.1 ENUMERATED type PositionMethodFailure-Diagnostic.
 type PositionMethodFailureDiagnostic4 int64
 
 const (
@@ -716,7 +716,7 @@ func (v PositionMethodFailureDiagnostic4) String() string {
 	}
 }
 
-// UnknownOrUnreachableLCSClientParam4 represents the ASN.1 type UnknownOrUnreachableLCSClientParam4 (SEQUENCE).
+// UnknownOrUnreachableLCSClientParam4 represents the ASN.1 type UnknownOrUnreachableLCSClient-Param (SEQUENCE).
 type UnknownOrUnreachableLCSClientParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -724,7 +724,7 @@ type UnknownOrUnreachableLCSClientParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// MMEventNotSupportedParam4 represents the ASN.1 type MMEventNotSupportedParam4 (SEQUENCE).
+// MMEventNotSupportedParam4 represents the ASN.1 type MM-EventNotSupported-Param (SEQUENCE).
 type MMEventNotSupportedParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -732,7 +732,7 @@ type MMEventNotSupportedParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// TargetCellOutsideGCAParam4 represents the ASN.1 type TargetCellOutsideGCAParam4 (SEQUENCE).
+// TargetCellOutsideGCAParam4 represents the ASN.1 type TargetCellOutsideGCA-Param (SEQUENCE).
 type TargetCellOutsideGCAParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -740,7 +740,7 @@ type TargetCellOutsideGCAParam4 struct {
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
 }
 
-// OngoingGroupCallParam4 represents the ASN.1 type OngoingGroupCallParam4 (SEQUENCE).
+// OngoingGroupCallParam4 represents the ASN.1 type OngoingGroupCallParam (SEQUENCE).
 type OngoingGroupCallParam4 struct {
 	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -786,7 +786,14 @@ func (v *RoamingNotAllowedParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RoamingNotAllowedParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes RoamingNotAllowedParam4 from BER/DER format.
@@ -833,9 +840,12 @@ func (v *RoamingNotAllowedParam4) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_additionalroamingnotallowedcause, rawVal_additionalroamingnotallowedcause, err := ber.DecodeTLV(content[offset:])
+				decodedTag_additionalroamingnotallowedcause, n_additionalroamingnotallowedcause, rawVal_additionalroamingnotallowedcause, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding additionalRoamingNotAllowedCause: %w", err)
+				}
+				if decodedTag_additionalroamingnotallowedcause.Class != tag.ClassContextSpecific || decodedTag_additionalroamingnotallowedcause.Number != 0 || decodedTag_additionalroamingnotallowedcause.Constructed != false {
+					return fmt.Errorf("decoding additionalRoamingNotAllowedCause: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalroamingnotallowedcause)
 				}
 				decVal_additionalroamingnotallowedcause, intErr := ber.DecodeIntegerValue(rawVal_additionalroamingnotallowedcause)
 				if intErr != nil {
@@ -897,9 +907,19 @@ func (v *CallBarredParam4) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensibleCallBarredParam: %w", err)
 		}
+		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
+			return nil, fmt.Errorf("encoding extensibleCallBarredParam as DER: %w", derErr)
+		}
 		return enc_der_1, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding CallBarredParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes CallBarredParam4 from BER/DER format.
@@ -921,7 +941,7 @@ func (v *CallBarredParam4) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "CallBarredParam4", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 {
+	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 && peekTag.Constructed == false {
 		v.Choice = CallBarredParam4ChoiceCallBarringCause
 		decVal, _, intErr := ber.DecodeInteger(choiceData)
 		if intErr != nil {
@@ -929,7 +949,7 @@ func (v *CallBarredParam4) UnmarshalBER(data []byte) error {
 		}
 		tmp := CallBarringCause4(decVal)
 		v.CallBarringCause = &tmp
-	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 && peekTag.Constructed == true {
 		v.Choice = CallBarredParam4ChoiceExtensibleCallBarredParam
 		var dec ExtensibleCallBarredParam4
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
@@ -982,7 +1002,14 @@ func (v *ExtensibleCallBarredParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ExtensibleCallBarredParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ExtensibleCallBarredParam4 from BER/DER format.
@@ -1034,11 +1061,16 @@ func (v *ExtensibleCallBarredParam4) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_unauthorisedmessageoriginator, rawVal_unauthorisedmessageoriginator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_unauthorisedmessageoriginator, n_unauthorisedmessageoriginator, rawVal_unauthorisedmessageoriginator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding unauthorisedMessageOriginator: %w", err)
 				}
-				_ = rawVal_unauthorisedmessageoriginator
+				if decodedTag_unauthorisedmessageoriginator.Class != tag.ClassContextSpecific || decodedTag_unauthorisedmessageoriginator.Number != 1 || decodedTag_unauthorisedmessageoriginator.Constructed != false {
+					return fmt.Errorf("decoding unauthorisedMessageOriginator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_unauthorisedmessageoriginator)
+				}
+				if len(rawVal_unauthorisedmessageoriginator) != 0 {
+					return fmt.Errorf("decoding unauthorisedMessageOriginator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_unauthorisedmessageoriginator))
+				}
 				v.UnauthorisedMessageOriginator = &struct{}{}
 				offset += n_unauthorisedmessageoriginator
 			}
@@ -1095,7 +1127,14 @@ func (v *CUGRejectParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding CUGRejectParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes CUGRejectParam4 from BER/DER format.
@@ -1199,7 +1238,14 @@ func (v *SSIncompatibilityCause4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SSIncompatibilityCause4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SSIncompatibilityCause4 from BER/DER format.
@@ -1217,9 +1263,12 @@ func (v *SSIncompatibilityCause4) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_sscode, rawVal_sscode, err := ber.DecodeTLV(content[offset:])
+				decodedTag_sscode, n_sscode, rawVal_sscode, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ss-Code: %w", err)
+				}
+				if decodedTag_sscode.Class != tag.ClassContextSpecific || decodedTag_sscode.Number != 1 {
+					return fmt.Errorf("decoding ss-Code: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sscode)
 				}
 				tmp_sscode := SSCode4(rawVal_sscode)
 				v.SsCode = &tmp_sscode
@@ -1251,9 +1300,12 @@ func (v *SSIncompatibilityCause4) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_ssstatus, rawVal_ssstatus, err := ber.DecodeTLV(content[offset:])
+				decodedTag_ssstatus, n_ssstatus, rawVal_ssstatus, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ss-Status: %w", err)
+				}
+				if decodedTag_ssstatus.Class != tag.ClassContextSpecific || decodedTag_ssstatus.Number != 4 {
+					return fmt.Errorf("decoding ss-Status: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ssstatus)
 				}
 				tmp_ssstatus := SSStatus4(rawVal_ssstatus)
 				v.SsStatus = &tmp_ssstatus
@@ -1314,7 +1366,14 @@ func (v *SMDeliveryFailureCause4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SMDeliveryFailureCause4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SMDeliveryFailureCause4 from BER/DER format.
@@ -1427,7 +1486,14 @@ func (v *AbsentSubscriberSMParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AbsentSubscriberSMParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AbsentSubscriberSMParam4 from BER/DER format.
@@ -1479,9 +1545,12 @@ func (v *AbsentSubscriberSMParam4) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_additionalabsentsubscriberdiagnosticsm, rawVal_additionalabsentsubscriberdiagnosticsm, err := ber.DecodeTLV(content[offset:])
+				decodedTag_additionalabsentsubscriberdiagnosticsm, n_additionalabsentsubscriberdiagnosticsm, rawVal_additionalabsentsubscriberdiagnosticsm, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding additionalAbsentSubscriberDiagnosticSM: %w", err)
+				}
+				if decodedTag_additionalabsentsubscriberdiagnosticsm.Class != tag.ClassContextSpecific || decodedTag_additionalabsentsubscriberdiagnosticsm.Number != 0 || decodedTag_additionalabsentsubscriberdiagnosticsm.Constructed != false {
+					return fmt.Errorf("decoding additionalAbsentSubscriberDiagnosticSM: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalabsentsubscriberdiagnosticsm)
 				}
 				decVal_additionalabsentsubscriberdiagnosticsm, intErr := ber.DecodeIntegerValue(rawVal_additionalabsentsubscriberdiagnosticsm)
 				if intErr != nil {
@@ -1543,9 +1612,19 @@ func (v *SystemFailureParam4) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensibleSystemFailureParam: %w", err)
 		}
+		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
+			return nil, fmt.Errorf("encoding extensibleSystemFailureParam as DER: %w", derErr)
+		}
 		return enc_der_1, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SystemFailureParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SystemFailureParam4 from BER/DER format.
@@ -1567,7 +1646,7 @@ func (v *SystemFailureParam4) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "SystemFailureParam4", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 {
+	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 && peekTag.Constructed == false {
 		v.Choice = SystemFailureParam4ChoiceNetworkResource
 		decVal, _, intErr := ber.DecodeInteger(choiceData)
 		if intErr != nil {
@@ -1575,7 +1654,7 @@ func (v *SystemFailureParam4) UnmarshalBER(data []byte) error {
 		}
 		tmp := NetworkResource4(decVal)
 		v.NetworkResource = &tmp
-	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 && peekTag.Constructed == true {
 		v.Choice = SystemFailureParam4ChoiceExtensibleSystemFailureParam
 		var dec ExtensibleSystemFailureParam4
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
@@ -1633,7 +1712,14 @@ func (v *ExtensibleSystemFailureParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ExtensibleSystemFailureParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ExtensibleSystemFailureParam4 from BER/DER format.
@@ -1685,9 +1771,12 @@ func (v *ExtensibleSystemFailureParam4) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_additionalnetworkresource, rawVal_additionalnetworkresource, err := ber.DecodeTLV(content[offset:])
+				decodedTag_additionalnetworkresource, n_additionalnetworkresource, rawVal_additionalnetworkresource, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding additionalNetworkResource: %w", err)
+				}
+				if decodedTag_additionalnetworkresource.Class != tag.ClassContextSpecific || decodedTag_additionalnetworkresource.Number != 0 || decodedTag_additionalnetworkresource.Constructed != false {
+					return fmt.Errorf("decoding additionalNetworkResource: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalnetworkresource)
 				}
 				decVal_additionalnetworkresource, intErr := ber.DecodeIntegerValue(rawVal_additionalnetworkresource)
 				if intErr != nil {
@@ -1704,9 +1793,12 @@ func (v *ExtensibleSystemFailureParam4) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_failurecauseparam, rawVal_failurecauseparam, err := ber.DecodeTLV(content[offset:])
+				decodedTag_failurecauseparam, n_failurecauseparam, rawVal_failurecauseparam, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding failureCauseParam: %w", err)
+				}
+				if decodedTag_failurecauseparam.Class != tag.ClassContextSpecific || decodedTag_failurecauseparam.Number != 1 || decodedTag_failurecauseparam.Constructed != false {
+					return fmt.Errorf("decoding failureCauseParam: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_failurecauseparam)
 				}
 				decVal_failurecauseparam, intErr := ber.DecodeIntegerValue(rawVal_failurecauseparam)
 				if intErr != nil {
@@ -1765,7 +1857,14 @@ func (v *DataMissingParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding DataMissingParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes DataMissingParam4 from BER/DER format.
@@ -1844,7 +1943,14 @@ func (v *UnexpectedDataParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding UnexpectedDataParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes UnexpectedDataParam4 from BER/DER format.
@@ -1933,7 +2039,14 @@ func (v *FacilityNotSupParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding FacilityNotSupParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes FacilityNotSupParam4 from BER/DER format.
@@ -1970,11 +2083,16 @@ func (v *FacilityNotSupParam4) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_shapeoflocationestimatenotsupported, rawVal_shapeoflocationestimatenotsupported, err := ber.DecodeTLV(content[offset:])
+				decodedTag_shapeoflocationestimatenotsupported, n_shapeoflocationestimatenotsupported, rawVal_shapeoflocationestimatenotsupported, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding shapeOfLocationEstimateNotSupported: %w", err)
 				}
-				_ = rawVal_shapeoflocationestimatenotsupported
+				if decodedTag_shapeoflocationestimatenotsupported.Class != tag.ClassContextSpecific || decodedTag_shapeoflocationestimatenotsupported.Number != 0 || decodedTag_shapeoflocationestimatenotsupported.Constructed != false {
+					return fmt.Errorf("decoding shapeOfLocationEstimateNotSupported: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_shapeoflocationestimatenotsupported)
+				}
+				if len(rawVal_shapeoflocationestimatenotsupported) != 0 {
+					return fmt.Errorf("decoding shapeOfLocationEstimateNotSupported: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_shapeoflocationestimatenotsupported))
+				}
 				v.ShapeOfLocationEstimateNotSupported = &struct{}{}
 				offset += n_shapeoflocationestimatenotsupported
 			}
@@ -1985,11 +2103,16 @@ func (v *FacilityNotSupParam4) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_neededlcscapabilitynotsupportedinservingnode, rawVal_neededlcscapabilitynotsupportedinservingnode, err := ber.DecodeTLV(content[offset:])
+				decodedTag_neededlcscapabilitynotsupportedinservingnode, n_neededlcscapabilitynotsupportedinservingnode, rawVal_neededlcscapabilitynotsupportedinservingnode, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding neededLcsCapabilityNotSupportedInServingNode: %w", err)
 				}
-				_ = rawVal_neededlcscapabilitynotsupportedinservingnode
+				if decodedTag_neededlcscapabilitynotsupportedinservingnode.Class != tag.ClassContextSpecific || decodedTag_neededlcscapabilitynotsupportedinservingnode.Number != 1 || decodedTag_neededlcscapabilitynotsupportedinservingnode.Constructed != false {
+					return fmt.Errorf("decoding neededLcsCapabilityNotSupportedInServingNode: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_neededlcscapabilitynotsupportedinservingnode)
+				}
+				if len(rawVal_neededlcscapabilitynotsupportedinservingnode) != 0 {
+					return fmt.Errorf("decoding neededLcsCapabilityNotSupportedInServingNode: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_neededlcscapabilitynotsupportedinservingnode))
+				}
 				v.NeededLcsCapabilityNotSupportedInServingNode = &struct{}{}
 				offset += n_neededlcscapabilitynotsupportedinservingnode
 			}
@@ -2042,7 +2165,14 @@ func (v *ORNotAllowedParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ORNotAllowedParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ORNotAllowedParam4 from BER/DER format.
@@ -2125,7 +2255,14 @@ func (v *UnknownSubscriberParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding UnknownSubscriberParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes UnknownSubscriberParam4 from BER/DER format.
@@ -2219,7 +2356,14 @@ func (v *NumberChangedParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding NumberChangedParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes NumberChangedParam4 from BER/DER format.
@@ -2298,7 +2442,14 @@ func (v *UnidentifiedSubParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding UnidentifiedSubParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes UnidentifiedSubParam4 from BER/DER format.
@@ -2377,7 +2528,14 @@ func (v *IllegalSubscriberParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding IllegalSubscriberParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes IllegalSubscriberParam4 from BER/DER format.
@@ -2456,7 +2614,14 @@ func (v *IllegalEquipmentParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding IllegalEquipmentParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes IllegalEquipmentParam4 from BER/DER format.
@@ -2535,7 +2700,14 @@ func (v *BearerServNotProvParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding BearerServNotProvParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes BearerServNotProvParam4 from BER/DER format.
@@ -2614,7 +2786,14 @@ func (v *TeleservNotProvParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding TeleservNotProvParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes TeleservNotProvParam4 from BER/DER format.
@@ -2693,7 +2872,14 @@ func (v *TracingBufferFullParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding TracingBufferFullParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes TracingBufferFullParam4 from BER/DER format.
@@ -2772,7 +2958,14 @@ func (v *NoRoamingNbParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding NoRoamingNbParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes NoRoamingNbParam4 from BER/DER format.
@@ -2856,7 +3049,14 @@ func (v *AbsentSubscriberParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AbsentSubscriberParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AbsentSubscriberParam4 from BER/DER format.
@@ -2893,9 +3093,12 @@ func (v *AbsentSubscriberParam4) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_absentsubscriberreason, rawVal_absentsubscriberreason, err := ber.DecodeTLV(content[offset:])
+				decodedTag_absentsubscriberreason, n_absentsubscriberreason, rawVal_absentsubscriberreason, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding absentSubscriberReason: %w", err)
+				}
+				if decodedTag_absentsubscriberreason.Class != tag.ClassContextSpecific || decodedTag_absentsubscriberreason.Number != 0 || decodedTag_absentsubscriberreason.Constructed != false {
+					return fmt.Errorf("decoding absentSubscriberReason: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_absentsubscriberreason)
 				}
 				decVal_absentsubscriberreason, intErr := ber.DecodeIntegerValue(rawVal_absentsubscriberreason)
 				if intErr != nil {
@@ -2964,7 +3167,14 @@ func (v *BusySubscriberParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding BusySubscriberParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes BusySubscriberParam4 from BER/DER format.
@@ -3001,11 +3211,16 @@ func (v *BusySubscriberParam4) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_ccbspossible, rawVal_ccbspossible, err := ber.DecodeTLV(content[offset:])
+				decodedTag_ccbspossible, n_ccbspossible, rawVal_ccbspossible, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ccbs-Possible: %w", err)
 				}
-				_ = rawVal_ccbspossible
+				if decodedTag_ccbspossible.Class != tag.ClassContextSpecific || decodedTag_ccbspossible.Number != 0 || decodedTag_ccbspossible.Constructed != false {
+					return fmt.Errorf("decoding ccbs-Possible: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ccbspossible)
+				}
+				if len(rawVal_ccbspossible) != 0 {
+					return fmt.Errorf("decoding ccbs-Possible: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_ccbspossible))
+				}
 				v.CcbsPossible = &struct{}{}
 				offset += n_ccbspossible
 			}
@@ -3016,11 +3231,16 @@ func (v *BusySubscriberParam4) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_ccbsbusy, rawVal_ccbsbusy, err := ber.DecodeTLV(content[offset:])
+				decodedTag_ccbsbusy, n_ccbsbusy, rawVal_ccbsbusy, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ccbs-Busy: %w", err)
 				}
-				_ = rawVal_ccbsbusy
+				if decodedTag_ccbsbusy.Class != tag.ClassContextSpecific || decodedTag_ccbsbusy.Number != 1 || decodedTag_ccbsbusy.Constructed != false {
+					return fmt.Errorf("decoding ccbs-Busy: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ccbsbusy)
+				}
+				if len(rawVal_ccbsbusy) != 0 {
+					return fmt.Errorf("decoding ccbs-Busy: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_ccbsbusy))
+				}
 				v.CcbsBusy = &struct{}{}
 				offset += n_ccbsbusy
 			}
@@ -3073,7 +3293,14 @@ func (v *NoSubscriberReplyParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding NoSubscriberReplyParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes NoSubscriberReplyParam4 from BER/DER format.
@@ -3152,7 +3379,14 @@ func (v *ForwardingViolationParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ForwardingViolationParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ForwardingViolationParam4 from BER/DER format.
@@ -3231,7 +3465,14 @@ func (v *ForwardingFailedParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ForwardingFailedParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ForwardingFailedParam4 from BER/DER format.
@@ -3310,7 +3551,14 @@ func (v *ATINotAllowedParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ATINotAllowedParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ATINotAllowedParam4 from BER/DER format.
@@ -3389,7 +3637,14 @@ func (v *ATSINotAllowedParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ATSINotAllowedParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ATSINotAllowedParam4 from BER/DER format.
@@ -3468,7 +3723,14 @@ func (v *ATMNotAllowedParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ATMNotAllowedParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ATMNotAllowedParam4 from BER/DER format.
@@ -3547,7 +3809,14 @@ func (v *IllegalSSOperationParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding IllegalSSOperationParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes IllegalSSOperationParam4 from BER/DER format.
@@ -3626,7 +3895,14 @@ func (v *SSNotAvailableParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SSNotAvailableParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SSNotAvailableParam4 from BER/DER format.
@@ -3705,7 +3981,14 @@ func (v *SSSubscriptionViolationParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SSSubscriptionViolationParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SSSubscriptionViolationParam4 from BER/DER format.
@@ -3784,7 +4067,14 @@ func (v *InformationNotAvailableParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding InformationNotAvailableParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes InformationNotAvailableParam4 from BER/DER format.
@@ -3867,7 +4157,14 @@ func (v *SubBusyForMTSMSParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SubBusyForMTSMSParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SubBusyForMTSMSParam4 from BER/DER format.
@@ -3960,7 +4257,14 @@ func (v *MessageWaitListFullParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding MessageWaitListFullParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes MessageWaitListFullParam4 from BER/DER format.
@@ -4039,7 +4343,14 @@ func (v *ResourceLimitationParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ResourceLimitationParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ResourceLimitationParam4 from BER/DER format.
@@ -4118,7 +4429,14 @@ func (v *NoGroupCallNbParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding NoGroupCallNbParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes NoGroupCallNbParam4 from BER/DER format.
@@ -4197,7 +4515,14 @@ func (v *IncompatibleTerminalParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding IncompatibleTerminalParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes IncompatibleTerminalParam4 from BER/DER format.
@@ -4269,7 +4594,14 @@ func (v *ShortTermDenialParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ShortTermDenialParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ShortTermDenialParam4 from BER/DER format.
@@ -4322,7 +4654,14 @@ func (v *LongTermDenialParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LongTermDenialParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LongTermDenialParam4 from BER/DER format.
@@ -4382,7 +4721,14 @@ func (v *UnauthorizedRequestingNetworkParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding UnauthorizedRequestingNetworkParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes UnauthorizedRequestingNetworkParam4 from BER/DER format.
@@ -4467,7 +4813,14 @@ func (v *UnauthorizedLCSClientParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding UnauthorizedLCSClientParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes UnauthorizedLCSClientParam4 from BER/DER format.
@@ -4485,9 +4838,12 @@ func (v *UnauthorizedLCSClientParam4) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_unauthorizedlcsclientdiagnostic, rawVal_unauthorizedlcsclientdiagnostic, err := ber.DecodeTLV(content[offset:])
+				decodedTag_unauthorizedlcsclientdiagnostic, n_unauthorizedlcsclientdiagnostic, rawVal_unauthorizedlcsclientdiagnostic, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding unauthorizedLCSClient-Diagnostic: %w", err)
+				}
+				if decodedTag_unauthorizedlcsclientdiagnostic.Class != tag.ClassContextSpecific || decodedTag_unauthorizedlcsclientdiagnostic.Number != 0 || decodedTag_unauthorizedlcsclientdiagnostic.Constructed != false {
+					return fmt.Errorf("decoding unauthorizedLCSClient-Diagnostic: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_unauthorizedlcsclientdiagnostic)
 				}
 				decVal_unauthorizedlcsclientdiagnostic, intErr := ber.DecodeIntegerValue(rawVal_unauthorizedlcsclientdiagnostic)
 				if intErr != nil {
@@ -4504,9 +4860,12 @@ func (v *UnauthorizedLCSClientParam4) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
+				decodedTag_extensioncontainer, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", err)
+				}
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 || decodedTag_extensioncontainer.Constructed != true {
+					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
 				var dec_extensioncontainer ExtensionContainer4
@@ -4571,7 +4930,14 @@ func (v *PositionMethodFailureParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding PositionMethodFailureParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes PositionMethodFailureParam4 from BER/DER format.
@@ -4589,9 +4955,12 @@ func (v *PositionMethodFailureParam4) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_positionmethodfailurediagnostic, rawVal_positionmethodfailurediagnostic, err := ber.DecodeTLV(content[offset:])
+				decodedTag_positionmethodfailurediagnostic, n_positionmethodfailurediagnostic, rawVal_positionmethodfailurediagnostic, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding positionMethodFailure-Diagnostic: %w", err)
+				}
+				if decodedTag_positionmethodfailurediagnostic.Class != tag.ClassContextSpecific || decodedTag_positionmethodfailurediagnostic.Number != 0 || decodedTag_positionmethodfailurediagnostic.Constructed != false {
+					return fmt.Errorf("decoding positionMethodFailure-Diagnostic: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_positionmethodfailurediagnostic)
 				}
 				decVal_positionmethodfailurediagnostic, intErr := ber.DecodeIntegerValue(rawVal_positionmethodfailurediagnostic)
 				if intErr != nil {
@@ -4608,9 +4977,12 @@ func (v *PositionMethodFailureParam4) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
+				decodedTag_extensioncontainer, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", err)
+				}
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 || decodedTag_extensioncontainer.Constructed != true {
+					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
 				var dec_extensioncontainer ExtensionContainer4
@@ -4669,7 +5041,14 @@ func (v *UnknownOrUnreachableLCSClientParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding UnknownOrUnreachableLCSClientParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes UnknownOrUnreachableLCSClientParam4 from BER/DER format.
@@ -4748,7 +5127,14 @@ func (v *MMEventNotSupportedParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding MMEventNotSupportedParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes MMEventNotSupportedParam4 from BER/DER format.
@@ -4827,7 +5213,14 @@ func (v *TargetCellOutsideGCAParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding TargetCellOutsideGCAParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes TargetCellOutsideGCAParam4 from BER/DER format.
@@ -4906,7 +5299,14 @@ func (v *OngoingGroupCallParam4) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding OngoingGroupCallParam4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes OngoingGroupCallParam4 from BER/DER format.

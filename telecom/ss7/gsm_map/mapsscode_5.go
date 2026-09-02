@@ -234,5 +234,5 @@ const (
 	TransferToThirdParty5 = "\xc3"
 )
 
-// SSCode5 represents the ASN.1 type SSCode5 (OCTET_STRING).
+// SSCode5 represents the ASN.1 type SS-Code (OCTET_STRING).
 type SSCode5 = []byte

@@ -15,27 +15,27 @@ var (
 	_ = per.NewBitBuffer
 )
 
-// ProtocolIEContainer represents the ASN.1 type ProtocolIEContainer (SEQUENCE_OF).
+// ProtocolIEContainer represents the ASN.1 type ProtocolIE-Container (SEQUENCE_OF).
 type ProtocolIEContainer = []ProtocolIEField
 
-// ProtocolIESingleContainer represents the ASN.1 type ProtocolIESingleContainer (SEQUENCE).
+// ProtocolIESingleContainer represents the ASN.1 type ProtocolIE-Single-Container (SEQUENCE).
 type ProtocolIESingleContainer struct {
 	Id          ProtocolIEID     `asn1:"tag:0,context,implicit"`
 	Criticality Criticality      `asn1:"tag:1,context,implicit"`
 	Value       runtime.RawValue `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
 }
 
-// ProtocolIEField represents the ASN.1 type ProtocolIEField (SEQUENCE).
+// ProtocolIEField represents the ASN.1 type ProtocolIE-Field (SEQUENCE).
 type ProtocolIEField struct {
 	Id          ProtocolIEID     `asn1:"tag:0,context,implicit"`
 	Criticality Criticality      `asn1:"tag:1,context,implicit"`
 	Value       runtime.RawValue `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
 }
 
-// ProtocolIEContainerPair represents the ASN.1 type ProtocolIEContainerPair (SEQUENCE_OF).
+// ProtocolIEContainerPair represents the ASN.1 type ProtocolIE-ContainerPair (SEQUENCE_OF).
 type ProtocolIEContainerPair = []ProtocolIEFieldPair
 
-// ProtocolIEFieldPair represents the ASN.1 type ProtocolIEFieldPair (SEQUENCE).
+// ProtocolIEFieldPair represents the ASN.1 type ProtocolIE-FieldPair (SEQUENCE).
 type ProtocolIEFieldPair struct {
 	Id                ProtocolIEID     `asn1:"tag:0,context,implicit"`
 	FirstCriticality  Criticality      `asn1:"tag:1,context,implicit"`
@@ -44,10 +44,10 @@ type ProtocolIEFieldPair struct {
 	SecondValue       runtime.RawValue `asn1:"tag:4,context,explicit" asn1c:"raw-preserve"`
 }
 
-// ProtocolIEContainerList represents the ASN.1 type ProtocolIEContainerList (SEQUENCE_OF).
+// ProtocolIEContainerList represents the ASN.1 type ProtocolIE-ContainerList (SEQUENCE_OF).
 type ProtocolIEContainerList = []ProtocolIEContainer
 
-// ProtocolIEContainerPairList represents the ASN.1 type ProtocolIEContainerPairList (SEQUENCE_OF).
+// ProtocolIEContainerPairList represents the ASN.1 type ProtocolIE-ContainerPairList (SEQUENCE_OF).
 type ProtocolIEContainerPairList = []ProtocolIEContainerPair
 
 // ProtocolExtensionContainer represents the ASN.1 type ProtocolExtensionContainer (SEQUENCE_OF).
@@ -60,10 +60,10 @@ type ProtocolExtensionField struct {
 	ExtensionValue runtime.RawValue `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
 }
 
-// PrivateIEContainer represents the ASN.1 type PrivateIEContainer (SEQUENCE_OF).
+// PrivateIEContainer represents the ASN.1 type PrivateIE-Container (SEQUENCE_OF).
 type PrivateIEContainer = []PrivateIEField
 
-// PrivateIEField represents the ASN.1 type PrivateIEField (SEQUENCE).
+// PrivateIEField represents the ASN.1 type PrivateIE-Field (SEQUENCE).
 type PrivateIEField struct {
 	Id          PrivateIEID      `asn1:"tag:0,context,explicit"`
 	Criticality Criticality      `asn1:"tag:1,context,implicit"`
@@ -123,11 +123,13 @@ func unmarshalAPERProtocolIEContainerInto(v *asn1cAPERProtocolIEContainerListVal
 	if seqLen_value > 65535 {
 		return fmt.Errorf("decoding value length %d above upper bound 65535", seqLen_value)
 	}
-	v.Value = make(ProtocolIEContainer, seqLen_value)
+	v.Value = make(ProtocolIEContainer, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -279,11 +281,13 @@ func unmarshalAPERProtocolIEContainerPairInto(v *asn1cAPERProtocolIEContainerPai
 	if seqLen_value > 65535 {
 		return fmt.Errorf("decoding value length %d above upper bound 65535", seqLen_value)
 	}
-	v.Value = make(ProtocolIEContainerPair, seqLen_value)
+	v.Value = make(ProtocolIEContainerPair, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolIEFieldPair
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -398,13 +402,13 @@ func unmarshalAPERProtocolIEContainerListInto(v *asn1cAPERProtocolIEContainerLis
 	if errLength_value != nil {
 		return fmt.Errorf("decoding value length: %w", errLength_value)
 	}
-	v.Value = make(ProtocolIEContainerList, seqLen_value)
+	v.Value = make(ProtocolIEContainerList, 0)
 	for i_value := int64(0); i_value < seqLen_value; i_value++ {
 		elem, err := UnmarshalAPERProtocolIEContainerFrom(bb)
 		if err != nil {
 			return fmt.Errorf("decoding value element: %w", err)
 		}
-		v.Value[i_value] = elem
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -456,13 +460,13 @@ func unmarshalAPERProtocolIEContainerPairListInto(v *asn1cAPERProtocolIEContaine
 	if errLength_value != nil {
 		return fmt.Errorf("decoding value length: %w", errLength_value)
 	}
-	v.Value = make(ProtocolIEContainerPairList, seqLen_value)
+	v.Value = make(ProtocolIEContainerPairList, 0)
 	for i_value := int64(0); i_value < seqLen_value; i_value++ {
 		elem, err := UnmarshalAPERProtocolIEContainerPairFrom(bb)
 		if err != nil {
 			return fmt.Errorf("decoding value element: %w", err)
 		}
-		v.Value[i_value] = elem
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -520,11 +524,13 @@ func unmarshalAPERProtocolExtensionContainerInto(v *asn1cAPERProtocolExtensionCo
 	if seqLen_value > 65535 {
 		return fmt.Errorf("decoding value length %d above upper bound 65535", seqLen_value)
 	}
-	v.Value = make(ProtocolExtensionContainer, seqLen_value)
+	v.Value = make(ProtocolExtensionContainer, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ProtocolExtensionField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -629,11 +635,13 @@ func unmarshalAPERPrivateIEContainerInto(v *asn1cAPERPrivateIEContainerListValue
 	if seqLen_value > 65535 {
 		return fmt.Errorf("decoding value length %d above upper bound 65535", seqLen_value)
 	}
-	v.Value = make(PrivateIEContainer, seqLen_value)
+	v.Value = make(PrivateIEContainer, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem PrivateIEField
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }

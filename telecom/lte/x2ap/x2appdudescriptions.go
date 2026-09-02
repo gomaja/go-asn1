@@ -22,7 +22,7 @@ const (
 	X2APPDUChoiceUnsuccessfulOutcome = 3
 )
 
-// X2APPDU represents the ASN.1 CHOICE type X2APPDU.
+// X2APPDU represents the ASN.1 CHOICE type X2AP-PDU.
 type X2APPDU struct {
 	Choice              int
 	InitiatingMessage   *InitiatingMessage   `json:"InitiatingMessage,omitempty"`
@@ -97,14 +97,23 @@ func (v *X2APPDU) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case X2APPDUChoiceInitiatingMessage:
+		if v.InitiatingMessage == nil {
+			return fmt.Errorf("choice alternative initiatingMessage is nil")
+		}
 		if err := v.InitiatingMessage.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding initiatingMessage: %w", err)
 		}
 	case X2APPDUChoiceSuccessfulOutcome:
+		if v.SuccessfulOutcome == nil {
+			return fmt.Errorf("choice alternative successfulOutcome is nil")
+		}
 		if err := v.SuccessfulOutcome.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding successfulOutcome: %w", err)
 		}
 	case X2APPDUChoiceUnsuccessfulOutcome:
+		if v.UnsuccessfulOutcome == nil {
+			return fmt.Errorf("choice alternative unsuccessfulOutcome is nil")
+		}
 		if err := v.UnsuccessfulOutcome.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding unsuccessfulOutcome: %w", err)
 		}

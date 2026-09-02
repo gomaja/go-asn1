@@ -34,39 +34,37 @@ func DecodeBoolean(bb *BitBuffer) (bool, error) {
 // EncodeConstrainedWholeNumber encodes v in [lb..ub] using minimal bits.
 // ITU-T X.691 (02/2021), clause 11.5.
 func EncodeConstrainedWholeNumber(bb *BitBuffer, v, lb, ub int64) error {
-	rangeVal := ub - lb
-	if rangeVal < 0 {
+	if lb > ub {
 		return fmt.Errorf("%w: invalid range [%d..%d]", ErrInvalidValue, lb, ub)
 	}
 	if v < lb || v > ub {
 		return fmt.Errorf("%w: %d not in [%d..%d]", ErrConstraintViolation, v, lb, ub)
 	}
-	if rangeVal == 0 {
+	rangeValue := uint64(ub) - uint64(lb)
+	if rangeValue == 0 {
 		return nil // no bits needed
 	}
-	offset := v - lb
-	n := BitWidth(rangeVal)
-	return bb.WriteBits(uint64(offset), n)
+	offset := uint64(v) - uint64(lb)
+	return bb.WriteBits(offset, bits.Len64(rangeValue))
 }
 
 // DecodeConstrainedWholeNumber decodes a value from [lb..ub].
 func DecodeConstrainedWholeNumber(bb *BitBuffer, lb, ub int64) (int64, error) {
-	rangeVal := ub - lb
-	if rangeVal < 0 {
+	if lb > ub {
 		return 0, fmt.Errorf("%w: invalid range [%d..%d]", ErrInvalidValue, lb, ub)
 	}
-	if rangeVal == 0 {
+	rangeValue := uint64(ub) - uint64(lb)
+	if rangeValue == 0 {
 		return lb, nil
 	}
-	n := BitWidth(rangeVal)
-	offset, err := bb.ReadBits(n)
+	offset, err := bb.ReadBits(bits.Len64(rangeValue))
 	if err != nil {
 		return 0, err
 	}
-	if int64(offset) > rangeVal {
-		return 0, fmt.Errorf("%w: constrained value %d exceeds range [%d..%d]", ErrInvalidValue, lb+int64(offset), lb, ub)
+	if offset > rangeValue {
+		return 0, fmt.Errorf("%w: constrained offset %d exceeds range [%d..%d]", ErrInvalidValue, offset, lb, ub)
 	}
-	return lb + int64(offset), nil
+	return addNonNegativeOffset(lb, offset)
 }
 
 // EncodeNormallySmallNonNegative encodes a normally small non-negative whole number.
@@ -135,11 +133,10 @@ func decodeExtensionBitmapBits(bb *BitBuffer, count int64) (int64, []bool, error
 // EncodeSemiConstrainedWholeNumber encodes v with known lower bound but no upper bound.
 // ITU-T X.691 (02/2021), clause 11.7.
 func EncodeSemiConstrainedWholeNumber(bb *BitBuffer, v, lb int64) error {
-	offset := v - lb
-	if offset < 0 {
+	if v < lb {
 		return fmt.Errorf("%w: %d below lower bound %d", ErrConstraintViolation, v, lb)
 	}
-	return encodeNonNegativeBinaryIntegerWithLength(bb, uint64(offset))
+	return encodeNonNegativeBinaryIntegerWithLength(bb, uint64(v)-uint64(lb))
 }
 
 // DecodeSemiConstrainedWholeNumber decodes a semi-constrained whole number.
@@ -339,6 +336,9 @@ func EncodeBitString(bb *BitBuffer, data []byte, bitLen int, lb, ub int64, const
 
 // EncodeBitStringExt encodes a BIT STRING with optional SIZE extensibility.
 func EncodeBitStringExt(bb *BitBuffer, data []byte, bitLen int, lb, ub int64, constrained, extensible bool) error {
+	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+		return err
+	}
 	if extensible && constrained {
 		inRoot := int64(bitLen) >= lb && int64(bitLen) <= ub
 		if err := EncodeBoolean(bb, !inRoot); err != nil {
@@ -378,6 +378,9 @@ func DecodeBitString(bb *BitBuffer, lb, ub int64, constrained bool) ([]byte, int
 
 // DecodeBitStringExt decodes a BIT STRING with optional SIZE extensibility.
 func DecodeBitStringExt(bb *BitBuffer, lb, ub int64, constrained, extensible bool) ([]byte, int, error) {
+	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+		return nil, 0, err
+	}
 	if extensible && constrained {
 		isExtension, err := DecodeBoolean(bb)
 		if err != nil {
@@ -421,6 +424,9 @@ func EncodeOctetString(bb *BitBuffer, data []byte, lb, ub int64, constrained boo
 // EncodeOctetStringExt implements the SIZE extension bit required by
 // ITU-T X.691 (02/2021) Section 17.3.
 func EncodeOctetStringExt(bb *BitBuffer, data []byte, lb, ub int64, constrained, extensible bool) error {
+	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+		return err
+	}
 	length := int64(len(data))
 	if extensible && constrained {
 		inRoot := length >= lb && length <= ub
@@ -462,6 +468,9 @@ func DecodeOctetString(bb *BitBuffer, lb, ub int64, constrained bool) ([]byte, e
 // DecodeOctetStringExt implements the SIZE extension bit required by
 // ITU-T X.691 (02/2021) Section 17.3.
 func DecodeOctetStringExt(bb *BitBuffer, lb, ub int64, constrained, extensible bool) ([]byte, error) {
+	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+		return nil, err
+	}
 	if extensible && constrained {
 		isExtension, err := DecodeBoolean(bb)
 		if err != nil {
@@ -510,6 +519,9 @@ func EncodeKnownMultiplierString(bb *BitBuffer, s string, bitsPerChar int, lb, u
 // EncodeKnownMultiplierStringExt implements the size extension bit required
 // by ITU-T X.691 (02/2021) Section 30.4.
 func EncodeKnownMultiplierStringExt(bb *BitBuffer, s string, bitsPerChar int, lb, ub int64, constrained, extensible bool) error {
+	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+		return err
+	}
 	length := int64(len(s))
 	if extensible && constrained {
 		inRoot := length >= lb && length <= ub
@@ -557,6 +569,9 @@ func DecodeKnownMultiplierString(bb *BitBuffer, bitsPerChar int, lb, ub int64, c
 // DecodeKnownMultiplierStringExt implements the size extension bit required
 // by ITU-T X.691 (02/2021) Section 30.4.
 func DecodeKnownMultiplierStringExt(bb *BitBuffer, bitsPerChar int, lb, ub int64, constrained, extensible bool) (string, error) {
+	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+		return "", err
+	}
 	if extensible && constrained {
 		isExtension, err := DecodeBoolean(bb)
 		if err != nil {
@@ -715,6 +730,13 @@ func addNonNegativeOffset(lb int64, offset uint64) (int64, error) {
 	}
 	absLowerBound := uint64(-(lb + 1)) + 1
 	return int64(offset - absLowerBound), nil
+}
+
+func validateSizeBounds(lb, ub int64, constrained bool) error {
+	if constrained && lb > ub {
+		return fmt.Errorf("%w: invalid SIZE range [%d..%d]", ErrInvalidValue, lb, ub)
+	}
+	return nil
 }
 
 func minimalUnsignedBytes(v uint64) []byte {

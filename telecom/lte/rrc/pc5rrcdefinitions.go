@@ -15,23 +15,23 @@ var (
 	_ = per.NewBitBuffer
 )
 
-// SBCCHSLBCHMessage represents the ASN.1 type SBCCHSLBCHMessage (SEQUENCE).
+// SBCCHSLBCHMessage represents the ASN.1 type SBCCH-SL-BCH-Message (SEQUENCE).
 type SBCCHSLBCHMessage struct {
 	Message SBCCHSLBCHMessageType `asn1:"tag:0,context,implicit"`
 }
 
-// SBCCHSLBCHMessageType represents the ASN.1 type SBCCHSLBCHMessageType (SEQUENCE).
+// SBCCHSLBCHMessageType represents the ASN.1 type SBCCH-SL-BCH-MessageType (SEQUENCE).
 type SBCCHSLBCHMessageType = MasterInformationBlockSL
 
-// SBCCHSLBCHMessageV2XR14 represents the ASN.1 type SBCCHSLBCHMessageV2XR14 (SEQUENCE).
+// SBCCHSLBCHMessageV2XR14 represents the ASN.1 type SBCCH-SL-BCH-Message-V2X-r14 (SEQUENCE).
 type SBCCHSLBCHMessageV2XR14 struct {
 	Message SBCCHSLBCHMessageTypeV2XR14 `asn1:"tag:0,context,implicit"`
 }
 
-// SBCCHSLBCHMessageTypeV2XR14 represents the ASN.1 type SBCCHSLBCHMessageTypeV2XR14 (SEQUENCE).
+// SBCCHSLBCHMessageTypeV2XR14 represents the ASN.1 type SBCCH-SL-BCH-MessageType-V2X-r14 (SEQUENCE).
 type SBCCHSLBCHMessageTypeV2XR14 = MasterInformationBlockSLV2XR14
 
-// MasterInformationBlockSL represents the ASN.1 type MasterInformationBlockSL (SEQUENCE).
+// MasterInformationBlockSL represents the ASN.1 type MasterInformationBlock-SL (SEQUENCE).
 type MasterInformationBlockSL struct {
 	SlBandwidthR12          int64             `asn1:"tag:0,context,implicit"`
 	TddConfigSLR12          TDDConfigSLR12    `asn1:"tag:1,context,implicit"`
@@ -42,7 +42,7 @@ type MasterInformationBlockSL struct {
 	ReservedR12             runtime.BitString `asn1:"tag:5,context,implicit"`
 }
 
-// MasterInformationBlockSLV2XR14 represents the ASN.1 type MasterInformationBlockSLV2XR14 (SEQUENCE).
+// MasterInformationBlockSLV2XR14 represents the ASN.1 type MasterInformationBlock-SL-V2X-r14 (SEQUENCE).
 type MasterInformationBlockSLV2XR14 struct {
 	SlBandwidthR14          int64             `asn1:"tag:0,context,implicit"`
 	TddConfigSLR14          TDDConfigSLR12    `asn1:"tag:1,context,implicit"`

@@ -15,14 +15,14 @@ var (
 	_ = per.NewBitBuffer
 )
 
-// VarANRMeasConfigNBR16 represents the ASN.1 type VarANRMeasConfigNBR16 (SEQUENCE).
+// VarANRMeasConfigNBR16 represents the ASN.1 type VarANR-MeasConfig-NB-r16 (SEQUENCE).
 type VarANRMeasConfigNBR16 struct {
 	AnrQualityThresholdR16  NRSRPRangeNBR14     `asn1:"tag:0,context,implicit"`
 	AnrCarrierListR16       ANRCarrierListNBR16 `asn1:"tag:1,context,implicit"`
 	AnrCarrierListR16Indef_ bool                `asn1:"-" json:"-"`
 }
 
-// VarANRMeasReportNBR16 represents the ASN.1 type VarANRMeasReportNBR16 (SEQUENCE).
+// VarANRMeasReportNBR16 represents the ASN.1 type VarANR-MeasReport-NB-r16 (SEQUENCE).
 type VarANRMeasReportNBR16 struct {
 	PlmnIdentityListR16       PLMNIdentityList3R11                   `asn1:"tag:0,context,implicit"`
 	PlmnIdentityListR16Indef_ bool                                   `asn1:"-" json:"-"`
@@ -33,20 +33,20 @@ type VarANRMeasReportNBR16 struct {
 	MeasResultListR16Indef_   bool                                   `asn1:"-" json:"-"`
 }
 
-// VarRLFReportNBR16 represents the ASN.1 type VarRLFReportNBR16 (SEQUENCE).
+// VarRLFReportNBR16 represents the ASN.1 type VarRLF-Report-NB-r16 (SEQUENCE).
 type VarRLFReportNBR16 struct {
 	RlfReportR16              RLFReportNBR16       `asn1:"tag:0,context,implicit"`
 	PlmnIdentityListR16       PLMNIdentityList3R11 `asn1:"tag:1,context,implicit"`
 	PlmnIdentityListR16Indef_ bool                 `asn1:"-" json:"-"`
 }
 
-// VarShortMACInputNBR13 represents the ASN.1 type VarShortMACInputNBR13 (SEQUENCE).
+// VarShortMACInputNBR13 represents the ASN.1 type VarShortMAC-Input-NB-r13 (SEQUENCE).
 type VarShortMACInputNBR13 = VarShortMACInput
 
-// VarShortResumeMACInputNBR13 represents the ASN.1 type VarShortResumeMACInputNBR13 (SEQUENCE).
+// VarShortResumeMACInputNBR13 represents the ASN.1 type VarShortResumeMAC-Input-NB-r13 (SEQUENCE).
 type VarShortResumeMACInputNBR13 = VarShortResumeMACInputR13
 
-// VarANRMeasReportNBR16MeasResultListR16 represents the ASN.1 type VarANRMeasReportNBR16MeasResultListR16 (SEQUENCE_OF).
+// VarANRMeasReportNBR16MeasResultListR16 represents the ASN.1 type VarANR-MeasReport-NB-r16-measResultList-r16 (SEQUENCE_OF).
 type VarANRMeasReportNBR16MeasResultListR16 = []ANRMeasResultNBR16
 
 // MarshalUPER encodes VarANRMeasConfigNBR16 to UPER format.
@@ -97,11 +97,13 @@ func (v *VarANRMeasConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if seqLen_anrcarrierlistr16 > 2 {
 		return fmt.Errorf("decoding anr-CarrierList-r16 length %d above upper bound 2", seqLen_anrcarrierlistr16)
 	}
-	v.AnrCarrierListR16 = make(ANRCarrierListNBR16, seqLen_anrcarrierlistr16)
+	v.AnrCarrierListR16 = make(ANRCarrierListNBR16, 0)
 	for i := int64(0); i < seqLen_anrcarrierlistr16; i++ {
-		if err := v.AnrCarrierListR16[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding anr-CarrierList-r16 element: %w", err)
+		var elem ANRCarrierNBR16
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding anr-CarrierList-r16 element %d: %w", i, err)
 		}
+		v.AnrCarrierListR16 = append(v.AnrCarrierListR16, elem)
 	}
 	return nil
 }
@@ -163,11 +165,13 @@ func (v *VarANRMeasReportNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if seqLen_plmnidentitylistr16 > 16 {
 		return fmt.Errorf("decoding plmn-IdentityList-r16 length %d above upper bound 16", seqLen_plmnidentitylistr16)
 	}
-	v.PlmnIdentityListR16 = make(PLMNIdentityList3R11, seqLen_plmnidentitylistr16)
+	v.PlmnIdentityListR16 = make(PLMNIdentityList3R11, 0)
 	for i := int64(0); i < seqLen_plmnidentitylistr16; i++ {
-		if err := v.PlmnIdentityListR16[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding plmn-IdentityList-r16 element: %w", err)
+		var elem PLMNIdentity
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding plmn-IdentityList-r16 element %d: %w", i, err)
 		}
+		v.PlmnIdentityListR16 = append(v.PlmnIdentityListR16, elem)
 	}
 	if err := v.ServCellIdentityR16.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding servCellIdentity-r16: %w", err)
@@ -192,11 +196,13 @@ func (v *VarANRMeasReportNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if seqLen_measresultlistr16 > 2 {
 		return fmt.Errorf("decoding measResultList-r16 length %d above upper bound 2", seqLen_measresultlistr16)
 	}
-	v.MeasResultListR16 = make(VarANRMeasReportNBR16MeasResultListR16, seqLen_measresultlistr16)
+	v.MeasResultListR16 = make(VarANRMeasReportNBR16MeasResultListR16, 0)
 	for i := int64(0); i < seqLen_measresultlistr16; i++ {
-		if err := v.MeasResultListR16[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding measResultList-r16 element: %w", err)
+		var elem ANRMeasResultNBR16
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding measResultList-r16 element %d: %w", i, err)
 		}
+		v.MeasResultListR16 = append(v.MeasResultListR16, elem)
 	}
 	return nil
 }
@@ -247,11 +253,13 @@ func (v *VarRLFReportNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if seqLen_plmnidentitylistr16 > 16 {
 		return fmt.Errorf("decoding plmn-IdentityList-r16 length %d above upper bound 16", seqLen_plmnidentitylistr16)
 	}
-	v.PlmnIdentityListR16 = make(PLMNIdentityList3R11, seqLen_plmnidentitylistr16)
+	v.PlmnIdentityListR16 = make(PLMNIdentityList3R11, 0)
 	for i := int64(0); i < seqLen_plmnidentitylistr16; i++ {
-		if err := v.PlmnIdentityListR16[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding plmn-IdentityList-r16 element: %w", err)
+		var elem PLMNIdentity
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding plmn-IdentityList-r16 element %d: %w", i, err)
 		}
+		v.PlmnIdentityListR16 = append(v.PlmnIdentityListR16, elem)
 	}
 	return nil
 }
@@ -311,11 +319,13 @@ func unmarshalUPERVarANRMeasReportNBR16MeasResultListR16Into(v *asn1cUPERVarANRM
 	if seqLen_value > 2 {
 		return fmt.Errorf("decoding value length %d above upper bound 2", seqLen_value)
 	}
-	v.Value = make(VarANRMeasReportNBR16MeasResultListR16, seqLen_value)
+	v.Value = make(VarANRMeasReportNBR16MeasResultListR16, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ANRMeasResultNBR16
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }

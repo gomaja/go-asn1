@@ -54,7 +54,14 @@ func (v *PruAssociationRejParam) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding PruAssociationRejParam as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes PruAssociationRejParam from BER/DER format.
@@ -72,9 +79,12 @@ func (v *PruAssociationRejParam) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_newlmfroutingid, innerData_newlmfroutingid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_newlmfroutingid, n_newlmfroutingid, innerData_newlmfroutingid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding newLmfRoutingId: %w", err)
+				}
+				if decodedTag_newlmfroutingid.Class != tag.ClassContextSpecific || decodedTag_newlmfroutingid.Number != 0 || decodedTag_newlmfroutingid.Constructed != true {
+					return fmt.Errorf("decoding newLmfRoutingId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_newlmfroutingid)
 				}
 				// Decode inner value from explicit tag wrapper
 				val_newlmfroutingid, _, err := ber.DecodeOctetString(innerData_newlmfroutingid)

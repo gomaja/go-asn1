@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"math/big"
+	"strings"
 	"time"
 	"unicode/utf8"
 
@@ -424,7 +425,7 @@ func decodeBase128(data []byte, offset int) (uint64, int, error) {
 	for offset < len(data) {
 		b := data[offset]
 		offset++
-		if offset == start+1 && b == 0x80 {
+		if offset == start+1 && b == 0x80 && offset < len(data) {
 			return 0, offset, fmt.Errorf("%w: non-minimal base-128 subidentifier", ErrInvalidValue)
 		}
 		bits := uint64(b & 0x7f)
@@ -561,6 +562,21 @@ func DecodeString(data []byte, expectedTag int) (string, int, error) {
 	}
 	if t.Class != tag.ClassUniversal || t.Number != expectedTag {
 		return "", 0, fmt.Errorf("%w: expected tag %d, got %s", ErrInvalidTag, expectedTag, t)
+	}
+	if t.Constructed {
+		var decoded strings.Builder
+		for offset := 0; offset < len(value); {
+			part, consumed, err := DecodeString(value[offset:], expectedTag)
+			if err != nil {
+				return "", 0, fmt.Errorf("decoding constructed string component: %w", err)
+			}
+			if consumed <= 0 {
+				return "", 0, fmt.Errorf("%w: constructed string component consumed no input", ErrInvalidValue)
+			}
+			decoded.WriteString(part)
+			offset += consumed
+		}
+		return decoded.String(), total, nil
 	}
 	decoded, err := DecodeStringValueTag(expectedTag, value)
 	if err != nil {

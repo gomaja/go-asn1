@@ -174,8 +174,8 @@ const (
 	BSPlmnSpecificBSF = "\xdf"
 )
 
-// BSBearerServiceCode represents the ASN.1 type BSBearerServiceCode (OCTET_STRING).
+// BSBearerServiceCode represents the ASN.1 type BearerServiceCode (OCTET_STRING).
 type BSBearerServiceCode = []byte
 
-// BSExtBearerServiceCode represents the ASN.1 type BSExtBearerServiceCode (OCTET_STRING).
+// BSExtBearerServiceCode represents the ASN.1 type Ext-BearerServiceCode (OCTET_STRING).
 type BSExtBearerServiceCode = []byte

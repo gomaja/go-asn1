@@ -114,8 +114,8 @@ const (
 	PlmnSpecificTSF5 = "\xdf"
 )
 
-// TeleserviceCode5 represents the ASN.1 type TeleserviceCode5 (OCTET_STRING).
+// TeleserviceCode5 represents the ASN.1 type TeleserviceCode (OCTET_STRING).
 type TeleserviceCode5 = []byte
 
-// ExtTeleserviceCode5 represents the ASN.1 type ExtTeleserviceCode5 (OCTET_STRING).
+// ExtTeleserviceCode5 represents the ASN.1 type Ext-TeleserviceCode (OCTET_STRING).
 type ExtTeleserviceCode5 = []byte

@@ -26,7 +26,7 @@ const (
 	MaxNumOfAdditionalDispatchers int64 = 15
 )
 
-// RoutingInfoForSMArg represents the ASN.1 type RoutingInfoForSMArg (SEQUENCE).
+// RoutingInfoForSMArg represents the ASN.1 type RoutingInfoForSM-Arg (SEQUENCE).
 type RoutingInfoForSMArg struct {
 	Msisdn                  ISDNAddressString      `asn1:"tag:0,context,implicit"`
 	SmRPPRI                 bool                   `asn1:"tag:1,context,implicit"`
@@ -48,7 +48,7 @@ type RoutingInfoForSMArg struct {
 	ExtData_                [][]byte               `asn1:"-" json:"-"`
 }
 
-// SMDeliveryNotIntended represents the ASN.1 ENUMERATED type SMDeliveryNotIntended.
+// SMDeliveryNotIntended represents the ASN.1 ENUMERATED type SM-DeliveryNotIntended.
 type SMDeliveryNotIntended int64
 
 const (
@@ -67,13 +67,13 @@ func (v SMDeliveryNotIntended) String() string {
 	}
 }
 
-// SMRPMTI represents the ASN.1 type SMRPMTI (INTEGER).
+// SMRPMTI represents the ASN.1 type SM-RP-MTI (INTEGER).
 type SMRPMTI = int64
 
-// SMRPSMEA represents the ASN.1 type SMRPSMEA (OCTET_STRING).
+// SMRPSMEA represents the ASN.1 type SM-RP-SMEA (OCTET_STRING).
 type SMRPSMEA = []byte
 
-// RoutingInfoForSMRes represents the ASN.1 type RoutingInfoForSMRes (SEQUENCE).
+// RoutingInfoForSMRes represents the ASN.1 type RoutingInfoForSM-Res (SEQUENCE).
 type RoutingInfoForSMRes struct {
 	Imsi                 IMSI                 `asn1:""`
 	LocationInfoWithLMSI LocationInfoWithLMSI `asn1:"tag:0,context,implicit"`
@@ -84,7 +84,7 @@ type RoutingInfoForSMRes struct {
 	ExtData_             [][]byte             `asn1:"-" json:"-"`
 }
 
-// IPSMGWGuidance represents the ASN.1 type IPSMGWGuidance (SEQUENCE).
+// IPSMGWGuidance represents the ASN.1 type IP-SM-GW-Guidance (SEQUENCE).
 type IPSMGWGuidance struct {
 	MinimumDeliveryTimeValue     SMDeliveryTimerValue `asn1:""`
 	RecommendedDeliveryTimeValue SMDeliveryTimerValue `asn1:""`
@@ -123,7 +123,7 @@ const (
 	AdditionalNumberChoiceSgsnNumber = 2
 )
 
-// AdditionalNumber represents the ASN.1 CHOICE type AdditionalNumber.
+// AdditionalNumber represents the ASN.1 CHOICE type Additional-Number.
 type AdditionalNumber struct {
 	Choice     int
 	MscNumber  *ISDNAddressString `json:"MscNumber,omitempty"`
@@ -146,7 +146,7 @@ func NewAdditionalNumberSgsnNumber(v ISDNAddressString) AdditionalNumber {
 	}
 }
 
-// MOForwardSMArg represents the ASN.1 type MOForwardSMArg (SEQUENCE).
+// MOForwardSMArg represents the ASN.1 type MO-ForwardSM-Arg (SEQUENCE).
 type MOForwardSMArg struct {
 	SmRPDA             SMRPDA              `asn1:""`
 	SmRPOA             SMRPOA              `asn1:""`
@@ -160,7 +160,7 @@ type MOForwardSMArg struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// MOForwardSMRes represents the ASN.1 type MOForwardSMRes (SEQUENCE).
+// MOForwardSMRes represents the ASN.1 type MO-ForwardSM-Res (SEQUENCE).
 type MOForwardSMRes struct {
 	SmRPUI             *SignalInfo         `asn1:",optional" json:"SmRPUI,omitempty"`
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
@@ -169,7 +169,7 @@ type MOForwardSMRes struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// MTForwardSMArg represents the ASN.1 type MTForwardSMArg (SEQUENCE).
+// MTForwardSMArg represents the ASN.1 type MT-ForwardSM-Arg (SEQUENCE).
 type MTForwardSMArg struct {
 	SmRPDA                    SMRPDA                      `asn1:""`
 	SmRPOA                    SMRPOA                      `asn1:""`
@@ -195,10 +195,10 @@ type CorrelationID struct {
 	SipUriB SIPURI  `asn1:"tag:2,context,implicit"`
 }
 
-// SIPURI represents the ASN.1 type SIPURI (OCTET_STRING).
+// SIPURI represents the ASN.1 type SIP-URI (OCTET_STRING).
 type SIPURI = []byte
 
-// MTForwardSMRes represents the ASN.1 type MTForwardSMRes (SEQUENCE).
+// MTForwardSMRes represents the ASN.1 type MT-ForwardSM-Res (SEQUENCE).
 type MTForwardSMRes struct {
 	SmRPUI             *SignalInfo         `asn1:",optional" json:"SmRPUI,omitempty"`
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
@@ -215,7 +215,7 @@ const (
 	SMRPDAChoiceNoSMRPDA               = 4
 )
 
-// SMRPDA represents the ASN.1 CHOICE type SMRPDA.
+// SMRPDA represents the ASN.1 CHOICE type SM-RP-DA.
 type SMRPDA struct {
 	Choice                 int
 	Imsi                   *IMSI          `json:"Imsi,omitempty"`
@@ -263,7 +263,7 @@ const (
 	SMRPOAChoiceNoSMRPOA               = 3
 )
 
-// SMRPOA represents the ASN.1 CHOICE type SMRPOA.
+// SMRPOA represents the ASN.1 CHOICE type SM-RP-OA.
 type SMRPOA struct {
 	Choice                 int
 	Msisdn                 *ISDNAddressString `json:"Msisdn,omitempty"`
@@ -295,10 +295,10 @@ func NewSMRPOANoSMRPOA(v struct{}) SMRPOA {
 	}
 }
 
-// SMDeliveryTimerValue represents the ASN.1 type SMDeliveryTimerValue (INTEGER).
+// SMDeliveryTimerValue represents the ASN.1 type SM-DeliveryTimerValue (INTEGER).
 type SMDeliveryTimerValue = int64
 
-// ReportSMDeliveryStatusArg represents the ASN.1 type ReportSMDeliveryStatusArg (SEQUENCE).
+// ReportSMDeliveryStatusArg represents the ASN.1 type ReportSM-DeliveryStatusArg (SEQUENCE).
 type ReportSMDeliveryStatusArg struct {
 	Msisdn                                 ISDNAddressString             `asn1:""`
 	ServiceCentreAddress                   AddressString                 `asn1:""`
@@ -326,7 +326,7 @@ type ReportSMDeliveryStatusArg struct {
 	ExtData_                               [][]byte                      `asn1:"-" json:"-"`
 }
 
-// SMDeliveryOutcome represents the ASN.1 ENUMERATED type SMDeliveryOutcome.
+// SMDeliveryOutcome represents the ASN.1 ENUMERATED type SM-DeliveryOutcome.
 type SMDeliveryOutcome int64
 
 const (
@@ -348,7 +348,7 @@ func (v SMDeliveryOutcome) String() string {
 	}
 }
 
-// ReportSMDeliveryStatusRes represents the ASN.1 type ReportSMDeliveryStatusRes (SEQUENCE).
+// ReportSMDeliveryStatusRes represents the ASN.1 type ReportSM-DeliveryStatusRes (SEQUENCE).
 type ReportSMDeliveryStatusRes struct {
 	StoredMSISDN       *ISDNAddressString  `asn1:",optional" json:"StoredMSISDN,omitempty"`
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
@@ -376,7 +376,7 @@ type AlertServiceCentreArg struct {
 	ExtData_                  [][]byte                    `asn1:"-" json:"-"`
 }
 
-// SmsGmscAlertEvent represents the ASN.1 ENUMERATED type SmsGmscAlertEvent.
+// SmsGmscAlertEvent represents the ASN.1 ENUMERATED type SmsGmsc-Alert-Event.
 type SmsGmscAlertEvent int64
 
 const (
@@ -409,10 +409,10 @@ type InformServiceCentreArg struct {
 	ExtData_                                [][]byte                      `asn1:"-" json:"-"`
 }
 
-// MWStatus represents the ASN.1 type MWStatus (BIT_STRING).
+// MWStatus represents the ASN.1 type MW-Status (BIT_STRING).
 type MWStatus = runtime.BitString
 
-// ReadyForSMArg represents the ASN.1 type ReadyForSMArg (SEQUENCE).
+// ReadyForSMArg represents the ASN.1 type ReadyForSM-Arg (SEQUENCE).
 type ReadyForSMArg struct {
 	Imsi                           IMSI                `asn1:"tag:0,context,implicit"`
 	AlertReason                    AlertReason         `asn1:""`
@@ -425,7 +425,7 @@ type ReadyForSMArg struct {
 	ExtData_                       [][]byte            `asn1:"-" json:"-"`
 }
 
-// ReadyForSMRes represents the ASN.1 type ReadyForSMRes (SEQUENCE).
+// ReadyForSMRes represents the ASN.1 type ReadyForSM-Res (SEQUENCE).
 type ReadyForSMRes struct {
 	ExtensionContainer *ExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -452,7 +452,7 @@ func (v AlertReason) String() string {
 	}
 }
 
-// MTForwardSMVGCSArg represents the ASN.1 type MTForwardSMVGCSArg (SEQUENCE).
+// MTForwardSMVGCSArg represents the ASN.1 type MT-ForwardSM-VGCS-Arg (SEQUENCE).
 type MTForwardSMVGCSArg struct {
 	AsciCallReference  ASCICallReference   `asn1:""`
 	SmRPOA             SMRPOA              `asn1:""`
@@ -463,7 +463,7 @@ type MTForwardSMVGCSArg struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// MTForwardSMVGCSRes represents the ASN.1 type MTForwardSMVGCSRes (SEQUENCE).
+// MTForwardSMVGCSRes represents the ASN.1 type MT-ForwardSM-VGCS-Res (SEQUENCE).
 type MTForwardSMVGCSRes struct {
 	SmRPUI                         *SignalInfo              `asn1:"tag:0,context,implicit,optional" json:"SmRPUI,omitempty"`
 	DispatcherList                 DispatcherList           `asn1:"tag:1,context,implicit,optional" json:"DispatcherList,omitempty"`
@@ -582,7 +582,14 @@ func (v *RoutingInfoForSMArg) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RoutingInfoForSMArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes RoutingInfoForSMArg from BER/DER format.
@@ -604,9 +611,12 @@ func (v *RoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for msisdn, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_msisdn, rawVal_msisdn, err := ber.DecodeTLV(content[offset:])
+	decodedTag_msisdn, n_msisdn, rawVal_msisdn, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding msisdn: %w", err)
+	}
+	if decodedTag_msisdn.Class != tag.ClassContextSpecific || decodedTag_msisdn.Number != 0 {
+		return fmt.Errorf("decoding msisdn: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_msisdn)
 	}
 	v.Msisdn = ISDNAddressString(rawVal_msisdn)
 	offset += n_msisdn
@@ -619,9 +629,12 @@ func (v *RoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for sm-RP-PRI, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_smrppri, rawVal_smrppri, err := ber.DecodeTLV(content[offset:])
+	decodedTag_smrppri, n_smrppri, rawVal_smrppri, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding sm-RP-PRI: %w", err)
+	}
+	if decodedTag_smrppri.Class != tag.ClassContextSpecific || decodedTag_smrppri.Number != 1 || decodedTag_smrppri.Constructed != false {
+		return fmt.Errorf("decoding sm-RP-PRI: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smrppri)
 	}
 	decVal_smrppri, boolErr := ber.DecodeBooleanValue(rawVal_smrppri)
 	if boolErr != nil {
@@ -641,9 +654,12 @@ func (v *RoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for serviceCentreAddress, got %s", "CONTEXT", 2, reqTag_)
 		}
 	}
-	_, n_servicecentreaddress, rawVal_servicecentreaddress, err := ber.DecodeTLV(content[offset:])
+	decodedTag_servicecentreaddress, n_servicecentreaddress, rawVal_servicecentreaddress, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding serviceCentreAddress: %w", err)
+	}
+	if decodedTag_servicecentreaddress.Class != tag.ClassContextSpecific || decodedTag_servicecentreaddress.Number != 2 {
+		return fmt.Errorf("decoding serviceCentreAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_servicecentreaddress)
 	}
 	v.ServiceCentreAddress = AddressString(rawVal_servicecentreaddress)
 	offset += n_servicecentreaddress
@@ -652,9 +668,12 @@ func (v *RoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
+				decodedTag_extensioncontainer, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", err)
+				}
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 6 || decodedTag_extensioncontainer.Constructed != true {
+					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
 				var dec_extensioncontainer ExtensionContainer
@@ -671,11 +690,16 @@ func (v *RoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_gprssupportindicator, rawVal_gprssupportindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_gprssupportindicator, n_gprssupportindicator, rawVal_gprssupportindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding gprsSupportIndicator: %w", err)
 				}
-				_ = rawVal_gprssupportindicator
+				if decodedTag_gprssupportindicator.Class != tag.ClassContextSpecific || decodedTag_gprssupportindicator.Number != 7 || decodedTag_gprssupportindicator.Constructed != false {
+					return fmt.Errorf("decoding gprsSupportIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gprssupportindicator)
+				}
+				if len(rawVal_gprssupportindicator) != 0 {
+					return fmt.Errorf("decoding gprsSupportIndicator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_gprssupportindicator))
+				}
 				v.GprsSupportIndicator = &struct{}{}
 				offset += n_gprssupportindicator
 			}
@@ -686,9 +710,12 @@ func (v *RoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_smrpmti, rawVal_smrpmti, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smrpmti, n_smrpmti, rawVal_smrpmti, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding sm-RP-MTI: %w", err)
+				}
+				if decodedTag_smrpmti.Class != tag.ClassContextSpecific || decodedTag_smrpmti.Number != 8 || decodedTag_smrpmti.Constructed != false {
+					return fmt.Errorf("decoding sm-RP-MTI: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smrpmti)
 				}
 				decVal_smrpmti, intErr := ber.DecodeIntegerValue(rawVal_smrpmti)
 				if intErr != nil {
@@ -705,9 +732,12 @@ func (v *RoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
-				_, n_smrpsmea, rawVal_smrpsmea, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smrpsmea, n_smrpsmea, rawVal_smrpsmea, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding sm-RP-SMEA: %w", err)
+				}
+				if decodedTag_smrpsmea.Class != tag.ClassContextSpecific || decodedTag_smrpsmea.Number != 9 {
+					return fmt.Errorf("decoding sm-RP-SMEA: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smrpsmea)
 				}
 				tmp_smrpsmea := SMRPSMEA(rawVal_smrpsmea)
 				v.SmRPSMEA = &tmp_smrpsmea
@@ -720,9 +750,12 @@ func (v *RoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
-				_, n_smdeliverynotintended, rawVal_smdeliverynotintended, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smdeliverynotintended, n_smdeliverynotintended, rawVal_smdeliverynotintended, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding sm-deliveryNotIntended: %w", err)
+				}
+				if decodedTag_smdeliverynotintended.Class != tag.ClassContextSpecific || decodedTag_smdeliverynotintended.Number != 10 || decodedTag_smdeliverynotintended.Constructed != false {
+					return fmt.Errorf("decoding sm-deliveryNotIntended: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smdeliverynotintended)
 				}
 				decVal_smdeliverynotintended, intErr := ber.DecodeIntegerValue(rawVal_smdeliverynotintended)
 				if intErr != nil {
@@ -739,11 +772,16 @@ func (v *RoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
-				_, n_ipsmgwguidanceindicator, rawVal_ipsmgwguidanceindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_ipsmgwguidanceindicator, n_ipsmgwguidanceindicator, rawVal_ipsmgwguidanceindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ip-sm-gwGuidanceIndicator: %w", err)
 				}
-				_ = rawVal_ipsmgwguidanceindicator
+				if decodedTag_ipsmgwguidanceindicator.Class != tag.ClassContextSpecific || decodedTag_ipsmgwguidanceindicator.Number != 11 || decodedTag_ipsmgwguidanceindicator.Constructed != false {
+					return fmt.Errorf("decoding ip-sm-gwGuidanceIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ipsmgwguidanceindicator)
+				}
+				if len(rawVal_ipsmgwguidanceindicator) != 0 {
+					return fmt.Errorf("decoding ip-sm-gwGuidanceIndicator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_ipsmgwguidanceindicator))
+				}
 				v.IpSmGwGuidanceIndicator = &struct{}{}
 				offset += n_ipsmgwguidanceindicator
 			}
@@ -754,9 +792,12 @@ func (v *RoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12 {
-				_, n_imsi, rawVal_imsi, err := ber.DecodeTLV(content[offset:])
+				decodedTag_imsi, n_imsi, rawVal_imsi, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding imsi: %w", err)
+				}
+				if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 12 {
+					return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 				}
 				tmp_imsi := IMSI(rawVal_imsi)
 				v.Imsi = &tmp_imsi
@@ -769,11 +810,16 @@ func (v *RoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14 {
-				_, n_t4triggerindicator, rawVal_t4triggerindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_t4triggerindicator, n_t4triggerindicator, rawVal_t4triggerindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding t4-Trigger-Indicator: %w", err)
 				}
-				_ = rawVal_t4triggerindicator
+				if decodedTag_t4triggerindicator.Class != tag.ClassContextSpecific || decodedTag_t4triggerindicator.Number != 14 || decodedTag_t4triggerindicator.Constructed != false {
+					return fmt.Errorf("decoding t4-Trigger-Indicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_t4triggerindicator)
+				}
+				if len(rawVal_t4triggerindicator) != 0 {
+					return fmt.Errorf("decoding t4-Trigger-Indicator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_t4triggerindicator))
+				}
 				v.T4TriggerIndicator = &struct{}{}
 				offset += n_t4triggerindicator
 			}
@@ -784,11 +830,16 @@ func (v *RoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13 {
-				_, n_singleattemptdelivery, rawVal_singleattemptdelivery, err := ber.DecodeTLV(content[offset:])
+				decodedTag_singleattemptdelivery, n_singleattemptdelivery, rawVal_singleattemptdelivery, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding singleAttemptDelivery: %w", err)
 				}
-				_ = rawVal_singleattemptdelivery
+				if decodedTag_singleattemptdelivery.Class != tag.ClassContextSpecific || decodedTag_singleattemptdelivery.Number != 13 || decodedTag_singleattemptdelivery.Constructed != false {
+					return fmt.Errorf("decoding singleAttemptDelivery: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_singleattemptdelivery)
+				}
+				if len(rawVal_singleattemptdelivery) != 0 {
+					return fmt.Errorf("decoding singleAttemptDelivery: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_singleattemptdelivery))
+				}
 				v.SingleAttemptDelivery = &struct{}{}
 				offset += n_singleattemptdelivery
 			}
@@ -799,9 +850,12 @@ func (v *RoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15 {
-				_, n_correlationid, rawVal_correlationid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_correlationid, n_correlationid, rawVal_correlationid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding correlationID: %w", err)
+				}
+				if decodedTag_correlationid.Class != tag.ClassContextSpecific || decodedTag_correlationid.Number != 15 || decodedTag_correlationid.Constructed != true {
+					return fmt.Errorf("decoding correlationID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_correlationid)
 				}
 				reconstructed_correlationid := ber.EncodeSequence(rawVal_correlationid)
 				var dec_correlationid CorrelationID
@@ -818,11 +872,16 @@ func (v *RoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 {
-				_, n_smsfsupportindicator, rawVal_smsfsupportindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smsfsupportindicator, n_smsfsupportindicator, rawVal_smsfsupportindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsf-supportIndicator: %w", err)
 				}
-				_ = rawVal_smsfsupportindicator
+				if decodedTag_smsfsupportindicator.Class != tag.ClassContextSpecific || decodedTag_smsfsupportindicator.Number != 16 || decodedTag_smsfsupportindicator.Constructed != false {
+					return fmt.Errorf("decoding smsf-supportIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsfsupportindicator)
+				}
+				if len(rawVal_smsfsupportindicator) != 0 {
+					return fmt.Errorf("decoding smsf-supportIndicator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_smsfsupportindicator))
+				}
 				v.SmsfSupportIndicator = &struct{}{}
 				offset += n_smsfsupportindicator
 			}
@@ -892,7 +951,14 @@ func (v *RoutingInfoForSMRes) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RoutingInfoForSMRes as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes RoutingInfoForSMRes from BER/DER format.
@@ -924,9 +990,12 @@ func (v *RoutingInfoForSMRes) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for locationInfoWithLMSI, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_locationinfowithlmsi, rawVal_locationinfowithlmsi, err := ber.DecodeTLV(content[offset:])
+	decodedTag_locationinfowithlmsi, n_locationinfowithlmsi, rawVal_locationinfowithlmsi, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding locationInfoWithLMSI: %w", err)
+	}
+	if decodedTag_locationinfowithlmsi.Class != tag.ClassContextSpecific || decodedTag_locationinfowithlmsi.Number != 0 || decodedTag_locationinfowithlmsi.Constructed != true {
+		return fmt.Errorf("decoding locationInfoWithLMSI: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationinfowithlmsi)
 	}
 	reconstructed_locationinfowithlmsi := ber.EncodeSequence(rawVal_locationinfowithlmsi)
 	if unmErr := v.LocationInfoWithLMSI.UnmarshalBER(reconstructed_locationinfowithlmsi); unmErr != nil {
@@ -938,9 +1007,12 @@ func (v *RoutingInfoForSMRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
+				decodedTag_extensioncontainer, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", err)
+				}
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 4 || decodedTag_extensioncontainer.Constructed != true {
+					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
 				var dec_extensioncontainer ExtensionContainer
@@ -957,9 +1029,12 @@ func (v *RoutingInfoForSMRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_ipsmgwguidance, rawVal_ipsmgwguidance, err := ber.DecodeTLV(content[offset:])
+				decodedTag_ipsmgwguidance, n_ipsmgwguidance, rawVal_ipsmgwguidance, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ip-sm-gwGuidance: %w", err)
+				}
+				if decodedTag_ipsmgwguidance.Class != tag.ClassContextSpecific || decodedTag_ipsmgwguidance.Number != 5 || decodedTag_ipsmgwguidance.Constructed != true {
+					return fmt.Errorf("decoding ip-sm-gwGuidance: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ipsmgwguidance)
 				}
 				reconstructed_ipsmgwguidance := ber.EncodeSequence(rawVal_ipsmgwguidance)
 				var dec_ipsmgwguidance IPSMGWGuidance
@@ -1022,7 +1097,14 @@ func (v *IPSMGWGuidance) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding IPSMGWGuidance as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes IPSMGWGuidance from BER/DER format.
@@ -1214,7 +1296,14 @@ func (v *LocationInfoWithLMSI) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LocationInfoWithLMSI as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LocationInfoWithLMSI from BER/DER format.
@@ -1236,9 +1325,12 @@ func (v *LocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for networkNode-Number, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_networknodenumber, rawVal_networknodenumber, err := ber.DecodeTLV(content[offset:])
+	decodedTag_networknodenumber, n_networknodenumber, rawVal_networknodenumber, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding networkNode-Number: %w", err)
+	}
+	if decodedTag_networknodenumber.Class != tag.ClassContextSpecific || decodedTag_networknodenumber.Number != 1 {
+		return fmt.Errorf("decoding networkNode-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_networknodenumber)
 	}
 	v.NetworkNodeNumber = ISDNAddressString(rawVal_networknodenumber)
 	offset += n_networknodenumber
@@ -1281,11 +1373,16 @@ func (v *LocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_gprsnodeindicator, rawVal_gprsnodeindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_gprsnodeindicator, n_gprsnodeindicator, rawVal_gprsnodeindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding gprsNodeIndicator: %w", err)
 				}
-				_ = rawVal_gprsnodeindicator
+				if decodedTag_gprsnodeindicator.Class != tag.ClassContextSpecific || decodedTag_gprsnodeindicator.Number != 5 || decodedTag_gprsnodeindicator.Constructed != false {
+					return fmt.Errorf("decoding gprsNodeIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gprsnodeindicator)
+				}
+				if len(rawVal_gprsnodeindicator) != 0 {
+					return fmt.Errorf("decoding gprsNodeIndicator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_gprsnodeindicator))
+				}
 				v.GprsNodeIndicator = &struct{}{}
 				offset += n_gprsnodeindicator
 			}
@@ -1296,9 +1393,12 @@ func (v *LocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_additionalnumber, innerData_additionalnumber, err := ber.DecodeTLV(content[offset:])
+				decodedTag_additionalnumber, n_additionalnumber, innerData_additionalnumber, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding additional-Number: %w", err)
+				}
+				if decodedTag_additionalnumber.Class != tag.ClassContextSpecific || decodedTag_additionalnumber.Number != 6 || decodedTag_additionalnumber.Constructed != true {
+					return fmt.Errorf("decoding additional-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalnumber)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_additionalnumber AdditionalNumber
@@ -1315,9 +1415,12 @@ func (v *LocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_networknodediameteraddress, rawVal_networknodediameteraddress, err := ber.DecodeTLV(content[offset:])
+				decodedTag_networknodediameteraddress, n_networknodediameteraddress, rawVal_networknodediameteraddress, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding networkNodeDiameterAddress: %w", err)
+				}
+				if decodedTag_networknodediameteraddress.Class != tag.ClassContextSpecific || decodedTag_networknodediameteraddress.Number != 7 || decodedTag_networknodediameteraddress.Constructed != true {
+					return fmt.Errorf("decoding networkNodeDiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_networknodediameteraddress)
 				}
 				reconstructed_networknodediameteraddress := ber.EncodeSequence(rawVal_networknodediameteraddress)
 				var dec_networknodediameteraddress NetworkNodeDiameterAddress
@@ -1334,9 +1437,12 @@ func (v *LocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_additionalnetworknodediameteraddress, rawVal_additionalnetworknodediameteraddress, err := ber.DecodeTLV(content[offset:])
+				decodedTag_additionalnetworknodediameteraddress, n_additionalnetworknodediameteraddress, rawVal_additionalnetworknodediameteraddress, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding additionalNetworkNodeDiameterAddress: %w", err)
+				}
+				if decodedTag_additionalnetworknodediameteraddress.Class != tag.ClassContextSpecific || decodedTag_additionalnetworknodediameteraddress.Number != 8 || decodedTag_additionalnetworknodediameteraddress.Constructed != true {
+					return fmt.Errorf("decoding additionalNetworkNodeDiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalnetworknodediameteraddress)
 				}
 				reconstructed_additionalnetworknodediameteraddress := ber.EncodeSequence(rawVal_additionalnetworknodediameteraddress)
 				var dec_additionalnetworknodediameteraddress NetworkNodeDiameterAddress
@@ -1353,9 +1459,12 @@ func (v *LocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
-				_, n_thirdnumber, innerData_thirdnumber, err := ber.DecodeTLV(content[offset:])
+				decodedTag_thirdnumber, n_thirdnumber, innerData_thirdnumber, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding thirdNumber: %w", err)
+				}
+				if decodedTag_thirdnumber.Class != tag.ClassContextSpecific || decodedTag_thirdnumber.Number != 9 || decodedTag_thirdnumber.Constructed != true {
+					return fmt.Errorf("decoding thirdNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_thirdnumber)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_thirdnumber AdditionalNumber
@@ -1372,9 +1481,12 @@ func (v *LocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
-				_, n_thirdnetworknodediameteraddress, rawVal_thirdnetworknodediameteraddress, err := ber.DecodeTLV(content[offset:])
+				decodedTag_thirdnetworknodediameteraddress, n_thirdnetworknodediameteraddress, rawVal_thirdnetworknodediameteraddress, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding thirdNetworkNodeDiameterAddress: %w", err)
+				}
+				if decodedTag_thirdnetworknodediameteraddress.Class != tag.ClassContextSpecific || decodedTag_thirdnetworknodediameteraddress.Number != 10 || decodedTag_thirdnetworknodediameteraddress.Constructed != true {
+					return fmt.Errorf("decoding thirdNetworkNodeDiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_thirdnetworknodediameteraddress)
 				}
 				reconstructed_thirdnetworknodediameteraddress := ber.EncodeSequence(rawVal_thirdnetworknodediameteraddress)
 				var dec_thirdnetworknodediameteraddress NetworkNodeDiameterAddress
@@ -1391,11 +1503,16 @@ func (v *LocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
-				_, n_imsnodeindicator, rawVal_imsnodeindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_imsnodeindicator, n_imsnodeindicator, rawVal_imsnodeindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding imsNodeIndicator: %w", err)
 				}
-				_ = rawVal_imsnodeindicator
+				if decodedTag_imsnodeindicator.Class != tag.ClassContextSpecific || decodedTag_imsnodeindicator.Number != 11 || decodedTag_imsnodeindicator.Constructed != false {
+					return fmt.Errorf("decoding imsNodeIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsnodeindicator)
+				}
+				if len(rawVal_imsnodeindicator) != 0 {
+					return fmt.Errorf("decoding imsNodeIndicator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_imsnodeindicator))
+				}
 				v.ImsNodeIndicator = &struct{}{}
 				offset += n_imsnodeindicator
 			}
@@ -1406,9 +1523,12 @@ func (v *LocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12 {
-				_, n_smsf3gppnumber, rawVal_smsf3gppnumber, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smsf3gppnumber, n_smsf3gppnumber, rawVal_smsf3gppnumber, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsf-3gpp-Number: %w", err)
+				}
+				if decodedTag_smsf3gppnumber.Class != tag.ClassContextSpecific || decodedTag_smsf3gppnumber.Number != 12 {
+					return fmt.Errorf("decoding smsf-3gpp-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsf3gppnumber)
 				}
 				tmp_smsf3gppnumber := ISDNAddressString(rawVal_smsf3gppnumber)
 				v.Smsf3gppNumber = &tmp_smsf3gppnumber
@@ -1421,9 +1541,12 @@ func (v *LocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13 {
-				_, n_smsf3gppdiameteraddress, rawVal_smsf3gppdiameteraddress, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smsf3gppdiameteraddress, n_smsf3gppdiameteraddress, rawVal_smsf3gppdiameteraddress, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsf-3gpp-DiameterAddress: %w", err)
+				}
+				if decodedTag_smsf3gppdiameteraddress.Class != tag.ClassContextSpecific || decodedTag_smsf3gppdiameteraddress.Number != 13 || decodedTag_smsf3gppdiameteraddress.Constructed != true {
+					return fmt.Errorf("decoding smsf-3gpp-DiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsf3gppdiameteraddress)
 				}
 				reconstructed_smsf3gppdiameteraddress := ber.EncodeSequence(rawVal_smsf3gppdiameteraddress)
 				var dec_smsf3gppdiameteraddress NetworkNodeDiameterAddress
@@ -1440,9 +1563,12 @@ func (v *LocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14 {
-				_, n_smsfnon3gppnumber, rawVal_smsfnon3gppnumber, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smsfnon3gppnumber, n_smsfnon3gppnumber, rawVal_smsfnon3gppnumber, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsf-non-3gpp-Number: %w", err)
+				}
+				if decodedTag_smsfnon3gppnumber.Class != tag.ClassContextSpecific || decodedTag_smsfnon3gppnumber.Number != 14 {
+					return fmt.Errorf("decoding smsf-non-3gpp-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsfnon3gppnumber)
 				}
 				tmp_smsfnon3gppnumber := ISDNAddressString(rawVal_smsfnon3gppnumber)
 				v.SmsfNon3gppNumber = &tmp_smsfnon3gppnumber
@@ -1455,9 +1581,12 @@ func (v *LocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15 {
-				_, n_smsfnon3gppdiameteraddress, rawVal_smsfnon3gppdiameteraddress, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smsfnon3gppdiameteraddress, n_smsfnon3gppdiameteraddress, rawVal_smsfnon3gppdiameteraddress, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsf-non-3gpp-DiameterAddress: %w", err)
+				}
+				if decodedTag_smsfnon3gppdiameteraddress.Class != tag.ClassContextSpecific || decodedTag_smsfnon3gppdiameteraddress.Number != 15 || decodedTag_smsfnon3gppdiameteraddress.Constructed != true {
+					return fmt.Errorf("decoding smsf-non-3gpp-DiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsfnon3gppdiameteraddress)
 				}
 				reconstructed_smsfnon3gppdiameteraddress := ber.EncodeSequence(rawVal_smsfnon3gppdiameteraddress)
 				var dec_smsfnon3gppdiameteraddress NetworkNodeDiameterAddress
@@ -1474,11 +1603,16 @@ func (v *LocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 {
-				_, n_smsf3gppaddressindicator, rawVal_smsf3gppaddressindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smsf3gppaddressindicator, n_smsf3gppaddressindicator, rawVal_smsf3gppaddressindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsf-3gpp-address-indicator: %w", err)
 				}
-				_ = rawVal_smsf3gppaddressindicator
+				if decodedTag_smsf3gppaddressindicator.Class != tag.ClassContextSpecific || decodedTag_smsf3gppaddressindicator.Number != 16 || decodedTag_smsf3gppaddressindicator.Constructed != false {
+					return fmt.Errorf("decoding smsf-3gpp-address-indicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsf3gppaddressindicator)
+				}
+				if len(rawVal_smsf3gppaddressindicator) != 0 {
+					return fmt.Errorf("decoding smsf-3gpp-address-indicator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_smsf3gppaddressindicator))
+				}
 				v.Smsf3gppAddressIndicator = &struct{}{}
 				offset += n_smsf3gppaddressindicator
 			}
@@ -1489,11 +1623,16 @@ func (v *LocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17 {
-				_, n_smsfnon3gppaddressindicator, rawVal_smsfnon3gppaddressindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smsfnon3gppaddressindicator, n_smsfnon3gppaddressindicator, rawVal_smsfnon3gppaddressindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsf-non-3gpp-address-indicator: %w", err)
 				}
-				_ = rawVal_smsfnon3gppaddressindicator
+				if decodedTag_smsfnon3gppaddressindicator.Class != tag.ClassContextSpecific || decodedTag_smsfnon3gppaddressindicator.Number != 17 || decodedTag_smsfnon3gppaddressindicator.Constructed != false {
+					return fmt.Errorf("decoding smsf-non-3gpp-address-indicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsfnon3gppaddressindicator)
+				}
+				if len(rawVal_smsfnon3gppaddressindicator) != 0 {
+					return fmt.Errorf("decoding smsf-non-3gpp-address-indicator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_smsfnon3gppaddressindicator))
+				}
 				v.SmsfNon3gppAddressIndicator = &struct{}{}
 				offset += n_smsfnon3gppaddressindicator
 			}
@@ -1519,10 +1658,16 @@ func (v *LocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 func (v *AdditionalNumber) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case AdditionalNumberChoiceMscNumber:
+		if v.MscNumber == nil {
+			return nil, fmt.Errorf("choice AdditionalNumber: msc-Number is nil")
+		}
 		enc_0 := ber.EncodeOctetString([]byte(*v.MscNumber))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
 		return enc_0, nil
 	case AdditionalNumberChoiceSgsnNumber:
+		if v.SgsnNumber == nil {
+			return nil, fmt.Errorf("choice AdditionalNumber: sgsn-Number is nil")
+		}
 		enc_1 := ber.EncodeOctetString([]byte(*v.SgsnNumber))
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		return enc_1, nil
@@ -1533,7 +1678,14 @@ func (v *AdditionalNumber) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AdditionalNumber to DER format.
 func (v *AdditionalNumber) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AdditionalNumber as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AdditionalNumber from BER/DER format.
@@ -1637,7 +1789,14 @@ func (v *MOForwardSMArg) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding MOForwardSMArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes MOForwardSMArg from BER/DER format.
@@ -1725,9 +1884,12 @@ func (v *MOForwardSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_correlationid, rawVal_correlationid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_correlationid, n_correlationid, rawVal_correlationid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding correlationID: %w", err)
+				}
+				if decodedTag_correlationid.Class != tag.ClassContextSpecific || decodedTag_correlationid.Number != 0 || decodedTag_correlationid.Constructed != true {
+					return fmt.Errorf("decoding correlationID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_correlationid)
 				}
 				reconstructed_correlationid := ber.EncodeSequence(rawVal_correlationid)
 				var dec_correlationid CorrelationID
@@ -1744,9 +1906,12 @@ func (v *MOForwardSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_smdeliveryoutcome, rawVal_smdeliveryoutcome, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smdeliveryoutcome, n_smdeliveryoutcome, rawVal_smdeliveryoutcome, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding sm-DeliveryOutcome: %w", err)
+				}
+				if decodedTag_smdeliveryoutcome.Class != tag.ClassContextSpecific || decodedTag_smdeliveryoutcome.Number != 1 || decodedTag_smdeliveryoutcome.Constructed != false {
+					return fmt.Errorf("decoding sm-DeliveryOutcome: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smdeliveryoutcome)
 				}
 				decVal_smdeliveryoutcome, intErr := ber.DecodeIntegerValue(rawVal_smdeliveryoutcome)
 				if intErr != nil {
@@ -1809,7 +1974,14 @@ func (v *MOForwardSMRes) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding MOForwardSMRes as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes MOForwardSMRes from BER/DER format.
@@ -1958,7 +2130,14 @@ func (v *MTForwardSMArg) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding MTForwardSMArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes MTForwardSMArg from BER/DER format.
@@ -2075,11 +2254,16 @@ func (v *MTForwardSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_smsoveriponlyindicator, rawVal_smsoveriponlyindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smsoveriponlyindicator, n_smsoveriponlyindicator, rawVal_smsoveriponlyindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsOverIP-OnlyIndicator: %w", err)
 				}
-				_ = rawVal_smsoveriponlyindicator
+				if decodedTag_smsoveriponlyindicator.Class != tag.ClassContextSpecific || decodedTag_smsoveriponlyindicator.Number != 0 || decodedTag_smsoveriponlyindicator.Constructed != false {
+					return fmt.Errorf("decoding smsOverIP-OnlyIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsoveriponlyindicator)
+				}
+				if len(rawVal_smsoveriponlyindicator) != 0 {
+					return fmt.Errorf("decoding smsOverIP-OnlyIndicator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_smsoveriponlyindicator))
+				}
 				v.SmsOverIPOnlyIndicator = &struct{}{}
 				offset += n_smsoveriponlyindicator
 			}
@@ -2090,9 +2274,12 @@ func (v *MTForwardSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_correlationid, rawVal_correlationid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_correlationid, n_correlationid, rawVal_correlationid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding correlationID: %w", err)
+				}
+				if decodedTag_correlationid.Class != tag.ClassContextSpecific || decodedTag_correlationid.Number != 1 || decodedTag_correlationid.Constructed != true {
+					return fmt.Errorf("decoding correlationID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_correlationid)
 				}
 				reconstructed_correlationid := ber.EncodeSequence(rawVal_correlationid)
 				var dec_correlationid CorrelationID
@@ -2109,9 +2296,12 @@ func (v *MTForwardSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_maximumretransmissiontime, rawVal_maximumretransmissiontime, err := ber.DecodeTLV(content[offset:])
+				decodedTag_maximumretransmissiontime, n_maximumretransmissiontime, rawVal_maximumretransmissiontime, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding maximumRetransmissionTime: %w", err)
+				}
+				if decodedTag_maximumretransmissiontime.Class != tag.ClassContextSpecific || decodedTag_maximumretransmissiontime.Number != 2 {
+					return fmt.Errorf("decoding maximumRetransmissionTime: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_maximumretransmissiontime)
 				}
 				tmp_maximumretransmissiontime := Time(rawVal_maximumretransmissiontime)
 				v.MaximumRetransmissionTime = &tmp_maximumretransmissiontime
@@ -2124,9 +2314,12 @@ func (v *MTForwardSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_smsgmscaddress, rawVal_smsgmscaddress, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smsgmscaddress, n_smsgmscaddress, rawVal_smsgmscaddress, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsGmscAddress: %w", err)
+				}
+				if decodedTag_smsgmscaddress.Class != tag.ClassContextSpecific || decodedTag_smsgmscaddress.Number != 3 {
+					return fmt.Errorf("decoding smsGmscAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsgmscaddress)
 				}
 				tmp_smsgmscaddress := ISDNAddressString(rawVal_smsgmscaddress)
 				v.SmsGmscAddress = &tmp_smsgmscaddress
@@ -2139,9 +2332,12 @@ func (v *MTForwardSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_smsgmscdiameteraddress, rawVal_smsgmscdiameteraddress, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smsgmscdiameteraddress, n_smsgmscdiameteraddress, rawVal_smsgmscdiameteraddress, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsGmscDiameterAddress: %w", err)
+				}
+				if decodedTag_smsgmscdiameteraddress.Class != tag.ClassContextSpecific || decodedTag_smsgmscdiameteraddress.Number != 4 || decodedTag_smsgmscdiameteraddress.Constructed != true {
+					return fmt.Errorf("decoding smsGmscDiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsgmscdiameteraddress)
 				}
 				reconstructed_smsgmscdiameteraddress := ber.EncodeSequence(rawVal_smsgmscdiameteraddress)
 				var dec_smsgmscdiameteraddress NetworkNodeDiameterAddress
@@ -2191,7 +2387,14 @@ func (v *CorrelationID) MarshalBER() ([]byte, error) {
 // MarshalDER encodes CorrelationID to DER format.
 func (v *CorrelationID) MarshalDER() ([]byte, error) {
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding CorrelationID as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes CorrelationID from BER/DER format.
@@ -2209,9 +2412,12 @@ func (v *CorrelationID) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_hlrid, rawVal_hlrid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_hlrid, n_hlrid, rawVal_hlrid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding hlr-id: %w", err)
+				}
+				if decodedTag_hlrid.Class != tag.ClassContextSpecific || decodedTag_hlrid.Number != 0 {
+					return fmt.Errorf("decoding hlr-id: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hlrid)
 				}
 				tmp_hlrid := HLRId(rawVal_hlrid)
 				v.HlrId = &tmp_hlrid
@@ -2224,9 +2430,12 @@ func (v *CorrelationID) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_sipuria, rawVal_sipuria, err := ber.DecodeTLV(content[offset:])
+				decodedTag_sipuria, n_sipuria, rawVal_sipuria, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding sip-uri-A: %w", err)
+				}
+				if decodedTag_sipuria.Class != tag.ClassContextSpecific || decodedTag_sipuria.Number != 1 {
+					return fmt.Errorf("decoding sip-uri-A: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sipuria)
 				}
 				tmp_sipuria := SIPURI(rawVal_sipuria)
 				v.SipUriA = &tmp_sipuria
@@ -2243,9 +2452,12 @@ func (v *CorrelationID) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for sip-uri-B, got %s", "CONTEXT", 2, reqTag_)
 		}
 	}
-	_, n_sipurib, rawVal_sipurib, err := ber.DecodeTLV(content[offset:])
+	decodedTag_sipurib, n_sipurib, rawVal_sipurib, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding sip-uri-B: %w", err)
+	}
+	if decodedTag_sipurib.Class != tag.ClassContextSpecific || decodedTag_sipurib.Number != 2 {
+		return fmt.Errorf("decoding sip-uri-B: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sipurib)
 	}
 	v.SipUriB = SIPURI(rawVal_sipurib)
 	offset += n_sipurib
@@ -2290,7 +2502,14 @@ func (v *MTForwardSMRes) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding MTForwardSMRes as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes MTForwardSMRes from BER/DER format.
@@ -2357,14 +2576,23 @@ func (v *MTForwardSMRes) UnmarshalBER(data []byte) error {
 func (v *SMRPDA) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case SMRPDAChoiceImsi:
+		if v.Imsi == nil {
+			return nil, fmt.Errorf("choice SMRPDA: imsi is nil")
+		}
 		enc_0 := ber.EncodeOctetString([]byte(*v.Imsi))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
 		return enc_0, nil
 	case SMRPDAChoiceLmsi:
+		if v.Lmsi == nil {
+			return nil, fmt.Errorf("choice SMRPDA: lmsi is nil")
+		}
 		enc_1 := ber.EncodeOctetString([]byte(*v.Lmsi))
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		return enc_1, nil
 	case SMRPDAChoiceServiceCentreAddressDA:
+		if v.ServiceCentreAddressDA == nil {
+			return nil, fmt.Errorf("choice SMRPDA: serviceCentreAddressDA is nil")
+		}
 		enc_2 := ber.EncodeOctetString([]byte(*v.ServiceCentreAddressDA))
 		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_2)
 		return enc_2, nil
@@ -2379,7 +2607,14 @@ func (v *SMRPDA) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SMRPDA to DER format.
 func (v *SMRPDA) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SMRPDA as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SMRPDA from BER/DER format.
@@ -2425,13 +2660,15 @@ func (v *SMRPDA) UnmarshalBER(data []byte) error {
 		}
 		tmp := AddressString(rawVal)
 		v.ServiceCentreAddressDA = &tmp
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 && peekTag.Constructed == false {
 		v.Choice = SMRPDAChoiceNoSMRPDA
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding noSM-RP-DA: %w", tlvErr)
 		}
-		_ = rawVal // NULL has no content
+		if len(rawVal) != 0 {
+			return fmt.Errorf("decoding noSM-RP-DA: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal))
+		}
 		v.NoSMRPDA = &struct{}{}
 	} else {
 		return fmt.Errorf("unknown tag %s for SMRPDA CHOICE", peekTag)
@@ -2443,10 +2680,16 @@ func (v *SMRPDA) UnmarshalBER(data []byte) error {
 func (v *SMRPOA) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case SMRPOAChoiceMsisdn:
+		if v.Msisdn == nil {
+			return nil, fmt.Errorf("choice SMRPOA: msisdn is nil")
+		}
 		enc_0 := ber.EncodeOctetString([]byte(*v.Msisdn))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_0)
 		return enc_0, nil
 	case SMRPOAChoiceServiceCentreAddressOA:
+		if v.ServiceCentreAddressOA == nil {
+			return nil, fmt.Errorf("choice SMRPOA: serviceCentreAddressOA is nil")
+		}
 		enc_1 := ber.EncodeOctetString([]byte(*v.ServiceCentreAddressOA))
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_1)
 		return enc_1, nil
@@ -2461,7 +2704,14 @@ func (v *SMRPOA) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SMRPOA to DER format.
 func (v *SMRPOA) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SMRPOA as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SMRPOA from BER/DER format.
@@ -2499,13 +2749,15 @@ func (v *SMRPOA) UnmarshalBER(data []byte) error {
 		}
 		tmp := AddressString(rawVal)
 		v.ServiceCentreAddressOA = &tmp
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 && peekTag.Constructed == false {
 		v.Choice = SMRPOAChoiceNoSMRPOA
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding noSM-RP-OA: %w", tlvErr)
 		}
-		_ = rawVal // NULL has no content
+		if len(rawVal) != 0 {
+			return fmt.Errorf("decoding noSM-RP-OA: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal))
+		}
 		v.NoSMRPOA = &struct{}{}
 	} else {
 		return fmt.Errorf("unknown tag %s for SMRPOA CHOICE", peekTag)
@@ -2639,7 +2891,14 @@ func (v *ReportSMDeliveryStatusArg) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ReportSMDeliveryStatusArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ReportSMDeliveryStatusArg from BER/DER format.
@@ -2687,9 +2946,12 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_absentsubscriberdiagnosticsm, rawVal_absentsubscriberdiagnosticsm, err := ber.DecodeTLV(content[offset:])
+				decodedTag_absentsubscriberdiagnosticsm, n_absentsubscriberdiagnosticsm, rawVal_absentsubscriberdiagnosticsm, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding absentSubscriberDiagnosticSM: %w", err)
+				}
+				if decodedTag_absentsubscriberdiagnosticsm.Class != tag.ClassContextSpecific || decodedTag_absentsubscriberdiagnosticsm.Number != 0 || decodedTag_absentsubscriberdiagnosticsm.Constructed != false {
+					return fmt.Errorf("decoding absentSubscriberDiagnosticSM: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_absentsubscriberdiagnosticsm)
 				}
 				decVal_absentsubscriberdiagnosticsm, intErr := ber.DecodeIntegerValue(rawVal_absentsubscriberdiagnosticsm)
 				if intErr != nil {
@@ -2706,9 +2968,12 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
+				decodedTag_extensioncontainer, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", err)
+				}
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 || decodedTag_extensioncontainer.Constructed != true {
+					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
 				var dec_extensioncontainer ExtensionContainer
@@ -2725,11 +2990,16 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_gprssupportindicator, rawVal_gprssupportindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_gprssupportindicator, n_gprssupportindicator, rawVal_gprssupportindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding gprsSupportIndicator: %w", err)
 				}
-				_ = rawVal_gprssupportindicator
+				if decodedTag_gprssupportindicator.Class != tag.ClassContextSpecific || decodedTag_gprssupportindicator.Number != 2 || decodedTag_gprssupportindicator.Constructed != false {
+					return fmt.Errorf("decoding gprsSupportIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gprssupportindicator)
+				}
+				if len(rawVal_gprssupportindicator) != 0 {
+					return fmt.Errorf("decoding gprsSupportIndicator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_gprssupportindicator))
+				}
 				v.GprsSupportIndicator = &struct{}{}
 				offset += n_gprssupportindicator
 			}
@@ -2740,11 +3010,16 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_deliveryoutcomeindicator, rawVal_deliveryoutcomeindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_deliveryoutcomeindicator, n_deliveryoutcomeindicator, rawVal_deliveryoutcomeindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding deliveryOutcomeIndicator: %w", err)
 				}
-				_ = rawVal_deliveryoutcomeindicator
+				if decodedTag_deliveryoutcomeindicator.Class != tag.ClassContextSpecific || decodedTag_deliveryoutcomeindicator.Number != 3 || decodedTag_deliveryoutcomeindicator.Constructed != false {
+					return fmt.Errorf("decoding deliveryOutcomeIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_deliveryoutcomeindicator)
+				}
+				if len(rawVal_deliveryoutcomeindicator) != 0 {
+					return fmt.Errorf("decoding deliveryOutcomeIndicator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_deliveryoutcomeindicator))
+				}
 				v.DeliveryOutcomeIndicator = &struct{}{}
 				offset += n_deliveryoutcomeindicator
 			}
@@ -2755,9 +3030,12 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_additionalsmdeliveryoutcome, rawVal_additionalsmdeliveryoutcome, err := ber.DecodeTLV(content[offset:])
+				decodedTag_additionalsmdeliveryoutcome, n_additionalsmdeliveryoutcome, rawVal_additionalsmdeliveryoutcome, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding additionalSM-DeliveryOutcome: %w", err)
+				}
+				if decodedTag_additionalsmdeliveryoutcome.Class != tag.ClassContextSpecific || decodedTag_additionalsmdeliveryoutcome.Number != 4 || decodedTag_additionalsmdeliveryoutcome.Constructed != false {
+					return fmt.Errorf("decoding additionalSM-DeliveryOutcome: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalsmdeliveryoutcome)
 				}
 				decVal_additionalsmdeliveryoutcome, intErr := ber.DecodeIntegerValue(rawVal_additionalsmdeliveryoutcome)
 				if intErr != nil {
@@ -2774,9 +3052,12 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_additionalabsentsubscriberdiagnosticsm, rawVal_additionalabsentsubscriberdiagnosticsm, err := ber.DecodeTLV(content[offset:])
+				decodedTag_additionalabsentsubscriberdiagnosticsm, n_additionalabsentsubscriberdiagnosticsm, rawVal_additionalabsentsubscriberdiagnosticsm, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding additionalAbsentSubscriberDiagnosticSM: %w", err)
+				}
+				if decodedTag_additionalabsentsubscriberdiagnosticsm.Class != tag.ClassContextSpecific || decodedTag_additionalabsentsubscriberdiagnosticsm.Number != 5 || decodedTag_additionalabsentsubscriberdiagnosticsm.Constructed != false {
+					return fmt.Errorf("decoding additionalAbsentSubscriberDiagnosticSM: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalabsentsubscriberdiagnosticsm)
 				}
 				decVal_additionalabsentsubscriberdiagnosticsm, intErr := ber.DecodeIntegerValue(rawVal_additionalabsentsubscriberdiagnosticsm)
 				if intErr != nil {
@@ -2793,11 +3074,16 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_ipsmgwindicator, rawVal_ipsmgwindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_ipsmgwindicator, n_ipsmgwindicator, rawVal_ipsmgwindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ip-sm-gw-Indicator: %w", err)
 				}
-				_ = rawVal_ipsmgwindicator
+				if decodedTag_ipsmgwindicator.Class != tag.ClassContextSpecific || decodedTag_ipsmgwindicator.Number != 6 || decodedTag_ipsmgwindicator.Constructed != false {
+					return fmt.Errorf("decoding ip-sm-gw-Indicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ipsmgwindicator)
+				}
+				if len(rawVal_ipsmgwindicator) != 0 {
+					return fmt.Errorf("decoding ip-sm-gw-Indicator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_ipsmgwindicator))
+				}
 				v.IpSmGwIndicator = &struct{}{}
 				offset += n_ipsmgwindicator
 			}
@@ -2808,9 +3094,12 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_ipsmgwsmdeliveryoutcome, rawVal_ipsmgwsmdeliveryoutcome, err := ber.DecodeTLV(content[offset:])
+				decodedTag_ipsmgwsmdeliveryoutcome, n_ipsmgwsmdeliveryoutcome, rawVal_ipsmgwsmdeliveryoutcome, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ip-sm-gw-sm-deliveryOutcome: %w", err)
+				}
+				if decodedTag_ipsmgwsmdeliveryoutcome.Class != tag.ClassContextSpecific || decodedTag_ipsmgwsmdeliveryoutcome.Number != 7 || decodedTag_ipsmgwsmdeliveryoutcome.Constructed != false {
+					return fmt.Errorf("decoding ip-sm-gw-sm-deliveryOutcome: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ipsmgwsmdeliveryoutcome)
 				}
 				decVal_ipsmgwsmdeliveryoutcome, intErr := ber.DecodeIntegerValue(rawVal_ipsmgwsmdeliveryoutcome)
 				if intErr != nil {
@@ -2827,9 +3116,12 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_ipsmgwabsentsubscriberdiagnosticsm, rawVal_ipsmgwabsentsubscriberdiagnosticsm, err := ber.DecodeTLV(content[offset:])
+				decodedTag_ipsmgwabsentsubscriberdiagnosticsm, n_ipsmgwabsentsubscriberdiagnosticsm, rawVal_ipsmgwabsentsubscriberdiagnosticsm, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ip-sm-gw-absentSubscriberDiagnosticSM: %w", err)
+				}
+				if decodedTag_ipsmgwabsentsubscriberdiagnosticsm.Class != tag.ClassContextSpecific || decodedTag_ipsmgwabsentsubscriberdiagnosticsm.Number != 8 || decodedTag_ipsmgwabsentsubscriberdiagnosticsm.Constructed != false {
+					return fmt.Errorf("decoding ip-sm-gw-absentSubscriberDiagnosticSM: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ipsmgwabsentsubscriberdiagnosticsm)
 				}
 				decVal_ipsmgwabsentsubscriberdiagnosticsm, intErr := ber.DecodeIntegerValue(rawVal_ipsmgwabsentsubscriberdiagnosticsm)
 				if intErr != nil {
@@ -2846,9 +3138,12 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
-				_, n_imsi, rawVal_imsi, err := ber.DecodeTLV(content[offset:])
+				decodedTag_imsi, n_imsi, rawVal_imsi, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding imsi: %w", err)
+				}
+				if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 9 {
+					return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 				}
 				tmp_imsi := IMSI(rawVal_imsi)
 				v.Imsi = &tmp_imsi
@@ -2861,11 +3156,16 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
-				_, n_singleattemptdelivery, rawVal_singleattemptdelivery, err := ber.DecodeTLV(content[offset:])
+				decodedTag_singleattemptdelivery, n_singleattemptdelivery, rawVal_singleattemptdelivery, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding singleAttemptDelivery: %w", err)
 				}
-				_ = rawVal_singleattemptdelivery
+				if decodedTag_singleattemptdelivery.Class != tag.ClassContextSpecific || decodedTag_singleattemptdelivery.Number != 10 || decodedTag_singleattemptdelivery.Constructed != false {
+					return fmt.Errorf("decoding singleAttemptDelivery: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_singleattemptdelivery)
+				}
+				if len(rawVal_singleattemptdelivery) != 0 {
+					return fmt.Errorf("decoding singleAttemptDelivery: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_singleattemptdelivery))
+				}
 				v.SingleAttemptDelivery = &struct{}{}
 				offset += n_singleattemptdelivery
 			}
@@ -2876,9 +3176,12 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
-				_, n_correlationid, rawVal_correlationid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_correlationid, n_correlationid, rawVal_correlationid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding correlationID: %w", err)
+				}
+				if decodedTag_correlationid.Class != tag.ClassContextSpecific || decodedTag_correlationid.Number != 11 || decodedTag_correlationid.Constructed != true {
+					return fmt.Errorf("decoding correlationID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_correlationid)
 				}
 				reconstructed_correlationid := ber.EncodeSequence(rawVal_correlationid)
 				var dec_correlationid CorrelationID
@@ -2895,11 +3198,16 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12 {
-				_, n_smsf3gppdeliveryoutcomeindicator, rawVal_smsf3gppdeliveryoutcomeindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smsf3gppdeliveryoutcomeindicator, n_smsf3gppdeliveryoutcomeindicator, rawVal_smsf3gppdeliveryoutcomeindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsf-3gpp-deliveryOutcomeIndicator: %w", err)
 				}
-				_ = rawVal_smsf3gppdeliveryoutcomeindicator
+				if decodedTag_smsf3gppdeliveryoutcomeindicator.Class != tag.ClassContextSpecific || decodedTag_smsf3gppdeliveryoutcomeindicator.Number != 12 || decodedTag_smsf3gppdeliveryoutcomeindicator.Constructed != false {
+					return fmt.Errorf("decoding smsf-3gpp-deliveryOutcomeIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsf3gppdeliveryoutcomeindicator)
+				}
+				if len(rawVal_smsf3gppdeliveryoutcomeindicator) != 0 {
+					return fmt.Errorf("decoding smsf-3gpp-deliveryOutcomeIndicator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_smsf3gppdeliveryoutcomeindicator))
+				}
 				v.Smsf3gppDeliveryOutcomeIndicator = &struct{}{}
 				offset += n_smsf3gppdeliveryoutcomeindicator
 			}
@@ -2910,9 +3218,12 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13 {
-				_, n_smsf3gppdeliveryoutcome, rawVal_smsf3gppdeliveryoutcome, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smsf3gppdeliveryoutcome, n_smsf3gppdeliveryoutcome, rawVal_smsf3gppdeliveryoutcome, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsf-3gpp-deliveryOutcome: %w", err)
+				}
+				if decodedTag_smsf3gppdeliveryoutcome.Class != tag.ClassContextSpecific || decodedTag_smsf3gppdeliveryoutcome.Number != 13 || decodedTag_smsf3gppdeliveryoutcome.Constructed != false {
+					return fmt.Errorf("decoding smsf-3gpp-deliveryOutcome: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsf3gppdeliveryoutcome)
 				}
 				decVal_smsf3gppdeliveryoutcome, intErr := ber.DecodeIntegerValue(rawVal_smsf3gppdeliveryoutcome)
 				if intErr != nil {
@@ -2929,9 +3240,12 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14 {
-				_, n_smsf3gppabsentsubscriberdiagsm, rawVal_smsf3gppabsentsubscriberdiagsm, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smsf3gppabsentsubscriberdiagsm, n_smsf3gppabsentsubscriberdiagsm, rawVal_smsf3gppabsentsubscriberdiagsm, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsf-3gpp-absentSubscriberDiagSM: %w", err)
+				}
+				if decodedTag_smsf3gppabsentsubscriberdiagsm.Class != tag.ClassContextSpecific || decodedTag_smsf3gppabsentsubscriberdiagsm.Number != 14 || decodedTag_smsf3gppabsentsubscriberdiagsm.Constructed != false {
+					return fmt.Errorf("decoding smsf-3gpp-absentSubscriberDiagSM: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsf3gppabsentsubscriberdiagsm)
 				}
 				decVal_smsf3gppabsentsubscriberdiagsm, intErr := ber.DecodeIntegerValue(rawVal_smsf3gppabsentsubscriberdiagsm)
 				if intErr != nil {
@@ -2948,11 +3262,16 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15 {
-				_, n_smsfnon3gppdeliveryoutcomeindicator, rawVal_smsfnon3gppdeliveryoutcomeindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smsfnon3gppdeliveryoutcomeindicator, n_smsfnon3gppdeliveryoutcomeindicator, rawVal_smsfnon3gppdeliveryoutcomeindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsf-non-3gpp-deliveryOutcomeIndicator: %w", err)
 				}
-				_ = rawVal_smsfnon3gppdeliveryoutcomeindicator
+				if decodedTag_smsfnon3gppdeliveryoutcomeindicator.Class != tag.ClassContextSpecific || decodedTag_smsfnon3gppdeliveryoutcomeindicator.Number != 15 || decodedTag_smsfnon3gppdeliveryoutcomeindicator.Constructed != false {
+					return fmt.Errorf("decoding smsf-non-3gpp-deliveryOutcomeIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsfnon3gppdeliveryoutcomeindicator)
+				}
+				if len(rawVal_smsfnon3gppdeliveryoutcomeindicator) != 0 {
+					return fmt.Errorf("decoding smsf-non-3gpp-deliveryOutcomeIndicator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_smsfnon3gppdeliveryoutcomeindicator))
+				}
 				v.SmsfNon3gppDeliveryOutcomeIndicator = &struct{}{}
 				offset += n_smsfnon3gppdeliveryoutcomeindicator
 			}
@@ -2963,9 +3282,12 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 {
-				_, n_smsfnon3gppdeliveryoutcome, rawVal_smsfnon3gppdeliveryoutcome, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smsfnon3gppdeliveryoutcome, n_smsfnon3gppdeliveryoutcome, rawVal_smsfnon3gppdeliveryoutcome, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsf-non-3gpp-deliveryOutcome: %w", err)
+				}
+				if decodedTag_smsfnon3gppdeliveryoutcome.Class != tag.ClassContextSpecific || decodedTag_smsfnon3gppdeliveryoutcome.Number != 16 || decodedTag_smsfnon3gppdeliveryoutcome.Constructed != false {
+					return fmt.Errorf("decoding smsf-non-3gpp-deliveryOutcome: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsfnon3gppdeliveryoutcome)
 				}
 				decVal_smsfnon3gppdeliveryoutcome, intErr := ber.DecodeIntegerValue(rawVal_smsfnon3gppdeliveryoutcome)
 				if intErr != nil {
@@ -2982,9 +3304,12 @@ func (v *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17 {
-				_, n_smsfnon3gppabsentsubscriberdiagsm, rawVal_smsfnon3gppabsentsubscriberdiagsm, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smsfnon3gppabsentsubscriberdiagsm, n_smsfnon3gppabsentsubscriberdiagsm, rawVal_smsfnon3gppabsentsubscriberdiagsm, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsf-non-3gpp-absentSubscriberDiagSM: %w", err)
+				}
+				if decodedTag_smsfnon3gppabsentsubscriberdiagsm.Class != tag.ClassContextSpecific || decodedTag_smsfnon3gppabsentsubscriberdiagsm.Number != 17 || decodedTag_smsfnon3gppabsentsubscriberdiagsm.Constructed != false {
+					return fmt.Errorf("decoding smsf-non-3gpp-absentSubscriberDiagSM: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsfnon3gppabsentsubscriberdiagsm)
 				}
 				decVal_smsfnon3gppabsentsubscriberdiagsm, intErr := ber.DecodeIntegerValue(rawVal_smsfnon3gppabsentsubscriberdiagsm)
 				if intErr != nil {
@@ -3047,7 +3372,14 @@ func (v *ReportSMDeliveryStatusRes) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ReportSMDeliveryStatusRes as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ReportSMDeliveryStatusRes from BER/DER format.
@@ -3198,7 +3530,14 @@ func (v *AlertServiceCentreArg) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AlertServiceCentreArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AlertServiceCentreArg from BER/DER format.
@@ -3270,9 +3609,12 @@ func (v *AlertServiceCentreArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_maximumueavailabilitytime, rawVal_maximumueavailabilitytime, err := ber.DecodeTLV(content[offset:])
+				decodedTag_maximumueavailabilitytime, n_maximumueavailabilitytime, rawVal_maximumueavailabilitytime, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding maximumUeAvailabilityTime: %w", err)
+				}
+				if decodedTag_maximumueavailabilitytime.Class != tag.ClassContextSpecific || decodedTag_maximumueavailabilitytime.Number != 0 {
+					return fmt.Errorf("decoding maximumUeAvailabilityTime: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_maximumueavailabilitytime)
 				}
 				tmp_maximumueavailabilitytime := Time(rawVal_maximumueavailabilitytime)
 				v.MaximumUeAvailabilityTime = &tmp_maximumueavailabilitytime
@@ -3285,9 +3627,12 @@ func (v *AlertServiceCentreArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_smsgmscalertevent, rawVal_smsgmscalertevent, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smsgmscalertevent, n_smsgmscalertevent, rawVal_smsgmscalertevent, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsGmscAlertEvent: %w", err)
+				}
+				if decodedTag_smsgmscalertevent.Class != tag.ClassContextSpecific || decodedTag_smsgmscalertevent.Number != 1 || decodedTag_smsgmscalertevent.Constructed != false {
+					return fmt.Errorf("decoding smsGmscAlertEvent: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsgmscalertevent)
 				}
 				decVal_smsgmscalertevent, intErr := ber.DecodeIntegerValue(rawVal_smsgmscalertevent)
 				if intErr != nil {
@@ -3304,9 +3649,12 @@ func (v *AlertServiceCentreArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_smsgmscdiameteraddress, rawVal_smsgmscdiameteraddress, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smsgmscdiameteraddress, n_smsgmscdiameteraddress, rawVal_smsgmscdiameteraddress, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsGmscDiameterAddress: %w", err)
+				}
+				if decodedTag_smsgmscdiameteraddress.Class != tag.ClassContextSpecific || decodedTag_smsgmscdiameteraddress.Number != 2 || decodedTag_smsgmscdiameteraddress.Constructed != true {
+					return fmt.Errorf("decoding smsGmscDiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsgmscdiameteraddress)
 				}
 				reconstructed_smsgmscdiameteraddress := ber.EncodeSequence(rawVal_smsgmscdiameteraddress)
 				var dec_smsgmscdiameteraddress NetworkNodeDiameterAddress
@@ -3323,9 +3671,12 @@ func (v *AlertServiceCentreArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_newsgsnnumber, rawVal_newsgsnnumber, err := ber.DecodeTLV(content[offset:])
+				decodedTag_newsgsnnumber, n_newsgsnnumber, rawVal_newsgsnnumber, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding newSGSNNumber: %w", err)
+				}
+				if decodedTag_newsgsnnumber.Class != tag.ClassContextSpecific || decodedTag_newsgsnnumber.Number != 3 {
+					return fmt.Errorf("decoding newSGSNNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_newsgsnnumber)
 				}
 				tmp_newsgsnnumber := ISDNAddressString(rawVal_newsgsnnumber)
 				v.NewSGSNNumber = &tmp_newsgsnnumber
@@ -3338,9 +3689,12 @@ func (v *AlertServiceCentreArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_newsgsndiameteraddress, rawVal_newsgsndiameteraddress, err := ber.DecodeTLV(content[offset:])
+				decodedTag_newsgsndiameteraddress, n_newsgsndiameteraddress, rawVal_newsgsndiameteraddress, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding newSGSNDiameterAddress: %w", err)
+				}
+				if decodedTag_newsgsndiameteraddress.Class != tag.ClassContextSpecific || decodedTag_newsgsndiameteraddress.Number != 4 || decodedTag_newsgsndiameteraddress.Constructed != true {
+					return fmt.Errorf("decoding newSGSNDiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_newsgsndiameteraddress)
 				}
 				reconstructed_newsgsndiameteraddress := ber.EncodeSequence(rawVal_newsgsndiameteraddress)
 				var dec_newsgsndiameteraddress NetworkNodeDiameterAddress
@@ -3357,9 +3711,12 @@ func (v *AlertServiceCentreArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_newmmenumber, rawVal_newmmenumber, err := ber.DecodeTLV(content[offset:])
+				decodedTag_newmmenumber, n_newmmenumber, rawVal_newmmenumber, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding newMMENumber: %w", err)
+				}
+				if decodedTag_newmmenumber.Class != tag.ClassContextSpecific || decodedTag_newmmenumber.Number != 5 {
+					return fmt.Errorf("decoding newMMENumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_newmmenumber)
 				}
 				tmp_newmmenumber := ISDNAddressString(rawVal_newmmenumber)
 				v.NewMMENumber = &tmp_newmmenumber
@@ -3372,9 +3729,12 @@ func (v *AlertServiceCentreArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_newmmediameteraddress, rawVal_newmmediameteraddress, err := ber.DecodeTLV(content[offset:])
+				decodedTag_newmmediameteraddress, n_newmmediameteraddress, rawVal_newmmediameteraddress, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding newMMEDiameterAddress: %w", err)
+				}
+				if decodedTag_newmmediameteraddress.Class != tag.ClassContextSpecific || decodedTag_newmmediameteraddress.Number != 6 || decodedTag_newmmediameteraddress.Constructed != true {
+					return fmt.Errorf("decoding newMMEDiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_newmmediameteraddress)
 				}
 				reconstructed_newmmediameteraddress := ber.EncodeSequence(rawVal_newmmediameteraddress)
 				var dec_newmmediameteraddress NetworkNodeDiameterAddress
@@ -3391,9 +3751,12 @@ func (v *AlertServiceCentreArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_newmscnumber, rawVal_newmscnumber, err := ber.DecodeTLV(content[offset:])
+				decodedTag_newmscnumber, n_newmscnumber, rawVal_newmscnumber, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding newMSCNumber: %w", err)
+				}
+				if decodedTag_newmscnumber.Class != tag.ClassContextSpecific || decodedTag_newmscnumber.Number != 7 {
+					return fmt.Errorf("decoding newMSCNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_newmscnumber)
 				}
 				tmp_newmscnumber := ISDNAddressString(rawVal_newmscnumber)
 				v.NewMSCNumber = &tmp_newmscnumber
@@ -3475,7 +3838,14 @@ func (v *InformServiceCentreArg) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding InformServiceCentreArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes InformServiceCentreArg from BER/DER format.
@@ -3557,9 +3927,12 @@ func (v *InformServiceCentreArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_additionalabsentsubscriberdiagnosticsm, rawVal_additionalabsentsubscriberdiagnosticsm, err := ber.DecodeTLV(content[offset:])
+				decodedTag_additionalabsentsubscriberdiagnosticsm, n_additionalabsentsubscriberdiagnosticsm, rawVal_additionalabsentsubscriberdiagnosticsm, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding additionalAbsentSubscriberDiagnosticSM: %w", err)
+				}
+				if decodedTag_additionalabsentsubscriberdiagnosticsm.Class != tag.ClassContextSpecific || decodedTag_additionalabsentsubscriberdiagnosticsm.Number != 0 || decodedTag_additionalabsentsubscriberdiagnosticsm.Constructed != false {
+					return fmt.Errorf("decoding additionalAbsentSubscriberDiagnosticSM: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalabsentsubscriberdiagnosticsm)
 				}
 				decVal_additionalabsentsubscriberdiagnosticsm, intErr := ber.DecodeIntegerValue(rawVal_additionalabsentsubscriberdiagnosticsm)
 				if intErr != nil {
@@ -3576,9 +3949,12 @@ func (v *InformServiceCentreArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_smsf3gppabsentsubscriberdiagnosticsm, rawVal_smsf3gppabsentsubscriberdiagnosticsm, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smsf3gppabsentsubscriberdiagnosticsm, n_smsf3gppabsentsubscriberdiagnosticsm, rawVal_smsf3gppabsentsubscriberdiagnosticsm, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsf3gppAbsentSubscriberDiagnosticSM: %w", err)
+				}
+				if decodedTag_smsf3gppabsentsubscriberdiagnosticsm.Class != tag.ClassContextSpecific || decodedTag_smsf3gppabsentsubscriberdiagnosticsm.Number != 1 || decodedTag_smsf3gppabsentsubscriberdiagnosticsm.Constructed != false {
+					return fmt.Errorf("decoding smsf3gppAbsentSubscriberDiagnosticSM: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsf3gppabsentsubscriberdiagnosticsm)
 				}
 				decVal_smsf3gppabsentsubscriberdiagnosticsm, intErr := ber.DecodeIntegerValue(rawVal_smsf3gppabsentsubscriberdiagnosticsm)
 				if intErr != nil {
@@ -3595,9 +3971,12 @@ func (v *InformServiceCentreArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_smsfnon3gppabsentsubscriberdiagnosticsm, rawVal_smsfnon3gppabsentsubscriberdiagnosticsm, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smsfnon3gppabsentsubscriberdiagnosticsm, n_smsfnon3gppabsentsubscriberdiagnosticsm, rawVal_smsfnon3gppabsentsubscriberdiagnosticsm, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding smsfNon3gppAbsentSubscriberDiagnosticSM: %w", err)
+				}
+				if decodedTag_smsfnon3gppabsentsubscriberdiagnosticsm.Class != tag.ClassContextSpecific || decodedTag_smsfnon3gppabsentsubscriberdiagnosticsm.Number != 2 || decodedTag_smsfnon3gppabsentsubscriberdiagnosticsm.Constructed != false {
+					return fmt.Errorf("decoding smsfNon3gppAbsentSubscriberDiagnosticSM: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsfnon3gppabsentsubscriberdiagnosticsm)
 				}
 				decVal_smsfnon3gppabsentsubscriberdiagnosticsm, intErr := ber.DecodeIntegerValue(rawVal_smsfnon3gppabsentsubscriberdiagnosticsm)
 				if intErr != nil {
@@ -3674,7 +4053,14 @@ func (v *ReadyForSMArg) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ReadyForSMArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ReadyForSMArg from BER/DER format.
@@ -3696,9 +4082,12 @@ func (v *ReadyForSMArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for imsi, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_imsi, rawVal_imsi, err := ber.DecodeTLV(content[offset:])
+	decodedTag_imsi, n_imsi, rawVal_imsi, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding imsi: %w", err)
+	}
+	if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 0 {
+		return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 	}
 	v.Imsi = IMSI(rawVal_imsi)
 	offset += n_imsi
@@ -3750,11 +4139,16 @@ func (v *ReadyForSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_additionalalertreasonindicator, rawVal_additionalalertreasonindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_additionalalertreasonindicator, n_additionalalertreasonindicator, rawVal_additionalalertreasonindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding additionalAlertReasonIndicator: %w", err)
 				}
-				_ = rawVal_additionalalertreasonindicator
+				if decodedTag_additionalalertreasonindicator.Class != tag.ClassContextSpecific || decodedTag_additionalalertreasonindicator.Number != 1 || decodedTag_additionalalertreasonindicator.Constructed != false {
+					return fmt.Errorf("decoding additionalAlertReasonIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalalertreasonindicator)
+				}
+				if len(rawVal_additionalalertreasonindicator) != 0 {
+					return fmt.Errorf("decoding additionalAlertReasonIndicator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_additionalalertreasonindicator))
+				}
 				v.AdditionalAlertReasonIndicator = &struct{}{}
 				offset += n_additionalalertreasonindicator
 			}
@@ -3822,7 +4216,14 @@ func (v *ReadyForSMRes) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ReadyForSMRes as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ReadyForSMRes from BER/DER format.
@@ -3910,7 +4311,14 @@ func (v *MTForwardSMVGCSArg) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding MTForwardSMVGCSArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes MTForwardSMVGCSArg from BER/DER format.
@@ -4070,7 +4478,14 @@ func (v *MTForwardSMVGCSRes) MarshalDER() ([]byte, error) {
 	derValue.DispatcherListIndef_ = false
 	derValue.AdditionalDispatcherListIndef_ = false
 	v = &derValue
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding MTForwardSMVGCSRes as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes MTForwardSMVGCSRes from BER/DER format.
@@ -4088,9 +4503,12 @@ func (v *MTForwardSMVGCSRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_smrpui, rawVal_smrpui, err := ber.DecodeTLV(content[offset:])
+				decodedTag_smrpui, n_smrpui, rawVal_smrpui, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding sm-RP-UI: %w", err)
+				}
+				if decodedTag_smrpui.Class != tag.ClassContextSpecific || decodedTag_smrpui.Number != 0 {
+					return fmt.Errorf("decoding sm-RP-UI: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smrpui)
 				}
 				tmp_smrpui := SignalInfo(rawVal_smrpui)
 				v.SmRPUI = &tmp_smrpui
@@ -4104,9 +4522,12 @@ func (v *MTForwardSMVGCSRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_dispatcherlist, rawVal_dispatcherlist, err := ber.DecodeTLV(content[offset:])
+				decodedTag_dispatcherlist, n_dispatcherlist, rawVal_dispatcherlist, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding dispatcherList: %w", err)
+				}
+				if decodedTag_dispatcherlist.Class != tag.ClassContextSpecific || decodedTag_dispatcherlist.Number != 1 || decodedTag_dispatcherlist.Constructed != true {
+					return fmt.Errorf("decoding dispatcherList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dispatcherlist)
 				}
 				reconstructed_dispatcherlist := ber.EncodeSequence(rawVal_dispatcherlist)
 				dec_dispatcherlist, unmErr := UnmarshalBERDispatcherList(reconstructed_dispatcherlist)
@@ -4143,9 +4564,12 @@ func (v *MTForwardSMVGCSRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
+				decodedTag_extensioncontainer, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", err)
+				}
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 2 || decodedTag_extensioncontainer.Constructed != true {
+					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
 				var dec_extensioncontainer ExtensionContainer
@@ -4163,9 +4587,12 @@ func (v *MTForwardSMVGCSRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_additionaldispatcherlist, rawVal_additionaldispatcherlist, err := ber.DecodeTLV(content[offset:])
+				decodedTag_additionaldispatcherlist, n_additionaldispatcherlist, rawVal_additionaldispatcherlist, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding additionalDispatcherList: %w", err)
+				}
+				if decodedTag_additionaldispatcherlist.Class != tag.ClassContextSpecific || decodedTag_additionaldispatcherlist.Number != 3 || decodedTag_additionaldispatcherlist.Constructed != true {
+					return fmt.Errorf("decoding additionalDispatcherList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionaldispatcherlist)
 				}
 				reconstructed_additionaldispatcherlist := ber.EncodeSequence(rawVal_additionaldispatcherlist)
 				dec_additionaldispatcherlist, unmErr := UnmarshalBERAdditionalDispatcherList(reconstructed_additionaldispatcherlist)

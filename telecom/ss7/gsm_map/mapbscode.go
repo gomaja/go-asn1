@@ -177,5 +177,5 @@ const (
 // BearerServiceCode represents the ASN.1 type BearerServiceCode (OCTET_STRING).
 type BearerServiceCode = []byte
 
-// ExtBearerServiceCode represents the ASN.1 type ExtBearerServiceCode (OCTET_STRING).
+// ExtBearerServiceCode represents the ASN.1 type Ext-BearerServiceCode (OCTET_STRING).
 type ExtBearerServiceCode = []byte

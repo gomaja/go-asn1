@@ -478,7 +478,7 @@ type EUTRANResponse struct {
 	ExtData_                        [][]byte                        `asn1:"-" json:"-"`
 }
 
-// EHRPDSectorID represents the ASN.1 type EHRPDSectorID (OCTET_STRING).
+// EHRPDSectorID represents the ASN.1 type EHRPD-Sector-ID (OCTET_STRING).
 type EHRPDSectorID = []byte
 
 // IRATCellID choice constants.
@@ -489,7 +489,7 @@ const (
 	IRATCellIDChoiceEHRPD  = 4
 )
 
-// IRATCellID represents the ASN.1 CHOICE type IRATCellID.
+// IRATCellID represents the ASN.1 CHOICE type IRAT-Cell-ID.
 type IRATCellID struct {
 	Choice int
 	EUTRAN []byte         `json:"EUTRAN,omitempty"`
@@ -542,7 +542,7 @@ type MultiCellLoadReportingRequest struct {
 	ExtData_                [][]byte          `asn1:"-" json:"-"`
 }
 
-// ReportingCellListItem represents the ASN.1 type ReportingCellListItem (SEQUENCE).
+// ReportingCellListItem represents the ASN.1 type ReportingCellList-Item (SEQUENCE).
 type ReportingCellListItem struct {
 	CellID      IRATCellID `asn1:"tag:0,context,explicit"`
 	ExtCount_   int64      `asn1:"-" json:"-"`
@@ -564,7 +564,7 @@ const (
 	MultiCellLoadReportingResponseItemChoiceEHRPD          = 4
 )
 
-// MultiCellLoadReportingResponseItem represents the ASN.1 CHOICE type MultiCellLoadReportingResponseItem.
+// MultiCellLoadReportingResponseItem represents the ASN.1 CHOICE type MultiCellLoadReportingResponse-Item.
 type MultiCellLoadReportingResponseItem struct {
 	Choice         int
 	EUTRANResponse *EUTRANResponse                            `json:"EUTRANResponse,omitempty"`
@@ -747,7 +747,7 @@ type CellActivationRequest struct {
 // CellsToActivateList represents the ASN.1 type CellsToActivateList (SEQUENCE_OF).
 type CellsToActivateList = []CellsToActivateListItem
 
-// CellsToActivateListItem represents the ASN.1 type CellsToActivateListItem (SEQUENCE).
+// CellsToActivateListItem represents the ASN.1 type CellsToActivateList-Item (SEQUENCE).
 type CellsToActivateListItem struct {
 	CellID      []byte   `asn1:"tag:0,context,implicit"`
 	ExtCount_   int64    `asn1:"-" json:"-"`
@@ -767,7 +767,7 @@ type CellActivationResponse struct {
 // ActivatedCellsList represents the ASN.1 type ActivatedCellsList (SEQUENCE_OF).
 type ActivatedCellsList = []ActivatedCellsListItem
 
-// ActivatedCellsListItem represents the ASN.1 type ActivatedCellsListItem (SEQUENCE).
+// ActivatedCellsListItem represents the ASN.1 type ActivatedCellsList-Item (SEQUENCE).
 type ActivatedCellsListItem struct {
 	CellID      []byte   `asn1:"tag:0,context,implicit"`
 	ExtCount_   int64    `asn1:"-" json:"-"`
@@ -787,7 +787,7 @@ type CellStateIndication struct {
 // NotificationCellList represents the ASN.1 type NotificationCellList (SEQUENCE_OF).
 type NotificationCellList = []NotificationCellListItem
 
-// NotificationCellListItem represents the ASN.1 type NotificationCellListItem (SEQUENCE).
+// NotificationCellListItem represents the ASN.1 type NotificationCellList-Item (SEQUENCE).
 type NotificationCellListItem struct {
 	CellID      []byte     `asn1:"tag:0,context,implicit"`
 	NotifyFlag  NotifyFlag `asn1:"tag:1,context,implicit"`
@@ -897,26 +897,44 @@ func (v *SONtransferRequestContainer) MarshalAPERTo(bb *per.BitBuffer) error {
 		inner := per.NewBitBuffer()
 		switch v.Choice {
 		case SONtransferRequestContainerChoiceMultiCellLoadReporting:
+			if v.MultiCellLoadReporting == nil {
+				return fmt.Errorf("choice alternative multiCellLoadReporting is nil")
+			}
 			if err := v.MultiCellLoadReporting.MarshalAPERTo(inner); err != nil {
 				return fmt.Errorf("encoding multiCellLoadReporting: %w", err)
 			}
 		case SONtransferRequestContainerChoiceEventTriggeredCellLoadReporting:
+			if v.EventTriggeredCellLoadReporting == nil {
+				return fmt.Errorf("choice alternative eventTriggeredCellLoadReporting is nil")
+			}
 			if err := v.EventTriggeredCellLoadReporting.MarshalAPERTo(inner); err != nil {
 				return fmt.Errorf("encoding eventTriggeredCellLoadReporting: %w", err)
 			}
 		case SONtransferRequestContainerChoiceHOReporting:
+			if v.HOReporting == nil {
+				return fmt.Errorf("choice alternative hOReporting is nil")
+			}
 			if err := v.HOReporting.MarshalAPERTo(inner); err != nil {
 				return fmt.Errorf("encoding hOReporting: %w", err)
 			}
 		case SONtransferRequestContainerChoiceEutranCellActivation:
+			if v.EutranCellActivation == nil {
+				return fmt.Errorf("choice alternative eutranCellActivation is nil")
+			}
 			if err := v.EutranCellActivation.MarshalAPERTo(inner); err != nil {
 				return fmt.Errorf("encoding eutranCellActivation: %w", err)
 			}
 		case SONtransferRequestContainerChoiceEnergySavingsIndication:
+			if v.EnergySavingsIndication == nil {
+				return fmt.Errorf("choice alternative energySavingsIndication is nil")
+			}
 			if err := v.EnergySavingsIndication.MarshalAPERTo(inner); err != nil {
 				return fmt.Errorf("encoding energySavingsIndication: %w", err)
 			}
 		case SONtransferRequestContainerChoiceFailureEventReporting:
+			if v.FailureEventReporting == nil {
+				return fmt.Errorf("choice alternative failureEventReporting is nil")
+			}
 			if err := v.FailureEventReporting.MarshalAPERTo(inner); err != nil {
 				return fmt.Errorf("encoding failureEventReporting: %w", err)
 			}
@@ -1038,11 +1056,17 @@ func (v *SONtransferResponseContainer) MarshalAPERTo(bb *per.BitBuffer) error {
 				}
 			}
 		case SONtransferResponseContainerChoiceEventTriggeredCellLoadReporting:
+			if v.EventTriggeredCellLoadReporting == nil {
+				return fmt.Errorf("choice alternative eventTriggeredCellLoadReporting is nil")
+			}
 			if err := v.EventTriggeredCellLoadReporting.MarshalAPERTo(inner); err != nil {
 				return fmt.Errorf("encoding eventTriggeredCellLoadReporting: %w", err)
 			}
 		case SONtransferResponseContainerChoiceHOReporting:
 		case SONtransferResponseContainerChoiceEutranCellActivation:
+			if v.EutranCellActivation == nil {
+				return fmt.Errorf("choice alternative eutranCellActivation is nil")
+			}
 			if err := v.EutranCellActivation.MarshalAPERTo(inner); err != nil {
 				return fmt.Errorf("encoding eutranCellActivation: %w", err)
 			}
@@ -1058,6 +1082,9 @@ func (v *SONtransferResponseContainer) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case SONtransferResponseContainerChoiceCellLoadReporting:
+		if v.CellLoadReporting == nil {
+			return fmt.Errorf("choice alternative cellLoadReporting is nil")
+		}
 		if err := v.CellLoadReporting.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding cellLoadReporting: %w", err)
 		}
@@ -1104,11 +1131,13 @@ func (v *SONtransferResponseContainer) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			if seqLen_multicellloadreporting > 128 {
 				return fmt.Errorf("decoding multiCellLoadReporting length %d above upper bound 128", seqLen_multicellloadreporting)
 			}
-			tmp_multicellloadreporting := make(MultiCellLoadReportingResponse, seqLen_multicellloadreporting)
+			tmp_multicellloadreporting := make(MultiCellLoadReportingResponse, 0)
 			for i := int64(0); i < seqLen_multicellloadreporting; i++ {
-				if err := tmp_multicellloadreporting[i].UnmarshalAPERFrom(inner); err != nil {
-					return fmt.Errorf("decoding multiCellLoadReporting element: %w", err)
+				var elem MultiCellLoadReportingResponseItem
+				if err := elem.UnmarshalAPERFrom(inner); err != nil {
+					return fmt.Errorf("decoding multiCellLoadReporting element %d: %w", i, err)
 				}
+				tmp_multicellloadreporting = append(tmp_multicellloadreporting, elem)
 			}
 			v.MultiCellLoadReporting = tmp_multicellloadreporting
 		case SONtransferResponseContainerChoiceEventTriggeredCellLoadReporting:
@@ -1164,26 +1193,44 @@ func (v *SONtransferCause) MarshalAPERTo(bb *per.BitBuffer) error {
 		inner := per.NewBitBuffer()
 		switch v.Choice {
 		case SONtransferCauseChoiceMultiCellLoadReporting:
+			if v.MultiCellLoadReporting == nil {
+				return fmt.Errorf("choice alternative multiCellLoadReporting is nil")
+			}
 			if err := per.EncodeEnumeratedAligned(inner, int64(*v.MultiCellLoadReporting), 3, true); err != nil {
 				return fmt.Errorf("encoding multiCellLoadReporting: %w", err)
 			}
 		case SONtransferCauseChoiceEventTriggeredCellLoadReporting:
+			if v.EventTriggeredCellLoadReporting == nil {
+				return fmt.Errorf("choice alternative eventTriggeredCellLoadReporting is nil")
+			}
 			if err := per.EncodeEnumeratedAligned(inner, int64(*v.EventTriggeredCellLoadReporting), 3, true); err != nil {
 				return fmt.Errorf("encoding eventTriggeredCellLoadReporting: %w", err)
 			}
 		case SONtransferCauseChoiceHOReporting:
+			if v.HOReporting == nil {
+				return fmt.Errorf("choice alternative hOReporting is nil")
+			}
 			if err := per.EncodeEnumeratedAligned(inner, int64(*v.HOReporting), 3, true); err != nil {
 				return fmt.Errorf("encoding hOReporting: %w", err)
 			}
 		case SONtransferCauseChoiceEutranCellActivation:
+			if v.EutranCellActivation == nil {
+				return fmt.Errorf("choice alternative eutranCellActivation is nil")
+			}
 			if err := per.EncodeEnumeratedAligned(inner, int64(*v.EutranCellActivation), 3, true); err != nil {
 				return fmt.Errorf("encoding eutranCellActivation: %w", err)
 			}
 		case SONtransferCauseChoiceEnergySavingsIndication:
+			if v.EnergySavingsIndication == nil {
+				return fmt.Errorf("choice alternative energySavingsIndication is nil")
+			}
 			if err := per.EncodeEnumeratedAligned(inner, int64(*v.EnergySavingsIndication), 3, true); err != nil {
 				return fmt.Errorf("encoding energySavingsIndication: %w", err)
 			}
 		case SONtransferCauseChoiceFailureEventReporting:
+			if v.FailureEventReporting == nil {
+				return fmt.Errorf("choice alternative failureEventReporting is nil")
+			}
 			if err := per.EncodeEnumeratedAligned(inner, int64(*v.FailureEventReporting), 3, true); err != nil {
 				return fmt.Errorf("encoding failureEventReporting: %w", err)
 			}
@@ -1197,6 +1244,9 @@ func (v *SONtransferCause) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case SONtransferCauseChoiceCellLoadReporting:
+		if v.CellLoadReporting == nil {
+			return fmt.Errorf("choice alternative cellLoadReporting is nil")
+		}
 		if err := per.EncodeEnumeratedAligned(bb, int64(*v.CellLoadReporting), 3, true); err != nil {
 			return fmt.Errorf("encoding cellLoadReporting: %w", err)
 		}
@@ -1311,6 +1361,9 @@ func (v *CellLoadReportingResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		inner := per.NewBitBuffer()
 		switch v.Choice {
 		case CellLoadReportingResponseChoiceEHRPD:
+			if v.EHRPD == nil {
+				return fmt.Errorf("choice alternative eHRPD is nil")
+			}
 			if err := v.EHRPD.MarshalAPERTo(inner); err != nil {
 				return fmt.Errorf("encoding eHRPD: %w", err)
 			}
@@ -1327,6 +1380,9 @@ func (v *CellLoadReportingResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case CellLoadReportingResponseChoiceEUTRAN:
+		if v.EUTRAN == nil {
+			return fmt.Errorf("choice alternative eUTRAN is nil")
+		}
 		if err := v.EUTRAN.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding eUTRAN: %w", err)
 		}
@@ -1590,6 +1646,9 @@ func (v *IRATCellID) MarshalAPERTo(bb *per.BitBuffer) error {
 		inner := per.NewBitBuffer()
 		switch v.Choice {
 		case IRATCellIDChoiceEHRPD:
+			if v.EHRPD == nil {
+				return fmt.Errorf("choice alternative eHRPD is nil")
+			}
 			if err := per.EncodeOctetStringAligned(inner, []byte(*v.EHRPD), 16, 16, true); err != nil {
 				return fmt.Errorf("encoding eHRPD: %w", err)
 			}
@@ -1743,11 +1802,13 @@ func unmarshalAPERRequestedCellListInto(v *asn1cAPERRequestedCellListListValue, 
 	if seqLen_value > 128 {
 		return fmt.Errorf("decoding value length %d above upper bound 128", seqLen_value)
 	}
-	v.Value = make(RequestedCellList, seqLen_value)
+	v.Value = make(RequestedCellList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem IRATCellID
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -1820,11 +1881,13 @@ func (v *MultiCellLoadReportingRequest) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	if seqLen_requestedcelllist > 128 {
 		return fmt.Errorf("decoding requestedCellList length %d above upper bound 128", seqLen_requestedcelllist)
 	}
-	v.RequestedCellList = make(RequestedCellList, seqLen_requestedcelllist)
+	v.RequestedCellList = make(RequestedCellList, 0)
 	for i := int64(0); i < seqLen_requestedcelllist; i++ {
-		if err := v.RequestedCellList[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding requestedCellList element: %w", err)
+		var elem IRATCellID
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding requestedCellList element %d: %w", i, err)
 		}
+		v.RequestedCellList = append(v.RequestedCellList, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -1975,11 +2038,13 @@ func unmarshalAPERReportingCellListInto(v *asn1cAPERReportingCellListListValue, 
 	if seqLen_value > 128 {
 		return fmt.Errorf("decoding value length %d above upper bound 128", seqLen_value)
 	}
-	v.Value = make(ReportingCellList, seqLen_value)
+	v.Value = make(ReportingCellList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ReportingCellListItem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -2039,11 +2104,13 @@ func unmarshalAPERMultiCellLoadReportingResponseInto(v *asn1cAPERMultiCellLoadRe
 	if seqLen_value > 128 {
 		return fmt.Errorf("decoding value length %d above upper bound 128", seqLen_value)
 	}
-	v.Value = make(MultiCellLoadReportingResponse, seqLen_value)
+	v.Value = make(MultiCellLoadReportingResponse, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem MultiCellLoadReportingResponseItem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -2069,6 +2136,9 @@ func (v *MultiCellLoadReportingResponseItem) MarshalAPERTo(bb *per.BitBuffer) er
 		inner := per.NewBitBuffer()
 		switch v.Choice {
 		case MultiCellLoadReportingResponseItemChoiceEHRPD:
+			if v.EHRPD == nil {
+				return fmt.Errorf("choice alternative eHRPD is nil")
+			}
 			if err := v.EHRPD.MarshalAPERTo(inner); err != nil {
 				return fmt.Errorf("encoding eHRPD: %w", err)
 			}
@@ -2085,6 +2155,9 @@ func (v *MultiCellLoadReportingResponseItem) MarshalAPERTo(bb *per.BitBuffer) er
 	}
 	switch v.Choice {
 	case MultiCellLoadReportingResponseItemChoiceEUTRANResponse:
+		if v.EUTRANResponse == nil {
+			return fmt.Errorf("choice alternative eUTRANResponse is nil")
+		}
 		if err := v.EUTRANResponse.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding eUTRANResponse: %w", err)
 		}
@@ -2470,11 +2543,13 @@ func (v *HOReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_candidatecelllist > 16 {
 		return fmt.Errorf("decoding candidateCellList length %d above upper bound 16", seqLen_candidatecelllist)
 	}
-	v.CandidateCellList = make(CandidateCellList, seqLen_candidatecelllist)
+	v.CandidateCellList = make(CandidateCellList, 0)
 	for i := int64(0); i < seqLen_candidatecelllist; i++ {
-		if err := v.CandidateCellList[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding candidateCellList element: %w", err)
+		var elem IRATCellID
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding candidateCellList element %d: %w", i, err)
 		}
+		v.CandidateCellList = append(v.CandidateCellList, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -2507,11 +2582,13 @@ func (v *HOReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				if seqLen_candidatepcilist > 16 {
 					return fmt.Errorf("decoding candidatePCIList length %d above upper bound 16", seqLen_candidatepcilist)
 				}
-				tmp_candidatepcilist := make(CandidatePCIList, seqLen_candidatepcilist)
+				tmp_candidatepcilist := make(CandidatePCIList, 0)
 				for i := int64(0); i < seqLen_candidatepcilist; i++ {
-					if err := tmp_candidatepcilist[i].UnmarshalAPERFrom(extBB); err != nil {
-						return fmt.Errorf("decoding candidatePCIList element: %w", err)
+					var elem CandidatePCI
+					if err := elem.UnmarshalAPERFrom(extBB); err != nil {
+						return fmt.Errorf("decoding candidatePCIList element %d: %w", i, err)
 					}
+					tmp_candidatepcilist = append(tmp_candidatepcilist, elem)
 				}
 				v.CandidatePCIList = tmp_candidatepcilist
 			}
@@ -2583,11 +2660,13 @@ func unmarshalAPERCandidateCellListInto(v *asn1cAPERCandidateCellListListValue, 
 	if seqLen_value > 16 {
 		return fmt.Errorf("decoding value length %d above upper bound 16", seqLen_value)
 	}
-	v.Value = make(CandidateCellList, seqLen_value)
+	v.Value = make(CandidateCellList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem IRATCellID
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -2645,11 +2724,13 @@ func unmarshalAPERCandidatePCIListInto(v *asn1cAPERCandidatePCIListListValue, bb
 	if seqLen_value > 16 {
 		return fmt.Errorf("decoding value length %d above upper bound 16", seqLen_value)
 	}
-	v.Value = make(CandidatePCIList, seqLen_value)
+	v.Value = make(CandidatePCIList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem CandidatePCI
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -2821,11 +2902,13 @@ func (v *CellActivationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_cellstoactivatelist > 256 {
 		return fmt.Errorf("decoding cellsToActivateList length %d above upper bound 256", seqLen_cellstoactivatelist)
 	}
-	v.CellsToActivateList = make(CellsToActivateList, seqLen_cellstoactivatelist)
+	v.CellsToActivateList = make(CellsToActivateList, 0)
 	for i := int64(0); i < seqLen_cellstoactivatelist; i++ {
-		if err := v.CellsToActivateList[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding cellsToActivateList element: %w", err)
+		var elem CellsToActivateListItem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding cellsToActivateList element %d: %w", i, err)
 		}
+		v.CellsToActivateList = append(v.CellsToActivateList, elem)
 	}
 	if opt_minimumactivationtime {
 		val_minimumactivationtime, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(60), false)
@@ -2908,11 +2991,13 @@ func unmarshalAPERCellsToActivateListInto(v *asn1cAPERCellsToActivateListListVal
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(CellsToActivateList, seqLen_value)
+	v.Value = make(CellsToActivateList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem CellsToActivateListItem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -3062,11 +3147,13 @@ func (v *CellActivationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_activatedcellslist > 256 {
 		return fmt.Errorf("decoding activatedCellsList length %d above upper bound 256", seqLen_activatedcellslist)
 	}
-	v.ActivatedCellsList = make(ActivatedCellsList, seqLen_activatedcellslist)
+	v.ActivatedCellsList = make(ActivatedCellsList, 0)
 	for i := int64(0); i < seqLen_activatedcellslist; i++ {
-		if err := v.ActivatedCellsList[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding activatedCellsList element: %w", err)
+		var elem ActivatedCellsListItem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding activatedCellsList element %d: %w", i, err)
 		}
+		v.ActivatedCellsList = append(v.ActivatedCellsList, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -3142,11 +3229,13 @@ func unmarshalAPERActivatedCellsListInto(v *asn1cAPERActivatedCellsListListValue
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(ActivatedCellsList, seqLen_value)
+	v.Value = make(ActivatedCellsList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem ActivatedCellsListItem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -3296,11 +3385,13 @@ func (v *CellStateIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if seqLen_notificationcelllist > 256 {
 		return fmt.Errorf("decoding notificationCellList length %d above upper bound 256", seqLen_notificationcelllist)
 	}
-	v.NotificationCellList = make(NotificationCellList, seqLen_notificationcelllist)
+	v.NotificationCellList = make(NotificationCellList, 0)
 	for i := int64(0); i < seqLen_notificationcelllist; i++ {
-		if err := v.NotificationCellList[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding notificationCellList element: %w", err)
+		var elem NotificationCellListItem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding notificationCellList element %d: %w", i, err)
 		}
+		v.NotificationCellList = append(v.NotificationCellList, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -3376,11 +3467,13 @@ func unmarshalAPERNotificationCellListInto(v *asn1cAPERNotificationCellListListV
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(NotificationCellList, seqLen_value)
+	v.Value = make(NotificationCellList, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem NotificationCellListItem
+		if err := elem.UnmarshalAPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -3489,6 +3582,9 @@ func (v *FailureEventReport) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case FailureEventReportChoiceTooEarlyInterRATHOReportFromEUTRAN:
+		if v.TooEarlyInterRATHOReportFromEUTRAN == nil {
+			return fmt.Errorf("choice alternative tooEarlyInterRATHOReportFromEUTRAN is nil")
+		}
 		if err := v.TooEarlyInterRATHOReportFromEUTRAN.MarshalAPERTo(bb); err != nil {
 			return fmt.Errorf("encoding tooEarlyInterRATHOReportFromEUTRAN: %w", err)
 		}

@@ -26,7 +26,7 @@ const (
 	ROSSingleASChoiceReject       = 4
 )
 
-// ROSSingleAS represents the ASN.1 CHOICE type ROSSingleAS.
+// ROSSingleAS represents the ASN.1 CHOICE type ROS-SingleAS.
 type ROSSingleAS struct {
 	Choice       int
 	Invoke       *Invoke       `json:"Invoke,omitempty"`
@@ -75,7 +75,7 @@ const (
 	ROSConsumerASChoiceReject       = 4
 )
 
-// ROSConsumerAS represents the ASN.1 CHOICE type ROSConsumerAS.
+// ROSConsumerAS represents the ASN.1 CHOICE type ROS-ConsumerAS.
 type ROSConsumerAS struct {
 	Choice       int
 	Invoke       *Invoke       `json:"Invoke,omitempty"`
@@ -124,7 +124,7 @@ const (
 	ROSSupplierASChoiceReject       = 4
 )
 
-// ROSSupplierAS represents the ASN.1 CHOICE type ROSSupplierAS.
+// ROSSupplierAS represents the ASN.1 CHOICE type ROS-SupplierAS.
 type ROSSupplierAS struct {
 	Choice       int
 	Invoke       *Invoke       `json:"Invoke,omitempty"`
@@ -171,7 +171,7 @@ const (
 	ROSSingleASInvokeLinkedIdChoiceAbsent  = 2
 )
 
-// ROSSingleASInvokeLinkedId represents the ASN.1 CHOICE type ROSSingleASInvokeLinkedId.
+// ROSSingleASInvokeLinkedId represents the ASN.1 CHOICE type ROS-SingleAS-invoke-linkedId.
 type ROSSingleASInvokeLinkedId struct {
 	Choice  int
 	Present *big.Int  `json:"Present,omitempty"`
@@ -194,7 +194,7 @@ func NewROSSingleASInvokeLinkedIdAbsent(v struct{}) ROSSingleASInvokeLinkedId {
 	}
 }
 
-// ROSSingleASReturnResultResult represents the ASN.1 type ROSSingleASReturnResultResult (SEQUENCE).
+// ROSSingleASReturnResultResult represents the ASN.1 type ROS-SingleAS-returnResult-result (SEQUENCE).
 type ROSSingleASReturnResultResult struct {
 	Opcode Code             `asn1:""`
 	Result runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
@@ -206,7 +206,7 @@ const (
 	ROSConsumerASInvokeLinkedIdChoiceAbsent  = 2
 )
 
-// ROSConsumerASInvokeLinkedId represents the ASN.1 CHOICE type ROSConsumerASInvokeLinkedId.
+// ROSConsumerASInvokeLinkedId represents the ASN.1 CHOICE type ROS-ConsumerAS-invoke-linkedId.
 type ROSConsumerASInvokeLinkedId struct {
 	Choice  int
 	Present *big.Int  `json:"Present,omitempty"`
@@ -229,7 +229,7 @@ func NewROSConsumerASInvokeLinkedIdAbsent(v struct{}) ROSConsumerASInvokeLinkedI
 	}
 }
 
-// ROSConsumerASReturnResultResult represents the ASN.1 type ROSConsumerASReturnResultResult (SEQUENCE).
+// ROSConsumerASReturnResultResult represents the ASN.1 type ROS-ConsumerAS-returnResult-result (SEQUENCE).
 type ROSConsumerASReturnResultResult struct {
 	Opcode Code             `asn1:""`
 	Result runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
@@ -241,7 +241,7 @@ const (
 	ROSSupplierASInvokeLinkedIdChoiceAbsent  = 2
 )
 
-// ROSSupplierASInvokeLinkedId represents the ASN.1 CHOICE type ROSSupplierASInvokeLinkedId.
+// ROSSupplierASInvokeLinkedId represents the ASN.1 CHOICE type ROS-SupplierAS-invoke-linkedId.
 type ROSSupplierASInvokeLinkedId struct {
 	Choice  int
 	Present *big.Int  `json:"Present,omitempty"`
@@ -264,7 +264,7 @@ func NewROSSupplierASInvokeLinkedIdAbsent(v struct{}) ROSSupplierASInvokeLinkedI
 	}
 }
 
-// ROSSupplierASReturnResultResult represents the ASN.1 type ROSSupplierASReturnResultResult (SEQUENCE).
+// ROSSupplierASReturnResultResult represents the ASN.1 type ROS-SupplierAS-returnResult-result (SEQUENCE).
 type ROSSupplierASReturnResultResult struct {
 	Opcode Code             `asn1:""`
 	Result runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
@@ -336,6 +336,9 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
 		}
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_0)
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding invoke as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	case ROSSingleASChoiceReturnResult:
 		if v.ReturnResult == nil {
@@ -346,6 +349,9 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding returnResult: %w", err)
 		}
 		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_der_1)
+		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
+			return nil, fmt.Errorf("encoding returnResult as DER: %w", derErr)
+		}
 		return enc_der_1, nil
 	case ROSSingleASChoiceReturnError:
 		if v.ReturnError == nil {
@@ -356,6 +362,9 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding returnError: %w", err)
 		}
 		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_der_2)
+		if derErr := ber.ValidateDERElement(enc_der_2); derErr != nil {
+			return nil, fmt.Errorf("encoding returnError as DER: %w", derErr)
+		}
 		return enc_der_2, nil
 	case ROSSingleASChoiceReject:
 		if v.Reject == nil {
@@ -366,9 +375,19 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding reject: %w", err)
 		}
 		enc_der_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_der_3)
+		if derErr := ber.ValidateDERElement(enc_der_3); derErr != nil {
+			return nil, fmt.Errorf("encoding reject as DER: %w", derErr)
+		}
 		return enc_der_3, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ROSSingleAS as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ROSSingleAS from BER/DER format.
@@ -390,7 +409,7 @@ func (v *ROSSingleAS) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "ROSSingleAS", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == true {
 		v.Choice = ROSSingleASChoiceInvoke
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -405,7 +424,7 @@ func (v *ROSSingleAS) UnmarshalBER(data []byte) error {
 		if v.Invoke.LinkedId != nil {
 			return fmt.Errorf("decoded Invoke violates WITH COMPONENTS: LinkedId must be absent")
 		}
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 && peekTag.Constructed == true {
 		v.Choice = ROSSingleASChoiceReturnResult
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -417,7 +436,7 @@ func (v *ROSSingleAS) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding returnResult: %w", unmErr)
 		}
 		v.ReturnResult = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 && peekTag.Constructed == true {
 		v.Choice = ROSSingleASChoiceReturnError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -429,7 +448,7 @@ func (v *ROSSingleAS) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding returnError: %w", unmErr)
 		}
 		v.ReturnError = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 && peekTag.Constructed == true {
 		v.Choice = ROSSingleASChoiceReject
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -513,6 +532,9 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
 		}
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_0)
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding invoke as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	case ROSConsumerASChoiceReturnResult:
 		if v.ReturnResult == nil {
@@ -523,6 +545,9 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding returnResult: %w", err)
 		}
 		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_der_1)
+		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
+			return nil, fmt.Errorf("encoding returnResult as DER: %w", derErr)
+		}
 		return enc_der_1, nil
 	case ROSConsumerASChoiceReturnError:
 		if v.ReturnError == nil {
@@ -533,6 +558,9 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding returnError: %w", err)
 		}
 		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_der_2)
+		if derErr := ber.ValidateDERElement(enc_der_2); derErr != nil {
+			return nil, fmt.Errorf("encoding returnError as DER: %w", derErr)
+		}
 		return enc_der_2, nil
 	case ROSConsumerASChoiceReject:
 		if v.Reject == nil {
@@ -543,9 +571,19 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding reject: %w", err)
 		}
 		enc_der_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_der_3)
+		if derErr := ber.ValidateDERElement(enc_der_3); derErr != nil {
+			return nil, fmt.Errorf("encoding reject as DER: %w", derErr)
+		}
 		return enc_der_3, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ROSConsumerAS as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ROSConsumerAS from BER/DER format.
@@ -567,7 +605,7 @@ func (v *ROSConsumerAS) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "ROSConsumerAS", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == true {
 		v.Choice = ROSConsumerASChoiceInvoke
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -582,7 +620,7 @@ func (v *ROSConsumerAS) UnmarshalBER(data []byte) error {
 		if v.Invoke.LinkedId != nil {
 			return fmt.Errorf("decoded Invoke violates WITH COMPONENTS: LinkedId must be absent")
 		}
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 && peekTag.Constructed == true {
 		v.Choice = ROSConsumerASChoiceReturnResult
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -594,7 +632,7 @@ func (v *ROSConsumerAS) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding returnResult: %w", unmErr)
 		}
 		v.ReturnResult = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 && peekTag.Constructed == true {
 		v.Choice = ROSConsumerASChoiceReturnError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -606,7 +644,7 @@ func (v *ROSConsumerAS) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding returnError: %w", unmErr)
 		}
 		v.ReturnError = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 && peekTag.Constructed == true {
 		v.Choice = ROSConsumerASChoiceReject
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -690,6 +728,9 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
 		}
 		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_der_0)
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding invoke as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	case ROSSupplierASChoiceReturnResult:
 		if v.ReturnResult == nil {
@@ -700,6 +741,9 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding returnResult: %w", err)
 		}
 		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_der_1)
+		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
+			return nil, fmt.Errorf("encoding returnResult as DER: %w", derErr)
+		}
 		return enc_der_1, nil
 	case ROSSupplierASChoiceReturnError:
 		if v.ReturnError == nil {
@@ -710,6 +754,9 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding returnError: %w", err)
 		}
 		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_der_2)
+		if derErr := ber.ValidateDERElement(enc_der_2); derErr != nil {
+			return nil, fmt.Errorf("encoding returnError as DER: %w", derErr)
+		}
 		return enc_der_2, nil
 	case ROSSupplierASChoiceReject:
 		if v.Reject == nil {
@@ -720,9 +767,19 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding reject: %w", err)
 		}
 		enc_der_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_der_3)
+		if derErr := ber.ValidateDERElement(enc_der_3); derErr != nil {
+			return nil, fmt.Errorf("encoding reject as DER: %w", derErr)
+		}
 		return enc_der_3, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ROSSupplierAS as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ROSSupplierAS from BER/DER format.
@@ -744,7 +801,7 @@ func (v *ROSSupplierAS) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "ROSSupplierAS", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == true {
 		v.Choice = ROSSupplierASChoiceInvoke
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -759,7 +816,7 @@ func (v *ROSSupplierAS) UnmarshalBER(data []byte) error {
 		if v.Invoke.LinkedId != nil {
 			return fmt.Errorf("decoded Invoke violates WITH COMPONENTS: LinkedId must be absent")
 		}
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 && peekTag.Constructed == true {
 		v.Choice = ROSSupplierASChoiceReturnResult
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -771,7 +828,7 @@ func (v *ROSSupplierAS) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding returnResult: %w", unmErr)
 		}
 		v.ReturnResult = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 && peekTag.Constructed == true {
 		v.Choice = ROSSupplierASChoiceReturnError
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -783,7 +840,7 @@ func (v *ROSSupplierAS) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding returnError: %w", unmErr)
 		}
 		v.ReturnError = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 && peekTag.Constructed == true {
 		v.Choice = ROSSupplierASChoiceReject
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -822,7 +879,14 @@ func (v *ROSSingleASInvokeLinkedId) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ROSSingleASInvokeLinkedId to DER format.
 func (v *ROSSingleASInvokeLinkedId) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ROSSingleASInvokeLinkedId as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ROSSingleASInvokeLinkedId from BER/DER format.
@@ -844,7 +908,7 @@ func (v *ROSSingleASInvokeLinkedId) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "ROSSingleASInvokeLinkedId", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == false {
 		v.Choice = ROSSingleASInvokeLinkedIdChoicePresent
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -855,13 +919,15 @@ func (v *ROSSingleASInvokeLinkedId) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding present: %w", intErr)
 		}
 		v.Present = decVal
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = ROSSingleASInvokeLinkedIdChoiceAbsent
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding absent: %w", tlvErr)
 		}
-		_ = rawVal // NULL has no content
+		if len(rawVal) != 0 {
+			return fmt.Errorf("decoding absent: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal))
+		}
 		v.Absent = &struct{}{}
 	} else {
 		return fmt.Errorf("unknown tag %s for ROSSingleASInvokeLinkedId CHOICE", peekTag)
@@ -885,7 +951,14 @@ func (v *ROSSingleASReturnResultResult) MarshalBER() ([]byte, error) {
 // MarshalDER encodes ROSSingleASReturnResultResult to DER format.
 func (v *ROSSingleASReturnResultResult) MarshalDER() ([]byte, error) {
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ROSSingleASReturnResultResult as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ROSSingleASReturnResultResult from BER/DER format.
@@ -948,7 +1021,14 @@ func (v *ROSConsumerASInvokeLinkedId) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ROSConsumerASInvokeLinkedId to DER format.
 func (v *ROSConsumerASInvokeLinkedId) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ROSConsumerASInvokeLinkedId as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ROSConsumerASInvokeLinkedId from BER/DER format.
@@ -970,7 +1050,7 @@ func (v *ROSConsumerASInvokeLinkedId) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "ROSConsumerASInvokeLinkedId", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == false {
 		v.Choice = ROSConsumerASInvokeLinkedIdChoicePresent
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -981,13 +1061,15 @@ func (v *ROSConsumerASInvokeLinkedId) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding present: %w", intErr)
 		}
 		v.Present = decVal
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = ROSConsumerASInvokeLinkedIdChoiceAbsent
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding absent: %w", tlvErr)
 		}
-		_ = rawVal // NULL has no content
+		if len(rawVal) != 0 {
+			return fmt.Errorf("decoding absent: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal))
+		}
 		v.Absent = &struct{}{}
 	} else {
 		return fmt.Errorf("unknown tag %s for ROSConsumerASInvokeLinkedId CHOICE", peekTag)
@@ -1011,7 +1093,14 @@ func (v *ROSConsumerASReturnResultResult) MarshalBER() ([]byte, error) {
 // MarshalDER encodes ROSConsumerASReturnResultResult to DER format.
 func (v *ROSConsumerASReturnResultResult) MarshalDER() ([]byte, error) {
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ROSConsumerASReturnResultResult as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ROSConsumerASReturnResultResult from BER/DER format.
@@ -1074,7 +1163,14 @@ func (v *ROSSupplierASInvokeLinkedId) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ROSSupplierASInvokeLinkedId to DER format.
 func (v *ROSSupplierASInvokeLinkedId) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ROSSupplierASInvokeLinkedId as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ROSSupplierASInvokeLinkedId from BER/DER format.
@@ -1096,7 +1192,7 @@ func (v *ROSSupplierASInvokeLinkedId) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "ROSSupplierASInvokeLinkedId", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == false {
 		v.Choice = ROSSupplierASInvokeLinkedIdChoicePresent
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -1107,13 +1203,15 @@ func (v *ROSSupplierASInvokeLinkedId) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding present: %w", intErr)
 		}
 		v.Present = decVal
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = ROSSupplierASInvokeLinkedIdChoiceAbsent
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding absent: %w", tlvErr)
 		}
-		_ = rawVal // NULL has no content
+		if len(rawVal) != 0 {
+			return fmt.Errorf("decoding absent: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal))
+		}
 		v.Absent = &struct{}{}
 	} else {
 		return fmt.Errorf("unknown tag %s for ROSSupplierASInvokeLinkedId CHOICE", peekTag)
@@ -1137,7 +1235,14 @@ func (v *ROSSupplierASReturnResultResult) MarshalBER() ([]byte, error) {
 // MarshalDER encodes ROSSupplierASReturnResultResult to DER format.
 func (v *ROSSupplierASReturnResultResult) MarshalDER() ([]byte, error) {
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ROSSupplierASReturnResultResult as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ROSSupplierASReturnResultResult from BER/DER format.

@@ -89,7 +89,10 @@ func asn1VectorValueAtPath(current reflect.Value, path string) (any, error) {
 			if current.Kind() != reflect.Array && current.Kind() != reflect.Slice {
 				return nil, fmt.Errorf("path %s: indexed value is not a list", path)
 			}
-			if index < 0 || index >= current.Len() {
+			if index < 0 {
+				return nil, fmt.Errorf("path %s: index %d is negative", path, index)
+			}
+			if index >= current.Len() {
 				return nil, fmt.Errorf("path %s: index %d exceeds length %d", path, index, current.Len())
 			}
 			current = current.Index(index)
@@ -169,25 +172,6 @@ func TestVectorEndReturnResult(t *testing.T) {
 	}
 }
 
-// TestVectorEndReturnResultTshark verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, End and ComponentPortion; direct TShark TCAP entry point exposes the destination transaction ID.
-func TestVectorEndReturnResultTshark(t *testing.T) {
-	t.Parallel()
-	input := asn1VectorHex(t, "64144901016c0fa20d02017f300802012d0403deadbe")
-	var decoded TCMessage
-	err := decoded.UnmarshalBER(input)
-	if err != nil {
-		t.Fatal(err)
-	}
-	asn1VectorAssertPath(t, decoded, "End.Dtid", "\"AQ==\"")
-	wire, err := decoded.MarshalBER()
-	if err != nil {
-		t.Fatal(err)
-	}
-	if !bytes.Equal(wire, input) {
-		t.Fatalf("round trip = %x, want %x", wire, input)
-	}
-}
-
 // TestVectorBeginIndefiniteComponentPortion verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, Begin and ComponentPortion; ITU-T X.690 (02/2021), section 8.1.3.6, indefinite form.
 func TestVectorBeginIndefiniteComponentPortion(t *testing.T) {
 	t.Parallel()
@@ -217,7 +201,6 @@ func FuzzBERComponentPortion(f *testing.F) {
 }
 
 func FuzzBERTCMessage(f *testing.F) {
-	f.Add(asn1VectorHexForFuzz("64144901016c0fa20d02017f300802012d0403deadbe"))
 	f.Add(asn1VectorHexForFuzz("64144901016c0fa20d02017f300802012d0403deadbe"))
 	f.Add(asn1VectorHexForFuzz("620f4801016c80a10602010002012d0000"))
 	f.Fuzz(func(t *testing.T, input []byte) {

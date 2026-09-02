@@ -23,7 +23,7 @@ const (
 	ExtensionDataTypesMaxNumOfPrivateExtensions int64 = 10
 )
 
-// ExtensionDataTypesExtensionContainer represents the ASN.1 type ExtensionDataTypesExtensionContainer (SEQUENCE).
+// ExtensionDataTypesExtensionContainer represents the ASN.1 type ExtensionContainer (SEQUENCE).
 type ExtensionDataTypesExtensionContainer struct {
 	PrivateExtensionList       ExtensionDataTypesPrivateExtensionList `asn1:"tag:0,context,implicit,optional" json:"PrivateExtensionList,omitempty"`
 	PrivateExtensionListIndef_ bool                                   `asn1:"-" json:"-"`
@@ -33,7 +33,7 @@ type ExtensionDataTypesExtensionContainer struct {
 	ExtData_                   [][]byte                               `asn1:"-" json:"-"`
 }
 
-// ExtensionDataTypesSLRArgExtensionContainer represents the ASN.1 type ExtensionDataTypesSLRArgExtensionContainer (SEQUENCE).
+// ExtensionDataTypesSLRArgExtensionContainer represents the ASN.1 type SLR-ArgExtensionContainer (SEQUENCE).
 type ExtensionDataTypesSLRArgExtensionContainer struct {
 	PrivateExtensionList       ExtensionDataTypesPrivateExtensionList `asn1:"tag:0,context,implicit,optional" json:"PrivateExtensionList,omitempty"`
 	PrivateExtensionListIndef_ bool                                   `asn1:"-" json:"-"`
@@ -43,23 +43,23 @@ type ExtensionDataTypesSLRArgExtensionContainer struct {
 	ExtData_                   [][]byte                               `asn1:"-" json:"-"`
 }
 
-// ExtensionDataTypesPrivateExtensionList represents the ASN.1 type ExtensionDataTypesPrivateExtensionList (SEQUENCE_OF).
+// ExtensionDataTypesPrivateExtensionList represents the ASN.1 type PrivateExtensionList (SEQUENCE_OF).
 type ExtensionDataTypesPrivateExtensionList = []ExtensionDataTypesPrivateExtension
 
-// ExtensionDataTypesPrivateExtension represents the ASN.1 type ExtensionDataTypesPrivateExtension (SEQUENCE).
+// ExtensionDataTypesPrivateExtension represents the ASN.1 type PrivateExtension (SEQUENCE).
 type ExtensionDataTypesPrivateExtension struct {
 	ExtId   runtime.ObjectIdentifier `asn1:""`
 	ExtType *runtime.RawValue        `asn1:",optional" json:"ExtType,omitempty" asn1c:"raw-preserve"`
 }
 
-// ExtensionDataTypesPCSExtensions represents the ASN.1 type ExtensionDataTypesPCSExtensions (SEQUENCE).
+// ExtensionDataTypesPCSExtensions represents the ASN.1 type PCS-Extensions (SEQUENCE).
 type ExtensionDataTypesPCSExtensions struct {
 	ExtCount_   int64    `asn1:"-" json:"-"`
 	ExtPresent_ []bool   `asn1:"-" json:"-"`
 	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// ExtensionDataTypesSLRArgPCSExtensions represents the ASN.1 type ExtensionDataTypesSLRArgPCSExtensions (SEQUENCE).
+// ExtensionDataTypesSLRArgPCSExtensions represents the ASN.1 type SLR-Arg-PCS-Extensions (SEQUENCE).
 type ExtensionDataTypesSLRArgPCSExtensions struct {
 	NaESRKRequest *struct{} `asn1:"tag:0,context,implicit,optional" json:"NaESRKRequest,omitempty"`
 	ExtCount_     int64     `asn1:"-" json:"-"`
@@ -119,7 +119,14 @@ func (v *ExtensionDataTypesExtensionContainer) MarshalDER() ([]byte, error) {
 	derValue := *v
 	derValue.PrivateExtensionListIndef_ = false
 	v = &derValue
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ExtensionDataTypesExtensionContainer as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ExtensionDataTypesExtensionContainer from BER/DER format.
@@ -138,9 +145,12 @@ func (v *ExtensionDataTypesExtensionContainer) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_privateextensionlist, rawVal_privateextensionlist, err := ber.DecodeTLV(content[offset:])
+				decodedTag_privateextensionlist, n_privateextensionlist, rawVal_privateextensionlist, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding privateExtensionList: %w", err)
+				}
+				if decodedTag_privateextensionlist.Class != tag.ClassContextSpecific || decodedTag_privateextensionlist.Number != 0 || decodedTag_privateextensionlist.Constructed != true {
+					return fmt.Errorf("decoding privateExtensionList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_privateextensionlist)
 				}
 				reconstructed_privateextensionlist := ber.EncodeSequence(rawVal_privateextensionlist)
 				dec_privateextensionlist, unmErr := UnmarshalBERExtensionDataTypesPrivateExtensionList(reconstructed_privateextensionlist)
@@ -163,9 +173,12 @@ func (v *ExtensionDataTypesExtensionContainer) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_pcsextensions, rawVal_pcsextensions, err := ber.DecodeTLV(content[offset:])
+				decodedTag_pcsextensions, n_pcsextensions, rawVal_pcsextensions, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding pcs-Extensions: %w", err)
+				}
+				if decodedTag_pcsextensions.Class != tag.ClassContextSpecific || decodedTag_pcsextensions.Number != 1 || decodedTag_pcsextensions.Constructed != true {
+					return fmt.Errorf("decoding pcs-Extensions: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_pcsextensions)
 				}
 				reconstructed_pcsextensions := ber.EncodeSequence(rawVal_pcsextensions)
 				var dec_pcsextensions ExtensionDataTypesPCSExtensions
@@ -245,7 +258,14 @@ func (v *ExtensionDataTypesSLRArgExtensionContainer) MarshalDER() ([]byte, error
 	derValue := *v
 	derValue.PrivateExtensionListIndef_ = false
 	v = &derValue
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ExtensionDataTypesSLRArgExtensionContainer as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ExtensionDataTypesSLRArgExtensionContainer from BER/DER format.
@@ -264,9 +284,12 @@ func (v *ExtensionDataTypesSLRArgExtensionContainer) UnmarshalBER(data []byte) e
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_privateextensionlist, rawVal_privateextensionlist, err := ber.DecodeTLV(content[offset:])
+				decodedTag_privateextensionlist, n_privateextensionlist, rawVal_privateextensionlist, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding privateExtensionList: %w", err)
+				}
+				if decodedTag_privateextensionlist.Class != tag.ClassContextSpecific || decodedTag_privateextensionlist.Number != 0 || decodedTag_privateextensionlist.Constructed != true {
+					return fmt.Errorf("decoding privateExtensionList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_privateextensionlist)
 				}
 				reconstructed_privateextensionlist := ber.EncodeSequence(rawVal_privateextensionlist)
 				dec_privateextensionlist, unmErr := UnmarshalBERExtensionDataTypesPrivateExtensionList(reconstructed_privateextensionlist)
@@ -289,9 +312,12 @@ func (v *ExtensionDataTypesSLRArgExtensionContainer) UnmarshalBER(data []byte) e
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_slrargpcsextensions, rawVal_slrargpcsextensions, err := ber.DecodeTLV(content[offset:])
+				decodedTag_slrargpcsextensions, n_slrargpcsextensions, rawVal_slrargpcsextensions, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding slr-Arg-PCS-Extensions: %w", err)
+				}
+				if decodedTag_slrargpcsextensions.Class != tag.ClassContextSpecific || decodedTag_slrargpcsextensions.Number != 1 || decodedTag_slrargpcsextensions.Constructed != true {
+					return fmt.Errorf("decoding slr-Arg-PCS-Extensions: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_slrargpcsextensions)
 				}
 				reconstructed_slrargpcsextensions := ber.EncodeSequence(rawVal_slrargpcsextensions)
 				var dec_slrargpcsextensions ExtensionDataTypesSLRArgPCSExtensions
@@ -376,7 +402,14 @@ func (v *ExtensionDataTypesPrivateExtension) MarshalBER() ([]byte, error) {
 // MarshalDER encodes ExtensionDataTypesPrivateExtension to DER format.
 func (v *ExtensionDataTypesPrivateExtension) MarshalDER() ([]byte, error) {
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ExtensionDataTypesPrivateExtension as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ExtensionDataTypesPrivateExtension from BER/DER format.
@@ -439,7 +472,14 @@ func (v *ExtensionDataTypesPCSExtensions) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ExtensionDataTypesPCSExtensions as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ExtensionDataTypesPCSExtensions from BER/DER format.
@@ -497,7 +537,14 @@ func (v *ExtensionDataTypesSLRArgPCSExtensions) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ExtensionDataTypesSLRArgPCSExtensions as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ExtensionDataTypesSLRArgPCSExtensions from BER/DER format.
@@ -515,11 +562,16 @@ func (v *ExtensionDataTypesSLRArgPCSExtensions) UnmarshalBER(data []byte) error 
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_naesrkrequest, rawVal_naesrkrequest, err := ber.DecodeTLV(content[offset:])
+				decodedTag_naesrkrequest, n_naesrkrequest, rawVal_naesrkrequest, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding na-ESRK-Request: %w", err)
 				}
-				_ = rawVal_naesrkrequest
+				if decodedTag_naesrkrequest.Class != tag.ClassContextSpecific || decodedTag_naesrkrequest.Number != 0 || decodedTag_naesrkrequest.Constructed != false {
+					return fmt.Errorf("decoding na-ESRK-Request: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_naesrkrequest)
+				}
+				if len(rawVal_naesrkrequest) != 0 {
+					return fmt.Errorf("decoding na-ESRK-Request: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_naesrkrequest))
+				}
 				v.NaESRKRequest = &struct{}{}
 				offset += n_naesrkrequest
 			}

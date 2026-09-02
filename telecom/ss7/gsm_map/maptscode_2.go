@@ -114,8 +114,8 @@ const (
 	TSPlmnSpecificTSF = "\xdf"
 )
 
-// TSTeleserviceCode represents the ASN.1 type TSTeleserviceCode (OCTET_STRING).
+// TSTeleserviceCode represents the ASN.1 type TeleserviceCode (OCTET_STRING).
 type TSTeleserviceCode = []byte
 
-// TSExtTeleserviceCode represents the ASN.1 type TSExtTeleserviceCode (OCTET_STRING).
+// TSExtTeleserviceCode represents the ASN.1 type Ext-TeleserviceCode (OCTET_STRING).
 type TSExtTeleserviceCode = []byte

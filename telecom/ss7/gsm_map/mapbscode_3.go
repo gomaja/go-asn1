@@ -174,8 +174,8 @@ const (
 	PlmnSpecificBSF3 = "\xdf"
 )
 
-// BearerServiceCode3 represents the ASN.1 type BearerServiceCode3 (OCTET_STRING).
+// BearerServiceCode3 represents the ASN.1 type BearerServiceCode (OCTET_STRING).
 type BearerServiceCode3 = []byte
 
-// ExtBearerServiceCode3 represents the ASN.1 type ExtBearerServiceCode3 (OCTET_STRING).
+// ExtBearerServiceCode3 represents the ASN.1 type Ext-BearerServiceCode (OCTET_STRING).
 type ExtBearerServiceCode3 = []byte

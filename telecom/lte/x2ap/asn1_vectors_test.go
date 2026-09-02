@@ -89,7 +89,10 @@ func asn1VectorValueAtPath(current reflect.Value, path string) (any, error) {
 			if current.Kind() != reflect.Array && current.Kind() != reflect.Slice {
 				return nil, fmt.Errorf("path %s: indexed value is not a list", path)
 			}
-			if index < 0 || index >= current.Len() {
+			if index < 0 {
+				return nil, fmt.Errorf("path %s: index %d is negative", path, index)
+			}
+			if index >= current.Len() {
 				return nil, fmt.Errorf("path %s: index %d exceeds length %d", path, index, current.Len())
 			}
 			current = current.Index(index)
@@ -159,14 +162,14 @@ func TestVectorHandoverRequestUeHistoryIe15(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "000021f35412345670000005")
 	dispatched, err := DecodeIEFieldValue("HandoverRequest", 15, input)
+	if err != nil {
+		t.Fatal(err)
+	}
 	decodedPointer, ok := dispatched.(*UEHistoryInformation)
 	if !ok {
 		t.Fatalf("dispatch type = %T, want typed pointer", dispatched)
 	}
 	decoded := *decodedPointer
-	if err != nil {
-		t.Fatal(err)
-	}
 	asn1VectorAssertPath(t, decoded, "[0].Choice", "1")
 	asn1VectorAssertPath(t, decoded, "[0].EUTRANCell.GlobalCellID.PLMNIdentity", "\"IfNU\"")
 	asn1VectorAssertPath(t, decoded, "[0].EUTRANCell.GlobalCellID.EUTRANcellIdentifier.BitLength", "28")

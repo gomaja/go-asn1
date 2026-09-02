@@ -15,12 +15,12 @@ var (
 	_ = per.NewBitBuffer
 )
 
-// HandoverPreparationInformationNB represents the ASN.1 type HandoverPreparationInformationNB (SEQUENCE).
+// HandoverPreparationInformationNB represents the ASN.1 type HandoverPreparationInformation-NB (SEQUENCE).
 type HandoverPreparationInformationNB struct {
 	CriticalExtensions HandoverPreparationInformationNBCriticalExtensions `asn1:"tag:0,context,explicit"`
 }
 
-// HandoverPreparationInformationNBIEs represents the ASN.1 type HandoverPreparationInformationNBIEs (SEQUENCE).
+// HandoverPreparationInformationNBIEs represents the ASN.1 type HandoverPreparationInformation-NB-IEs (SEQUENCE).
 type HandoverPreparationInformationNBIEs struct {
 	UeRadioAccessCapabilityInfoR13 UECapabilityNBR13                         `asn1:"tag:0,context,implicit"`
 	AsConfigR13                    ASConfigNB                                `asn1:"tag:1,context,implicit"`
@@ -29,70 +29,70 @@ type HandoverPreparationInformationNBIEs struct {
 	NonCriticalExtension           *HandoverPreparationInformationNBV1380IEs `asn1:"tag:4,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
-// HandoverPreparationInformationNBV1380IEs represents the ASN.1 type HandoverPreparationInformationNBV1380IEs (SEQUENCE).
+// HandoverPreparationInformationNBV1380IEs represents the ASN.1 type HandoverPreparationInformation-NB-v1380-IEs (SEQUENCE).
 type HandoverPreparationInformationNBV1380IEs struct {
 	LateNonCriticalExtension []byte                                     `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
 	NonCriticalExtension     *HandoverPreparationInformationNBExtR14IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
-// HandoverPreparationInformationNBExtR14IEs represents the ASN.1 type HandoverPreparationInformationNBExtR14IEs (SEQUENCE).
+// HandoverPreparationInformationNBExtR14IEs represents the ASN.1 type HandoverPreparationInformation-NB-Ext-r14-IEs (SEQUENCE).
 type HandoverPreparationInformationNBExtR14IEs struct {
 	UeRadioAccessCapabilityInfoExtR14 *UECapabilityNBExtR14IEs                                       `asn1:"tag:0,context,implicit,optional" json:"UeRadioAccessCapabilityInfoExtR14,omitempty"`
 	NonCriticalExtension              *HandoverPreparationInformationNBExtR14IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
-// UEPagingCoverageInformationNB represents the ASN.1 type UEPagingCoverageInformationNB (SEQUENCE).
+// UEPagingCoverageInformationNB represents the ASN.1 type UEPagingCoverageInformation-NB (SEQUENCE).
 type UEPagingCoverageInformationNB struct {
 	CriticalExtensions UEPagingCoverageInformationNBCriticalExtensions `asn1:"tag:0,context,explicit"`
 }
 
-// UEPagingCoverageInformationNBIEs represents the ASN.1 type UEPagingCoverageInformationNBIEs (SEQUENCE).
+// UEPagingCoverageInformationNBIEs represents the ASN.1 type UEPagingCoverageInformation-NB-IEs (SEQUENCE).
 type UEPagingCoverageInformationNBIEs struct {
 	NpdcchNumRepetitionPagingR13 *int64                                 `asn1:"tag:0,context,implicit,optional" json:"NpdcchNumRepetitionPagingR13,omitempty"`
 	NonCriticalExtension         *UEPagingCoverageInformationNBV1700IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
-// UEPagingCoverageInformationNBV1700IEs represents the ASN.1 type UEPagingCoverageInformationNBV1700IEs (SEQUENCE).
+// UEPagingCoverageInformationNBV1700IEs represents the ASN.1 type UEPagingCoverageInformation-NB-v1700-IEs (SEQUENCE).
 type UEPagingCoverageInformationNBV1700IEs struct {
 	CbpIndexR17          *int64                                                     `asn1:"tag:0,context,implicit,optional" json:"CbpIndexR17,omitempty"`
 	NonCriticalExtension *UEPagingCoverageInformationNBV1700IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
-// UERadioAccessCapabilityInformationNB represents the ASN.1 type UERadioAccessCapabilityInformationNB (SEQUENCE).
+// UERadioAccessCapabilityInformationNB represents the ASN.1 type UERadioAccessCapabilityInformation-NB (SEQUENCE).
 type UERadioAccessCapabilityInformationNB struct {
 	CriticalExtensions UERadioAccessCapabilityInformationNBCriticalExtensions `asn1:"tag:0,context,explicit"`
 }
 
-// UERadioAccessCapabilityInformationNBIEs represents the ASN.1 type UERadioAccessCapabilityInformationNBIEs (SEQUENCE).
+// UERadioAccessCapabilityInformationNBIEs represents the ASN.1 type UERadioAccessCapabilityInformation-NB-IEs (SEQUENCE).
 type UERadioAccessCapabilityInformationNBIEs struct {
 	UeRadioAccessCapabilityInfoR13 UECapabilityNBR13                             `asn1:"tag:0,context,implicit"`
 	NonCriticalExtension           *UERadioAccessCapabilityInformationNBV1380IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
-// UERadioAccessCapabilityInformationNBV1380IEs represents the ASN.1 type UERadioAccessCapabilityInformationNBV1380IEs (SEQUENCE).
+// UERadioAccessCapabilityInformationNBV1380IEs represents the ASN.1 type UERadioAccessCapabilityInformation-NB-v1380-IEs (SEQUENCE).
 type UERadioAccessCapabilityInformationNBV1380IEs struct {
 	LateNonCriticalExtension []byte                                      `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
 	NonCriticalExtension     *UERadioAccessCapabilityInformationNBR14IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
-// UERadioAccessCapabilityInformationNBR14IEs represents the ASN.1 type UERadioAccessCapabilityInformationNBR14IEs (SEQUENCE).
+// UERadioAccessCapabilityInformationNBR14IEs represents the ASN.1 type UERadioAccessCapabilityInformation-NB-r14-IEs (SEQUENCE).
 type UERadioAccessCapabilityInformationNBR14IEs struct {
 	UeRadioAccessCapabilityInfoR14 *UECapabilityInformationNB                                      `asn1:"tag:0,context,implicit,optional" json:"UeRadioAccessCapabilityInfoR14,omitempty"`
 	NonCriticalExtension           *UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
-// UERadioPagingInformationNB represents the ASN.1 type UERadioPagingInformationNB (SEQUENCE).
+// UERadioPagingInformationNB represents the ASN.1 type UERadioPagingInformation-NB (SEQUENCE).
 type UERadioPagingInformationNB struct {
 	CriticalExtensions UERadioPagingInformationNBCriticalExtensions `asn1:"tag:0,context,explicit"`
 }
 
-// UERadioPagingInformationNBIEs represents the ASN.1 type UERadioPagingInformationNBIEs (SEQUENCE).
+// UERadioPagingInformationNBIEs represents the ASN.1 type UERadioPagingInformation-NB-IEs (SEQUENCE).
 type UERadioPagingInformationNBIEs struct {
 	UeRadioPagingInfoR13 UERadioPagingInfoNBR13                             `asn1:"tag:0,context,implicit"`
 	NonCriticalExtension *UERadioPagingInformationNBIEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
-// ASConfigNB represents the ASN.1 type ASConfigNB (SEQUENCE).
+// ASConfigNB represents the ASN.1 type AS-Config-NB (SEQUENCE).
 type ASConfigNB struct {
 	SourceRadioResourceConfigR13     RadioResourceConfigDedicatedNBR13 `asn1:"tag:0,context,implicit"`
 	SourceSecurityAlgorithmConfigR13 SecurityAlgorithmConfig           `asn1:"tag:1,context,implicit"`
@@ -104,7 +104,7 @@ type ASConfigNB struct {
 	ExtData_                         [][]byte                          `asn1:"-" json:"-"`
 }
 
-// ASContextNB represents the ASN.1 type ASContextNB (SEQUENCE).
+// ASContextNB represents the ASN.1 type AS-Context-NB (SEQUENCE).
 type ASContextNB struct {
 	ReestablishmentInfoR13 *ReestablishmentInfoNB `asn1:"tag:0,context,implicit,optional" json:"ReestablishmentInfoR13,omitempty"`
 	ExtCount_              int64                  `asn1:"-" json:"-"`
@@ -112,7 +112,7 @@ type ASContextNB struct {
 	ExtData_               [][]byte               `asn1:"-" json:"-"`
 }
 
-// ReestablishmentInfoNB represents the ASN.1 type ReestablishmentInfoNB (SEQUENCE).
+// ReestablishmentInfoNB represents the ASN.1 type ReestablishmentInfo-NB (SEQUENCE).
 type ReestablishmentInfoNB struct {
 	SourcePhysCellIdR13                PhysCellId                `asn1:"tag:0,context,implicit"`
 	TargetCellShortMACIR13             ShortMACI                 `asn1:"tag:1,context,implicit"`
@@ -123,7 +123,7 @@ type ReestablishmentInfoNB struct {
 	ExtData_                           [][]byte                  `asn1:"-" json:"-"`
 }
 
-// RRMConfigNB represents the ASN.1 type RRMConfigNB (SEQUENCE).
+// RRMConfigNB represents the ASN.1 type RRM-Config-NB (SEQUENCE).
 type RRMConfigNB struct {
 	UeInactiveTime *int64   `asn1:"tag:0,context,implicit,optional" json:"UeInactiveTime,omitempty"`
 	ExtCount_      int64    `asn1:"-" json:"-"`
@@ -137,7 +137,7 @@ const (
 	HandoverPreparationInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture = 2
 )
 
-// HandoverPreparationInformationNBCriticalExtensions represents the ASN.1 CHOICE type HandoverPreparationInformationNBCriticalExtensions.
+// HandoverPreparationInformationNBCriticalExtensions represents the ASN.1 CHOICE type HandoverPreparationInformation-NB-criticalExtensions.
 type HandoverPreparationInformationNBCriticalExtensions struct {
 	Choice                   int
 	C1                       *HandoverPreparationInformationNBCriticalExtensionsC1                       `json:"C1,omitempty"`
@@ -168,7 +168,7 @@ const (
 	HandoverPreparationInformationNBCriticalExtensionsC1ChoiceSpare1                            = 4
 )
 
-// HandoverPreparationInformationNBCriticalExtensionsC1 represents the ASN.1 CHOICE type HandoverPreparationInformationNBCriticalExtensionsC1.
+// HandoverPreparationInformationNBCriticalExtensionsC1 represents the ASN.1 CHOICE type HandoverPreparationInformation-NB-criticalExtensions-c1.
 type HandoverPreparationInformationNBCriticalExtensionsC1 struct {
 	Choice                            int
 	HandoverPreparationInformationR13 *HandoverPreparationInformationNBIEs `json:"HandoverPreparationInformationR13,omitempty"`
@@ -209,11 +209,11 @@ func NewHandoverPreparationInformationNBCriticalExtensionsC1Spare1(v struct{}) H
 	}
 }
 
-// HandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFuture represents the ASN.1 type HandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFuture (SEQUENCE).
+// HandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFuture represents the ASN.1 type HandoverPreparationInformation-NB-criticalExtensions-criticalExtensionsFuture (SEQUENCE).
 type HandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFuture struct {
 }
 
-// HandoverPreparationInformationNBExtR14IEsNonCriticalExtension represents the ASN.1 type HandoverPreparationInformationNBExtR14IEsNonCriticalExtension (SEQUENCE).
+// HandoverPreparationInformationNBExtR14IEsNonCriticalExtension represents the ASN.1 type HandoverPreparationInformation-NB-Ext-r14-IEs-nonCriticalExtension (SEQUENCE).
 type HandoverPreparationInformationNBExtR14IEsNonCriticalExtension struct {
 }
 
@@ -223,7 +223,7 @@ const (
 	UEPagingCoverageInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture = 2
 )
 
-// UEPagingCoverageInformationNBCriticalExtensions represents the ASN.1 CHOICE type UEPagingCoverageInformationNBCriticalExtensions.
+// UEPagingCoverageInformationNBCriticalExtensions represents the ASN.1 CHOICE type UEPagingCoverageInformation-NB-criticalExtensions.
 type UEPagingCoverageInformationNBCriticalExtensions struct {
 	Choice                   int
 	C1                       *UEPagingCoverageInformationNBCriticalExtensionsC1                       `json:"C1,omitempty"`
@@ -254,7 +254,7 @@ const (
 	UEPagingCoverageInformationNBCriticalExtensionsC1ChoiceSpare1                         = 4
 )
 
-// UEPagingCoverageInformationNBCriticalExtensionsC1 represents the ASN.1 CHOICE type UEPagingCoverageInformationNBCriticalExtensionsC1.
+// UEPagingCoverageInformationNBCriticalExtensionsC1 represents the ASN.1 CHOICE type UEPagingCoverageInformation-NB-criticalExtensions-c1.
 type UEPagingCoverageInformationNBCriticalExtensionsC1 struct {
 	Choice                         int
 	UePagingCoverageInformationR13 *UEPagingCoverageInformationNBIEs `json:"UePagingCoverageInformationR13,omitempty"`
@@ -295,11 +295,11 @@ func NewUEPagingCoverageInformationNBCriticalExtensionsC1Spare1(v struct{}) UEPa
 	}
 }
 
-// UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture represents the ASN.1 type UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture (SEQUENCE).
+// UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture represents the ASN.1 type UEPagingCoverageInformation-NB-criticalExtensions-criticalExtensionsFuture (SEQUENCE).
 type UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture struct {
 }
 
-// UEPagingCoverageInformationNBV1700IEsNonCriticalExtension represents the ASN.1 type UEPagingCoverageInformationNBV1700IEsNonCriticalExtension (SEQUENCE).
+// UEPagingCoverageInformationNBV1700IEsNonCriticalExtension represents the ASN.1 type UEPagingCoverageInformation-NB-v1700-IEs-nonCriticalExtension (SEQUENCE).
 type UEPagingCoverageInformationNBV1700IEsNonCriticalExtension struct {
 }
 
@@ -309,7 +309,7 @@ const (
 	UERadioAccessCapabilityInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture = 2
 )
 
-// UERadioAccessCapabilityInformationNBCriticalExtensions represents the ASN.1 CHOICE type UERadioAccessCapabilityInformationNBCriticalExtensions.
+// UERadioAccessCapabilityInformationNBCriticalExtensions represents the ASN.1 CHOICE type UERadioAccessCapabilityInformation-NB-criticalExtensions.
 type UERadioAccessCapabilityInformationNBCriticalExtensions struct {
 	Choice                   int
 	C1                       *UERadioAccessCapabilityInformationNBCriticalExtensionsC1                       `json:"C1,omitempty"`
@@ -340,7 +340,7 @@ const (
 	UERadioAccessCapabilityInformationNBCriticalExtensionsC1ChoiceSpare1                                = 4
 )
 
-// UERadioAccessCapabilityInformationNBCriticalExtensionsC1 represents the ASN.1 CHOICE type UERadioAccessCapabilityInformationNBCriticalExtensionsC1.
+// UERadioAccessCapabilityInformationNBCriticalExtensionsC1 represents the ASN.1 CHOICE type UERadioAccessCapabilityInformation-NB-criticalExtensions-c1.
 type UERadioAccessCapabilityInformationNBCriticalExtensionsC1 struct {
 	Choice                                int
 	UeRadioAccessCapabilityInformationR13 *UERadioAccessCapabilityInformationNBIEs `json:"UeRadioAccessCapabilityInformationR13,omitempty"`
@@ -381,11 +381,11 @@ func NewUERadioAccessCapabilityInformationNBCriticalExtensionsC1Spare1(v struct{
 	}
 }
 
-// UERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtensionsFuture represents the ASN.1 type UERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtensionsFuture (SEQUENCE).
+// UERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtensionsFuture represents the ASN.1 type UERadioAccessCapabilityInformation-NB-criticalExtensions-criticalExtensionsFuture (SEQUENCE).
 type UERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtensionsFuture struct {
 }
 
-// UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension represents the ASN.1 type UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension (SEQUENCE).
+// UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension represents the ASN.1 type UERadioAccessCapabilityInformation-NB-r14-IEs-nonCriticalExtension (SEQUENCE).
 type UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension struct {
 }
 
@@ -395,7 +395,7 @@ const (
 	UERadioPagingInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture = 2
 )
 
-// UERadioPagingInformationNBCriticalExtensions represents the ASN.1 CHOICE type UERadioPagingInformationNBCriticalExtensions.
+// UERadioPagingInformationNBCriticalExtensions represents the ASN.1 CHOICE type UERadioPagingInformation-NB-criticalExtensions.
 type UERadioPagingInformationNBCriticalExtensions struct {
 	Choice                   int
 	C1                       *UERadioPagingInformationNBCriticalExtensionsC1                       `json:"C1,omitempty"`
@@ -426,7 +426,7 @@ const (
 	UERadioPagingInformationNBCriticalExtensionsC1ChoiceSpare1                      = 4
 )
 
-// UERadioPagingInformationNBCriticalExtensionsC1 represents the ASN.1 CHOICE type UERadioPagingInformationNBCriticalExtensionsC1.
+// UERadioPagingInformationNBCriticalExtensionsC1 represents the ASN.1 CHOICE type UERadioPagingInformation-NB-criticalExtensions-c1.
 type UERadioPagingInformationNBCriticalExtensionsC1 struct {
 	Choice                      int
 	UeRadioPagingInformationR13 *UERadioPagingInformationNBIEs `json:"UeRadioPagingInformationR13,omitempty"`
@@ -467,11 +467,11 @@ func NewUERadioPagingInformationNBCriticalExtensionsC1Spare1(v struct{}) UERadio
 	}
 }
 
-// UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture represents the ASN.1 type UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture (SEQUENCE).
+// UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture represents the ASN.1 type UERadioPagingInformation-NB-criticalExtensions-criticalExtensionsFuture (SEQUENCE).
 type UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture struct {
 }
 
-// UERadioPagingInformationNBIEsNonCriticalExtension represents the ASN.1 type UERadioPagingInformationNBIEsNonCriticalExtension (SEQUENCE).
+// UERadioPagingInformationNBIEsNonCriticalExtension represents the ASN.1 type UERadioPagingInformation-NB-IEs-nonCriticalExtension (SEQUENCE).
 type UERadioPagingInformationNBIEsNonCriticalExtension struct {
 }
 
@@ -1529,11 +1529,13 @@ func (v *ReestablishmentInfoNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_additionalreestabinfolistr13 > 32 {
 			return fmt.Errorf("decoding additionalReestabInfoList-r13 length %d above upper bound 32", seqLen_additionalreestabinfolistr13)
 		}
-		tmp_additionalreestabinfolistr13 := make(AdditionalReestabInfoList, seqLen_additionalreestabinfolistr13)
+		tmp_additionalreestabinfolistr13 := make(AdditionalReestabInfoList, 0)
 		for i := int64(0); i < seqLen_additionalreestabinfolistr13; i++ {
-			if err := tmp_additionalreestabinfolistr13[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding additionalReestabInfoList-r13 element: %w", err)
+			var elem AdditionalReestabInfo
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding additionalReestabInfoList-r13 element %d: %w", i, err)
 			}
+			tmp_additionalreestabinfolistr13 = append(tmp_additionalreestabinfolistr13, elem)
 		}
 		v.AdditionalReestabInfoListR13 = tmp_additionalreestabinfolistr13
 	}
@@ -1663,10 +1665,16 @@ func (v *HandoverPreparationInformationNBCriticalExtensions) MarshalUPERTo(bb *p
 	}
 	switch v.Choice {
 	case HandoverPreparationInformationNBCriticalExtensionsChoiceC1:
+		if v.C1 == nil {
+			return fmt.Errorf("choice alternative c1 is nil")
+		}
 		if err := v.C1.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding c1: %w", err)
 		}
 	case HandoverPreparationInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture:
+		if v.CriticalExtensionsFuture == nil {
+			return fmt.Errorf("choice alternative criticalExtensionsFuture is nil")
+		}
 		if err := v.CriticalExtensionsFuture.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding criticalExtensionsFuture: %w", err)
 		}
@@ -1720,6 +1728,9 @@ func (v *HandoverPreparationInformationNBCriticalExtensionsC1) MarshalUPERTo(bb 
 	}
 	switch v.Choice {
 	case HandoverPreparationInformationNBCriticalExtensionsC1ChoiceHandoverPreparationInformationR13:
+		if v.HandoverPreparationInformationR13 == nil {
+			return fmt.Errorf("choice alternative handoverPreparationInformation-r13 is nil")
+		}
 		if err := v.HandoverPreparationInformationR13.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding handoverPreparationInformation-r13: %w", err)
 		}
@@ -1819,10 +1830,16 @@ func (v *UEPagingCoverageInformationNBCriticalExtensions) MarshalUPERTo(bb *per.
 	}
 	switch v.Choice {
 	case UEPagingCoverageInformationNBCriticalExtensionsChoiceC1:
+		if v.C1 == nil {
+			return fmt.Errorf("choice alternative c1 is nil")
+		}
 		if err := v.C1.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding c1: %w", err)
 		}
 	case UEPagingCoverageInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture:
+		if v.CriticalExtensionsFuture == nil {
+			return fmt.Errorf("choice alternative criticalExtensionsFuture is nil")
+		}
 		if err := v.CriticalExtensionsFuture.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding criticalExtensionsFuture: %w", err)
 		}
@@ -1876,6 +1893,9 @@ func (v *UEPagingCoverageInformationNBCriticalExtensionsC1) MarshalUPERTo(bb *pe
 	}
 	switch v.Choice {
 	case UEPagingCoverageInformationNBCriticalExtensionsC1ChoiceUePagingCoverageInformationR13:
+		if v.UePagingCoverageInformationR13 == nil {
+			return fmt.Errorf("choice alternative uePagingCoverageInformation-r13 is nil")
+		}
 		if err := v.UePagingCoverageInformationR13.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding uePagingCoverageInformation-r13: %w", err)
 		}
@@ -1975,10 +1995,16 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensions) MarshalUPERTo(b
 	}
 	switch v.Choice {
 	case UERadioAccessCapabilityInformationNBCriticalExtensionsChoiceC1:
+		if v.C1 == nil {
+			return fmt.Errorf("choice alternative c1 is nil")
+		}
 		if err := v.C1.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding c1: %w", err)
 		}
 	case UERadioAccessCapabilityInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture:
+		if v.CriticalExtensionsFuture == nil {
+			return fmt.Errorf("choice alternative criticalExtensionsFuture is nil")
+		}
 		if err := v.CriticalExtensionsFuture.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding criticalExtensionsFuture: %w", err)
 		}
@@ -2032,6 +2058,9 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsC1) MarshalUPERTo
 	}
 	switch v.Choice {
 	case UERadioAccessCapabilityInformationNBCriticalExtensionsC1ChoiceUeRadioAccessCapabilityInformationR13:
+		if v.UeRadioAccessCapabilityInformationR13 == nil {
+			return fmt.Errorf("choice alternative ueRadioAccessCapabilityInformation-r13 is nil")
+		}
 		if err := v.UeRadioAccessCapabilityInformationR13.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding ueRadioAccessCapabilityInformation-r13: %w", err)
 		}
@@ -2131,10 +2160,16 @@ func (v *UERadioPagingInformationNBCriticalExtensions) MarshalUPERTo(bb *per.Bit
 	}
 	switch v.Choice {
 	case UERadioPagingInformationNBCriticalExtensionsChoiceC1:
+		if v.C1 == nil {
+			return fmt.Errorf("choice alternative c1 is nil")
+		}
 		if err := v.C1.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding c1: %w", err)
 		}
 	case UERadioPagingInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture:
+		if v.CriticalExtensionsFuture == nil {
+			return fmt.Errorf("choice alternative criticalExtensionsFuture is nil")
+		}
 		if err := v.CriticalExtensionsFuture.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding criticalExtensionsFuture: %w", err)
 		}
@@ -2188,6 +2223,9 @@ func (v *UERadioPagingInformationNBCriticalExtensionsC1) MarshalUPERTo(bb *per.B
 	}
 	switch v.Choice {
 	case UERadioPagingInformationNBCriticalExtensionsC1ChoiceUeRadioPagingInformationR13:
+		if v.UeRadioPagingInformationR13 == nil {
+			return fmt.Errorf("choice alternative ueRadioPagingInformation-r13 is nil")
+		}
 		if err := v.UeRadioPagingInformationR13.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding ueRadioPagingInformation-r13: %w", err)
 		}

@@ -11,17 +11,17 @@ import (
 // EncodeConstrainedWholeNumberAligned encodes v in [lb..ub] using APER rules.
 // ITU-T X.691 (02/2021), clauses 11.5.6-11.5.7.
 func EncodeConstrainedWholeNumberAligned(bb *BitBuffer, v, lb, ub int64) error {
-	rangeVal := ub - lb
-	if rangeVal < 0 {
+	if lb > ub {
 		return fmt.Errorf("%w: invalid range [%d..%d]", ErrInvalidValue, lb, ub)
 	}
 	if v < lb || v > ub {
 		return fmt.Errorf("%w: %d not in [%d..%d]", ErrConstraintViolation, v, lb, ub)
 	}
-	if rangeVal == 0 {
+	rangeValue := uint64(ub) - uint64(lb)
+	if rangeValue == 0 {
 		return nil // no bits needed
 	}
-	offset := v - lb
+	offset := uint64(v) - uint64(lb)
 	// rangeVal = ub - lb; number of values = rangeVal + 1.
 	// Per ITU-T X.691 (02/2021), clauses 11.5.6-11.5.7:
 	//   numValues ≤ 255 (rangeVal ≤ 254): bit-field of minimum width, NOT aligned
@@ -29,33 +29,32 @@ func EncodeConstrainedWholeNumberAligned(bb *BitBuffer, v, lb, ub int64) error {
 	//   numValues 257..65536 (rangeVal 256..65535): 16-bit field, octet-aligned
 	//   numValues > 65536: length-determinant + value, octet-aligned
 	switch {
-	case rangeVal < 255:
+	case rangeValue < 255:
 		// Up to 255 values: minimum bit-field, NOT octet-aligned.
-		n := BitWidth(rangeVal)
-		return bb.WriteBits(uint64(offset), n)
-	case rangeVal == 255:
+		return bb.WriteBits(offset, bits.Len64(rangeValue))
+	case rangeValue == 255:
 		// Exactly 256 values: 8-bit field, octet-aligned.
 		bb.AlignToOctetWrite()
-		return bb.WriteBits(uint64(offset), 8)
-	case rangeVal < 65536:
+		return bb.WriteBits(offset, 8)
+	case rangeValue < 65536:
 		// 257..65536 values: 16-bit field, octet-aligned.
 		bb.AlignToOctetWrite()
-		return bb.WriteBits(uint64(offset), 16)
+		return bb.WriteBits(offset, 16)
 	default:
 		// Range > 65535: length-determinant (NOT aligned) + value bytes (octet-aligned).
 		// The length determinant precedes octet alignment of the value.
-		n := (bits.Len64(uint64(offset)) + 7) / 8
+		n := (bits.Len64(offset) + 7) / 8
 		if n == 0 {
 			n = 1
 		}
 		// Length determinant: number of bytes needed, encoded as constrained [1..maxBytes].
-		maxBytes := (bits.Len64(uint64(rangeVal)) + 7) / 8
+		maxBytes := (bits.Len64(rangeValue) + 7) / 8
 		if err := EncodeConstrainedWholeNumber(bb, int64(n), 1, int64(maxBytes)); err != nil {
 			return err
 		}
 		bb.AlignToOctetWrite()
 		for i := n - 1; i >= 0; i-- {
-			if err := bb.WriteBits(uint64((offset>>(uint(i)*8))&0xFF), 8); err != nil {
+			if err := bb.WriteBits((offset>>(uint(i)*8))&0xFF, 8); err != nil {
 				return err
 			}
 		}
@@ -65,47 +64,46 @@ func EncodeConstrainedWholeNumberAligned(bb *BitBuffer, v, lb, ub int64) error {
 
 // DecodeConstrainedWholeNumberAligned decodes a value from [lb..ub] using APER rules.
 func DecodeConstrainedWholeNumberAligned(bb *BitBuffer, lb, ub int64) (int64, error) {
-	rangeVal := ub - lb
-	if rangeVal < 0 {
+	if lb > ub {
 		return 0, fmt.Errorf("%w: invalid range [%d..%d]", ErrInvalidValue, lb, ub)
 	}
-	if rangeVal == 0 {
+	rangeValue := uint64(ub) - uint64(lb)
+	if rangeValue == 0 {
 		return lb, nil
 	}
 	switch {
-	case rangeVal < 255:
+	case rangeValue < 255:
 		// Up to 255 values: minimum bit-field, NOT octet-aligned.
-		n := BitWidth(rangeVal)
-		offset, err := bb.ReadBits(n)
+		offset, err := bb.ReadBits(bits.Len64(rangeValue))
 		if err != nil {
 			return 0, err
 		}
-		if int64(offset) > rangeVal {
-			return 0, fmt.Errorf("%w: constrained value %d exceeds range [%d..%d]", ErrInvalidValue, lb+int64(offset), lb, ub)
+		if offset > rangeValue {
+			return 0, fmt.Errorf("%w: constrained offset %d exceeds range [%d..%d]", ErrInvalidValue, offset, lb, ub)
 		}
-		return lb + int64(offset), nil
-	case rangeVal == 255:
+		return addNonNegativeOffset(lb, offset)
+	case rangeValue == 255:
 		// Exactly 256 values: 8-bit field, octet-aligned.
 		bb.AlignToOctetRead()
 		offset, err := bb.ReadBits(8)
 		if err != nil {
 			return 0, err
 		}
-		return lb + int64(offset), nil
-	case rangeVal < 65536:
+		return addNonNegativeOffset(lb, offset)
+	case rangeValue < 65536:
 		bb.AlignToOctetRead()
 		offset, err := bb.ReadBits(16)
 		if err != nil {
 			return 0, err
 		}
-		if int64(offset) > rangeVal {
-			return 0, fmt.Errorf("%w: constrained value %d exceeds range [%d..%d]", ErrInvalidValue, lb+int64(offset), lb, ub)
+		if offset > rangeValue {
+			return 0, fmt.Errorf("%w: constrained offset %d exceeds range [%d..%d]", ErrInvalidValue, offset, lb, ub)
 		}
-		return lb + int64(offset), nil
+		return addNonNegativeOffset(lb, offset)
 	default:
 		// Range > 65535: length-determinant (NOT aligned) + value bytes (octet-aligned).
 		// The length determinant precedes octet alignment of the value.
-		maxBytes := (bits.Len64(uint64(rangeVal)) + 7) / 8
+		maxBytes := (bits.Len64(rangeValue) + 7) / 8
 		n, err := DecodeConstrainedWholeNumber(bb, 1, int64(maxBytes))
 		if err != nil {
 			return 0, err
@@ -119,10 +117,10 @@ func DecodeConstrainedWholeNumberAligned(bb *BitBuffer, lb, ub int64) (int64, er
 		for _, b := range data {
 			val = (val << 8) | uint64(b)
 		}
-		if val > uint64(rangeVal) {
-			return 0, fmt.Errorf("%w: constrained value %d exceeds range [%d..%d]", ErrInvalidValue, lb+int64(val), lb, ub)
+		if val > rangeValue {
+			return 0, fmt.Errorf("%w: constrained offset %d exceeds range [%d..%d]", ErrInvalidValue, val, lb, ub)
 		}
-		return lb + int64(val), nil
+		return addNonNegativeOffset(lb, val)
 	}
 }
 
@@ -141,11 +139,10 @@ func DecodeUnconstrainedLengthAligned(bb *BitBuffer) (int64, error) {
 
 // EncodeSemiConstrainedWholeNumberAligned encodes v with known lb, no ub (APER).
 func EncodeSemiConstrainedWholeNumberAligned(bb *BitBuffer, v, lb int64) error {
-	offset := v - lb
-	if offset < 0 {
+	if v < lb {
 		return fmt.Errorf("%w: %d below lower bound %d", ErrConstraintViolation, v, lb)
 	}
-	buf := minimalUnsignedBytes(uint64(offset))
+	buf := minimalUnsignedBytes(uint64(v) - uint64(lb))
 	if err := EncodeUnconstrainedLengthAligned(bb, int64(len(buf))); err != nil {
 		return err
 	}
@@ -345,6 +342,9 @@ func EncodeBitStringAligned(bb *BitBuffer, data []byte, bitLen int, lb, ub int64
 
 // EncodeBitStringAlignedExt encodes a BIT STRING with optional SIZE extensibility.
 func EncodeBitStringAlignedExt(bb *BitBuffer, data []byte, bitLen int, lb, ub int64, constrained, extensible bool) error {
+	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+		return err
+	}
 	if extensible && constrained {
 		inRoot := int64(bitLen) >= lb && int64(bitLen) <= ub
 		if err := EncodeBoolean(bb, !inRoot); err != nil {
@@ -392,6 +392,9 @@ func DecodeBitStringAligned(bb *BitBuffer, lb, ub int64, constrained bool) ([]by
 
 // DecodeBitStringAlignedExt decodes a BIT STRING with optional SIZE extensibility.
 func DecodeBitStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, extensible bool) ([]byte, int, error) {
+	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+		return nil, 0, err
+	}
 	if extensible && constrained {
 		isExtension, err := DecodeBoolean(bb)
 		if err != nil {
@@ -443,6 +446,9 @@ func EncodeOctetStringAligned(bb *BitBuffer, data []byte, lb, ub int64, constrai
 
 // EncodeOctetStringAlignedExt encodes an OCTET STRING with optional SIZE extensibility.
 func EncodeOctetStringAlignedExt(bb *BitBuffer, data []byte, lb, ub int64, constrained, extensible bool) error {
+	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+		return err
+	}
 	length := int64(len(data))
 	if extensible && constrained {
 		inRoot := length >= lb && length <= ub
@@ -488,6 +494,9 @@ func DecodeOctetStringAligned(bb *BitBuffer, lb, ub int64, constrained bool) ([]
 
 // DecodeOctetStringAlignedExt decodes an OCTET STRING with optional SIZE extensibility.
 func DecodeOctetStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, extensible bool) ([]byte, error) {
+	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+		return nil, err
+	}
 	if extensible && constrained {
 		isExtension, err := DecodeBoolean(bb)
 		if err != nil {
@@ -534,6 +543,9 @@ func EncodeKnownMultiplierStringAligned(bb *BitBuffer, s string, bitsPerChar int
 // EncodeKnownMultiplierStringAlignedExt implements the size extension bit
 // required by ITU-T X.691 (02/2021) Section 30.4.
 func EncodeKnownMultiplierStringAlignedExt(bb *BitBuffer, s string, bitsPerChar int, lb, ub int64, constrained, extensible bool) error {
+	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+		return err
+	}
 	length := int64(len(s))
 	if extensible && constrained {
 		inRoot := length >= lb && length <= ub
@@ -587,6 +599,9 @@ func DecodeKnownMultiplierStringAligned(bb *BitBuffer, bitsPerChar int, lb, ub i
 // DecodeKnownMultiplierStringAlignedExt implements the size extension bit
 // required by ITU-T X.691 (02/2021) Section 30.4.
 func DecodeKnownMultiplierStringAlignedExt(bb *BitBuffer, bitsPerChar int, lb, ub int64, constrained, extensible bool) (string, error) {
+	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+		return "", err
+	}
 	if extensible && constrained {
 		isExtension, err := DecodeBoolean(bb)
 		if err != nil {

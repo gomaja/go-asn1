@@ -344,7 +344,7 @@ const (
 	MaxNumOfMCBearers int64 = 7
 )
 
-// TBCDSTRING represents the ASN.1 type TBCDSTRING (OCTET_STRING).
+// TBCDSTRING represents the ASN.1 type TBCD-STRING (OCTET_STRING).
 type TBCDSTRING = []byte
 
 // DiameterIdentity represents the ASN.1 type DiameterIdentity (OCTET_STRING).
@@ -353,13 +353,13 @@ type DiameterIdentity = []byte
 // AddressString represents the ASN.1 type AddressString (OCTET_STRING).
 type AddressString = []byte
 
-// ISDNAddressString represents the ASN.1 type ISDNAddressString (OCTET_STRING).
+// ISDNAddressString represents the ASN.1 type ISDN-AddressString (OCTET_STRING).
 type ISDNAddressString = AddressString
 
-// FTNAddressString represents the ASN.1 type FTNAddressString (OCTET_STRING).
+// FTNAddressString represents the ASN.1 type FTN-AddressString (OCTET_STRING).
 type FTNAddressString = AddressString
 
-// ISDNSubaddressString represents the ASN.1 type ISDNSubaddressString (OCTET_STRING).
+// ISDNSubaddressString represents the ASN.1 type ISDN-SubaddressString (OCTET_STRING).
 type ISDNSubaddressString = []byte
 
 // ExternalSignalInfo represents the ASN.1 type ExternalSignalInfo (SEQUENCE).
@@ -400,7 +400,7 @@ func (v ProtocolId) String() string {
 	}
 }
 
-// ExtExternalSignalInfo represents the ASN.1 type ExtExternalSignalInfo (SEQUENCE).
+// ExtExternalSignalInfo represents the ASN.1 type Ext-ExternalSignalInfo (SEQUENCE).
 type ExtExternalSignalInfo struct {
 	ExtProtocolId      ExtProtocolId       `asn1:""`
 	SignalInfo         SignalInfo          `asn1:""`
@@ -410,7 +410,7 @@ type ExtExternalSignalInfo struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// ExtProtocolId represents the ASN.1 ENUMERATED type ExtProtocolId.
+// ExtProtocolId represents the ASN.1 ENUMERATED type Ext-ProtocolId.
 type ExtProtocolId int64
 
 const (
@@ -461,7 +461,7 @@ func (v AccessNetworkProtocolId) String() string {
 // AlertingPattern represents the ASN.1 type AlertingPattern (OCTET_STRING).
 type AlertingPattern = []byte
 
-// GSNAddress represents the ASN.1 type GSNAddress (OCTET_STRING).
+// GSNAddress represents the ASN.1 type GSN-Address (OCTET_STRING).
 type GSNAddress = []byte
 
 // Time represents the ASN.1 type Time (OCTET_STRING).
@@ -499,7 +499,7 @@ func NewIdentityImsiWithLMSI(v IMSIWithLMSI) Identity {
 	}
 }
 
-// IMSIWithLMSI represents the ASN.1 type IMSIWithLMSI (SEQUENCE).
+// IMSIWithLMSI represents the ASN.1 type IMSI-WithLMSI (SEQUENCE).
 type IMSIWithLMSI struct {
 	Imsi        IMSI     `asn1:""`
 	Lmsi        LMSI     `asn1:""`
@@ -508,7 +508,7 @@ type IMSIWithLMSI struct {
 	ExtData_    [][]byte `asn1:"-" json:"-"`
 }
 
-// ASCICallReference represents the ASN.1 type ASCICallReference (OCTET_STRING).
+// ASCICallReference represents the ASN.1 type ASCI-CallReference (OCTET_STRING).
 type ASCICallReference = TBCDSTRING
 
 // TMSI represents the ASN.1 type TMSI (OCTET_STRING).
@@ -546,10 +546,10 @@ func NewSubscriberIdTmsi(v TMSI) SubscriberId {
 // IMEI represents the ASN.1 type IMEI (OCTET_STRING).
 type IMEI = TBCDSTRING
 
-// HLRId represents the ASN.1 type HLRId (OCTET_STRING).
+// HLRId represents the ASN.1 type HLR-Id (OCTET_STRING).
 type HLRId = IMSI
 
-// HLRList represents the ASN.1 type HLRList (SEQUENCE_OF).
+// HLRList represents the ASN.1 type HLR-List (SEQUENCE_OF).
 type HLRList = []HLRId
 
 // LMSI represents the ASN.1 type LMSI (OCTET_STRING).
@@ -632,7 +632,7 @@ func (v AdditionalNetworkResource) String() string {
 	}
 }
 
-// NAEAPreferredCI represents the ASN.1 type NAEAPreferredCI (SEQUENCE).
+// NAEAPreferredCI represents the ASN.1 type NAEA-PreferredCI (SEQUENCE).
 type NAEAPreferredCI struct {
 	NaeaPreferredCIC   NAEACIC             `asn1:"tag:0,context,implicit"`
 	ExtensionContainer *ExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
@@ -641,7 +641,7 @@ type NAEAPreferredCI struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// NAEACIC represents the ASN.1 type NAEACIC (OCTET_STRING).
+// NAEACIC represents the ASN.1 type NAEA-CIC (OCTET_STRING).
 type NAEACIC = []byte
 
 // SubscriberIdentity choice constants.
@@ -713,19 +713,19 @@ func (v LCSClientInternalID) String() string {
 // LCSServiceTypeID represents the ASN.1 type LCSServiceTypeID (INTEGER).
 type LCSServiceTypeID = int64
 
-// PLMNId represents the ASN.1 type PLMNId (OCTET_STRING).
+// PLMNId represents the ASN.1 type PLMN-Id (OCTET_STRING).
 type PLMNId = []byte
 
-// EUTRANCGI represents the ASN.1 type EUTRANCGI (OCTET_STRING).
+// EUTRANCGI represents the ASN.1 type E-UTRAN-CGI (OCTET_STRING).
 type EUTRANCGI = []byte
 
-// NRCGI represents the ASN.1 type NRCGI (OCTET_STRING).
+// NRCGI represents the ASN.1 type NR-CGI (OCTET_STRING).
 type NRCGI = []byte
 
-// TAId represents the ASN.1 type TAId (OCTET_STRING).
+// TAId represents the ASN.1 type TA-Id (OCTET_STRING).
 type TAId = []byte
 
-// NRTAId represents the ASN.1 type NRTAId (OCTET_STRING).
+// NRTAId represents the ASN.1 type NR-TA-Id (OCTET_STRING).
 type NRTAId = []byte
 
 // RAIdentity represents the ASN.1 type RAIdentity (OCTET_STRING).
@@ -807,7 +807,7 @@ const (
 	ExtBasicServiceCodeChoiceExtTeleservice   = 2
 )
 
-// ExtBasicServiceCode represents the ASN.1 CHOICE type ExtBasicServiceCode.
+// ExtBasicServiceCode represents the ASN.1 CHOICE type Ext-BasicServiceCode.
 type ExtBasicServiceCode struct {
 	Choice           int
 	ExtBearerService *ExtBearerServiceCode `json:"ExtBearerService,omitempty"`
@@ -830,7 +830,7 @@ func NewExtBasicServiceCodeExtTeleservice(v ExtTeleserviceCode) ExtBasicServiceC
 	}
 }
 
-// EMLPPInfo represents the ASN.1 type EMLPPInfo (SEQUENCE).
+// EMLPPInfo represents the ASN.1 type EMLPP-Info (SEQUENCE).
 type EMLPPInfo struct {
 	MaximumentitledPriority EMLPPPriority       `asn1:""`
 	DefaultPriority         EMLPPPriority       `asn1:""`
@@ -840,10 +840,10 @@ type EMLPPInfo struct {
 	ExtData_                [][]byte            `asn1:"-" json:"-"`
 }
 
-// EMLPPPriority represents the ASN.1 type EMLPPPriority (INTEGER).
+// EMLPPPriority represents the ASN.1 type EMLPP-Priority (INTEGER).
 type EMLPPPriority = int64
 
-// MCSSInfo represents the ASN.1 type MCSSInfo (SEQUENCE).
+// MCSSInfo represents the ASN.1 type MC-SS-Info (SEQUENCE).
 type MCSSInfo struct {
 	SsCode             SSCode              `asn1:"tag:0,context,implicit"`
 	SsStatus           ExtSSStatus         `asn1:"tag:1,context,implicit"`
@@ -855,13 +855,13 @@ type MCSSInfo struct {
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
 }
 
-// MaxMCBearers represents the ASN.1 type MaxMCBearers (INTEGER).
+// MaxMCBearers represents the ASN.1 type MaxMC-Bearers (INTEGER).
 type MaxMCBearers = int64
 
-// MCBearers represents the ASN.1 type MCBearers (INTEGER).
+// MCBearers represents the ASN.1 type MC-Bearers (INTEGER).
 type MCBearers = int64
 
-// ExtSSStatus represents the ASN.1 type ExtSSStatus (OCTET_STRING).
+// ExtSSStatus represents the ASN.1 type Ext-SS-Status (OCTET_STRING).
 type ExtSSStatus = []byte
 
 // AgeOfLocationInformation represents the ASN.1 type AgeOfLocationInformation (INTEGER).
@@ -902,7 +902,14 @@ func (v *ExternalSignalInfo) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ExternalSignalInfo as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ExternalSignalInfo from BER/DER format.
@@ -1005,7 +1012,14 @@ func (v *ExtExternalSignalInfo) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ExtExternalSignalInfo as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ExtExternalSignalInfo from BER/DER format.
@@ -1108,7 +1122,14 @@ func (v *AccessNetworkSignalInfo) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AccessNetworkSignalInfo as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AccessNetworkSignalInfo from BER/DER format.
@@ -1180,6 +1201,9 @@ func (v *AccessNetworkSignalInfo) UnmarshalBER(data []byte) error {
 func (v *Identity) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case IdentityChoiceImsi:
+		if v.Imsi == nil {
+			return nil, fmt.Errorf("choice Identity: imsi is nil")
+		}
 		enc_0 := ber.EncodeOctetString([]byte(*v.Imsi))
 		return enc_0, nil
 	case IdentityChoiceImsiWithLMSI:
@@ -1207,9 +1231,19 @@ func (v *Identity) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding imsi-WithLMSI: %w", err)
 		}
+		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
+			return nil, fmt.Errorf("encoding imsi-WithLMSI as DER: %w", derErr)
+		}
 		return enc_der_1, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding Identity as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes Identity from BER/DER format.
@@ -1239,7 +1273,7 @@ func (v *Identity) UnmarshalBER(data []byte) error {
 		}
 		tmp := IMSI(decVal)
 		v.Imsi = &tmp
-	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
+	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 && peekTag.Constructed == true {
 		v.Choice = IdentityChoiceImsiWithLMSI
 		var dec IMSIWithLMSI
 		if unmErr := dec.UnmarshalBER(choiceData); unmErr != nil {
@@ -1280,7 +1314,14 @@ func (v *IMSIWithLMSI) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding IMSIWithLMSI as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes IMSIWithLMSI from BER/DER format.
@@ -1333,10 +1374,16 @@ func (v *IMSIWithLMSI) UnmarshalBER(data []byte) error {
 func (v *SubscriberId) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case SubscriberIdChoiceImsi:
+		if v.Imsi == nil {
+			return nil, fmt.Errorf("choice SubscriberId: imsi is nil")
+		}
 		enc_0 := ber.EncodeOctetString([]byte(*v.Imsi))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
 		return enc_0, nil
 	case SubscriberIdChoiceTmsi:
+		if v.Tmsi == nil {
+			return nil, fmt.Errorf("choice SubscriberId: tmsi is nil")
+		}
 		enc_1 := ber.EncodeOctetString([]byte(*v.Tmsi))
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		return enc_1, nil
@@ -1347,7 +1394,14 @@ func (v *SubscriberId) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SubscriberId to DER format.
 func (v *SubscriberId) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SubscriberId as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SubscriberId from BER/DER format.
@@ -1457,7 +1511,14 @@ func (v *NAEAPreferredCI) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding NAEAPreferredCI as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes NAEAPreferredCI from BER/DER format.
@@ -1479,9 +1540,12 @@ func (v *NAEAPreferredCI) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for naea-PreferredCIC, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_naeapreferredcic, rawVal_naeapreferredcic, err := ber.DecodeTLV(content[offset:])
+	decodedTag_naeapreferredcic, n_naeapreferredcic, rawVal_naeapreferredcic, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding naea-PreferredCIC: %w", err)
+	}
+	if decodedTag_naeapreferredcic.Class != tag.ClassContextSpecific || decodedTag_naeapreferredcic.Number != 0 {
+		return fmt.Errorf("decoding naea-PreferredCIC: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_naeapreferredcic)
 	}
 	v.NaeaPreferredCIC = NAEACIC(rawVal_naeapreferredcic)
 	offset += n_naeapreferredcic
@@ -1490,9 +1554,12 @@ func (v *NAEAPreferredCI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
+				decodedTag_extensioncontainer, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", err)
+				}
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 || decodedTag_extensioncontainer.Constructed != true {
+					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
 				var dec_extensioncontainer ExtensionContainer
@@ -1524,10 +1591,16 @@ func (v *NAEAPreferredCI) UnmarshalBER(data []byte) error {
 func (v *SubscriberIdentity) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case SubscriberIdentityChoiceImsi:
+		if v.Imsi == nil {
+			return nil, fmt.Errorf("choice SubscriberIdentity: imsi is nil")
+		}
 		enc_0 := ber.EncodeOctetString([]byte(*v.Imsi))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
 		return enc_0, nil
 	case SubscriberIdentityChoiceMsisdn:
+		if v.Msisdn == nil {
+			return nil, fmt.Errorf("choice SubscriberIdentity: msisdn is nil")
+		}
 		enc_1 := ber.EncodeOctetString([]byte(*v.Msisdn))
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		return enc_1, nil
@@ -1538,7 +1611,14 @@ func (v *SubscriberIdentity) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SubscriberIdentity to DER format.
 func (v *SubscriberIdentity) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SubscriberIdentity as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SubscriberIdentity from BER/DER format.
@@ -1619,7 +1699,14 @@ func (v *LCSClientExternalID) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSClientExternalID as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSClientExternalID from BER/DER format.
@@ -1637,9 +1724,12 @@ func (v *LCSClientExternalID) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_externaladdress, rawVal_externaladdress, err := ber.DecodeTLV(content[offset:])
+				decodedTag_externaladdress, n_externaladdress, rawVal_externaladdress, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding externalAddress: %w", err)
+				}
+				if decodedTag_externaladdress.Class != tag.ClassContextSpecific || decodedTag_externaladdress.Number != 0 {
+					return fmt.Errorf("decoding externalAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_externaladdress)
 				}
 				tmp_externaladdress := ISDNAddressString(rawVal_externaladdress)
 				v.ExternalAddress = &tmp_externaladdress
@@ -1652,9 +1742,12 @@ func (v *LCSClientExternalID) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
+				decodedTag_extensioncontainer, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", err)
+				}
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 || decodedTag_extensioncontainer.Constructed != true {
+					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
 				var dec_extensioncontainer ExtensionContainer
@@ -1697,7 +1790,14 @@ func (v *NetworkNodeDiameterAddress) MarshalBER() ([]byte, error) {
 // MarshalDER encodes NetworkNodeDiameterAddress to DER format.
 func (v *NetworkNodeDiameterAddress) MarshalDER() ([]byte, error) {
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding NetworkNodeDiameterAddress as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes NetworkNodeDiameterAddress from BER/DER format.
@@ -1719,9 +1819,12 @@ func (v *NetworkNodeDiameterAddress) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for diameter-Name, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_diametername, rawVal_diametername, err := ber.DecodeTLV(content[offset:])
+	decodedTag_diametername, n_diametername, rawVal_diametername, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding diameter-Name: %w", err)
+	}
+	if decodedTag_diametername.Class != tag.ClassContextSpecific || decodedTag_diametername.Number != 0 {
+		return fmt.Errorf("decoding diameter-Name: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_diametername)
 	}
 	v.DiameterName = DiameterIdentity(rawVal_diametername)
 	offset += n_diametername
@@ -1734,9 +1837,12 @@ func (v *NetworkNodeDiameterAddress) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for diameter-Realm, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_diameterrealm, rawVal_diameterrealm, err := ber.DecodeTLV(content[offset:])
+	decodedTag_diameterrealm, n_diameterrealm, rawVal_diameterrealm, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding diameter-Realm: %w", err)
+	}
+	if decodedTag_diameterrealm.Class != tag.ClassContextSpecific || decodedTag_diameterrealm.Number != 1 {
+		return fmt.Errorf("decoding diameter-Realm: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_diameterrealm)
 	}
 	v.DiameterRealm = DiameterIdentity(rawVal_diameterrealm)
 	offset += n_diameterrealm
@@ -1750,10 +1856,16 @@ func (v *NetworkNodeDiameterAddress) UnmarshalBER(data []byte) error {
 func (v *CellGlobalIdOrServiceAreaIdOrLAI) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case CellGlobalIdOrServiceAreaIdOrLAIChoiceCellGlobalIdOrServiceAreaIdFixedLength:
+		if v.CellGlobalIdOrServiceAreaIdFixedLength == nil {
+			return nil, fmt.Errorf("choice CellGlobalIdOrServiceAreaIdOrLAI: cellGlobalIdOrServiceAreaIdFixedLength is nil")
+		}
 		enc_0 := ber.EncodeOctetString([]byte(*v.CellGlobalIdOrServiceAreaIdFixedLength))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_0)
 		return enc_0, nil
 	case CellGlobalIdOrServiceAreaIdOrLAIChoiceLaiFixedLength:
+		if v.LaiFixedLength == nil {
+			return nil, fmt.Errorf("choice CellGlobalIdOrServiceAreaIdOrLAI: laiFixedLength is nil")
+		}
 		enc_1 := ber.EncodeOctetString([]byte(*v.LaiFixedLength))
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
 		return enc_1, nil
@@ -1764,7 +1876,14 @@ func (v *CellGlobalIdOrServiceAreaIdOrLAI) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CellGlobalIdOrServiceAreaIdOrLAI to DER format.
 func (v *CellGlobalIdOrServiceAreaIdOrLAI) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding CellGlobalIdOrServiceAreaIdOrLAI as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes CellGlobalIdOrServiceAreaIdOrLAI from BER/DER format.
@@ -1812,10 +1931,16 @@ func (v *CellGlobalIdOrServiceAreaIdOrLAI) UnmarshalBER(data []byte) error {
 func (v *BasicServiceCode) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case BasicServiceCodeChoiceBearerService:
+		if v.BearerService == nil {
+			return nil, fmt.Errorf("choice BasicServiceCode: bearerService is nil")
+		}
 		enc_0 := ber.EncodeOctetString([]byte(*v.BearerService))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_0)
 		return enc_0, nil
 	case BasicServiceCodeChoiceTeleservice:
+		if v.Teleservice == nil {
+			return nil, fmt.Errorf("choice BasicServiceCode: teleservice is nil")
+		}
 		enc_1 := ber.EncodeOctetString([]byte(*v.Teleservice))
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_1)
 		return enc_1, nil
@@ -1826,7 +1951,14 @@ func (v *BasicServiceCode) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes BasicServiceCode to DER format.
 func (v *BasicServiceCode) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding BasicServiceCode as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes BasicServiceCode from BER/DER format.
@@ -1874,10 +2006,16 @@ func (v *BasicServiceCode) UnmarshalBER(data []byte) error {
 func (v *ExtBasicServiceCode) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case ExtBasicServiceCodeChoiceExtBearerService:
+		if v.ExtBearerService == nil {
+			return nil, fmt.Errorf("choice ExtBasicServiceCode: ext-BearerService is nil")
+		}
 		enc_0 := ber.EncodeOctetString([]byte(*v.ExtBearerService))
 		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_0)
 		return enc_0, nil
 	case ExtBasicServiceCodeChoiceExtTeleservice:
+		if v.ExtTeleservice == nil {
+			return nil, fmt.Errorf("choice ExtBasicServiceCode: ext-Teleservice is nil")
+		}
 		enc_1 := ber.EncodeOctetString([]byte(*v.ExtTeleservice))
 		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_1)
 		return enc_1, nil
@@ -1888,7 +2026,14 @@ func (v *ExtBasicServiceCode) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ExtBasicServiceCode to DER format.
 func (v *ExtBasicServiceCode) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ExtBasicServiceCode as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ExtBasicServiceCode from BER/DER format.
@@ -1967,7 +2112,14 @@ func (v *EMLPPInfo) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding EMLPPInfo as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes EMLPPInfo from BER/DER format.
@@ -2079,7 +2231,14 @@ func (v *MCSSInfo) MarshalDER() ([]byte, error) {
 		}
 	}
 	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding MCSSInfo as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes MCSSInfo from BER/DER format.
@@ -2101,9 +2260,12 @@ func (v *MCSSInfo) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for ss-Code, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_sscode, rawVal_sscode, err := ber.DecodeTLV(content[offset:])
+	decodedTag_sscode, n_sscode, rawVal_sscode, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding ss-Code: %w", err)
+	}
+	if decodedTag_sscode.Class != tag.ClassContextSpecific || decodedTag_sscode.Number != 0 {
+		return fmt.Errorf("decoding ss-Code: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sscode)
 	}
 	v.SsCode = SSCode(rawVal_sscode)
 	offset += n_sscode
@@ -2116,9 +2278,12 @@ func (v *MCSSInfo) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for ss-Status, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_ssstatus, rawVal_ssstatus, err := ber.DecodeTLV(content[offset:])
+	decodedTag_ssstatus, n_ssstatus, rawVal_ssstatus, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding ss-Status: %w", err)
+	}
+	if decodedTag_ssstatus.Class != tag.ClassContextSpecific || decodedTag_ssstatus.Number != 1 {
+		return fmt.Errorf("decoding ss-Status: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ssstatus)
 	}
 	v.SsStatus = ExtSSStatus(rawVal_ssstatus)
 	offset += n_ssstatus
@@ -2131,9 +2296,12 @@ func (v *MCSSInfo) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for nbrSB, got %s", "CONTEXT", 2, reqTag_)
 		}
 	}
-	_, n_nbrsb, rawVal_nbrsb, err := ber.DecodeTLV(content[offset:])
+	decodedTag_nbrsb, n_nbrsb, rawVal_nbrsb, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding nbrSB: %w", err)
+	}
+	if decodedTag_nbrsb.Class != tag.ClassContextSpecific || decodedTag_nbrsb.Number != 2 || decodedTag_nbrsb.Constructed != false {
+		return fmt.Errorf("decoding nbrSB: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_nbrsb)
 	}
 	decVal_nbrsb, intErr := ber.DecodeIntegerValue(rawVal_nbrsb)
 	if intErr != nil {
@@ -2150,9 +2318,12 @@ func (v *MCSSInfo) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for nbrUser, got %s", "CONTEXT", 3, reqTag_)
 		}
 	}
-	_, n_nbruser, rawVal_nbruser, err := ber.DecodeTLV(content[offset:])
+	decodedTag_nbruser, n_nbruser, rawVal_nbruser, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding nbrUser: %w", err)
+	}
+	if decodedTag_nbruser.Class != tag.ClassContextSpecific || decodedTag_nbruser.Number != 3 || decodedTag_nbruser.Constructed != false {
+		return fmt.Errorf("decoding nbrUser: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_nbruser)
 	}
 	decVal_nbruser, intErr := ber.DecodeIntegerValue(rawVal_nbruser)
 	if intErr != nil {
@@ -2165,9 +2336,12 @@ func (v *MCSSInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
+				decodedTag_extensioncontainer, n_extensioncontainer, rawVal_extensioncontainer, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", err)
+				}
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 4 || decodedTag_extensioncontainer.Constructed != true {
+					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
 				var dec_extensioncontainer ExtensionContainer

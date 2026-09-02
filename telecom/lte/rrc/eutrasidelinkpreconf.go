@@ -15,7 +15,7 @@ var (
 	_ = per.NewBitBuffer
 )
 
-// SLPreconfigurationR12 represents the ASN.1 type SLPreconfigurationR12 (SEQUENCE).
+// SLPreconfigurationR12 represents the ASN.1 type SL-Preconfiguration-r12 (SEQUENCE).
 type SLPreconfigurationR12 struct {
 	PreconfigGeneralR12    SLPreconfigGeneralR12                    `asn1:"tag:0,context,implicit"`
 	PreconfigSyncR12       SLPreconfigSyncR12                       `asn1:"tag:1,context,implicit"`
@@ -29,7 +29,7 @@ type SLPreconfigurationR12 struct {
 	ExtData_               [][]byte                                 `asn1:"-" json:"-"`
 }
 
-// SLPreconfigGeneralR12 represents the ASN.1 type SLPreconfigGeneralR12 (SEQUENCE).
+// SLPreconfigGeneralR12 represents the ASN.1 type SL-PreconfigGeneral-r12 (SEQUENCE).
 type SLPreconfigGeneralR12 struct {
 	RohcProfilesR12                 SLPreconfigGeneralR12RohcProfilesR12 `asn1:"tag:0,context,implicit"`
 	CarrierFreqR12                  ARFCNValueEUTRAR9                    `asn1:"tag:1,context,implicit"`
@@ -44,7 +44,7 @@ type SLPreconfigGeneralR12 struct {
 	ExtData_                        [][]byte                             `asn1:"-" json:"-"`
 }
 
-// SLPreconfigSyncR12 represents the ASN.1 type SLPreconfigSyncR12 (SEQUENCE).
+// SLPreconfigSyncR12 represents the ASN.1 type SL-PreconfigSync-r12 (SEQUENCE).
 type SLPreconfigSyncR12 struct {
 	SyncCPLenR12            SLCPLenR12               `asn1:"tag:0,context,implicit"`
 	SyncOffsetIndicator1R12 SLOffsetIndicatorSyncR12 `asn1:"tag:1,context,implicit"`
@@ -60,16 +60,16 @@ type SLPreconfigSyncR12 struct {
 	ExtData_                [][]byte                 `asn1:"-" json:"-"`
 }
 
-// SLPreconfigCommPoolList4R12 represents the ASN.1 type SLPreconfigCommPoolList4R12 (SEQUENCE_OF).
+// SLPreconfigCommPoolList4R12 represents the ASN.1 type SL-PreconfigCommPoolList4-r12 (SEQUENCE_OF).
 type SLPreconfigCommPoolList4R12 = []SLPreconfigCommPoolR12
 
-// SLPreconfigCommRxPoolListR13 represents the ASN.1 type SLPreconfigCommRxPoolListR13 (SEQUENCE_OF).
+// SLPreconfigCommRxPoolListR13 represents the ASN.1 type SL-PreconfigCommRxPoolList-r13 (SEQUENCE_OF).
 type SLPreconfigCommRxPoolListR13 = []SLPreconfigCommPoolR12
 
-// SLPreconfigCommTxPoolListR13 represents the ASN.1 type SLPreconfigCommTxPoolListR13 (SEQUENCE_OF).
+// SLPreconfigCommTxPoolListR13 represents the ASN.1 type SL-PreconfigCommTxPoolList-r13 (SEQUENCE_OF).
 type SLPreconfigCommTxPoolListR13 = []SLPreconfigCommPoolR12
 
-// SLPreconfigCommPoolR12 represents the ASN.1 type SLPreconfigCommPoolR12 (SEQUENCE).
+// SLPreconfigCommPoolR12 represents the ASN.1 type SL-PreconfigCommPool-r12 (SEQUENCE).
 type SLPreconfigCommPoolR12 struct {
 	ScCPLenR12              SLCPLenR12             `asn1:"tag:0,context,implicit"`
 	ScPeriodR12             SLPeriodCommR12        `asn1:"tag:1,context,implicit"`
@@ -87,13 +87,13 @@ type SLPreconfigCommPoolR12 struct {
 	ExtData_                [][]byte               `asn1:"-" json:"-"`
 }
 
-// SLPreconfigDiscRxPoolListR13 represents the ASN.1 type SLPreconfigDiscRxPoolListR13 (SEQUENCE_OF).
+// SLPreconfigDiscRxPoolListR13 represents the ASN.1 type SL-PreconfigDiscRxPoolList-r13 (SEQUENCE_OF).
 type SLPreconfigDiscRxPoolListR13 = []SLPreconfigDiscPoolR13
 
-// SLPreconfigDiscTxPoolListR13 represents the ASN.1 type SLPreconfigDiscTxPoolListR13 (SEQUENCE_OF).
+// SLPreconfigDiscTxPoolListR13 represents the ASN.1 type SL-PreconfigDiscTxPoolList-r13 (SEQUENCE_OF).
 type SLPreconfigDiscTxPoolListR13 = []SLPreconfigDiscPoolR13
 
-// SLPreconfigDiscPoolR13 represents the ASN.1 type SLPreconfigDiscPoolR13 (SEQUENCE).
+// SLPreconfigDiscPoolR13 represents the ASN.1 type SL-PreconfigDiscPool-r13 (SEQUENCE).
 type SLPreconfigDiscPoolR13 struct {
 	CpLenR13            SLCPLenR12                             `asn1:"tag:0,context,implicit"`
 	DiscPeriodR13       int64                                  `asn1:"tag:1,context,implicit"`
@@ -106,12 +106,12 @@ type SLPreconfigDiscPoolR13 struct {
 	ExtData_            [][]byte                               `asn1:"-" json:"-"`
 }
 
-// SLPreconfigRelayR13 represents the ASN.1 type SLPreconfigRelayR13 (SEQUENCE).
+// SLPreconfigRelayR13 represents the ASN.1 type SL-PreconfigRelay-r13 (SEQUENCE).
 type SLPreconfigRelayR13 struct {
 	ReselectionInfoOoCR13 ReselectionInfoRelayR13 `asn1:"tag:0,context,implicit"`
 }
 
-// SLV2XPreconfigurationR14 represents the ASN.1 type SLV2XPreconfigurationR14 (SEQUENCE).
+// SLV2XPreconfigurationR14 represents the ASN.1 type SL-V2X-Preconfiguration-r14 (SEQUENCE).
 type SLV2XPreconfigurationR14 struct {
 	V2xPreconfigFreqListR14          SLV2XPreconfigFreqListR14        `asn1:"tag:0,context,implicit"`
 	V2xPreconfigFreqListR14Indef_    bool                             `asn1:"-" json:"-"`
@@ -131,7 +131,7 @@ type SLV2XPreconfigurationR14 struct {
 	ExtData_                         [][]byte                         `asn1:"-" json:"-"`
 }
 
-// SLCBRPreconfigTxConfigListR14 represents the ASN.1 type SLCBRPreconfigTxConfigListR14 (SEQUENCE).
+// SLCBRPreconfigTxConfigListR14 represents the ASN.1 type SL-CBR-PreconfigTxConfigList-r14 (SEQUENCE).
 type SLCBRPreconfigTxConfigListR14 struct {
 	CbrRangeCommonConfigListR14       SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 `asn1:"tag:0,context,implicit"`
 	CbrRangeCommonConfigListR14Indef_ bool                                                     `asn1:"-" json:"-"`
@@ -139,10 +139,10 @@ type SLCBRPreconfigTxConfigListR14 struct {
 	SlCBRPSSCHTxConfigListR14Indef_   bool                                                     `asn1:"-" json:"-"`
 }
 
-// SLV2XPreconfigFreqListR14 represents the ASN.1 type SLV2XPreconfigFreqListR14 (SEQUENCE_OF).
+// SLV2XPreconfigFreqListR14 represents the ASN.1 type SL-V2X-PreconfigFreqList-r14 (SEQUENCE_OF).
 type SLV2XPreconfigFreqListR14 = []SLV2XPreconfigFreqInfoR14
 
-// SLV2XPreconfigFreqInfoR14 represents the ASN.1 type SLV2XPreconfigFreqInfoR14 (SEQUENCE).
+// SLV2XPreconfigFreqInfoR14 represents the ASN.1 type SL-V2X-PreconfigFreqInfo-r14 (SEQUENCE).
 type SLV2XPreconfigFreqInfoR14 struct {
 	V2xCommPreconfigGeneralR14          SLPreconfigGeneralR12           `asn1:"tag:0,context,implicit"`
 	V2xCommPreconfigSyncR14             *SLPreconfigV2XSyncR14          `asn1:"tag:1,context,implicit,optional" json:"V2xCommPreconfigSyncR14,omitempty"`
@@ -164,13 +164,13 @@ type SLV2XPreconfigFreqInfoR14 struct {
 	ExtData_                            [][]byte                        `asn1:"-" json:"-"`
 }
 
-// SLPreconfigV2XRxPoolListR14 represents the ASN.1 type SLPreconfigV2XRxPoolListR14 (SEQUENCE_OF).
+// SLPreconfigV2XRxPoolListR14 represents the ASN.1 type SL-PreconfigV2X-RxPoolList-r14 (SEQUENCE_OF).
 type SLPreconfigV2XRxPoolListR14 = []SLV2XPreconfigCommPoolR14
 
-// SLPreconfigV2XTxPoolListR14 represents the ASN.1 type SLPreconfigV2XTxPoolListR14 (SEQUENCE_OF).
+// SLPreconfigV2XTxPoolListR14 represents the ASN.1 type SL-PreconfigV2X-TxPoolList-r14 (SEQUENCE_OF).
 type SLPreconfigV2XTxPoolListR14 = []SLV2XPreconfigCommPoolR14
 
-// SLV2XPreconfigCommPoolR14 represents the ASN.1 type SLV2XPreconfigCommPoolR14 (SEQUENCE).
+// SLV2XPreconfigCommPoolR14 represents the ASN.1 type SL-V2X-PreconfigCommPool-r14 (SEQUENCE).
 type SLV2XPreconfigCommPoolR14 struct {
 	SlOffsetIndicatorR14                       *SLOffsetIndicatorR12                      `asn1:"tag:0,context,explicit,optional" json:"SlOffsetIndicatorR14,omitempty"`
 	SlSubframeR14                              SubframeBitmapSLR14                        `asn1:"tag:1,context,explicit"`
@@ -198,7 +198,7 @@ type SLV2XPreconfigCommPoolR14 struct {
 	ExtData_                                   [][]byte                                   `asn1:"-" json:"-"`
 }
 
-// SLPreconfigV2XSyncR14 represents the ASN.1 type SLPreconfigV2XSyncR14 (SEQUENCE).
+// SLPreconfigV2XSyncR14 represents the ASN.1 type SL-PreconfigV2X-Sync-r14 (SEQUENCE).
 type SLPreconfigV2XSyncR14 struct {
 	SyncOffsetIndicatorsR14 SLV2XSyncOffsetIndicatorsR14 `asn1:"tag:0,context,implicit"`
 	SyncTxParametersR14     P0SLR12                      `asn1:"tag:1,context,implicit"`
@@ -212,17 +212,17 @@ type SLPreconfigV2XSyncR14 struct {
 	ExtData_                [][]byte                     `asn1:"-" json:"-"`
 }
 
-// SLV2XSyncOffsetIndicatorsR14 represents the ASN.1 type SLV2XSyncOffsetIndicatorsR14 (SEQUENCE).
+// SLV2XSyncOffsetIndicatorsR14 represents the ASN.1 type SL-V2X-SyncOffsetIndicators-r14 (SEQUENCE).
 type SLV2XSyncOffsetIndicatorsR14 struct {
 	SyncOffsetIndicator1R14 SLOffsetIndicatorSyncR14  `asn1:"tag:0,context,implicit"`
 	SyncOffsetIndicator2R14 SLOffsetIndicatorSyncR14  `asn1:"tag:1,context,implicit"`
 	SyncOffsetIndicator3R14 *SLOffsetIndicatorSyncR14 `asn1:"tag:2,context,implicit,optional" json:"SyncOffsetIndicator3R14,omitempty"`
 }
 
-// SLCBRPPPPTxPreconfigListR14 represents the ASN.1 type SLCBRPPPPTxPreconfigListR14 (SEQUENCE_OF).
+// SLCBRPPPPTxPreconfigListR14 represents the ASN.1 type SL-CBR-PPPP-TxPreconfigList-r14 (SEQUENCE_OF).
 type SLCBRPPPPTxPreconfigListR14 = []SLPPPPTxPreconfigIndexR14
 
-// SLPPPPTxPreconfigIndexR14 represents the ASN.1 type SLPPPPTxPreconfigIndexR14 (SEQUENCE).
+// SLPPPPTxPreconfigIndexR14 represents the ASN.1 type SL-PPPP-TxPreconfigIndex-r14 (SEQUENCE).
 type SLPPPPTxPreconfigIndexR14 struct {
 	PriorityThresholdR14       SLPriorityR13                                 `asn1:"tag:0,context,implicit"`
 	DefaultTxConfigIndexR14    int64                                         `asn1:"tag:1,context,implicit"`
@@ -231,22 +231,22 @@ type SLPPPPTxPreconfigIndexR14 struct {
 	TxConfigIndexListR14Indef_ bool                                          `asn1:"-" json:"-"`
 }
 
-// TxPreconfigIndexR14 represents the ASN.1 type TxPreconfigIndexR14 (INTEGER).
+// TxPreconfigIndexR14 represents the ASN.1 type Tx-PreconfigIndex-r14 (INTEGER).
 type TxPreconfigIndexR14 = int64
 
-// SLCBRPPPPTxPreconfigListV1530 represents the ASN.1 type SLCBRPPPPTxPreconfigListV1530 (SEQUENCE_OF).
+// SLCBRPPPPTxPreconfigListV1530 represents the ASN.1 type SL-CBR-PPPP-TxPreconfigList-v1530 (SEQUENCE_OF).
 type SLCBRPPPPTxPreconfigListV1530 = []SLPPPPTxPreconfigIndexV1530
 
-// SLPPPPTxPreconfigIndexV1530 represents the ASN.1 type SLPPPPTxPreconfigIndexV1530 (SEQUENCE).
+// SLPPPPTxPreconfigIndexV1530 represents the ASN.1 type SL-PPPP-TxPreconfigIndex-v1530 (SEQUENCE).
 type SLPPPPTxPreconfigIndexV1530 struct {
 	McsPSSCHRangeR15       SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 `asn1:"tag:0,context,implicit,optional" json:"McsPSSCHRangeR15,omitempty"`
 	McsPSSCHRangeR15Indef_ bool                                        `asn1:"-" json:"-"`
 }
 
-// SLV2XTxProfileListR15 represents the ASN.1 type SLV2XTxProfileListR15 (SEQUENCE_OF).
+// SLV2XTxProfileListR15 represents the ASN.1 type SL-V2X-TxProfileList-r15 (SEQUENCE_OF).
 type SLV2XTxProfileListR15 = []SLV2XTxProfileR15
 
-// SLV2XTxProfileR15 represents the ASN.1 ENUMERATED type SLV2XTxProfileR15.
+// SLV2XTxProfileR15 represents the ASN.1 ENUMERATED type SL-V2X-TxProfile-r15.
 type SLV2XTxProfileR15 int64
 
 const (
@@ -283,7 +283,7 @@ func (v SLV2XTxProfileR15) String() string {
 	}
 }
 
-// SLPreconfigurationR12PreconfigCommV1310 represents the ASN.1 type SLPreconfigurationR12PreconfigCommV1310 (SEQUENCE).
+// SLPreconfigurationR12PreconfigCommV1310 represents the ASN.1 type SL-Preconfiguration-r12-preconfigComm-v1310 (SEQUENCE).
 type SLPreconfigurationR12PreconfigCommV1310 struct {
 	CommRxPoolListR13       SLPreconfigCommRxPoolListR13 `asn1:"tag:0,context,implicit"`
 	CommRxPoolListR13Indef_ bool                         `asn1:"-" json:"-"`
@@ -291,7 +291,7 @@ type SLPreconfigurationR12PreconfigCommV1310 struct {
 	CommTxPoolListR13Indef_ bool                         `asn1:"-" json:"-"`
 }
 
-// SLPreconfigurationR12PreconfigDiscR13 represents the ASN.1 type SLPreconfigurationR12PreconfigDiscR13 (SEQUENCE).
+// SLPreconfigurationR12PreconfigDiscR13 represents the ASN.1 type SL-Preconfiguration-r12-preconfigDisc-r13 (SEQUENCE).
 type SLPreconfigurationR12PreconfigDiscR13 struct {
 	DiscRxPoolListR13       SLPreconfigDiscRxPoolListR13 `asn1:"tag:0,context,implicit"`
 	DiscRxPoolListR13Indef_ bool                         `asn1:"-" json:"-"`
@@ -299,7 +299,7 @@ type SLPreconfigurationR12PreconfigDiscR13 struct {
 	DiscTxPoolListR13Indef_ bool                         `asn1:"-" json:"-"`
 }
 
-// SLPreconfigGeneralR12RohcProfilesR12 represents the ASN.1 type SLPreconfigGeneralR12RohcProfilesR12 (SEQUENCE).
+// SLPreconfigGeneralR12RohcProfilesR12 represents the ASN.1 type SL-PreconfigGeneral-r12-rohc-Profiles-r12 (SEQUENCE).
 type SLPreconfigGeneralR12RohcProfilesR12 struct {
 	Profile0x0001R12     bool `asn1:"tag:0,context,implicit"`
 	Profile0x0001R12Raw_ byte `asn1:"-" json:"-"`
@@ -317,22 +317,22 @@ type SLPreconfigGeneralR12RohcProfilesR12 struct {
 	Profile0x0104R12Raw_ byte `asn1:"-" json:"-"`
 }
 
-// SLPreconfigDiscPoolR13TxParametersR13 represents the ASN.1 type SLPreconfigDiscPoolR13TxParametersR13 (SEQUENCE).
+// SLPreconfigDiscPoolR13TxParametersR13 represents the ASN.1 type SL-PreconfigDiscPool-r13-txParameters-r13 (SEQUENCE).
 type SLPreconfigDiscPoolR13TxParametersR13 struct {
 	TxParametersGeneralR13 P0SLR12 `asn1:"tag:0,context,implicit"`
 	TxProbabilityR13       int64   `asn1:"tag:1,context,implicit"`
 }
 
-// SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 represents the ASN.1 type SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 (SEQUENCE_OF).
+// SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 represents the ASN.1 type SL-CBR-PreconfigTxConfigList-r14-cbr-RangeCommonConfigList-r14 (SEQUENCE_OF).
 type SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 = []SLCBRLevelsConfigR14
 
-// SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14 represents the ASN.1 type SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14 (SEQUENCE_OF).
+// SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14 represents the ASN.1 type SL-CBR-PreconfigTxConfigList-r14-sl-CBR-PSSCH-TxConfigList-r14 (SEQUENCE_OF).
 type SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14 = []SLCBRPSSCHTxConfigR14
 
-// SLPPPPTxPreconfigIndexR14TxConfigIndexListR14 represents the ASN.1 type SLPPPPTxPreconfigIndexR14TxConfigIndexListR14 (SEQUENCE_OF).
+// SLPPPPTxPreconfigIndexR14TxConfigIndexListR14 represents the ASN.1 type SL-PPPP-TxPreconfigIndex-r14-tx-ConfigIndexList-r14 (SEQUENCE_OF).
 type SLPPPPTxPreconfigIndexR14TxConfigIndexListR14 = []TxPreconfigIndexR14
 
-// SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 represents the ASN.1 type SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 (SEQUENCE_OF).
+// SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 represents the ASN.1 type SL-PPPP-TxPreconfigIndex-v1530-mcs-PSSCH-Range-r15 (SEQUENCE_OF).
 type SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 = []MCSPSSCHRangeR15
 
 // MarshalUPER encodes SLPreconfigurationR12 to UPER format.
@@ -459,11 +459,13 @@ func (v *SLPreconfigurationR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if seqLen_preconfigcommr12 > 4 {
 		return fmt.Errorf("decoding preconfigComm-r12 length %d above upper bound 4", seqLen_preconfigcommr12)
 	}
-	v.PreconfigCommR12 = make(SLPreconfigCommPoolList4R12, seqLen_preconfigcommr12)
+	v.PreconfigCommR12 = make(SLPreconfigCommPoolList4R12, 0)
 	for i := int64(0); i < seqLen_preconfigcommr12; i++ {
-		if err := v.PreconfigCommR12[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding preconfigComm-r12 element: %w", err)
+		var elem SLPreconfigCommPoolR12
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding preconfigComm-r12 element %d: %w", i, err)
 		}
+		v.PreconfigCommR12 = append(v.PreconfigCommR12, elem)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
@@ -929,11 +931,13 @@ func unmarshalUPERSLPreconfigCommPoolList4R12Into(v *asn1cUPERSLPreconfigCommPoo
 	if seqLen_value > 4 {
 		return fmt.Errorf("decoding value length %d above upper bound 4", seqLen_value)
 	}
-	v.Value = make(SLPreconfigCommPoolList4R12, seqLen_value)
+	v.Value = make(SLPreconfigCommPoolList4R12, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem SLPreconfigCommPoolR12
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -991,11 +995,13 @@ func unmarshalUPERSLPreconfigCommRxPoolListR13Into(v *asn1cUPERSLPreconfigCommRx
 	if seqLen_value > 12 {
 		return fmt.Errorf("decoding value length %d above upper bound 12", seqLen_value)
 	}
-	v.Value = make(SLPreconfigCommRxPoolListR13, seqLen_value)
+	v.Value = make(SLPreconfigCommRxPoolListR13, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem SLPreconfigCommPoolR12
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -1053,11 +1059,13 @@ func unmarshalUPERSLPreconfigCommTxPoolListR13Into(v *asn1cUPERSLPreconfigCommTx
 	if seqLen_value > 7 {
 		return fmt.Errorf("decoding value length %d above upper bound 7", seqLen_value)
 	}
-	v.Value = make(SLPreconfigCommTxPoolListR13, seqLen_value)
+	v.Value = make(SLPreconfigCommTxPoolListR13, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem SLPreconfigCommPoolR12
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -1240,13 +1248,13 @@ func (v *SLPreconfigCommPoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				if seqLen_prioritylistr13 > 8 {
 					return fmt.Errorf("decoding priorityList-r13 length %d above upper bound 8", seqLen_prioritylistr13)
 				}
-				tmp_prioritylistr13 := make(SLPriorityListR13, seqLen_prioritylistr13)
+				tmp_prioritylistr13 := make(SLPriorityListR13, 0)
 				for i := int64(0); i < seqLen_prioritylistr13; i++ {
 					val, err := per.DecodeInteger(extBB, int64Ptr(1), int64Ptr(8), false)
 					if err != nil {
-						return fmt.Errorf("decoding priorityList-r13 element: %w", err)
+						return fmt.Errorf("decoding priorityList-r13 element %d: %w", i, err)
 					}
-					tmp_prioritylistr13[i] = SLPriorityR13(val)
+					tmp_prioritylistr13 = append(tmp_prioritylistr13, SLPriorityR13(val))
 				}
 				v.PriorityListR13 = tmp_prioritylistr13
 			}
@@ -1318,11 +1326,13 @@ func unmarshalUPERSLPreconfigDiscRxPoolListR13Into(v *asn1cUPERSLPreconfigDiscRx
 	if seqLen_value > 16 {
 		return fmt.Errorf("decoding value length %d above upper bound 16", seqLen_value)
 	}
-	v.Value = make(SLPreconfigDiscRxPoolListR13, seqLen_value)
+	v.Value = make(SLPreconfigDiscRxPoolListR13, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem SLPreconfigDiscPoolR13
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -1380,11 +1390,13 @@ func unmarshalUPERSLPreconfigDiscTxPoolListR13Into(v *asn1cUPERSLPreconfigDiscTx
 	if seqLen_value > 4 {
 		return fmt.Errorf("decoding value length %d above upper bound 4", seqLen_value)
 	}
-	v.Value = make(SLPreconfigDiscTxPoolListR13, seqLen_value)
+	v.Value = make(SLPreconfigDiscTxPoolListR13, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem SLPreconfigDiscPoolR13
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -1735,11 +1747,13 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if seqLen_v2xpreconfigfreqlistr14 > 8 {
 		return fmt.Errorf("decoding v2x-PreconfigFreqList-r14 length %d above upper bound 8", seqLen_v2xpreconfigfreqlistr14)
 	}
-	v.V2xPreconfigFreqListR14 = make(SLV2XPreconfigFreqListR14, seqLen_v2xpreconfigfreqlistr14)
+	v.V2xPreconfigFreqListR14 = make(SLV2XPreconfigFreqListR14, 0)
 	for i := int64(0); i < seqLen_v2xpreconfigfreqlistr14; i++ {
-		if err := v.V2xPreconfigFreqListR14[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding v2x-PreconfigFreqList-r14 element: %w", err)
+		var elem SLV2XPreconfigFreqInfoR14
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding v2x-PreconfigFreqList-r14 element %d: %w", i, err)
 		}
+		v.V2xPreconfigFreqListR14 = append(v.V2xPreconfigFreqListR14, elem)
 	}
 	if opt_anchorcarrierfreqlistr14 {
 		var seqLen_anchorcarrierfreqlistr14 int64
@@ -1754,13 +1768,13 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_anchorcarrierfreqlistr14 > 8 {
 			return fmt.Errorf("decoding anchorCarrierFreqList-r14 length %d above upper bound 8", seqLen_anchorcarrierfreqlistr14)
 		}
-		tmp_anchorcarrierfreqlistr14 := make(SLAnchorCarrierFreqListV2XR14, seqLen_anchorcarrierfreqlistr14)
+		tmp_anchorcarrierfreqlistr14 := make(SLAnchorCarrierFreqListV2XR14, 0)
 		for i := int64(0); i < seqLen_anchorcarrierfreqlistr14; i++ {
 			val, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(262143), false)
 			if err != nil {
-				return fmt.Errorf("decoding anchorCarrierFreqList-r14 element: %w", err)
+				return fmt.Errorf("decoding anchorCarrierFreqList-r14 element %d: %w", i, err)
 			}
-			tmp_anchorcarrierfreqlistr14[i] = ARFCNValueEUTRAR9(val)
+			tmp_anchorcarrierfreqlistr14 = append(tmp_anchorcarrierfreqlistr14, ARFCNValueEUTRAR9(val))
 		}
 		v.AnchorCarrierFreqListR14 = tmp_anchorcarrierfreqlistr14
 	}
@@ -1821,13 +1835,13 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				if seqLen_syncfreqlistr15 > 8 {
 					return fmt.Errorf("decoding syncFreqList-r15 length %d above upper bound 8", seqLen_syncfreqlistr15)
 				}
-				tmp_syncfreqlistr15 := make(SLV2XSyncFreqListR15, seqLen_syncfreqlistr15)
+				tmp_syncfreqlistr15 := make(SLV2XSyncFreqListR15, 0)
 				for i := int64(0); i < seqLen_syncfreqlistr15; i++ {
 					val, err := per.DecodeInteger(extBB, int64Ptr(0), int64Ptr(262143), false)
 					if err != nil {
-						return fmt.Errorf("decoding syncFreqList-r15 element: %w", err)
+						return fmt.Errorf("decoding syncFreqList-r15 element %d: %w", i, err)
 					}
-					tmp_syncfreqlistr15[i] = ARFCNValueEUTRAR9(val)
+					tmp_syncfreqlistr15 = append(tmp_syncfreqlistr15, ARFCNValueEUTRAR9(val))
 				}
 				v.SyncFreqListR15 = tmp_syncfreqlistr15
 			}
@@ -1851,13 +1865,13 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				if seqLen_v2xtxprofilelistr15 > 256 {
 					return fmt.Errorf("decoding v2x-TxProfileList-r15 length %d above upper bound 256", seqLen_v2xtxprofilelistr15)
 				}
-				tmp_v2xtxprofilelistr15 := make(SLV2XTxProfileListR15, seqLen_v2xtxprofilelistr15)
+				tmp_v2xtxprofilelistr15 := make(SLV2XTxProfileListR15, 0)
 				for i := int64(0); i < seqLen_v2xtxprofilelistr15; i++ {
 					val, err := per.DecodeEnumerated(extBB, 8, true)
 					if err != nil {
-						return fmt.Errorf("decoding v2x-TxProfileList-r15 element: %w", err)
+						return fmt.Errorf("decoding v2x-TxProfileList-r15 element %d: %w", i, err)
 					}
-					tmp_v2xtxprofilelistr15[i] = SLV2XTxProfileR15(val)
+					tmp_v2xtxprofilelistr15 = append(tmp_v2xtxprofilelistr15, SLV2XTxProfileR15(val))
 				}
 				v.V2xTxProfileListR15 = tmp_v2xtxprofilelistr15
 			}
@@ -1886,13 +1900,13 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				if seqLen_anchorcarrierfreqlistnrr16 > 8 {
 					return fmt.Errorf("decoding anchorCarrierFreqListNR-r16 length %d above upper bound 8", seqLen_anchorcarrierfreqlistnrr16)
 				}
-				tmp_anchorcarrierfreqlistnrr16 := make(SLNRAnchorCarrierFreqListR16, seqLen_anchorcarrierfreqlistnrr16)
+				tmp_anchorcarrierfreqlistnrr16 := make(SLNRAnchorCarrierFreqListR16, 0)
 				for i := int64(0); i < seqLen_anchorcarrierfreqlistnrr16; i++ {
 					val, err := per.DecodeInteger(extBB, int64Ptr(0), int64Ptr(3279165), false)
 					if err != nil {
-						return fmt.Errorf("decoding anchorCarrierFreqListNR-r16 element: %w", err)
+						return fmt.Errorf("decoding anchorCarrierFreqListNR-r16 element %d: %w", i, err)
 					}
-					tmp_anchorcarrierfreqlistnrr16[i] = ARFCNValueNRR15(val)
+					tmp_anchorcarrierfreqlistnrr16 = append(tmp_anchorcarrierfreqlistnrr16, ARFCNValueNRR15(val))
 				}
 				v.AnchorCarrierFreqListNRR16 = tmp_anchorcarrierfreqlistnrr16
 			}
@@ -1959,13 +1973,13 @@ func (v *SLCBRPreconfigTxConfigListR14) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if seqLen_cbrrangecommonconfiglistr14 > 8 {
 		return fmt.Errorf("decoding cbr-RangeCommonConfigList-r14 length %d above upper bound 8", seqLen_cbrrangecommonconfiglistr14)
 	}
-	v.CbrRangeCommonConfigListR14 = make(SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14, seqLen_cbrrangecommonconfiglistr14)
+	v.CbrRangeCommonConfigListR14 = make(SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14, 0)
 	for i_cbrrangecommonconfiglistr14 := int64(0); i_cbrrangecommonconfiglistr14 < seqLen_cbrrangecommonconfiglistr14; i_cbrrangecommonconfiglistr14++ {
 		elem, err := UnmarshalUPERSLCBRLevelsConfigR14From(bb)
 		if err != nil {
 			return fmt.Errorf("decoding cbr-RangeCommonConfigList-r14 element: %w", err)
 		}
-		v.CbrRangeCommonConfigListR14[i_cbrrangecommonconfiglistr14] = elem
+		v.CbrRangeCommonConfigListR14 = append(v.CbrRangeCommonConfigListR14, elem)
 	}
 	var seqLen_slcbrpsschtxconfiglistr14 int64
 	var errLength_slcbrpsschtxconfiglistr14 error
@@ -1979,11 +1993,13 @@ func (v *SLCBRPreconfigTxConfigListR14) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if seqLen_slcbrpsschtxconfiglistr14 > 128 {
 		return fmt.Errorf("decoding sl-CBR-PSSCH-TxConfigList-r14 length %d above upper bound 128", seqLen_slcbrpsschtxconfiglistr14)
 	}
-	v.SlCBRPSSCHTxConfigListR14 = make(SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14, seqLen_slcbrpsschtxconfiglistr14)
+	v.SlCBRPSSCHTxConfigListR14 = make(SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14, 0)
 	for i := int64(0); i < seqLen_slcbrpsschtxconfiglistr14; i++ {
-		if err := v.SlCBRPSSCHTxConfigListR14[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding sl-CBR-PSSCH-TxConfigList-r14 element: %w", err)
+		var elem SLCBRPSSCHTxConfigR14
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding sl-CBR-PSSCH-TxConfigList-r14 element %d: %w", i, err)
 		}
+		v.SlCBRPSSCHTxConfigListR14 = append(v.SlCBRPSSCHTxConfigListR14, elem)
 	}
 	return nil
 }
@@ -2041,11 +2057,13 @@ func unmarshalUPERSLV2XPreconfigFreqListR14Into(v *asn1cUPERSLV2XPreconfigFreqLi
 	if seqLen_value > 8 {
 		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
-	v.Value = make(SLV2XPreconfigFreqListR14, seqLen_value)
+	v.Value = make(SLV2XPreconfigFreqListR14, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem SLV2XPreconfigFreqInfoR14
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -2245,11 +2263,13 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if seqLen_v2xcommrxpoollistr14 > 16 {
 		return fmt.Errorf("decoding v2x-CommRxPoolList-r14 length %d above upper bound 16", seqLen_v2xcommrxpoollistr14)
 	}
-	v.V2xCommRxPoolListR14 = make(SLPreconfigV2XRxPoolListR14, seqLen_v2xcommrxpoollistr14)
+	v.V2xCommRxPoolListR14 = make(SLPreconfigV2XRxPoolListR14, 0)
 	for i := int64(0); i < seqLen_v2xcommrxpoollistr14; i++ {
-		if err := v.V2xCommRxPoolListR14[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding v2x-CommRxPoolList-r14 element: %w", err)
+		var elem SLV2XPreconfigCommPoolR14
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding v2x-CommRxPoolList-r14 element %d: %w", i, err)
 		}
+		v.V2xCommRxPoolListR14 = append(v.V2xCommRxPoolListR14, elem)
 	}
 	var seqLen_v2xcommtxpoollistr14 int64
 	var errLength_v2xcommtxpoollistr14 error
@@ -2263,11 +2283,13 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if seqLen_v2xcommtxpoollistr14 > 8 {
 		return fmt.Errorf("decoding v2x-CommTxPoolList-r14 length %d above upper bound 8", seqLen_v2xcommtxpoollistr14)
 	}
-	v.V2xCommTxPoolListR14 = make(SLPreconfigV2XTxPoolListR14, seqLen_v2xcommtxpoollistr14)
+	v.V2xCommTxPoolListR14 = make(SLPreconfigV2XTxPoolListR14, 0)
 	for i := int64(0); i < seqLen_v2xcommtxpoollistr14; i++ {
-		if err := v.V2xCommTxPoolListR14[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding v2x-CommTxPoolList-r14 element: %w", err)
+		var elem SLV2XPreconfigCommPoolR14
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding v2x-CommTxPoolList-r14 element %d: %w", i, err)
 		}
+		v.V2xCommTxPoolListR14 = append(v.V2xCommTxPoolListR14, elem)
 	}
 	var seqLen_p2xcommtxpoollistr14 int64
 	var errLength_p2xcommtxpoollistr14 error
@@ -2281,11 +2303,13 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if seqLen_p2xcommtxpoollistr14 > 8 {
 		return fmt.Errorf("decoding p2x-CommTxPoolList-r14 length %d above upper bound 8", seqLen_p2xcommtxpoollistr14)
 	}
-	v.P2xCommTxPoolListR14 = make(SLPreconfigV2XTxPoolListR14, seqLen_p2xcommtxpoollistr14)
+	v.P2xCommTxPoolListR14 = make(SLPreconfigV2XTxPoolListR14, 0)
 	for i := int64(0); i < seqLen_p2xcommtxpoollistr14; i++ {
-		if err := v.P2xCommTxPoolListR14[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding p2x-CommTxPoolList-r14 element: %w", err)
+		var elem SLV2XPreconfigCommPoolR14
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding p2x-CommTxPoolList-r14 element %d: %w", i, err)
 		}
+		v.P2xCommTxPoolListR14 = append(v.P2xCommTxPoolListR14, elem)
 	}
 	if opt_v2xresourceselectionconfigr14 {
 		var dec_v2xresourceselectionconfigr14 SLCommTxPoolSensingConfigR14
@@ -2352,11 +2376,13 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				if seqLen_v2xfreqselectionconfiglistr15 > 8 {
 					return fmt.Errorf("decoding v2x-FreqSelectionConfigList-r15 length %d above upper bound 8", seqLen_v2xfreqselectionconfiglistr15)
 				}
-				tmp_v2xfreqselectionconfiglistr15 := make(SLV2XFreqSelectionConfigListR15, seqLen_v2xfreqselectionconfiglistr15)
+				tmp_v2xfreqselectionconfiglistr15 := make(SLV2XFreqSelectionConfigListR15, 0)
 				for i := int64(0); i < seqLen_v2xfreqselectionconfiglistr15; i++ {
-					if err := tmp_v2xfreqselectionconfiglistr15[i].UnmarshalUPERFrom(extBB); err != nil {
-						return fmt.Errorf("decoding v2x-FreqSelectionConfigList-r15 element: %w", err)
+					var elem SLV2XFreqSelectionConfigR15
+					if err := elem.UnmarshalUPERFrom(extBB); err != nil {
+						return fmt.Errorf("decoding v2x-FreqSelectionConfigList-r15 element %d: %w", i, err)
 					}
+					tmp_v2xfreqselectionconfiglistr15 = append(tmp_v2xfreqselectionconfiglistr15, elem)
 				}
 				v.V2xFreqSelectionConfigListR15 = tmp_v2xfreqselectionconfiglistr15
 			}
@@ -2428,11 +2454,13 @@ func unmarshalUPERSLPreconfigV2XRxPoolListR14Into(v *asn1cUPERSLPreconfigV2XRxPo
 	if seqLen_value > 16 {
 		return fmt.Errorf("decoding value length %d above upper bound 16", seqLen_value)
 	}
-	v.Value = make(SLPreconfigV2XRxPoolListR14, seqLen_value)
+	v.Value = make(SLPreconfigV2XRxPoolListR14, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem SLV2XPreconfigCommPoolR14
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -2490,11 +2518,13 @@ func unmarshalUPERSLPreconfigV2XTxPoolListR14Into(v *asn1cUPERSLPreconfigV2XTxPo
 	if seqLen_value > 8 {
 		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
-	v.Value = make(SLPreconfigV2XTxPoolListR14, seqLen_value)
+	v.Value = make(SLPreconfigV2XTxPoolListR14, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem SLV2XPreconfigCommPoolR14
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -2788,11 +2818,13 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_cbrpsschtxconfiglistr14 > 8 {
 			return fmt.Errorf("decoding cbr-pssch-TxConfigList-r14 length %d above upper bound 8", seqLen_cbrpsschtxconfiglistr14)
 		}
-		tmp_cbrpsschtxconfiglistr14 := make(SLCBRPPPPTxPreconfigListR14, seqLen_cbrpsschtxconfiglistr14)
+		tmp_cbrpsschtxconfiglistr14 := make(SLCBRPPPPTxPreconfigListR14, 0)
 		for i := int64(0); i < seqLen_cbrpsschtxconfiglistr14; i++ {
-			if err := tmp_cbrpsschtxconfiglistr14[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding cbr-pssch-TxConfigList-r14 element: %w", err)
+			var elem SLPPPPTxPreconfigIndexR14
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding cbr-pssch-TxConfigList-r14 element %d: %w", i, err)
 			}
+			tmp_cbrpsschtxconfiglistr14 = append(tmp_cbrpsschtxconfiglistr14, elem)
 		}
 		v.CbrPsschTxConfigListR14 = tmp_cbrpsschtxconfiglistr14
 	}
@@ -2823,13 +2855,13 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if seqLen_restrictresourcereservationperiodr14 > 16 {
 			return fmt.Errorf("decoding restrictResourceReservationPeriod-r14 length %d above upper bound 16", seqLen_restrictresourcereservationperiodr14)
 		}
-		tmp_restrictresourcereservationperiodr14 := make(SLRestrictResourceReservationPeriodListR14, seqLen_restrictresourcereservationperiodr14)
+		tmp_restrictresourcereservationperiodr14 := make(SLRestrictResourceReservationPeriodListR14, 0)
 		for i := int64(0); i < seqLen_restrictresourcereservationperiodr14; i++ {
 			val, err := per.DecodeEnumerated(bb, 16, false)
 			if err != nil {
-				return fmt.Errorf("decoding restrictResourceReservationPeriod-r14 element: %w", err)
+				return fmt.Errorf("decoding restrictResourceReservationPeriod-r14 element %d: %w", i, err)
 			}
-			tmp_restrictresourcereservationperiodr14[i] = SLRestrictResourceReservationPeriodR14(val)
+			tmp_restrictresourcereservationperiodr14 = append(tmp_restrictresourcereservationperiodr14, SLRestrictResourceReservationPeriodR14(val))
 		}
 		v.RestrictResourceReservationPeriodR14 = tmp_restrictresourcereservationperiodr14
 	}
@@ -2868,11 +2900,13 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				if seqLen_slmint2valuelistr15 > 8 {
 					return fmt.Errorf("decoding sl-MinT2ValueList-r15 length %d above upper bound 8", seqLen_slmint2valuelistr15)
 				}
-				tmp_slmint2valuelistr15 := make(SLMinT2ValueListR15, seqLen_slmint2valuelistr15)
+				tmp_slmint2valuelistr15 := make(SLMinT2ValueListR15, 0)
 				for i := int64(0); i < seqLen_slmint2valuelistr15; i++ {
-					if err := tmp_slmint2valuelistr15[i].UnmarshalUPERFrom(extBB); err != nil {
-						return fmt.Errorf("decoding sl-MinT2ValueList-r15 element: %w", err)
+					var elem SLMinT2ValueR15
+					if err := elem.UnmarshalUPERFrom(extBB); err != nil {
+						return fmt.Errorf("decoding sl-MinT2ValueList-r15 element %d: %w", i, err)
 					}
+					tmp_slmint2valuelistr15 = append(tmp_slmint2valuelistr15, elem)
 				}
 				v.SlMinT2ValueListR15 = tmp_slmint2valuelistr15
 			}
@@ -2889,11 +2923,13 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				if seqLen_cbrpsschtxconfiglistv1530 > 8 {
 					return fmt.Errorf("decoding cbr-pssch-TxConfigList-v1530 length %d above upper bound 8", seqLen_cbrpsschtxconfiglistv1530)
 				}
-				tmp_cbrpsschtxconfiglistv1530 := make(SLCBRPPPPTxPreconfigListV1530, seqLen_cbrpsschtxconfiglistv1530)
+				tmp_cbrpsschtxconfiglistv1530 := make(SLCBRPPPPTxPreconfigListV1530, 0)
 				for i := int64(0); i < seqLen_cbrpsschtxconfiglistv1530; i++ {
-					if err := tmp_cbrpsschtxconfiglistv1530[i].UnmarshalUPERFrom(extBB); err != nil {
-						return fmt.Errorf("decoding cbr-pssch-TxConfigList-v1530 element: %w", err)
+					var elem SLPPPPTxPreconfigIndexV1530
+					if err := elem.UnmarshalUPERFrom(extBB); err != nil {
+						return fmt.Errorf("decoding cbr-pssch-TxConfigList-v1530 element %d: %w", i, err)
 					}
+					tmp_cbrpsschtxconfiglistv1530 = append(tmp_cbrpsschtxconfiglistv1530, elem)
 				}
 				v.CbrPsschTxConfigListV1530 = tmp_cbrpsschtxconfiglistv1530
 			}
@@ -3188,11 +3224,13 @@ func unmarshalUPERSLCBRPPPPTxPreconfigListR14Into(v *asn1cUPERSLCBRPPPPTxPreconf
 	if seqLen_value > 8 {
 		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
-	v.Value = make(SLCBRPPPPTxPreconfigListR14, seqLen_value)
+	v.Value = make(SLCBRPPPPTxPreconfigListR14, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem SLPPPPTxPreconfigIndexR14
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -3261,13 +3299,13 @@ func (v *SLPPPPTxPreconfigIndexR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if seqLen_txconfigindexlistr14 > 16 {
 		return fmt.Errorf("decoding tx-ConfigIndexList-r14 length %d above upper bound 16", seqLen_txconfigindexlistr14)
 	}
-	v.TxConfigIndexListR14 = make(SLPPPPTxPreconfigIndexR14TxConfigIndexListR14, seqLen_txconfigindexlistr14)
+	v.TxConfigIndexListR14 = make(SLPPPPTxPreconfigIndexR14TxConfigIndexListR14, 0)
 	for i := int64(0); i < seqLen_txconfigindexlistr14; i++ {
 		val, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(127), false)
 		if err != nil {
-			return fmt.Errorf("decoding tx-ConfigIndexList-r14 element: %w", err)
+			return fmt.Errorf("decoding tx-ConfigIndexList-r14 element %d: %w", i, err)
 		}
-		v.TxConfigIndexListR14[i] = TxPreconfigIndexR14(val)
+		v.TxConfigIndexListR14 = append(v.TxConfigIndexListR14, TxPreconfigIndexR14(val))
 	}
 	return nil
 }
@@ -3325,11 +3363,13 @@ func unmarshalUPERSLCBRPPPPTxPreconfigListV1530Into(v *asn1cUPERSLCBRPPPPTxPreco
 	if seqLen_value > 8 {
 		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
-	v.Value = make(SLCBRPPPPTxPreconfigListV1530, seqLen_value)
+	v.Value = make(SLCBRPPPPTxPreconfigListV1530, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem SLPPPPTxPreconfigIndexV1530
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -3386,11 +3426,13 @@ func (v *SLPPPPTxPreconfigIndexV1530) UnmarshalUPERFrom(bb *per.BitBuffer) error
 		if seqLen_mcspsschranger15 > 16 {
 			return fmt.Errorf("decoding mcs-PSSCH-Range-r15 length %d above upper bound 16", seqLen_mcspsschranger15)
 		}
-		tmp_mcspsschranger15 := make(SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15, seqLen_mcspsschranger15)
+		tmp_mcspsschranger15 := make(SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15, 0)
 		for i := int64(0); i < seqLen_mcspsschranger15; i++ {
-			if err := tmp_mcspsschranger15[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding mcs-PSSCH-Range-r15 element: %w", err)
+			var elem MCSPSSCHRangeR15
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding mcs-PSSCH-Range-r15 element %d: %w", i, err)
 			}
+			tmp_mcspsschranger15 = append(tmp_mcspsschranger15, elem)
 		}
 		v.McsPSSCHRangeR15 = tmp_mcspsschranger15
 	}
@@ -3450,13 +3492,13 @@ func unmarshalUPERSLV2XTxProfileListR15Into(v *asn1cUPERSLV2XTxProfileListR15Lis
 	if seqLen_value > 256 {
 		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
 	}
-	v.Value = make(SLV2XTxProfileListR15, seqLen_value)
+	v.Value = make(SLV2XTxProfileListR15, 0)
 	for i := int64(0); i < seqLen_value; i++ {
 		val, err := per.DecodeEnumerated(bb, 8, true)
 		if err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
-		v.Value[i] = SLV2XTxProfileR15(val)
+		v.Value = append(v.Value, SLV2XTxProfileR15(val))
 	}
 	return nil
 }
@@ -3520,11 +3562,13 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) UnmarshalUPERFrom(bb *per.BitB
 	if seqLen_commrxpoollistr13 > 12 {
 		return fmt.Errorf("decoding commRxPoolList-r13 length %d above upper bound 12", seqLen_commrxpoollistr13)
 	}
-	v.CommRxPoolListR13 = make(SLPreconfigCommRxPoolListR13, seqLen_commrxpoollistr13)
+	v.CommRxPoolListR13 = make(SLPreconfigCommRxPoolListR13, 0)
 	for i := int64(0); i < seqLen_commrxpoollistr13; i++ {
-		if err := v.CommRxPoolListR13[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding commRxPoolList-r13 element: %w", err)
+		var elem SLPreconfigCommPoolR12
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding commRxPoolList-r13 element %d: %w", i, err)
 		}
+		v.CommRxPoolListR13 = append(v.CommRxPoolListR13, elem)
 	}
 	if opt_commtxpoollistr13 {
 		var seqLen_commtxpoollistr13 int64
@@ -3539,11 +3583,13 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) UnmarshalUPERFrom(bb *per.BitB
 		if seqLen_commtxpoollistr13 > 7 {
 			return fmt.Errorf("decoding commTxPoolList-r13 length %d above upper bound 7", seqLen_commtxpoollistr13)
 		}
-		tmp_commtxpoollistr13 := make(SLPreconfigCommTxPoolListR13, seqLen_commtxpoollistr13)
+		tmp_commtxpoollistr13 := make(SLPreconfigCommTxPoolListR13, 0)
 		for i := int64(0); i < seqLen_commtxpoollistr13; i++ {
-			if err := tmp_commtxpoollistr13[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding commTxPoolList-r13 element: %w", err)
+			var elem SLPreconfigCommPoolR12
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding commTxPoolList-r13 element %d: %w", i, err)
 			}
+			tmp_commtxpoollistr13 = append(tmp_commtxpoollistr13, elem)
 		}
 		v.CommTxPoolListR13 = tmp_commtxpoollistr13
 	}
@@ -3609,11 +3655,13 @@ func (v *SLPreconfigurationR12PreconfigDiscR13) UnmarshalUPERFrom(bb *per.BitBuf
 	if seqLen_discrxpoollistr13 > 16 {
 		return fmt.Errorf("decoding discRxPoolList-r13 length %d above upper bound 16", seqLen_discrxpoollistr13)
 	}
-	v.DiscRxPoolListR13 = make(SLPreconfigDiscRxPoolListR13, seqLen_discrxpoollistr13)
+	v.DiscRxPoolListR13 = make(SLPreconfigDiscRxPoolListR13, 0)
 	for i := int64(0); i < seqLen_discrxpoollistr13; i++ {
-		if err := v.DiscRxPoolListR13[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding discRxPoolList-r13 element: %w", err)
+		var elem SLPreconfigDiscPoolR13
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding discRxPoolList-r13 element %d: %w", i, err)
 		}
+		v.DiscRxPoolListR13 = append(v.DiscRxPoolListR13, elem)
 	}
 	if opt_disctxpoollistr13 {
 		var seqLen_disctxpoollistr13 int64
@@ -3628,11 +3676,13 @@ func (v *SLPreconfigurationR12PreconfigDiscR13) UnmarshalUPERFrom(bb *per.BitBuf
 		if seqLen_disctxpoollistr13 > 4 {
 			return fmt.Errorf("decoding discTxPoolList-r13 length %d above upper bound 4", seqLen_disctxpoollistr13)
 		}
-		tmp_disctxpoollistr13 := make(SLPreconfigDiscTxPoolListR13, seqLen_disctxpoollistr13)
+		tmp_disctxpoollistr13 := make(SLPreconfigDiscTxPoolListR13, 0)
 		for i := int64(0); i < seqLen_disctxpoollistr13; i++ {
-			if err := tmp_disctxpoollistr13[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding discTxPoolList-r13 element: %w", err)
+			var elem SLPreconfigDiscPoolR13
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding discTxPoolList-r13 element %d: %w", i, err)
 			}
+			tmp_disctxpoollistr13 = append(tmp_disctxpoollistr13, elem)
 		}
 		v.DiscTxPoolListR13 = tmp_disctxpoollistr13
 	}
@@ -3812,13 +3862,13 @@ func unmarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14Into(v
 	if seqLen_value > 8 {
 		return fmt.Errorf("decoding value length %d above upper bound 8", seqLen_value)
 	}
-	v.Value = make(SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14, seqLen_value)
+	v.Value = make(SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14, 0)
 	for i_value := int64(0); i_value < seqLen_value; i_value++ {
 		elem, err := UnmarshalUPERSLCBRLevelsConfigR14From(bb)
 		if err != nil {
 			return fmt.Errorf("decoding value element: %w", err)
 		}
-		v.Value[i_value] = elem
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -3878,11 +3928,13 @@ func unmarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14Into(v *
 	if seqLen_value > 128 {
 		return fmt.Errorf("decoding value length %d above upper bound 128", seqLen_value)
 	}
-	v.Value = make(SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14, seqLen_value)
+	v.Value = make(SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem SLCBRPSSCHTxConfigR14
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }
@@ -3942,13 +3994,13 @@ func unmarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14Into(v *asn1cUPER
 	if seqLen_value > 16 {
 		return fmt.Errorf("decoding value length %d above upper bound 16", seqLen_value)
 	}
-	v.Value = make(SLPPPPTxPreconfigIndexR14TxConfigIndexListR14, seqLen_value)
+	v.Value = make(SLPPPPTxPreconfigIndexR14TxConfigIndexListR14, 0)
 	for i := int64(0); i < seqLen_value; i++ {
 		val, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(127), false)
 		if err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
-		v.Value[i] = TxPreconfigIndexR14(val)
+		v.Value = append(v.Value, TxPreconfigIndexR14(val))
 	}
 	return nil
 }
@@ -4008,11 +4060,13 @@ func unmarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15Into(v *asn1cUPERSL
 	if seqLen_value > 16 {
 		return fmt.Errorf("decoding value length %d above upper bound 16", seqLen_value)
 	}
-	v.Value = make(SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15, seqLen_value)
+	v.Value = make(SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15, 0)
 	for i := int64(0); i < seqLen_value; i++ {
-		if err := v.Value[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+		var elem MCSPSSCHRangeR15
+		if err := elem.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding value element %d: %w", i, err)
 		}
+		v.Value = append(v.Value, elem)
 	}
 	return nil
 }

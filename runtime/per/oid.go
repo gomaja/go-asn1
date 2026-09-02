@@ -101,7 +101,7 @@ func DecodeRelativeObjectIdentifierAligned(bb *BitBuffer) ([]uint64, error) {
 
 // oidContents produces the X.690 §8.19 contents octets for oid.
 //
-// ber.EncodeOIDValue returns those contents directly (no tag, no length),
+// ber.EncodeOIDValueChecked returns those contents directly (no tag, no length),
 // which is exactly what PER wraps. An OID needs at least two arcs, since the
 // first two are combined into a single subidentifier; rejecting a shorter one
 // here keeps a malformed value from being encoded as something a decoder

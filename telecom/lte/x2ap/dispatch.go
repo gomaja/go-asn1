@@ -707,11 +707,13 @@ func decodeIEProtocolIEFieldListConstrained(bb *per.BitBuffer, lb, ub int64) ([]
 	if err != nil {
 		return nil, fmt.Errorf("decoding list length: %w", err)
 	}
-	result := make([]ProtocolIEField, n)
+	result := make([]ProtocolIEField, 0)
 	for i := int64(0); i < n; i++ {
-		if err := result[i].UnmarshalAPERFrom(bb); err != nil {
+		var item ProtocolIEField
+		if err := item.UnmarshalAPERFrom(bb); err != nil {
 			return nil, fmt.Errorf("decoding item %d: %w", i, err)
 		}
+		result = append(result, item)
 	}
 	return result, nil
 }

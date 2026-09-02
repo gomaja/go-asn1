@@ -3,6 +3,8 @@ package per
 import (
 	"bytes"
 	"errors"
+	"math"
+	"math/big"
 	"testing"
 )
 
@@ -215,5 +217,130 @@ func TestIntegerValueSetAPERRejectsDecodedGap(t *testing.T) {
 	got, err := DecodeIntegerValueSetAligned(NewBitBufferFromBytes(bb.Bytes()), ranges, true)
 	if err != nil || got != 4 {
 		t.Fatalf("DecodeIntegerValueSetAligned(extension) = %d, %v", got, err)
+	}
+}
+
+func TestSignedConstrainedWholeNumberFullRange(t *testing.T) {
+	t.Parallel()
+
+	for _, aligned := range []bool{false, true} {
+		for _, value := range []int64{math.MinInt64, -1, 0, math.MaxInt64} {
+			bb := NewBitBuffer()
+			var err error
+			if aligned {
+				err = EncodeConstrainedWholeNumberAligned(bb, value, math.MinInt64, math.MaxInt64)
+			} else {
+				err = EncodeConstrainedWholeNumber(bb, value, math.MinInt64, math.MaxInt64)
+			}
+			if err != nil {
+				t.Fatalf("encode aligned=%v value=%d: %v", aligned, value, err)
+			}
+			reader := NewBitBufferFromBytes(bb.Bytes())
+			var got int64
+			if aligned {
+				got, err = DecodeConstrainedWholeNumberAligned(reader, math.MinInt64, math.MaxInt64)
+			} else {
+				got, err = DecodeConstrainedWholeNumber(reader, math.MinInt64, math.MaxInt64)
+			}
+			if err != nil || got != value {
+				t.Fatalf("decode aligned=%v value=%d = %d, %v", aligned, value, got, err)
+			}
+		}
+	}
+}
+
+func TestIntegerValueSetBigFullSignedRootRange(t *testing.T) {
+	t.Parallel()
+
+	ranges := []IntegerRange{{Min: math.MinInt64, Max: math.MaxInt64}}
+	for _, aligned := range []bool{false, true} {
+		for _, value := range []*big.Int{big.NewInt(math.MinInt64), big.NewInt(0), big.NewInt(math.MaxInt64)} {
+			bb := NewBitBuffer()
+			var err error
+			if aligned {
+				err = EncodeIntegerValueSetBigAligned(bb, value, ranges, false)
+			} else {
+				err = EncodeIntegerValueSetBig(bb, value, ranges, false)
+			}
+			if err != nil {
+				t.Fatalf("encode aligned=%v value=%s: %v", aligned, value, err)
+			}
+			reader := NewBitBufferFromBytes(bb.Bytes())
+			var got *big.Int
+			if aligned {
+				got, err = DecodeIntegerValueSetBigAligned(reader, ranges, false)
+			} else {
+				got, err = DecodeIntegerValueSetBig(reader, ranges, false)
+			}
+			if err != nil || got.Cmp(value) != 0 {
+				t.Fatalf("decode aligned=%v value=%s = %v, %v", aligned, value, got, err)
+			}
+		}
+	}
+}
+
+func TestExtensibleSizeEncodersRejectInvertedRootBeforeMutation(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name   string
+		encode func(*BitBuffer) error
+	}{
+		{name: "UPER BIT STRING", encode: func(bb *BitBuffer) error { return EncodeBitStringExt(bb, nil, 0, 2, 1, true, true) }},
+		{name: "UPER OCTET STRING", encode: func(bb *BitBuffer) error { return EncodeOctetStringExt(bb, nil, 2, 1, true, true) }},
+		{name: "UPER character string", encode: func(bb *BitBuffer) error { return EncodeKnownMultiplierStringExt(bb, "", 7, 2, 1, true, true) }},
+		{name: "APER BIT STRING", encode: func(bb *BitBuffer) error { return EncodeBitStringAlignedExt(bb, nil, 0, 2, 1, true, true) }},
+		{name: "APER OCTET STRING", encode: func(bb *BitBuffer) error { return EncodeOctetStringAlignedExt(bb, nil, 2, 1, true, true) }},
+		{name: "APER character string", encode: func(bb *BitBuffer) error { return EncodeKnownMultiplierStringAlignedExt(bb, "", 7, 2, 1, true, true) }},
+	}
+	for _, test := range tests {
+		test := test
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			bb := NewBitBuffer()
+			if err := bb.WriteBits(5, 3); err != nil {
+				t.Fatal(err)
+			}
+			before := append([]byte(nil), bb.Bytes()...)
+			beforeBits := bb.BitsWritten()
+			if err := test.encode(bb); !errors.Is(err, ErrInvalidValue) {
+				t.Fatalf("encode error = %v, want %v", err, ErrInvalidValue)
+			}
+			if !bytes.Equal(bb.Bytes(), before) || bb.BitsWritten() != beforeBits {
+				t.Fatalf("encoder mutated buffer: bytes=%x bits=%d, want %x/%d", bb.Bytes(), bb.BitsWritten(), before, beforeBits)
+			}
+		})
+	}
+}
+
+func TestDecodeUnconstrainedUint64RejectsRedundantPositiveOctet(t *testing.T) {
+	t.Parallel()
+
+	for _, aligned := range []bool{false, true} {
+		bb := NewBitBuffer()
+		if err := EncodeBoolean(bb, true); err != nil {
+			t.Fatal(err)
+		}
+		var err error
+		if aligned {
+			err = EncodeUnconstrainedLengthAligned(bb, 2)
+		} else {
+			err = EncodeUnconstrainedLength(bb, 2)
+		}
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := bb.WriteBytes([]byte{0x00, 0x01}); err != nil {
+			t.Fatal(err)
+		}
+		reader := NewBitBufferFromBytes(bb.Bytes())
+		if aligned {
+			_, err = DecodeIntegerUint64Aligned(reader, 0, 0, true)
+		} else {
+			_, err = DecodeIntegerUint64(reader, 0, 0, true)
+		}
+		if !errors.Is(err, ErrInvalidValue) {
+			t.Fatalf("decode aligned=%v error = %v, want %v", aligned, err, ErrInvalidValue)
+		}
 	}
 }

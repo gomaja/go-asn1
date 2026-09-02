@@ -105,6 +105,49 @@ func TestFixedWidthStringTagsRejectMalformedWireValues(t *testing.T) {
 	}
 }
 
+func TestFixedWidthStringTagsDecodeConstructedForm(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name   string
+		tagNum int
+		wire   string
+		want   string
+	}{
+		{name: "nested BMPString", tagNum: tag.TagBMPString, wire: "3e0a1e0200413e041e0203a9", want: "A\u03a9"},
+		{name: "UniversalString", tagNum: tag.TagUniversalString, wire: "3c0c1c04000000411c040001f600", want: "A\U0001f600"},
+	}
+	for _, test := range tests {
+		test := test
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			wire, err := hex.DecodeString(test.wire)
+			if err != nil {
+				t.Fatal(err)
+			}
+			got, consumed, err := DecodeString(wire, test.tagNum)
+			if err != nil {
+				t.Fatalf("DecodeString() error = %v", err)
+			}
+			if got != test.want || consumed != len(wire) {
+				t.Fatalf("DecodeString() = %q, %d, want %q, %d", got, consumed, test.want, len(wire))
+			}
+		})
+	}
+}
+
+func TestConstructedStringRejectsDifferentChildTag(t *testing.T) {
+	t.Parallel()
+
+	wire, err := hex.DecodeString("3e03120141")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, _, err := DecodeString(wire, tag.TagBMPString); err == nil {
+		t.Fatal("DecodeString() accepted a constructed BMPString with a NumericString child")
+	}
+}
+
 func FuzzDecodeFixedWidthString(f *testing.F) {
 	for _, seed := range []struct {
 		tagNum int

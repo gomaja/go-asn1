@@ -234,5 +234,5 @@ const (
 	TransferToThirdParty4 = "\xc3"
 )
 
-// SSCode4 represents the ASN.1 type SSCode4 (OCTET_STRING).
+// SSCode4 represents the ASN.1 type SS-Code (OCTET_STRING).
 type SSCode4 = []byte
