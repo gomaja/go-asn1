@@ -187,14 +187,40 @@ func (v *AUDTApdu) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AUDTApdu to DER format.
 func (v *AUDTApdu) MarshalDER() ([]byte, error) {
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.UserInformationIndef_ = false
-	v = &derValue
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
+	var children []byte
+	if v.ProtocolVersion != nil {
+		enc_protocolversion := ber.EncodeBitString(v.ProtocolVersion.Bytes, (8-(v.ProtocolVersion.BitLength%8))%8)
+		retagged_enc_protocolversion, tagErr_enc_protocolversion := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_protocolversion)
+		if tagErr_enc_protocolversion != nil {
+			return nil, fmt.Errorf("encoding protocol-version: %w", tagErr_enc_protocolversion)
+		}
+		enc_protocolversion = retagged_enc_protocolversion
+		children = append(children, enc_protocolversion...)
 	}
+	enc_applicationcontextname, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.ApplicationContextName))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding application-context-name: %w", oidErr)
+	}
+	enc_applicationcontextname = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 1, enc_applicationcontextname)
+	children = append(children, enc_applicationcontextname...)
+	if v.UserInformation != nil {
+		enc_userinformation, err := MarshalDERAUDTApduUserInformation(v.UserInformation)
+		if err != nil {
+			return nil, fmt.Errorf("encoding user-information: %w", err)
+		}
+		retagged_enc_userinformation, tagErr_enc_userinformation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, enc_userinformation)
+		if tagErr_enc_userinformation != nil {
+			return nil, fmt.Errorf("encoding user-information: %w", tagErr_enc_userinformation)
+		}
+		enc_userinformation = retagged_enc_userinformation
+		children = append(children, enc_userinformation...)
+	}
+	encoded := ber.EncodeSequence(children)
+	retagged_encoded, tagErr_encoded := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 0, encoded)
+	if tagErr_encoded != nil {
+		return nil, fmt.Errorf("encoding AUDTApdu: %w", tagErr_encoded)
+	}
+	encoded = retagged_encoded
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding AUDTApdu as DER: %w", err)
 	}
@@ -301,6 +327,22 @@ func MarshalBERAUDTApduUserInformation(list AUDTApduUserInformation) ([]byte, er
 		children = append(children, elem.Bytes...)
 	}
 	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDERAUDTApduUserInformation encodes a AUDTApduUserInformation list to DER.
+func MarshalDERAUDTApduUserInformation(list AUDTApduUserInformation) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		if err := ber.ValidateDERElement(elem.Bytes); err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
+		}
+		children = append(children, elem.Bytes...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AUDTApduUserInformation as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBERAUDTApduUserInformation decodes a AUDTApduUserInformation list from BER.

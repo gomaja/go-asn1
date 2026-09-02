@@ -1016,14 +1016,40 @@ func (v *AARQApdu) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AARQApdu to DER format.
 func (v *AARQApdu) MarshalDER() ([]byte, error) {
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.UserInformationIndef_ = false
-	v = &derValue
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
+	var children []byte
+	if v.ProtocolVersion != nil {
+		enc_protocolversion := ber.EncodeBitString(v.ProtocolVersion.Bytes, (8-(v.ProtocolVersion.BitLength%8))%8)
+		retagged_enc_protocolversion, tagErr_enc_protocolversion := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_protocolversion)
+		if tagErr_enc_protocolversion != nil {
+			return nil, fmt.Errorf("encoding protocol-version: %w", tagErr_enc_protocolversion)
+		}
+		enc_protocolversion = retagged_enc_protocolversion
+		children = append(children, enc_protocolversion...)
 	}
+	enc_applicationcontextname, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.ApplicationContextName))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding application-context-name: %w", oidErr)
+	}
+	enc_applicationcontextname = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 1, enc_applicationcontextname)
+	children = append(children, enc_applicationcontextname...)
+	if v.UserInformation != nil {
+		enc_userinformation, err := MarshalDERAARQApduUserInformation(v.UserInformation)
+		if err != nil {
+			return nil, fmt.Errorf("encoding user-information: %w", err)
+		}
+		retagged_enc_userinformation, tagErr_enc_userinformation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, enc_userinformation)
+		if tagErr_enc_userinformation != nil {
+			return nil, fmt.Errorf("encoding user-information: %w", tagErr_enc_userinformation)
+		}
+		enc_userinformation = retagged_enc_userinformation
+		children = append(children, enc_userinformation...)
+	}
+	encoded := ber.EncodeSequence(children)
+	retagged_encoded, tagErr_encoded := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 0, encoded)
+	if tagErr_encoded != nil {
+		return nil, fmt.Errorf("encoding AARQApdu: %w", tagErr_encoded)
+	}
+	encoded = retagged_encoded
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding AARQApdu as DER: %w", err)
 	}
@@ -1176,14 +1202,49 @@ func (v *AAREApdu) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AAREApdu to DER format.
 func (v *AAREApdu) MarshalDER() ([]byte, error) {
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.UserInformationIndef_ = false
-	v = &derValue
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
+	var children []byte
+	if v.ProtocolVersion != nil {
+		enc_protocolversion := ber.EncodeBitString(v.ProtocolVersion.Bytes, (8-(v.ProtocolVersion.BitLength%8))%8)
+		retagged_enc_protocolversion, tagErr_enc_protocolversion := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_protocolversion)
+		if tagErr_enc_protocolversion != nil {
+			return nil, fmt.Errorf("encoding protocol-version: %w", tagErr_enc_protocolversion)
+		}
+		enc_protocolversion = retagged_enc_protocolversion
+		children = append(children, enc_protocolversion...)
 	}
+	enc_applicationcontextname, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.ApplicationContextName))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding application-context-name: %w", oidErr)
+	}
+	enc_applicationcontextname = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 1, enc_applicationcontextname)
+	children = append(children, enc_applicationcontextname...)
+	enc_result := ber.EncodeBigInt((v.Result).BigInt())
+	enc_result = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 2, enc_result)
+	children = append(children, enc_result...)
+	enc_resultsourcediagnostic, err := v.ResultSourceDiagnostic.MarshalDER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding result-source-diagnostic: %w", err)
+	}
+	enc_resultsourcediagnostic = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 3, enc_resultsourcediagnostic)
+	children = append(children, enc_resultsourcediagnostic...)
+	if v.UserInformation != nil {
+		enc_userinformation, err := MarshalDERAAREApduUserInformation(v.UserInformation)
+		if err != nil {
+			return nil, fmt.Errorf("encoding user-information: %w", err)
+		}
+		retagged_enc_userinformation, tagErr_enc_userinformation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, enc_userinformation)
+		if tagErr_enc_userinformation != nil {
+			return nil, fmt.Errorf("encoding user-information: %w", tagErr_enc_userinformation)
+		}
+		enc_userinformation = retagged_enc_userinformation
+		children = append(children, enc_userinformation...)
+	}
+	encoded := ber.EncodeSequence(children)
+	retagged_encoded, tagErr_encoded := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 1, encoded)
+	if tagErr_encoded != nil {
+		return nil, fmt.Errorf("encoding AAREApdu: %w", tagErr_encoded)
+	}
+	encoded = retagged_encoded
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding AAREApdu as DER: %w", err)
 	}
@@ -1369,14 +1430,34 @@ func (v *RLRQApdu) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RLRQApdu to DER format.
 func (v *RLRQApdu) MarshalDER() ([]byte, error) {
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.UserInformationIndef_ = false
-	v = &derValue
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
+	var children []byte
+	if v.Reason != nil {
+		enc_reason := ber.EncodeBigInt((*v.Reason).BigInt())
+		retagged_enc_reason, tagErr_enc_reason := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_reason)
+		if tagErr_enc_reason != nil {
+			return nil, fmt.Errorf("encoding reason: %w", tagErr_enc_reason)
+		}
+		enc_reason = retagged_enc_reason
+		children = append(children, enc_reason...)
 	}
+	if v.UserInformation != nil {
+		enc_userinformation, err := MarshalDERRLRQApduUserInformation(v.UserInformation)
+		if err != nil {
+			return nil, fmt.Errorf("encoding user-information: %w", err)
+		}
+		retagged_enc_userinformation, tagErr_enc_userinformation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, enc_userinformation)
+		if tagErr_enc_userinformation != nil {
+			return nil, fmt.Errorf("encoding user-information: %w", tagErr_enc_userinformation)
+		}
+		enc_userinformation = retagged_enc_userinformation
+		children = append(children, enc_userinformation...)
+	}
+	encoded := ber.EncodeSequence(children)
+	retagged_encoded, tagErr_encoded := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 2, encoded)
+	if tagErr_encoded != nil {
+		return nil, fmt.Errorf("encoding RLRQApdu: %w", tagErr_encoded)
+	}
+	encoded = retagged_encoded
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding RLRQApdu as DER: %w", err)
 	}
@@ -1494,14 +1575,34 @@ func (v *RLREApdu) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RLREApdu to DER format.
 func (v *RLREApdu) MarshalDER() ([]byte, error) {
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.UserInformationIndef_ = false
-	v = &derValue
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
+	var children []byte
+	if v.Reason != nil {
+		enc_reason := ber.EncodeBigInt((*v.Reason).BigInt())
+		retagged_enc_reason, tagErr_enc_reason := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_reason)
+		if tagErr_enc_reason != nil {
+			return nil, fmt.Errorf("encoding reason: %w", tagErr_enc_reason)
+		}
+		enc_reason = retagged_enc_reason
+		children = append(children, enc_reason...)
 	}
+	if v.UserInformation != nil {
+		enc_userinformation, err := MarshalDERRLREApduUserInformation(v.UserInformation)
+		if err != nil {
+			return nil, fmt.Errorf("encoding user-information: %w", err)
+		}
+		retagged_enc_userinformation, tagErr_enc_userinformation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, enc_userinformation)
+		if tagErr_enc_userinformation != nil {
+			return nil, fmt.Errorf("encoding user-information: %w", tagErr_enc_userinformation)
+		}
+		enc_userinformation = retagged_enc_userinformation
+		children = append(children, enc_userinformation...)
+	}
+	encoded := ber.EncodeSequence(children)
+	retagged_encoded, tagErr_encoded := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 3, encoded)
+	if tagErr_encoded != nil {
+		return nil, fmt.Errorf("encoding RLREApdu: %w", tagErr_encoded)
+	}
+	encoded = retagged_encoded
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding RLREApdu as DER: %w", err)
 	}
@@ -1617,14 +1718,32 @@ func (v *ABRTApdu) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ABRTApdu to DER format.
 func (v *ABRTApdu) MarshalDER() ([]byte, error) {
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.UserInformationIndef_ = false
-	v = &derValue
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
+	var children []byte
+	enc_abortsource := ber.EncodeBigInt((v.AbortSource).BigInt())
+	retagged_enc_abortsource, tagErr_enc_abortsource := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_abortsource)
+	if tagErr_enc_abortsource != nil {
+		return nil, fmt.Errorf("encoding abort-source: %w", tagErr_enc_abortsource)
 	}
+	enc_abortsource = retagged_enc_abortsource
+	children = append(children, enc_abortsource...)
+	if v.UserInformation != nil {
+		enc_userinformation, err := MarshalDERABRTApduUserInformation(v.UserInformation)
+		if err != nil {
+			return nil, fmt.Errorf("encoding user-information: %w", err)
+		}
+		retagged_enc_userinformation, tagErr_enc_userinformation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, enc_userinformation)
+		if tagErr_enc_userinformation != nil {
+			return nil, fmt.Errorf("encoding user-information: %w", tagErr_enc_userinformation)
+		}
+		enc_userinformation = retagged_enc_userinformation
+		children = append(children, enc_userinformation...)
+	}
+	encoded := ber.EncodeSequence(children)
+	retagged_encoded, tagErr_encoded := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 4, encoded)
+	if tagErr_encoded != nil {
+		return nil, fmt.Errorf("encoding ABRTApdu: %w", tagErr_encoded)
+	}
+	encoded = retagged_encoded
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ABRTApdu as DER: %w", err)
 	}
@@ -1803,6 +1922,22 @@ func MarshalBERAARQApduUserInformation(list AARQApduUserInformation) ([]byte, er
 	return ber.EncodeSequence(children), nil
 }
 
+// MarshalDERAARQApduUserInformation encodes a AARQApduUserInformation list to DER.
+func MarshalDERAARQApduUserInformation(list AARQApduUserInformation) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		if err := ber.ValidateDERElement(elem.Bytes); err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
+		}
+		children = append(children, elem.Bytes...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AARQApduUserInformation as DER: %w", err)
+	}
+	return encoded, nil
+}
+
 // UnmarshalBERAARQApduUserInformation decodes a AARQApduUserInformation list from BER.
 func UnmarshalBERAARQApduUserInformation(data []byte) (AARQApduUserInformation, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
@@ -1832,6 +1967,22 @@ func MarshalBERAAREApduUserInformation(list AAREApduUserInformation) ([]byte, er
 		children = append(children, elem.Bytes...)
 	}
 	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDERAAREApduUserInformation encodes a AAREApduUserInformation list to DER.
+func MarshalDERAAREApduUserInformation(list AAREApduUserInformation) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		if err := ber.ValidateDERElement(elem.Bytes); err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
+		}
+		children = append(children, elem.Bytes...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AAREApduUserInformation as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBERAAREApduUserInformation decodes a AAREApduUserInformation list from BER.
@@ -1865,6 +2016,22 @@ func MarshalBERRLRQApduUserInformation(list RLRQApduUserInformation) ([]byte, er
 	return ber.EncodeSequence(children), nil
 }
 
+// MarshalDERRLRQApduUserInformation encodes a RLRQApduUserInformation list to DER.
+func MarshalDERRLRQApduUserInformation(list RLRQApduUserInformation) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		if err := ber.ValidateDERElement(elem.Bytes); err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
+		}
+		children = append(children, elem.Bytes...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RLRQApduUserInformation as DER: %w", err)
+	}
+	return encoded, nil
+}
+
 // UnmarshalBERRLRQApduUserInformation decodes a RLRQApduUserInformation list from BER.
 func UnmarshalBERRLRQApduUserInformation(data []byte) (RLRQApduUserInformation, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
@@ -1896,6 +2063,22 @@ func MarshalBERRLREApduUserInformation(list RLREApduUserInformation) ([]byte, er
 	return ber.EncodeSequence(children), nil
 }
 
+// MarshalDERRLREApduUserInformation encodes a RLREApduUserInformation list to DER.
+func MarshalDERRLREApduUserInformation(list RLREApduUserInformation) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		if err := ber.ValidateDERElement(elem.Bytes); err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
+		}
+		children = append(children, elem.Bytes...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RLREApduUserInformation as DER: %w", err)
+	}
+	return encoded, nil
+}
+
 // UnmarshalBERRLREApduUserInformation decodes a RLREApduUserInformation list from BER.
 func UnmarshalBERRLREApduUserInformation(data []byte) (RLREApduUserInformation, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
@@ -1925,6 +2108,22 @@ func MarshalBERABRTApduUserInformation(list ABRTApduUserInformation) ([]byte, er
 		children = append(children, elem.Bytes...)
 	}
 	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDERABRTApduUserInformation encodes a ABRTApduUserInformation list to DER.
+func MarshalDERABRTApduUserInformation(list ABRTApduUserInformation) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		if err := ber.ValidateDERElement(elem.Bytes); err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
+		}
+		children = append(children, elem.Bytes...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ABRTApduUserInformation as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBERABRTApduUserInformation decodes a ABRTApduUserInformation list from BER.

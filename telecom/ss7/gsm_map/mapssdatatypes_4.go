@@ -574,16 +574,77 @@ func (v *RegisterSSArg4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RegisterSSArg4 to DER format.
 func (v *RegisterSSArg4) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
+	children = append(children, enc_sscode...)
+	if v.BasicService != nil {
+		enc_basicservice, err := v.BasicService.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding basicService: %w", err)
+		}
+		children = append(children, enc_basicservice...)
+	}
+	if v.ForwardedToNumber != nil {
+		enc_forwardedtonumber := ber.EncodeOctetString([]byte(*v.ForwardedToNumber))
+		retagged_enc_forwardedtonumber, tagErr_enc_forwardedtonumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_forwardedtonumber)
+		if tagErr_enc_forwardedtonumber != nil {
+			return nil, fmt.Errorf("encoding forwardedToNumber: %w", tagErr_enc_forwardedtonumber)
+		}
+		enc_forwardedtonumber = retagged_enc_forwardedtonumber
+		children = append(children, enc_forwardedtonumber...)
+	}
+	if v.ForwardedToSubaddress != nil {
+		enc_forwardedtosubaddress := ber.EncodeOctetString([]byte(*v.ForwardedToSubaddress))
+		retagged_enc_forwardedtosubaddress, tagErr_enc_forwardedtosubaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_forwardedtosubaddress)
+		if tagErr_enc_forwardedtosubaddress != nil {
+			return nil, fmt.Errorf("encoding forwardedToSubaddress: %w", tagErr_enc_forwardedtosubaddress)
+		}
+		enc_forwardedtosubaddress = retagged_enc_forwardedtosubaddress
+		children = append(children, enc_forwardedtosubaddress...)
+	}
+	if v.NoReplyConditionTime != nil {
+		enc_noreplyconditiontime := ber.EncodeInteger(int64(*v.NoReplyConditionTime))
+		retagged_enc_noreplyconditiontime, tagErr_enc_noreplyconditiontime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_noreplyconditiontime)
+		if tagErr_enc_noreplyconditiontime != nil {
+			return nil, fmt.Errorf("encoding noReplyConditionTime: %w", tagErr_enc_noreplyconditiontime)
+		}
+		enc_noreplyconditiontime = retagged_enc_noreplyconditiontime
+		children = append(children, enc_noreplyconditiontime...)
+	}
+	if v.DefaultPriority != nil {
+		enc_defaultpriority := ber.EncodeInteger(int64(*v.DefaultPriority))
+		retagged_enc_defaultpriority, tagErr_enc_defaultpriority := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_defaultpriority)
+		if tagErr_enc_defaultpriority != nil {
+			return nil, fmt.Errorf("encoding defaultPriority: %w", tagErr_enc_defaultpriority)
+		}
+		enc_defaultpriority = retagged_enc_defaultpriority
+		children = append(children, enc_defaultpriority...)
+	}
+	if v.NbrUser != nil {
+		enc_nbruser := ber.EncodeInteger(int64(*v.NbrUser))
+		retagged_enc_nbruser, tagErr_enc_nbruser := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_nbruser)
+		if tagErr_enc_nbruser != nil {
+			return nil, fmt.Errorf("encoding nbrUser: %w", tagErr_enc_nbruser)
+		}
+		enc_nbruser = retagged_enc_nbruser
+		children = append(children, enc_nbruser...)
+	}
+	if v.LongFTNSupported != nil {
+		enc_longftnsupported := ber.EncodeNull()
+		retagged_enc_longftnsupported, tagErr_enc_longftnsupported := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, enc_longftnsupported)
+		if tagErr_enc_longftnsupported != nil {
+			return nil, fmt.Errorf("encoding longFTN-Supported: %w", tagErr_enc_longftnsupported)
+		}
+		enc_longftnsupported = retagged_enc_longftnsupported
+		children = append(children, enc_longftnsupported...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding RegisterSSArg4 as DER: %w", err)
 	}
@@ -970,19 +1031,23 @@ func (v *ForwardingInfo4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ForwardingInfo4 to DER format.
 func (v *ForwardingInfo4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.SsCode != nil {
+		enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
+		children = append(children, enc_sscode...)
+	}
+	enc_forwardingfeaturelist, err := MarshalDERForwardingFeatureList4(v.ForwardingFeatureList)
+	if err != nil {
+		return nil, fmt.Errorf("encoding forwardingFeatureList: %w", err)
+	}
+	children = append(children, enc_forwardingfeaturelist...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.ForwardingFeatureListIndef_ = false
-	v = &derValue
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ForwardingInfo4 as DER: %w", err)
 	}
@@ -1064,6 +1129,23 @@ func MarshalBERForwardingFeatureList4(list ForwardingFeatureList4) ([]byte, erro
 		children = append(children, enc...)
 	}
 	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDERForwardingFeatureList4 encodes a ForwardingFeatureList4 list to DER.
+func MarshalDERForwardingFeatureList4(list ForwardingFeatureList4) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		enc, err := elem.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
+		}
+		children = append(children, enc...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ForwardingFeatureList4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBERForwardingFeatureList4 decodes a ForwardingFeatureList4 list from BER.
@@ -1171,16 +1253,75 @@ func (v *ForwardingFeature4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ForwardingFeature4 to DER format.
 func (v *ForwardingFeature4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.BasicService != nil {
+		enc_basicservice, err := v.BasicService.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding basicService: %w", err)
+		}
+		children = append(children, enc_basicservice...)
+	}
+	if v.SsStatus != nil {
+		enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
+		retagged_enc_ssstatus, tagErr_enc_ssstatus := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_ssstatus)
+		if tagErr_enc_ssstatus != nil {
+			return nil, fmt.Errorf("encoding ss-Status: %w", tagErr_enc_ssstatus)
+		}
+		enc_ssstatus = retagged_enc_ssstatus
+		children = append(children, enc_ssstatus...)
+	}
+	if v.ForwardedToNumber != nil {
+		enc_forwardedtonumber := ber.EncodeOctetString([]byte(*v.ForwardedToNumber))
+		retagged_enc_forwardedtonumber, tagErr_enc_forwardedtonumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_forwardedtonumber)
+		if tagErr_enc_forwardedtonumber != nil {
+			return nil, fmt.Errorf("encoding forwardedToNumber: %w", tagErr_enc_forwardedtonumber)
+		}
+		enc_forwardedtonumber = retagged_enc_forwardedtonumber
+		children = append(children, enc_forwardedtonumber...)
+	}
+	if v.ForwardedToSubaddress != nil {
+		enc_forwardedtosubaddress := ber.EncodeOctetString([]byte(*v.ForwardedToSubaddress))
+		retagged_enc_forwardedtosubaddress, tagErr_enc_forwardedtosubaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_forwardedtosubaddress)
+		if tagErr_enc_forwardedtosubaddress != nil {
+			return nil, fmt.Errorf("encoding forwardedToSubaddress: %w", tagErr_enc_forwardedtosubaddress)
+		}
+		enc_forwardedtosubaddress = retagged_enc_forwardedtosubaddress
+		children = append(children, enc_forwardedtosubaddress...)
+	}
+	if v.ForwardingOptions != nil {
+		enc_forwardingoptions := ber.EncodeOctetString([]byte(*v.ForwardingOptions))
+		retagged_enc_forwardingoptions, tagErr_enc_forwardingoptions := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_forwardingoptions)
+		if tagErr_enc_forwardingoptions != nil {
+			return nil, fmt.Errorf("encoding forwardingOptions: %w", tagErr_enc_forwardingoptions)
+		}
+		enc_forwardingoptions = retagged_enc_forwardingoptions
+		children = append(children, enc_forwardingoptions...)
+	}
+	if v.NoReplyConditionTime != nil {
+		enc_noreplyconditiontime := ber.EncodeInteger(int64(*v.NoReplyConditionTime))
+		retagged_enc_noreplyconditiontime, tagErr_enc_noreplyconditiontime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_noreplyconditiontime)
+		if tagErr_enc_noreplyconditiontime != nil {
+			return nil, fmt.Errorf("encoding noReplyConditionTime: %w", tagErr_enc_noreplyconditiontime)
+		}
+		enc_noreplyconditiontime = retagged_enc_noreplyconditiontime
+		children = append(children, enc_noreplyconditiontime...)
+	}
+	if v.LongForwardedToNumber != nil {
+		enc_longforwardedtonumber := ber.EncodeOctetString([]byte(*v.LongForwardedToNumber))
+		retagged_enc_longforwardedtonumber, tagErr_enc_longforwardedtonumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, enc_longforwardedtonumber)
+		if tagErr_enc_longforwardedtonumber != nil {
+			return nil, fmt.Errorf("encoding longForwardedToNumber: %w", tagErr_enc_longforwardedtonumber)
+		}
+		enc_longforwardedtonumber = retagged_enc_longforwardedtonumber
+		children = append(children, enc_longforwardedtonumber...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ForwardingFeature4 as DER: %w", err)
 	}
@@ -1371,19 +1512,23 @@ func (v *CallBarringInfo4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CallBarringInfo4 to DER format.
 func (v *CallBarringInfo4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.SsCode != nil {
+		enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
+		children = append(children, enc_sscode...)
+	}
+	enc_callbarringfeaturelist, err := MarshalDERCallBarringFeatureList4(v.CallBarringFeatureList)
+	if err != nil {
+		return nil, fmt.Errorf("encoding callBarringFeatureList: %w", err)
+	}
+	children = append(children, enc_callbarringfeaturelist...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.CallBarringFeatureListIndef_ = false
-	v = &derValue
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding CallBarringInfo4 as DER: %w", err)
 	}
@@ -1467,6 +1612,23 @@ func MarshalBERCallBarringFeatureList4(list CallBarringFeatureList4) ([]byte, er
 	return ber.EncodeSequence(children), nil
 }
 
+// MarshalDERCallBarringFeatureList4 encodes a CallBarringFeatureList4 list to DER.
+func MarshalDERCallBarringFeatureList4(list CallBarringFeatureList4) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		enc, err := elem.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
+		}
+		children = append(children, enc...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding CallBarringFeatureList4 as DER: %w", err)
+	}
+	return encoded, nil
+}
+
 // UnmarshalBERCallBarringFeatureList4 decodes a CallBarringFeatureList4 list from BER.
 func UnmarshalBERCallBarringFeatureList4(data []byte) (CallBarringFeatureList4, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
@@ -1527,16 +1689,30 @@ func (v *CallBarringFeature4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CallBarringFeature4 to DER format.
 func (v *CallBarringFeature4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.BasicService != nil {
+		enc_basicservice, err := v.BasicService.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding basicService: %w", err)
+		}
+		children = append(children, enc_basicservice...)
+	}
+	if v.SsStatus != nil {
+		enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
+		retagged_enc_ssstatus, tagErr_enc_ssstatus := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_ssstatus)
+		if tagErr_enc_ssstatus != nil {
+			return nil, fmt.Errorf("encoding ss-Status: %w", tagErr_enc_ssstatus)
+		}
+		enc_ssstatus = retagged_enc_ssstatus
+		children = append(children, enc_ssstatus...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding CallBarringFeature4 as DER: %w", err)
 	}
@@ -1664,19 +1840,54 @@ func (v *SSData4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SSData4 to DER format.
 func (v *SSData4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.SsCode != nil {
+		enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
+		children = append(children, enc_sscode...)
+	}
+	if v.SsStatus != nil {
+		enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
+		retagged_enc_ssstatus, tagErr_enc_ssstatus := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_ssstatus)
+		if tagErr_enc_ssstatus != nil {
+			return nil, fmt.Errorf("encoding ss-Status: %w", tagErr_enc_ssstatus)
+		}
+		enc_ssstatus = retagged_enc_ssstatus
+		children = append(children, enc_ssstatus...)
+	}
+	if v.SsSubscriptionOption != nil {
+		enc_sssubscriptionoption, err := v.SsSubscriptionOption.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding ss-SubscriptionOption: %w", err)
+		}
+		children = append(children, enc_sssubscriptionoption...)
+	}
+	if v.BasicServiceGroupList != nil {
+		enc_basicservicegrouplist, err := MarshalDERBasicServiceGroupList4(v.BasicServiceGroupList)
+		if err != nil {
+			return nil, fmt.Errorf("encoding basicServiceGroupList: %w", err)
+		}
+		children = append(children, enc_basicservicegrouplist...)
+	}
+	if v.DefaultPriority != nil {
+		enc_defaultpriority := ber.EncodeInteger(int64(*v.DefaultPriority))
+		children = append(children, enc_defaultpriority...)
+	}
+	if v.NbrUser != nil {
+		enc_nbruser := ber.EncodeInteger(int64(*v.NbrUser))
+		retagged_enc_nbruser, tagErr_enc_nbruser := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_nbruser)
+		if tagErr_enc_nbruser != nil {
+			return nil, fmt.Errorf("encoding nbrUser: %w", tagErr_enc_nbruser)
+		}
+		enc_nbruser = retagged_enc_nbruser
+		children = append(children, enc_nbruser...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.BasicServiceGroupListIndef_ = false
-	v = &derValue
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding SSData4 as DER: %w", err)
 	}
@@ -1952,16 +2163,32 @@ func (v *SSForBSCode4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SSForBSCode4 to DER format.
 func (v *SSForBSCode4) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
+	children = append(children, enc_sscode...)
+	if v.BasicService != nil {
+		enc_basicservice, err := v.BasicService.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding basicService: %w", err)
+		}
+		children = append(children, enc_basicservice...)
+	}
+	if v.LongFTNSupported != nil {
+		enc_longftnsupported := ber.EncodeNull()
+		retagged_enc_longftnsupported, tagErr_enc_longftnsupported := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_longftnsupported)
+		if tagErr_enc_longftnsupported != nil {
+			return nil, fmt.Errorf("encoding longFTN-Supported: %w", tagErr_enc_longftnsupported)
+		}
+		enc_longftnsupported = retagged_enc_longftnsupported
+		children = append(children, enc_longftnsupported...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding SSForBSCode4 as DER: %w", err)
 	}
@@ -2133,19 +2360,77 @@ func (v *GenericServiceInfo4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes GenericServiceInfo4 to DER format.
 func (v *GenericServiceInfo4) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
+	children = append(children, enc_ssstatus...)
+	if v.CliRestrictionOption != nil {
+		enc_clirestrictionoption := ber.EncodeEnumerated(int64(*v.CliRestrictionOption))
+		children = append(children, enc_clirestrictionoption...)
+	}
+	if v.MaximumEntitledPriority != nil {
+		enc_maximumentitledpriority := ber.EncodeInteger(int64(*v.MaximumEntitledPriority))
+		retagged_enc_maximumentitledpriority, tagErr_enc_maximumentitledpriority := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_maximumentitledpriority)
+		if tagErr_enc_maximumentitledpriority != nil {
+			return nil, fmt.Errorf("encoding maximumEntitledPriority: %w", tagErr_enc_maximumentitledpriority)
+		}
+		enc_maximumentitledpriority = retagged_enc_maximumentitledpriority
+		children = append(children, enc_maximumentitledpriority...)
+	}
+	if v.DefaultPriority != nil {
+		enc_defaultpriority := ber.EncodeInteger(int64(*v.DefaultPriority))
+		retagged_enc_defaultpriority, tagErr_enc_defaultpriority := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_defaultpriority)
+		if tagErr_enc_defaultpriority != nil {
+			return nil, fmt.Errorf("encoding defaultPriority: %w", tagErr_enc_defaultpriority)
+		}
+		enc_defaultpriority = retagged_enc_defaultpriority
+		children = append(children, enc_defaultpriority...)
+	}
+	if v.CcbsFeatureList != nil {
+		enc_ccbsfeaturelist, err := MarshalDERCCBSFeatureList4(v.CcbsFeatureList)
+		if err != nil {
+			return nil, fmt.Errorf("encoding ccbs-FeatureList: %w", err)
+		}
+		retagged_enc_ccbsfeaturelist, tagErr_enc_ccbsfeaturelist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_ccbsfeaturelist)
+		if tagErr_enc_ccbsfeaturelist != nil {
+			return nil, fmt.Errorf("encoding ccbs-FeatureList: %w", tagErr_enc_ccbsfeaturelist)
+		}
+		enc_ccbsfeaturelist = retagged_enc_ccbsfeaturelist
+		children = append(children, enc_ccbsfeaturelist...)
+	}
+	if v.NbrSB != nil {
+		enc_nbrsb := ber.EncodeInteger(int64(*v.NbrSB))
+		retagged_enc_nbrsb, tagErr_enc_nbrsb := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_nbrsb)
+		if tagErr_enc_nbrsb != nil {
+			return nil, fmt.Errorf("encoding nbrSB: %w", tagErr_enc_nbrsb)
+		}
+		enc_nbrsb = retagged_enc_nbrsb
+		children = append(children, enc_nbrsb...)
+	}
+	if v.NbrUser != nil {
+		enc_nbruser := ber.EncodeInteger(int64(*v.NbrUser))
+		retagged_enc_nbruser, tagErr_enc_nbruser := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_nbruser)
+		if tagErr_enc_nbruser != nil {
+			return nil, fmt.Errorf("encoding nbrUser: %w", tagErr_enc_nbruser)
+		}
+		enc_nbruser = retagged_enc_nbruser
+		children = append(children, enc_nbruser...)
+	}
+	if v.NbrSN != nil {
+		enc_nbrsn := ber.EncodeInteger(int64(*v.NbrSN))
+		retagged_enc_nbrsn, tagErr_enc_nbrsn := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_nbrsn)
+		if tagErr_enc_nbrsn != nil {
+			return nil, fmt.Errorf("encoding nbrSN: %w", tagErr_enc_nbrsn)
+		}
+		enc_nbrsn = retagged_enc_nbrsn
+		children = append(children, enc_nbrsn...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.CcbsFeatureListIndef_ = false
-	v = &derValue
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding GenericServiceInfo4 as DER: %w", err)
 	}
@@ -2355,6 +2640,23 @@ func MarshalBERCCBSFeatureList4(list CCBSFeatureList4) ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
+// MarshalDERCCBSFeatureList4 encodes a CCBSFeatureList4 list to DER.
+func MarshalDERCCBSFeatureList4(list CCBSFeatureList4) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		enc, err := elem.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
+		}
+		children = append(children, enc...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding CCBSFeatureList4 as DER: %w", err)
+	}
+	return encoded, nil
+}
+
 // UnmarshalBERCCBSFeatureList4 decodes a CCBSFeatureList4 list from BER.
 func UnmarshalBERCCBSFeatureList4(data []byte) (CCBSFeatureList4, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
@@ -2434,16 +2736,49 @@ func (v *CCBSFeature4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CCBSFeature4 to DER format.
 func (v *CCBSFeature4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.CcbsIndex != nil {
+		enc_ccbsindex := ber.EncodeInteger(int64(*v.CcbsIndex))
+		retagged_enc_ccbsindex, tagErr_enc_ccbsindex := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_ccbsindex)
+		if tagErr_enc_ccbsindex != nil {
+			return nil, fmt.Errorf("encoding ccbs-Index: %w", tagErr_enc_ccbsindex)
+		}
+		enc_ccbsindex = retagged_enc_ccbsindex
+		children = append(children, enc_ccbsindex...)
+	}
+	if v.BSubscriberNumber != nil {
+		enc_bsubscribernumber := ber.EncodeOctetString([]byte(*v.BSubscriberNumber))
+		retagged_enc_bsubscribernumber, tagErr_enc_bsubscribernumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_bsubscribernumber)
+		if tagErr_enc_bsubscribernumber != nil {
+			return nil, fmt.Errorf("encoding b-subscriberNumber: %w", tagErr_enc_bsubscribernumber)
+		}
+		enc_bsubscribernumber = retagged_enc_bsubscribernumber
+		children = append(children, enc_bsubscribernumber...)
+	}
+	if v.BSubscriberSubaddress != nil {
+		enc_bsubscribersubaddress := ber.EncodeOctetString([]byte(*v.BSubscriberSubaddress))
+		retagged_enc_bsubscribersubaddress, tagErr_enc_bsubscribersubaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_bsubscribersubaddress)
+		if tagErr_enc_bsubscribersubaddress != nil {
+			return nil, fmt.Errorf("encoding b-subscriberSubaddress: %w", tagErr_enc_bsubscribersubaddress)
+		}
+		enc_bsubscribersubaddress = retagged_enc_bsubscribersubaddress
+		children = append(children, enc_bsubscribersubaddress...)
+	}
+	if v.BasicServiceGroup != nil {
+		enc_basicservicegroup, err := v.BasicServiceGroup.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding basicServiceGroup: %w", err)
+		}
+		enc_basicservicegroup = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 3, enc_basicservicegroup)
+		children = append(children, enc_basicservicegroup...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding CCBSFeature4 as DER: %w", err)
 	}
@@ -2614,6 +2949,34 @@ func (v *InterrogateSSRes4) MarshalBER() ([]byte, error) {
 // MarshalDER encodes InterrogateSSRes4 to DER format.
 func (v *InterrogateSSRes4) MarshalDER() ([]byte, error) {
 	switch v.Choice {
+	case InterrogateSSRes4ChoiceBasicServiceGroupList:
+		enc_der_1, err := MarshalDERBasicServiceGroupList4(v.BasicServiceGroupList)
+		if err != nil {
+			return nil, fmt.Errorf("encoding basicServiceGroupList: %w", err)
+		}
+		retagged_enc_der_1, tagErr_enc_der_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_1)
+		if tagErr_enc_der_1 != nil {
+			return nil, fmt.Errorf("encoding basicServiceGroupList: %w", tagErr_enc_der_1)
+		}
+		enc_der_1 = retagged_enc_der_1
+		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
+			return nil, fmt.Errorf("encoding basicServiceGroupList as DER: %w", derErr)
+		}
+		return enc_der_1, nil
+	case InterrogateSSRes4ChoiceForwardingFeatureList:
+		enc_der_2, err := MarshalDERForwardingFeatureList4(v.ForwardingFeatureList)
+		if err != nil {
+			return nil, fmt.Errorf("encoding forwardingFeatureList: %w", err)
+		}
+		retagged_enc_der_2, tagErr_enc_der_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_der_2)
+		if tagErr_enc_der_2 != nil {
+			return nil, fmt.Errorf("encoding forwardingFeatureList: %w", tagErr_enc_der_2)
+		}
+		enc_der_2 = retagged_enc_der_2
+		if derErr := ber.ValidateDERElement(enc_der_2); derErr != nil {
+			return nil, fmt.Errorf("encoding forwardingFeatureList as DER: %w", derErr)
+		}
+		return enc_der_2, nil
 	case InterrogateSSRes4ChoiceGenericServiceInfo:
 		if v.GenericServiceInfo == nil {
 			return nil, fmt.Errorf("choice InterrogateSSRes4: genericServiceInfo is nil")
@@ -2746,16 +3109,31 @@ func (v *USSDArg4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes USSDArg4 to DER format.
 func (v *USSDArg4) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_ussddatacodingscheme := ber.EncodeOctetString([]byte(v.UssdDataCodingScheme))
+	children = append(children, enc_ussddatacodingscheme...)
+	enc_ussdstring := ber.EncodeOctetString([]byte(v.UssdString))
+	children = append(children, enc_ussdstring...)
+	if v.AlertingPattern != nil {
+		enc_alertingpattern := ber.EncodeOctetString([]byte(*v.AlertingPattern))
+		children = append(children, enc_alertingpattern...)
+	}
+	if v.Msisdn != nil {
+		enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
+		retagged_enc_msisdn, tagErr_enc_msisdn := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_msisdn)
+		if tagErr_enc_msisdn != nil {
+			return nil, fmt.Errorf("encoding msisdn: %w", tagErr_enc_msisdn)
+		}
+		enc_msisdn = retagged_enc_msisdn
+		children = append(children, enc_msisdn...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding USSDArg4 as DER: %w", err)
 	}
@@ -2863,16 +3241,18 @@ func (v *USSDRes4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes USSDRes4 to DER format.
 func (v *USSDRes4) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_ussddatacodingscheme := ber.EncodeOctetString([]byte(v.UssdDataCodingScheme))
+	children = append(children, enc_ussddatacodingscheme...)
+	enc_ussdstring := ber.EncodeOctetString([]byte(v.UssdString))
+	children = append(children, enc_ussdstring...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding USSDRes4 as DER: %w", err)
 	}
@@ -2934,6 +3314,19 @@ func MarshalBERSSList4(list SSList4) ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
+// MarshalDERSSList4 encodes a SSList4 list to DER.
+func MarshalDERSSList4(list SSList4) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		children = append(children, ber.EncodeOctetString([]byte(elem))...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SSList4 as DER: %w", err)
+	}
+	return encoded, nil
+}
+
 // UnmarshalBERSSList4 decodes a SSList4 list from BER.
 func UnmarshalBERSSList4(data []byte) (SSList4, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
@@ -2967,6 +3360,23 @@ func MarshalBERSSInfoList4(list SSInfoList4) ([]byte, error) {
 		children = append(children, enc...)
 	}
 	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDERSSInfoList4 encodes a SSInfoList4 list to DER.
+func MarshalDERSSInfoList4(list SSInfoList4) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		enc, err := elem.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
+		}
+		children = append(children, enc...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SSInfoList4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBERSSInfoList4 decodes a SSInfoList4 list from BER.
@@ -3006,6 +3416,23 @@ func MarshalBERBasicServiceGroupList4(list BasicServiceGroupList4) ([]byte, erro
 		children = append(children, enc...)
 	}
 	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDERBasicServiceGroupList4 encodes a BasicServiceGroupList4 list to DER.
+func MarshalDERBasicServiceGroupList4(list BasicServiceGroupList4) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		enc, err := elem.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
+		}
+		children = append(children, enc...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding BasicServiceGroupList4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBERBasicServiceGroupList4 decodes a BasicServiceGroupList4 list from BER.
@@ -3124,19 +3551,77 @@ func (v *SSInvocationNotificationArg4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SSInvocationNotificationArg4 to DER format.
 func (v *SSInvocationNotificationArg4) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
+	retagged_enc_imsi, tagErr_enc_imsi := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_imsi)
+	if tagErr_enc_imsi != nil {
+		return nil, fmt.Errorf("encoding imsi: %w", tagErr_enc_imsi)
+	}
+	enc_imsi = retagged_enc_imsi
+	children = append(children, enc_imsi...)
+	enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
+	retagged_enc_msisdn, tagErr_enc_msisdn := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_msisdn)
+	if tagErr_enc_msisdn != nil {
+		return nil, fmt.Errorf("encoding msisdn: %w", tagErr_enc_msisdn)
+	}
+	enc_msisdn = retagged_enc_msisdn
+	children = append(children, enc_msisdn...)
+	enc_ssevent := ber.EncodeOctetString([]byte(v.SsEvent))
+	retagged_enc_ssevent, tagErr_enc_ssevent := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_ssevent)
+	if tagErr_enc_ssevent != nil {
+		return nil, fmt.Errorf("encoding ss-Event: %w", tagErr_enc_ssevent)
+	}
+	enc_ssevent = retagged_enc_ssevent
+	children = append(children, enc_ssevent...)
+	if v.SsEventSpecification != nil {
+		enc_sseventspecification, err := MarshalDERSSEventSpecification4(v.SsEventSpecification)
+		if err != nil {
+			return nil, fmt.Errorf("encoding ss-EventSpecification: %w", err)
+		}
+		retagged_enc_sseventspecification, tagErr_enc_sseventspecification := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_sseventspecification)
+		if tagErr_enc_sseventspecification != nil {
+			return nil, fmt.Errorf("encoding ss-EventSpecification: %w", tagErr_enc_sseventspecification)
+		}
+		enc_sseventspecification = retagged_enc_sseventspecification
+		children = append(children, enc_sseventspecification...)
+	}
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		retagged_enc_extensioncontainer, tagErr_enc_extensioncontainer := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_extensioncontainer)
+		if tagErr_enc_extensioncontainer != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", tagErr_enc_extensioncontainer)
+		}
+		enc_extensioncontainer = retagged_enc_extensioncontainer
+		children = append(children, enc_extensioncontainer...)
+	}
+	if v.BSubscriberNumber != nil {
+		enc_bsubscribernumber := ber.EncodeOctetString([]byte(*v.BSubscriberNumber))
+		retagged_enc_bsubscribernumber, tagErr_enc_bsubscribernumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_bsubscribernumber)
+		if tagErr_enc_bsubscribernumber != nil {
+			return nil, fmt.Errorf("encoding b-subscriberNumber: %w", tagErr_enc_bsubscribernumber)
+		}
+		enc_bsubscribernumber = retagged_enc_bsubscribernumber
+		children = append(children, enc_bsubscribernumber...)
+	}
+	if v.CcbsRequestState != nil {
+		enc_ccbsrequeststate := ber.EncodeEnumerated(int64(*v.CcbsRequestState))
+		retagged_enc_ccbsrequeststate, tagErr_enc_ccbsrequeststate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_ccbsrequeststate)
+		if tagErr_enc_ccbsrequeststate != nil {
+			return nil, fmt.Errorf("encoding ccbs-RequestState: %w", tagErr_enc_ccbsrequeststate)
+		}
+		enc_ccbsrequeststate = retagged_enc_ccbsrequeststate
+		children = append(children, enc_ccbsrequeststate...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.SsEventSpecificationIndef_ = false
-	v = &derValue
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding SSInvocationNotificationArg4 as DER: %w", err)
 	}
@@ -3339,16 +3824,21 @@ func (v *SSInvocationNotificationRes4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SSInvocationNotificationRes4 to DER format.
 func (v *SSInvocationNotificationRes4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding SSInvocationNotificationRes4 as DER: %w", err)
 	}
@@ -3407,6 +3897,19 @@ func MarshalBERSSEventSpecification4(list SSEventSpecification4) ([]byte, error)
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
 	}
 	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDERSSEventSpecification4 encodes a SSEventSpecification4 list to DER.
+func MarshalDERSSEventSpecification4(list SSEventSpecification4) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		children = append(children, ber.EncodeOctetString([]byte(elem))...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SSEventSpecification4 as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBERSSEventSpecification4 decodes a SSEventSpecification4 list from BER.
@@ -3468,16 +3971,33 @@ func (v *RegisterCCEntryArg4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RegisterCCEntryArg4 to DER format.
 func (v *RegisterCCEntryArg4) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
+	retagged_enc_sscode, tagErr_enc_sscode := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_sscode)
+	if tagErr_enc_sscode != nil {
+		return nil, fmt.Errorf("encoding ss-Code: %w", tagErr_enc_sscode)
+	}
+	enc_sscode = retagged_enc_sscode
+	children = append(children, enc_sscode...)
+	if v.CcbsData != nil {
+		enc_ccbsdata, err := v.CcbsData.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding ccbs-Data: %w", err)
+		}
+		retagged_enc_ccbsdata, tagErr_enc_ccbsdata := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_ccbsdata)
+		if tagErr_enc_ccbsdata != nil {
+			return nil, fmt.Errorf("encoding ccbs-Data: %w", tagErr_enc_ccbsdata)
+		}
+		enc_ccbsdata = retagged_enc_ccbsdata
+		children = append(children, enc_ccbsdata...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding RegisterCCEntryArg4 as DER: %w", err)
 	}
@@ -3614,16 +4134,60 @@ func (v *CCBSData4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CCBSData4 to DER format.
 func (v *CCBSData4) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_ccbsfeature, err := v.CcbsFeature.MarshalDER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding ccbs-Feature: %w", err)
+	}
+	retagged_enc_ccbsfeature, tagErr_enc_ccbsfeature := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_ccbsfeature)
+	if tagErr_enc_ccbsfeature != nil {
+		return nil, fmt.Errorf("encoding ccbs-Feature: %w", tagErr_enc_ccbsfeature)
+	}
+	enc_ccbsfeature = retagged_enc_ccbsfeature
+	children = append(children, enc_ccbsfeature...)
+	enc_translatedbnumber := ber.EncodeOctetString([]byte(v.TranslatedBNumber))
+	retagged_enc_translatedbnumber, tagErr_enc_translatedbnumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_translatedbnumber)
+	if tagErr_enc_translatedbnumber != nil {
+		return nil, fmt.Errorf("encoding translatedB-Number: %w", tagErr_enc_translatedbnumber)
+	}
+	enc_translatedbnumber = retagged_enc_translatedbnumber
+	children = append(children, enc_translatedbnumber...)
+	if v.ServiceIndicator != nil {
+		enc_serviceindicator := ber.EncodeBitString(v.ServiceIndicator.Bytes, (8-(v.ServiceIndicator.BitLength%8))%8)
+		retagged_enc_serviceindicator, tagErr_enc_serviceindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_serviceindicator)
+		if tagErr_enc_serviceindicator != nil {
+			return nil, fmt.Errorf("encoding serviceIndicator: %w", tagErr_enc_serviceindicator)
+		}
+		enc_serviceindicator = retagged_enc_serviceindicator
+		children = append(children, enc_serviceindicator...)
+	}
+	enc_callinfo, err := v.CallInfo.MarshalDER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding callInfo: %w", err)
+	}
+	retagged_enc_callinfo, tagErr_enc_callinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_callinfo)
+	if tagErr_enc_callinfo != nil {
+		return nil, fmt.Errorf("encoding callInfo: %w", tagErr_enc_callinfo)
+	}
+	enc_callinfo = retagged_enc_callinfo
+	children = append(children, enc_callinfo...)
+	enc_networksignalinfo, err := v.NetworkSignalInfo.MarshalDER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding networkSignalInfo: %w", err)
+	}
+	retagged_enc_networksignalinfo, tagErr_enc_networksignalinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_networksignalinfo)
+	if tagErr_enc_networksignalinfo != nil {
+		return nil, fmt.Errorf("encoding networkSignalInfo: %w", tagErr_enc_networksignalinfo)
+	}
+	enc_networksignalinfo = retagged_enc_networksignalinfo
+	children = append(children, enc_networksignalinfo...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding CCBSData4 as DER: %w", err)
 	}
@@ -3789,16 +4353,26 @@ func (v *RegisterCCEntryRes4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RegisterCCEntryRes4 to DER format.
 func (v *RegisterCCEntryRes4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.CcbsFeature != nil {
+		enc_ccbsfeature, err := v.CcbsFeature.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding ccbs-Feature: %w", err)
+		}
+		retagged_enc_ccbsfeature, tagErr_enc_ccbsfeature := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_ccbsfeature)
+		if tagErr_enc_ccbsfeature != nil {
+			return nil, fmt.Errorf("encoding ccbs-Feature: %w", tagErr_enc_ccbsfeature)
+		}
+		enc_ccbsfeature = retagged_enc_ccbsfeature
+		children = append(children, enc_ccbsfeature...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding RegisterCCEntryRes4 as DER: %w", err)
 	}
@@ -3887,16 +4461,30 @@ func (v *EraseCCEntryArg4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EraseCCEntryArg4 to DER format.
 func (v *EraseCCEntryArg4) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
+	retagged_enc_sscode, tagErr_enc_sscode := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_sscode)
+	if tagErr_enc_sscode != nil {
+		return nil, fmt.Errorf("encoding ss-Code: %w", tagErr_enc_sscode)
+	}
+	enc_sscode = retagged_enc_sscode
+	children = append(children, enc_sscode...)
+	if v.CcbsIndex != nil {
+		enc_ccbsindex := ber.EncodeInteger(int64(*v.CcbsIndex))
+		retagged_enc_ccbsindex, tagErr_enc_ccbsindex := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_ccbsindex)
+		if tagErr_enc_ccbsindex != nil {
+			return nil, fmt.Errorf("encoding ccbs-Index: %w", tagErr_enc_ccbsindex)
+		}
+		enc_ccbsindex = retagged_enc_ccbsindex
+		children = append(children, enc_ccbsindex...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding EraseCCEntryArg4 as DER: %w", err)
 	}
@@ -4003,16 +4591,30 @@ func (v *EraseCCEntryRes4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EraseCCEntryRes4 to DER format.
 func (v *EraseCCEntryRes4) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
+	retagged_enc_sscode, tagErr_enc_sscode := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_sscode)
+	if tagErr_enc_sscode != nil {
+		return nil, fmt.Errorf("encoding ss-Code: %w", tagErr_enc_sscode)
+	}
+	enc_sscode = retagged_enc_sscode
+	children = append(children, enc_sscode...)
+	if v.SsStatus != nil {
+		enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
+		retagged_enc_ssstatus, tagErr_enc_ssstatus := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_ssstatus)
+		if tagErr_enc_ssstatus != nil {
+			return nil, fmt.Errorf("encoding ss-Status: %w", tagErr_enc_ssstatus)
+		}
+		enc_ssstatus = retagged_enc_ssstatus
+		children = append(children, enc_ssstatus...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding EraseCCEntryRes4 as DER: %w", err)
 	}

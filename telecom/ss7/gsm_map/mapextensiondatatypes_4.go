@@ -118,19 +118,38 @@ func (v *ExtensionContainer4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ExtensionContainer4 to DER format.
 func (v *ExtensionContainer4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.PrivateExtensionList != nil {
+		enc_privateextensionlist, err := MarshalDERPrivateExtensionList4(v.PrivateExtensionList)
+		if err != nil {
+			return nil, fmt.Errorf("encoding privateExtensionList: %w", err)
+		}
+		retagged_enc_privateextensionlist, tagErr_enc_privateextensionlist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_privateextensionlist)
+		if tagErr_enc_privateextensionlist != nil {
+			return nil, fmt.Errorf("encoding privateExtensionList: %w", tagErr_enc_privateextensionlist)
+		}
+		enc_privateextensionlist = retagged_enc_privateextensionlist
+		children = append(children, enc_privateextensionlist...)
+	}
+	if v.PcsExtensions != nil {
+		enc_pcsextensions, err := v.PcsExtensions.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding pcs-Extensions: %w", err)
+		}
+		retagged_enc_pcsextensions, tagErr_enc_pcsextensions := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_pcsextensions)
+		if tagErr_enc_pcsextensions != nil {
+			return nil, fmt.Errorf("encoding pcs-Extensions: %w", tagErr_enc_pcsextensions)
+		}
+		enc_pcsextensions = retagged_enc_pcsextensions
+		children = append(children, enc_pcsextensions...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.PrivateExtensionListIndef_ = false
-	v = &derValue
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ExtensionContainer4 as DER: %w", err)
 	}
@@ -265,19 +284,38 @@ func (v *SLRArgExtensionContainer4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SLRArgExtensionContainer4 to DER format.
 func (v *SLRArgExtensionContainer4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.PrivateExtensionList != nil {
+		enc_privateextensionlist, err := MarshalDERPrivateExtensionList4(v.PrivateExtensionList)
+		if err != nil {
+			return nil, fmt.Errorf("encoding privateExtensionList: %w", err)
+		}
+		retagged_enc_privateextensionlist, tagErr_enc_privateextensionlist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_privateextensionlist)
+		if tagErr_enc_privateextensionlist != nil {
+			return nil, fmt.Errorf("encoding privateExtensionList: %w", tagErr_enc_privateextensionlist)
+		}
+		enc_privateextensionlist = retagged_enc_privateextensionlist
+		children = append(children, enc_privateextensionlist...)
+	}
+	if v.SlrArgPCSExtensions != nil {
+		enc_slrargpcsextensions, err := v.SlrArgPCSExtensions.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding slr-Arg-PCS-Extensions: %w", err)
+		}
+		retagged_enc_slrargpcsextensions, tagErr_enc_slrargpcsextensions := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_slrargpcsextensions)
+		if tagErr_enc_slrargpcsextensions != nil {
+			return nil, fmt.Errorf("encoding slr-Arg-PCS-Extensions: %w", tagErr_enc_slrargpcsextensions)
+		}
+		enc_slrargpcsextensions = retagged_enc_slrargpcsextensions
+		children = append(children, enc_slrargpcsextensions...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.PrivateExtensionListIndef_ = false
-	v = &derValue
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding SLRArgExtensionContainer4 as DER: %w", err)
 	}
@@ -374,6 +412,23 @@ func MarshalBERPrivateExtensionList4(list PrivateExtensionList4) ([]byte, error)
 	return ber.EncodeSequence(children), nil
 }
 
+// MarshalDERPrivateExtensionList4 encodes a PrivateExtensionList4 list to DER.
+func MarshalDERPrivateExtensionList4(list PrivateExtensionList4) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		enc, err := elem.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
+		}
+		children = append(children, enc...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding PrivateExtensionList4 as DER: %w", err)
+	}
+	return encoded, nil
+}
+
 // UnmarshalBERPrivateExtensionList4 decodes a PrivateExtensionList4 list from BER.
 func UnmarshalBERPrivateExtensionList4(data []byte) (PrivateExtensionList4, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
@@ -417,11 +472,17 @@ func (v *PrivateExtension4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes PrivateExtension4 to DER format.
 func (v *PrivateExtension4) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
+	var children []byte
+	enc_extid, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.ExtId))
+	if oidErr != nil {
+		return nil, fmt.Errorf("encoding extId: %w", oidErr)
 	}
+	children = append(children, enc_extid...)
+	if v.ExtType != nil {
+		enc_exttype := v.ExtType.Bytes
+		children = append(children, enc_exttype...)
+	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding PrivateExtension4 as DER: %w", err)
 	}
@@ -482,16 +543,14 @@ func (v *PCSExtensions4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes PCSExtensions4 to DER format.
 func (v *PCSExtensions4) MarshalDER() ([]byte, error) {
+	var children []byte
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding PCSExtensions4 as DER: %w", err)
 	}
@@ -551,16 +610,23 @@ func (v *SLRArgPCSExtensions4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SLRArgPCSExtensions4 to DER format.
 func (v *SLRArgPCSExtensions4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.NaESRKRequest != nil {
+		enc_naesrkrequest := ber.EncodeNull()
+		retagged_enc_naesrkrequest, tagErr_enc_naesrkrequest := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_naesrkrequest)
+		if tagErr_enc_naesrkrequest != nil {
+			return nil, fmt.Errorf("encoding na-ESRK-Request: %w", tagErr_enc_naesrkrequest)
+		}
+		enc_naesrkrequest = retagged_enc_naesrkrequest
+		children = append(children, enc_naesrkrequest...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding SLRArgPCSExtensions4 as DER: %w", err)
 	}

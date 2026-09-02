@@ -1054,11 +1054,15 @@ func (v *ROSSingleASReturnResultResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ROSSingleASReturnResultResult to DER format.
 func (v *ROSSingleASReturnResultResult) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
+	var children []byte
+	enc_opcode, err := v.Opcode.MarshalDER()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("encoding opcode: %w", err)
 	}
+	children = append(children, enc_opcode...)
+	enc_result := v.Result.Bytes
+	children = append(children, enc_result...)
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ROSSingleASReturnResultResult as DER: %w", err)
 	}
@@ -1204,11 +1208,15 @@ func (v *ROSConsumerASReturnResultResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ROSConsumerASReturnResultResult to DER format.
 func (v *ROSConsumerASReturnResultResult) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
+	var children []byte
+	enc_opcode, err := v.Opcode.MarshalDER()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("encoding opcode: %w", err)
 	}
+	children = append(children, enc_opcode...)
+	enc_result := v.Result.Bytes
+	children = append(children, enc_result...)
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ROSConsumerASReturnResultResult as DER: %w", err)
 	}
@@ -1354,11 +1362,15 @@ func (v *ROSSupplierASReturnResultResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ROSSupplierASReturnResultResult to DER format.
 func (v *ROSSupplierASReturnResultResult) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
+	var children []byte
+	enc_opcode, err := v.Opcode.MarshalDER()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("encoding opcode: %w", err)
 	}
+	children = append(children, enc_opcode...)
+	enc_result := v.Result.Bytes
+	children = append(children, enc_result...)
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ROSSupplierASReturnResultResult as DER: %w", err)
 	}

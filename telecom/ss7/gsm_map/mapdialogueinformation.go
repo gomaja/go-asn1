@@ -636,16 +636,39 @@ func (v *MAPOpenInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes MAPOpenInfo to DER format.
 func (v *MAPOpenInfo) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.DestinationReference != nil {
+		enc_destinationreference := ber.EncodeOctetString([]byte(*v.DestinationReference))
+		retagged_enc_destinationreference, tagErr_enc_destinationreference := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_destinationreference)
+		if tagErr_enc_destinationreference != nil {
+			return nil, fmt.Errorf("encoding destinationReference: %w", tagErr_enc_destinationreference)
+		}
+		enc_destinationreference = retagged_enc_destinationreference
+		children = append(children, enc_destinationreference...)
+	}
+	if v.OriginationReference != nil {
+		enc_originationreference := ber.EncodeOctetString([]byte(*v.OriginationReference))
+		retagged_enc_originationreference, tagErr_enc_originationreference := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_originationreference)
+		if tagErr_enc_originationreference != nil {
+			return nil, fmt.Errorf("encoding originationReference: %w", tagErr_enc_originationreference)
+		}
+		enc_originationreference = retagged_enc_originationreference
+		children = append(children, enc_originationreference...)
+	}
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding MAPOpenInfo as DER: %w", err)
 	}
@@ -758,16 +781,21 @@ func (v *MAPAcceptInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes MAPAcceptInfo to DER format.
 func (v *MAPAcceptInfo) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding MAPAcceptInfo as DER: %w", err)
 	}
@@ -844,16 +872,21 @@ func (v *MAPCloseInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes MAPCloseInfo to DER format.
 func (v *MAPCloseInfo) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding MAPCloseInfo as DER: %w", err)
 	}
@@ -939,16 +972,30 @@ func (v *MAPRefuseInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes MAPRefuseInfo to DER format.
 func (v *MAPRefuseInfo) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_reason := ber.EncodeEnumerated(int64(v.Reason))
+	children = append(children, enc_reason...)
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	if v.AlternativeApplicationContext != nil {
+		enc_alternativeapplicationcontext, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.AlternativeApplicationContext))
+		if oidErr != nil {
+			return nil, fmt.Errorf("encoding alternativeApplicationContext: %w", oidErr)
+		}
+		children = append(children, enc_alternativeapplicationcontext...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding MAPRefuseInfo as DER: %w", err)
 	}
@@ -1055,16 +1102,26 @@ func (v *MAPUserAbortInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes MAPUserAbortInfo to DER format.
 func (v *MAPUserAbortInfo) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_mapuserabortchoice, err := v.MapUserAbortChoice.MarshalDER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding map-UserAbortChoice: %w", err)
+	}
+	children = append(children, enc_mapuserabortchoice...)
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding MAPUserAbortInfo as DER: %w", err)
 	}
@@ -1283,16 +1340,23 @@ func (v *MAPProviderAbortInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes MAPProviderAbortInfo to DER format.
 func (v *MAPProviderAbortInfo) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_mapproviderabortreason := ber.EncodeEnumerated(int64(v.MapProviderAbortReason))
+	children = append(children, enc_mapproviderabortreason...)
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding MAPProviderAbortInfo as DER: %w", err)
 	}

@@ -171,15 +171,41 @@ func ValidateDERTLV(data []byte) (int, error) {
 	}
 	if t.Constructed {
 		offset := headerLen
+		var previous []byte
 		for offset < end {
 			n, err := ValidateDERTLV(data[offset:end])
 			if err != nil {
 				return 0, err
 			}
+			current := data[offset : offset+n]
+			if t.Class == tag.ClassUniversal && t.Number == tag.TagSet && previous != nil && compareDEROctetStrings(previous, current) > 0 {
+				return 0, fmt.Errorf("%w: DER SET components are not in canonical order", ErrInvalidValue)
+			}
+			previous = current
 			offset += n
 		}
 	}
 	return end, nil
+}
+
+func compareDEROctetStrings(left, right []byte) int {
+	length := max(len(left), len(right))
+	for index := 0; index < length; index++ {
+		var leftOctet, rightOctet byte
+		if index < len(left) {
+			leftOctet = left[index]
+		}
+		if index < len(right) {
+			rightOctet = right[index]
+		}
+		if leftOctet < rightOctet {
+			return -1
+		}
+		if leftOctet > rightOctet {
+			return 1
+		}
+	}
+	return 0
 }
 
 // DecodeSequenceChildren splits the value bytes of a constructed TLV into child TLVs.
@@ -751,6 +777,41 @@ func DecodeStringValueTag(tagNum int, value []byte) (string, error) {
 	default:
 		return string(value), nil
 	}
+}
+
+// DecodeImplicitStringValue decodes the contents of an implicitly tagged
+// restricted character string while preserving BER's primitive or constructed form.
+func DecodeImplicitStringValue(tagNum int, constructed bool, value []byte) (string, error) {
+	if !constructed {
+		return DecodeStringValueTag(tagNum, value)
+	}
+	reconstructed := EncodeConstructed(tag.Tag{Class: tag.ClassUniversal, Number: tagNum}, value)
+	decoded, total, err := DecodeString(reconstructed, tagNum)
+	if err != nil {
+		return "", err
+	}
+	if total != len(reconstructed) {
+		return "", ErrExtraData
+	}
+	return decoded, nil
+}
+
+// DecodeImplicitUTCTimeValue decodes primitive or constructed implicitly tagged UTCTime contents.
+func DecodeImplicitUTCTimeValue(constructed bool, value []byte) (time.Time, error) {
+	decoded, err := DecodeImplicitStringValue(tag.TagUTCTime, constructed, value)
+	if err != nil {
+		return time.Time{}, err
+	}
+	return parseUTCTime(decoded)
+}
+
+// DecodeImplicitGeneralizedTimeValue decodes primitive or constructed implicitly tagged GeneralizedTime contents.
+func DecodeImplicitGeneralizedTimeValue(constructed bool, value []byte) (time.Time, error) {
+	decoded, err := DecodeImplicitStringValue(tag.TagGeneralizedTime, constructed, value)
+	if err != nil {
+		return time.Time{}, err
+	}
+	return parseGeneralizedTime(decoded)
 }
 
 // DecodeRealValue decodes a REAL from raw value bytes.

@@ -784,16 +784,32 @@ func (v *RoamingNotAllowedParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RoamingNotAllowedParam4 to DER format.
 func (v *RoamingNotAllowedParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_roamingnotallowedcause := ber.EncodeEnumerated(int64(v.RoamingNotAllowedCause))
+	children = append(children, enc_roamingnotallowedcause...)
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	if v.AdditionalRoamingNotAllowedCause != nil {
+		enc_additionalroamingnotallowedcause := ber.EncodeEnumerated(int64(*v.AdditionalRoamingNotAllowedCause))
+		retagged_enc_additionalroamingnotallowedcause, tagErr_enc_additionalroamingnotallowedcause := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_additionalroamingnotallowedcause)
+		if tagErr_enc_additionalroamingnotallowedcause != nil {
+			return nil, fmt.Errorf("encoding additionalRoamingNotAllowedCause: %w", tagErr_enc_additionalroamingnotallowedcause)
+		}
+		enc_additionalroamingnotallowedcause = retagged_enc_additionalroamingnotallowedcause
+		children = append(children, enc_additionalroamingnotallowedcause...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding RoamingNotAllowedParam4 as DER: %w", err)
 	}
@@ -1004,16 +1020,34 @@ func (v *ExtensibleCallBarredParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ExtensibleCallBarredParam4 to DER format.
 func (v *ExtensibleCallBarredParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.CallBarringCause != nil {
+		enc_callbarringcause := ber.EncodeEnumerated(int64(*v.CallBarringCause))
+		children = append(children, enc_callbarringcause...)
+	}
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	if v.UnauthorisedMessageOriginator != nil {
+		enc_unauthorisedmessageoriginator := ber.EncodeNull()
+		retagged_enc_unauthorisedmessageoriginator, tagErr_enc_unauthorisedmessageoriginator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_unauthorisedmessageoriginator)
+		if tagErr_enc_unauthorisedmessageoriginator != nil {
+			return nil, fmt.Errorf("encoding unauthorisedMessageOriginator: %w", tagErr_enc_unauthorisedmessageoriginator)
+		}
+		enc_unauthorisedmessageoriginator = retagged_enc_unauthorisedmessageoriginator
+		children = append(children, enc_unauthorisedmessageoriginator...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ExtensibleCallBarredParam4 as DER: %w", err)
 	}
@@ -1129,16 +1163,25 @@ func (v *CUGRejectParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CUGRejectParam4 to DER format.
 func (v *CUGRejectParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.CugRejectCause != nil {
+		enc_cugrejectcause := ber.EncodeEnumerated(int64(*v.CugRejectCause))
+		children = append(children, enc_cugrejectcause...)
+	}
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding CUGRejectParam4 as DER: %w", err)
 	}
@@ -1248,16 +1291,39 @@ func (v *SSIncompatibilityCause4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SSIncompatibilityCause4 to DER format.
 func (v *SSIncompatibilityCause4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.SsCode != nil {
+		enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
+		retagged_enc_sscode, tagErr_enc_sscode := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_sscode)
+		if tagErr_enc_sscode != nil {
+			return nil, fmt.Errorf("encoding ss-Code: %w", tagErr_enc_sscode)
+		}
+		enc_sscode = retagged_enc_sscode
+		children = append(children, enc_sscode...)
+	}
+	if v.BasicService != nil {
+		enc_basicservice, err := v.BasicService.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding basicService: %w", err)
+		}
+		children = append(children, enc_basicservice...)
+	}
+	if v.SsStatus != nil {
+		enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
+		retagged_enc_ssstatus, tagErr_enc_ssstatus := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_ssstatus)
+		if tagErr_enc_ssstatus != nil {
+			return nil, fmt.Errorf("encoding ss-Status: %w", tagErr_enc_ssstatus)
+		}
+		enc_ssstatus = retagged_enc_ssstatus
+		children = append(children, enc_ssstatus...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding SSIncompatibilityCause4 as DER: %w", err)
 	}
@@ -1376,16 +1442,27 @@ func (v *SMDeliveryFailureCause4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SMDeliveryFailureCause4 to DER format.
 func (v *SMDeliveryFailureCause4) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_smenumerateddeliveryfailurecause := ber.EncodeEnumerated(int64(v.SmEnumeratedDeliveryFailureCause))
+	children = append(children, enc_smenumerateddeliveryfailurecause...)
+	if v.DiagnosticInfo != nil {
+		enc_diagnosticinfo := ber.EncodeOctetString([]byte(*v.DiagnosticInfo))
+		children = append(children, enc_diagnosticinfo...)
+	}
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding SMDeliveryFailureCause4 as DER: %w", err)
 	}
@@ -1500,16 +1577,34 @@ func (v *AbsentSubscriberSMParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AbsentSubscriberSMParam4 to DER format.
 func (v *AbsentSubscriberSMParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.AbsentSubscriberDiagnosticSM != nil {
+		enc_absentsubscriberdiagnosticsm := ber.EncodeInteger(int64(*v.AbsentSubscriberDiagnosticSM))
+		children = append(children, enc_absentsubscriberdiagnosticsm...)
+	}
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	if v.AdditionalAbsentSubscriberDiagnosticSM != nil {
+		enc_additionalabsentsubscriberdiagnosticsm := ber.EncodeInteger(int64(*v.AdditionalAbsentSubscriberDiagnosticSM))
+		retagged_enc_additionalabsentsubscriberdiagnosticsm, tagErr_enc_additionalabsentsubscriberdiagnosticsm := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_additionalabsentsubscriberdiagnosticsm)
+		if tagErr_enc_additionalabsentsubscriberdiagnosticsm != nil {
+			return nil, fmt.Errorf("encoding additionalAbsentSubscriberDiagnosticSM: %w", tagErr_enc_additionalabsentsubscriberdiagnosticsm)
+		}
+		enc_additionalabsentsubscriberdiagnosticsm = retagged_enc_additionalabsentsubscriberdiagnosticsm
+		children = append(children, enc_additionalabsentsubscriberdiagnosticsm...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding AbsentSubscriberSMParam4 as DER: %w", err)
 	}
@@ -1734,16 +1829,43 @@ func (v *ExtensibleSystemFailureParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ExtensibleSystemFailureParam4 to DER format.
 func (v *ExtensibleSystemFailureParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.NetworkResource != nil {
+		enc_networkresource := ber.EncodeEnumerated(int64(*v.NetworkResource))
+		children = append(children, enc_networkresource...)
+	}
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	if v.AdditionalNetworkResource != nil {
+		enc_additionalnetworkresource := ber.EncodeEnumerated(int64(*v.AdditionalNetworkResource))
+		retagged_enc_additionalnetworkresource, tagErr_enc_additionalnetworkresource := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_additionalnetworkresource)
+		if tagErr_enc_additionalnetworkresource != nil {
+			return nil, fmt.Errorf("encoding additionalNetworkResource: %w", tagErr_enc_additionalnetworkresource)
+		}
+		enc_additionalnetworkresource = retagged_enc_additionalnetworkresource
+		children = append(children, enc_additionalnetworkresource...)
+	}
+	if v.FailureCauseParam != nil {
+		enc_failurecauseparam := ber.EncodeEnumerated(int64(*v.FailureCauseParam))
+		retagged_enc_failurecauseparam, tagErr_enc_failurecauseparam := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_failurecauseparam)
+		if tagErr_enc_failurecauseparam != nil {
+			return nil, fmt.Errorf("encoding failureCauseParam: %w", tagErr_enc_failurecauseparam)
+		}
+		enc_failurecauseparam = retagged_enc_failurecauseparam
+		children = append(children, enc_failurecauseparam...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ExtensibleSystemFailureParam4 as DER: %w", err)
 	}
@@ -1879,16 +2001,21 @@ func (v *DataMissingParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes DataMissingParam4 to DER format.
 func (v *DataMissingParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding DataMissingParam4 as DER: %w", err)
 	}
@@ -1965,16 +2092,21 @@ func (v *UnexpectedDataParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes UnexpectedDataParam4 to DER format.
 func (v *UnexpectedDataParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding UnexpectedDataParam4 as DER: %w", err)
 	}
@@ -2069,16 +2201,39 @@ func (v *FacilityNotSupParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes FacilityNotSupParam4 to DER format.
 func (v *FacilityNotSupParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	if v.ShapeOfLocationEstimateNotSupported != nil {
+		enc_shapeoflocationestimatenotsupported := ber.EncodeNull()
+		retagged_enc_shapeoflocationestimatenotsupported, tagErr_enc_shapeoflocationestimatenotsupported := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_shapeoflocationestimatenotsupported)
+		if tagErr_enc_shapeoflocationestimatenotsupported != nil {
+			return nil, fmt.Errorf("encoding shapeOfLocationEstimateNotSupported: %w", tagErr_enc_shapeoflocationestimatenotsupported)
+		}
+		enc_shapeoflocationestimatenotsupported = retagged_enc_shapeoflocationestimatenotsupported
+		children = append(children, enc_shapeoflocationestimatenotsupported...)
+	}
+	if v.NeededLcsCapabilityNotSupportedInServingNode != nil {
+		enc_neededlcscapabilitynotsupportedinservingnode := ber.EncodeNull()
+		retagged_enc_neededlcscapabilitynotsupportedinservingnode, tagErr_enc_neededlcscapabilitynotsupportedinservingnode := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_neededlcscapabilitynotsupportedinservingnode)
+		if tagErr_enc_neededlcscapabilitynotsupportedinservingnode != nil {
+			return nil, fmt.Errorf("encoding neededLcsCapabilityNotSupportedInServingNode: %w", tagErr_enc_neededlcscapabilitynotsupportedinservingnode)
+		}
+		enc_neededlcscapabilitynotsupportedinservingnode = retagged_enc_neededlcscapabilitynotsupportedinservingnode
+		children = append(children, enc_neededlcscapabilitynotsupportedinservingnode...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding FacilityNotSupParam4 as DER: %w", err)
 	}
@@ -2195,16 +2350,21 @@ func (v *ORNotAllowedParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ORNotAllowedParam4 to DER format.
 func (v *ORNotAllowedParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ORNotAllowedParam4 as DER: %w", err)
 	}
@@ -2285,16 +2445,25 @@ func (v *UnknownSubscriberParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes UnknownSubscriberParam4 to DER format.
 func (v *UnknownSubscriberParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	if v.UnknownSubscriberDiagnostic != nil {
+		enc_unknownsubscriberdiagnostic := ber.EncodeEnumerated(int64(*v.UnknownSubscriberDiagnostic))
+		children = append(children, enc_unknownsubscriberdiagnostic...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding UnknownSubscriberParam4 as DER: %w", err)
 	}
@@ -2386,16 +2555,21 @@ func (v *NumberChangedParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes NumberChangedParam4 to DER format.
 func (v *NumberChangedParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding NumberChangedParam4 as DER: %w", err)
 	}
@@ -2472,16 +2646,21 @@ func (v *UnidentifiedSubParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes UnidentifiedSubParam4 to DER format.
 func (v *UnidentifiedSubParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding UnidentifiedSubParam4 as DER: %w", err)
 	}
@@ -2558,16 +2737,21 @@ func (v *IllegalSubscriberParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes IllegalSubscriberParam4 to DER format.
 func (v *IllegalSubscriberParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding IllegalSubscriberParam4 as DER: %w", err)
 	}
@@ -2644,16 +2828,21 @@ func (v *IllegalEquipmentParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes IllegalEquipmentParam4 to DER format.
 func (v *IllegalEquipmentParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding IllegalEquipmentParam4 as DER: %w", err)
 	}
@@ -2730,16 +2919,21 @@ func (v *BearerServNotProvParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes BearerServNotProvParam4 to DER format.
 func (v *BearerServNotProvParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding BearerServNotProvParam4 as DER: %w", err)
 	}
@@ -2816,16 +3010,21 @@ func (v *TeleservNotProvParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes TeleservNotProvParam4 to DER format.
 func (v *TeleservNotProvParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding TeleservNotProvParam4 as DER: %w", err)
 	}
@@ -2902,16 +3101,21 @@ func (v *TracingBufferFullParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes TracingBufferFullParam4 to DER format.
 func (v *TracingBufferFullParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding TracingBufferFullParam4 as DER: %w", err)
 	}
@@ -2988,16 +3192,21 @@ func (v *NoRoamingNbParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes NoRoamingNbParam4 to DER format.
 func (v *NoRoamingNbParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding NoRoamingNbParam4 as DER: %w", err)
 	}
@@ -3083,16 +3292,30 @@ func (v *AbsentSubscriberParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AbsentSubscriberParam4 to DER format.
 func (v *AbsentSubscriberParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	if v.AbsentSubscriberReason != nil {
+		enc_absentsubscriberreason := ber.EncodeEnumerated(int64(*v.AbsentSubscriberReason))
+		retagged_enc_absentsubscriberreason, tagErr_enc_absentsubscriberreason := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_absentsubscriberreason)
+		if tagErr_enc_absentsubscriberreason != nil {
+			return nil, fmt.Errorf("encoding absentSubscriberReason: %w", tagErr_enc_absentsubscriberreason)
+		}
+		enc_absentsubscriberreason = retagged_enc_absentsubscriberreason
+		children = append(children, enc_absentsubscriberreason...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding AbsentSubscriberParam4 as DER: %w", err)
 	}
@@ -3209,16 +3432,39 @@ func (v *BusySubscriberParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes BusySubscriberParam4 to DER format.
 func (v *BusySubscriberParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	if v.CcbsPossible != nil {
+		enc_ccbspossible := ber.EncodeNull()
+		retagged_enc_ccbspossible, tagErr_enc_ccbspossible := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_ccbspossible)
+		if tagErr_enc_ccbspossible != nil {
+			return nil, fmt.Errorf("encoding ccbs-Possible: %w", tagErr_enc_ccbspossible)
+		}
+		enc_ccbspossible = retagged_enc_ccbspossible
+		children = append(children, enc_ccbspossible...)
+	}
+	if v.CcbsBusy != nil {
+		enc_ccbsbusy := ber.EncodeNull()
+		retagged_enc_ccbsbusy, tagErr_enc_ccbsbusy := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_ccbsbusy)
+		if tagErr_enc_ccbsbusy != nil {
+			return nil, fmt.Errorf("encoding ccbs-Busy: %w", tagErr_enc_ccbsbusy)
+		}
+		enc_ccbsbusy = retagged_enc_ccbsbusy
+		children = append(children, enc_ccbsbusy...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding BusySubscriberParam4 as DER: %w", err)
 	}
@@ -3335,16 +3581,21 @@ func (v *NoSubscriberReplyParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes NoSubscriberReplyParam4 to DER format.
 func (v *NoSubscriberReplyParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding NoSubscriberReplyParam4 as DER: %w", err)
 	}
@@ -3421,16 +3672,21 @@ func (v *ForwardingViolationParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ForwardingViolationParam4 to DER format.
 func (v *ForwardingViolationParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ForwardingViolationParam4 as DER: %w", err)
 	}
@@ -3507,16 +3763,21 @@ func (v *ForwardingFailedParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ForwardingFailedParam4 to DER format.
 func (v *ForwardingFailedParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ForwardingFailedParam4 as DER: %w", err)
 	}
@@ -3593,16 +3854,21 @@ func (v *ATINotAllowedParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ATINotAllowedParam4 to DER format.
 func (v *ATINotAllowedParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ATINotAllowedParam4 as DER: %w", err)
 	}
@@ -3679,16 +3945,21 @@ func (v *ATSINotAllowedParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ATSINotAllowedParam4 to DER format.
 func (v *ATSINotAllowedParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ATSINotAllowedParam4 as DER: %w", err)
 	}
@@ -3765,16 +4036,21 @@ func (v *ATMNotAllowedParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ATMNotAllowedParam4 to DER format.
 func (v *ATMNotAllowedParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ATMNotAllowedParam4 as DER: %w", err)
 	}
@@ -3851,16 +4127,21 @@ func (v *IllegalSSOperationParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes IllegalSSOperationParam4 to DER format.
 func (v *IllegalSSOperationParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding IllegalSSOperationParam4 as DER: %w", err)
 	}
@@ -3937,16 +4218,21 @@ func (v *SSNotAvailableParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SSNotAvailableParam4 to DER format.
 func (v *SSNotAvailableParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding SSNotAvailableParam4 as DER: %w", err)
 	}
@@ -4023,16 +4309,21 @@ func (v *SSSubscriptionViolationParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SSSubscriptionViolationParam4 to DER format.
 func (v *SSSubscriptionViolationParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding SSSubscriptionViolationParam4 as DER: %w", err)
 	}
@@ -4109,16 +4400,21 @@ func (v *InformationNotAvailableParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes InformationNotAvailableParam4 to DER format.
 func (v *InformationNotAvailableParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding InformationNotAvailableParam4 as DER: %w", err)
 	}
@@ -4199,16 +4495,25 @@ func (v *SubBusyForMTSMSParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SubBusyForMTSMSParam4 to DER format.
 func (v *SubBusyForMTSMSParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
+	if v.GprsConnectionSuspended != nil {
+		enc_gprsconnectionsuspended := ber.EncodeNull()
+		children = append(children, enc_gprsconnectionsuspended...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding SubBusyForMTSMSParam4 as DER: %w", err)
 	}
@@ -4299,16 +4604,21 @@ func (v *MessageWaitListFullParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes MessageWaitListFullParam4 to DER format.
 func (v *MessageWaitListFullParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding MessageWaitListFullParam4 as DER: %w", err)
 	}
@@ -4385,16 +4695,21 @@ func (v *ResourceLimitationParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ResourceLimitationParam4 to DER format.
 func (v *ResourceLimitationParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ResourceLimitationParam4 as DER: %w", err)
 	}
@@ -4471,16 +4786,21 @@ func (v *NoGroupCallNbParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes NoGroupCallNbParam4 to DER format.
 func (v *NoGroupCallNbParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding NoGroupCallNbParam4 as DER: %w", err)
 	}
@@ -4557,16 +4877,21 @@ func (v *IncompatibleTerminalParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes IncompatibleTerminalParam4 to DER format.
 func (v *IncompatibleTerminalParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding IncompatibleTerminalParam4 as DER: %w", err)
 	}
@@ -4636,16 +4961,14 @@ func (v *ShortTermDenialParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ShortTermDenialParam4 to DER format.
 func (v *ShortTermDenialParam4) MarshalDER() ([]byte, error) {
+	var children []byte
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ShortTermDenialParam4 as DER: %w", err)
 	}
@@ -4696,16 +5019,14 @@ func (v *LongTermDenialParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LongTermDenialParam4 to DER format.
 func (v *LongTermDenialParam4) MarshalDER() ([]byte, error) {
+	var children []byte
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding LongTermDenialParam4 as DER: %w", err)
 	}
@@ -4763,16 +5084,21 @@ func (v *UnauthorizedRequestingNetworkParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes UnauthorizedRequestingNetworkParam4 to DER format.
 func (v *UnauthorizedRequestingNetworkParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding UnauthorizedRequestingNetworkParam4 as DER: %w", err)
 	}
@@ -4863,16 +5189,35 @@ func (v *UnauthorizedLCSClientParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes UnauthorizedLCSClientParam4 to DER format.
 func (v *UnauthorizedLCSClientParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.UnauthorizedLCSClientDiagnostic != nil {
+		enc_unauthorizedlcsclientdiagnostic := ber.EncodeEnumerated(int64(*v.UnauthorizedLCSClientDiagnostic))
+		retagged_enc_unauthorizedlcsclientdiagnostic, tagErr_enc_unauthorizedlcsclientdiagnostic := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_unauthorizedlcsclientdiagnostic)
+		if tagErr_enc_unauthorizedlcsclientdiagnostic != nil {
+			return nil, fmt.Errorf("encoding unauthorizedLCSClient-Diagnostic: %w", tagErr_enc_unauthorizedlcsclientdiagnostic)
+		}
+		enc_unauthorizedlcsclientdiagnostic = retagged_enc_unauthorizedlcsclientdiagnostic
+		children = append(children, enc_unauthorizedlcsclientdiagnostic...)
+	}
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		retagged_enc_extensioncontainer, tagErr_enc_extensioncontainer := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_extensioncontainer)
+		if tagErr_enc_extensioncontainer != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", tagErr_enc_extensioncontainer)
+		}
+		enc_extensioncontainer = retagged_enc_extensioncontainer
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding UnauthorizedLCSClientParam4 as DER: %w", err)
 	}
@@ -4988,16 +5333,35 @@ func (v *PositionMethodFailureParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes PositionMethodFailureParam4 to DER format.
 func (v *PositionMethodFailureParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.PositionMethodFailureDiagnostic != nil {
+		enc_positionmethodfailurediagnostic := ber.EncodeEnumerated(int64(*v.PositionMethodFailureDiagnostic))
+		retagged_enc_positionmethodfailurediagnostic, tagErr_enc_positionmethodfailurediagnostic := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_positionmethodfailurediagnostic)
+		if tagErr_enc_positionmethodfailurediagnostic != nil {
+			return nil, fmt.Errorf("encoding positionMethodFailure-Diagnostic: %w", tagErr_enc_positionmethodfailurediagnostic)
+		}
+		enc_positionmethodfailurediagnostic = retagged_enc_positionmethodfailurediagnostic
+		children = append(children, enc_positionmethodfailurediagnostic...)
+	}
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		retagged_enc_extensioncontainer, tagErr_enc_extensioncontainer := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_extensioncontainer)
+		if tagErr_enc_extensioncontainer != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", tagErr_enc_extensioncontainer)
+		}
+		enc_extensioncontainer = retagged_enc_extensioncontainer
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding PositionMethodFailureParam4 as DER: %w", err)
 	}
@@ -5099,16 +5463,21 @@ func (v *UnknownOrUnreachableLCSClientParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes UnknownOrUnreachableLCSClientParam4 to DER format.
 func (v *UnknownOrUnreachableLCSClientParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding UnknownOrUnreachableLCSClientParam4 as DER: %w", err)
 	}
@@ -5185,16 +5554,21 @@ func (v *MMEventNotSupportedParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes MMEventNotSupportedParam4 to DER format.
 func (v *MMEventNotSupportedParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding MMEventNotSupportedParam4 as DER: %w", err)
 	}
@@ -5271,16 +5645,21 @@ func (v *TargetCellOutsideGCAParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes TargetCellOutsideGCAParam4 to DER format.
 func (v *TargetCellOutsideGCAParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding TargetCellOutsideGCAParam4 as DER: %w", err)
 	}
@@ -5357,16 +5736,21 @@ func (v *OngoingGroupCallParam4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes OngoingGroupCallParam4 to DER format.
 func (v *OngoingGroupCallParam4) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ExtensionContainer != nil {
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
+		}
+		children = append(children, enc_extensioncontainer...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
-	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding OngoingGroupCallParam4 as DER: %w", err)
 	}

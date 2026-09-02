@@ -119,6 +119,41 @@ func TestValidateDERElement(t *testing.T) {
 	if err := ValidateDERElement([]byte{0x05, 0x00, 0x05, 0x00}); !errors.Is(err, ErrExtraData) {
 		t.Fatalf("ValidateDERElement trailing error = %v, want %v", err, ErrExtraData)
 	}
+
+	unsortedSet := EncodeSet(append(EncodeOctetString([]byte("z")), EncodeOctetString([]byte("a"))...))
+	if err := ValidateDERElement(unsortedSet); !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("ValidateDERElement unsorted SET error = %v, want %v", err, ErrInvalidValue)
+	}
+}
+
+func TestEncodeDERSetOrdering(t *testing.T) {
+	high, err := EncodeImplicitTag(2, EncodeInteger(2))
+	if err != nil {
+		t.Fatal(err)
+	}
+	low, err := EncodeImplicitTag(0, EncodeInteger(1))
+	if err != nil {
+		t.Fatal(err)
+	}
+	gotSet, err := EncodeDERSet(append(high, low...))
+	if err != nil {
+		t.Fatal(err)
+	}
+	wantSet := EncodeSet(append(low, high...))
+	if !bytes.Equal(gotSet, wantSet) {
+		t.Fatalf("EncodeDERSet = %x, want %x", gotSet, wantSet)
+	}
+
+	z := EncodeOctetString([]byte("z"))
+	a := EncodeOctetString([]byte("a"))
+	gotSetOf, err := EncodeDERSetOf(append(z, a...))
+	if err != nil {
+		t.Fatal(err)
+	}
+	wantSetOf := EncodeSet(append(a, z...))
+	if !bytes.Equal(gotSetOf, wantSetOf) {
+		t.Fatalf("EncodeDERSetOf = %x, want %x", gotSetOf, wantSetOf)
+	}
 }
 
 func TestEncodeDecodeBoolean(t *testing.T) {

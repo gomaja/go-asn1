@@ -1342,11 +1342,32 @@ func (v *Invoke) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Invoke to DER format.
 func (v *Invoke) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
-	if err != nil {
-		return nil, err
+	if v.LinkedId != nil {
+		return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
 	}
+	var children []byte
+	enc_invokeid, err := v.InvokeId.MarshalDER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding invokeId: %w", err)
+	}
+	children = append(children, enc_invokeid...)
+	if v.LinkedId != nil {
+		enc_linkedid, err := v.LinkedId.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding linkedId: %w", err)
+		}
+		children = append(children, enc_linkedid...)
+	}
+	enc_opcode, err := v.Opcode.MarshalDER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding opcode: %w", err)
+	}
+	children = append(children, enc_opcode...)
+	if v.Argument != nil {
+		enc_argument := v.Argument.Bytes
+		children = append(children, enc_argument...)
+	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding Invoke as DER: %w", err)
 	}
@@ -1447,11 +1468,20 @@ func (v *ReturnResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ReturnResult to DER format.
 func (v *ReturnResult) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
+	var children []byte
+	enc_invokeid, err := v.InvokeId.MarshalDER()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("encoding invokeId: %w", err)
 	}
+	children = append(children, enc_invokeid...)
+	if v.Result != nil {
+		enc_result, err := v.Result.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding result: %w", err)
+		}
+		children = append(children, enc_result...)
+	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ReturnResult as DER: %w", err)
 	}
@@ -1528,11 +1558,22 @@ func (v *ReturnError) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ReturnError to DER format.
 func (v *ReturnError) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
+	var children []byte
+	enc_invokeid, err := v.InvokeId.MarshalDER()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("encoding invokeId: %w", err)
 	}
+	children = append(children, enc_invokeid...)
+	enc_errcode, err := v.Errcode.MarshalDER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding errcode: %w", err)
+	}
+	children = append(children, enc_errcode...)
+	if v.Parameter != nil {
+		enc_parameter := v.Parameter.Bytes
+		children = append(children, enc_parameter...)
+	}
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ReturnError as DER: %w", err)
 	}
@@ -1609,11 +1650,18 @@ func (v *Reject) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Reject to DER format.
 func (v *Reject) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
+	var children []byte
+	enc_invokeid, err := v.InvokeId.MarshalDER()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("encoding invokeId: %w", err)
 	}
+	children = append(children, enc_invokeid...)
+	enc_problem, err := v.Problem.MarshalDER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding problem: %w", err)
+	}
+	children = append(children, enc_problem...)
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding Reject as DER: %w", err)
 	}
@@ -2009,11 +2057,15 @@ func (v *ROSReturnResultResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ROSReturnResultResult to DER format.
 func (v *ROSReturnResultResult) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
+	var children []byte
+	enc_opcode, err := v.Opcode.MarshalDER()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("encoding opcode: %w", err)
 	}
+	children = append(children, enc_opcode...)
+	enc_result := v.Result.Bytes
+	children = append(children, enc_result...)
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ROSReturnResultResult as DER: %w", err)
 	}
@@ -2159,11 +2211,15 @@ func (v *ReturnResultResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ReturnResultResult to DER format.
 func (v *ReturnResultResult) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	encoded, err := v.MarshalBER()
+	var children []byte
+	enc_opcode, err := v.Opcode.MarshalDER()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("encoding opcode: %w", err)
 	}
+	children = append(children, enc_opcode...)
+	enc_result := v.Result.Bytes
+	children = append(children, enc_result...)
+	encoded := ber.EncodeSequence(children)
 	if err := ber.ValidateDERElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ReturnResultResult as DER: %w", err)
 	}

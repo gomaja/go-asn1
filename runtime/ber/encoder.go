@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"math/big"
+	"sort"
 	"time"
 	"unicode/utf8"
 
@@ -401,6 +402,69 @@ func EncodeSet(children []byte) []byte {
 		tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSet, Constructed: true},
 		children,
 	)
+}
+
+// EncodeDERSet orders complete DER component encodings by tag and wraps them
+// in a SET. ITU-T X.690 (02/2021) Section 10.3.
+func EncodeDERSet(children []byte) ([]byte, error) {
+	elements, err := splitDERElements(children)
+	if err != nil {
+		return nil, err
+	}
+	sort.SliceStable(elements, func(left, right int) bool {
+		if elements[left].tag.Class != elements[right].tag.Class {
+			return elements[left].tag.Class < elements[right].tag.Class
+		}
+		return elements[left].tag.Number < elements[right].tag.Number
+	})
+	return EncodeSet(joinDERElements(elements)), nil
+}
+
+// EncodeDERSetOf orders complete DER element encodings as padded octet
+// strings and wraps them in a SET. ITU-T X.690 (02/2021) Section 11.6.
+func EncodeDERSetOf(children []byte) ([]byte, error) {
+	elements, err := splitDERElements(children)
+	if err != nil {
+		return nil, err
+	}
+	sort.SliceStable(elements, func(left, right int) bool {
+		return compareDEROctetStrings(elements[left].encoded, elements[right].encoded) < 0
+	})
+	return EncodeSet(joinDERElements(elements)), nil
+}
+
+type derElement struct {
+	tag     tag.Tag
+	encoded []byte
+}
+
+func splitDERElements(children []byte) ([]derElement, error) {
+	var elements []derElement
+	for offset := 0; offset < len(children); {
+		decodedTag, total, _, err := DecodeTLV(children[offset:])
+		if err != nil {
+			return nil, fmt.Errorf("DER SET element at offset %d: %w", offset, err)
+		}
+		encoded := children[offset : offset+total]
+		if err := ValidateDERElement(encoded); err != nil {
+			return nil, fmt.Errorf("DER SET element at offset %d: %w", offset, err)
+		}
+		elements = append(elements, derElement{tag: decodedTag, encoded: encoded})
+		offset += total
+	}
+	return elements, nil
+}
+
+func joinDERElements(elements []derElement) []byte {
+	length := 0
+	for _, element := range elements {
+		length += len(element.encoded)
+	}
+	joined := make([]byte, 0, length)
+	for _, element := range elements {
+		joined = append(joined, element.encoded...)
+	}
+	return joined
 }
 
 // EncodeExplicitTag wraps encoded content in an explicit context-specific tag.
